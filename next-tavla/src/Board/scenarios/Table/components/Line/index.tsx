@@ -6,8 +6,16 @@ import classes from './styles.module.css'
 import { transportModeNames } from 'Admin/utils/transport'
 import { TransportIcon } from '../TransportIcon'
 
-function Line() {
+function Line({
+    showLine,
+    showTransportMethod,
+}: {
+    showLine: boolean
+    showTransportMethod: boolean
+}) {
     const departures = useNonNullContext(DeparturesContext)
+
+    if (!showLine && !showTransportMethod) return null
 
     const lines = departures.map((departure) => ({
         transportMode: departure.serviceJourney.transportMode ?? 'unknown',
@@ -22,7 +30,7 @@ function Line() {
     )
 
     return (
-        <TableColumn title="Linje">
+        <TableColumn title={showLine ? 'Linje' : 'Transportmiddel'}>
             {lines.map((line) => (
                 <TableRow key={line.key}>
                     <div className={classes.row}>
@@ -37,20 +45,24 @@ function Line() {
                                 }-color)`,
                             }}
                         >
-                            <TransportIcon
-                                key={line.transportMode}
-                                transport={line.transportMode}
-                                inTravelTag
-                            />
+                            {showTransportMethod && (
+                                <TransportIcon
+                                    key={line.transportMode}
+                                    transport={line.transportMode}
+                                    inTravelTag
+                                />
+                            )}
 
-                            <div
-                                className="textCenter"
-                                style={{
-                                    width: `${longestPublicCode + 1}ch`,
-                                }}
-                            >
-                                {line.publicCode}
-                            </div>
+                            {showLine && (
+                                <div
+                                    className="textCenter"
+                                    style={{
+                                        width: `${longestPublicCode + 1}ch`,
+                                    }}
+                                >
+                                    {line.publicCode}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </TableRow>
