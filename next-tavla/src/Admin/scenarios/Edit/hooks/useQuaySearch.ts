@@ -6,6 +6,7 @@ import { TDirectionType } from 'types/graphql-schema'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { countBy } from 'lodash'
+import { getTransportIcon } from 'Board/scenarios/Table/components/TransportIcon'
 
 function getPlatformLabel(
     index: number,
@@ -52,7 +53,9 @@ function useQuaySearch(stopPlaceId: string) {
                         quay.description,
                         quay.journeyPatterns.map((jp) => jp?.directionType),
                     ),
-                    transportModes: quay.stopPlace?.transportMode,
+                    icons: quay.stopPlace?.transportMode?.map((mode) =>
+                        getTransportIcon(mode ?? 'unknown'),
+                    ),
                 }))
                 .sort((a, b) => {
                     return a.label.localeCompare(b.label, 'no-NB', {
@@ -66,13 +69,17 @@ function useQuaySearch(stopPlaceId: string) {
                         return {
                             ...item,
                             label: item.label,
+                            icons: item.icons,
                         }
                     }
                 }) || [],
         [data],
     )
 
-    const getQuays = useCallback(() => quays, [quays])
+    const getQuays = useCallback(
+        () => [{ value: 'all', label: 'Vis alle' }, ...quays],
+        [quays],
+    )
 
     return { quays: getQuays, selectedQuay, setSelectedQuay }
 }

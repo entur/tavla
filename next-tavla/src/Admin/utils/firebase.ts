@@ -108,12 +108,13 @@ export async function setLastActive(bid: TBoardID) {
         .update({ 'meta.lastActive': Date.now() })
 }
 
-export async function createBoard(uid: TUserID) {
-    const board = await firestore()
+export async function createBoard(uid: TUserID, board: TBoard) {
+    const createdBoard = await firestore()
         .collection('boards')
         .add({
-            tiles: [],
+            ...board,
             meta: {
+                ...board.meta,
                 created: Date.now(),
                 dateModified: Date.now(),
             },
@@ -122,9 +123,9 @@ export async function createBoard(uid: TUserID) {
         .collection('users')
         .doc(uid)
         .update({
-            owner: admin.firestore.FieldValue.arrayUnion(board.id),
+            owner: admin.firestore.FieldValue.arrayUnion(createdBoard.id),
         })
-    return board.id
+    return createdBoard.id
 }
 
 export async function userCanWriteBoard(uid: TUserID, bid: TBoardID) {

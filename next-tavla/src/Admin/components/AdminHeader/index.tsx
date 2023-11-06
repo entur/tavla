@@ -5,9 +5,9 @@ import dynamic from 'next/dynamic'
 import { PrimaryButton } from '@entur/button'
 import Link from 'next/link'
 import classes from './styles.module.css'
-import { CreateBoard } from '../CreateBoard'
 import { OrganizationIcon, UserIcon } from '@entur/icons'
 import { checkFeatureFlags } from 'utils/featureFlags'
+import { CreateBoard } from 'Admin/scenarios/CreateBoard'
 
 function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
     const ORGANIZATIONS_ENABLED = checkFeatureFlags('ORGANIZATIONS')

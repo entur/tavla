@@ -9,7 +9,7 @@ function TransportIcon({ transport }: { transport: TTransportMode | null }) {
     return <Component className={classes.transportIcon} fill={defaultColor} />
 }
 
-function getTransportIcon(transportMode: TTransportMode) {
+export function getTransportIcon(transportMode: TTransportMode) {
     switch (transportMode) {
         case 'metro':
             return MetroIcon

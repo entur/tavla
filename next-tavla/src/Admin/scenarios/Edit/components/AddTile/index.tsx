@@ -1,17 +1,21 @@
 import { Button } from '@entur/button'
-import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
+import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { Heading1 } from '@entur/typography'
-import { useStopPlaceSearch } from './hooks/useStopPlaceSearch'
-import { useCountiesSearch } from './hooks/useCountiesSearch'
-import { SelectTileType } from '../TileType'
-import { useState } from 'react'
-import { useQuaySearch } from './hooks/useQuaySearch'
-import { useEditSettingsDispatch } from '../../utils/contexts'
+import { useStopPlaceSearch } from '../../hooks/useStopPlaceSearch'
+import { useCountiesSearch } from '../../hooks/useCountiesSearch'
+import { useQuaySearch } from '../../hooks/useQuaySearch'
 import { useToast } from '@entur/alert'
 
-function AddTile() {
-    const dispatch = useEditSettingsDispatch()
+function AddTile({
+    addTile,
+}: {
+    addTile: (
+        name: string,
+        placeId: string,
+        type: 'quay' | 'stop_place',
+    ) => void
+}) {
     const { addToast } = useToast()
 
     const { counties, selectedCounties, setSelectedCounties } =
@@ -24,41 +28,25 @@ function AddTile() {
         selectedStopPlace?.value ?? '',
     )
 
-    const [tileType, setTileType] = useState('stop_place')
-
     const handleAddTile = () => {
         if (!selectedStopPlace?.value) {
-            addToast({
+            return addToast({
                 title: 'Ingen holdeplass er valgt',
                 content: 'Vennligst velg en holdeplass å legge til',
                 variant: 'info',
             })
-            return
         }
-        if (tileType === 'quay' && selectedQuay)
-            dispatch({
-                type: 'addTile',
-                tile: {
-                    type: 'quay',
-                    placeId: selectedQuay.value,
-                    name:
-                        selectedStopPlace.label.split(',')[0] +
-                            ' ' +
-                            selectedQuay.label ?? 'Ikke navngitt',
-                },
-            })
-        else
-            dispatch({
-                type: 'addTile',
-                tile: {
-                    type: 'stop_place',
-                    placeId: selectedStopPlace.value,
-                    name:
-                        selectedStopPlace.label.split(',')[0] ??
-                        'Ikke navngitt',
-                },
-            })
+        const tileType =
+            selectedQuay && selectedQuay?.value !== 'all'
+                ? 'quay'
+                : 'stop_place'
+        const placeId = selectedQuay
+            ? selectedQuay.value
+            : selectedStopPlace.value
+        let name = selectedStopPlace?.label.split(',')[0] ?? ''
+        if (selectedQuay?.label) name = `${name} ${selectedQuay.label}`
 
+        addTile(name, placeId, tileType)
         setSelectedStopPlace(null)
         setSelectedQuay(null)
     }
@@ -66,7 +54,6 @@ function AddTile() {
     return (
         <div>
             <Heading1>Holdeplasser i tavla</Heading1>
-            <SelectTileType tileType={tileType} setTileType={setTileType} />
             <div className="flexRow g-2 pt-2 pb-2">
                 <MultiSelect
                     label="Velg fylker"
@@ -85,16 +72,13 @@ function AddTile() {
                     selectedItem={selectedStopPlace}
                     onChange={setSelectedStopPlace}
                 />
-                {tileType === 'quay' && (
-                    <SearchableDropdown
-                        items={quays}
-                        label="Velg plattform/retning"
-                        clearable
-                        prepend={<SearchIcon />}
-                        selectedItem={selectedQuay}
-                        onChange={setSelectedQuay}
-                    />
-                )}
+                <Dropdown
+                    items={quays}
+                    label="Velg plattform/retning"
+                    clearable
+                    selectedItem={selectedQuay}
+                    onChange={setSelectedQuay}
+                />
                 <Button variant="primary" onClick={handleAddTile}>
                     Legg til
                 </Button>

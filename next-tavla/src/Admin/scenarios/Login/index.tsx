@@ -11,7 +11,7 @@ import classes from './styles.module.css'
 import { useHashState } from 'hooks/useHash'
 import { ResetPassword } from './components/ResetPassword'
 
-function Login({ loggedIn }: { loggedIn: boolean }) {
+function Login({ loggedIn, title }: { loggedIn: boolean; title?: string }) {
     const { logout } = useAuth()
 
     const { isOpen, open, close } = useHashState('login')
@@ -39,7 +39,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
     return (
         <>
             <PrimaryButton onClick={open}>
-                <UserIcon /> Logg inn
+                <UserIcon /> {title ?? 'Logg inn'}
             </PrimaryButton>
             <Modal
                 open={isOpen}
