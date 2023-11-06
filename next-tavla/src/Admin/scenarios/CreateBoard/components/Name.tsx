@@ -2,10 +2,11 @@ import { PrimaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { Heading3, Paragraph } from '@entur/typography'
 import { TCreatePage } from 'Admin/types/createBoard'
-import { SyntheticEvent, useCallback } from 'react'
+import { SyntheticEvent } from 'react'
 import { TBoard } from 'types/settings'
 import { useCreateBoardDispatch } from '../utils/context'
 import { useToast } from '@entur/alert'
+import { selectInput } from 'Admin/utils/selectInput'
 function Name({
     board,
     pushPage,
@@ -15,9 +16,6 @@ function Name({
 }) {
     const { addToast } = useToast()
     const dispatch = useCreateBoardDispatch()
-    const autoSelect = useCallback((ref: HTMLInputElement) => {
-        ref?.select()
-    }, [])
 
     const handleSetName = (event: SyntheticEvent) => {
         event.preventDefault()
@@ -56,7 +54,7 @@ function Name({
                     placeholder="Navn på tavla"
                     value={board?.meta?.title}
                     aria-label="Sett navn på tavla"
-                    ref={autoSelect}
+                    ref={selectInput}
                 />
                 <PrimaryButton type="submit">Neste</PrimaryButton>
             </form>
