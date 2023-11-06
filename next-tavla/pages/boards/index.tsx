@@ -10,6 +10,7 @@ import {
 import { verifyUserSession } from 'Admin/utils/auth'
 import { IncomingNextMessage } from 'types/next'
 import { AdminHeader } from 'Admin/components/AdminHeader'
+import { SelectOrganization } from 'Admin/scenarios/Boards/components/SelectOrganization'
 
 export async function getServerSideProps({
     req,
@@ -48,7 +49,10 @@ function OverviewPage({
             <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
-                    <Boards boards={boards} organizations={organizations} />
+                    <div className="flexRow g-3 h-100">
+                        <SelectOrganization organizations={organizations} />
+                        <Boards boards={boards} />
+                    </div>
                 </ToastProvider>
             </Contrast>
         </div>

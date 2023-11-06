@@ -2,7 +2,7 @@ import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { ToastProvider } from '@entur/alert'
 import { Boards } from 'Admin/scenarios/Boards'
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard, TOrganization, TOrganizationID } from 'types/settings'
 import {
     getBoardsForOrganization,
     getOrganizationsWithUser,
@@ -10,7 +10,7 @@ import {
 import { verifyUserSession } from 'Admin/utils/auth'
 import { IncomingNextMessage } from 'types/next'
 import { AdminHeader } from 'Admin/components/AdminHeader'
-import { useRouter } from 'next/router'
+import { SelectOrganization } from 'Admin/scenarios/Boards/components/SelectOrganization'
 
 export async function getServerSideProps({
     params,
@@ -36,6 +36,7 @@ export async function getServerSideProps({
         props: {
             boards: boards,
             organizations: organizations,
+            oid: id,
         },
     }
 }
@@ -43,21 +44,24 @@ export async function getServerSideProps({
 function OverviewPageForOrganization({
     boards,
     organizations,
+    oid,
 }: {
     boards: TBoard[]
     organizations: TOrganization[]
+    oid: TOrganizationID
 }) {
-    const router = useRouter()
     return (
         <div className={classes.root}>
             <AdminHeader loggedIn />
-            <Contrast>
+            <Contrast className={classes.body}>
                 <ToastProvider>
-                    <Boards
-                        key={router.asPath}
-                        boards={boards}
-                        organizations={organizations}
-                    />
+                    <div className="flexRow g-3 h-100">
+                        <SelectOrganization
+                            organizations={organizations}
+                            activeId={oid}
+                        />
+                        <Boards boards={boards} />
+                    </div>
                 </ToastProvider>
             </Contrast>
         </div>

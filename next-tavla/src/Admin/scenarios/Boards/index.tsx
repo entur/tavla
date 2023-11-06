@@ -1,6 +1,5 @@
-import { Heading1 } from '@entur/typography'
 import classes from './styles.module.css'
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard } from 'types/settings'
 import dynamic from 'next/dynamic'
 import { useReducer } from 'react'
 import { settingsReducer } from './utils/reducer'
@@ -37,15 +36,8 @@ import {
     restrictToWindowEdges,
 } from '@dnd-kit/modifiers'
 import { FilterButton } from './components/FilterButton'
-import { SelectOrganization } from './components/SelectOrganization'
 
-function Boards({
-    boards,
-    organizations,
-}: {
-    boards: TBoard[]
-    organizations: TOrganization[]
-}) {
+function Boards({ boards }: { boards: TBoard[] }) {
     const [settings, dispatch] = useReducer(settingsReducer, {
         search: '',
         sort: { type: 'descending', column: 'lastModified' },
@@ -58,16 +50,12 @@ function Boards({
         <SettingsContext.Provider value={settings}>
             <SettingsDispatchContext.Provider value={dispatch}>
                 <div className={classes.boards}>
-                    <div className={classes.header}>
-                        <Heading1>Tavler</Heading1>
-                    </div>
                     <div className="flexRow justifyBetween ">
                         <div className={classes.actionRow}>
                             <Search />
                             <FilterButton />
                             <ToggleBoardsColumns />
                         </div>
-                        <SelectOrganization organizations={organizations} />
                     </div>
                     <BoardTable />
                 </div>
