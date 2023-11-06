@@ -12,6 +12,8 @@ import { createBoardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/context'
 import { AddStops } from './components/AddStops'
 import { ToastProvider } from '@entur/alert'
+import { Login } from '../Login'
+import dynamic from 'next/dynamic'
 
 function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [pages, setPages] = useState<TCreatePage[]>([])
@@ -43,12 +45,18 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
-            <PrimaryButton onClick={handleOpenModal}>
-                <AddIcon />
-                {loggedIn
-                    ? 'Opprett ny tavle'
-                    : 'Logg inn for å opprette en ny tavle'}
-            </PrimaryButton>
+            {loggedIn ? (
+                <PrimaryButton onClick={handleOpenModal}>
+                    <AddIcon />
+                    Opprett tavle
+                </PrimaryButton>
+            ) : (
+                <Login
+                    loggedIn={loggedIn}
+                    title="Logg inn for å opprette en ny tavle"
+                />
+            )}
+
             <Modal
                 open={showModal}
                 size="extraLarge"
@@ -96,4 +104,6 @@ function CreatePage({
     }
 }
 
-export { CreateBoard }
+const NonSSRHeader = dynamic(() => Promise.resolve(CreateBoard), { ssr: false })
+
+export { NonSSRHeader as CreateBoard }
