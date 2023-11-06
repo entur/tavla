@@ -5,11 +5,17 @@ import { Heading1 } from '@entur/typography'
 import { useStopPlaceSearch } from '../../hooks/useStopPlaceSearch'
 import { useCountiesSearch } from '../../hooks/useCountiesSearch'
 import { useQuaySearch } from '../../hooks/useQuaySearch'
-import { useEditSettingsDispatch } from '../../utils/contexts'
 import { useToast } from '@entur/alert'
 
-function AddTile() {
-    const dispatch = useEditSettingsDispatch()
+function AddTile({
+    addTile,
+}: {
+    addTile: (
+        name: string,
+        placeId: string,
+        type: 'quay' | 'stop_place',
+    ) => void
+}) {
     const { addToast } = useToast()
 
     const { counties, selectedCounties, setSelectedCounties } =
@@ -22,7 +28,7 @@ function AddTile() {
         selectedStopPlace?.value ?? '',
     )
 
-    const handleAddTiles = () => {
+    const handleAddTile = () => {
         if (!selectedStopPlace?.value) {
             return addToast({
                 title: 'Ingen holdeplass er valgt',
@@ -30,30 +36,17 @@ function AddTile() {
                 variant: 'info',
             })
         }
-        if (selectedQuay && selectedQuay.value !== 'all') {
-            dispatch({
-                type: 'addTile',
-                tile: {
-                    type: 'quay',
-                    placeId: selectedQuay.value,
-                    name:
-                        selectedStopPlace.label.split(',')[0] +
-                            ' ' +
-                            selectedQuay.label ?? 'Ikke navngitt',
-                },
-            })
-        } else {
-            dispatch({
-                type: 'addTile',
-                tile: {
-                    type: 'stop_place',
-                    placeId: selectedStopPlace.value,
-                    name:
-                        selectedStopPlace.label.split(',')[0] ??
-                        'Ikke navngitt',
-                },
-            })
-        }
+        const tileType =
+            selectedQuay && selectedQuay?.value !== 'all'
+                ? 'quay'
+                : 'stop_place'
+        const placeId = selectedQuay
+            ? selectedQuay.value
+            : selectedStopPlace.value
+        let name = selectedStopPlace?.label.split(',')[0] ?? ''
+        if (selectedQuay?.label) name = `${name} ${selectedQuay.label}`
+
+        addTile(name, placeId, tileType)
         setSelectedStopPlace(null)
         setSelectedQuay(null)
     }
@@ -86,7 +79,7 @@ function AddTile() {
                     selectedItem={selectedQuay}
                     onChange={setSelectedQuay}
                 />
-                <Button variant="primary" onClick={handleAddTiles}>
+                <Button variant="primary" onClick={handleAddTile}>
                     Legg til
                 </Button>
             </div>

@@ -30,6 +30,23 @@ function Edit({
 
     useAutoSaveBoard(board)
 
+    const addTile = (
+        name: string,
+        placeId: string,
+        type: 'quay' | 'stop_place',
+    ) => {
+        dispatch({
+            type: 'addTile',
+            tile: {
+                type,
+                placeId,
+                name,
+            },
+        })
+    }
+
+    console.log(board)
+
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
@@ -55,7 +72,7 @@ function Edit({
                 </div>
                 <SaveStatus board={board} />
                 <BoardSettings board={board} />
-                <AddTile />
+                <AddTile addTile={addTile} />
                 <TilesOverview tiles={board.tiles} />
             </div>
         </SettingsDispatchContext.Provider>
