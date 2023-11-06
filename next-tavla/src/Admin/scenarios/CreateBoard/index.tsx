@@ -5,7 +5,6 @@ import { useToggle } from 'hooks/useToggle'
 import { useReducer, useState } from 'react'
 import { Name } from './components/Name'
 import { Stepper } from '@entur/menu'
-import { useRouter } from 'next/router'
 import { TBoard } from 'types/settings'
 import { TCreatePage } from 'Admin/types/createBoard'
 import { createBoardReducer } from './utils/reducer'
@@ -18,7 +17,6 @@ import dynamic from 'next/dynamic'
 function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [pages, setPages] = useState<TCreatePage[]>([])
     const [showModal, openModal, closeModal] = useToggle()
-    const router = useRouter()
     const [board, dispatch] = useReducer(createBoardReducer, {
         tiles: [],
     } as TBoard)
@@ -30,14 +28,6 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
         setPages(pages.slice(0, -1))
     }
 
-    const handleOpenModal = () => {
-        if (loggedIn) {
-            openModal()
-        } else {
-            router.push('/#login')
-        }
-    }
-
     const handleCloseModal = () => {
         closeModal()
         setPages([])
@@ -46,7 +36,7 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             {loggedIn ? (
-                <PrimaryButton onClick={handleOpenModal}>
+                <PrimaryButton onClick={openModal}>
                     <AddIcon />
                     Opprett tavle
                 </PrimaryButton>
