@@ -45,8 +45,6 @@ function Edit({
         })
     }
 
-    console.log(board)
-
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
