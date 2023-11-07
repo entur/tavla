@@ -1,7 +1,14 @@
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore } from 'firebase-admin'
 import { chunk, concat, isEmpty } from 'lodash'
-import { TBoard, TBoardID, TOrganization, TUser, TUserID } from 'types/settings'
+import {
+    TBoard,
+    TBoardID,
+    TOrganization,
+    TOrganizationID,
+    TUser,
+    TUserID,
+} from 'types/settings'
 
 const FIREBASE_IN_OPERATOR_LIMIT = 30
 
@@ -108,7 +115,11 @@ export async function setLastActive(bid: TBoardID) {
         .update({ 'meta.lastActive': Date.now() })
 }
 
-export async function createBoard(uid: TUserID, board: TBoard) {
+export async function createBoard(
+    id: TUserID | TOrganizationID,
+    board: TBoard,
+    collection: string,
+) {
     const createdBoard = await firestore()
         .collection('boards')
         .add({
@@ -120,11 +131,21 @@ export async function createBoard(uid: TUserID, board: TBoard) {
             },
         })
     firestore()
-        .collection('users')
-        .doc(uid)
-        .update({
-            owner: admin.firestore.FieldValue.arrayUnion(createdBoard.id),
-        })
+        .collection(collection)
+        .doc(id)
+        .update(
+            collection === 'users'
+                ? {
+                      owner: admin.firestore.FieldValue.arrayUnion(
+                          createdBoard.id,
+                      ),
+                  }
+                : {
+                      boards: admin.firestore.FieldValue.arrayUnion(
+                          createdBoard.id,
+                      ),
+                  },
+        )
     return createdBoard.id
 }
 
