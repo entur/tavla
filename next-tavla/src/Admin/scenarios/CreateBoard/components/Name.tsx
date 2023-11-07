@@ -26,7 +26,7 @@ function Name({
                 name="name"
                 label="Navn på tavla"
                 placeholder="Navn på tavla"
-                value={board?.meta?.title}
+                value={board?.meta?.title ?? ''}
                 aria-label="Sett navn på tavla"
                 ref={selectInput}
                 onChange={(e) => {
