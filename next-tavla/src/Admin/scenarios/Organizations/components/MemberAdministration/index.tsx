@@ -4,7 +4,13 @@ import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import { useEffect, useState } from 'react'
 import { InviteUser } from './InviteUser'
 
-function MemberAdministration({ oid }: { oid: TOrganizationID }) {
+function MemberAdministration({
+    oid,
+    uid,
+}: {
+    oid: TOrganizationID
+    uid: TUserID
+}) {
     const [members, setMembers] = useState<TUser[]>([])
 
     useEffect(() => {
@@ -40,6 +46,7 @@ function MemberAdministration({ oid }: { oid: TOrganizationID }) {
                 members={members}
                 removeMember={removeMember}
                 oid={oid}
+                uid={uid}
             />
         </div>
     )

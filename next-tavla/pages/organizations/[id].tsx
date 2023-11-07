@@ -4,7 +4,7 @@ import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { AdminHeader } from 'Admin/components/AdminHeader'
-import { TOrganizationID } from 'types/settings'
+import { TOrganizationID, TUserID } from 'types/settings'
 import { getOrganizationById } from 'Admin/utils/firebase'
 import { Heading1 } from '@entur/typography'
 import { MemberAdministration } from 'Admin/scenarios/Organizations/components/MemberAdministration'
@@ -39,6 +39,7 @@ export async function getServerSideProps({
     return {
         props: {
             oid: organization.id,
+            uid: user.uid,
             name: organization.name,
         },
     }
@@ -46,9 +47,11 @@ export async function getServerSideProps({
 
 function EditOrganizationPage({
     oid,
+    uid,
     name,
 }: {
     oid: TOrganizationID
+    uid: TUserID
     name: string
 }) {
     return (
@@ -57,7 +60,7 @@ function EditOrganizationPage({
             <Contrast>
                 <ToastProvider>
                     <Heading1>{name}</Heading1>
-                    <MemberAdministration oid={oid} />
+                    <MemberAdministration uid={uid} oid={oid} />
                 </ToastProvider>
             </Contrast>
         </div>
