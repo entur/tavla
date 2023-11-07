@@ -1,12 +1,10 @@
-import { Button, PrimaryButton } from '@entur/button'
+import { Button } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { createBoardRequest } from '../utils/create'
-import { useRouter } from 'next/router'
 import { StopPlaceChip } from './StopPlaceChip'
-import { useToast } from '@entur/alert'
 import { TBoard } from 'types/settings'
 import { useCreateBoardDispatch } from '../utils/context'
 import { AddTile } from 'Admin/scenarios/Edit/components/AddTile'
+import { CreateBoardButton } from './CreateBoardButton'
 
 export function AddStops({
     board,
@@ -15,9 +13,6 @@ export function AddStops({
     board: TBoard
     popPage: () => void
 }) {
-    const router = useRouter()
-    const { addToast } = useToast()
-
     const dispatch = useCreateBoardDispatch()
 
     const addTile = (
@@ -33,30 +28,6 @@ export function AddStops({
                 name,
             },
         })
-    }
-
-    const handleCreateBoard = async () => {
-        if (!board?.tiles?.length) {
-            return addToast({
-                title: 'Ingen holdeplasser er lagt til',
-                content: 'Vennligst legg til holdeplasser',
-                variant: 'info',
-            })
-        }
-        try {
-            const response = await createBoardRequest(
-                board?.tiles ?? [],
-                board?.meta?.title ?? '',
-            )
-            router.push(`/edit/${response.bid}`)
-            router.reload()
-        } catch (error) {
-            addToast({
-                title: 'Noe gikk galt',
-                content: 'Vennligst prøv igjen',
-                variant: 'info',
-            })
-        }
     }
 
     return (
@@ -77,9 +48,7 @@ export function AddStops({
                 <Button variant="secondary" onClick={popPage}>
                     Tilbake
                 </Button>
-                <PrimaryButton onClick={handleCreateBoard}>
-                    Opprett tavle
-                </PrimaryButton>
+                <CreateBoardButton board={board} />
             </div>
         </div>
     )
