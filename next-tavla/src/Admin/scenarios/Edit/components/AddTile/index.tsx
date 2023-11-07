@@ -8,14 +8,14 @@ import { useToast } from '@entur/alert'
 
 function AddTile({
     addTile,
-    flexDirection,
+    flexDirection = 'flexRow',
 }: {
     addTile: (
         name: string,
         placeId: string,
         type: 'quay' | 'stop_place',
     ) => void
-    flexDirection?: 'row' | 'column'
+    flexDirection?: 'flexRow' | 'flexColumn'
 }) {
     const { addToast } = useToast()
 
@@ -53,40 +53,34 @@ function AddTile({
     }
 
     return (
-        <div>
-            <div
-                className={`flex${
-                    flexDirection === 'column' ? 'Column' : 'Row'
-                } g-2 pt-2 pb-2`}
-            >
-                <MultiSelect
-                    label="Velg fylker"
-                    items={counties}
-                    selectedItems={selectedCounties}
-                    onChange={setSelectedCounties}
-                    prepend={<SearchIcon />}
-                    maxChips={2}
-                    hideSelectAll
-                />
-                <SearchableDropdown
-                    items={stopPlaceItems}
-                    label="Søk etter holdeplass..."
-                    clearable
-                    prepend={<SearchIcon />}
-                    selectedItem={selectedStopPlace}
-                    onChange={setSelectedStopPlace}
-                />
-                <Dropdown
-                    items={quays}
-                    label="Velg plattform/retning"
-                    clearable
-                    selectedItem={selectedQuay}
-                    onChange={setSelectedQuay}
-                />
-                <Button variant="primary" onClick={handleAddTile}>
-                    Legg til
-                </Button>
-            </div>
+        <div className={`${flexDirection} g-2 pt-2 pb-2`}>
+            <MultiSelect
+                label="Velg fylker"
+                items={counties}
+                selectedItems={selectedCounties}
+                onChange={setSelectedCounties}
+                prepend={<SearchIcon />}
+                maxChips={2}
+                hideSelectAll
+            />
+            <SearchableDropdown
+                items={stopPlaceItems}
+                label="Søk etter holdeplass..."
+                clearable
+                prepend={<SearchIcon />}
+                selectedItem={selectedStopPlace}
+                onChange={setSelectedStopPlace}
+            />
+            <Dropdown
+                items={quays}
+                label="Velg plattform/retning"
+                clearable
+                selectedItem={selectedQuay}
+                onChange={setSelectedQuay}
+            />
+            <Button variant="primary" onClick={handleAddTile}>
+                Legg til
+            </Button>
         </div>
     )
 }

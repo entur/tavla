@@ -67,7 +67,7 @@ export function AddStops({
                 retninger, eller flere enkelte retninger.
             </Paragraph>
 
-            <AddTile addTile={addTile} flexDirection="column" />
+            <AddTile addTile={addTile} flexDirection="flexColumn" />
             <div className="flexRow g-2 pt-2 pb-2">
                 {board.tiles.map((tile) => (
                     <StopPlaceChip tile={tile} key={tile.uuid} />
