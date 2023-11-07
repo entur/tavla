@@ -1,1 +1,1 @@
-export type TCreatePage = 'name' | 'addStops'
+export type TCreatePage = 'name' | 'addStops' | 'organization'
