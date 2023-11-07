@@ -19,7 +19,7 @@ function CreateBoardButton({ board }: { board: TBoard }) {
                 board?.tiles ?? [],
                 board?.meta?.title ?? '',
             )
-            router.push(`/edit/${response.bid}`)
+            await router.push(`/edit/${response.bid}`)
             router.reload()
         } catch (error) {
             addToast({
