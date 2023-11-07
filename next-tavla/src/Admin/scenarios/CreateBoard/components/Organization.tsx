@@ -27,6 +27,7 @@ export function Organization({
                 label="Dine organisasjoner"
                 selectedItem={selectedOrganization}
                 onChange={setSelectedOrganization}
+                clearable
             />
             <div className="flexRow justifyBetween">
                 <Button variant="secondary" onClick={popPage}>
