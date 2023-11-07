@@ -6,8 +6,8 @@ import { TransportIcon } from 'components/TransportIcon'
 function TravelTag({
     transportMode,
     publicCode,
-    showPublicCode,
-    showTransportMode,
+    showPublicCode = true,
+    showTransportMode = true,
     publicCodeStyle,
 }: {
     transportMode: TTransportMode

@@ -3,21 +3,10 @@ import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
-import { TTransportMode } from 'types/graphql-schema'
 import { TravelTag } from 'components/TravelTag'
 
-function Line({
-    showPublicCode,
-    showTransportMode,
-}: {
-    line?: string
-    transportMode?: TTransportMode
-    showPublicCode: boolean
-    showTransportMode: boolean
-}) {
+function Line() {
     const departures = useNonNullContext(DeparturesContext)
-
-    if (!showPublicCode && !showTransportMode) return null
 
     const lines = departures.map((departure) => ({
         transportMode: departure.serviceJourney.transportMode ?? 'unknown',
@@ -32,7 +21,7 @@ function Line({
     )
 
     return (
-        <TableColumn title={showPublicCode ? 'Linje' : 'Transportmiddel'}>
+        <TableColumn title="Linje">
             {lines.map((line) => (
                 <TableRow key={line.key}>
                     <div className={classes.row}>
@@ -42,8 +31,6 @@ function Line({
                             publicCodeStyle={{
                                 width: `${longestPublicCode + 1}ch`,
                             }}
-                            showPublicCode={showPublicCode}
-                            showTransportMode={showTransportMode}
                         />
                     </div>
                 </TableRow>

@@ -10,7 +10,6 @@ type TColumnBase =
     | 'aimedTime'
     | 'arrivalTime'
     | 'destination'
-    | 'transportMode'
     | 'publicCode'
     | 'time'
     | 'platform'

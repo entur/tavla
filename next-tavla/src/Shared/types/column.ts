@@ -1,7 +1,6 @@
 export const Columns = {
     aimedTime: 'Planlagt',
     arrivalTime: 'Ankomst',
-    transportMode: 'Transportmiddel',
     publicCode: 'Linje',
     destination: 'Destinasjon',
     platform: 'Plattform',

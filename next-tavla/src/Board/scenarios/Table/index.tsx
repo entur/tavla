@@ -33,10 +33,7 @@ function Table({
             <DeparturesContext.Provider value={departures}>
                 {columns.includes('aimedTime') && <AimedTime />}
                 {columns.includes('arrivalTime') && <ArrivalTime />}
-                <Line
-                    showPublicCode={columns.includes('publicCode')}
-                    showTransportMode={columns.includes('transportMode')}
-                />
+                {columns.includes('publicCode') && <Line />}
                 {columns.includes('destination') && (
                     <Destination deviations={!columns.includes('deviations')} />
                 )}
