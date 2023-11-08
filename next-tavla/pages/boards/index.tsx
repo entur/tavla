@@ -2,11 +2,15 @@ import classes from 'styles/pages/admin.module.css'
 import { Contrast } from '@entur/layout'
 import { ToastProvider } from '@entur/alert'
 import { Boards } from 'Admin/scenarios/Boards'
-import { TBoard } from 'types/settings'
-import { getBoardsForUser } from 'Admin/utils/firebase'
+import { TBoard, TOrganization } from 'types/settings'
+import {
+    getBoardsForUser,
+    getOrganizationsWithUser,
+} from 'Admin/utils/firebase'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { IncomingNextMessage } from 'types/next'
 import { AdminHeader } from 'Admin/components/AdminHeader'
+import { SelectOrganization } from 'Admin/scenarios/Boards/components/SelectOrganization'
 
 export async function getServerSideProps({
     req,
@@ -23,28 +27,32 @@ export async function getServerSideProps({
         }
     }
     const boards = await getBoardsForUser(user.uid)
+    const organizations = await getOrganizationsWithUser(user.uid)
 
     return {
         props: {
             boards: boards,
-            loggedIn: user !== null,
+            organizations: organizations,
         },
     }
 }
 
 function OverviewPage({
     boards,
-    loggedIn,
+    organizations,
 }: {
     boards: TBoard[]
-    loggedIn: boolean
+    organizations: TOrganization[]
 }) {
     return (
         <div className={classes.root}>
-            <AdminHeader loggedIn={loggedIn} />
+            <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
-                    <Boards boards={boards} />
+                    <div className="flexRow g-3 h-100">
+                        <SelectOrganization organizations={organizations} />
+                        <Boards boards={boards} />
+                    </div>
                 </ToastProvider>
             </Contrast>
         </div>

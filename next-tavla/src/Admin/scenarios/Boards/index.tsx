@@ -1,4 +1,3 @@
-import { Heading1 } from '@entur/typography'
 import classes from './styles.module.css'
 import { TBoard } from 'types/settings'
 import dynamic from 'next/dynamic'
@@ -51,13 +50,12 @@ function Boards({ boards }: { boards: TBoard[] }) {
         <SettingsContext.Provider value={settings}>
             <SettingsDispatchContext.Provider value={dispatch}>
                 <div className={classes.boards}>
-                    <div className={classes.header}>
-                        <Heading1>Mine Tavler</Heading1>
-                    </div>
-                    <div className={classes.actionRow}>
-                        <Search />
-                        <FilterButton />
-                        <ToggleBoardsColumns />
+                    <div className="flexRow justifyBetween ">
+                        <div className={classes.actionRow}>
+                            <Search />
+                            <FilterButton />
+                            <ToggleBoardsColumns />
+                        </div>
                     </div>
                     <BoardTable />
                 </div>

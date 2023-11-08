@@ -26,9 +26,9 @@ function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
                 {loggedIn && (
                     <>
                         <CreateBoard loggedIn={loggedIn} />
-                        <PrimaryButton as={Link} href="/edit/boards">
+                        <PrimaryButton as={Link} href="/boards">
                             <UserIcon />
-                            Mine Tavler
+                            Tavler
                         </PrimaryButton>
                         {ORGANIZATIONS_ENABLED && (
                             <PrimaryButton as={Link} href="/organizations">
