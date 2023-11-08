@@ -6,18 +6,10 @@ import { TransportIcon } from 'components/TransportIcon'
 function TravelTag({
     transportMode,
     publicCode,
-    showPublicCode = true,
-    showTransportMode = true,
-    publicCodeStyle,
 }: {
     transportMode: TTransportMode
     publicCode: string
-    showPublicCode?: boolean
-    showTransportMode?: boolean
-    publicCodeStyle?: React.CSSProperties
 }) {
-    if (!showTransportMode && !showPublicCode) return null
-
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
@@ -28,19 +20,14 @@ function TravelTag({
                 }-color)`,
             }}
         >
-            {showTransportMode && (
-                <TransportIcon
-                    className={classes.icon}
-                    transport={transportMode}
-                    color="var(--main-background-color)"
-                />
-            )}
-
-            {showPublicCode && (
-                <div className="textCenter" style={publicCodeStyle}>
-                    {publicCode}
-                </div>
-            )}
+            <TransportIcon
+                className="p-05 w-100 h-100"
+                transport={transportMode}
+                color="var(--main-background-color)"
+            />
+            <div className="flexRow alignCenter justifyCenter w-100 h-100">
+                {publicCode}
+            </div>
         </div>
     )
 }

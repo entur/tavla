@@ -14,12 +14,6 @@ function Line() {
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
 
-    const longestPublicCode = lines.reduce(
-        (longest, line) =>
-            line.publicCode.length > longest ? line.publicCode.length : longest,
-        0,
-    )
-
     return (
         <TableColumn title="Linje">
             {lines.map((line) => (
@@ -28,9 +22,6 @@ function Line() {
                         <TravelTag
                             transportMode={line.transportMode}
                             publicCode={line.publicCode}
-                            publicCodeStyle={{
-                                width: `${longestPublicCode + 1}ch`,
-                            }}
                         />
                     </div>
                 </TableRow>
