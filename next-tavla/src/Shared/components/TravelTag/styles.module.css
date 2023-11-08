@@ -8,3 +8,9 @@
     border-radius: 0.2em;
     font-weight: 700;
 }
+
+.icon {
+    margin: 0.25em;
+    height: 1.75em;
+    width: 1.75em;
+}

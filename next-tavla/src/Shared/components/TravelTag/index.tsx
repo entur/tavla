@@ -29,7 +29,11 @@ function TravelTag({
             }}
         >
             {showTransportMode && (
-                <TransportIcon transport={transportMode} inTravelTag />
+                <TransportIcon
+                    className={classes.icon}
+                    transport={transportMode}
+                    color="var(--main-background-color)"
+                />
             )}
 
             {showPublicCode && (

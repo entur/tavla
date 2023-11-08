@@ -29,7 +29,10 @@ function SelectLines({
                 {linesByMode.map(({ transportMode, lines }) => (
                     <div key={transportMode}>
                         <div className={classes.transportTitle}>
-                            <TransportIcon transport={transportMode} />
+                            <TransportIcon
+                                transport={transportMode}
+                                className={classes.icon}
+                            />
                             {transportModeNames[transportMode]}
                         </div>
                         <div className="flexRow alignCenter">
