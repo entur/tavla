@@ -61,7 +61,7 @@
         "@graphql-codegen/typescript-operations": "3.0.2",
         "@types/lodash": "4.14.191",
         "@types/node": "18.15.5",
-        "@types/react": "18.0.28",
+        "@types/react": "18.2.37",
         "@typescript-eslint/eslint-plugin": "5.57.1",
         "@typescript-eslint/parser": "5.57.1",
         "dependency-cruiser": "13.0.3",
