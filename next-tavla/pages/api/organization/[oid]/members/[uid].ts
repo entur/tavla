@@ -3,7 +3,6 @@ import {
     getOrganizationById,
     removeUserFromOrganization,
 } from 'Admin/utils/firebase'
-import { concat } from 'lodash'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(
@@ -20,12 +19,9 @@ export default async function handler(
                 .json({ message: 'Organization not found' })
         }
 
-        const memberUids = concat(
-            organization.owners ?? [],
-            organization.editors ?? [],
-        )
         const requester = await verifyUserSession(request)
-        if (!requester || !memberUids.includes(requester.uid)) {
+
+        if (!requester || !organization.owners?.includes(requester.uid)) {
             return response.status(401).json({ message: 'Unauthorized' })
         }
 
