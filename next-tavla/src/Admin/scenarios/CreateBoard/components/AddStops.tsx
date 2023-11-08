@@ -54,11 +54,11 @@ export function AddStops({
 
             <AddTile addTile={addTile} flexDirection="flexColumn" />
             <div className="flexColumn g-2 pt-2 pb-2">
-                <Heading4>Holdeplasser lagt til i Tavla</Heading4>
+                <Heading4>Stoppesteder lagt til i Tavla</Heading4>
                 {board.tiles.length === 0 ? (
                     <div className="flexColumn">
                         <Paragraph>
-                            Du har ikke lagt til noen holdeplasser i tavla enda.
+                            Du har ikke lagt til noen stoppesteder i tavla enda.
                         </Paragraph>
                     </div>
                 ) : (
