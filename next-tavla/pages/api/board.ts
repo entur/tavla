@@ -21,9 +21,11 @@ export default async function handler(
     try {
         switch (request.method) {
             case 'POST':
+                const oid = JSON.parse(request.body).oid as string
                 const bid = await createBoard(
-                    user.uid,
-                    JSON.parse(request.body) as TBoard,
+                    oid ? oid : user.uid,
+                    JSON.parse(request.body).board as TBoard,
+                    oid ? 'organizations' : 'users',
                 )
                 return response.status(200).json({ bid: bid })
             case 'PUT':

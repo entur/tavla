@@ -1,7 +1,11 @@
-import { TBoard } from 'types/settings'
+import { TBoard, TOrganizationID } from 'types/settings'
 import { TTile } from 'types/tile'
 
-export async function createBoardRequest(tiles: TTile[], name: string) {
+export async function createBoardRequest(
+    tiles: TTile[],
+    name: string,
+    oid?: TOrganizationID,
+) {
     const board = {
         tiles,
         meta: {
@@ -11,7 +15,7 @@ export async function createBoardRequest(tiles: TTile[], name: string) {
 
     const response = await fetch('/api/board', {
         method: 'POST',
-        body: JSON.stringify(board),
+        body: JSON.stringify({ board: board, oid: oid }),
     })
 
     return response.json()

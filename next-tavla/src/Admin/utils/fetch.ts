@@ -1,7 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { TavlaError } from 'Admin/types/error'
 import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
-import { TBoardID } from 'types/settings'
+import { TBoardID, TOrganization } from 'types/settings'
 
 type TPartialGeoResponse = {
     features: Array<{
@@ -95,4 +95,22 @@ export async function createOrganizationRequest(name: string) {
         })
     }
     return response
+}
+
+export async function getOrganizationsForUserRequest(): Promise<
+    NormalizedDropdownItemType[]
+> {
+    const response = await fetch('/api/organization', { method: 'GET' })
+    if (!response.ok) {
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'Could not get organizations',
+        })
+    }
+    return response.json().then((data) => {
+        return data.organizations.map((org: TOrganization) => ({
+            value: org.id,
+            label: org.name,
+        }))
+    })
 }

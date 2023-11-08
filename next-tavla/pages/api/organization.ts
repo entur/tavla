@@ -1,5 +1,9 @@
 import { verifyUserSession } from 'Admin/utils/auth'
-import { createOrganization, initializeAdminApp } from 'Admin/utils/firebase'
+import {
+    createOrganization,
+    getOrganizationsWithUser,
+    initializeAdminApp,
+} from 'Admin/utils/firebase'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 initializeAdminApp()
@@ -19,6 +23,11 @@ export default async function handler(
                     JSON.parse(request.body).name as string,
                 )
                 return response.status(200).json({ oid: oid })
+            case 'GET':
+                const organizations = await getOrganizationsWithUser(user.uid)
+                return response
+                    .status(200)
+                    .json({ organizations: organizations })
             default:
                 throw new Error('Method not allowed')
         }
