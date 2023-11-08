@@ -1,7 +1,7 @@
 export const Columns = {
     aimedTime: 'Planlagt',
     arrivalTime: 'Ankomst',
-    publicCode: 'Linje',
+    line: 'Linje',
     destination: 'Destinasjon',
     platform: 'Plattform',
     time: 'Forventet',

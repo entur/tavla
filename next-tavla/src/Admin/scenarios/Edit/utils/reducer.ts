@@ -78,12 +78,7 @@ export function boardReducer(settings: TBoard, action: Action): TBoard {
                     {
                         ...action.tile,
                         uuid: nanoid(),
-                        columns: [
-                            'publicCode',
-                            'destination',
-                            'time',
-                            'realtime',
-                        ],
+                        columns: ['line', 'destination', 'time', 'realtime'],
                     },
                 ],
             }
