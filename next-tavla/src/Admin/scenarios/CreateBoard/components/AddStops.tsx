@@ -1,11 +1,11 @@
 import { Button } from '@entur/button'
 import { Heading3, Heading4, Paragraph } from '@entur/typography'
-import { StopPlaceChip } from './StopPlaceChip'
 import { TBoard } from 'types/settings'
 import { useCreateBoardDispatch } from '../utils/context'
 import { AddTile } from 'Admin/scenarios/Edit/components/AddTile'
 import { TCreatePage } from 'Admin/types/createBoard'
 import { useToast } from '@entur/alert'
+import { StopPlaceList } from './StopPlaceList'
 
 export function AddStops({
     board,
@@ -53,22 +53,8 @@ export function AddStops({
             </Paragraph>
 
             <AddTile addTile={addTile} flexDirection="flexColumn" />
-            <div className="flexColumn g-2 pt-2 pb-2">
-                <Heading4>Stoppesteder lagt til i Tavla</Heading4>
-                {board.tiles.length === 0 ? (
-                    <div className="flexColumn">
-                        <Paragraph>
-                            Du har ikke lagt til noen stoppesteder i tavla enda.
-                        </Paragraph>
-                    </div>
-                ) : (
-                    <div className="flexRow g-2">
-                        {board.tiles.map((tile) => (
-                            <StopPlaceChip tile={tile} key={tile.uuid} />
-                        ))}
-                    </div>
-                )}
-            </div>
+            <Heading4>Stoppesteder lagt til i Tavla</Heading4>
+            <StopPlaceList board={board} />
             <div className="flexRow justifyBetween">
                 <Button className="w-30" variant="secondary" onClick={popPage}>
                     Tilbake
