@@ -75,6 +75,7 @@ function AddTile({
                 items={quays}
                 label="Velg plattform/retning"
                 clearable
+                prepend={<SearchIcon />}
                 selectedItem={selectedQuay}
                 onChange={setSelectedQuay}
             />
