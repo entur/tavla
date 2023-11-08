@@ -116,6 +116,10 @@ export async function setLastActive(bid: TBoardID) {
         .update({ 'meta.lastActive': Date.now() })
 }
 
+export async function setOrganizationLogo(oid: TOrganizationID, logo: string) {
+    firestore().collection('organizations').doc(oid).update({ logo: logo })
+}
+
 export async function createBoard(
     id: TUserID | TOrganizationID,
     board: TBoard,
@@ -197,6 +201,11 @@ export async function userCanDeleteBoard(uid: TUserID, bid: TBoardID) {
 export async function getUser(uid: TUserID) {
     const doc = await firestore().collection('users').doc(uid).get()
     return doc.data() as TUser
+}
+
+export async function getOrganization(oid: TOrganizationID) {
+    const doc = await firestore().collection('organizations').doc(oid).get()
+    return doc.data() as TOrganization
 }
 
 export async function getOrganizationWithBoard(bid: TBoardID) {
