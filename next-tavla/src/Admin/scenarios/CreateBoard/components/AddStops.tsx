@@ -1,4 +1,4 @@
-import { Button } from '@entur/button'
+import { Button, PrimaryButton } from '@entur/button'
 import { Heading3, Heading4, Paragraph } from '@entur/typography'
 import { TBoard } from 'types/settings'
 import { useCreateBoardDispatch } from '../utils/context'
