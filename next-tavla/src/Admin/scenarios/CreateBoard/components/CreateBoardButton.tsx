@@ -30,7 +30,9 @@ function CreateBoardButton({
         }
     }
     return (
-        <PrimaryButton onClick={handleCreateBoard}>Opprett tavle</PrimaryButton>
+        <PrimaryButton className="w-30" onClick={handleCreateBoard}>
+            Opprett tavle
+        </PrimaryButton>
     )
 }
 

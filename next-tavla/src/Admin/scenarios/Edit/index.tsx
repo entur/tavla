@@ -70,7 +70,7 @@ function Edit({
                 </div>
                 <SaveStatus board={board} />
                 <BoardSettings board={board} />
-                <Heading1>Holdeplasser i tavla</Heading1>
+                <Heading1>Stoppesteder i tavla</Heading1>
                 <AddTile addTile={addTile} />
                 <TilesOverview tiles={board.tiles} />
             </div>
