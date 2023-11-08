@@ -13,7 +13,7 @@ import { AddStops } from './components/AddStops'
 import { ToastProvider } from '@entur/alert'
 import { Login } from '../Login'
 import dynamic from 'next/dynamic'
-import { Organization } from './components/Organization'
+import { AddToOrganization } from './components/AddToOrganization'
 
 function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [pages, setPages] = useState<TCreatePage[]>([])
@@ -84,7 +84,7 @@ function CreatePage({
 
     switch (lastPage) {
         case 'organization':
-            return <Organization board={board} popPage={popPage} />
+            return <AddToOrganization board={board} popPage={popPage} />
         case 'addStops':
             return (
                 <AddStops popPage={popPage} pushPage={pushPage} board={board} />

@@ -37,7 +37,7 @@ export function AddStops({
         if (!board?.tiles?.length) {
             return addToast({
                 title: 'Ingen holdeplasser er lagt til',
-                content: 'Vennligst legg til holdeplasser',
+                content: 'Vennligst legg til en holdeplass for å fortsette',
                 variant: 'info',
             })
         }

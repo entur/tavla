@@ -5,7 +5,7 @@ import { CreateBoardButton } from './CreateBoardButton'
 import { Dropdown } from '@entur/dropdown'
 import { useOrganizations } from '../hooks/useOrganizations'
 
-export function Organization({
+export function AddToOrganization({
     board,
     popPage,
 }: {
@@ -16,11 +16,12 @@ export function Organization({
         useOrganizations()
 
     return (
-        <div className="flexColumn g-2 h-100">
-            <Heading3>Vil du legge tavla til en organisasjon? </Heading3>
+        <div className="flexColumn w-50">
+            <Heading3>Vil du legge tavla til i en organisasjon? </Heading3>
             <Paragraph>
-                Hvis du ikke velger en organisasjon, vil tavla bli lagret som
-                privat.
+                Hvis du ikke velger en organisasjon, vil tavla bli lagret under
+                din private bruker. Det er kun du som kan administrere tavla som
+                opprettes.
             </Paragraph>
             <Dropdown
                 items={organizations}
@@ -29,7 +30,7 @@ export function Organization({
                 onChange={setSelectedOrganization}
                 clearable
             />
-            <div className="flexRow justifyBetween">
+            <div className="flexRow justifyBetween mt-2">
                 <Button variant="secondary" onClick={popPage}>
                     Tilbake
                 </Button>

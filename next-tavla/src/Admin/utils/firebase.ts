@@ -118,7 +118,7 @@ export async function setLastActive(bid: TBoardID) {
 export async function createBoard(
     id: TUserID | TOrganizationID,
     board: TBoard,
-    collection: string,
+    collection: 'users' | 'organizations',
 ) {
     const createdBoard = await firestore()
         .collection('boards')
@@ -133,19 +133,10 @@ export async function createBoard(
     firestore()
         .collection(collection)
         .doc(id)
-        .update(
-            collection === 'users'
-                ? {
-                      owner: admin.firestore.FieldValue.arrayUnion(
-                          createdBoard.id,
-                      ),
-                  }
-                : {
-                      boards: admin.firestore.FieldValue.arrayUnion(
-                          createdBoard.id,
-                      ),
-                  },
-        )
+        .update({
+            [collection === 'users' ? 'owner' : 'boards']:
+                admin.firestore.FieldValue.arrayUnion(createdBoard.id),
+        })
     return createdBoard.id
 }
 
