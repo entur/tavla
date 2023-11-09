@@ -1,6 +1,5 @@
 import { TTransportMode } from 'types/graphql-schema'
 import { SVGProps } from 'react'
-import classNames from 'classnames'
 
 function TransportIcon({
     transport,
@@ -16,7 +15,7 @@ function TransportIcon({
     const Component = getTransportIcon(mode)
     return (
         <Component
-            className={classNames(className, 'h-100 w-100')}
+            className={className ?? 'w-100 h-100'}
             fill={color ?? `var(--table-transport-${mode}-color)`}
         />
     )
