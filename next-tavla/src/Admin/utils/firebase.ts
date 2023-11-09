@@ -116,7 +116,8 @@ export async function setLastActive(bid: TBoardID) {
         .update({ 'meta.lastActive': Date.now() })
 }
 
-export async function setOrganizationLogo(oid: TOrganizationID, logo: string) {
+export async function setOrganizationLogo(logo: string, oid?: TOrganizationID) {
+    if (!oid) return
     firestore().collection('organizations').doc(oid).update({ logo: logo })
 }
 

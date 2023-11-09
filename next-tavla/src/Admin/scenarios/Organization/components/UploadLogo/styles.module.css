@@ -1,0 +1,12 @@
+.upload {
+    display: flex;
+    backgroundcolor: var(--secondary-background-color);
+    border: 2px dashed white;
+    border-radius: 1em;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2em;
+    padding: 1em;
+}
