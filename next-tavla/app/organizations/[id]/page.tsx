@@ -13,6 +13,8 @@ import { revalidatePath } from 'next/cache'
 import { UploadIcon } from '@entur/icons'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 
+initializeAdminApp()
+
 async function EditOrganizationPage({ params }: { params: { id: string } }) {
     const { id } = params
 
@@ -23,11 +25,7 @@ async function EditOrganizationPage({ params }: { params: { id: string } }) {
 
     const organization = await getOrganization(id)
 
-    async function upload(data: FormData) {
-        'use server'
-
-        initializeAdminApp()
-
+    const upload = async (data: FormData) => {
         const logo = data.get('logo') as File
         const bucket = storage().bucket('ent-tavla-dev.appspot.com')
         const file = bucket.file(`organizations/${id}-${logo.name}`)
