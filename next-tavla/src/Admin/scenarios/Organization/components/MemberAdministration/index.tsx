@@ -1,15 +1,17 @@
+'use client'
 import { Heading2, LeadParagraph } from '@entur/typography'
 import { MemberList } from './MemberList'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import { useEffect, useState } from 'react'
 import { InviteUser } from './InviteUser'
+import { Contrast } from '@entur/layout'
 
 function MemberAdministration({
     oid,
     uid,
 }: {
-    oid: TOrganizationID
-    uid: TUserID
+    oid?: TOrganizationID
+    uid?: TUserID
 }) {
     const [members, setMembers] = useState<TUser[]>([])
 
@@ -32,7 +34,7 @@ function MemberAdministration({
     }
 
     return (
-        <div className="flexColumn g-4">
+        <Contrast className="flexColumn g-4">
             <div>
                 <Heading2>Administrer medlemmer</Heading2>
                 <LeadParagraph>
@@ -48,7 +50,7 @@ function MemberAdministration({
                 oid={oid}
                 uid={uid}
             />
-        </div>
+        </Contrast>
     )
 }
 

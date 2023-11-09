@@ -205,7 +205,7 @@ export async function getUser(uid: TUserID) {
 
 export async function getOrganization(oid: TOrganizationID) {
     const doc = await firestore().collection('organizations').doc(oid).get()
-    return doc.data() as TOrganization
+    return { ...doc.data(), id: doc.id } as TOrganization
 }
 
 export async function getOrganizationWithBoard(bid: TBoardID) {
