@@ -4,6 +4,10 @@ import { ToastProvider } from '@entur/alert'
 import { IncomingNextMessage } from 'types/next'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { AdminHeader } from 'Admin/components/AdminHeader'
+import { TOrganizationID, TUserID } from 'types/settings'
+import { getOrganizationById } from 'Admin/utils/firebase'
+import { Heading1 } from '@entur/typography'
+import { MemberAdministration } from 'Admin/scenarios/Organizations/components/MemberAdministration'
 
 export async function getServerSideProps({
     params,
@@ -14,9 +18,9 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const loggedIn = (await verifyUserSession(req)) !== null
+    const user = await verifyUserSession(req)
 
-    if (!loggedIn)
+    if (!user)
         return {
             redirect: {
                 destination: '/#login',
@@ -24,20 +28,39 @@ export async function getServerSideProps({
             },
         }
 
+    const organization = await getOrganizationById(id)
+    if (
+        !organization ||
+        !organization.id ||
+        !organization?.owners?.includes(user.uid)
+    )
+        return { notFound: true }
+
     return {
         props: {
-            id,
+            oid: organization.id,
+            uid: user.uid,
+            name: organization.name,
         },
     }
 }
 
-function EditOrganizationPage({ id }: { id: string }) {
+function EditOrganizationPage({
+    oid,
+    uid,
+    name,
+}: {
+    oid: TOrganizationID
+    uid: TUserID
+    name: string
+}) {
     return (
         <div className={classes.root}>
             <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
-                    <div>{id}</div>
+                    <Heading1>{name}</Heading1>
+                    <MemberAdministration uid={uid} oid={oid} />
                 </ToastProvider>
             </Contrast>
         </div>
