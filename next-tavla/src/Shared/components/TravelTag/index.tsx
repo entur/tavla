@@ -21,7 +21,7 @@ function TravelTag({
             }}
         >
             <TransportIcon
-                className="p-05 w-100 h-100"
+                className={classes.icon}
                 transport={transportMode}
                 color="var(--main-background-color)"
             />
