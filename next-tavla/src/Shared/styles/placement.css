@@ -25,7 +25,7 @@
 }
 
 .justifyCenter {
-    justify-items: center;
+    justify-content: center;
 }
 
 .justifyStart {

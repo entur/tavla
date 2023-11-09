@@ -4,14 +4,5 @@
     justify-content: flex-start;
     align-items: center;
     padding-right: 0.5rem;
-}
-.line {
-    display: flex;
-    justify-content: center;
-    width: 50%;
-    height: 100%;
-    padding: 0.5em;
-    color: var(--main-background-color);
-    border-radius: 0.2em;
-    font-weight: 700;
+    width: 100%;
 }

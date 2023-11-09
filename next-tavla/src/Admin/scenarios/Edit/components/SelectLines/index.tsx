@@ -3,7 +3,7 @@ import classes from './styles.module.css'
 import { Heading4 } from '@entur/typography'
 import { TLinesFragment } from 'graphql/index'
 import { transportModeNames } from './utils'
-import { TransportIcon } from 'Board/scenarios/Table/components/TransportIcon'
+import { TransportIcon } from 'components/TransportIcon'
 import { useToggledLines } from './hooks/useToggledLines'
 import { Checkbox } from '@entur/form'
 
@@ -29,7 +29,10 @@ function SelectLines({
                 {linesByMode.map(({ transportMode, lines }) => (
                     <div key={transportMode}>
                         <div className={classes.transportTitle}>
-                            <TransportIcon transport={transportMode} />
+                            <TransportIcon
+                                transport={transportMode}
+                                className={classes.icon}
+                            />
                             {transportModeNames[transportMode]}
                         </div>
                         <div className="flexRow alignCenter">

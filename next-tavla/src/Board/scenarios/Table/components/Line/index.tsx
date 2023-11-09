@@ -3,8 +3,7 @@ import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import classes from './styles.module.css'
-import { transportModeNames } from 'Admin/utils/transport'
-import { TransportIcon } from '../TransportIcon'
+import { TravelTag } from 'components/TravelTag'
 
 function Line() {
     const departures = useNonNullContext(DeparturesContext)
@@ -20,23 +19,10 @@ function Line() {
             {lines.map((line) => (
                 <TableRow key={line.key}>
                     <div className={classes.row}>
-                        <TransportIcon
-                            key={line.transportMode}
-                            transport={line.transportMode}
+                        <TravelTag
+                            transportMode={line.transportMode}
+                            publicCode={line.publicCode}
                         />
-                        <div
-                            aria-label={`${
-                                transportModeNames[line.transportMode]
-                            } - linje ${line.publicCode}`}
-                            className={classes.line}
-                            style={{
-                                backgroundColor: `var(--table-transport-${
-                                    line.transportMode ?? 'unknown'
-                                }-color)`,
-                            }}
-                        >
-                            {line.publicCode}
-                        </div>
                     </div>
                 </TableRow>
             ))}

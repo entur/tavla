@@ -1,0 +1,16 @@
+.line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 2em;
+    padding-left: 0.25em;
+    color: var(--main-background-color);
+    border-radius: 0.2em;
+    font-weight: 700;
+}
+
+.icon {
+    width: 2em;
+    height: 2em;
+}
