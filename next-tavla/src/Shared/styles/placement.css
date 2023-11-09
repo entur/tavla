@@ -32,6 +32,10 @@
     justify-content: flex-start;
 }
 
+.justifyEnd {
+    justify-content: flex-end;
+}
+
 .justifyAround {
     justify-content: space-around;
 }
