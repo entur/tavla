@@ -20,3 +20,17 @@ html {
 h3 {
     font-weight: 500;
 }
+
+.primaryButton {
+    display: flex;
+    padding: 1em;
+    gap: 1em;
+    align-items: center;
+    border-radius: 0.25em;
+    font-weight: 500;
+    background-color: var(--main-background-color);
+}
+
+.primaryButton:hover {
+    background-color: var(--secondary-background-color);
+}
