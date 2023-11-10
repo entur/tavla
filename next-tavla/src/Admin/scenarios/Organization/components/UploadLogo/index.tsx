@@ -1,5 +1,3 @@
-import classes from './styles.module.css'
-import { UploadIcon } from '@entur/icons'
 import Image from 'next/image'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import { TOrganization } from 'types/settings'
@@ -31,15 +29,6 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
                 height={100}
             />
             <UploadElement />
-
-            <div className="flexRow justifyBetween g-2 mt-2">
-                <button type="submit" className="w-100">
-                    Avbryt
-                </button>
-                <button type="submit" className="w-100">
-                    Last opp logo
-                </button>
-            </div>
         </form>
     )
 }
