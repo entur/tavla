@@ -41,11 +41,13 @@ function AddTile({
             selectedQuay && selectedQuay?.value !== 'all'
                 ? 'quay'
                 : 'stop_place'
-        const placeId = selectedQuay
-            ? selectedQuay.value
-            : selectedStopPlace.value
+        const placeId =
+            selectedQuay && selectedQuay?.value !== 'all'
+                ? selectedQuay.value
+                : selectedStopPlace.value
         let name = selectedStopPlace?.label.split(',')[0] ?? ''
-        if (selectedQuay?.label) name = `${name} ${selectedQuay.label}`
+        if (selectedQuay?.label && selectedQuay.value !== 'all')
+            name = `${name} ${selectedQuay.label}`
 
         addTile(name, placeId, tileType)
         setSelectedStopPlace(null)
