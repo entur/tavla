@@ -6,11 +6,9 @@ import { PrimaryButton } from '@entur/button'
 import Link from 'next/link'
 import classes from './styles.module.css'
 import { OrganizationIcon, UserIcon } from '@entur/icons'
-import { checkFeatureFlags } from 'utils/featureFlags'
 import { CreateBoard } from 'Admin/scenarios/CreateBoard'
 
 function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
-    const ORGANIZATIONS_ENABLED = checkFeatureFlags('ORGANIZATIONS')
     return (
         <div className={classes.header}>
             <Link href="/">
@@ -30,12 +28,10 @@ function AdminHeader({ loggedIn }: { loggedIn: boolean }) {
                             <UserIcon />
                             Tavler
                         </PrimaryButton>
-                        {ORGANIZATIONS_ENABLED && (
-                            <PrimaryButton as={Link} href="/organizations">
-                                <OrganizationIcon />
-                                Organisasjoner
-                            </PrimaryButton>
-                        )}
+                        <PrimaryButton as={Link} href="/organizations">
+                            <OrganizationIcon />
+                            Organisasjoner
+                        </PrimaryButton>
                     </>
                 )}
                 <Login loggedIn={loggedIn} />
