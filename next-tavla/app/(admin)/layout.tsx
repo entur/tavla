@@ -12,10 +12,16 @@ function AdminLayout({ children }: { children: ReactNode }) {
                     <Image src={TavlaLogo} height={32} alt="Tavla logo" />
                 </Link>
                 <div className="flexRow g-4">
-                    <Link href="/boards" className="primaryButton">
+                    <Link
+                        href="/boards"
+                        className="primaryButton g-2 weight500"
+                    >
                         <UserIcon /> Tavler
                     </Link>
-                    <Link href="/organizations" className="primaryButton">
+                    <Link
+                        href="/organizations"
+                        className="primaryButton g-2 weight500"
+                    >
                         <OrganizationIcon />
                         Organisasjoner
                     </Link>
