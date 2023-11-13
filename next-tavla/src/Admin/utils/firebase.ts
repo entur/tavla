@@ -1,5 +1,5 @@
 import { TavlaError } from 'Admin/types/error'
-import admin, { auth, firestore } from 'firebase-admin'
+import admin, { auth, firestore, storage } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { chunk, concat, isEmpty } from 'lodash'
 import {
@@ -17,7 +17,7 @@ initializeAdminApp()
 
 export function initializeAdminApp() {
     if (admin.apps.length <= 0) {
-        admin.initializeApp()
+        admin.initializeApp({ storageBucket: 'tavla.appspot.com' })
     }
 }
 
@@ -116,6 +116,18 @@ export async function setLastActive(bid: TBoardID) {
         .update({ 'meta.lastActive': Date.now() })
 }
 
+export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
+    if (!oid) return
+    const bucket = storage().bucket()
+    const file = bucket.file(`logo/${oid}-${logo.name}`)
+    file.save(Buffer.from(await logo.arrayBuffer()))
+
+    return firestore()
+        .collection('organizations')
+        .doc(oid)
+        .update({ logo: file.publicUrl() })
+}
+
 export async function createBoard(
     id: TUserID | TOrganizationID,
     board: TBoard,
@@ -197,6 +209,11 @@ export async function userCanDeleteBoard(uid: TUserID, bid: TBoardID) {
 export async function getUser(uid: TUserID) {
     const doc = await firestore().collection('users').doc(uid).get()
     return doc.data() as TUser
+}
+
+export async function getOrganization(oid: TOrganizationID) {
+    const doc = await firestore().collection('organizations').doc(oid).get()
+    return { ...doc.data(), id: doc.id } as TOrganization
 }
 
 export async function getOrganizationWithBoard(bid: TBoardID) {

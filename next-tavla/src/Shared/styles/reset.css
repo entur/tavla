@@ -22,6 +22,11 @@ ul {
     padding: 0;
 }
 
+a {
+    color: var(--main-text-color);
+    text-decoration: none;
+}
+
 a.eds-button {
     display: inline-flex;
     align-items: center;

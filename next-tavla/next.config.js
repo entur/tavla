@@ -8,9 +8,8 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'firebasestorage.googleapis.com',
+                hostname: 'storage.googleapis.com',
             },
-
         ],
     },
 }
@@ -20,6 +19,10 @@ module.exports = async (phase, { defaultConfig }) => {
         nextConfig.images.remotePatterns.push({
             protocol: 'http',
             hostname: 'localhost'
+        })
+        nextConfig.images.remotePatterns.push({
+            protocol: 'http',
+            hostname: '127.0.0.1'
         })
     }
 

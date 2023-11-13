@@ -12,7 +12,7 @@ function InviteUser({
     oid,
     addMember,
 }: {
-    oid: TOrganizationID
+    oid?: TOrganizationID
     addMember: (member: TUser) => void
 }) {
     const [isLoading, enableLoading, disableLoading] = useToggle()
@@ -28,7 +28,7 @@ function InviteUser({
 
         enableLoading()
 
-        fetchInviteUserToOrganizationByEmail(oid, email.value)
+        fetchInviteUserToOrganizationByEmail(email.value, oid)
             .then((response) => {
                 disableLoading()
                 addMember({ email: email.value })

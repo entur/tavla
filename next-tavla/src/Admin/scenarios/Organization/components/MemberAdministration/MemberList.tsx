@@ -11,8 +11,8 @@ function MemberList({
     members,
     removeMember,
 }: {
-    oid: TOrganizationID
-    uid: TUserID
+    oid?: TOrganizationID
+    uid?: TUserID
     members: TUser[]
     removeMember: (uid: string) => void
 }) {
