@@ -5,17 +5,24 @@ import { QuayTile } from '../QuayTile'
 import classes from './styles.module.css'
 import { Tile } from 'components/Tile'
 import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
+import { boardStyles, previewStyles } from 'types/board'
 
-function BoardTile({ tileSpec }: { tileSpec: TTile }) {
+function BoardTile({
+    tileSpec,
+    preview,
+}: {
+    tileSpec: TTile
+    preview?: boolean
+}) {
     switch (tileSpec.type) {
         case 'stop_place':
-            return <StopPlaceTile {...tileSpec} />
+            return <StopPlaceTile {...tileSpec} preview={preview} />
         case 'quay':
-            return <QuayTile {...tileSpec} />
+            return <QuayTile {...tileSpec} preview={preview} />
     }
 }
 
-function Board({ board }: { board: TBoard }) {
+function Board({ board, preview }: { board: TBoard; preview?: boolean }) {
     if (!board.tiles || !board.tiles.length)
         return (
             <Tile className={classes.emptyTile}>
@@ -26,6 +33,9 @@ function Board({ board }: { board: TBoard }) {
         <div
             className={classes.board}
             style={{
+                gridTemplateColumns: `repeat(auto-fit, minmax(${
+                    preview ? previewStyles.grid : boardStyles.grid
+                }vmin, 1fr))`,
                 fontSize:
                     100 *
                         getFontScale(
@@ -35,7 +45,9 @@ function Board({ board }: { board: TBoard }) {
             }}
         >
             {board.tiles.map((tile, index) => {
-                return <BoardTile key={index} tileSpec={tile} />
+                return (
+                    <BoardTile key={index} tileSpec={tile} preview={preview} />
+                )
             })}
         </div>
     )

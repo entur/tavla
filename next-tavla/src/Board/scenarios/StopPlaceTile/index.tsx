@@ -5,13 +5,15 @@ import { useQuery } from 'graphql/utils'
 import { StopPlaceQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
+import { boardStyles, previewStyles } from 'types/board'
 
 export function StopPlaceTile({
     placeId,
     whitelistedLines,
     whitelistedTransportModes,
     columns,
-}: TStopPlaceTile) {
+    preview,
+}: TStopPlaceTile & { preview?: boolean }) {
     const { data } = useQuery(
         StopPlaceQuery,
         { stopPlaceId: placeId, whitelistedTransportModes, whitelistedLines },
@@ -27,7 +29,14 @@ export function StopPlaceTile({
     }
 
     return (
-        <Tile className={classes.stopPlaceTile}>
+        <Tile
+            className={classes.stopPlaceTile}
+            style={{
+                backgroundColor: preview
+                    ? previewStyles.background
+                    : boardStyles.background,
+            }}
+        >
             <TableHeader heading={data.stopPlace.name} />
             <Table
                 departures={data.stopPlace.estimatedCalls}

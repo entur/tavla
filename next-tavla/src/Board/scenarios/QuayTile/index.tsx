@@ -6,13 +6,15 @@ import { GetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
+import { boardStyles, previewStyles } from 'types/board'
 
 export function QuayTile({
     placeId,
     whitelistedLines,
     whitelistedTransportModes,
     columns,
-}: TQuayTile) {
+    preview,
+}: TQuayTile & { preview?: boolean }) {
     const { data } = useQuery(
         GetQuayQuery,
         {
@@ -40,7 +42,14 @@ export function QuayTile({
         .join(' ')
 
     return (
-        <Tile className={classes.quayTile}>
+        <Tile
+            className={classes.quayTile}
+            style={{
+                backgroundColor: preview
+                    ? previewStyles.background
+                    : boardStyles.background,
+            }}
+        >
             <TableHeader heading={heading} />
             <Table columns={columns} departures={data.quay.estimatedCalls} />
         </Tile>
