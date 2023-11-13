@@ -17,7 +17,7 @@ initializeAdminApp()
 
 export function initializeAdminApp() {
     if (admin.apps.length <= 0) {
-        admin.initializeApp({ storageBucket: 'tavla.appspot.com' })
+        admin.initializeApp({ storageBucket: 'tavla' })
     }
 }
 
