@@ -10,6 +10,8 @@ function Line() {
 
     const lines = departures.map((departure) => ({
         transportMode: departure.serviceJourney.transportMode ?? 'unknown',
+        transportSubmode:
+            departure.serviceJourney.transportSubmode ?? undefined,
         publicCode: departure.serviceJourney.line.publicCode ?? '',
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
@@ -21,6 +23,7 @@ function Line() {
                     <div className={classes.row}>
                         <TravelTag
                             transportMode={line.transportMode}
+                            transportSubmode={line.transportSubmode}
                             publicCode={line.publicCode}
                         />
                     </div>
