@@ -11,7 +11,7 @@ export function StopPlaceTile({
     whitelistedLines,
     whitelistedTransportModes,
     columns,
-}: TStopPlaceTile & { preview?: boolean }) {
+}: TStopPlaceTile) {
     const { data } = useQuery(
         StopPlaceQuery,
         { stopPlaceId: placeId, whitelistedTransportModes, whitelistedLines },

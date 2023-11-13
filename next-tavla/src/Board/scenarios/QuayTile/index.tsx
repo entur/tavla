@@ -12,7 +12,7 @@ export function QuayTile({
     whitelistedLines,
     whitelistedTransportModes,
     columns,
-}: TQuayTile & { preview?: boolean }) {
+}: TQuayTile) {
     const { data } = useQuery(
         GetQuayQuery,
         {
