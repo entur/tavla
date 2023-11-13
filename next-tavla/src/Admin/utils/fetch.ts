@@ -1,7 +1,12 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { TavlaError } from 'Admin/types/error'
 import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
-import { TBoardID, TOrganization } from 'types/settings'
+import {
+    TBoardID,
+    TOrganization,
+    TOrganizationID,
+    TUserID,
+} from 'types/settings'
 
 type TPartialGeoResponse = {
     features: Array<{
@@ -112,5 +117,30 @@ export async function getOrganizationsForUserRequest(): Promise<
             value: org.id,
             label: org.name,
         }))
+    })
+}
+
+export async function fetchRemoveUserFromOrganization(
+    oid: TOrganizationID,
+    uid: TUserID,
+) {
+    const response = await fetch(`/api/organization/${oid}/members/${uid}`, {
+        method: 'DELETE',
+    })
+    if (!response.ok) {
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'Could not remove user from organization',
+        })
+    }
+}
+
+export async function fetchInviteUserToOrganizationByEmail(
+    oid: TOrganizationID,
+    email: string,
+) {
+    return fetch(`/api/organization/${oid}/members/invite`, {
+        method: 'POST',
+        body: JSON.stringify({ email }),
     })
 }

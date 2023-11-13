@@ -1,10 +1,10 @@
-import { PrimaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { Heading3, Paragraph } from '@entur/typography'
 import { TCreatePage } from 'Admin/types/createBoard'
 import { TBoard } from 'types/settings'
 import { useCreateBoardDispatch } from '../utils/context'
 import { selectInput } from 'Admin/utils/selectInput'
+import { NextPage } from './NextPage'
 function Name({
     board,
     pushPage,
@@ -33,13 +33,9 @@ function Name({
                     dispatch({ type: 'setTitle', title: e.target.value })
                 }}
             />
-            <PrimaryButton
-                onClick={() => {
-                    pushPage('addStops')
-                }}
-            >
-                Neste
-            </PrimaryButton>
+            <div className="flexRow justifyEnd w-100">
+                <NextPage nextPage="addStops" pushPage={pushPage} />
+            </div>
         </div>
     )
 }

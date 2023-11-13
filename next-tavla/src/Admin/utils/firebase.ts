@@ -1,5 +1,6 @@
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore } from 'firebase-admin'
+import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { chunk, concat, isEmpty } from 'lodash'
 import {
     TBoard,
@@ -272,4 +273,72 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
             ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
         )
         .flat()
+}
+
+export async function getUserByEmail(email: string) {
+    const user = await auth()
+        .getUserByEmail(email)
+        .catch(() => null)
+
+    return user
+}
+
+export async function getOrganizationById(oid: TOrganizationID) {
+    const doc = await firestore().collection('organizations').doc(oid).get()
+    return { ...doc.data(), id: oid } as TOrganization
+}
+
+export async function userCanEditOrganization(uid: TUserID, oid: string) {
+    const organization = await getOrganizationById(oid)
+    return organization?.owners?.includes(uid) ?? false
+}
+
+export async function inviteUserToOrganization(
+    inviteeId: TUserID,
+    oid: string,
+    pool: 'owners' | 'editors' = 'owners',
+) {
+    const organization = await getOrganizationById(oid)
+
+    if (!organization)
+        throw new TavlaError({
+            code: 'NOT_FOUND',
+            message: 'Organization does not exist.',
+        })
+
+    const peers = organization[pool]
+
+    if (peers && peers.includes(inviteeId))
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'User is already invited to this organization.',
+        })
+
+    return firestore()
+        .collection('organizations')
+        .doc(oid)
+        .update({
+            [pool]: admin.firestore.FieldValue.arrayUnion(inviteeId),
+        })
+}
+
+export async function getUsersWithEmailsByUids(uids: TUserID[]) {
+    const userResults = await auth().getUsers(
+        uids.map((uid) => ({ uid } as UidIdentifier)),
+    )
+
+    return userResults.users.map(({ uid, email }) => ({ uid, email } as TUser))
+}
+
+export async function removeUserFromOrganization(
+    oid: TOrganizationID,
+    uid: TUserID,
+) {
+    return firestore()
+        .collection('organizations')
+        .doc(oid)
+        .update({
+            owners: admin.firestore.FieldValue.arrayRemove(uid),
+            editors: admin.firestore.FieldValue.arrayRemove(uid),
+        })
 }

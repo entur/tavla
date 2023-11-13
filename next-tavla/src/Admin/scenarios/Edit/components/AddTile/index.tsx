@@ -65,7 +65,7 @@ function AddTile({
             />
             <SearchableDropdown
                 items={stopPlaceItems}
-                label="Søk etter holdeplass..."
+                label="Søk etter stoppested..."
                 clearable
                 prepend={<SearchIcon />}
                 selectedItem={selectedStopPlace}
@@ -80,7 +80,7 @@ function AddTile({
                 onChange={setSelectedQuay}
             />
             <Button variant="primary" onClick={handleAddTile}>
-                Legg til
+                Legg til stoppested
             </Button>
         </div>
     )
