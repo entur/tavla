@@ -122,10 +122,15 @@ export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
     const file = bucket.file(`logo/${oid}-${logo.name}`)
     file.save(Buffer.from(await logo.arrayBuffer()))
 
-    return firestore()
-        .collection('organizations')
-        .doc(oid)
-        .update({ logo: file.publicUrl() })
+    const logoUrl = await file.getSignedUrl({
+        action: 'read',
+        expires: '01-01-2100',
+    })
+
+    if (!logoUrl || !logoUrl[0]) return
+    return firestore().collection('organizations').doc(oid).update({
+        logo: logoUrl[0],
+    })
 }
 
 export async function createBoard(
