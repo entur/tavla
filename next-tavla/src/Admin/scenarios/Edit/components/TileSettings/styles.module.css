@@ -1,7 +1,6 @@
 .tileSettingsWrapper {
     display: flex;
     flex-direction: column;
-    background-color: var(--secondary-background-color);
     border-radius: 0.5em;
     padding: 2em;
     width: 100%;

@@ -1,6 +1,12 @@
 .preview {
+    background-color: var(--primary-background-color);
+    border-radius: 1em;
+    height: 40em;
+    padding: 2em;
+}
+
+.board {
     background-color: var(--secondary-background-color);
     border-radius: 1em;
-    height: 24em;
     padding: 2em;
 }

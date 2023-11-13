@@ -16,8 +16,10 @@ function Preview({ board }: { board: TBoard }) {
     return (
         <div>
             <Heading3 className="mt-0">Forhåndsvisning</Heading3>
-            <div className={classes.preview}>
-                <Board board={board} preview />
+            <div className={classes.board}>
+                <div className={classes.preview}>
+                    <Board board={board} />
+                </div>
             </div>
         </div>
     )

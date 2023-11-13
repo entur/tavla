@@ -2,6 +2,7 @@
     height: 100%;
     width: 100%;
     color: var(--main-text-color);
+    background-color: var(--secondary-background-color);
     padding: 1em;
     border-radius: 0.5em;
     overflow: hidden;
