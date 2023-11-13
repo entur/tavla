@@ -5,7 +5,7 @@ import {
 import classes from './styles.module.css'
 import { TOrganization, TUserID } from 'types/settings'
 import { Cell } from '../Cell'
-import { LeadParagraph } from '@entur/typography'
+import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
 
 function OrganizationsTable({
     organizations,
@@ -16,9 +16,10 @@ function OrganizationsTable({
 }) {
     if (!organizations || organizations.length === 0) {
         return (
-            <LeadParagraph>
-                Du er ikke medlem av noen organisasjoner.
-            </LeadParagraph>
+            <IllustratedInfo
+                title="Her var det tomt"
+                description="Du må opprette en organisasjon for å kunne organisere tavlene og jobbe med flere."
+            />
         )
     }
 

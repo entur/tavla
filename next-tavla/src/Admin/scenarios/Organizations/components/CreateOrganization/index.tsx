@@ -40,7 +40,10 @@ function CreateOrganization() {
                 title="Opprett organisasjon"
                 closeLabel="Avbryt oppretting av organisasjon"
             >
-                <Paragraph>Hva skal organisasjonen din hete?</Paragraph>
+                <Paragraph>
+                    Organisasjonen gir deg mulighet til å samarbeide om tavler
+                    med andre brukere.
+                </Paragraph>
                 <TextField
                     value={organizationName}
                     onChange={(e) => setOrganizationName(e.target.value)}
