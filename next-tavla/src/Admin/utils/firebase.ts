@@ -17,7 +17,7 @@ initializeAdminApp()
 
 export function initializeAdminApp() {
     if (admin.apps.length <= 0) {
-        admin.initializeApp({ storageBucket: 'tavla' })
+        admin.initializeApp()
     }
 }
 
@@ -118,7 +118,7 @@ export async function setLastActive(bid: TBoardID) {
 
 export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
     if (!oid) return
-    const bucket = storage().bucket()
+    const bucket = storage().bucket('tavla')
     const file = bucket.file(`logo/${oid}-${logo.name}`)
     file.save(Buffer.from(await logo.arrayBuffer()))
 
