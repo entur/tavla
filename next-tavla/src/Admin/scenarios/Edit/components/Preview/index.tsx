@@ -2,8 +2,11 @@ import { Heading3 } from '@entur/typography'
 import classes from './styles.module.css'
 import { Board } from 'Board/scenarios/Board'
 import { TBoard } from 'types/settings'
+import { ExpandablePanel } from '@entur/expand'
+import { useState } from 'react'
 
 function Preview({ board }: { board: TBoard }) {
+    const [open, setOpen] = useState(true)
     if (!board)
         return (
             <div>
@@ -12,15 +15,18 @@ function Preview({ board }: { board: TBoard }) {
                 </div>
             </div>
         )
-
     return (
         <div>
             <Heading3 className="mt-0">Forhåndsvisning</Heading3>
-            <div className={classes.board}>
+            <ExpandablePanel
+                title={open ? 'Skjul forhåndsvisning' : 'Vis forhåndsvisning'}
+                open={open}
+                onToggle={() => setOpen(!open)}
+            >
                 <div className={classes.preview}>
                     <Board board={board} />
                 </div>
-            </div>
+            </ExpandablePanel>
         </div>
     )
 }
