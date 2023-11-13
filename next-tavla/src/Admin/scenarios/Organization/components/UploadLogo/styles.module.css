@@ -1,12 +1,12 @@
 .upload {
     display: flex;
+    flex-direction: column;
     background-color: var(--secondary-background-color);
     border: 2px dashed white;
-    border-radius: 1em;
+    border-radius: 0.5em;
     width: 100%;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     gap: 2em;
     padding: 1em;
 }
@@ -14,4 +14,13 @@
 .upload:hover {
     background-color: var(--tertiary-background-color);
     cursor: pointer;
+}
+
+.logoPreview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2em;
+    border-radius: 1.5em;
+    background-color: var(--secondary-background-color);
 }

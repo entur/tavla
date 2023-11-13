@@ -121,9 +121,15 @@ export async function getOrganizationsForUserRequest(): Promise<
 }
 
 export async function fetchRemoveUserFromOrganization(
-    oid: TOrganizationID,
-    uid: TUserID,
+    oid?: TOrganizationID,
+    uid?: TUserID,
 ) {
+    if (!oid || !uid)
+        throw new TavlaError({
+            code: 'NOT_FOUND',
+            message: 'oid or uid is missing',
+        })
+
     const response = await fetch(`/api/organization/${oid}/members/${uid}`, {
         method: 'DELETE',
     })
@@ -136,9 +142,15 @@ export async function fetchRemoveUserFromOrganization(
 }
 
 export async function fetchInviteUserToOrganizationByEmail(
-    oid: TOrganizationID,
     email: string,
+    oid?: TOrganizationID,
 ) {
+    if (!oid)
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'No OID provided',
+        })
+
     return fetch(`/api/organization/${oid}/members/invite`, {
         method: 'POST',
         body: JSON.stringify({ email }),

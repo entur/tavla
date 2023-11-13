@@ -1,5 +1,5 @@
 import { TavlaError } from 'Admin/types/error'
-import admin, { auth, firestore } from 'firebase-admin'
+import admin, { auth, firestore, storage } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { chunk, concat, isEmpty } from 'lodash'
 import {
@@ -17,7 +17,7 @@ initializeAdminApp()
 
 export function initializeAdminApp() {
     if (admin.apps.length <= 0) {
-        admin.initializeApp()
+        admin.initializeApp({ storageBucket: 'tavla.appspot.com' })
     }
 }
 
@@ -116,9 +116,16 @@ export async function setLastActive(bid: TBoardID) {
         .update({ 'meta.lastActive': Date.now() })
 }
 
-export async function setOrganizationLogo(logo: string, oid?: TOrganizationID) {
+export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
     if (!oid) return
-    firestore().collection('organizations').doc(oid).update({ logo: logo })
+    const bucket = storage().bucket()
+    const file = bucket.file(`logo/${oid}-${logo.name}`)
+    file.save(Buffer.from(await logo.arrayBuffer()))
+
+    return firestore()
+        .collection('organizations')
+        .doc(oid)
+        .update({ logo: file.publicUrl() })
 }
 
 export async function createBoard(

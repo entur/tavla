@@ -878,21 +878,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/button@npm:^3.0.11":
-  version: 3.0.11
-  resolution: "@entur/button@npm:3.0.11"
-  dependencies:
-    "@entur/loader": ^0.4.34
-    "@entur/tokens": ^3.10.0
-    "@entur/utils": ^0.9.3
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 4943c72a760992e648e88fff0a891604af497f36ab9f2ad8ab5c27fd7942255c2af0685cf090ed265108fd561eb66b6eaf03c31dcf26fb7f749871f4c2314483
-  languageName: node
-  linkType: hard
-
 "@entur/button@npm:^3.1.0":
   version: 3.1.0
   resolution: "@entur/button@npm:3.1.0"
@@ -923,6 +908,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/button@npm:^3.1.10":
+  version: 3.1.10
+  resolution: "@entur/button@npm:3.1.10"
+  dependencies:
+    "@entur/loader": ^0.4.47
+    "@entur/tokens": ^3.11.0
+    "@entur/utils": ^0.9.5
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 47ae0e803f26789f9b719126be1ee3aba9a310192cf7ad645fa128f3cb47e4937348c748b58d0a4e114de1dbacb5bd9f7b74ac4be0fe3ee21e72bb945b49294b
+  languageName: node
+  linkType: hard
+
 "@entur/button@npm:^3.1.9":
   version: 3.1.9
   resolution: "@entur/button@npm:3.1.9"
@@ -938,20 +938,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/chip@npm:0.6.39":
-  version: 0.6.39
-  resolution: "@entur/chip@npm:0.6.39"
+"@entur/chip@npm:0.6.54":
+  version: 0.6.54
+  resolution: "@entur/chip@npm:0.6.54"
   dependencies:
-    "@entur/form": ^7.0.12
-    "@entur/icons": ^6.3.1
-    "@entur/loader": ^0.4.34
-    "@entur/tokens": ^3.10.0
-    "@entur/utils": ^0.9.3
+    "@entur/form": ^7.0.26
+    "@entur/icons": ^6.12.0
+    "@entur/loader": ^0.4.47
+    "@entur/tokens": ^3.11.0
+    "@entur/utils": ^0.9.5
     classnames: ^2.3.1
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 6c69735ed6fdac38f50a2bde36052958ad192cab227d49ceb68c786bd1168a4262864bc5fa484ef8267d5ac0c81973377973e2eb6b55f16e90a66ef62e116d70
+  checksum: a1c1ff75305c9ffbb1e07fea07e8f40ebf0267bf5b350e7f71947e8d0eb3018362fa91c9c5bda419575c860b110f166d7061423889dbe08b466f84ce1958f72f
   languageName: node
   linkType: hard
 
@@ -1062,23 +1062,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/form@npm:^7.0.12":
-  version: 7.0.12
-  resolution: "@entur/form@npm:7.0.12"
-  dependencies:
-    "@entur/icons": ^6.3.1
-    "@entur/tokens": ^3.10.0
-    "@entur/tooltip": ^2.6.22
-    "@entur/typography": ^1.8.3
-    "@entur/utils": ^0.9.3
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: da4a94cd2dba574570d681a43344f15d2ccd57fec074bc8c5ae5f7c7a140c0aa8dbdcb7925139bb7c26cdef839d3f4450b5f4904c49632377d8f22529a25a028
-  languageName: node
-  linkType: hard
-
 "@entur/form@npm:^7.0.15":
   version: 7.0.15
   resolution: "@entur/form@npm:7.0.15"
@@ -1093,6 +1076,23 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 7768a8b900a91026e670f9c175b1192a9bbc5501efb8488fa3588c3e0345678651317e450133f1cf60fa145ebb6096345faddbb2f592ff7f8f0d8ba02c4c564b
+  languageName: node
+  linkType: hard
+
+"@entur/form@npm:^7.0.26":
+  version: 7.0.26
+  resolution: "@entur/form@npm:7.0.26"
+  dependencies:
+    "@entur/icons": ^6.12.0
+    "@entur/tokens": ^3.11.0
+    "@entur/tooltip": ^2.6.35
+    "@entur/typography": ^1.8.16
+    "@entur/utils": ^0.9.5
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: e87bbac9dbe2bc3d9e3fd6be7c655bdcd4224276bbf01b287e63f6fdb47b1c1378212a555a44cd55eee2283456dca13ba87dd85a86556a5f72ea52350e53c9e1
   languageName: node
   linkType: hard
 
@@ -1122,16 +1122,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/icons@npm:^6.3.1":
-  version: 6.3.1
-  resolution: "@entur/icons@npm:6.3.1"
+"@entur/icons@npm:^6.12.0":
+  version: 6.12.0
+  resolution: "@entur/icons@npm:6.12.0"
   dependencies:
-    "@entur/tokens": ^3.10.0
+    "@entur/tokens": ^3.11.0
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-    sass: ^1.58.0
-  checksum: d93a4c6cfa829df6d6c3c6671d2fe33f36f0d07699481460853567100ac55ee7684d5fb34b42a2a8027dfc6efff015a6ed6b34b47e79ad64b264cbf69ca5f94b
+    sass: ^1.65.1
+  checksum: 683201d8ee02c95b6f2ee9cc3052c09d1c1092ee811319f46695c806e9beeac61b6ad3c8940a99fc8a89d393064d195df25d836b7b6ceecfeffe6f99ed805ba7
   languageName: node
   linkType: hard
 
@@ -1161,22 +1161,6 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 345f0b8b8baccb183dfef02bb66a19b427696fb7cead1468631f9ebcce600dd5cfccd6476b676430f1427218288c67254f87d1c4f1a78630f80417647763bfba
-  languageName: node
-  linkType: hard
-
-"@entur/layout@npm:^2.1.36":
-  version: 2.1.36
-  resolution: "@entur/layout@npm:2.1.36"
-  dependencies:
-    "@entur/icons": ^6.3.1
-    "@entur/tokens": ^3.10.0
-    "@entur/typography": ^1.8.3
-    "@entur/utils": ^0.9.3
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: be6262876b1b5cab014f8f0675685b6dedb4db25101e1d2c73795209c50c9158feb9d6f1c982a348e8ac089e643bfd71aaa5ad9bf82ff77f101c8cfe99107311
   languageName: node
   linkType: hard
 
@@ -1228,6 +1212,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/layout@npm:^2.1.49":
+  version: 2.1.49
+  resolution: "@entur/layout@npm:2.1.49"
+  dependencies:
+    "@entur/icons": ^6.12.0
+    "@entur/tokens": ^3.11.0
+    "@entur/typography": ^1.8.16
+    "@entur/utils": ^0.9.5
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 05a17eb4a508435b2bf98e4fdb9ff9ab523e85cfd043f81f51fccde989c9de3c13bca6401f280a18829a7b9abb696182405e05beadb78d7aa169cba662ae79d2
+  languageName: node
+  linkType: hard
+
 "@entur/loader@npm:0.4.31, @entur/loader@npm:^0.4.31":
   version: 0.4.31
   resolution: "@entur/loader@npm:0.4.31"
@@ -1240,21 +1240,6 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: ccb381197ef83ea0a37610dcbc9210eb98d8320bdc7a7ec807b73b8b51df608efb52134d90aa58ee5de64e6d914422fb60aeac1d814767eb213b2eb3da57d6a4
-  languageName: node
-  linkType: hard
-
-"@entur/loader@npm:^0.4.34":
-  version: 0.4.34
-  resolution: "@entur/loader@npm:0.4.34"
-  dependencies:
-    "@entur/tokens": ^3.10.0
-    "@entur/typography": ^1.8.3
-    "@entur/utils": ^0.9.3
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 3fe770feffc7dde1037e1dd23a4a1a19c3ebba373073c70bb0fe8acf95ecd4e270f209a0af1ac0db0591cd9b9d7f13b2f2cbc060aa9e2aa22d721e05f2531a64
   languageName: node
   linkType: hard
 
@@ -1300,6 +1285,21 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 5206702284f4d396b20943b2d35fcfa329c7fcb58427d54037629fb6fc9cfe32ec8de4467a1d31b85e85e70543b9cf4cf69f60aafb4011cf9c9559f47962506d
+  languageName: node
+  linkType: hard
+
+"@entur/loader@npm:^0.4.47":
+  version: 0.4.47
+  resolution: "@entur/loader@npm:0.4.47"
+  dependencies:
+    "@entur/tokens": ^3.11.0
+    "@entur/typography": ^1.8.16
+    "@entur/utils": ^0.9.5
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: d16ab74748b19348812a97c611cbc808a4c7c2605bf8de27fc50672c05fcd335863e0263be1c0529d7533b8a2ff42da1c729c413e362b6b8cb7b3fe9b1610e5a
   languageName: node
   linkType: hard
 
@@ -1435,25 +1435,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/tooltip@npm:^2.6.22":
-  version: 2.6.22
-  resolution: "@entur/tooltip@npm:2.6.22"
-  dependencies:
-    "@entur/button": ^3.0.11
-    "@entur/icons": ^6.3.1
-    "@entur/layout": ^2.1.36
-    "@entur/tokens": ^3.10.0
-    "@entur/utils": ^0.9.3
-    "@popperjs/core": ^2.10.1
-    classnames: ^2.3.1
-    react-popper: ~2.2.5
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 1ee5ed84ef5ac176f2e0841672837ab3a5b2d8eb18d2679c53142e38ddeb061e8ae65c92a04ae6cb2114ba754154e00388c78af098729925464f19effb95d7a5
-  languageName: node
-  linkType: hard
-
 "@entur/tooltip@npm:^2.6.25":
   version: 2.6.25
   resolution: "@entur/tooltip@npm:2.6.25"
@@ -1470,6 +1451,25 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 03297b8318d7c6cb22dc01ce5c639aeca41ab3d5eb7fa9696de24ea5a70ce17853dab5a4afd34ef04590aaf7d2f4334fe469edca26ca6dc713906e3df5119144
+  languageName: node
+  linkType: hard
+
+"@entur/tooltip@npm:^2.6.35":
+  version: 2.6.35
+  resolution: "@entur/tooltip@npm:2.6.35"
+  dependencies:
+    "@entur/button": ^3.1.10
+    "@entur/icons": ^6.12.0
+    "@entur/layout": ^2.1.49
+    "@entur/tokens": ^3.11.0
+    "@entur/utils": ^0.9.5
+    "@popperjs/core": ^2.10.1
+    classnames: ^2.3.1
+    react-popper: ~2.2.5
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 4474e8e021ab4d0d7373a9951af8197de6e404aaf20c9813efaa24d8c8f0d8f52b52eeaff47de956a16f900fbc7b94e31fa28cf9577a4df3a1fecb1d42d4144d
   languageName: node
   linkType: hard
 
@@ -1522,19 +1522,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/typography@npm:^1.8.3":
-  version: 1.8.3
-  resolution: "@entur/typography@npm:1.8.3"
+"@entur/typography@npm:^1.8.16":
+  version: 1.8.16
+  resolution: "@entur/typography@npm:1.8.16"
   dependencies:
-    "@entur/icons": ^6.3.1
-    "@entur/tokens": ^3.10.0
-    "@entur/utils": ^0.9.3
+    "@entur/icons": ^6.12.0
+    "@entur/tokens": ^3.11.0
+    "@entur/utils": ^0.9.5
     classnames: ^2.3.1
     normalize-scss: ^7.0.1
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: fa0ace7e71be1e70f6d7d6dd14184de365634ea1f3fa47a46b68afa4985199e2dab4245ce4dcba8eb20190b022ef3150c29ed602ef2c197850e62d8b075b0d38
+  checksum: a18bb050307c33ba09dfe3927c8bb1c835acacfcec24e62a735a5625e5a31629d3e6c331b65a5dde0286420166ffe694ee52a239df647e34a4c809d1ba4bbe1c
   languageName: node
   linkType: hard
 
@@ -13225,7 +13225,7 @@ __metadata:
     "@dnd-kit/utilities": 3.2.1
     "@entur/alert": 0.14.9
     "@entur/button": 3.0.8
-    "@entur/chip": 0.6.39
+    "@entur/chip": 0.6.54
     "@entur/dropdown": 5.0.3
     "@entur/expand": 3.4.0
     "@entur/form": 7.0.9

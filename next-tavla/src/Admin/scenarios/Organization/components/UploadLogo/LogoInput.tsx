@@ -1,9 +1,9 @@
 'use client'
 import { ChangeEventHandler, useRef, useState } from 'react'
 import classes from './styles.module.css'
-import { UploadIcon } from '@entur/icons'
+import { ImageIcon, UploadIcon } from '@entur/icons'
 
-function UploadElement() {
+function LogoInput() {
     const [file, setFile] = useState('')
     const [fileName, setFileName] = useState<string>()
     const input = useRef(null)
@@ -22,9 +22,7 @@ function UploadElement() {
     return (
         <div>
             <label htmlFor="logo" className={classes.upload}>
-                <div className="flexColumn alignCenter g-2">
-                    <Filename fileName={fileName} />
-                </div>
+                <Filename fileName={fileName} />
             </label>
             <input
                 ref={input}
@@ -57,14 +55,20 @@ function UploadElement() {
 }
 
 function Filename({ fileName }: { fileName?: string }) {
-    if (fileName) return <div>{fileName}</div>
+    if (fileName)
+        return (
+            <div className="flexRow alignCenter g-2">
+                <ImageIcon size={24} />
+                {fileName}
+            </div>
+        )
 
     return (
-        <>
-            <UploadIcon size={32} />
+        <div className="flexRow alignCenter g-2">
+            <UploadIcon size={24} />
             Klikk her for å laste opp en logo
-        </>
+        </div>
     )
 }
 
-export { UploadElement }
+export { LogoInput }
