@@ -36,7 +36,6 @@ button {
 a {
     display: flex;
     padding: 1em;
-    gap: 1em;
     align-items: center;
     border-radius: 0.25em;
     font: inherit;
