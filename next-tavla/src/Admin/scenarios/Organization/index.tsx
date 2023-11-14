@@ -22,7 +22,9 @@ function Organization({
                 <UploadLogo organization={organization} />
                 <MemberAdministration uid={user.uid} oid={organization.id} />
             </div>
-            <DeleteOrganization organization={organization} />
+            <div className="pt-4">
+                <DeleteOrganization organization={organization} />
+            </div>
         </div>
     )
 }
