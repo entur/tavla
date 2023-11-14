@@ -27,10 +27,7 @@ export function getTransportIcon(
     transportMode: TTransportMode,
     transportSubmode?: TTransportSubmode,
 ) {
-    switch (transportSubmode) {
-        case 'localCarFerry' || 'nationalCarFerry' || 'regionalCarFerry':
-            return CarferryIcon
-    }
+    if (transportSubmode?.includes('CarFerry')) return CarferryIcon
 
     switch (transportMode) {
         case 'metro':
