@@ -1,10 +1,12 @@
 import { verifyUserSession } from 'Admin/utils/auth'
 import {
     createOrganization,
+    deleteOrganization,
     getOrganizationsWithUser,
     initializeAdminApp,
 } from 'Admin/utils/firebase'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { TOrganizationID } from 'types/settings'
 
 initializeAdminApp()
 
@@ -28,9 +30,16 @@ export default async function handler(
                 return response
                     .status(200)
                     .json({ organizations: organizations })
+            case 'DELETE':
+                await deleteOrganization(
+                    JSON.parse(request.body).oid as TOrganizationID,
+                    user.uid,
+                )
+                break
             default:
                 throw new Error('Method not allowed')
         }
+        return response.status(200).json({})
     } catch (e) {
         if (e instanceof Error) {
             response.status(400).json({ error: e.message })

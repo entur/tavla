@@ -4,6 +4,7 @@ import { UploadLogo } from './components/UploadLogo'
 import { MemberAdministration } from './components/MemberAdministration'
 import { Heading1 } from '@entur/typography'
 import { Contrast } from 'Admin/components/Contrast'
+import { DeleteOrganization } from './components/DeleteOrganization'
 
 function Organization({
     user,
@@ -21,6 +22,7 @@ function Organization({
                 <UploadLogo organization={organization} />
                 <MemberAdministration uid={user.uid} oid={organization.id} />
             </div>
+            <DeleteOrganization organization={organization} />
         </div>
     )
 }
