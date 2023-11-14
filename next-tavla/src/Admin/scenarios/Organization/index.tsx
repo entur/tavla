@@ -4,6 +4,7 @@ import { UploadLogo } from './components/UploadLogo'
 import { MemberAdministration } from './components/MemberAdministration'
 import { Heading1 } from '@entur/typography'
 import { Contrast } from 'Admin/components/Contrast'
+import { BreadCrumbNavigation } from './components/BreadCrumbNavigation'
 
 function Organization({
     user,
@@ -14,6 +15,7 @@ function Organization({
 }) {
     return (
         <div>
+            <BreadCrumbNavigation organization={organization} />
             <Contrast>
                 <Heading1>{organization.name}</Heading1>
             </Contrast>
