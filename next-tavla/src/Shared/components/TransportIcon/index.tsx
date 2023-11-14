@@ -1,18 +1,20 @@
-import { TTransportMode } from 'types/graphql-schema'
+import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 import { SVGProps } from 'react'
 
 function TransportIcon({
-    transport,
+    transportMode,
+    transportSubmode,
     className,
     color,
 }: {
-    transport: TTransportMode | null
+    transportMode: TTransportMode | null
+    transportSubmode?: TTransportSubmode
     className?: string
     color?: string
 }) {
-    const mode = transport ? transport : 'unknown'
+    const mode = transportMode ?? 'unknown'
 
-    const Component = getTransportIcon(mode)
+    const Component = getTransportIcon(mode, transportSubmode)
     return (
         <Component
             className={className ?? 'w-100 h-100'}
@@ -21,7 +23,12 @@ function TransportIcon({
     )
 }
 
-export function getTransportIcon(transportMode: TTransportMode) {
+export function getTransportIcon(
+    transportMode: TTransportMode,
+    transportSubmode?: TTransportSubmode,
+) {
+    if (transportSubmode?.includes('CarFerry')) return CarferryIcon
+
     switch (transportMode) {
         case 'metro':
             return MetroIcon

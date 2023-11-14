@@ -1,14 +1,16 @@
 import { transportModeNames } from 'Admin/utils/transport'
-import { TTransportMode } from 'types/graphql-schema'
+import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 import classes from './styles.module.css'
 import { TransportIcon } from 'components/TransportIcon'
 
 function TravelTag({
     transportMode,
     publicCode,
+    transportSubmode,
 }: {
     transportMode: TTransportMode
     publicCode: string
+    transportSubmode?: TTransportSubmode
 }) {
     return (
         <div
@@ -22,7 +24,8 @@ function TravelTag({
         >
             <TransportIcon
                 className={classes.icon}
-                transport={transportMode}
+                transportMode={transportMode}
+                transportSubmode={transportSubmode}
                 color="var(--main-background-color)"
             />
             <div className="flexRow alignCenter justifyCenter w-100 h-100">

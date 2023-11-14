@@ -30,7 +30,7 @@ function SelectLines({
                     <div key={transportMode}>
                         <div className={classes.transportTitle}>
                             <TransportIcon
-                                transport={transportMode}
+                                transportMode={transportMode}
                                 className={classes.icon}
                             />
                             {transportModeNames[transportMode]}
