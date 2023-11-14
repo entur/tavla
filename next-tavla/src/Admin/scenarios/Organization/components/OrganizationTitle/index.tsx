@@ -1,6 +1,6 @@
 'use client'
-import { Contrast } from '@entur/layout'
 import { Heading1 } from '@entur/typography'
+import { Contrast } from 'Admin/components/Contrast'
 
 function OrganizationTitle({ name }: { name?: string }) {
     return (
