@@ -67,13 +67,17 @@
 }
 
 .text-em-2 {
-    font-size: 1em;
+    font-size: 0.8em;
 }
 
 .text-em-3 {
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 .text-em-4 {
+    font-size: 1.5em;
+}
+
+.text-em-5 {
     font-size: 2em;
 }

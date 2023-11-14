@@ -8,14 +8,16 @@ function BreadCrumbNavigation({
     organization: TOrganization
 }) {
     return (
-        <BreadcrumbNavigation>
-            <BreadcrumbItem href="/organizations">
-                Organisasjoner
-            </BreadcrumbItem>
-            <BreadcrumbItem href={`/organizations/${organization.id}`}>
-                {organization.name}
-            </BreadcrumbItem>
-        </BreadcrumbNavigation>
+        <div className="text-em-2 pb-1">
+            <BreadcrumbNavigation>
+                <BreadcrumbItem href="/organizations">
+                    Organisasjoner
+                </BreadcrumbItem>
+                <BreadcrumbItem href={`/organizations/${organization.id}`}>
+                    {organization.name}
+                </BreadcrumbItem>
+            </BreadcrumbNavigation>
+        </div>
     )
 }
 

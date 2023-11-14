@@ -17,6 +17,7 @@ h5 {
 }
 
 li,
+ol,
 ul {
     margin: 0;
     padding: 0;
@@ -25,6 +26,8 @@ ul {
 a {
     color: var(--main-text-color);
     text-decoration: none;
+    margin: 0;
+    padding: 0;
 }
 
 a.eds-button {
