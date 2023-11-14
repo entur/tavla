@@ -1,23 +1,21 @@
-import { Button, PrimaryButton } from '@entur/button'
+import { Button } from '@entur/button'
 import { Heading3, Heading4, Paragraph } from '@entur/typography'
-import { TBoard } from 'types/settings'
+import { TBoard, TOrganizationID } from 'types/settings'
 import { useCreateBoardDispatch } from '../utils/context'
 import { AddTile } from 'Admin/scenarios/Edit/components/AddTile'
-import { TCreatePage } from 'Admin/types/createBoard'
-import { useToast } from '@entur/alert'
 import { StopPlaceList } from './StopPlaceList'
+import { CreateBoardButton } from './CreateBoardButton'
 
 export function AddStops({
     board,
     popPage,
-    pushPage,
+    oid,
 }: {
     board: TBoard
     popPage: () => void
-    pushPage: (page: TCreatePage) => void
+    oid?: TOrganizationID
 }) {
     const dispatch = useCreateBoardDispatch()
-    const { addToast } = useToast()
     const addTile = (
         name: string,
         placeId: string,
@@ -31,17 +29,6 @@ export function AddStops({
                 name,
             },
         })
-    }
-
-    const nextStep = () => {
-        if (!board?.tiles?.length) {
-            return addToast({
-                title: 'Ingen holdeplasser er lagt til',
-                content: 'Vennligst legg til en holdeplass for å fortsette',
-                variant: 'info',
-            })
-        }
-        pushPage('organization')
     }
 
     return (
@@ -59,7 +46,7 @@ export function AddStops({
                 <Button className="w-30" variant="secondary" onClick={popPage}>
                     Tilbake
                 </Button>
-                <PrimaryButton onClick={nextStep}>Neste</PrimaryButton>
+                <CreateBoardButton board={board} oid={oid} />
             </div>
         </div>
     )

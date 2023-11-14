@@ -13,7 +13,6 @@ import { AddStops } from './components/AddStops'
 import { ToastProvider } from '@entur/alert'
 import { Login } from '../Login'
 import dynamic from 'next/dynamic'
-import { AddToOrganization } from './components/AddToOrganization'
 
 function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [pages, setPages] = useState<TCreatePage[]>([])
@@ -46,7 +45,10 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
                 className="flexColumn alignCenter textLeft"
             >
                 <Stepper
-                    steps={['Navn', 'Legg til holdeplasser', 'Organisasjon']}
+                    steps={[
+                        'Sett navn og organisasjon',
+                        'Legg til holdeplasser',
+                    ]}
                     activeIndex={pages.length}
                 />
                 <ToastProvider>
@@ -83,12 +85,8 @@ function CreatePage({
     const lastPage = pages.slice(-1)[0]
 
     switch (lastPage) {
-        case 'organization':
-            return <AddToOrganization board={board} popPage={popPage} />
         case 'addStops':
-            return (
-                <AddStops popPage={popPage} pushPage={pushPage} board={board} />
-            )
+            return <AddStops popPage={popPage} board={board} />
         default:
             return <Name board={board} pushPage={pushPage} />
     }

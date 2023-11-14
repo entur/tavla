@@ -13,6 +13,13 @@ function CreateBoardButton({
 }) {
     const { addToast } = useToast()
     const handleCreateBoard = async () => {
+        if (!board?.tiles?.length) {
+            return addToast({
+                title: 'Ingen holdeplasser er lagt til',
+                content: 'Vennligst legg til en holdeplass for å fortsette',
+                variant: 'info',
+            })
+        }
         try {
             const response = await createBoardRequest(
                 board?.tiles ?? [],
