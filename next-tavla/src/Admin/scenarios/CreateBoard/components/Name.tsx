@@ -19,14 +19,17 @@ function Name({
         useOrganizations()
 
     return (
-        <div className="flexColumn g-2 h-100">
-            <Heading3>Hva skal tavla hete?</Heading3>
-            <Paragraph>
-                Gi tavla et navn slik at det blir enklere å finne den igjen
-                senere.
+        <div className="flexColumn g-2 w-75">
+            <Heading3 className="mt-1">
+                Sett navn og organisasjon på tavla
+            </Heading3>
+            <Heading4>Sett navn på tavla</Heading4>
+            <Paragraph margin="none">
+                Navnet på tavla vil vises i listen over tavler. Du kan endre på
+                navnet senere.
             </Paragraph>
-
             <TextField
+                className="mb-4"
                 name="name"
                 label="Navn på tavla"
                 placeholder="Navn på tavla"
@@ -37,7 +40,6 @@ function Name({
                     dispatch({ type: 'setTitle', title: e.target.value })
                 }}
             />
-            <div className="flexRow justifyEnd w-100">
             <Heading4>Legg tavla til en organisasjon</Heading4>
             <Paragraph margin="none">
                 Hvis du ikke velger en organisasjon, vil tavla bli lagret under
@@ -52,6 +54,7 @@ function Name({
                 onChange={setSelectedOrganization}
                 clearable
             />
+            <div className="flexRow justifyEnd w-100 mt-4">
                 <NextPage nextPage="addStops" pushPage={pushPage} />
             </div>
         </div>

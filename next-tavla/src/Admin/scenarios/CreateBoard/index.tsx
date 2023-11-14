@@ -39,7 +39,7 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
 
             <Modal
                 open={showModal}
-                size="extraLarge"
+                size="large"
                 onDismiss={closeModal}
                 closeLabel="Avbryt"
                 className="flexColumn alignCenter textLeft"

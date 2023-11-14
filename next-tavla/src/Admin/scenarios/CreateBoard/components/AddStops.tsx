@@ -32,13 +32,12 @@ export function AddStops({
     }
 
     return (
-        <div>
+        <div className="w-75">
             <Heading3>Legg til stoppesteder i Tavla </Heading3>
             <Paragraph>
                 Søk etter stoppesteder og bestem om tavla skal vise alle
                 retninger, eller flere enkelte retninger.
             </Paragraph>
-
             <AddTile addTile={addTile} flexDirection="flexColumn" />
             <Heading4>Stoppesteder lagt til i Tavla</Heading4>
             <StopPlaceList board={board} />
