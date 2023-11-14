@@ -1,16 +1,13 @@
-import { Table } from 'Board/scenarios/Table'
-import { TDepartureFragment } from 'graphql/index'
-import { TQuayTile, TStopPlaceTile } from 'types/tile'
+import { Heading3 } from '@entur/typography'
 import classes from './styles.module.css'
+import { Board } from 'Board/scenarios/Board'
+import { TBoard } from 'types/settings'
+import { ExpandablePanel } from '@entur/expand'
+import { useState } from 'react'
 
-function Preview({
-    tile,
-    departures,
-}: {
-    tile: TStopPlaceTile | TQuayTile
-    departures?: TDepartureFragment[]
-}) {
-    if (!departures)
+function Preview({ board }: { board: TBoard }) {
+    const [open, setOpen] = useState(true)
+    if (!board)
         return (
             <div>
                 <div className={classes.preview}>
@@ -18,12 +15,18 @@ function Preview({
                 </div>
             </div>
         )
-
     return (
         <div>
-            <div data-theme="default" className={classes.preview}>
-                <Table departures={departures} columns={tile.columns} />
-            </div>
+            <Heading3 className="mt-0">Forhåndsvisning</Heading3>
+            <ExpandablePanel
+                title={open ? 'Skjul forhåndsvisning' : 'Vis forhåndsvisning'}
+                open={open}
+                onToggle={() => setOpen(!open)}
+            >
+                <div className={classes.preview}>
+                    <Board board={board} />
+                </div>
+            </ExpandablePanel>
         </div>
     )
 }

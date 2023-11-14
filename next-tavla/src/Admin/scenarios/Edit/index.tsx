@@ -4,17 +4,16 @@ import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { SecondaryButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
-import { SecondaryLink } from 'components/SecondaryLink'
 import { useToast } from '@entur/alert'
 import { boardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/contexts'
 import { AddTile } from './components/AddTile'
 import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
-import { Heading1 } from '@entur/typography'
+import { Heading1, Heading3 } from '@entur/typography'
 import { BoardSettings } from './components/BoardSettings'
 import { useAutoSaveBoard } from './hooks/useAutoSaveBoard'
-import { SaveStatus } from './components/SaveStatus'
+import { Preview } from './components/Preview'
 
 function Edit({
     initialBoard,
@@ -48,8 +47,8 @@ function Edit({
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
-                <div className="flexRow justifyBetween">
-                    <Heading1>Innstillinger for tavla</Heading1>
+                <div className="flexRow justifyBetween mt-4">
+                    <Heading1 className="m-0">Rediger tavlevisning</Heading1>
                     <div className="flexRow g-2">
                         <SecondaryButton
                             onClick={() => {
@@ -60,18 +59,15 @@ function Edit({
                             Kopier lenke til Tavla
                             <CopyIcon />
                         </SecondaryButton>
-                        <SecondaryLink
-                            external
-                            href={'/' + documentId}
-                            text="Se Tavla"
-                        />
                         <DeleteBoard board={board} />
                     </div>
                 </div>
-                <SaveStatus board={board} />
                 <BoardSettings board={board} />
-                <Heading1>Stoppesteder i tavla</Heading1>
-                <AddTile addTile={addTile} />
+                <Preview board={board} />
+                <div>
+                    <Heading3 className="m-0">Stoppesteder i tavla</Heading3>
+                    <AddTile addTile={addTile} />
+                </div>
                 <TilesOverview tiles={board.tiles} />
             </div>
         </SettingsDispatchContext.Provider>
