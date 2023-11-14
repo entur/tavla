@@ -1,7 +1,7 @@
 'use client'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading1, LeadParagraph } from '@entur/typography'
+import { Heading1, LeadParagraph, Paragraph } from '@entur/typography'
 import { Contrast } from 'Admin/components/Contrast'
 import { TavlaError } from 'Admin/types/error'
 import { useToggle } from 'hooks/useToggle'
@@ -63,7 +63,11 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
                 className="flexColumn justifyStart alignCenter textCenter"
             >
                 <Heading1>Slett organisasjon</Heading1>
-                <LeadParagraph>{`Er du sikker på at du vil slette organisasjonen "${organization.name}"`}</LeadParagraph>
+                <LeadParagraph>{`Er du sikker på at du vil slette organisasjonen "${organization.name}"?`}</LeadParagraph>
+                <Paragraph>
+                    Skriv inn navnet på organisasjonen for å bekrefte.
+                </Paragraph>
+
                 <form
                     className="flexColumn g-2"
                     onSubmit={deleteOrganizationHandler}
