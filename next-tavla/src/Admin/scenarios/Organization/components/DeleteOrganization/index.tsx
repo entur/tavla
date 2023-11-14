@@ -8,12 +8,34 @@ import { useToggle } from 'hooks/useToggle'
 import { TOrganization } from 'types/settings'
 import { fetchDeleteOrganization } from './utils/fetch'
 import { useRouter } from 'next/navigation'
+import { TextField } from '@entur/form'
+import { selectInput } from 'Admin/utils/selectInput'
+import { SyntheticEvent, useState } from 'react'
+import { TOrgError } from 'Admin/types/organizations'
+import { UserError } from './UserError'
 
 function DeleteOrganization({ organization }: { organization: TOrganization }) {
     const [showModal, openModal, closeModal] = useToggle()
     const router = useRouter()
+    const [error, setError] = useState<TOrgError | undefined>(undefined)
 
-    const deleteOrganizationHandler = async () => {
+    const deleteOrganizationHandler = async (event: SyntheticEvent) => {
+        event.preventDefault()
+
+        const data = event.currentTarget as unknown as {
+            organizationName: HTMLInputElement
+        }
+
+        const organizationName = data.organizationName.value
+
+        if (organizationName !== organization.name) {
+            setError({
+                type: 'INVALID_ORGANIZATION_NAME',
+                value: 'Organisasjonsnavnet er feil',
+            } as TOrgError)
+            return
+        }
+
         closeModal()
         try {
             if (!organization.id)
@@ -42,20 +64,34 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
             >
                 <Heading1>Slett organisasjon</Heading1>
                 <LeadParagraph>{`Er du sikker på at du vil slette organisasjonen "${organization.name}"`}</LeadParagraph>
-                <div className="flexRow justifyAround alignCenter g-2">
-                    <SecondaryButton
-                        aria-label="Avbryt sletting"
-                        onClick={closeModal}
-                    >
-                        Avbryt
-                    </SecondaryButton>
-                    <PrimaryButton
-                        aria-label="Slett organisasjon"
-                        onClick={deleteOrganizationHandler}
-                    >
-                        Ja, slett!
-                    </PrimaryButton>
-                </div>
+                <form
+                    className="flexColumn g-2"
+                    onSubmit={deleteOrganizationHandler}
+                >
+                    <TextField
+                        name="organizationName"
+                        label="Organisasjonsnavn"
+                        ref={selectInput}
+                        aria-label="Skriv inn navnet på organisasjonen for å bekrefte"
+                    />
+
+                    <UserError error={error} />
+
+                    <div className="flexRow justifyAround alignCenter g-2">
+                        <SecondaryButton
+                            aria-label="Avbryt sletting"
+                            onClick={closeModal}
+                        >
+                            Avbryt
+                        </SecondaryButton>
+                        <PrimaryButton
+                            aria-label="Slett organisasjon"
+                            type="submit"
+                        >
+                            Ja, slett!
+                        </PrimaryButton>
+                    </div>
+                </form>
             </Modal>
         </Contrast>
     )
