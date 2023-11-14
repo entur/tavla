@@ -35,21 +35,23 @@ function LogoInput() {
                 value={file}
                 required
             />
-            <div className="flexRow justifyBetween g-2 mt-2">
-                <button
-                    className="secondaryButton w-100 justifyCenter"
-                    onClick={clearLogo}
-                >
-                    Avbryt
-                </button>
-                <button
-                    type="submit"
-                    onSubmit={clearLogo}
-                    className="secondaryButton w-100 justifyCenter"
-                >
-                    Last opp logo
-                </button>
-            </div>
+            {file && (
+                <div className="flexRow justifyBetween g-2 mt-2">
+                    <button
+                        className="secondaryButton w-100 justifyCenter"
+                        onClick={clearLogo}
+                    >
+                        Avbryt
+                    </button>
+                    <button
+                        type="submit"
+                        onSubmit={clearLogo}
+                        className="secondaryButton w-100 justifyCenter"
+                    >
+                        Last opp logo
+                    </button>
+                </div>
+            )}
         </div>
     )
 }

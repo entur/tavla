@@ -5,8 +5,6 @@ steps:
               'build',
               '--build-arg',
               'ENV=${_ENV}',
-              '--build-arg',
-              'ENABLED_FEATURES=${_ENABLED_FEATURES}',
               '-t',
               'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA',
               '.',
