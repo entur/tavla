@@ -84,7 +84,8 @@ function CreatePage({
 
     const lastPage = pages.slice(-1)[0]
 
-    if (lastPage) return <AddStops popPage={popPage} board={board} />
+    if (lastPage)
+        return <AddStops popPage={popPage} board={board} oid={lastPage.oid} />
 
     return <Name board={board} pushPage={pushPage} />
 }

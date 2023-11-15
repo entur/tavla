@@ -55,7 +55,13 @@ function Name({
                 clearable
             />
             <div className="flexRow justifyEnd w-100 mt-4">
-                <NextPage nextPage="addStops" pushPage={pushPage} />
+                <NextPage
+                    nextPage={{
+                        step: 'addStops',
+                        oid: selectedOrganization?.value,
+                    }}
+                    pushPage={pushPage}
+                />
             </div>
         </div>
     )
