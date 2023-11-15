@@ -84,12 +84,9 @@ function CreatePage({
 
     const lastPage = pages.slice(-1)[0]
 
-    switch (lastPage) {
-        case 'addStops':
-            return <AddStops popPage={popPage} board={board} />
-        default:
-            return <Name board={board} pushPage={pushPage} />
-    }
+    if (lastPage) return <AddStops popPage={popPage} board={board} />
+
+    return <Name board={board} pushPage={pushPage} />
 }
 
 const NonSSRHeader = dynamic(() => Promise.resolve(CreateBoard), { ssr: false })
