@@ -13,7 +13,6 @@ import { AddStops } from './components/AddStops'
 import { ToastProvider } from '@entur/alert'
 import { Login } from '../Login'
 import dynamic from 'next/dynamic'
-import { AddToOrganization } from './components/AddToOrganization'
 
 function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [pages, setPages] = useState<TCreatePage[]>([])
@@ -40,13 +39,16 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
 
             <Modal
                 open={showModal}
-                size="extraLarge"
+                size="large"
                 onDismiss={closeModal}
                 closeLabel="Avbryt"
                 className="flexColumn alignCenter textLeft"
             >
                 <Stepper
-                    steps={['Navn', 'Legg til holdeplasser', 'Organisasjon']}
+                    steps={[
+                        'Sett navn og organisasjon',
+                        'Legg til holdeplasser',
+                    ]}
                     activeIndex={pages.length}
                 />
                 <ToastProvider>
@@ -82,16 +84,9 @@ function CreatePage({
 
     const lastPage = pages.slice(-1)[0]
 
-    switch (lastPage) {
-        case 'organization':
-            return <AddToOrganization board={board} popPage={popPage} />
-        case 'addStops':
-            return (
-                <AddStops popPage={popPage} pushPage={pushPage} board={board} />
-            )
-        default:
-            return <Name board={board} pushPage={pushPage} />
-    }
+    if (lastPage) return <AddStops popPage={popPage} board={board} />
+
+    return <Name board={board} pushPage={pushPage} />
 }
 
 const NonSSRHeader = dynamic(() => Promise.resolve(CreateBoard), { ssr: false })
