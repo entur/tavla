@@ -1,3 +1,4 @@
+import { TConfig } from 'Admin/types/config'
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore, storage } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
@@ -19,6 +20,11 @@ export function initializeAdminApp() {
     if (admin.apps.length <= 0) {
         admin.initializeApp()
     }
+}
+
+export async function getConfig() {
+    const doc = await firestore().collection('config').doc('env').get()
+    return doc.data() as TConfig
 }
 
 export async function createUser(uid: TUserID) {
@@ -118,7 +124,7 @@ export async function setLastActive(bid: TBoardID) {
 
 export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
     if (!oid) return
-    const bucket = storage().bucket('tavla')
+    const bucket = storage().bucket((await getConfig()).bucket)
     const file = bucket.file(`logo/${oid}-${logo.name}`)
     file.save(Buffer.from(await logo.arrayBuffer()))
 

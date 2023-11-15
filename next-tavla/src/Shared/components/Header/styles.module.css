@@ -1,5 +1,6 @@
 .logo {
     height: 100%;
+    min-height: 2.5em;
     object-fit: contain;
     object-position: left;
 }
