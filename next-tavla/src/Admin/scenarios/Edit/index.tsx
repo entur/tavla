@@ -10,7 +10,7 @@ import { SettingsDispatchContext } from './utils/contexts'
 import { AddTile } from './components/AddTile'
 import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
-import { Heading1, Heading3 } from '@entur/typography'
+import { Heading2, Heading3 } from '@entur/typography'
 import { BoardSettings } from './components/BoardSettings'
 import { useAutoSaveBoard } from './hooks/useAutoSaveBoard'
 import { Preview } from './components/Preview'
@@ -48,7 +48,9 @@ function Edit({
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
                 <div className="flexRow justifyBetween mt-4">
-                    <Heading1 className="m-0">Rediger tavlevisning</Heading1>
+                    <Heading2 as="h1" className="m-0">
+                        Rediger tavlevisning
+                    </Heading2>
                     <div className="flexRow g-2">
                         <SecondaryButton
                             onClick={() => {

@@ -1,6 +1,6 @@
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading1, LeadParagraph } from '@entur/typography'
+import { Heading2, LeadParagraph } from '@entur/typography'
 import { TBoard } from 'types/settings'
 
 function DeleteModal({
@@ -22,7 +22,7 @@ function DeleteModal({
             closeLabel="Avbryt sletting"
             className="flexColumn justifyStart alignCenter textCenter"
         >
-            <Heading1>Slett tavle</Heading1>
+            <Heading2 as="h1">Slett tavle</Heading2>
             <LeadParagraph>
                 {board?.meta?.title
                     ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"?`
