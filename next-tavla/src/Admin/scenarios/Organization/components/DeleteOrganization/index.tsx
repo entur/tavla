@@ -69,7 +69,7 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
                 </Paragraph>
 
                 <form
-                    className="flexColumn g-2"
+                    className="flexColumn g-2 w-100"
                     onSubmit={deleteOrganizationHandler}
                 >
                     <TextField
@@ -81,7 +81,7 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
 
                     <UserError error={error} />
 
-                    <div className="flexRow justifyAround alignCenter g-2">
+                    <div className="flexRow justifyBetween alignCenter g-2">
                         <SecondaryButton
                             aria-label="Avbryt sletting"
                             onClick={closeModal}
