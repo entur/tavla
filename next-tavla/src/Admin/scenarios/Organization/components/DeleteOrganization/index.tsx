@@ -10,17 +10,22 @@ import { fetchDeleteOrganization } from './utils/fetch'
 import { useRouter } from 'next/navigation'
 import { TextField } from '@entur/form'
 import { selectInput } from 'Admin/utils/selectInput'
-import { SyntheticEvent, useState } from 'react'
-import { TOrgError } from 'Admin/types/organizations'
-import { UserError } from './UserError'
+import { SyntheticEvent } from 'react'
+import { useFormFeedback } from 'hooks/useFormFeedback'
 
 function DeleteOrganization({ organization }: { organization: TOrganization }) {
     const [showModal, openModal, closeModal] = useToggle()
     const router = useRouter()
-    const [error, setError] = useState<TOrgError | undefined>(undefined)
+    const { setFeedback, clearFeedback, getTextFieldProps } = useFormFeedback()
+
+    const handleCloseModal = () => {
+        closeModal()
+        clearFeedback()
+    }
 
     const deleteOrganizationHandler = async (event: SyntheticEvent) => {
         event.preventDefault()
+        clearFeedback()
 
         const data = event.currentTarget as unknown as {
             organizationName: HTMLInputElement
@@ -29,10 +34,7 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
         const organizationName = data.organizationName.value
 
         if (organizationName !== organization.name) {
-            setError({
-                type: 'INVALID_ORGANIZATION_NAME',
-                value: 'Organisasjonsnavnet er feil',
-            } as TOrgError)
+            setFeedback('delete/name-not-matching')
             return
         }
 
@@ -46,7 +48,7 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
             await fetchDeleteOrganization(organization.id)
             router.push('/organizations')
         } catch (error) {
-            console.log(error)
+            setFeedback('error')
         }
     }
 
@@ -58,7 +60,7 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
             <Modal
                 open={showModal}
                 size="small"
-                onDismiss={closeModal}
+                onDismiss={handleCloseModal}
                 closeLabel="Avbryt sletting"
                 className="flexColumn justifyStart alignCenter textCenter"
             >
@@ -77,9 +79,8 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
                         label="Organisasjonsnavn"
                         ref={selectInput}
                         aria-label="Skriv inn navnet på organisasjonen for å bekrefte"
+                        {...getTextFieldProps()}
                     />
-
-                    <UserError error={error} />
 
                     <div className="flexRow justifyBetween alignCenter g-2">
                         <SecondaryButton

@@ -1,7 +1,7 @@
 import { VariantType } from '@entur/form'
 import { useState } from 'react'
 
-type ErrorCode = 'error' | 'auth/not-allowed'
+type ErrorCode = 'error' | 'auth/not-allowed' | 'delete/name-not-matching'
 type InviteErrorCode = 'invite/user-not-found' | 'invite/already-invited'
 type InviteSuccessCode = 'invite/success'
 
@@ -38,6 +38,11 @@ export function useFormFeedback() {
                 return setFeedback({
                     type: 'success',
                     message: 'Bruker lagt til!',
+                })
+            case 'delete/name-not-matching':
+                return setFeedback({
+                    type: 'error',
+                    message: 'Navnet stemmer ikke overens med organisasjonen.',
                 })
             case 'error':
                 return setFeedback({
