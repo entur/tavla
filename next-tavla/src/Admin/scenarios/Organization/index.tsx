@@ -15,15 +15,15 @@ function Organization({
 }) {
     return (
         <div>
-            <Contrast>
-                <Heading1>{organization.name}</Heading1>
-            </Contrast>
+            <div className="flexRow justifyBetween alignCenter">
+                <Contrast>
+                    <Heading1>{organization.name}</Heading1>
+                </Contrast>
+                <DeleteOrganization organization={organization} />
+            </div>
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />
                 <MemberAdministration uid={user.uid} oid={organization.id} />
-            </div>
-            <div className="pt-4">
-                <DeleteOrganization organization={organization} />
             </div>
         </div>
     )

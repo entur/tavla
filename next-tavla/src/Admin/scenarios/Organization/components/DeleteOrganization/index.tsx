@@ -52,9 +52,9 @@ function DeleteOrganization({ organization }: { organization: TOrganization }) {
 
     return (
         <Contrast>
-            <PrimaryButton onClick={openModal}>
+            <SecondaryButton onClick={openModal}>
                 Slett organisasjon
-            </PrimaryButton>
+            </SecondaryButton>
             <Modal
                 open={showModal}
                 size="small"
