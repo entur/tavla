@@ -33,7 +33,8 @@ jobs:
 
       - name: "Project who?"
         run: |
-          echo $PROJECT_ID
+          echo $PROJECT_ID > tmp.txt
+          cat tmp.txt
           gcloud auth list
       - name: "Build container image"
         run: "gcloud builds submit . --substitutions _ENV=dev,COMMIT_SHA=$GITHUB_SHA"
