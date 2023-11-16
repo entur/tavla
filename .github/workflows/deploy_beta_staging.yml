@@ -31,6 +31,8 @@ jobs:
           version: ">= 363.0.0"
           project_id: "${{ secrets.BETA_STAGING_ID }}"
 
+      - name: "Project who?"
+        run: "echo $PROJECT_ID"
       - name: "Build container image"
         run: "gcloud builds submit . --substitutions _ENV=dev,COMMIT_SHA=$GITHUB_SHA"
       - name: "Deploy"
