@@ -1,3 +1,4 @@
+'use client'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading1, LeadParagraph, Paragraph } from '@entur/typography'

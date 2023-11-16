@@ -1,4 +1,3 @@
-'use client'
 import classes from './styles.module.css'
 import { TOrganization, TUser } from 'types/settings'
 import { UploadLogo } from './components/UploadLogo'
