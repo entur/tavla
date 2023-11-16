@@ -5,7 +5,7 @@ export function formatTimestamp(timestamp?: number, seconds = false) {
         hour: '2-digit',
         minute: '2-digit',
         second: seconds ? '2-digit' : undefined,
-    })
+    }).format
 
     const fullFormat = Intl.DateTimeFormat('no-NB', {
         day: '2-digit',
@@ -13,16 +13,15 @@ export function formatTimestamp(timestamp?: number, seconds = false) {
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-    })
+    }).format
 
     const dayThen = new Date(timestamp).toDateString()
     const dayNow = new Date().toDateString()
     const dayYesterday = new Date(Date.now() - 86_400_000).toDateString()
 
-    if (dayThen === dayNow) return shortFormat.format(timestamp)
+    if (dayThen === dayNow) return shortFormat(timestamp)
 
-    if (dayThen === dayYesterday)
-        return 'i går, ' + shortFormat.format(timestamp)
+    if (dayThen === dayYesterday) return 'i går, ' + shortFormat(timestamp)
 
-    return fullFormat.format(timestamp)
+    return fullFormat(timestamp)
 }
