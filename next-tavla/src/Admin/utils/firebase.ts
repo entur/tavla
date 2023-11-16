@@ -370,3 +370,14 @@ export async function removeUserFromOrganization(
             editors: admin.firestore.FieldValue.arrayRemove(uid),
         })
 }
+
+export async function deleteOrganization(oid: TOrganizationID, uid: TUserID) {
+    const deleteAccess = await userCanEditOrganization(uid, oid)
+    if (!deleteAccess) {
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'User does not have access to delete this organization.',
+        })
+    }
+    return firestore().collection('organizations').doc(oid).delete()
+}
