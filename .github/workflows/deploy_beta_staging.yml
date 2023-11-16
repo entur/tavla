@@ -32,7 +32,9 @@ jobs:
           project_id: "${{ secrets.BETA_STAGING_ID }}"
 
       - name: "Project who?"
-        run: "echo $PROJECT_ID"
+        run: |
+          echo $PROJECT_ID
+          gcloud auth list
       - name: "Build container image"
         run: "gcloud builds submit . --substitutions _ENV=dev,COMMIT_SHA=$GITHUB_SHA"
       - name: "Deploy"
