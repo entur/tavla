@@ -1,7 +1,7 @@
 import { TOrganization, TOrganizationID } from 'types/settings'
 import { SideNavigation, SideNavigationItem } from '@entur/menu'
 import classes from './styles.module.css'
-import { Heading2 } from '@entur/typography'
+import { Heading1 } from '@entur/typography'
 
 function SelectOrganization({
     organizations,
@@ -12,7 +12,7 @@ function SelectOrganization({
 }) {
     return (
         <SideNavigation className={classes.sideNav}>
-            <Heading2 as="h1">Tavler</Heading2>
+            <Heading1 className="text-rem-4">Tavler</Heading1>
             <div>
                 <SideNavigationItem
                     href="/boards"
