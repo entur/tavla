@@ -43,7 +43,7 @@ function Landing({ loggedIn }: { loggedIn: boolean }) {
                     <div className={classes.content}>
                         <Image
                             src={tavla}
-                            alt="Bilde av en avgangstavle laget med Entur Tavla"
+                            alt="Avgangstavle laget med Entur Tavla"
                             className={classes.image}
                         />
                     </div>
