@@ -7,7 +7,7 @@
     ],
     "scripts": {
         "dev": "next dev & firebase emulators:start --project=ent-tavla-dev",
-        "dev:persist": "next dev & firebase emulators:start --project=ent-tavla-dev --import=./.db --export-on-exit",
+        "dev:persist": "next dev & yarn emulators",
         "emulators": "firebase emulators:start --project=ent-tavla-dev --import=./.db --export-on-exit",
         "build": "next build",
         "build:prod": "NEXT_PUBLIC_ENV=prod next build",
