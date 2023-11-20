@@ -4,8 +4,8 @@ import {
     PopoverContent,
     PopoverCloseButton,
 } from '@entur/tooltip'
+import { IconButton, SecondaryButton } from '@entur/button'
 import { Heading2 } from '@entur/typography'
-import { IconButton, SecondarySquareButton } from '@entur/button'
 import { CloseIcon, FilterIcon } from '@entur/icons'
 import {
     useBoardsSettings,
@@ -31,9 +31,10 @@ function FilterButton() {
         <Popover>
             <PopoverTrigger>
                 <div className={classes.buttonWrapper}>
-                    <SecondarySquareButton className="flexColumn">
+                    <SecondaryButton aria-label="Filtrer tavler på merkelapper">
+                        Filter
                         <FilterIcon />
-                    </SecondarySquareButton>
+                    </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
                         {filterTags.length}
                     </NotificationBadge>
