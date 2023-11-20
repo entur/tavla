@@ -17,6 +17,11 @@ function DeleteOrganization({
     uid?: TUserID
 }) {
     const [showModal, openModal, closeModal] = useToggle()
+    const deleteOrgWithId = deleteOrganization.bind(
+        null,
+        organization,
+        uid ?? '',
+    )
 
     return (
         <Contrast>
@@ -36,10 +41,7 @@ function DeleteOrganization({
                     Skriv inn navnet på organisasjonen for å bekrefte.
                 </Paragraph>
 
-                <form
-                    className="flexColumn g-2 w-100"
-                    action={deleteOrganization}
-                >
+                <form className="flexColumn g-2 w-100" action={deleteOrgWithId}>
                     <input type="hidden" name="oid" value={organization.id} />
                     <input type="hidden" name="uid" value={uid} />
                     <TextField

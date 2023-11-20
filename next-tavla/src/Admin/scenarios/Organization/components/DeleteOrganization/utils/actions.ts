@@ -2,14 +2,24 @@
 import { deleteOrganization as deleteOrg } from 'Admin/utils/firebase'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TOrganizationID, TUserID } from 'types/settings'
+import { TOrganization, TUserID } from 'types/settings'
 
-export async function deleteOrganization(data: FormData) {
-    const oid = data.get('oid') as TOrganizationID
-    const uid = data.get('uid') as TUserID
-    if (!oid || !uid) return
+export async function deleteOrganization(
+    organization: TOrganization,
+    uid: TUserID,
+    data: FormData,
+) {
+    if (!organization.id || !uid) return { message: 'No organization or user.' }
+    const organizationName = data.get('organizationName') as string
+    if (organizationName !== organization.name)
+        return { message: 'Organization name not matching.' }
 
-    await deleteOrg(oid, uid)
-    revalidatePath('/')
-    redirect('/organizations')
+    try {
+        await deleteOrg(organization.id, uid)
+        revalidatePath('/')
+        redirect('/organizations')
+    } catch (error) {
+        console.error(error)
+        return { message: 'Error deleting organization.' }
+    }
 }
