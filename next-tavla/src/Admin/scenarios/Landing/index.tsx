@@ -1,4 +1,10 @@
-import { Heading1, ListItem, Paragraph, UnorderedList } from '@entur/typography'
+import {
+    Heading1,
+    Heading2,
+    ListItem,
+    Paragraph,
+    UnorderedList,
+} from '@entur/typography'
 import classes from './styles.module.css'
 import Image from 'next/image'
 import landingImage from 'assets/illustrations/Tavla-illustration.png'
@@ -41,7 +47,7 @@ function Landing({ loggedIn }: { loggedIn: boolean }) {
                         />
                     </div>
                     <div className={classes.content}>
-                        <Heading1>Hva er Tavla?</Heading1>
+                        <Heading2>Hva er Tavla?</Heading2>
 
                         <Paragraph>
                             Tavla er et verktøy som hjelper deg å lage

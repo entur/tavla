@@ -4,8 +4,8 @@ import {
     PopoverContent,
     PopoverCloseButton,
 } from '@entur/tooltip'
-import { Heading4 } from '@entur/typography'
 import { IconButton, SecondaryButton } from '@entur/button'
+import { Heading2 } from '@entur/typography'
 import { CloseIcon, FilterIcon } from '@entur/icons'
 import {
     useBoardsSettings,
@@ -43,9 +43,9 @@ function FilterButton() {
             <PopoverContent>
                 <div className="p-1">
                     <div className="flexRow justifyBetween">
-                        <Heading4 as="h2" className="m-1">
+                        <Heading2 className="m-1 text-rem-3">
                             Filtrer på merkelapper
-                        </Heading4>
+                        </Heading2>
                         <PopoverCloseButton>
                             <IconButton aria-label="Lukk popover">
                                 <CloseIcon aria-hidden="true" />

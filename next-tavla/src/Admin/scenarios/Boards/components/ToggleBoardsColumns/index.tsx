@@ -7,7 +7,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@entur/tooltip'
-import { Heading4 } from '@entur/typography'
+import { Heading2 } from '@entur/typography'
 import {
     useBoardsSettings,
     useBoardsSettingsDispatch,
@@ -22,19 +22,16 @@ function ToggleBoardsColumns() {
     return (
         <Popover>
             <PopoverTrigger>
-                <SecondarySquareButton
-                    className="flexColumn"
-                    aria-label="Velg kolonner"
-                >
-                    <AdjustmentsIcon aria-hidden="true" />
+                <SecondarySquareButton className="flexColumn">
+                    <AdjustmentsIcon />
                 </SecondarySquareButton>
             </PopoverTrigger>
             <PopoverContent>
                 <div className="p-1">
                     <div className="flexRow">
-                        <Heading4 as="h2" className="m-1">
+                        <Heading2 className="m-1 text-rem-2">
                             Velg kolonner
-                        </Heading4>
+                        </Heading2>
                         <PopoverCloseButton>
                             <IconButton aria-label="Lukk popover">
                                 <CloseIcon aria-hidden="true" />

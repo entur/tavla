@@ -12,7 +12,7 @@ function SelectOrganization({
 }) {
     return (
         <SideNavigation className={classes.sideNav}>
-            <Heading1>Tavler</Heading1>
+            <Heading1 className="text-rem-4">Tavler</Heading1>
             <div>
                 <SideNavigationItem
                     href="/boards"

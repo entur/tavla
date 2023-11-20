@@ -5,6 +5,7 @@ import { useQuery } from 'graphql/utils'
 import { StopPlaceQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
+import { TileLoader } from 'Board/components/TileLoader'
 
 export function StopPlaceTile({
     placeId,
@@ -19,7 +20,11 @@ export function StopPlaceTile({
     )
 
     if (!data) {
-        return <Tile>Loading data</Tile>
+        return (
+            <Tile>
+                <TileLoader />
+            </Tile>
+        )
     }
 
     if (!data.stopPlace) {

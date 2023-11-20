@@ -48,7 +48,9 @@ function Edit({
         <SettingsDispatchContext.Provider value={dispatch}>
             <div className={classes.settings}>
                 <div className="flexRow justifyBetween mt-4">
-                    <Heading1 className="m-0">Rediger tavlevisning</Heading1>
+                    <Heading1 className="m-0 text-rem-4">
+                        Rediger tavlevisning
+                    </Heading1>
                     <div className="flexRow g-2">
                         <SecondaryButton
                             onClick={() => {

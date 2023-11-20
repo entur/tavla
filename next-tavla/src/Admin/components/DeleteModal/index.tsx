@@ -22,7 +22,7 @@ function DeleteModal({
             closeLabel="Avbryt sletting"
             className="flexColumn justifyStart alignCenter textCenter"
         >
-            <Heading1>Slett tavle</Heading1>
+            <Heading1 className="text-rem-4">Slett tavle</Heading1>
             <LeadParagraph>
                 {board?.meta?.title
                     ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"?`
