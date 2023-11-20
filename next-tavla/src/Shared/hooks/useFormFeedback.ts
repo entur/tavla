@@ -4,8 +4,13 @@ import { useState } from 'react'
 type ErrorCode = 'error' | 'auth/not-allowed'
 type InviteErrorCode = 'invite/user-not-found' | 'invite/already-invited'
 type InviteSuccessCode = 'invite/success'
+type DeleteErrorCode = 'delete/name-mismatch'
 
-export type FeedbackCode = InviteErrorCode | InviteSuccessCode | ErrorCode
+export type FeedbackCode =
+    | InviteErrorCode
+    | InviteSuccessCode
+    | ErrorCode
+    | DeleteErrorCode
 
 type FormValidationFeedback = {
     type: VariantType
@@ -38,6 +43,11 @@ export function useFormFeedback() {
                 return setFeedback({
                     type: 'success',
                     message: 'Bruker lagt til!',
+                })
+            case 'delete/name-mismatch':
+                return setFeedback({
+                    type: 'error',
+                    message: 'Navnet stemmer ikke overens med organisasjonen.',
                 })
             case 'error':
                 return setFeedback({
