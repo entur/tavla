@@ -2,15 +2,31 @@ import classes from 'styles/pages/admin.module.css'
 import { cookies } from 'next/headers'
 import {
     getOrganization,
+    getOrganizationById,
     initializeAdminApp,
     verifySession,
 } from 'Admin/utils/firebase'
 import { permanentRedirect } from 'next/navigation'
 import { Organization } from 'Admin/scenarios/Organization'
+import { Metadata } from 'next'
 
 initializeAdminApp()
 
-async function EditOrganizationPage({ params }: { params: { id: string } }) {
+type Props = {
+    params: { id: string }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { id } = params
+
+    const organization = await getOrganizationById(id)
+
+    return {
+        title: `${organization.name} | Entur Tavla`,
+    }
+}
+
+async function EditOrganizationPage({ params }: Props) {
     const { id } = params
 
     const session = cookies().get('session')
