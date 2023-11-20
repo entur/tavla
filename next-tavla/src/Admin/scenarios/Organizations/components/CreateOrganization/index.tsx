@@ -1,6 +1,6 @@
 import { useToast } from '@entur/alert'
 import { PrimaryButton } from '@entur/button'
-import { TextField } from '@entur/form'
+import { TextField, VariantType } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
@@ -14,7 +14,17 @@ function CreateOrganization() {
     const [organizationName, setOrganizationName] = useState('')
     const router = useRouter()
     const { addToast } = useToast()
+    const [textfieldProps, setTextFieldProps] = useState<{
+        variant?: VariantType | undefined
+        feedback?: string
+    }>()
     const saveOrganization = async () => {
+        if (!organizationName || organizationName.length < 1) {
+            return setTextFieldProps({
+                variant: 'error',
+                feedback: 'Du må sette et navn på organisasjonen',
+            })
+        }
         const req = await createOrganizationRequest(organizationName)
         if (req.status !== 200)
             return addToast({
@@ -50,6 +60,8 @@ function CreateOrganization() {
                     size="medium"
                     label="Navn på din organisasjon"
                     className="w-50"
+                    variant={textfieldProps?.variant}
+                    feedback={textfieldProps?.feedback}
                 />
                 <PrimaryButton className="mt-2" onClick={saveOrganization}>
                     Opprett
