@@ -25,12 +25,12 @@ function AddExistingTag({
     return (
         <div className="flexColumn g-1">
             <Heading3>Legg til eksisterende merkelapp</Heading3>
-            <div className="flexRow flexWrap g-1">
+            <div className="flexRow flexWrap g-1" role="listbox">
                 {suggestedTags.map((tag) => (
                     <ActionChip
                         key={tag}
                         onClick={() => addTag(tag)}
-                        aria-label="Legg til merkelapp"
+                        aria-label={`Legg til eksisterende merkelapp ${tag}`}
                     >
                         {tag} <AddIcon />
                     </ActionChip>
