@@ -13,7 +13,6 @@
 
 .upload:hover {
     background-color: var(--tertiary-background-color);
-    cursor: pointer;
 }
 
 .logoPreview {
@@ -23,4 +22,15 @@
     padding: 2em;
     border-radius: 1.5em;
     background-color: var(--secondary-background-color);
+}
+
+.fileInput {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    color: transparent;
+}
+
+.fileInput:hover {
+    cursor: pointer;
 }
