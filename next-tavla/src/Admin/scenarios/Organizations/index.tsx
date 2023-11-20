@@ -1,4 +1,4 @@
-import { Heading1, Heading3, Paragraph } from '@entur/typography'
+import { Heading1, Heading2, Paragraph } from '@entur/typography'
 import { CreateOrganization } from './components/CreateOrganization'
 import { TOrganization, TUserID } from 'types/settings'
 import { OrganizationsTable } from './components/OrganizationsTable'
@@ -11,9 +11,9 @@ function Organizations(props: {
         <div>
             <div className="mt-4">
                 <Heading1>Organisasjoner</Heading1>
-                <Heading3 as="h2" className="mb-2">
+                <Heading2 className="mb-2 text-rem-3">
                     Oversikt over organisasjoner
-                </Heading3>
+                </Heading2>
                 <div className="flexRow justifyBetween">
                     <Paragraph className="w-75">
                         Dette er en oversikt over hvilke organisasjoner du er en
