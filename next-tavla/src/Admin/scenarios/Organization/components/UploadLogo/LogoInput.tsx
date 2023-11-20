@@ -20,21 +20,26 @@ function LogoInput() {
     }
 
     return (
-        <div>
+        <div className="positionRelative">
             <label htmlFor="logo" className={classes.upload}>
                 <Filename fileName={fileName} />
+                <input
+                    ref={input}
+                    tabIndex={1}
+                    className={classes.fileInput}
+                    type="file"
+                    name="logo"
+                    accept="image/*"
+                    id="logo"
+                    onChange={setLogo}
+                    onDragOver={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }}
+                    value={file}
+                    required
+                />
             </label>
-            <input
-                ref={input}
-                type="file"
-                name="logo"
-                accept="image/*"
-                id="logo"
-                style={{ display: 'none' }}
-                onChange={setLogo}
-                value={file}
-                required
-            />
             {file && (
                 <div className="flexRow justifyBetween g-2 mt-2">
                     <button
@@ -68,7 +73,7 @@ function Filename({ fileName }: { fileName?: string }) {
     return (
         <div className="flexRow alignCenter g-2">
             <UploadIcon size={24} />
-            Klikk her for å laste opp en logo
+            Klikk eller slipp en fil her for å laste opp en logo
         </div>
     )
 }

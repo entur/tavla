@@ -16,6 +16,10 @@ h5 {
     box-sizing: border-box;
 }
 
+::file-selector-button {
+    display: none;
+}
+
 li,
 ul {
     margin: 0;
