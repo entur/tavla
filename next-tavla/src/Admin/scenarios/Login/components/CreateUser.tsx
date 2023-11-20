@@ -36,7 +36,7 @@ function CreateUser() {
 
     return (
         <div>
-            <Image src={musk} alt="illustration" className="h-50 w-50" />
+            <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
             <Heading3>Logg inn med e-post</Heading3>
             <form className="flexColumn g-2" onSubmit={submitCreateUser}>
                 <TextField

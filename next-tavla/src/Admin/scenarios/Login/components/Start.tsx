@@ -7,7 +7,7 @@ import Image from 'next/image'
 function Start({ pushPage }: { pushPage: (page: TLoginPage) => void }) {
     return (
         <div>
-            <Image src={musk} alt="illustration" className="h-50 w-50" />
+            <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
             <Heading3>Logg inn for å fortsette</Heading3>
             <Paragraph>
                 Logg inn for å få tilgang til å opprette og administrere tavler.
