@@ -17,14 +17,13 @@ function CreateOrganization() {
     const [textfieldProps, setTextFieldProps] = useState<{
         variant?: VariantType | undefined
         feedback?: string
-    }>({})
+    }>()
     const saveOrganization = async () => {
         if (!organizationName || organizationName.length < 1) {
-            setTextFieldProps({
+            return setTextFieldProps({
                 variant: 'error',
                 feedback: 'Du må sette et navn på organisasjonen',
             })
-            return
         }
         const req = await createOrganizationRequest(organizationName)
         if (req.status !== 200)
@@ -61,8 +60,8 @@ function CreateOrganization() {
                     size="medium"
                     label="Navn på din organisasjon"
                     className="w-50"
-                    variant={textfieldProps.variant}
-                    feedback={textfieldProps.feedback}
+                    variant={textfieldProps?.variant}
+                    feedback={textfieldProps?.feedback}
                 />
                 <PrimaryButton className="mt-2" onClick={saveOrganization}>
                     Opprett
