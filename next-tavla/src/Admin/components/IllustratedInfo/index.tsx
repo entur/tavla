@@ -12,7 +12,7 @@ function IllustratedInfo({
 }) {
     return (
         <div className={classes.info}>
-            <Image src={animals} alt="illustration" />
+            <Image src={animals} aria-hidden="true" alt="" />
             <Heading2 className={classes.infoHeading}>{title}</Heading2>
             <LeadParagraph>{description} </LeadParagraph>
         </div>

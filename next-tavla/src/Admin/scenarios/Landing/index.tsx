@@ -27,7 +27,8 @@ function Landing({ loggedIn }: { loggedIn: boolean }) {
                 <div className={classNames(classes.content, classes.topImage)}>
                     <Image
                         src={landingImage}
-                        alt="illustration"
+                        aria-hidden="true"
+                        alt=""
                         className={classes.image}
                     />
                 </div>
@@ -42,7 +43,7 @@ function Landing({ loggedIn }: { loggedIn: boolean }) {
                     <div className={classes.content}>
                         <Image
                             src={tavla}
-                            alt="illustration"
+                            alt="Avgangstavle laget med Entur Tavla"
                             className={classes.image}
                         />
                     </div>

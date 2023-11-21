@@ -34,7 +34,7 @@ function ResetPassword({ popPage }: { popPage: () => void }) {
 
     return (
         <div>
-            <Image src={musk} alt="illustration" className="h-50 w-50" />
+            <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
             <Heading3>Glemt passord</Heading3>
             <Paragraph>
                 Skriv inn e-posten du brukte for å opprette brukeren, så sender
