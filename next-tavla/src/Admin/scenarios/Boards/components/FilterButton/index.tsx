@@ -38,8 +38,8 @@ function FilterButton() {
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
                         {filterTags.length}
-                        <VisuallyHidden>merkelapper valgt</VisuallyHidden>
                     </NotificationBadge>
+                    <VisuallyHidden>merkelapper valgt</VisuallyHidden>
                 </div>
             </PopoverTrigger>
             <PopoverContent>
