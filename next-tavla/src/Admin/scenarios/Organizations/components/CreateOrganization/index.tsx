@@ -1,3 +1,4 @@
+'use client'
 import { useToast } from '@entur/alert'
 import { PrimaryButton } from '@entur/button'
 import { TextField, VariantType } from '@entur/form'
@@ -6,18 +7,21 @@ import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
 import { createOrganizationRequest } from 'Admin/utils/fetch'
 import { useToggle } from 'hooks/useToggle'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 function CreateOrganization() {
     const [showModal, openModal, closeModal] = useToggle()
     const [organizationName, setOrganizationName] = useState('')
+
     const router = useRouter()
     const { addToast } = useToast()
+
     const [textfieldProps, setTextFieldProps] = useState<{
         variant?: VariantType | undefined
         feedback?: string
     }>()
+
     const saveOrganization = async () => {
         if (!organizationName || organizationName.length < 1) {
             return setTextFieldProps({

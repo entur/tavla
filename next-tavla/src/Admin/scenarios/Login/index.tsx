@@ -1,3 +1,4 @@
+'use client'
 import { PrimaryButton, SecondarySquareButton } from '@entur/button'
 import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
