@@ -17,6 +17,7 @@ function Search() {
 
     return (
         <TextField
+            className="w-50"
             label="Søk på navn på tavle"
             prepend={<SearchIcon inline aria-hidden="true" />}
             value={settings.search}

@@ -16,6 +16,7 @@ import { FilterChip } from '@entur/chip'
 import { uniq } from 'lodash'
 import classes from './styles.module.css'
 import { NotificationBadge } from '@entur/layout'
+import { VisuallyHidden } from '@entur/a11y'
 
 function FilterButton() {
     const { filterTags, boards } = useBoardsSettings()
@@ -33,10 +34,11 @@ function FilterButton() {
                 <div className={classes.buttonWrapper}>
                     <SecondaryButton aria-label="Filtrer tavler på merkelapper">
                         Filter
-                        <FilterIcon />
+                        <FilterIcon aria-hidden="true" />
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
                         {filterTags.length}
+                        <VisuallyHidden>merkelapper valgt</VisuallyHidden>
                     </NotificationBadge>
                 </div>
             </PopoverTrigger>
