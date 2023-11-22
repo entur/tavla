@@ -21,7 +21,7 @@ function DeleteBoard({ board }: { board: TBoard }) {
                     message: 'Board not found',
                 })
             await fetchDeleteBoard(board.id as TBoardID)
-            router.push('/edit/boards')
+            router.push('/boards')
         } catch (error) {
             addToast({
                 title: 'Noe gikk galt',
