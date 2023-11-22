@@ -8,6 +8,8 @@ import { IncomingNextMessage } from 'types/next'
 import { verifyUserSession } from 'Admin/utils/auth'
 import { getBoard } from 'Admin/utils/firebase'
 import { AdminHeader } from 'Admin/components/AdminHeader'
+import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
+import TavlaHead from 'components/TavlaHead'
 
 export async function getServerSideProps({
     params,
@@ -58,6 +60,12 @@ function AdminPage({
 }) {
     return (
         <div className={classes.root}>
+            <TavlaHead
+                title={`${board.meta?.title ?? DEFAULT_BOARD_NAME} (rediger)`}
+                description={`Her kan du redigere tavlen "${
+                    board.meta?.title ?? DEFAULT_BOARD_NAME
+                }"`}
+            />
             <AdminHeader loggedIn={loggedIn} />
             <Contrast>
                 <ToastProvider>
