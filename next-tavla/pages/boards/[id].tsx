@@ -11,6 +11,7 @@ import { verifyUserSession } from 'Admin/utils/auth'
 import { IncomingNextMessage } from 'types/next'
 import { AdminHeader } from 'Admin/components/AdminHeader'
 import { SelectOrganization } from 'Admin/scenarios/Boards/components/SelectOrganization'
+import TavlaHead from 'components/TavlaHead'
 
 export async function getServerSideProps({
     params,
@@ -50,8 +51,15 @@ function OverviewPageForOrganization({
     organizations: TOrganization[]
     oid: TOrganizationID
 }) {
+    const organizationName =
+        organizations.find((org) => org.id === oid)?.name ?? 'Organisasjon'
+
     return (
         <div className={classes.root}>
+            <TavlaHead
+                title={`Tavler (${organizationName})`}
+                description={`Tabell med tavler som tilhører ${organizationName}`}
+            />
             <AdminHeader loggedIn />
             <Contrast className={classes.body}>
                 <ToastProvider>
