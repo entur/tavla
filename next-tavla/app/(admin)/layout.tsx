@@ -10,7 +10,13 @@ export const metadata: Metadata = {
     title: 'Mine organisasjoner | Entur Tavla',
 }
 
-function AdminLayout({ children }: { children: ReactNode }) {
+function AdminLayout({
+    login,
+    children,
+}: {
+    login: ReactNode
+    children: ReactNode
+}) {
     return (
         <div className={classes.pageContainer}>
             <div className="flexRow justifyBetween alignCenter p-4">
@@ -31,6 +37,7 @@ function AdminLayout({ children }: { children: ReactNode }) {
                         <OrganizationIcon />
                         Organisasjoner
                     </Link>
+                    {login}
                 </div>
             </div>
             {children}
