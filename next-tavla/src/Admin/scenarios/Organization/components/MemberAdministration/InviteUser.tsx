@@ -1,49 +1,27 @@
+'use client'
 import { Button } from '@entur/button'
 import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { useToggle } from 'hooks/useToggle'
-import { SyntheticEvent } from 'react'
-import { TOrganizationID, TUser } from 'types/settings'
+import { TOrganizationID } from 'types/settings'
 import classes from './styles.module.css'
-import { FeedbackCode, useFormFeedback } from 'hooks/useFormFeedback'
-import { fetchInviteUserToOrganizationByEmail } from 'Admin/utils/fetch'
+import { useFormFeedback } from 'hooks/useFormFeedback'
+import { inviteUserAction } from 'Admin/utils/formActions'
 
-function InviteUser({
-    oid,
-    addMember,
-}: {
-    oid?: TOrganizationID
-    addMember: (member: TUser) => void
-}) {
+function InviteUser({ oid }: { oid?: TOrganizationID }) {
     const [isLoading, enableLoading, disableLoading] = useToggle()
     const { setFeedback, clearFeedback, getTextFieldProps } = useFormFeedback()
 
-    const submitHandler = (event: SyntheticEvent) => {
-        event.preventDefault()
-        clearFeedback()
-
-        const { email } = event.currentTarget as unknown as {
-            email: HTMLInputElement
-        }
-
+    const submitAction = async (data: FormData) => {
         enableLoading()
-
-        fetchInviteUserToOrganizationByEmail(email.value, oid)
-            .then((response) => {
-                disableLoading()
-                addMember({ email: email.value })
-                response.json().then((data: { feedbackCode: FeedbackCode }) => {
-                    setFeedback(data.feedbackCode)
-                })
-            })
-            .catch(() => {
-                disableLoading()
-                setFeedback('error')
-            })
+        clearFeedback()
+        const feedback = await inviteUserAction(data, oid ?? '')
+        disableLoading()
+        setFeedback(feedback)
     }
 
     return (
-        <form className={classes.inviteForm} onSubmit={submitHandler}>
+        <form className={classes.inviteForm} action={submitAction}>
             <div className="flexColumn g-1 w-100">
                 <TextField
                     name="email"

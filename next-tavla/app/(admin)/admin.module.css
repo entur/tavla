@@ -1,0 +1,18 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+    margin: 0 5em;
+}
+
+.pageContainer {
+    margin: 0 auto;
+    max-width: 120rem;
+}
+
+.organization {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8em;
+}

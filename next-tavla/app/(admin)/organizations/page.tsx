@@ -1,4 +1,4 @@
-import classes from 'styles/pages/admin.module.css'
+import classes from '../admin.module.css'
 import { Organizations } from 'Admin/scenarios/Organizations'
 import { getOrganizationsWithUser, verifySession } from 'Admin/utils/firebase'
 import { cookies } from 'next/headers'

@@ -1,9 +1,8 @@
 'use client'
-import { ReactNode } from 'react'
-import { Contrast as EnturContrast } from '@entur/layout'
+import { ContrastProps, Contrast as EnturContrast } from '@entur/layout'
 
-function Contrast({ children }: { children: ReactNode }) {
-    return <EnturContrast>{children}</EnturContrast>
+function Contrast(props: ContrastProps<'div'>) {
+    return <EnturContrast {...props}>{props.children}</EnturContrast>
 }
 
 export { Contrast }

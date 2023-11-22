@@ -1,44 +1,45 @@
 import { IconButton } from '@entur/button'
-import { ExpandablePanel } from '@entur/expand'
 import { DeleteIcon } from '@entur/icons'
-import { fetchRemoveUserFromOrganization } from 'Admin/utils/fetch'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import classes from './styles.module.css'
+import { removeUserAction } from 'Admin/utils/formActions'
 
 function MemberList({
-    oid,
-    uid: currentUserId,
     members,
-    removeMember,
+    uid: currentUserId,
+    oid,
 }: {
-    oid?: TOrganizationID
-    uid?: TUserID
     members: TUser[]
-    removeMember: (uid: string) => void
+    uid?: TUserID
+    oid?: TOrganizationID
 }) {
     return (
-        <ExpandablePanel title="Medlemmer" defaultOpen={members.length < 10}>
-            <div className="flexColumn g-1">
-                {members.map((member) => (
-                    <div className={classes.memberListRow} key={member.uid}>
-                        <div>{member.email}</div>
-                        {member.uid !== currentUserId && (
-                            <IconButton
-                                aria-label="Fjern bruker"
-                                onClick={() => {
-                                    fetchRemoveUserFromOrganization(
-                                        oid,
-                                        member.uid ?? '',
-                                    ).then(() => removeMember(member.uid ?? ''))
-                                }}
-                            >
+        <div className="flexColumn g-1">
+            {members.map((member) => (
+                <div className={classes.memberListRow} key={member.uid}>
+                    <div>{member.email}</div>
+                    {member.uid !== currentUserId && (
+                        <form action={removeUserAction}>
+                            <input
+                                type="hidden"
+                                id="userId"
+                                name="userId"
+                                value={member.uid}
+                            />
+                            <input
+                                type="hidden"
+                                id="organizationId"
+                                name="organizationId"
+                                value={oid}
+                            />
+                            <IconButton type="submit" aria-label="Fjern bruker">
                                 <DeleteIcon />
                             </IconButton>
-                        )}
-                    </div>
-                ))}
-            </div>
-        </ExpandablePanel>
+                        </form>
+                    )}
+                </div>
+            ))}
+        </div>
     )
 }
 
