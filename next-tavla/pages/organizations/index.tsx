@@ -7,6 +7,7 @@ import { AdminHeader } from 'Admin/components/AdminHeader'
 import { Organizations } from 'Admin/scenarios/Organizations'
 import { getOrganizationsWithUser } from 'Admin/utils/firebase'
 import { TOrganization, TUserID } from 'types/settings'
+import TavlaHead from 'components/TavlaHead'
 
 export async function getServerSideProps({
     req,
@@ -37,6 +38,10 @@ function OrganizationsPage(props: {
 }) {
     return (
         <div className={classes.root}>
+            <TavlaHead
+                title="Organisasjoner"
+                description="Oversikt over organisasjonene du er med i"
+            />
             <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
