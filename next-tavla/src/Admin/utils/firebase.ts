@@ -266,6 +266,11 @@ export async function getOrganizationLogoWithBoard(bid: TBoardID) {
     return organization?.logo ?? null
 }
 
+export async function getOrganizationFooterWithBoard(bid: TBoardID) {
+    const organization = await getOrganizationWithBoard(bid)
+    return organization?.footer ?? null
+}
+
 export async function getOrganizationsWhereUserIsOwner(uid: TUserID) {
     const ref = await firestore()
         .collection('organizations')

@@ -3,7 +3,11 @@ import { TBoard, TLogo } from 'types/settings'
 import classes from 'styles/pages/board.module.css'
 import { upgradeBoard } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
-import { getBoard, getOrganizationLogoWithBoard } from 'Admin/utils/firebase'
+import {
+    getBoard,
+    getOrganizationFooterWithBoard,
+    getOrganizationLogoWithBoard,
+} from 'Admin/utils/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
 
@@ -28,6 +32,7 @@ export async function getServerSideProps({
         props: {
             board: convertedBoard,
             organizationLogo: await getOrganizationLogoWithBoard(id),
+            organizationFooterInfo: await getOrganizationFooterWithBoard(id),
         },
     }
 }
@@ -35,9 +40,11 @@ export async function getServerSideProps({
 function BoardPage({
     board,
     organizationLogo,
+    organizationFooterInfo,
 }: {
     board: TBoard
     organizationLogo: TLogo | null
+    organizationFooterInfo: string | null
 }) {
     useUpdateLastActive(board.id)
 
@@ -49,7 +56,14 @@ function BoardPage({
                     organizationLogo={organizationLogo}
                 />
                 <Board board={board} />
-                {organizationLogo && <Footer />}
+                <div className="flexRow justifyLeft alignCenter text-rem-3">
+                    {organizationLogo && <Footer />}
+                    {organizationFooterInfo && (
+                        <OrganizationInfoFooter
+                            description={organizationFooterInfo ?? ''}
+                        />
+                    )}
+                </div>
             </div>
         </div>
     )

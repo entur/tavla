@@ -24,6 +24,7 @@ export type TOrganization = {
     editors?: TUserID[]
     boards?: TBoardID[]
     logo?: TLogo
+    footer?: string
 }
 
 export type TInvite = {
