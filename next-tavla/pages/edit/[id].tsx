@@ -42,26 +42,17 @@ export async function getServerSideProps({
         props: {
             loggedIn,
             board: convertedBoard,
-            id,
         },
     }
 }
 
-function AdminPage({
-    loggedIn,
-    board,
-    id,
-}: {
-    loggedIn: boolean
-    board: TBoard
-    id: string
-}) {
+function AdminPage({ loggedIn, board }: { loggedIn: boolean; board: TBoard }) {
     return (
         <div className={classes.root}>
             <AdminHeader loggedIn={loggedIn} />
             <Contrast>
                 <ToastProvider>
-                    <Edit initialBoard={board} documentId={id} />
+                    <Edit initialBoard={board} />
                 </ToastProvider>
             </Contrast>
         </div>

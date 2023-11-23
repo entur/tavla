@@ -3,7 +3,7 @@ import { useReducer } from 'react'
 import classes from './styles.module.css'
 import dynamic from 'next/dynamic'
 import { SecondaryButton } from '@entur/button'
-import { CopyIcon } from '@entur/icons'
+import { CopyIcon, ExternalIcon } from '@entur/icons'
 import { useToast } from '@entur/alert'
 import { boardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/contexts'
@@ -14,18 +14,14 @@ import { Heading1, Heading3 } from '@entur/typography'
 import { BoardSettings } from './components/BoardSettings'
 import { useAutoSaveBoard } from './hooks/useAutoSaveBoard'
 import { Preview } from './components/Preview'
+import Link from 'next/link'
+import { useLink } from '../Boards/hooks/useLink'
 
-function Edit({
-    initialBoard,
-    documentId,
-}: {
-    initialBoard: TBoard
-    documentId: string
-}) {
+function Edit({ initialBoard }: { initialBoard: TBoard }) {
     const [board, dispatch] = useReducer(boardReducer, initialBoard)
     const { addToast } = useToast()
 
-    const linkUrl = window.location.host + '/' + documentId
+    const link = useLink(board.id)
 
     useAutoSaveBoard(board)
 
@@ -53,8 +49,18 @@ function Edit({
                     </Heading1>
                     <div className="flexRow g-2">
                         <SecondaryButton
+                            as={Link}
+                            aria-label="Åpne tavla"
+                            href={link ?? '/'}
+                            target="_blank"
+                        >
+                            Åpne tavla
+                            <ExternalIcon />
+                        </SecondaryButton>
+
+                        <SecondaryButton
                             onClick={() => {
-                                navigator.clipboard.writeText(linkUrl)
+                                navigator.clipboard.writeText(link ?? '')
                                 addToast('Lenke til Tavla kopiert')
                             }}
                         >
