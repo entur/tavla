@@ -10,6 +10,7 @@ import {
 } from 'Admin/utils/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
+import { OrganizationInfoFooter } from 'Board/components/Footer'
 
 export async function getServerSideProps({
     params,

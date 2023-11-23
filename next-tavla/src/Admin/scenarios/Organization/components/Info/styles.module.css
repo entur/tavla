@@ -1,0 +1,5 @@
+.infoForm {
+    display: flex;
+    gap: 0.5em;
+    height: 4rem;
+}

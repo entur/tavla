@@ -11,6 +11,7 @@ import { UploadLogo } from 'Admin/scenarios/Organization/components/UploadLogo'
 import { MemberAdministration } from 'Admin/scenarios/Organization/components/MemberAdministration'
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
+import { Info } from 'Admin/scenarios/Organization/components/Info'
 
 initializeAdminApp()
 
@@ -52,6 +53,7 @@ async function EditOrganizationPage({ params }: TProps) {
                     uid={user.uid}
                     oid={organization.id}
                 />
+                <Info organization={organization} />
             </div>
         </div>
     )

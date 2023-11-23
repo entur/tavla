@@ -140,6 +140,16 @@ export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
     })
 }
 
+export async function setOrganziationFooterInfo(
+    info: string,
+    oid?: TOrganizationID,
+) {
+    if (!oid) return
+    return firestore().collection('organizations').doc(oid).update({
+        footer: info,
+    })
+}
+
 export async function createBoard(
     id: TUserID | TOrganizationID,
     board: TBoard,
