@@ -4,6 +4,10 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const nextConfig = {
     output: 'standalone',
     transpilePackages: ['swr'],
+    i18n: {
+      locales: ["nb", "en"],
+      defaultLocale: "nb"
+    },
     images: {
         remotePatterns: [
             {
