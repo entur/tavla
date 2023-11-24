@@ -1,6 +1,7 @@
 import { ToastProvider } from '@entur/alert'
 import { Contrast } from '@entur/layout'
 import { ResetPassword } from 'Admin/scenarios/ResetPassword'
+import TavlaHead from 'components/TavlaHead'
 import classes from 'styles/pages/admin.module.css'
 
 export async function getServerSideProps({
@@ -28,11 +29,17 @@ export async function getServerSideProps({
 
 function ResetPasswordPage({ oob }: { oob: string }) {
     return (
-        <Contrast className={classes.root}>
-            <ToastProvider>
-                <ResetPassword oob={oob} />
-            </ToastProvider>
-        </Contrast>
+        <>
+            <TavlaHead
+                title="Tilbakestill passord"
+                description="Tilbakestill passordet til brukeren din"
+            />
+            <Contrast className={classes.root}>
+                <ToastProvider>
+                    <ResetPassword oob={oob} />
+                </ToastProvider>
+            </Contrast>
+        </>
     )
 }
 
