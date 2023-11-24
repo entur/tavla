@@ -14,3 +14,10 @@
     text-align: right;
     font-size: 0.5625em;
 }
+
+.cancelled {
+    text-align: right;
+    font-weight: 600;
+    font-size: 0.75em;
+    color: var(--table-estimated-time-color);
+}
