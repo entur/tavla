@@ -5,7 +5,7 @@ const nextConfig = {
     output: 'standalone',
     transpilePackages: ['swr'],
     i18n: {
-      locales: ["nb", "en"],
+      locales: ["nb"],
       defaultLocale: "nb"
     },
     images: {
