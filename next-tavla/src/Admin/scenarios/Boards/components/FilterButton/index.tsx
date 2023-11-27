@@ -33,11 +33,12 @@ function FilterButton() {
                 <div className={classes.buttonWrapper}>
                     <SecondaryButton aria-label="Filtrer tavler på merkelapper">
                         Filter
-                        <FilterIcon />
+                        <FilterIcon aria-hidden="true" />
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
                         {filterTags.length}
                     </NotificationBadge>
+                    <span className="visuallyHidden">merkelapper valgt</span>
                 </div>
             </PopoverTrigger>
             <PopoverContent>

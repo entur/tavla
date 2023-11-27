@@ -10,17 +10,18 @@ import { colorsFromHash, sortArrayByOverlap } from '../../utils'
 
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
-        <div className="flexRow flexWrap g-1 alignCenter">
+        <div className="flexRow flexWrap g-1 alignCenter" role="list">
             {tags.map((tag) => (
                 <Badge
+                    role="listitem"
                     key={tag}
-                    aria-label={tag}
                     variant="primary"
                     style={{
                         color: 'white',
                         backgroundColor: colorsFromHash(tag),
                     }}
                 >
+                    <span className="visuallyHidden">Merkelapp:</span>
                     {tag}
                 </Badge>
             ))}

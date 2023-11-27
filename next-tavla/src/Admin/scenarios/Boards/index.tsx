@@ -50,9 +50,9 @@ function Boards({ boards }: { boards: TBoard[] }) {
         <SettingsContext.Provider value={settings}>
             <SettingsDispatchContext.Provider value={dispatch}>
                 <div className={classes.boards}>
-                    <div className="flexRow justifyBetween ">
-                        <div className={classes.actionRow}>
-                            <Search />
+                    <div className="flexRow alignCenter g-1">
+                        <Search />
+                        <div className="flexRow g-1">
                             <FilterButton />
                             <ToggleBoardsColumns />
                         </div>
