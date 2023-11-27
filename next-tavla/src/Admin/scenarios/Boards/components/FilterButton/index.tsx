@@ -16,7 +16,6 @@ import { FilterChip } from '@entur/chip'
 import { uniq } from 'lodash'
 import classes from './styles.module.css'
 import { NotificationBadge } from '@entur/layout'
-import { VisuallyHidden } from '@entur/a11y'
 
 function FilterButton() {
     const { filterTags, boards } = useBoardsSettings()
@@ -39,7 +38,7 @@ function FilterButton() {
                     <NotificationBadge variant="primary" max={10}>
                         {filterTags.length}
                     </NotificationBadge>
-                    <VisuallyHidden>merkelapper valgt</VisuallyHidden>
+                    <span className="visuallyHidden">merkelapper valgt</span>
                 </div>
             </PopoverTrigger>
             <PopoverContent>
