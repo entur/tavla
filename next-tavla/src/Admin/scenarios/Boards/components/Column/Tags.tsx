@@ -7,7 +7,6 @@ import { TTag } from 'types/meta'
 import { ReactNode } from 'react'
 import { DraggableColumn } from './DraggableColumn'
 import { colorsFromHash, sortArrayByOverlap } from '../../utils'
-import { VisuallyHidden } from '@entur/a11y'
 
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
@@ -22,7 +21,7 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
                         backgroundColor: colorsFromHash(tag),
                     }}
                 >
-                    <VisuallyHidden>Merkelapp: </VisuallyHidden>
+                    <span className="visuallyHidden">Merkelapp:</span>
                     {tag}
                 </Badge>
             ))}
