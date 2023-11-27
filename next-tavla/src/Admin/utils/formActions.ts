@@ -8,15 +8,15 @@ import {
     userCanEditOrganization,
     verifySession,
 } from './firebase'
-import { FeedbackCode } from 'hooks/useFormFeedback'
-import { TOrganizationID } from 'types/settings'
 import { revalidatePath } from 'next/cache'
+import { FeedbackCode } from 'utils/formStatuses'
 
 export async function inviteUserAction(
+    prevState: FeedbackCode | null, // eslint-disable-line @typescript-eslint/no-unused-vars
     data: FormData,
-    oid: TOrganizationID,
 ): Promise<FeedbackCode> {
     try {
+        const oid = data.get('oid')?.toString() ?? ''
         const email = data.get('email')?.toString() ?? ''
         const session = cookies().get('session')
         const user = await verifySession(session?.value)

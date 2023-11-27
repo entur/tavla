@@ -3,6 +3,7 @@ import { DeleteIcon } from '@entur/icons'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import classes from './styles.module.css'
 import { removeUserAction } from 'Admin/utils/formActions'
+import { HiddenInput } from 'components/Form/HiddenInput'
 
 function MemberList({
     members,
@@ -20,18 +21,8 @@ function MemberList({
                     <div>{member.email}</div>
                     {member.uid !== currentUserId && (
                         <form action={removeUserAction}>
-                            <input
-                                type="hidden"
-                                id="userId"
-                                name="userId"
-                                value={member.uid}
-                            />
-                            <input
-                                type="hidden"
-                                id="organizationId"
-                                name="organizationId"
-                                value={oid}
-                            />
+                            <HiddenInput id="userId" value={member.uid} />
+                            <HiddenInput id="organizationId" value={oid} />
                             <IconButton type="submit" aria-label="Fjern bruker">
                                 <DeleteIcon />
                             </IconButton>

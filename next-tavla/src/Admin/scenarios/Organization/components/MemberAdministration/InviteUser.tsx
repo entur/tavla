@@ -1,45 +1,36 @@
 'use client'
-import { Button } from '@entur/button'
 import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
-import { useToggle } from 'hooks/useToggle'
 import { TOrganizationID } from 'types/settings'
 import classes from './styles.module.css'
-import { useFormFeedback } from 'hooks/useFormFeedback'
 import { inviteUserAction } from 'Admin/utils/formActions'
+import { useFormState } from 'react-dom'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { getTextFieldProps } from 'utils/formStatuses'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
-    const [isLoading, enableLoading, disableLoading] = useToggle()
-    const { setFeedback, clearFeedback, getTextFieldProps } = useFormFeedback()
-
-    const submitAction = async (data: FormData) => {
-        enableLoading()
-        clearFeedback()
-        const feedback = await inviteUserAction(data, oid ?? '')
-        disableLoading()
-        setFeedback(feedback)
-    }
+    const [formState, formAction] = useFormState(inviteUserAction, null)
 
     return (
-        <form className={classes.inviteForm} action={submitAction}>
+        <form className={classes.inviteForm} action={formAction}>
+            <HiddenInput id="oid" value={oid} />
             <div className="flexColumn g-1 w-100">
                 <TextField
                     name="email"
                     label="E-post"
                     type="email"
-                    {...getTextFieldProps()}
+                    {...getTextFieldProps(formState)}
                 />
             </div>
-            <Button
+            <SubmitButton
                 variant="primary"
-                loading={isLoading}
-                onClick={clearFeedback}
                 width="fluid"
                 className={classes.addMemberButton}
             >
                 Legg til medlem
                 <AddIcon />
-            </Button>
+            </SubmitButton>
         </form>
     )
 }
