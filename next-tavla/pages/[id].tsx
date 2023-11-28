@@ -10,7 +10,7 @@ import {
 } from 'Admin/utils/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
-import { OrganizationInfoFooter } from 'Board/components/Footer'
+import { OrganizationFooter } from 'Board/components/OrganizationFooter'
 
 export async function getServerSideProps({
     params,
@@ -57,10 +57,10 @@ function BoardPage({
                     organizationLogo={organizationLogo}
                 />
                 <Board board={board} />
-                <div className="flexRow justifyLeft alignCenter text-rem-3">
+                <div className="flexRow alignCenter text-rem-3">
                     {organizationLogo && <Footer />}
                     {organizationFooterInfo && (
-                        <OrganizationInfoFooter
+                        <OrganizationFooter
                             description={organizationFooterInfo ?? ''}
                         />
                     )}

@@ -1,4 +1,7 @@
 'use client'
+import { Button } from '@entur/button'
+import { TextField } from '@entur/form'
+import { Contrast } from 'Admin/components/Contrast'
 import { ChangeEventHandler, useState } from 'react'
 import { TOrganization } from 'types/settings'
 
@@ -10,23 +13,18 @@ function FooterInfoInput({ organzation }: { organzation: TOrganization }) {
     }
 
     return (
-        <div className="infoForm">
-            <label htmlFor="info">
-                <input
-                    type="text"
-                    name="info"
-                    id="info"
-                    onChange={setInfo}
-                    value={info}
-                    className="w-100 mb-2 h-2rem"
-                />
-            </label>
-            <button
-                type="submit"
-                className="secondaryButton w-100 justifyCenter"
-            >
-                Legg til informasjon
-            </button>
+        <div className="flexColumn g-1 w-100">
+            <TextField
+                name="info"
+                label="Informasjon"
+                value={info}
+                onChange={setInfo}
+            />
+            <Contrast>
+                <Button className="w-100" variant="secondary" type="submit">
+                    Lagre
+                </Button>
+            </Contrast>
         </div>
     )
 }
