@@ -1,4 +1,3 @@
-'use client'
 import { PrimaryButton } from '@entur/button'
 import { AddIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
