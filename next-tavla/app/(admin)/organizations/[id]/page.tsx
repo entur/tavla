@@ -10,7 +10,6 @@ import {
 } from 'Admin/utils/firebase'
 import { permanentRedirect } from 'next/navigation'
 import { Metadata } from 'next'
-import { Contrast } from 'Admin/components/Contrast'
 import { Heading1 } from '@entur/typography'
 import { UploadLogo } from 'Admin/scenarios/Organization/components/UploadLogo'
 import { MemberAdministration } from 'Admin/scenarios/Organization/components/MemberAdministration'
@@ -49,9 +48,7 @@ async function EditOrganizationPage({ params }: Props) {
 
     return (
         <div className={classes.root}>
-            <Contrast>
-                <Heading1>{organization.name}</Heading1>
-            </Contrast>
+            <Heading1>{organization.name}</Heading1>
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />
                 <MemberAdministration

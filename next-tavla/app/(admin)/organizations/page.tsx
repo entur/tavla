@@ -3,7 +3,6 @@ import { Organizations } from 'Admin/scenarios/Organizations'
 import { getOrganizationsWithUser, verifySession } from 'Admin/utils/firebase'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { Contrast } from 'Admin/components/Contrast'
 
 async function OrganizationsPage() {
     const session = cookies().get('session')
@@ -15,12 +14,7 @@ async function OrganizationsPage() {
 
     return (
         <div className={classes.root}>
-            <Contrast>
-                <Organizations
-                    organizations={organizations}
-                    userId={user.uid}
-                />
-            </Contrast>
+            <Organizations organizations={organizations} userId={user.uid} />
         </div>
     )
 }
