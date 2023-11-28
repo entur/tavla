@@ -10,6 +10,7 @@ import {
 } from './firebase'
 import { revalidatePath } from 'next/cache'
 import { FeedbackCode } from 'utils/formStatuses'
+import { TavlaError } from 'Admin/types/error'
 
 export async function inviteUserAction(
     prevState: FeedbackCode | null, // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -29,16 +30,13 @@ export async function inviteUserAction(
             return 'invite/user-not-found'
         }
 
-        return await inviteUserToOrganization(inviteeId, oid)
-            .then(() => {
-                revalidatePath('/')
-                return 'invite/success' as FeedbackCode
-            })
-            .catch((e) => {
-                if (e.code === 'ORGANIZATION') return 'invite/already-invited'
-                return 'error'
-            })
+        return await inviteUserToOrganization(inviteeId, oid).then(() => {
+            revalidatePath('/')
+            return 'invite/success' as FeedbackCode
+        })
     } catch (e) {
+        if (e instanceof TavlaError && e.code === 'ORGANIZATION')
+            return 'invite/already-invited'
         return 'error'
     }
 }
