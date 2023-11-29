@@ -11,10 +11,17 @@ import {
     IconButton,
     SecondarySquareButton,
 } from '@entur/button'
-import { useLoginPath } from './useLoginPath'
 import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
-import { login, logout } from './actions'
+import { login, logout, create } from './actions'
 import { TextField } from '@entur/form'
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+} from 'firebase/auth'
+
+import { auth } from 'utils/firebase'
+import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
+import { TLoginPage } from 'Admin/types/login'
 
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
@@ -24,7 +31,6 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
     const loginOpen = params?.has('login') ?? false
     const page = params?.get('login')
     const hasPage = page !== ''
-    console.log(page)
     if (!loggedIn)
         return (
             <form action={logout}>
@@ -69,14 +75,25 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                         <CloseIcon />
                     </SecondarySquareButton>
                 </div>
-                {page === 'email' ? <Email /> : <Start />}
+                <Page page={page as TLoginPage} />
             </Modal>
         </>
     )
 }
 
+function Page({ page }: { page: TLoginPage }) {
+    switch (page) {
+        case 'email':
+            return <Email />
+        case 'create':
+            return <Create />
+        default:
+            return <Start />
+    }
+}
+
 function Start() {
-    const getPath = useLoginPath()
+    const getPathWithParams = useSearchParamsSetter('login')
     return (
         <div className="flexColumn alignCenter textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
@@ -85,10 +102,10 @@ function Start() {
                 Logg inn for å få tilgang til å opprette og administrere tavler.
             </Paragraph>
             <div className="flexColumn g-2 w-100">
-                <PrimaryButton as={Link} href={getPath('email')}>
+                <PrimaryButton as={Link} href={getPathWithParams('email')}>
                     Logg inn med e-post
                 </PrimaryButton>
-                <SecondaryButton as={Link} href={getPath('create')}>
+                <SecondaryButton as={Link} href={getPathWithParams('create')}>
                     Opprett ny bruker
                 </SecondaryButton>
             </div>
@@ -97,19 +114,76 @@ function Start() {
 }
 
 function Email() {
-    const getPath = useLoginPath()
+    const getPathWithParams = useSearchParamsSetter('login')
+
+    const submit = async (data: FormData) => {
+        const email = data.get('email')?.toString()
+        const password = data.get('password')?.toString()
+
+        if (!email || !password) return
+
+        try {
+            const credential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password,
+            )
+            login(await credential.user.getIdToken())
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     return (
         <div className="flexColumn alignCenter textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
             <Heading3>Logg inn med e-post</Heading3>
-            <form className="flexColumn w-100 g-2" action={login}>
+            <form className="flexColumn w-100 g-2" action={submit}>
                 <TextField name="email" label="E-post" type="email" />
                 <TextField name="password" label="Passord" type="password" />
 
                 <PrimaryButton type="submit">Logg inn</PrimaryButton>
-                <SecondaryButton as={Link} href={getPath('reset')}>
+                <SecondaryButton as={Link} href={getPathWithParams('reset')}>
                     Glemt passord?
                 </SecondaryButton>
+            </form>
+        </div>
+    )
+}
+
+function Create() {
+    const submit = async (data: FormData) => {
+        const email = data.get('email')?.toString()
+        const password = data.get('password')?.toString()
+
+        if (!email || !password) return
+
+        try {
+            const credential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password,
+            )
+            const uid = await credential.user.getIdToken()
+            await create(uid)
+            await login(uid)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    return (
+        <div>
+            <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
+            <Heading3>Logg inn med e-post</Heading3>
+            <form className="flexColumn g-2" action={submit}>
+                <TextField name="email" label="E-post" type="email" />
+                <TextField name="password" label="Passord" type="password" />
+                <TextField
+                    name="repeat_password"
+                    label="Gjenta passord"
+                    type="password"
+                />
+                <PrimaryButton type="submit">Opprett ny bruker</PrimaryButton>
             </form>
         </div>
     )

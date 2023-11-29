@@ -2,21 +2,21 @@ import { TLoginPage } from 'Admin/types/login'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 
-function useLoginPath() {
+function useSearchParamsSetter(parameter: string) {
     const pathname = usePathname()
     const params = useSearchParams()
 
-    const getPath = useCallback(
+    const getPathWithParams = useCallback(
         (page: TLoginPage) => {
             const newParams = new URLSearchParams(params ?? undefined)
-            newParams.set('login', page)
+            newParams.set(parameter, page)
 
             return pathname + '?' + newParams.toString()
         },
-        [params, pathname],
+        [params, pathname, parameter],
     )
 
-    return getPath
+    return getPathWithParams
 }
 
-export { useLoginPath }
+export { useSearchParamsSetter }

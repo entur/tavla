@@ -1,7 +1,8 @@
 'use server'
 import { cookies } from 'next/headers'
-import admin from 'firebase-admin'
+import admin, { firestore } from 'firebase-admin'
 import { initializeAdminApp } from 'Admin/utils/firebase'
+import { TUserID } from 'types/settings'
 
 initializeAdminApp()
 
@@ -9,17 +10,23 @@ export async function logout() {
     cookies().delete('session')
 }
 
-export async function login(data: FormData) {
-    const email = data.get('email')
-    const password = data.get('password')
+export async function login(token: string) {
+    const expiresIn = 60 * 60 * 24 * 10 // Ten days in seconds
+    const sessionCookie = await admin.auth().createSessionCookie(token, {
+        expiresIn: expiresIn * 1000, // Firebase expects the number in milliseconds
+    })
 
-    try {
-        admin.auth().verifyIdToken
-    } catch (error: unknown) {
-        if (error instanceof FirebaseError) {
-            setError(error)
-        }
-    }
+    cookies().set({
+        name: 'session',
+        value: sessionCookie,
+        maxAge: expiresIn,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+        path: '/',
+    })
 }
 
-export async function create(data: FormData) {}
+export async function create(uid: TUserID) {
+    await firestore().collection('users').doc(uid).create({})
+}
