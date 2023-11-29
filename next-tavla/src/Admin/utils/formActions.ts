@@ -14,7 +14,7 @@ import { FeedbackCode } from 'utils/formStatuses'
 import { TavlaError } from 'Admin/types/error'
 
 export async function inviteUserAction(
-    prevState: FeedbackCode | null,
+    prevState: FeedbackCode | undefined,
     data: FormData,
 ): Promise<FeedbackCode> {
     try {
@@ -33,7 +33,7 @@ export async function inviteUserAction(
 
         await inviteUserToOrganization(inviteeId, oid)
         revalidatePath('/')
-        return 'invite/success' as FeedbackCode
+        return 'invite/success'
     } catch (e) {
         if (e instanceof TavlaError && e.code === 'ORGANIZATION')
             return 'invite/already-invited'
@@ -42,16 +42,15 @@ export async function inviteUserAction(
 }
 
 export async function removeUserAction(
-    prevState: FeedbackCode | null,
+    prevState: FeedbackCode | undefined,
     data: FormData,
-): Promise<FeedbackCode | null> {
+): Promise<FeedbackCode | undefined> {
     try {
         const organizationId = data.get('organizationId')?.toString() ?? ''
         const userId = data.get('userId')?.toString() ?? ''
 
         removeUserFromOrganization(organizationId, userId)
         revalidatePath('/')
-        return null
     } catch {
         return 'remove-user/error'
     }

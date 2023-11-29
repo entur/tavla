@@ -6,7 +6,7 @@ import { removeUserAction } from 'Admin/utils/formActions'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useFormState } from 'react-dom'
 import { TOrganizationID, TUserID } from 'types/settings'
-import { getFormStatusProps } from 'utils/formStatuses'
+import { getFormStateProps } from 'utils/formStatuses'
 import { FeedbackCode } from 'utils/formStatuses'
 
 function SubmitButton() {
@@ -18,14 +18,14 @@ function SubmitButton() {
 }
 
 function AlertBox({ code }: { code: FeedbackCode }) {
-    const formStatusProps = getFormStatusProps(code)
+    const formStatusProps = getFormStateProps(code)
 
     return (
         <SmallAlertBox
             className="flexRow alignCenter p-1 mr-1"
-            variant={formStatusProps.variant ?? 'info'}
+            variant={formStatusProps?.variant ?? 'info'}
         >
-            {formStatusProps.feedback}
+            {formStatusProps?.feedback}
         </SmallAlertBox>
     )
 }
@@ -37,7 +37,7 @@ function RemoveUserButton({
     uid?: TUserID
     oid?: TOrganizationID
 }) {
-    const [formState, formAction] = useFormState(removeUserAction, null)
+    const [formState, formAction] = useFormState(removeUserAction, undefined)
     return (
         <form action={formAction}>
             <HiddenInput id="userId" value={uid} />

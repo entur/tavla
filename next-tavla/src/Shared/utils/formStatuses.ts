@@ -16,42 +16,46 @@ export type FeedbackCode =
 export type FormValidationFeedback = {
     type: VariantType
     message: string
-} | null
-
-const FORM_STATUSES: Record<FeedbackCode, FormValidationFeedback> = {
-    'invite/user-not-found': {
-        type: 'error',
-        message: 'Fant ingen bruker med denne e-postadressen.',
-    },
-    'invite/already-invited': {
-        type: 'error',
-        message: 'Brukeren er allerede medlem av organisasjonen',
-    },
-    'invite/success': {
-        type: 'success',
-        message: 'Bruker lagt til!',
-    },
-    'auth/not-allowed': {
-        type: 'error',
-        message: 'Ingen tilgang!',
-    },
-    'remove-user/error': {
-        type: 'error',
-        message: 'Kunne ikke slette bruker',
-    },
-    error: {
-        type: 'error',
-        message: 'Noe gikk galt.',
-    },
 }
 
-function getFormStatus(code: FeedbackCode) {
-    return FORM_STATUSES[code] ?? FORM_STATUSES.error
+function getFormState(code: FeedbackCode): FormValidationFeedback {
+    switch (code) {
+        case 'invite/user-not-found':
+            return {
+                type: 'error',
+                message: 'Fant ingen bruker med denne e-postadressen.',
+            }
+        case 'invite/already-invited':
+            return {
+                type: 'error',
+                message: 'Brukeren er allerede medlem av organisasjonen',
+            }
+        case 'invite/success':
+            return {
+                type: 'success',
+                message: 'Bruker lagt til!',
+            }
+        case 'auth/not-allowed':
+            return {
+                type: 'error',
+                message: 'Ingen tilgang!',
+            }
+        case 'remove-user/error':
+            return {
+                type: 'error',
+                message: 'Kunne ikke slette bruker',
+            }
+        default:
+            return {
+                type: 'error',
+                message: 'Noe gikk galt.',
+            }
+    }
 }
 
-export function getFormStatusProps(code: FeedbackCode | null) {
-    if (!code) return {}
-    const status = getFormStatus(code)
+export function getFormStateProps(code: FeedbackCode | undefined) {
+    if (!code) return
+    const status = getFormState(code)
     return {
         variant: status?.type,
         feedback: status?.message,
