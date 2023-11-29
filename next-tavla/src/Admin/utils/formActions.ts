@@ -31,10 +31,9 @@ export async function inviteUserAction(
             return 'invite/user-not-found'
         }
 
-        return await inviteUserToOrganization(inviteeId, oid).then(() => {
-            revalidatePath('/')
-            return 'invite/success' as FeedbackCode
-        })
+        await inviteUserToOrganization(inviteeId, oid)
+        revalidatePath('/')
+        return 'invite/success' as FeedbackCode
     } catch (e) {
         if (e instanceof TavlaError && e.code === 'ORGANIZATION')
             return 'invite/already-invited'
