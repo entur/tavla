@@ -30,8 +30,9 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
                 <Image
                     src={organization.logo ?? TavlaLogo}
                     alt="logo"
-                    width={100}
-                    height={100}
+                    fill
+                    objectFit="contain"
+                    className={classes.image}
                 />
             </div>
             <LogoInput />
