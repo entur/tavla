@@ -6,7 +6,7 @@ import classes from './styles.module.css'
 import { inviteUserAction } from 'Admin/utils/formActions'
 import { useFormState } from 'react-dom'
 import { HiddenInput } from 'components/Form/HiddenInput'
-import { getTextFieldProps } from 'utils/formStatuses'
+import { getFormStatusProps } from 'utils/formStatuses'
 import { SubmitButton } from 'components/Form/SubmitButton'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
@@ -20,7 +20,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                     name="email"
                     label="E-post"
                     type="email"
-                    {...getTextFieldProps(formState)}
+                    {...getFormStatusProps(formState)}
                 />
             </div>
             <SubmitButton

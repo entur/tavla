@@ -1,3 +1,4 @@
+// eslint-disable @typescript-eslint/no-unused-vars
 'use server'
 
 import { cookies } from 'next/headers'
@@ -13,7 +14,7 @@ import { FeedbackCode } from 'utils/formStatuses'
 import { TavlaError } from 'Admin/types/error'
 
 export async function inviteUserAction(
-    prevState: FeedbackCode | null, // eslint-disable-line @typescript-eslint/no-unused-vars
+    prevState: FeedbackCode | null,
     data: FormData,
 ): Promise<FeedbackCode> {
     try {
@@ -41,12 +42,18 @@ export async function inviteUserAction(
     }
 }
 
-export async function removeUserAction(data: FormData) {
+export async function removeUserAction(
+    prevState: FeedbackCode | null,
+    data: FormData,
+): Promise<FeedbackCode | null> {
     try {
         const organizationId = data.get('organizationId')?.toString() ?? ''
         const userId = data.get('userId')?.toString() ?? ''
 
         removeUserFromOrganization(organizationId, userId)
         revalidatePath('/')
-    } catch {}
+        return null
+    } catch {
+        return 'remove-user/error'
+    }
 }
