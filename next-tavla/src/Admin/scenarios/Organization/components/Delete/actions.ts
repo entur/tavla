@@ -16,7 +16,6 @@ export async function deleteOrg(data: FormData) {
 
     if (orgName !== nameInput)
         return { variant: 'info', content: 'Organization name mismatch' }
-
     await deleteOrganization(oid, uid)
     redirect('/organizations')
 }
