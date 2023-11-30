@@ -398,5 +398,22 @@ export async function deleteOrganization(oid: TOrganizationID, uid: TUserID) {
             message: 'User does not have access to this organization.',
         })
     }
-    return firestore().collection('organizations').doc(oid).delete()
+    console.log('delete organization', oid, uid)
+    return Promise.all([
+        firestore().collection('organizations').doc(oid).delete(),
+        deleteOrganizationBoards(oid, uid),
+    ])
+}
+
+export async function deleteOrganizationBoards(
+    oid: TOrganizationID,
+    uid: TUserID,
+) {
+    const boards = await getBoardsForOrganization(oid)
+
+    return Promise.all(
+        boards
+            .filter((board) => board !== undefined)
+            .map((board) => board?.id && deleteBoard(board.id, uid)),
+    )
 }
