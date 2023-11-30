@@ -16,11 +16,11 @@ import { MemberAdministration } from 'Admin/scenarios/Organization/components/Me
 
 initializeAdminApp()
 
-type Props = {
+type TProps = {
     params: { id: string }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     const { id } = params
 
     const organization = await getOrganizationById(id)
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-async function EditOrganizationPage({ params }: Props) {
+async function EditOrganizationPage({ params }: TProps) {
     const { id } = params
 
     const session = cookies().get('session')
