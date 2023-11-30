@@ -1,5 +1,4 @@
 import { Heading1, LeadParagraph } from '@entur/typography'
-import { IllustratedInfo } from '../IllustratedInfo'
 import classes from './styles.module.css'
 
 function NotFound({
