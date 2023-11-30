@@ -1,38 +1,14 @@
-'use client'
 import { Heading2, LeadParagraph } from '@entur/typography'
 import { MemberList } from './MemberList'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
-import { useEffect, useState } from 'react'
 import { InviteUser } from './InviteUser'
-import { Contrast } from '@entur/layout'
+import { Contrast } from 'Admin/components/Contrast'
 
-function MemberAdministration({
-    oid,
-    uid,
-}: {
+function MemberAdministration(props: {
     oid?: TOrganizationID
     uid?: TUserID
+    members: TUser[]
 }) {
-    const [members, setMembers] = useState<TUser[]>([])
-
-    useEffect(() => {
-        const fetchMembers = async () => {
-            const response = await fetch(`/api/organization/${oid}/members`)
-            const { members } = await response.json()
-            setMembers(members)
-        }
-
-        fetchMembers()
-    }, [oid, members.length])
-
-    const addMember = (member: TUser) => {
-        setMembers([...members, member])
-    }
-
-    const removeMember = (uid: TUserID) => {
-        setMembers(members.filter((member) => member.uid !== uid))
-    }
-
     return (
         <Contrast className="flexColumn g-4">
             <div>
@@ -43,13 +19,8 @@ function MemberAdministration({
                     medlemmer.
                 </LeadParagraph>
             </div>
-            <InviteUser oid={oid} addMember={addMember} />
-            <MemberList
-                members={members}
-                removeMember={removeMember}
-                oid={oid}
-                uid={uid}
-            />
+            <InviteUser oid={props.oid} />
+            <MemberList {...props} />
         </Contrast>
     )
 }

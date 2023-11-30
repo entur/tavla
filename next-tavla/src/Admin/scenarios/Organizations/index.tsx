@@ -2,6 +2,7 @@ import { Heading1, Heading2, Paragraph } from '@entur/typography'
 import { CreateOrganization } from './components/CreateOrganization'
 import { TOrganization, TUserID } from 'types/settings'
 import { OrganizationsTable } from './components/OrganizationsTable'
+import { ToastProvider } from 'Admin/components/ToastProvider'
 
 function Organizations(props: {
     organizations: TOrganization[]
@@ -22,7 +23,9 @@ function Organizations(props: {
                         organisasjon. Du kan også administrere hvem som har
                         tilgang til tavlene i organisasjonen.
                     </Paragraph>
-                    <CreateOrganization />
+                    <ToastProvider>
+                        <CreateOrganization />
+                    </ToastProvider>
                 </div>
                 <OrganizationsTable {...props} />
             </div>

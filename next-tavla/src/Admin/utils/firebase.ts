@@ -227,6 +227,11 @@ export async function getOrganization(oid: TOrganizationID) {
     return { ...doc.data(), id: doc.id } as TOrganization
 }
 
+export async function getOrganizationUsers(oid: TOrganizationID) {
+    const org = await getOrganization(oid)
+    return concat(org.owners ?? [], org.editors ?? [])
+}
+
 export async function getOrganizationWithBoard(bid: TBoardID) {
     const ref = await firestore()
         .collection('organizations')

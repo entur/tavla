@@ -1,6 +1,6 @@
 import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
-import { Tooltip } from '@entur/tooltip'
+import { Tooltip } from 'Admin/components/Tooltip'
 import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
 

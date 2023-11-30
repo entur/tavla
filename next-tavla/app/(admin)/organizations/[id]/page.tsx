@@ -1,16 +1,36 @@
-import classes from 'styles/pages/admin.module.css'
+import classes from '../../admin.module.css'
 import { cookies } from 'next/headers'
 import {
     getOrganization,
+    getOrganizationById,
+    getOrganizationUsers,
+    getUsersWithEmailsByUids,
     initializeAdminApp,
     verifySession,
 } from 'Admin/utils/firebase'
 import { permanentRedirect } from 'next/navigation'
-import { Organization } from 'Admin/scenarios/Organization'
+import { Metadata } from 'next'
+import { Heading1 } from '@entur/typography'
+import { UploadLogo } from 'Admin/scenarios/Organization/components/UploadLogo'
+import { MemberAdministration } from 'Admin/scenarios/Organization/components/MemberAdministration'
 
 initializeAdminApp()
 
-async function EditOrganizationPage({ params }: { params: { id: string } }) {
+type TProps = {
+    params: { id: string }
+}
+
+export async function generateMetadata({ params }: TProps): Promise<Metadata> {
+    const { id } = params
+
+    const organization = await getOrganizationById(id)
+
+    return {
+        title: `${organization.name} | Entur Tavla`,
+    }
+}
+
+async function EditOrganizationPage({ params }: TProps) {
     const { id } = params
 
     const session = cookies().get('session')
@@ -23,9 +43,20 @@ async function EditOrganizationPage({ params }: { params: { id: string } }) {
     if (!organization || !organization?.owners?.includes(user.uid))
         return <div>Du har ikke tilgang til denne organisasjonen</div>
 
+    const userIds = await getOrganizationUsers(id ?? '')
+    const members = await getUsersWithEmailsByUids(userIds)
+
     return (
         <div className={classes.root}>
-            <Organization user={user} organization={organization} />
+            <Heading1>{organization.name}</Heading1>
+            <div className={classes.organization}>
+                <UploadLogo organization={organization} />
+                <MemberAdministration
+                    members={members}
+                    uid={user.uid}
+                    oid={organization.id}
+                />
+            </div>
         </div>
     )
 }

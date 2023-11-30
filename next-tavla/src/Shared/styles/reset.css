@@ -56,3 +56,7 @@ a.eds-button > .eds-icon {
 .eds-contrast .eds-expandable-panel__trigger {
     background: var(--secondary-background-color);
 }
+
+.eds-lead-paragraph {
+    font-size: 1em;
+}
