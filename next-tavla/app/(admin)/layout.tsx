@@ -7,7 +7,10 @@ import { ReactNode } from 'react'
 import classes from './admin.module.css'
 
 export const metadata: Metadata = {
-    title: 'Mine organisasjoner | Entur Tavla',
+    title: {
+        template: '%s | Entur Tavla',
+        default: 'Entur Tavla',
+    },
 }
 
 function AdminLayout({ children }: { children: ReactNode }) {

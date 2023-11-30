@@ -1,8 +1,13 @@
 import classes from '../admin.module.css'
 import { Organizations } from 'Admin/scenarios/Organizations'
 import { getOrganizationsWithUser, verifySession } from 'Admin/utils/firebase'
+import { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+
+export const metadata: Metadata = {
+    title: 'Mine organisasjoner',
+}
 
 async function OrganizationsPage() {
     const session = cookies().get('session')

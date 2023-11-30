@@ -25,8 +25,15 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
 
     const organization = await getOrganizationById(id)
 
+    if (!organization)
+        return {
+            title: '404',
+            description: 'Fant ikke organisasjonen',
+        }
+
     return {
-        title: `${organization.name} | Entur Tavla`,
+        title: organization.name,
+        description: `Gjør endringer på organisasjonen "${organization.name}"`,
     }
 }
 

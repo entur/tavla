@@ -7,6 +7,22 @@ import { Header } from 'components/Header'
 import { Board } from 'Board/scenarios/Board'
 import { Footer } from 'components/Footer'
 import { Pinger } from 'components/Pinger'
+import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
+
+export async function generateMetadata({ params }: { params: { id: string } }) {
+    const { id } = params
+
+    const board: TBoard | undefined = await getBoard(id)
+    if (!board)
+        return {
+            title: '404',
+            description: 'Fant ikke tavlen!',
+        }
+
+    return {
+        title: `${board?.meta?.title ?? DEFAULT_BOARD_NAME}`,
+    }
+}
 
 async function BoardPage({ params }: { params: { id: string } }) {
     const { id } = params
