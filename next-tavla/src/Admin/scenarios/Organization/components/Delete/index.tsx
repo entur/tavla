@@ -6,10 +6,12 @@ import { Heading3, LeadParagraph, Paragraph } from '@entur/typography'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { TOrganization, TUserID } from 'types/settings'
-import { deleteOrg } from './actions'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TextField } from '@entur/form'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { getFormStateProps } from 'utils/formStatuses'
+import { deleteOrg } from 'Admin/utils/formActions'
+import { useFormState } from 'react-dom'
 
 function Delete({
     organization,
@@ -23,6 +25,8 @@ function Delete({
     const params = useSearchParams()
 
     const modalIsOpen = params?.has('delete') ?? false
+
+    const [formState, formAction] = useFormState(deleteOrg, undefined)
 
     return (
         <>
@@ -43,7 +47,7 @@ function Delete({
                     Skriv inn navnet på organisasjonen for å bekrefte.
                 </Paragraph>
                 <form
-                    action={deleteOrg}
+                    action={formAction}
                     className="flexColumn alignCenter textCenter g-2 "
                 >
                     <HiddenInput id="uid" value={uid} />
@@ -54,6 +58,7 @@ function Delete({
                         label="Organisasjonsnavn"
                         type="text"
                         required
+                        {...getFormStateProps(formState)}
                     />
                     <SubmitButton variant="primary" className="w-100 g-2">
                         Ja, slett!
