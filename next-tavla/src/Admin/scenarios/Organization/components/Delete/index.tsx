@@ -48,7 +48,7 @@ function Delete({
                 </Paragraph>
                 <form
                     action={formAction}
-                    className="flexColumn alignCenter textCenter g-2 "
+                    className="flexColumn alignCenter textCenter w-100 g-2 "
                 >
                     <HiddenInput id="uid" value={uid} />
                     <HiddenInput id="oid" value={organization.id} />
@@ -58,9 +58,10 @@ function Delete({
                         label="Organisasjonsnavn"
                         type="text"
                         required
+                        className="w-100 g-2"
                         {...getFormStateProps(formState)}
                     />
-                    <SubmitButton variant="primary" className="w-100 g-2">
+                    <SubmitButton variant="primary" width="fluid">
                         Ja, slett!
                     </SubmitButton>
                 </form>
