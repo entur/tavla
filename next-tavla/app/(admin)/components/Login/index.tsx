@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { Modal } from '@entur/modal'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { IconButton, SecondarySquareButton } from '@entur/button'
 import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { logout } from './actions'
@@ -9,15 +9,15 @@ import { TLoginPage } from 'Admin/types/login'
 import { Email } from './Email'
 import { Start } from './Start'
 import { Create } from './Create'
+import { usePageParam } from 'app/(admin)/hooks/usePageParam'
+import { Reset } from './Reset'
 
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
     const pathname = usePathname()
-    const params = useSearchParams()
 
-    const loginOpen = params?.has('login') ?? false
-    const page = params?.get('login')
-    const hasPage = page !== ''
+    const [loginOpen, hasPage, page] = usePageParam('login')
+
     if (!loggedIn)
         return (
             <form action={logout}>
@@ -74,6 +74,8 @@ function Page({ page }: { page: TLoginPage }) {
             return <Email />
         case 'create':
             return <Create />
+        case 'reset':
+            return <Reset />
         default:
             return <Start />
     }

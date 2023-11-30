@@ -1,3 +1,4 @@
+'use client'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import { Heading3, Paragraph } from '@entur/typography'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
