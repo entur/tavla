@@ -22,6 +22,7 @@ import {
 import { auth } from 'utils/firebase'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import { TLoginPage } from 'Admin/types/login'
+import { revalidatePath } from 'next/cache'
 
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
@@ -128,7 +129,9 @@ function Email() {
                 email,
                 password,
             )
-            login(await credential.user.getIdToken())
+            const uid = await credential.user.getIdToken()
+            await login(uid)
+            revalidatePath('/')
         } catch (e) {
             console.log(e)
         }
@@ -167,6 +170,7 @@ function Create() {
             const uid = await credential.user.getIdToken()
             await create(uid)
             await login(uid)
+            revalidatePath('/')
         } catch (e) {
             console.log(e)
         }
