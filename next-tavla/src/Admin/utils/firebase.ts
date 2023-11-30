@@ -318,8 +318,11 @@ export async function getUserByEmail(email: string) {
 }
 
 export async function getOrganizationById(oid: TOrganizationID) {
-    const doc = await firestore().collection('organizations').doc(oid).get()
-    return { ...doc.data(), id: oid } as TOrganization
+    const organization = (
+        await firestore().collection('organizations').doc(oid).get()
+    ).data()
+    if (!organization) return undefined
+    return { id: oid, ...organization } as TOrganization
 }
 
 export async function userCanEditOrganization(uid: TUserID, oid: string) {
