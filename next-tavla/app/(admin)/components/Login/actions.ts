@@ -3,11 +3,13 @@ import { cookies } from 'next/headers'
 import admin, { firestore } from 'firebase-admin'
 import { initializeAdminApp } from 'Admin/utils/firebase'
 import { TUserID } from 'types/settings'
+import { revalidatePath } from 'next/cache'
 
 initializeAdminApp()
 
 export async function logout() {
     cookies().delete('session')
+    revalidatePath('/')
 }
 
 export async function login(token: string) {
