@@ -23,10 +23,8 @@ function Email() {
         previousState: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        const email = data.get('email')?.toString()
-        const password = data.get('password')?.toString()
-
-        if (!email || !password) return
+        const email = data.get('email') as string
+        const password = data.get('password') as string
 
         try {
             const credential = await signInWithEmailAndPassword(

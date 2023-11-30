@@ -5,12 +5,13 @@ import { usePathname, useRouter } from 'next/navigation'
 import { IconButton, SecondarySquareButton } from '@entur/button'
 import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { logout } from './actions'
-import { TLoginPage } from 'Admin/types/login'
 import { Email } from './Email'
 import { Start } from './Start'
 import { Create } from './Create'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { Reset } from './Reset'
+
+type TLoginPage = 'start' | 'email' | 'create' | 'reset'
 
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
@@ -18,7 +19,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
 
     const [loginOpen, hasPage, page] = usePageParam('login')
 
-    if (!loggedIn)
+    if (loggedIn)
         return (
             <form action={logout}>
                 <IconButton type="submit" className="g-2 p-2">

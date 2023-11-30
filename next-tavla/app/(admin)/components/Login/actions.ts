@@ -4,12 +4,14 @@ import admin, { firestore } from 'firebase-admin'
 import { initializeAdminApp } from 'Admin/utils/firebase'
 import { TUserID } from 'types/settings'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 initializeAdminApp()
 
 export async function logout() {
     cookies().delete('session')
     revalidatePath('/')
+    redirect('/')
 }
 
 export async function login(token: string) {
