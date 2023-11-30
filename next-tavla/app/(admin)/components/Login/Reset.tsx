@@ -13,6 +13,7 @@ import {
 import { auth } from 'utils/firebase'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
+import { UserError } from './UserError'
 
 function Reset() {
     const submit = async (
@@ -45,7 +46,8 @@ function Reset() {
                     type="email"
                     {...getFormFeedbackForField('email', state)}
                 />
-
+                <UserError {...getFormFeedbackForField('user', state)} />
+                <UserError {...getFormFeedbackForField('general', state)} />
                 <PrimaryButton type="submit">
                     Tilbakestill passord
                 </PrimaryButton>

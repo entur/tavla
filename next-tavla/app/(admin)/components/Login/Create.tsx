@@ -16,6 +16,7 @@ import {
 } from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
 import { useFormState } from 'react-dom'
+import { UserError } from './UserError'
 
 function Create() {
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
@@ -69,6 +70,9 @@ function Create() {
                     type="password"
                     {...getFormFeedbackForField('repeat_password', state)}
                 />
+
+                <UserError {...getFormFeedbackForField('user', state)} />
+                <UserError {...getFormFeedbackForField('general', state)} />
                 <PrimaryButton type="submit">Opprett ny bruker</PrimaryButton>
             </form>
         </div>

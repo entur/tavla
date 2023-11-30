@@ -17,6 +17,7 @@ import {
 import Link from 'next/link'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
+import { UserError } from './UserError'
 
 function Email() {
     const submit = async (
@@ -61,7 +62,8 @@ function Email() {
                     type="password"
                     {...getFormFeedbackForField('password', state)}
                 />
-
+                <UserError {...getFormFeedbackForField('user', state)} />
+                <UserError {...getFormFeedbackForField('general', state)} />
                 <PrimaryButton type="submit">Logg inn</PrimaryButton>
                 <SecondaryButton as={Link} href={getPathWithParams('reset')}>
                     Glemt passord?
