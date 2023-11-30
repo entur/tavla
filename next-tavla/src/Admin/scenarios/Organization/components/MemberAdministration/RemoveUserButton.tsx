@@ -9,6 +9,26 @@ import { TOrganizationID, TUserID } from 'types/settings'
 import { getFormStateProps } from 'utils/formStatuses'
 import { FeedbackCode } from 'utils/formStatuses'
 
+function RemoveUserButton({
+    uid,
+    oid,
+}: {
+    uid?: TUserID
+    oid?: TOrganizationID
+}) {
+    const [formState, formAction] = useFormState(removeUserAction, undefined)
+    return (
+        <form action={formAction}>
+            <HiddenInput id="userId" value={uid} />
+            <HiddenInput id="organizationId" value={oid} />
+            <div className="flexRow">
+                {formState && <AlertBox code={formState} />}
+                <SubmitButton />
+            </div>
+        </form>
+    )
+}
+
 function SubmitButton() {
     return (
         <IconButton type="submit" aria-label="Fjern bruker">
@@ -27,26 +47,6 @@ function AlertBox({ code }: { code: FeedbackCode }) {
         >
             {formStatusProps?.feedback}
         </SmallAlertBox>
-    )
-}
-
-function RemoveUserButton({
-    uid,
-    oid,
-}: {
-    uid?: TUserID
-    oid?: TOrganizationID
-}) {
-    const [formState, formAction] = useFormState(removeUserAction, undefined)
-    return (
-        <form action={formAction}>
-            <HiddenInput id="userId" value={uid} />
-            <HiddenInput id="organizationId" value={oid} />
-            <div className="flexRow">
-                {formState && <AlertBox code={formState} />}
-                <SubmitButton />
-            </div>
-        </form>
     )
 }
 
