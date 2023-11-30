@@ -1,12 +1,12 @@
-import { IllustratedNotFound } from 'Admin/components/IllustratedNotFound'
+import { NotFound } from 'Admin/components/NotFound'
 
-function NotFoundPage() {
+function AdminNotFoundPage() {
     return (
-        <IllustratedNotFound
+        <NotFound
             title="404 - fant ikke siden"
-            description="Oooops! Denne siden finnes ikke. Dobbeltsjekk at nettadressen er riktig."
+            description="Oooops! Denne siden finnes ikke. Skulle du kanskje et annet sted?"
         />
     )
 }
 
-export default NotFoundPage
+export default AdminNotFoundPage
