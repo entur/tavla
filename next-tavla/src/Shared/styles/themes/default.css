@@ -1,11 +1,4 @@
 :root {
-    /* Contrast */
-    --primary-background-color: var(--colors-brand-blue);
-    --primary-text-color: var(--colors-brand-white);
-    --primary-label-color: var(--colors-brand-lavender);
-    background-color: var(--primary-background-color);
-    color: var(--primary-text-color);
-
     --main-background-color: var(--colors-brand-blue);
     --secondary-background-color: var(--colors-blues-blue10);
     --tertiary-background-color: var(--colors-blues-blue30);
