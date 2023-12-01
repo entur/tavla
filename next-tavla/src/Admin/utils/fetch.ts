@@ -87,7 +87,6 @@ export async function getOrganizationsForUserRequest(): Promise<
     NormalizedDropdownItemType[]
 > {
     const response = await fetch('/api/organization', { method: 'GET' })
-    console.log(response)
 
     if (!response.ok) {
         throw new TavlaError({
