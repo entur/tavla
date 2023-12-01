@@ -9,8 +9,13 @@ import { Metadata } from 'next'
 import { Heading1 } from '@entur/typography'
 import { UploadLogo } from 'Admin/scenarios/Organization/components/UploadLogo'
 import { MemberAdministration } from 'Admin/scenarios/Organization/components/MemberAdministration'
+<<<<<<< HEAD
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
+=======
+import { notFound, permanentRedirect } from 'next/navigation'
+import { Delete } from 'app/(admin)/components/Delete'
+>>>>>>> d6295baa (fix(org): delete organization boards)
 
 initializeAdminApp()
 
