@@ -389,30 +389,3 @@ export async function removeUserFromOrganization(
             editors: admin.firestore.FieldValue.arrayRemove(uid),
         })
 }
-
-export async function deleteOrganization(oid: TOrganizationID, uid: TUserID) {
-    const access = await userCanEditOrganization(uid, oid)
-    if (!access) {
-        throw new TavlaError({
-            code: 'ORGANIZATION',
-            message: 'User does not have access to this organization.',
-        })
-    }
-    return Promise.all([
-        await deleteOrganizationBoards(oid, uid),
-        firestore().collection('organizations').doc(oid).delete(),
-    ])
-}
-
-export async function deleteOrganizationBoards(
-    oid: TOrganizationID,
-    uid: TUserID,
-) {
-    const boards = await getBoardsForOrganization(oid)
-
-    return Promise.all(
-        boards
-            .filter((board) => board !== undefined)
-            .map((board) => board?.id && deleteBoard(board.id, uid)),
-    )
-}
