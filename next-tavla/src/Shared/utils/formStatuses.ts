@@ -5,6 +5,9 @@ type ErrorCode = 'error' | 'auth/not-allowed'
 type InviteErrorCode = 'invite/user-not-found' | 'invite/already-invited'
 type InviteSuccessCode = 'invite/success'
 
+type CreateOrgErrorCode = 'create-org/no-name'
+type CreateOrgSuccessCode = 'create-org/success'
+
 type RemoveUserErrorCode = 'remove-user/error'
 
 export type FeedbackCode =
@@ -12,6 +15,8 @@ export type FeedbackCode =
     | InviteSuccessCode
     | ErrorCode
     | RemoveUserErrorCode
+    | CreateOrgErrorCode
+    | CreateOrgSuccessCode
 
 export type FormValidationFeedback = {
     type: VariantType
@@ -44,6 +49,16 @@ function getFormState(code: FeedbackCode): FormValidationFeedback {
             return {
                 type: 'error',
                 message: 'Kunne ikke slette bruker',
+            }
+        case 'create-org/no-name':
+            return {
+                type: 'error',
+                message: 'Du må sette et navn på organisasjonen',
+            }
+        case 'create-org/success':
+            return {
+                type: 'success',
+                message: 'organisasjon opprettet!',
             }
         default:
             return {
