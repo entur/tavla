@@ -1,0 +1,15 @@
+.enBomTur {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    gap: 0.25rem;
+    font-size: 6rem;
+    font-weight: 500;
+}
+
+.middleText {
+    color: var(--highlight-text-color);
+    font-style: italic;
+    font-weight: 700;
+}

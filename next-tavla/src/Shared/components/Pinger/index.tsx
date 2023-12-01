@@ -1,12 +1,13 @@
+'use client'
 import { useCallback, useEffect } from 'react'
 import { TBoardID } from 'types/settings'
 
-function useUpdateLastActive(documentId: TBoardID | undefined) {
+function Pinger({ boardId }: { boardId?: TBoardID }) {
     const updateLastActive = useCallback(async () => {
-        await fetch(`/api/ping/${documentId}`, {
+        await fetch(`/api/ping/${boardId}`, {
             method: 'POST',
         })
-    }, [documentId])
+    }, [boardId])
 
     useEffect(() => {
         updateLastActive()
@@ -15,6 +16,8 @@ function useUpdateLastActive(documentId: TBoardID | undefined) {
             clearInterval(intervalId)
         }
     }, [updateLastActive])
+
+    return <div hidden aria-hidden />
 }
 
-export { useUpdateLastActive }
+export { Pinger }

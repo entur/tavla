@@ -41,8 +41,9 @@ export async function verifySession(session?: string) {
 }
 
 export async function getBoard(bid: TBoardID) {
-    const board = await firestore().collection('boards').doc(bid).get()
-    return { id: board.id, ...board.data() } as TBoard
+    const board = (await firestore().collection('boards').doc(bid).get()).data()
+    if (!board) return undefined
+    return { id: bid, ...board } as TBoard
 }
 
 export async function getBoardsForUser(uid: TUserID) {
@@ -317,8 +318,11 @@ export async function getUserByEmail(email: string) {
 }
 
 export async function getOrganizationById(oid: TOrganizationID) {
-    const doc = await firestore().collection('organizations').doc(oid).get()
-    return { ...doc.data(), id: oid } as TOrganization
+    const organization = (
+        await firestore().collection('organizations').doc(oid).get()
+    ).data()
+    if (!organization) return undefined
+    return { id: oid, ...organization } as TOrganization
 }
 
 export async function userCanEditOrganization(uid: TUserID, oid: string) {

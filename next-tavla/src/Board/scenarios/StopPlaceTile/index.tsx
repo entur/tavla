@@ -1,3 +1,4 @@
+'use client'
 import { TStopPlaceTile } from 'types/tile'
 import { Table } from '../../scenarios/Table'
 import classes from './styles.module.css'
