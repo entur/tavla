@@ -88,7 +88,7 @@ function Delete({
                         label="Organisasjonsnavn"
                         type="text"
                         required
-                        className="w-100 g-2"
+                        className="w-100"
                     />
                     <UserError
                         {...getFormFeedbackForField('organization_name', state)}
