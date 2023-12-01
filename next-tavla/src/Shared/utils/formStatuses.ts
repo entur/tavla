@@ -45,7 +45,6 @@ function getFormState(code: FeedbackCode): FormValidationFeedback {
                 type: 'error',
                 message: 'Kunne ikke slette bruker',
             }
-
         default:
             return {
                 type: 'error',
