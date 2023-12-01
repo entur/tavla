@@ -7,17 +7,11 @@ type InviteSuccessCode = 'invite/success'
 
 type RemoveUserErrorCode = 'remove-user/error'
 
-type DeleteOrganizationErrorCode =
-    | 'delete-organization/error'
-    | 'delete-organization/id-not-found'
-    | 'delete-organization/name-mismatch'
-
 export type FeedbackCode =
     | InviteErrorCode
     | InviteSuccessCode
     | ErrorCode
     | RemoveUserErrorCode
-    | DeleteOrganizationErrorCode
 
 export type FormValidationFeedback = {
     type: VariantType
@@ -50,21 +44,6 @@ function getFormState(code: FeedbackCode): FormValidationFeedback {
             return {
                 type: 'error',
                 message: 'Kunne ikke slette bruker',
-            }
-        case 'delete-organization/error':
-            return {
-                type: 'error',
-                message: 'Kunne ikke slette organisasjon',
-            }
-        case 'delete-organization/id-not-found':
-            return {
-                type: 'error',
-                message: 'Fant ikke organisasjonen eller brukeren',
-            }
-        case 'delete-organization/name-mismatch':
-            return {
-                type: 'error',
-                message: 'Organisasjonsnavnet stemmer ikke',
             }
 
         default:
