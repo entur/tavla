@@ -23,7 +23,6 @@ export async function deleteOrganizationBoard(
     uid: TUserID,
 ) {
     const access = await userCanEditOrganization(uid, oid)
-    console.log('oid', oid, 'bid', bid, 'uid', uid, 'deleteBoard')
     if (!access) {
         throw new TavlaError({
             code: 'ORGANIZATION',
