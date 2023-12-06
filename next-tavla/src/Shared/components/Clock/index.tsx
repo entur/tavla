@@ -1,4 +1,3 @@
-'use client'
 import { useEffect, useState } from 'react'
 import classes from './styles.module.css'
 import { formatTimeStamp } from 'utils/time'

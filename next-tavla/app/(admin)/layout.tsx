@@ -11,10 +11,7 @@ import { verifySession } from 'Admin/utils/firebase'
 import { IconButton } from '@entur/button'
 
 export const metadata: Metadata = {
-    title: {
-        template: '%s | Entur Tavla',
-        default: 'Entur Tavla',
-    },
+    title: 'Mine organisasjoner | Entur Tavla',
 }
 
 async function AdminLayout({ children }: { children: ReactNode }) {

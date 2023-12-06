@@ -16,14 +16,14 @@ export default async function handler(
         const user = await verifyUserSession(request)
         const organization = await getOrganizationById(oid as string)
 
+        if (!user || !organization.owners?.includes(user.uid)) {
+            return response.status(401).json({ message: 'Unauthorized' })
+        }
+
         if (!organization) {
             return response
                 .status(404)
                 .json({ message: 'Organization not found' })
-        }
-
-        if (!user || !organization.owners?.includes(user.uid)) {
-            return response.status(401).json({ message: 'Unauthorized' })
         }
 
         switch (request.method) {

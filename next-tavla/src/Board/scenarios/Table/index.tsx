@@ -1,4 +1,4 @@
-'use client'
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TDepartureFragment } from 'graphql/index'
 import React from 'react'
 import { Destination } from './components/Destination'
