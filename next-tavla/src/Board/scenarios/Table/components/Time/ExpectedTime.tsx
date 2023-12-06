@@ -1,14 +1,10 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import {
-    formatDateString,
-    getDate,
-    getRelativeTimeString,
-    isDateStringToday,
-} from 'utils/time'
+import { formatDateString, getRelativeTimeString } from 'utils/time'
 import classes from './styles.module.css'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
+import { FormattedTime } from './components/FormattedTime'
 
 function ExpectedTime() {
     const departures = useNonNullContext(DeparturesContext)
@@ -72,18 +68,9 @@ function Time({
         )
     }
 
-    const isDepartureToday = isDateStringToday(expectedDepartureTime)
-
     return (
         <>
-            <div className="textRight weight600">
-                {getRelativeTimeString(expectedDepartureTime)}
-            </div>
-            {!isDepartureToday && (
-                <div className={classes.departureDate}>
-                    {getDate(expectedDepartureTime)}
-                </div>
-            )}
+            <FormattedTime time={expectedDepartureTime} />
         </>
     )
 }
