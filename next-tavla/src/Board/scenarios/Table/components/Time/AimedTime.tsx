@@ -1,8 +1,9 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
-import { formatDateString } from 'utils/time'
+import { formatDateString, getDate, isDateStringToday } from 'utils/time'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
+import classes from './styles.module.css'
 
 function AimedTime() {
     const departures = useNonNullContext(DeparturesContext)
@@ -19,6 +20,11 @@ function AimedTime() {
                     <div className="textRight weight600">
                         {formatDateString(t.aimedDepartureTime)}
                     </div>
+                    {!isDateStringToday(t.aimedDepartureTime) && (
+                        <div className={classes.departureDate}>
+                            {getDate(t.aimedDepartureTime)}
+                        </div>
+                    )}
                 </TableRow>
             ))}
         </TableColumn>
