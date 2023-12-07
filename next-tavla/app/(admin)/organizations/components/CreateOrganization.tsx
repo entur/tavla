@@ -3,30 +3,36 @@ import { PrimaryButton } from '@entur/button'
 import { AddIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
-import { useToggle } from 'hooks/useToggle'
 import { TextField } from '@entur/form'
 import { useFormState } from 'react-dom'
 import { createOrganizationAction } from 'Admin/utils/formActions'
 import { ToastProvider } from '@entur/alert'
+import { usePageParam } from 'app/(admin)/hooks/usePageParam'
+import { useRouter, usePathname } from 'next/navigation'
+import { getFormFeedbackForField } from 'app/(admin)/utils'
+import Link from 'next/link'
+import { FormError } from 'app/(admin)/components/Login/FormError'
 
 function CreateOrganization() {
-    const [showModal, openModal, closeModal] = useToggle()
-    const [formState, formAction] = useFormState(
+    const [createOpen] = usePageParam('create')
+    const router = useRouter()
+    const pathname = usePathname()
+    const [state, formAction] = useFormState(
         createOrganizationAction,
         undefined,
     )
 
     return (
         <ToastProvider>
-            <PrimaryButton onClick={openModal}>
+            <PrimaryButton as={Link} href="?create">
                 Opprett organisasjon
                 <AddIcon />
             </PrimaryButton>
             <Modal
                 className="flexColumn alignCenter"
-                open={showModal}
+                open={createOpen}
                 size="medium"
-                onDismiss={closeModal}
+                onDismiss={() => router.push(pathname ?? '/')}
                 title="Opprett organisasjon"
                 closeLabel="Avbryt oppretting av organisasjon"
             >
@@ -42,10 +48,11 @@ function CreateOrganization() {
                         size="medium"
                         label="Navn på din organisasjon"
                         className="w-50"
-                        id="organizationName"
-                        name="organizationName"
-                        {...getFormStateProps(formState)}
+                        id="name"
+                        name="name"
+                        required
                     />
+                    <FormError {...getFormFeedbackForField('general', state)} />
                     <PrimaryButton className="mt-2" type="submit">
                         Opprett
                     </PrimaryButton>

@@ -1,7 +1,7 @@
 import { SmallAlertBox } from '@entur/alert'
 import { VariantType } from '@entur/form'
 
-function UserError({
+function FormError({
     feedback,
     variant,
 }: {
@@ -12,4 +12,4 @@ function UserError({
     return <SmallAlertBox variant={variant}>{feedback}</SmallAlertBox>
 }
 
-export { UserError }
+export { FormError }

@@ -9,10 +9,14 @@ export type TFormFeedback = {
     variant?: VariantType
 }
 
-export type TError = FirebaseError
+export type TError = FirebaseError | string
 
 export function getFormFeedbackForError(e: TError): TFormFeedback {
-    switch (e.code) {
+    let code = e
+    if (e instanceof FirebaseError) {
+        code = e.code
+    }
+    switch (code) {
         case 'auth/invalid-email':
             return {
                 form_type: 'email',
@@ -65,8 +69,8 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
             }
         case 'auth/operation-not-allowed':
             return {
-                form_type: 'user',
-                feedback: 'Opprettelse av ny bruker feilet.',
+                form_type: 'general',
+                feedback: 'Du har ikke tilgang til å utføre denne operasjonen',
                 variant: 'error',
             }
         case 'auth/expired-action-code':
@@ -86,6 +90,18 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 form_type: 'email',
                 feedback: 'Skriv inn en e-postadresse.',
                 variant: 'warning',
+            }
+        case 'organization/not-found':
+            return {
+                form_type: 'general',
+                feedback: 'Fant ikke organisasjonen',
+                variant: 'error',
+            }
+        case 'organization/user-already-invited':
+            return {
+                form_type: 'general',
+                feedback: 'Denne personen er allerede medlem av organisasjoen.',
+                variant: 'info',
             }
     }
 

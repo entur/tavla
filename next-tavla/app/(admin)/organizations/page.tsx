@@ -3,7 +3,8 @@ import classes from '../admin.module.css'
 import { getOrganizationsWithUser, verifySession } from 'Admin/utils/firebase'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { CreateOrganization } from 'Admin/scenarios/Organizations/components/CreateOrganization'
+import { CreateOrganization } from './components/CreateOrganization'
+import { OrganizationsTable } from './components/OrganizationsTable'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla | Organisasjoner',
@@ -34,7 +35,10 @@ async function OrganizationsPage() {
                     </Paragraph>
                     <CreateOrganization />
                 </div>
-                <OrganizationsTable organization={} userId={} />
+                <OrganizationsTable
+                    organizations={organizations}
+                    userId={user.uid}
+                />
             </div>
         </div>
     )
