@@ -2,7 +2,7 @@ import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
-import { formatDateString } from 'utils/time'
+import { FormattedTime } from './components/FormattedTime'
 
 function ArrivalTime() {
     const departures = useNonNullContext(DeparturesContext)
@@ -16,9 +16,7 @@ function ArrivalTime() {
         <TableColumn title="Ankomst" className="textRight">
             {time.map((t) => (
                 <TableRow key={t.key}>
-                    <div className="textRight weight600">
-                        {formatDateString(t.expectedArrivalTime)}
-                    </div>
+                    <FormattedTime time={t.expectedArrivalTime} />
                 </TableRow>
             ))}
         </TableColumn>
