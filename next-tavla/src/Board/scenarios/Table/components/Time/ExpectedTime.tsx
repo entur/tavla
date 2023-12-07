@@ -68,11 +68,7 @@ function Time({
         )
     }
 
-    return (
-        <>
-            <FormattedTime time={expectedDepartureTime} />
-        </>
-    )
+    return <FormattedTime time={expectedDepartureTime} />
 }
 
 export { ExpectedTime }
