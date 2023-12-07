@@ -14,10 +14,7 @@ import { ReactNode } from 'react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: {
-        template: '%s | Entur Tavla',
-        default: 'Entur Tavla',
-    },
+    title: 'Entur Tavla',
     manifest: '/site.webmanifest',
     icons: [
         {

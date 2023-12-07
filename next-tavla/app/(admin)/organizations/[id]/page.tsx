@@ -8,11 +8,11 @@ import {
     initializeAdminApp,
     verifySession,
 } from 'Admin/utils/firebase'
+import { permanentRedirect } from 'next/navigation'
 import { Metadata } from 'next'
 import { Heading1 } from '@entur/typography'
 import { UploadLogo } from 'Admin/scenarios/Organization/components/UploadLogo'
 import { MemberAdministration } from 'Admin/scenarios/Organization/components/MemberAdministration'
-import { notFound, permanentRedirect } from 'next/navigation'
 
 initializeAdminApp()
 
@@ -25,15 +25,8 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
 
     const organization = await getOrganizationById(id)
 
-    if (!organization)
-        return {
-            title: '404',
-            description: 'Fant ikke organisasjonen',
-        }
-
     return {
-        title: organization.name,
-        description: `Gjør endringer på organisasjonen "${organization.name}"`,
+        title: `${organization.name} | Entur Tavla`,
     }
 }
 
@@ -47,7 +40,8 @@ async function EditOrganizationPage({ params }: TProps) {
 
     const organization = await getOrganization(id)
 
-    if (!organization || !organization?.owners?.includes(user.uid)) notFound()
+    if (!organization || !organization?.owners?.includes(user.uid))
+        return <div>Du har ikke tilgang til denne organisasjonen</div>
 
     const userIds = await getOrganizationUsers(id ?? '')
     const members = await getUsersWithEmailsByUids(userIds)
