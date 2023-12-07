@@ -1,12 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { TavlaError } from 'Admin/types/error'
 import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
-import {
-    TBoardID,
-    TOrganization,
-    TOrganizationID,
-    TUserID,
-} from 'types/settings'
+import { TBoardID, TOrganization } from 'types/settings'
 
 type TPartialGeoResponse = {
     features: Array<{
@@ -88,24 +83,12 @@ export async function fetchDeleteBoard(bid: TBoardID) {
     }
 }
 
-export async function createOrganizationRequest(name: string) {
-    const response = await fetch('/api/organization', {
-        method: 'POST',
-        body: JSON.stringify({ name: name }),
-    })
-    if (!response.ok) {
-        throw new TavlaError({
-            code: 'ORGANIZATION',
-            message: 'Could not create organization',
-        })
-    }
-    return response
-}
-
 export async function getOrganizationsForUserRequest(): Promise<
     NormalizedDropdownItemType[]
 > {
     const response = await fetch('/api/organization', { method: 'GET' })
+    console.log(response)
+
     if (!response.ok) {
         throw new TavlaError({
             code: 'ORGANIZATION',
@@ -117,42 +100,5 @@ export async function getOrganizationsForUserRequest(): Promise<
             value: org.id,
             label: org.name,
         }))
-    })
-}
-
-export async function fetchRemoveUserFromOrganization(
-    oid?: TOrganizationID,
-    uid?: TUserID,
-) {
-    if (!oid || !uid)
-        throw new TavlaError({
-            code: 'NOT_FOUND',
-            message: 'oid or uid is missing',
-        })
-
-    const response = await fetch(`/api/organization/${oid}/members/${uid}`, {
-        method: 'DELETE',
-    })
-    if (!response.ok) {
-        throw new TavlaError({
-            code: 'ORGANIZATION',
-            message: 'Could not remove user from organization',
-        })
-    }
-}
-
-export async function fetchInviteUserToOrganizationByEmail(
-    email: string,
-    oid?: TOrganizationID,
-) {
-    if (!oid)
-        throw new TavlaError({
-            code: 'ORGANIZATION',
-            message: 'No OID provided',
-        })
-
-    return fetch(`/api/organization/${oid}/members/invite`, {
-        method: 'POST',
-        body: JSON.stringify({ email }),
     })
 }
