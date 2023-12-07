@@ -7,7 +7,7 @@ import { CreateOrganization } from './components/CreateOrganization'
 import { OrganizationsTable } from './components/OrganizationsTable'
 
 export const metadata: Metadata = {
-    title: 'Entur Tavla | Organisasjoner',
+    title: 'Organisasjoner | Entur Tavla',
 }
 
 async function OrganizationsPage() {

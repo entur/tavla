@@ -12,7 +12,6 @@ import { FormError } from 'app/(admin)/components/Login/FormError'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
     const [state, formAction] = useFormState(inviteUserAction, undefined)
-    console.log(state)
 
     return (
         <form action={formAction}>
