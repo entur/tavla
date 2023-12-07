@@ -8,7 +8,7 @@ import { useFormState } from 'react-dom'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
-import { FormError } from 'app/(admin)/components/Login/FormError'
+import { FormError } from 'app/(admin)/components/FormError'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
     const [state, formAction] = useFormState(inviteUserAction, undefined)

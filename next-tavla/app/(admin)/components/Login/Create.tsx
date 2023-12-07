@@ -16,7 +16,7 @@ import {
 } from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
 import { useFormState } from 'react-dom'
-import { FormError } from './FormError'
+import { FormError } from '../FormError'
 
 function Create() {
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {

@@ -2,7 +2,7 @@
 import { IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { removeUserAction } from 'Admin/utils/formActions'
-import { FormError } from 'app/(admin)/components/Login/FormError'
+import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useFormState } from 'react-dom'

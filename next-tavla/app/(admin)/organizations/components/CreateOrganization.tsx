@@ -11,7 +11,7 @@ import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { useRouter, usePathname } from 'next/navigation'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import Link from 'next/link'
-import { FormError } from 'app/(admin)/components/Login/FormError'
+import { FormError } from 'app/(admin)/components/FormError'
 
 function CreateOrganization() {
     const [createOpen] = usePageParam('create')

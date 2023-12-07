@@ -17,7 +17,7 @@ import {
 import Link from 'next/link'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
-import { FormError } from './FormError'
+import { FormError } from '../FormError'
 
 function Email() {
     const submit = async (

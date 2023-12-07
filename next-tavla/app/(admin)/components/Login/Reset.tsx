@@ -13,7 +13,7 @@ import {
 import { auth } from 'utils/firebase'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
-import { FormError } from './FormError'
+import { FormError } from '../FormError'
 
 function Reset() {
     const submit = async (
