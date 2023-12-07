@@ -16,7 +16,7 @@ function RemoveUserButton({
     oid?: TOrganizationID
 }) {
     const [state, formAction] = useFormState(removeUserAction, undefined)
-    console.log(state)
+
     return (
         <form action={formAction}>
             <HiddenInput id="uid" value={uid} />

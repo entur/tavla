@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { CreateOrganization } from './components/CreateOrganization'
 import { OrganizationsTable } from './components/OrganizationsTable'
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Organisasjoner | Entur Tavla',
