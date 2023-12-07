@@ -1,13 +1,12 @@
 'use client'
-import { SmallAlertBox } from '@entur/alert'
 import { IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { removeUserAction } from 'Admin/utils/formActions'
+import { FormError } from 'app/(admin)/components/Login/FormError'
+import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useFormState } from 'react-dom'
 import { TOrganizationID, TUserID } from 'types/settings'
-import { getFormStateProps } from 'utils/formStatuses'
-import { FeedbackCode } from 'utils/formStatuses'
 
 function RemoveUserButton({
     uid,
@@ -16,37 +15,19 @@ function RemoveUserButton({
     uid?: TUserID
     oid?: TOrganizationID
 }) {
-    const [formState, formAction] = useFormState(removeUserAction, undefined)
+    const [state, formAction] = useFormState(removeUserAction, undefined)
+    console.log(state)
     return (
         <form action={formAction}>
-            <HiddenInput id="userId" value={uid} />
-            <HiddenInput id="organizationId" value={oid} />
+            <HiddenInput id="uid" value={uid} />
+            <HiddenInput id="oid" value={oid} />
             <div className="flexRow">
-                {formState && <AlertBox code={formState} />}
-                <SubmitButton />
+                <FormError {...getFormFeedbackForField('general', state)} />
+                <IconButton type="submit" aria-label="Fjern bruker">
+                    <DeleteIcon />
+                </IconButton>
             </div>
         </form>
-    )
-}
-
-function SubmitButton() {
-    return (
-        <IconButton type="submit" aria-label="Fjern bruker">
-            <DeleteIcon />
-        </IconButton>
-    )
-}
-
-function AlertBox({ code }: { code: FeedbackCode }) {
-    const formStatusProps = getFormStateProps(code)
-
-    return (
-        <SmallAlertBox
-            className="flexRow alignCenter p-1 mr-1"
-            variant={formStatusProps?.variant ?? 'info'}
-        >
-            {formStatusProps?.feedback}
-        </SmallAlertBox>
     )
 }
 

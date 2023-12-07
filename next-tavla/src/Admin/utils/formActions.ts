@@ -11,75 +11,78 @@ import {
     verifySession,
 } from './firebase'
 import { revalidatePath } from 'next/cache'
-import { FeedbackCode } from 'utils/formStatuses'
-import { TavlaError } from 'Admin/types/error'
+import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { FirebaseError } from 'firebase/app'
+import { isString } from 'lodash'
+import { redirect } from 'next/navigation'
+import { TOrganizationID } from 'types/settings'
 
-async function getUserFromSessionCookie() {
+export async function getUserFromSessionCookie() {
     const session = cookies().get('session')
-    const user = await verifySession(session?.value)
-    return user
+    return await verifySession(session?.value)
 }
 
 export async function inviteUserAction(
-    prevState: FeedbackCode | undefined,
+    prevState: TFormFeedback | undefined,
     data: FormData,
-): Promise<FeedbackCode> {
+) {
     try {
         const oid = data.get('oid')?.toString() ?? ''
-        const email = data.get('email')?.toString() ?? ''
+
+        const email = data.get('email')?.toString()
+        if (!email) return getFormFeedbackForError('auth/invalid-email')
+
         const user = await getUserFromSessionCookie()
 
         if (!user || !userCanEditOrganization(user.uid, oid))
-            return 'auth/not-allowed'
+            return getFormFeedbackForError('auth/operation-not-allowed')
 
         const inviteeId = (await getUserByEmail(email))?.uid
-        if (!inviteeId) {
-            return 'invite/user-not-found'
-        }
+        if (!inviteeId) return getFormFeedbackForError('auth/user-not-found')
 
-        await inviteUserToOrganization(inviteeId, oid)
+        await inviteUserToOrganization(user.uid, inviteeId, oid)
         revalidatePath('/')
-        return 'invite/success'
     } catch (e) {
-        if (e instanceof TavlaError && e.code === 'ORGANIZATION')
-            return 'invite/already-invited'
-        return 'error'
+        if (e instanceof FirebaseError || isString(e))
+            return getFormFeedbackForError(e)
     }
 }
 
 export async function removeUserAction(
-    prevState: FeedbackCode | undefined,
+    prevState: TFormFeedback | undefined,
     data: FormData,
-): Promise<FeedbackCode | undefined> {
+) {
     try {
-        const organizationId = data.get('organizationId')?.toString() ?? ''
-        const userId = data.get('userId')?.toString() ?? ''
+        const organizationId = data.get('oid')?.toString() ?? ''
+        const uid = data.get('uid')?.toString() ?? ''
 
-        removeUserFromOrganization(organizationId, userId)
+        const user = await getUserFromSessionCookie()
+        if (!user) redirect('/')
+
+        await removeUserFromOrganization(user.uid, organizationId, uid)
         revalidatePath('/')
-    } catch {
-        return 'remove-user/error'
+    } catch (e) {
+        if (e instanceof FirebaseError || isString(e))
+            return getFormFeedbackForError(e)
     }
 }
 
 export async function createOrganizationAction(
-    prevState: FeedbackCode | undefined,
+    prevState: TFormFeedback | undefined,
     data: FormData,
-): Promise<FeedbackCode> {
+) {
+    let oid: TOrganizationID | undefined
     try {
-        const name = data.get('organizationName')?.toString() ?? ''
-
-        if (name === '') return 'create-org/no-name'
+        const name = data.get('name')?.toString() ?? ''
 
         const user = await getUserFromSessionCookie()
 
-        if (!user) throw new Error()
+        if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-        await createOrganization(user.uid, name)
-        revalidatePath('/')
-
-        return 'create-org/success'
-    } catch {
-        return 'error'
+        oid = await createOrganization(user.uid, name)
+    } catch (e) {
+        if (e instanceof FirebaseError || isString(e))
+            return getFormFeedbackForError(e)
     }
+    if (oid) redirect(`/organizations/${oid}`)
 }

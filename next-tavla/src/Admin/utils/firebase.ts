@@ -3,6 +3,7 @@ import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore, storage } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { chunk, concat, isEmpty } from 'lodash'
+import { notFound } from 'next/navigation'
 import {
     TBoard,
     TBoardID,
@@ -228,9 +229,17 @@ export async function getOrganization(oid: TOrganizationID) {
     return { ...doc.data(), id: doc.id } as TOrganization
 }
 
-export async function getOrganizationUsers(oid: TOrganizationID) {
-    const org = await getOrganization(oid)
-    return concat(org.owners ?? [], org.editors ?? [])
+export async function getOrganizationUsers(uid: TUserID, oid: TOrganizationID) {
+    const organization = await getOrganization(oid)
+
+    if (!organization || !organization.owners?.includes(uid)) return notFound()
+
+    const uids = concat(organization.owners ?? [], organization.editors ?? [])
+    const userResults = await auth().getUsers(
+        uids.map((uid) => ({ uid } as UidIdentifier)),
+    )
+
+    return userResults.users.map(({ uid, email }) => ({ uid, email } as TUser))
 }
 
 export async function getOrganizationWithBoard(bid: TBoardID) {
@@ -325,31 +334,43 @@ export async function getOrganizationById(oid: TOrganizationID) {
     return { id: oid, ...organization } as TOrganization
 }
 
-export async function userCanEditOrganization(uid: TUserID, oid: string) {
+export async function userCanEditOrganization(
+    uid: TUserID,
+    oid: TOrganizationID,
+) {
     const organization = await getOrganizationById(oid)
     return organization?.owners?.includes(uid) ?? false
 }
 
-export async function inviteUserToOrganization(
-    inviteeId: TUserID,
-    oid: string,
-    pool: 'owners' | 'editors' = 'owners',
+export async function userCanReadOrganization(
+    uid: TUserID,
+    oid: TOrganizationID,
 ) {
     const organization = await getOrganizationById(oid)
+    return (
+        organization?.owners
+            ?.concat(organization.editors ?? [])
+            .includes(uid) ?? false
+    )
+}
 
-    if (!organization)
-        throw new TavlaError({
-            code: 'NOT_FOUND',
-            message: 'Organization does not exist.',
-        })
+export async function inviteUserToOrganization(
+    callerId: TUserID,
+    inviteeId: TUserID,
+    oid: TOrganizationID,
+    pool: 'owners' | 'editors' = 'owners',
+) {
+    if (!(await userCanEditOrganization(callerId, oid)))
+        throw 'auth/operation-not-allowed'
+
+    const organization = await getOrganizationById(oid)
+
+    if (!organization) throw 'organization/not-found'
 
     const peers = organization[pool]
 
     if (peers && peers.includes(inviteeId))
-        throw new TavlaError({
-            code: 'ORGANIZATION',
-            message: 'User is already invited to this organization.',
-        })
+        throw 'organization/user-already-invited'
 
     return firestore()
         .collection('organizations')
@@ -359,18 +380,13 @@ export async function inviteUserToOrganization(
         })
 }
 
-export async function getUsersWithEmailsByUids(uids: TUserID[]) {
-    const userResults = await auth().getUsers(
-        uids.map((uid) => ({ uid } as UidIdentifier)),
-    )
-
-    return userResults.users.map(({ uid, email }) => ({ uid, email } as TUser))
-}
-
 export async function removeUserFromOrganization(
+    callerId: TUserID,
     oid: TOrganizationID,
     uid: TUserID,
 ) {
+    if (!(await userCanEditOrganization(callerId, oid)))
+        throw 'auth/operation-not-allowed'
     return firestore()
         .collection('organizations')
         .doc(oid)
