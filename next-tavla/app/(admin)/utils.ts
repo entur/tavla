@@ -1,7 +1,13 @@
 import { VariantType } from '@entur/form'
 import { FirebaseError } from 'firebase/app'
 
-type InputType = 'general' | 'user' | 'email' | 'password' | 'repeat_password'
+type InputType =
+    | 'general'
+    | 'user'
+    | 'email'
+    | 'password'
+    | 'repeat_password'
+    | 'info'
 
 export type TFormFeedback = {
     form_type: InputType
@@ -10,6 +16,8 @@ export type TFormFeedback = {
 }
 
 export type TError = FirebaseError | string
+
+export type TSuccess = string
 
 export function getFormFeedbackForError(e: TError): TFormFeedback {
     let code = e
@@ -103,12 +111,35 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 feedback: 'Denne personen er allerede medlem av organisasjoen.',
                 variant: 'info',
             }
+        case 'info/error':
+            return {
+                form_type: 'info',
+                feedback: 'En feil har oppstått ved lagring av informasjonen.',
+                variant: 'error',
+            }
     }
 
     return {
         form_type: 'general',
         feedback: 'En feil har oppstått',
         variant: 'error',
+    }
+}
+
+export function getFormFeedbackForSuccess(code: TSuccess): TFormFeedback {
+    switch (code) {
+        case 'info/updated':
+            return {
+                form_type: 'info',
+                feedback: 'Informasjonen er oppdatert.',
+                variant: 'success',
+            }
+    }
+
+    return {
+        form_type: 'general',
+        feedback: 'Suksess',
+        variant: 'success',
     }
 }
 
