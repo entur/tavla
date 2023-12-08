@@ -11,7 +11,6 @@ import { verifyUserSession } from 'Admin/utils/auth'
 import { IncomingNextMessage } from 'types/next'
 import { AdminHeader } from 'Admin/components/AdminHeader'
 import { SelectOrganization } from 'Admin/scenarios/Boards/components/SelectOrganization'
-import TavlaHead from 'components/TavlaHead'
 
 export async function getServerSideProps({
     req,
@@ -47,11 +46,6 @@ function OverviewPage({
 }) {
     return (
         <div className={classes.root}>
-            <TavlaHead
-                title="Mine tavler"
-                description="Tabell med dine tavler"
-            />
-
             <AdminHeader loggedIn />
             <Contrast>
                 <ToastProvider>
