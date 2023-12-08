@@ -6,8 +6,6 @@ import { Board } from 'Board/scenarios/Board'
 import { getBoard, getOrganizationLogoWithBoard } from 'Admin/utils/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
-import TavlaHead from 'components/TavlaHead'
-import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 
 export async function getServerSideProps({
     params,
@@ -43,14 +41,8 @@ function BoardPage({
 }) {
     useUpdateLastActive(board.id)
 
-    const boardName = board.meta?.title ?? DEFAULT_BOARD_NAME
-
     return (
         <div className={classes.root} data-theme={board.theme ?? 'dark'}>
-            <TavlaHead
-                title={boardName}
-                description={`Tavlevisning for ${boardName}`}
-            />
             <div className={classes.rootContainer}>
                 <Header
                     theme={board.theme}
