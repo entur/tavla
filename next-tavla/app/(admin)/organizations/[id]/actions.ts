@@ -7,7 +7,7 @@ import { TOrganizationID } from 'types/settings'
 
 export async function setInfo(oid: TOrganizationID, info: string) {
     try {
-        await setOrganziationFooterInfo(info, 'oid')
+        await setOrganziationFooterInfo(info, oid)
         revalidatePath('/')
     } catch (e) {
         return getFormFeedbackForError('info/error')
