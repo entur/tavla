@@ -1,18 +1,16 @@
 import classes from '../../admin.module.css'
-import { cookies } from 'next/headers'
 import {
     getOrganization,
     getOrganizationById,
     getOrganizationUsers,
-    getUsersWithEmailsByUids,
     initializeAdminApp,
-    verifySession,
 } from 'Admin/utils/firebase'
-import { permanentRedirect } from 'next/navigation'
 import { Metadata } from 'next'
 import { Heading1 } from '@entur/typography'
 import { UploadLogo } from 'Admin/scenarios/Organization/components/UploadLogo'
 import { MemberAdministration } from 'Admin/scenarios/Organization/components/MemberAdministration'
+import { permanentRedirect } from 'next/navigation'
+import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 
 initializeAdminApp()
 
@@ -33,8 +31,7 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
 async function EditOrganizationPage({ params }: TProps) {
     const { id } = params
 
-    const session = cookies().get('session')
-    const user = await verifySession(session?.value)
+    const user = await getUserFromSessionCookie()
 
     if (!user) permanentRedirect('/')
 
@@ -43,8 +40,7 @@ async function EditOrganizationPage({ params }: TProps) {
     if (!organization || !organization?.owners?.includes(user.uid))
         return <div>Du har ikke tilgang til denne organisasjonen</div>
 
-    const userIds = await getOrganizationUsers(id ?? '')
-    const members = await getUsersWithEmailsByUids(userIds)
+    const members = await getOrganizationUsers(user.uid, id)
 
     return (
         <div className={classes.root}>

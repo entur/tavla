@@ -1,6 +1,5 @@
 import { verifyUserSession } from 'Admin/utils/auth'
 import {
-    createOrganization,
     getOrganizationsWithUser,
     initializeAdminApp,
 } from 'Admin/utils/firebase'
@@ -17,12 +16,6 @@ export default async function handler(
     if (!user) return response.status(401).json({ error: 'Unauthorized' })
     try {
         switch (request.method) {
-            case 'POST':
-                const oid = await createOrganization(
-                    user.uid,
-                    JSON.parse(request.body).name as string,
-                )
-                return response.status(200).json({ oid: oid })
             case 'GET':
                 const organizations = await getOrganizationsWithUser(user.uid)
                 return response
