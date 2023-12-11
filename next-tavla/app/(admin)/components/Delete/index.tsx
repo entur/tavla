@@ -17,7 +17,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
-import { UserError } from '../Login/UserError'
+import { FormError } from '../FormError'
 
 function Delete({
     organization,
@@ -43,11 +43,7 @@ function Delete({
         const nameInput = data.get('nameInput') as string
 
         if (nameInput !== organization.name)
-            return {
-                form_type: 'organization_name',
-                variant: 'warning',
-                feedback: 'Organisasjonsnavnet stemmer ikke overens',
-            } as TFormFeedback
+            return getFormFeedbackForError('organization/name-mismatch')
 
         try {
             await deleteOrganization(organization.id, uid)
@@ -90,7 +86,7 @@ function Delete({
                         required
                         className="w-100"
                     />
-                    <UserError
+                    <FormError
                         {...getFormFeedbackForField('organization_name', state)}
                     />
                     <SubmitButton variant="primary" width="fluid">
