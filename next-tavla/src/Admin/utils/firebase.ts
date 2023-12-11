@@ -1,6 +1,7 @@
 import { TConfig } from 'Admin/types/config'
 import { TavlaError } from 'Admin/types/error'
 import admin, { auth, firestore, storage } from 'firebase-admin'
+import { getDownloadURL } from 'firebase-admin/storage'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { chunk, concat, isEmpty } from 'lodash'
 import { notFound } from 'next/navigation'
@@ -129,14 +130,11 @@ export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
     const file = bucket.file(`logo/${oid}-${logo.name}`)
     file.save(Buffer.from(await logo.arrayBuffer()))
 
-    const logoUrl = await file.getSignedUrl({
-        action: 'read',
-        expires: '01-01-2100',
-    })
+    const logoUrl = await getDownloadURL(file)
 
-    if (!logoUrl || !logoUrl[0]) return
+    if (!logoUrl) return
     return firestore().collection('organizations').doc(oid).update({
-        logo: logoUrl[0],
+        logo: logoUrl,
     })
 }
 
