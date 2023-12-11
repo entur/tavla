@@ -128,7 +128,7 @@ export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
     if (!oid) return
     const bucket = storage().bucket((await getConfig()).bucket)
     const file = bucket.file(`logo/${oid}-${logo.name}`)
-    file.save(Buffer.from(await logo.arrayBuffer()))
+    await file.save(Buffer.from(await logo.arrayBuffer()))
 
     const logoUrl = await getDownloadURL(file)
 
