@@ -11,7 +11,6 @@ import {
     getFormFeedbackForField,
     getFormFeedbackForSuccess,
 } from 'app/(admin)/utils'
-import { FirebaseError } from 'firebase/app'
 import { useFormState } from 'react-dom'
 import { FormError } from 'app/(admin)/components/FormError'
 
@@ -24,12 +23,10 @@ function Info({ organization }: { organization: TOrganization }) {
         const oid = data.get('oid') as string
 
         try {
-            setInfo(oid, info)
-            return getFormFeedbackForSuccess('info/updated')
-        } catch (e: unknown) {
-            if (e instanceof FirebaseError) {
-                return getFormFeedbackForError(e)
-            }
+            await setInfo(oid, info)
+            return getFormFeedbackForSuccess('info/success')
+        } catch (error) {
+            return getFormFeedbackForError('info/error')
         }
     }
 
@@ -48,9 +45,8 @@ function Info({ organization }: { organization: TOrganization }) {
                     name="info"
                     label="Informasjon"
                     defaultValue={organization.footer}
-                    {...getFormFeedbackForField('info', state)}
                 />
-                <FormError {...getFormFeedbackForField('general', state)} />
+                <FormError {...getFormFeedbackForField('info', state)} />
                 <Button className="w-100" variant="secondary" type="submit">
                     Lagre
                 </Button>

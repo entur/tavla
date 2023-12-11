@@ -128,7 +128,7 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
 
 export function getFormFeedbackForSuccess(code: TSuccess): TFormFeedback {
     switch (code) {
-        case 'info/updated':
+        case 'info/success':
             return {
                 form_type: 'info',
                 feedback: 'Informasjonen er oppdatert.',
