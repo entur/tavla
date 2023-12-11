@@ -389,3 +389,46 @@ export async function removeUserFromOrganization(
             editors: admin.firestore.FieldValue.arrayRemove(uid),
         })
 }
+
+export async function deleteOrganization(oid: TOrganizationID, uid: TUserID) {
+    const access = await userCanEditOrganization(uid, oid)
+    if (!access) {
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'User does not have access to this organization.',
+        })
+    }
+    await deleteOrganizationBoards(oid, uid)
+    await firestore().collection('organizations').doc(oid).delete()
+}
+
+export async function deleteOrganizationBoards(
+    oid: TOrganizationID,
+    uid: TUserID,
+) {
+    const boards = await getBoardsForOrganization(oid)
+
+    return Promise.all(
+        boards
+            .filter((board) => board !== undefined)
+            .map(
+                (board) =>
+                    board?.id && deleteOrganizationBoard(oid, board.id, uid),
+            ),
+    )
+}
+
+export async function deleteOrganizationBoard(
+    oid: TOrganizationID,
+    bid: TBoardID,
+    uid: TUserID,
+) {
+    const access = await userCanEditOrganization(uid, oid)
+    if (!access) {
+        throw new TavlaError({
+            code: 'ORGANIZATION',
+            message: 'User does not have access to this organization.',
+        })
+    }
+    return firestore().collection('boards').doc(bid).delete()
+}

@@ -33,12 +33,7 @@ function Delete({
     const modalIsOpen = params?.has('delete') ?? false
 
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
-        if (!organization.id || !uid)
-            return {
-                form_type: 'missing-id',
-                variant: 'warning',
-                feedback: 'Noe gikk galt',
-            } as TFormFeedback
+        if (!organization.id || !uid) return getFormFeedbackForError('general')
 
         const nameInput = data.get('nameInput') as string
 
