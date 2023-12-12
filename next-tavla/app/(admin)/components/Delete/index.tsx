@@ -4,7 +4,6 @@ import { DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, LeadParagraph, Paragraph } from '@entur/typography'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { TOrganization, TUserID } from 'types/settings'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TextField } from '@entur/form'
@@ -18,6 +17,7 @@ import {
 } from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
+import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 
 function Delete({
     organization,
@@ -26,11 +26,7 @@ function Delete({
     organization: TOrganization
     uid?: TUserID
 }) {
-    const router = useRouter()
-    const pathname = usePathname()
-    const params = useSearchParams()
-
-    const modalIsOpen = params?.has('delete') ?? false
+    const [modalIsOpen, close] = useSearchParamsModal('delete')
 
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
         if (!organization.id || !uid) return getFormFeedbackForError('general')
@@ -61,7 +57,7 @@ function Delete({
             <Modal
                 open={modalIsOpen}
                 size="small"
-                onDismiss={() => router.push(pathname ?? '/')}
+                onDismiss={close}
                 closeLabel="Avbryt sletting"
                 className="flexColumn justifyStart alignCenter textCenter"
             >
@@ -78,8 +74,8 @@ function Delete({
                         type="text"
                         required
                         className="w-100"
+                        {...getFormFeedbackForField('name', state)}
                     />
-                    <FormError {...getFormFeedbackForField('name', state)} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <SubmitButton variant="primary" width="fluid">
                         Ja, slett!
