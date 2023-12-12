@@ -17,7 +17,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
     const pathname = usePathname()
 
-    const [loginOpen, hasPage, page] = usePageParam('login')
+    const { open, hasPage, pageParam } = usePageParam('login')
 
     if (loggedIn)
         return (
@@ -41,7 +41,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 Logg inn
             </IconButton>
             <Modal
-                open={loginOpen}
+                open={open}
                 size="small"
                 onDismiss={() => router.push(pathname ?? '/')}
             >
@@ -63,7 +63,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                         <CloseIcon />
                     </SecondarySquareButton>
                 </div>
-                <Page page={page as TLoginPage} />
+                <Page page={pageParam as TLoginPage} />
             </Modal>
         </>
     )

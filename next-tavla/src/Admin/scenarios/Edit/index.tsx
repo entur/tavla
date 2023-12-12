@@ -8,14 +8,13 @@ import { useToast } from '@entur/alert'
 import { boardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/contexts'
 import { AddTile } from './components/AddTile'
-import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
 import { Heading1, Heading3 } from '@entur/typography'
 import { BoardSettings } from './components/BoardSettings'
 import { useAutoSaveBoard } from './hooks/useAutoSaveBoard'
 import { Preview } from './components/Preview'
 import Link from 'next/link'
-import { useLink } from '../Boards/hooks/useLink'
+import { useLink } from '../../../Shared/hooks/useLink'
 
 function Edit({ initialBoard }: { initialBoard: TBoard }) {
     const [board, dispatch] = useReducer(boardReducer, initialBoard)
@@ -67,7 +66,6 @@ function Edit({ initialBoard }: { initialBoard: TBoard }) {
                             Kopier lenke til Tavla
                             <CopyIcon />
                         </SecondaryButton>
-                        <DeleteBoard board={board} />
                     </div>
                 </div>
                 <BoardSettings board={board} />

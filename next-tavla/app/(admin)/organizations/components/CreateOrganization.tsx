@@ -14,7 +14,7 @@ import Link from 'next/link'
 import { FormError } from 'app/(admin)/components/FormError'
 
 function CreateOrganization() {
-    const [createOpen] = usePageParam('create')
+    const { open } = usePageParam('create')
     const router = useRouter()
     const pathname = usePathname()
     const [state, formAction] = useFormState(
@@ -30,7 +30,7 @@ function CreateOrganization() {
             </PrimaryButton>
             <Modal
                 className="flexColumn alignCenter"
-                open={createOpen}
+                open={open}
                 size="medium"
                 onDismiss={() => router.push(pathname ?? '/')}
                 title="Opprett organisasjon"

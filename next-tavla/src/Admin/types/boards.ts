@@ -1,24 +1,17 @@
-import { TTag } from 'types/meta'
-import { TBoard } from 'types/settings'
-
 export type TSort = 'none' | 'ascending' | 'descending'
 
 export const BoardsColumns = {
     name: 'Tavlenavn',
     url: 'Lenke',
-    actions: 'Handlinger',
-    lastModified: 'Sist oppdatert',
     tags: 'Merkelapper',
+    lastModified: 'Sist oppdatert',
+    actions: 'Handlinger',
 } as const
+
+export const DEFAULT_BOARD_COLUMNS = Object.keys(
+    BoardsColumns,
+) as TBoardsColumn[]
 
 export type TBoardsColumn = keyof typeof BoardsColumns
 
 export const SortableColumns = ['name', 'lastModified'] as const
-
-export type BoardsSettings = {
-    search: string
-    sort: { type: TSort; column: TBoardsColumn }
-    columns: TBoardsColumn[]
-    boards: TBoard[]
-    filterTags: TTag[]
-}
