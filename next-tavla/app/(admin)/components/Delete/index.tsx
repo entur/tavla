@@ -79,9 +79,7 @@ function Delete({
                         required
                         className="w-100"
                     />
-                    <FormError
-                        {...getFormFeedbackForField('organization_name', state)}
-                    />
+                    <FormError {...getFormFeedbackForField('name', state)} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <SubmitButton variant="primary" width="fluid">
                         Ja, slett!

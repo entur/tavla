@@ -392,12 +392,7 @@ export async function removeUserFromOrganization(
 
 export async function deleteOrganization(oid: TOrganizationID, uid: TUserID) {
     const access = await userCanEditOrganization(uid, oid)
-    if (!access) {
-        throw new TavlaError({
-            code: 'ORGANIZATION',
-            message: 'User does not have access to this organization.',
-        })
-    }
+    if (!access) throw 'auth/operation-not-allowed'
     await deleteOrganizationBoards(oid, uid)
     await firestore().collection('organizations').doc(oid).delete()
 }
@@ -424,11 +419,6 @@ export async function deleteOrganizationBoard(
     uid: TUserID,
 ) {
     const access = await userCanEditOrganization(uid, oid)
-    if (!access) {
-        throw new TavlaError({
-            code: 'ORGANIZATION',
-            message: 'User does not have access to this organization.',
-        })
-    }
+    if (!access) throw 'auth/operation-not-allowed'
     return firestore().collection('boards').doc(bid).delete()
 }
