@@ -70,10 +70,7 @@ function Delete({
                 <Paragraph>
                     Skriv inn navnet på organisasjonen for å bekrefte.
                 </Paragraph>
-                <form
-                    action={action}
-                    className="flexColumn alignCenter textCenter w-100 g-2 "
-                >
+                <form action={action} className="flexColumn w-100 g-2">
                     <HiddenInput id="orgName" value={organization.name} />
                     <TextField
                         name="nameInput"
