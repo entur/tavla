@@ -46,6 +46,7 @@ function Delete({
             if (e instanceof FirebaseError) {
                 return getFormFeedbackForError(e)
             }
+            return getFormFeedbackForError('general')
         }
     }
 
@@ -84,6 +85,7 @@ function Delete({
                     <FormError
                         {...getFormFeedbackForField('organization_name', state)}
                     />
+                    <FormError {...getFormFeedbackForField('general', state)} />
                     <SubmitButton variant="primary" width="fluid">
                         Ja, slett!
                     </SubmitButton>
