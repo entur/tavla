@@ -43,11 +43,14 @@ export function QuayTile({
     ]
         .filter(isNotNullOrUndefined)
         .join(' ')
-
     return (
         <Tile className={classes.quayTile}>
             <TableHeader heading={heading} />
-            <Table columns={columns} departures={data.quay.estimatedCalls} />
+            <Table
+                columns={columns}
+                departures={data.quay.estimatedCalls}
+                situations={data.quay.situations}
+            />
         </Tile>
     )
 }

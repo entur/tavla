@@ -136,6 +136,20 @@ export type TGetQuayQuery = {
                 }>
             }>
         }>
+        situations: Array<{
+            __typename?: 'PtSituationElement'
+            id: string
+            description: Array<{
+                __typename?: 'MultilingualString'
+                value: string
+                language: string | null
+            }>
+            summary: Array<{
+                __typename?: 'MultilingualString'
+                value: string
+                language: string | null
+            }>
+        }>
         lines: Array<{
             __typename?: 'Line'
             id: string
@@ -246,6 +260,20 @@ export type TStopPlaceQuery = {
                     value: string
                     language: string | null
                 }>
+            }>
+        }>
+        situations: Array<{
+            __typename?: 'PtSituationElement'
+            id: string
+            description: Array<{
+                __typename?: 'MultilingualString'
+                value: string
+                language: string | null
+            }>
+            summary: Array<{
+                __typename?: 'MultilingualString'
+                value: string
+                language: string | null
             }>
         }>
     } | null
@@ -384,6 +412,9 @@ export const GetQuayQuery = new TypedDocumentString(`
     ) {
       ...departure
     }
+    situations {
+      ...situation
+    }
   }
 }
     fragment departure on EstimatedCall {
@@ -479,6 +510,9 @@ export const StopPlaceQuery = new TypedDocumentString(`
       whiteListed: {lines: $whitelistedLines}
     ) {
       ...departure
+    }
+    situations {
+      ...situation
     }
   }
 }

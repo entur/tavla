@@ -36,6 +36,7 @@ export function StopPlaceTile({
             <TableHeader heading={data.stopPlace.name} />
             <Table
                 departures={data.stopPlace.estimatedCalls}
+                situations={data.stopPlace.situations}
                 columns={columns}
             />
         </Tile>

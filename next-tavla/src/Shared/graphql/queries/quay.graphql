@@ -16,5 +16,8 @@ query getQuay(
         ) {
             ...departure
         }
+        situations {
+            ...situation
+        }
     }
 }
