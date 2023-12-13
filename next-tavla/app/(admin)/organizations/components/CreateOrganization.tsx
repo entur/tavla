@@ -51,6 +51,7 @@ function CreateOrganization() {
                         id="name"
                         name="name"
                         required
+                        {...getFormFeedbackForField('name', state)}
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <PrimaryButton className="mt-2" type="submit">
