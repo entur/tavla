@@ -62,7 +62,10 @@ function Delete({
                 className="flexColumn justifyStart alignCenter textCenter"
             >
                 <Heading3>Slett organisasjon</Heading3>
-                <LeadParagraph>{`Er du sikker på at du vil slette organisasjonen "${organization.name}"?`}</LeadParagraph>
+                <LeadParagraph>
+                    Er du sikker på at du vil slette organisasjonen
+                    {organization.name}?
+                </LeadParagraph>
                 <Paragraph>
                     Skriv inn navnet på organisasjonen for å bekrefte.
                 </Paragraph>
