@@ -103,6 +103,12 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 feedback: 'Denne personen er allerede medlem av organisasjoen.',
                 variant: 'info',
             }
+        case 'organization/name-missing':
+            return {
+                form_type: 'general',
+                feedback: 'Organisasjonen må ha et navn',
+                variant: 'warning',
+            }
     }
 
     return {
