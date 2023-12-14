@@ -43,7 +43,6 @@ function Delete({ organization }: { organization: TOrganization }) {
                 <form action={action} className="flexColumn w-100 g-2">
                     <HiddenInput id="oname" value={organization.name} />
                     <HiddenInput id="oid" value={organization.id} />
-
                     <TextField
                         name="name"
                         label="Organisasjonsnavn"
