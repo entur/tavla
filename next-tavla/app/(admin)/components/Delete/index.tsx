@@ -4,49 +4,20 @@ import { DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, LeadParagraph, Paragraph } from '@entur/typography'
 import Link from 'next/link'
-import { TOrganization, TUserID } from 'types/settings'
+import { TOrganization } from 'types/settings'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TextField } from '@entur/form'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useFormState } from 'react-dom'
-import { deleteOrganization } from './actions'
-import {
-    TFormFeedback,
-    getFormFeedbackForError,
-    getFormFeedbackForField,
-} from 'app/(admin)/utils'
-import { FirebaseError } from 'firebase/app'
+import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
+import { deleteOrganization } from './actions'
 
-function Delete({
-    organization,
-    uid,
-}: {
-    organization: TOrganization
-    uid?: TUserID
-}) {
+function Delete({ organization }: { organization: TOrganization }) {
     const [modalIsOpen, close] = useSearchParamsModal('delete')
 
-    const submit = async (p: TFormFeedback | undefined, data: FormData) => {
-        if (!organization.id || !uid) return getFormFeedbackForError('general')
-
-        const nameInput = data.get('nameInput') as string
-
-        if (nameInput !== organization.name)
-            return getFormFeedbackForError('organization/name-mismatch')
-
-        try {
-            await deleteOrganization(organization.id, uid)
-        } catch (e) {
-            if (e instanceof FirebaseError) {
-                return getFormFeedbackForError(e)
-            }
-            return getFormFeedbackForError('general')
-        }
-    }
-
-    const [state, action] = useFormState(submit, undefined)
+    const [state, action] = useFormState(deleteOrganization, undefined)
 
     return (
         <>
@@ -63,16 +34,18 @@ function Delete({
             >
                 <Heading3>Slett organisasjon</Heading3>
                 <LeadParagraph>
-                    Er du sikker på at du vil slette organisasjonen
+                    Er du sikker på at du vil slette organisasjonen{' '}
                     {organization.name}?
                 </LeadParagraph>
                 <Paragraph>
                     Skriv inn navnet på organisasjonen for å bekrefte.
                 </Paragraph>
                 <form action={action} className="flexColumn w-100 g-2">
-                    <HiddenInput id="orgName" value={organization.name} />
+                    <HiddenInput id="oname" value={organization.name} />
+                    <HiddenInput id="oid" value={organization.id} />
+
                     <TextField
-                        name="nameInput"
+                        name="name"
                         label="Organisasjonsnavn"
                         type="text"
                         required

@@ -47,7 +47,7 @@ async function EditOrganizationPage({ params }: TProps) {
         <div className={classes.root}>
             <div className="flexRow justifyBetween alignCenter">
                 <Heading1>{organization.name}</Heading1>
-                <Delete organization={organization} uid={user.uid} />
+                <Delete organization={organization} />
             </div>
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />
