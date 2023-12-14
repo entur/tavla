@@ -1,7 +1,13 @@
 import { VariantType } from '@entur/form'
 import { FirebaseError } from 'firebase/app'
 
-type InputType = 'general' | 'user' | 'email' | 'password' | 'repeat_password'
+type InputType =
+    | 'general'
+    | 'user'
+    | 'email'
+    | 'password'
+    | 'repeat_password'
+    | 'name'
 
 export type TFormFeedback = {
     form_type: InputType
@@ -102,6 +108,12 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 form_type: 'general',
                 feedback: 'Denne personen er allerede medlem av organisasjoen.',
                 variant: 'info',
+            }
+        case 'organization/name-missing':
+            return {
+                form_type: 'name',
+                feedback: 'Organisasjonen må ha et navn',
+                variant: 'warning',
             }
     }
 
