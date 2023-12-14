@@ -1,12 +1,12 @@
 'use server'
-import { deleteBoard, getBoard, setBoard } from 'Admin/utils/firebase'
+import { deleteBoard } from 'Admin/utils/firebase'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
-import { isString, uniq } from 'lodash'
+import { isString } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TBoard } from 'types/settings'
+import { addTag, removeTag } from './updateTags'
 
 export async function deleteBoardAction(
     prevState: TFormFeedback | undefined,
@@ -29,22 +29,9 @@ export async function addTagAction(
     data: FormData,
 ) {
     try {
-        const user = await getUserFromSessionCookie()
-        if (!user) redirect('/')
         const bid = data.get('bid') as string
         const tag = data.get('tag') as string
-        const board = await getBoard(bid)
-        const tags = board.meta?.tags ?? []
-        await setBoard(
-            {
-                ...board,
-                meta: {
-                    ...board.meta,
-                    tags: uniq([...tags, tag]).sort(),
-                },
-            } as TBoard,
-            user.uid,
-        )
+        await addTag({ bid, tag: tag })
         revalidatePath('/')
     } catch (e) {
         if (e instanceof FirebaseError || isString(e))
@@ -57,23 +44,9 @@ export async function removeTagAction(
     data: FormData,
 ) {
     try {
-        const user = await getUserFromSessionCookie()
-        if (!user) redirect('/')
         const bid = data.get('bid') as string
         const tag = data.get('tag') as string
-        const board = await getBoard(bid)
-        const tags = board.meta?.tags ?? []
-        const newTags = tags.filter((t) => t !== tag)
-        await setBoard(
-            {
-                ...board,
-                meta: {
-                    ...board.meta,
-                    tags: newTags,
-                },
-            } as TBoard,
-            user.uid,
-        )
+        await removeTag({ bid, tag })
         revalidatePath('/')
     } catch (e) {
         if (e instanceof FirebaseError || isString(e))

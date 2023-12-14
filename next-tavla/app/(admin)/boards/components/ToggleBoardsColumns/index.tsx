@@ -15,21 +15,20 @@ import {
     DEFAULT_BOARD_COLUMNS,
     TBoardsColumn,
 } from 'Admin/types/boards'
-import { useParamsSetter } from 'app/(admin)/boards/hooks/useParamsSetter'
-import { useBoardsSettings } from '../../hooks/useBoardsSettings'
+import { isEqual, xor } from 'lodash'
+import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 
 function ToggleBoardsColumns() {
-    const { updateQuery } = useParamsSetter()
-    const { columns } = useBoardsSettings()
+    const [value, replace] = useSearchParamReplacer('columns')
+    const columns = value?.split(',') ?? DEFAULT_BOARD_COLUMNS
 
     const updateColumns = (column: TBoardsColumn) => {
-        if (columns === DEFAULT_BOARD_COLUMNS) {
-            DEFAULT_BOARD_COLUMNS.forEach((col) => {
-                if (col !== column) updateQuery('columns', col)
-            })
-            return
+        const newColumns = xor(columns, [column])
+        if (isEqual(newColumns, DEFAULT_BOARD_COLUMNS)) {
+            return replace(undefined)
         }
-        updateQuery('columns', column)
+
+        replace(newColumns.join(','))
     }
 
     return (

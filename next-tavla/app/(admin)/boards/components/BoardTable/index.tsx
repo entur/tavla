@@ -5,10 +5,12 @@ import { TableRows } from 'app/(admin)/boards/components/TableRows'
 import { TBoard } from 'types/settings'
 import { isEmpty } from 'lodash'
 import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
-import { useBoardsSettings } from '../../hooks/useBoardsSettings'
+import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'Admin/types/boards'
+import { useSearchParam } from '../../hooks/useSearchParam'
 
 function BoardTable({ boards }: { boards: TBoard[] }) {
-    const { columns } = useBoardsSettings()
+    const value = useSearchParam('columns')
+    const columns = value?.split(',') ?? DEFAULT_BOARD_COLUMNS
     if (isEmpty(boards))
         return (
             <IllustratedInfo
@@ -23,7 +25,7 @@ function BoardTable({ boards }: { boards: TBoard[] }) {
                 gridTemplateColumns: `repeat(${columns.length},auto)`,
             }}
         >
-            <TableHeader columns={columns} />
+            <TableHeader columns={columns as TBoardsColumn[]} />
             <TableRows boards={boards} />
         </div>
     )

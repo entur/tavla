@@ -115,6 +115,12 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 feedback: 'Organisasjonen må ha et navn',
                 variant: 'warning',
             }
+        case 'board/not-found':
+            return {
+                form_type: 'general',
+                feedback: 'Denne tavla finnes ikke',
+                variant: 'error',
+            }
     }
 
     return {

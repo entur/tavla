@@ -10,23 +10,23 @@ import { Heading2 } from '@entur/typography'
 import { CloseIcon, FilterIcon } from '@entur/icons'
 import { TTag } from 'types/meta'
 import { FilterChip } from '@entur/chip'
-import { uniq } from 'lodash'
+import { uniq, xor } from 'lodash'
 import classes from './styles.module.css'
 import { NotificationBadge } from '@entur/layout'
 import { TBoard } from 'types/settings'
-import { useParamsSetter } from 'app/(admin)/boards/hooks/useParamsSetter'
-import { useBoardsSettings } from '../../hooks/useBoardsSettings'
+import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 
 function FilterButton({ boards }: { boards: TBoard[] }) {
-    const { updateQuery } = useParamsSetter()
+    const [value, replace] = useSearchParamReplacer('tags')
+    const activeTags = value?.split(',') ?? []
     const allTags = uniq(
         boards.flatMap((board) => {
             return board?.meta?.tags ?? []
         }),
     )
 
-    const filterTags: TTag[] = useBoardsSettings().filterTags.filter(
-        (tag: TTag) => allTags.includes(tag),
+    const filterTags: TTag[] = activeTags.filter((tag: TTag) =>
+        allTags.includes(tag),
     )
 
     return (
@@ -60,7 +60,9 @@ function FilterButton({ boards }: { boards: TBoard[] }) {
                             <FilterChip
                                 key={tag}
                                 checked={filterTags.includes(tag)}
-                                onChange={() => updateQuery('filter', tag)}
+                                onChange={() =>
+                                    replace(xor(activeTags, [tag]).join(','))
+                                }
                                 value={tag}
                             >
                                 {tag}

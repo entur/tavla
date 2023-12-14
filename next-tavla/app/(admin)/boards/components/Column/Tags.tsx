@@ -8,7 +8,7 @@ import { ReactNode } from 'react'
 import { Column } from './Column'
 import { colorsFromHash, sortArrayByOverlap } from '../../utils'
 import { TagsContext } from '../../utils/context'
-import { useBoardsSettings } from '../../hooks/useBoardsSettings'
+import { useSearchParam } from '../../hooks/useSearchParam'
 
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
@@ -34,7 +34,8 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
 
 function Tags({ board, allTags }: { board: TBoard; allTags: TTag[] }) {
     let tags = (board.meta?.tags ?? []).sort()
-    const { filterTags } = useBoardsSettings()
+    const value = useSearchParam('filter')
+    const filterTags = value?.split(',') ?? []
 
     const displayNumber = 3
     const hiddenNumber = tags.length - displayNumber

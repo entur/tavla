@@ -8,6 +8,7 @@ import { useToast } from '@entur/alert'
 import { boardReducer } from './utils/reducer'
 import { SettingsDispatchContext } from './utils/contexts'
 import { AddTile } from './components/AddTile'
+import { DeleteBoard } from './components/DeleteBoard'
 import { TilesOverview } from './components/TilesOverview'
 import { Heading1, Heading3 } from '@entur/typography'
 import { BoardSettings } from './components/BoardSettings'
@@ -66,6 +67,7 @@ function Edit({ initialBoard }: { initialBoard: TBoard }) {
                             Kopier lenke til Tavla
                             <CopyIcon />
                         </SecondaryButton>
+                        <DeleteBoard board={board} />
                     </div>
                 </div>
                 <BoardSettings board={board} />

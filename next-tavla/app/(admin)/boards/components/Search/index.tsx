@@ -1,20 +1,18 @@
 'use client'
 import { TextField } from '@entur/form'
 import { SearchIcon } from '@entur/icons'
-import { useParamsSetter } from 'app/(admin)/boards/hooks/useParamsSetter'
-import { usePageParam } from 'app/(admin)/hooks/usePageParam'
+import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 
 function Search() {
-    const { setQuery } = useParamsSetter()
-
+    const [value, replace] = useSearchParamReplacer('search')
     return (
         <TextField
             className="w-50"
             label="Søk på navn på tavle"
             prepend={<SearchIcon inline aria-hidden="true" />}
-            value={usePageParam('search').pageParam ?? ''}
+            defaultValue={value}
             onChange={(e) => {
-                setQuery('search', e.target.value)
+                replace(e.target.value)
             }}
         />
     )

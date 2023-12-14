@@ -1,10 +1,15 @@
-import { BoardsColumns, TBoardsColumn } from 'Admin/types/boards'
+import { BoardsColumns, TBoardsColumn, TSort } from 'Admin/types/boards'
 import classes from './styles.module.css'
 import { Sort } from '../Sort'
-import { useBoardsSettings } from '../../hooks/useBoardsSettings'
+import { useSearchParam } from '../../hooks/useSearchParam'
 
 function ColumnHeader({ column }: { column: TBoardsColumn }) {
-    const { sort } = useBoardsSettings()
+    const sortParams = useSearchParam('sort')?.split(':')
+    const sort = {
+        column: sortParams?.[0] as TBoardsColumn,
+        type: sortParams?.[1] as TSort,
+    }
+
     return (
         <div key={column} className={classes.header}>
             <div

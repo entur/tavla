@@ -3,13 +3,16 @@ import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 import { Column } from '../Column'
 import { Fragment } from 'react'
 import { TBoard } from 'types/settings'
-import { TBoardsColumn } from 'Admin/types/boards'
+import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'Admin/types/boards'
 import { intersection, uniq } from 'lodash'
 import { TTag } from 'types/meta'
-import { useBoardsSettings } from '../../hooks/useBoardsSettings'
+import { useSearchParam } from '../../hooks/useSearchParam'
 
 function TableRows({ boards }: { boards: TBoard[] }) {
-    const { search, columns, filterTags } = useBoardsSettings()
+    const search = useSearchParam('search') ?? ''
+    const filter = useSearchParam('tags')?.split(',') ?? []
+    const columns =
+        useSearchParam('columns')?.split(',') ?? DEFAULT_BOARD_COLUMNS
     const sortFunction = useSortBoardFunction()
     const searchFilter = new RegExp(search, 'i')
     return (
@@ -20,16 +23,16 @@ function TableRows({ boards }: { boards: TBoard[] }) {
                 )
                 .filter(
                     (board: TBoard) =>
-                        filterTags.length === 0 ||
-                        intersection(board?.meta?.tags ?? [], filterTags)
-                            .length > 0,
+                        filter.length === 0 ||
+                        intersection(board?.meta?.tags ?? [], filter).length >
+                            0,
                 )
                 .sort(sortFunction)
                 .map((board: TBoard) => (
                     <TableRow
                         key={board.id}
                         board={board}
-                        columns={columns}
+                        columns={columns as TBoardsColumn[]}
                         tags={uniq(
                             boards.flatMap((board) => board?.meta?.tags ?? []),
                         )}

@@ -8,37 +8,32 @@ import { CloseIcon, ReferenceIcon } from '@entur/icons'
 import { ActionChip } from '@entur/chip'
 import { AddExistingTag } from './AddExistingTag'
 import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
-import { useParamsSetter } from 'app/(admin)/boards/hooks/useParamsSetter'
 import { removeTagAction } from '../../utils/formActions'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useFormState } from 'react-dom'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
-import { usePageParam } from 'app/(admin)/hooks/usePageParam'
+import { useModalWithValue } from '../../hooks/useModalWithValue'
 
 function TagModal({ board }: { board: TBoard }) {
     const tags = board.meta?.tags ?? []
-    const { setQuery, deleteQuery } = useParamsSetter()
-    const { hasPage, pageParam } = usePageParam('addTags')
+    const { isOpen, open, close } = useModalWithValue('addTags', board.id ?? '')
     const [state, action] = useFormState(removeTagAction, undefined)
     return (
         <>
             <Tooltip content="Administrer merkelapper" placement="bottom">
-                <IconButton
-                    aria-label="Administrer merkelapper"
-                    onClick={() => setQuery('addTags', board.id || '')}
-                >
+                <IconButton aria-label="Administrer merkelapper" onClick={open}>
                     <ReferenceIcon />
                 </IconButton>
             </Tooltip>
 
             <Modal
                 size="medium"
-                open={hasPage && board.id === pageParam}
+                open={isOpen}
                 title={`Administrer merkelapper for ${
                     board.meta?.title ?? DEFAULT_BOARD_NAME
                 }`}
-                onDismiss={() => deleteQuery('addTags')}
+                onDismiss={close}
                 closeOnClickOutside
             >
                 <div className="flexRow flexWrap g-1 pb-2">
