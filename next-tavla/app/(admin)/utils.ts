@@ -115,6 +115,12 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 feedback: 'Organisasjonen må ha et navn',
                 variant: 'warning',
             }
+        case 'organization/name-mismatch':
+            return {
+                form_type: 'name',
+                feedback: 'Navnet på organizasjonen stemmer ikke',
+                variant: 'error',
+            }
     }
 
     return {
