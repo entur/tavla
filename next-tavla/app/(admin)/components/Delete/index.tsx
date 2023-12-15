@@ -13,18 +13,27 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import { deleteOrganization } from './actions'
+import { Tooltip } from '@entur/tooltip'
 
-function Delete({ organization }: { organization: TOrganization }) {
+function Delete({
+    organization,
+    showText,
+}: {
+    organization: TOrganization
+    showText?: boolean
+}) {
     const [modalIsOpen, close] = useSearchParamsModal('delete')
 
     const [state, action] = useFormState(deleteOrganization, undefined)
 
     return (
         <>
-            <IconButton as={Link} href="?delete" className="g-2">
-                <DeleteIcon />
-                Slett
-            </IconButton>
+            <Tooltip content="Slett organisasjon" placement="bottom">
+                <IconButton as={Link} href="?delete" className="g-2">
+                    <DeleteIcon />
+                    {showText && 'Slett'}
+                </IconButton>
+            </Tooltip>
             <Modal
                 open={modalIsOpen}
                 size="small"
