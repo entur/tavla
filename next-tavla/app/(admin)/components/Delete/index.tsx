@@ -15,23 +15,6 @@ import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import { deleteOrganization } from './actions'
 import { Tooltip } from '@entur/tooltip'
 
-function DeleteButton({ showText }: { showText?: boolean }) {
-    if (showText)
-        return (
-            <IconButton as={Link} href="?delete" className="g-2">
-                <DeleteIcon />
-                Slett
-            </IconButton>
-        )
-    return (
-        <Tooltip content="Slett organisasjon" placement="bottom">
-            <IconButton as={Link} href="?delete" className="g-2">
-                <DeleteIcon />
-            </IconButton>
-        </Tooltip>
-    )
-}
-
 function Delete({
     organization,
     showText,
@@ -45,7 +28,12 @@ function Delete({
 
     return (
         <>
-            <DeleteButton showText={showText} />
+            <Tooltip content="Slett organisasjon" placement="bottom">
+                <IconButton as={Link} href="?delete" className="g-2">
+                    <DeleteIcon />
+                    {showText && 'Slett'}
+                </IconButton>
+            </Tooltip>
             <Modal
                 open={modalIsOpen}
                 size="small"
