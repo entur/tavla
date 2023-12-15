@@ -75,9 +75,7 @@ export async function createOrganizationAction(
     try {
         const name = data.get('name')?.toString() ?? ''
 
-        if (!name) return getFormFeedbackForError('organization/name-missing')
-
-        if (/^\s*$/.test(name))
+        if (!name || /^\s*$/.test(name))
             return getFormFeedbackForError('organization/name-missing')
 
         const user = await getUserFromSessionCookie()
