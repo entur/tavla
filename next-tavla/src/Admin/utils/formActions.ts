@@ -77,6 +77,9 @@ export async function createOrganizationAction(
 
         if (!name) return getFormFeedbackForError('organization/name-missing')
 
+        if (/^\s*$/.test(name))
+            return getFormFeedbackForError('organization/name-missing')
+
         const user = await getUserFromSessionCookie()
 
         if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
