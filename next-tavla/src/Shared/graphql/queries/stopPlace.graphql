@@ -11,6 +11,7 @@ query StopPlace(
             numberOfDepartures: $numberOfDepartures
             whiteListedModes: $whitelistedTransportModes
             whiteListed: { lines: $whitelistedLines }
+            includeCancelledTrips: true
         ) {
             ...departure
         }
