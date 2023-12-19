@@ -1,6 +1,4 @@
 .logo {
-    height: 100%;
-    min-height: 2.5em;
     object-fit: contain;
     object-position: left;
 }
@@ -16,4 +14,5 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 3em;
 }
