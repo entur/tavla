@@ -15,19 +15,19 @@ function TableRows({ boards }: { boards: TBoard[] }) {
         useSearchParam('columns')?.split(',') ?? DEFAULT_BOARD_COLUMNS
     const sortFunction = useSortBoardFunction()
     const searchFilter = new RegExp(search, 'i')
+
+    const filterByTitle = (board: TBoard) =>
+        searchFilter.test(board?.meta?.title ?? DEFAULT_BOARD_NAME)
+
+    const filterByTags = (board: TBoard) =>
+        filter.length === 0 ||
+        filter.every((tag) => (board?.meta?.tags ?? []).includes(tag))
+
     return (
         <>
             {boards
-                .filter((board: TBoard) =>
-                    searchFilter.test(board?.meta?.title ?? DEFAULT_BOARD_NAME),
-                )
-                .filter(
-                    (board: TBoard) =>
-                        filter.length === 0 ||
-                        filter.every((tag) =>
-                            (board?.meta?.tags ?? []).includes(tag),
-                        ),
-                )
+                .filter((board: TBoard) => filterByTitle(board))
+                .filter((board: TBoard) => filterByTags(board))
                 .sort(sortFunction)
                 .map((board: TBoard) => (
                     <TableRow
