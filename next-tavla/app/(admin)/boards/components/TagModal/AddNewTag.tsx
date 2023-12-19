@@ -10,20 +10,29 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 
 function AddNewTag({ board }: { board: TBoard }) {
     const [state, action] = useFormState(addTagAction, undefined)
+    const handleFormSubmit = async (
+        event: React.FormEvent<HTMLFormElement>,
+    ) => {
+        event.preventDefault()
+        action(new FormData(event.currentTarget))
+        event.currentTarget.reset()
+    }
     return (
         <div className="flexCol g-1">
             <Heading3>Legg til ny merkelapp</Heading3>
-            <form action={action} className="flexRow g-1 w-100">
-                <TextField
-                    aria-label="Navn på ny merkelapp"
-                    name="tag"
-                    label="Merkelapp"
-                />
-                <HiddenInput id="bid" value={board.id} />
+            <form onSubmit={handleFormSubmit} className="flexColumn g-2">
+                <div className="flexRow g-1 w-100">
+                    <TextField
+                        aria-label="Navn på ny merkelapp"
+                        name="tag"
+                        label="Merkelapp"
+                    />
+                    <HiddenInput id="bid" value={board.id} />
+                    <Button type="submit" variant="primary">
+                        Legg til
+                    </Button>
+                </div>
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <Button type="submit" variant="primary">
-                    Legg til
-                </Button>
             </form>
         </div>
     )
