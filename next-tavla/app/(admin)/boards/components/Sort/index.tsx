@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { IconButton } from '@entur/button'
 import { SortableColumns, TBoardsColumn, TSort } from 'Admin/types/boards'
 import { DownArrowIcon, UnsortedIcon, UpArrowIcon } from '@entur/icons'
@@ -9,12 +9,6 @@ import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 function Sort({ column }: { column: TBoardsColumn }) {
     const [value, replace] = useSearchParamReplacer('sort')
     const sortParams = value?.split(':')
-    const sort = useMemo(() => {
-        return {
-            column: sortParams?.[0] as TBoardsColumn,
-            type: sortParams?.[1] as TSort,
-        }
-    }, [sortParams])
 
     const setSort = useCallback(
         (sort: TSort) => {
@@ -26,6 +20,11 @@ function Sort({ column }: { column: TBoardsColumn }) {
     )
 
     const cycleSort = useCallback(() => {
+        const sort = {
+            column: sortParams?.[0] as TBoardsColumn,
+            type: sortParams?.[1] as TSort,
+        }
+
         if (sort.column !== column) return setSort('ascending')
 
         switch (sort.type) {
@@ -36,13 +35,16 @@ function Sort({ column }: { column: TBoardsColumn }) {
             default:
                 return setSort('ascending')
         }
-    }, [sort, setSort, column])
+    }, [setSort, column, sortParams])
 
     if (!includes(SortableColumns, column)) return null
 
+    const active = sortParams?.[0] === column
+    const sortType = sortParams?.[1] as TSort
+
     return (
-        <IconButton onClick={cycleSort} aria-label={getAriaLabel(sort.type)}>
-            <Icon active={sort.column === column} sort={sort.type} />
+        <IconButton onClick={cycleSort} aria-label={getAriaLabel(sortType)}>
+            <Icon active={active} sort={sortType} />
         </IconButton>
     )
 }

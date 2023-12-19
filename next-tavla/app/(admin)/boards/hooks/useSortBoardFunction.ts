@@ -1,5 +1,5 @@
 import { TBoard } from 'types/settings'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 import { TBoardsColumn, TSort } from 'Admin/types/boards'
 import { useSearchParam } from './useSearchParam'
@@ -7,17 +7,14 @@ import { useSearchParam } from './useSearchParam'
 function useSortBoardFunction() {
     const value = useSearchParam('sort')
     const sortParams = value?.split(':')
-    const sort = useMemo(() => {
-        return {
-            column: sortParams?.[0] as TBoardsColumn,
-            type: sortParams?.[1] as TSort,
-        }
-    }, [sortParams])
 
     const sortBoards = useCallback(
         (boardA: TBoard, boardB: TBoard) => {
             let sortFunc: () => number
-
+            const sort = {
+                column: sortParams?.[0] as TBoardsColumn,
+                type: sortParams?.[1] as TSort,
+            }
             switch (sort.column) {
                 case 'lastModified':
                     sortFunc = () => {
@@ -47,7 +44,7 @@ function useSortBoardFunction() {
                     return 0
             }
         },
-        [sort],
+        [sortParams],
     )
 
     return sortBoards
