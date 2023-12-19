@@ -22,7 +22,7 @@ import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 initializeAdminApp()
 
 type TProps = {
-    params: { id: string }
+    params: { id: string[] }
 }
 
 export async function generateMetadata({ params }: TProps): Promise<Metadata> {
