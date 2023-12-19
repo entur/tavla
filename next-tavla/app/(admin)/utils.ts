@@ -126,6 +126,12 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 form_type: 'general',
                 feedback: 'Denne taggen finnes allerede',
                 variant: 'error',
+              }
+        case 'organization/name-mismatch':
+            return {
+                form_type: 'name',
+                feedback: 'Navnet på organizasjonen stemmer ikke',
+                variant: 'error',
             }
     }
 

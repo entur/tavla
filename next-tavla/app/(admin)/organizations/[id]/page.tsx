@@ -11,6 +11,7 @@ import { UploadLogo } from 'Admin/scenarios/Organization/components/UploadLogo'
 import { MemberAdministration } from 'Admin/scenarios/Organization/components/MemberAdministration'
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
+import { Delete } from 'app/(admin)/components/Delete'
 
 initializeAdminApp()
 
@@ -44,7 +45,10 @@ async function EditOrganizationPage({ params }: TProps) {
 
     return (
         <div className={classes.root}>
-            <Heading1>{organization.name}</Heading1>
+            <div className="flexRow justifyBetween alignCenter">
+                <Heading1>{organization.name}</Heading1>
+                <Delete organization={organization} showText />
+            </div>
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />
                 <MemberAdministration

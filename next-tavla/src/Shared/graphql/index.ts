@@ -409,6 +409,7 @@ export const GetQuayQuery = new TypedDocumentString(`
       numberOfDepartures: $numberOfDepartures
       whiteListedModes: $whitelistedTransportModes
       whiteListed: {lines: $whitelistedLines}
+      includeCancelledTrips: true
     ) {
       ...departure
     }
@@ -508,6 +509,7 @@ export const StopPlaceQuery = new TypedDocumentString(`
       numberOfDepartures: $numberOfDepartures
       whiteListedModes: $whitelistedTransportModes
       whiteListed: {lines: $whitelistedLines}
+      includeCancelledTrips: true
     ) {
       ...departure
     }

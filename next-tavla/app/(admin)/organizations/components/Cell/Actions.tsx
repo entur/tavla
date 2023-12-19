@@ -1,6 +1,7 @@
 import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import { Tooltip } from 'Admin/components/Tooltip'
+import { Delete } from 'app/(admin)/components/Delete'
 import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
 
@@ -28,7 +29,10 @@ function Actions({
     return (
         <div className="flexRow">
             {organization.owners?.includes(userId) && (
-                <Edit oid={organization.id} />
+                <>
+                    <Edit oid={organization.id} />
+                    <Delete organization={organization} />
+                </>
             )}
         </div>
     )

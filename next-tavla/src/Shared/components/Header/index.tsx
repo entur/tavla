@@ -17,18 +17,16 @@ function Header({
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
 
-    const altImageProps = organizationLogo
-        ? { fill: true }
-        : { height: 55, width: 208 }
-
     return (
         <div className={classNames(classes.headerWrapper, className)}>
-            <div className="positionRelative h-100 w-50">
+            <div className="positionRelative w-100 h-100">
                 <Image
                     src={organizationLogo ?? tavlaLogo}
                     alt="Entur Tavla logo"
-                    {...altImageProps}
                     className={classes.logo}
+                    fill={!organizationLogo ? undefined : true}
+                    height={!organizationLogo ? 55 : undefined}
+                    width={!organizationLogo ? 208 : undefined}
                 />
             </div>
             <Clock />

@@ -1,7 +1,7 @@
 export const OrganizationsColumns = {
     name: 'Navn',
-    actions: 'Handlinger',
     role: 'Rolle',
+    actions: 'Handlinger',
 } as const
 
 export type TOrganizationsColumn = keyof typeof OrganizationsColumns
