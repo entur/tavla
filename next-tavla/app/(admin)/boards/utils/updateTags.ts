@@ -25,6 +25,7 @@ export async function removeTag({ bid, tag }: { bid: TBoardID; tag: TTag }) {
 
 export async function addTag({ bid, tag }: { bid: TBoardID; tag: TTag }) {
     const tags = await fetchTags({ bid })
+    if (tags.includes(tag)) throw 'boards/tag-exists'
     firestore()
         .collection('boards')
         .doc(bid)

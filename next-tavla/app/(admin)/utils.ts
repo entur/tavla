@@ -121,6 +121,12 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 feedback: 'Denne tavla finnes ikke',
                 variant: 'error',
             }
+        case 'boards/tag-exists':
+            return {
+                form_type: 'general',
+                feedback: 'Denne taggen finnes allerede',
+                variant: 'error',
+            }
     }
 
     return {
