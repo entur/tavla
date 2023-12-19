@@ -16,6 +16,8 @@ import { BoardTable } from '../components/BoardTable'
 import { Metadata } from 'next'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import React from 'react'
+import { TOrganization } from 'types/settings'
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
 initializeAdminApp()
 
@@ -43,17 +45,25 @@ async function OrganizationsBoardsPage({ params }: { params: { id: string } }) {
     const activeOrganization = id
         ? await getOrganization(id[0] ?? '')
         : undefined
+
+    const hasAccess = (
+        organization: TOrganization | undefined,
+        user: DecodedIdToken,
+    ) => {
+        return (
+            organization &&
+            (organization.owners?.includes(user.uid) ||
+                organization.editors?.includes(user.uid))
+        )
+    }
+
+    if (id && !hasAccess(activeOrganization, user)) {
+        return <div>Du har ikke tilgang til denne organisasjonen</div>
+    }
+
     const boards = id
         ? await getBoardsForOrganization(id[0] ?? '')
         : await getBoardsForUser(user.uid)
-
-    if (
-        id &&
-        (!activeOrganization ||
-            (!activeOrganization?.owners?.includes(user.uid) &&
-                !activeOrganization?.editors?.includes(user.uid)))
-    )
-        return <div>Du har ikke tilgang til denne organisasjonen</div>
     return (
         <div className={classes.root}>
             <div className="flexRow g-2">
