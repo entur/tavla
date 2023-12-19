@@ -38,7 +38,7 @@ function FilterButton({ boards }: { boards: TBoard[] }) {
                         <FilterIcon aria-hidden="true" />
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
-                        {filterTags?.length}
+                        {filterTags.length}
                     </NotificationBadge>
                     <span className="visuallyHidden">merkelapper valgt</span>
                 </div>
