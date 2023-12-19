@@ -31,7 +31,7 @@ export async function addTagAction(
 ) {
     try {
         const bid = data.get('bid') as string
-        const tag = data.get('tag') as string
+        const tag = (data.get('tag') as string).toLowerCase()
         await addTag({ bid, tag: tag })
         revalidatePath('/')
     } catch (e) {
@@ -47,7 +47,7 @@ export async function removeTagAction(
 ) {
     try {
         const bid = data.get('bid') as string
-        const tag = data.get('tag') as string
+        const tag = (data.get('tag') as string).toLowerCase()
         await removeTag({ bid, tag })
         revalidatePath('/')
     } catch (e) {
