@@ -18,9 +18,7 @@ function Sort({ column }: { column: TBoardsColumn }) {
 
     const setSort = useCallback(
         (sort: TSort) => {
-            if (sort === 'none') {
-                return replace(undefined)
-            }
+            if (sort === 'none') return replace(undefined)
             const newSort = `${column}:${sort}`
             replace(newSort)
         },

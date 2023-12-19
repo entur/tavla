@@ -32,12 +32,18 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     )
 }
 
-function Tags({ board, allTags }: { board: TBoard; allTags: TTag[] }) {
+function Tags({
+    board,
+    allTags,
+    displayNumber = 3,
+}: {
+    board: TBoard
+    allTags: TTag[]
+    displayNumber?: number
+}) {
     let tags = (board.meta?.tags ?? []).sort()
     const value = useSearchParam('filter')
     const filterTags = value?.split(',') ?? []
-
-    const displayNumber = 3
     const hiddenNumber = tags.length - displayNumber
 
     if (filterTags.length) {
@@ -58,7 +64,9 @@ function Tags({ board, allTags }: { board: TBoard; allTags: TTag[] }) {
                                 }
                             >
                                 <div className="cursorHelp">
-                                    <Badge variant="neutral">{`+ ${hiddenNumber} til`}</Badge>
+                                    <Badge variant="neutral">
+                                        + {hiddenNumber} til
+                                    </Badge>
                                 </div>
                             </Tooltip>
                         )}

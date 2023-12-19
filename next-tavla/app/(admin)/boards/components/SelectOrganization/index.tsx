@@ -15,10 +15,7 @@ function SelectOrganization({
         <SideNavigation className={classes.sideNav}>
             <Heading1 className="text-rem-4">Tavler</Heading1>
             <div>
-                <SideNavigationItem
-                    href="/boards"
-                    active={active?.id === undefined}
-                >
+                <SideNavigationItem href="/boards" active={!active?.id}>
                     Mine Tavler
                 </SideNavigationItem>
                 {organizations.map((organization) => (

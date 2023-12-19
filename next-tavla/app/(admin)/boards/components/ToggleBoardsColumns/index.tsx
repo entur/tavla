@@ -24,9 +24,8 @@ function ToggleBoardsColumns() {
 
     const updateColumns = (column: TBoardsColumn) => {
         const newColumns = xor(columns, [column])
-        if (isEqual(newColumns, DEFAULT_BOARD_COLUMNS)) {
+        if (isEqual(newColumns, DEFAULT_BOARD_COLUMNS))
             return replace(undefined)
-        }
 
         replace(newColumns.join(','))
     }
