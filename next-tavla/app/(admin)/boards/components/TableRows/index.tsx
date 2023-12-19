@@ -4,7 +4,7 @@ import { Column } from '../Column'
 import { Fragment } from 'react'
 import { TBoard } from 'types/settings'
 import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'Admin/types/boards'
-import { intersection, uniq } from 'lodash'
+import { uniq } from 'lodash'
 import { TTag } from 'types/meta'
 import { useSearchParam } from '../../hooks/useSearchParam'
 
@@ -24,8 +24,9 @@ function TableRows({ boards }: { boards: TBoard[] }) {
                 .filter(
                     (board: TBoard) =>
                         filter.length === 0 ||
-                        intersection(board?.meta?.tags ?? [], filter).length >
-                            0,
+                        filter.every((tag) =>
+                            (board?.meta?.tags ?? []).includes(tag),
+                        ),
                 )
                 .sort(sortFunction)
                 .map((board: TBoard) => (
