@@ -21,6 +21,7 @@ export async function deleteBoardAction(
     } catch (e) {
         if (e instanceof FirebaseError || isString(e))
             return getFormFeedbackForError(e)
+        return getFormFeedbackForError('general')
     }
 }
 
@@ -36,6 +37,7 @@ export async function addTagAction(
     } catch (e) {
         if (e instanceof FirebaseError || isString(e))
             return getFormFeedbackForError(e)
+        return getFormFeedbackForError('general')
     }
 }
 
@@ -51,5 +53,6 @@ export async function removeTagAction(
     } catch (e) {
         if (e instanceof FirebaseError || isString(e))
             return getFormFeedbackForError(e)
+        return getFormFeedbackForError('general')
     }
 }

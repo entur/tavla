@@ -2,7 +2,6 @@ import { userCanWriteBoard } from 'Admin/utils/firebase'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { firestore } from 'firebase-admin'
 import { uniq } from 'lodash'
-import { redirect } from 'next/navigation'
 import { TTag } from 'types/meta'
 import { TBoardID } from 'types/settings'
 
@@ -10,7 +9,7 @@ async function fetchTags({ bid }: { bid: TBoardID }) {
     const board = await firestore().collection('boards').doc(bid).get()
     if (!board.exists) throw 'board/not-found'
     const user = await getUserFromSessionCookie()
-    if (!user) redirect('/')
+    if (!user) throw 'auth/operation-not-allowed'
     const writeAccess = await userCanWriteBoard(user.uid, board.id)
     if (!writeAccess) throw 'auth/operation-not-allowed'
     return (board.data()?.meta?.tags as TTag[]) ?? []
