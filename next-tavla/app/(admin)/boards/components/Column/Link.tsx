@@ -1,3 +1,4 @@
+'use client'
 import { useLink } from '../../../../../src/Shared/hooks/useLink'
 import { Column } from './Column'
 
