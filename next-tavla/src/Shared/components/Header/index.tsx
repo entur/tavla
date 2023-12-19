@@ -19,13 +19,16 @@ function Header({
 
     return (
         <div className={classNames(classes.headerWrapper, className)}>
-            <Image
-                style={{ position: 'relative' }}
-                src={organizationLogo ?? tavlaLogo}
-                alt="Entur Tavla logo"
-                className={classes.logo}
-                fill
-            />
+            <div className="positionRelative w-100 h-100">
+                <Image
+                    src={organizationLogo ?? tavlaLogo}
+                    alt="Entur Tavla logo"
+                    className={classes.logo}
+                    fill={!organizationLogo ? undefined : true}
+                    height={!organizationLogo ? 55 : undefined}
+                    width={!organizationLogo ? 208 : undefined}
+                />
+            </div>
             <Clock />
         </div>
     )
