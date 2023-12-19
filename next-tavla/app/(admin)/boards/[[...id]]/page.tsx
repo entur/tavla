@@ -17,6 +17,8 @@ import { Metadata } from 'next'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import React from 'react'
 
+initializeAdminApp()
+
 type TProps = {
     params: { id: string }
 }
@@ -33,8 +35,6 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     }
 }
 
-initializeAdminApp()
-
 async function OrganizationsBoardsPage({ params }: { params: { id: string } }) {
     const { id } = params
     const user = await getUserFromSessionCookie()
@@ -43,7 +43,6 @@ async function OrganizationsBoardsPage({ params }: { params: { id: string } }) {
     const activeOrganization = id
         ? await getOrganization(id[0] ?? '')
         : undefined
-    console.log('id', id)
     const boards = id
         ? await getBoardsForOrganization(id[0] ?? '')
         : await getBoardsForUser(user.uid)
@@ -60,7 +59,7 @@ async function OrganizationsBoardsPage({ params }: { params: { id: string } }) {
             <div className="flexRow g-2">
                 <SelectOrganization
                     organizations={organizations}
-                    active={id ? activeOrganization : undefined}
+                    active={activeOrganization}
                 />
                 <div className="flexColumn mt-2 g-3 w-100">
                     <div className="flexRow alignCenter g-1">
