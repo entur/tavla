@@ -16,8 +16,6 @@ import { BoardTable } from '../components/BoardTable'
 import { Metadata } from 'next'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import React from 'react'
-import { TOrganization } from 'types/settings'
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
 initializeAdminApp()
 
@@ -37,27 +35,19 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     }
 }
 
-async function OrganizationsBoardsPage({ params }: { params: { id: string } }) {
+async function OrganizationsBoardsPage({ params }: TProps) {
     const { id } = params
     const user = await getUserFromSessionCookie()
     if (!user) permanentRedirect('/')
     const organizations = await getOrganizationsWithUser(user.uid)
-    const activeOrganization = id
-        ? await getOrganization(id[0] ?? '')
-        : undefined
+    const activeOrganization = await getOrganization((id ?? '')[0])
 
-    const hasAccess = (
-        organization: TOrganization | undefined,
-        user: DecodedIdToken,
-    ) => {
-        return (
-            organization &&
-            (organization.owners?.includes(user.uid) ||
-                organization.editors?.includes(user.uid))
-        )
-    }
+    const hasAccess =
+        activeOrganization &&
+        (activeOrganization.owners?.includes(user.uid) ||
+            activeOrganization.editors?.includes(user.uid))
 
-    if (id && !hasAccess(activeOrganization, user)) {
+    if (id && !hasAccess) {
         return <div>Du har ikke tilgang til denne organisasjonen</div>
     }
 

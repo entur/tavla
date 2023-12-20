@@ -8,10 +8,13 @@ import { TBoardID } from 'types/settings'
 async function fetchTags({ bid }: { bid: TBoardID }) {
     const board = await firestore().collection('boards').doc(bid).get()
     if (!board.exists) throw 'board/not-found'
+
     const user = await getUserFromSessionCookie()
     if (!user) throw 'auth/operation-not-allowed'
+
     const writeAccess = await userCanWriteBoard(user.uid, board.id)
     if (!writeAccess) throw 'auth/operation-not-allowed'
+
     return (board.data()?.meta?.tags as TTag[]) ?? []
 }
 

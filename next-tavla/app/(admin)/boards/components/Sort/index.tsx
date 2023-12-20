@@ -19,12 +19,12 @@ function Sort({ column }: { column: TBoardsColumn }) {
         [column, replace],
     )
 
-    const cycleSort = useCallback(() => {
-        const sort = {
-            column: sortParams?.[0] as TBoardsColumn,
-            type: sortParams?.[1] as TSort,
-        }
+    const sort = {
+        column: sortParams?.[0] as TBoardsColumn,
+        type: sortParams?.[1] as TSort,
+    }
 
+    const cycleSort = useCallback(() => {
         if (sort.column !== column) return setSort('ascending')
 
         switch (sort.type) {
@@ -35,16 +35,13 @@ function Sort({ column }: { column: TBoardsColumn }) {
             default:
                 return setSort('ascending')
         }
-    }, [setSort, column, sortParams])
+    }, [setSort, column, sort.column, sort.type])
 
     if (!includes(SortableColumns, column)) return null
 
-    const active = sortParams?.[0] === column
-    const sortType = sortParams?.[1] as TSort
-
     return (
-        <IconButton onClick={cycleSort} aria-label={getAriaLabel(sortType)}>
-            <Icon active={active} sort={sortType} />
+        <IconButton onClick={cycleSort} aria-label={getAriaLabel(sort.type)}>
+            <Icon active={sort.column === column} sort={sort.type} />
         </IconButton>
     )
 }

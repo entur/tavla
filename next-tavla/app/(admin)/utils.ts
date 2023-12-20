@@ -124,7 +124,7 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
         case 'boards/tag-exists':
             return {
                 form_type: 'general',
-                feedback: 'Denne taggen finnes allerede',
+                feedback: 'Denne merkelappen finnes allerede',
                 variant: 'error',
             }
         case 'organization/name-mismatch':
