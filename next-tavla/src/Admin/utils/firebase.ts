@@ -221,7 +221,8 @@ export async function getUser(uid: TUserID) {
     return doc.data() as TUser
 }
 
-export async function getOrganization(oid: TOrganizationID) {
+export async function getOrganization(oid?: TOrganizationID) {
+    if (!oid) return undefined
     const doc = await firestore().collection('organizations').doc(oid).get()
     return { ...doc.data(), id: doc.id } as TOrganization
 }

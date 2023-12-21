@@ -15,7 +15,7 @@ import { BoardSettings } from './components/BoardSettings'
 import { useAutoSaveBoard } from './hooks/useAutoSaveBoard'
 import { Preview } from './components/Preview'
 import Link from 'next/link'
-import { useLink } from '../Boards/hooks/useLink'
+import { useLink } from '../../../Shared/hooks/useLink'
 
 function Edit({ initialBoard }: { initialBoard: TBoard }) {
     const [board, dispatch] = useReducer(boardReducer, initialBoard)

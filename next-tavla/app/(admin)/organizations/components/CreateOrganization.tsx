@@ -7,16 +7,12 @@ import { TextField } from '@entur/form'
 import { useFormState } from 'react-dom'
 import { createOrganizationAction } from 'Admin/utils/formActions'
 import { ToastProvider } from '@entur/alert'
-import { usePageParam } from 'app/(admin)/hooks/usePageParam'
-import { useRouter, usePathname } from 'next/navigation'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
-import Link from 'next/link'
 import { FormError } from 'app/(admin)/components/FormError'
+import { useModalWithValue } from 'app/(admin)/boards/hooks/useModalWithValue'
 
 function CreateOrganization() {
-    const [createOpen] = usePageParam('create')
-    const router = useRouter()
-    const pathname = usePathname()
+    const { isOpen, open, close } = useModalWithValue('create', '')
     const [state, formAction] = useFormState(
         createOrganizationAction,
         undefined,
@@ -24,15 +20,15 @@ function CreateOrganization() {
 
     return (
         <ToastProvider>
-            <PrimaryButton as={Link} href="?create">
+            <PrimaryButton onClick={open}>
                 Opprett organisasjon
                 <AddIcon />
             </PrimaryButton>
             <Modal
                 className="flexColumn alignCenter"
-                open={createOpen}
+                open={isOpen}
                 size="medium"
-                onDismiss={() => router.push(pathname ?? '/')}
+                onDismiss={close}
                 title="Opprett organisasjon"
                 closeLabel="Avbryt oppretting av organisasjon"
             >

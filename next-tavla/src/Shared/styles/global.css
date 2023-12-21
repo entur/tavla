@@ -39,6 +39,10 @@ a {
     cursor: pointer;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .primaryButton {
     background-color: var(--main-background-color);
 }
