@@ -2,8 +2,10 @@
 import { ChangeEventHandler, useRef, useState } from 'react'
 import classes from './styles.module.css'
 import { ImageIcon, UploadIcon } from '@entur/icons'
+import { FormError } from 'app/(admin)/components/FormError'
+import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 
-function LogoInput() {
+function LogoInput({ state }: { state: TFormFeedback | undefined }) {
     const [file, setFile] = useState('')
     const [fileName, setFileName] = useState<string>()
     const input = useRef(null)
@@ -40,6 +42,9 @@ function LogoInput() {
                     required
                 />
             </label>
+            <div className="mt-2">
+                <FormError {...getFormFeedbackForField('file', state)} />
+            </div>
             {file && (
                 <div className="flexRow justifyBetween g-2 mt-2">
                     <button
@@ -71,9 +76,12 @@ function Filename({ fileName }: { fileName?: string }) {
         )
 
     return (
-        <div className="flexRow alignCenter g-2">
-            <UploadIcon size={24} />
-            Klikk eller slipp en fil her for å laste opp en logo
+        <div className="flexColumn g-2">
+            <div className="flexRow alignCenter g-2">
+                <UploadIcon size={24} />
+                Klikk eller slipp et bilde her for å laste opp en logo
+            </div>
+            <div className={classes.fileSize}>Maksimal størrelse 10 MB</div>
         </div>
     )
 }

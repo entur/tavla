@@ -8,6 +8,7 @@ type InputType =
     | 'password'
     | 'repeat_password'
     | 'name'
+    | 'file'
 
 export type TFormFeedback = {
     form_type: InputType
@@ -17,7 +18,7 @@ export type TFormFeedback = {
 
 export type TError = FirebaseError | string
 
-export function getFormFeedbackForError(e: TError): TFormFeedback {
+export function getFormFeedbackForError(e?: TError): TFormFeedback {
     let code = e
     if (e instanceof FirebaseError) {
         code = e.code
@@ -133,6 +134,13 @@ export function getFormFeedbackForError(e: TError): TFormFeedback {
                 feedback: 'Navnet på organizasjonen stemmer ikke',
                 variant: 'error',
             }
+        case 'file/size-too-big': {
+            return {
+                form_type: 'file',
+                feedback: 'Filen du prøver å laste opp er for stor.',
+                variant: 'error',
+            }
+        }
     }
 
     return {
