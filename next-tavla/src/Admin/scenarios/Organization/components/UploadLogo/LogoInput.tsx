@@ -2,8 +2,10 @@
 import { ChangeEventHandler, useRef, useState } from 'react'
 import classes from './styles.module.css'
 import { ImageIcon, UploadIcon } from '@entur/icons'
+import { FormError } from 'app/(admin)/components/FormError'
+import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 
-function LogoInput() {
+function LogoInput({ state }: { state: TFormFeedback | undefined }) {
     const [file, setFile] = useState('')
     const [fileName, setFileName] = useState<string>()
     const input = useRef(null)
@@ -40,6 +42,9 @@ function LogoInput() {
                     required
                 />
             </label>
+            <div className="mt-2">
+                <FormError {...getFormFeedbackForField('file', state)} />
+            </div>
             {file && (
                 <div className="flexRow justifyBetween g-2 mt-2">
                     <button
