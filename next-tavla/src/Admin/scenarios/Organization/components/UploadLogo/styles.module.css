@@ -40,3 +40,10 @@
 .fileInput:hover {
     cursor: pointer;
 }
+
+.fileSize {
+    display: flex;
+    justify-content: center;
+    color: var(--secondary-text-color);
+    font-size: 0.8em;
+}

@@ -76,9 +76,12 @@ function Filename({ fileName }: { fileName?: string }) {
         )
 
     return (
-        <div className="flexRow alignCenter g-2">
-            <UploadIcon size={24} />
-            Klikk eller slipp en fil her for å laste opp en logo
+        <div className="flexColumn g-2">
+            <div className="flexRow alignCenter g-2">
+                <UploadIcon size={24} />
+                Klikk eller slipp et bilde her for å laste opp en logo
+            </div>
+            <div className={classes.fileSize}>Maksimal størrelse 10 MB</div>
         </div>
     )
 }
