@@ -25,7 +25,7 @@ function DeleteModal({
             className="flexColumn justifyStart alignCenter textCenter"
         >
             <SecondarySquareButton
-                aria-label="Lukk dialog"
+                aria-label="Avbryt sletting"
                 className="ml-auto"
                 onClick={closeModal}
             >
@@ -35,9 +35,10 @@ function DeleteModal({
             <Heading1 className="text-rem-4">Slett tavle?</Heading1>
             <LeadParagraph>
                 {board?.meta?.title
-                    ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"? 
-                    Avgangstavlen vil være borte for godt og ikke mulig å finne tilbake til.`
+                    ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"?`
                     : 'Er du sikker på at du vil slette denne tavlen?'}
+                Avgangstavlen vil være borte for godt og ikke mulig å finne
+                tilbake til
             </LeadParagraph>
             <PrimaryButton
                 aria-label="Slett tavle"
