@@ -41,7 +41,7 @@ function DeleteModal({
             </LeadParagraph>
             <PrimaryButton
                 aria-label="Slett tavle"
-                className="p-4"
+                className="w-100"
                 onClick={deleteHandler}
             >
                 Ja, slett avgangstavle!
