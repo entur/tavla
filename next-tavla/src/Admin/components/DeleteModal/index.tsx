@@ -1,11 +1,10 @@
-import { IconButton, PrimaryButton } from '@entur/button'
+import { PrimaryButton, SecondarySquareButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading1, LeadParagraph } from '@entur/typography'
 import Image from 'next/image'
 import { TBoard } from 'types/settings'
 import sheep from 'assets/illustrations/Sheep.png'
 import { CloseIcon } from '@entur/icons'
-import classes from './styles.module.css'
 function DeleteModal({
     board,
     isOpen,
@@ -25,14 +24,14 @@ function DeleteModal({
             closeLabel="Avbryt sletting"
             className="flexColumn justifyStart alignCenter textCenter"
         >
-            <Image src={sheep} alt="" width={250} height={250} />
-            <IconButton
+            <SecondarySquareButton
                 aria-label="Lukk dialog"
-                className={classes.closeButton}
+                className="ml-auto"
                 onClick={closeModal}
             >
                 <CloseIcon />
-            </IconButton>
+            </SecondarySquareButton>
+            <Image src={sheep} alt="" className="h-50 w-50" />
             <Heading1 className="text-rem-4">Slett tavle?</Heading1>
             <LeadParagraph>
                 {board?.meta?.title
@@ -42,7 +41,7 @@ function DeleteModal({
             </LeadParagraph>
             <PrimaryButton
                 aria-label="Slett tavle"
-                className={classes.deleteButton}
+                className="p-4"
                 onClick={deleteHandler}
             >
                 Ja, slett avgangstavle!
