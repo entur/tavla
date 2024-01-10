@@ -1,8 +1,10 @@
-import { PrimaryButton, SecondaryButton } from '@entur/button'
+import { PrimaryButton, SecondarySquareButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading1, LeadParagraph } from '@entur/typography'
+import Image from 'next/image'
 import { TBoard } from 'types/settings'
-
+import sheep from 'assets/illustrations/Sheep.png'
+import { CloseIcon } from '@entur/icons'
 function DeleteModal({
     board,
     isOpen,
@@ -22,23 +24,29 @@ function DeleteModal({
             closeLabel="Avbryt sletting"
             className="flexColumn justifyStart alignCenter textCenter"
         >
-            <Heading1 className="text-rem-4">Slett tavle</Heading1>
+            <SecondarySquareButton
+                aria-label="Avbryt sletting"
+                className="ml-auto"
+                onClick={closeModal}
+            >
+                <CloseIcon />
+            </SecondarySquareButton>
+            <Image src={sheep} alt="" className="h-50 w-50" />
+            <Heading1 className="text-rem-4">Slett tavle?</Heading1>
             <LeadParagraph>
                 {board?.meta?.title
                     ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"?`
                     : 'Er du sikker på at du vil slette denne tavlen?'}
+                Avgangstavlen vil være borte for godt og ikke mulig å finne
+                tilbake til
             </LeadParagraph>
-            <div className="flexRow justifyAround alignCenter g-2">
-                <SecondaryButton
-                    onClick={closeModal}
-                    aria-label="Avbryt sletting"
-                >
-                    Avbryt
-                </SecondaryButton>
-                <PrimaryButton aria-label="Slett tavle" onClick={deleteHandler}>
-                    Ja, slett!
-                </PrimaryButton>
-            </div>
+            <PrimaryButton
+                aria-label="Slett tavle"
+                className="w-100"
+                onClick={deleteHandler}
+            >
+                Ja, slett avgangstavle!
+            </PrimaryButton>
         </Modal>
     )
 }

@@ -1,5 +1,5 @@
-import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
-import { DeleteIcon } from '@entur/icons'
+import { IconButton, PrimaryButton, SecondarySquareButton } from '@entur/button'
+import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { TBoard } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
 import { useModalWithValue } from '../../hooks/useModalWithValue'
@@ -10,7 +10,8 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { useFormState } from 'react-dom'
 import { deleteBoardAction } from '../../utils/formActions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
-
+import sheep from 'assets/illustrations/Sheep.png'
+import Image from 'next/image'
 function Delete({ board }: { board: TBoard }) {
     const [state, action] = useFormState(deleteBoardAction, undefined)
     const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
@@ -29,29 +30,34 @@ function Delete({ board }: { board: TBoard }) {
                 closeLabel="Avbryt sletting"
                 className="flexColumn justifyStart alignCenter textCenter"
             >
+                <SecondarySquareButton
+                    aria-label="Avbryt sletting"
+                    className="ml-auto"
+                    onClick={close}
+                >
+                    <CloseIcon />
+                </SecondarySquareButton>
+                <Image src={sheep} alt="" className="h-50 w-50" />
                 <Heading1 className="text-rem-4">Slett tavle</Heading1>
                 <LeadParagraph>
                     {board?.meta?.title
                         ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"?`
                         : 'Er du sikker på at du vil slette denne tavlen?'}
+                    Avgangstavlen vil være borte for godt og ikke mulig å finne
+                    tilbake til
                 </LeadParagraph>
-                <div className="flexRow justifyAround alignCenter g-2">
-                    <SecondaryButton
-                        onClick={close}
-                        aria-label="Avbryt sletting"
+
+                <form action={action} onSubmit={close} className="w-100">
+                    <HiddenInput id="bid" value={board.id} />
+                    <FormError {...getFormFeedbackForField('general', state)} />
+                    <PrimaryButton
+                        type="submit"
+                        aria-label="Slett tavle"
+                        className="w-100"
                     >
-                        Avbryt
-                    </SecondaryButton>
-                    <form action={action} onSubmit={close}>
-                        <HiddenInput id="bid" value={board.id} />
-                        <FormError
-                            {...getFormFeedbackForField('general', state)}
-                        />
-                        <PrimaryButton type="submit" aria-label="Slett tavle">
-                            Ja, slett!
-                        </PrimaryButton>
-                    </form>
-                </div>
+                        Ja, slett!
+                    </PrimaryButton>
+                </form>
             </Modal>
         </>
     )
