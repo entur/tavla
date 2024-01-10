@@ -18,19 +18,21 @@ function Destination({ deviations = true }: { deviations?: boolean }) {
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
     return (
-        <TableColumn title="Destinasjon" className="grow">
-            {destinations.map((destination) => (
-                <TableRow key={destination.key}>
-                    {destination.via
-                        ? `${destination.destination} via ${destination.via}`
-                        : destination.destination}
+        <div style={{ overflow: 'hidden' }}>
+            <TableColumn title="Destinasjon" className="grow">
+                {destinations.map((destination) => (
+                    <TableRow key={destination.key}>
+                        {destination.via
+                            ? `${destination.destination} via ${destination.via}`
+                            : destination.destination}
 
-                    {deviations && (
-                        <Situations situations={destination.situations} />
-                    )}
-                </TableRow>
-            ))}
-        </TableColumn>
+                        {deviations && (
+                            <Situations situations={destination.situations} />
+                        )}
+                    </TableRow>
+                ))}
+            </TableColumn>
+        </div>
     )
 }
 
