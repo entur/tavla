@@ -13,3 +13,7 @@
 .cursorMove {
     cursor: move;
 }
+
+.hidden {
+    overflow: hidden;
+}

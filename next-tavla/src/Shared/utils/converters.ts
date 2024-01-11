@@ -14,7 +14,6 @@ type TColumnBase =
     | 'time'
     | 'platform'
     | 'realtime'
-    | 'deviations'
 
 type TTransportModeBase =
     | 'air'
