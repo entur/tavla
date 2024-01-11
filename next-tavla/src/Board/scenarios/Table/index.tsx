@@ -40,11 +40,8 @@ function Table({
                     {columns.includes('arrivalTime') && <ArrivalTime />}
                     {columns.includes('line') && <Line />}
                     {columns.includes('destination') && (
-                        <Destination
-                            deviations={!columns.includes('deviations')}
-                        />
+                        <Destination deviations />
                     )}
-                    {columns.includes('deviations') && <Deviation />}
                     {columns.includes('platform') && <Platform />}
                     {columns.includes('time') && <ExpectedTime />}
                     {columns.includes('realtime') && <RealTime />}

@@ -18,8 +18,8 @@ function Destination({ deviations = true }: { deviations?: boolean }) {
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
     }))
     return (
-        <div style={{ overflow: 'hidden' }}>
-            <TableColumn title="Destinasjon" className="grow">
+        <div className="hidden grow">
+            <TableColumn title="Destinasjon">
                 {destinations.map((destination) => (
                     <TableRow key={destination.key}>
                         {destination.via
