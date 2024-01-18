@@ -1,9 +1,7 @@
 'use client'
 import { TBoard } from 'types/settings'
-import classes from './styles.module.css'
 import { Heading1, Heading2 } from '@entur/typography'
 import { TextField } from '@entur/form'
-import { Board } from 'Board/scenarios/Board'
 import { PrimaryButton } from '@entur/button'
 import { useState } from 'react'
 import { BannerAlertBox } from '@entur/alert'
@@ -19,9 +17,6 @@ function Edit({ board }: { board: TBoard }) {
                     Du har endringer som ikke er lagret!
                 </BannerAlertBox>
             )}
-            <div className={classes.preview} data-theme={board.theme ?? 'dark'}>
-                <Board board={board} />
-            </div>
             <form onChange={() => setChanged(true)}>
                 <TextField
                     defaultValue={board.meta?.title}
