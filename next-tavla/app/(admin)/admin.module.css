@@ -16,3 +16,9 @@
     grid-template-columns: 1fr 1fr;
     gap: 8em;
 }
+
+.landingPage {
+    min-height: 100vh;
+    background-color: var(--colors-brand-white);
+    color: var(--colors-misc-black);
+}

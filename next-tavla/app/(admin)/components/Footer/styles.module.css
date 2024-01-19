@@ -1,0 +1,6 @@
+.footer {
+    min-height: 40vh;
+    padding: 4rem 4rem 2rem;
+    background-color: var(--main-background-color);
+    color: var(--colors-brand-white);
+}

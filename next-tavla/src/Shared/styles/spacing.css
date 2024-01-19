@@ -257,3 +257,11 @@
 .h-100 {
     height: 100%;
 }
+
+.h-100vh {
+    min-height: 100vh;
+}
+
+.h-auto {
+    height: auto;
+}

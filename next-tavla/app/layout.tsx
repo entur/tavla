@@ -40,9 +40,7 @@ export const metadata: Metadata = {
 function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="nb">
-            <body>
-                <div className="eds-contrast">{children}</div>
-            </body>
+            <body>{children}</body>
         </html>
     )
 }
