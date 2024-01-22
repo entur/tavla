@@ -13,26 +13,28 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
             <Link href="/">
                 <Image src={TavlaLogo} height={32} alt="" />
             </Link>
-            {loggedIn && (
-                <div className="flexRow g-4">
-                    <TopNavigationItem
-                        as={Link}
-                        href="/boards"
-                        className="g-2 p-2 "
-                    >
-                        <UserIcon className="mr-1" /> Tavler
-                    </TopNavigationItem>
-                    <TopNavigationItem
-                        as={Link}
-                        href="/organizations"
-                        className="g-2 p-2"
-                    >
-                        <OrganizationIcon className="mr-1" />
-                        Organisasjoner
-                    </TopNavigationItem>
-                    <Login loggedIn={loggedIn} />
-                </div>
-            )}
+            <div className="flexRow g-4">
+                {loggedIn && (
+                    <>
+                        <TopNavigationItem
+                            as={Link}
+                            href="/boards"
+                            className="g-2 p-2 "
+                        >
+                            <UserIcon className="mr-1" /> Tavler
+                        </TopNavigationItem>
+                        <TopNavigationItem
+                            as={Link}
+                            href="/organizations"
+                            className="g-2 p-2"
+                        >
+                            <OrganizationIcon className="mr-1" />
+                            Organisasjoner
+                        </TopNavigationItem>
+                    </>
+                )}
+                <Login loggedIn={loggedIn} />
+            </div>
         </div>
     )
 }
