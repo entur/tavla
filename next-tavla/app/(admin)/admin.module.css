@@ -18,6 +18,9 @@
 }
 
 .landingPage {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
     min-height: 100vh;
     background-color: var(--colors-brand-white);
     color: var(--colors-misc-black);

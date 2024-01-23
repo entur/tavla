@@ -38,7 +38,7 @@ async function AdminLayout({ children }: { children: ReactNode }) {
                     <Login loggedIn={loggedIn} />
                 </div>
             </div>
-            {children}
+            <div className="eds-contrast">{children}</div>
         </div>
     )
 }
