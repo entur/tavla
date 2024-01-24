@@ -11,7 +11,7 @@ import { TBoard } from 'types/settings'
 import { Preview } from './(admin)/components/Preview'
 
 export const metadata: Metadata = {
-    title: 'Entur Tavla',
+    title: 'Forside | Entur Tavla',
 }
 
 async function Landing() {
@@ -43,8 +43,20 @@ async function Landing() {
                     for reisende
                 </Heading1>
             </div>
-            <Image src={landingImage} className="w-100 h-auto" alt="" />
-            <div className="flexColumn justifyCenter p-4 hidden">
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                }}
+            >
+                <Image
+                    src={landingImage}
+                    style={{ width: '120vw', height: 'auto' }}
+                    alt=""
+                />
+            </div>
+            <div className="flexColumn justifyCenter p-4">
                 <Heading2>Hva er tavla?</Heading2>
                 <LeadParagraph>
                     Tavla er et verktøy som hjelper deg å lage avgagstavler for
@@ -52,10 +64,9 @@ async function Landing() {
                     for knutepunkter, holdeplasser eller skoler, arbeidplasser
                     og idrettshaller.
                 </LeadParagraph>
-                <div className="flexRow w-50">
-                    <Preview board={previewBoard} />
-                    <Heading3>Tavla for de alle</Heading3>
-                </div>
+                <Preview board={previewBoard} />
+
+                <Heading3>Tavla for de alle</Heading3>
             </div>
             <Footer />
         </div>
