@@ -25,3 +25,11 @@
     background-color: var(--colors-brand-white);
     color: var(--colors-misc-black);
 }
+
+.landingIllustration {
+    padding: 8rem 4rem 2rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}

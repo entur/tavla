@@ -17,3 +17,7 @@
 .hidden {
     overflow: hidden;
 }
+
+.absolute {
+    position: absolute;
+}
