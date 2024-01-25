@@ -10,7 +10,7 @@ function Footer() {
         <div className="eds-contrast">
             <div className={classes.footer}>
                 <Image src={TavlaLogo} alt="" />
-                <div className="flexRow justifyBetween">
+                <div className={classes.flexContainer}>
                     <div>
                         <Heading3>Entur AS</Heading3>
                         <Paragraph className={classes.content}>
