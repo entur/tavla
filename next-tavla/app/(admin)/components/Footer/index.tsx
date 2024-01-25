@@ -3,7 +3,7 @@ import Image from 'next/image'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import { Heading3, Link as EnturLink, Paragraph } from '@entur/typography'
 import Link from 'next/link'
-import { ExternalIcon } from '@entur/icons'
+import { ExternalIcon, FacebookIcon, GithubIcon } from '@entur/icons'
 
 function Footer() {
     return (
@@ -59,8 +59,16 @@ function Footer() {
                             </EnturLink>
                         </Paragraph>
                     </div>
-                    <div>
-                        <Heading3>Kontakt</Heading3>
+                    <div className={classes.iconContainer}>
+                        <Link
+                            href="https://facebook.com/entur.org"
+                            className="mr-2"
+                        >
+                            <FacebookIcon size={25} />
+                        </Link>
+                        <Link href="https://github.com/entur/tavla">
+                            <GithubIcon size={25} />
+                        </Link>
                     </div>
                 </div>
             </div>

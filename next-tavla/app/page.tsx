@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 import { TopNavigation } from './(admin)/components/TopNavigation'
 import classes from './(admin)/admin.module.css'
 import Image from 'next/image'
-import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
+import { Heading1, Heading3, LeadParagraph } from '@entur/typography'
 import { Footer } from './(admin)/components/Footer'
 import { TBoard } from 'types/settings'
 import { Preview } from './(admin)/components/Preview'
@@ -91,20 +91,11 @@ async function Landing() {
             >
                 <Image
                     src={landingImage}
-                    style={{ width: '120vw', height: 'auto' }}
+                    style={{ width: '110vw', height: 'auto' }}
                     alt=""
                 />
             </div>
             <div className="flexColumn justifyCenter p-4">
-                <div className="w-50">
-                    <Heading2>Hva er tavla?</Heading2>
-                    <LeadParagraph>
-                        Tavla er et verktøy som hjelper deg å lage avgagstavler
-                        for offentlig transport. Du kan for eksempel lage
-                        avgagstavler for knutepunkter, holdeplasser eller
-                        skoler, arbeidplasser og idrettshaller.
-                    </LeadParagraph>
-                </div>
                 <div className="flexRow justifyCenter g-4 p-4 h-70vh hidden">
                     <Preview board={previewBoardStopPlace} />
                     <div className="w-30">
