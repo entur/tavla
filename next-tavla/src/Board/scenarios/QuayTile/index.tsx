@@ -36,11 +36,7 @@ export function QuayTile({
         return <Tile>Data not found</Tile>
     }
 
-    const heading: string = [
-        data.quay.name,
-        data.quay.publicCode,
-        data.quay.description,
-    ]
+    const heading: string = [data.quay.name, data.quay.publicCode]
         .filter(isNotNullOrUndefined)
         .join(' ')
     return (
