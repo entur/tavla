@@ -18,16 +18,18 @@
 }
 
 .landingPage {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
     min-height: 100vh;
     background-color: var(--colors-brand-white);
     color: var(--colors-misc-black);
 }
 
+.landingContent {
+    display: flex;
+    flex-direction: column;
+}
+
 .landingIllustration {
-    padding: 8rem 4rem 2rem;
+    padding: 2rem;
     position: absolute;
     display: flex;
     flex-direction: column;
