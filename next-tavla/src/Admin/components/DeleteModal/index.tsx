@@ -1,6 +1,6 @@
 import { PrimaryButton, SecondarySquareButton } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading1, LeadParagraph } from '@entur/typography'
+import { Heading1, Paragraph } from '@entur/typography'
 import Image from 'next/image'
 import { TBoard } from 'types/settings'
 import sheep from 'assets/illustrations/Sheep.png'
@@ -32,14 +32,14 @@ function DeleteModal({
                 <CloseIcon />
             </SecondarySquareButton>
             <Image src={sheep} alt="" className="h-50 w-50" />
-            <Heading1 className="text-rem-4">Slett tavle?</Heading1>
-            <LeadParagraph>
+            <Heading1 className="text-rem-4 m-0">Slett tavle?</Heading1>
+            <Paragraph className="mb-4">
                 {board?.meta?.title
-                    ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"?`
-                    : 'Er du sikker på at du vil slette denne tavlen?'}
+                    ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"? `
+                    : 'Er du sikker på at du vil slette denne tavlen? '}
                 Avgangstavlen vil være borte for godt og ikke mulig å finne
-                tilbake til
-            </LeadParagraph>
+                tilbake til.
+            </Paragraph>
             <PrimaryButton
                 aria-label="Slett tavle"
                 className="w-100"
