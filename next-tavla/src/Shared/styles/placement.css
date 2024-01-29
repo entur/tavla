@@ -8,6 +8,10 @@
     flex-direction: row;
 }
 
+.flex {
+    display: flex;
+}
+
 .grid {
     display: grid;
 }
