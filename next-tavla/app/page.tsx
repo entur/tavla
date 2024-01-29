@@ -102,8 +102,8 @@ async function Landing() {
                         alt=""
                     />
                 </div>
-                <div className="flexColumn justifyCenter p-4">
-                    <div className="w-50">
+                <div className="flexColumn alignCenter p-4">
+                    <div className="w-75">
                         <Heading2>Hva er tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage
@@ -111,33 +111,33 @@ async function Landing() {
                             lage avgangstavler for knutepunkter, holdeplasser
                             eller skoler, arbeidsplasser og idrettshaller.  
                         </LeadParagraph>
-                    </div>
-                    <div className="flexRow justifyCenter g-4 p-4 h-70vh hidden">
-                        <Preview boards={previewBoards} />
-                        <div className="w-30">
-                            <Heading3>
-                                Tavla - laget for og med kollektivselskaper
-                            </Heading3>
-                            <Paragraph>
-                                 Tavla er et digitalt produkt som er under
-                                kontinuerlig utvikling i samarbeid med
-                                kollektivselskapene. Med Tavla kan du enkelt
-                                opprette, administrere og samarbeide om
-                                avgangstavler.
-                            </Paragraph>
-                            <Heading3>Tavla - for knutepunkter</Heading3>
-                            <Paragraph>
-                                  Tavla har støtte for alle stoppesteder i
-                                Norge. Du velger selv hva slags informasjon som
-                                skal vises på dine tavler.
-                            </Paragraph>
+                        <div className="flexRow h-70vh g-4 hidden">
+                            <Preview boards={previewBoards} />
+                            <div className="w-50">
+                                <Heading3>
+                                    Tavla - laget for og med kollektivselskaper
+                                </Heading3>
+                                <Paragraph>
+                                     Tavla er et digitalt produkt som er under
+                                    kontinuerlig utvikling i samarbeid med
+                                    kollektivselskapene. Med Tavla kan du enkelt
+                                    opprette, administrere og samarbeide om
+                                    avgangstavler.
+                                </Paragraph>
+                                <Heading3>Tavla - for knutepunkter</Heading3>
+                                <Paragraph>
+                                      Tavla har støtte for alle stoppesteder i
+                                    Norge. Du velger selv hva slags informasjon
+                                    som skal vises på dine tavler.
+                                </Paragraph>
 
-                            <Heading3>Tavla for alle</Heading3>
-                            <Paragraph>
-                                 Tavla er til for de reisende. Tavla muligjør
-                                raske og effektive beslutninger for de reisende
-                                gjennom pålitelig informasjon.
-                            </Paragraph>
+                                <Heading3>Tavla for alle</Heading3>
+                                <Paragraph>
+                                     Tavla er til for de reisende. Tavla
+                                    muligjør raske og effektive beslutninger for
+                                    de reisende gjennom pålitelig informasjon.
+                                </Paragraph>
+                            </div>
                         </div>
                     </div>
                 </div>
