@@ -113,7 +113,7 @@ async function Landing() {
                                 holdeplasser eller skoler, arbeidsplasser og
                                 idrettshaller.  
                             </LeadParagraph>
-                            <div className="flexRow h-70vh g-4 hidden">
+                            <div className="flexRow h-50vh g-4 hidden">
                                 <Preview boards={previewBoards} />
                                 <div className="w-50">
                                     <Heading3>
