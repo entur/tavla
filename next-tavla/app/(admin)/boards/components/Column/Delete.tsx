@@ -4,7 +4,7 @@ import { TBoard } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
 import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { Modal } from '@entur/modal'
-import { Heading1, Paragraph } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useFormState } from 'react-dom'
@@ -38,7 +38,7 @@ function Delete({ board }: { board: TBoard }) {
                     <CloseIcon />
                 </SecondarySquareButton>
                 <Image src={sheep} alt="" className="h-50 w-50" />
-                <Heading1 className="text-rem-4 m-0">Slett tavle</Heading1>
+                <Heading2>Slett tavle</Heading2>
                 <Paragraph className="mb-4">
                     {board?.meta?.title
                         ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"? `
