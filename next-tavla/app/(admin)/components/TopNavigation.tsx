@@ -1,6 +1,5 @@
 'use client'
 
-import { OrganizationIcon, UserIcon } from '@entur/icons'
 import { TopNavigationItem } from '@entur/menu'
 import { Login } from './Login'
 import classes from '../admin.module.css'
@@ -18,19 +17,10 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                 <div className="flexRow g-4">
                     {loggedIn && (
                         <>
-                            <TopNavigationItem
-                                as={Link}
-                                href="/boards"
-                                className="g-2 p-2 "
-                            >
-                                <UserIcon className="mr-1" /> Tavler
+                            <TopNavigationItem as={Link} href="/boards">
+                                Tavler
                             </TopNavigationItem>
-                            <TopNavigationItem
-                                as={Link}
-                                href="/organizations"
-                                className="g-2 p-2"
-                            >
-                                <OrganizationIcon className="mr-1" />
+                            <TopNavigationItem as={Link} href="/organizations">
                                 Organisasjoner
                             </TopNavigationItem>
                         </>
