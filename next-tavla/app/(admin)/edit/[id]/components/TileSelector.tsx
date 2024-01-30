@@ -4,8 +4,10 @@ import { SearchIcon } from '@entur/icons'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
+import { Button } from '@entur/button'
+import { HiddenInput } from 'components/Form/HiddenInput'
 
-function TileSelector() {
+function TileSelector({ action }: { action: (data: FormData) => void }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch()
 
@@ -17,7 +19,14 @@ function TileSelector() {
     )
 
     return (
-        <>
+        <form
+            className="flexRow g-2"
+            action={action}
+            onSubmit={() => {
+                setSelectedQuay(null)
+                setSelectedStopPlace(null)
+            }}
+        >
             <MultiSelect
                 label="Velg fylker"
                 items={counties}
@@ -34,7 +43,7 @@ function TileSelector() {
                 prepend={<SearchIcon />}
                 selectedItem={selectedStopPlace}
                 onChange={setSelectedStopPlace}
-              debounceTimeout={1000}
+                debounceTimeout={1000}
             />
             <Dropdown
                 items={quays}
@@ -44,7 +53,12 @@ function TileSelector() {
                 selectedItem={selectedQuay}
                 onChange={setSelectedQuay}
             />
-        </>
+            <HiddenInput id="stop_place" value={selectedStopPlace?.value} />
+            <HiddenInput id="quay" value={selectedQuay?.value} />
+            <Button variant="primary" type="submit">
+                Legg til
+            </Button>
+        </form>
     )
 }
 

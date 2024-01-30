@@ -24,9 +24,12 @@ export default async function EditPage({
                 <Board board={board} />
             </div>
             <Heading2>Stoppesteder i tavla</Heading2>
-            <div className="flexRow g-2">
-                <TileSelector />
-            </div>
+            <TileSelector
+                action={async (data: FormData) => {
+                    'use server'
+                    console.log(data.get('stop_place'), data.get('quay'))
+                }}
+            />
         </div>
     )
 }
