@@ -34,6 +34,7 @@ function TileSelector() {
                 prepend={<SearchIcon />}
                 selectedItem={selectedStopPlace}
                 onChange={setSelectedStopPlace}
+              debounceTimeout={1000}
             />
             <Dropdown
                 items={quays}
