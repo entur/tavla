@@ -28,10 +28,17 @@
     flex-direction: column;
 }
 
-.landingIllustration {
-    padding: 2rem;
-    position: absolute;
+.headerHighlight {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--colors-brand-coral);
+    padding: 0;
+}
+
+.landingHeader {
     display: flex;
     flex-direction: column;
-    align-self: center;
+    position: absolute;
+    margin-top: 2em;
+    padding-left: 8em;
 }

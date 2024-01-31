@@ -1,4 +1,4 @@
-import landingImage from 'assets/illustrations/Landscape_4_withoutphone.png'
+import landingImage from 'assets/illustrations/Main_Frame.png'
 import { verifySession } from 'Admin/utils/firebase'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
@@ -28,7 +28,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'large',
+                fontSize: 'medium',
             },
             tiles: [
                 {
@@ -43,7 +43,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'large',
+                fontSize: 'medium',
             },
 
             tiles: [
@@ -59,7 +59,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'large',
+                fontSize: 'medium',
             },
             tiles: [
                 {
@@ -70,8 +70,8 @@ async function Landing() {
                         'realtime',
                         'arrivalTime',
                     ],
-                    placeId: 'NSR:StopPlace:70023',
-                    name: 'Harstad hurtigbåtkai',
+                    placeId: 'NSR:StopPlace:58463',
+                    name: 'Halhjem ferjekai',
                     type: 'stop_place',
                     uuid: 'uoO6yA-S0ztol4auy_QSv',
                 },
@@ -84,9 +84,9 @@ async function Landing() {
             <div className={classes.landingPage}>
                 <TopNavigation loggedIn={loggedIn} />
                 <div className={classes.landingContent}>
-                    <div className={classes.landingIllustration}>
+                    <div className={classes.landingHeader}>
                         <Heading1>Lag din egen avgangstavle</Heading1>
-                        <Heading1 className="ml-4 text-highlight">
+                        <Heading1 className={classes.headerHighlight}>
                             for reisende
                         </Heading1>
                     </div>
@@ -95,6 +95,7 @@ async function Landing() {
                             display: 'flex',
                             justifyContent: 'center',
                             overflow: 'hidden',
+                            marginTop: '6rem',
                         }}
                     >
                         <Image
@@ -114,7 +115,9 @@ async function Landing() {
                                 idrettshaller.  
                             </LeadParagraph>
                             <div className="flexRow h-50vh g-4 hidden">
-                                <Preview boards={previewBoards} />
+                                <div className="w-50">
+                                    <Preview boards={previewBoards} />
+                                </div>
                                 <div className="w-50">
                                     <Heading3>
                                         Tavla - laget for og med
