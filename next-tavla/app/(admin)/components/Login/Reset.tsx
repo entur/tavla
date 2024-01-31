@@ -32,7 +32,7 @@ function Reset() {
     const [state, action] = useFormState(submit, undefined)
 
     return (
-        <div>
+        <div className="textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
             <Heading3>Glemt passord</Heading3>
             <Paragraph>

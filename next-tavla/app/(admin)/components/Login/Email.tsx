@@ -46,10 +46,10 @@ function Email() {
     const getPathWithParams = useSearchParamsSetter('login')
 
     return (
-        <div className="flexColumn alignCenter textCenter">
+        <div className="textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
             <Heading3>Logg inn med e-post</Heading3>
-            <form className="flexColumn w-100 g-2" action={action}>
+            <form className="flexColumn  g-2" action={action}>
                 <TextField
                     name="email"
                     label="E-post"

@@ -18,7 +18,6 @@
 }
 
 .landingPage {
-    min-height: 100vh;
     background-color: var(--colors-brand-white);
     color: var(--colors-misc-black);
 }
