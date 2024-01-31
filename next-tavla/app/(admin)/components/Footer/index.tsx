@@ -7,7 +7,7 @@ import { ExternalIcon, GithubIcon } from '@entur/icons'
 
 function Footer() {
     return (
-        <div className="eds-contrast">
+        <footer className="eds-contrast">
             <div className={classes.footer}>
                 <Image src={TavlaLogo} alt="" />
                 <div className={classes.flexContainer}>
@@ -37,7 +37,7 @@ function Footer() {
                     </div>
                 </div>
             </div>
-        </div>
+        </footer>
     )
 }
 
