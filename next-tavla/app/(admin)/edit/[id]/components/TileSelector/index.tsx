@@ -54,6 +54,10 @@ function TileSelector({ action }: { action: (data: FormData) => void }) {
                 onChange={setSelectedQuay}
             />
             <HiddenInput id="stop_place" value={selectedStopPlace?.value} />
+            <HiddenInput
+                id="stop_place_name"
+                value={selectedStopPlace?.label}
+            />
             <HiddenInput id="quay" value={selectedQuay?.value} />
             <Button variant="primary" type="submit">
                 Legg til

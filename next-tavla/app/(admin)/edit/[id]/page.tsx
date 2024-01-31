@@ -1,11 +1,14 @@
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { permanentRedirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
-import { getBoard } from './actions'
+import { addTile, deleteTile, getBoard } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
 import { Board } from 'Board/scenarios/Board'
 import { TileSelector } from './components/TileSelector'
+import { nanoid } from 'nanoid'
+import { revalidatePath } from 'next/cache'
+import { TileCard } from './components/TileCard'
 
 export default async function EditPage({
     params,
@@ -27,9 +30,25 @@ export default async function EditPage({
             <TileSelector
                 action={async (data: FormData) => {
                     'use server'
-                    console.log(data.get('stop_place'), data.get('quay'))
+                    const quayId = data.get('quay') as string
+                    const stopPlaceId = data.get('stop_place') as string
+                    const stopPlaceName = data.get('stop_place_name') as string
+
+                    const placeId = quayId ? quayId : stopPlaceId
+
+                    await addTile(params.id, {
+                        type: placeId !== stopPlaceId ? 'quay' : 'stop_place',
+                        name: stopPlaceName,
+                        uuid: nanoid(),
+                        placeId,
+                        columns: ['line', 'destination', 'time', 'realtime'],
+                    })
+                    revalidatePath(`/edit/${params.id}`)
                 }}
             />
+            {board.tiles.map((tile) => (
+                <TileCard bid={params.id} tile={tile} />
+            ))}
         </div>
     )
 }
