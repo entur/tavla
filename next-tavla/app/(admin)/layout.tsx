@@ -9,6 +9,7 @@ import classes from './admin.module.css'
 import { cookies } from 'next/headers'
 import { verifySession } from 'Admin/utils/firebase'
 import { IconButton } from '@entur/button'
+import { CreateBoard } from 'Admin/scenarios/CreateBoard'
 
 export const metadata: Metadata = {
     title: 'Mine organisasjoner | Entur Tavla',
@@ -25,6 +26,7 @@ async function AdminLayout({ children }: { children: ReactNode }) {
                         <Image src={TavlaLogo} height={32} alt="Tavla logo" />
                     </Link>
                     <div className="flexRow g-4">
+                        <CreateBoard loggedIn={loggedIn} />
                         <IconButton
                             as={Link}
                             href="/boards"

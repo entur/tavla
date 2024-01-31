@@ -1,4 +1,5 @@
-import { PrimaryButton } from '@entur/button'
+'use client'
+import { IconButton } from '@entur/button'
 import { AddIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { useToggle } from 'hooks/useToggle'
@@ -33,10 +34,10 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
 
     return (
         <SettingsDispatchContext.Provider value={dispatch}>
-            <PrimaryButton onClick={openModal}>
+            <IconButton onClick={openModal}>
                 <AddIcon />
                 Opprett tavle
-            </PrimaryButton>
+            </IconButton>
 
             <Modal
                 open={showModal}
