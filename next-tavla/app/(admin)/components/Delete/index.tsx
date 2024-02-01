@@ -63,24 +63,22 @@ function Delete({
                     action={action}
                     className="flexColumn w-100 g-2"
                     aria-live="polite"
+                    aria-relevant="all"
                 >
                     <HiddenInput id="oname" value={organization.name} />
                     <HiddenInput id="oid" value={organization.id} />
-
                     <TextField
                         name="name"
                         label="Organisasjonsnavn"
                         type="text"
                         required
                         aria-required
-                        aria-atomic
                         className="w-100"
                         {...getFormFeedbackForField('name', state)}
                     />
                     <Label className="weight500 textLeft">
                         Bekreft ved å skrive inn navnet på organisasjonen
                     </Label>
-
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <SubmitButton
                         variant="primary"
