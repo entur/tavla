@@ -1,5 +1,5 @@
-query quaysSearch($stopPlaceId: String!) {
-    stopPlace(id: $stopPlaceId) {
+query quayEdit($placeId: String!) {
+    stopPlace(id: $placeId) {
         quays(filterByInUse: true) {
             id
             publicCode

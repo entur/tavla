@@ -1,4 +1,4 @@
-import { StopPlaceSettingsQuery } from 'graphql/index'
+import { StopPlaceEditQuery } from 'graphql/index'
 import { useQuery } from 'graphql/utils'
 import { fieldsNotNull } from 'utils/typeguards'
 import { TStopPlaceTile } from 'types/tile'
@@ -11,8 +11,8 @@ import { SelectLines } from '../SelectLines'
 
 function StopPlaceSettings({ tile }: { tile: TStopPlaceTile }) {
     const lines =
-        useQuery(StopPlaceSettingsQuery, {
-            id: tile.placeId,
+        useQuery(StopPlaceEditQuery, {
+            placeId: tile.placeId,
         })
             .data?.stopPlace?.quays?.flatMap((q) => q?.lines)
             .filter(fieldsNotNull) || []

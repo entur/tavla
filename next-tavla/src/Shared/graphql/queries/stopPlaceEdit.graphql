@@ -1,5 +1,5 @@
-query StopPlaceSettings($id: String!) {
-    stopPlace(id: $id) {
+query stopPlaceEdit($placeId: String!) {
+    stopPlace(id: $placeId) {
         name
         quays(filterByInUse: true) {
             ...lines
