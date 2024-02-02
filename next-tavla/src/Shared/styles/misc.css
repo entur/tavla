@@ -21,3 +21,7 @@
 .absolute {
     position: absolute;
 }
+
+.displayNone {
+    display: none;
+}

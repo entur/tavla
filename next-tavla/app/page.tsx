@@ -28,7 +28,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'medium',
+                fontSize: 'large',
             },
             tiles: [
                 {
@@ -43,7 +43,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'medium',
+                fontSize: 'large',
             },
 
             tiles: [
@@ -59,7 +59,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'medium',
+                fontSize: 'large',
             },
             tiles: [
                 {
@@ -70,8 +70,8 @@ async function Landing() {
                         'realtime',
                         'arrivalTime',
                     ],
-                    placeId: 'NSR:StopPlace:58463',
-                    name: 'Halhjem ferjekai',
+                    placeId: 'NSR:StopPlace:70023',
+                    name: 'Harstad hurtigbåtkai',
                     type: 'stop_place',
                     uuid: 'uoO6yA-S0ztol4auy_QSv',
                 },
@@ -115,9 +115,7 @@ async function Landing() {
                                 idrettshaller.  
                             </LeadParagraph>
                             <div className="flexRow h-50vh g-4 hidden">
-                                <div className="w-50">
-                                    <Preview boards={previewBoards} />
-                                </div>
+                                <Preview boards={previewBoards} />
                                 <div className="w-50">
                                     <Heading3>
                                         Tavla - laget for og med
