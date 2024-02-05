@@ -19,14 +19,6 @@ export async function addTile(bid: TBoardID, tile: TTile) {
         .update({ tiles: firestore.FieldValue.arrayUnion(tile) })
 }
 
-export async function deleteTile(bid: TBoardID, tile: TTile) {
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({ tiles: firestore.FieldValue.arrayRemove(tile) })
-    revalidatePath(`/edit/${bid}`)
-}
-
 export async function saveTile(bid: TBoardID, tile: TTile) {
     const docRef = firestore().collection('boards').doc(bid)
     const doc = (await docRef.get()).data() as TBoard

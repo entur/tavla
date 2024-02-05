@@ -3,12 +3,10 @@ import { GRAPHQL_ENDPOINTS } from 'assets/env'
 import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
 import { useEffect, useState } from 'react'
 import { TQuay } from 'types/graphql-schema'
+import { TTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
 
-function useLines(
-    tileType: 'quay' | 'stop_place',
-    placeId: string,
-): TLineFragment {
+function useLines(tile: TTile): TLineFragment[] | null {
     const [lines, setLines] = useState(null)
 
     useEffect(() => {
@@ -18,8 +16,9 @@ function useLines(
                 'ET-Client-Name': 'tavla-test',
             },
             body: JSON.stringify({
-                query: tileType === 'quay' ? QuayEditQuery : StopPlaceEditQuery,
-                variables: { placeId },
+                query:
+                    tile.type === 'quay' ? QuayEditQuery : StopPlaceEditQuery,
+                variables: { placeId: tile.placeId },
             }),
             method: 'POST',
         })
@@ -27,7 +26,7 @@ function useLines(
                 return res.json()
             })
             .then((res) => {
-                if (tileType === 'quay')
+                if (tile.type === 'quay')
                     setLines(res.data?.quay?.lines.filter(fieldsNotNull) ?? [])
                 setLines(
                     res.data?.stopPlace?.quays
@@ -35,7 +34,7 @@ function useLines(
                         .filter(fieldsNotNull) || [],
                 )
             })
-    }, [tileType])
+    }, [tile])
     return lines
 }
 
