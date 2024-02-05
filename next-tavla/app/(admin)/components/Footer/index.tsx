@@ -30,6 +30,18 @@ function Footer() {
                             </EnturLink>
                         </Paragraph>
                     </div>
+                    <div>
+                        <Heading3>Informasjon</Heading3>
+                        <Paragraph className="m-0 text-rem-0-9">
+                            <EnturLink
+                                as={Link}
+                                href="https://uustatus.no/nb/erklaringer/publisert/ffb3d21b-fbb4-48ed-9043-bb2a904f3143"
+                            >
+                                Tilgjengelighetserklæring
+                                <ExternalIcon className="ml-1" />
+                            </EnturLink>
+                        </Paragraph>
+                    </div>
                     <div className={classes.iconContainer}>
                         <Link href="https://github.com/entur/tavla">
                             <GithubIcon size={25} />
