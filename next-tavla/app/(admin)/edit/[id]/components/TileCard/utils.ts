@@ -1,6 +1,7 @@
+import { TLineFragment } from 'Admin/scenarios/Edit/components/SelectLines/types'
 import { GRAPHQL_ENDPOINTS } from 'assets/env'
 import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
-import { TQuay } from 'types/graphql-schema'
+import { TQuay, TTransportMode } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
 

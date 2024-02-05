@@ -1,7 +1,7 @@
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { permanentRedirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
-import { addTile, deleteTile, getBoard } from './actions'
+import { addTile, getBoard } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
 import { Board } from 'Board/scenarios/Board'
@@ -47,7 +47,7 @@ export default async function EditPage({
                 }}
             />
             {board.tiles.map((tile) => (
-                <TileCard bid={params.id} tile={tile} />
+                <TileCard key={tile.uuid} bid={params.id} tile={tile} />
             ))}
         </div>
     )

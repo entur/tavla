@@ -43,7 +43,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 <div className="flexRow g-2 alignCenter">
                     <div className="flexRow g-2 h-4">
                         {transportModes.map((tm) => (
-                            <TransportIcon transportMode={tm} />
+                            <TransportIcon transportMode={tm} key={tm} />
                         ))}
                     </div>
                     {tile.name}
@@ -107,6 +107,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 />
                                 {lines.map((line) => (
                                     <LineCheckbox
+                                        key={line.id}
                                         tile={tile}
                                         line={line}
                                         transportMode={transportMode}
