@@ -3,7 +3,6 @@ import { firestore } from 'firebase-admin'
 import { initializeAdminApp } from 'Admin/utils/firebase'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
-import { revalidatePath } from 'next/cache'
 
 initializeAdminApp()
 

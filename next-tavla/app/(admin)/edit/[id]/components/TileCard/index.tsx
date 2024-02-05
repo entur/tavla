@@ -12,11 +12,11 @@ import { TransportIcon } from 'components/TransportIcon'
 import { Columns } from 'types/column'
 import { FilterChip } from '@entur/chip'
 import { TColumn } from 'types/column'
-import { Checkbox } from '@entur/form'
-import { PublicCode } from './PublicCode'
 import { useLines } from './useLines'
-import { sortLineByPublicCode, transportModeNames } from './utils'
+import { sortLineByPublicCode } from './utils'
 import { deleteTile } from './actions'
+import { TransportModeCheckbox } from './TransportModeCheckbox'
+import { LineCheckbox } from './LineCheckbox'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -92,59 +92,16 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                     <div className="flexRow g-2">
                         {linesByModeSorted.map(({ transportMode, lines }) => (
                             <div key={transportMode}>
-                                <div className="flexRow g-2 alignCenter justifyStart">
-                                    <TransportIcon
-                                        transportMode={transportMode}
-                                        className="w-4 h-4"
-                                    />
-                                    {transportModeNames(transportMode)}
-                                </div>
-                                <div className="flexRow alignCenter">
-                                    <Checkbox
-                                        defaultChecked={
-                                            !tile.whitelistedLines ||
-                                            tile.whitelistedLines.length === 0
-                                        }
-                                        onChange={(e) => {
-                                            document
-                                                .getElementsByName(
-                                                    `${tile.uuid}-${transportMode}`,
-                                                )
-                                                .forEach(
-                                                    (
-                                                        input: HTMLInputElement,
-                                                    ) => {
-                                                        input.checked =
-                                                            e.currentTarget.checked
-                                                    },
-                                                )
-                                        }}
-                                    >
-                                        Velg alle
-                                    </Checkbox>
-                                </div>
+                                <TransportModeCheckbox
+                                    tile={tile}
+                                    transportMode={transportMode}
+                                />
                                 {lines.map((line) => (
-                                    <Checkbox
-                                        name={`${tile.uuid}-${transportMode}`}
-                                        defaultChecked={
-                                            !tile.whitelistedLines ||
-                                            tile.whitelistedLines.length ===
-                                                0 ||
-                                            tile.whitelistedLines.includes(
-                                                line.id,
-                                            )
-                                        }
-                                        key={line.id}
-                                        value={line.id}
-                                        className="pl-3"
-                                    >
-                                        <div className="flexRow alignCenter g-1">
-                                            <PublicCode
-                                                publicCode={line.publicCode}
-                                            />
-                                            {line.name}
-                                        </div>
-                                    </Checkbox>
+                                    <LineCheckbox
+                                        tile={tile}
+                                        line={line}
+                                        transportMode={transportMode}
+                                    />
                                 ))}
                             </div>
                         ))}
