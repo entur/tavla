@@ -56,7 +56,7 @@ function CreateOrganization() {
                     </Label>
                     <TextField
                         size="medium"
-                        label="Navn på din organisasjon"
+                        label="Organisasjonsnavn"
                         className="w-100"
                         id="name"
                         name="name"
@@ -66,7 +66,7 @@ function CreateOrganization() {
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <PrimaryButton
-                        className="mt-2"
+                        className="mt-4"
                         type="submit"
                         width="fluid"
                         aria-label="Opprett organisasjon"
