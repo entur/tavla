@@ -62,7 +62,15 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <form>
+                <form
+                    action={(data: FormData) => {
+                        // Display the key/value pairs
+                        for (const key of data.keys()) {
+                            const arr = data.getAll(key)
+                            console.log(arr)
+                        }
+                    }}
+                >
                     <Heading3>Rediger stoppested: {tile.name}</Heading3>
                     <Heading4>Tabellen</Heading4>
                     <SubParagraph>
@@ -73,6 +81,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         {Object.entries(Columns).map(([key, value]) => {
                             return (
                                 <FilterChip
+                                    name="columns"
                                     key={key}
                                     value={value}
                                     defaultChecked={
