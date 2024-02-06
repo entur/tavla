@@ -1,6 +1,6 @@
 import { TLineFragment } from 'Admin/scenarios/Edit/components/SelectLines/types'
 import { GRAPHQL_ENDPOINTS } from 'assets/env'
-import {  QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
+import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
 import { useEffect, useState } from 'react'
 import { TQuay } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
@@ -28,11 +28,12 @@ function useLines(tile: TTile): TLineFragment[] | null {
             .then((res) => {
                 if (tile.type === 'quay')
                     setLines(res.data?.quay?.lines.filter(fieldsNotNull) ?? [])
-                else setLines(
-                    res.data?.stopPlace?.quays
-                        ?.flatMap((q: TQuay) => q?.lines)
-                        .filter(fieldsNotNull) || [],
-                )
+                else
+                    setLines(
+                        res.data?.stopPlace?.quays
+                            ?.flatMap((q: TQuay) => q?.lines)
+                            .filter(fieldsNotNull) || [],
+                    )
             })
     }, [tile])
     return lines

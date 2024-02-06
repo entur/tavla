@@ -75,7 +75,7 @@ export async function getBoardsForUser(uid: TUserID) {
 
     return boardRefs
         .map((ref) =>
-            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as TBoard),
         )
         .flat()
 }
@@ -234,10 +234,10 @@ export async function getOrganizationUsers(uid: TUserID, oid: TOrganizationID) {
 
     const uids = concat(organization.owners ?? [], organization.editors ?? [])
     const userResults = await auth().getUsers(
-        uids.map((uid) => ({ uid } as UidIdentifier)),
+        uids.map((uid) => ({ uid }) as UidIdentifier),
     )
 
-    return userResults.users.map(({ uid, email }) => ({ uid, email } as TUser))
+    return userResults.users.map(({ uid, email }) => ({ uid, email }) as TUser)
 }
 
 export async function getOrganizationWithBoard(bid: TBoardID) {
@@ -311,7 +311,7 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
 
     return boardRefs
         .map((ref) =>
-            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as TBoard),
         )
         .flat()
 }

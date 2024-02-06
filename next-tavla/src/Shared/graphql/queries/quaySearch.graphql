@@ -1,6 +1,6 @@
 query quaysSearch($stopPlaceId: String!) {
-  stopPlace(id: $stopPlaceId) {
-    quays(filterByInUse: true) {
+    stopPlace(id: $stopPlaceId) {
+        quays(filterByInUse: true) {
             id
             publicCode
             description
@@ -13,4 +13,3 @@ query quaysSearch($stopPlaceId: String!) {
         }
     }
 }
-

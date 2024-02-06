@@ -17,4 +17,3 @@ export async function addTile(bid: TBoardID, tile: TTile) {
         .doc(bid)
         .update({ tiles: firestore.FieldValue.arrayUnion(tile) })
 }
-

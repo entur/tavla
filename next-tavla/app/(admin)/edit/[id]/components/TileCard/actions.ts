@@ -19,9 +19,11 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
     const docRef = firestore().collection('boards').doc(bid)
     const doc = (await docRef.get()).data() as TBoard
     const oldTile = doc.tiles.find((t) => t.uuid === tile.uuid)
-    if (oldTile)
-        docRef.update({ tiles: firestore.FieldValue.arrayRemove(oldTile) })
-    docRef.update({ tiles: firestore.FieldValue.arrayUnion(tile) })
+    if (!oldTile)
+        return docRef.update({ tiles: firestore.FieldValue.arrayUnion(tile) })
+    const index = doc.tiles.indexOf(oldTile)
+    doc.tiles[index] = tile
+    docRef.update({ tiles: doc.tiles })
+
     revalidatePath(`/edit/${bid}`)
 }
-

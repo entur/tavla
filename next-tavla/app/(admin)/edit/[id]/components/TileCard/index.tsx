@@ -65,18 +65,22 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
             <BaseExpand open={isOpen}>
                 <form
                     action={(data: FormData) => {
-                      const columns = data.getAll('columns') as TColumn[]
-                      data.delete('columns')
-                      const count = data.get('count') as number | null
-                      data.delete('count')
+                        const columns = data.getAll('columns') as TColumn[]
+                        data.delete('columns')
+                        const count = data.get('count') as number | null
+                        data.delete('count')
 
-                      let lines: string[] = []
-                      for (const line of data.values()) {
-                        lines.push(line as string)
-                      }
-                      lines = lines.length == count ? [] : lines
+                        let lines: string[] = []
+                        for (const line of data.values()) {
+                            lines.push(line as string)
+                        }
+                        lines = lines.length == count ? [] : lines
 
-                      saveTile(bid,{...tile, columns: columns, whitelistedLines: lines})
+                        saveTile(bid, {
+                            ...tile,
+                            columns: columns,
+                            whitelistedLines: lines,
+                        })
                     }}
                 >
                     <Heading3>Rediger stoppested: {tile.name}</Heading3>
@@ -124,7 +128,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             </div>
                         ))}
                     </div>
-                  <HiddenInput id="count" value={lines.length.toString()}/>
+                    <HiddenInput id="count" value={lines.length.toString()} />
                     <div className="flexRow justifyEnd mt-2 mr-2 mb-4">
                         <Button variant="primary" type="submit">
                             Lagre endringer
