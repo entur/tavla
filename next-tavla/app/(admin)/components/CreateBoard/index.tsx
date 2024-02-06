@@ -22,6 +22,7 @@ function CreateBoard() {
     const router = useRouter()
     const getPathWithParams = useSearchParamsSetter('create-board')
     const { open, hasPage, pageParam } = usePageParam('create-board')
+    const steps = ['Navn og organisasjon', 'Legg til stopp']
 
     return (
         <ToastProvider>
@@ -35,8 +36,8 @@ function CreateBoard() {
                 closeLabel="Avbryt opprettelse av tavle"
             >
                 <Stepper
-                    steps={['Navn og organisasjon', 'Stoppesteder']}
-                    activeIndex={0}
+                    steps={steps}
+                    activeIndex={pageParam === '' ? 0 : 1}
                     className="justifyCenter"
                 />
 
