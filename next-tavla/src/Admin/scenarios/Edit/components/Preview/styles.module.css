@@ -1,0 +1,8 @@
+.preview {
+    background-color: var(--main-background-color);
+    border-radius: 0.5em;
+    height: 40em;
+    padding: 0.5em;
+    border: 0.2em solid;
+    border-color: var(--secondary-background-color);
+}

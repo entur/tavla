@@ -1,0 +1,11 @@
+import { Action } from './reducer'
+import { useNonNullContext } from 'hooks/useNonNullContext'
+import { Dispatch, createContext } from 'react'
+
+export const SettingsDispatchContext = createContext<
+    Dispatch<Action> | undefined
+>(undefined)
+
+export function useEditSettingsDispatch() {
+    return useNonNullContext(SettingsDispatchContext)
+}

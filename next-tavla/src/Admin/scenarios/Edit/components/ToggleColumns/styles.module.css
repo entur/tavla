@@ -1,0 +1,8 @@
+.columnSettings {
+    margin-right: 5em;
+}
+
+.columnFilters {
+    display: flex;
+    gap: 1em;
+}

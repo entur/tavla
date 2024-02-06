@@ -1,0 +1,15 @@
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 4em;
+    margin: 1.25em 0;
+}
+
+.floatingButtonWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    position: fixed;
+    bottom: 1.25em;
+    right: 5em;
+}
