@@ -1,8 +1,8 @@
 import { Checkbox } from '@entur/form'
-import { TLineFragment } from 'Admin/scenarios/Edit/components/SelectLines/types'
 import { TTransportMode } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
 import classes from './styles.module.css'
+import { TLineFragment } from './types'
 
 function LineCheckbox({
     tile,

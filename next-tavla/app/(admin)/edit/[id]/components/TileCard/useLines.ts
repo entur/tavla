@@ -1,10 +1,10 @@
-import { TLineFragment } from 'Admin/scenarios/Edit/components/SelectLines/types'
 import { GRAPHQL_ENDPOINTS } from 'assets/env'
 import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
 import { useEffect, useState } from 'react'
 import { TQuay } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
+import { TLineFragment } from './types'
 
 function useLines(tile: TTile): TLineFragment[] | null {
     const [lines, setLines] = useState(null)

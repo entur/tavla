@@ -1,7 +1,6 @@
 import { Header } from 'components/Header'
 import { TBoard, TLogo } from 'types/settings'
 import classes from 'styles/pages/board.module.css'
-import { upgradeBoard } from 'utils/converters'
 import { Board } from 'Board/scenarios/Board'
 import { getBoard, getOrganizationLogoWithBoard } from 'Admin/utils/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
@@ -22,11 +21,9 @@ export async function getServerSideProps({
         }
     }
 
-    const convertedBoard = upgradeBoard(board)
-
     return {
         props: {
-            board: convertedBoard,
+            board,
             organizationLogo: await getOrganizationLogoWithBoard(id),
         },
     }

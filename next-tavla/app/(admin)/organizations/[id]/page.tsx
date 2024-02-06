@@ -7,11 +7,11 @@ import {
 } from 'Admin/utils/firebase'
 import { Metadata } from 'next'
 import { Heading1 } from '@entur/typography'
-import { UploadLogo } from 'Admin/scenarios/Organization/components/UploadLogo'
-import { MemberAdministration } from 'Admin/scenarios/Organization/components/MemberAdministration'
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { Delete } from 'app/(admin)/components/Delete'
+import { UploadLogo } from '../components/UploadLogo'
+import { MemberAdministration } from '../components/MemberAdministration'
 
 initializeAdminApp()
 

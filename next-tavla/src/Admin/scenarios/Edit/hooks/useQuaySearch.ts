@@ -1,5 +1,5 @@
 import { useQuery } from 'graphql/utils'
-import { QuayEditQuery, QuaysSearchQuery } from 'graphql/index'
+import { QuaysSearchQuery } from 'graphql/index'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { hasDuplicateInArrayByKey } from 'utils/filters'
 import { TDirectionType } from 'types/graphql-schema'
@@ -78,7 +78,7 @@ function useQuaySearch(stopPlaceId: string) {
 
     const getQuays = useCallback(
         () => [{ value: 'all', label: 'Vis alle' }, ...quays],
-        [quays],
+        [quays, stopPlaceId],
     )
 
     return { quays: getQuays, selectedQuay, setSelectedQuay }

@@ -1,9 +1,9 @@
-import { TLineFragment } from 'Admin/scenarios/Edit/components/SelectLines/types'
 import { GRAPHQL_ENDPOINTS } from 'assets/env'
 import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
 import { TQuay, TTransportMode } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
 import { fieldsNotNull } from 'utils/typeguards'
+import { TLineFragment } from './types'
 
 export async function fetchLines(tile: TTile) {
     const res = await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
