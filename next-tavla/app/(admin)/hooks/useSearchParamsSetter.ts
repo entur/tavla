@@ -1,4 +1,3 @@
-import { TLoginPage } from 'Admin/types/login'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 
