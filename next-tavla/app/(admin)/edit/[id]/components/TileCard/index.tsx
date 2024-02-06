@@ -14,9 +14,10 @@ import { FilterChip } from '@entur/chip'
 import { TColumn } from 'types/column'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
-import { deleteTile } from './actions'
+import { deleteTile, saveTile, updateTile } from './actions'
 import { TransportModeCheckbox } from './TransportModeCheckbox'
 import { LineCheckbox } from './LineCheckbox'
+import { HiddenInput } from 'components/Form/HiddenInput'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -64,11 +65,18 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
             <BaseExpand open={isOpen}>
                 <form
                     action={(data: FormData) => {
-                        // Display the key/value pairs
-                        for (const key of data.keys()) {
-                            const arr = data.getAll(key)
-                            console.log(arr)
-                        }
+                      const columns = data.getAll('columns') as TColumn[]
+                      data.delete('columns')
+                      const count = data.get('count') as number | null
+                      data.delete('count')
+
+                      let lines: string[] = []
+                      for (const line of data.values()) {
+                        lines.push(line as string)
+                      }
+                      lines = lines.length == count ? [] : lines
+
+                      saveTile(bid,{...tile, columns: columns, whitelistedLines: lines})
                     }}
                 >
                     <Heading3>Rediger stoppested: {tile.name}</Heading3>
@@ -83,7 +91,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 <FilterChip
                                     name="columns"
                                     key={key}
-                                    value={value}
+                                    value={key}
                                     defaultChecked={
                                         isArray(tile.columns)
                                             ? tile.columns?.includes(
@@ -116,6 +124,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             </div>
                         ))}
                     </div>
+                  <HiddenInput id="count" value={lines.length.toString()}/>
                     <div className="flexRow justifyEnd mt-2 mr-2 mb-4">
                         <Button variant="primary" type="submit">
                             Lagre endringer
