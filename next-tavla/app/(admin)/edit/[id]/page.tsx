@@ -9,6 +9,8 @@ import { TileSelector } from './components/TileSelector'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
 import { TileCard } from './components/TileCard'
+import { Button } from '@entur/button'
+import Link from 'next/link'
 
 export default async function EditPage({
     params,
@@ -49,6 +51,17 @@ export default async function EditPage({
             {board.tiles.map((tile) => (
                 <TileCard key={tile.uuid} bid={params.id} tile={tile} />
             ))}
+            <div className={classes.floating}>
+                <Button
+                    as={Link}
+                    aria-label="Åpne tavla"
+                    href={`/${params.id}`}
+                    target="_blank"
+                    variant="primary"
+                >
+                    Åpne tavle
+                </Button>
+            </div>
         </div>
     )
 }
