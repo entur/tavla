@@ -18,6 +18,7 @@ import Link from 'next/link'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
+import { TLoginPage } from 'Admin/types/login'
 
 function Email() {
     const submit = async (
@@ -43,7 +44,7 @@ function Email() {
     }
 
     const [state, action] = useFormState(submit, undefined)
-    const getPathWithParams = useSearchParamsSetter('login')
+    const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
 
     return (
         <div className="textCenter">

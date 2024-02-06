@@ -15,12 +15,15 @@ import Link from 'next/link'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { usePathname, useRouter } from 'next/navigation'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
+import { TileSelector } from 'app/(admin)/edit/[id]/components/TileSelector'
+import { TCreateBoard } from 'Admin/types/createBoard'
 
 function CreateBoard() {
     const [state, formAction] = useFormState(createBoard, undefined)
     const pathname = usePathname()
     const router = useRouter()
-    const getPathWithParams = useSearchParamsSetter('create-board')
+    const getPathWithParams =
+        useSearchParamsSetter<TCreateBoard>('create-board')
     const { open, hasPage, pageParam } = usePageParam('create-board')
     const steps = ['Navn og organisasjon', 'Legg til stopp']
 
@@ -55,6 +58,10 @@ function CreateBoard() {
                             Søk etter stoppesteder og bestem om tavla skal vise
                             alle retninger, eller flere enkelte retninger.
                         </Paragraph>
+                        <TileSelector
+                            action={formAction}
+                            flexDirection="flexColumn"
+                        />
                     </div>
                     <div className="flexRow justifyBetween">
                         {hasPage && (
@@ -68,7 +75,7 @@ function CreateBoard() {
                         )}
                         <PrimaryButton
                             as={Link}
-                            href={getPathWithParams('start')}
+                            href={getPathWithParams('stops')}
                             className="mt-2"
                         >
                             Neste
