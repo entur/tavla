@@ -132,7 +132,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             </div>
                         ))}
                     </div>
-                    <HiddenInput id="count" value={lines.length.toString()} />
+                    <HiddenInput id="count" value={uniqLines.length.toString()} />
                     <div className="flexRow justifyEnd mt-2 mr-2 mb-4">
                         <Button variant="primary" type="submit">
                             Lagre endringer
