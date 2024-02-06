@@ -1,0 +1,5 @@
+.meta {
+    border-radius: 0.5em;
+    background: var(--secondary-background-color);
+    padding: 1em;
+}

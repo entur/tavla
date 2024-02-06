@@ -8,12 +8,11 @@
 }
 
 .floating {
-    position: fixed;
+    position: sticky;
     bottom: 0;
     right: 0;
-    left: 0;
-    padding-bottom: 2em;
-    padding-right: 2em;
+    margin-left: auto;
+    padding: 2em;
     display: flex;
     justify-content: flex-end;
 }

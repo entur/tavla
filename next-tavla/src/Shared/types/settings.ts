@@ -5,7 +5,7 @@ export type TTheme = 'entur' | 'dark' | 'light'
 
 export type TBoard = {
     id?: TBoardID
-    meta?: TMeta
+    meta: TMeta
     tiles: TTile[]
     theme?: TTheme
 }

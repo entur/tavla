@@ -11,6 +11,7 @@ import { revalidatePath } from 'next/cache'
 import { TileCard } from './components/TileCard'
 import { Button } from '@entur/button'
 import Link from 'next/link'
+import { MetaSettings } from './components/MetaSettings'
 
 export default async function EditPage({
     params,
@@ -51,6 +52,7 @@ export default async function EditPage({
             {board.tiles.map((tile) => (
                 <TileCard key={tile.uuid} bid={params.id} tile={tile} />
             ))}
+            <MetaSettings bid={params.id} meta={board.meta} />
             <div className={classes.floating}>
                 <Button
                     as={Link}

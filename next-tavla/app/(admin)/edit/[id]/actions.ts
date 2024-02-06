@@ -15,5 +15,8 @@ export async function addTile(bid: TBoardID, tile: TTile) {
     await firestore()
         .collection('boards')
         .doc(bid)
-        .update({ tiles: firestore.FieldValue.arrayUnion(tile) })
+        .update({
+            tiles: firestore.FieldValue.arrayUnion(tile),
+            'meta.dateModified': Date.now(),
+        })
 }
