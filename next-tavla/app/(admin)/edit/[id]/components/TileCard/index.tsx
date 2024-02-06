@@ -25,18 +25,20 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
 
     if (!lines) return <div className={classes.card}>Laster..</div>
 
-    const transportModes = uniqBy(lines, 'transportMode')
+    const uniqLines = uniqBy(lines, 'id')
+
+    const transportModes = uniqBy(uniqLines, 'transportMode')
         .map((l) => l.transportMode)
         .sort()
 
     const linesByModeSorted = transportModes
         .map((transportMode) => ({
             transportMode,
-            lines: lines
+            lines: uniqLines
                 .filter((line) => line.transportMode === transportMode)
                 .sort(sortLineByPublicCode),
         }))
-        .sort((a, b) => b.lines.length - a.lines.length)
+        .sort((a, b) => b.uniqLines.length - a.uniqLines.length)
 
     return (
         <div>
