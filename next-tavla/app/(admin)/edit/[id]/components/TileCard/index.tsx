@@ -38,7 +38,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 .filter((line) => line.transportMode === transportMode)
                 .sort(sortLineByPublicCode),
         }))
-        .sort((a, b) => b.uniqLines.length - a.uniqLines.length)
+        .sort((a, b) => b.lines.length - a.lines.length)
 
     return (
         <div>
