@@ -7,7 +7,13 @@ import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { Button } from '@entur/button'
 import { HiddenInput } from 'components/Form/HiddenInput'
 
-function TileSelector({ action }: { action: (data: FormData) => void }) {
+function TileSelector({
+    action,
+    flexDirection = 'flexRow',
+}: {
+    action: (data: FormData) => void
+    flexDirection?: 'flexRow' | 'flexColumn'
+}) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch()
 
@@ -20,7 +26,7 @@ function TileSelector({ action }: { action: (data: FormData) => void }) {
 
     return (
         <form
-            className="flexRow g-2"
+            className={`${flexDirection} g-2`}
             action={action}
             onSubmit={() => {
                 setSelectedQuay(null)
