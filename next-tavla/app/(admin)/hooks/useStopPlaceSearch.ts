@@ -7,7 +7,7 @@ function useStopPlaceSearch(countyIds?: string[]) {
         useState<NormalizedDropdownItemType | null>(null)
 
     const items = useCallback(
-        (search: string) => fetchStopPlaces(search, countyIds),
+        async (search: string) => await fetchStopPlaces(search, countyIds),
         [countyIds],
     )
 

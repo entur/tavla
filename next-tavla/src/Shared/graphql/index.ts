@@ -160,6 +160,24 @@ export type TGetQuayQuery = {
     } | null
 }
 
+export type TQuayEditQueryVariables = Types.Exact<{
+    placeId: Types.Scalars['String']
+}>
+
+export type TQuayEditQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        lines: Array<{
+            __typename?: 'Line'
+            id: string
+            publicCode: string | null
+            name: string | null
+            transportMode: Types.TTransportMode | null
+        }>
+    } | null
+}
+
 export type TQuayNameQueryVariables = Types.Exact<{
     id: Types.Scalars['String']
 }>
@@ -279,20 +297,11 @@ export type TStopPlaceQuery = {
     } | null
 }
 
-export type TStopPlaceNameQueryVariables = Types.Exact<{
-    id: Types.Scalars['String']
+export type TStopPlaceEditQueryVariables = Types.Exact<{
+    placeId: Types.Scalars['String']
 }>
 
-export type TStopPlaceNameQuery = {
-    __typename?: 'QueryType'
-    stopPlace: { __typename?: 'StopPlace'; name: string; id: string } | null
-}
-
-export type TStopPlaceSettingsQueryVariables = Types.Exact<{
-    id: Types.Scalars['String']
-}>
-
-export type TStopPlaceSettingsQuery = {
+export type TStopPlaceEditQuery = {
     __typename?: 'QueryType'
     stopPlace: {
         __typename?: 'StopPlace'
@@ -310,13 +319,25 @@ export type TStopPlaceSettingsQuery = {
     } | null
 }
 
+export type TStopPlaceNameQueryVariables = Types.Exact<{
+    id: Types.Scalars['String']
+}>
+
+export type TStopPlaceNameQuery = {
+    __typename?: 'QueryType'
+    stopPlace: { __typename?: 'StopPlace'; name: string; id: string } | null
+}
+
 export class TypedDocumentString<TResult, TVariables>
     extends String
     implements DocumentTypeDecoration<TResult, TVariables>
 {
     __apiType?: DocumentTypeDecoration<TResult, TVariables>['__apiType']
 
-    constructor(private value: string, public __meta__?: Record<string, any>) {
+    constructor(
+        private value: string,
+        public __meta__?: Record<string, any>,
+    ) {
         super(value)
     }
 
@@ -467,6 +488,20 @@ fragment situation on PtSituationElement {
     language
   }
 }`) as unknown as TypedDocumentString<TGetQuayQuery, TGetQuayQueryVariables>
+export const QuayEditQuery = new TypedDocumentString(`
+    query quayEdit($placeId: String!) {
+  quay(id: $placeId) {
+    ...lines
+  }
+}
+    fragment lines on Quay {
+  lines {
+    id
+    publicCode
+    name
+    transportMode
+  }
+}`) as unknown as TypedDocumentString<TQuayEditQuery, TQuayEditQueryVariables>
 export const QuayNameQuery = new TypedDocumentString(`
     query QuayName($id: String!) {
   quay(id: $id) {
@@ -559,20 +594,9 @@ fragment situation on PtSituationElement {
     language
   }
 }`) as unknown as TypedDocumentString<TStopPlaceQuery, TStopPlaceQueryVariables>
-export const StopPlaceNameQuery = new TypedDocumentString(`
-    query StopPlaceName($id: String!) {
-  stopPlace(id: $id) {
-    name
-    id
-  }
-}
-    `) as unknown as TypedDocumentString<
-    TStopPlaceNameQuery,
-    TStopPlaceNameQueryVariables
->
-export const StopPlaceSettingsQuery = new TypedDocumentString(`
-    query StopPlaceSettings($id: String!) {
-  stopPlace(id: $id) {
+export const StopPlaceEditQuery = new TypedDocumentString(`
+    query stopPlaceEdit($placeId: String!) {
+  stopPlace(id: $placeId) {
     name
     quays(filterByInUse: true) {
       ...lines
@@ -587,6 +611,17 @@ export const StopPlaceSettingsQuery = new TypedDocumentString(`
     transportMode
   }
 }`) as unknown as TypedDocumentString<
-    TStopPlaceSettingsQuery,
-    TStopPlaceSettingsQueryVariables
+    TStopPlaceEditQuery,
+    TStopPlaceEditQueryVariables
+>
+export const StopPlaceNameQuery = new TypedDocumentString(`
+    query StopPlaceName($id: String!) {
+  stopPlace(id: $id) {
+    name
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TStopPlaceNameQuery,
+    TStopPlaceNameQueryVariables
 >

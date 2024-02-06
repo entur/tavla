@@ -1,3 +1,4 @@
+'use client'
 import { TBoard } from 'types/settings'
 import { TTile } from 'types/tile'
 import { StopPlaceTile } from '../StopPlaceTile'

@@ -1,9 +1,19 @@
 body {
     color: var(--main-text-color);
     background-color: var(--main-background-color);
-    font-family: Nationale, Arial, Gotham Rounded, -apple-system,
-        BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
-        Helvetica Neue, sans-serif;
+    font-family:
+        Nationale,
+        Arial,
+        Gotham Rounded,
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Roboto,
+        Oxygen-Sans,
+        Ubuntu,
+        Cantarell,
+        Helvetica Neue,
+        sans-serif;
     min-height: 100vh;
 }
 

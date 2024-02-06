@@ -19,6 +19,7 @@ function CreateBoard({ loggedIn }: { loggedIn: boolean }) {
     const [showModal, openModal, closeModal] = useToggle()
     const [board, dispatch] = useReducer(createBoardReducer, {
         tiles: [],
+        meta: {},
     } as TBoard)
 
     if (!loggedIn) {
