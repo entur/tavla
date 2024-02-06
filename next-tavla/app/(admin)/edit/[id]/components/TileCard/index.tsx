@@ -14,7 +14,7 @@ import { FilterChip } from '@entur/chip'
 import { TColumn } from 'types/column'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
-import { deleteTile, saveTile, updateTile } from './actions'
+import { deleteTile, saveTile } from './actions'
 import { TransportModeCheckbox } from './TransportModeCheckbox'
 import { LineCheckbox } from './LineCheckbox'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -74,6 +74,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         for (const line of data.values()) {
                             lines.push(line as string)
                         }
+                        // If the length of lines equals all the lines, we don't want to include any
                         lines = lines.length == count ? [] : lines
 
                         saveTile(bid, {
@@ -82,6 +83,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             whitelistedLines: lines,
                         })
                     }}
+                    onSubmit={() => setIsOpen(false)}
                 >
                     <Heading3>Rediger stoppested: {tile.name}</Heading3>
                     <Heading4>Tabellen</Heading4>
