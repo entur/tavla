@@ -1,5 +1,5 @@
 import { useQuery } from 'graphql/utils'
-import { QuayEditQuery } from 'graphql/index'
+import { QuayEditQuery, QuaysSearchQuery } from 'graphql/index'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { hasDuplicateInArrayByKey } from 'utils/filters'
 import { TDirectionType } from 'types/graphql-schema'
@@ -35,7 +35,7 @@ function getDirection(
 }
 
 function useQuaySearch(stopPlaceId: string) {
-    const { data } = useQuery(QuayEditQuery, { placeId: stopPlaceId })
+    const { data } = useQuery(QuaysSearchQuery, { stopPlaceId: stopPlaceId })
     const [selectedQuay, setSelectedQuay] =
         useState<NormalizedDropdownItemType | null>(null)
 

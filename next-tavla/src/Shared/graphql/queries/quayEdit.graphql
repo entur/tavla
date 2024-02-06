@@ -1,15 +1,5 @@
 query quayEdit($placeId: String!) {
-    stopPlace(id: $placeId) {
-        quays(filterByInUse: true) {
-            id
-            publicCode
-            description
-            stopPlace {
-                transportMode
-            }
-            journeyPatterns {
-                directionType
-            }
-        }
-    }
+  quay(id: $placeId) {
+    ...lines
+  }
 }

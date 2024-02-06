@@ -166,6 +166,39 @@ export type TQuayEditQueryVariables = Types.Exact<{
 
 export type TQuayEditQuery = {
     __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        lines: Array<{
+            __typename?: 'Line'
+            id: string
+            publicCode: string | null
+            name: string | null
+            transportMode: Types.TTransportMode | null
+        }>
+    } | null
+}
+
+export type TQuayNameQueryVariables = Types.Exact<{
+    id: Types.Scalars['String']
+}>
+
+export type TQuayNameQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        name: string
+        description: string | null
+        publicCode: string | null
+        id: string
+    } | null
+}
+
+export type TQuaysSearchQueryVariables = Types.Exact<{
+    stopPlaceId: Types.Scalars['String']
+}>
+
+export type TQuaysSearchQuery = {
+    __typename?: 'QueryType'
     stopPlace: {
         __typename?: 'StopPlace'
         quays: Array<{
@@ -182,21 +215,6 @@ export type TQuayEditQuery = {
                 directionType: Types.TDirectionType | null
             } | null>
         } | null> | null
-    } | null
-}
-
-export type TQuayNameQueryVariables = Types.Exact<{
-    id: Types.Scalars['String']
-}>
-
-export type TQuayNameQuery = {
-    __typename?: 'QueryType'
-    quay: {
-        __typename?: 'Quay'
-        name: string
-        description: string | null
-        publicCode: string | null
-        id: string
     } | null
 }
 
@@ -469,7 +487,34 @@ fragment situation on PtSituationElement {
 }`) as unknown as TypedDocumentString<TGetQuayQuery, TGetQuayQueryVariables>
 export const QuayEditQuery = new TypedDocumentString(`
     query quayEdit($placeId: String!) {
-  stopPlace(id: $placeId) {
+  quay(id: $placeId) {
+    ...lines
+  }
+}
+    fragment lines on Quay {
+  lines {
+    id
+    publicCode
+    name
+    transportMode
+  }
+}`) as unknown as TypedDocumentString<TQuayEditQuery, TQuayEditQueryVariables>
+export const QuayNameQuery = new TypedDocumentString(`
+    query QuayName($id: String!) {
+  quay(id: $id) {
+    name
+    description
+    publicCode
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TQuayNameQuery,
+    TQuayNameQueryVariables
+>
+export const QuaysSearchQuery = new TypedDocumentString(`
+    query quaysSearch($stopPlaceId: String!) {
+  stopPlace(id: $stopPlaceId) {
     quays(filterByInUse: true) {
       id
       publicCode
@@ -484,21 +529,8 @@ export const QuayEditQuery = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<
-    TQuayEditQuery,
-    TQuayEditQueryVariables
->
-export const QuayNameQuery = new TypedDocumentString(`
-    query QuayName($id: String!) {
-  quay(id: $id) {
-    name
-    description
-    publicCode
-    id
-  }
-}
-    `) as unknown as TypedDocumentString<
-    TQuayNameQuery,
-    TQuayNameQueryVariables
+    TQuaysSearchQuery,
+    TQuaysSearchQueryVariables
 >
 export const StopPlaceQuery = new TypedDocumentString(`
     query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20) {
