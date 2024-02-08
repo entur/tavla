@@ -14,14 +14,11 @@ function TileCard({
     tile: TTile
     onRemove: (tile: TTile) => void
 }) {
-    console.log('tile', tile)
     const lines = useLines(tile)
     if (!lines) return <div className={classes.card}>Laster..</div>
-    console.log('lines', lines)
     const transportModes = uniqBy(lines, 'transportMode')
         .map((l) => l.transportMode)
         .sort()
-    console.log('transportModes', transportModes)
 
     return (
         <div>
@@ -35,11 +32,7 @@ function TileCard({
                     {tile.name}
                 </div>
                 <div className="flexRow">
-                    <IconButton
-                        onClick={() => {
-                            onRemove
-                        }}
-                    >
+                    <IconButton onClick={() => onRemove(tile)}>
                         <DeleteIcon />
                         Fjern
                     </IconButton>

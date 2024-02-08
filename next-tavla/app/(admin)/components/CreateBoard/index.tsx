@@ -27,7 +27,6 @@ function CreateBoard() {
     const [tiles, setTiles] = useState<TTile[]>([])
 
     const removeTile = (tile: TTile) => {
-        console.log('removeTile', tile)
         setTiles(tiles.filter((t) => t.uuid !== tile.uuid))
     }
 
