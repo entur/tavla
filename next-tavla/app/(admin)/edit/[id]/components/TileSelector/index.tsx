@@ -6,13 +6,18 @@ import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { Button } from '@entur/button'
 import { HiddenInput } from 'components/Form/HiddenInput'
+import { TTile } from 'types/tile'
+import { SyntheticEvent } from 'react'
+import { nanoid } from 'nanoid'
 
 function TileSelector({
     action,
     flexDirection = 'flexRow',
+    addTile,
 }: {
-    action: (data: FormData) => void
+    action?: (data: FormData) => void
     flexDirection?: 'flexRow' | 'flexColumn'
+    addTile?: (tile: TTile) => void
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch()
@@ -65,9 +70,40 @@ function TileSelector({
                 value={selectedStopPlace?.label}
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
-            <Button variant="primary" type="submit">
-                Legg til
-            </Button>
+
+            {addTile ? (
+                <Button
+                    variant="primary"
+                    onClick={(e: SyntheticEvent) => {
+                        e.preventDefault()
+                        const placeId = selectedQuay?.value
+                            ? selectedQuay?.value
+                            : selectedStopPlace?.value
+                        const tile = {
+                            type:
+                                placeId !== selectedStopPlace?.value
+                                    ? 'quay'
+                                    : 'stopPlace',
+                            name: selectedStopPlace?.label,
+                            uuid: nanoid(),
+                            placeId,
+                            columns: [
+                                'line',
+                                'destination',
+                                'time',
+                                'realtime',
+                            ],
+                        } as TTile
+                        addTile(tile)
+                    }}
+                >
+                    Legg til
+                </Button>
+            ) : (
+                <Button variant="primary" type="submit">
+                    Legg til
+                </Button>
+            )}
         </form>
     )
 }

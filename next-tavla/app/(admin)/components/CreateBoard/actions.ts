@@ -1,18 +1,32 @@
 'use server'
 
-import { getUserFromSessionCookie } from 'Admin/utils/formActions'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
-import { revalidatePath } from 'next/cache'
+import { initializeAdminApp } from 'Admin/utils/firebase'
+import admin, { firestore } from 'firebase-admin'
+import { TBoard, TOrganizationID, TUserID } from 'types/settings'
+
+initializeAdminApp()
 
 export async function createBoard(
-    prevState: TFormFeedback | undefined,
-    data: FormData,
+    id: TUserID | TOrganizationID,
+    board: TBoard,
+    collection: 'users' | 'organizations',
 ) {
-    const user = await getUserFromSessionCookie()
-
-    if (!user) return getFormFeedbackForError('general')
-
-    console.log(data)
-
-    revalidatePath('/')
+    const createdBoard = await firestore()
+        .collection('boards')
+        .add({
+            ...board,
+            meta: {
+                ...board.meta,
+                created: Date.now(),
+                dateModified: Date.now(),
+            },
+        })
+    firestore()
+        .collection(collection)
+        .doc(id)
+        .update({
+            [collection === 'users' ? 'owner' : 'boards']:
+                admin.firestore.FieldValue.arrayUnion(createdBoard.id),
+        })
+    return createdBoard.id
 }

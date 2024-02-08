@@ -4,11 +4,7 @@ import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
 import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
 import { Stepper } from '@entur/menu'
 import { Modal } from '@entur/modal'
-import { useFormState } from 'react-dom'
-import { createBoard } from './actions'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
-import { FormError } from '../FormError'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading3, Heading4, Paragraph } from '@entur/typography'
 import { Name } from './Name'
 import { Organization } from './Organization'
 import Link from 'next/link'
@@ -17,15 +13,23 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import { TileSelector } from 'app/(admin)/edit/[id]/components/TileSelector'
 import { TCreateBoard } from 'Admin/types/createBoard'
+import { TTile } from 'types/tile'
+import { useState } from 'react'
+import { StopPlaceList } from './StopPlaceList'
 
 function CreateBoard() {
-    const [state, formAction] = useFormState(createBoard, undefined)
     const pathname = usePathname()
     const router = useRouter()
     const getPathWithParams =
         useSearchParamsSetter<TCreateBoard>('create-board')
     const { open, hasPage, pageParam } = usePageParam('create-board')
     const steps = ['Navn og organisasjon', 'Legg til stopp']
+    const [tiles, setTiles] = useState<TTile[]>([])
+
+    const removeTile = (tile: TTile) => {
+        console.log('removeTile', tile)
+        setTiles(tiles.filter((t) => t.uuid !== tile.uuid))
+    }
 
     return (
         <ToastProvider>
@@ -35,7 +39,10 @@ function CreateBoard() {
             <Modal
                 open={open}
                 size="medium"
-                onDismiss={() => router.push(pathname ?? '/')}
+                onDismiss={() => {
+                    setTiles([])
+                    router.push(pathname ?? '/')
+                }}
                 closeLabel="Avbryt opprettelse av tavle"
             >
                 <Stepper
@@ -44,12 +51,9 @@ function CreateBoard() {
                     className="justifyCenter"
                 />
 
-                <form action={formAction}>
+                <form action={() => {}}>
                     <div className={pageParam === '' ? '' : 'displayNone'}>
                         <Name />
-                        <FormError
-                            {...getFormFeedbackForField('general', state)}
-                        />
                         <Organization />
                     </div>
                     <div className={pageParam === 'stops' ? '' : 'displayNone'}>
@@ -59,9 +63,11 @@ function CreateBoard() {
                             alle retninger, eller flere enkelte retninger.
                         </Paragraph>
                         <TileSelector
-                            action={formAction}
+                            addTile={(tile) => setTiles([...tiles, tile])}
                             flexDirection="flexColumn"
                         />
+                        <Heading4>Stoppesteder lagt til i Tavla</Heading4>
+                        <StopPlaceList tiles={tiles} onRemove={removeTile} />
                     </div>
                     <div className="flexRow justifyBetween">
                         {hasPage && (
