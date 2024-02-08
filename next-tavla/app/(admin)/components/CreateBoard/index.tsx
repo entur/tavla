@@ -16,6 +16,8 @@ import { TCreateBoard } from 'Admin/types/createBoard'
 import { TTile } from 'types/tile'
 import { useState } from 'react'
 import { StopPlaceList } from './StopPlaceList'
+import { TBoard, TOrganization } from 'types/settings'
+import { createBoard } from './actions'
 
 function CreateBoard() {
     const pathname = usePathname()
@@ -28,6 +30,23 @@ function CreateBoard() {
 
     const removeTile = (tile: TTile) => {
         setTiles(tiles.filter((t) => t.uuid !== tile.uuid))
+    }
+
+    const action = async (data: FormData) => {
+        const title = data.get('name') as string
+        const organization = data?.get('organization') as TOrganization
+
+        const board = {
+            tiles: tiles,
+            meta: {
+                title: title,
+            },
+        } as TBoard
+
+        console.log('board', board)
+        console.log('organization', organization)
+
+        const bid = await createBoard(board, organization?.id)
     }
 
     return (
@@ -50,7 +69,7 @@ function CreateBoard() {
                     className="justifyCenter"
                 />
 
-                <form action={() => {}}>
+                <form action={action}>
                     <div className={pageParam === '' ? '' : 'displayNone'}>
                         <Name />
                         <Organization />
@@ -85,6 +104,9 @@ function CreateBoard() {
                         >
                             Neste
                             <ForwardIcon />
+                        </PrimaryButton>
+                        <PrimaryButton type="submit" className="mt-2">
+                            Opprett tavle
                         </PrimaryButton>
                     </div>
                 </form>

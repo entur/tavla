@@ -83,7 +83,7 @@ function TileSelector({
                             type:
                                 placeId !== selectedStopPlace?.value
                                     ? 'quay'
-                                    : 'stopPlace',
+                                    : 'stop_place',
                             name: selectedStopPlace?.label,
                             uuid: nanoid(),
                             placeId,

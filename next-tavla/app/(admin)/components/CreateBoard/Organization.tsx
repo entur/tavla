@@ -3,6 +3,7 @@
 import { Dropdown } from '@entur/dropdown'
 import { Heading4, Paragraph } from '@entur/typography'
 import { useOrganizations } from 'Admin/scenarios/CreateBoard/hooks/useOrganizations'
+import { HiddenInput } from 'components/Form/HiddenInput'
 
 function Organization() {
     const { organizations, selectedOrganization, setSelectedOrganization } =
@@ -21,6 +22,10 @@ function Organization() {
                 selectedItem={selectedOrganization}
                 onChange={setSelectedOrganization}
                 clearable
+            />
+            <HiddenInput
+                id="organization"
+                value={selectedOrganization?.value}
             />
         </div>
     )
