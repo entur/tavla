@@ -12,6 +12,7 @@ import { Board, SharedBoard } from 'src/types'
 import { Navbar } from 'scenarios/Navbar'
 import { NoAccessToTavler } from 'scenarios/ErrorPages/NoAccessToTavler'
 import { NoTavlerAvailable } from 'scenarios/ErrorPages/NoTavlerAvailable'
+import { MigrationBanner } from 'components/MigrationBanner'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@entur/tab'
 import { Contrast, NotificationBadge } from '@entur/layout'
 import { SharedBoards } from './SharedBoards/SharedBoards'
@@ -167,42 +168,45 @@ function MyBoards() {
     }
 
     return (
-        <Contrast>
-            <Helmet>
-                <title>Mine tavler - Tavla - Entur</title>
-            </Helmet>
-            <Navbar />
-            <div className={classes.MyBoards}>
-                <Tabs index={currentIndex} onChange={switchTab}>
-                    <TabList>
-                        <Tab>Tavler</Tab>
-                        <Tab>
-                            Invitasjoner
-                            {sharedBoards.length > 0 ? (
-                                <>
-                                    {' '}
-                                    <NotificationBadge
-                                        variant="info"
-                                        // Uses inline style as classnames are not applied correctly
-                                        style={{ display: 'inline-block' }}
-                                    >
-                                        {sharedBoards.length}
-                                    </NotificationBadge>
-                                </>
-                            ) : null}
-                        </Tab>
-                    </TabList>
-                    <TabPanels>
-                        <TabPanel>
-                            <OwnedBoards boards={boards} user={user} />
-                        </TabPanel>
-                        <TabPanel>
-                            <SharedBoards sharedBoards={sharedBoards} />
-                        </TabPanel>
-                    </TabPanels>
-                </Tabs>
-            </div>
-        </Contrast>
+        <>
+            <MigrationBanner />
+            <Contrast>
+                <Helmet>
+                    <title>Mine tavler - Tavla - Entur</title>
+                </Helmet>
+                <Navbar />
+                <div className={classes.MyBoards}>
+                    <Tabs index={currentIndex} onChange={switchTab}>
+                        <TabList>
+                            <Tab>Tavler</Tab>
+                            <Tab>
+                                Invitasjoner
+                                {sharedBoards.length > 0 ? (
+                                    <>
+                                        {' '}
+                                        <NotificationBadge
+                                            variant="info"
+                                            // Uses inline style as classnames are not applied correctly
+                                            style={{ display: 'inline-block' }}
+                                        >
+                                            {sharedBoards.length}
+                                        </NotificationBadge>
+                                    </>
+                                ) : null}
+                            </Tab>
+                        </TabList>
+                        <TabPanels>
+                            <TabPanel>
+                                <OwnedBoards boards={boards} user={user} />
+                            </TabPanel>
+                            <TabPanel>
+                                <SharedBoards sharedBoards={sharedBoards} />
+                            </TabPanel>
+                        </TabPanels>
+                    </Tabs>
+                </div>
+            </Contrast>
+        </>
     )
 }
 
