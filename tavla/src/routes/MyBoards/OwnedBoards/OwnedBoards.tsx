@@ -1,10 +1,8 @@
 import React, { useCallback, useState } from 'react'
-import { Link } from 'react-router-dom'
 import type { User } from 'firebase/auth'
 import type { DocumentData } from 'firebase/firestore'
 import { SegmentedChoice, SegmentedControl } from '@entur/form'
 import { Contrast } from '@entur/layout'
-import { AddIcon } from '@entur/icons'
 import { GridView } from './GridView/GridView'
 import { ListView } from './ListView/ListView'
 import classes from './OwnedBoards.module.scss'
@@ -29,15 +27,15 @@ function OwnedBoards({ boards, user }: { boards: DocumentData; user: User }) {
     return (
         <div>
             <Contrast className={classes.Header}>
-                <div>
-                    {chosenBoardView == 'list' && (
+                <div className={classes.NewBoardWrapper}>
+                    {/* {chosenBoardView == 'list' && (
                         <Link to="/">
                             <div className={classes.NewBoardWrapper}>
                                 <AddIcon />
                                 Lag ny tavle
                             </div>
                         </Link>
-                    )}
+                    )} */}
                 </div>
 
                 <div className={classes.Wrapper}>
