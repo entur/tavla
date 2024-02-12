@@ -79,6 +79,7 @@ function TileSelector({
                         const placeId = selectedQuay?.value
                             ? selectedQuay?.value
                             : selectedStopPlace?.value
+                        if (!placeId) return
                         const tile = {
                             type:
                                 placeId !== selectedStopPlace?.value

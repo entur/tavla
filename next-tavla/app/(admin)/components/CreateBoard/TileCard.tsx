@@ -21,22 +21,20 @@ function TileCard({
         .sort()
 
     return (
-        <div>
-            <div className={classes.card}>
-                <div className="flexRow g-2 alignCenter">
-                    <div className="flexRow g-2 h-3">
-                        {transportModes.map((tm) => (
-                            <TransportIcon transportMode={tm} key={tm} />
-                        ))}
-                    </div>
-                    {tile.name}
+        <div className={classes.card}>
+            <div className="flexRow g-2 alignCenter">
+                <div className="flexRow g-2 h-3">
+                    {transportModes.map((tm) => (
+                        <TransportIcon transportMode={tm} key={tm} />
+                    ))}
                 </div>
-                <div className="flexRow">
-                    <IconButton onClick={() => onRemove(tile)}>
-                        <DeleteIcon />
-                        Fjern
-                    </IconButton>
-                </div>
+                {tile.name}
+            </div>
+            <div className="flexRow">
+                <IconButton onClick={() => onRemove(tile)}>
+                    <DeleteIcon />
+                    Fjern
+                </IconButton>
             </div>
         </div>
     )
