@@ -1,19 +1,15 @@
-import React, { useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
 import { Helmet } from 'react-helmet'
-import { Coordinates } from 'src/types'
-import { DEFAULT_SETTINGS } from 'settings/settings'
-import { createSettings } from 'settings/firebase'
 import { Footer } from 'components/Footer'
 import previewVideo from 'assets/videos/tavler.webm'
 import { Navbar } from 'scenarios/Navbar'
+import { MigrationBanner } from 'components/MigrationBanner'
 import { Tooltip } from '@entur/tooltip'
 import { Heading1, Heading2, Paragraph, Link } from '@entur/typography'
 import { Contrast } from '@entur/layout'
 import { ForwardIcon } from '@entur/icons'
 import { GridContainer, GridItem } from '@entur/grid'
 import { TypographyCarousel } from './TypographyCarousel/TypographyCarousel'
-import { SearchPanel } from './SearchPanel/SearchPanel'
 import classes from './LandingPage.module.scss'
 
 function EnturLink(): JSX.Element {
@@ -33,24 +29,25 @@ function toggleVideo(video: HTMLVideoElement) {
 }
 
 function LandingPage(): JSX.Element {
-    const navigate = useNavigate()
-    const addLocation = useCallback(
-        (position: Coordinates, locationName: string): void => {
-            const initialSettings = {
-                ...DEFAULT_SETTINGS,
-                coordinates: position,
-                boardName: locationName,
-                created: new Date(),
-            }
-            createSettings(initialSettings).then((docRef) => {
-                navigate(`/t/${docRef.id}`)
-            })
-        },
-        [navigate],
-    )
+    // const navigate = useNavigate()
+    // const addLocation = useCallback(
+    //     (position: Coordinates, locationName: string): void => {
+    //         const initialSettings = {
+    //             ...DEFAULT_SETTINGS,
+    //             coordinates: position,
+    //             boardName: locationName,
+    //             created: new Date(),
+    //         }
+    //         createSettings(initialSettings).then((docRef) => {
+    //             navigate(`/t/${docRef.id}`)
+    //         })
+    //     },
+    //     [navigate],
+    // )
 
     return (
         <>
+            <MigrationBanner />
             <a
                 id="skip-nav"
                 className={classes.ScreenreaderText}
@@ -82,9 +79,6 @@ function LandingPage(): JSX.Element {
                                     </div>
                                 </Tooltip>
                             </header>
-                            <SearchPanel
-                                handleCoordinatesSelected={addLocation}
-                            />
                         </GridItem>
                     </GridContainer>
                 </Contrast>
