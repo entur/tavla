@@ -16,6 +16,7 @@ import { deleteOrganization } from './actions'
 import { Tooltip } from '@entur/tooltip'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 function Delete({
     organization,
     showText,
@@ -27,16 +28,23 @@ function Delete({
 
     const [state, action] = useFormState(deleteOrganization, undefined)
 
+    const params = useSearchParams()
+    const pageParam = params?.get('delete')
+
     return (
         <>
             <Tooltip content="Slett organisasjon" placement="bottom">
-                <IconButton as={Link} href="?delete" className="g-2">
+                <IconButton
+                    as={Link}
+                    href={`?delete=${organization.id}`}
+                    className="g-2"
+                >
                     <DeleteIcon />
                     {showText && 'Slett'}
                 </IconButton>
             </Tooltip>
             <Modal
-                open={modalIsOpen}
+                open={modalIsOpen && pageParam === organization.id}
                 size="small"
                 onDismiss={close}
                 closeLabel="Avbryt sletting"
