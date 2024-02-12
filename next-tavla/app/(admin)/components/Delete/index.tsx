@@ -29,7 +29,7 @@ function Delete({
     const [state, action] = useFormState(deleteOrganization, undefined)
 
     const params = useSearchParams()
-    const pagePageparam = params?.get('delete')
+    const pageParam = params?.get('delete')
 
     return (
         <>
@@ -44,7 +44,7 @@ function Delete({
                 </IconButton>
             </Tooltip>
             <Modal
-                open={modalIsOpen && pagePageparam === organization.id}
+                open={modalIsOpen && pageParam === organization.id}
                 size="small"
                 onDismiss={close}
                 closeLabel="Avbryt sletting"
