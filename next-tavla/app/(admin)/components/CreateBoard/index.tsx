@@ -18,8 +18,13 @@ import { StopPlaceList } from './StopPlaceList'
 import { TBoard, TOrganizationID } from 'types/settings'
 import { create } from './actions'
 import { useFormState } from 'react-dom'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
+import { FormError } from '../FormError'
 
 function CreateBoard() {
     const pathname = usePathname()
@@ -40,7 +45,13 @@ function CreateBoard() {
     ) => {
         const title = data.get('name') as string
 
-        if (!title) return getFormFeedbackForError('board/name-missing')
+        if (!title) {
+            router.push(pathname + '?create-board')
+            return getFormFeedbackForError('board/name-missing')
+        }
+
+        if (!tiles || tiles.length === 0)
+            return getFormFeedbackForError('board/tiles-missing')
 
         const organization = data?.get('organization') as TOrganizationID
 
@@ -68,7 +79,7 @@ function CreateBoard() {
             </IconButton>
             <Modal
                 open={open}
-                size="medium"
+                size="large"
                 onDismiss={() => {
                     setTiles([])
                     router.push(pathname ?? '/')
@@ -98,8 +109,26 @@ function CreateBoard() {
                         />
                         <Heading4>Stoppesteder lagt til i Tavla</Heading4>
                         <StopPlaceList tiles={tiles} onRemove={removeTile} />
+                        <FormError
+                            {...getFormFeedbackForField('general', state)}
+                        />
                     </div>
-                    <div className="flexRow justifyBetween">
+                    <div className="flexRowReverse justifyBetween">
+                        {pageParam !== 'stops' ? (
+                            <PrimaryButton
+                                as={Link}
+                                href={getPathWithParams('stops')}
+                                className="mt-2"
+                            >
+                                Neste
+                                <ForwardIcon />
+                            </PrimaryButton>
+                        ) : (
+                            <PrimaryButton type="submit" className="mt-2">
+                                Opprett tavle
+                            </PrimaryButton>
+                        )}
+
                         {hasPage && (
                             <SecondaryButton
                                 onClick={() => router.back()}
@@ -109,17 +138,6 @@ function CreateBoard() {
                                 Tilbake
                             </SecondaryButton>
                         )}
-                        <PrimaryButton
-                            as={Link}
-                            href={getPathWithParams('stops')}
-                            className="mt-2"
-                        >
-                            Neste
-                            <ForwardIcon />
-                        </PrimaryButton>
-                        <PrimaryButton type="submit" className="mt-2">
-                            Opprett tavle
-                        </PrimaryButton>
                     </div>
                 </form>
             </Modal>
