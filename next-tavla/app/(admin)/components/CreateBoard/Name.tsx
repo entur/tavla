@@ -5,7 +5,7 @@ import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 
 function Name({ formState }: { formState: TFormFeedback | undefined }) {
     return (
-        <div className="flexColumn">
+        <div>
             <Heading4 className="mt-1">Sett navn på tavla</Heading4>
             <Paragraph>
                 Navnet på tavla vil vises i listen over tavler. Du kan endre på

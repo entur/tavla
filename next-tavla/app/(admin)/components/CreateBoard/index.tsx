@@ -80,19 +80,16 @@ function CreateBoard() {
             <Modal
                 open={open}
                 size="large"
+                className="flexColumn alignCenter"
                 onDismiss={() => {
                     setTiles([])
                     router.push(pathname ?? '/')
                 }}
                 closeLabel="Avbryt opprettelse av tavle"
             >
-                <Stepper
-                    steps={steps}
-                    activeIndex={pageParam === '' ? 0 : 1}
-                    className="justifyCenter"
-                />
+                <Stepper steps={steps} activeIndex={pageParam === '' ? 0 : 1} />
 
-                <form action={formAction}>
+                <form action={formAction} className="w-75">
                     <div className={pageParam === '' ? '' : 'displayNone'}>
                         <Name formState={state} />
                         <Organization />
