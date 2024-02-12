@@ -45,7 +45,7 @@ function CreateBoard() {
     ) => {
         const title = data.get('name') as string
 
-        if (!title) {
+        if (!title || /^\s*$/.test(title)) {
             router.push(pathname + '?create-board')
             return getFormFeedbackForError('board/name-missing')
         }
