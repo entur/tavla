@@ -1,9 +1,9 @@
 'use client'
-
 import { TextField } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
+import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 
-function Name() {
+function Name({ formState }: { formState: TFormFeedback | undefined }) {
     return (
         <div className="flexColumn">
             <Heading4 className="mt-1">Sett navn på tavla</Heading4>
@@ -17,6 +17,7 @@ function Name() {
                 id="name"
                 name="name"
                 required
+                {...getFormFeedbackForField('name', formState)}
             />
         </div>
     )

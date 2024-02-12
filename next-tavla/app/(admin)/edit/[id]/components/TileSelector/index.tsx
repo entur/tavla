@@ -95,6 +95,8 @@ function TileSelector({
                             ],
                         } as TTile
                         addTile(tile)
+                        setSelectedQuay(null)
+                        setSelectedStopPlace(null)
                     }}
                 >
                     Legg til

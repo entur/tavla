@@ -1,5 +1,4 @@
 'use client'
-import { ToastProvider } from '@entur/alert'
 import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
 import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
 import { Stepper } from '@entur/menu'
@@ -16,8 +15,11 @@ import { TCreateBoard } from 'Admin/types/createBoard'
 import { TTile } from 'types/tile'
 import { useState } from 'react'
 import { StopPlaceList } from './StopPlaceList'
-import { TBoard, TOrganization } from 'types/settings'
-import { createBoard } from './actions'
+import { TBoard, TOrganizationID } from 'types/settings'
+import { create } from './actions'
+import { useFormState } from 'react-dom'
+import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { FirebaseError } from 'firebase/app'
 
 function CreateBoard() {
     const pathname = usePathname()
@@ -32,9 +34,15 @@ function CreateBoard() {
         setTiles(tiles.filter((t) => t.uuid !== tile.uuid))
     }
 
-    const action = async (data: FormData) => {
+    const action = async (
+        prevState: TFormFeedback | undefined,
+        data: FormData,
+    ) => {
         const title = data.get('name') as string
-        const organization = data?.get('organization') as TOrganization
+
+        if (!title) return getFormFeedbackForError('board/name-missing')
+
+        const organization = data?.get('organization') as TOrganizationID
 
         const board = {
             tiles: tiles,
@@ -42,15 +50,19 @@ function CreateBoard() {
                 title: title,
             },
         } as TBoard
-
-        console.log('board', board)
-        console.log('organization', organization)
-
-        const bid = await createBoard(board, organization?.id)
+        try {
+            await create(board, organization)
+            setTiles([])
+        } catch (e) {
+            if (e instanceof FirebaseError) {
+                return getFormFeedbackForError(e)
+            }
+        }
     }
+    const [state, formAction] = useFormState(action, undefined)
 
     return (
-        <ToastProvider>
+        <>
             <IconButton as={Link} href="?create-board" className="g-2 p-2">
                 <AddIcon /> Opprett tavle
             </IconButton>
@@ -69,9 +81,9 @@ function CreateBoard() {
                     className="justifyCenter"
                 />
 
-                <form action={action}>
+                <form action={formAction}>
                     <div className={pageParam === '' ? '' : 'displayNone'}>
-                        <Name />
+                        <Name formState={state} />
                         <Organization />
                     </div>
                     <div className={pageParam === 'stops' ? '' : 'displayNone'}>
@@ -111,7 +123,7 @@ function CreateBoard() {
                     </div>
                 </form>
             </Modal>
-        </ToastProvider>
+        </>
     )
 }
 
