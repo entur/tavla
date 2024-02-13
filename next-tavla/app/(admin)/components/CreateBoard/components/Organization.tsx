@@ -1,5 +1,4 @@
 'use client'
-
 import { Dropdown } from '@entur/dropdown'
 import { Heading4, Paragraph } from '@entur/typography'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'

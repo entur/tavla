@@ -1,5 +1,4 @@
 'use client'
-
 import { TopNavigationItem } from '@entur/menu'
 import { Login } from './Login'
 import classes from '../admin.module.css'
