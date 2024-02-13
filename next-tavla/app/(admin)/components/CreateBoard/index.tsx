@@ -11,7 +11,7 @@ import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import { TCreateBoard } from 'Admin/types/createBoard'
 import { TTile } from 'types/tile'
 import { useState } from 'react'
-import { TBoard, TOrganizationID } from 'types/settings'
+import { TOrganizationID } from 'types/settings'
 import { create } from './actions'
 import { useFormState } from 'react-dom'
 import {
