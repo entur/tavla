@@ -40,7 +40,7 @@ function CreateBoard() {
     }
 
     const action = async (
-        prevState: TFormFeedback | undefined,
+        _prevState: TFormFeedback | undefined,
         data: FormData,
     ) => {
         const title = data.get('name') as string
