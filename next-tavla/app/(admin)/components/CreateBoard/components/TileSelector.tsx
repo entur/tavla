@@ -6,8 +6,17 @@ import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { Button } from '@entur/button'
 import { HiddenInput } from 'components/Form/HiddenInput'
+import { TTile } from 'types/tile'
+import { SyntheticEvent } from 'react'
+import { nanoid } from 'nanoid'
 
-function TileSelector({ action }: { action: (data: FormData) => void }) {
+function TileSelector({
+    flexDirection = 'flexRow',
+    addTile,
+}: {
+    flexDirection?: 'flexRow' | 'flexColumn'
+    addTile: (tile: TTile) => void
+}) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch()
 
@@ -19,14 +28,7 @@ function TileSelector({ action }: { action: (data: FormData) => void }) {
     )
 
     return (
-        <form
-            className="flexRow g-2"
-            action={action}
-            onSubmit={() => {
-                setSelectedQuay(null)
-                setSelectedStopPlace(null)
-            }}
-        >
+        <div className={`${flexDirection} g-2`}>
             <MultiSelect
                 label="Velg fylker"
                 items={counties}
@@ -59,10 +61,32 @@ function TileSelector({ action }: { action: (data: FormData) => void }) {
                 value={selectedStopPlace?.label}
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
-            <Button variant="primary" type="submit">
+            <Button
+                variant="primary"
+                onClick={(e: SyntheticEvent) => {
+                    e.preventDefault()
+                    const placeId = selectedQuay?.value
+                        ? selectedQuay?.value
+                        : selectedStopPlace?.value
+                    if (!placeId) return
+                    const tile = {
+                        type:
+                            placeId !== selectedStopPlace?.value
+                                ? 'quay'
+                                : 'stop_place',
+                        name: selectedStopPlace?.label,
+                        uuid: nanoid(),
+                        placeId,
+                        columns: ['line', 'destination', 'time', 'realtime'],
+                    } as TTile
+                    addTile(tile)
+                    setSelectedQuay(null)
+                    setSelectedStopPlace(null)
+                }}
+            >
                 Legg til
             </Button>
-        </form>
+        </div>
     )
 }
 

@@ -3,7 +3,7 @@ import { IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { useLines } from 'app/(admin)/edit/[id]/components/TileCard/useLines'
 import { TransportIcon } from 'components/TransportIcon'
-import classes from './styles.module.css'
+import classes from '../styles.module.css'
 import { TTile } from 'types/tile'
 import { uniqBy } from 'lodash'
 
