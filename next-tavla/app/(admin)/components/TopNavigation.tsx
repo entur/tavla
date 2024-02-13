@@ -6,6 +6,7 @@ import classes from '../admin.module.css'
 import Link from 'next/link'
 import Image from 'next/image'
 import TavlaLogo from 'assets/logos/Tavla-blue.svg'
+import { CreateBoard } from './CreateBoard'
 
 function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
     return (
@@ -17,6 +18,7 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                 <div className="flexRow g-4">
                     {loggedIn && (
                         <>
+                            <CreateBoard />
                             <TopNavigationItem as={Link} href="/boards">
                                 Tavler
                             </TopNavigationItem>
