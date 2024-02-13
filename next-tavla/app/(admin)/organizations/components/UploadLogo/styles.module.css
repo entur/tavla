@@ -21,13 +21,9 @@
     align-items: center;
     justify-content: center;
     padding: 2em;
-    border-radius: 1.5em;
+    border-radius: 0.5em;
     background-color: var(--secondary-background-color);
-    height: 20em;
-}
-
-.image {
-    padding: 0.5em;
+    height: 10em;
 }
 
 .fileInput {

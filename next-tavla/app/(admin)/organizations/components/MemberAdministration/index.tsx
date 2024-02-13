@@ -1,4 +1,4 @@
-import { Heading2, LeadParagraph } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 import { MemberList } from './MemberList'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import { InviteUser } from './InviteUser'
@@ -11,13 +11,13 @@ function MemberAdministration(props: {
 }) {
     return (
         <Contrast className="flexColumn g-4">
+            <Heading2>Administrer medlemmer</Heading2>
             <div>
-                <Heading2>Administrer medlemmer</Heading2>
-                <LeadParagraph>
+                <Paragraph>
                     Her kan du administrere medlemmer av organisasjonen. Du kan
                     se hvem som er medlem, legge til medlemmer og fjerne
                     medlemmer.
-                </LeadParagraph>
+                </Paragraph>
             </div>
             <InviteUser oid={props.oid} />
             <MemberList {...props} />
