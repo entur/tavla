@@ -55,14 +55,8 @@ function CreateBoard() {
 
         const organization = data?.get('organization') as TOrganizationID
 
-        const board = {
-            tiles: tiles,
-            meta: {
-                title: title,
-            },
-        } as TBoard
         try {
-            await create(board, organization)
+            await create(tiles, title, organization)
             setTiles([])
         } catch (e) {
             if (e instanceof FirebaseError) {
