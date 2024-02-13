@@ -28,14 +28,14 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                         <>
                             <CreateBoard />
                             <TopNavigationItem
-                                active={pathname === '/boards'}
+                                active={pathname?.includes('/boards')}
                                 as={Link}
                                 href="/boards"
                             >
                                 Tavler
                             </TopNavigationItem>
                             <TopNavigationItem
-                                active={pathname === '/organizations'}
+                                active={pathname?.includes('/organizations')}
                                 as={Link}
                                 href="/organizations"
                             >
