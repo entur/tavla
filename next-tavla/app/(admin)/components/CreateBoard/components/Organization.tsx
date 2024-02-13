@@ -2,7 +2,7 @@
 
 import { Dropdown } from '@entur/dropdown'
 import { Heading4, Paragraph } from '@entur/typography'
-import { useOrganizations } from 'Admin/scenarios/CreateBoard/hooks/useOrganizations'
+import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { HiddenInput } from 'components/Form/HiddenInput'
 
 function Organization() {
