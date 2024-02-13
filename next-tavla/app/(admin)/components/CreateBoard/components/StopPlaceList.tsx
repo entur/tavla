@@ -14,7 +14,7 @@ function StopPlaceList({
             <Paragraph>Du har ikke lagt til noen stoppesteder enda.</Paragraph>
         )
     return (
-        <div className="g-2 m-2">
+        <div className="w-100 mt-2">
             {tiles.map((tile) => (
                 <TileCard key={tile.uuid} tile={tile} onRemove={onRemove} />
             ))}
