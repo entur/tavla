@@ -17,3 +17,18 @@
     height: 3em;
     gap: 3em;
 }
+
+.titleWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    font-size: 1.25em;
+    margin: 0;
+}

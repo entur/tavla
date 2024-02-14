@@ -10,16 +10,18 @@ function Header({
     theme,
     className,
     organizationLogo,
+    title,
 }: {
     theme?: TTheme
     className?: string
     organizationLogo?: TLogo | null
+    title?: string
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
 
     return (
         <div className={classNames(classes.headerWrapper, className)}>
-            <div className="positionRelative w-100 h-100">
+            <div className={classes.titleWrapper}>
                 <Image
                     src={organizationLogo ?? tavlaLogo}
                     alt="Entur Tavla logo"
@@ -28,6 +30,7 @@ function Header({
                     height={!organizationLogo ? 55 : undefined}
                     width={!organizationLogo ? 208 : undefined}
                 />
+                {title && <h1 className={classes.title}>{title}</h1>}
             </div>
             <Clock />
         </div>
