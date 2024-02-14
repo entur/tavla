@@ -1,5 +1,4 @@
 'use server'
-
 import { initializeAdminApp } from 'Admin/utils/firebase'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { getFormFeedbackForError } from 'app/(admin)/utils'

@@ -83,7 +83,7 @@ function CreateBoard() {
             >
                 <Stepper steps={steps} activeIndex={pageParam === '' ? 0 : 1} />
 
-                <form action={formAction} className="w-75">
+                <form id="submit-board" action={formAction} className="w-75">
                     <div className={pageParam === '' ? '' : 'displayNone'}>
                         <Name formState={state} />
                         <Organization />
@@ -104,33 +104,36 @@ function CreateBoard() {
                             {...getFormFeedbackForField('general', state)}
                         />
                     </div>
-                    <div className="flexRowReverse justifyBetween">
-                        {pageParam !== 'stops' ? (
-                            <PrimaryButton
-                                as={Link}
-                                href={getPathWithParams('stops')}
-                                className="mt-2"
-                            >
-                                Neste
-                                <ForwardIcon />
-                            </PrimaryButton>
-                        ) : (
-                            <PrimaryButton type="submit" className="mt-2">
-                                Opprett tavle
-                            </PrimaryButton>
-                        )}
-
-                        {hasPage && (
-                            <SecondaryButton
-                                onClick={() => router.back()}
-                                className="mt-2"
-                            >
-                                <BackArrowIcon />
-                                Tilbake
-                            </SecondaryButton>
-                        )}
-                    </div>
                 </form>
+                <div className="flexRowReverse justifyBetween w-75">
+                    {pageParam === 'stops' ? (
+                        <PrimaryButton
+                            form="submit-board"
+                            type="submit"
+                            className="mt-2"
+                        >
+                            Opprett tavle
+                        </PrimaryButton>
+                    ) : (
+                        <PrimaryButton
+                            as={Link}
+                            href={getPathWithParams('stops')}
+                            className="mt-2"
+                        >
+                            Neste
+                            <ForwardIcon />
+                        </PrimaryButton>
+                    )}
+                    {hasPage && (
+                        <SecondaryButton
+                            onClick={() => router.back()}
+                            className="mt-2"
+                        >
+                            <BackArrowIcon />
+                            Tilbake
+                        </SecondaryButton>
+                    )}
+                </div>
             </Modal>
         </>
     )
