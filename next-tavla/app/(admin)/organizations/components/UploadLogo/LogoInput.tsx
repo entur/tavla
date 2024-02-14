@@ -4,7 +4,7 @@ import classes from './styles.module.css'
 import { ImageIcon, UploadIcon } from '@entur/icons'
 import { FormError } from 'app/(admin)/components/FormError'
 import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
-import { Label } from '@entur/typography'
+import { Label, Paragraph } from '@entur/typography'
 import { PrimaryButton, SecondarySquareButton } from '@entur/button'
 
 function LogoInput({ state }: { state: TFormFeedback | undefined }) {
@@ -83,14 +83,17 @@ function Filename({ fileName }: { fileName?: string }) {
 
     return (
         <div className="flexColumn">
-            <div className="flexRow alignCenter g-2 mb-2">
+            <div className="flexRow g-2">
                 <UploadIcon size={24} alt="" />
-                Klikk eller slipp et bilde her for å laste opp en logo
+                <Paragraph>
+                    Klikk eller slipp et bilde her for å laste opp en logo
+                </Paragraph>
             </div>
-            <div className={classes.fileSize}>Maksimal størrelse 10 MB</div>
-            <div className={classes.fileSize}>
+            <Paragraph className={classes.fileSize}>
+                Maksimal størrelse 10 MB
+                <br />
                 Filtyper: JPEG, PNG, SVG... etc.
-            </div>
+            </Paragraph>
         </div>
     )
 }
