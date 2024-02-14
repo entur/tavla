@@ -63,6 +63,7 @@ function TileSelector({
             <HiddenInput id="quay" value={selectedQuay?.value} />
             <Button
                 variant="primary"
+                className="mb-2"
                 onClick={(e: SyntheticEvent) => {
                     e.preventDefault()
                     const placeId = selectedQuay?.value
