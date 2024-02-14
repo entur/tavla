@@ -44,6 +44,7 @@ function BoardPage({
                 <Header
                     theme={board.theme}
                     organizationLogo={organizationLogo}
+                    title={board.meta?.showTitle ? board.meta.title : undefined}
                 />
                 <Board board={board} />
                 {organizationLogo && <Footer />}
