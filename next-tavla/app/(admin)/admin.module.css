@@ -50,6 +50,7 @@
 
 .preview {
     height: 60vh;
+    min-width: 50%;
     overflow: hidden;
     border-radius: 1em;
 }
