@@ -25,14 +25,16 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
 
     if (!lines) return <div className={classes.card}>Laster..</div>
 
-    const transportModes = uniqBy(lines, 'transportMode')
+    const uniqLines = uniqBy(lines, 'id')
+
+    const transportModes = uniqBy(uniqLines, 'transportMode')
         .map((l) => l.transportMode)
         .sort()
 
     const linesByModeSorted = transportModes
         .map((transportMode) => ({
             transportMode,
-            lines: lines
+            lines: uniqLines
                 .filter((line) => line.transportMode === transportMode)
                 .sort(sortLineByPublicCode),
         }))
@@ -130,7 +132,10 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             </div>
                         ))}
                     </div>
-                    <HiddenInput id="count" value={lines.length.toString()} />
+                    <HiddenInput
+                        id="count"
+                        value={uniqLines.length.toString()}
+                    />
                     <div className="flexRow justifyEnd mt-2 mr-2 mb-4">
                         <Button variant="primary" type="submit">
                             Lagre endringer
