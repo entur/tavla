@@ -5,25 +5,13 @@ import { getFormFeedbackForError } from 'app/(admin)/utils'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
 import { TBoard, TOrganizationID } from 'types/settings'
-import { TTile } from 'types/tile'
 
 initializeAdminApp()
 
-export async function create(
-    tiles: TTile[],
-    title: string,
-    oid?: TOrganizationID,
-) {
+export async function create(board: TBoard, oid?: TOrganizationID) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-    const board = {
-        tiles: tiles,
-        meta: {
-            title: title,
-            created: Date.now(),
-            dateModified: Date.now(),
-        },
-    } as TBoard
+
     const createdBoard = await firestore()
         .collection('boards')
         .add({
