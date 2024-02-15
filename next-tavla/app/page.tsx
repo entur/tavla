@@ -115,7 +115,7 @@ async function Landing() {
                                 idrettshaller.  
                             </LeadParagraph>
                             <div className={classes.previewContainer}>
-                                <div className="h-50vh hidden">
+                                <div className={classes.preview}>
                                     <Preview boards={previewBoards} />
                                 </div>
                                 <div className={classes.content}>

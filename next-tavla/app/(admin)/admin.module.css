@@ -48,6 +48,12 @@
     gap: 1em;
 }
 
+.preview {
+    height: 60vh;
+    overflow: hidden;
+    border-radius: 1em;
+}
+
 .content {
     width: 50%;
 }
