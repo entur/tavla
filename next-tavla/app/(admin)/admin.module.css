@@ -41,3 +41,24 @@
     margin-top: 2em;
     padding-left: 8em;
 }
+
+.previewContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.content {
+    width: 50%;
+}
+
+@media (max-width: 1200px) {
+    .previewContainer {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .content {
+        width: 100%;
+    }
+}

@@ -114,9 +114,11 @@ async function Landing() {
                                 holdeplasser eller skoler, arbeidsplasser og
                                 idrettshaller.  
                             </LeadParagraph>
-                            <div className="flexRow h-50vh g-4 hidden">
-                                <Preview boards={previewBoards} />
-                                <div className="w-50">
+                            <div className={classes.previewContainer}>
+                                <div className="h-50vh hidden">
+                                    <Preview boards={previewBoards} />
+                                </div>
+                                <div className={classes.content}>
                                     <Heading3>
                                         Tavla - laget for og med
                                         kollektivselskaper
