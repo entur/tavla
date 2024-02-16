@@ -37,7 +37,7 @@ function Create() {
                 password,
             )
             const uid = await credential.user.getIdToken()
-            await create(uid)
+            await create(credential.user.uid)
             await login(uid)
             revalidatePath('/')
         } catch (e) {
