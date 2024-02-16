@@ -32,7 +32,7 @@ function LogoInput({ state }: { state: TFormFeedback | undefined }) {
                     className={classes.fileInput}
                     type="file"
                     name="logo"
-                    accept="image/*"
+                    accept="image/apng,image/jpeg,image/png,image/svg+xml,image/svg,image/webp"
                     id="logo"
                     aria-labelledby="logo"
                     onChange={setLogo}
@@ -82,17 +82,17 @@ function Filename({ fileName }: { fileName?: string }) {
         )
 
     return (
-        <div className="flexColumn">
+        <div className="flexColumn mt-2 mb-2 weight500">
             <div className="flexRow g-2">
                 <UploadIcon size={24} alt="" />
-                <Paragraph>
-                    Klikk eller slipp et bilde her for å laste opp en logo
+                <Paragraph margin="none">
+                    Dra bilde eller klikk for å laste opp logo
                 </Paragraph>
             </div>
-            <Paragraph className={classes.fileSize}>
-                Maksimal størrelse 10 MB
+            <Paragraph className={classes.fileSize} margin="none">
+                Maksimal størrelse: 10 MB
                 <br />
-                Filtyper: JPEG, PNG, SVG... etc.
+                Filtyper: APNG, JPEG, PNG, SVG, GIF, WEBP.
             </Paragraph>
         </div>
     )

@@ -40,7 +40,7 @@
 .fileSize {
     display: flex;
     justify-content: center;
+    text-align: center;
     color: var(--secondary-text-color);
     font-size: 0.8em;
-    margin-bottom: 0em;
 }
