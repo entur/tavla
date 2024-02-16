@@ -52,7 +52,7 @@ function LogoInput({ state }: { state: TFormFeedback | undefined }) {
             {file && (
                 <div className="flexRow justifyBetween g-2 mt-2">
                     <SecondarySquareButton
-                        className="secondaryButton w-100 justifyCenter"
+                        className="w-100 justifyCenter"
                         onClick={clearLogo}
                         aria-label="Avbryt opplastning"
                     >
@@ -62,7 +62,7 @@ function LogoInput({ state }: { state: TFormFeedback | undefined }) {
                         type="submit"
                         aria-label="Last opp logo"
                         onSubmit={clearLogo}
-                        className="secondaryButton w-100 justifyCenter"
+                        className="w-100 justifyCenter"
                     >
                         Last opp logo
                     </PrimaryButton>

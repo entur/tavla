@@ -12,13 +12,12 @@ function MemberAdministration(props: {
     return (
         <Contrast className="flexColumn g-4">
             <Heading2>Administrer medlemmer</Heading2>
-            <div>
-                <Paragraph>
-                    Her kan du administrere medlemmer av organisasjonen. Du kan
-                    se hvem som er medlem, legge til medlemmer og fjerne
-                    medlemmer.
-                </Paragraph>
-            </div>
+
+            <Paragraph>
+                Her kan du administrere medlemmer av organisasjonen. Du kan se
+                hvem som er medlem, legge til medlemmer og fjerne medlemmer.
+            </Paragraph>
+
             <InviteUser oid={props.oid} />
             <MemberList {...props} />
         </Contrast>
