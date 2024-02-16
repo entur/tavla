@@ -5,8 +5,7 @@
 @font-face {
     font-family: 'Nationale';
     src: url('/fonts/Entur-Nationale-Light.eot');
-    src:
-        url('/fonts/Entur-Nationale-Light.eot?#iefix')
+    src: url('/fonts/Entur-Nationale-Light.eot?#iefix')
             format('embedded-opentype'),
         url('/fonts/Entur-Nationale-Light.woff2') format('woff2'),
         url('/fonts/Entur-Nationale-Light.woff') format('woff');
@@ -17,8 +16,7 @@
 @font-face {
     font-family: 'Nationale';
     src: url('/fonts/Entur-Nationale-LightItalic.eot');
-    src:
-        url('/fonts/Entur-Nationale-LightItalic.eot?#iefix')
+    src: url('/fonts/Entur-Nationale-LightItalic.eot?#iefix')
             format('embedded-opentype'),
         url('/fonts/Entur-Nationale-LightItalic.woff2') format('woff2'),
         url('/fonts/Entur-Nationale-LightItalic.woff') format('woff');
@@ -29,8 +27,7 @@
 @font-face {
     font-family: 'Nationale';
     src: url('/fonts/Entur-Nationale-Regular.eot');
-    src:
-        url('/fonts/Entur-Nationale-Regular.eot?#iefix')
+    src: url('/fonts/Entur-Nationale-Regular.eot?#iefix')
             format('embedded-opentype'),
         url('/fonts/Entur-Nationale-Regular.woff2') format('woff2'),
         url('/fonts/Entur-Nationale-Regular.woff') format('woff');
@@ -41,8 +38,7 @@
 @font-face {
     font-family: 'Nationale';
     src: url('/fonts/Entur-Nationale-Italic.eot');
-    src:
-        url('/fonts/Entur-Nationale-Italic.eot?#iefix')
+    src: url('/fonts/Entur-Nationale-Italic.eot?#iefix')
             format('embedded-opentype'),
         url('/fonts/Entur-Nationale-Italic.woff2') format('woff2'),
         url('/fonts/Entur-Nationale-Italic.woff') format('woff');
@@ -53,8 +49,7 @@
 @font-face {
     font-family: 'Nationale';
     src: url('/fonts/Entur-Nationale-Medium.eot');
-    src:
-        url('/fonts/Entur-Nationale-Medium.eot?#iefix')
+    src: url('/fonts/Entur-Nationale-Medium.eot?#iefix')
             format('embedded-opentype'),
         url('/fonts/Entur-Nationale-Medium.woff2') format('woff2'),
         url('/fonts/Entur-Nationale-Medium.woff') format('woff');
@@ -65,8 +60,7 @@
 @font-face {
     font-family: 'Nationale';
     src: url('/fonts/Entur-Nationale-MediumItalic.eot');
-    src:
-        url('/fonts/Entur-Nationale-MediumItalic.eot?#iefix')
+    src: url('/fonts/Entur-Nationale-MediumItalic.eot?#iefix')
             format('embedded-opentype'),
         url('/fonts/Entur-Nationale-MediumItalic.woff2') format('woff2'),
         url('/fonts/Entur-Nationale-MediumItalic.woff') format('woff');
@@ -77,8 +71,7 @@
 @font-face {
     font-family: 'Nationale';
     src: url('/fonts/Entur-Nationale-Demibold.eot');
-    src:
-        url('/fonts/Entur-Nationale-Demibold.eot?#iefix')
+    src: url('/fonts/Entur-Nationale-Demibold.eot?#iefix')
             format('embedded-opentype'),
         url('/fonts/Entur-Nationale-Demibold.woff2') format('woff2'),
         url('/fonts/Entur-Nationale-Demibold.woff') format('woff');
@@ -89,8 +82,7 @@
 @font-face {
     font-family: 'Nationale';
     src: url('/fonts/Entur-Nationale-DemiboldItalic.eot');
-    src:
-        url('/fonts/Entur-Nationale-DemiboldItalic.eot?#iefix')
+    src: url('/fonts/Entur-Nationale-DemiboldItalic.eot?#iefix')
             format('embedded-opentype'),
         url('/fonts/Entur-Nationale-DemiboldItalic.woff2') format('woff2'),
         url('/fonts/Entur-Nationale-DemiboldItalic.woff') format('woff');

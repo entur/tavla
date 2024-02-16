@@ -1,4 +1,4 @@
-import landingImage from 'assets/illustrations/Main_Frame.png'
+import landingImage from 'assets/illustrations/Main_city_2.svg'
 import { verifySession } from 'Admin/utils/firebase'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
@@ -100,7 +100,7 @@ async function Landing() {
                     >
                         <Image
                             src={landingImage}
-                            style={{ width: '110vw', height: 'auto' }}
+                            style={{ transform: 'scale(0.85)' }}
                             alt=""
                         />
                     </div>
@@ -112,7 +112,7 @@ async function Landing() {
                                 avgangstavler for offentlig transport. Du kan
                                 f.eks. lage avgangstavler for knutepunkter,
                                 holdeplasser eller skoler, arbeidsplasser og
-                                idrettshaller.  
+                                idrettshaller.
                             </LeadParagraph>
                             <div className={classes.previewContainer}>
                                 <div className={classes.preview}>
@@ -124,7 +124,7 @@ async function Landing() {
                                         kollektivselskaper
                                     </Heading3>
                                     <Paragraph>
-                                         Tavla er et digitalt produkt som er
+                                        Tavla er et digitalt produkt som er
                                         under kontinuerlig utvikling i samarbeid
                                         med kollektivselskapene. Med Tavla kan
                                         du enkelt opprette, administrere og
@@ -134,15 +134,15 @@ async function Landing() {
                                         Tavla - for knutepunkter
                                     </Heading3>
                                     <Paragraph>
-                                          Tavla har støtte for alle stoppesteder
-                                        i Norge. Du velger selv hva slags
+                                        Tavla har støtte for alle stoppesteder i
+                                        Norge. Du velger selv hva slags
                                         informasjon som skal vises på dine
                                         tavler.
                                     </Paragraph>
 
                                     <Heading3>Tavla for alle</Heading3>
                                     <Paragraph>
-                                         Tavla er til for de reisende. Tavla
+                                        Tavla er til for de reisende. Tavla
                                         muligjør raske og effektive beslutninger
                                         for de reisende gjennom pålitelig
                                         informasjon.
