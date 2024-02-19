@@ -13,8 +13,8 @@ import {
     Paragraph,
 } from '@entur/typography'
 import { Footer } from './(admin)/components/Footer'
-import { TBoard } from 'types/settings'
 import { Preview } from './(admin)/components/Preview'
+import { previewBoards } from '../src/Shared/utils/previewBoards'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -23,62 +23,6 @@ export const metadata: Metadata = {
 async function Landing() {
     const session = cookies().get('session')?.value
     const loggedIn = (await verifySession(session)) !== null
-
-    const previewBoards: TBoard[] = [
-        {
-            id: 'aLr7VN03RDThtjYYfd9v',
-            meta: {
-                fontSize: 'medium',
-            },
-            tiles: [
-                {
-                    columns: ['line', 'destination', 'time', 'realtime'],
-                    placeId: 'NSR:StopPlace:58260',
-                    name: 'Dalsbergstien',
-                    type: 'stop_place',
-                    uuid: 'uoO6yA-S0ztol4auy_QSv',
-                },
-            ],
-        },
-        {
-            id: 'aLr7VN03RDThtjYYfd9v',
-            meta: {
-                fontSize: 'medium',
-            },
-
-            tiles: [
-                {
-                    columns: ['line', 'destination', 'time', 'realtime'],
-                    placeId: 'NSR:StopPlace:58366',
-                    name: 'Jernbanetorget',
-                    type: 'stop_place',
-                    uuid: 'uoO6yA-S0ztol4auy_QSv',
-                },
-            ],
-        },
-        {
-            id: 'aLr7VN03RDThtjYYfd9v',
-            meta: {
-                fontSize: 'medium',
-            },
-            tiles: [
-                {
-                    columns: [
-                        'line',
-                        'destination',
-                        'time',
-                        'realtime',
-                        'arrivalTime',
-                    ],
-                    placeId: 'NSR:StopPlace:58767',
-                    name: 'Festøya ferjekai, Ørsta',
-                    type: 'stop_place',
-                    uuid: 'syD_TXEoo5x3R8ar2gB_V',
-                    whitelistedLines: ['MOR:Line:1049', 'MOR:Line:1069'],
-                },
-            ],
-        },
-    ]
 
     return (
         <>
