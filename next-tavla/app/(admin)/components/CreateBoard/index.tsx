@@ -60,6 +60,7 @@ function CreateBoard() {
                     router.push(pathname ?? '/')
                 }}
                 closeLabel="Avbryt opprettelse av tavle"
+                data-theme="light"
             >
                 <Stepper steps={stepTitles} activeIndex={stepIndex} />
 
