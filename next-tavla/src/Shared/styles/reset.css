@@ -51,6 +51,8 @@ a.eds-button > .eds-icon {
     background: #ebebf1;
     border: 0.0625rem solid #d1d4e3;
     color: #181c56;
+    height: 1.5rem;
+    padding: 0;
 }
 
 .eds-contrast .eds-expandable-panel__trigger {
