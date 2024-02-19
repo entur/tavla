@@ -8,7 +8,6 @@
 
 .pageContainer {
     margin: 0 auto;
-    max-width: 120rem;
 }
 
 .organization {
@@ -25,6 +24,10 @@
 .landingContent {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 2em;
 }
 
 .headerHighlight {
@@ -37,21 +40,28 @@
 .landingHeader {
     display: flex;
     flex-direction: column;
-    position: absolute;
     margin-top: 2em;
-    padding-left: 8em;
+    width: 100%;
 }
 
-.previewContainer {
+.landingInfo {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+}
+
+.info {
     display: flex;
     flex-direction: row;
     gap: 1em;
+    width: 100%;
 }
 
 .preview {
     height: 60vh;
-    min-width: 50%;
-    overflow: hidden;
+    width: 60%;
+    overflow-y: hidden;
     border-radius: 1em;
 }
 
@@ -60,12 +70,21 @@
 }
 
 @media (max-width: 1200px) {
-    .previewContainer {
+    .info {
         flex-direction: column;
         height: auto;
     }
 
     .content {
         width: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .landingInfo {
+        width: 1200px;
+    }
+    .landingHeader {
+        width: 1200px;
     }
 }

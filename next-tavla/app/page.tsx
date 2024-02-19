@@ -28,7 +28,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'large',
+                fontSize: 'medium',
             },
             tiles: [
                 {
@@ -43,7 +43,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'large',
+                fontSize: 'medium',
             },
 
             tiles: [
@@ -59,7 +59,7 @@ async function Landing() {
         {
             id: 'aLr7VN03RDThtjYYfd9v',
             meta: {
-                fontSize: 'large',
+                fontSize: 'medium',
             },
             tiles: [
                 {
@@ -96,7 +96,6 @@ async function Landing() {
                             display: 'flex',
                             justifyContent: 'center',
                             overflow: 'hidden',
-                            marginTop: '6rem',
                         }}
                     >
                         <Image
@@ -105,50 +104,42 @@ async function Landing() {
                             alt=""
                         />
                     </div>
-                    <div className="flexColumn alignCenter p-4">
-                        <div className="w-75">
-                            <Heading2>Hva er tavla?</Heading2>
-                            <LeadParagraph>
-                                Tavla er et verktøy som hjelper deg å lage
-                                avgangstavler for offentlig transport. Du kan
-                                f.eks. lage avgangstavler for knutepunkter,
-                                holdeplasser eller skoler, arbeidsplasser og
-                                idrettshaller.
-                            </LeadParagraph>
-                            <div className={classes.previewContainer}>
-                                <div className={classes.preview}>
-                                    <Preview boards={previewBoards} />
-                                </div>
-                                <div className={classes.content}>
-                                    <Heading3>
-                                        Tavla - laget for og med
-                                        kollektivselskaper
-                                    </Heading3>
-                                    <Paragraph>
-                                        Tavla er et digitalt produkt som er
-                                        under kontinuerlig utvikling i samarbeid
-                                        med kollektivselskapene. Med Tavla kan
-                                        du enkelt opprette, administrere og
-                                        samarbeide om avgangstavler.
-                                    </Paragraph>
-                                    <Heading3>
-                                        Tavla - for knutepunkter
-                                    </Heading3>
-                                    <Paragraph>
-                                        Tavla har støtte for alle stoppesteder i
-                                        Norge. Du velger selv hva slags
-                                        informasjon som skal vises på dine
-                                        tavler.
-                                    </Paragraph>
+                    <div className={classes.landingInfo}>
+                        <Heading2>Hva er tavla?</Heading2>
+                        <LeadParagraph>
+                            Tavla er et verktøy som hjelper deg å lage
+                            avgangstavler for offentlig transport. Du kan f.eks.
+                            lage avgangstavler for knutepunkter, holdeplasser
+                            eller skoler, arbeidsplasser og idrettshaller.
+                        </LeadParagraph>
+                        <div className={classes.info}>
+                            <div className={classes.preview}>
+                                <Preview boards={previewBoards} />
+                            </div>
+                            <div className={classes.content}>
+                                <Heading3>
+                                    Tavla - laget for og med kollektivselskaper
+                                </Heading3>
+                                <Paragraph>
+                                    Tavla er et digitalt produkt som er under
+                                    kontinuerlig utvikling i samarbeid med
+                                    kollektivselskapene. Med Tavla kan du enkelt
+                                    opprette, administrere og samarbeide om
+                                    avgangstavler.
+                                </Paragraph>
+                                <Heading3>Tavla - for knutepunkter</Heading3>
+                                <Paragraph>
+                                    Tavla har støtte for alle stoppesteder i
+                                    Norge. Du velger selv hva slags informasjon
+                                    som skal vises på dine tavler.
+                                </Paragraph>
 
-                                    <Heading3>Tavla for alle</Heading3>
-                                    <Paragraph>
-                                        Tavla er til for de reisende. Tavla
-                                        muligjør raske og effektive beslutninger
-                                        for de reisende gjennom pålitelig
-                                        informasjon.
-                                    </Paragraph>
-                                </div>
+                                <Heading3>Tavla for alle</Heading3>
+                                <Paragraph>
+                                    Tavla er til for de reisende. Tavla muligjør
+                                    raske og effektive beslutninger for de
+                                    reisende gjennom pålitelig informasjon.
+                                </Paragraph>
                             </div>
                         </div>
                     </div>

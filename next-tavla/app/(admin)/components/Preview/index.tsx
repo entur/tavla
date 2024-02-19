@@ -15,7 +15,7 @@ function Preview({ boards }: { boards: TBoard[] }) {
     }, [boardIndex, boards])
 
     const currentBoard = boards[boardIndex] ?? undefined
-
-    return <div>{currentBoard && <Board board={currentBoard} />}</div>
+    if (!currentBoard) return null
+    return <Board board={currentBoard} />
 }
 export { Preview }
