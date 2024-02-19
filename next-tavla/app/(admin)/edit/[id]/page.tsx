@@ -35,6 +35,7 @@ export default async function EditPage({
                     'use server'
 
                     const tile = formDataToTile(data)
+                    if (!tile.placeId) return
 
                     await addTile(params.id, tile)
                     revalidatePath(`/edit/${params.id}`)

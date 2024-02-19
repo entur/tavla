@@ -22,7 +22,7 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                         alt=""
                     />
                 </Link>
-                <div className="flexRow g-4">
+                <div className="flexRow alignCenter g-4">
                     {loggedIn && (
                         <>
                             <CreateBoard />

@@ -67,7 +67,7 @@ function CreateBoard() {
                 <div className="w-75">
                     <NameAndOrganizationSelector
                         active={pageParam === 'name'}
-                        title={board?.meta.title}
+                        title={board?.meta?.title}
                         state={state}
                         action={async (data: FormData) => {
                             const name = data.get('name') as string
@@ -197,6 +197,7 @@ function StopSelector({
                 action={async (data: FormData) => {
                     setFormError(undefined)
                     const tile = formDataToTile(data)
+                    if (!tile.placeId) return
                     setBoard({
                         ...board,
                         tiles:
@@ -228,14 +229,14 @@ function StopSelector({
                 <PrimaryButton
                     onClick={() => {
                         setIsSubmitting(true)
-                        if (!board || !board.meta.title) {
+                        if (!board || !board.meta || !board.meta.title) {
                             setIsSubmitting(false)
                             router.push('?board=name')
                             return setFormError(
                                 getFormFeedbackForError('board/name-missing'),
                             )
                         }
-                        if (board.tiles.length === 0) {
+                        if (!board || board.tiles.length === 0) {
                             setIsSubmitting(false)
                             return setFormError(
                                 getFormFeedbackForError('board/tiles-missing'),
