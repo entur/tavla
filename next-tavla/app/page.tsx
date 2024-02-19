@@ -3,7 +3,7 @@ import { verifySession } from 'Admin/utils/firebase'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { TopNavigation } from './(admin)/components/TopNavigation'
-import classes from './(admin)/admin.module.css'
+import classes from './landing.module.css'
 import Image from 'next/image'
 import {
     Heading1,
@@ -84,7 +84,7 @@ async function Landing() {
         <>
             <div className={classes.landingPage}>
                 <TopNavigation loggedIn={loggedIn} />
-                <div className={classes.landingContent}>
+                <div className="flexColumn justifyCenter alignCenter hidden p-4">
                     <div className={classes.landingHeader}>
                         <Heading1>Lag din egen avgangstavle</Heading1>
                         <Heading1 className={classes.headerHighlight}>

@@ -137,7 +137,7 @@ function NameAndOrganizationSelector({
                 required
                 {...getFormFeedbackForField('name', state)}
             />
-            <div className="">
+            <div>
                 <Heading4>Legg tavla til en organisasjon</Heading4>
                 <Paragraph>
                     Hvis du ikke velger en organisasjon, vil tavla bli lagret
