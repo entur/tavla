@@ -19,6 +19,12 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { TileSelector } from '../TileSelector'
 import { formDataToTile } from '../TileSelector/utils'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
+import { FormError } from '../FormError'
 
 type TCreateBoard = 'name' | 'stops'
 
@@ -37,6 +43,8 @@ function CreateBoard() {
     const [board, setBoard] = useState<TBoard>()
     const [organization, setOrganization] = useState<TOrganizationID>()
 
+    const [state, setFormError] = useState<TFormFeedback | undefined>()
+
     return (
         <>
             <IconButton as={Link} href="?board=name" className="g-2 p-2">
@@ -48,6 +56,7 @@ function CreateBoard() {
                 className="flexColumn alignCenter"
                 onDismiss={() => {
                     setBoard(undefined)
+                    setFormError(undefined)
                     router.push(pathname ?? '/')
                 }}
                 closeLabel="Avbryt opprettelse av tavle"
@@ -58,8 +67,16 @@ function CreateBoard() {
                     <NameAndOrganizationSelector
                         active={pageParam === 'name'}
                         title={board?.meta.title}
+                        state={state}
                         action={async (data: FormData) => {
                             const name = data.get('name') as string
+                            if (!name) {
+                                return setFormError(
+                                    getFormFeedbackForError(
+                                        'board/name-missing',
+                                    ),
+                                )
+                            }
                             const organization = data.get(
                                 'organization',
                             ) as TOrganizationID
@@ -79,6 +96,8 @@ function CreateBoard() {
                         board={board}
                         setBoard={setBoard}
                         organization={organization}
+                        state={state}
+                        setFormError={setFormError}
                     />
                 </div>
             </Modal>
@@ -89,10 +108,12 @@ function CreateBoard() {
 function NameAndOrganizationSelector({
     active,
     title,
+    state,
     action,
 }: {
     active: boolean
     title?: string
+    state: TFormFeedback | undefined
     action: (data: FormData) => void
 }) {
     const { organizations, selectedOrganization, setSelectedOrganization } =
@@ -113,6 +134,7 @@ function NameAndOrganizationSelector({
                 name="name"
                 defaultValue={title}
                 required
+                {...getFormFeedbackForField('name', state)}
             />
             <div className="">
                 <Heading4>Legg tavla til en organisasjon</Heading4>
@@ -148,11 +170,15 @@ function StopSelector({
     board,
     setBoard,
     organization,
+    state,
+    setFormError,
 }: {
     active: boolean
     setBoard: (board: TBoard) => void
     board?: TBoard
     organization?: TOrganizationID
+    state: TFormFeedback | undefined
+    setFormError: (feedback: TFormFeedback | undefined) => void
 }) {
     const router = useRouter()
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -168,6 +194,7 @@ function StopSelector({
             </Paragraph>
             <TileSelector
                 action={async (data: FormData) => {
+                    setFormError(undefined)
                     const tile = formDataToTile(data)
                     setBoard({
                         ...board,
@@ -191,6 +218,7 @@ function StopSelector({
                     } as TBoard)
                 }
             />
+            <FormError {...getFormFeedbackForField('general', state)} />
             <div className="flexRow justifyBetween">
                 <SecondaryButton onClick={() => router.back()} className="mt-2">
                     <BackArrowIcon />
@@ -199,7 +227,20 @@ function StopSelector({
                 <PrimaryButton
                     onClick={() => {
                         setIsSubmitting(true)
-                        if (!board) return
+                        if (!board || !board.meta.title) {
+                            setIsSubmitting(false)
+                            router.push('?board=name')
+                            return setFormError(
+                                getFormFeedbackForError('board/name-missing'),
+                            )
+                        }
+                        if (board.tiles.length === 0) {
+                            setIsSubmitting(false)
+                            return setFormError(
+                                getFormFeedbackForError('board/tiles-missing'),
+                            )
+                        }
+
                         create(board, organization)
                     }}
                     className="mt-2"
