@@ -29,7 +29,7 @@ async function Landing() {
             <div className={classes.landingPage}>
                 <TopNavigation loggedIn={loggedIn} />
                 <div className="flexColumn justifyCenter alignCenter hidden p-4">
-                    <div className="flexColumn mt-4 minw-80rem">
+                    <div className="flexColumn mt-4 p-4 minw-80rem">
                         <Heading1>Lag din egen avgangstavle</Heading1>
                         <Heading1 className={classes.headerHighlight}>
                             for reisende
@@ -42,7 +42,7 @@ async function Landing() {
                             alt=""
                         />
                     </div>
-                    <div className="flexColumn justifyCenter minw-80rem">
+                    <div className="flexColumn justifyCenter p-4 minw-80rem">
                         <Heading2>Hva er tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage
