@@ -17,11 +17,3 @@
 .hidden {
     overflow: hidden;
 }
-
-.absolute {
-    position: absolute;
-}
-
-.displayNone {
-    display: none;
-}

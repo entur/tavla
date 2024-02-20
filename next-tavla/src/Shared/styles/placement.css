@@ -13,10 +13,6 @@
     flex-direction: row-reverse;
 }
 
-.flex {
-    display: flex;
-}
-
 .grid {
     display: grid;
 }

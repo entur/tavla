@@ -77,7 +77,3 @@
 .text-em-4 {
     font-size: 2em;
 }
-
-.text-highlight {
-    color: var(--colors-brand-coral);
-}

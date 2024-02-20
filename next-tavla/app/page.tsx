@@ -35,16 +35,10 @@ async function Landing() {
                             for reisende
                         </Heading1>
                     </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            overflow: 'hidden',
-                        }}
-                    >
+                    <div className="flexRow justifyCenter hidden">
                         <Image
                             src={landingImage}
-                            style={{ transform: 'scale(0.85)' }}
+                            className={classes.image}
                             alt=""
                         />
                     </div>
