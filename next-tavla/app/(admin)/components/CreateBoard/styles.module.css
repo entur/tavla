@@ -1,0 +1,15 @@
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0.5em;
+    border: 1px solid var(--tertiary-background-color);
+    margin-bottom: 1em;
+    padding: 0.5em;
+}
+
+.publicCode {
+    background-color: var(--tertiary-background-color);
+    padding: 0.35em 0.5em;
+    border-radius: 0.5em;
+}

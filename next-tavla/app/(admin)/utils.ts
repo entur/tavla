@@ -122,6 +122,18 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 feedback: 'Denne tavla finnes ikke',
                 variant: 'error',
             }
+        case 'board/name-missing':
+            return {
+                form_type: 'name',
+                feedback: 'Du har ikke gitt tavla et navn',
+                variant: 'error',
+            }
+        case 'board/tiles-missing':
+            return {
+                form_type: 'general',
+                feedback: 'Du har ikke lagt til noen holdeplasser',
+                variant: 'error',
+            }
         case 'boards/tag-exists':
             return {
                 form_type: 'general',

@@ -5,13 +5,13 @@ import { addTile, getBoard } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
 import { Board } from 'Board/scenarios/Board'
-import { TileSelector } from './components/TileSelector'
-import { nanoid } from 'nanoid'
-import { revalidatePath } from 'next/cache'
 import { TileCard } from './components/TileCard'
 import { Button } from '@entur/button'
 import Link from 'next/link'
 import { MetaSettings } from './components/MetaSettings'
+import { TileSelector } from 'app/(admin)/components/TileSelector'
+import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
+import { revalidatePath } from 'next/cache'
 
 export default async function EditPage({
     params,
@@ -33,21 +33,14 @@ export default async function EditPage({
             <TileSelector
                 action={async (data: FormData) => {
                     'use server'
-                    const quayId = data.get('quay') as string
-                    const stopPlaceId = data.get('stop_place') as string
-                    const stopPlaceName = data.get('stop_place_name') as string
 
-                    const placeId = quayId ? quayId : stopPlaceId
+                    const tile = formDataToTile(data)
+                    if (!tile.placeId) return
 
-                    await addTile(params.id, {
-                        type: placeId !== stopPlaceId ? 'quay' : 'stop_place',
-                        name: stopPlaceName,
-                        uuid: nanoid(),
-                        placeId,
-                        columns: ['line', 'destination', 'time', 'realtime'],
-                    })
+                    await addTile(params.id, tile)
                     revalidatePath(`/edit/${params.id}`)
                 }}
+                direction="Row"
             />
             {board.tiles.map((tile) => (
                 <TileCard key={tile.uuid} bid={params.id} tile={tile} />

@@ -29,16 +29,6 @@ button {
     cursor: pointer;
 }
 
-a {
-    display: flex;
-    padding: 1em;
-    align-items: center;
-    border-radius: 0.25em;
-    font: inherit;
-    border: 0;
-    cursor: pointer;
-}
-
 ul {
     list-style-type: none;
 }

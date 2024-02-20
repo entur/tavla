@@ -1,0 +1,21 @@
+.landingPage {
+    background-color: var(--colors-brand-white);
+    color: var(--colors-misc-black);
+}
+
+.headerHighlight {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--colors-brand-coral);
+    padding: 0;
+}
+
+.preview {
+    height: 60vh;
+    overflow-y: hidden;
+    border-radius: 1em;
+}
+
+.image {
+    transform: scale(0.85);
+}

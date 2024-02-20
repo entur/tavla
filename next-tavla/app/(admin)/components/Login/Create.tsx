@@ -37,7 +37,7 @@ function Create() {
                 password,
             )
             const uid = await credential.user.getIdToken()
-            await create(uid)
+            await create(credential.user.uid)
             await login(uid)
             revalidatePath('/')
         } catch (e) {
@@ -48,7 +48,7 @@ function Create() {
     }
     const [state, action] = useFormState(submit, undefined)
     return (
-        <div>
+        <div className="textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
             <Heading3>Logg inn med e-post</Heading3>
             <form className="flexColumn g-2" action={action}>

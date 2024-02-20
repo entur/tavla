@@ -1594,7 +1594,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/typography@npm:1.8.0, @entur/typography@npm:^1.7.17, @entur/typography@npm:^1.8.0":
+"@entur/typography@npm:1.8.20":
+  version: 1.8.20
+  resolution: "@entur/typography@npm:1.8.20"
+  dependencies:
+    "@entur/icons": ^6.13.2
+    "@entur/tokens": ^3.12.0
+    "@entur/utils": ^0.9.5
+    classnames: ^2.3.1
+    normalize-scss: ^7.0.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 72f70f51a0d5505b4a7b9c14137609de01c7df510f0a7f3f4fc8ea5b31a97a9926da3e4bf8ccf26f305e5a544dd9108f9ebafcfa3da96117428685bfe070f90e
+  languageName: node
+  linkType: hard
+
+"@entur/typography@npm:^1.7.17, @entur/typography@npm:^1.8.0":
   version: 1.8.0
   resolution: "@entur/typography@npm:1.8.0"
   dependencies:
@@ -13587,7 +13603,7 @@ __metadata:
     "@entur/tokens": 3.8.1
     "@entur/tooltip": 2.6.26
     "@entur/travel": 6.0.18
-    "@entur/typography": 1.8.0
+    "@entur/typography": 1.8.20
     "@firebase/database-types": 0.10.4
     "@graphql-codegen/cli": 3.2.2
     "@graphql-codegen/import-types-preset": 2.2.6

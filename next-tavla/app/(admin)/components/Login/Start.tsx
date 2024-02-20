@@ -5,17 +5,18 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
 import Link from 'next/link'
+import { TLoginPage } from 'Admin/types/login'
 
 function Start() {
-    const getPathWithParams = useSearchParamsSetter('login')
+    const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
     return (
-        <div className="flexColumn alignCenter textCenter">
+        <div className="textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
             <Heading3>Logg inn for å fortsette</Heading3>
             <Paragraph>
                 Logg inn for å få tilgang til å opprette og administrere tavler.
             </Paragraph>
-            <div className="flexColumn g-2 w-100">
+            <div className="flexColumn g-2">
                 <PrimaryButton as={Link} href={getPathWithParams('email')}>
                     Logg inn med e-post
                 </PrimaryButton>

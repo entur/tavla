@@ -47,10 +47,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
             >
                 <div className="flexRow justifyBetween">
                     {hasPage && (
-                        <SecondarySquareButton
-                            onClick={() => router.back()}
-                            className="p-2"
-                        >
+                        <SecondarySquareButton onClick={() => router.back()}>
                             <BackArrowIcon />
                         </SecondarySquareButton>
                     )}
@@ -58,7 +55,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                     <SecondarySquareButton
                         as={Link}
                         href={pathname ?? '/'}
-                        className="p-2 ml-auto"
+                        className="ml-auto"
                     >
                         <CloseIcon />
                     </SecondarySquareButton>

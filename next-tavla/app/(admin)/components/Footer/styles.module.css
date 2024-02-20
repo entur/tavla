@@ -1,0 +1,12 @@
+.footer {
+    padding: 4rem 0 2rem;
+    margin: 0 auto;
+    width: 80rem;
+}
+
+@media (max-width: 80rem) {
+    .footer {
+        width: 100%;
+        padding: 4rem 2rem 2rem;
+    }
+}

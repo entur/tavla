@@ -9,6 +9,7 @@ import 'styles/spacing.css'
 import 'styles/misc.css'
 import 'styles/placement.css'
 import 'styles/text.css'
+import 'styles/constraints.css'
 
 import { ReactNode } from 'react'
 import { Metadata } from 'next'
@@ -40,9 +41,7 @@ export const metadata: Metadata = {
 function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="nb">
-            <body>
-                <div className="eds-contrast">{children}</div>
-            </body>
+            <body>{children}</body>
         </html>
     )
 }
