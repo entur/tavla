@@ -28,7 +28,6 @@ function useCountiesSearch(oid?: TOrganizationID) {
 
     const counties = useCallback(() => countiesList, [countiesList])
 
-    console.log(selectedCounties)
     return { counties, selectedCounties, setSelectedCounties }
 }
 
