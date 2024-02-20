@@ -13,17 +13,17 @@ function Footer() {
                 <div className="flexRow justifyBetween">
                     <div>
                         <Heading3>Entur AS</Heading3>
-                        <Paragraph className={classes.content}>
+                        <Paragraph className="mb-2 alignCenter">
                             Rådhusgata 5, 0151 Oslo
                             <br />
                             Postboks 1554, 0117 Oslo
                         </Paragraph>
-                        <Paragraph className={classes.content}>
+                        <Paragraph className="mb-2 alignCenter">
                             Organisasjonsnummer:
                             <br />
                             919 748 932
                         </Paragraph>
-                        <Paragraph className={classes.content}>
+                        <Paragraph className="mb-2 alignCenter">
                             <EnturLink href="https://www.entur.org/kontakt-oss/">
                                 Kontakt oss
                                 <ExternalIcon className="ml-1" />
@@ -32,7 +32,7 @@ function Footer() {
                     </div>
                     <div>
                         <Heading3>Informasjon</Heading3>
-                        <Paragraph className="m-0 text-rem-0-9">
+                        <Paragraph>
                             <EnturLink
                                 as={Link}
                                 href="https://uustatus.no/nb/erklaringer/publisert/ffb3d21b-fbb4-48ed-9043-bb2a904f3143"
@@ -42,7 +42,7 @@ function Footer() {
                             </EnturLink>
                         </Paragraph>
                     </div>
-                    <div className={classes.iconContainer}>
+                    <div className="flexRow justifyBetween mt-4">
                         <Link href="https://github.com/entur/tavla">
                             <GithubIcon size={25} />
                         </Link>

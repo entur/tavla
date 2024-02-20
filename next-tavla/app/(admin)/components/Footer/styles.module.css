@@ -1,26 +1,7 @@
-.content {
-    font-size: 0.9rem;
-    margin: 1rem 0;
-    align-content: center;
-}
-
 .footer {
     padding: 4rem 0 2rem;
     margin: 0 auto;
     width: 80rem;
-}
-
-.flexContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.iconContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 1.5rem 0;
 }
 
 @media (max-width: 80rem) {
