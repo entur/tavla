@@ -16,3 +16,7 @@
     gap: 0.5em;
     height: 4rem;
 }
+.countiesSelectContainer {
+    grid-template-columns: repeat(3, 1fr);
+    display: grid;
+}
