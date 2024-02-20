@@ -11,14 +11,14 @@
     }
 }
 
-.flexDirection {
+.meta {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
 @media (max-width: 550px) {
-    .flexDirection {
+    .meta {
         flex-direction: column;
     }
 }
