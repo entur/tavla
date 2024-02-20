@@ -12,6 +12,7 @@ import { MetaSettings } from './components/MetaSettings'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
+import { ExternalIcon } from '@entur/icons'
 
 export default async function EditPage({
     params,
@@ -24,8 +25,23 @@ export default async function EditPage({
 
     return (
         <div className="flexColumn p-4 g-2">
-            <Heading1>Rediger tavle: {board.meta?.title}</Heading1>
-            <Heading2>Forhåndsvisning</Heading2>
+            <div className="flexRow justifyBetween alignCenter pb-2">
+                <Heading1 className="m-0">
+                    Rediger tavle: {board.meta?.title}
+                </Heading1>
+                <Button
+                    as={Link}
+                    aria-label="Åpne tavla"
+                    href={`/${params.id}`}
+                    target="_blank"
+                    variant="secondary"
+                >
+                    Åpne tavle
+                    <ExternalIcon />
+                </Button>
+            </div>
+            <MetaSettings bid={params.id} meta={board.meta} />
+            <Heading2 className="mt-2">Forhåndsvisning</Heading2>
             <div className={classes.preview} data-theme={board.theme ?? 'dark'}>
                 <Board board={board} />
             </div>
@@ -45,18 +61,6 @@ export default async function EditPage({
             {board.tiles.map((tile) => (
                 <TileCard key={tile.uuid} bid={params.id} tile={tile} />
             ))}
-            <MetaSettings bid={params.id} meta={board.meta} />
-            <div className={classes.floating}>
-                <Button
-                    as={Link}
-                    aria-label="Åpne tavla"
-                    href={`/${params.id}`}
-                    target="_blank"
-                    variant="primary"
-                >
-                    Åpne tavle
-                </Button>
-            </div>
         </div>
     )
 }
