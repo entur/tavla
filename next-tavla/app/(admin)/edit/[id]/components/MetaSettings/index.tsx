@@ -28,7 +28,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
         >
             <div className="flexRow justifyBetween alignCenter p-2">
                 <div className="w-100">
-                    <Heading4>Navn på tavlen</Heading4>
+                    <Heading4 className="m-0">Navn på tavlen</Heading4>
                     <TextField
                         name="name"
                         className="w-30"
@@ -37,7 +37,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     />
                 </div>
                 <div className="flexColumn g-1">
-                    <Heading4>Velg tekststørrelse: </Heading4>
+                    <Heading4 className="m-0">Velg tekststørrelse: </Heading4>
                     <ChoiceChipGroup
                         className="flexRow"
                         name="font"

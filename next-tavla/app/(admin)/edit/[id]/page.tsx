@@ -41,7 +41,7 @@ export default async function EditPage({
                 </Button>
             </div>
             <MetaSettings bid={params.id} meta={board.meta} />
-            <Heading2>Forhåndsvisning</Heading2>
+            <Heading2 className="mt-2">Forhåndsvisning</Heading2>
             <div className={classes.preview} data-theme={board.theme ?? 'dark'}>
                 <Board board={board} />
             </div>
