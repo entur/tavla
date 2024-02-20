@@ -12,7 +12,6 @@
 
 .preview {
     height: 60vh;
-    width: 50%;
     overflow-y: hidden;
     border-radius: 1em;
 }

@@ -51,7 +51,7 @@ async function Landing() {
                             eller skoler, arbeidsplasser og idrettshaller.
                         </LeadParagraph>
                         <div className="mw-flex g-2 w-100">
-                            <div className={classes.preview}>
+                            <div className={`${classes.preview} mw-80rem`}>
                                 <Preview boards={previewBoards} />
                             </div>
                             <div className="mw-80rem">
