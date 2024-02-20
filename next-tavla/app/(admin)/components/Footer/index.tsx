@@ -10,7 +10,7 @@ function Footer() {
         <footer className="eds-contrast">
             <div className={classes.footer}>
                 <Image src={TavlaLogo} alt="" />
-                <div className="flexRow justifyBetween">
+                <div className={classes.meta}>
                     <div>
                         <Heading3>Entur AS</Heading3>
                         <Paragraph className="mb-2 alignCenter">
@@ -21,7 +21,7 @@ function Footer() {
                         <Paragraph className="mb-2 alignCenter">
                             Organisasjonsnummer:
                             <br />
-                            919 748 932
+                            917 422 575
                         </Paragraph>
                         <Paragraph className="mb-2 alignCenter">
                             <EnturLink href="https://www.entur.org/kontakt-oss/">
