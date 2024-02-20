@@ -28,8 +28,8 @@ async function Landing() {
         <>
             <div className={classes.landingPage}>
                 <TopNavigation loggedIn={loggedIn} />
-                <div className="flexColumn justifyCenter alignCenter hidden p-4">
-                    <div className="flexColumn mt-4 minw-80rem">
+                <div className="flexColumn justifyCenter alignCenter hidden">
+                    <div className="flexColumn mt-4 p-4 minw-80rem">
                         <Heading1>Lag din egen avgangstavle</Heading1>
                         <Heading1 className={classes.headerHighlight}>
                             for reisende
@@ -42,7 +42,7 @@ async function Landing() {
                             alt=""
                         />
                     </div>
-                    <div className="flexColumn justifyCenter minw-80rem">
+                    <div className="flexColumn justifyCenter p-4 minw-80rem">
                         <Heading2>Hva er tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage
@@ -50,8 +50,8 @@ async function Landing() {
                             lage avgangstavler for knutepunkter, holdeplasser
                             eller skoler, arbeidsplasser og idrettshaller.
                         </LeadParagraph>
-                        <div className="mw-flex g-2 w-100">
-                            <div className={`${classes.preview} mw-80rem`}>
+                        <div className="mw-flex g-4 w-100">
+                            <div className={`${classes.preview}  mw-80rem`}>
                                 <Preview boards={previewBoards} />
                             </div>
                             <div className="mw-80rem">
