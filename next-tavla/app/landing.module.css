@@ -10,55 +10,9 @@
     padding: 0;
 }
 
-.landingHeader {
-    display: flex;
-    flex-direction: column;
-    margin-top: 2em;
-    width: 100%;
-}
-
-.landingInfo {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    width: 100%;
-}
-
-.info {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-    width: 100%;
-}
-
 .preview {
     height: 60vh;
     width: 50%;
     overflow-y: hidden;
     border-radius: 1em;
-}
-
-.content {
-    width: 50%;
-}
-
-@media (max-width: 80rem) {
-    .info {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .content,
-    .preview {
-        width: 100%;
-    }
-}
-
-@media (min-width: 80rem) {
-    .landingInfo {
-        width: 80rem;
-    }
-    .landingHeader {
-        width: 80rem;
-    }
 }

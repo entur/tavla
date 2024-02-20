@@ -1,0 +1,28 @@
+.minw-80rem {
+    width: 100%;
+}
+
+@media (min-width: 80rem) {
+    .minw-80rem {
+        width: 80rem;
+    }
+}
+
+.mw-flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.mw-80rem {
+    width: 50%;
+}
+
+@media (max-width: 80rem) {
+    .mw-flex {
+        flex-direction: column;
+        height: auto;
+    }
+    .mw-80rem {
+        width: 100%;
+    }
+}

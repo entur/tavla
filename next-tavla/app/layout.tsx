@@ -9,6 +9,7 @@ import 'styles/spacing.css'
 import 'styles/misc.css'
 import 'styles/placement.css'
 import 'styles/text.css'
+import 'styles/constraints.css'
 
 import { ReactNode } from 'react'
 import { Metadata } from 'next'
