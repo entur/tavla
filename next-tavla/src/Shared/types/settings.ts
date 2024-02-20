@@ -24,6 +24,7 @@ export type TOrganization = {
     editors?: TUserID[]
     boards?: TBoardID[]
     logo?: TLogo
+    counties?: TCountyID[]
 }
 
 export type TInvite = {
@@ -36,3 +37,4 @@ export type TLogo = string
 export type TUserID = string
 export type TBoardID = string
 export type TOrganizationID = string
+export type TCountyID = string

@@ -6,16 +6,19 @@ import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { Button } from '@entur/button'
 import { HiddenInput } from 'components/Form/HiddenInput'
+import { TOrganizationID } from 'types/settings'
 
 function TileSelector({
     action,
     direction,
+    oid,
 }: {
     action: (data: FormData) => void
     direction: 'Row' | 'Column'
+    oid?: TOrganizationID
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
-        useCountiesSearch()
+        useCountiesSearch(oid)
 
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))

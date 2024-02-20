@@ -207,6 +207,7 @@ function StopSelector({
                     } as TBoard)
                 }}
                 direction="Column"
+                oid={organization}
             />
             <Heading4>Stoppesteder lagt til i Tavla</Heading4>
             <StopPlaceList
