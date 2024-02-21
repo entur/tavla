@@ -38,7 +38,7 @@ function Header({
                     height={!organizationLogo ? 55 : undefined}
                     width={!organizationLogo ? 208 : undefined}
                 />
-                {title && <h1 className="ml-1">{title}</h1>}
+                {title && <div className="ml-1">{title}</div>}
             </div>
             <Clock />
         </div>

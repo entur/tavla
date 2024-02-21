@@ -40,7 +40,7 @@ export function QuayTile({
         .join(' ')
     return (
         <Tile className={classes.quayTile}>
-            <div className="mt-0">{heading}</div>
+            <h2 className="mt-0">{heading}</h2>
             <Table
                 columns={columns}
                 departures={data.quay.estimatedCalls}

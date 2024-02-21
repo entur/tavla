@@ -32,7 +32,7 @@ export function StopPlaceTile({
 
     return (
         <Tile className={classes.stopPlaceTile}>
-            <div className="mt-0">{data.stopPlace.name}</div>
+            <h2 className="mt-0">{data.stopPlace.name}</h2>
             <Table
                 departures={data.stopPlace.estimatedCalls}
                 situations={data.stopPlace.situations}
