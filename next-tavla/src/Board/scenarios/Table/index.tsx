@@ -11,6 +11,7 @@ import { AimedTime } from './components/Time/AimedTime'
 import { ArrivalTime } from './components/Time/ArrivalTime'
 import { Platform } from './components/Platform'
 import { ExpectedTime } from './components/Time/ExpectedTime'
+import { Deviation } from './components/Deviation'
 import { Line } from './components/Line'
 import { StopPlaceDeviation } from './components/StopPlaceDeviation'
 

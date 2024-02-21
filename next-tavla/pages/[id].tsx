@@ -5,7 +5,6 @@ import { Board } from 'Board/scenarios/Board'
 import { getBoard, getOrganizationLogoWithBoard } from 'Admin/utils/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
-import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 
 export async function getServerSideProps({
     params,
@@ -41,22 +40,10 @@ function BoardPage({
 
     return (
         <div className={classes.root} data-theme={board.theme ?? 'dark'}>
-            <div
-                className={classes.rootContainer}
-                style={{
-                    fontSize:
-                        100 *
-                            getFontScale(
-                                board?.meta?.fontSize || defaultFontSize(board),
-                            ) +
-                        '%',
-                }}
-            >
+            <div className={classes.rootContainer}>
                 <Header
                     theme={board.theme}
                     organizationLogo={organizationLogo}
-                    showTitle={board.meta?.showTitle ?? false}
-                    title={board.meta.title}
                 />
                 <Board board={board} />
                 {organizationLogo && <Footer />}

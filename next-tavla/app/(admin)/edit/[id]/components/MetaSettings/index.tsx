@@ -2,7 +2,7 @@
 import classes from './styles.module.css'
 import { Button } from '@entur/button'
 import { ChoiceChip, ChoiceChipGroup } from '@entur/chip'
-import { Checkbox, TextField } from '@entur/form'
+import { TextField } from '@entur/form'
 import { Heading4 } from '@entur/typography'
 import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 import { useState } from 'react'
@@ -17,12 +17,10 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
             action={(data: FormData) => {
                 const name = data.get('name') as string
                 const font = data.get('font') as TFontSize
-                const showTitle = data.get('showTitle') === 'on'
                 saveMeta(bid, {
                     ...meta,
                     title: name,
                     fontSize: font,
-                    showTitle: showTitle,
                     dateModified: Date.now(),
                 })
             }}
@@ -37,13 +35,6 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                         defaultValue={meta.title ?? DEFAULT_BOARD_NAME}
                         label="Navn på tavlen"
                     />
-                    <Checkbox
-                        defaultChecked={meta.showTitle}
-                        name="showTitle"
-                        className="mt-2"
-                    >
-                        Vis navnet på tavla
-                    </Checkbox>
                 </div>
                 <div className="flexColumn g-1">
                     <Heading4 className="m-0">Velg tekststørrelse: </Heading4>
