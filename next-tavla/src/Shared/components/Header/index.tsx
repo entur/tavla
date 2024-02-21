@@ -10,11 +10,13 @@ function Header({
     theme,
     className,
     organizationLogo,
+    showTitle,
     title,
 }: {
     theme?: TTheme
     className?: string
     organizationLogo?: TLogo | null
+    showTitle?: boolean
     title?: string
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
@@ -33,7 +35,7 @@ function Header({
                     height={!organizationLogo ? 55 : undefined}
                     width={!organizationLogo ? 208 : undefined}
                 />
-                {title && <div className="ml-1">{title}</div>}
+                {showTitle && <div className="ml-1">{title}</div>}
             </div>
             <Clock />
         </div>
