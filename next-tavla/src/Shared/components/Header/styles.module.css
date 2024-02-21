@@ -3,6 +3,11 @@
     object-position: left;
 }
 
+.organizationLogo {
+    height: 100%;
+    width: auto;
+}
+
 .tagText {
     font-size: 0.5em;
     color: var(--main-text-color);
@@ -16,4 +21,9 @@
     align-items: center;
     height: 3em;
     gap: 3em;
+}
+
+.title {
+    color: var(--colors-brand-white);
+    margin-left: 1em;
 }
