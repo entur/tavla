@@ -26,7 +26,7 @@ function TileSelector({
 
     return (
         <form
-            className={`flex${direction} g-2`}
+            className={`flex${direction} g-2 mb-3`}
             action={action}
             onSubmit={() => {
                 setSelectedQuay(null)

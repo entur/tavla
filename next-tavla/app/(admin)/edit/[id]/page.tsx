@@ -27,7 +27,7 @@ export default async function EditPage({
         <div className="flexColumn p-4 g-2">
             <div className="flexRow justifyBetween alignCenter pb-2">
                 <Heading1 className="m-0">
-                    Rediger tavle: {board.meta?.title}
+                    Rediger tavle {board.meta?.title}
                 </Heading1>
                 <Button
                     as={Link}
@@ -41,11 +41,7 @@ export default async function EditPage({
                 </Button>
             </div>
             <MetaSettings bid={params.id} meta={board.meta} />
-            <Heading2 className="mt-2">Forhåndsvisning</Heading2>
-            <div className={classes.preview} data-theme={board.theme ?? 'dark'}>
-                <Board board={board} />
-            </div>
-            <Heading2>Stoppesteder i tavla</Heading2>
+            <Heading2 className="mt-3">Stoppesteder i tavla</Heading2>
             <TileSelector
                 action={async (data: FormData) => {
                     'use server'
@@ -61,6 +57,10 @@ export default async function EditPage({
             {board.tiles.map((tile) => (
                 <TileCard key={tile.uuid} bid={params.id} tile={tile} />
             ))}
+            <Heading2 className="mt-3">Forhåndsvisning</Heading2>
+            <div className={classes.preview} data-theme={board.theme ?? 'dark'}>
+                <Board board={board} />
+            </div>
         </div>
     )
 }
