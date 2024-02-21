@@ -5,23 +5,27 @@ import classes from './styles.module.css'
 import { TLogo, TTheme } from 'types/settings'
 import { Clock } from 'components/Clock'
 import classNames from 'classnames'
-import { Heading2 } from '@entur/typography'
 
 function Header({
     theme,
     className,
     organizationLogo,
     title,
+    style,
 }: {
     theme?: TTheme
     className?: string
     organizationLogo?: TLogo | null
     title?: string
+    style?: React.CSSProperties
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
 
     return (
-        <div className={classNames(classes.headerWrapper, className)}>
+        <div
+            className={classNames(classes.headerWrapper, className)}
+            style={style}
+        >
             <div className="flexRow alignCenter positionRelative w-100 h-100">
                 <Image
                     src={organizationLogo ?? tavlaLogo}
@@ -34,9 +38,7 @@ function Header({
                     height={!organizationLogo ? 55 : undefined}
                     width={!organizationLogo ? 208 : undefined}
                 />
-                {title && (
-                    <Heading2 className={classes.title}>{title}</Heading2>
-                )}
+                {title && <h1 className="ml-1">{title}</h1>}
             </div>
             <Clock />
         </div>

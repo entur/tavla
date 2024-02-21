@@ -22,8 +22,3 @@
     height: 3em;
     gap: 3em;
 }
-
-.title {
-    color: var(--colors-brand-white);
-    margin-left: 1em;
-}
