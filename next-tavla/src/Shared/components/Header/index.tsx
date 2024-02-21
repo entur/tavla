@@ -11,21 +11,16 @@ function Header({
     className,
     organizationLogo,
     title,
-    style,
 }: {
     theme?: TTheme
     className?: string
     organizationLogo?: TLogo | null
     title?: string
-    style?: React.CSSProperties
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
 
     return (
-        <div
-            className={classNames(classes.headerWrapper, className)}
-            style={style}
-        >
+        <div className={classNames(classes.headerWrapper, className)}>
             <div className="flexRow alignCenter positionRelative w-100 h-100">
                 <Image
                     src={organizationLogo ?? tavlaLogo}

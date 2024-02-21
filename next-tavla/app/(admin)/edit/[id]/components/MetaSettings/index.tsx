@@ -12,12 +12,12 @@ import { TBoardID } from 'types/settings'
 
 function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
     const [font, setFont] = useState('medium')
-    const [showTitle, setShowTitle] = useState(meta.showTitle ?? false)
     return (
         <form
             action={(data: FormData) => {
                 const name = data.get('name') as string
                 const font = data.get('font') as TFontSize
+                const showTitle = data.get('showTitle') === 'on'
                 saveMeta(bid, {
                     ...meta,
                     title: name,
@@ -38,10 +38,8 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                         label="Navn på tavlen"
                     />
                     <Checkbox
-                        checked={showTitle}
-                        onChange={() => {
-                            setShowTitle(!showTitle)
-                        }}
+                        defaultChecked={meta.showTitle}
+                        name="showTitle"
                         className="mt-2"
                     >
                         Vis navnet på tavla

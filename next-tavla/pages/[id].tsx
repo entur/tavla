@@ -41,20 +41,21 @@ function BoardPage({
 
     return (
         <div className={classes.root} data-theme={board.theme ?? 'dark'}>
-            <div className={classes.rootContainer}>
+            <div
+                className={classes.rootContainer}
+                style={{
+                    fontSize:
+                        100 *
+                            getFontScale(
+                                board?.meta?.fontSize || defaultFontSize(board),
+                            ) +
+                        '%',
+                }}
+            >
                 <Header
                     theme={board.theme}
                     organizationLogo={organizationLogo}
                     title={board.meta?.showTitle ? board.meta.title : undefined}
-                    style={{
-                        fontSize:
-                            100 *
-                                getFontScale(
-                                    board?.meta?.fontSize ||
-                                        defaultFontSize(board),
-                                ) +
-                            '%',
-                    }}
                 />
                 <Board board={board} />
                 {organizationLogo && <Footer />}
