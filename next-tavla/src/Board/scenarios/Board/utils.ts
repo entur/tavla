@@ -3,11 +3,11 @@ import { TBoard } from 'types/settings'
 export function getFontScale(fontSize: TFontSize | undefined) {
     switch (fontSize) {
         case 'small':
-            return 0.8
+            return 0.7
         case 'medium':
             return 1
         case 'large':
-            return 1.2
+            return 1.3
         default:
             return 1
     }
