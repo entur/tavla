@@ -25,7 +25,9 @@ function CountiesSelect({
                     setCounties(oid, counties)
                 }}
             >
-                <div className={styles.countiesSelectContainer}>
+                <div
+                    className={`flexColumn flexWrap ${styles.countiesSelectContainer}`}
+                >
                     {counties()
                         .sort(
                             (

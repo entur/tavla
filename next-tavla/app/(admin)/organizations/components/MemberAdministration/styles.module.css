@@ -17,6 +17,5 @@
     height: 4rem;
 }
 .countiesSelectContainer {
-    grid-template-columns: repeat(3, 1fr);
-    display: grid;
+    height: 12.5rem;
 }
