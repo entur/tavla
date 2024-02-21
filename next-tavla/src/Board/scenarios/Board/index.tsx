@@ -5,8 +5,6 @@ import { StopPlaceTile } from '../StopPlaceTile'
 import { QuayTile } from '../QuayTile'
 import classes from './styles.module.css'
 import { Tile } from 'components/Tile'
-import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
-import { CSSProperties } from 'react'
 
 function BoardTile({ tileSpec }: { tileSpec: TTile }) {
     switch (tileSpec.type) {
@@ -17,7 +15,13 @@ function BoardTile({ tileSpec }: { tileSpec: TTile }) {
     }
 }
 
-function Board({ board, style }: { board: TBoard; style?: CSSProperties }) {
+function Board({
+    board,
+    style,
+}: {
+    board: TBoard
+    style?: React.CSSProperties
+}) {
     if (!board.tiles || !board.tiles.length)
         return (
             <Tile className={classes.emptyTile}>
@@ -28,12 +32,6 @@ function Board({ board, style }: { board: TBoard; style?: CSSProperties }) {
         <div
             className={classes.board}
             style={{
-                fontSize:
-                    100 *
-                        getFontScale(
-                            board.meta?.fontSize || defaultFontSize(board),
-                        ) +
-                    '%',
                 ...style,
             }}
         >

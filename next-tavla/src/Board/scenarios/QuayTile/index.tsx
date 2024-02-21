@@ -4,7 +4,6 @@ import classes from './styles.module.css'
 import { useQuery } from 'graphql/utils'
 import { GetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
-import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TileLoader } from 'Board/components/TileLoader'
 
@@ -41,7 +40,7 @@ export function QuayTile({
         .join(' ')
     return (
         <Tile className={classes.quayTile}>
-            <TableHeader heading={heading} />
+            <h2 className="mt-0">{heading}</h2>
             <Table
                 columns={columns}
                 departures={data.quay.estimatedCalls}

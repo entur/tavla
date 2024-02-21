@@ -5,6 +5,7 @@ export type TMeta = {
     dateModified?: number
     version?: number
     fontSize?: TFontSize
+    showTitle?: boolean
     tags?: TTag[]
 }
 
