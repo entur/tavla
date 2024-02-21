@@ -42,14 +42,17 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
 
     return (
         <div>
-            <div className={classes.card}>
+            <div
+                className={classes.card}
+                style={{ borderRadius: isOpen ? '0.5em 0.5em 0 0' : '0.5em' }}
+            >
                 <div className="flexRow g-2 alignCenter">
+                    <Heading3 className="m-0 pl-1">{tile.name}</Heading3>
                     <div className="flexRow g-2 h-4">
                         {transportModes.map((tm) => (
                             <TransportIcon transportMode={tm} key={tm} />
                         ))}
                     </div>
-                    {tile.name}
                 </div>
                 <div className="flexRow g-2">
                     <SecondarySquareButton
@@ -65,83 +68,88 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <form
-                    action={(data: FormData) => {
-                        const columns = data.getAll('columns') as TColumn[]
-                        data.delete('columns')
-                        const count = data.get('count') as number | null
-                        data.delete('count')
+                <div className={classes.expandable}>
+                    <form
+                        action={(data: FormData) => {
+                            const columns = data.getAll('columns') as TColumn[]
+                            data.delete('columns')
+                            const count = data.get('count') as number | null
+                            data.delete('count')
 
-                        let lines: string[] = []
-                        for (const line of data.values()) {
-                            lines.push(line as string)
-                        }
-                        // If the length of lines equals all the lines, we don't want to include any
-                        lines = lines.length == count ? [] : lines
+                            let lines: string[] = []
+                            for (const line of data.values()) {
+                                lines.push(line as string)
+                            }
+                            // If the length of lines equals all the lines, we don't want to include any
+                            lines = lines.length == count ? [] : lines
 
-                        saveTile(bid, {
-                            ...tile,
-                            columns: columns,
-                            whitelistedLines: lines,
-                        })
-                    }}
-                    onSubmit={() => setIsOpen(false)}
-                >
-                    <Heading3>Rediger stoppested: {tile.name}</Heading3>
-                    <Heading4>Tabellen</Heading4>
-                    <SubParagraph>
-                        Her bestemmer du hvilke kolonner som skal vises i
-                        tavlen.
-                    </SubParagraph>
-                    <div className="flexRow g-2">
-                        {Object.entries(Columns).map(([key, value]) => {
-                            return (
-                                <FilterChip
-                                    name="columns"
-                                    key={key}
-                                    value={key}
-                                    defaultChecked={
-                                        isArray(tile.columns)
-                                            ? tile.columns?.includes(
-                                                  key as TColumn,
-                                              )
-                                            : false
-                                    }
-                                >
-                                    {value}
-                                </FilterChip>
-                            )
-                        })}
-                    </div>
-                    <Heading4>Velg transportmidler og linjer</Heading4>
-                    <div className="flexRow g-2">
-                        {linesByModeSorted.map(({ transportMode, lines }) => (
-                            <div key={transportMode}>
-                                <TransportModeCheckbox
-                                    tile={tile}
-                                    transportMode={transportMode}
-                                />
-                                {lines.map((line) => (
-                                    <LineCheckbox
-                                        key={line.id}
-                                        tile={tile}
-                                        line={line}
-                                        transportMode={transportMode}
-                                    />
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                    <HiddenInput
-                        id="count"
-                        value={uniqLines.length.toString()}
-                    />
-                    <div className="flexRow justifyEnd mt-2 mr-2 mb-4">
-                        <Button variant="primary" type="submit">
-                            Lagre endringer
-                        </Button>
-                    </div>
-                </form>
+                            saveTile(bid, {
+                                ...tile,
+                                columns: columns,
+                                whitelistedLines: lines,
+                            })
+                        }}
+                        onSubmit={() => setIsOpen(false)}
+                    >
+                        <Heading4 className="m-0">Kolonner</Heading4>
+                        <SubParagraph className="mt-0">
+                            Her bestemmer du hvilke kolonner som skal vises i
+                            tavlen.
+                        </SubParagraph>
+                        <div className="flexRow g-2 mb-4">
+                            {Object.entries(Columns).map(([key, value]) => {
+                                return (
+                                    <FilterChip
+                                        name="columns"
+                                        key={key}
+                                        value={key}
+                                        defaultChecked={
+                                            isArray(tile.columns)
+                                                ? tile.columns?.includes(
+                                                      key as TColumn,
+                                                  )
+                                                : false
+                                        }
+                                    >
+                                        {value}
+                                    </FilterChip>
+                                )
+                            })}
+                        </div>
+                        <Heading4 className="mb-1">
+                            Transportmidler og linjer
+                        </Heading4>
+                        <div className="flexRow g-2">
+                            {linesByModeSorted.map(
+                                ({ transportMode, lines }) => (
+                                    <div key={transportMode}>
+                                        <TransportModeCheckbox
+                                            tile={tile}
+                                            transportMode={transportMode}
+                                        />
+                                        {lines.map((line) => (
+                                            <LineCheckbox
+                                                key={line.id}
+                                                tile={tile}
+                                                line={line}
+                                                transportMode={transportMode}
+                                            />
+                                        ))}
+                                    </div>
+                                ),
+                            )}
+                        </div>
+                        <HiddenInput
+                            id="count"
+                            value={uniqLines.length.toString()}
+                        />
+                        <div className="flexRow justifyEnd mt-2 mr-2 ">
+                            <Button variant="primary" type="submit">
+                                Lagre endringer
+                            </Button>
+                        </div>
+                    </form>
+                </div>
             </BaseExpand>
         </div>
     )

@@ -3,12 +3,22 @@
     justify-content: space-between;
     align-items: center;
     background: var(--secondary-background-color);
-    border-radius: 0.5em;
     padding: 1em;
+}
+
+.expandable {
+    background-color: var(--secondary-background-color);
+    border-radius: 0 0 0.5em 0.5em;
+    padding: 0 2em 2em 2em;
 }
 
 .publicCode {
     background-color: var(--tertiary-background-color);
     padding: 0.35em 0.5em;
     border-radius: 0.5em;
+}
+
+.divider {
+    border-bottom: 2px solid var(--tertiary-background-color);
+    margin: 0.5em 0;
 }
