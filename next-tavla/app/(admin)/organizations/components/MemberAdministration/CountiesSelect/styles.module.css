@@ -5,7 +5,7 @@
 }
 
 .countiesBox {
-    border-radius: 10;
+    border-radius: 0.5em;
     margin-top: 2em;
     padding: 2em 2em 2em 2em;
     background: var(--secondary-background-color);
