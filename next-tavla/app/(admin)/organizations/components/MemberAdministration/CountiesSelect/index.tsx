@@ -58,7 +58,7 @@ function CountiesSelect({
                                 </>
                             ))}
                     </div>
-                    <div className="flexRow w-80 mt-4 mr-4  justifyEnd">
+                    <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
                         <PrimaryButton type="submit" aria-label="Lagre fylker">
                             Lagre fylker
                         </PrimaryButton>
