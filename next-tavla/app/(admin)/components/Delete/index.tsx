@@ -1,5 +1,9 @@
 'use client'
-import { IconButton, SecondarySquareButton } from '@entur/button'
+import {
+    IconButton,
+    SecondaryButton,
+    SecondarySquareButton,
+} from '@entur/button'
 import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading2, Label, Paragraph } from '@entur/typography'
@@ -34,14 +38,14 @@ function Delete({
     return (
         <>
             <Tooltip content="Slett organisasjon" placement="bottom">
-                <IconButton
+                <SecondaryButton
                     as={Link}
                     href={`?delete=${organization.id}`}
-                    className="g-2"
+                    aria-label="Slett organisasjon"
                 >
                     <DeleteIcon />
                     {showText && 'Slett'}
-                </IconButton>
+                </SecondaryButton>
             </Tooltip>
             <Modal
                 open={modalIsOpen && pageParam === organization.id}

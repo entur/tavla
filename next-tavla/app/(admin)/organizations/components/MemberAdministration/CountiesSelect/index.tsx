@@ -1,6 +1,6 @@
 'use client'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { PrimaryButton } from '@entur/button'
+import { SecondaryButton } from '@entur/button'
 import { TCountyID, TOrganizationID } from 'types/settings'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { Checkbox } from '@entur/form'
@@ -59,9 +59,12 @@ function CountiesSelect({
                             ))}
                     </div>
                     <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
-                        <PrimaryButton type="submit" aria-label="Lagre fylker">
+                        <SecondaryButton
+                            type="submit"
+                            aria-label="Lagre fylker"
+                        >
                             Lagre fylker
-                        </PrimaryButton>
+                        </SecondaryButton>
                     </div>
                 </form>
             </div>
