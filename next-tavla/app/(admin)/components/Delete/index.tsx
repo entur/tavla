@@ -1,9 +1,5 @@
 'use client'
-import {
-    IconButton,
-    SecondaryButton,
-    SecondarySquareButton,
-} from '@entur/button'
+import { SecondaryButton, SecondarySquareButton } from '@entur/button'
 import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading2, Label, Paragraph } from '@entur/typography'
