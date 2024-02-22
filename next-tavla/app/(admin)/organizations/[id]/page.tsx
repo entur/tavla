@@ -6,7 +6,7 @@ import {
     initializeAdminApp,
 } from 'Admin/utils/firebase'
 import { Metadata } from 'next'
-import { Heading1, Heading3, Paragraph } from '@entur/typography'
+import { Heading1 } from '@entur/typography'
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { Delete } from 'app/(admin)/components/Delete'
@@ -52,14 +52,6 @@ async function EditOrganizationPage({ params }: TProps) {
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />
                 <div>
-                    <Heading3>
-                        Velg fylke/fylker du skal sette opp tavler for
-                    </Heading3>
-                    <Paragraph>
-                        Når du søker etter stoppesteder vil du søke i alle
-                        fylker. Her kan du velge hvilke fylker du ønsker å
-                        begrense søket til.
-                    </Paragraph>
                     <CountiesSelect
                         oid={organization.id}
                         countiesList={organization.counties}
