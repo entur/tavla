@@ -9,7 +9,7 @@ import { Metadata } from 'next'
 import { Heading1 } from '@entur/typography'
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
-import { Delete } from 'app/(admin)/components/Delete'
+import { Delete } from 'app/(admin)/components/Delete/index'
 import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
@@ -48,9 +48,9 @@ async function EditOrganizationPage({ params }: TProps) {
         <div className={classes.root}>
             <div className="flexRow justifyBetween alignCenter">
                 <Heading1>{organization.name}</Heading1>
-                <Delete organization={organization}>
-                    <DeleteButton oid={organization.id} />
-                </Delete>
+                <DeleteButton oid={organization.id}>
+                    <Delete organization={organization} />
+                </DeleteButton>
             </div>
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />

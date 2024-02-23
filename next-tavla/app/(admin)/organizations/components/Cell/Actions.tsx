@@ -19,17 +19,26 @@ function Edit({ oid }: { oid?: string }) {
     )
 }
 
-function Delete({ oid }: { oid?: TOrganizationID }) {
+function Delete({
+    oid,
+    children,
+}: {
+    oid?: TOrganizationID
+    children?: JSX.Element
+}) {
     return (
-        <Tooltip content="Slett organisasjon" placement="bottom">
-            <IconButton
-                as={Link}
-                href={`?delete=${oid}`}
-                aria-label="Slett organisasjon"
-            >
-                <DeleteIcon />
-            </IconButton>
-        </Tooltip>
+        <>
+            <Tooltip content="Slett organisasjon" placement="bottom">
+                <IconButton
+                    as={Link}
+                    href={`?delete=${oid}`}
+                    aria-label="Slett organisasjon"
+                >
+                    <DeleteIcon />
+                </IconButton>
+            </Tooltip>
+            {children}
+        </>
     )
 }
 
@@ -45,9 +54,10 @@ function Actions({
             {organization.owners?.includes(userId) && (
                 <>
                     <Edit oid={organization.id} />
-                    <DeleteModal organization={organization}>
-                        <Delete oid={organization.id} />
-                    </DeleteModal>
+
+                    <Delete oid={organization.id}>
+                        <DeleteModal organization={organization} />
+                    </Delete>
                 </>
             )}
         </div>

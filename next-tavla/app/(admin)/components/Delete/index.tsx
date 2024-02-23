@@ -15,13 +15,7 @@ import { deleteOrganization } from './actions'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
-function Delete({
-    organization,
-    children,
-}: {
-    organization: TOrganization
-    children?: JSX.Element
-}) {
+function Delete({ organization }: { organization: TOrganization }) {
     const [modalIsOpen, close] = useSearchParamsModal('delete')
 
     const [state, action] = useFormState(deleteOrganization, undefined)
@@ -31,7 +25,6 @@ function Delete({
 
     return (
         <>
-            {children}
             <Modal
                 open={modalIsOpen && pageParam === organization.id}
                 size="small"
