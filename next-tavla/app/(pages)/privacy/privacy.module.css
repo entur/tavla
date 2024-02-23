@@ -1,0 +1,6 @@
+.page {
+    background-color: var(--colors-brand-white);
+    color: var(--primary-text-color);
+    justify-content: center;
+    align-items: center;
+}

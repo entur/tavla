@@ -17,7 +17,11 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
             <div className="flexRow justifyBetween alignCenter p-4">
                 <Link href="/">
                     <Image
-                        src={pathname === '/' ? TavlaLogoBlue : TavlaLogoWhite}
+                        src={
+                            pathname === '/' || pathname === '/privacy'
+                                ? TavlaLogoBlue
+                                : TavlaLogoWhite
+                        }
                         height={32}
                         alt=""
                     />
