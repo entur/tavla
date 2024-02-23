@@ -1,9 +1,8 @@
 'use client'
-import { SecondaryButton, SecondarySquareButton } from '@entur/button'
-import { CloseIcon, DeleteIcon } from '@entur/icons'
+import { SecondarySquareButton } from '@entur/button'
+import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading2, Label, Paragraph } from '@entur/typography'
-import Link from 'next/link'
 import { TOrganization } from 'types/settings'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TextField } from '@entur/form'
@@ -13,16 +12,15 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import { deleteOrganization } from './actions'
-import { Tooltip } from '@entur/tooltip'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 function Delete({
     organization,
-    showText,
+    children,
 }: {
     organization: TOrganization
-    showText?: boolean
+    children?: JSX.Element
 }) {
     const [modalIsOpen, close] = useSearchParamsModal('delete')
 
@@ -33,16 +31,7 @@ function Delete({
 
     return (
         <>
-            <Tooltip content="Slett organisasjon" placement="bottom">
-                <SecondaryButton
-                    as={Link}
-                    href={`?delete=${organization.id}`}
-                    aria-label="Slett organisasjon"
-                >
-                    <DeleteIcon />
-                    {showText && 'Slett'}
-                </SecondaryButton>
-            </Tooltip>
+            {children}
             <Modal
                 open={modalIsOpen && pageParam === organization.id}
                 size="small"

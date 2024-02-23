@@ -1,9 +1,9 @@
 import { IconButton } from '@entur/button'
-import { EditIcon } from '@entur/icons'
+import { DeleteIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from 'Admin/components/Tooltip'
-import { Delete } from 'app/(admin)/components/Delete'
 import Link from 'next/link'
-import { TOrganization, TUserID } from 'types/settings'
+import { TOrganization, TOrganizationID, TUserID } from 'types/settings'
+import { Delete as DeleteModal } from 'app/(admin)/components/Delete'
 
 function Edit({ oid }: { oid?: string }) {
     return (
@@ -14,6 +14,20 @@ function Edit({ oid }: { oid?: string }) {
                 href={`/organizations/${oid}`}
             >
                 <EditIcon />
+            </IconButton>
+        </Tooltip>
+    )
+}
+
+function Delete({ oid }: { oid?: TOrganizationID }) {
+    return (
+        <Tooltip content="Slett organisasjon" placement="bottom">
+            <IconButton
+                as={Link}
+                href={`?delete=${oid}`}
+                aria-label="Slett organisasjon"
+            >
+                <DeleteIcon />
             </IconButton>
         </Tooltip>
     )
@@ -31,7 +45,9 @@ function Actions({
             {organization.owners?.includes(userId) && (
                 <>
                     <Edit oid={organization.id} />
-                    <Delete organization={organization} />
+                    <DeleteModal organization={organization}>
+                        <Delete oid={organization.id} />
+                    </DeleteModal>
                 </>
             )}
         </div>
