@@ -13,7 +13,6 @@ import { Delete } from 'app/(admin)/components/Delete/index'
 import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
-import { DeleteButton } from 'app/(admin)/components/Delete/deleteButton'
 
 initializeAdminApp()
 
@@ -48,9 +47,7 @@ async function EditOrganizationPage({ params }: TProps) {
         <div className={classes.root}>
             <div className="flexRow justifyBetween alignCenter">
                 <Heading1>{organization.name}</Heading1>
-                <DeleteButton oid={organization.id}>
-                    <Delete organization={organization} />
-                </DeleteButton>
+                <Delete organization={organization} type="secondary" />
             </div>
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />

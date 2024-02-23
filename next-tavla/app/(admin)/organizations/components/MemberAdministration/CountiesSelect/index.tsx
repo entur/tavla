@@ -7,6 +7,7 @@ import { Checkbox } from '@entur/form'
 import { setCounties } from './actions'
 import styles from './styles.module.css'
 import { Heading3, Paragraph } from '@entur/typography'
+
 function CountiesSelect({
     oid,
     countiesList,
@@ -42,20 +43,17 @@ function CountiesSelect({
                                 ) => countyA.label.localeCompare(countyB.label),
                             )
                             .map((county: NormalizedDropdownItemType) => (
-                                <>
-                                    <Checkbox
-                                        key={county.value}
-                                        defaultChecked={
-                                            countiesList?.includes(
-                                                county.value,
-                                            ) ?? false
-                                        }
-                                        name="county"
-                                        value={county.value}
-                                    >
-                                        {county.label}
-                                    </Checkbox>
-                                </>
+                                <Checkbox
+                                    key={county.value}
+                                    defaultChecked={
+                                        countiesList?.includes(county.value) ??
+                                        false
+                                    }
+                                    name="county"
+                                    value={county.value}
+                                >
+                                    {county.label}
+                                </Checkbox>
                             ))}
                     </div>
                     <div className="flexRow w-100 mt-4 mr-2 justifyEnd">

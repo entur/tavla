@@ -1,6 +1,6 @@
 'use client'
-import { SecondarySquareButton } from '@entur/button'
-import { CloseIcon } from '@entur/icons'
+import { Button, IconButton, SecondarySquareButton } from '@entur/button'
+import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading2, Label, Paragraph } from '@entur/typography'
 import { TOrganization } from 'types/settings'
@@ -15,7 +15,16 @@ import { deleteOrganization } from './actions'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
-function Delete({ organization }: { organization: TOrganization }) {
+import { Tooltip } from '@entur/tooltip'
+import Link from 'next/link'
+
+function Delete({
+    organization,
+    type,
+}: {
+    organization: TOrganization
+    type: 'icon' | 'secondary'
+}) {
     const [modalIsOpen, close] = useSearchParamsModal('delete')
 
     const [state, action] = useFormState(deleteOrganization, undefined)
@@ -23,8 +32,21 @@ function Delete({ organization }: { organization: TOrganization }) {
     const params = useSearchParams()
     const pageParam = params?.get('delete')
 
+    const DeleteButton = type === 'icon' ? IconButton : Button
+
     return (
         <>
+            <Tooltip content="Slett organisasjon" placement="bottom">
+                <DeleteButton
+                    as={Link}
+                    href={`?delete=${organization.id}`}
+                    className="g-2"
+                    variant="secondary"
+                >
+                    <DeleteIcon />
+                    {type === 'secondary' && 'Slett'}
+                </DeleteButton>
+            </Tooltip>
             <Modal
                 open={modalIsOpen && pageParam === organization.id}
                 size="small"
