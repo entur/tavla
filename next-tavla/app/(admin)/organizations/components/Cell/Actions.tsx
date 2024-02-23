@@ -1,9 +1,9 @@
 import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import { Tooltip } from 'Admin/components/Tooltip'
-import { Delete } from 'app/(admin)/components/Delete'
 import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
+import { Delete } from 'app/(admin)/components/Delete'
 
 function Edit({ oid }: { oid?: string }) {
     return (
@@ -31,7 +31,7 @@ function Actions({
             {organization.owners?.includes(userId) && (
                 <>
                     <Edit oid={organization.id} />
-                    <Delete organization={organization} />
+                    <Delete organization={organization} type="icon" />
                 </>
             )}
         </div>

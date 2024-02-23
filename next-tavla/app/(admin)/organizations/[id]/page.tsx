@@ -9,9 +9,10 @@ import { Metadata } from 'next'
 import { Heading1 } from '@entur/typography'
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
-import { Delete } from 'app/(admin)/components/Delete'
+import { Delete } from 'app/(admin)/components/Delete/index'
 import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
+import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
 
 initializeAdminApp()
 
@@ -42,15 +43,20 @@ async function EditOrganizationPage({ params }: TProps) {
         return <div>Du har ikke tilgang til denne organisasjonen</div>
 
     const members = await getOrganizationUsers(user.uid, id)
-
     return (
         <div className={classes.root}>
             <div className="flexRow justifyBetween alignCenter">
                 <Heading1>{organization.name}</Heading1>
-                <Delete organization={organization} showText />
+                <Delete organization={organization} type="secondary" />
             </div>
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />
+
+                <CountiesSelect
+                    oid={organization.id}
+                    countiesList={organization.counties}
+                />
+
                 <MemberAdministration
                     members={members}
                     uid={user.uid}

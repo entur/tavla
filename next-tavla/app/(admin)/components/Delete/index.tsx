@@ -1,9 +1,8 @@
 'use client'
-import { IconButton, SecondarySquareButton } from '@entur/button'
+import { Button, IconButton, SecondarySquareButton } from '@entur/button'
 import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading2, Label, Paragraph } from '@entur/typography'
-import Link from 'next/link'
 import { TOrganization } from 'types/settings'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TextField } from '@entur/form'
@@ -13,16 +12,18 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import { deleteOrganization } from './actions'
-import { Tooltip } from '@entur/tooltip'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
+import { Tooltip } from '@entur/tooltip'
+import Link from 'next/link'
+
 function Delete({
     organization,
-    showText,
+    type,
 }: {
     organization: TOrganization
-    showText?: boolean
+    type: 'icon' | 'secondary'
 }) {
     const [modalIsOpen, close] = useSearchParamsModal('delete')
 
@@ -31,17 +32,20 @@ function Delete({
     const params = useSearchParams()
     const pageParam = params?.get('delete')
 
+    const DeleteButton = type === 'icon' ? IconButton : Button
+
     return (
         <>
             <Tooltip content="Slett organisasjon" placement="bottom">
-                <IconButton
+                <DeleteButton
                     as={Link}
                     href={`?delete=${organization.id}`}
                     className="g-2"
+                    variant="secondary"
                 >
                     <DeleteIcon />
-                    {showText && 'Slett'}
-                </IconButton>
+                    {type === 'secondary' && 'Slett'}
+                </DeleteButton>
             </Tooltip>
             <Modal
                 open={modalIsOpen && pageParam === organization.id}

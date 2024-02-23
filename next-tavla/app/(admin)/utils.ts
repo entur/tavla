@@ -143,7 +143,7 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
         case 'organization/name-mismatch':
             return {
                 form_type: 'name',
-                feedback: 'Navnet på organisasjonen stemmer ikke',
+                feedback: 'Navnet på organisasjonen er ikke skrevet riktig',
                 variant: 'error',
             }
         case 'file/size-too-big': {
