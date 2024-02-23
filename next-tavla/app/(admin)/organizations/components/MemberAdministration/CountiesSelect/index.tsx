@@ -18,7 +18,7 @@ function CountiesSelect({
     const { counties } = useCountiesSearch(oid)
 
     return (
-        <>
+        <div>
             <Heading3>Velg fylke/fylker du skal sette opp tavler for</Heading3>
             <div className={styles.countiesBox}>
                 <Paragraph>
@@ -66,7 +66,7 @@ function CountiesSelect({
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     )
 }
 

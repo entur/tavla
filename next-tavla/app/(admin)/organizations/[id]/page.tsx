@@ -51,12 +51,12 @@ async function EditOrganizationPage({ params }: TProps) {
             </div>
             <div className={classes.organization}>
                 <UploadLogo organization={organization} />
-                <div>
-                    <CountiesSelect
-                        oid={organization.id}
-                        countiesList={organization.counties}
-                    />
-                </div>
+
+                <CountiesSelect
+                    oid={organization.id}
+                    countiesList={organization.counties}
+                />
+
                 <MemberAdministration
                     members={members}
                     uid={user.uid}
