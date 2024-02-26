@@ -16,3 +16,12 @@
     gap: 0.5em;
     height: 4rem;
 }
+.tableHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: var(--table-header-border-color) solid;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+    padding-bottom: 0.5rem;
+}
