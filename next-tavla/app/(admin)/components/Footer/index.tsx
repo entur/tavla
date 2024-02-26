@@ -32,12 +32,18 @@ function Footer() {
                     </div>
                     <div>
                         <Heading3>Informasjon</Heading3>
-                        <Paragraph>
+                        <Paragraph className="mb-2">
                             <EnturLink
                                 as={Link}
                                 href="https://uustatus.no/nb/erklaringer/publisert/ffb3d21b-fbb4-48ed-9043-bb2a904f3143"
                             >
                                 Tilgjengelighetserklæring
+                                <ExternalIcon className="ml-1" />
+                            </EnturLink>
+                        </Paragraph>
+                        <Paragraph>
+                            <EnturLink as={Link} href="/privacy">
+                                Peronvernerklæring
                                 <ExternalIcon className="ml-1" />
                             </EnturLink>
                         </Paragraph>

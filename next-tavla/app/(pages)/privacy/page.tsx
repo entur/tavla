@@ -27,7 +27,7 @@ async function Privacy() {
                     <Heading1>Personvern</Heading1>
                 </div>
                 <div className="minw-80rem flexRow justifyBetween textCenter alignCenter p-4">
-                    <div className="flexColumn justifyCenter  alignCenter p-2 ">
+                    <div className="flexColumn justifyCenter  alignCenter p-2">
                         <Image
                             style={{ height: '10rem', width: 'auto' }}
                             src={goat}
@@ -54,14 +54,14 @@ async function Privacy() {
                             har ingen mulighet til å identifisere deg som
                             bruker.
                         </Paragraph>
-                    </div>{' '}
+                    </div>
                     <div className="flexColumn justifyCenter alignCenter p-2">
                         <Image
                             style={{ height: '10rem', width: 'auto' }}
                             src={squirrel}
                             alt=""
                         />
-                        <Heading4>Informasjonskapsler</Heading4>
+                        <Heading4>Tilganger</Heading4>
                         <Paragraph>
                             Entur Tavla lagrer ingen personopplysninger om deg.
                             Vi lagrer ingen informasjon om deg som bruker, og vi
