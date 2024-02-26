@@ -79,6 +79,9 @@ function Delete({
                 >
                     <HiddenInput id="oname" value={organization.name} />
                     <HiddenInput id="oid" value={organization.id} />
+                    <Label className="weight500">
+                        Bekreft ved å skrive inn navnet på organisasjonen
+                    </Label>
                     <TextField
                         name="name"
                         label="Organisasjonsnavn"
@@ -88,9 +91,6 @@ function Delete({
                         className="w-100"
                         {...getFormFeedbackForField('name', state)}
                     />
-                    <Label className="weight500 textLeft">
-                        Bekreft ved å skrive inn navnet på organisasjonen
-                    </Label>
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <SubmitButton
                         variant="primary"
