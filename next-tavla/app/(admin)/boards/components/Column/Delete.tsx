@@ -43,8 +43,8 @@ function Delete({ board }: { board: TBoard }) {
                     {board?.meta?.title
                         ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"? `
                         : 'Er du sikker på at du vil slette denne tavlen? '}
-                    Avgangstavlen vil være borte for godt og ikke mulig å finne
-                    tilbake til.
+                    Tavlen vil være borte for godt og ikke mulig å finne tilbake
+                    til.
                 </Paragraph>
 
                 <form action={action} onSubmit={close} className="w-100">
