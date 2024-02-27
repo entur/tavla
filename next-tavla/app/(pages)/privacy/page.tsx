@@ -5,11 +5,11 @@ import goat from 'assets/illustrations/Goat.png'
 import hedgehog from 'assets/illustrations/Hedgehog.png'
 import squirrel from 'assets/illustrations/Squirrel.png'
 import Image from 'next/image'
-import { Expandable } from './expandable'
 import { Footer } from 'app/(admin)/components/Footer'
 import { TopNavigation } from 'app/(admin)/components/TopNavigation'
 import { cookies } from 'next/headers'
 import { verifySession } from 'Admin/utils/firebase'
+import { ExpandableInfo } from './components/ExpandableInfo'
 
 export const metadata: Metadata = {
     title: 'Personvern | Entur Tavla',
@@ -22,12 +22,17 @@ async function Privacy() {
     return (
         <div className={classes.page}>
             <TopNavigation loggedIn={loggedIn} />
-            <div className="flexColumn  alignCenter justifyCenter">
+            <div className="flexColumn  alignCenter justifyCenter mb-4">
                 <div className="minw-80rem p-4">
                     <Heading1>Personvern</Heading1>
                 </div>
-                <div className="minw-80rem flexRow justifyBetween textCenter alignCenter p-4">
-                    <div className="flexColumn justifyCenter  alignCenter p-2">
+                <div
+                    className="minw-80rem grid textCenter alignTop"
+                    style={{
+                        gridTemplateColumns: `repeat(3,minmax(0, 1fr))`,
+                    }}
+                >
+                    <div className="flexColumn justifyCenter alignCenter p-2">
                         <Image
                             style={{ height: '10rem', width: 'auto' }}
                             src={goat}
@@ -35,10 +40,8 @@ async function Privacy() {
                         />
                         <Heading4>Peronsopplysninger</Heading4>
                         <Paragraph>
-                            Entur Tavla lagrer ingen personopplysninger om deg.
-                            Vi lagrer ingen informasjon om deg som bruker, og vi
-                            har ingen mulighet til å identifisere deg som
-                            bruker.
+                            Vi lagrer e-postadressen du oppretter din profil
+                            med.
                         </Paragraph>
                     </div>
                     <div className="flexColumn justifyCenter alignCenter p-2">
@@ -49,10 +52,8 @@ async function Privacy() {
                         />
                         <Heading4>Informasjonskapsler</Heading4>
                         <Paragraph>
-                            Entur Tavla lagrer ingen personopplysninger om deg.
-                            Vi lagrer ingen informasjon om deg som bruker, og vi
-                            har ingen mulighet til å identifisere deg som
-                            bruker.
+                            Vi lagrer informasjonskapsler for å huske at du er
+                            logget inn.
                         </Paragraph>
                     </div>
                     <div className="flexColumn justifyCenter alignCenter p-2">
@@ -61,17 +62,15 @@ async function Privacy() {
                             src={squirrel}
                             alt=""
                         />
-                        <Heading4>Tilganger</Heading4>
+                        <Heading4>Analyseverktøy</Heading4>
                         <Paragraph>
-                            Entur Tavla lagrer ingen personopplysninger om deg.
-                            Vi lagrer ingen informasjon om deg som bruker, og vi
-                            har ingen mulighet til å identifisere deg som
-                            bruker.
+                            Vi lagrer anonyme data om din bruk av våre tjenester
+                            for å forbedre disse.
                         </Paragraph>
                     </div>
                 </div>
-                <div className="w-50">
-                    <Expandable />
+                <div className="minw-80rem">
+                    <ExpandableInfo />
                 </div>
             </div>
             <Footer />

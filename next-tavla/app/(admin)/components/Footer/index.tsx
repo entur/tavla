@@ -44,7 +44,6 @@ function Footer() {
                         <Paragraph>
                             <EnturLink as={Link} href="/privacy">
                                 Peronvernerklæring
-                                <ExternalIcon className="ml-1" />
                             </EnturLink>
                         </Paragraph>
                     </div>

@@ -33,6 +33,10 @@
     align-items: center;
 }
 
+.alignTop {
+    align-items: flex-start;
+}
+
 .justifyCenter {
     justify-content: center;
 }
