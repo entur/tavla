@@ -19,7 +19,7 @@ function CountiesSelect({
 
     return (
         <div>
-            <Heading3>Velg fylke/fylker du skal sette opp tavler for</Heading3>
+            <Heading3>Velg fylkene du vil sette opp tavler for</Heading3>
             <div className={styles.countiesBox}>
                 <Paragraph>
                     Når du søker etter stoppesteder vil du søke i alle fylker.
