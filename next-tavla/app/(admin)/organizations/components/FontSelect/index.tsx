@@ -27,7 +27,7 @@ function FontSelect({
                     setter opp en ny tavle.
                 </Paragraph>
                 <form
-                    className="flexColumn g-1"
+                    className="flexColumn"
                     action={async () => {
                         if (!oid) return
                         await setFontSize(oid, fontSize)

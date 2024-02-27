@@ -13,12 +13,21 @@ import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
 import { ExternalIcon } from '@entur/icons'
+import { Metadata } from 'next'
 
-export default async function EditPage({
-    params,
-}: {
+type TProps = {
     params: { id: TBoardID }
-}) {
+}
+
+export async function generateMetadata({ params }: TProps): Promise<Metadata> {
+    const { id } = params
+    const board = await getBoard(id)
+    return {
+        title: `${board.meta?.title} | Entur Tavla`,
+    }
+}
+
+export default async function EditPage({ params }: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user) return permanentRedirect('/')
     const board = await getBoard(params.id)
