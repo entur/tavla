@@ -45,7 +45,7 @@ function FontSelect({
                     </ChoiceChipGroup>
                     <div className="flexRow justifyEnd mt-2 mr-2 ">
                         <Button variant="secondary" type="submit">
-                            Lagre endringer
+                            Lagre tekststørrelse
                         </Button>
                     </div>
                 </form>
