@@ -1,3 +1,4 @@
+import { TFontSize } from './meta'
 import { TMeta } from './meta'
 import { TTile } from './tile'
 
@@ -29,6 +30,7 @@ export type TOrganization = {
 
 export type TDefaults = {
     counties?: TCountyID[]
+    fontSize?: TFontSize
 }
 
 export type TInvite = {

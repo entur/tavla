@@ -11,7 +11,7 @@ import { saveMeta } from './actions'
 import { TBoardID } from 'types/settings'
 
 function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
-    const [font, setFont] = useState('medium')
+    const [font, setFont] = useState(meta.fontSize ?? 'medium')
     return (
         <form
             action={(data: FormData) => {
@@ -42,7 +42,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                         className="flexRow"
                         name="font"
                         value={font}
-                        onChange={(e) => setFont(e.target.value)}
+                        onChange={(e) => setFont(e.target.value as TFontSize)}
                     >
                         <ChoiceChip value="small">Liten</ChoiceChip>
                         <ChoiceChip value="medium">Medium</ChoiceChip>
