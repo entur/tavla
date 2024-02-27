@@ -63,6 +63,7 @@ async function EditOrganizationPage({ params }: TProps) {
                     uid={user.uid}
                     oid={organization.id}
                 />
+
                 <FontSelect
                     oid={organization.id}
                     font={organization.fontSize}

@@ -35,6 +35,5 @@ export async function create(board: TBoard, oid?: TOrganizationID) {
                 createdBoard.id,
             ),
         })
-
     redirect(`/edit/${createdBoard.id}`)
 }
