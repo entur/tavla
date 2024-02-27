@@ -12,6 +12,7 @@ All invite and owner information under «Deling» and «Invitasjoner» updates l
 
 https://user-images.githubusercontent.com/22789935/144822836-484e23f2-1fe2-4344-9523-e2091ff582cb.mov
 
+
 In addition to shared boards, the release also includes several fixes and package updates. See complete change-log below: 
 
 
@@ -128,8 +129,7 @@ Live vehicle positions in map
 This release introduces live positions for vehicles in an array of cities throughout Norway. At the time of writing mainly busses and trams provide live data. To turn the feature on, head over to \"rediger\" when you are on your board, and toggle \"sanntidsposisjoner\". From here you can select which lines to display live in your map. To see more details you can hover over a vehicle. 
 
 
-
-![image](https://user-images.githubusercontent.com/32391231/137276222-fecd1ca0-d0d0-4b7c-a87b-f3f5b95f6bcb.png)
+![v6 2 0_vehicles](https://github.com/entur/tavla/assets/46536611/875e60f8-b074-407d-85ec-882638e7c529)
 
 
 
@@ -172,32 +172,20 @@ The release brings a new weather tile to the board! You can now turn on the new 
 The weather tile is available in compact, chronological and map view. 
 
 
+### Weather Tile
+![v6 1 0_weather_tile](https://github.com/entur/tavla/assets/46536611/bef4e610-ebe7-4450-a0b1-e1bcf80a139c)
 
-Weather tile      
+### Resizable
+![v6 1 0_resizable](https://github.com/entur/tavla/assets/46536611/ab3daff2-23a5-4610-a851-50f0d3c20d3b)
 
-:-------------------------:|
+### Customizable
+![v6 1 0_customizable](https://github.com/entur/tavla/assets/46536611/e117cb12-76ef-4aad-a196-6752d31e111c)
 
-![new](https://user-images.githubusercontent.com/22789935/135422222-4a04da88-b4af-4bfb-876a-049d40911b1f.png)
+### In map view
+![v6 1 0_in_map png](https://github.com/entur/tavla/assets/46536611/63b353af-67ce-4db3-a6d0-00b8272b8609)
 
-
-
-Resizable            |  Customizable
-
-:-------------------------:|:-------------------------:
-
-![weather-resize](https://user-images.githubusercontent.com/22789935/135422949-71c2f576-c04b-40aa-b764-9ea8e6081800.gif) | ![weather-combinations](https://user-images.githubusercontent.com/22789935/135422975-833bd7c1-876d-41b7-a5ee-04dbd3fdff76.gif)
-
- 
-
-
-
-In map view          |  Settings for the weather tile
-
-:-------------------------:|:-------------------------:
-
-![map](https://user-images.githubusercontent.com/22789935/135422499-c3d7eaa8-5d72-4be7-95d4-3f73750e31f3.png)  |  ![settings](https://user-images.githubusercontent.com/22789935/135422559-f024f063-5437-42eb-9f99-c3b9c15ff7c3.png)
-
-
+### Settings for weather tile
+![v6 1 0_weather](https://github.com/entur/tavla/assets/46536611/3ef753ca-3263-43f6-bfa2-ff424f928027)
 
 ### What's Changed
 
@@ -250,8 +238,7 @@ Custom URLs, Bolt scooters in map, EnTur SDK integration, package upgrades and f
 When editing a board by clicking «Rediger», there is now a new editing option available under the tab «Endre lenke». This option lets you set a custom URL for your board, e.g. `tavla.entur.no/t/my_custom_board`. The tab is showcased below:
 
 
-
-![Screenshot 2021-09-02 at 14 23 17](https://user-images.githubusercontent.com/22789935/131843157-c599cf9e-9598-4e72-b6b4-b27f1860f97c.png)
+![v6_custom](https://github.com/entur/tavla/assets/46536611/493df176-d7bc-4760-89e1-2919de57b1b6)
 
 
 
@@ -261,7 +248,7 @@ The new EnTur-SDK provides a new type of scooter for the map. Bolt is now visibl
 
 
 
-![Screenshot 2021-09-02 at 14 27 23](https://user-images.githubusercontent.com/22789935/131843334-72492a7f-1524-459b-8761-06494f92b5f1.png)
+![v6_bolt](https://github.com/entur/tavla/assets/46536611/00f23030-14cb-4c66-9d8e-22ce02c224e8)
 
 
 
@@ -297,13 +284,15 @@ The new View (visning) named \"Holdeplass\" is suitable for showing one or few s
 
 
 
-<img width=\"1909\" alt=\"image\" src=\"https://user-images.githubusercontent.com/4339443/99395699-18936e80-28e1-11eb-97b9-4cd0b22bade6.png\">
+
+<img width="1909" alt="v5 7 0_stop_place" src="https://github.com/entur/tavla/assets/46536611/0a2bd147-642c-4166-805b-4bfd18bc2fe2">
 
 
 
 We are now also clustering scooters and bike stations in the map, so that we don't show all the individual entities, but group them like this:
 
-<img width=\"456\" alt=\"image\" src=\"https://user-images.githubusercontent.com/4339443/99396247-c9017280-28e1-11eb-8bf0-53aeb4e077ee.png\">
+
+<img width="456" alt="v5 7 0_map" src="https://github.com/entur/tavla/assets/46536611/8f2a98b8-54db-44b5-8311-3da835565261">
 
 
 
@@ -316,8 +305,7 @@ Map View
 We now have an entirely new view that brings the map to its full potential. It even displays walk times to the different stops. Check it out!
 
 
-
-![image](https://user-images.githubusercontent.com/4339443/95967763-e8057400-0e0c-11eb-84cb-1733ec0514c8.png)
+![v5 6 0_map](https://github.com/entur/tavla/assets/46536611/13464dd0-5886-4de5-a8ca-c1ddc46d98a7)
 
 
 
@@ -327,7 +315,7 @@ In the Compact view (Kompakt visning) you can now resize the boxes in the horizo
 
 
 
-![image](https://user-images.githubusercontent.com/4339443/95968419-b50fb000-0e0d-11eb-8a57-05d8611321fc.png)
+![v5 6 0_horizontal](https://github.com/entur/tavla/assets/46536611/2bfda939-aeb5-404d-a282-adb0b4d120cc)
 
 
 
@@ -338,8 +326,7 @@ In the Compact view (Kompakt visning) you can now resize the boxes in the horizo
 The heading from the scooter tile is now removed, giving more room for the important stuff:
 
 
-
-![image](https://user-images.githubusercontent.com/4339443/95968710-13d52980-0e0e-11eb-95c0-693d7a843094.png)
+![v5 6 0_scooter_view](https://github.com/entur/tavla/assets/46536611/205184e0-6cb1-46e7-9217-6c85025886df)
 
 
 ## v5.5.0
@@ -350,14 +337,14 @@ We have a new front page design! 🚀
 It's also easier to navigate to your existing boards from the top menu.
 
 
+<img width="1903" alt="v5 5 0_landing" src="https://github.com/entur/tavla/assets/46536611/1b854a36-702f-468e-acdb-5ea27af959db">
 
-<img width=\"1903\" alt=\"image\" src=\"https://user-images.githubusercontent.com/4339443/94786958-ec279f80-03d1-11eb-9fe6-53072503b6f0.png\">
 
 
 ## v5.4.0
 ### Scooters
 
-<img width=\"609\" alt=\"image\" src=\"https://user-images.githubusercontent.com/4339443/92229114-4273f200-eea9-11ea-900e-1801f80fdfff.png\">
+<img width="609" alt="v5 4 0_scooters" src="https://github.com/entur/tavla/assets/46536611/ff8faa11-75da-43e6-92e4-4799397f2038">
 
 
 
@@ -476,9 +463,7 @@ We've released a new version of Tavla with draggable items!
 The items are now rearrangeable and vertically resizable. 
 
 
-
-![71672442-3d88fc80-2d76-11ea-8bce-cdb8b7f57fc3](https://user-images.githubusercontent.com/1122305/71807259-27778680-306b-11ea-95ae-421342382f82.gif)
-
+![v4_dnd](https://github.com/entur/tavla/assets/46536611/c509ab78-a554-46e2-82ee-dea60c91b0f4)
 
 
 The position of the items on the board is stored to localStorage in the browser, and will not be persisted if the url is shared or in another browser. 
@@ -503,7 +488,7 @@ We encourage you to try and make your own creative dashboards. Check out [CONTRI
 
 
 
-![timeline](https://user-images.githubusercontent.com/4339443/71174034-74362180-2264-11ea-8d37-5630f4d9d176.gif)
+![v3_timeline](https://github.com/entur/tavla/assets/46536611/f644943f-75da-41b4-b699-556e6abcbace)
 
 
 ## v2
@@ -527,7 +512,7 @@ You can now add multiple columns for the same stop place and make individual fil
 
 
 
-![image](https://user-images.githubusercontent.com/4339443/66991982-5532dc00-f0c9-11e9-9060-92de929cf5fb.png)
+![v2](https://github.com/entur/tavla/assets/46536611/bc86bdf0-fe89-4d63-a5b6-a2847e6044c2)
 
 
 
