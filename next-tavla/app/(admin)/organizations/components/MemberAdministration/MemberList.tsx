@@ -1,6 +1,10 @@
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import classes from './styles.module.css'
 import { RemoveUserButton } from './RemoveUserButton'
+import {
+    MEMBER_TABLE_COLUMNS,
+    MemberTableColumn,
+} from 'Admin/types/organizations'
 
 function MemberList({
     members,
@@ -12,16 +16,27 @@ function MemberList({
     oid?: TOrganizationID
 }) {
     return (
-        <div className="flexColumn g-1">
-            {members.map((member) => (
-                <div className={classes.memberListRow} key={member.uid}>
-                    <div>{member.email}</div>
-                    {member.uid !== currentUserId && (
-                        <RemoveUserButton uid={member.uid} oid={oid} />
-                    )}
-                </div>
-            ))}
-        </div>
+        <table className="flexColumn g-1 mt-3">
+            <thead>
+                <tr className={classes.tableHeader}>
+                    {MEMBER_TABLE_COLUMNS.map((column) => (
+                        <th key={column}>{MemberTableColumn[column]}</th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody>
+                {members.map((member) => (
+                    <tr className={classes.memberListRow} key={member.uid}>
+                        <td>{member.email}</td>
+                        {member.uid !== currentUserId && (
+                            <td>
+                                <RemoveUserButton user={member} oid={oid} />
+                            </td>
+                        )}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     )
 }
 
