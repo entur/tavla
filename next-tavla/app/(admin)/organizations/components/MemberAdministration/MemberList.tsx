@@ -16,27 +16,22 @@ function MemberList({
     oid?: TOrganizationID
 }) {
     return (
-        <table className="flexColumn g-1 mt-3">
-            <thead>
-                <tr className={classes.tableHeader}>
-                    {MEMBER_TABLE_COLUMNS.map((column) => (
-                        <th key={column}>{MemberTableColumn[column]}</th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-                {members.map((member) => (
-                    <tr className={classes.memberListRow} key={member.uid}>
-                        <td>{member.email}</td>
-                        {member.uid !== currentUserId && (
-                            <td>
-                                <RemoveUserButton user={member} oid={oid} />
-                            </td>
-                        )}
-                    </tr>
+        <div className="flexColumn g-1 mt-3">
+            <div className={classes.tableHeader}>
+                {MEMBER_TABLE_COLUMNS.map((column) => (
+                    <div key={column}>{MemberTableColumn[column]}</div>
                 ))}
-            </tbody>
-        </table>
+            </div>
+
+            {members.map((member) => (
+                <div className={classes.memberListRow} key={member.uid}>
+                    <div>{member.email} </div>
+                    {member.uid !== currentUserId && (
+                        <RemoveUserButton user={member} oid={oid} />
+                    )}
+                </div>
+            ))}
+        </div>
     )
 }
 
