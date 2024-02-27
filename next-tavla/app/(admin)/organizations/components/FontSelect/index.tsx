@@ -44,7 +44,11 @@ function FontSelect({
                         <ChoiceChip value="large">Stor</ChoiceChip>
                     </ChoiceChipGroup>
                     <div className="flexRow justifyEnd mt-2 mr-2 ">
-                        <Button variant="secondary" type="submit">
+                        <Button
+                            variant="secondary"
+                            type="submit"
+                            aria-label="Lagre tekststørrelse"
+                        >
                             Lagre tekststørrelse
                         </Button>
                     </div>
