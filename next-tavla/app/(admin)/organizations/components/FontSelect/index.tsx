@@ -19,7 +19,7 @@ function FontSelect({
 
     return (
         <div>
-            <Heading3>Velg størrelse på tavla</Heading3>
+            <Heading3>Størrelse på tavlevisningen</Heading3>
             <div className={classes.container}>
                 <Paragraph>
                     Tavlevisningen kan vises i ulike størrelser. Her kan du
