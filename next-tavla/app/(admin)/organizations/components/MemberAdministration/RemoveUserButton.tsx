@@ -54,8 +54,8 @@ function RemoveUserButton({
                 <Image src={sheep} alt="" className="h-50 w-50" />
                 <Heading2>Slett medlem</Heading2>
                 <Paragraph className="mt-2">
-                    {`Er du sikker på at du vil slette medlem med e-postadresse 
-            ${user?.email} fra organisasjonen?`}
+                    Er du sikker på at du vil slette medlem med e-postadresse{' '}
+                    {user?.email} fra organisasjonen?
                 </Paragraph>
                 <form
                     action={formAction}

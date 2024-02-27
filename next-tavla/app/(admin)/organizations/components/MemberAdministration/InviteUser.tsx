@@ -28,6 +28,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                 </div>
                 <SecondaryButton
                     aria-label="Legg til medlem"
+                    type="submit"
                     width="fluid"
                     className={classes.addMemberButton}
                 >

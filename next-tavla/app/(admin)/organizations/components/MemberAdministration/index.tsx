@@ -12,7 +12,7 @@ function MemberAdministration(props: {
     return (
         <Contrast className="flexColumn">
             <Heading2>Administrer medlemmer</Heading2>
-            <div className={styles.countiesBox}>
+            <div className={styles.box}>
                 <Paragraph>
                     Her kan du administrere medlemmer av organisasjonen. Du kan
                     se hvem som er medlem, legge til medlemmer og fjerne
