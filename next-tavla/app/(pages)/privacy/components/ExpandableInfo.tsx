@@ -61,7 +61,30 @@ function ExpandableInfo() {
                 <Heading3>Nødvendige cookies</Heading3>
                 <StrongText>session</StrongText>
                 <UnorderedList className="pl-4">
-                    <ListItem>Formål: Nødvendig for å kunne logge inn</ListItem>
+                    <ListItem>
+                        Formål: Nødvendig for å vite om du er logget inn.
+                    </ListItem>
+                    <ListItem>
+                        Autentisering: Vi bruker Firebase Authentication ved
+                        autentisering, og lagring av brukernavn og passord ved
+                        innlogging. Les mer om{' '}
+                        <EnturLink
+                            as={Link}
+                            href="https://firebase.google.com/docs/auth"
+                        >
+                            Firebase Auth
+                            <ExternalIcon className="ml-1" />
+                        </EnturLink>{' '}
+                        og{' '}
+                        <EnturLink
+                            as={Link}
+                            href="https://firebase.google.com/support/privacy"
+                        >
+                            Firebase Privacy Policy
+                            <ExternalIcon className="ml-1" />
+                        </EnturLink>
+                        .
+                    </ListItem>
                 </UnorderedList>
             </ExpandablePanel>
             <ExpandablePanel title="Analyseverktøy">
