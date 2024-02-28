@@ -13,7 +13,7 @@ import { ExternalIcon } from '@entur/icons'
 
 function ExpandableInfo() {
     return (
-        <div className="flexColumn justifyCenter alignCenter p-2">
+        <div className="flexColumn justifyCenter alignCenter g-1 p-2">
             <ExpandablePanel title="Behandling av personopplysninger">
                 <Heading3>Behandlingsansvar</Heading3>
                 <Paragraph>
@@ -81,11 +81,32 @@ function ExpandableInfo() {
                     Posthog mottar generell web- og appstatistikk. Ingenting av
                     dette kan brukes til å identifisere deg.
                     <UnorderedList className="pl-4">
-                        <ListItem>Antall besøkende</ListItem>
-                        <ListItem>Antall tavler</ListItem>
-                        <ListItem>Antall organisasjoner</ListItem>
-                        <ListItem>Antall brukere</ListItem>
-                        <ListItem>Antall innlogginger</ListItem>
+                        <ListItem>
+                            <StrongText>Unik ID: </StrongText>En tilfeldig
+                            generert ID. Denne blir ikke sporet på tvers av
+                            domener.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Land: </StrongText>Hvilket land du
+                            befinner deg i.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Sidevisninger: </StrongText>Alle
+                            sidevisninger du gjør.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Referrer: </StrongText> Siden du kommer
+                            fra blir lagret dersom det er tilgjengelig.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>User Agent: </StrongText>Vi leser User
+                            Agent-headeren for å hente ut informasjon om hvilken
+                            nettleser og operativsystem du bruker.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Tid: </StrongText>Tid du bruker på en
+                            side.
+                        </ListItem>
                     </UnorderedList>
                 </Paragraph>
             </ExpandablePanel>

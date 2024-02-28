@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import classes from './privacy.module.css'
 import { Heading1, Heading4, Paragraph } from '@entur/typography'
-import goat from 'assets/illustrations/Goat.png'
+import doves from 'assets/illustrations/Doves.png'
 import hedgehog from 'assets/illustrations/Hedgehog.png'
 import squirrel from 'assets/illustrations/Squirrel.png'
 import Image from 'next/image'
@@ -35,10 +35,10 @@ async function Privacy() {
                     <div className="flexColumn justifyCenter alignCenter p-2">
                         <Image
                             style={{ height: '10rem', width: 'auto' }}
-                            src={goat}
+                            src={squirrel}
                             alt=""
                         />
-                        <Heading4>Peronsopplysninger</Heading4>
+                        <Heading4>Personopplysninger</Heading4>
                         <Paragraph>
                             Vi lagrer e-postadressen du oppretter din profil
                             med.
@@ -47,7 +47,7 @@ async function Privacy() {
                     <div className="flexColumn justifyCenter alignCenter p-2">
                         <Image
                             style={{ height: '10rem', width: 'auto' }}
-                            src={hedgehog}
+                            src={doves}
                             alt=""
                         />
                         <Heading4>Informasjonskapsler</Heading4>
@@ -59,7 +59,7 @@ async function Privacy() {
                     <div className="flexColumn justifyCenter alignCenter p-2">
                         <Image
                             style={{ height: '10rem', width: 'auto' }}
-                            src={squirrel}
+                            src={hedgehog}
                             alt=""
                         />
                         <Heading4>Analyseverktøy</Heading4>
