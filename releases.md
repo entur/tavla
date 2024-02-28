@@ -10,7 +10,7 @@ All invite and owner information under «Deling» and «Invitasjoner» updates l
 
 ### Demo 
 
-https://user-images.githubusercontent.com/22789935/144822836-484e23f2-1fe2-4344-9523-e2091ff582cb.mov
+https://github.com/entur/tavla/assets/46536611/a949d057-5f90-4de0-8e84-34e4d39f7808
 
 
 In addition to shared boards, the release also includes several fixes and package updates. See complete change-log below: 
