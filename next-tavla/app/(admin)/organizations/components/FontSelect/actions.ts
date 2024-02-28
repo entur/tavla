@@ -1,5 +1,4 @@
 'use server'
-
 import { initializeAdminApp } from 'Admin/utils/firebase'
 import { firestore } from 'firebase-admin'
 import { TFontSize } from 'types/meta'

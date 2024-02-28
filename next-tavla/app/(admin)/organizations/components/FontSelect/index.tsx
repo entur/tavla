@@ -1,12 +1,12 @@
 'use client'
 import { Button } from '@entur/button'
-import { ChoiceChip, ChoiceChipGroup } from '@entur/chip'
 import { Heading3, Paragraph } from '@entur/typography'
 import { useState } from 'react'
 import { TFontSize } from 'types/meta'
 import { setFontSize } from './actions'
 import { TOrganizationID } from 'types/settings'
 import classes from './styles.module.css'
+import { FontChoiceChip } from 'app/(admin)/edit/[id]/components/MetaSettings/FontChoiceChip'
 
 function FontSelect({
     oid,
@@ -27,22 +27,17 @@ function FontSelect({
                     setter opp en ny tavle.
                 </Paragraph>
                 <form
-                    className="flexColumn"
+                    className="flexColumn g-1"
                     action={async () => {
                         if (!oid) return
                         await setFontSize(oid, fontSize)
                     }}
                 >
-                    <ChoiceChipGroup
-                        className="flexRow"
-                        name="font"
-                        value={fontSize}
+                    <FontChoiceChip
                         onChange={(e) => setFont(e.target.value as TFontSize)}
-                    >
-                        <ChoiceChip value="small">Liten</ChoiceChip>
-                        <ChoiceChip value="medium">Medium</ChoiceChip>
-                        <ChoiceChip value="large">Stor</ChoiceChip>
-                    </ChoiceChipGroup>
+                        fontSize={fontSize}
+                    />
+
                     <div className="flexRow justifyEnd mt-2 mr-2 ">
                         <Button
                             variant="secondary"
