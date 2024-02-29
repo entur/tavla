@@ -20,7 +20,7 @@ function MemberList({
 
             {members.map((member) => (
                 <div className={classes.memberListRow} key={member.uid}>
-                    <div>{member.email} </div>
+                    <div>{member.email}</div>
                     {member.uid !== currentUserId && (
                         <RemoveUserButton user={member} oid={oid} />
                     )}

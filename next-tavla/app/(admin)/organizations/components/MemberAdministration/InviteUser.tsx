@@ -8,7 +8,7 @@ import { useFormState } from 'react-dom'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
-import { SecondaryButton } from '@entur/button'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
     const [state, formAction] = useFormState(inviteUserAction, undefined)
@@ -26,15 +26,15 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                         {...getFormFeedbackForField('email', state)}
                     />
                 </div>
-                <SecondaryButton
+                <SubmitButton
                     aria-label="Legg til medlem"
-                    type="submit"
+                    variant="secondary"
                     width="fluid"
                     className={classes.addMemberButton}
                 >
                     Legg til medlem
                     <AddIcon />
-                </SecondaryButton>
+                </SubmitButton>
             </div>
             <FormError {...getFormFeedbackForField('general', state)} />
         </form>
