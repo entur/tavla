@@ -5,7 +5,7 @@ import { TCountyID, TOrganizationID } from 'types/settings'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { Checkbox } from '@entur/form'
 import { setCounties } from './actions'
-import styles from './styles.module.css'
+import classes from './styles.module.css'
 import { Heading3, Paragraph } from '@entur/typography'
 
 function CountiesSelect({
@@ -19,8 +19,8 @@ function CountiesSelect({
 
     return (
         <div>
-            <Heading3>Velg fylke/fylker du skal sette opp tavler for</Heading3>
-            <div className={styles.countiesBox}>
+            <Heading3>Velg fylkene du vil sette opp tavler for</Heading3>
+            <div className="box">
                 <Paragraph>
                     Når du søker etter stoppesteder vil du søke i alle fylker.
                     Her kan du velge hvilke fylker du ønsker å begrense søket
@@ -34,7 +34,7 @@ function CountiesSelect({
                         setCounties(oid, counties)
                     }}
                 >
-                    <div className={styles.countiesSelectContainer}>
+                    <div className={classes.countiesSelectContainer}>
                         {counties()
                             .sort(
                                 (

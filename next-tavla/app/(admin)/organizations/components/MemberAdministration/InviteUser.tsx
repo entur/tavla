@@ -6,9 +6,9 @@ import classes from './styles.module.css'
 import { inviteUserAction } from 'Admin/utils/formActions'
 import { useFormState } from 'react-dom'
 import { HiddenInput } from 'components/Form/HiddenInput'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
     const [state, formAction] = useFormState(inviteUserAction, undefined)
@@ -27,7 +27,8 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                     />
                 </div>
                 <SubmitButton
-                    variant="primary"
+                    aria-label="Legg til medlem"
+                    variant="secondary"
                     width="fluid"
                     className={classes.addMemberButton}
                 >

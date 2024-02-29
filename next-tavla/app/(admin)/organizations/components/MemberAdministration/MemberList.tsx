@@ -12,12 +12,17 @@ function MemberList({
     oid?: TOrganizationID
 }) {
     return (
-        <div className="flexColumn g-1">
+        <div className="flexColumn g-1 mt-3">
+            <div className={classes.tableHeader}>
+                <div>E-post</div>
+                <div>Valg</div>
+            </div>
+
             {members.map((member) => (
                 <div className={classes.memberListRow} key={member.uid}>
                     <div>{member.email}</div>
                     {member.uid !== currentUserId && (
-                        <RemoveUserButton uid={member.uid} oid={oid} />
+                        <RemoveUserButton user={member} oid={oid} />
                     )}
                 </div>
             ))}

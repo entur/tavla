@@ -43,8 +43,8 @@ function Delete({
                     className="g-2"
                     variant="secondary"
                 >
-                    <DeleteIcon />
                     {type === 'secondary' && 'Slett'}
+                    <DeleteIcon />
                 </DeleteButton>
             </Tooltip>
             <Modal
