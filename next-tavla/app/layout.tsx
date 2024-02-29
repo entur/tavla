@@ -13,6 +13,8 @@ import 'styles/constraints.css'
 
 import { ReactNode } from 'react'
 import { Metadata } from 'next'
+import dynamic from 'next/dynamic'
+import { PHProvider } from './providers'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -38,10 +40,19 @@ export const metadata: Metadata = {
     ],
 }
 
+const PostHogPageView = dynamic(() => import('./components/PostHogPageView'), {
+    ssr: false,
+})
+
 function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="nb">
-            <body>{children}</body>
+            <PHProvider>
+                <body>
+                    <PostHogPageView />
+                    {children}
+                </body>
+            </PHProvider>
         </html>
     )
 }
