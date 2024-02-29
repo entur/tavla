@@ -3,7 +3,6 @@ import { MemberList } from './MemberList'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import { InviteUser } from './InviteUser'
 import { Contrast } from 'Admin/components/Contrast'
-import styles from './CountiesSelect/styles.module.css'
 function MemberAdministration(props: {
     oid?: TOrganizationID
     uid?: TUserID
@@ -12,7 +11,7 @@ function MemberAdministration(props: {
     return (
         <Contrast className="flexColumn">
             <Heading2>Administrer medlemmer</Heading2>
-            <div className={styles.box}>
+            <div className="box">
                 <Paragraph>
                     Her kan du administrere medlemmer av organisasjonen. Du kan
                     se hvem som er medlem, legge til medlemmer og fjerne

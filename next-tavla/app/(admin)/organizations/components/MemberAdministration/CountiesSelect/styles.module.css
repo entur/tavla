@@ -4,10 +4,3 @@
     grid-auto-flow: column;
     gap: 0 0.5em;
 }
-
-.box {
-    border-radius: 0.5em;
-    margin: 2em 0em;
-    padding: 2em;
-    background: var(--secondary-background-color);
-}
