@@ -5,7 +5,7 @@ import { TCountyID, TOrganizationID } from 'types/settings'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { Checkbox } from '@entur/form'
 import { setCounties } from './actions'
-import classes from '../styles.module.css'
+import classes from './styles.module.css'
 import { Heading3, Paragraph } from '@entur/typography'
 
 function CountiesSelect({
