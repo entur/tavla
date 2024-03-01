@@ -6,6 +6,8 @@ on:
 env:
   PROJECT_ID: ${{ secrets.BETA_PROD_ID }}
   RUN_REGION: ${{ secrets.BETA_RUN_REGION }}
+  POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
+  POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
 
 jobs:
   deploy-prod:
@@ -26,7 +28,7 @@ jobs:
           project_id: "${{ secrets.BETA_PROD_ID }}"
 
       - name: "Build container image"
-        run: "gcloud builds submit . --substitutions _ENV=prod,COMMIT_SHA=$GITHUB_SHA"
+        run: "gcloud builds submit . --substitutions _ENV=prod,_POSTHOG_KEY=$POSTHOG_KEY,_POSTHOG_HOST=$POSTHOG_HOST,COMMIT_SHA=$GITHUB_SHA"
       - name: "Deploy"
         run: >
           gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA

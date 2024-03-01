@@ -11,6 +11,8 @@ on:
 env:
   PROJECT_ID: ${{ secrets.BETA_STAGING_ID }}
   RUN_REGION: ${{ secrets.BETA_RUN_REGION }}
+  POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
+  POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
 
 jobs:
   deploy-staging:
@@ -32,7 +34,7 @@ jobs:
           project_id: "${{ secrets.BETA_STAGING_ID }}"
 
       - name: "Build container image"
-        run: "gcloud builds submit . --substitutions _ENV=dev,COMMIT_SHA=$GITHUB_SHA"
+        run: "gcloud builds submit . --substitutions _ENV=dev,_POSTHOG_KEY=$POSTHOG_KEY,_POSTHOG_HOST=$POSTHOG_HOST,COMMIT_SHA=$GITHUB_SHA"
       - name: "Deploy"
         run: >
           gcloud run deploy $PROJECT_ID --image eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$GITHUB_SHA
