@@ -24,6 +24,10 @@ export type TOrganization = {
     editors?: TUserID[]
     boards?: TBoardID[]
     logo?: TLogo
+    defaults?: TDefaults
+}
+
+export type TDefaults = {
     counties?: TCountyID[]
 }
 
