@@ -1,20 +1,16 @@
 import { ChoiceChip, ChoiceChipGroup } from '@entur/chip'
-import { ChangeEvent } from 'react'
+import { useState } from 'react'
 import { TFontSize } from 'types/meta'
 
-function FontChoiceChip({
-    onChange,
-    fontSize,
-}: {
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void
-    fontSize: TFontSize
-}) {
+function FontChoiceChip({ font }: { font: TFontSize }) {
+    const [fontSize, setFontSize] = useState<TFontSize>(font)
+
     return (
         <ChoiceChipGroup
             className="flexRow"
             name="font"
             value={fontSize}
-            onChange={onChange}
+            onChange={(e) => setFontSize(e.target.value as TFontSize)}
         >
             <ChoiceChip value="small">Liten</ChoiceChip>
             <ChoiceChip value="medium">Medium</ChoiceChip>

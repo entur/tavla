@@ -1,7 +1,6 @@
 'use client'
 import { Button } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { useState } from 'react'
 import { TFontSize } from 'types/meta'
 import { setFontSize } from './actions'
 import { TOrganizationID } from 'types/settings'
@@ -15,8 +14,6 @@ function FontSelect({
     oid?: TOrganizationID
     font?: TFontSize
 }) {
-    const [fontSize, setFont] = useState<TFontSize>(font ?? 'medium')
-
     return (
         <div>
             <Heading3>Størrelse på tavlevisningen</Heading3>
@@ -28,15 +25,13 @@ function FontSelect({
                 </Paragraph>
                 <form
                     className="flexColumn g-1"
-                    action={async () => {
+                    action={async (data: FormData) => {
+                        const font = data.get('font') as TFontSize
                         if (!oid) return
-                        await setFontSize(oid, fontSize)
+                        await setFontSize(oid, font)
                     }}
                 >
-                    <FontChoiceChip
-                        onChange={(e) => setFont(e.target.value as TFontSize)}
-                        fontSize={fontSize}
-                    />
+                    <FontChoiceChip font={font ?? 'medium'} />
 
                     <div className="flexRow justifyEnd mt-2 mr-2 ">
                         <Button
