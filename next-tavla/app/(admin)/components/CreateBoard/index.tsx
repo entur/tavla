@@ -88,7 +88,7 @@ function CreateBoard() {
                                 meta: { ...board?.meta, title: name },
                             } as TBoard)
                             setOrganization(organization)
-                            await router.push(getPathWithParams('stops'))
+                            router.push(getPathWithParams('stops'))
                         }}
                     />
                     <StopSelector
