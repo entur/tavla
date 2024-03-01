@@ -5,7 +5,7 @@ import { TOrganizationID } from 'types/settings'
 
 initializeAdminApp()
 
-export async function getCountiesForOrganization(oid?: TOrganizationID) {
+export async function getDefaultsForOrganization(oid?: TOrganizationID) {
     if (!oid) return null
 
     const organization = await firestore()
@@ -13,5 +13,5 @@ export async function getCountiesForOrganization(oid?: TOrganizationID) {
         .doc(oid)
         .get()
 
-    return organization.data()?.counties
+    return organization.data()?.defaults
 }

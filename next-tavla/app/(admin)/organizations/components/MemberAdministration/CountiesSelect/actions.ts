@@ -10,7 +10,6 @@ export async function setCounties(
     countiesList: TCountyID[],
 ) {
     await firestore().collection('organizations').doc(oid).update({
-        counties: countiesList,
-        'meta.dateModified': Date.now(),
+        'defaults.counties': countiesList,
     })
 }
