@@ -34,7 +34,7 @@ async function Privacy() {
                 >
                     <div className="flexColumn justifyCenter alignCenter p-2">
                         <Image
-                            style={{ height: '10rem', width: 'auto' }}
+                            className={classes.illustration}
                             src={squirrel}
                             alt=""
                         />
@@ -46,7 +46,7 @@ async function Privacy() {
                     </div>
                     <div className="flexColumn justifyCenter alignCenter p-2">
                         <Image
-                            style={{ height: '10rem', width: 'auto' }}
+                            className={classes.illustration}
                             src={doves}
                             alt=""
                         />
@@ -58,7 +58,7 @@ async function Privacy() {
                     </div>
                     <div className="flexColumn justifyCenter alignCenter p-2">
                         <Image
-                            style={{ height: '10rem', width: 'auto' }}
+                            className={classes.illustration}
                             src={hedgehog}
                             alt=""
                         />
