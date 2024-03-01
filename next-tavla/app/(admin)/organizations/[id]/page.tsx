@@ -66,7 +66,7 @@ async function EditOrganizationPage({ params }: TProps) {
 
                 <FontSelect
                     oid={organization.id}
-                    font={organization.fontSize}
+                    font={organization?.defaults?.fontSize}
                 />
             </div>
         </div>
