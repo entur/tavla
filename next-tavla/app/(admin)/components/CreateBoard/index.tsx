@@ -88,8 +88,7 @@ function CreateBoard() {
                                 meta: { ...board?.meta, title: name },
                             } as TBoard)
                             setOrganization(organization)
-
-                            router.push(getPathWithParams('stops'))
+                            await router.push(getPathWithParams('stops'))
                         }}
                     />
                     <StopSelector
@@ -175,7 +174,7 @@ function StopSelector({
     setFormError,
 }: {
     active: boolean
-    setBoard: (board: TBoard) => void
+    setBoard: (board: TBoard | undefined) => void
     board?: TBoard
     organization?: TOrganizationID
     state: TFormFeedback | undefined
@@ -228,7 +227,7 @@ function StopSelector({
                     Tilbake
                 </SecondaryButton>
                 <PrimaryButton
-                    onClick={() => {
+                    onClick={async () => {
                         setIsSubmitting(true)
                         if (!board || !board.meta || !board.meta.title) {
                             setIsSubmitting(false)
@@ -244,7 +243,8 @@ function StopSelector({
                             )
                         }
 
-                        create(board, organization)
+                        await create(board, organization)
+                        setBoard(undefined)
                     }}
                     className="mt-2"
                     loading={isSubmitting}
