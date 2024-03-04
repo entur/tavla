@@ -6,7 +6,7 @@ import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { Checkbox } from '@entur/form'
 import { setCounties } from './actions'
 import classes from './styles.module.css'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 
 function CountiesSelect({
     oid,
@@ -19,7 +19,7 @@ function CountiesSelect({
 
     return (
         <div>
-            <Heading3>Velg fylkene du vil sette opp tavler for</Heading3>
+            <Heading2>Velg fylkene du vil sette opp tavler for</Heading2>
             <div className="box">
                 <Paragraph>
                     Når du søker etter stoppesteder vil du søke i alle fylker.

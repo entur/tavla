@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@entur/button'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 import { TFontSize } from 'types/meta'
 import { setFontSize } from './actions'
 import { TOrganizationID } from 'types/settings'
@@ -16,7 +16,7 @@ function FontSelect({
 }) {
     return (
         <div>
-            <Heading3>Størrelse på tavlevisningen</Heading3>
+            <Heading2>Størrelse på tavlevisningen</Heading2>
             <div className={classes.container}>
                 <Paragraph>
                     Tavlevisningen kan vises i ulike størrelser. Her kan du
