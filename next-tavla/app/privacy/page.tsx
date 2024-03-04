@@ -27,7 +27,7 @@ async function Privacy() {
                     <Heading1>Personvern</Heading1>
                 </div>
                 <div className="minw-80rem">
-                    <div className={classes.grid}>
+                    <div className={classes.overview}>
                         <div className="flexColumn justifyCenter alignCenter p-2">
                             <Image
                                 className={classes.illustration}

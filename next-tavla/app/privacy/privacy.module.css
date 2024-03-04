@@ -10,15 +10,15 @@
     width: auto;
 }
 
-.grid {
+.overview {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, auto);
     text-align: center;
     align-items: flex-start;
 }
 
 @media (max-width: 50rem) {
-    .grid {
-        grid-template-columns: auto;
+    .overview {
+        grid-template-columns: 1fr;
     }
 }
