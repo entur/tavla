@@ -26,10 +26,9 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
             <div className={classes.logoPreview}>
                 <Image
                     src={organization.logo ?? TavlaLogo}
-                    alt="logo"
-                    width={300}
-                    height={160}
+                    alt=""
                     objectFit="contain"
+                    fill
                     className="p-4 "
                 />
             </div>

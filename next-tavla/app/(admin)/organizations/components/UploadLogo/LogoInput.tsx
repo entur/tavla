@@ -5,7 +5,7 @@ import { ImageIcon, UploadIcon } from '@entur/icons'
 import { FormError } from 'app/(admin)/components/FormError'
 import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { Label, Paragraph } from '@entur/typography'
-import { PrimaryButton, SecondarySquareButton } from '@entur/button'
+import { Button } from '@entur/button'
 
 function LogoInput({ state }: { state: TFormFeedback | undefined }) {
     const [file, setFile] = useState('')
@@ -51,21 +51,23 @@ function LogoInput({ state }: { state: TFormFeedback | undefined }) {
             </div>
             {file && (
                 <div className="flexRow justifyBetween g-2 mt-2">
-                    <SecondarySquareButton
+                    <Button
                         className="w-100 justifyCenter"
                         onClick={clearLogo}
                         aria-label="Avbryt opplastning"
+                        variant="secondary"
                     >
                         Avbryt
-                    </SecondarySquareButton>
-                    <PrimaryButton
+                    </Button>
+                    <Button
                         type="submit"
                         aria-label="Last opp logo"
                         onSubmit={clearLogo}
                         className="w-100 justifyCenter"
+                        variant="primary"
                     >
                         Last opp logo
-                    </PrimaryButton>
+                    </Button>
                 </div>
             )}
         </div>
