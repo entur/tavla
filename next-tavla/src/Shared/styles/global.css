@@ -17,18 +17,6 @@ h3 {
     font-weight: 500;
 }
 
-button {
-    display: flex;
-    padding: 1em;
-    gap: 1em;
-    align-items: center;
-    border-radius: 0.25em;
-    font: inherit;
-    color: var(--main-text-color);
-    border: 0;
-    cursor: pointer;
-}
-
 ul {
     list-style-type: none;
 }

@@ -1,0 +1,24 @@
+.page {
+    background-color: var(--colors-brand-white);
+    color: var(--primary-text-color);
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration {
+    height: 10rem;
+    width: auto;
+}
+
+.overview {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    text-align: center;
+    align-items: flex-start;
+}
+
+@media (max-width: 50rem) {
+    .overview {
+        grid-template-columns: 1fr;
+    }
+}
