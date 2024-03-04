@@ -9,3 +9,16 @@
     height: 10rem;
     width: auto;
 }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    text-align: center;
+    align-items: flex-start;
+}
+
+@media (max-width: 50rem) {
+    .grid {
+        grid-template-columns: auto;
+    }
+}

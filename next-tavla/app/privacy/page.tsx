@@ -26,47 +26,44 @@ async function Privacy() {
                 <div className="minw-80rem p-4">
                     <Heading1>Personvern</Heading1>
                 </div>
-                <div
-                    className="minw-80rem grid textCenter alignTop"
-                    style={{
-                        gridTemplateColumns: `repeat(3,minmax(0, 1fr))`,
-                    }}
-                >
-                    <div className="flexColumn justifyCenter alignCenter p-2">
-                        <Image
-                            className={classes.illustration}
-                            src={squirrel}
-                            alt=""
-                        />
-                        <Heading4>Personopplysninger</Heading4>
-                        <Paragraph>
-                            Vi lagrer e-postadressen du oppretter din profil
-                            med.
-                        </Paragraph>
-                    </div>
-                    <div className="flexColumn justifyCenter alignCenter p-2">
-                        <Image
-                            className={classes.illustration}
-                            src={doves}
-                            alt=""
-                        />
-                        <Heading4>Informasjonskapsler</Heading4>
-                        <Paragraph>
-                            Vi lagrer informasjonskapsler for å huske at du er
-                            logget inn.
-                        </Paragraph>
-                    </div>
-                    <div className="flexColumn justifyCenter alignCenter p-2">
-                        <Image
-                            className={classes.illustration}
-                            src={hedgehog}
-                            alt=""
-                        />
-                        <Heading4>Analyseverktøy</Heading4>
-                        <Paragraph>
-                            Vi lagrer anonyme data om din bruk av våre tjenester
-                            for å forbedre disse.
-                        </Paragraph>
+                <div className="minw-80rem">
+                    <div className={classes.grid}>
+                        <div className="flexColumn justifyCenter alignCenter p-2">
+                            <Image
+                                className={classes.illustration}
+                                src={squirrel}
+                                alt=""
+                            />
+                            <Heading4>Personopplysninger</Heading4>
+                            <Paragraph>
+                                Vi lagrer e-postadressen du oppretter din profil
+                                med.
+                            </Paragraph>
+                        </div>
+                        <div className="flexColumn justifyCenter alignCenter p-2">
+                            <Image
+                                className={classes.illustration}
+                                src={doves}
+                                alt=""
+                            />
+                            <Heading4>Informasjonskapsler</Heading4>
+                            <Paragraph>
+                                Vi lagrer informasjonskapsler for å huske at du
+                                er logget inn.
+                            </Paragraph>
+                        </div>
+                        <div className="flexColumn justifyCenter alignCenter p-2">
+                            <Image
+                                className={classes.illustration}
+                                src={hedgehog}
+                                alt=""
+                            />
+                            <Heading4>Analyseverktøy</Heading4>
+                            <Paragraph>
+                                Vi lagrer anonyme data om din bruk av våre
+                                tjenester for å forbedre disse.
+                            </Paragraph>
+                        </div>
                     </div>
                 </div>
                 <div className="minw-80rem">
