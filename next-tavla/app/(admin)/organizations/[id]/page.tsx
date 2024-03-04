@@ -14,6 +14,7 @@ import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
 import { FontSelect } from '../components/FontSelect'
+import { InformationColumns } from '../components/InformationColumns'
 
 initializeAdminApp()
 
@@ -56,6 +57,10 @@ async function EditOrganizationPage({ params }: TProps) {
                 <CountiesSelect
                     oid={organization.id}
                     countiesList={organization?.defaults?.counties}
+                />
+                <InformationColumns
+                    oid={organization.id}
+                    columns={organization.defaults?.columns}
                 />
 
                 <MemberAdministration
