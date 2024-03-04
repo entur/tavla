@@ -35,6 +35,7 @@ export type TDefaults = {
     font?: TFontSize
     columns?: TColumn[]
     font?: TFontSize
+    columns?: TColumn[]
 }
 
 export type TInvite = {
