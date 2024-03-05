@@ -146,6 +146,12 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 feedback: 'Navnet på organisasjonen er ikke skrevet riktig',
                 variant: 'error',
             }
+        case 'organization/invalid-columns':
+            return {
+                form_type: 'general',
+                feedback: 'Du må velge minst èn kolonne',
+                variant: 'error',
+            }
         case 'file/size-too-big': {
             return {
                 form_type: 'file',
