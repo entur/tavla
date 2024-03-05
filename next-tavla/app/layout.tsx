@@ -14,7 +14,7 @@ import 'styles/constraints.css'
 import { ReactNode } from 'react'
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
-import { PHProvider } from './providers'
+import { EnturToastProvider, PHProvider } from './providers'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -48,10 +48,12 @@ function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="nb">
             <PHProvider>
-                <body>
-                    <PostHogPageView />
-                    {children}
-                </body>
+                <EnturToastProvider>
+                    <body>
+                        <PostHogPageView />
+                        {children}
+                    </body>
+                </EnturToastProvider>
             </PHProvider>
         </html>
     )

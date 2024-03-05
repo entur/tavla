@@ -8,7 +8,6 @@ import { useToast } from '@entur/alert'
 import classes from './styles.module.css'
 import { Column } from './Column'
 import { Delete } from './Delete'
-import { ToastProvider } from 'Admin/components/ToastProvider'
 
 function Actions({ board }: { board: TBoard }) {
     const link = useLink(board.id)
@@ -16,9 +15,7 @@ function Actions({ board }: { board: TBoard }) {
         <Column column="actions">
             <div className={classes.actions}>
                 <Edit bid={board.id} />
-                <ToastProvider>
-                    <Copy link={link} />
-                </ToastProvider>
+                <Copy link={link} />
                 <Open link={link} />
                 <Delete board={board} />
             </div>
