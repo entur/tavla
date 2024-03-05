@@ -1,4 +1,5 @@
 'use client'
+import { ToastProvider } from '@entur/alert'
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { ReactNode } from 'react'
@@ -12,4 +13,8 @@ if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
 
 export function PHProvider({ children }: { children: ReactNode }) {
     return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+}
+
+export function EnturToastProvider({ children }: { children: ReactNode }) {
+    return <ToastProvider>{children}</ToastProvider>
 }

@@ -6,7 +6,6 @@ import { Heading2, Label, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { useFormState } from 'react-dom'
 import { createOrganizationAction } from 'Admin/utils/formActions'
-import { ToastProvider } from '@entur/alert'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useModalWithValue } from 'app/(admin)/boards/hooks/useModalWithValue'
@@ -20,7 +19,7 @@ function CreateOrganization() {
     )
 
     return (
-        <ToastProvider>
+        <>
             <PrimaryButton onClick={open}>
                 Opprett organisasjon
                 <AddIcon />
@@ -75,7 +74,7 @@ function CreateOrganization() {
                     </PrimaryButton>
                 </form>
             </Modal>
-        </ToastProvider>
+        </>
     )
 }
 
