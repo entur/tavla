@@ -1,7 +1,6 @@
 import { Heading2, Paragraph } from '@entur/typography'
 import React from 'react'
 import FilterColumns from './FilterColumns'
-import { ToastProvider } from 'Admin/components/ToastProvider'
 import { TOrganizationID } from 'types/settings'
 import { TColumn } from 'types/column'
 
@@ -20,9 +19,8 @@ function InformationColumns({
                     Velg den informasjonen du ønsker skal stå som standard i
                     tavlevisningen når du tar opp en tavle
                 </Paragraph>
-                <ToastProvider>
-                    <FilterColumns oid={oid} columns={columns} />
-                </ToastProvider>
+
+                <FilterColumns oid={oid} columns={columns} />
             </div>
         </div>
     )

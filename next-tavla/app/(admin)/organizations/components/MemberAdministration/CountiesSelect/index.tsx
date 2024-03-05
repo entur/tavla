@@ -7,6 +7,7 @@ import { Checkbox } from '@entur/form'
 import { setCounties } from './actions'
 import classes from './styles.module.css'
 import { Heading2, Paragraph } from '@entur/typography'
+import { useToast } from '@entur/alert'
 
 function CountiesSelect({
     oid,
@@ -16,6 +17,8 @@ function CountiesSelect({
     countiesList?: TCountyID[]
 }) {
     const { counties } = useCountiesSearch(oid)
+
+    const { addToast } = useToast()
 
     return (
         <div>
@@ -32,6 +35,7 @@ function CountiesSelect({
 
                         if (!oid) return null
                         setCounties(oid, counties)
+                        addToast('Fylker lagret!')
                     }}
                 >
                     <div className={classes.countiesSelectContainer}>

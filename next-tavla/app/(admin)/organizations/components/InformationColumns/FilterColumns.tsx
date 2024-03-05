@@ -36,7 +36,7 @@ function FilterColumns({
         }
 
         saveColumns(oid, columns)
-        addToast('Lagret kolonner!')
+        addToast('Kolonner lagret!')
     }
 
     const [state, action] = useFormState(submit, undefined)
