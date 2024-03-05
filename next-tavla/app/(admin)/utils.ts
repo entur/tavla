@@ -9,6 +9,7 @@ type InputType =
     | 'repeat_password'
     | 'name'
     | 'file'
+    | 'column'
 
 export type TFormFeedback = {
     form_type: InputType
@@ -148,7 +149,7 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
             }
         case 'organization/invalid-columns':
             return {
-                form_type: 'general',
+                form_type: 'column',
                 feedback: 'Du må velge minst èn kolonne',
                 variant: 'error',
             }
