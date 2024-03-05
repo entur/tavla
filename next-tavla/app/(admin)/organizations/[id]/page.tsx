@@ -15,6 +15,7 @@ import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
 import { FontSelect } from '../components/FontSelect'
 import { InformationColumns } from '../components/InformationColumns'
+import { FontSelect } from '../components/FontSelect'
 
 initializeAdminApp()
 

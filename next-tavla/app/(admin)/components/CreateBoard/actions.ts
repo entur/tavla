@@ -19,7 +19,6 @@ export async function create(board: TBoard, oid?: TOrganizationID) {
         .collection('boards')
         .add({
             ...board,
-            tiles: boardTiles,
             meta: {
                 ...board.meta,
                 fontSize: organization?.defaults?.font ?? 'medium',
