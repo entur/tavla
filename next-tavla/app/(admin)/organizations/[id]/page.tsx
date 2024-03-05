@@ -13,6 +13,7 @@ import { Delete } from 'app/(admin)/components/Delete/index'
 import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
+import { FontSelect } from '../components/FontSelect'
 
 initializeAdminApp()
 
@@ -61,6 +62,11 @@ async function EditOrganizationPage({ params }: TProps) {
                     members={members}
                     uid={user.uid}
                     oid={organization.id}
+                />
+
+                <FontSelect
+                    oid={organization.id}
+                    font={organization?.defaults?.font}
                 />
             </div>
         </div>

@@ -1,0 +1,6 @@
+.container {
+    border-radius: 0.5em;
+    margin-top: 2em;
+    padding: 2em;
+    background: var(--secondary-background-color);
+}
