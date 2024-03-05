@@ -16,7 +16,7 @@ import { CountiesSelect } from '../components/MemberAdministration/CountiesSelec
 import { FontSelect } from '../components/FontSelect'
 import { InformationColumns } from '../components/InformationColumns'
 import { FontSelect } from '../components/FontSelect'
-import { InformationColumns } from '../components/InformationColumns'
+import { DefaultColumns } from '../components/DefaultColumns'
 
 initializeAdminApp()
 
@@ -60,7 +60,7 @@ async function EditOrganizationPage({ params }: TProps) {
                     oid={organization.id}
                     countiesList={organization?.defaults?.counties}
                 />
-                <InformationColumns
+                <DefaultColumns
                     oid={organization.id}
                     columns={organization.defaults?.columns}
                 />
