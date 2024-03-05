@@ -30,7 +30,7 @@ export type TOrganization = {
 
 export type TDefaults = {
     counties?: TCountyID[]
-    fontSize?: TFontSize
+    font?: TFontSize
 }
 
 export type TInvite = {

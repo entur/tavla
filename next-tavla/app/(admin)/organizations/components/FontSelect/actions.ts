@@ -8,6 +8,6 @@ initializeAdminApp()
 
 export async function setFontSize(oid: TOrganizationID, fontSize: TFontSize) {
     await firestore().collection('organizations').doc(oid).update({
-        'defaults.fontSize': fontSize,
+        'defaults.font': fontSize,
     })
 }
