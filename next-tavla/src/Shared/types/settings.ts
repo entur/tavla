@@ -1,6 +1,5 @@
 import { TFontSize } from './meta'
 import { TColumn } from './column'
-import { TFontSize } from './meta'
 import { TMeta } from './meta'
 import { TTile } from './tile'
 
@@ -32,8 +31,6 @@ export type TOrganization = {
 
 export type TDefaults = {
     counties?: TCountyID[]
-    font?: TFontSize
-    columns?: TColumn[]
     font?: TFontSize
     columns?: TColumn[]
 }
