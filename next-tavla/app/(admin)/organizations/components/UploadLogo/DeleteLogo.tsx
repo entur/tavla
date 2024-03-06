@@ -18,8 +18,8 @@ function DeleteLogo({
 }) {
     return (
         <div className={classes.card}>
-            <div className="flexRow alignCenter g-1">
-                <ImageIcon />
+            <div className="flexRow alignCenter g-2">
+                <ImageIcon size={24} />
                 {getFilename(logo).replace(`${oid}-`, '')}
             </div>
             <div className="mt-2">
