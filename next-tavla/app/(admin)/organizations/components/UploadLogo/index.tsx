@@ -35,7 +35,11 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
             </div>
             <HiddenInput id="oid" value={organization.id} />
             {organization.logo && (
-                <DeleteLogo oid={organization.id} logo={organization.logo} />
+                <DeleteLogo
+                    oid={organization.id}
+                    logo={organization.logo}
+                    state={state}
+                />
             )}
             <LogoInput state={state} />
         </form>

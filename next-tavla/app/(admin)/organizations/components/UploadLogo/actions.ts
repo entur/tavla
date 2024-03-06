@@ -30,9 +30,10 @@ export async function upload(
 export async function remove(oid?: TOrganizationID, logo?: TLogo) {
     'use server'
 
-    if (!oid || !logo) return getFormFeedbackForError()
+    if (!oid || !logo)
+        return getFormFeedbackForError('auth/operation-not-allowed')
 
-    const file = await getFilename(logo)
+    const file = getFilename(logo)
 
     if (!file) return getFormFeedbackForError()
 
