@@ -60,9 +60,7 @@ function DefaultColumns({
                                 key={key}
                                 value={key}
                                 defaultChecked={
-                                    (columns &&
-                                        columns.includes(key as TColumn)) ??
-                                    false
+                                    columns?.includes(key as TColumn) ?? false
                                 }
                                 name="columns"
                             >
