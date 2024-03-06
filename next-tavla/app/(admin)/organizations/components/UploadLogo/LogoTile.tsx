@@ -19,7 +19,6 @@ function LogoTile({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
                 }}
             >
                 <DeleteIcon className="mr-1" />
-                Fjern
             </IconButton>
         </div>
     )

@@ -48,11 +48,13 @@
 
 .card {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0.5em;
-    border: 1px solid var(--tertiary-background-color);
+    flex-direction: row;
     background-color: var(--secondary-background-color);
-    margin-bottom: 1em;
-    padding: 0.5em;
+    border: 2px dashed white;
+    border-radius: 0.5em;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 2;
+    padding: 1em;
 }
