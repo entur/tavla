@@ -144,7 +144,7 @@ export async function removeOrganizationLogo(
 ) {
     if (!oid) return
     const bucket = storage().bucket((await getConfig()).bucket)
-    const logo = bucket.file(file)
+    const logo = bucket.file('logo/' + file)
 
     await logo.delete()
     return firestore().collection('organizations').doc(oid).update({

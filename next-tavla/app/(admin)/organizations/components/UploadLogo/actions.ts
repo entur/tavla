@@ -40,7 +40,7 @@ export async function remove(oid?: TOrganizationID, logo?: TLogo) {
 }
 
 export async function getFileName(logoUrl: string) {
-    const regex = /\/o\/(.*?)\?alt=/
+    const regex = /\/o\/logo%2(.*?)\?alt=/
 
     const file = logoUrl.match(regex)
 
