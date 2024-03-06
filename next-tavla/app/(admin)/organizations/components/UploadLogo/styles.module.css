@@ -45,3 +45,17 @@
     color: var(--secondary-text-color);
     font-size: 0.8em;
 }
+
+.card {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--secondary-background-color);
+    color: var(--secondary-text-color);
+    border: 2px;
+    border-radius: 0.5em;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2em;
+    padding: 1em;
+}

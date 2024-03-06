@@ -1,16 +1,20 @@
 'use client'
-import { ChangeEventHandler, useRef, useState } from 'react'
+import { ChangeEventHandler, useState } from 'react'
 import classes from './styles.module.css'
 import { ImageIcon, UploadIcon } from '@entur/icons'
 import { FormError } from 'app/(admin)/components/FormError'
-import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
+import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { Label, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
+import { useFormState } from 'react-dom'
+import { upload } from './actions'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { TOrganizationID } from 'types/settings'
 
-function LogoInput({ state }: { state: TFormFeedback | undefined }) {
+function LogoInput({ oid }: { oid?: TOrganizationID }) {
+    const [state, action] = useFormState(upload, undefined)
     const [file, setFile] = useState('')
     const [fileName, setFileName] = useState<string>()
-    const input = useRef(null)
 
     const clearLogo = () => {
         setFile('')
@@ -24,11 +28,15 @@ function LogoInput({ state }: { state: TFormFeedback | undefined }) {
     }
 
     return (
-        <div className="positionRelative">
+        <form
+            action={action}
+            onSubmit={clearLogo}
+            className="flexColumn positionRelative"
+        >
+            <HiddenInput id="oid" value={oid} />
             <Label htmlFor="logo" className={classes.upload}>
                 <Filename fileName={fileName} />
                 <input
-                    ref={input}
                     className={classes.fileInput}
                     type="file"
                     name="logo"
@@ -45,12 +53,12 @@ function LogoInput({ state }: { state: TFormFeedback | undefined }) {
                     aria-required
                 />
             </Label>
-
-            <div className="mt-2">
+            <div className="mt-2 mb-2">
                 <FormError {...getFormFeedbackForField('file', state)} />
+                <FormError {...getFormFeedbackForField('general', state)} />
             </div>
             {file && (
-                <div className="flexRow justifyBetween g-2 mt-2">
+                <div className="flexRow justifyBetween g-2">
                     <Button
                         className="w-100 justifyCenter"
                         onClick={clearLogo}
@@ -62,7 +70,6 @@ function LogoInput({ state }: { state: TFormFeedback | undefined }) {
                     <Button
                         type="submit"
                         aria-label="Last opp logo"
-                        onSubmit={clearLogo}
                         className="w-100 justifyCenter"
                         variant="primary"
                     >
@@ -70,7 +77,7 @@ function LogoInput({ state }: { state: TFormFeedback | undefined }) {
                     </Button>
                 </div>
             )}
-        </div>
+        </form>
     )
 }
 

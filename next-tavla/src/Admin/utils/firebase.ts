@@ -138,6 +138,20 @@ export async function setOrganizationLogo(logo: File, oid?: TOrganizationID) {
     })
 }
 
+export async function removeOrganizationLogo(
+    file: string,
+    oid?: TOrganizationID,
+) {
+    if (!oid) return
+    const bucket = storage().bucket((await getConfig()).bucket)
+    const logo = bucket.file('logo/' + file)
+
+    await logo.delete()
+    return firestore().collection('organizations').doc(oid).update({
+        logo: firestore.FieldValue.delete(),
+    })
+}
+
 export async function createBoard(
     id: TUserID | TOrganizationID,
     board: TBoard,
