@@ -45,3 +45,14 @@
     color: var(--secondary-text-color);
     font-size: 0.8em;
 }
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0.5em;
+    border: 1px solid var(--tertiary-background-color);
+    background-color: var(--secondary-background-color);
+    margin-bottom: 1em;
+    padding: 0.5em;
+}

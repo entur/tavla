@@ -8,6 +8,7 @@ import { Heading2, Paragraph } from '@entur/typography'
 import { useFormState } from 'react-dom'
 import { upload } from './actions'
 import { HiddenInput } from 'components/Form/HiddenInput'
+import { LogoTile } from './LogoTile'
 
 function UploadLogo({ organization }: { organization: TOrganization }) {
     const [state, action] = useFormState(upload, undefined)
@@ -32,7 +33,10 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
                     className="p-4 "
                 />
             </div>
-            <HiddenInput id="uid" value={organization.id} />
+            <HiddenInput id="oid" value={organization.id} />
+            {organization.logo && (
+                <LogoTile oid={organization.id} logo={organization.logo} />
+            )}
             <LogoInput state={state} />
         </form>
     )
