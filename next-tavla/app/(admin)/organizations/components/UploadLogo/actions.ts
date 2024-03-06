@@ -13,8 +13,6 @@ export async function upload(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
-    'use server'
-
     const logo = data.get('logo') as File
     const oid = data.get('oid') as TOrganizationID
 
@@ -28,8 +26,6 @@ export async function upload(
 }
 
 export async function remove(oid?: TOrganizationID, logo?: TLogo) {
-    'use server'
-
     if (!oid || !logo)
         return getFormFeedbackForError('auth/operation-not-allowed')
 

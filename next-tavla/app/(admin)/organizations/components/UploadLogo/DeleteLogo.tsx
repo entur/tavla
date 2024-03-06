@@ -1,3 +1,4 @@
+'use client'
 import { TLogo, TOrganizationID } from 'types/settings'
 import classes from './styles.module.css'
 import { Button } from '@entur/button'
@@ -6,36 +7,32 @@ import { remove } from './actions'
 import { getFilename } from './utils'
 import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
+import { useState } from 'react'
 
-function DeleteLogo({
-    oid,
-    logo,
-    state,
-}: {
-    oid?: TOrganizationID
-    logo?: TLogo
-    state: TFormFeedback | undefined
-}) {
+function DeleteLogo({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
+    const [deleteState, setDeleteState] = useState<TFormFeedback>()
     return (
-        <div className={classes.card}>
-            <div className="flexRow alignCenter g-2">
-                <ImageIcon size={24} />
-                {getFilename(logo).replace(`${oid}-`, '')}
+        <>
+            <div className={classes.card}>
+                <div className="flexRow alignCenter g-2">
+                    <ImageIcon size={24} />
+                    {getFilename(logo).replace(`${oid}-`, '')}
+                </div>
+                <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={async () => {
+                        await remove(oid, logo).then((state) =>
+                            setDeleteState(state),
+                        )
+                    }}
+                >
+                    Slett
+                    <DeleteIcon className="mr-1" />
+                </Button>
             </div>
-            <div className="mt-2">
-                <FormError {...getFormFeedbackForField('general', state)} />
-            </div>
-            <Button
-                type="button"
-                variant="secondary"
-                onClick={async () => {
-                    await remove(oid, logo)
-                }}
-            >
-                Slett
-                <DeleteIcon className="mr-1" />
-            </Button>
-        </div>
+            <FormError {...getFormFeedbackForField('general', deleteState)} />
+        </>
     )
 }
 
