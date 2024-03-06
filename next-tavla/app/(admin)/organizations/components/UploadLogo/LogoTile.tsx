@@ -3,13 +3,14 @@ import classes from './styles.module.css'
 import { IconButton } from '@entur/button'
 import { DeleteIcon, ImageIcon } from '@entur/icons'
 import { remove } from './actions'
+import { getFilename } from './utils'
 
 function LogoTile({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
     return (
         <div className={classes.card}>
             <div className="flexRow alignCenter g-1">
                 <ImageIcon />
-                {logo}
+                {getFilename(logo ?? '')}
             </div>
             <IconButton
                 type="button"
