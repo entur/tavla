@@ -10,7 +10,7 @@ function LogoTile({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
         <div className={classes.card}>
             <div className="flexRow alignCenter g-1">
                 <ImageIcon />
-                {getFilename(logo ?? '')}
+                {getFilename(logo).replace(`${oid}-`, '')}
             </div>
             <IconButton
                 type="button"
