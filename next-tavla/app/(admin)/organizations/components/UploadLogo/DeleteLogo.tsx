@@ -24,10 +24,10 @@ function DeleteLogo({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
                     type="button"
                     variant="secondary"
                     onClick={async () => {
-                        addToast('Tavle slettet')
                         await remove(oid, logo).then((state) =>
                             setDeleteState(state),
                         )
+                        addToast('Tavle slettet')
                     }}
                 >
                     Slett
