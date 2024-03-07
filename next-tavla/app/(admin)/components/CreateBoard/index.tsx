@@ -25,6 +25,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
+import { getOrganization } from 'app/(admin)/actions'
 
 type TCreateBoard = 'name' | 'stops'
 
@@ -95,7 +96,7 @@ function CreateBoard() {
                         active={pageParam === 'stops'}
                         board={board}
                         setBoard={setBoard}
-                        organization={organization}
+                        oid={organization}
                         state={state}
                         setFormError={setFormError}
                     />
@@ -169,14 +170,14 @@ function StopSelector({
     active,
     board,
     setBoard,
-    organization,
+    oid,
     state,
     setFormError,
 }: {
     active: boolean
     setBoard: (board: TBoard | undefined) => void
     board?: TBoard
-    organization?: TOrganizationID
+    oid?: TOrganizationID
     state: TFormFeedback | undefined
     setFormError: (feedback: TFormFeedback | undefined) => void
 }) {
@@ -195,6 +196,7 @@ function StopSelector({
             <TileSelector
                 action={async (data: FormData) => {
                     setFormError(undefined)
+                    const organization = await getOrganization(oid)
                     const tile = await formDataToTile(data, organization)
                     if (!tile.placeId) return
                     setBoard({
@@ -206,7 +208,7 @@ function StopSelector({
                     } as TBoard)
                 }}
                 direction="Column"
-                oid={organization}
+                oid={oid}
             />
             <Heading4>Stoppesteder lagt til i Tavla</Heading4>
             <StopPlaceList
@@ -243,7 +245,7 @@ function StopSelector({
                             )
                         }
 
-                        await create(board, organization)
+                        await create(board, oid)
                         setBoard(undefined)
                     }}
                     className="mt-2"
