@@ -54,7 +54,7 @@ function CreateBoard() {
             <Modal
                 open={open}
                 size="large"
-                className="flexColumn alignCenter minh-75"
+                className="flexColumn alignCenter minh-65"
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)
