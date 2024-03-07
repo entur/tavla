@@ -26,6 +26,7 @@ import {
 } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
 import { getOrganization } from 'app/(admin)/actions'
+import classes from './styles.module.css'
 
 type TCreateBoard = 'name' | 'stops'
 
@@ -54,7 +55,7 @@ function CreateBoard() {
             <Modal
                 open={open}
                 size="large"
-                className="flexColumn alignCenter minh-65"
+                className={classes.createModal}
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)
@@ -142,7 +143,7 @@ function NameAndOrganizationSelector({
                 <Paragraph>
                     Hvis du ikke velger en organisasjon, vil tavla bli lagret
                     under din private bruker. Det er kun du som kan administrere
-                    private tavler som opprettes.{' '}
+                    private tavler som opprettes.
                 </Paragraph>
                 <Dropdown
                     items={organizations}
