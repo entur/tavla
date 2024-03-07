@@ -27,7 +27,7 @@ function DeleteLogo({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
                         await remove(oid, logo).then((state) =>
                             setDeleteState(state),
                         )
-                        addToast('Tavle slettet')
+                        addToast('Logo slettet')
                     }}
                 >
                     Slett
