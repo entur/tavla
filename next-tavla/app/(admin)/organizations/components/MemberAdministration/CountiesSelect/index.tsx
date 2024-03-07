@@ -21,13 +21,12 @@ function CountiesSelect({
     const { addToast } = useToast()
 
     return (
-        <div>
+        <div className="flexColumn g-2">
             <Heading2>Velg fylkene du vil sette opp tavler for</Heading2>
             <div className="box">
                 <Paragraph>
-                    Når du søker etter stoppesteder vil du søke i alle fylker.
-                    Her kan du velge hvilke fylker du ønsker å begrense søket
-                    til.
+                    Huk av fylker som vil være standard når en ny tavle
+                    opprettes.{' '}
                 </Paragraph>
                 <form
                     action={async (data: FormData) => {

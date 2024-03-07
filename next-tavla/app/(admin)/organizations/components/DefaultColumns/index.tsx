@@ -45,8 +45,8 @@ function DefaultColumns({
     const [state, action] = useFormState(submit, undefined)
 
     return (
-        <div>
-            <Heading2>Kolonner i tavlevisning</Heading2>
+        <div className="flexColumn g-2">
+            <Heading2>Informasjonskolonner i tavlevisning</Heading2>
             <div className="box">
                 <Paragraph>
                     Velg den informasjonen du ønsker skal stå som standard i

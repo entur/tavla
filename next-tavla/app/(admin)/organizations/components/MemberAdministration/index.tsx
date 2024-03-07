@@ -9,14 +9,10 @@ function MemberAdministration(props: {
     members: TUser[]
 }) {
     return (
-        <Contrast className="flexColumn">
+        <Contrast className="flexColumn g-2">
             <Heading2>Administrer medlemmer</Heading2>
             <div className="box">
-                <Paragraph>
-                    Her kan du administrere medlemmer av organisasjonen. Du kan
-                    se hvem som er medlem, legge til medlemmer og fjerne
-                    medlemmer.
-                </Paragraph>
+                <Paragraph>Administrer medlemmer i organisasjonen. </Paragraph>
 
                 <InviteUser oid={props.oid} />
                 <MemberList {...props} />

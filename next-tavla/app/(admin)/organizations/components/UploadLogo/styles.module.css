@@ -23,7 +23,8 @@
     justify-content: center;
     padding: 2em;
     border-radius: 0.5em;
-    background-color: var(--secondary-background-color);
+    background-color: var(--primary-background-color);
+    border: 2px solid var(--tertiary-background-color);
     height: 10em;
 }
 
@@ -49,9 +50,9 @@
 .card {
     display: flex;
     flex-direction: row;
-    background-color: var(--secondary-background-color);
+    background-color: var(--primary-background-color);
     color: var(--secondary-text-color);
-    border: 2px;
+    border: 2px solid var(--tertiary-background-color);
     border-radius: 0.5em;
     width: 100%;
     align-items: center;
