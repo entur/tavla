@@ -8,9 +8,11 @@ import { getFilename } from './utils'
 import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useState } from 'react'
+import { useToast } from '@entur/alert'
 
 function DeleteLogo({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
     const [deleteState, setDeleteState] = useState<TFormFeedback>()
+    const { addToast } = useToast()
     return (
         <>
             <div className={classes.card}>
@@ -25,6 +27,7 @@ function DeleteLogo({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
                         await remove(oid, logo).then((state) =>
                             setDeleteState(state),
                         )
+                        addToast('Logo slettet')
                     }}
                 >
                     Slett

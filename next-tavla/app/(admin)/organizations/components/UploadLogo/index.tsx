@@ -20,7 +20,7 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
             <div className={classes.logoPreview}>
                 <Image
                     src={organization.logo ?? TavlaLogo}
-                    alt=""
+                    alt={organization.logo ? '' : 'Entur Logo'}
                     objectFit="contain"
                     fill
                     className="p-4 "
