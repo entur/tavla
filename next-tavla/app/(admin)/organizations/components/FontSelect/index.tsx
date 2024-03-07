@@ -1,10 +1,10 @@
 'use client'
-import { Button } from '@entur/button'
-import { Heading2, Paragraph } from '@entur/typography'
 import { TFontSize } from 'types/meta'
 import { setFontSize } from './actions'
-import { TOrganizationID } from 'types/settings'
 import { FontChoiceChip } from 'app/(admin)/edit/[id]/components/MetaSettings/FontChoiceChip'
+import { SubmitButton } from 'components/Form/SubmitButton'
+import { useToast } from '@entur/alert'
+import { Button } from '@entur/button'
 
 function FontSelect({
     oid,
@@ -13,6 +13,7 @@ function FontSelect({
     oid?: TOrganizationID
     font?: TFontSize
 }) {
+    const { addToast } = useToast()
     return (
         <div className="flexColumn g-2">
             <Heading2>Tekststørrelse</Heading2>
