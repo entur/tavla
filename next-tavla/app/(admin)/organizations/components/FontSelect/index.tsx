@@ -31,17 +31,18 @@ function FontSelect({
                         du oppretter en ny tavle.
                     </Paragraph>
                     <FontChoiceChip font={font ?? 'medium'} />
-                </div>
-                <div className="flexRow justifyEnd mt-2 mr-2 ">
-                    <Button
-                        variant="secondary"
-                        type="submit"
-                        aria-label="Lagre tekststørrelse"
-                    >
-                        Lagre tekststørrelse
-                    </Button>
-                </div>
-            </form>
+
+
+                    <div className="flexRow justifyEnd mt-2 mr-2 ">
+                        <SubmitButton
+                            variant="secondary"
+                            aria-label="Lagre tekststørrelse"
+                        >
+                            Lagre tekststørrelse
+                        </SubmitButton>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }
