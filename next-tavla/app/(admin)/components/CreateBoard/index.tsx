@@ -197,7 +197,7 @@ function StopSelector({
                 action={async (data: FormData) => {
                     setFormError(undefined)
                     const organization = await getOrganization(oid)
-                    const tile = await formDataToTile(data, organization)
+                    const tile = formDataToTile(data, organization)
                     if (!tile.placeId) return
                     setBoard({
                         ...board,
