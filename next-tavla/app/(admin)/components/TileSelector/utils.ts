@@ -1,5 +1,5 @@
 'use server'
-import { getOrganization } from 'Admin/utils/firebase'
+import { getOrganization } from 'app/(admin)/actions'
 import { nanoid } from 'nanoid'
 import { TOrganizationID } from 'types/settings'
 import { TTile } from 'types/tile'
