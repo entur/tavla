@@ -2,7 +2,6 @@ import classes from 'styles/pages/admin.module.css'
 import {
     getBoardsForOrganization,
     getBoardsForUser,
-    getOrganization,
     getOrganizationById,
     getOrganizationsWithUser,
     initializeAdminApp,
@@ -16,6 +15,7 @@ import { BoardTable } from '../components/BoardTable'
 import { Metadata } from 'next'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import React from 'react'
+import { getOrganization } from 'app/(admin)/actions'
 
 initializeAdminApp()
 

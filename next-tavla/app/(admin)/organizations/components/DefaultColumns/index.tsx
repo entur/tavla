@@ -46,7 +46,7 @@ function DefaultColumns({
 
     return (
         <div>
-            <Heading2>Informasjonskolonner i tavlevisning</Heading2>
+            <Heading2>Kolonner i tavlevisning</Heading2>
             <div className="box">
                 <Paragraph>
                     Velg den informasjonen du ønsker skal stå som standard i

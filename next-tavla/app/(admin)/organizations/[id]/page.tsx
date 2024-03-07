@@ -1,6 +1,5 @@
 import classes from '../../admin.module.css'
 import {
-    getOrganization,
     getOrganizationById,
     getOrganizationUsers,
     initializeAdminApp,
@@ -15,6 +14,7 @@ import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
 import { FontSelect } from '../components/FontSelect'
 import { DefaultColumns } from '../components/DefaultColumns'
+import { getOrganization } from 'app/(admin)/actions'
 
 initializeAdminApp()
 

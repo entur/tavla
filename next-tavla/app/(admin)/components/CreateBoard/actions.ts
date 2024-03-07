@@ -1,7 +1,7 @@
 'use server'
-import { getOrganization } from 'Admin/utils/firebase'
 import { initializeAdminApp } from 'Admin/utils/firebase'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
+import { getOrganization } from 'app/(admin)/actions'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
