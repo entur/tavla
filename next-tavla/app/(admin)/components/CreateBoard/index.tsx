@@ -54,7 +54,7 @@ function CreateBoard() {
             <Modal
                 open={open}
                 size="large"
-                className="flexColumn alignCenter"
+                className="flexColumn alignCenter minh-75"
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)
@@ -138,11 +138,11 @@ function NameAndOrganizationSelector({
                 {...getFormFeedbackForField('name', state)}
             />
             <div>
-                <Heading4>Legg tavla til en organisasjon</Heading4>
+                <Heading4>Legg tavla til i en organisasjon</Heading4>
                 <Paragraph>
                     Hvis du ikke velger en organisasjon, vil tavla bli lagret
                     under din private bruker. Det er kun du som kan administrere
-                    tavla som opprettes.
+                    private tavler som opprettes.{' '}
                 </Paragraph>
                 <Dropdown
                     items={organizations}

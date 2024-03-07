@@ -23,7 +23,7 @@ function TileCard({
     return (
         <div className={classes.card}>
             <div className="flexRow g-2 alignCenter">
-                <div className="flexRow g-2 h-3">
+                <div className="flexRow g-1 h-3">
                     {transportModes.map((tm) => (
                         <TransportIcon transportMode={tm} key={tm} />
                     ))}
