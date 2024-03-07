@@ -55,7 +55,7 @@ export default async function EditPage({ params }: TProps) {
                 action={async (data: FormData) => {
                     'use server'
 
-                    const tile = formDataToTile(data)
+                    const tile = await formDataToTile(data)
                     if (!tile.placeId) return
 
                     await addTile(params.id, tile)
