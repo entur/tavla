@@ -13,6 +13,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { useState } from 'react'
+import { Label } from '@entur/typography'
 
 function TileSelector({
     action,
@@ -39,57 +40,66 @@ function TileSelector({
             className={`flex${direction} g-2 mb-3`}
             action={action}
             onSubmit={(event) => {
-                if (!selectedStopPlace) {
+                if (!selectedStopPlace || !selectedQuay) {
                     event.preventDefault()
                     return setFormError(
-                        getFormFeedbackForError('dropdown/error'),
+                        getFormFeedbackForError(
+                            !selectedStopPlace
+                                ? 'dropdown/stopplace-missing'
+                                : 'dropdown/quay-missing',
+                        ),
                     )
-                }
-                if (!selectedQuay) {
-                    event.preventDefault()
-                    return setFormError(getFormFeedbackForError('quay/error'))
                 }
                 setFormError(undefined)
                 setSelectedQuay(null)
                 setSelectedStopPlace(null)
             }}
         >
-            <MultiSelect
-                label="Velg fylker"
-                items={counties}
-                selectedItems={selectedCounties}
-                onChange={setSelectedCounties}
-                prepend={<SearchIcon />}
-                maxChips={2}
-                hideSelectAll
-            />
-            <SearchableDropdown
-                items={stopPlaceItems}
-                label="Søk etter stoppested..."
-                clearable
-                prepend={<SearchIcon />}
-                selectedItem={selectedStopPlace}
-                onChange={setSelectedStopPlace}
-                debounceTimeout={1000}
-                {...getFormFeedbackForField('dropdown', state)}
-            />
-            <Dropdown
-                items={quays}
-                label="Velg plattform/retning"
-                clearable
-                prepend={<SearchIcon />}
-                selectedItem={selectedQuay}
-                onChange={setSelectedQuay}
-                {...getFormFeedbackForField('general', state)}
-                disabled={!selectedStopPlace}
-            />
+            <div>
+                <Label>Velg fylke for å begrense søket</Label>
+                <MultiSelect
+                    label="Velg fylker"
+                    items={counties}
+                    selectedItems={selectedCounties}
+                    onChange={setSelectedCounties}
+                    prepend={<SearchIcon />}
+                    maxChips={2}
+                    hideSelectAll
+                />
+            </div>
+            <div>
+                <Label>Søk etter stoppested</Label>
+                <SearchableDropdown
+                    items={stopPlaceItems}
+                    label="Stoppested"
+                    clearable
+                    prepend={<SearchIcon />}
+                    selectedItem={selectedStopPlace}
+                    onChange={setSelectedStopPlace}
+                    debounceTimeout={1000}
+                    {...getFormFeedbackForField('dropdown', state)}
+                />
+            </div>
+            <div>
+                <Label>Velg stoppestedets retning eller plattform</Label>
+                <Dropdown
+                    items={quays}
+                    label="Velg plattform/retning"
+                    clearable
+                    prepend={<SearchIcon />}
+                    selectedItem={selectedQuay}
+                    onChange={setSelectedQuay}
+                    {...getFormFeedbackForField('general', state)}
+                    disabled={!selectedStopPlace}
+                />
+            </div>
             <HiddenInput id="stop_place" value={selectedStopPlace?.value} />
             <HiddenInput
                 id="stop_place_name"
                 value={selectedStopPlace?.label}
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="mt-2">
                 Legg til
             </Button>
         </form>

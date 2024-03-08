@@ -3,7 +3,7 @@ import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
 import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
 import { Stepper } from '@entur/menu'
 import { Modal } from '@entur/modal'
-import { Heading3, Heading4, Paragraph } from '@entur/typography'
+import { Heading3, Heading4, Label, Paragraph } from '@entur/typography'
 import Link from 'next/link'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { usePathname, useRouter } from 'next/navigation'
@@ -135,11 +135,14 @@ function NameAndOrganizationSelector({
     if (!active) return null
     return (
         <form action={action}>
-            <Heading4 className="mt-1">Sett navn på tavlen</Heading4>
+            <Heading4 className="mt-1 mb-2">
+                Velg navn og organisasjon for tavlen
+            </Heading4>
             <Paragraph>
-                Navnet på tavlen vil vises i listen over tavler. Du kan endre på
-                navnet senere.
+                Gi tavlen et navn og legg den til i en organisasjon. Velger du
+                en organisasjon vil alle i organisasjonen ha tilgang til tavlen.
             </Paragraph>
+            <Label className="textLeft">Gi tavlen et navn</Label>
             <TextField
                 size="medium"
                 label="Navn"
@@ -148,13 +151,10 @@ function NameAndOrganizationSelector({
                 defaultValue={title}
                 required
                 {...getFormFeedbackForField('name', state)}
+                className="mb-2"
             />
             <div>
-                <Heading4>Legg tavlen til i en organisasjon</Heading4>
-                <Paragraph className="mb-2">
-                    Velger du en organisasjon vil alle i organisasjonen ha
-                    tilgang til tavlen.
-                </Paragraph>
+                <Label>Legg til i en organisasjon</Label>
                 <Dropdown
                     items={organizations}
                     label="Dine organisasjoner"
@@ -272,7 +272,7 @@ function StopSelector({
                     }}
                     className="mt-2"
                     loading={isSubmitting}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !board?.tiles.length}
                 >
                     Opprett tavle
                 </PrimaryButton>
