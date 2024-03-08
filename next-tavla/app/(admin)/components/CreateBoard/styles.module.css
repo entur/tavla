@@ -13,3 +13,10 @@
     padding: 0.35em 0.5em;
     border-radius: 0.5em;
 }
+
+.createModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 5em;
+}
