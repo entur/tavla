@@ -13,7 +13,7 @@ import { useState } from 'react'
 import { TBoard, TOrganizationID } from 'types/settings'
 import { create } from './actions'
 import { StopPlaceList } from './components/StopPlaceList'
-import { TextField } from '@entur/form'
+import { Checkbox, TextField } from '@entur/form'
 import { Dropdown } from '@entur/dropdown'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
@@ -83,7 +83,9 @@ function CreateBoard() {
                             const organization = data.get(
                                 'organization',
                             ) as TOrganizationID
-                            if (!organization) {
+                            const privateBoardCheckbox =
+                                data.get('check-privateBoard')
+                            if (!organization && !privateBoardCheckbox) {
                                 return setFormError(
                                     getFormFeedbackForError(
                                         'board/organization-missing',
@@ -129,6 +131,8 @@ function NameAndOrganizationSelector({
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations()
 
+    const [privateBoard, setPrivateBoard] = useState<boolean>(false)
+
     if (!active) return null
     return (
         <form action={action}>
@@ -162,7 +166,15 @@ function NameAndOrganizationSelector({
                     className="mb-2"
                     {...getFormFeedbackForField('dropdown', state)}
                     aria-required="true"
+                    disabled={privateBoard}
                 />
+                <Checkbox
+                    defaultChecked={privateBoard}
+                    onChange={() => setPrivateBoard(!privateBoard)}
+                    name="check-privateBoard"
+                >
+                    Jeg vil ikke velge organisasjon
+                </Checkbox>
                 <HiddenInput
                     id="organization"
                     value={selectedOrganization?.value}
