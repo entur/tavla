@@ -34,6 +34,12 @@
     color: transparent;
 }
 
+.fileInput:focus {
+    outline-offset: 0.5em;
+    outline: 2px solid white;
+    border-radius: 0.25em;
+}
+
 .fileInput:hover {
     cursor: pointer;
 }
