@@ -83,9 +83,8 @@ function CreateBoard() {
                             const organization = data.get(
                                 'organization',
                             ) as TOrganizationID
-                            const privateBoardCheckbox =
-                                data.get('check-privateBoard')
-                            if (!organization && !privateBoardCheckbox) {
+                            const isPrivate = data.get('check-privateBoard')
+                            if (!organization && !isPrivate) {
                                 return setFormError(
                                     getFormFeedbackForError(
                                         'board/organization-missing',
@@ -131,7 +130,7 @@ function NameAndOrganizationSelector({
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations()
 
-    const [privateBoard, setPrivateBoard] = useState<boolean>(false)
+    const [isPrivate, setisPrivate] = useState<boolean>(false)
 
     if (!active) return null
     return (
@@ -165,11 +164,11 @@ function NameAndOrganizationSelector({
                     className="mb-2"
                     {...getFormFeedbackForField('dropdown', state)}
                     aria-required="true"
-                    disabled={privateBoard}
+                    disabled={isPrivate}
                 />
                 <Checkbox
-                    defaultChecked={privateBoard}
-                    onChange={() => setPrivateBoard(!privateBoard)}
+                    defaultChecked={isPrivate}
+                    onChange={() => setisPrivate(!isPrivate)}
                     name="check-privateBoard"
                 >
                     Jeg vil ikke velge organisasjon
