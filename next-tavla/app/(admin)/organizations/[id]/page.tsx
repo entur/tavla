@@ -8,7 +8,6 @@ import { Metadata } from 'next'
 import { Heading1, LeadParagraph } from '@entur/typography'
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
-import { Delete } from 'app/(admin)/components/Delete/index'
 import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
@@ -47,10 +46,7 @@ async function EditOrganizationPage({ params }: TProps) {
     const members = await getOrganizationUsers(user.uid, id)
     return (
         <div className={classes.root}>
-            <div className="flexRow justifyBetween alignCenter">
-                <Heading1>{organization.name}</Heading1>
-                <Delete organization={organization} type="secondary" />
-            </div>
+            <Heading1>{organization.name}</Heading1>
             <LeadParagraph>
                 Valgene som tas blir satt som standard når det opprettes en
                 tavle i organisasjonen &quot;{organization.name}&quot;. Valgene
