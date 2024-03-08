@@ -7,6 +7,12 @@ import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { Button } from '@entur/button'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TOrganizationID } from 'types/settings'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
+import { useState } from 'react'
 
 function TileSelector({
     action,
@@ -27,11 +33,23 @@ function TileSelector({
         selectedStopPlace?.value ?? '',
     )
 
+    const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <form
             className={`flex${direction} g-2 mb-3`}
             action={action}
-            onSubmit={() => {
+            onSubmit={(event) => {
+                if (!selectedStopPlace) {
+                    event.preventDefault()
+                    return setFormError(
+                        getFormFeedbackForError('dropdown/error'),
+                    )
+                }
+                if (!selectedQuay) {
+                    event.preventDefault()
+                    return setFormError(getFormFeedbackForError('quay/error'))
+                }
+                setFormError(undefined)
                 setSelectedQuay(null)
                 setSelectedStopPlace(null)
             }}
@@ -53,6 +71,7 @@ function TileSelector({
                 selectedItem={selectedStopPlace}
                 onChange={setSelectedStopPlace}
                 debounceTimeout={1000}
+                {...getFormFeedbackForField('dropdown', state)}
             />
             <Dropdown
                 items={quays}
@@ -61,6 +80,8 @@ function TileSelector({
                 prepend={<SearchIcon />}
                 selectedItem={selectedQuay}
                 onChange={setSelectedQuay}
+                {...getFormFeedbackForField('general', state)}
+                disabled={!selectedStopPlace}
             />
             <HiddenInput id="stop_place" value={selectedStopPlace?.value} />
             <HiddenInput

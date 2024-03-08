@@ -83,13 +83,21 @@ function CreateBoard() {
                             const organization = data.get(
                                 'organization',
                             ) as TOrganizationID
-
+                            if (!organization) {
+                                return setFormError(
+                                    getFormFeedbackForError(
+                                        'board/organization-missing',
+                                    ),
+                                )
+                            }
                             setBoard({
                                 tiles: [],
                                 ...board,
                                 meta: { ...board?.meta, title: name },
                             } as TBoard)
                             setOrganization(organization)
+                            setFormError(undefined)
+
                             router.push(getPathWithParams('stops'))
                         }}
                     />
@@ -151,6 +159,9 @@ function NameAndOrganizationSelector({
                     selectedItem={selectedOrganization}
                     onChange={setSelectedOrganization}
                     clearable
+                    className="mb-2"
+                    {...getFormFeedbackForField('dropdown', state)}
+                    aria-required="true"
                 />
                 <HiddenInput
                     id="organization"

@@ -10,6 +10,7 @@ type InputType =
     | 'name'
     | 'file'
     | 'column'
+    | 'dropdown'
 
 export type TFormFeedback = {
     form_type: InputType
@@ -129,6 +130,12 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 feedback: 'Du har ikke gitt tavla et navn',
                 variant: 'error',
             }
+        case 'board/organization-missing':
+            return {
+                form_type: 'dropdown',
+                feedback: 'Du har ikke valgt organisasjon',
+                variant: 'error',
+            }
         case 'board/tiles-missing':
             return {
                 form_type: 'general',
@@ -157,6 +164,20 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
             return {
                 form_type: 'file',
                 feedback: 'Filen du prøver å laste opp er for stor.',
+                variant: 'error',
+            }
+        }
+        case 'quay/error': {
+            return {
+                form_type: 'general',
+                feedback: 'Du har ikke valgt retning enda',
+                variant: 'error',
+            }
+        }
+        case 'dropdown/error': {
+            return {
+                form_type: 'dropdown',
+                feedback: 'Du har ikke valgt stoppested',
                 variant: 'error',
             }
         }
