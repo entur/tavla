@@ -136,9 +136,9 @@ function NameAndOrganizationSelector({
     if (!active) return null
     return (
         <form action={action}>
-            <Heading4 className="mt-1">Sett navn på tavla</Heading4>
+            <Heading4 className="mt-1">Sett navn på tavlen</Heading4>
             <Paragraph>
-                Navnet på tavla vil vises i listen over tavler. Du kan endre på
+                Navnet på tavlen vil vises i listen over tavler. Du kan endre på
                 navnet senere.
             </Paragraph>
             <TextField
@@ -151,7 +151,7 @@ function NameAndOrganizationSelector({
                 {...getFormFeedbackForField('name', state)}
             />
             <div>
-                <Heading4>Legg tavla til i en organisasjon</Heading4>
+                <Heading4>Legg tavlen til i en organisasjon</Heading4>
                 <Paragraph className="mb-2">
                     Velger du en organisasjon vil alle i organisasjonen ha
                     tilgang til tavlen.
@@ -211,7 +211,7 @@ function StopSelector({
 
     return (
         <div>
-            <Heading3>Legg til stoppesteder i Tavla </Heading3>
+            <Heading3>Legg til stoppesteder i Tavlen </Heading3>
             <Paragraph>
                 Søk etter stoppesteder og bestem om tavla skal vise alle
                 retninger, eller flere enkelte retninger.
@@ -233,7 +233,7 @@ function StopSelector({
                 direction="Column"
                 oid={oid}
             />
-            <Heading4>Stoppesteder lagt til i Tavla</Heading4>
+            <Heading4>Stoppesteder lagt til i Tavlen</Heading4>
             <StopPlaceList
                 tiles={board?.tiles}
                 onRemove={(tile: TTile) =>
