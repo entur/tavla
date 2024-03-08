@@ -152,10 +152,9 @@ function NameAndOrganizationSelector({
             />
             <div>
                 <Heading4>Legg tavla til i en organisasjon</Heading4>
-                <Paragraph>
-                    Hvis du ikke velger en organisasjon, vil tavla bli lagret
-                    under din private bruker. Det er kun du som kan administrere
-                    private tavler som opprettes.
+                <Paragraph className="mb-2">
+                    Velger du en organisasjon vil alle i organisasjonen ha
+                    tilgang til tavlen.
                 </Paragraph>
                 <Dropdown
                     items={organizations}
