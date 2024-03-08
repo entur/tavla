@@ -13,5 +13,12 @@
 .organization {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8em;
+    gap: 4em 2em;
+    padding-bottom: 6em;
+}
+
+@media (max-width: 1200px) {
+    .organization {
+        grid-template-columns: 1fr;
+    }
 }

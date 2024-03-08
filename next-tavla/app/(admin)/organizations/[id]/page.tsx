@@ -5,7 +5,7 @@ import {
     initializeAdminApp,
 } from 'Admin/utils/firebase'
 import { Metadata } from 'next'
-import { Heading1 } from '@entur/typography'
+import { Heading1, LeadParagraph } from '@entur/typography'
 import { permanentRedirect } from 'next/navigation'
 import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { Delete } from 'app/(admin)/components/Delete/index'
@@ -51,8 +51,19 @@ async function EditOrganizationPage({ params }: TProps) {
                 <Heading1>{organization.name}</Heading1>
                 <Delete organization={organization} type="secondary" />
             </div>
+            <LeadParagraph>
+                Valgene som tas blir satt som standard når det opprettes en
+                tavle i organisasjonen &quot;{organization.name}&quot;. Valgene
+                kan fortsatt justeres i hver enkelt tavle med unntak av logo.
+                Innstillingene vil ikke påvirke tavler som allerede har blitt
+                opprettet
+            </LeadParagraph>
             <div className={classes.organization}>
-                <UploadLogo organization={organization} />
+                <MemberAdministration
+                    members={members}
+                    uid={user.uid}
+                    oid={organization.id}
+                />
 
                 <CountiesSelect
                     oid={organization.id}
@@ -63,16 +74,12 @@ async function EditOrganizationPage({ params }: TProps) {
                     columns={organization.defaults?.columns}
                 />
 
-                <MemberAdministration
-                    members={members}
-                    uid={user.uid}
-                    oid={organization.id}
-                />
-
                 <FontSelect
                     oid={organization.id}
                     font={organization?.defaults?.font}
                 />
+
+                <UploadLogo organization={organization} />
             </div>
         </div>
     )

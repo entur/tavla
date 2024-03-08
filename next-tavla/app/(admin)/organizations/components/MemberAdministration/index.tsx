@@ -3,21 +3,17 @@ import { MemberList } from './MemberList'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import { InviteUser } from './InviteUser'
 import { Contrast } from 'Admin/components/Contrast'
+
 function MemberAdministration(props: {
     oid?: TOrganizationID
     uid?: TUserID
     members: TUser[]
 }) {
     return (
-        <Contrast className="flexColumn">
-            <Heading2>Administrer medlemmer</Heading2>
+        <Contrast className="flexColumn g-2">
+            <Heading2>Medlemmer</Heading2>
             <div className="box">
-                <Paragraph>
-                    Her kan du administrere medlemmer av organisasjonen. Du kan
-                    se hvem som er medlem, legge til medlemmer og fjerne
-                    medlemmer.
-                </Paragraph>
-
+                <Paragraph>Administrer medlemmer i organisasjonen. </Paragraph>
                 <InviteUser oid={props.oid} />
                 <MemberList {...props} />
             </div>

@@ -46,9 +46,11 @@ ul {
     white-space: nowrap;
     width: 1px;
 }
+
 .box {
+    height: 100%;
+    width: 100%;
     border-radius: 0.5em;
-    margin: 2em 0em;
     padding: 2em;
     background: var(--secondary-background-color);
 }
