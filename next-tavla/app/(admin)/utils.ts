@@ -167,14 +167,14 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 variant: 'error',
             }
         }
-        case 'quay/error': {
+        case 'dropdown/quay-missing': {
             return {
                 form_type: 'general',
                 feedback: 'Du har ikke valgt retning enda',
                 variant: 'error',
             }
         }
-        case 'dropdown/error': {
+        case 'dropdown/stopplace-missing': {
             return {
                 form_type: 'dropdown',
                 feedback: 'Du har ikke valgt stoppested',
