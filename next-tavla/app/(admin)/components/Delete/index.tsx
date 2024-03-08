@@ -67,10 +67,6 @@ function Delete({
                     {`Er du sikker på at du vil slette organisasjonen 
                     "${organization.name}"?`}
                 </Paragraph>
-                <Paragraph>
-                    Organisasjonen vil være borte for godt og ikke mulig å finne
-                    tilbake til for andre medlemmer.
-                </Paragraph>
                 <form
                     action={action}
                     className="flexColumn w-100 g-2"
@@ -79,7 +75,7 @@ function Delete({
                 >
                     <HiddenInput id="oname" value={organization.name} />
                     <HiddenInput id="oid" value={organization.id} />
-                    <Label className="weight500">
+                    <Label className="weight500 textLeft">
                         Bekreft ved å skrive inn navnet på organisasjonen
                     </Label>
                     <TextField
