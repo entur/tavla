@@ -15,7 +15,7 @@ function FontSelect({
 }) {
     return (
         <div className="flexColumn g-2">
-            <Heading2>Størrelse på tavlevisningen</Heading2>
+            <Heading2>Tekststørrelse</Heading2>
             <form
                 className="box flexColumn justifyBetween"
                 action={async (data: FormData) => {

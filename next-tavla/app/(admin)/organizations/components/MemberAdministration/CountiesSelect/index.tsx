@@ -22,11 +22,11 @@ function CountiesSelect({
 
     return (
         <div className="flexColumn g-2">
-            <Heading2>Velg fylkene du vil sette opp tavler for</Heading2>
+            <Heading2>Fylker</Heading2>
             <div className="box">
                 <Paragraph>
-                    Huk av fylker som vil være standard når en ny tavle
-                    opprettes.{' '}
+                    Velg hvilke fylker som skal være standard når du oppretter
+                    en ny tavle.
                 </Paragraph>
                 <form
                     action={async (data: FormData) => {

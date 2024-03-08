@@ -46,11 +46,11 @@ function DefaultColumns({
 
     return (
         <div className="flexColumn g-2">
-            <Heading2>Informasjonskolonner i tavlevisning</Heading2>
+            <Heading2>Kolonner</Heading2>
             <div className="box">
                 <Paragraph>
-                    Velg den informasjonen du ønsker skal stå som standard i
-                    tavlevisningen når du tar opp en tavle
+                    Velg hvilke kolonner som skal være standard når du oppretter
+                    en ny tavle.
                 </Paragraph>
 
                 <form action={action}>

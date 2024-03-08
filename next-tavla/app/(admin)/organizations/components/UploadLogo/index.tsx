@@ -10,14 +10,11 @@ import { DeleteLogo } from './DeleteLogo'
 function UploadLogo({ organization }: { organization: TOrganization }) {
     return (
         <div className="flexColumn g-2">
-            <Heading2>Legg til logo</Heading2>
-
+            <Heading2>Logo</Heading2>
             <div className="flexColumn g-4 box">
-                <Paragraph>
-                    Her kan du legge til en logo. Logoen vil vises på alle
-                    tavlene til organisasjonen. Du kan kun ha en logo om gangen.
-                    Om du laster opp en ny logo vil den som er på tavlen fra før
-                    erstattes med den nye logoen du laster opp.
+                <Paragraph margin="none">
+                    Velg hvilken logo som skal vises på alle tavlene til
+                    organisasjonen.
                 </Paragraph>
                 <div className={classes.logoPreview}>
                     <Image

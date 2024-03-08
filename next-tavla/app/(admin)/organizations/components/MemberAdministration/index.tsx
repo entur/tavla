@@ -3,6 +3,7 @@ import { MemberList } from './MemberList'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import { InviteUser } from './InviteUser'
 import { Contrast } from 'Admin/components/Contrast'
+
 function MemberAdministration(props: {
     oid?: TOrganizationID
     uid?: TUserID
@@ -10,10 +11,9 @@ function MemberAdministration(props: {
 }) {
     return (
         <Contrast className="flexColumn g-2">
-            <Heading2>Administrer medlemmer</Heading2>
+            <Heading2>Medlemmer</Heading2>
             <div className="box">
                 <Paragraph>Administrer medlemmer i organisasjonen. </Paragraph>
-
                 <InviteUser oid={props.oid} />
                 <MemberList {...props} />
             </div>

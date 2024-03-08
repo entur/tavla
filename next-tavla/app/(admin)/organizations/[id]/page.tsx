@@ -55,6 +55,8 @@ async function EditOrganizationPage({ params }: TProps) {
                 Valgene som tas blir satt som standard når det opprettes en
                 tavle i organisasjonen &quot;{organization.name}&quot;. Valgene
                 kan fortsatt justeres i hver enkelt tavle med unntak av logo.
+                Innstillingene vil ikke påvirke tavler som allerede har blitt
+                opprettet
             </LeadParagraph>
             <div className={classes.organization}>
                 <MemberAdministration
