@@ -4,7 +4,8 @@ import { setFontSize } from './actions'
 import { FontChoiceChip } from 'app/(admin)/edit/[id]/components/MetaSettings/FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
-import { Button } from '@entur/button'
+import { TOrganizationID } from 'types/settings'
+import { Heading2, Paragraph } from '@entur/typography'
 
 function FontSelect({
     oid,
@@ -23,26 +24,24 @@ function FontSelect({
                     const font = data.get('font') as TFontSize
                     if (!oid) return
                     await setFontSize(oid, font)
+                    addToast('Tekststørrelse lagret!')
                 }}
             >
-                <div className="flexColumn">
-                    <Paragraph>
-                        Velg hvilken tekststørrelse som skal være standard når
-                        du oppretter en ny tavle.
-                    </Paragraph>
-                    <FontChoiceChip font={font ?? 'medium'} />
+                <Paragraph>
+                    Velg hvilken tekststørrelse som skal være standard når du
+                    oppretter en ny tavle.
+                </Paragraph>
+                <FontChoiceChip font={font ?? 'medium'} />
 
-
-                    <div className="flexRow justifyEnd mt-2 mr-2 ">
-                        <SubmitButton
-                            variant="secondary"
-                            aria-label="Lagre tekststørrelse"
-                        >
-                            Lagre tekststørrelse
-                        </SubmitButton>
-                    </div>
-                </form>
-            </div>
+                <div className="flexRow justifyEnd mt-2 mr-2 ">
+                    <SubmitButton
+                        variant="secondary"
+                        aria-label="Lagre tekststørrelse"
+                    >
+                        Lagre tekststørrelse
+                    </SubmitButton>
+                </div>
+            </form>
         </div>
     )
 }
