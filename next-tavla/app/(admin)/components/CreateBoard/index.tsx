@@ -272,7 +272,7 @@ function StopSelector({
                     }}
                     className="mt-2"
                     loading={isSubmitting}
-                    disabled={isSubmitting || !board?.tiles.length}
+                    disabled={isSubmitting}
                 >
                     Opprett tavle
                 </PrimaryButton>
