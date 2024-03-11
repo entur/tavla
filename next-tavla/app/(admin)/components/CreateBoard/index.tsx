@@ -83,7 +83,7 @@ function CreateBoard() {
                             const organization = data.get(
                                 'organization',
                             ) as TOrganizationID
-                            const isPrivate = data.get('check-privateBoard')
+                            const isPrivate = data.get('is-private')
                             if (!organization && !isPrivate) {
                                 return setFormError(
                                     getFormFeedbackForError(
@@ -169,7 +169,7 @@ function NameAndOrganizationSelector({
                 <Checkbox
                     defaultChecked={isPrivate}
                     onChange={() => setisPrivate(!isPrivate)}
-                    name="check-privateBoard"
+                    name="is-private"
                 >
                     Jeg vil ikke velge organisasjon
                 </Checkbox>
