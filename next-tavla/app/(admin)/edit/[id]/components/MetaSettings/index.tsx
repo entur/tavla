@@ -8,6 +8,7 @@ import { TFontSize, TMeta } from 'types/meta'
 import { saveMeta } from './actions'
 import { TBoardID } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
+import { Adress } from 'app/(admin)/organizations/components/Adress'
 
 function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
     return (
@@ -25,14 +26,18 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
             className={classes.meta}
         >
             <div className="flexRow justifyBetween alignCenter p-2">
-                <div className="w-100">
+                <div>
                     <Heading4 className="m-0">Navn på tavlen</Heading4>
                     <TextField
                         name="name"
-                        className="w-30"
+                        className="w-100"
                         defaultValue={meta.title ?? DEFAULT_BOARD_NAME}
                         label="Navn på tavlen"
                     />
+                </div>
+                <div className="flexColumn w-30 p-2">
+                    <Heading4 className="m-0">Hvor skal tavla stå?</Heading4>
+                    <Adress />
                 </div>
                 <div className="flexColumn g-1">
                     <Heading4 className="m-0">Velg tekststørrelse: </Heading4>
