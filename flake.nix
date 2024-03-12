@@ -20,6 +20,7 @@
               cargo
               rust-analyzer
               clippy
+              rustfmt
 
               # Tavla
               yarn
