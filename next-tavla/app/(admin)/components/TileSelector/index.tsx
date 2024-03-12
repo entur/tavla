@@ -45,8 +45,8 @@ function TileSelector({
                     return setFormError(
                         getFormFeedbackForError(
                             !selectedStopPlace
-                                ? 'dropdown/stopplace-missing'
-                                : 'dropdown/quay-missing',
+                                ? 'create/stop_place-missing'
+                                : 'create/quay-missing',
                         ),
                     )
                 }
@@ -77,7 +77,7 @@ function TileSelector({
                     selectedItem={selectedStopPlace}
                     onChange={setSelectedStopPlace}
                     debounceTimeout={1000}
-                    {...getFormFeedbackForField('dropdown', state)}
+                    {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
             <div>
@@ -89,8 +89,8 @@ function TileSelector({
                     prepend={<SearchIcon />}
                     selectedItem={selectedQuay}
                     onChange={setSelectedQuay}
-                    {...getFormFeedbackForField('general', state)}
                     disabled={!selectedStopPlace}
+                    {...getFormFeedbackForField('quay', state)}
                 />
             </div>
             <HiddenInput id="stop_place" value={selectedStopPlace?.value} />

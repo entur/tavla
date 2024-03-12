@@ -83,11 +83,11 @@ function CreateBoard() {
                             const organization = data.get(
                                 'organization',
                             ) as TOrganizationID
-                            const isPrivate = data.get('is-private')
-                            if (!organization && !isPrivate) {
+                            const personal = data.get('personal')
+                            if (!organization && !personal) {
                                 return setFormError(
                                     getFormFeedbackForError(
-                                        'board/organization-missing',
+                                        'create/organization-missing',
                                     ),
                                 )
                             }
@@ -130,7 +130,7 @@ function NameAndOrganizationSelector({
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations()
 
-    const [isPrivate, setisPrivate] = useState<boolean>(false)
+    const [personal, setPersonal] = useState<boolean>(false)
 
     if (!active) return null
     return (
@@ -162,14 +162,14 @@ function NameAndOrganizationSelector({
                     onChange={setSelectedOrganization}
                     clearable
                     className="mb-2"
-                    {...getFormFeedbackForField('dropdown', state)}
                     aria-required="true"
-                    disabled={isPrivate}
+                    disabled={personal}
+                    {...getFormFeedbackForField('organization', state)}
                 />
                 <Checkbox
-                    defaultChecked={isPrivate}
-                    onChange={() => setisPrivate(!isPrivate)}
-                    name="is-private"
+                    checked={personal}
+                    onChange={() => setPersonal(!personal)}
+                    name="personal"
                 >
                     Jeg vil ikke velge organisasjon
                 </Checkbox>

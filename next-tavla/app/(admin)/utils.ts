@@ -10,7 +10,9 @@ type InputType =
     | 'name'
     | 'file'
     | 'column'
-    | 'dropdown'
+    | 'organization'
+    | 'quay'
+    | 'stop_place'
 
 export type TFormFeedback = {
     form_type: InputType
@@ -130,9 +132,9 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 feedback: 'Du har ikke gitt tavla et navn',
                 variant: 'error',
             }
-        case 'board/organization-missing':
+        case 'create/organization-missing':
             return {
-                form_type: 'dropdown',
+                form_type: 'organization',
                 feedback: 'Du har ikke valgt organisasjon',
                 variant: 'error',
             }
@@ -167,16 +169,16 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 variant: 'error',
             }
         }
-        case 'dropdown/quay-missing': {
+        case 'create/quay-missing': {
             return {
-                form_type: 'general',
+                form_type: 'quay',
                 feedback: 'Du har ikke valgt retning enda',
                 variant: 'error',
             }
         }
-        case 'dropdown/stopplace-missing': {
+        case 'create/stop_place-missing': {
             return {
-                form_type: 'dropdown',
+                form_type: 'stop_place',
                 feedback: 'Du har ikke valgt stoppested',
                 variant: 'error',
             }
