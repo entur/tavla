@@ -17,13 +17,6 @@
     padding-bottom: 6em;
 }
 
-.meta {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    text-align: center;
-    align-items: flex-start;
-}
-
 @media (max-width: 1200px) {
     .organization {
         grid-template-columns: 1fr;
