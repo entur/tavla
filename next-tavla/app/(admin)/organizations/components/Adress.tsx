@@ -1,10 +1,23 @@
+import { Button } from '@entur/button'
 import { SearchableDropdown } from '@entur/dropdown'
+import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
+import { TLocation } from 'types/meta'
+import { TBoardID } from 'types/settings'
 
-function Adress() {
-    const { pointItems, selectedPoint, setSelectedPoint } = usePointSearch()
+function Adress({ bid, location }: { bid: TBoardID; location?: TLocation }) {
+    const { pointItems, selectedPoint, setSelectedPoint } =
+        usePointSearch(location)
+
     return (
-        <div>
+        <form
+            action={() => {
+                saveLocation(bid, {
+                    name: selectedPoint?.value.name,
+                    coordinate: selectedPoint?.value.coordinate,
+                })
+            }}
+        >
             <SearchableDropdown
                 label="Adresse"
                 items={pointItems}
@@ -13,7 +26,10 @@ function Adress() {
                 debounceTimeout={1000}
                 clearable
             />
-        </div>
+            <Button variant="secondary" type="submit" className="mt-2">
+                Lagre adresse
+            </Button>
+        </form>
     )
 }
 
