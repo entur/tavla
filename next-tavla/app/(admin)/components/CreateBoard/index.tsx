@@ -3,7 +3,7 @@ import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
 import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
 import { Stepper } from '@entur/menu'
 import { Modal } from '@entur/modal'
-import { Heading3, Heading4, Paragraph } from '@entur/typography'
+import { Heading3, Heading4, Label, Paragraph } from '@entur/typography'
 import Link from 'next/link'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { usePathname, useRouter } from 'next/navigation'
@@ -13,7 +13,7 @@ import { useState } from 'react'
 import { TBoard, TOrganizationID } from 'types/settings'
 import { create } from './actions'
 import { StopPlaceList } from './components/StopPlaceList'
-import { TextField } from '@entur/form'
+import { Checkbox, TextField } from '@entur/form'
 import { Dropdown } from '@entur/dropdown'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
@@ -83,13 +83,22 @@ function CreateBoard() {
                             const organization = data.get(
                                 'organization',
                             ) as TOrganizationID
-
+                            const personal = data.get('personal')
+                            if (!organization && !personal) {
+                                return setFormError(
+                                    getFormFeedbackForError(
+                                        'create/organization-missing',
+                                    ),
+                                )
+                            }
                             setBoard({
                                 tiles: [],
                                 ...board,
                                 meta: { ...board?.meta, title: name },
                             } as TBoard)
                             setOrganization(organization)
+                            setFormError(undefined)
+
                             router.push(getPathWithParams('stops'))
                         }}
                     />
@@ -121,14 +130,19 @@ function NameAndOrganizationSelector({
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations()
 
+    const [personal, setPersonal] = useState<boolean>(false)
+
     if (!active) return null
     return (
         <form action={action}>
-            <Heading4 className="mt-1">Sett navn på tavla</Heading4>
+            <Heading4 className="mt-1 mb-2">
+                Velg navn og organisasjon for tavlen
+            </Heading4>
             <Paragraph>
-                Navnet på tavla vil vises i listen over tavler. Du kan endre på
-                navnet senere.
+                Gi tavlen et navn og legg den til i en organisasjon. Velger du
+                en organisasjon vil alle i organisasjonen ha tilgang til tavlen.
             </Paragraph>
+            <Label className="textLeft">Gi tavlen et navn</Label>
             <TextField
                 size="medium"
                 label="Navn"
@@ -137,21 +151,28 @@ function NameAndOrganizationSelector({
                 defaultValue={title}
                 required
                 {...getFormFeedbackForField('name', state)}
+                className="mb-2"
             />
             <div>
-                <Heading4>Legg tavla til i en organisasjon</Heading4>
-                <Paragraph>
-                    Hvis du ikke velger en organisasjon, vil tavla bli lagret
-                    under din private bruker. Det er kun du som kan administrere
-                    private tavler som opprettes.
-                </Paragraph>
+                <Label>Legg til i en organisasjon</Label>
                 <Dropdown
                     items={organizations}
                     label="Dine organisasjoner"
                     selectedItem={selectedOrganization}
                     onChange={setSelectedOrganization}
                     clearable
+                    className="mb-2"
+                    aria-required="true"
+                    disabled={personal}
+                    {...getFormFeedbackForField('organization', state)}
                 />
+                <Checkbox
+                    checked={personal}
+                    onChange={() => setPersonal(!personal)}
+                    name="personal"
+                >
+                    Jeg vil ikke velge organisasjon
+                </Checkbox>
                 <HiddenInput
                     id="organization"
                     value={selectedOrganization?.value}
@@ -189,7 +210,7 @@ function StopSelector({
 
     return (
         <div>
-            <Heading3>Legg til stoppesteder i Tavla </Heading3>
+            <Heading3>Legg til stoppesteder i Tavlen </Heading3>
             <Paragraph>
                 Søk etter stoppesteder og bestem om tavla skal vise alle
                 retninger, eller flere enkelte retninger.
@@ -211,7 +232,7 @@ function StopSelector({
                 direction="Column"
                 oid={oid}
             />
-            <Heading4>Stoppesteder lagt til i Tavla</Heading4>
+            <Heading4>Stoppesteder lagt til i Tavlen</Heading4>
             <StopPlaceList
                 tiles={board?.tiles}
                 onRemove={(tile: TTile) =>

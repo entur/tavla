@@ -10,6 +10,9 @@ type InputType =
     | 'name'
     | 'file'
     | 'column'
+    | 'organization'
+    | 'quay'
+    | 'stop_place'
 
 export type TFormFeedback = {
     form_type: InputType
@@ -129,6 +132,12 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 feedback: 'Du har ikke gitt tavla et navn',
                 variant: 'error',
             }
+        case 'create/organization-missing':
+            return {
+                form_type: 'organization',
+                feedback: 'Du har ikke valgt organisasjon',
+                variant: 'error',
+            }
         case 'board/tiles-missing':
             return {
                 form_type: 'general',
@@ -157,6 +166,20 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
             return {
                 form_type: 'file',
                 feedback: 'Filen du prøver å laste opp er for stor.',
+                variant: 'error',
+            }
+        }
+        case 'create/quay-missing': {
+            return {
+                form_type: 'quay',
+                feedback: 'Du har ikke valgt retning enda',
+                variant: 'error',
+            }
+        }
+        case 'create/stop_place-missing': {
+            return {
+                form_type: 'stop_place',
+                feedback: 'Du har ikke valgt stoppested',
                 variant: 'error',
             }
         }
