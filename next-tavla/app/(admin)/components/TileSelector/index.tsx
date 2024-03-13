@@ -14,7 +14,6 @@ import {
 } from 'app/(admin)/utils'
 import { useState } from 'react'
 import { Label } from '@entur/typography'
-import classes from './styles.module.css'
 
 function TileSelector({
     action,
