@@ -14,6 +14,7 @@ import {
 } from 'app/(admin)/utils'
 import { useState } from 'react'
 import { Label } from '@entur/typography'
+import classes from './styles.module.css'
 
 function TileSelector({
     action,
@@ -55,7 +56,7 @@ function TileSelector({
                 setSelectedStopPlace(null)
             }}
         >
-            <div>
+            <div className={`${classes.flexBasis25}`}>
                 <Label>Velg fylke for å begrense søket</Label>
                 <MultiSelect
                     label="Velg fylker"
@@ -67,7 +68,7 @@ function TileSelector({
                     hideSelectAll
                 />
             </div>
-            <div>
+            <div className={`${classes.flexBasis33}`}>
                 <Label>Søk etter stoppested</Label>
                 <SearchableDropdown
                     items={stopPlaceItems}
@@ -80,8 +81,8 @@ function TileSelector({
                     {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
-            <div>
-                <Label>Velg stoppestedets retning eller plattform</Label>
+            <div className={`${classes.flexBasis25}`}>
+                <Label>Velg stoppestedets retning</Label>
                 <Dropdown
                     items={quays}
                     label="Velg plattform/retning"
@@ -99,7 +100,7 @@ function TileSelector({
                 value={selectedStopPlace?.label}
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
-            <Button variant="primary" type="submit" className="mt-2">
+            <Button variant="primary" type="submit" className="mt-3">
                 Legg til
             </Button>
         </form>
