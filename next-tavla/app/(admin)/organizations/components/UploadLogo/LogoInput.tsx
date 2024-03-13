@@ -10,6 +10,7 @@ import { useFormState } from 'react-dom'
 import { upload } from './actions'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TOrganizationID } from 'types/settings'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function LogoInput({ oid }: { oid?: TOrganizationID }) {
     const [state, action] = useFormState(upload, undefined)
@@ -67,14 +68,13 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                     >
                         Avbryt
                     </Button>
-                    <Button
-                        type="submit"
+                    <SubmitButton
+                        variant="primary"
                         aria-label="Last opp logo"
                         className="w-100 justifyCenter"
-                        variant="primary"
                     >
                         Last opp logo
-                    </Button>
+                    </SubmitButton>
                 </div>
             )}
         </form>
