@@ -14,12 +14,14 @@ import { FilterChip } from '@entur/chip'
 import { TColumn } from 'types/column'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
-import { deleteTile, saveTile } from './actions'
+import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { TransportModeCheckbox } from './TransportModeCheckbox'
 import { LineCheckbox } from './LineCheckbox'
 import { HiddenInput } from 'components/Form/HiddenInput'
+import { usePostHog } from 'posthog-js/react'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
+    const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
     const lines = useLines(tile)
 
@@ -39,6 +41,14 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 .sort(sortLineByPublicCode),
         }))
         .sort((a, b) => b.lines.length - a.lines.length)
+
+    const captureColumnChangeEvent = async () => {
+        const organization = await getOrganizationForBoard(bid)
+        const hasDefault = organization?.defaults?.columns !== undefined
+
+        if (hasDefault) posthog.capture('EDIT_COLUMN_CHANGE_DEFAULT_EXISTS')
+        else posthog.capture('EDIT_COLUMN_CHANGE')
+    }
 
     return (
         <div>
@@ -82,6 +92,9 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             }
                             // If the length of lines equals all the lines, we don't want to include any
                             lines = lines.length == count ? [] : lines
+
+                            if (columns !== tile.columns)
+                                captureColumnChangeEvent()
 
                             saveTile(bid, {
                                 ...tile,
