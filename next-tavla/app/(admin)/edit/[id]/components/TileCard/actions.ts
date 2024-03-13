@@ -1,7 +1,7 @@
 'use server'
 import { firestore } from 'firebase-admin'
 import { initializeAdminApp } from 'Admin/utils/firebase'
-import { TBoard, TBoardID } from 'types/settings'
+import { TBoard, TBoardID, TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 import { revalidatePath } from 'next/cache'
 
@@ -32,4 +32,12 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
     docRef.update({ tiles: doc.tiles, 'meta.dateModified': Date.now() })
 
     revalidatePath(`/edit/${bid}`)
+}
+
+export async function getOrganizationForBoard(bid: TBoardID) {
+    const ref = await firestore()
+        .collection('organizations')
+        .where('boards', 'array-contains', bid)
+        .get()
+    return ref.docs.map((doc) => doc.data() as TOrganization)[0]
 }

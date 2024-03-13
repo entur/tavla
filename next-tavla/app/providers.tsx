@@ -8,6 +8,7 @@ if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
         api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
         capture_pageview: false, // This will be done manually
+        autocapture: false, // We will capture manually
     })
 }
 
