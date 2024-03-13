@@ -38,7 +38,7 @@ function TileSelector({
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <form
-            className={`flex${direction} g-2 mb-3`}
+            className={`flex${direction} g-2 mb-3 w-100`}
             action={action}
             onSubmit={(event) => {
                 if (!selectedStopPlace || !selectedQuay) {
@@ -56,7 +56,7 @@ function TileSelector({
                 setSelectedStopPlace(null)
             }}
         >
-            <div className={`${classes.flexBasis25}`}>
+            <div className="w-100">
                 <Label>Velg fylke for å begrense søket</Label>
                 <MultiSelect
                     label="Velg fylker"
@@ -68,7 +68,7 @@ function TileSelector({
                     hideSelectAll
                 />
             </div>
-            <div className={`${classes.flexBasis33}`}>
+            <div className="w-100">
                 <Label>Søk etter stoppested</Label>
                 <SearchableDropdown
                     items={stopPlaceItems}
@@ -81,7 +81,7 @@ function TileSelector({
                     {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
-            <div className={`${classes.flexBasis25}`}>
+            <div className="w-100">
                 <Label>Velg stoppestedets retning</Label>
                 <Dropdown
                     items={quays}
