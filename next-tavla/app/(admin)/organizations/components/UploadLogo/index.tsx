@@ -31,7 +31,7 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
                         logo={organization.logo}
                     />
                 )}
-                <LogoInput oid={organization.id} />
+                {!organization.logo && <LogoInput oid={organization.id} />}
             </div>
         </div>
     )
