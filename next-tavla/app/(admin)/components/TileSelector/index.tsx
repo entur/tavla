@@ -19,10 +19,12 @@ function TileSelector({
     action,
     direction,
     oid,
+    showLabel,
 }: {
     action: (data: FormData) => void
     direction: 'Row' | 'Column'
     oid?: TOrganizationID
+    showLabel?: boolean
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch(oid)
@@ -56,9 +58,9 @@ function TileSelector({
             }}
         >
             <div className="w-100">
-                <Label>Velg fylke for å begrense søket</Label>
+                {showLabel && <Label>Velg fylke</Label>}
                 <MultiSelect
-                    label="Velg fylker"
+                    label="Fylker"
                     items={counties}
                     selectedItems={selectedCounties}
                     onChange={setSelectedCounties}
@@ -68,7 +70,7 @@ function TileSelector({
                 />
             </div>
             <div className="w-100">
-                <Label>Søk etter stoppested</Label>
+                {showLabel && <Label>Søk etter stoppested</Label>}
                 <SearchableDropdown
                     items={stopPlaceItems}
                     label="Stoppested"
@@ -81,10 +83,10 @@ function TileSelector({
                 />
             </div>
             <div className="w-100">
-                <Label>Velg stoppestedets retning</Label>
+                {showLabel && <Label>Velg stoppestedets retning</Label>}
                 <Dropdown
                     items={quays}
-                    label="Velg plattform/retning"
+                    label="Plattform/retning"
                     clearable
                     prepend={<SearchIcon />}
                     selectedItem={selectedQuay}
@@ -99,7 +101,12 @@ function TileSelector({
                 value={selectedStopPlace?.label}
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
-            <Button variant="primary" type="submit" className="mt-3">
+
+            <Button
+                variant="primary"
+                type="submit"
+                className={direction === 'Column' ? 'w-100' : undefined}
+            >
                 Legg til
             </Button>
         </form>
