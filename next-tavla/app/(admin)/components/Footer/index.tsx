@@ -30,27 +30,33 @@ function Footer() {
                             </EnturLink>
                         </Paragraph>
                     </div>
-                    <div>
+                    <div className="flexColumn g-2">
                         <Heading3>Informasjon</Heading3>
-                        <Paragraph className="mb-2">
+                        <div className="flexRow g-1 alignCenter">
                             <EnturLink
                                 as={Link}
                                 href="https://uustatus.no/nb/erklaringer/publisert/ffb3d21b-fbb4-48ed-9043-bb2a904f3143"
+                                target="_blank"
                             >
                                 Tilgjengelighetserklæring
-                                <ExternalIcon className="ml-1" />
                             </EnturLink>
-                        </Paragraph>
-                        <Paragraph>
+                            <ExternalIcon aria-hidden />
+                        </div>
+                        <div>
                             <EnturLink as={Link} href="/privacy">
-                                Peronvernerklæring
+                                Personvernerklæring
                             </EnturLink>
-                        </Paragraph>
-                    </div>
-                    <div className="flexRow justifyBetween mt-4">
-                        <Link href="https://github.com/entur/tavla">
-                            <GithubIcon size={25} />
-                        </Link>
+                        </div>
+                        <div className="flexRow g-1 alignCenter">
+                            <EnturLink
+                                href="https://github.com/entur/tavla"
+                                target="_blank"
+                            >
+                                GitHub
+                            </EnturLink>
+                            <ExternalIcon aria-hidden />
+                            <GithubIcon size={25} aria-hidden />
+                        </div>
                     </div>
                 </div>
             </div>
