@@ -6,11 +6,12 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { Label, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
-import { useFormState } from 'react-dom'
+import { useFormState, useFormStatus } from 'react-dom'
 import { upload } from './actions'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TOrganizationID } from 'types/settings'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { Loader } from '@entur/loader'
 
 function LogoInput({ oid }: { oid?: TOrganizationID }) {
     const [state, action] = useFormState(upload, undefined)
@@ -82,6 +83,14 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
 }
 
 function Filename({ fileName }: { fileName?: string }) {
+    const { pending } = useFormStatus()
+    if (pending)
+        return (
+            <div className="flexColumn w-100 h-100 alignCenter">
+                <Paragraph>Laster opp logo..</Paragraph>
+                <Loader className="w-100" />
+            </div>
+        )
     if (fileName)
         return (
             <div className="flexRow alignCenter g-2">
