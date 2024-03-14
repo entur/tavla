@@ -231,6 +231,7 @@ function StopSelector({
                 }}
                 direction="Column"
                 oid={oid}
+                showLabel
             />
             <Heading4>Stoppesteder lagt til i Tavlen</Heading4>
             <StopPlaceList

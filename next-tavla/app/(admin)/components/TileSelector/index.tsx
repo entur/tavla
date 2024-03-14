@@ -19,10 +19,12 @@ function TileSelector({
     action,
     direction,
     oid,
+    showLabel,
 }: {
     action: (data: FormData) => void
     direction: 'Row' | 'Column'
     oid?: TOrganizationID
+    showLabel?: boolean
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch(oid)
@@ -37,7 +39,7 @@ function TileSelector({
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <form
-            className={`flex${direction} g-2 mb-3`}
+            className={`flex${direction} g-2 mb-3 w-100`}
             action={action}
             onSubmit={(event) => {
                 if (!selectedStopPlace || !selectedQuay) {
@@ -55,10 +57,10 @@ function TileSelector({
                 setSelectedStopPlace(null)
             }}
         >
-            <div>
-                <Label>Velg fylke for å begrense søket</Label>
+            <div className="w-100">
+                {showLabel && <Label>Velg fylke</Label>}
                 <MultiSelect
-                    label="Velg fylker"
+                    label="Fylker"
                     items={counties}
                     selectedItems={selectedCounties}
                     onChange={setSelectedCounties}
@@ -67,8 +69,8 @@ function TileSelector({
                     hideSelectAll
                 />
             </div>
-            <div>
-                <Label>Søk etter stoppested</Label>
+            <div className="w-100">
+                {showLabel && <Label>Søk etter stoppested</Label>}
                 <SearchableDropdown
                     items={stopPlaceItems}
                     label="Stoppested"
@@ -80,11 +82,11 @@ function TileSelector({
                     {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
-            <div>
-                <Label>Velg stoppestedets retning eller plattform</Label>
+            <div className="w-100">
+                {showLabel && <Label>Velg stoppestedets retning</Label>}
                 <Dropdown
                     items={quays}
-                    label="Velg plattform/retning"
+                    label="Plattform/retning"
                     clearable
                     prepend={<SearchIcon />}
                     selectedItem={selectedQuay}
@@ -99,7 +101,12 @@ function TileSelector({
                 value={selectedStopPlace?.label}
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
-            <Button variant="primary" type="submit" className="mt-2">
+
+            <Button
+                variant="primary"
+                type="submit"
+                className={direction === 'Column' ? 'w-100' : undefined}
+            >
                 Legg til
             </Button>
         </form>
