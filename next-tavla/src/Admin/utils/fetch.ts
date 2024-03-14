@@ -1,5 +1,6 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { TavlaError } from 'Admin/types/error'
+import { TCategory, getIcons } from 'app/(admin)/edit/utils'
 import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
 import { TLocation } from 'types/meta'
 import { TBoardID, TOrganization } from 'types/settings'
@@ -18,10 +19,13 @@ type TPointGeoresponse = {
         properties: {
             id?: string
             label?: string
+            layer?: string
+            category?: [TCategory]
         }
         geometry: {
             coordinates: [number, number]
         }
+        icons?: []
     }>
 }
 
@@ -71,7 +75,7 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
         })
 }
 
-export async function fetchPoint(
+export async function fetchPoints(
     text: string,
 ): Promise<NormalizedDropdownItemType<TLocation>[]> {
     if (!text || text.length < 3) return []
@@ -98,6 +102,7 @@ export async function fetchPoint(
                     },
                 },
                 label: properties.label || '',
+                icons: getIcons(properties.layer, properties.category),
             }))
         })
 }

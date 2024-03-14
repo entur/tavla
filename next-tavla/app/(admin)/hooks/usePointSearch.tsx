@@ -1,5 +1,5 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { fetchPoint } from 'Admin/utils/fetch'
+import { fetchPoints } from 'Admin/utils/fetch'
 import { useCallback, useState } from 'react'
 import { TLocation } from 'types/meta'
 import { locationToDropdownItem } from '../edit/utils'
@@ -11,7 +11,7 @@ function usePointSearch(location?: TLocation) {
         )
 
     const items = useCallback(
-        async (search: string) => await fetchPoint(search),
+        async (search: string) => await fetchPoints(search),
         [],
     )
 

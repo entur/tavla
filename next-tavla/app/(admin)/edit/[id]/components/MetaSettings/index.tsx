@@ -8,7 +8,7 @@ import { TFontSize, TMeta } from 'types/meta'
 import { saveFont, saveTitle } from './actions'
 import { TBoardID } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
-import { Adress } from 'app/(admin)/organizations/components/Adress'
+import { Adress } from './Adress'
 
 function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
     return (

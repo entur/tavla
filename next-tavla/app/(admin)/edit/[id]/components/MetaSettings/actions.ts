@@ -34,3 +34,10 @@ export async function saveLocation(bid: TBoardID, location: TLocation) {
         .doc(bid)
         .update({ 'meta.location': location })
 }
+
+export async function removeLocation(bid: TBoardID) {
+    await firestore()
+        .collection('boards')
+        .doc(bid)
+        .update({ 'meta.location': firestore.FieldValue.delete() })
+}

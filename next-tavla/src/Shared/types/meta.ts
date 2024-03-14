@@ -12,4 +12,7 @@ export type TMeta = {
 export type TTag = string
 export type TFontSize = 'small' | 'medium' | 'large'
 export type TCoordinate = { lat: number; lng: number }
-export type TLocation = { name?: string; coordinate?: TCoordinate }
+export type TLocation = {
+    name?: string
+    coordinate?: TCoordinate
+}
