@@ -25,7 +25,6 @@ type TPointGeoresponse = {
         geometry: {
             coordinates: [number, number]
         }
-        icons?: []
     }>
 }
 
