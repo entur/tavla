@@ -5,7 +5,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { TLocation } from 'types/meta'
 import { TBoardID } from 'types/settings'
 
-function Adress({ bid, location }: { bid: TBoardID; location?: TLocation }) {
+function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
     const { pointItems, selectedPoint, setSelectedPoint } =
         usePointSearch(location)
 
@@ -32,4 +32,4 @@ function Adress({ bid, location }: { bid: TBoardID; location?: TLocation }) {
     )
 }
 
-export { Adress }
+export { Address }

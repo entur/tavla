@@ -7,9 +7,9 @@ import { TMeta } from 'types/meta'
 import { saveFont, saveTitle } from './actions'
 import { TBoardID } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
-import { Adress } from './Adress'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { Address } from './Adress'
 
 function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
     return (
@@ -31,7 +31,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
             </form>
             <div className="box flexColumn justifyBetween">
                 <Heading4 className="m-0">Hvor skal tavla stå?</Heading4>
-                <Adress bid={bid} location={meta.location} />
+                <Address bid={bid} location={meta.location} />
             </div>
             <form action={saveFont} className="box flexColumn justifyBetween">
                 <Heading4 className="m-0">Velg tekststørrelse: </Heading4>
