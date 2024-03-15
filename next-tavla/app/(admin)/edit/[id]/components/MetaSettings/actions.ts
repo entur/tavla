@@ -34,9 +34,7 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
         .collection('boards')
         .doc(bid)
         .update({
-            'meta.location': location
-                ? location
-                : firestore.FieldValue.delete(),
+            'meta.location': location ?? firestore.FieldValue.delete(),
         })
     revalidatePath(`/edit/${bid}`)
 }
