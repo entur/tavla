@@ -1,6 +1,8 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { TavlaError } from 'Admin/types/error'
+import { TCategory, getIcons } from 'app/(admin)/edit/utils'
 import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
+import { TLocation } from 'types/meta'
 import { TBoardID, TOrganization } from 'types/settings'
 
 type TPartialGeoResponse = {
@@ -8,6 +10,20 @@ type TPartialGeoResponse = {
         properties: {
             id?: string
             label?: string
+        }
+    }>
+}
+
+type TPointGeoresponse = {
+    features: Array<{
+        properties: {
+            id?: string
+            label?: string
+            layer?: string
+            category?: [TCategory]
+        }
+        geometry: {
+            coordinates: [number, number]
         }
     }>
 }
@@ -54,6 +70,38 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
             return counties.map((county: TCounty) => ({
                 value: county.fylkesnummer,
                 label: county.fylkesnavn,
+            }))
+        })
+}
+
+export async function fetchPoints(
+    text: string,
+): Promise<NormalizedDropdownItemType<TLocation>[]> {
+    if (!text || text.length < 3) return []
+
+    const searchParams = new URLSearchParams({
+        lang: 'no',
+        size: '5',
+        text,
+    })
+
+    return fetch(`${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`, {
+        headers: {
+            'ET-Client-Name': CLIENT_NAME,
+        },
+    })
+        .then((res) => res.json())
+        .then((data: TPointGeoresponse) => {
+            return data.features.map(({ properties, geometry }) => ({
+                value: {
+                    name: properties.label ?? '',
+                    coordinate: {
+                        lat: geometry.coordinates[1],
+                        lng: geometry.coordinates[0],
+                    },
+                },
+                label: properties.label || '',
+                icons: getIcons(properties.layer, properties.category),
             }))
         })
 }

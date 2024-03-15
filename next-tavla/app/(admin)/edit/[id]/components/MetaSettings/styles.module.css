@@ -1,5 +1,6 @@
 .meta {
-    border-radius: 0.5em;
-    background: var(--secondary-background-color);
-    padding: 1em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4em 2em;
+    padding-bottom: 6em;
 }
