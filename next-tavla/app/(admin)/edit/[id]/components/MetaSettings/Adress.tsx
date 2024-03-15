@@ -1,9 +1,6 @@
 import { Button } from '@entur/button'
 import { SearchableDropdown } from '@entur/dropdown'
-import {
-    removeLocation,
-    saveLocation,
-} from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
+import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { TLocation } from 'types/meta'
 import { TBoardID } from 'types/settings'
@@ -15,12 +12,10 @@ function Adress({ bid, location }: { bid: TBoardID; location?: TLocation }) {
     return (
         <form
             action={() => {
-                selectedPoint
-                    ? saveLocation(bid, {
-                          name: selectedPoint?.value.name,
-                          coordinate: selectedPoint?.value.coordinate,
-                      })
-                    : removeLocation(bid)
+                saveLocation(bid, {
+                    name: selectedPoint?.value.name,
+                    coordinate: selectedPoint?.value.coordinate,
+                })
             }}
         >
             <SearchableDropdown

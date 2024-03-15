@@ -24,19 +24,16 @@ export async function saveFont(bid: TBoardID, font: TFontSize) {
     revalidatePath(`/edit/${bid}`)
 }
 
-export async function saveLocation(bid: TBoardID, location: TLocation) {
-    if (!location) return getFormFeedbackForError()
+export async function saveLocation(bid: TBoardID, location?: TLocation) {
+    if (!bid) return getFormFeedbackForError()
     await firestore()
         .collection('boards')
         .doc(bid)
-        .update({ 'meta.location': location })
-    revalidatePath(`/edit/${bid}`)
-}
-
-export async function removeLocation(bid: TBoardID) {
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({ 'meta.location': firestore.FieldValue.delete() })
+        .update({
+            'meta.location':
+                location?.coordinate && location.name
+                    ? location
+                    : firestore.FieldValue.delete(),
+        })
     revalidatePath(`/edit/${bid}`)
 }
