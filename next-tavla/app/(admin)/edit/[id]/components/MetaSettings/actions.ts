@@ -8,15 +8,19 @@ import { TBoardID } from 'types/settings'
 
 initializeAdminApp()
 
-export async function saveTitle(bid: TBoardID, title: string) {
+export async function saveTitle(data: FormData) {
+    const bid = data.get('bid') as TBoardID
+    const name = data.get('name') as string
     await firestore()
         .collection('boards')
         .doc(bid)
-        .update({ 'meta.title': title })
+        .update({ 'meta.title': name })
     revalidatePath(`/edit/${bid}`)
 }
 
-export async function saveFont(bid: TBoardID, font: TFontSize) {
+export async function saveFont(data: FormData) {
+    const bid = data.get('bid') as TBoardID
+    const font = data.get('font') as TFontSize
     await firestore()
         .collection('boards')
         .doc(bid)
