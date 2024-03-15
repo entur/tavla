@@ -1,7 +1,7 @@
-import { Button } from '@entur/button'
 import { SearchableDropdown } from '@entur/dropdown'
 import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
+import { SubmitButton } from 'components/Form/SubmitButton'
 import { TLocation } from 'types/meta'
 import { TBoardID } from 'types/settings'
 
@@ -23,9 +23,11 @@ function Adress({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 debounceTimeout={1000}
                 clearable
             />
-            <Button variant="secondary" type="submit" className="mt-2">
-                Lagre adresse
-            </Button>
+            <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+                <SubmitButton variant="secondary" className="mt-2">
+                    Lagre adresse
+                </SubmitButton>
+            </div>
         </form>
     )
 }
