@@ -12,10 +12,7 @@ function Adress({ bid, location }: { bid: TBoardID; location?: TLocation }) {
     return (
         <form
             action={() => {
-                saveLocation(bid, {
-                    name: selectedPoint?.value.name,
-                    coordinate: selectedPoint?.value.coordinate,
-                })
+                saveLocation(bid, selectedPoint?.value)
             }}
         >
             <SearchableDropdown
