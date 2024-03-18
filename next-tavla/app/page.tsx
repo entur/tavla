@@ -43,7 +43,7 @@ async function Landing() {
                         />
                     </div>
                     <div className="flexColumn justifyCenter p-4 minw-80rem">
-                        <Heading2>Hva er tavla?</Heading2>
+                        <Heading2>Hva er Tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage
                             avgangstavler for offentlig transport. Du kan f.eks.

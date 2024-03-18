@@ -50,7 +50,7 @@ function Create() {
     return (
         <div className="textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
-            <Heading3>Logg inn med e-post</Heading3>
+            <Heading3>Opprett ny bruker</Heading3>
             <form className="flexColumn g-2" action={action}>
                 <TextField
                     name="email"
