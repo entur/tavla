@@ -14,7 +14,7 @@ export async function saveTitle(data: FormData) {
     await firestore()
         .collection('boards')
         .doc(bid)
-        .update({ 'meta.title': name })
+        .update({ 'meta.title': name, 'meta.dateModified': Date.now() })
     revalidatePath(`/edit/${bid}`)
 }
 
@@ -24,7 +24,7 @@ export async function saveFont(data: FormData) {
     await firestore()
         .collection('boards')
         .doc(bid)
-        .update({ 'meta.fontSize': font })
+        .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
     revalidatePath(`/edit/${bid}`)
 }
 
@@ -35,6 +35,7 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
         .doc(bid)
         .update({
             'meta.location': location ?? firestore.FieldValue.delete(),
+            'meta.dateModified': Date.now(),
         })
     revalidatePath(`/edit/${bid}`)
 }
