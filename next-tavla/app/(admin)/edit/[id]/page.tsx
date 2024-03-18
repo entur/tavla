@@ -14,6 +14,7 @@ import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
 import { ExternalIcon } from '@entur/icons'
 import { Metadata } from 'next'
+import { getOrganizationForBoard } from './components/TileCard/actions'
 
 type TProps = {
     params: { id: TBoardID }
@@ -31,6 +32,8 @@ export default async function EditPage({ params }: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user) return permanentRedirect('/')
     const board = await getBoard(params.id)
+
+    const organization = await getOrganizationForBoard(params.id)
 
     return (
         <div className="flexColumn p-4 g-2">
@@ -55,7 +58,7 @@ export default async function EditPage({ params }: TProps) {
                 action={async (data: FormData) => {
                     'use server'
 
-                    const tile = formDataToTile(data)
+                    const tile = formDataToTile(data, organization)
                     if (!tile.placeId) return
 
                     await addTile(params.id, tile)

@@ -9,3 +9,10 @@ export const Columns = {
 } as const
 
 export type TColumn = keyof typeof Columns
+
+export const DEFAULT_ORGANIZATION_COLUMNS = [
+    'line',
+    'destination',
+    'time',
+    'realtime',
+] as TColumn[]
