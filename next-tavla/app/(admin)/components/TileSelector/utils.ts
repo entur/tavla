@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid'
+import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
 import { TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 
@@ -14,11 +15,7 @@ export function formDataToTile(data: FormData, organization?: TOrganization) {
         name: stopPlaceName,
         uuid: nanoid(),
         placeId,
-        columns: organization?.defaults?.columns ?? [
-            'line',
-            'destination',
-            'time',
-            'realtime',
-        ],
+        columns:
+            organization?.defaults?.columns ?? DEFAULT_ORGANIZATION_COLUMNS,
     } as TTile
 }

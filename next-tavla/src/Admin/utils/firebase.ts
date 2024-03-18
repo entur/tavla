@@ -13,6 +13,7 @@ import {
     TUser,
     TUserID,
 } from 'types/settings'
+import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
 
 const FIREBASE_IN_OPERATOR_LIMIT = 30
 
@@ -270,6 +271,9 @@ export async function createOrganization(uid: TUserID, name: string) {
             owners: [uid],
             editors: [],
             boards: [],
+            defaults: {
+                columns: DEFAULT_ORGANIZATION_COLUMNS,
+            },
         })
     return organization.id
 }
