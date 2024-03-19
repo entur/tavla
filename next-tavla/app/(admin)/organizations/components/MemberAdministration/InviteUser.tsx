@@ -9,12 +9,19 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { useRef } from 'react'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
     const [state, formAction] = useFormState(inviteUserAction, undefined)
 
+    const formRef = useRef<HTMLFormElement>(null)
+
+    const action = async (data: FormData) => {
+        formAction(data)
+        formRef.current?.reset()
+    }
     return (
-        <form action={formAction}>
+        <form action={action} ref={formRef}>
             <div className={classes.inviteForm}>
                 <HiddenInput id="oid" value={oid} />
                 <div className="flexColumn w-100">
