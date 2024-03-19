@@ -23,6 +23,7 @@ function Board({ board, style }: { board: TBoard; style?: CSSProperties }) {
                 <p>Du har ikke lagt til noen holdeplasser enda.</p>
             </Tile>
         )
+
     return (
         <div
             className={classes.board}

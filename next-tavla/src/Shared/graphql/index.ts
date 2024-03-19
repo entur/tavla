@@ -328,6 +328,35 @@ export type TStopPlaceNameQuery = {
     stopPlace: { __typename?: 'StopPlace'; name: string; id: string } | null
 }
 
+export type TWalkDistanceQueryVariables = Types.Exact<{
+    stopPlaceId: Types.Scalars['String']
+    location: Types.TInputCoordinates
+}>
+
+export type TWalkDistanceQuery = {
+    __typename?: 'QueryType'
+    trip: {
+        __typename?: 'Trip'
+        tripPatterns: Array<{
+            __typename?: 'TripPattern'
+            duration: Long | null
+            walkDistance: number | null
+            legs: Array<{
+                __typename?: 'Leg'
+                expectedStartTime: DateTime
+                expectedEndTime: DateTime
+                mode: Types.TMode
+                distance: number
+                line: {
+                    __typename?: 'Line'
+                    id: string
+                    publicCode: string | null
+                } | null
+            }>
+        }>
+    }
+}
+
 export class TypedDocumentString<TResult, TVariables>
     extends String
     implements DocumentTypeDecoration<TResult, TVariables>
@@ -621,4 +650,31 @@ export const StopPlaceNameQuery = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<
     TStopPlaceNameQuery,
     TStopPlaceNameQueryVariables
+>
+export const WalkDistanceQuery = new TypedDocumentString(`
+    query walkDistance($stopPlaceId: String!, $location: InputCoordinates!) {
+  trip(
+    from: {coordinates: $location}
+    to: {place: $stopPlaceId}
+    modes: {directMode: foot}
+  ) {
+    tripPatterns {
+      duration
+      walkDistance
+      legs {
+        expectedStartTime
+        expectedEndTime
+        mode
+        distance
+        line {
+          id
+          publicCode
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TWalkDistanceQuery,
+    TWalkDistanceQueryVariables
 >
