@@ -33,7 +33,7 @@ struct AppState {
 #[tokio::main]
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
-    let port = std::env::var("PORT").unwrap_or("3000".to_string());
+    let port = std::env::var("PORT").unwrap_or("3001".to_string());
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
         .await
@@ -72,7 +72,7 @@ async fn refresh_manager(mut receiver: Receiver<Refresh>) {
 }
 
 async fn subscribe(Path(bid): Path<String>, State(state): State<AppState>) -> StatusCode {
-    tokio::spawn(async move {
+    let handle = tokio::spawn(async move {
         let (sender, receiver) = oneshot::channel();
         state
             .sender
@@ -86,6 +86,7 @@ async fn subscribe(Path(bid): Path<String>, State(state): State<AppState>) -> St
         let res = receiver.await;
         println!("refresh for {} was triggered, {:?}", bid, res)
     });
+    let _ = handle.await;
     StatusCode::OK
 }
 

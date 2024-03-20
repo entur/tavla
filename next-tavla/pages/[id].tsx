@@ -5,6 +5,7 @@ import { Board } from 'Board/scenarios/Board'
 import { getBoard, getOrganizationLogoWithBoard } from 'Admin/utils/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
+import { useRefresh } from 'hooks/useRefresh'
 
 export async function getServerSideProps({
     params,
@@ -37,6 +38,7 @@ function BoardPage({
     organizationLogo: TLogo | null
 }) {
     useUpdateLastActive(board.id)
+    useRefresh(board.id)
 
     return (
         <div className={classes.root} data-theme={board.theme ?? 'dark'}>
