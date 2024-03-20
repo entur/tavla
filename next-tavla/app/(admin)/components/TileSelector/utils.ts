@@ -1,5 +1,9 @@
+import { fetchServerQuery } from 'app/(admin)/fetch'
+import { getFormFeedbackForError } from 'app/(admin)/utils'
+import { WalkDistanceQuery } from 'graphql/index'
 import { nanoid } from 'nanoid'
 import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
+import { TLocation } from 'types/meta'
 import { TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 
@@ -18,4 +22,18 @@ export function formDataToTile(data: FormData, organization?: TOrganization) {
         columns:
             organization?.defaults?.columns ?? DEFAULT_ORGANIZATION_COLUMNS,
     } as TTile
+}
+
+export async function getWalkingDistance(
+    stopPlaceId?: string,
+    location?: TLocation,
+) {
+    if (!stopPlaceId || !location) return getFormFeedbackForError()
+    return await fetchServerQuery(WalkDistanceQuery, {
+        stopPlaceId: stopPlaceId,
+        location: {
+            longitude: location.coordinate?.lng ?? 0,
+            latitude: location.coordinate?.lat ?? 0,
+        },
+    }).then((res) => res.trip.tripPatterns[0]?.duration)
 }
