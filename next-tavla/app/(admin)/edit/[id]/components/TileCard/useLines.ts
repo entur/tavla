@@ -3,7 +3,6 @@ import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
 import { useEffect, useState } from 'react'
 import { TQuay } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
-import { fieldsNotNull } from 'utils/typeguards'
 import { TLineFragment } from './types'
 
 function useLines(tile: TTile): TLineFragment[] | null {
@@ -26,13 +25,12 @@ function useLines(tile: TTile): TLineFragment[] | null {
                 return res.json()
             })
             .then((res) => {
-                if (tile.type === 'quay')
-                    setLines(res.data?.quay?.lines.filter(fieldsNotNull) ?? [])
+                if (tile.type === 'quay') setLines(res.data?.quay?.lines ?? [])
                 else
                     setLines(
-                        res.data?.stopPlace?.quays
-                            ?.flatMap((q: TQuay) => q?.lines)
-                            .filter(fieldsNotNull) || [],
+                        res.data?.stopPlace?.quays?.flatMap(
+                            (q: TQuay) => q?.lines,
+                        ) || [],
                     )
             })
     }, [tile])

@@ -26,7 +26,7 @@ function LineCheckbox({
             className="pl-3"
         >
             <div className="flexRow alignCenter g-1">
-                <PublicCode publicCode={line.publicCode} />
+                {line.publicCode && <PublicCode publicCode={line.publicCode} />}
                 {line.name}
             </div>
         </Checkbox>
