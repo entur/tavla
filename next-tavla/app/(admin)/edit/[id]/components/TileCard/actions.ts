@@ -4,6 +4,7 @@ import { initializeAdminApp } from 'Admin/utils/firebase'
 import { TBoard, TBoardID, TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 import { revalidatePath } from 'next/cache'
+import { getWalkingDistance } from 'app/(admin)/components/TileSelector/utils'
 
 initializeAdminApp()
 
@@ -28,6 +29,24 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
             'meta.dateModified': Date.now(),
         })
     const index = doc.tiles.indexOf(oldTile)
+    if (doc.meta.location && tile.showDistance) {
+        const walkingDistance = await getWalkingDistance(
+            tile.placeId,
+            doc.meta.location,
+        )
+        if (walkingDistance) {
+            doc.tiles[index] = {
+                ...tile,
+                distance: Number(walkingDistance),
+            }
+            docRef.update({
+                tiles: doc.tiles,
+                'meta.dateModified': Date.now(),
+            })
+            revalidatePath(`edit/${bid}`)
+            return
+        }
+    }
     doc.tiles[index] = tile
     docRef.update({ tiles: doc.tiles, 'meta.dateModified': Date.now() })
 
