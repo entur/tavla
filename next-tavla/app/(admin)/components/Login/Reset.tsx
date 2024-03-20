@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import musk from 'assets/illustrations/Musk.png'
 import { Heading3, Paragraph } from '@entur/typography'
-import { TextField, VariantType } from '@entur/form'
+import { TextField } from '@entur/form'
 import { PrimaryButton } from '@entur/button'
 import {
     TFormFeedback,
@@ -14,8 +14,6 @@ import { auth } from 'utils/firebase'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
-import { useState } from 'react'
-import { useToast } from '@entur/alert'
 
 function Reset() {
     const submit = async (
@@ -25,8 +23,7 @@ function Reset() {
         const email = data.get('email') as string
         try {
             await sendPasswordResetEmail(auth, email)
-            setTextVariant('success')
-            addToast('E-post sendt!')
+            return getFormFeedbackForError('reset/email-sent')
         } catch (e: unknown) {
             if (e instanceof FirebaseError) {
                 return getFormFeedbackForError(e)
@@ -34,8 +31,6 @@ function Reset() {
         }
     }
     const [state, action] = useFormState(submit, undefined)
-    const [textVariant, setTextVariant] = useState<VariantType>('info')
-    const { addToast } = useToast()
     return (
         <div className="textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
@@ -50,7 +45,6 @@ function Reset() {
                     label="E-post"
                     aria-label="E-post"
                     type="email"
-                    variant={textVariant}
                     {...getFormFeedbackForField('email', state)}
                 />
                 <FormError {...getFormFeedbackForField('user', state)} />
