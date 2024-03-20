@@ -23,6 +23,7 @@ function Reset() {
         const email = data.get('email') as string
         try {
             await sendPasswordResetEmail(auth, email)
+            return getFormFeedbackForError('reset/email-sent')
         } catch (e: unknown) {
             if (e instanceof FirebaseError) {
                 return getFormFeedbackForError(e)
@@ -30,7 +31,6 @@ function Reset() {
         }
     }
     const [state, action] = useFormState(submit, undefined)
-
     return (
         <div className="textCenter">
             <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
@@ -43,12 +43,13 @@ function Reset() {
                 <TextField
                     name="email"
                     label="E-post"
+                    aria-label="E-post"
                     type="email"
                     {...getFormFeedbackForField('email', state)}
                 />
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <PrimaryButton type="submit">
+                <PrimaryButton type="submit" aria-label="Tilbakestill passord">
                     Tilbakestill passord
                 </PrimaryButton>
             </form>

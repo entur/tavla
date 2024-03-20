@@ -183,6 +183,14 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 variant: 'error',
             }
         }
+        case 'reset/email-sent': {
+            return {
+                form_type: 'email',
+                feedback:
+                    'Vi har sendt deg en lenke for å nullstille passordet.',
+                variant: 'success',
+            }
+        }
     }
 
     return {
