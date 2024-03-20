@@ -90,8 +90,8 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             data.delete('columns')
                             const count = data.get('count') as number | null
                             data.delete('count')
-                            const distance = data.get('walkDistance') as string
-                            data.delete('walkDistance')
+                            const distance = data.get('showDistance') as string
+                            data.delete('showDistance')
 
                             let lines: string[] = []
                             for (const line of data.values()) {
@@ -107,7 +107,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 ...tile,
                                 columns: columns,
                                 whitelistedLines: lines,
-                                walkDistance: distance === 'on',
+                                showDistance: distance === 'on',
                             })
                         }}
                         onSubmit={() => setIsOpen(false)}
@@ -167,8 +167,8 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 stoppestedet
                             </Label>
                             <Switch
-                                name="walkDistance"
-                                defaultChecked={tile.walkDistance}
+                                name="showDistance"
+                                defaultChecked={tile.showDistance}
                             >
                                 Vis gåavstand
                             </Switch>

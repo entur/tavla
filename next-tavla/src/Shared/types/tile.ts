@@ -7,7 +7,8 @@ export type TSharedTile = {
     uuid: string
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
-    walkDistance?: boolean
+    showDistance?: boolean
+    distance?: number
 }
 
 export type TColumnTile = {
