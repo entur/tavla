@@ -7,6 +7,7 @@ import {
 } from 'Board/scenarios/Board/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
+import { useRefresh } from 'hooks/useRefresh'
 
 export async function getServerSideProps({
     params,
@@ -38,7 +39,8 @@ function BoardPage({
     board: TBoard
     organization: TOrganization | null
 }) {
-    useUpdateLastActive(board.id)
+    useRefresh(board.id)
+
     return (
         <div className="root" data-theme={board.theme ?? 'dark'}>
             <div className="rootContainer">
