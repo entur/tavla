@@ -61,12 +61,10 @@ export function formatWalkTime(duration: number) {
 
     if (duration >= HOUR) {
         const hours = Math.floor(duration / HOUR)
-        const remainingMinutes = Math.floor((duration % HOUR) / MINUTE)
-        return `${hours} time${
-            hours !== 1 ? 'r' : ''
-        } og ${remainingMinutes} minutt${remainingMinutes !== 1 ? 'er' : ''}`
+        const remainingMinutes = Math.ceil((duration % HOUR) / MINUTE)
+        return `${hours} t ${remainingMinutes} min`
     } else {
         const minutes = Math.ceil(duration / MINUTE)
-        return `${minutes} minutt${minutes !== 1 ? 'er' : ''} `
+        return `${minutes} min `
     }
 }
