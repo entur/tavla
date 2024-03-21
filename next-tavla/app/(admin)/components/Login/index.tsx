@@ -47,7 +47,10 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
             >
                 <div className="flexRow justifyBetween">
                     {hasPage && (
-                        <SecondarySquareButton onClick={() => router.back()}>
+                        <SecondarySquareButton
+                            onClick={() => router.back()}
+                            aria-label="tilbake til logg inn"
+                        >
                             <BackArrowIcon />
                         </SecondarySquareButton>
                     )}
@@ -56,6 +59,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                         as={Link}
                         href={pathname ?? '/'}
                         className="ml-auto"
+                        aria-label="lukk vindu"
                     >
                         <CloseIcon />
                     </SecondarySquareButton>
