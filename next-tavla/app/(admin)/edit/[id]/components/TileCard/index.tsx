@@ -107,7 +107,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 ...tile,
                                 columns: columns,
                                 whitelistedLines: lines,
-                                showDistance: distance === 'on',
+                                walkingDistance: { visible: distance === 'on' },
                             })
                         }}
                         onSubmit={() => setIsOpen(false)}
@@ -168,7 +168,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             </Label>
                             <Switch
                                 name="showDistance"
-                                defaultChecked={tile.showDistance}
+                                defaultChecked={tile.walkingDistance?.visible}
                             >
                                 Vis gåavstand
                             </Switch>

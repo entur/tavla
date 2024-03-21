@@ -13,6 +13,7 @@ export function QuayTile({
     whitelistedLines,
     whitelistedTransportModes,
     columns,
+    walkingDistance,
 }: TQuayTile) {
     const { data } = useQuery(
         GetQuayQuery,
@@ -41,7 +42,7 @@ export function QuayTile({
         .join(' ')
     return (
         <Tile className={classes.quayTile}>
-            <TableHeader heading={heading} />
+            <TableHeader heading={heading} walkingDistance={walkingDistance} />
             <Table
                 columns={columns}
                 departures={data.quay.estimatedCalls}
