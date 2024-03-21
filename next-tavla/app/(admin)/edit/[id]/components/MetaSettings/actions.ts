@@ -67,16 +67,19 @@ async function updateWalkTime(bid: TBoardID, location?: TLocation) {
     const tempBoard = board
     await Promise.all(
         board.tiles.map(async (tile) => {
-            if (location && tile.showDistance) {
+            if (location && tile.walkingDistance?.visible) {
                 const index = board.tiles.indexOf(tile)
-                const walkingDistance = await getWalkingDistance(
+                const distance = await getWalkingDistance(
                     tile.placeId,
                     location,
                 )
-                if (walkingDistance)
+                if (distance)
                     board.tiles[index] = {
                         ...tile,
-                        distance: Number(walkingDistance),
+                        walkingDistance: {
+                            distance: Number(distance),
+                            visible: tile.walkingDistance.visible,
+                        },
                     }
             }
         }),

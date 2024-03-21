@@ -12,6 +12,7 @@ export function StopPlaceTile({
     whitelistedLines,
     whitelistedTransportModes,
     columns,
+    walkingDistance,
 }: TStopPlaceTile) {
     const { data } = useQuery(
         StopPlaceQuery,
@@ -33,7 +34,10 @@ export function StopPlaceTile({
 
     return (
         <Tile className={classes.stopPlaceTile}>
-            <TableHeader heading={data.stopPlace.name} />
+            <TableHeader
+                heading={data.stopPlace.name}
+                walkingDistance={walkingDistance}
+            />
             <Table
                 departures={data.stopPlace.estimatedCalls}
                 situations={data.stopPlace.situations}

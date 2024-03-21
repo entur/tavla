@@ -40,15 +40,18 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
             'meta.dateModified': Date.now(),
         })
     const index = doc.tiles.indexOf(oldTile)
-    if (doc.meta.location && tile.showDistance) {
-        const walkingDistance = await getWalkingDistance(
+    if (doc.meta.location && tile.walkingDistance?.visible) {
+        const distance = await getWalkingDistance(
             tile.placeId,
             doc.meta.location,
         )
-        if (walkingDistance) {
+        if (distance) {
             doc.tiles[index] = {
                 ...tile,
-                distance: Number(walkingDistance),
+                walkingDistance: {
+                    distance: Number(distance),
+                    visible: tile.walkingDistance.visible,
+                },
             }
             docRef.update({
                 tiles: doc.tiles,

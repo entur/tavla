@@ -1,21 +1,22 @@
 import { WalkIcon } from '@entur/icons'
 import classes from './styles.module.css'
 import { formatWalkTime } from 'Admin/utils/time'
+import { TWalkingDistance } from 'types/tile'
 
 function TableHeader({
     heading,
-    duration,
+    walkingDistance,
 }: {
     heading: string
-    duration?: Long
+    walkingDistance?: TWalkingDistance
 }) {
     return (
         <div className={classes.tableHeaderWrapper}>
             <h1 className={classes.heading}>{heading}</h1>
-            {duration && (
+            {walkingDistance?.visible && walkingDistance.distance && (
                 <div className={classes.duration}>
                     <WalkIcon color="white" />
-                    {formatWalkTime(Number(duration))}
+                    {formatWalkTime(walkingDistance.distance)}
                 </div>
             )}
         </div>
