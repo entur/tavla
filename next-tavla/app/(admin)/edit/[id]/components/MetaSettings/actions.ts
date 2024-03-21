@@ -60,27 +60,32 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
 
 async function updateWalkTime(bid: TBoardID, location?: TLocation) {
     if (!bid) return getFormFeedbackForError()
-    if (!location) return
     const boardRef = firestore().collection('boards').doc(bid)
     const board = (await boardRef.get()).data() as TBoard
     if (!board) return getFormFeedbackForError('board/not-found')
     const tempBoard = board
     await Promise.all(
         board.tiles.map(async (tile) => {
-            if (location && tile.walkingDistance?.visible) {
+            if (tile.walkingDistance?.visible) {
                 const index = board.tiles.indexOf(tile)
                 const distance = await getWalkingDistance(
                     tile.placeId,
                     location,
                 )
-                if (distance)
-                    board.tiles[index] = {
-                        ...tile,
-                        walkingDistance: {
-                            distance: Number(distance),
-                            visible: tile.walkingDistance.visible,
-                        },
-                    }
+                distance
+                    ? (board.tiles[index] = {
+                          ...tile,
+                          walkingDistance: {
+                              distance: Number(distance),
+                              visible: tile.walkingDistance.visible,
+                          },
+                      })
+                    : (board.tiles[index] = {
+                          ...tile,
+                          walkingDistance: {
+                              visible: tile.walkingDistance.visible,
+                          },
+                      })
             }
         }),
     )

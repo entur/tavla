@@ -28,7 +28,8 @@ export async function getWalkingDistance(
     stopPlaceId?: string,
     location?: TLocation,
 ) {
-    if (!stopPlaceId || !location) return getFormFeedbackForError()
+    if (!stopPlaceId) return getFormFeedbackForError()
+    if (!location) return
     return await fetchServerQuery(WalkDistanceQuery, {
         stopPlaceId: stopPlaceId,
         location: {
