@@ -21,7 +21,7 @@ async function OrganizationsPage() {
 
     return (
         <div className={classes.root}>
-            <div className="mt-4">
+            <main className="mt-4">
                 <Heading1>Organisasjoner</Heading1>
                 <div className="flexRow justifyBetween">
                     <Paragraph className="w-75">
@@ -37,7 +37,7 @@ async function OrganizationsPage() {
                     organizations={organizations}
                     userId={user.uid}
                 />
-            </div>
+            </main>
         </div>
     )
 }

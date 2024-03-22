@@ -36,14 +36,14 @@ export default async function EditPage({ params }: TProps) {
     const organization = await getOrganizationForBoard(params.id)
 
     return (
-        <div className="flexColumn p-4 g-2">
+        <main className="flexColumn p-4 g-2">
             <div className="flexRow justifyBetween alignCenter pb-2">
                 <Heading1 className="m-0">
                     Rediger tavle {board.meta?.title}
                 </Heading1>
                 <Button
                     as={Link}
-                    aria-label="Åpne tavla"
+                    aria-label="Åpne tavle"
                     href={`/${params.id}`}
                     target="_blank"
                     variant="secondary"
@@ -73,6 +73,6 @@ export default async function EditPage({ params }: TProps) {
             <div className={classes.preview} data-theme={board.theme ?? 'dark'}>
                 <Board board={board} />
             </div>
-        </div>
+        </main>
     )
 }
