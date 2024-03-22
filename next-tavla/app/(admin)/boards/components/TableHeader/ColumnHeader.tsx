@@ -13,7 +13,7 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
     return (
         <div key={column} className={classes.header}>
             <div
-                id={column}
+                id={BoardsColumns[column]}
                 className={classes.title}
                 aria-sort={
                     sort.column === column && sort.type ? sort.type : 'none'

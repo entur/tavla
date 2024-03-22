@@ -11,6 +11,7 @@ function FontChoiceChip({ font }: { font: TFontSize }) {
             name="font"
             value={fontSize}
             onChange={(e) => setFontSize(e.target.value as TFontSize)}
+            aria-label="Tekststørrelse"
         >
             <ChoiceChip value="small">Liten</ChoiceChip>
             <ChoiceChip value="medium">Medium</ChoiceChip>

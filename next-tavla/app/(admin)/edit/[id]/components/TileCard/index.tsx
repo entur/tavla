@@ -69,10 +69,14 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         onClick={async () => {
                             await deleteTile(bid, tile)
                         }}
+                        aria-label="Slett stoppested"
                     >
                         <DeleteIcon />
                     </SecondarySquareButton>
-                    <SecondarySquareButton onClick={() => setIsOpen(!isOpen)}>
+                    <SecondarySquareButton
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Rediger stoppested"
+                    >
                         {isOpen ? <CloseIcon /> : <EditIcon />}
                     </SecondarySquareButton>
                 </div>

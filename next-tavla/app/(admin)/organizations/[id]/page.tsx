@@ -45,7 +45,7 @@ async function EditOrganizationPage({ params }: TProps) {
 
     const members = await getOrganizationUsers(user.uid, id)
     return (
-        <div className={classes.root}>
+        <main className={classes.root}>
             <Heading1>{organization.name}</Heading1>
             <LeadParagraph>
                 Valgene som tas blir satt som standard når det opprettes en
@@ -77,7 +77,7 @@ async function EditOrganizationPage({ params }: TProps) {
 
                 <UploadLogo organization={organization} />
             </div>
-        </div>
+        </main>
     )
 }
 

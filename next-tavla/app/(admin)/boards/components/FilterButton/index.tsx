@@ -33,8 +33,8 @@ function FilterButton({ boards }: { boards: TBoard[] }) {
         <Popover>
             <PopoverTrigger>
                 <div className={classes.buttonWrapper}>
-                    <SecondaryButton aria-label="Filtrer tavler på merkelapper">
-                        Filter
+                    <SecondaryButton aria-label="Filtrer på merkelapper">
+                        Filtrer på merkelapper
                         <FilterIcon aria-hidden="true" />
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>

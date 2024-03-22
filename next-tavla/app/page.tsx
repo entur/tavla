@@ -26,7 +26,7 @@ async function Landing() {
 
     return (
         <>
-            <div className={classes.landingPage}>
+            <main className={classes.landingPage}>
                 <TopNavigation loggedIn={loggedIn} />
                 <div className="flexColumn justifyCenter alignCenter hidden p-4">
                     <div className="flexColumn mt-4 p-4 minw-80rem">
@@ -83,7 +83,7 @@ async function Landing() {
                     </div>
                 </div>
                 <Footer />
-            </div>
+            </main>
         </>
     )
 }

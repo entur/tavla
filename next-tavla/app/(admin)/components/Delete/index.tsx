@@ -42,6 +42,7 @@ function Delete({
                     href={`?delete=${organization.id}`}
                     className="g-2"
                     variant="secondary"
+                    aria-label="Slett organisasjon"
                 >
                     {type === 'secondary' && 'Slett'}
                     <DeleteIcon />

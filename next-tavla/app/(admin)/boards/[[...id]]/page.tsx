@@ -56,7 +56,7 @@ async function OrganizationsBoardsPage({ params }: TProps) {
         : await getBoardsForUser(user.uid)
     return (
         <div className={classes.root}>
-            <div className="flexRow g-2">
+            <main className="flexRow g-2">
                 <SelectOrganization
                     organizations={organizations}
                     active={activeOrganization}
@@ -71,7 +71,7 @@ async function OrganizationsBoardsPage({ params }: TProps) {
                     </div>
                     <BoardTable boards={boards} />
                 </div>
-            </div>
+            </main>
         </div>
     )
 }
