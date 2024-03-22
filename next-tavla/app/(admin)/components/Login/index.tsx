@@ -49,7 +49,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                     {hasPage && (
                         <SecondarySquareButton
                             onClick={() => router.back()}
-                            aria-label="tilbake til logg inn"
+                            aria-label="Tilbake til logg inn"
                         >
                             <BackArrowIcon />
                         </SecondarySquareButton>
@@ -59,7 +59,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                         as={Link}
                         href={pathname ?? '/'}
                         className="ml-auto"
-                        aria-label="lukk vindu"
+                        aria-label="Lukk vindu"
                     >
                         <CloseIcon />
                     </SecondarySquareButton>

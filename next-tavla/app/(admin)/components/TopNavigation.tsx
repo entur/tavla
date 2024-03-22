@@ -15,7 +15,7 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
     return (
         <div className={classes.pageContainer}>
             <nav className="flexRow justifyBetween alignCenter p-4">
-                <Link href="/" aria-label="til landingssiden">
+                <Link href="/" aria-label="Tilbake til landingssiden">
                     <Image
                         src={
                             pathname === '/' || pathname === '/privacy'
