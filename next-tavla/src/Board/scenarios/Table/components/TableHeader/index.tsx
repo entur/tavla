@@ -1,7 +1,6 @@
-import { WalkIcon } from '@entur/icons'
 import classes from './styles.module.css'
-import { formatWalkTime } from 'Admin/utils/time'
 import { TWalkingDistance } from 'types/tile'
+import { WalkingDistance } from '../WalkingDistance'
 
 function TableHeader({
     heading,
@@ -11,14 +10,9 @@ function TableHeader({
     walkingDistance?: TWalkingDistance
 }) {
     return (
-        <div className={classes.tableHeaderWrapper}>
+        <div className="flexRow justifyBetween alignCenter minh-2">
             <h1 className={classes.heading}>{heading}</h1>
-            {walkingDistance?.visible && walkingDistance.distance && (
-                <div className={classes.duration}>
-                    <WalkIcon color="white" />
-                    {formatWalkTime(walkingDistance.distance)}
-                </div>
-            )}
+            <WalkingDistance walkingDistance={walkingDistance} />
         </div>
     )
 }
