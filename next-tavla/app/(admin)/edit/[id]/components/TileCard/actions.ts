@@ -10,6 +10,7 @@ import {
 } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { getWalkingDistance } from 'app/(admin)/components/TileSelector/utils'
+import { TLocation } from 'types/meta'
 
 initializeAdminApp()
 
@@ -41,18 +42,9 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
         })
     const index = doc.tiles.indexOf(oldTile)
     if (doc.meta.location && tile.walkingDistance?.visible) {
-        const distance = await getWalkingDistance(
-            tile.placeId,
-            doc.meta.location,
-        )
-        if (distance) {
-            doc.tiles[index] = {
-                ...tile,
-                walkingDistance: {
-                    distance: Number(distance),
-                    visible: tile.walkingDistance.visible,
-                },
-            }
+        const newTile = await getWalkingDistanceTile(tile, doc.meta.location)
+        if (newTile) {
+            doc.tiles[index] = newTile
             docRef.update({
                 tiles: doc.tiles,
                 'meta.dateModified': Date.now(),
@@ -65,6 +57,19 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
     docRef.update({ tiles: doc.tiles, 'meta.dateModified': Date.now() })
 
     revalidatePath(`/edit/${bid}`)
+}
+
+async function getWalkingDistanceTile(tile: TTile, location: TLocation) {
+    const distance = await getWalkingDistance(tile.placeId, location)
+    if (distance && tile.walkingDistance?.visible)
+        return {
+            ...tile,
+            walkingDistance: {
+                distance: Number(distance),
+                visible: tile.walkingDistance.visible,
+            },
+        }
+    return
 }
 
 export async function getOrganizationForBoard(bid: TBoardID) {

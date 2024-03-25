@@ -63,7 +63,6 @@ async function updateWalkTime(bid: TBoardID, location?: TLocation) {
     const boardRef = firestore().collection('boards').doc(bid)
     const board = (await boardRef.get()).data() as TBoard
     if (!board) return getFormFeedbackForError('board/not-found')
-    const tempBoard = board
     await Promise.all(
         board.tiles.map(async (tile) => {
             if (tile.walkingDistance?.visible) {
@@ -90,7 +89,7 @@ async function updateWalkTime(bid: TBoardID, location?: TLocation) {
         }),
     )
     await boardRef.update({
-        tiles: tempBoard.tiles,
+        tiles: board.tiles,
         'meta.dateModified': Date.now(),
     })
 }
