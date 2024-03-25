@@ -71,20 +71,13 @@ async function updateWalkTime(bid: TBoardID, location?: TLocation) {
                     tile.placeId,
                     location,
                 )
-                distance
-                    ? (board.tiles[index] = {
-                          ...tile,
-                          walkingDistance: {
-                              distance: Number(distance),
-                              visible: tile.walkingDistance.visible,
-                          },
-                      })
-                    : (board.tiles[index] = {
-                          ...tile,
-                          walkingDistance: {
-                              visible: tile.walkingDistance.visible,
-                          },
-                      })
+                board.tiles[index] = {
+                    ...tile,
+                    walkingDistance: {
+                        distance: Number(distance),
+                        visible: tile.walkingDistance.visible,
+                    },
+                }
             }
         }),
     )
