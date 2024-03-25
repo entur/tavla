@@ -12,7 +12,8 @@ import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
-import { Buttons } from './components/Buttons'
+import { CopyButton, OpenButton } from './components/Buttons'
+import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 
 type TProps = {
     params: { id: TBoardID }
@@ -30,7 +31,6 @@ export default async function EditPage({ params }: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user) return permanentRedirect('/')
     const board = await getBoard(params.id)
-
     const organization = await getOrganizationForBoard(params.id)
     return (
         <main className="flexColumn p-4 g-2">
@@ -39,7 +39,9 @@ export default async function EditPage({ params }: TProps) {
                     Rediger tavle {board.meta?.title}
                 </Heading1>
                 <div className="flexRow g-2">
-                    <Buttons board={board} />
+                    <OpenButton bid={board.id} type="button" />
+                    <CopyButton bid={board.id} type="button" />
+                    <Delete board={board} type="button" />
                 </div>
             </div>
             <MetaSettings bid={params.id} meta={board.meta} />
