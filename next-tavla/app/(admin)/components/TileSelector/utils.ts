@@ -25,13 +25,13 @@ export function formDataToTile(data: FormData, organization?: TOrganization) {
 }
 
 export async function getWalkingDistance(
-    stopPlaceId?: string,
+    placeId?: string,
     location?: TLocation,
 ) {
-    if (!stopPlaceId) return getFormFeedbackForError()
+    if (!placeId) return getFormFeedbackForError()
     if (!location) return
     return await fetchQuery(WalkDistanceQuery, {
-        stopPlaceId: stopPlaceId,
+        placeId: placeId,
         location: {
             longitude: location.coordinate?.lng ?? 0,
             latitude: location.coordinate?.lat ?? 0,
