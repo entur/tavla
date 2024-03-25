@@ -59,6 +59,7 @@ function RemoveUserButton({
                 </Paragraph>
                 <form
                     action={formAction}
+                    onSubmit={close}
                     className="flexColumn w-100 g-2"
                     aria-live="polite"
                     aria-relevant="all"
