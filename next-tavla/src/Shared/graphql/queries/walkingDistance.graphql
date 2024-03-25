@@ -1,7 +1,7 @@
-query walkDistance($stopPlaceId: String!, $location: InputCoordinates!) {
+query walkDistance($placeId: String!, $location: InputCoordinates!) {
     trip(
         from: { coordinates: $location }
-        to: { place: $stopPlaceId }
+        to: { place: $placeId }
         modes: { directMode: foot }
     ) {
         tripPatterns {

@@ -329,7 +329,7 @@ export type TStopPlaceNameQuery = {
 }
 
 export type TWalkDistanceQueryVariables = Types.Exact<{
-    stopPlaceId: Types.Scalars['String']
+    placeId: Types.Scalars['String']
     location: Types.TInputCoordinates
 }>
 
@@ -652,10 +652,10 @@ export const StopPlaceNameQuery = new TypedDocumentString(`
     TStopPlaceNameQueryVariables
 >
 export const WalkDistanceQuery = new TypedDocumentString(`
-    query walkDistance($stopPlaceId: String!, $location: InputCoordinates!) {
+    query walkDistance($placeId: String!, $location: InputCoordinates!) {
   trip(
     from: {coordinates: $location}
-    to: {place: $stopPlaceId}
+    to: {place: $placeId}
     modes: {directMode: foot}
   ) {
     tripPatterns {
