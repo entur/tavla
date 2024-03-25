@@ -12,6 +12,8 @@ import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
 import { ClientBoard } from './components/ClientBoard'
 import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
+import { CopyButton, OpenButton } from './components/Buttons'
+import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 
 type TProps = {
     params: { id: TBoardID }
@@ -30,7 +32,6 @@ export default async function EditPage({ params }: TProps) {
     if (!user || !user.uid) return redirect('/')
 
     const board = await getBoard(params.id)
-
     const organization = await getOrganizationForBoard(params.id)
 
     const access = await hasBoardEditorAccess(params.id)
@@ -43,7 +44,9 @@ export default async function EditPage({ params }: TProps) {
                     Rediger tavle {board.meta?.title}
                 </Heading1>
                 <div className="flexRow g-2">
-                    <Buttons board={board} />
+                    <OpenButton bid={board.id} type="button" />
+                    <CopyButton bid={board.id} type="button" />
+                    <Delete board={board} type="button" />
                 </div>
             </div>
             <MetaSettings bid={params.id} meta={board.meta} />
