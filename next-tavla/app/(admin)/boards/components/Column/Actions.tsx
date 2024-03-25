@@ -1,13 +1,16 @@
 import { IconButton } from '@entur/button'
-import { CopyIcon, EditIcon, ExternalIcon } from '@entur/icons'
+import { EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { TBoard } from 'types/settings'
 import { useLink } from '../../../../../src/Shared/hooks/useLink'
-import { useToast } from '@entur/alert'
 import classes from './styles.module.css'
 import { Column } from './Column'
 import { Delete } from './Delete'
+import {
+    CopyButton,
+    OpenButton,
+} from 'app/(admin)/edit/[id]/components/Buttons'
 
 function Actions({ board }: { board: TBoard }) {
     const link = useLink(board.id)
@@ -37,37 +40,20 @@ function Edit({ bid }: { bid?: string }) {
     )
 }
 
-function Copy({ link }: { link?: string }) {
-    const { addToast } = useToast()
-
+function Copy({ link, type }: { link?: string; type?: 'button' | 'icon' }) {
     return (
         <Tooltip content="Kopier lenke" placement="bottom">
-            <IconButton
-                aria-label="Kopier lenke"
-                onClick={() => {
-                    navigator.clipboard.writeText(link ?? '')
-                    addToast('Lenke til Tavla kopiert')
-                }}
-            >
-                <CopyIcon />
-            </IconButton>
+            <CopyButton link={link} type={type} />
         </Tooltip>
     )
 }
 
-function Open({ link }: { link?: string }) {
+function Open({ link, type }: { link?: string; type?: 'button' | 'icon' }) {
     return (
         <Tooltip content="Åpne tavle" placement="bottom">
-            <IconButton
-                as={Link}
-                aria-label="Åpne tavle"
-                href={link ?? '/'}
-                target="_blank"
-            >
-                <ExternalIcon />
-            </IconButton>
+            <OpenButton link={link} type={type} />
         </Tooltip>
     )
 }
 
-export { Actions }
+export { Actions, Open, Copy }
