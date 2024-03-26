@@ -107,7 +107,10 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 ...tile,
                                 columns: columns,
                                 whitelistedLines: lines,
-                                walkingDistance: { visible: distance === 'on' },
+                                walkingDistance: {
+                                    visible: distance === 'on',
+                                    distance: tile.walkingDistance?.distance,
+                                },
                             })
                         }}
                         onSubmit={() => setIsOpen(false)}

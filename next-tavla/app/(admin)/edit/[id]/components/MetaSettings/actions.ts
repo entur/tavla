@@ -47,42 +47,36 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
+    const boardRef = firestore().collection('boards').doc(bid)
+    const board = (await boardRef.get()).data() as TBoard
+    if (!board) return getFormFeedbackForError('board/not-found')
+    const tiles = await getUpdatedTiles(board)
     await firestore()
         .collection('boards')
         .doc(bid)
         .update({
+            tiles: await getUpdatedTiles(board),
             'meta.location': location ?? firestore.FieldValue.delete(),
             'meta.dateModified': Date.now(),
         })
-    await updateWalkTime(bid, location)
     revalidatePath(`/edit/${bid}`)
 }
 
-async function updateWalkTime(bid: TBoardID, location?: TLocation) {
-    if (!bid) return getFormFeedbackForError()
-    const boardRef = firestore().collection('boards').doc(bid)
-    const board = (await boardRef.get()).data() as TBoard
-    if (!board) return getFormFeedbackForError('board/not-found')
-    await Promise.all(
+async function getUpdatedTiles(board: TBoard) {
+    return await Promise.all(
         board.tiles.map(async (tile) => {
-            if (tile.walkingDistance?.visible) {
-                const index = board.tiles.indexOf(tile)
-                const distance = await getWalkingDistance(
-                    tile.placeId,
-                    location,
-                )
-                board.tiles[index] = {
-                    ...tile,
-                    walkingDistance: {
-                        distance: Number(distance),
-                        visible: tile.walkingDistance.visible,
-                    },
-                }
+            return {
+                ...tile,
+                walkingDistance: {
+                    distance: Number(
+                        await getWalkingDistance(
+                            tile.placeId,
+                            board.meta.location,
+                        ),
+                    ),
+                    visible: tile.walkingDistance?.visible,
+                },
             }
         }),
     )
-    await boardRef.update({
-        tiles: board.tiles,
-        'meta.dateModified': Date.now(),
-    })
 }

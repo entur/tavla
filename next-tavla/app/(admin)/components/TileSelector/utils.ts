@@ -29,7 +29,7 @@ export async function getWalkingDistance(
     location?: TLocation,
 ) {
     if (!placeId) return getFormFeedbackForError()
-    if (!location) return
+    if (!location) return undefined
     try {
         const response = await fetchQuery(WalkDistanceQuery, {
             placeId: placeId,
@@ -38,7 +38,6 @@ export async function getWalkingDistance(
                 latitude: location.coordinate?.lat ?? 0,
             },
         })
-
         return response.trip.tripPatterns[0]?.duration
     } catch (error) {
         return undefined
