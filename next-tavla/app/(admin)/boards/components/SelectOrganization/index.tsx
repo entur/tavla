@@ -8,7 +8,7 @@ function SelectOrganization({
     organizations,
     active,
 }: {
-    organizations: TOrganization[]
+    organizations: TOrganization[] | null
     active?: TOrganization
 }) {
     return (
@@ -18,7 +18,7 @@ function SelectOrganization({
                 <SideNavigationItem href="/boards" active={!active?.id}>
                     Mine Tavler
                 </SideNavigationItem>
-                {organizations.map((organization) => (
+                {organizations?.map((organization) => (
                     <SideNavigationItem
                         key={organization.id}
                         href={'/boards/' + organization.id}

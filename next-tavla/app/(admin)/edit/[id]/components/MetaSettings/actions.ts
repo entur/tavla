@@ -1,6 +1,6 @@
 'use server'
-import { initializeAdminApp } from 'Admin/utils/firebase'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
+import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { TFontSize, TLocation } from 'types/meta'

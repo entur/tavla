@@ -18,7 +18,7 @@ import Link from 'next/link'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
-import { TLoginPage } from 'Admin/types/login'
+import { TLoginPage } from './types'
 
 function Email() {
     const submit = async (

@@ -1,9 +1,9 @@
 'use server'
 import { firestore } from 'firebase-admin'
-import { initializeAdminApp } from 'Admin/utils/firebase'
 import { TBoard, TBoardID, TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 import { revalidatePath } from 'next/cache'
+import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 
 initializeAdminApp()
 

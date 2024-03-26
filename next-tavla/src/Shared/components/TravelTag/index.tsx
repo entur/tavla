@@ -1,7 +1,22 @@
-import { transportModeNames } from 'Admin/utils/transport'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 import classes from './styles.module.css'
 import { TransportIcon } from 'components/TransportIcon'
+
+const transportModeNames: Record<TTransportMode, string> = {
+    air: 'Fly',
+    bus: 'Buss',
+    cableway: 'Taubane',
+    water: 'Båt',
+    funicular: 'Kabelbane',
+    lift: 'Heis',
+    rail: 'Tog',
+    metro: 'T-bane',
+    tram: 'Trikk',
+    trolleybus: 'Trolley-buss',
+    monorail: 'Énskinnebane',
+    coach: 'Langdistansebuss',
+    unknown: 'Ukjent',
+}
 
 function TravelTag({
     transportMode,

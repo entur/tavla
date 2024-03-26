@@ -1,8 +1,8 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { fetchCounties } from 'Admin/utils/fetch'
 import { useCallback, useEffect, useState } from 'react'
 import { TDefaults, TOrganizationID } from 'types/settings'
 import { getDefaultsForOrganization } from './actions'
+import { fetchCounties } from 'app/(admin)/utils/fetch'
 
 function useCountiesSearch(oid?: TOrganizationID) {
     const [countiesList, setCountiesList] = useState<

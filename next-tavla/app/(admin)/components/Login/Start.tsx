@@ -5,7 +5,7 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
 import Link from 'next/link'
-import { TLoginPage } from 'Admin/types/login'
+import { TLoginPage } from './types'
 
 function Start() {
     const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')

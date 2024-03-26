@@ -8,8 +8,8 @@ import Image from 'next/image'
 import { Footer } from 'app/(admin)/components/Footer'
 import { TopNavigation } from 'app/(admin)/components/TopNavigation'
 import { cookies } from 'next/headers'
-import { verifySession } from 'Admin/utils/firebase'
 import { ExpandableInfo } from './components/ExpandableInfo'
+import { verifySession } from 'app/(admin)/utils/firebase'
 
 export const metadata: Metadata = {
     title: 'Personvern | Entur Tavla',

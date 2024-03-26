@@ -1,16 +1,20 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { getOrganizationsForUserRequest } from 'Admin/utils/fetch'
 import { useCallback, useEffect, useState } from 'react'
+import { getOrganizationsForUser } from '../actions'
 
 function useOrganizations() {
     const [organizationList, setOrganizationList] = useState<
-        NormalizedDropdownItemType[]
+        NormalizedDropdownItemType<string>[]
     >([])
     const [selectedOrganization, setSelectedOrganization] =
         useState<NormalizedDropdownItemType | null>(null)
 
     useEffect(() => {
-        getOrganizationsForUserRequest().then((res) => setOrganizationList(res))
+        getOrganizationsForUser().then((res) => {
+            setOrganizationList(
+                res?.map((o) => ({ value: o.id ?? '', label: o.name ?? '' })),
+            )
+        })
     }, [])
 
     const organizations = useCallback(

@@ -3,9 +3,9 @@ import { Actions } from './Actions'
 import { LastModified } from './LastModified'
 import { Link } from './Link'
 import { Name } from './Name'
-import { TBoardsColumn } from 'Admin/types/boards'
 import { Tags } from './Tags'
 import { TTag } from 'types/meta'
+import { TBoardsColumn } from 'app/(admin)/utils/types'
 
 function Column({
     board,

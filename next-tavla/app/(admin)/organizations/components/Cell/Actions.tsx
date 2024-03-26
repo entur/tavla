@@ -1,9 +1,10 @@
+'use client'
 import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
-import { Tooltip } from 'Admin/components/Tooltip'
 import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
 import { Delete } from 'app/(admin)/components/Delete'
+import { Tooltip } from '@entur/tooltip'
 
 function Edit({ oid }: { oid?: string }) {
     return (

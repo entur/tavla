@@ -1,4 +1,3 @@
-import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import { permanentRedirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
 import { addTile, getBoard } from './actions'
@@ -15,6 +14,7 @@ import { revalidatePath } from 'next/cache'
 import { ExternalIcon } from '@entur/icons'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
 type TProps = {
     params: { id: TBoardID }

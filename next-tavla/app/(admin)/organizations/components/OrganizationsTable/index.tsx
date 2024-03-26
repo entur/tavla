@@ -1,11 +1,8 @@
-import {
-    ORGANIZATIONS_COLUMNS,
-    OrganizationsColumns,
-} from 'Admin/types/organizations'
 import classes from './styles.module.css'
 import { TOrganization, TUserID } from 'types/settings'
 import { Cell } from '../Cell'
-import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
+import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
+import { ORGANIZATIONS_COLUMNS, OrganizationsColumns } from './types'
 
 function OrganizationsTable({
     organizations,
