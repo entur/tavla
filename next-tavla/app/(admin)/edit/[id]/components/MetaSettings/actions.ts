@@ -10,6 +10,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
+import { getWalkingDistanceTile } from '../../actions'
 
 initializeAdminApp()
 
@@ -50,33 +51,21 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
     const boardRef = firestore().collection('boards').doc(bid)
     const board = (await boardRef.get()).data() as TBoard
     if (!board) return getFormFeedbackForError('board/not-found')
-    const tiles = await getUpdatedTiles(board)
     await firestore()
         .collection('boards')
         .doc(bid)
         .update({
-            tiles: await getUpdatedTiles(board),
+            tiles: await getUpdatedTiles(board, location),
             'meta.location': location ?? firestore.FieldValue.delete(),
             'meta.dateModified': Date.now(),
         })
     revalidatePath(`/edit/${bid}`)
 }
 
-async function getUpdatedTiles(board: TBoard) {
+async function getUpdatedTiles(board: TBoard, location?: TLocation) {
     return await Promise.all(
         board.tiles.map(async (tile) => {
-            return {
-                ...tile,
-                walkingDistance: {
-                    distance: Number(
-                        await getWalkingDistance(
-                            tile.placeId,
-                            board.meta.location,
-                        ),
-                    ),
-                    visible: tile.walkingDistance?.visible,
-                },
-            }
+            return await getWalkingDistanceTile(tile, location)
         }),
     )
 }

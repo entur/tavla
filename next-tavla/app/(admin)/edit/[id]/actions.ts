@@ -31,15 +31,15 @@ export async function addTile(board: TBoard, tile: TTile) {
         })
 }
 
-async function getWalkingDistanceTile(tile: TTile, location?: TLocation) {
-    const distance = await getWalkingDistance(tile.placeId, location)
-    if (location)
-        return {
-            ...tile,
-            walkingDistance: {
-                distance: Number(distance),
-                visible: false,
-            },
-        }
-    return tile
+export async function getWalkingDistanceTile(
+    tile: TTile,
+    location?: TLocation,
+) {
+    return {
+        ...tile,
+        walkingDistance: {
+            distance: Number(await getWalkingDistance(tile.placeId, location)),
+            visible: tile.walkingDistance?.visible ?? false,
+        },
+    }
 }
