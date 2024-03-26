@@ -75,11 +75,14 @@ function DeleteButton({
     type?: 'button' | 'icon'
     open: () => void
 }) {
-    return type === 'button' ? (
-        <Button variant="secondary" aria-label="Slett tavle" onClick={open}>
-            Slett Tavle
-        </Button>
-    ) : (
+    if (type === 'button') {
+        return (
+            <Button variant="secondary" aria-label="Slett tavle" onClick={open}>
+                Slett Tavle
+            </Button>
+        )
+    }
+    return (
         <IconButton aria-label="Slett tavle" onClick={open}>
             <DeleteIcon />
         </IconButton>
