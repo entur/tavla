@@ -3,6 +3,9 @@ import { firestore } from 'firebase-admin'
 import { initializeAdminApp } from 'Admin/utils/firebase'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
+import { getWalkingDistance } from 'app/(admin)/components/TileSelector/utils'
+import { TLocation } from 'types/meta'
+import { getFormFeedbackForError } from 'app/(admin)/utils'
 
 initializeAdminApp()
 
@@ -11,12 +14,28 @@ export async function getBoard(bid: TBoardID) {
     return { id: board.id, ...board.data() } as TBoard
 }
 
-export async function addTile(bid: TBoardID, tile: TTile) {
+export async function addTile(board: TBoard, tile: TTile) {
+    if (!board.id) return getFormFeedbackForError()
     await firestore()
         .collection('boards')
-        .doc(bid)
+        .doc(board.id)
         .update({
-            tiles: firestore.FieldValue.arrayUnion(tile),
+            tiles: firestore.FieldValue.arrayUnion(
+                await getWalkingDistanceTile(tile, board.meta.location),
+            ),
             'meta.dateModified': Date.now(),
         })
+}
+
+async function getWalkingDistanceTile(tile: TTile, location?: TLocation) {
+    const distance = await getWalkingDistance(tile.placeId, location)
+    if (location)
+        return {
+            ...tile,
+            walkingDistance: {
+                distance: Number(distance),
+                visible: false,
+            },
+        }
+    return tile
 }
