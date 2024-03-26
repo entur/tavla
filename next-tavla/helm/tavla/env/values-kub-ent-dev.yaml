@@ -1,0 +1,4 @@
+common:
+    env: dev
+    ingress:
+        host: tavla.dev.entur.no

@@ -2,11 +2,6 @@ name: Deploy Beta staging
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-      - "next-tavla/**"
 
 env:
   PROJECT_ID: ${{ secrets.BETA_STAGING_ID }}
