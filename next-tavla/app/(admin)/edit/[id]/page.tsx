@@ -6,15 +6,14 @@ import { Heading1, Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
 import { Board } from 'Board/scenarios/Board'
 import { TileCard } from './components/TileCard'
-import { Button } from '@entur/button'
-import Link from 'next/link'
 import { MetaSettings } from './components/MetaSettings'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
-import { ExternalIcon } from '@entur/icons'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
+import { CopyButton, OpenButton } from './components/Buttons'
+import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 
 type TProps = {
     params: { id: TBoardID }
@@ -32,25 +31,18 @@ export default async function EditPage({ params }: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user) return permanentRedirect('/')
     const board = await getBoard(params.id)
-
     const organization = await getOrganizationForBoard(params.id)
-
     return (
         <main className="flexColumn p-4 g-2">
             <div className="flexRow justifyBetween alignCenter pb-2">
                 <Heading1 className="m-0">
                     Rediger tavle {board.meta?.title}
                 </Heading1>
-                <Button
-                    as={Link}
-                    aria-label="Åpne tavle"
-                    href={`/${params.id}`}
-                    target="_blank"
-                    variant="secondary"
-                >
-                    Åpne tavle
-                    <ExternalIcon />
-                </Button>
+                <div className="flexRow g-2">
+                    <OpenButton bid={board.id} type="button" />
+                    <CopyButton bid={board.id} type="button" />
+                    <Delete board={board} type="button" />
+                </div>
             </div>
             <MetaSettings bid={params.id} meta={board.meta} />
             <Heading2 className="mt-3">Stoppesteder i tavla</Heading2>
