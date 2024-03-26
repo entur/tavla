@@ -60,7 +60,6 @@ export default async function EditPage({ params }: TProps) {
 
                     const tile = formDataToTile(data, organization)
                     if (!tile.placeId) return
-                    console.log('add tile')
                     await addTile(board, tile)
                     revalidatePath(`/edit/${params.id}`)
                 }}
