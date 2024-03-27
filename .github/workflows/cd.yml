@@ -11,11 +11,11 @@ on:
 
 jobs:
   build-dockerfile:
-    uses: entur/gha-docker/.github/workflows/build.yml@v1.0.0
+    uses: entur/gha-docker/.github/workflows/build.yml@v1.1.0
     with:
       dockerfile: next-tavla/Dockerfile
   push-dockerfile:
-    uses: entur/gha-docker/.github/workflows/push.yml@v1.0.0
+    uses: entur/gha-docker/.github/workflows/push.yml@v1.1.0
     with:
       environment: prd
       dockerfile: next-tavla/Dockerfile
