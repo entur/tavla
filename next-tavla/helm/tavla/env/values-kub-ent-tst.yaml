@@ -1,0 +1,4 @@
+common:
+    env: tst
+    ingress:
+        host: tavla.staging.entur.no
