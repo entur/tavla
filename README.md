@@ -1,21 +1,15 @@
 # Entur - Tavla
 
-Tavla ("The Board") is a customizable departure board for all public transport in Norway.
-Personalize it from its admin panel, which requires no technical skills.
+Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all offentlig transport i Norge. Løsningen utvikles av Entur, og er helt gratis og tilgjengelig for alle. Logg inn på [tavla.entur.no](https://tavla.entur.no/)
 
-Go to [tavla.entur.no](https://tavla.entur.no) to set up your table today.
+for å komme i gang! Abonner på oppdateringer til Tavla ved å klikke på “Watch”.
 
-Subscribe to updates to Tavla by clicking "Watch".
+## Bidrag
 
-## Contribute
+Har du funnet en feil eller har du en idé til noe som kunne vært bedre? Opprett et [issue](https://github.com/entur/tavla/issues/new) her på Github, så skal vi se på det!
 
-Found a bug or an idea of something to improve on? Don't hesitate to create an [issue](https://github.com/entur/tavla/issues/new) or send in a pull request.
+### Lisenser og betingelser
 
-Further detail on how to create your very own dashboard to be found in [CONTRIBUTING.md](/tavla/CONTRIBUTING.md).
-
-### Licenses and Terms
-
-- The source code is licensed under EUPL-1.2.
-- The Nationale fonts are licensed separately. You can get a license at <https://playtype.com/typefaces/nationale/>.
-- All Entur trademark assets are to be used only by Entur (logo, illustrations and images).
-- Attribution must be given to Entur Tavla when hosting your own fork/clone, and it must be visible from the dashboard pages. A link to <https://tavla.entur.no> must be included.
+- Kildekoden er under EUPL-1.2 lisens.
+- Fonter har separat [lisens](https://playtype.com/typefaces/nationale/).
+- Alle Enturs varemerker skal kun brukes av Entur (logo, illustrasjoner og bilder).
