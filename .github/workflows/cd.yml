@@ -15,6 +15,7 @@ jobs:
     with:
       dockerfile: next-tavla/Dockerfile
   push-dockerfile:
+    needs: [build-dockerfile]
     uses: entur/gha-docker/.github/workflows/push.yml@v1.1.0
     with:
       environment: prd
