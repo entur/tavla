@@ -2,3 +2,6 @@ common:
     env: dev
     ingress:
         host: tavla.dev.entur.no
+    configmap:
+        data:
+            GOOGLE_PROJECT_ID: ent-tavla-dev
