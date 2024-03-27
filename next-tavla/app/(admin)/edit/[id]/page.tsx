@@ -30,18 +30,18 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
 
 export default async function EditPage({ params }: TProps) {
     const user = await getUser()
-    if (!user) return redirect('/')
+    if (!user || !user.uid) return redirect('/')
 
     const board = await getBoard(params.id)
 
     const organization = await getOrganizationForBoard(params.id)
 
-    if (
-        !user.owner?.includes(params.id) &&
-        !organization?.owners?.includes(params.id) &&
-        !organization?.editors?.includes(params.id)
-    )
-        return redirect('/')
+    const userAccess = user.owner?.includes(params.id)
+    const organizationAccess =
+        organization?.owners?.includes(user.uid) ||
+        organization?.editors?.includes(user.uid)
+
+    if (!userAccess && !organizationAccess) return redirect('/')
 
     return (
         <main className="flexColumn p-4 g-2">
