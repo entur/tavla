@@ -5,4 +5,4 @@ common:
     configmap:
         data:
             NEXT_PUBLIC_ENV: prod
-            GOOGLE_PROJECT_ID: ent-tavla-dev
+            GOOGLE_PROJECT_ID: ent-tavla-prd
