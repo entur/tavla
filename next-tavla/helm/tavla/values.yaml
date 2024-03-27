@@ -25,14 +25,12 @@ common:
                         port: 3000
                     periodSeconds: 5
                     successThreshold: 1
-                    failureThreashold: 6
                     timeoutSeconds: 1
                 readinessProbe:
                     tcpSocket:
                         port: 3000
                     periodSeconds: 5
                     successThreshold: 1
-                    failureThreashold: 6
                     timeoutSeconds: 1
     configmap:
         enabled: true
