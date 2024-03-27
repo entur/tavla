@@ -16,7 +16,13 @@ initializeAdminApp()
 
 export async function initializeAdminApp() {
     if (admin.apps.length <= 0) {
-        admin.initializeApp()
+        admin.initializeApp({
+            credential: admin.credential.applicationDefault(),
+            projectId:
+                process.env.NEXT_PUBLIC_ENV === 'prod'
+                    ? 'ent-tavla-prd'
+                    : 'ent-tavla-dev',
+        })
     }
 }
 
