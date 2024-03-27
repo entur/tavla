@@ -1,11 +1,7 @@
 name: Deploy Staging
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - "tavla/**"
+  workflow_dispatch:
 
 jobs:
   deploy-staging:

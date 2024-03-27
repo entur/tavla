@@ -1,0 +1,7 @@
+common:
+    env: prd
+    ingress:
+        host: tavla.entur.no
+    configmap:
+        data:
+            NEXT_PUBLIC_ENV: prod
