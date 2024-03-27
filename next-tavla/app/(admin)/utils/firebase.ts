@@ -48,9 +48,8 @@ export async function getBoard(bid: TBoardID) {
 export async function getUser() {
     const user = await getUserFromSessionCookie()
     if (!user) return null
-    return (
-        await firestore().collection('users').doc(user.uid).get()
-    ).data() as TUser
+    const userDoc = await firestore().collection('users').doc(user.uid).get()
+    return { ...userDoc.data(), uid: userDoc.id } as TUser
 }
 
 export async function getOrganizationWithBoard(bid: TBoardID) {
