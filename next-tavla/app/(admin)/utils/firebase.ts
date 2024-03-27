@@ -39,6 +39,14 @@ export async function getBoard(bid: TBoardID) {
     return { id: board.id, ...board.data() } as TBoard
 }
 
+export async function getUser() {
+    const user = await getUserFromSessionCookie()
+    if (!user) return null
+    return (
+        await firestore().collection('users').doc(user.uid).get()
+    ).data() as TUser
+}
+
 export async function getOrganizationWithBoard(bid: TBoardID) {
     const ref = await firestore()
         .collection('organizations')

@@ -1,4 +1,4 @@
-import { permanentRedirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
 import { addTile, getBoard } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
@@ -13,8 +13,8 @@ import { revalidatePath } from 'next/cache'
 import { ExternalIcon } from '@entur/icons'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { ClientBoard } from './components/ClientBoard'
+import { getUser } from 'app/(admin)/utils/firebase'
 
 type TProps = {
     params: { id: TBoardID }
@@ -29,11 +29,19 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
 }
 
 export default async function EditPage({ params }: TProps) {
-    const user = await getUserFromSessionCookie()
-    if (!user) return permanentRedirect('/')
+    const user = await getUser()
+    if (!user) return redirect('/')
+
     const board = await getBoard(params.id)
 
     const organization = await getOrganizationForBoard(params.id)
+
+    if (
+        !user.owner?.includes(params.id) &&
+        !organization?.owners?.includes(params.id) &&
+        !organization?.editors?.includes(params.id)
+    )
+        return redirect('/')
 
     return (
         <main className="flexColumn p-4 g-2">
