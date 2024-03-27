@@ -1,9 +1,9 @@
 import { TBoard } from 'types/settings'
 import { Actions } from './Actions'
 import { LastModified } from './LastModified'
-import { Link } from './Link'
 import { Name } from './Name'
 import { Tags } from './Tags'
+import { Link } from './Link'
 import { TTag } from 'types/meta'
 import { TBoardsColumn } from 'app/(admin)/utils/types'
 

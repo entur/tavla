@@ -31,7 +31,7 @@ export async function getOrganizationsForUser() {
     const queries = await Promise.all([owner, editor])
     return queries
         .map((q) =>
-            q.docs.map((d) => ({ ...d.data, id: d.id } as TOrganization)),
+            q.docs.map((d) => ({ ...d.data(), id: d.id } as TOrganization)),
         )
         .flat()
 }

@@ -39,7 +39,10 @@ export async function inviteUser(
 
     if (!access) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    const invitee = await auth().getUserByEmail(email)
+    const invitee = await auth()
+        .getUserByEmail(email)
+        .catch(() => undefined)
+
     if (!invitee) return getFormFeedbackForError('auth/user-not-found')
 
     const organization = await getOrganization(oid)

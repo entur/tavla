@@ -54,6 +54,7 @@ async function OrganizationsBoardsPage({ params }: TProps) {
         ? await getBoardsForOrganization(id[0] ?? '')
         : await getBoardsForUser()
 
+    console.log(organizations)
     return (
         <div className={classes.root}>
             <main className="flexRow g-2">
