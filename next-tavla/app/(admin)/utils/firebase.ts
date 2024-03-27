@@ -5,11 +5,12 @@ import {
     TBoardID,
     TOrganization,
     TOrganizationID,
+    TUser,
 } from 'types/settings'
 import { getUserFromSessionCookie } from './server'
 import { concat } from 'lodash'
-import { TavlaError } from './types'
 import { getBoardsForOrganization, getOrganization } from '../actions'
+import { getFormFeedbackForError } from '.'
 
 initializeAdminApp()
 
@@ -48,7 +49,13 @@ export async function getOrganizationWithBoard(bid: TBoardID) {
 
 export async function userCanDeleteBoard(bid: TBoardID) {
     const user = await getUserFromSessionCookie()
-    const userDeleteAccess = concat(user?.owner).includes(bid)
+    if (!user) return false
+    const userDoc = (
+        await firestore().collection('users').doc(user.uid).get()
+    ).data() as TUser
+    if (!userDoc) return false
+
+    const userDeleteAccess = userDoc.owner?.includes(bid)
     if (userDeleteAccess) return true
 
     const organization = await getOrganizationWithBoard(bid)
@@ -80,10 +87,7 @@ export async function deleteBoard(bid: TBoardID) {
     const deleteAccess = await userCanDeleteBoard(bid)
 
     if (!user || !deleteAccess)
-        throw new TavlaError({
-            code: 'BOARD',
-            message: 'User does not have access to this board.',
-        })
+        return getFormFeedbackForError('auth/operation-not-allowed')
 
     return Promise.all([
         firestore().collection('boards').doc(bid).delete(),
