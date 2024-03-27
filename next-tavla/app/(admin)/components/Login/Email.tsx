@@ -1,7 +1,7 @@
 'use client'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from 'utils/firebase'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
 import { Heading3 } from '@entur/typography'
 import { TextField } from '@entur/form'
@@ -29,6 +29,8 @@ function Email() {
         const password = data.get('password') as string
 
         try {
+            const app = await getClientApp()
+            const auth = getAuth(app)
             const credential = await signInWithEmailAndPassword(
                 auth,
                 email,

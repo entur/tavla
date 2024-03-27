@@ -7,11 +7,11 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { confirmPasswordReset } from 'firebase/auth'
+import { confirmPasswordReset, getAuth } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
-import { auth } from 'utils/firebase'
 import { useFormState } from 'react-dom'
 import { redirect } from 'next/navigation'
+import { getClientApp } from 'utils/firebase'
 
 function ResetForm({ oob }: { oob: string }) {
     const submit = async (
@@ -25,6 +25,9 @@ function ResetForm({ oob }: { oob: string }) {
             return getFormFeedbackForError('auth/password-no-match')
 
         try {
+            const app = await getClientApp()
+            const auth = getAuth(app)
+
             await confirmPasswordReset(auth, oob, password)
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {

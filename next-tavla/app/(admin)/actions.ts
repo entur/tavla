@@ -6,6 +6,7 @@ import { getUserFromSessionCookie } from './utils/server'
 import { chunk, concat, isEmpty } from 'lodash'
 import { TavlaError } from './utils/types'
 import { redirect } from 'next/navigation'
+import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 
 initializeAdminApp()
 
@@ -13,6 +14,12 @@ export async function getOrganization(oid?: TOrganizationID) {
     if (!oid) return undefined
     const doc = await firestore().collection('organizations').doc(oid).get()
     return { ...doc.data(), id: doc.id } as TOrganization
+}
+
+export async function getFirebaseClientConfig() {
+    const env = process.env.GOOGLE_PROJECT_ID
+    if (env === 'ent-tavla-prd') return FIREBASE_PRD_CONFIG
+    return FIREBASE_DEV_CONFIG
 }
 
 export async function getOrganizationsForUser() {
