@@ -1,5 +1,5 @@
+import { verifySession } from './(admin)/utils/firebase'
 import landingImage from 'assets/illustrations/Main_city_2.svg'
-import { verifySession } from 'Admin/utils/firebase'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { TopNavigation } from './(admin)/components/TopNavigation'

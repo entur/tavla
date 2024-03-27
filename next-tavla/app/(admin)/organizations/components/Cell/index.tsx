@@ -1,7 +1,7 @@
-import { TOrganizationsColumn } from 'Admin/types/organizations'
 import { TOrganization, TUserID } from 'types/settings'
 import { Actions } from './Actions'
 import { Role } from './Role'
+import { TOrganizationsColumn } from '../OrganizationsTable/types'
 
 function Cell({
     column,

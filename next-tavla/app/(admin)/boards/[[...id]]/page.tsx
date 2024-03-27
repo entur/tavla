@@ -1,11 +1,4 @@
 import classes from 'styles/pages/admin.module.css'
-import {
-    getBoardsForOrganization,
-    getBoardsForUser,
-    getOrganizationById,
-    getOrganizationsWithUser,
-    initializeAdminApp,
-} from 'Admin/utils/firebase'
 import { permanentRedirect } from 'next/navigation'
 import { SelectOrganization } from '../components/SelectOrganization'
 import { Search } from '../components/Search'
@@ -13,9 +6,15 @@ import { FilterButton } from '../components/FilterButton'
 import { ToggleBoardsColumns } from '../components/ToggleBoardsColumns'
 import { BoardTable } from '../components/BoardTable'
 import { Metadata } from 'next'
-import { getUserFromSessionCookie } from 'Admin/utils/formActions'
 import React from 'react'
-import { getOrganization } from 'app/(admin)/actions'
+import {
+    getBoardsForOrganization,
+    getBoardsForUser,
+    getOrganization,
+    getOrganizationsForUser,
+} from 'app/(admin)/actions'
+import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
 initializeAdminApp()
 
@@ -27,11 +26,11 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     const { id } = params
 
     const organization = id
-        ? await getOrganizationById(id[0] ?? '')
+        ? await getOrganization(id[0] ?? '')
         : { name: 'Mine' }
 
     return {
-        title: `${organization.name} tavler | Entur Tavla`,
+        title: `${organization?.name} tavler | Entur Tavla`,
     }
 }
 
@@ -39,7 +38,7 @@ async function OrganizationsBoardsPage({ params }: TProps) {
     const { id } = params
     const user = await getUserFromSessionCookie()
     if (!user) permanentRedirect('/')
-    const organizations = await getOrganizationsWithUser(user.uid)
+    const organizations = await getOrganizationsForUser()
     const activeOrganization = await getOrganization((id ?? '')[0])
 
     const hasAccess =
@@ -53,7 +52,8 @@ async function OrganizationsBoardsPage({ params }: TProps) {
 
     const boards = id
         ? await getBoardsForOrganization(id[0] ?? '')
-        : await getBoardsForUser(user.uid)
+        : await getBoardsForUser()
+
     return (
         <div className={classes.root}>
             <main className="flexRow g-2">

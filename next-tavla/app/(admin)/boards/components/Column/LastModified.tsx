@@ -1,4 +1,4 @@
-import { formatTimestamp } from 'Admin/utils/time'
+import { formatTimestamp } from 'app/(admin)/utils/time'
 import { Column } from './Column'
 
 function LastModified({ timestamp }: { timestamp?: number }) {

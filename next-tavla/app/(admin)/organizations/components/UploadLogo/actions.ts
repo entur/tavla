@@ -1,13 +1,14 @@
 'use server'
 
-import {
-    removeOrganizationLogo,
-    setOrganizationLogo,
-} from 'Admin/utils/firebase'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { revalidatePath } from 'next/cache'
 import { TLogo, TOrganizationID } from 'types/settings'
 import { getFilename } from './utils'
+import { storage, firestore } from 'firebase-admin'
+import { getConfig, initializeAdminApp } from 'app/(admin)/utils/firebase'
+import { getDownloadURL } from 'firebase-admin/storage'
+
+initializeAdminApp()
 
 export async function upload(
     prevState: TFormFeedback | undefined,
@@ -21,7 +22,18 @@ export async function upload(
     if (logo.size > 10_000_000)
         return getFormFeedbackForError('file/size-too-big')
 
-    await setOrganizationLogo(logo, oid)
+    const bucket = storage().bucket((await getConfig()).bucket)
+    const file = bucket.file(`logo/${oid}-${logo.name}`)
+    await file.save(Buffer.from(await logo.arrayBuffer()))
+
+    const logoUrl = await getDownloadURL(file)
+
+    if (!logoUrl) return getFormFeedbackForError()
+
+    await firestore().collection('organizations').doc(oid).update({
+        logo: logoUrl,
+    })
+
     revalidatePath('/')
 }
 
@@ -33,6 +45,14 @@ export async function remove(oid?: TOrganizationID, logo?: TLogo) {
 
     if (!file) return getFormFeedbackForError()
 
-    await removeOrganizationLogo(file, oid)
+    const bucket = storage().bucket((await getConfig()).bucket)
+    const logoFile = bucket.file('logo/' + file)
+
+    await logoFile.delete()
+
+    await firestore().collection('organizations').doc(oid).update({
+        logo: firestore.FieldValue.delete(),
+    })
+
     revalidatePath('/')
 }

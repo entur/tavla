@@ -1,4 +1,4 @@
-import { TSort } from 'Admin/types/boards'
+import { TSort } from 'app/(admin)/utils/types'
 
 export function getAriaLabel(sort: TSort) {
     switch (sort) {

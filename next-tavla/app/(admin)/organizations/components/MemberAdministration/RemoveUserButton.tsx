@@ -4,7 +4,6 @@ import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading2, Paragraph } from '@entur/typography'
-import { removeUserAction } from 'Admin/utils/formActions'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -14,6 +13,8 @@ import { TOrganizationID, TUser } from 'types/settings'
 import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
 import { useModalWithValue } from 'app/(admin)/boards/hooks/useModalWithValue'
+import { removeUser } from './actions'
+
 function RemoveUserButton({
     user,
     oid,
@@ -21,7 +22,7 @@ function RemoveUserButton({
     user?: TUser
     oid?: TOrganizationID
 }) {
-    const [state, formAction] = useFormState(removeUserAction, undefined)
+    const [state, formAction] = useFormState(removeUser, undefined)
     const { isOpen, open, close } = useModalWithValue(
         'deleteUser',
         user?.uid ?? '',

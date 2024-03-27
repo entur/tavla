@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { IconButton } from '@entur/button'
-import { SortableColumns, TBoardsColumn, TSort } from 'Admin/types/boards'
+import { SortableColumns, TBoardsColumn, TSort } from 'app/(admin)/utils/types'
 import { DownArrowIcon, UnsortedIcon, UpArrowIcon } from '@entur/icons'
 import { includes } from 'lodash'
 import { getAriaLabel } from './utils'

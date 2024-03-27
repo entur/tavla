@@ -1,4 +1,4 @@
-import { BoardsColumns, TBoardsColumn, TSort } from 'Admin/types/boards'
+import { BoardsColumns, TBoardsColumn, TSort } from 'app/(admin)/utils/types'
 import classes from './styles.module.css'
 import { Sort } from '../Sort'
 import { useSearchParam } from '../../hooks/useSearchParam'

@@ -14,7 +14,7 @@ import {
     BoardsColumns,
     DEFAULT_BOARD_COLUMNS,
     TBoardsColumn,
-} from 'Admin/types/boards'
+} from 'app/(admin)/utils/types'
 import { isEqual, xor } from 'lodash'
 import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 

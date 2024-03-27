@@ -1,4 +1,4 @@
-import { TBoardsColumn } from 'Admin/types/boards'
+import { TBoardsColumn } from 'app/(admin)/utils/types'
 import { ColumnHeader } from './ColumnHeader'
 
 function TableHeader({ columns }: { columns: TBoardsColumn[] }) {

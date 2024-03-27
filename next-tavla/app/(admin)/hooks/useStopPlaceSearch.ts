@@ -1,7 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { fetchStopPlaces } from 'Admin/utils/fetch'
 import { usePostHog } from 'posthog-js/react'
 import { useCallback, useRef, useState } from 'react'
+import { fetchStopPlaces } from '../utils/fetch'
 
 function useStopPlaceSearch(countyIds?: string[]) {
     const [selectedStopPlace, setSelectedStopPlace] =

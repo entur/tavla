@@ -3,9 +3,9 @@ import { TableHeader } from 'app/(admin)/boards/components/TableHeader'
 import { TableRows } from 'app/(admin)/boards/components/TableRows'
 import { TBoard } from 'types/settings'
 import { isEmpty } from 'lodash'
-import { IllustratedInfo } from 'Admin/components/IllustratedInfo'
-import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'Admin/types/boards'
 import { useSearchParam } from '../../hooks/useSearchParam'
+import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
+import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'app/(admin)/utils/types'
 
 function BoardTable({ boards }: { boards: TBoard[] }) {
     const value = useSearchParam('columns')

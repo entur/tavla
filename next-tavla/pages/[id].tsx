@@ -2,7 +2,10 @@ import { Header } from 'components/Header'
 import { TBoard, TLogo } from 'types/settings'
 import classes from 'styles/pages/board.module.css'
 import { Board } from 'Board/scenarios/Board'
-import { getBoard, getOrganizationLogoWithBoard } from 'Admin/utils/firebase'
+import {
+    getBoard,
+    getOrganizationLogoWithBoard,
+} from 'Board/scenarios/Board/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
 

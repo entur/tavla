@@ -1,11 +1,12 @@
 import { Heading1, Paragraph } from '@entur/typography'
 import classes from '../admin.module.css'
-import { getOrganizationsWithUser, verifySession } from 'Admin/utils/firebase'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { CreateOrganization } from './components/CreateOrganization'
 import { OrganizationsTable } from './components/OrganizationsTable'
 import { Metadata } from 'next'
+import { verifySession } from '../utils/firebase'
+import { getOrganizationsForUser } from '../actions'
 
 export const metadata: Metadata = {
     title: 'Organisasjoner | Entur Tavla',
@@ -17,7 +18,7 @@ async function OrganizationsPage() {
 
     if (!user) redirect('/#login')
 
-    const organizations = await getOrganizationsWithUser(user.uid)
+    const organizations = await getOrganizationsForUser()
 
     return (
         <div className={classes.root}>

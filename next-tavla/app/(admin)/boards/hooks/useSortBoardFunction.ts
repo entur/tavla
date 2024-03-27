@@ -1,8 +1,8 @@
 import { TBoard } from 'types/settings'
 import { useCallback } from 'react'
-import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
-import { TBoardsColumn, TSort } from 'Admin/types/boards'
 import { useSearchParam } from './useSearchParam'
+import { TBoardsColumn, TSort } from 'app/(admin)/utils/types'
+import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 
 function useSortBoardFunction() {
     const value = useSearchParam('sort')

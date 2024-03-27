@@ -1,5 +1,5 @@
 'use server'
-import { initializeAdminApp } from 'Admin/utils/firebase'
+import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
 import { TColumn } from 'types/column'
 import { TOrganizationID } from 'types/settings'

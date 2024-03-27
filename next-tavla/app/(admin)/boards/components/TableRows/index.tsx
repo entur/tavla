@@ -1,12 +1,12 @@
 import { useSortBoardFunction } from '../../hooks/useSortBoardFunction'
-import { DEFAULT_BOARD_NAME } from 'Admin/utils/constants'
 import { Column } from '../Column'
 import { Fragment } from 'react'
 import { TBoard } from 'types/settings'
-import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'Admin/types/boards'
 import { uniq } from 'lodash'
 import { TTag } from 'types/meta'
 import { useSearchParam } from '../../hooks/useSearchParam'
+import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'app/(admin)/utils/types'
 
 function TableRows({ boards }: { boards: TBoard[] }) {
     const search = useSearchParam('search') ?? ''

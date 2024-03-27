@@ -1,5 +1,5 @@
-import { userCanWriteBoard } from 'Admin/utils/firebase'
-import { getUserFromSessionCookie } from 'Admin/utils/formActions'
+import { userCanWriteBoard } from 'app/(admin)/utils/firebase'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { firestore } from 'firebase-admin'
 import { uniq } from 'lodash'
 import { TTag } from 'types/meta'
@@ -12,7 +12,7 @@ async function fetchTags({ bid }: { bid: TBoardID }) {
     const user = await getUserFromSessionCookie()
     if (!user) throw 'auth/operation-not-allowed'
 
-    const writeAccess = await userCanWriteBoard(user.uid, board.id)
+    const writeAccess = await userCanWriteBoard(board.id)
     if (!writeAccess) throw 'auth/operation-not-allowed'
 
     return (board.data()?.meta?.tags as TTag[]) ?? []
