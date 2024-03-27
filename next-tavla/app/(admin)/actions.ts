@@ -5,6 +5,7 @@ import { initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
 import { chunk, concat, isEmpty } from 'lodash'
 import { TavlaError } from './utils/types'
+import { redirect } from 'next/navigation'
 
 initializeAdminApp()
 
@@ -16,7 +17,7 @@ export async function getOrganization(oid?: TOrganizationID) {
 
 export async function getOrganizationsForUser() {
     const user = await getUserFromSessionCookie()
-    if (!user) return []
+    if (!user) return redirect('/')
 
     const owner = firestore()
         .collection('organizations')
