@@ -11,6 +11,7 @@ import { useModalWithValue } from 'app/(admin)/boards/hooks/useModalWithValue'
 import Image from 'next/image'
 import birds from 'assets/illustrations/Birds.png'
 import { createOrganization } from './actions'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function CreateOrganization() {
     const { isOpen, open, close } = useModalWithValue('create', '')
@@ -62,14 +63,14 @@ function CreateOrganization() {
                         {...getFormFeedbackForField('name', state)}
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
-                    <PrimaryButton
+                    <SubmitButton
+                        variant="primary"
                         className="mt-4"
-                        type="submit"
                         width="fluid"
                         aria-label="Opprett organisasjon"
                     >
                         Opprett
-                    </PrimaryButton>
+                    </SubmitButton>
                 </form>
             </Modal>
         </>
