@@ -60,8 +60,7 @@ export default async function EditPage({ params }: TProps) {
 
                     const tile = formDataToTile(data, organization)
                     if (!tile.placeId) return
-
-                    await addTile(params.id, tile)
+                    await addTile(board, tile)
                     revalidatePath(`/edit/${params.id}`)
                 }}
                 direction="Row"

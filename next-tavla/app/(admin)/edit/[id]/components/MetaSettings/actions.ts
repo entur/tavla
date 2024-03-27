@@ -4,7 +4,8 @@ import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { TFontSize, TLocation } from 'types/meta'
-import { TBoardID } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
+import { getWalkingDistanceTile } from '../../actions'
 
 initializeAdminApp()
 
@@ -30,12 +31,24 @@ export async function saveFont(data: FormData) {
 
 export async function saveLocation(bid: TBoardID, location?: TLocation) {
     if (!bid) return getFormFeedbackForError()
+    const boardRef = firestore().collection('boards').doc(bid)
+    const board = (await boardRef.get()).data() as TBoard
+    if (!board) return getFormFeedbackForError('board/not-found')
     await firestore()
         .collection('boards')
         .doc(bid)
         .update({
+            tiles: await getUpdatedTiles(board, location),
             'meta.location': location ?? firestore.FieldValue.delete(),
             'meta.dateModified': Date.now(),
         })
     revalidatePath(`/edit/${bid}`)
+}
+
+async function getUpdatedTiles(board: TBoard, location?: TLocation) {
+    return await Promise.all(
+        board.tiles.map(async (tile) => {
+            return await getWalkingDistanceTile(tile, location)
+        }),
+    )
 }

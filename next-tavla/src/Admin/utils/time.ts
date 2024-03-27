@@ -53,3 +53,18 @@ function getTimeSince(timeAgo: number, divisor: number) {
         ? `${count} ${timeText[divisor]} siden`
         : 'en stund siden'
 }
+
+export function formatWalkTime(duration: number) {
+    const SECOND = 1
+    const MINUTE = 60 * SECOND
+    const HOUR = 60 * MINUTE
+
+    if (duration >= HOUR) {
+        const hours = Math.floor(duration / HOUR)
+        const remainingMinutes = Math.ceil((duration % HOUR) / MINUTE)
+        return `${hours} t ${remainingMinutes} min`
+    } else {
+        const minutes = Math.ceil(duration / MINUTE)
+        return `${minutes} min `
+    }
+}

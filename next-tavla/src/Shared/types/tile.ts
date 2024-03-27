@@ -7,6 +7,7 @@ export type TSharedTile = {
     uuid: string
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
+    walkingDistance?: TWalkingDistance
 }
 
 export type TColumnTile = {
@@ -22,5 +23,10 @@ export type TStopPlaceTile = {
     type: 'stop_place'
 } & TSharedTile &
     TColumnTile
+
+export type TWalkingDistance = {
+    distance?: number
+    visible?: boolean
+}
 
 export type TTile = TStopPlaceTile | TQuayTile

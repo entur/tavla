@@ -1,4 +1,3 @@
-import { useQuery } from 'graphql/utils'
 import { QuaysSearchQuery } from 'graphql/index'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { hasDuplicateInArrayByKey } from 'utils/filters'
@@ -7,6 +6,7 @@ import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { countBy } from 'lodash'
 import { getTransportIcon } from 'components/TransportIcon'
+import { useQuery } from 'hooks/useQuery'
 
 function getPlatformLabel(
     index: number,
