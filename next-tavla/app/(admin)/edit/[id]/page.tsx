@@ -3,7 +3,6 @@ import { TBoardID } from 'types/settings'
 import { addTile, getBoard } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
-import { Board } from 'Board/scenarios/Board'
 import { TileCard } from './components/TileCard'
 import { Button } from '@entur/button'
 import Link from 'next/link'
@@ -15,6 +14,7 @@ import { ExternalIcon } from '@entur/icons'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { ClientBoard } from './components/ClientBoard'
 
 type TProps = {
     params: { id: TBoardID }
@@ -71,7 +71,7 @@ export default async function EditPage({ params }: TProps) {
             ))}
             <Heading2 className="mt-3">Forhåndsvisning</Heading2>
             <div className={classes.preview} data-theme={board.theme ?? 'dark'}>
-                <Board board={board} />
+                <ClientBoard board={board} />
             </div>
         </main>
     )
