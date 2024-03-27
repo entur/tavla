@@ -5,9 +5,9 @@ import { Heading3 } from '@entur/typography'
 import { PrimaryButton } from '@entur/button'
 import { login, create } from './actions'
 import { TextField } from '@entur/form'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 
-import { auth } from 'utils/firebase'
+import { getClientApp } from 'utils/firebase'
 import { revalidatePath } from 'next/cache'
 import {
     TFormFeedback,
@@ -31,6 +31,8 @@ function Create() {
             } as TFormFeedback
 
         try {
+            const app = await getClientApp()
+            const auth = getAuth(app)
             const credential = await createUserWithEmailAndPassword(
                 auth,
                 email,
