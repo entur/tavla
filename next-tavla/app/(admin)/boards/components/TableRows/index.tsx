@@ -52,7 +52,6 @@ function TableRow({
     columns: TBoardsColumn[]
     tags: TTag[]
 }) {
-    console.log(columns)
     return (
         <Fragment key={board.id}>
             {columns.map((column: TBoardsColumn) => (
