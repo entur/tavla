@@ -40,6 +40,6 @@ export async function getWalkingDistance(
         })
         return response.trip.tripPatterns[0]?.duration
     } catch (error) {
-        return undefined
+        return getFormFeedbackForError()
     }
 }

@@ -5,6 +5,10 @@ const DAY = 24 * HOUR
 const MONTH = 30 * DAY
 const YEAR = 365 * DAY
 
+const SECOND_S = 1
+const MINUTE_S = 60 * SECOND_S
+const HOUR_S = 60 * MINUTE_S
+
 const shortFormat = Intl.DateTimeFormat('no-NB', {
     hour: '2-digit',
     minute: '2-digit',
@@ -55,16 +59,12 @@ function getTimeSince(timeAgo: number, divisor: number) {
 }
 
 export function formatWalkTime(duration: number) {
-    const SECOND = 1
-    const MINUTE = 60 * SECOND
-    const HOUR = 60 * MINUTE
-
-    if (duration >= HOUR) {
-        const hours = Math.floor(duration / HOUR)
-        const remainingMinutes = Math.ceil((duration % HOUR) / MINUTE)
+    if (duration >= HOUR_S) {
+        const hours = Math.floor(duration / HOUR_S)
+        const remainingMinutes = Math.ceil((duration % HOUR_S) / MINUTE_S)
         return `${hours} t ${remainingMinutes} min`
     } else {
-        const minutes = Math.ceil(duration / MINUTE)
+        const minutes = Math.ceil(duration / MINUTE_S)
         return `${minutes} min `
     }
 }

@@ -54,14 +54,14 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
         .collection('boards')
         .doc(bid)
         .update({
-            tiles: await getUpdatedTiles(board, location),
+            tiles: await getTilesWithDistance(board, location),
             'meta.location': location ?? firestore.FieldValue.delete(),
             'meta.dateModified': Date.now(),
         })
     revalidatePath(`/edit/${bid}`)
 }
 
-async function getUpdatedTiles(board: TBoard, location?: TLocation) {
+async function getTilesWithDistance(board: TBoard, location?: TLocation) {
     return await Promise.all(
         board.tiles.map(async (tile) => {
             return await getWalkingDistanceTile(tile, location)
