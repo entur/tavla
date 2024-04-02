@@ -35,6 +35,8 @@ export async function getWalkingDistanceTile(
     tile: TTile,
     location?: TLocation,
 ) {
+    const walkingDistance = await getWalkingDistance(tile.placeId, location)
+    if (!walkingDistance) return tile
     return {
         ...tile,
         walkingDistance: {
