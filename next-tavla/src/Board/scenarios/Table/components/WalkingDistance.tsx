@@ -1,7 +1,7 @@
 import { WalkIcon } from '@entur/icons'
-import { formatWalkTime } from 'Admin/utils/time'
 import { TWalkingDistance } from 'types/tile'
 import classes from './TableHeader/styles.module.css'
+import { formatWalkTime } from 'app/(admin)/utils/time'
 
 function WalkingDistance({
     walkingDistance,
