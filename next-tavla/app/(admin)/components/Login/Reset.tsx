@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { sendPasswordResetEmail } from 'firebase/auth'
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 import musk from 'assets/illustrations/Musk.png'
 import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
@@ -10,10 +10,10 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { auth } from 'utils/firebase'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
+import { getClientApp } from 'utils/firebase'
 
 function Reset() {
     const submit = async (
@@ -22,6 +22,8 @@ function Reset() {
     ) => {
         const email = data.get('email') as string
         try {
+            const app = await getClientApp()
+            const auth = getAuth(app)
             await sendPasswordResetEmail(auth, email)
             return getFormFeedbackForError('reset/email-sent')
         } catch (e: unknown) {
