@@ -20,6 +20,7 @@ import { LineCheckbox } from './LineCheckbox'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { usePostHog } from 'posthog-js/react'
 import { Switch } from '@entur/form'
+import { getBoard, getWalkingDistanceTile } from '../../actions'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const posthog = usePostHog()
@@ -85,7 +86,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
             <BaseExpand open={isOpen}>
                 <div className={classes.expandable}>
                     <form
-                        action={(data: FormData) => {
+                        action={async (data: FormData) => {
                             const columns = data.getAll('columns') as TColumn[]
                             data.delete('columns')
                             const count = data.get('count') as number | null
@@ -103,7 +104,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             if (columns !== tile.columns)
                                 captureColumnChangeEvent()
 
-                            saveTile(bid, {
+                            const newTile = {
                                 ...tile,
                                 columns: columns,
                                 whitelistedLines: lines,
@@ -111,7 +112,20 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     visible: distance === 'on',
                                     distance: tile.walkingDistance?.distance,
                                 },
-                            })
+                            } as TTile
+
+                            if (distance === 'on' && !tile.walkingDistance) {
+                                const board = await getBoard(bid)
+                                return saveTile(
+                                    bid,
+                                    await getWalkingDistanceTile(
+                                        newTile,
+                                        board.meta.location,
+                                    ),
+                                )
+                            }
+
+                            saveTile(bid, newTile)
                         }}
                         onSubmit={() => setIsOpen(false)}
                     >
