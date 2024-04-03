@@ -1,5 +1,6 @@
 import { VariantType } from '@entur/form'
 import { FirebaseError } from 'firebase/app'
+import { TOrganization, TUserID } from 'types/settings'
 
 type InputType =
     | 'general'
@@ -205,4 +206,16 @@ export function getFormFeedbackForField(
     feedback?: TFormFeedback,
 ) {
     if (form_type === feedback?.form_type) return feedback
+}
+
+export function userInOrganization(
+    uid?: TUserID,
+    organization?: TOrganization,
+) {
+    return (
+        uid &&
+        organization &&
+        (organization.owners?.includes(uid) ||
+            organization.editors?.includes(uid))
+    )
 }

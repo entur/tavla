@@ -7,6 +7,7 @@ import { chunk, concat, isEmpty } from 'lodash'
 import { TavlaError } from './utils/types'
 import { redirect } from 'next/navigation'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
+import { userInOrganization } from './utils'
 
 initializeAdminApp()
 
@@ -23,12 +24,7 @@ export async function getOrganizationIfUserHasAccess(oid?: TOrganizationID) {
     const organization = { ...doc.data(), id: doc.id } as TOrganization
     const user = await getUserFromSessionCookie()
 
-    if (
-        !user ||
-        (!organization.owners?.includes(user.uid) &&
-            !organization.editors?.includes(user.uid))
-    )
-        return redirect('/')
+    if (!userInOrganization(user?.uid, organization)) return redirect('/')
     return organization
 }
 
