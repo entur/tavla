@@ -16,7 +16,7 @@ export async function getFirebaseClientConfig() {
     return FIREBASE_DEV_CONFIG
 }
 
-export async function getOrganization(oid?: TOrganizationID) {
+export async function getOrganizationIfUserHasAccess(oid?: TOrganizationID) {
     if (!oid) return undefined
     const doc = await firestore().collection('organizations').doc(oid).get()
 
@@ -55,7 +55,7 @@ export async function getOrganizationsForUser() {
 }
 
 export async function getBoardsForOrganization(oid: TOrganizationID) {
-    const organization = await getOrganization(oid)
+    const organization = await getOrganizationIfUserHasAccess(oid)
     if (!organization) return redirect('/')
 
     const boards = organization.boards

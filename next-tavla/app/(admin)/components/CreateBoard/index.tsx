@@ -25,7 +25,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
-import { getOrganization } from 'app/(admin)/actions'
+import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import classes from './styles.module.css'
 
 type TCreateBoard = 'name' | 'stops'
@@ -218,7 +218,9 @@ function StopSelector({
             <TileSelector
                 action={async (data: FormData) => {
                     setFormError(undefined)
-                    const organization = await getOrganization(oid)
+                    const organization = await getOrganizationIfUserHasAccess(
+                        oid,
+                    )
                     const tile = formDataToTile(data, organization)
                     if (!tile.placeId) return
                     setBoard({

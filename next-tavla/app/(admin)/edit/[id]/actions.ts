@@ -1,5 +1,8 @@
 'use server'
-import { getUser, initializeAdminApp } from 'app/(admin)/utils/firebase'
+import {
+    hasBoardEditorAccess,
+    initializeAdminApp,
+} from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
 import { TBoard, TBoardID } from 'types/settings'
@@ -13,9 +16,8 @@ export async function getBoard(bid: TBoardID) {
 }
 
 export async function addTile(bid: TBoardID, tile: TTile) {
-    const user = await getUser()
-    if (!user || (!user.owner?.includes(bid) && !user.editor?.includes(bid)))
-        return redirect('/')
+    const access = await hasBoardEditorAccess(bid)
+    if (!access) return redirect('/')
 
     await firestore()
         .collection('boards')

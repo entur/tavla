@@ -8,7 +8,10 @@ import {
     TUser,
 } from 'types/settings'
 import { getUserFromSessionCookie } from './server'
-import { getBoardsForOrganization, getOrganization } from '../actions'
+import {
+    getBoardsForOrganization,
+    getOrganizationIfUserHasAccess,
+} from '../actions'
 import { getFormFeedbackForError } from '.'
 
 initializeAdminApp()
@@ -121,8 +124,9 @@ export async function userCanEditOrganization(oid: TOrganizationID) {
     const user = await getUserFromSessionCookie()
     if (!user) return false
 
-    const organization = await getOrganization(oid)
-    return organization?.owners?.includes(user.uid) ?? false
+    const organization = await getOrganizationIfUserHasAccess(oid)
+    if (!organization) return false
+    return true
 }
 
 export async function deleteOrganizationBoards(oid: TOrganizationID) {

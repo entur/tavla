@@ -1,9 +1,10 @@
 'use server'
-import { getOrganization } from 'app/(admin)/actions'
+import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { userCanEditOrganization } from 'app/(admin)/utils/firebase'
 import admin, { auth, firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 export async function removeUser(
     prevState: TFormFeedback | undefined,
@@ -13,7 +14,7 @@ export async function removeUser(
     const uid = data.get('uid')?.toString() ?? ''
 
     const access = await userCanEditOrganization(organizationId)
-    if (!access) return getFormFeedbackForError('auth/operation-not-allowed')
+    if (!access) return redirect('/')
 
     await firestore()
         .collection('organizations')
@@ -36,8 +37,7 @@ export async function inviteUser(
     if (!email) return getFormFeedbackForError('auth/invalid-email')
 
     const access = await userCanEditOrganization(oid)
-
-    if (!access) return getFormFeedbackForError('auth/operation-not-allowed')
+    if (!access) return redirect('/')
 
     const invitee = await auth()
         .getUserByEmail(email)
@@ -45,7 +45,7 @@ export async function inviteUser(
 
     if (!invitee) return getFormFeedbackForError('auth/user-not-found')
 
-    const organization = await getOrganization(oid)
+    const organization = await getOrganizationIfUserHasAccess(oid)
 
     if (!organization) return getFormFeedbackForError('organization/not-found')
 
