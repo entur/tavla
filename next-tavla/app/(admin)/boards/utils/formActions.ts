@@ -5,6 +5,7 @@ import { isString } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { addTag, removeTag } from './updateTags'
 import { deleteBoard } from 'app/(admin)/utils/firebase'
+import { redirect } from 'next/navigation'
 
 export async function deleteBoardAction(
     prevState: TFormFeedback | undefined,
@@ -20,6 +21,7 @@ export async function deleteBoardAction(
             return getFormFeedbackForError(e)
         return getFormFeedbackForError('general')
     }
+    redirect('/boards')
 }
 
 export async function addTagAction(
