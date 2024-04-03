@@ -12,6 +12,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { concat } from 'lodash'
 import { auth } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
+import { Footer } from '../components/Footer'
 
 initializeAdminApp()
 
@@ -75,6 +76,8 @@ async function EditOrganizationPage({ params }: TProps) {
                     oid={organization.id}
                     font={organization?.defaults?.font}
                 />
+
+                <Footer />
 
                 <UploadLogo organization={organization} />
             </div>
