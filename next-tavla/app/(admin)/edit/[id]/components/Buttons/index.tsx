@@ -7,7 +7,7 @@ import { useLink } from 'hooks/useLink'
 import Link from 'next/link'
 import React from 'react'
 
-function CopyButton({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
+function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     const { addToast } = useToast()
     const link = useLink(bid)
     const copy = () => {
@@ -36,7 +36,7 @@ function CopyButton({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     )
 }
 
-function OpenButton({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
+function Open({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     const link = useLink(bid)
     if (type === 'button') {
         return (
@@ -67,4 +67,4 @@ function OpenButton({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     )
 }
 
-export { OpenButton, CopyButton }
+export { Open, Copy }

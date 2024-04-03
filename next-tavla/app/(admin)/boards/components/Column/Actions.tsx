@@ -6,18 +6,15 @@ import { TBoard } from 'types/settings'
 import classes from './styles.module.css'
 import { Column } from './Column'
 import { Delete } from './Delete'
-import {
-    CopyButton,
-    OpenButton,
-} from 'app/(admin)/edit/[id]/components/Buttons'
+import { Copy, Open } from 'app/(admin)/edit/[id]/components/Buttons'
 
 function Actions({ board }: { board: TBoard }) {
     return (
         <Column column="actions">
             <div className={classes.actions}>
                 <Edit bid={board.id} />
-                <CopyButton bid={board.id} />
-                <OpenButton bid={board.id} />
+                <Copy bid={board.id} />
+                <Open bid={board.id} />
                 <Delete board={board} />
             </div>
         </Column>
