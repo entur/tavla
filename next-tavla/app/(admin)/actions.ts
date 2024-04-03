@@ -1,7 +1,7 @@
 'use server'
 import { firestore } from 'firebase-admin'
-import { TOrganizationID, TOrganization, TBoard, TUser } from 'types/settings'
-import { initializeAdminApp } from './utils/firebase'
+import { TOrganizationID, TOrganization, TBoard } from 'types/settings'
+import { getUser, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
 import { chunk, concat, isEmpty } from 'lodash'
 import { TavlaError } from './utils/types'
@@ -10,16 +10,26 @@ import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 
 initializeAdminApp()
 
-export async function getOrganization(oid?: TOrganizationID) {
-    if (!oid) return undefined
-    const doc = await firestore().collection('organizations').doc(oid).get()
-    return { ...doc.data(), id: doc.id } as TOrganization
-}
-
 export async function getFirebaseClientConfig() {
     const env = process.env.GOOGLE_PROJECT_ID
     if (env === 'ent-tavla-prd') return FIREBASE_PRD_CONFIG
     return FIREBASE_DEV_CONFIG
+}
+
+export async function getOrganization(oid?: TOrganizationID) {
+    if (!oid) return undefined
+    const doc = await firestore().collection('organizations').doc(oid).get()
+
+    const organization = { ...doc.data(), id: doc.id } as TOrganization
+    const user = await getUserFromSessionCookie()
+
+    if (
+        !user ||
+        (!organization.owners?.includes(user.uid) &&
+            !organization.editors?.includes(user.uid))
+    )
+        return redirect('/')
+    return organization
 }
 
 export async function getOrganizationsForUser() {
@@ -45,13 +55,13 @@ export async function getOrganizationsForUser() {
 }
 
 export async function getBoardsForOrganization(oid: TOrganizationID) {
-    const boardIDs = (
-        await firestore().collection('organizations').doc(oid).get()
-    ).data()?.boards
+    const organization = await getOrganization(oid)
+    if (!organization) return redirect('/')
 
-    if (isEmpty(boardIDs)) return []
+    const boards = organization.boards
+    if (isEmpty(boards)) return []
 
-    const batchedBoardIDs = chunk(boardIDs, 20)
+    const batchedBoardIDs = chunk(boards, 20)
 
     const boardQueries = batchedBoardIDs.map((batch) =>
         firestore()
@@ -70,18 +80,14 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
 }
 
 export async function getBoardsForUser() {
-    const user = await getUserFromSessionCookie()
-    if (!user) return []
-    const userObj = (
-        await firestore().collection('users').doc(user.uid).get()
-    ).data() as TUser
-
-    if (!userObj)
+    const user = await getUser()
+    if (!user)
         throw new TavlaError({
             code: 'NOT_FOUND',
-            message: `Found no user with id ${user.uid}`,
+            message: `Found no user`,
         })
-    const boardIDs = concat(userObj?.owner ?? [], userObj?.editor ?? [])
+
+    const boardIDs = concat(user.owner ?? [], user.editor ?? [])
 
     if (isEmpty(boardIDs)) return []
 

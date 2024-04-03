@@ -2,7 +2,7 @@ import classes from '../../admin.module.css'
 
 import { Metadata } from 'next'
 import { Heading1, LeadParagraph } from '@entur/typography'
-import { permanentRedirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
@@ -36,7 +36,7 @@ async function EditOrganizationPage({ params }: TProps) {
 
     const user = await getUserFromSessionCookie()
 
-    if (!user) permanentRedirect('/')
+    if (!user) redirect('/')
 
     const organization = await getOrganization(id)
 

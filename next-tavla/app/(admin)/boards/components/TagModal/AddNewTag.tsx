@@ -1,5 +1,4 @@
 import { Heading3 } from '@entur/typography'
-import { Button } from '@entur/button'
 import { TextField } from '@entur/form'
 import { addTagAction } from '../../utils/formActions'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -8,6 +7,7 @@ import { useFormState } from 'react-dom'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { useRef } from 'react'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function AddNewTag({ board }: { board: TBoard }) {
     const [state, action] = useFormState(addTagAction, undefined)
@@ -28,9 +28,7 @@ function AddNewTag({ board }: { board: TBoard }) {
                         label="Merkelapp"
                     />
                     <HiddenInput id="bid" value={board.id} />
-                    <Button type="submit" variant="primary">
-                        Legg til
-                    </Button>
+                    <SubmitButton variant="primary">Legg til</SubmitButton>
                 </div>
                 <FormError {...getFormFeedbackForField('general', state)} />
             </form>
