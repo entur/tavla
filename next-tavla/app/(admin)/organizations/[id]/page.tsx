@@ -2,13 +2,13 @@ import classes from '../../admin.module.css'
 
 import { Metadata } from 'next'
 import { Heading1, LeadParagraph } from '@entur/typography'
-import { permanentRedirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { CountiesSelect } from '../components/MemberAdministration/CountiesSelect'
 import { FontSelect } from '../components/FontSelect'
 import { DefaultColumns } from '../components/DefaultColumns'
-import { getOrganization } from 'app/(admin)/actions'
+import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { concat } from 'lodash'
@@ -24,7 +24,7 @@ type TProps = {
 export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     const { id } = params
 
-    const organization = await getOrganization(id)
+    const organization = await getOrganizationIfUserHasAccess(id)
 
     return {
         title: `${organization?.name} | Entur Tavla`,
@@ -36,9 +36,9 @@ async function EditOrganizationPage({ params }: TProps) {
 
     const user = await getUserFromSessionCookie()
 
-    if (!user) permanentRedirect('/')
+    if (!user) redirect('/')
 
-    const organization = await getOrganization(id)
+    const organization = await getOrganizationIfUserHasAccess(id)
 
     if (!organization || !organization?.owners?.includes(user.uid))
         return <div>Du har ikke tilgang til denne organisasjonen</div>

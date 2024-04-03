@@ -14,7 +14,7 @@ import { ExternalIcon } from '@entur/icons'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
 import { ClientBoard } from './components/ClientBoard'
-import { getUser } from 'app/(admin)/utils/firebase'
+import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
 
 type TProps = {
     params: { id: TBoardID }
@@ -36,12 +36,8 @@ export default async function EditPage({ params }: TProps) {
 
     const organization = await getOrganizationForBoard(params.id)
 
-    const userAccess = user.owner?.includes(params.id)
-    const organizationAccess =
-        organization?.owners?.includes(user.uid) ||
-        organization?.editors?.includes(user.uid)
-
-    if (!userAccess && !organizationAccess) return redirect('/')
+    const access = await hasBoardEditorAccess(params.id)
+    if (!access) return redirect('/')
 
     return (
         <main className="flexColumn p-4 g-2">

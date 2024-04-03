@@ -3,11 +3,19 @@ import { firestore } from 'firebase-admin'
 import { TBoard, TBoardID, TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 import { revalidatePath } from 'next/cache'
-import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import {
+    hasBoardEditorAccess,
+    hasBoardOwnerAccess,
+    initializeAdminApp,
+} from 'app/(admin)/utils/firebase'
+import { redirect } from 'next/navigation'
 
 initializeAdminApp()
 
 export async function deleteTile(bid: TBoardID, tile: TTile) {
+    const access = await hasBoardOwnerAccess(bid)
+    if (!access) return redirect('/')
+
     await firestore()
         .collection('boards')
         .doc(bid)
@@ -19,6 +27,9 @@ export async function deleteTile(bid: TBoardID, tile: TTile) {
 }
 
 export async function saveTile(bid: TBoardID, tile: TTile) {
+    const access = await hasBoardEditorAccess(bid)
+    if (!access) return redirect('/')
+
     const docRef = firestore().collection('boards').doc(bid)
     const doc = (await docRef.get()).data() as TBoard
     const oldTile = doc.tiles.find((t) => t.uuid === tile.uuid)

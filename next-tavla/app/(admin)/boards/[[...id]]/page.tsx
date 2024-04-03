@@ -10,7 +10,7 @@ import React from 'react'
 import {
     getBoardsForOrganization,
     getBoardsForUser,
-    getOrganization,
+    getOrganizationIfUserHasAccess,
     getOrganizationsForUser,
 } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     const { id } = params
 
     const organization = id
-        ? await getOrganization(id[0] ?? '')
+        ? await getOrganizationIfUserHasAccess(id[0] ?? '')
         : { name: 'Mine' }
 
     return {
@@ -39,7 +39,9 @@ async function OrganizationsBoardsPage({ params }: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user) permanentRedirect('/')
     const organizations = await getOrganizationsForUser()
-    const activeOrganization = await getOrganization((id ?? '')[0])
+    const activeOrganization = await getOrganizationIfUserHasAccess(
+        (id ?? '')[0],
+    )
 
     const hasAccess =
         activeOrganization &&

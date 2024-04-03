@@ -5,8 +5,13 @@ import { revalidatePath } from 'next/cache'
 import { TLogo, TOrganizationID } from 'types/settings'
 import { getFilename } from './utils'
 import { storage, firestore } from 'firebase-admin'
-import { getConfig, initializeAdminApp } from 'app/(admin)/utils/firebase'
+import {
+    getConfig,
+    initializeAdminApp,
+    userCanEditOrganization,
+} from 'app/(admin)/utils/firebase'
 import { getDownloadURL } from 'firebase-admin/storage'
+import { redirect } from 'next/navigation'
 
 initializeAdminApp()
 
@@ -21,6 +26,9 @@ export async function upload(
 
     if (logo.size > 10_000_000)
         return getFormFeedbackForError('file/size-too-big')
+
+    const access = userCanEditOrganization(oid)
+    if (!access) return redirect('/')
 
     const bucket = storage().bucket((await getConfig()).bucket)
     const file = bucket.file(`logo/${oid}-${logo.name}`)
@@ -44,6 +52,9 @@ export async function remove(oid?: TOrganizationID, logo?: TLogo) {
     const file = getFilename(logo)
 
     if (!file) return getFormFeedbackForError()
+
+    const access = userCanEditOrganization(oid)
+    if (!access) return redirect('/')
 
     const bucket = storage().bucket((await getConfig()).bucket)
     const logoFile = bucket.file('logo/' + file)

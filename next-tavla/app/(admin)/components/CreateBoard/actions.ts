@@ -1,11 +1,11 @@
 'use server'
-import { getOrganization } from 'app/(admin)/actions'
+import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { TBoard, TOrganizationID } from 'types/settings'
+import { TBoard, TOrganization, TOrganizationID } from 'types/settings'
 
 initializeAdminApp()
 
@@ -13,7 +13,8 @@ export async function create(board: TBoard, oid?: TOrganizationID) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    const organization = await getOrganization(oid)
+    let organization: TOrganization | undefined
+    if (oid) organization = await getOrganizationIfUserHasAccess(oid)
 
     const createdBoard = await firestore()
         .collection('boards')

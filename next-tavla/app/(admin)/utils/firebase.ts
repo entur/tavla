@@ -8,8 +8,10 @@ import {
     TUser,
 } from 'types/settings'
 import { getUserFromSessionCookie } from './server'
-import { concat } from 'lodash'
-import { getBoardsForOrganization, getOrganization } from '../actions'
+import {
+    getBoardsForOrganization,
+    getOrganizationIfUserHasAccess,
+} from '../actions'
 import { getFormFeedbackForError } from '.'
 
 initializeAdminApp()
@@ -49,6 +51,41 @@ export async function getUser() {
     return { ...userDoc.data(), uid: userDoc.id } as TUser
 }
 
+export async function hasBoardOwnerAccess(bid?: TBoardID) {
+    if (!bid) return false
+
+    const user = await getUser()
+    const userOwnerAccess = user && user.owner?.includes(bid)
+
+    if (user?.uid && !userOwnerAccess) {
+        const organization = await getOrganizationWithBoard(bid)
+        return (
+            organization &&
+            (organization.editors?.includes(user.uid) ||
+                organization.owners?.includes(user.uid))
+        )
+    }
+    return userOwnerAccess
+}
+
+export async function hasBoardEditorAccess(bid?: TBoardID) {
+    if (!bid) return false
+
+    const user = await getUser()
+    const userEditorAccess =
+        user && (user.editor?.includes(bid) || user.owner?.includes(bid))
+
+    if (user?.uid && !userEditorAccess) {
+        const organization = await getOrganizationWithBoard(bid)
+        return (
+            organization &&
+            (organization.editors?.includes(user.uid) ||
+                organization.owners?.includes(user.uid))
+        )
+    }
+    return userEditorAccess
+}
+
 export async function getOrganizationWithBoard(bid: TBoardID) {
     const ref = await firestore()
         .collection('organizations')
@@ -57,46 +94,11 @@ export async function getOrganizationWithBoard(bid: TBoardID) {
     return ref.docs.map((doc) => doc.data() as TOrganization)[0]
 }
 
-export async function userCanDeleteBoard(bid: TBoardID) {
-    const user = await getUserFromSessionCookie()
-    if (!user) return false
-    const userDoc = (
-        await firestore().collection('users').doc(user.uid).get()
-    ).data() as TUser
-    if (!userDoc) return false
-
-    const userDeleteAccess = userDoc.owner?.includes(bid)
-    if (userDeleteAccess) return true
-
-    const organization = await getOrganizationWithBoard(bid)
-    const deleteAccessFromOrganization = concat(
-        organization?.owners,
-        organization?.editors,
-    ).includes(user?.uid)
-
-    return deleteAccessFromOrganization
-}
-
-export async function userCanWriteBoard(bid: TBoardID) {
-    const user = await getUserFromSessionCookie()
-    if (!user) return false
-    const writeAccessFromUser = concat(user?.owner, user?.editor).includes(bid)
-    if (writeAccessFromUser) return true
-
-    const organization = await getOrganizationWithBoard(bid)
-    const writeAccessFromOrganization = concat(
-        organization?.owners,
-        organization?.editors,
-    ).includes(user.uid)
-
-    return writeAccessFromOrganization
-}
-
 export async function deleteBoard(bid: TBoardID) {
     const user = await getUserFromSessionCookie()
-    const deleteAccess = await userCanDeleteBoard(bid)
+    const access = await hasBoardOwnerAccess(bid)
 
-    if (!user || !deleteAccess)
+    if (!user || !access)
         return getFormFeedbackForError('auth/operation-not-allowed')
 
     return Promise.all([
@@ -122,8 +124,9 @@ export async function userCanEditOrganization(oid: TOrganizationID) {
     const user = await getUserFromSessionCookie()
     if (!user) return false
 
-    const organization = await getOrganization(oid)
-    return organization?.owners?.includes(user.uid) ?? false
+    const organization = await getOrganizationIfUserHasAccess(oid)
+    if (!organization) return false
+    return true
 }
 
 export async function deleteOrganizationBoards(oid: TOrganizationID) {

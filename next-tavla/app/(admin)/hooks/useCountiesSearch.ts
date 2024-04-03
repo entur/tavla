@@ -1,8 +1,8 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useState } from 'react'
-import { TDefaults, TOrganizationID } from 'types/settings'
-import { getDefaultsForOrganization } from './actions'
+import { TOrganization, TOrganizationID } from 'types/settings'
 import { fetchCounties } from 'app/(admin)/utils/fetch'
+import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 
 function useCountiesSearch(oid?: TOrganizationID) {
     const [countiesList, setCountiesList] = useState<
@@ -17,11 +17,11 @@ function useCountiesSearch(oid?: TOrganizationID) {
     }, [])
 
     useEffect(() => {
-        getDefaultsForOrganization(oid).then((defaults?: TDefaults) => {
+        getOrganizationIfUserHasAccess(oid).then((o?: TOrganization) => {
+            if (!o) return setSelectedCounties([])
             const defaultCounties = countiesList.filter((c) =>
-                defaults?.counties?.includes(c.value),
+                o.defaults?.counties?.includes(c.value),
             )
-
             setSelectedCounties(defaultCounties)
         })
     }, [countiesList, oid])

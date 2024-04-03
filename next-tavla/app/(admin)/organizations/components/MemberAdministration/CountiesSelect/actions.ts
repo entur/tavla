@@ -1,6 +1,10 @@
 'use server'
-import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import {
+    initializeAdminApp,
+    userCanEditOrganization,
+} from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
+import { redirect } from 'next/navigation'
 import { TCountyID, TOrganizationID } from 'types/settings'
 
 initializeAdminApp()
@@ -9,6 +13,9 @@ export async function setCounties(
     oid: TOrganizationID,
     countiesList: TCountyID[],
 ) {
+    const access = userCanEditOrganization(oid)
+    if (!access) return redirect('/')
+
     await firestore().collection('organizations').doc(oid).update({
         'defaults.counties': countiesList,
     })
