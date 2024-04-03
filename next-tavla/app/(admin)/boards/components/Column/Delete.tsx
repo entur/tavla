@@ -1,4 +1,10 @@
-import { IconButton, PrimaryButton, SecondarySquareButton } from '@entur/button'
+'use client'
+import {
+    Button,
+    IconButton,
+    PrimaryButton,
+    SecondarySquareButton,
+} from '@entur/button'
 import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { TBoard } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
@@ -12,16 +18,15 @@ import { deleteBoardAction } from '../../utils/formActions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
-function Delete({ board }: { board: TBoard }) {
+
+function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
     const [state, action] = useFormState(deleteBoardAction, undefined)
     const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
 
     return (
         <>
             <Tooltip content="Slett tavle" placement="bottom">
-                <IconButton aria-label="Slett tavle" onClick={open}>
-                    <DeleteIcon />
-                </IconButton>
+                <DeleteButton type={type} onClick={open} />
             </Tooltip>
             <Modal
                 open={isOpen}
@@ -63,4 +68,29 @@ function Delete({ board }: { board: TBoard }) {
     )
 }
 
-export { Delete }
+function DeleteButton({
+    type,
+    onClick,
+}: {
+    type?: 'button' | 'icon'
+    onClick: () => void
+}) {
+    if (type === 'button') {
+        return (
+            <Button
+                variant="secondary"
+                aria-label="Slett tavle"
+                onClick={onClick}
+            >
+                Slett Tavle
+            </Button>
+        )
+    }
+    return (
+        <IconButton aria-label="Slett tavle" onClick={onClick}>
+            <DeleteIcon />
+        </IconButton>
+    )
+}
+
+export { Delete, DeleteButton }
