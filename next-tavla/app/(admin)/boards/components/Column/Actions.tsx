@@ -6,7 +6,8 @@ import { TBoard } from 'types/settings'
 import classes from './styles.module.css'
 import { Column } from './Column'
 import { Delete } from './Delete'
-import { Copy, Open } from 'app/(admin)/edit/[id]/components/Buttons'
+import { Open } from 'app/(admin)/edit/[id]/components/Buttons/Open'
+import { Copy } from 'app/(admin)/edit/[id]/components/Buttons/Copy'
 
 function Actions({ board }: { board: TBoard }) {
     return (

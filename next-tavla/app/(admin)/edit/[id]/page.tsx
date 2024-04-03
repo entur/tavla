@@ -12,8 +12,9 @@ import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
 import { ClientBoard } from './components/ClientBoard'
 import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
-import { Copy, Open } from './components/Buttons'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
+import { Open } from './components/Buttons/Open'
+import { Copy } from './components/Buttons/Copy'
 
 type TProps = {
     params: { id: TBoardID }
