@@ -6,7 +6,7 @@ import { Button, SecondarySquareButton } from '@entur/button'
 import { DeleteIcon, EditIcon, CloseIcon } from '@entur/icons'
 import { useState } from 'react'
 import { TBoardID } from 'types/settings'
-import { Heading3, Heading4, SubParagraph } from '@entur/typography'
+import { Heading3, Heading4, Label, SubParagraph } from '@entur/typography'
 import { isArray, uniqBy } from 'lodash'
 import { TransportIcon } from 'components/TransportIcon'
 import { Columns } from 'types/column'
@@ -19,6 +19,7 @@ import { TransportModeCheckbox } from './TransportModeCheckbox'
 import { LineCheckbox } from './LineCheckbox'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { usePostHog } from 'posthog-js/react'
+import { Switch } from '@entur/form'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const posthog = usePostHog()
@@ -89,6 +90,8 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             data.delete('columns')
                             const count = data.get('count') as number | null
                             data.delete('count')
+                            const distance = data.get('showDistance') as string
+                            data.delete('showDistance')
 
                             let lines: string[] = []
                             for (const line of data.values()) {
@@ -104,6 +107,10 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 ...tile,
                                 columns: columns,
                                 whitelistedLines: lines,
+                                walkingDistance: {
+                                    visible: distance === 'on',
+                                    distance: tile.walkingDistance?.distance,
+                                },
                             })
                         }}
                         onSubmit={() => setIsOpen(false)}
@@ -156,10 +163,26 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 ),
                             )}
                         </div>
+                        <div>
+                            <Heading4>Gåavstand</Heading4>
+                            <Label>
+                                Vis gåavstand fra lokasjonen til Tavla til
+                                stoppestedet
+                            </Label>
+                            <Switch
+                                name="showDistance"
+                                defaultChecked={
+                                    tile.walkingDistance?.visible ?? false
+                                }
+                            >
+                                Vis gåavstand
+                            </Switch>
+                        </div>
                         <HiddenInput
                             id="count"
                             value={uniqLines.length.toString()}
                         />
+
                         <div className="flexRow justifyEnd mt-2 mr-2 ">
                             <Button variant="primary" type="submit">
                                 Lagre endringer

@@ -7,6 +7,8 @@ import { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
+import { getWalkingDistance } from 'app/(admin)/components/TileSelector/utils'
+import { TLocation } from 'types/meta'
 
 initializeAdminApp()
 
@@ -26,4 +28,22 @@ export async function addTile(bid: TBoardID, tile: TTile) {
             tiles: firestore.FieldValue.arrayUnion(tile),
             'meta.dateModified': Date.now(),
         })
+}
+
+export async function getWalkingDistanceTile(
+    tile: TTile,
+    location?: TLocation,
+) {
+    const walkingDistance = await getWalkingDistance(tile.placeId, location)
+    if (!walkingDistance) {
+        delete tile.walkingDistance
+        return tile
+    }
+    return {
+        ...tile,
+        walkingDistance: {
+            distance: Number(walkingDistance),
+            visible: tile.walkingDistance?.visible ?? false,
+        },
+    }
 }

@@ -8,7 +8,8 @@ import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
-import { TBoardID } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
+import { getBoard, getWalkingDistanceTile } from '../../actions'
 
 initializeAdminApp()
 
@@ -46,12 +47,23 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
+    const board = await getBoard(bid)
+    if (!board) return getFormFeedbackForError('board/not-found')
     await firestore()
         .collection('boards')
         .doc(bid)
         .update({
+            tiles: await getTilesWithDistance(board, location),
             'meta.location': location ?? firestore.FieldValue.delete(),
             'meta.dateModified': Date.now(),
         })
     revalidatePath(`/edit/${bid}`)
+}
+
+async function getTilesWithDistance(board: TBoard, location?: TLocation) {
+    return await Promise.all(
+        board.tiles.map(async (tile) => {
+            return await getWalkingDistanceTile(tile, location)
+        }),
+    )
 }

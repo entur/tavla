@@ -1,18 +1,19 @@
 import { TQuayTile } from 'types/tile'
 import { Table } from '../../scenarios/Table'
 import classes from './styles.module.css'
-import { useQuery } from 'graphql/utils'
 import { GetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TileLoader } from 'Board/components/TileLoader'
+import { useQuery } from 'hooks/useQuery'
 
 export function QuayTile({
     placeId,
     whitelistedLines,
     whitelistedTransportModes,
     columns,
+    walkingDistance,
 }: TQuayTile) {
     const { data } = useQuery(
         GetQuayQuery,
@@ -41,7 +42,7 @@ export function QuayTile({
         .join(' ')
     return (
         <Tile className={classes.quayTile}>
-            <TableHeader heading={heading} />
+            <TableHeader heading={heading} walkingDistance={walkingDistance} />
             <Table
                 columns={columns}
                 departures={data.quay.estimatedCalls}
