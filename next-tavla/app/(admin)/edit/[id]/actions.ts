@@ -19,6 +19,9 @@ export async function getBoard(bid: TBoardID) {
 }
 
 export async function addTile(board: TBoard, tile: TTile) {
+    const access = await hasBoardEditorAccess(board.id)
+    if (!access) return redirect('/')
+
     if (!board.id) return getFormFeedbackForError()
     await firestore()
         .collection('boards')
@@ -36,7 +39,10 @@ export async function getWalkingDistanceTile(
     location?: TLocation,
 ) {
     const walkingDistance = await getWalkingDistance(tile.placeId, location)
-    if (!walkingDistance) return tile
+    if (!walkingDistance) {
+        delete tile.walkingDistance
+        return tile
+    }
     return {
         ...tile,
         walkingDistance: {

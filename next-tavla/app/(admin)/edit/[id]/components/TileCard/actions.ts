@@ -9,8 +9,6 @@ import {
     initializeAdminApp,
 } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
-import { getWalkingDistance } from 'app/(admin)/components/TileSelector/utils'
-import { TLocation } from 'types/meta'
 
 initializeAdminApp()
 
