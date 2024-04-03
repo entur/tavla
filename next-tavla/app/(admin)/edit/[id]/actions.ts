@@ -40,7 +40,7 @@ export async function getWalkingDistanceTile(
     return {
         ...tile,
         walkingDistance: {
-            distance: Number(await getWalkingDistance(tile.placeId, location)),
+            distance: Number(walkingDistance),
             visible: tile.walkingDistance?.visible ?? false,
         },
     }
