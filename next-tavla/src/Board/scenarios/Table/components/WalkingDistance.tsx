@@ -8,14 +8,14 @@ function WalkingDistance({
 }: {
     walkingDistance?: TWalkingDistance
 }) {
-    if (walkingDistance?.visible && walkingDistance.distance)
-        return (
-            <div className={classes.duration}>
-                <WalkIcon color="white" />
-                {formatWalkTime(walkingDistance.distance)}
-            </div>
-        )
-    return null
+    if (!walkingDistance?.visible || !walkingDistance?.distance) return null
+
+    return (
+        <div className={classes.duration}>
+            <WalkIcon color="white" />
+            {formatWalkTime(walkingDistance.distance)}
+        </div>
+    )
 }
 
 export { WalkingDistance }

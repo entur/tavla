@@ -9,7 +9,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
-import { getWalkingDistanceTile } from '../../actions'
+import { getBoard, getWalkingDistanceTile } from '../../actions'
 
 initializeAdminApp()
 
@@ -47,8 +47,7 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
-    const boardRef = firestore().collection('boards').doc(bid)
-    const board = (await boardRef.get()).data() as TBoard
+    const board = await getBoard(bid)
     if (!board) return getFormFeedbackForError('board/not-found')
     await firestore()
         .collection('boards')
