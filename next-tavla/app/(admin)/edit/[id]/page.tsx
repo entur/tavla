@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
-import { addTile, getBoard } from './actions'
+import { addTile, getBoard, getWalkingDistanceTile } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
 import classes from './styles.module.css'
 import { TileCard } from './components/TileCard'
@@ -62,9 +62,12 @@ export default async function EditPage({ params }: TProps) {
                 action={async (data: FormData) => {
                     'use server'
 
-                    const tile = formDataToTile(data, organization)
+                    const tile = await getWalkingDistanceTile(
+                        formDataToTile(data, organization),
+                        board.meta.location,
+                    )
                     if (!tile.placeId) return
-                    await addTile(board, tile)
+                    await addTile(params.id, tile)
                     revalidatePath(`/edit/${params.id}`)
                 }}
                 direction="Row"
