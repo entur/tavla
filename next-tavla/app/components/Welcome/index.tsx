@@ -52,10 +52,10 @@ function Welcome() {
                             <ExpandablePanel title="Brukte du den gamle versjonen av Tavla?">
                                 <UnorderedList className="flexColumn g-1">
                                     <ListItem>
-                                        Nå må du lage en ny bruker
+                                        Nå må du lage en ny bruker.
                                     </ListItem>
                                     <ListItem>
-                                        Alle tavlene dine må opprettes på nytt
+                                        Alle tavlene dine må opprettes på nytt.
                                     </ListItem>
                                 </UnorderedList>
                             </ExpandablePanel>
@@ -65,7 +65,7 @@ function Welcome() {
                                     <ListItem>
                                         Oversikten over dine tavler er forbedret
                                         med søk og filter, slik at du enklere
-                                        finner frem
+                                        finner frem.
                                     </ListItem>
                                     <ListItem>
                                         Økt støtte for flere typer enheter – For
