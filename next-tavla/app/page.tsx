@@ -15,6 +15,7 @@ import {
 import { Footer } from './(admin)/components/Footer'
 import { Preview } from './(admin)/components/Preview'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
+import { Welcome } from './components/Welcome'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -27,6 +28,7 @@ async function Landing() {
     return (
         <>
             <main className={classes.landingPage}>
+                <Welcome />
                 <TopNavigation loggedIn={loggedIn} />
                 <div className="flexColumn justifyCenter alignCenter hidden p-4">
                     <div className="flexColumn mt-4 p-4 minw-80rem">
