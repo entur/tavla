@@ -170,6 +170,14 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 variant: 'error',
             }
         }
+        case 'file/invalid-input': {
+            return {
+                form_type: 'file',
+                feedback:
+                    'Filen du prøver å laste opp inneholder spesialtegn. Bruk kun bokstaver, tall, bindestrek, understrek og punktum',
+                variant: 'error',
+            }
+        }
         case 'create/quay-missing': {
             return {
                 form_type: 'quay',

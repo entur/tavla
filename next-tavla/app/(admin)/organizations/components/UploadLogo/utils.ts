@@ -8,3 +8,7 @@ export function getFilename(logoUrl?: string) {
 
     return file[1]
 }
+export function containsSpecialChars(text: string) {
+    const specialChars = /[`!@#$%^&*()+\=\[\]{};':"\\|,<>\/?~]/
+    return specialChars.test(text)
+}

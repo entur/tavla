@@ -3,7 +3,7 @@
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { revalidatePath } from 'next/cache'
 import { TLogo, TOrganizationID } from 'types/settings'
-import { getFilename } from './utils'
+import { containsSpecialChars, getFilename } from './utils'
 import { storage, firestore } from 'firebase-admin'
 import {
     getConfig,
@@ -26,6 +26,9 @@ export async function upload(
 
     if (logo.size > 10_000_000)
         return getFormFeedbackForError('file/size-too-big')
+
+    if (containsSpecialChars(logo.name))
+        return getFormFeedbackForError('file/invalid-input')
 
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
