@@ -33,7 +33,12 @@ function Welcome() {
     }, [])
 
     return (
-        <Modal open={isOpen} onDismiss={close} size="large">
+        <Modal
+            open={isOpen}
+            onDismiss={close}
+            size="large"
+            closeLabel="Lukk dialog med informasjon om ny versjon av Tavla"
+        >
             <div className="flexColumn alignCenter">
                 <div className="flexRow alignCenter justifyBetween g-4 mb-4 ">
                     <div className="flexColumn alignCenter justifyCenter">
