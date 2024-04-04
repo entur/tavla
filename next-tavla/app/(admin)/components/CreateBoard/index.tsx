@@ -233,7 +233,7 @@ function StopSelector({
                 oid={oid}
                 showLabel
             />
-            <Heading4>Stoppesteder lagt til i Tavlen</Heading4>
+            <Heading4 className="mt-3">Stoppesteder lagt til i Tavlen</Heading4>
             <StopPlaceList
                 tiles={board?.tiles}
                 onRemove={(tile: TTile) =>
