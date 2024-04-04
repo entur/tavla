@@ -205,7 +205,7 @@ function StopSelector({
     if (!active) return null
 
     return (
-        <>
+        <div>
             <Heading3>Legg til stoppesteder i Tavlen </Heading3>
             <Paragraph>
                 Søk etter stoppesteder og bestem om tavla skal vise alle
@@ -274,7 +274,7 @@ function StopSelector({
                     Opprett tavle
                 </PrimaryButton>
             </div>
-        </>
+        </div>
     )
 }
 
