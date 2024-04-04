@@ -19,7 +19,7 @@ function Destination({ deviations = true }: { deviations?: boolean }) {
     }))
     return (
         <div className="hidden grow">
-            <TableColumn title="Destinasjon og avvik">
+            <TableColumn title="Destinasjon">
                 {destinations.map((destination) => (
                     <TableRow key={destination.key}>
                         {destination.via
