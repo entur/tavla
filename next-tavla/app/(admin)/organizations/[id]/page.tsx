@@ -77,7 +77,7 @@ async function EditOrganizationPage({ params }: TProps) {
                     font={organization?.defaults?.font}
                 />
 
-                <Footer />
+                <Footer oid={organization.id} footer={organization.footer} />
 
                 <UploadLogo organization={organization} />
             </div>

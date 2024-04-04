@@ -27,6 +27,7 @@ export type TOrganization = {
     boards?: TBoardID[]
     logo?: TLogo
     defaults?: TDefaults
+    footer?: string
 }
 
 export type TDefaults = {
