@@ -29,7 +29,7 @@ function FontSelect({
             >
                 <Paragraph>
                     Velg hvilken tekststørrelse som skal være standard når det
-                    oppretters en ny tavle.
+                    opprettes en ny tavle.
                 </Paragraph>
                 <FontChoiceChip font={font ?? 'medium'} />
 

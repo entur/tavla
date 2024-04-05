@@ -81,7 +81,7 @@ function DefaultColumns({
                             variant="secondary"
                             aria-label="Lagre kolonner"
                         >
-                            Lagre kolonne
+                            Lagre kolonner
                         </SubmitButton>
                     </div>
                 </form>
