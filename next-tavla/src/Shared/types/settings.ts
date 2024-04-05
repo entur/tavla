@@ -10,6 +10,7 @@ export type TBoard = {
     meta: TMeta
     tiles: TTile[]
     theme?: TTheme
+    footer?: string
 }
 
 export type TUser = {

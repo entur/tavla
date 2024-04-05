@@ -54,7 +54,7 @@ function BoardPage({
                 <Board board={board} />
                 <Footer
                     logo={organizationLogo !== null}
-                    footer={organizationFooter}
+                    footer={board.footer ?? organizationFooter}
                 />
             </div>
         </div>

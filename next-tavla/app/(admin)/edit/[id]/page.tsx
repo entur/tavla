@@ -14,6 +14,7 @@ import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
+import { Footer } from './components/Footer'
 
 type TProps = {
     params: { id: TBoardID }
