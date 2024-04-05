@@ -28,8 +28,8 @@ function FontSelect({
                 }}
             >
                 <Paragraph>
-                    Velg hvilken tekststørrelse som skal være standard når du
-                    oppretter en ny tavle.
+                    Velg hvilken tekststørrelse som skal være standard når det
+                    opprettes en ny tavle.
                 </Paragraph>
                 <FontChoiceChip font={font ?? 'medium'} />
 

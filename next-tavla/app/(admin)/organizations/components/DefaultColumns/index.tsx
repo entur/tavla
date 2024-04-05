@@ -49,8 +49,8 @@ function DefaultColumns({
             <Heading2>Kolonner</Heading2>
             <div className="box">
                 <Paragraph>
-                    Velg hvilke kolonner som skal være standard når du oppretter
-                    en ny tavle.
+                    Velg hvilke kolonner som skal være standard når det
+                    opprettes en ny tavle.
                 </Paragraph>
 
                 <form action={action}>
