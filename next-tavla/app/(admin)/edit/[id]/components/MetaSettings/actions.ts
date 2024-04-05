@@ -17,7 +17,7 @@ export async function saveTitle(data: FormData) {
     const bid = data.get('bid') as TBoardID
     const name = data.get('name') as string
 
-    const access = hasBoardEditorAccess(bid)
+    const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
     await firestore()
@@ -31,7 +31,7 @@ export async function saveFont(data: FormData) {
     const bid = data.get('bid') as TBoardID
     const font = data.get('font') as TFontSize
 
-    const access = hasBoardEditorAccess(bid)
+    const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
     await firestore()
@@ -44,7 +44,7 @@ export async function saveFont(data: FormData) {
 export async function saveLocation(bid: TBoardID, location?: TLocation) {
     if (!bid) return getFormFeedbackForError()
 
-    const access = hasBoardEditorAccess(bid)
+    const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
     const board = await getBoard(bid)
