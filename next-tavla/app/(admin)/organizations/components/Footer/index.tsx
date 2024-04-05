@@ -10,36 +10,37 @@ function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
     const { addToast } = useToast()
     return (
         <div className="flexColumn g-2">
-            <Heading2>Informasjonstekst</Heading2>
-            <div className="box">
-                <Paragraph>
-                    Velg hvilke kolonner som skal være standard når du oppretter
-                    en ny tavle.
-                </Paragraph>
-                <form
-                    action={async (data: FormData) => {
-                        const footer = data.get('footer') as string
-                        if (!oid) return
-                        await setFooter(oid, footer)
-                        addToast('Footer lagret!')
-                    }}
-                    className="flexColumn justifyBetween"
-                >
+            <Heading2>Informasjonstekst</Heading2>{' '}
+            <form
+                className="box flexColumn justifyBetween"
+                action={async (data: FormData) => {
+                    const footer = data.get('footer') as string
+                    if (!oid) return
+                    await setFooter(oid, footer)
+                    addToast('Footer lagret!')
+                }}
+            >
+                <div>
+                    <Paragraph>
+                        Velg hvilke kolonner som skal være standard når du
+                        oppretter en ny tavle.
+                    </Paragraph>
+
                     <TextArea
                         label="Footer"
                         name="footer"
                         defaultValue={footer ?? ''}
                     />
-                    <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
-                        <SubmitButton
-                            variant="secondary"
-                            aria-label="Lagre kolonner"
-                        >
-                            Lagre
-                        </SubmitButton>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+                    <SubmitButton
+                        variant="secondary"
+                        aria-label="Lagre kolonner"
+                    >
+                        Lagre
+                    </SubmitButton>
+                </div>
+            </form>
         </div>
     )
 }
