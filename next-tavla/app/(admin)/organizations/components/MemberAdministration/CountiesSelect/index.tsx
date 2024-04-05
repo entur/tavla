@@ -25,7 +25,7 @@ function CountiesSelect({
             <Heading2>Fylker</Heading2>
             <div className="box">
                 <Paragraph>
-                    Velg hvilke fylker som skal være standard når du oppretter
+                    Velg hvilke fylker som skal være standard når det oppretters
                     en ny tavle.
                 </Paragraph>
                 <form
@@ -64,7 +64,7 @@ function CountiesSelect({
                             type="submit"
                             aria-label="Lagre fylker"
                         >
-                            Lagre fylker
+                            Lagre fylke
                         </SecondaryButton>
                     </div>
                 </form>
