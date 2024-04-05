@@ -21,7 +21,7 @@
     flex-direction: row;
     justify-content: space-between;
     border-bottom: var(--table-header-border-color) solid;
-    font-weight: 500;
-    color: var(--secondary-text-color);
+    font-weight: 600;
+    color: var(--primary-text-color);
     padding-bottom: 0.5rem;
 }
