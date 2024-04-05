@@ -23,7 +23,10 @@ export type TFormFeedback = {
 
 export type TError = FirebaseError | string
 
-export function getFormFeedbackForError(e?: TError): TFormFeedback {
+export function getFormFeedbackForError(
+    e?: TError,
+    message?: string,
+): TFormFeedback {
     let code = e
     if (e instanceof FirebaseError) {
         code = e.code
@@ -173,8 +176,7 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
         case 'file/invalid-input': {
             return {
                 form_type: 'file',
-                feedback:
-                    'Filen du prøver å laste opp inneholder spesialtegn. Bruk kun bokstaver, tall, bindestrek, understrek og punktum',
+                feedback: `Filnavnet er ugyldig fordi det inneholder "${message}". Bruk kun bokstaver, tall, bindestrek, understrek og punktum.`,
                 variant: 'error',
             }
         }

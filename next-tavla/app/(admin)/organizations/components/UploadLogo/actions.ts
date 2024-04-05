@@ -27,12 +27,12 @@ export async function upload(
     if (logo.size > 10_000_000)
         return getFormFeedbackForError('file/size-too-big')
 
-    if (containsSpecialChars(logo.name))
-        return getFormFeedbackForError('file/invalid-input')
+    const { hasSpecialChars, message } = containsSpecialChars(logo.name)
+    if (hasSpecialChars)
+        return getFormFeedbackForError('file/invalid-input', message)
 
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
-
     const bucket = storage().bucket((await getConfig()).bucket)
     const file = bucket.file(`logo/${oid}-${logo.name}`)
     await file.save(Buffer.from(await logo.arrayBuffer()))
