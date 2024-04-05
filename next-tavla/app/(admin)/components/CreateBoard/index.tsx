@@ -135,9 +135,7 @@ function NameAndOrganizationSelector({
     if (!active) return null
     return (
         <form action={action}>
-            <Heading4 className="mt-1 mb-2">
-                Velg navn og organisasjon for tavlen
-            </Heading4>
+            <Heading3>Velg navn og organisasjon for tavlen</Heading3>
             <Paragraph>
                 Gi tavlen et navn og legg den til i en organisasjon. Velger du
                 en organisasjon vil alle i organisasjonen ha tilgang til tavlen.
@@ -153,36 +151,34 @@ function NameAndOrganizationSelector({
                 {...getFormFeedbackForField('name', state)}
                 className="mb-2"
             />
-            <div>
-                <Label>Legg til i en organisasjon</Label>
-                <Dropdown
-                    items={organizations}
-                    label="Dine organisasjoner"
-                    selectedItem={selectedOrganization}
-                    onChange={setSelectedOrganization}
-                    clearable
-                    className="mb-2"
-                    aria-required="true"
-                    disabled={personal}
-                    {...getFormFeedbackForField('organization', state)}
-                />
-                <Checkbox
-                    checked={personal}
-                    onChange={() => setPersonal(!personal)}
-                    name="personal"
-                >
-                    Jeg vil ikke velge organisasjon
-                </Checkbox>
-                <HiddenInput
-                    id="organization"
-                    value={selectedOrganization?.value}
-                />
-                <div className="flexRow justifyEnd">
-                    <PrimaryButton className="mt-2" type="submit">
-                        Neste
-                        <ForwardIcon />
-                    </PrimaryButton>
-                </div>
+            <Label>Legg til i en organisasjon</Label>
+            <Dropdown
+                items={organizations}
+                label="Dine organisasjoner"
+                selectedItem={selectedOrganization}
+                onChange={setSelectedOrganization}
+                clearable
+                className="mb-2"
+                aria-required="true"
+                disabled={personal}
+                {...getFormFeedbackForField('organization', state)}
+            />
+            <Checkbox
+                checked={personal}
+                onChange={() => setPersonal(!personal)}
+                name="personal"
+            >
+                Jeg vil ikke velge organisasjon
+            </Checkbox>
+            <HiddenInput
+                id="organization"
+                value={selectedOrganization?.value}
+            />
+            <div className="flexRow justifyEnd">
+                <PrimaryButton className="mt-2" type="submit">
+                    Neste
+                    <ForwardIcon />
+                </PrimaryButton>
             </div>
         </form>
     )
@@ -235,7 +231,7 @@ function StopSelector({
                 oid={oid}
                 showLabel
             />
-            <Heading4>Stoppesteder lagt til i Tavlen</Heading4>
+            <Heading4 className="mt-3">Stoppesteder lagt til i Tavlen</Heading4>
             <StopPlaceList
                 tiles={board?.tiles}
                 onRemove={(tile: TTile) =>
