@@ -15,6 +15,7 @@ export function formatTimeStamp(timestamp: number) {
         hour12: false,
         hour: '2-digit',
         minute: '2-digit',
+        timeZone: 'Europe/Oslo',
     }).format(timestamp)
 }
 
@@ -26,6 +27,7 @@ export function formatDate(date: Date) {
             year: 'numeric',
             hour: '2-digit',
             minute: '2-digit',
+            timeZone: 'Europe/Oslo',
         })
         .replace(',', '')
 }
@@ -34,6 +36,7 @@ export function getDate(dateString: string) {
     return Intl.DateTimeFormat('no-NB', {
         month: 'short',
         day: '2-digit',
+        timeZone: 'Europe/Oslo',
     }).format(Date.parse(dateString))
 }
 
