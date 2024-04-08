@@ -1,5 +1,5 @@
 'use client'
-import { TextArea } from '@entur/form'
+import { TextField } from '@entur/form'
 import { Heading2, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 
@@ -16,11 +16,11 @@ function Footer({
             <form className="box flexColumn justifyBetween" action={action}>
                 <div>
                     <Paragraph>
-                        Velg hvilke kolonner som skal være standard når du
-                        oppretter en ny tavle.
+                        Skriv en kort tekst som skal vises nederst i
+                        tavlevisningen.
                     </Paragraph>
 
-                    <TextArea
+                    <TextField
                         label="Footer"
                         name="footer"
                         defaultValue={footer ?? ''}
