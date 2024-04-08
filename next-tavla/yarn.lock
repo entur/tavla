@@ -1176,6 +1176,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/icons@npm:^6.13.2":
+  version: 6.15.3
+  resolution: "@entur/icons@npm:6.15.3"
+  dependencies:
+    "@entur/tokens": ^3.13.2
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    sass: ^1.65.1
+  checksum: ed56a05dba87c1e23a44312b7d7de3deb0c20a4f65d6c61bb84df5fe7d0edf7272c227510ab02dfcc7ec1f3bfbddcfe0055337c432566848a662fe41122aa22a
+  languageName: node
+  linkType: hard
+
 "@entur/icons@npm:^6.15.1":
   version: 6.15.1
   resolution: "@entur/icons@npm:6.15.1"
@@ -1186,19 +1199,6 @@ __metadata:
     react-dom: ">=16.8.0"
     sass: ^1.65.1
   checksum: e813b1887af254eabc08dc83c83ae67dfadc4dafd5fede0bb46ecbf284169dd8fe52561e4512ed18531d29418a5ebf74b5cfc8e4eb223817ea2cf84d1ebd47a9
-  languageName: node
-  linkType: hard
-
-"@entur/icons@npm:^6.15.3":
-  version: 6.15.3
-  resolution: "@entur/icons@npm:6.15.3"
-  dependencies:
-    "@entur/tokens": ^3.13.2
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    sass: ^1.65.1
-  checksum: ed56a05dba87c1e23a44312b7d7de3deb0c20a4f65d6c61bb84df5fe7d0edf7272c227510ab02dfcc7ec1f3bfbddcfe0055337c432566848a662fe41122aa22a
   languageName: node
   linkType: hard
 
@@ -1486,21 +1486,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/tokens@npm:^3.12.0, @entur/tokens@npm:^3.13.2":
+  version: 3.13.2
+  resolution: "@entur/tokens@npm:3.13.2"
+  dependencies:
+    hex-rgb: ^4.3.0
+  checksum: 13b0084c3d1c403610c13ebca625b59ab5ea9aa41490153bf4e02b5123d58b0238e05b1bd28918326c80e0a7038dbd59df61b6cb40afbae2172a3bb26d361539
+  languageName: node
+  linkType: hard
+
 "@entur/tokens@npm:^3.13.0":
   version: 3.13.0
   resolution: "@entur/tokens@npm:3.13.0"
   dependencies:
     hex-rgb: ^4.3.0
   checksum: 2101e4ac0056143d8df3b67c93994aa592fde65d1989d4d7b5e046075f34e189f2605803fd7ee078757ddf534eb76c95f903952fbea7fd92aa1641c143fb1837
-  languageName: node
-  linkType: hard
-
-"@entur/tokens@npm:^3.13.2":
-  version: 3.13.2
-  resolution: "@entur/tokens@npm:3.13.2"
-  dependencies:
-    hex-rgb: ^4.3.0
-  checksum: 13b0084c3d1c403610c13ebca625b59ab5ea9aa41490153bf4e02b5123d58b0238e05b1bd28918326c80e0a7038dbd59df61b6cb40afbae2172a3bb26d361539
   languageName: node
   linkType: hard
 
@@ -1625,19 +1625,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/typography@npm:1.8.27":
-  version: 1.8.27
-  resolution: "@entur/typography@npm:1.8.27"
+"@entur/typography@npm:1.8.20":
+  version: 1.8.20
+  resolution: "@entur/typography@npm:1.8.20"
   dependencies:
-    "@entur/icons": ^6.15.3
-    "@entur/tokens": ^3.13.2
-    "@entur/utils": ^0.10.0
+    "@entur/icons": ^6.13.2
+    "@entur/tokens": ^3.12.0
+    "@entur/utils": ^0.9.5
     classnames: ^2.3.1
     normalize-scss: ^7.0.1
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: a85521f8b2dd355dc93a8b7702084cb1c327f6acdc339fd0c72a2dc51f483149b11c1ad5c0318eb5aaf9254cc0481b1b147de67b3c20e43c5c6b08dac4066296
+  checksum: 72f70f51a0d5505b4a7b9c14137609de01c7df510f0a7f3f4fc8ea5b31a97a9926da3e4bf8ccf26f305e5a544dd9108f9ebafcfa3da96117428685bfe070f90e
   languageName: node
   linkType: hard
 
@@ -13658,7 +13658,7 @@ __metadata:
     "@entur/tokens": 3.8.1
     "@entur/tooltip": 2.6.26
     "@entur/travel": 6.0.18
-    "@entur/typography": 1.8.27
+    "@entur/typography": 1.8.20
     "@firebase/database-types": 0.10.4
     "@graphql-codegen/cli": 3.2.2
     "@graphql-codegen/import-types-preset": 2.2.6
