@@ -12,6 +12,7 @@ import {
 } from 'app/(admin)/utils/firebase'
 import { getDownloadURL } from 'firebase-admin/storage'
 import { redirect } from 'next/navigation'
+import { nanoid } from 'nanoid'
 
 initializeAdminApp()
 
@@ -31,7 +32,7 @@ export async function upload(
     if (!access) return redirect('/')
 
     const bucket = storage().bucket((await getConfig()).bucket)
-    const file = bucket.file(`logo/${oid}-${logo.name}`)
+    const file = bucket.file(`logo/${oid}-${nanoid()}`)
     await file.save(Buffer.from(await logo.arrayBuffer()))
 
     const logoUrl = await getDownloadURL(file)
