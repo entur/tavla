@@ -13,10 +13,7 @@ import { getBoard, getWalkingDistanceTile } from '../../actions'
 
 initializeAdminApp()
 
-export async function saveTitle(data: FormData) {
-    const bid = data.get('bid') as TBoardID
-    const name = data.get('name') as string
-
+export async function saveTitle(bid: TBoardID, name: string) {
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
@@ -27,10 +24,7 @@ export async function saveTitle(data: FormData) {
     revalidatePath(`/edit/${bid}`)
 }
 
-export async function saveFont(data: FormData) {
-    const bid = data.get('bid') as TBoardID
-    const font = data.get('font') as TFontSize
-
+export async function saveFont(bid: TBoardID, font: TFontSize) {
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
