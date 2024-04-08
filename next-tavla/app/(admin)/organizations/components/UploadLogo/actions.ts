@@ -31,9 +31,8 @@ export async function upload(
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
 
-    const fileName = `logo/${oid}-${nanoid()}`
     const bucket = storage().bucket((await getConfig()).bucket)
-    const file = bucket.file(fileName)
+    const file = bucket.file(`logo/${oid}-${nanoid()}`)
     await file.save(Buffer.from(await logo.arrayBuffer()))
 
     const logoUrl = await getDownloadURL(file)

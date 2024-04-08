@@ -26,7 +26,7 @@ function DeleteLogo({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
                         addToast('Logo slettet')
                     }}
                 >
-                    Slett filnavnet
+                    Slett logo
                     <DeleteIcon className="mr-1" />
                 </Button>
             </div>
