@@ -1,6 +1,23 @@
 import { SVGProps } from 'react'
 import classes from './styles.module.css'
 import { TSituationFragment } from 'graphql/index'
+import { TSeverity } from 'types/graphql-schema'
+
+function colorSeverity(severity: TSeverity) {
+    switch (severity) {
+        case 'unknown':
+        case 'undefined':
+        case 'noImpact':
+        case 'verySlight':
+        case 'slight':
+            return 'var(--table-situation-information-color)'
+        case 'normal':
+            return 'var(--table-situation-normal-color)'
+        case 'severe':
+        case 'verySevere':
+            return 'var(--table-situation-severe-color)'
+    }
+}
 
 function Situation({
     situation,
@@ -17,12 +34,21 @@ function Situation({
 
     if (!situationText) return null
 
+    const severity = situation?.severity ?? 'normal'
+
     return (
         <div className={classes.situation}>
-            <div className={classes.validation}>
-                <ValidationExclamation />
+            <div className={`${classes.validation} `}>
+                <ValidationExclamation fill={colorSeverity(severity)} />
             </div>
-            <div className={classes.situationText}>{situationText}</div>
+            <div
+                className={classes.situationText}
+                style={{
+                    color: `${colorSeverity(severity)}`,
+                }}
+            >
+                {situationText}
+            </div>
         </div>
     )
 }

@@ -5,6 +5,10 @@
 
     --table-header-color: var(--colors-greys-grey50);
     --table-border-color: var(--colors-greys-grey10);
-    --table-situation-color: var(--feedback-canary-contrast, #ffe082);
+
+    --table-situation-normal-color: var(--colors-validation-canary-contrast);
+    --table-situation-information-color: var(--colors-validation-sky-contrast);
+    --table-situation-severe-color: var(--colors-validation-lava-contrast);
+
     --table-estimated-time-color: var(--colors-brand-coral);
 }

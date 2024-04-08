@@ -8,4 +8,5 @@ fragment situation on PtSituationElement {
         value
         language
     }
+    severity
 }

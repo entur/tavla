@@ -12,7 +12,10 @@
 
     --table-border-color: var(--colors-blues-blue30);
     --table-header-border-color: var(--colors-blues-blue20);
-    --table-situation-color: var(--colors-validation-canary-contrast);
+
+    --table-situation-normal-color: var(--colors-validation-canary-contrast);
+    --table-situation-information-color: var(--colors-validation-sky-contrast);
+    --table-situation-severe-color: var(--colors-validation-lava-contrast);
 
     --pulse-color: #75daad;
 

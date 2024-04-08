@@ -12,7 +12,10 @@
     --border-color: var(--colors-greys-grey60);
 
     --table-border-color: var(--colors-greys-grey60);
-    --table-situation-color: var(--colors-misc-black);
+
+    --table-situation-normal-color: var(--colors-misc-black);
+    --table-situation-information-color: var(--colors-misc-black);
+    --table-situation-severe-color: var(--colors-misc-black);
 
     --table-transport-metro-color: var(--colors-transport-default-metro);
     --table-transport-bus-color: var(--colors-transport-default-bus);

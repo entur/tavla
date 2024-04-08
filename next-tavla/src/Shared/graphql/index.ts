@@ -44,6 +44,7 @@ export type TDepartureFragment = {
             value: string
             language: string | null
         }>
+        severity: Types.TSeverity | null
     }>
 }
 
@@ -71,6 +72,7 @@ export type TSituationFragment = {
         value: string
         language: string | null
     }>
+    severity: Types.TSeverity | null
 }
 
 export type TGetQuayQueryVariables = Types.Exact<{
@@ -134,6 +136,7 @@ export type TGetQuayQuery = {
                     value: string
                     language: string | null
                 }>
+                severity: Types.TSeverity | null
             }>
         }>
         situations: Array<{
@@ -149,6 +152,7 @@ export type TGetQuayQuery = {
                 value: string
                 language: string | null
             }>
+            severity: Types.TSeverity | null
         }>
         lines: Array<{
             __typename?: 'Line'
@@ -278,6 +282,7 @@ export type TStopPlaceQuery = {
                     value: string
                     language: string | null
                 }>
+                severity: Types.TSeverity | null
             }>
         }>
         situations: Array<{
@@ -293,6 +298,7 @@ export type TStopPlaceQuery = {
                 value: string
                 language: string | null
             }>
+            severity: Types.TSeverity | null
         }>
     } | null
 }
@@ -383,6 +389,7 @@ export const SituationFragment = new TypedDocumentString(
     value
     language
   }
+  severity
 }
     `,
     { fragmentName: 'situation' },
@@ -429,6 +436,7 @@ export const DepartureFragment = new TypedDocumentString(
     value
     language
   }
+  severity
 }`,
     { fragmentName: 'departure' },
 ) as unknown as TypedDocumentString<TDepartureFragment, unknown>
@@ -513,6 +521,7 @@ fragment situation on PtSituationElement {
     value
     language
   }
+  severity
 }`) as unknown as TypedDocumentString<TGetQuayQuery, TGetQuayQueryVariables>
 export const QuayEditQuery = new TypedDocumentString(`
     query quayEdit($placeId: String!) {
@@ -619,6 +628,7 @@ fragment situation on PtSituationElement {
     value
     language
   }
+  severity
 }`) as unknown as TypedDocumentString<TStopPlaceQuery, TStopPlaceQueryVariables>
 export const StopPlaceEditQuery = new TypedDocumentString(`
     query stopPlaceEdit($placeId: String!) {
