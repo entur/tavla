@@ -3,7 +3,7 @@
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { revalidatePath } from 'next/cache'
 import { TLogo, TOrganizationID } from 'types/settings'
-import { containsSpecialChars, getFilename } from './utils'
+import { getFilename } from './utils'
 import { storage, firestore } from 'firebase-admin'
 import {
     getConfig,
@@ -12,6 +12,7 @@ import {
 } from 'app/(admin)/utils/firebase'
 import { getDownloadURL } from 'firebase-admin/storage'
 import { redirect } from 'next/navigation'
+import { nanoid } from 'nanoid'
 
 initializeAdminApp()
 
@@ -27,14 +28,12 @@ export async function upload(
     if (logo.size > 10_000_000)
         return getFormFeedbackForError('file/size-too-big')
 
-    const { hasSpecialChars, message } = containsSpecialChars(logo.name)
-    if (hasSpecialChars)
-        return getFormFeedbackForError('file/invalid-input', message)
-
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
+
+    const fileName = `logo/${oid}-${nanoid()}`
     const bucket = storage().bucket((await getConfig()).bucket)
-    const file = bucket.file(`logo/${oid}-${logo.name}`)
+    const file = bucket.file(fileName)
     await file.save(Buffer.from(await logo.arrayBuffer()))
 
     const logoUrl = await getDownloadURL(file)
