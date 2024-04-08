@@ -96,7 +96,7 @@ function CreateBoard() {
                                 ...board,
                                 meta: { ...board?.meta, title: name },
                             } as TBoard)
-                            setOrganization(organization)
+                            setOrganization(personal ? undefined : organization)
                             setFormError(undefined)
 
                             router.push(getPathWithParams('stops'))
