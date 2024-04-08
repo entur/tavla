@@ -15,6 +15,7 @@ import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
+import { saveFooter } from './components/Footer/actions'
 
 type TProps = {
     params: { id: TBoardID }
@@ -50,6 +51,14 @@ export default async function EditPage({ params }: TProps) {
             </div>
 
             <MetaSettings bid={params.id} meta={board.meta} />
+            <Footer
+                footer={board.footer}
+                action={async (data: FormData) => {
+                    'use server'
+                    const info = data.get('footer') as string
+                    await saveFooter(params.id, info)
+                }}
+            />
 
             <div className="flex flex-col gap-4">
                 <Heading2>Stoppesteder i tavlen</Heading2>

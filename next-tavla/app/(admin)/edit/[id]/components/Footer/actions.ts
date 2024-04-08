@@ -11,6 +11,8 @@ import { TBoardID } from 'types/settings'
 initializeAdminApp()
 
 export async function saveFooter(bid: TBoardID, footer?: string) {
+    console.log('bid', bid)
+    console.log('footer', footer)
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 

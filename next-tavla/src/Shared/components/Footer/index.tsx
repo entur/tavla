@@ -19,7 +19,7 @@ function Footer({
     return (
         <footer className="flex flex-row justify-start items-center text-2xl">
             <div className="ellipsis">{footer ? footer : ''}</div>
-            {!logo && <Image src={EnturLogo} alt="Entur logo" height={40} />}
+            {logo && <Image src={EnturLogo} alt="Entur logo" height={40} />}
         </footer>
     )
 }

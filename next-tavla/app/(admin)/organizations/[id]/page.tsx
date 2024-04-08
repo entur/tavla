@@ -12,7 +12,9 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { concat } from 'lodash'
 import { auth } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
-import { Footer } from '../components/Footer'
+import { setFooter } from '../components/Footer/actions'
+import { Footer } from 'app/(admin)/edit/[id]/components/Footer'
+import { revalidatePath } from 'next/cache'
 
 initializeAdminApp()
 
@@ -77,7 +79,17 @@ async function EditOrganizationPage({ params }: TProps) {
                     font={organization?.defaults?.font}
                 />
 
-                <Footer oid={organization.id} footer={organization.footer} />
+                <Footer
+                    footer={organization.footer}
+                    action={async (data: FormData) => {
+                        'use server'
+
+                        if (!organization.id) return
+                        const info = data.get('footer') as string
+                        await setFooter(organization.id, info)
+                        revalidatePath(`/organizations/${organization.id}`)
+                    }}
+                />
 
                 <UploadLogo organization={organization} />
             </div>

@@ -1,24 +1,19 @@
 'use client'
-import { useToast } from '@entur/alert'
 import { TextArea } from '@entur/form'
 import { Heading2, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { TBoardID } from 'types/settings'
-import { saveFooter } from './actions'
 
-function Footer({ bid, footer }: { bid: TBoardID; footer?: string }) {
-    const { addToast } = useToast()
+function Footer({
+    footer,
+    action,
+}: {
+    footer?: string
+    action: (data: FormData) => void
+}) {
     return (
         <div className="flexColumn g-2">
             <Heading2>Informasjonstekst</Heading2>
-            <form
-                className="box flexColumn justifyBetween"
-                action={async (data: FormData) => {
-                    const info = data.get('footer') as string
-                    await saveFooter(bid, info)
-                    addToast('Footer lagret!')
-                }}
-            >
+            <form className="box flexColumn justifyBetween" action={action}>
                 <div>
                     <Paragraph>
                         Velg hvilke kolonner som skal være standard når du
