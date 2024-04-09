@@ -49,16 +49,18 @@ export default async function EditPage({ params }: TProps) {
                     <Delete board={board} type="button" />
                 </div>
             </div>
+            <div className={classes.meta}>
+                <MetaSettings bid={params.id} meta={board.meta} />
+                <Footer
+                    footer={board.footer}
+                    action={async (data: FormData) => {
+                        'use server'
 
-            <MetaSettings bid={params.id} meta={board.meta} />
-            <Footer
-                footer={board.footer}
-                action={async (data: FormData) => {
-                    'use server'
-                    const info = data.get('footer') as string
-                    await saveFooter(params.id, info)
-                }}
-            />
+                        const info = data.get('footer') as string
+                        await saveFooter(params.id, info)
+                    }}
+                />
+            </div>
 
             <div className="flex flex-col gap-4">
                 <Heading2>Stoppesteder i tavlen</Heading2>
