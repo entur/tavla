@@ -11,10 +11,3 @@
     font-weight: 600;
     margin: 0;
 }
-
-.duration {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: var(--main-text-color);
-}
