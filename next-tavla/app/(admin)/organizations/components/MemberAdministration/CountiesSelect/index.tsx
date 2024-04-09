@@ -21,54 +21,49 @@ function CountiesSelect({
     const { addToast } = useToast()
 
     return (
-        <div className="flexColumn g-2">
+        <div className="box flexColumn g-1">
             <Heading2>Fylker</Heading2>
-            <div className="box">
-                <Paragraph>
-                    Velg hvilke fylker som skal være standard når det opprettes
-                    en ny tavle.
-                </Paragraph>
-                <form
-                    action={async (data: FormData) => {
-                        const counties = data.getAll('county') as string[]
+            <Paragraph>
+                Velg hvilke fylker som skal være standard når det opprettes en
+                ny tavle.
+            </Paragraph>
+            <form
+                action={async (data: FormData) => {
+                    const counties = data.getAll('county') as string[]
 
-                        if (!oid) return null
-                        setCounties(oid, counties)
-                        addToast('Fylker lagret!')
-                    }}
-                >
-                    <div className={classes.countiesSelectContainer}>
-                        {counties()
-                            .sort(
-                                (
-                                    countyA: NormalizedDropdownItemType,
-                                    countyB: NormalizedDropdownItemType,
-                                ) => countyA.label.localeCompare(countyB.label),
-                            )
-                            .map((county: NormalizedDropdownItemType) => (
-                                <Checkbox
-                                    key={county.value}
-                                    defaultChecked={
-                                        countiesList?.includes(county.value) ??
-                                        false
-                                    }
-                                    name="county"
-                                    value={county.value}
-                                >
-                                    {county.label}
-                                </Checkbox>
-                            ))}
-                    </div>
-                    <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
-                        <SecondaryButton
-                            type="submit"
-                            aria-label="Lagre fylker"
-                        >
-                            Lagre fylker
-                        </SecondaryButton>
-                    </div>
-                </form>
-            </div>
+                    if (!oid) return null
+                    setCounties(oid, counties)
+                    addToast('Fylker lagret!')
+                }}
+            >
+                <div className={classes.countiesSelectContainer}>
+                    {counties()
+                        .sort(
+                            (
+                                countyA: NormalizedDropdownItemType,
+                                countyB: NormalizedDropdownItemType,
+                            ) => countyA.label.localeCompare(countyB.label),
+                        )
+                        .map((county: NormalizedDropdownItemType) => (
+                            <Checkbox
+                                key={county.value}
+                                defaultChecked={
+                                    countiesList?.includes(county.value) ??
+                                    false
+                                }
+                                name="county"
+                                value={county.value}
+                            >
+                                {county.label}
+                            </Checkbox>
+                        ))}
+                </div>
+                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+                    <SecondaryButton type="submit" aria-label="Lagre fylker">
+                        Lagre fylker
+                    </SecondaryButton>
+                </div>
+            </form>
         </div>
     )
 }

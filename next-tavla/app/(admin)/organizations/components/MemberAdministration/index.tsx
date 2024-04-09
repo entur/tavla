@@ -9,13 +9,11 @@ function MemberAdministration(props: {
     members: TUser[]
 }) {
     return (
-        <div className="flexColumn g-2">
+        <div className="box flexColumn g-1">
             <Heading2>Medlemmer</Heading2>
-            <div className="box">
-                <Paragraph>Administrer medlemmer i organisasjonen. </Paragraph>
-                <InviteUser oid={props.oid} />
-                <MemberList {...props} />
-            </div>
+            <Paragraph>Administrer medlemmer i organisasjonen. </Paragraph>
+            <InviteUser oid={props.oid} />
+            <MemberList {...props} />
         </div>
     )
 }

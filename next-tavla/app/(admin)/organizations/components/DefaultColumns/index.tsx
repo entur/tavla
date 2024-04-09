@@ -45,47 +45,41 @@ function DefaultColumns({
     const [state, action] = useFormState(submit, undefined)
 
     return (
-        <div className="flexColumn g-2">
+        <div className="box flexColumn g-1">
             <Heading2>Kolonner</Heading2>
-            <div className="box">
-                <Paragraph>
-                    Velg hvilke kolonner som skal være standard når det
-                    opprettes en ny tavle.
-                </Paragraph>
+            <Paragraph>
+                Velg hvilke kolonner som skal være standard når det opprettes en
+                ny tavle.
+            </Paragraph>
 
-                <form action={action}>
-                    <div className="flexRow flexWrap g-2">
-                        {Object.entries(Columns).map(([key, information]) => (
-                            <FilterChip
-                                key={key}
-                                value={key}
-                                defaultChecked={
-                                    columns?.includes(key as TColumn) ?? false
-                                }
-                                name="columns"
-                            >
-                                {information}
-                            </FilterChip>
-                        ))}
-                    </div>
-                    <div className="mt-4" aria-live="polite">
-                        <FormError
-                            {...getFormFeedbackForField('column', state)}
-                        />
-                        <FormError
-                            {...getFormFeedbackForField('general', state)}
-                        />
-                    </div>
-                    <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
-                        <SubmitButton
-                            variant="secondary"
-                            aria-label="Lagre kolonner"
+            <form action={action}>
+                <div className="flexRow flexWrap g-2">
+                    {Object.entries(Columns).map(([key, information]) => (
+                        <FilterChip
+                            key={key}
+                            value={key}
+                            defaultChecked={
+                                columns?.includes(key as TColumn) ?? false
+                            }
+                            name="columns"
                         >
-                            Lagre kolonner
-                        </SubmitButton>
-                    </div>
-                </form>
-            </div>
+                            {information}
+                        </FilterChip>
+                    ))}
+                </div>
+                <div className="mt-4" aria-live="polite">
+                    <FormError {...getFormFeedbackForField('column', state)} />
+                    <FormError {...getFormFeedbackForField('general', state)} />
+                </div>
+                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+                    <SubmitButton
+                        variant="secondary"
+                        aria-label="Lagre kolonner"
+                    >
+                        Lagre kolonner
+                    </SubmitButton>
+                </div>
+            </form>
         </div>
     )
 }
