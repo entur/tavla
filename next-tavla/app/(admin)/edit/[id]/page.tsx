@@ -39,7 +39,7 @@ export default async function EditPage({ params }: TProps) {
     if (!access) return redirect('/')
 
     return (
-        <main className={classes.main}>
+        <main className="flexColumn p-4 g-7">
             <div className="flexRow justifyBetween alignCenter">
                 <Heading1 margin="top">Rediger {board.meta?.title}</Heading1>
                 <div className="flexRow g-2">
