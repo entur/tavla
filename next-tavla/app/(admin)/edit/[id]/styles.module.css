@@ -16,3 +16,9 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.main {
+    display: grid;
+    padding: 2em;
+    gap: 3.5em;
+}

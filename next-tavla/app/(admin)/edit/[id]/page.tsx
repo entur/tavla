@@ -39,39 +39,47 @@ export default async function EditPage({ params }: TProps) {
     if (!access) return redirect('/')
 
     return (
-        <main className="flexColumn p-4 g-2">
-            <div className="flexRow justifyBetween alignCenter pb-2">
-                <Heading1 className="m-0">
-                    Rediger tavle {board.meta?.title}
-                </Heading1>
+        <main className={classes.main}>
+            <div className="flexRow justifyBetween alignCenter">
+                <Heading1 margin="top">Rediger {board.meta?.title}</Heading1>
                 <div className="flexRow g-2">
                     <Open bid={board.id} type="button" />
                     <Copy bid={board.id} type="button" />
                     <Delete board={board} type="button" />
                 </div>
             </div>
-            <MetaSettings bid={params.id} meta={board.meta} />
-            <Heading2 className="mt-3">Stoppesteder i tavla</Heading2>
-            <TileSelector
-                action={async (data: FormData) => {
-                    'use server'
 
-                    const tile = await getWalkingDistanceTile(
-                        formDataToTile(data, organization),
-                        board.meta.location,
-                    )
-                    if (!tile.placeId) return
-                    await addTile(params.id, tile)
-                    revalidatePath(`/edit/${params.id}`)
-                }}
-                direction="Row"
-            />
-            {board.tiles.map((tile) => (
-                <TileCard key={tile.uuid} bid={params.id} tile={tile} />
-            ))}
-            <Heading2 className="mt-3">Forhåndsvisning</Heading2>
-            <div className={classes.preview} data-theme={board.theme ?? 'dark'}>
-                <ClientBoard board={board} />
+            <MetaSettings bid={params.id} meta={board.meta} />
+
+            <div className="flexColumn g-2">
+                <Heading2>Stoppesteder i tavlen</Heading2>
+                <TileSelector
+                    action={async (data: FormData) => {
+                        'use server'
+
+                        const tile = await getWalkingDistanceTile(
+                            formDataToTile(data, organization),
+                            board.meta.location,
+                        )
+                        if (!tile.placeId) return
+                        await addTile(params.id, tile)
+                        revalidatePath(`/edit/${params.id}`)
+                    }}
+                    direction="Row"
+                />
+                {board.tiles.map((tile) => (
+                    <TileCard key={tile.uuid} bid={params.id} tile={tile} />
+                ))}
+            </div>
+
+            <div className="flexColumn g-2">
+                <Heading2>Forhåndsvisning</Heading2>
+                <div
+                    className={classes.preview}
+                    data-theme={board.theme ?? 'dark'}
+                >
+                    <ClientBoard board={board} />
+                </div>
             </div>
         </main>
     )
