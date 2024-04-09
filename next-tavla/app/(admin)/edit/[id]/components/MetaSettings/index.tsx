@@ -6,7 +6,6 @@ import { TFontSize, TMeta } from 'types/meta'
 import { saveFont, saveTitle } from './actions'
 import { TBoardID } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
-import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { Address } from './Adress'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
@@ -56,7 +55,6 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                         Lagre tekststørrelse
                     </SubmitButton>
                 </div>
-                <HiddenInput id="bid" value={bid} />
             </form>
         </div>
     )
