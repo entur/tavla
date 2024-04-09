@@ -1,6 +1,6 @@
 'use server'
 import { cookies } from 'next/headers'
-import admin, { firestore } from 'firebase-admin'
+import admin, { auth, firestore } from 'firebase-admin'
 import { TUserID } from 'types/settings'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -19,6 +19,9 @@ export async function login(token: string) {
     const sessionCookie = await admin.auth().createSessionCookie(token, {
         expiresIn: expiresIn * 1000, // Firebase expects the number in milliseconds
     })
+
+    const user = await auth().verifySessionCookie(sessionCookie, true)
+    if (!user.email_verified) throw new Error('auth/unverified')
 
     cookies().set({
         name: 'session',

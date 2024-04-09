@@ -1,11 +1,15 @@
 'use client'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+    getAuth,
+    sendEmailVerification,
+    signInWithEmailAndPassword,
+} from 'firebase/auth'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
 import { Heading3 } from '@entur/typography'
 import { TextField } from '@entur/form'
-import { PrimaryButton, SecondaryButton } from '@entur/button'
+import { Button } from '@entur/button'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
 import {
@@ -19,6 +23,7 @@ import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
 import { TLoginPage } from './types'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function Email() {
     const submit = async (
@@ -41,6 +46,15 @@ function Email() {
         } catch (e: unknown) {
             if (e instanceof FirebaseError) {
                 return getFormFeedbackForError(e)
+            }
+            if (e instanceof Error) {
+                if (e.message === 'auth/unverified') {
+                    const app = await getClientApp()
+                    const auth = getAuth(app)
+                    if (auth.currentUser)
+                        sendEmailVerification(auth.currentUser)
+                }
+                return getFormFeedbackForError(e.message)
             }
         }
     }
@@ -67,10 +81,14 @@ function Email() {
                 />
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <PrimaryButton type="submit">Logg inn</PrimaryButton>
-                <SecondaryButton as={Link} href={getPathWithParams('reset')}>
+                <SubmitButton variant="primary">Logg inn</SubmitButton>
+                <Button
+                    variant="secondary"
+                    as={Link}
+                    href={getPathWithParams('reset')}
+                >
                     Glemt passord?
-                </SecondaryButton>
+                </Button>
             </form>
         </div>
     )

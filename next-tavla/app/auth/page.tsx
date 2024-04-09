@@ -10,6 +10,8 @@ function Auth({
     switch (mode) {
         case 'resetPassword':
             return redirect(`/reset/${oobCode}`)
+        case 'verifyEmail':
+            return redirect(`/verify/${oobCode}`)
         default:
             return redirect('/')
     }
