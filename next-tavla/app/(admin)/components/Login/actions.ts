@@ -21,7 +21,7 @@ export async function login(token: string) {
     })
 
     const user = await auth().verifySessionCookie(sessionCookie, true)
-    if (!user.email_verified) throw new Error('auth/unverified')
+    if (!user.email_verified) return 'auth/unverified'
 
     cookies().set({
         name: 'session',

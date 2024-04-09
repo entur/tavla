@@ -2,13 +2,15 @@
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
 import { Heading3 } from '@entur/typography'
-import { PrimaryButton } from '@entur/button'
-import { login, create } from './actions'
+import { create } from './actions'
 import { TextField } from '@entur/form'
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
+import {
+    createUserWithEmailAndPassword,
+    getAuth,
+    sendEmailVerification,
+} from 'firebase/auth'
 
 import { getClientApp } from 'utils/firebase'
-import { revalidatePath } from 'next/cache'
 import {
     TFormFeedback,
     getFormFeedbackForError,
@@ -17,6 +19,7 @@ import {
 import { FirebaseError } from 'firebase/app'
 import { useFormState } from 'react-dom'
 import { FormError } from '../FormError'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function Create() {
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
@@ -24,11 +27,7 @@ function Create() {
         const password = data.get('password') as string
         const repeat = data.get('repeat_password') as string
         if (password !== repeat)
-            return {
-                form_type: 'repeat_password',
-                variant: 'warning',
-                feedback: 'Passordene er ikke like.',
-            } as TFormFeedback
+            return getFormFeedbackForError('auth/password-no-match')
 
         try {
             const app = await getClientApp()
@@ -38,10 +37,9 @@ function Create() {
                 email,
                 password,
             )
-            const uid = await credential.user.getIdToken()
             await create(credential.user.uid)
-            await login(uid)
-            revalidatePath('/')
+            sendEmailVerification(credential.user)
+            return getFormFeedbackForError('auth/create')
         } catch (e) {
             if (e instanceof FirebaseError) {
                 return getFormFeedbackForError(e)
@@ -75,7 +73,7 @@ function Create() {
 
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <PrimaryButton type="submit">Opprett ny bruker</PrimaryButton>
+                <SubmitButton variant="primary">Opprett ny bruker</SubmitButton>
             </form>
         </div>
     )

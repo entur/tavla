@@ -73,6 +73,13 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                     'E-epostadressen er ikke verifisert. Vi har sendt deg en e-post for å verifisere kontoen din.',
                 variant: 'warning',
             }
+        case 'auth/create':
+            return {
+                form_type: 'user',
+                feedback:
+                    'Kontoen din har blitt opprettet. Du har mottatt en e-post for å verifisere kontoen din.',
+                variant: 'success',
+            }
         case 'auth/password-no-match':
             return {
                 form_type: 'repeat_password',

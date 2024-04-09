@@ -36,25 +36,21 @@ function Email() {
         try {
             const app = await getClientApp()
             const auth = getAuth(app)
+
             const credential = await signInWithEmailAndPassword(
                 auth,
                 email,
                 password,
             )
             const uid = await credential.user.getIdToken()
-            await login(uid)
+            const error = await login(uid)
+            if (error && auth.currentUser) {
+                sendEmailVerification(auth.currentUser)
+                return getFormFeedbackForError(error)
+            }
         } catch (e: unknown) {
             if (e instanceof FirebaseError) {
                 return getFormFeedbackForError(e)
-            }
-            if (e instanceof Error) {
-                if (e.message === 'auth/unverified') {
-                    const app = await getClientApp()
-                    const auth = getAuth(app)
-                    if (auth.currentUser)
-                        sendEmailVerification(auth.currentUser)
-                }
-                return getFormFeedbackForError(e.message)
             }
         }
     }
