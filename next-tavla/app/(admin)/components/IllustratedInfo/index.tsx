@@ -11,10 +11,12 @@ function IllustratedInfo({
     description: string
 }) {
     return (
-        <div className={classes.info}>
-            <Image src={animals} aria-hidden="true" alt="" />
-            <Heading2 className={classes.infoHeading}>{title}</Heading2>
-            <LeadParagraph className="pb-4 mt-0">{description} </LeadParagraph>
+        <div className="pb-4">
+            <div className={classes.info}>
+                <Image src={animals} aria-hidden="true" alt="" />
+                <Heading2 className={classes.infoHeading}>{title}</Heading2>
+                <LeadParagraph className="mt-0">{description}</LeadParagraph>
+            </div>
         </div>
     )
 }
