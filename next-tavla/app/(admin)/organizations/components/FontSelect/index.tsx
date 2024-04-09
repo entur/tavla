@@ -16,10 +16,14 @@ function FontSelect({
 }) {
     const { addToast } = useToast()
     return (
-        <div className="flexColumn g-2">
+        <div className="box flexColumn g-1">
             <Heading2>Tekststørrelse</Heading2>
+            <Paragraph>
+                Velg hvilken tekststørrelse som skal være standard når det
+                opprettes en ny tavle.
+            </Paragraph>
             <form
-                className="box flexColumn justifyBetween"
+                className="flexColumn justifyBetween h-100"
                 action={async (data: FormData) => {
                     const font = data.get('font') as TFontSize
                     if (!oid) return
@@ -27,13 +31,9 @@ function FontSelect({
                     addToast('Tekststørrelse lagret!')
                 }}
             >
-                <Paragraph>
-                    Velg hvilken tekststørrelse som skal være standard når det
-                    opprettes en ny tavle.
-                </Paragraph>
                 <FontChoiceChip font={font ?? 'medium'} />
 
-                <div className="flexRow justifyEnd mt-2 mr-2 ">
+                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
                     <SubmitButton
                         variant="secondary"
                         aria-label="Lagre tekststørrelse"
