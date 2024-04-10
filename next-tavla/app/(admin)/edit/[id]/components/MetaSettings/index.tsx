@@ -1,6 +1,6 @@
 'use client'
 import { TextField } from '@entur/form'
-import { Heading4 } from '@entur/typography'
+import { Heading3, Heading4 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
 import { saveFont, saveTitle } from './actions'
 import { TBoardID } from 'types/settings'
@@ -22,7 +22,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 }}
                 className="box flex flex-col justify-between"
             >
-                <Heading4 className="m-0">Navn på tavlen</Heading4>
+                <Heading3 className="m-0">Navn på tavlen</Heading3>
                 <TextField
                     name="name"
                     className="w-full"

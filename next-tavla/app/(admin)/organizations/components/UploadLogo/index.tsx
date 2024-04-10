@@ -3,7 +3,7 @@ import Image from 'next/image'
 import TavlaLogo from 'assets/logos/Tavla-blue.svg'
 import { TOrganization } from 'types/settings'
 import { LogoInput } from './LogoInput'
-import { Heading2, Paragraph } from '@entur/typography'
+import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { DeleteLogo } from './DeleteLogo'
 
 function UploadLogo({ organization }: { organization: TOrganization }) {

@@ -1,6 +1,6 @@
 'use client'
 import { TextArea } from '@entur/form'
-import { Heading2, Paragraph } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 
 function Footer({
@@ -11,30 +11,26 @@ function Footer({
     action: (data: FormData) => void
 }) {
     return (
-        <div className="flexColumn g-2">
-            <Heading2 className="m-0">Informasjonstekst</Heading2>
-            <form className="box flexColumn justifyBetween" action={action}>
+        <form className="box flexColumn justifyBetween g-1" action={action}>
+            <div>
+                <Heading3 className="m-0">Infomelding</Heading3>
+                <Paragraph>
+                    Skriv en kort tekst som skal vises nederst i tavlevisningen.
+                </Paragraph>
                 <div>
                     <TextArea
                         label="Infomelding"
                         name="footer"
                         defaultValue={footer ?? ''}
                     />
-                    <Paragraph>
-                        Skriv en kort tekst som skal vises nederst i
-                        tavlevisningen.
-                    </Paragraph>
                 </div>
-                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
-                    <SubmitButton
-                        variant="secondary"
-                        aria-label="Lagre kolonner"
-                    >
-                        Lagre infomelding
-                    </SubmitButton>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+                <SubmitButton variant="secondary" aria-label="Lagre kolonner">
+                    Lagre infomelding
+                </SubmitButton>
+            </div>
+        </form>
     )
 }
 
