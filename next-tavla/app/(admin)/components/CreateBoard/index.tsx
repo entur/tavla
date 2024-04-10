@@ -146,6 +146,7 @@ function NameAndOrganizationSelector({
                 label="Navn"
                 id="name"
                 name="name"
+                maxLength={30}
                 defaultValue={title}
                 required
                 {...getFormFeedbackForField('name', state)}
