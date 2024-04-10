@@ -30,7 +30,7 @@ import { getBoard, getWalkingDistanceTile } from '../../actions'
 import { Modal } from '@entur/modal'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import Image from 'next/image'
-import Doves from 'assets/illustrations/Doves.png'
+import Goat from 'assets/illustrations/Goat.png'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const posthog = usePostHog()
@@ -230,9 +230,10 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             size="small"
                             open={confirmOpen}
                             onDismiss={reset}
+                            closeLabel="Avbryt endring"
                         >
                             <div className="flexColumn alignCenter">
-                                <Image alt="" src={Doves} width={250} />
+                                <Image alt="" src={Goat} width={250} />
                                 <Heading3 margin="bottom">
                                     Lagre endringer
                                 </Heading3>
@@ -245,7 +246,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                         width="fluid"
                                         onClick={reset}
                                     >
-                                        Slett endringer
+                                        Avbryt endring
                                     </Button>
                                     <SubmitButton
                                         variant="primary"
