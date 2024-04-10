@@ -6,7 +6,13 @@ import { Button, SecondarySquareButton } from '@entur/button'
 import { DeleteIcon, EditIcon, CloseIcon } from '@entur/icons'
 import { useState } from 'react'
 import { TBoardID } from 'types/settings'
-import { Heading3, Heading4, Label, SubParagraph } from '@entur/typography'
+import {
+    Heading3,
+    Heading4,
+    Label,
+    Paragraph,
+    SubParagraph,
+} from '@entur/typography'
 import { isArray, uniqBy } from 'lodash'
 import { TransportIcon } from 'components/TransportIcon'
 import { Columns } from 'types/column'
@@ -21,10 +27,23 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { usePostHog } from 'posthog-js/react'
 import { Switch } from '@entur/form'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
+import { Modal } from '@entur/modal'
+import { SubmitButton } from 'components/Form/SubmitButton'
+import Image from 'next/image'
+import Goat from 'assets/illustrations/Goat.png'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
+    const [changed, setChanged] = useState(false)
+    const [confirmOpen, setConfirmOpen] = useState(false)
+
+    const reset = () => {
+        setConfirmOpen(false)
+        setIsOpen(false)
+        setChanged(false)
+    }
+
     const lines = useLines(tile)
 
     if (!lines) return <div className={classes.card}>Laster..</div>
@@ -76,7 +95,10 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         <DeleteIcon />
                     </SecondarySquareButton>
                     <SecondarySquareButton
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => {
+                            if (changed) return setConfirmOpen(true)
+                            setIsOpen(!isOpen)
+                        }}
                         aria-label="Rediger stoppested"
                     >
                         {isOpen ? <CloseIcon /> : <EditIcon />}
@@ -86,6 +108,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
             <BaseExpand open={isOpen}>
                 <div className={classes.expandable}>
                     <form
+                        id={tile.uuid}
                         action={async (data: FormData) => {
                             const columns = data.getAll('columns') as TColumn[]
                             data.delete('columns')
@@ -127,7 +150,8 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
 
                             saveTile(bid, newTile)
                         }}
-                        onSubmit={() => setIsOpen(false)}
+                        onSubmit={reset}
+                        onInput={() => setChanged(true)}
                     >
                         <Heading4 className="m-0">Kolonner</Heading4>
                         <SubParagraph className="mt-0">
@@ -198,10 +222,43 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         />
 
                         <div className="flexRow justifyEnd mt-2 mr-2 ">
-                            <Button variant="primary" type="submit">
+                            <SubmitButton variant="primary">
                                 Lagre endringer
-                            </Button>
+                            </SubmitButton>
                         </div>
+                        <Modal
+                            size="small"
+                            open={confirmOpen}
+                            onDismiss={reset}
+                            closeLabel="Avbryt endring"
+                        >
+                            <div className="flexColumn alignCenter">
+                                <Image alt="" src={Goat} width={250} />
+                                <Heading3 margin="bottom">
+                                    Lagre endringer
+                                </Heading3>
+                                <Paragraph margin="none" className="mb-2">
+                                    Du har endringer som ikke er lagret.
+                                </Paragraph>
+                                <div className="flexRow g-2">
+                                    <Button
+                                        variant="secondary"
+                                        width="fluid"
+                                        onClick={reset}
+                                    >
+                                        Avbryt endring
+                                    </Button>
+                                    <SubmitButton
+                                        variant="primary"
+                                        width="fluid"
+                                        type="submit"
+                                        form={tile.uuid}
+                                    >
+                                        Lagre
+                                    </SubmitButton>
+                                </div>
+                            </div>
+                        </Modal>
                     </form>
                 </div>
             </BaseExpand>
