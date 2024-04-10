@@ -14,7 +14,7 @@ function IllustratedInfo({
         <div className={classes.info}>
             <Image src={animals} aria-hidden="true" alt="" />
             <Heading2 className={classes.infoHeading}>{title}</Heading2>
-            <LeadParagraph>{description} </LeadParagraph>
+            <LeadParagraph margin="bottom">{description}</LeadParagraph>
         </div>
     )
 }
