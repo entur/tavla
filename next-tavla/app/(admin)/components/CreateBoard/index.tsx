@@ -210,7 +210,7 @@ function StopSelector({
 
     return (
         <div>
-            <Heading3>Legg til stoppesteder i Tavlen </Heading3>
+            <Heading3>Legg til stoppesteder i tavlen</Heading3>
             <Paragraph>
                 Søk etter stoppesteder og bestem om tavla skal vise alle
                 retninger, eller flere enkelte retninger.
@@ -235,7 +235,7 @@ function StopSelector({
                 oid={oid}
                 showLabel
             />
-            <Heading4 className="mt-3">Stoppesteder lagt til i Tavlen</Heading4>
+            <Heading4 className="mt-3">Stoppesteder lagt til i tavlen</Heading4>
             <StopPlaceList
                 tiles={board?.tiles}
                 onRemove={(tile: TTile) =>

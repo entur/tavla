@@ -27,10 +27,10 @@ async function OrganizationsPage() {
                 <div className="flexRow justifyBetween">
                     <Paragraph className="w-75">
                         Dette er en oversikt over hvilke organisasjoner du er en
-                        del av. Her kan du også klikke deg inn på organisasjoner
-                        og sette innstillinger for tavler som er lagt til i en
-                        organisasjon. Du kan også administrere hvem som har
-                        tilgang til tavlene i organisasjonen.
+                        del av. For hver organisasjon kan det settes
+                        innstillinger som vil gjelde for alle tilhørende tavler.
+                        Det er også mulig å administrere hvem som har tilgang
+                        til tavlene i organisasjonen.
                     </Paragraph>
                     <CreateOrganization />
                 </div>
