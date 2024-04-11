@@ -94,7 +94,10 @@ function CreateBoard() {
                             setBoard({
                                 tiles: [],
                                 ...board,
-                                meta: { ...board?.meta, title: name },
+                                meta: {
+                                    ...board?.meta,
+                                    title: name.substring(0, 30),
+                                },
                             } as TBoard)
                             setOrganization(personal ? undefined : organization)
                             setFormError(undefined)
@@ -146,6 +149,7 @@ function NameAndOrganizationSelector({
                 label="Navn"
                 id="name"
                 name="name"
+                maxLength={30}
                 defaultValue={title}
                 required
                 {...getFormFeedbackForField('name', state)}

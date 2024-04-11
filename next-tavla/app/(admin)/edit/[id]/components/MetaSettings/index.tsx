@@ -29,6 +29,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     className="w-100"
                     defaultValue={meta.title ?? DEFAULT_BOARD_NAME}
                     label="Navn på tavlen"
+                    maxLength={30}
                 />
                 <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
                     <SubmitButton variant="secondary" className="mt-2">

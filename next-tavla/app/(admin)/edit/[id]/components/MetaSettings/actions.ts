@@ -20,7 +20,10 @@ export async function saveTitle(bid: TBoardID, name: string) {
     await firestore()
         .collection('boards')
         .doc(bid)
-        .update({ 'meta.title': name, 'meta.dateModified': Date.now() })
+        .update({
+            'meta.title': name.substring(0, 30),
+            'meta.dateModified': Date.now(),
+        })
     revalidatePath(`/edit/${bid}`)
 }
 
