@@ -17,13 +17,11 @@ function Footer({
                 <Paragraph>
                     Skriv en kort tekst som skal vises nederst i tavlevisningen.
                 </Paragraph>
-                <div>
-                    <TextField
-                        label="Infomelding"
-                        name="footer"
-                        defaultValue={footer ?? ''}
-                    />
-                </div>
+                <TextField
+                    label="Infomelding"
+                    name="footer"
+                    defaultValue={footer ?? ''}
+                />
             </div>
             <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
                 <SubmitButton variant="secondary" aria-label="Lagre kolonner">
