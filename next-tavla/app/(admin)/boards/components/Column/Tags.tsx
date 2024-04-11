@@ -21,6 +21,7 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
                             color: 'white',
                             backgroundColor: colorsFromHash(tag),
                         }}
+                        type="notification"
                     >
                         <span className="visuallyHidden">Merkelapp:</span>
                         {tag}
