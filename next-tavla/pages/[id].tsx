@@ -1,10 +1,9 @@
 import { Header } from 'components/Header'
-import { TBoard, TLogo } from 'types/settings'
+import { TBoard, TLogo, TOrganization } from 'types/settings'
 import { Board } from 'Board/scenarios/Board'
 import {
     getBoard,
-    getOrganizationFooterWithBoard,
-    getOrganizationLogoWithBoard,
+    getOrganizationWithBoard,
 } from 'Board/scenarios/Board/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
@@ -28,20 +27,17 @@ export async function getServerSideProps({
     return {
         props: {
             board,
-            organizationLogo: await getOrganizationLogoWithBoard(id),
-            organizationFooter: await getOrganizationFooterWithBoard(id),
+            organization: await getOrganizationWithBoard(id),
         },
     }
 }
 
 function BoardPage({
     board,
-    organizationLogo,
-    organizationFooter,
+    organization,
 }: {
     board: TBoard
-    organizationLogo: TLogo | null
-    organizationFooter: string | undefined
+    organization: TOrganization | undefined
 }) {
     useUpdateLastActive(board.id)
 
@@ -50,12 +46,12 @@ function BoardPage({
             <div className="rootContainer">
                 <Header
                     theme={board.theme}
-                    organizationLogo={organizationLogo}
+                    organizationLogo={organization?.logo}
                 />
                 <Board board={board} />
                 <Footer
-                    logo={organizationLogo !== null}
-                    footer={board.footer ?? organizationFooter}
+                    logo={organization?.logo !== undefined}
+                    footer={board.footer ?? organization?.footer}
                     style={{
                         fontSize:
                             100 *

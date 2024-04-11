@@ -9,6 +9,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { Address } from './Adress'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { useToast } from '@entur/alert'
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 
 function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
     const { addToast } = useToast()
@@ -17,6 +18,12 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
             <form
                 action={async (data: FormData) => {
                     const name = data.get('name') as string
+                    if (isEmptyOrSpaces(name))
+                        return addToast({
+                            content:
+                                'Navnet kan ikke være tomt eller bare mellomrom!',
+                            variant: 'info',
+                        })
                     await saveTitle(bid, name)
                     addToast('Tittel lagret!')
                 }}

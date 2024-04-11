@@ -1,4 +1,5 @@
 'use server'
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import {
     hasBoardEditorAccess,
     initializeAdminApp,
@@ -18,8 +19,9 @@ export async function saveFooter(bid: TBoardID, footer?: string) {
         .collection('boards')
         .doc(bid)
         .update({
-            footer:
-                footer?.length !== 0 ? footer : firestore.FieldValue.delete(),
+            footer: !isEmptyOrSpaces(footer)
+                ? footer
+                : firestore.FieldValue.delete(),
             'meta.dateModified': Date.now(),
         })
     revalidatePath(`/edit/${bid}`)
