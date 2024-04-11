@@ -15,7 +15,7 @@ function BoardTable({ boards }: { boards: TBoard[] }) {
         return (
             <IllustratedInfo
                 title="Her var det tomt"
-                description="Du har ikke laget noen Tavler ennå"
+                description="Du har ikke laget noen tavler ennå"
             />
         )
 

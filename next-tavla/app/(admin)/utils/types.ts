@@ -1,7 +1,7 @@
 export type TSort = 'none' | 'ascending' | 'descending'
 
 export const BoardsColumns = {
-    name: 'Tavlenavn',
+    name: 'Navn',
     url: 'Lenke',
     tags: 'Merkelapper',
     lastModified: 'Sist oppdatert',

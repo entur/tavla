@@ -16,7 +16,7 @@ function SelectOrganization({
             <Heading1 className="text-rem-4">Tavler</Heading1>
             <div>
                 <SideNavigationItem href="/boards" active={!active?.id}>
-                    Mine Tavler
+                    Mine tavler
                 </SideNavigationItem>
                 {organizations?.map((organization) => (
                     <SideNavigationItem
