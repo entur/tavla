@@ -1,5 +1,5 @@
 'use client'
-import { TextArea } from '@entur/form'
+import { TextField } from '@entur/form'
 import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 
@@ -18,7 +18,7 @@ function Footer({
                     Skriv en kort tekst som skal vises nederst i tavlevisningen.
                 </Paragraph>
                 <div>
-                    <TextArea
+                    <TextField
                         label="Infomelding"
                         name="footer"
                         defaultValue={footer ?? ''}
