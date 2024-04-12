@@ -1,5 +1,6 @@
 import { useToast } from '@entur/alert'
 import { SearchableDropdown } from '@entur/dropdown'
+import { Heading3 } from '@entur/typography'
 import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -16,7 +17,9 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 saveLocation(bid, selectedPoint?.value)
                 addToast('Adresse oppdatert!')
             }}
+            className="box flexColumn"
         >
+            <Heading3 className="m-0">Hvor skal tavla stå?</Heading3>
             <SearchableDropdown
                 label="Adresse"
                 items={pointItems}
