@@ -26,9 +26,9 @@ async function Landing() {
 
     return (
         <>
-            <main className="bg-[var(--colors-brand-white)] text-[var(--colors-misc-black)]">
+            <TopNavigation loggedIn={loggedIn} />
+            <main className="container mx-auto ">
                 <Welcome />
-                <TopNavigation loggedIn={loggedIn} />
                 <div className="flex flex-col justify-center p-4">
                     <div className="flex flex-col p-4">
                         <Heading1>Lag din egen avgangstavle</Heading1>
