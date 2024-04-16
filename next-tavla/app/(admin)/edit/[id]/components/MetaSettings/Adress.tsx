@@ -19,7 +19,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 saveLocation(bid, selectedPoint?.value)
                 addToast('Adresse oppdatert!')
             }}
-            className="box flexColumn"
+            className="box flexColumn g-2"
         >
             <div className="flexRow alignCenter g-1">
                 <Heading3 className="m-0">Lokasjon</Heading3>
