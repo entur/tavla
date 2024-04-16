@@ -1,6 +1,8 @@
 import { useToast } from '@entur/alert'
 import { SearchableDropdown } from '@entur/dropdown'
+import { ValidationInfoIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
+import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -19,7 +21,15 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
             }}
             className="box flexColumn"
         >
-            <Heading3 className="m-0">Hvor skal tavla stå?</Heading3>
+            <div className="flexRow alignCenter g-1">
+                <Heading3 className="m-0">Lokasjon</Heading3>
+                <Tooltip
+                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
+                    placement="top"
+                >
+                    <ValidationInfoIcon />
+                </Tooltip>
+            </div>
             <SearchableDropdown
                 label="Adresse"
                 items={pointItems}

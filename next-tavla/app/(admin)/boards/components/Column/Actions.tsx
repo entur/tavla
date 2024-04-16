@@ -1,12 +1,12 @@
 import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
-import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { TBoard } from 'types/settings'
 import { Column } from './Column'
 import { Delete } from './Delete'
 import { Open } from 'app/(admin)/edit/[id]/components/Buttons/Open'
 import { Copy } from 'app/(admin)/edit/[id]/components/Buttons/Copy'
+import { Tooltip } from 'app/(admin)/components/Tooltip'
 
 function Actions({ board }: { board: TBoard }) {
     return (

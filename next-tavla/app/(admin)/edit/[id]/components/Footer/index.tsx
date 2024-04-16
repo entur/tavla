@@ -1,6 +1,8 @@
 'use client'
 import { TextField } from '@entur/form'
-import { Heading3, Paragraph } from '@entur/typography'
+import { ValidationInfoIcon } from '@entur/icons'
+import { Heading3 } from '@entur/typography'
+import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { SubmitButton } from 'components/Form/SubmitButton'
 
 function Footer({
@@ -13,10 +15,15 @@ function Footer({
     return (
         <form className="box flexColumn justifyBetween g-1" action={action}>
             <div>
-                <Heading3 className="m-0">Infomelding</Heading3>
-                <Paragraph>
-                    Skriv en kort tekst som skal vises nederst i tavlevisningen.
-                </Paragraph>
+                <div className="flexRow alignCenter g-1">
+                    <Heading3 className="m-0">Infomelding</Heading3>
+                    <Tooltip
+                        content="Skriv en kort tekst som skal vises nederst i tavlen."
+                        placement="top"
+                    >
+                        <ValidationInfoIcon />
+                    </Tooltip>
+                </div>
                 <TextField
                     label="Infomelding"
                     name="footer"
