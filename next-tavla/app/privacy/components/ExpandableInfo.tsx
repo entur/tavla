@@ -13,7 +13,7 @@ import { ExternalIcon } from '@entur/icons'
 
 function ExpandableInfo() {
     return (
-        <div className="flex flex-col justify-center  items-center gap-1 p-8">
+        <div className="flex flex-col justify-center  items-center gap-1 p-4">
             <ExpandablePanel title="Behandling av personopplysninger">
                 <Heading3>Behandlingsansvar</Heading3>
                 <Paragraph>

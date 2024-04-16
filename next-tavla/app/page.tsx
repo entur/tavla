@@ -29,8 +29,8 @@ async function Landing() {
             <main className="bg-[var(--colors-brand-white)] text-[var(--colors-misc-black)]">
                 <Welcome />
                 <TopNavigation loggedIn={loggedIn} />
-                <div className="flex flex-col justify-center p-8">
-                    <div className="flex flex-col p-8">
+                <div className="flex flex-col justify-center p-4">
+                    <div className="flex flex-col p-4">
                         <Heading1>Lag din egen avgangstavle</Heading1>
                         <Heading1 className="italic text-[var(--colors-brand-coral)] font-normal">
                             for reisende
@@ -39,7 +39,7 @@ async function Landing() {
 
                     <Image src={landingImage} alt="" />
 
-                    <div className="flex flex-col justify-center p-8">
+                    <div className="flex flex-col justify-center p-4">
                         <Heading2>Hva er Tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage

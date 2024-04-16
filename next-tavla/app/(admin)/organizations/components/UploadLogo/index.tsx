@@ -21,7 +21,7 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
                     alt=""
                     objectFit="contain"
                     fill
-                    className="p-8"
+                    className="p-4"
                 />
             </div>
             {organization.logo && (

@@ -23,12 +23,12 @@ async function Privacy() {
         <div className={classes.page}>
             <TopNavigation loggedIn={loggedIn} />
             <div className="flex flex-col  items-center justify-center  mr-8">
-                <div className="minw-80rem p-8">
+                <div className="minw-80rem p-4">
                     <Heading1>Personvern</Heading1>
                 </div>
                 <div className="minw-80rem">
                     <div className={classes.overview}>
-                        <div className="flex flex-col justify-center  items-center p-8">
+                        <div className="flex flex-col justify-center  items-center p-4">
                             <Image
                                 className={classes.illustration}
                                 src={squirrel}
@@ -40,7 +40,7 @@ async function Privacy() {
                                 med.
                             </Paragraph>
                         </div>
-                        <div className="flex flex-col justify-center  items-center p-8">
+                        <div className="flex flex-col justify-center  items-center p-4">
                             <Image
                                 className={classes.illustration}
                                 src={doves}
@@ -52,7 +52,7 @@ async function Privacy() {
                                 er logget inn.
                             </Paragraph>
                         </div>
-                        <div className="flex flex-col justify-center  items-center p-8">
+                        <div className="flex flex-col justify-center  items-center p-4">
                             <Image
                                 className={classes.illustration}
                                 src={hedgehog}

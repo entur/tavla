@@ -39,7 +39,7 @@ export default async function EditPage({ params }: TProps) {
     if (!access) return redirect('/')
 
     return (
-        <div className="flex flex-col p-8 gap-14">
+        <div className="flex flex-col p-4 gap-14">
             <div className="flex flex-row justify-between items-center">
                 <Heading1 margin="top">Rediger {board.meta?.title}</Heading1>
                 <div className="flex flex-row gap-4">

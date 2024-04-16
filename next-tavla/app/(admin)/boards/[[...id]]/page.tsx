@@ -61,8 +61,8 @@ async function OrganizationsBoardsPage({ params }: TProps) {
                 organizations={organizations}
                 active={activeOrganization}
             />
-            <div className="flex flex-col mt-8 gap-3 w-full">
-                <div className="flex flex-row items-center gap-1">
+            <div className="flex flex-col mt-8 gap-3">
+                <div className="flex flex-row items-center gap-2">
                     <Search />
                     <FilterButton boards={boards} />
                     <ToggleBoardsColumns />
