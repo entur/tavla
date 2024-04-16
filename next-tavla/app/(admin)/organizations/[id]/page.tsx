@@ -49,9 +49,9 @@ async function EditOrganizationPage({ params }: TProps) {
     )
 
     return (
-        <main className={classes.root}>
+        <>
             <Heading1 margin="top">{organization.name}</Heading1>
-            <LeadParagraph margin="none" className="mb-4">
+            <LeadParagraph margin="none" className="mr-8">
                 Valgene som tas blir satt som standard når det opprettes en
                 tavle i organisasjonen &quot;{organization.name}&quot;. Valgene
                 kan fortsatt justeres i hver enkelt tavle (med unntak av logo).
@@ -81,7 +81,7 @@ async function EditOrganizationPage({ params }: TProps) {
 
                 <UploadLogo organization={organization} />
             </div>
-        </main>
+        </>
     )
 }
 

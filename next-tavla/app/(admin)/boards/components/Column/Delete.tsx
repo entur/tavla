@@ -33,7 +33,7 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
                 size="small"
                 onDismiss={close}
                 closeLabel="Avbryt sletting"
-                className="flexColumn justifyStart alignCenter textCenter"
+                className="flex flex-col justify-start items-center text-center"
             >
                 <SecondarySquareButton
                     aria-label="Avbryt sletting"
@@ -42,9 +42,9 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
                 >
                     <CloseIcon />
                 </SecondarySquareButton>
-                <Image src={sheep} alt="" className="h-50 w-50" />
+                <Image src={sheep} alt="" className="h-1/2 w-1/2" />
                 <Heading2>Slett tavle</Heading2>
-                <Paragraph className="mb-4">
+                <Paragraph className="mr-8">
                     {board?.meta?.title
                         ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"? `
                         : 'Er du sikker på at du vil slette denne tavlen? '}
@@ -52,13 +52,13 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
                     til.
                 </Paragraph>
 
-                <form action={action} onSubmit={close} className="w-100">
+                <form action={action} onSubmit={close} className="w-full">
                     <HiddenInput id="bid" value={board.id} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <PrimaryButton
                         type="submit"
                         aria-label="Slett tavle"
-                        className="w-100"
+                        className="w-full"
                     >
                         Ja, slett!
                     </PrimaryButton>

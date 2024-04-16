@@ -21,7 +21,7 @@ function BoardTable({ boards }: { boards: TBoard[] }) {
 
     return (
         <div
-            className="grid alignCenter"
+            className="grid items-center"
             style={{
                 gridTemplateColumns: `repeat(${columns.length},auto)`,
             }}

@@ -8,6 +8,8 @@ import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 import { CSSProperties } from 'react'
 
 function BoardTile({ tileSpec }: { tileSpec: TTile }) {
+    console.log(tileSpec.type)
+
     switch (tileSpec.type) {
         case 'stop_place':
             return <StopPlaceTile {...tileSpec} />

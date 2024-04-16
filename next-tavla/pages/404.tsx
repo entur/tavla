@@ -6,7 +6,7 @@ function NotFoundPage() {
         <div className={classes.root}>
             <div className={classes.rootContainer}>
                 <Header />
-                <p className="pl-2">Tavlen kunne ikke hentes!</p>
+                <p className="pl-8">Tavlen kunne ikke hentes!</p>
             </div>
         </div>
     )

@@ -44,9 +44,9 @@ function FilterButton({ boards }: { boards: TBoard[] }) {
                 </div>
             </PopoverTrigger>
             <PopoverContent>
-                <div className="p-1">
-                    <div className="flexRow justifyBetween">
-                        <Heading4 className="m-1">
+                <div className="p-8">
+                    <div className="flex flex-row justify-between">
+                        <Heading4 className="m-2 text-base">
                             Filtrer på merkelapper
                         </Heading4>
                         <PopoverCloseButton>

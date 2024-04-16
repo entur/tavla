@@ -14,7 +14,7 @@ async function AdminLayout({ children }: { children: ReactNode }) {
     return (
         <div className="eds-contrast">
             <TopNavigation loggedIn={loggedIn} />
-            {children}
+            <main className="container mx-auto">{children}</main>
         </div>
     )
 }

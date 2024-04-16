@@ -9,7 +9,7 @@ import { DeleteLogo } from './DeleteLogo'
 
 function UploadLogo({ organization }: { organization: TOrganization }) {
     return (
-        <div className="box flexColumn g-1">
+        <div className="box flex flex-col gap-1">
             <Heading2>Logo</Heading2>
             <Paragraph>
                 Velg hvilken logo som skal vises på alle tavlene til
@@ -21,7 +21,7 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
                     alt=""
                     objectFit="contain"
                     fill
-                    className="p-4"
+                    className="p-8"
                 />
             </div>
             {organization.logo && (

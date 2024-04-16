@@ -9,7 +9,7 @@ function MemberAdministration(props: {
     members: TUser[]
 }) {
     return (
-        <div className="box flexColumn g-1">
+        <div className="box flex flex-col gap-1">
             <Heading2>Medlemmer</Heading2>
             <Paragraph>Administrer medlemmer i organisasjonen. </Paragraph>
             <InviteUser oid={props.oid} />

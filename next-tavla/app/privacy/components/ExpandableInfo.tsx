@@ -13,7 +13,7 @@ import { ExternalIcon } from '@entur/icons'
 
 function ExpandableInfo() {
     return (
-        <div className="flexColumn justifyCenter alignCenter g-1 p-2">
+        <div className="flex flex-col justify-center  items-center gap-1 p-8">
             <ExpandablePanel title="Behandling av personopplysninger">
                 <Heading3>Behandlingsansvar</Heading3>
                 <Paragraph>
@@ -50,7 +50,7 @@ function ExpandableInfo() {
                     avgir ved opprettelse av profil. E-postadressen blir
                     behandlet for følgende formål:
                 </Paragraph>
-                <UnorderedList className="pl-4">
+                <UnorderedList className="pl-8">
                     <ListItem>For å holde styr på dine tavler.</ListItem>
                     <ListItem>
                         For å vite hvilke organisasjoner du er en del av.
@@ -60,7 +60,7 @@ function ExpandableInfo() {
             <ExpandablePanel title="Informasjonskapsler">
                 <Heading3>Nødvendige cookies</Heading3>
                 <StrongText>session</StrongText>
-                <UnorderedList className="pl-4">
+                <UnorderedList className="pl-8">
                     <ListItem>
                         Formål: Nødvendig for å vite om du er logget inn.
                     </ListItem>
@@ -73,7 +73,7 @@ function ExpandableInfo() {
                             href="https://firebase.google.com/docs/auth"
                         >
                             Firebase Auth
-                            <ExternalIcon className="ml-1" />
+                            <ExternalIcon className="ml-8" />
                         </EnturLink>{' '}
                         og{' '}
                         <EnturLink
@@ -81,7 +81,7 @@ function ExpandableInfo() {
                             href="https://firebase.google.com/support/privacy"
                         >
                             Firebase Privacy Policy
-                            <ExternalIcon className="ml-1" />
+                            <ExternalIcon className="ml-8" />
                         </EnturLink>
                         .
                     </ListItem>
@@ -103,7 +103,7 @@ function ExpandableInfo() {
                 <Paragraph>
                     Posthog mottar generell web- og appstatistikk. Ingenting av
                     dette kan brukes til å identifisere deg.
-                    <UnorderedList className="pl-4">
+                    <UnorderedList className="pl-8">
                         <ListItem>
                             <StrongText>Unik ID: </StrongText>En tilfeldig
                             generert ID. Denne blir ikke sporet på tvers av

@@ -24,7 +24,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
         <form action={action} ref={formRef}>
             <div className={classes.inviteForm}>
                 <HiddenInput id="oid" value={oid} />
-                <div className="flexColumn w-100">
+                <div className="flex flex-col w-full">
                     <TextField
                         name="email"
                         id="email"

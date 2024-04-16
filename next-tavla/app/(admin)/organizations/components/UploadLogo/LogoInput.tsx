@@ -33,7 +33,7 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
         <form
             action={action}
             onSubmit={clearLogo}
-            className="flexColumn positionRelative"
+            className="flex flex-col relative"
         >
             <HiddenInput id="oid" value={oid} />
             <Label htmlFor="logo" className={classes.upload}>
@@ -55,14 +55,14 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                     aria-required
                 />
             </Label>
-            <div className="mt-2 mb-2">
+            <div className="mt-8 mr-4">
                 <FormError {...getFormFeedbackForField('file', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
             {file && (
-                <div className="flexRow justifyBetween g-2">
+                <div className="flex flex-row justify-between gap-4">
                     <Button
-                        className="w-100 justifyCenter"
+                        className="w-full justify-center "
                         onClick={clearLogo}
                         aria-label="Avbryt opplastning"
                         variant="secondary"
@@ -72,7 +72,7 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                     <SubmitButton
                         variant="primary"
                         aria-label="Last opp logo"
-                        className="w-100 justifyCenter"
+                        className="w-full justify-center "
                     >
                         Last opp logo
                     </SubmitButton>
@@ -86,22 +86,22 @@ function Filename({ fileName }: { fileName?: string }) {
     const { pending } = useFormStatus()
     if (pending)
         return (
-            <div className="flexColumn w-100 h-100 alignCenter">
+            <div className="flex flex-col w-full h-full items-center">
                 <Paragraph>Laster opp logo..</Paragraph>
-                <Loader className="w-100" />
+                <Loader className="w-full" />
             </div>
         )
     if (fileName)
         return (
-            <div className="flexRow alignCenter g-2">
+            <div className="flex flex-row items-center gap-4">
                 <ImageIcon size={24} />
                 {fileName}
             </div>
         )
 
     return (
-        <div className="flexColumn mt-2 mb-2 weight500">
-            <div className="flexRow g-2">
+        <div className="flex flex-col mt-8 mr-4 font-medium">
+            <div className="flex flex-row gap-4">
                 <UploadIcon size={24} alt="" />
                 <Paragraph margin="none">
                     Dra bilde eller klikk for å laste opp logo

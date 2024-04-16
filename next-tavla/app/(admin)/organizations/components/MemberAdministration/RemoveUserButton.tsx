@@ -43,7 +43,7 @@ function RemoveUserButton({
                 size="small"
                 onDismiss={close}
                 closeLabel="Avbryt sletting"
-                className="flexColumn justifyStart alignCenter textCenter"
+                className="flex flex-col justify-start items-center text-center"
             >
                 <SecondarySquareButton
                     aria-label="Avbryt sletting"
@@ -52,16 +52,16 @@ function RemoveUserButton({
                 >
                     <CloseIcon />
                 </SecondarySquareButton>
-                <Image src={sheep} alt="" className="h-50 w-50" />
+                <Image src={sheep} alt="" className="h-1/2 w-1/2" />
                 <Heading2>Slett medlem</Heading2>
-                <Paragraph className="mt-2">
+                <Paragraph className="mt-8">
                     Er du sikker på at du vil slette medlem med e-postadresse{' '}
                     {user?.email} fra organisasjonen?
                 </Paragraph>
                 <form
                     action={formAction}
                     onSubmit={close}
-                    className="flexColumn w-100 g-2"
+                    className="flex flex-col w-full gap-4"
                     aria-live="polite"
                     aria-relevant="all"
                 >

@@ -23,9 +23,9 @@ function LineCheckbox({
             }
             key={line.id}
             value={line.id}
-            className="pl-3"
+            className="pl-6"
         >
-            <div className="flexRow alignCenter g-1">
+            <div className="flex flex-row items-center gap-1">
                 {line.publicCode && <PublicCode publicCode={line.publicCode} />}
                 {line.name}
             </div>

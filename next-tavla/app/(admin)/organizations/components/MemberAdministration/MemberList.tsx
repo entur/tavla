@@ -12,7 +12,7 @@ function MemberList({
     oid?: TOrganizationID
 }) {
     return (
-        <div className="flexColumn g-1 mt-3">
+        <div className="flex flex-col gap-1 mt-6">
             <div className={classes.tableHeader}>
                 <div>E-post</div>
                 <div>Handlinger</div>

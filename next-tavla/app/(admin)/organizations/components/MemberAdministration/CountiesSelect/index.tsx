@@ -21,7 +21,7 @@ function CountiesSelect({
     const { addToast } = useToast()
 
     return (
-        <div className="box flexColumn g-1">
+        <div className="box flex flex-col gap-1">
             <Heading2>Fylker</Heading2>
             <Paragraph>
                 Velg hvilke fylker som skal være standard når det opprettes en
@@ -58,7 +58,7 @@ function CountiesSelect({
                             </Checkbox>
                         ))}
                 </div>
-                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+                <div className="flex flex-row w-full mt-8 mr-8 justify-end">
                     <SecondaryButton type="submit" aria-label="Lagre fylker">
                         Lagre fylker
                     </SecondaryButton>

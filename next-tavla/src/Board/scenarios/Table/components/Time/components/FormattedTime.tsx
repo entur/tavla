@@ -4,7 +4,7 @@ import classes from '../styles.module.css'
 function FormattedTime({ time }: { time: string }) {
     return (
         <>
-            <div className="textRight weight600">
+            <div className="text-right font-semibold">
                 {getRelativeTimeString(time)}
             </div>
             {!isDateStringToday(time) && (

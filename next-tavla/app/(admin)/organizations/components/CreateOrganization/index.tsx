@@ -24,7 +24,7 @@ function CreateOrganization() {
                 <AddIcon />
             </PrimaryButton>
             <Modal
-                className="flexColumn alignCenter"
+                className="flex flex-col items-center"
                 open={isOpen}
                 size="small"
                 closeLabel="Avbryt oppretting"
@@ -36,26 +36,26 @@ function CreateOrganization() {
                 >
                     <CloseIcon />
                 </SecondarySquareButton>
-                <Image src={birds} alt="" className="h-50 w-50" />
+                <Image src={birds} alt="" className="h-1/2 w-1/2" />
                 <Heading2>Opprett organisasjon</Heading2>
-                <Paragraph className="mt-2 textCenter">
+                <Paragraph className="mt-8 text-center">
                     Organisasjonen gir deg mulighet til å samarbeide om tavler
                     med andre. Tavlene vil også organiseres etter organisasjon i
                     tavleoversikten.
                 </Paragraph>
                 <form
-                    className="flexColumn w-100"
+                    className="flex flex-col w-full"
                     action={formAction}
                     aria-live="polite"
                     aria-relevant="all"
                 >
-                    <Label className="weight500">
+                    <Label className="font-medium">
                         Sett navn på organisasjonen
                     </Label>
                     <TextField
                         size="medium"
                         label="Organisasjonsnavn"
-                        className="w-100"
+                        className="w-full"
                         id="name"
                         name="name"
                         required
@@ -65,7 +65,7 @@ function CreateOrganization() {
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <SubmitButton
                         variant="primary"
-                        className="mt-4"
+                        className="mt-8"
                         width="fluid"
                         aria-label="Opprett organisasjon"
                     >

@@ -39,9 +39,9 @@ function ToggleBoardsColumns() {
                 </SecondaryButton>
             </PopoverTrigger>
             <PopoverContent>
-                <div className="p-1">
-                    <div className="flexRow">
-                        <Heading2 className="m-1 text-rem-2">
+                <div className="p-8">
+                    <div className="flex flex-row">
+                        <Heading2 className="m-2 text-base">
                             Velg kolonner
                         </Heading2>
                         <PopoverCloseButton>

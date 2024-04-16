@@ -17,7 +17,7 @@ function TransportIcon({
     const Component = getTransportIcon(mode, transportSubmode)
     return (
         <Component
-            className={className ?? 'w-100 h-100'}
+            className={className ?? 'w-full h-full'}
             fill={color ?? `var(--table-transport-${mode}-color)`}
         />
     )

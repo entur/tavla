@@ -12,7 +12,7 @@ import { useSearchParam } from '../../hooks/useSearchParam'
 
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
-        <ul className="flexRow flexWrap g-1 alignCenter">
+        <ul className="flex flex-row flex-wrap gap-1 items-center">
             {tags.map((tag) => (
                 <li key={tag}>
                     <Badge
@@ -54,7 +54,7 @@ function Tags({
     return (
         <TagsContext.Provider value={allTags ?? []}>
             <Column column="tags">
-                <div className="flexRow w-100 g-1">
+                <div className="flex flex-row w-full gap-1">
                     <TagModal board={board} />
                     <TagList tags={tags.slice(0, displayNumber)}>
                         {hiddenNumber > 0 && (

@@ -13,8 +13,8 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
 
     return (
-        <div className={classes.pageContainer}>
-            <nav className="flexRow justifyBetween alignCenter p-4">
+        <div className={`${classes.pageContainer}`}>
+            <nav className="flex flex-row justify-between items-center p-8">
                 <Link href="/" aria-label="Tilbake til landingssiden">
                     <Image
                         src={
@@ -26,7 +26,7 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                         alt=""
                     />
                 </Link>
-                <div className="flexRow alignCenter g-4">
+                <div className="flex flex-row items-center gap-4">
                     {loggedIn && (
                         <>
                             <CreateBoard />

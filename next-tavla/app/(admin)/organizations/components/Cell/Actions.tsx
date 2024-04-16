@@ -28,7 +28,7 @@ function Actions({
     userId: TUserID
 }) {
     return (
-        <div className="flexRow">
+        <div className="flex flex-row">
             {organization.owners?.includes(userId) && (
                 <>
                     <Edit oid={organization.id} />

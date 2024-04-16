@@ -45,7 +45,7 @@ function DefaultColumns({
     const [state, action] = useFormState(submit, undefined)
 
     return (
-        <div className="box flexColumn g-1">
+        <div className="box flex flex-col gap-1">
             <Heading2>Kolonner</Heading2>
             <Paragraph>
                 Velg hvilke kolonner som skal være standard når det opprettes en
@@ -53,7 +53,7 @@ function DefaultColumns({
             </Paragraph>
 
             <form action={action}>
-                <div className="flexRow flexWrap g-2">
+                <div className="flex flex-row flex-wrap gap-4">
                     {Object.entries(Columns).map(([key, information]) => (
                         <FilterChip
                             key={key}
@@ -67,11 +67,11 @@ function DefaultColumns({
                         </FilterChip>
                     ))}
                 </div>
-                <div className="mt-4" aria-live="polite">
+                <div className="mt-8" aria-live="polite">
                     <FormError {...getFormFeedbackForField('column', state)} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                 </div>
-                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+                <div className="flex flex-row w-full mt-8 mr-8 justify-end">
                     <SubmitButton
                         variant="secondary"
                         aria-label="Lagre kolonner"

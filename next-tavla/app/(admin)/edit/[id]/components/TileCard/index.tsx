@@ -77,15 +77,15 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 className={classes.card}
                 style={{ borderRadius: isOpen ? '0.5em 0.5em 0 0' : '0.5em' }}
             >
-                <div className="flexRow g-2 alignCenter">
-                    <Heading3 className="m-0 pl-1">{tile.name}</Heading3>
-                    <div className="flexRow g-2 h-4">
+                <div className="flex flex-row gap-4 items-center">
+                    <Heading3 className="m-0 pl-8">{tile.name}</Heading3>
+                    <div className="flex flex-row gap-4 h-8">
                         {transportModes.map((tm) => (
                             <TransportIcon transportMode={tm} key={tm} />
                         ))}
                     </div>
                 </div>
-                <div className="flexRow g-2">
+                <div className="flex flex-row gap-4">
                     <SecondarySquareButton
                         onClick={async () => {
                             await deleteTile(bid, tile)
@@ -158,7 +158,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             Her bestemmer du hvilke kolonner som skal vises i
                             tavlen.
                         </SubParagraph>
-                        <div className="flexRow g-2 mb-4">
+                        <div className="flex flex-row gap-4 mr-8">
                             {Object.entries(Columns).map(([key, value]) => {
                                 return (
                                     <FilterChip
@@ -178,10 +178,10 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 )
                             })}
                         </div>
-                        <Heading4 className="mb-1">
+                        <Heading4 className="mr-2">
                             Transportmidler og linjer
                         </Heading4>
-                        <div className="flexRow g-2">
+                        <div className="flex flex-row gap-4">
                             {linesByModeSorted.map(
                                 ({ transportMode, lines }) => (
                                     <div key={transportMode}>
@@ -221,7 +221,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             value={uniqLines.length.toString()}
                         />
 
-                        <div className="flexRow justifyEnd mt-2 mr-2 ">
+                        <div className="flex flex-row justify-end mt-8 mr-8 ">
                             <SubmitButton variant="primary">
                                 Lagre endringer
                             </SubmitButton>
@@ -232,15 +232,15 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             onDismiss={reset}
                             closeLabel="Avbryt endring"
                         >
-                            <div className="flexColumn alignCenter">
+                            <div className="flex flex-col items-center">
                                 <Image alt="" src={Goat} width={250} />
                                 <Heading3 margin="bottom">
                                     Lagre endringer
                                 </Heading3>
-                                <Paragraph margin="none" className="mb-2">
+                                <Paragraph margin="none" className="mr-4">
                                     Du har endringer som ikke er lagret.
                                 </Paragraph>
-                                <div className="flexRow g-2">
+                                <div className="flex flex-row gap-4">
                                     <Button
                                         variant="secondary"
                                         width="fluid"

@@ -3,7 +3,6 @@ import landingImage from 'assets/illustrations/Main_city_2.svg'
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { TopNavigation } from './(admin)/components/TopNavigation'
-import classes from './landing.module.css'
 import Image from 'next/image'
 import {
     Heading1,
@@ -27,24 +26,20 @@ async function Landing() {
 
     return (
         <>
-            <main className={classes.landingPage}>
+            <main className="bg-[var(--colors-brand-white)] text-[var(--colors-misc-black)]">
                 <Welcome />
                 <TopNavigation loggedIn={loggedIn} />
-                <div className="flexColumn justifyCenter alignCenter hidden p-4">
-                    <div className="flexColumn mt-4 p-4 minw-80rem">
+                <div className="flex flex-col justify-center p-8">
+                    <div className="flex flex-col p-8">
                         <Heading1>Lag din egen avgangstavle</Heading1>
-                        <Heading1 className={classes.headerHighlight}>
+                        <Heading1 className="italic text-[var(--colors-brand-coral)] font-normal">
                             for reisende
                         </Heading1>
                     </div>
-                    <div className="flexRow justifyCenter hidden">
-                        <Image
-                            src={landingImage}
-                            className={classes.image}
-                            alt=""
-                        />
-                    </div>
-                    <div className="flexColumn justifyCenter p-4 minw-80rem">
+
+                    <Image src={landingImage} alt="" />
+
+                    <div className="flex flex-col justify-center p-8">
                         <Heading2>Hva er Tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage
@@ -52,11 +47,12 @@ async function Landing() {
                             lage avgangstavler for knutepunkter, holdeplasser
                             eller skoler, arbeidsplasser og idrettshaller.
                         </LeadParagraph>
-                        <div className="mw-flex g-2 w-100">
-                            <div className={`${classes.preview} mw-80rem`}>
+                        <div className="flex flex-col xl:flex-row gap-4">
+                            <div className="xl:w-1/2 h-[60vh] overflow-y-hidden rounded-2xl">
                                 <Preview boards={previewBoards} />
                             </div>
-                            <div className="mw-80rem">
+
+                            <div className="xl:w-1/2">
                                 <Heading3>
                                     Tavla - laget for og med kollektivselskaper
                                 </Heading3>
@@ -84,8 +80,8 @@ async function Landing() {
                         </div>
                     </div>
                 </div>
-                <Footer />
             </main>
+            <Footer />
         </>
     )
 }

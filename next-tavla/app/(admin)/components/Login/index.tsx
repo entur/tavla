@@ -22,7 +22,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
     if (loggedIn)
         return (
             <form action={logout}>
-                <IconButton type="submit" className="g-2 p-2">
+                <IconButton type="submit" className="gap-4 p-4">
                     <LogOutIcon />
                     Logg ut
                 </IconButton>
@@ -35,7 +35,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 as={Link}
                 href="?login"
                 scroll={false}
-                className="g-2 p-2"
+                className="gap-4 p-4"
             >
                 <UserIcon />
                 Logg inn
@@ -45,7 +45,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 size="small"
                 onDismiss={() => router.push(pathname ?? '/')}
             >
-                <div className="flexRow justifyBetween">
+                <div className="flex flex-row justify-between">
                     {hasPage && (
                         <SecondarySquareButton
                             onClick={() => router.back()}

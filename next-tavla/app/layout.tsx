@@ -10,6 +10,7 @@ import 'styles/misc.css'
 import 'styles/placement.css'
 import 'styles/text.css'
 import 'styles/constraints.css'
+import './globals.css'
 
 import { ReactNode } from 'react'
 import { Metadata } from 'next'

@@ -32,7 +32,7 @@ function Table({
         )
 
     return (
-        <div className="flexColumn">
+        <div className="flex flex-col">
             <StopPlaceDeviation situations={situations} />
             <div className={classes.table}>
                 <DeparturesContext.Provider value={departures}>

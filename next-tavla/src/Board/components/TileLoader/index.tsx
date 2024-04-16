@@ -2,8 +2,8 @@ import classes from './styles.module.css'
 
 function TileLoader() {
     return (
-        <div className="w-100 h-100 flexColumn justifyCenter">
-            <div className="w-100 textCenter">
+        <div className="w-full h-full flex flex-col justify-center ">
+            <div className="w-full text-center">
                 Henter avganger...
                 <div className={classes.loader}>
                     <div className={classes.loaderBar}></div>

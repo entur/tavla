@@ -7,7 +7,7 @@ function FontChoiceChip({ font }: { font: TFontSize }) {
 
     return (
         <ChoiceChipGroup
-            className="flexRow"
+            className="flex flex-row"
             name="font"
             value={fontSize}
             onChange={(e) => setFontSize(e.target.value as TFontSize)}

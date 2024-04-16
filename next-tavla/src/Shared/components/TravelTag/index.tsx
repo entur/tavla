@@ -43,7 +43,7 @@ function TravelTag({
                 transportSubmode={transportSubmode}
                 color="var(--main-background-color)"
             />
-            <div className="flexRow alignCenter justifyCenter w-100 h-100">
+            <div className="flex flex-row items-center justify-center  w-full h-full">
                 {publicCode}
             </div>
         </div>

@@ -10,7 +10,7 @@ function WalkingDistance({
     if (!walkingDistance?.visible || !walkingDistance?.distance) return null
 
     return (
-        <div className="flexRow alignCenter nowrap">
+        <div className="flex flex-row items-center whitespace-nowrap">
             <WalkIcon color="white" />
             {formatWalkTime(walkingDistance.distance)}
         </div>
