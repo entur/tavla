@@ -29,17 +29,21 @@ async function Landing() {
             <TopNavigation loggedIn={loggedIn} />
             <main className="container mx-auto ">
                 <Welcome />
-                <div className="flex flex-col justify-center p-4">
-                    <div className="flex flex-col p-4">
+                <div className="flex flex-col justify-center py-4">
+                    <div className="flex flex-col py-4">
                         <Heading1>Lag din egen avgangstavle</Heading1>
                         <Heading1 className="italic text-[var(--colors-brand-coral)] font-normal">
                             for reisende
                         </Heading1>
                     </div>
 
-                    <Image src={landingImage} alt="" />
+                    <Image
+                        src={landingImage}
+                        alt=""
+                        className="py-16 sm:py-32 scale-150"
+                    />
 
-                    <div className="flex flex-col justify-center p-4">
+                    <div className="flex flex-col justify-center py-4">
                         <Heading2>Hva er Tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage
@@ -48,7 +52,10 @@ async function Landing() {
                             eller skoler, arbeidsplasser og idrettshaller.
                         </LeadParagraph>
                         <div className="flex flex-col xl:flex-row gap-4">
-                            <div className="xl:w-1/2 h-[60vh] overflow-y-hidden rounded-2xl">
+                            <div
+                                className="xl:w-1/2 h-[60vh] overflow-y-hidden rounded-2xl"
+                                data-theme="entur"
+                            >
                                 <Preview boards={previewBoards} />
                             </div>
 
@@ -81,6 +88,7 @@ async function Landing() {
                     </div>
                 </div>
             </main>
+
             <Footer />
         </>
     )

@@ -8,7 +8,7 @@ import { ExternalIcon, GithubIcon } from '@entur/icons'
 function Footer() {
     return (
         <footer className="eds-contrast">
-            <div className={classes.footer}>
+            <div className="container mx-auto pt-16 px-8 pb-4">
                 <Image src={TavlaLogo} alt="" />
                 <div className={classes.meta}>
                     <div>
