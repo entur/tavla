@@ -158,7 +158,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             Her bestemmer du hvilke kolonner som skal vises i
                             tavlen.
                         </SubParagraph>
-                        <div className="flex flex-row flex-wrap gap-4 mr-8">
+                        <div className="flex flex-row flex-wrap gap-4 mb-8">
                             {Object.entries(Columns).map(([key, value]) => {
                                 return (
                                     <FilterChip
@@ -221,7 +221,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             value={uniqLines.length.toString()}
                         />
 
-                        <div className="flex flex-row justify-end mt-8 mr-8 ">
+                        <div className="flex flex-row justify-end mt-8">
                             <SubmitButton variant="primary">
                                 Lagre endringer
                             </SubmitButton>

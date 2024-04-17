@@ -44,7 +44,7 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
                 </SecondarySquareButton>
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
                 <Heading2>Slett tavle</Heading2>
-                <Paragraph className="mr-8">
+                <Paragraph className="mb-8">
                     {board?.meta?.title
                         ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"? `
                         : 'Er du sikker på at du vil slette denne tavlen? '}

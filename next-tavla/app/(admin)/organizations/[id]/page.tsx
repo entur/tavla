@@ -51,7 +51,7 @@ async function EditOrganizationPage({ params }: TProps) {
     return (
         <>
             <Heading1 margin="top">{organization.name}</Heading1>
-            <LeadParagraph margin="none" className="mr-8">
+            <LeadParagraph margin="none" className="mb-8">
                 Valgene som tas blir satt som standard når det opprettes en
                 tavle i organisasjonen &quot;{organization.name}&quot;. Valgene
                 kan fortsatt justeres i hver enkelt tavle (med unntak av logo).

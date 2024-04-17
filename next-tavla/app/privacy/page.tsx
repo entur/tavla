@@ -22,7 +22,7 @@ async function Privacy() {
     return (
         <div className={classes.page}>
             <TopNavigation loggedIn={loggedIn} />
-            <div className="flex flex-col  items-center justify-center  mr-8">
+            <div className="flex flex-col  items-center justify-center mb-8">
                 <div className="minw-80rem p-4">
                     <Heading1>Personvern</Heading1>
                 </div>

@@ -71,7 +71,7 @@ function DefaultColumns({
                     <FormError {...getFormFeedbackForField('column', state)} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                 </div>
-                <div className="flex flex-row w-full mt-8 mr-8 justify-end">
+                <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton
                         variant="secondary"
                         aria-label="Lagre kolonner"

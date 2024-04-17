@@ -25,7 +25,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 debounceTimeout={1000}
                 clearable
             />
-            <div className="flex flex-row w-full mt-8 mr-8 justify-end">
+            <div className="flex flex-row w-full mt-8 justify-end">
                 <SubmitButton variant="secondary" className="mt-8">
                     Lagre adresse
                 </SubmitButton>

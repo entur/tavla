@@ -30,7 +30,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     label="Navn på tavlen"
                     maxLength={30}
                 />
-                <div className="flex flex-row w-full mt-8 mr-8 justify-end">
+                <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton variant="secondary" className="mt-8">
                         Lagre tittel
                     </SubmitButton>
@@ -50,7 +50,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
             >
                 <Heading4 className="m-0">Velg tekststørrelse: </Heading4>
                 <FontChoiceChip font={meta.fontSize ?? 'medium'} />
-                <div className="flex flex-row w-full mt-8 mr-8 justify-end">
+                <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton variant="secondary">
                         Lagre tekststørrelse
                     </SubmitButton>

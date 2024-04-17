@@ -27,7 +27,7 @@ function DeleteLogo({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
                     }}
                 >
                     Slett logo
-                    <DeleteIcon className="mr-8" />
+                    <DeleteIcon className="mr-2" />
                 </Button>
             </div>
             <FormError {...getFormFeedbackForField('general', deleteState)} />

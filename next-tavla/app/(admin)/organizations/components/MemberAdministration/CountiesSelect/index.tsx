@@ -58,7 +58,7 @@ function CountiesSelect({
                             </Checkbox>
                         ))}
                 </div>
-                <div className="flex flex-row w-full mt-8 mr-8 justify-end">
+                <div className="flex flex-row w-full mt-8 justify-end">
                     <SecondaryButton type="submit" aria-label="Lagre fylker">
                         Lagre fylker
                     </SecondaryButton>
