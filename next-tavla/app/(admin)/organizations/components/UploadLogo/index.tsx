@@ -8,8 +8,13 @@ import { DeleteLogo } from './DeleteLogo'
 
 function UploadLogo({ organization }: { organization: TOrganization }) {
     return (
+<<<<<<< HEAD
         <div className="box flex flex-col gap-1">
             <Heading2>Logo</Heading2>
+=======
+        <div className="box flexColumn justifyBetween">
+            <Heading3 margin="none">Logo</Heading3>
+>>>>>>> 3ba219ab (chore(edit): margin from design system)
             <Paragraph>
                 Velg hvilken logo som skal vises på alle tavlene til
                 organisasjonen.

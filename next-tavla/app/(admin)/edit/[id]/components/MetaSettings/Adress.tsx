@@ -22,7 +22,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
             className="box flexColumn g-2"
         >
             <div className="flexRow alignCenter g-1">
-                <Heading3 className="m-0">Lokasjon</Heading3>
+                <Heading3 margin="none">Lokasjon</Heading3>
                 <Tooltip
                     content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
                     placement="top"

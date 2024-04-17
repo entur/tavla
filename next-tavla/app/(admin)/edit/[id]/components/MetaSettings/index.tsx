@@ -29,7 +29,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 }}
                 className="box flex flex-col justify-between"
             >
-                <Heading3 className="m-0">Navn på tavlen</Heading3>
+                <Heading3 margin="none">Navn på tavlen</Heading3>
                 <TextField
                     name="name"
                     className="w-full"

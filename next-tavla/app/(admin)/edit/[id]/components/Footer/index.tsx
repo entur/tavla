@@ -15,7 +15,7 @@ function Footer({
     return (
         <form className="box flexColumn justifyBetween g-2" action={action}>
             <div className="flexRow alignCenter g-1">
-                <Heading3 className="m-0">Infomelding</Heading3>
+                <Heading3 margin="none">Infomelding</Heading3>
                 <Tooltip
                     content="Skriv en kort tekst som skal vises nederst i tavlen."
                     placement="top"
