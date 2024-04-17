@@ -6,7 +6,7 @@ import { Column } from './Column'
 import { Delete } from './Delete'
 import { Open } from 'app/(admin)/edit/[id]/components/Buttons/Open'
 import { Copy } from 'app/(admin)/edit/[id]/components/Buttons/Copy'
-import { Tooltip } from 'app/(admin)/components/Tooltip'
+import { Tooltip } from '@entur/tooltip'
 
 function Actions({ board }: { board: TBoard }) {
     return (
