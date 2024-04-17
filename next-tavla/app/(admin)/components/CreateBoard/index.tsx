@@ -153,7 +153,7 @@ function NameAndOrganizationSelector({
                 defaultValue={title}
                 required
                 {...getFormFeedbackForField('name', state)}
-                className="mr-4"
+                className="mb-4"
             />
             <Label>Legg til i en organisasjon</Label>
             <Dropdown
@@ -162,7 +162,7 @@ function NameAndOrganizationSelector({
                 selectedItem={selectedOrganization}
                 onChange={setSelectedOrganization}
                 clearable
-                className="mr-4"
+                className="mb-4"
                 aria-required="true"
                 disabled={personal}
                 {...getFormFeedbackForField('organization', state)}
@@ -178,10 +178,13 @@ function NameAndOrganizationSelector({
                 id="organization"
                 value={selectedOrganization?.value}
             />
-            <div className="flex flex-row justify-end">
-                <PrimaryButton className="mt-8" type="submit">
+            <div className="flex flex-row justify-end mt-8 ">
+                <PrimaryButton
+                    className="flex flex-row items-center justify-center"
+                    type="submit"
+                >
                     Neste
-                    <ForwardIcon />
+                    <ForwardIcon className="!top-0" />
                 </PrimaryButton>
             </div>
         </form>
@@ -249,8 +252,11 @@ function StopSelector({
             />
             <FormError {...getFormFeedbackForField('general', state)} />
             <div className="flex flex-row justify-between">
-                <SecondaryButton onClick={() => router.back()} className="mt-8">
-                    <BackArrowIcon />
+                <SecondaryButton
+                    onClick={() => router.back()}
+                    className="mt-8 flex flex-row items-center justify-center"
+                >
+                    <BackArrowIcon className="!top-0" />
                     Tilbake
                 </SecondaryButton>
                 <PrimaryButton

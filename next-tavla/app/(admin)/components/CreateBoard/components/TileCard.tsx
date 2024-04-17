@@ -33,7 +33,7 @@ function TileCard({
             <div className="flex flex-row">
                 <IconButton onClick={() => onRemove(tile)}>
                     <DeleteIcon />
-                    <span className="ml-8">Fjern</span>
+                    <span className="ml-2">Fjern</span>
                 </IconButton>
             </div>
         </div>
