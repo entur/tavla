@@ -52,7 +52,7 @@ export default async function EditPage({ params }: TProps) {
             <div className={classes.meta}>
                 <MetaSettings bid={params.id} meta={board.meta} />
                 <Footer
-                    footer={board.footer}
+                    footer={board.footer ?? organization?.footer}
                     action={async (data: FormData) => {
                         'use server'
 
