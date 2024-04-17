@@ -8,6 +8,7 @@ const YEAR = 365 * DAY
 const SECOND_S = 1
 const MINUTE_S = 60 * SECOND_S
 const HOUR_S = 60 * MINUTE_S
+const DAY_S = 24 * HOUR_S
 
 const shortFormat = Intl.DateTimeFormat('no-NB', {
     hour: '2-digit',
@@ -58,13 +59,21 @@ function getTimeSince(timeAgo: number, divisor: number) {
         : 'en stund siden'
 }
 
-export function formatWalkTime(duration: number) {
-    if (duration >= HOUR_S) {
-        const hours = Math.floor(duration / HOUR_S)
-        const remainingMinutes = Math.ceil((duration % HOUR_S) / MINUTE_S)
+export function formatWalkTime(duration?: number) {
+    if (!duration) return '-'
+    if (duration >= DAY_S) {
+        return `1+ dag`
+    }
+
+    const totalMinutes = Math.ceil(duration / MINUTE_S)
+    const hours = Math.floor(totalMinutes / 60)
+    const remainingMinutes = totalMinutes % 60
+
+    if (hours > 0 && remainingMinutes > 0) {
         return `${hours} t ${remainingMinutes} min`
+    } else if (hours > 0) {
+        return `${hours} t`
     } else {
-        const minutes = Math.ceil(duration / MINUTE_S)
-        return `${minutes} min `
+        return `${remainingMinutes} min`
     }
 }

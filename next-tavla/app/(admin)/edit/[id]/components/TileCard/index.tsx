@@ -147,7 +147,6 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     ),
                                 )
                             }
-
                             saveTile(bid, newTile)
                         }}
                         onSubmit={reset}
