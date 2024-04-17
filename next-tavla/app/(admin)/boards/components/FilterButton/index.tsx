@@ -33,9 +33,12 @@ function FilterButton({ boards }: { boards: TBoard[] }) {
         <Popover>
             <PopoverTrigger>
                 <div className={classes.buttonWrapper}>
-                    <SecondaryButton aria-label="Filtrer på merkelapper">
+                    <SecondaryButton
+                        aria-label="Filtrer på merkelapper"
+                        className="flex flex-row items-center"
+                    >
                         Filtrer på merkelapper
-                        <FilterIcon aria-hidden="true" />
+                        <FilterIcon aria-hidden="true" className="!top-0" />
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
                         {filterTags.length}
