@@ -30,7 +30,7 @@ async function Landing() {
             <main>
                 <Welcome />
                 <div className="flex flex-col justify-center pb-10 pt-6 lg:pt-16">
-                    <div className="flex flex-col py-4 container">
+                    <div className="flex flex-col py-4 container mx-auto">
                         <Heading1>Lag din egen avgangstavle</Heading1>
                         <Heading1 className="italic text-[var(--colors-brand-coral)] font-normal">
                             for reisende
@@ -44,7 +44,7 @@ async function Landing() {
                         />
                     </div>
 
-                    <div className="flex flex-col justify-center py-4 container">
+                    <div className="flex flex-col justify-center py-4 container mx-auto">
                         <Heading2>Hva er Tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage

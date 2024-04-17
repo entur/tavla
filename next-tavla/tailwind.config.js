@@ -7,9 +7,7 @@ module.exports = {
     ],
     theme: {
         container: {
-            padding: '3rem',
-            marginLeft: 'auto',
-            marginRight: 'auto',
+            padding: '2rem',
         },
         extend: {},
     },
