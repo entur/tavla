@@ -656,7 +656,7 @@ export const WalkDistanceQuery = new TypedDocumentString(`
   trip(
     from: {coordinates: $location}
     to: {place: $placeId}
-    modes: {directMode: foot}
+    modes: {directMode: foot, transportModes: []}
   ) {
     tripPatterns {
       duration

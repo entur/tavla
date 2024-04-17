@@ -137,7 +137,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 },
                             } as TTile
 
-                            if (distance === 'on' && !tile.walkingDistance) {
+                            if (distance === 'on' && tile.walkingDistance) {
                                 const board = await getBoard(bid)
                                 return saveTile(
                                     bid,
@@ -147,7 +147,6 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     ),
                                 )
                             }
-
                             saveTile(bid, newTile)
                         }}
                         onSubmit={reset}
