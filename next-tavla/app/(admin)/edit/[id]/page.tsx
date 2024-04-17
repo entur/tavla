@@ -40,9 +40,9 @@ export default async function EditPage({ params }: TProps) {
 
     return (
         <div className="flex flex-col p-4 gap-14">
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between">
                 <Heading1 margin="top">Rediger {board.meta?.title}</Heading1>
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                     <Open bid={board.id} type="button" />
                     <Copy bid={board.id} type="button" />
                     <Delete board={board} type="button" />

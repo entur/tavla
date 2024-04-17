@@ -14,7 +14,7 @@ import { useToast } from '@entur/alert'
 function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
     const { addToast } = useToast()
     return (
-        <div className={classes.meta}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <form
                 action={async (data: FormData) => {
                     const name = data.get('name') as string
