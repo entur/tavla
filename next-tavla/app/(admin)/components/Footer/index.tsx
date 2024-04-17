@@ -23,11 +23,14 @@ function Footer() {
                             <br />
                             917 422 575
                         </Paragraph>
-                        <Paragraph className="mr-4 items-center">
-                            <EnturLink href="https://www.entur.org/kontakt-oss/">
+                        <Paragraph className="mr-4 items-center flex flex-row gap-1">
+                            <EnturLink
+                                href="https://www.entur.org/kontakt-oss/"
+                                className="flex flex-row"
+                            >
                                 Kontakt oss
-                                <ExternalIcon className="ml-8" />
                             </EnturLink>
+                            <ExternalIcon className="!top-0" />
                         </Paragraph>
                     </div>
                     <div className="flex flex-col gap-4">
