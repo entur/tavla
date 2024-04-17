@@ -14,7 +14,7 @@ async function AdminLayout({ children }: { children: ReactNode }) {
     return (
         <>
             <TopNavigation loggedIn={loggedIn} />
-            <main className="container mx-auto pb-4">{children}</main>
+            <main className="container mx-auto py-4">{children}</main>
         </>
     )
 }
