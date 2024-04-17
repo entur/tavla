@@ -27,7 +27,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                     content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
                     placement="top"
                 >
-                    <ValidationInfoIcon />
+                    <ValidationInfoIcon inline />
                 </Tooltip>
             </div>
             <SearchableDropdown

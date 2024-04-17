@@ -20,7 +20,7 @@ function Footer({
                     content="Skriv en kort tekst som skal vises nederst i tavlen."
                     placement="top"
                 >
-                    <ValidationInfoIcon />
+                    <ValidationInfoIcon inline />
                 </Tooltip>
             </div>
             <TextField
