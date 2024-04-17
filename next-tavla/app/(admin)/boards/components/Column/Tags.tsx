@@ -20,6 +20,7 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
                         style={{
                             color: 'white',
                             backgroundColor: colorsFromHash(tag),
+                            borderColor: colorsFromHash(tag),
                         }}
                         type="notification"
                     >

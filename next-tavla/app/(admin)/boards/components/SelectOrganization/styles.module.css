@@ -3,4 +3,5 @@
     flex-direction: column;
     width: 20%;
     gap: 3.5em;
+    background-color: var(--main-background-color);
 }

@@ -56,16 +56,18 @@ async function OrganizationsBoardsPage({ params }: TProps) {
         : await getBoardsForUser()
 
     return (
-        <div className="flex flex-row gap-2 justify-center">
+        <div className="flex flex-row gap-3 justify-center">
             <SelectOrganization
                 organizations={organizations}
                 active={activeOrganization}
             />
-            <div className="flex flex-col mt-8 gap-3">
-                <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-col mt-8 gap-3 grow">
+                <div className="flex flex-row items-center gap-3">
                     <Search />
-                    <FilterButton boards={boards} />
-                    <ToggleBoardsColumns />
+                    <div className="flex flex-row gap-3">
+                        <FilterButton boards={boards} />
+                        <ToggleBoardsColumns />
+                    </div>
                 </div>
                 <BoardTable boards={boards} />
             </div>

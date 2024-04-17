@@ -12,10 +12,10 @@ async function AdminLayout({ children }: { children: ReactNode }) {
     const session = cookies().get('session')?.value
     const loggedIn = (await verifySession(session)) !== null
     return (
-        <div className="eds-contrast">
+        <>
             <TopNavigation loggedIn={loggedIn} />
-            <main className="container">{children}</main>
-        </div>
+            <main className="container mx-auto">{children}</main>
+        </>
     )
 }
 
