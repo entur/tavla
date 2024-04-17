@@ -37,7 +37,7 @@ function BoardPage({
     organization,
 }: {
     board: TBoard
-    organization: TOrganization | undefined
+    organization: TOrganization | null
 }) {
     useUpdateLastActive(board.id)
 
