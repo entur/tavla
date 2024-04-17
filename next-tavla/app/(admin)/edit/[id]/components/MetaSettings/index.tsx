@@ -1,5 +1,4 @@
 'use client'
-import classes from './styles.module.css'
 import { TextField } from '@entur/form'
 import { Heading4 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
