@@ -21,7 +21,7 @@ function CreateOrganization() {
         <>
             <PrimaryButton
                 onClick={open}
-                className="flex flex-row items-center"
+                className="flex flex-row items-center justify-center"
             >
                 Opprett organisasjon
                 <AddIcon className="!top-0" />
