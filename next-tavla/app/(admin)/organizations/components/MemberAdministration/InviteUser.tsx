@@ -22,7 +22,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
     }
     return (
         <form action={action} ref={formRef}>
-            <div className={classes.inviteForm}>
+            <div className="flex flex-col sm:flex-row gap-1">
                 <HiddenInput id="oid" value={oid} />
                 <div className="flex flex-col w-full">
                     <TextField
@@ -37,10 +37,10 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                     aria-label="Legg til medlem"
                     variant="secondary"
                     width="fluid"
-                    className={classes.addMemberButton}
+                    className={`${classes.addMemberButton} flex flex-row items-center justify-center`}
                 >
                     Legg til medlem
-                    <AddIcon />
+                    <AddIcon className="!top-0" />
                 </SubmitButton>
             </div>
             <FormError {...getFormFeedbackForField('general', state)} />

@@ -55,7 +55,7 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                     aria-required
                 />
             </Label>
-            <div className="mt-8 mr-4">
+            <div className="my-4">
                 <FormError {...getFormFeedbackForField('file', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
@@ -100,7 +100,7 @@ function Filename({ fileName }: { fileName?: string }) {
         )
 
     return (
-        <div className="flex flex-col mt-8 mr-4 font-medium">
+        <div className="flex flex-col my-4 font-medium">
             <div className="flex flex-row gap-4">
                 <UploadIcon size={24} alt="" />
                 <Paragraph margin="none">

@@ -5,7 +5,6 @@ import { TCountyID, TOrganizationID } from 'types/settings'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { Checkbox } from '@entur/form'
 import { setCounties } from './actions'
-import classes from './styles.module.css'
 import { Heading2, Paragraph } from '@entur/typography'
 import { useToast } from '@entur/alert'
 
@@ -36,7 +35,7 @@ function CountiesSelect({
                     addToast('Fylker lagret!')
                 }}
             >
-                <div className={classes.countiesSelectContainer}>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-[0_0.5em]">
                     {counties()
                         .sort(
                             (

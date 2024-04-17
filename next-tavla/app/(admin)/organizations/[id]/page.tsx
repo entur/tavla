@@ -64,7 +64,6 @@ async function EditOrganizationPage({ params }: TProps) {
                     uid={user.uid}
                     oid={organization.id}
                 />
-
                 <CountiesSelect
                     oid={organization.id}
                     countiesList={organization?.defaults?.counties}
