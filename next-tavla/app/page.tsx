@@ -27,23 +27,24 @@ async function Landing() {
     return (
         <>
             <TopNavigation loggedIn={loggedIn} />
-            <main className="container mx-auto ">
+            <main>
                 <Welcome />
-                <div className="flex flex-col justify-center py-4">
-                    <div className="flex flex-col py-4">
+                <div className="flex flex-col justify-center pb-10 pt-6 lg:pt-16">
+                    <div className="flex flex-col py-4 container">
                         <Heading1>Lag din egen avgangstavle</Heading1>
                         <Heading1 className="italic text-[var(--colors-brand-coral)] font-normal">
                             for reisende
                         </Heading1>
                     </div>
+                    <div className="flex flex-row justify-center overflow-hidden py-16 md:py-32">
+                        <Image
+                            src={landingImage}
+                            alt=""
+                            className="scale-150"
+                        />
+                    </div>
 
-                    <Image
-                        src={landingImage}
-                        alt=""
-                        className="py-16 sm:py-32 scale-150"
-                    />
-
-                    <div className="flex flex-col justify-center py-4">
+                    <div className="flex flex-col justify-center py-4 container">
                         <Heading2>Hva er Tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage

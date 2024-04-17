@@ -101,6 +101,7 @@
         --data-spring-color: 123, 192, 11;
         --data-lilac-color: 234, 139, 234;
     }
+
     [data-theme='entur'] {
         --main-background-color: var(--colors-brand-blue);
         --secondary-background-color: var(--colors-blues-blue10);
