@@ -22,8 +22,8 @@ async function OrganizationsPage() {
     return (
         <>
             <Heading1>Organisasjoner</Heading1>
-            <div className="flex flex-col md:flex-row justify-between mb-6 md:mb-0">
-                <Paragraph className="w-3/4">
+            <div className="flex flex-col mx-auto md:flex-row justify-between mb-6 md:mb-0 md:gap-4">
+                <Paragraph className=" w-full md:w-3/4">
                     Dette er en oversikt over hvilke organisasjoner du er en del
                     av. For hver organisasjon kan det settes innstillinger som
                     vil gjelde for alle tilhørende tavler. Det er også mulig å
