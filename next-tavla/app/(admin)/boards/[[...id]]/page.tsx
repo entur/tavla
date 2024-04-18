@@ -61,7 +61,7 @@ async function OrganizationsBoardsPage({ params }: TProps) {
                 organizations={organizations}
                 active={activeOrganization}
             />
-            <div className="flex flex-col mt-4 md:mt-8 gap-3 grow overflow-auto">
+            <div className="flex flex-col mt-4 md:mt-8 gap-3 grow">
                 <div className="flex flex-col sm:flex-row md:items-center gap-3">
                     <Search />
                     <div className="flex flex-col md:flex-row gap-3">
@@ -69,7 +69,9 @@ async function OrganizationsBoardsPage({ params }: TProps) {
                         <ToggleBoardsColumns />
                     </div>
                 </div>
-                <BoardTable boards={boards} />
+                <div className="overflow-x-auto">
+                    <BoardTable boards={boards} />
+                </div>
             </div>
         </div>
     )
