@@ -161,6 +161,14 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 Vis gåavstand fra lokasjonen til Tavla til
                                 stoppestedet
                             </Label>
+                            {tile.walkingDistance?.visible ?? (
+                                <Label
+                                    style={{ color: '#FF5959' }}
+                                    margin="top"
+                                >
+                                    Husk å legg til en lokasjon øverst på siden
+                                </Label>
+                            )}
                             <Switch
                                 name="showDistance"
                                 defaultChecked={
@@ -238,7 +246,6 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 ),
                             )}
                         </div>
-
                         <HiddenInput
                             id="count"
                             value={uniqLines.length.toString()}
