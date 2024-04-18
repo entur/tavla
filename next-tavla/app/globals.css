@@ -18,6 +18,7 @@
 
         --table-border-color: var(--colors-greys-grey60);
         --table-situation-color: var(--colors-misc-black);
+        --table-estimated-time-color: var(--colors-brand-coral);
 
         --table-transport-metro-color: var(--colors-transport-default-metro);
         --table-transport-bus-color: var(--colors-transport-default-bus);
