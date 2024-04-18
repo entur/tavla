@@ -9,6 +9,7 @@ import 'styles/spacing.css'
 import 'styles/misc.css'
 import 'styles/placement.css'
 import 'styles/text.css'
+import '../app/globals.css'
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
 
