@@ -10,7 +10,7 @@ function TableHeader({
     walkingDistance?: TWalkingDistance
 }) {
     return (
-        <div className="flex flex-row justify-between items-center h-8 mr-2">
+        <div className="flex flex-row justify-between items-center mb-2">
             <h1 className={classes.heading}>{heading}</h1>
             <WalkingDistance walkingDistance={walkingDistance} />
         </div>
