@@ -26,7 +26,7 @@ async function Privacy() {
                 <div className="flex flex-col justify-center mb-8">
                     <Heading1>Personvern</Heading1>
 
-                    <div className="grid grid-cols-3 text-center items-start gap-4 pt-4">
+                    <div className="flex flex-col sm:grid sm:grid-cols-3 text-center items-center gap-4 pt-4">
                         <div className="flex flex-col justify-center items-center">
                             <Image
                                 className={classes.illustration}
