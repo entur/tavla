@@ -65,7 +65,6 @@ export default async function EditPage({ params }: TProps) {
                         await addTile(params.id, tile)
                         revalidatePath(`/edit/${params.id}`)
                     }}
-                    direction="Row"
                 />
                 {board.tiles.map((tile) => (
                     <TileCard key={tile.uuid} bid={params.id} tile={tile} />

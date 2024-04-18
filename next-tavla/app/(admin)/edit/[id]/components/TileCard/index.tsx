@@ -78,7 +78,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 style={{ borderRadius: isOpen ? '0.5em 0.5em 0 0' : '0.5em' }}
             >
                 <div className="flex flex-row gap-4 items-center">
-                    <Heading3 className="m-0 pl-8">{tile.name}</Heading3>
+                    <Heading3 className="m-0 pl-4">{tile.name}</Heading3>
                     <div className="flex flex-row gap-4 h-8">
                         {transportModes.map((tm) => (
                             <TransportIcon transportMode={tm} key={tm} />

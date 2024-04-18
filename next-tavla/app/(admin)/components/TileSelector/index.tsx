@@ -17,12 +17,10 @@ import { Label } from '@entur/typography'
 
 function TileSelector({
     action,
-    direction,
     oid,
     showLabel,
 }: {
     action: (data: FormData) => void
-    direction: 'Row' | 'Column'
     oid?: TOrganizationID
     showLabel?: boolean
 }) {
@@ -39,7 +37,7 @@ function TileSelector({
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <form
-            className={`flex${direction} gap-4 mr-6 w-full`}
+            className="flex flex-col lg:flex-row gap-4 mr-6 w-full"
             action={action}
             onSubmit={(event) => {
                 if (!selectedStopPlace || !selectedQuay) {
@@ -102,11 +100,7 @@ function TileSelector({
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
 
-            <Button
-                variant="primary"
-                type="submit"
-                className={direction === 'Column' ? 'w-full' : undefined}
-            >
+            <Button variant="primary" type="submit">
                 Legg til
             </Button>
         </form>

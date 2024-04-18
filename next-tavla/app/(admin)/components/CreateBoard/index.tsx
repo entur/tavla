@@ -234,7 +234,6 @@ function StopSelector({
                                 : [tile],
                     } as TBoard)
                 }}
-                direction="Column"
                 oid={oid}
                 showLabel
             />
