@@ -34,7 +34,7 @@ function Reset() {
     }
     const [state, action] = useFormState(submit, undefined)
     return (
-        <div className="text-center">
+        <div className="flex flex-col text-center items-center">
             <Image
                 src={musk}
                 aria-hidden="true"
@@ -46,7 +46,7 @@ function Reset() {
                 Skriv inn e-posten du brukte for å opprette brukeren, så sender
                 vi deg en lenke for å tilbakestille passordet ditt.
             </Paragraph>
-            <form className="flex flex-col gap-4" action={action}>
+            <form className="flex flex-col gap-4 w-full" action={action}>
                 <TextField
                     name="email"
                     label="E-post"

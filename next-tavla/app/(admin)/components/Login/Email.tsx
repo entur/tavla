@@ -59,7 +59,7 @@ function Email() {
     const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
 
     return (
-        <div className="text-center">
+        <div className="flex flex-col text-center items-center">
             <Image
                 src={musk}
                 aria-hidden="true"
@@ -67,7 +67,7 @@ function Email() {
                 className="h-1/2 w-1/2"
             />
             <Heading3>Logg inn med e-post</Heading3>
-            <form className="flex flex-col  gap-4" action={action}>
+            <form className="flex flex-col gap-4 w-full" action={action}>
                 <TextField
                     name="email"
                     label="E-post"

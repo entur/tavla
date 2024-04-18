@@ -10,7 +10,7 @@ import { TLoginPage } from './types'
 function Start() {
     const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
     return (
-        <div className="text-center">
+        <div className="flex flex-col text-center items-center">
             <Image
                 src={musk}
                 aria-hidden="true"
@@ -21,7 +21,7 @@ function Start() {
             <Paragraph>
                 Logg inn for å få tilgang til å opprette og administrere tavler.
             </Paragraph>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 w-full">
                 <PrimaryButton as={Link} href={getPathWithParams('email')}>
                     Logg inn med e-post
                 </PrimaryButton>
