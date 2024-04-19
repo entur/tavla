@@ -10,12 +10,13 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in
-    {
-
+      {
       devShells.${system}.default =
         pkgs.mkShell
           {
             buildInputs = with pkgs; [
+              (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+
               rustc
               cargo
               rust-analyzer
