@@ -1,6 +1,3 @@
-import 'styles/themes/default.css'
-import 'styles/themes/dark.css'
-import 'styles/themes/light.css'
 import 'styles/imports.css'
 import 'styles/global.css'
 import 'styles/reset.css'
