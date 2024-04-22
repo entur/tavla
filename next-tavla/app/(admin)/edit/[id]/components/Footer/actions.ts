@@ -7,7 +7,7 @@ import {
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TBoardID } from 'types/settings'
+import { TBoardID, TFooter } from 'types/settings'
 
 initializeAdminApp()
 
@@ -19,10 +19,33 @@ export async function saveFooter(bid: TBoardID, footer?: string) {
         .collection('boards')
         .doc(bid)
         .update({
-            footer: !isEmptyOrSpaces(footer)
+            'footer.footer': !isEmptyOrSpaces(footer)
                 ? footer
                 : firestore.FieldValue.delete(),
             'meta.dateModified': Date.now(),
         })
     revalidatePath(`/edit/${bid}`)
+}
+
+export async function setOrganizationBoardFooter(
+    bid: TBoardID,
+    footer?: TFooter,
+) {
+    const access = hasBoardEditorAccess(bid)
+    if (!access) return redirect('/')
+
+    await firestore()
+        .collection('boards')
+        .doc(bid)
+        .update({
+            footer: {
+                footer:
+                    !footer?.footer || !isEmptyOrSpaces(footer?.footer)
+                        ? footer?.footer
+                        : firestore.FieldValue.delete(),
+                override: footer?.override,
+            },
+            'meta.dateModified': Date.now(),
+        })
+    revalidatePath(`edit/${bid}`)
 }

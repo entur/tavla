@@ -15,7 +15,6 @@ import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
-import { saveFooter } from './components/Footer/actions'
 
 type TProps = {
     params: { id: TBoardID }
@@ -52,13 +51,9 @@ export default async function EditPage({ params }: TProps) {
             <div className={classes.meta}>
                 <MetaSettings bid={params.id} meta={board.meta} />
                 <Footer
-                    footer={board.footer ?? organization?.footer}
-                    action={async (data: FormData) => {
-                        'use server'
-
-                        const info = data.get('footer') as string
-                        await saveFooter(params.id, info)
-                    }}
+                    bid={params.id}
+                    footer={board.footer}
+                    organizationBoard={organization !== undefined}
                 />
             </div>
 

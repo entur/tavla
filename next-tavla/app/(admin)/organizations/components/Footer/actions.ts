@@ -2,6 +2,7 @@
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { userCanEditOrganization } from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
+import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TOrganizationID } from 'types/settings'
 
@@ -17,4 +18,5 @@ export async function setFooter(oid: TOrganizationID, footer?: string) {
                 ? footer
                 : firestore.FieldValue.delete(),
         })
+    revalidatePath(`organizations/${oid}`)
 }

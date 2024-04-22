@@ -10,7 +10,7 @@ export type TBoard = {
     meta: TMeta
     tiles: TTile[]
     theme?: TTheme
-    footer?: string
+    footer?: TFooter
 }
 
 export type TUser = {
@@ -41,6 +41,11 @@ export type TInvite = {
     uid: TUserID
     type: 'board' | 'organization'
     access: 'owner' | 'editor'
+}
+
+export type TFooter = {
+    override?: boolean
+    footer?: string
 }
 
 export type TLogo = string

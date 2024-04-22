@@ -51,7 +51,11 @@ function BoardPage({
                 <Board board={board} />
                 <Footer
                     logo={organization?.logo !== undefined}
-                    footer={board.footer ?? organization?.footer}
+                    footer={
+                        !board.footer?.override
+                            ? board.footer?.footer
+                            : organization?.footer
+                    }
                     style={{
                         fontSize:
                             100 *
