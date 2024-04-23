@@ -1,12 +1,6 @@
 import 'styles/imports.css'
-import 'styles/global.css'
-import 'styles/reset.css'
 import 'styles/fonts.css'
-import 'styles/spacing.css'
-import 'styles/misc.css'
-import 'styles/placement.css'
-import 'styles/text.css'
-import 'styles/constraints.css'
+import 'styles/reset.css'
 import './globals.css'
 
 import { ReactNode } from 'react'
