@@ -40,11 +40,11 @@ function Welcome() {
             closeLabel="Lukk dialog med informasjon om ny versjon av Tavla"
         >
             <div className="flex flex-col items-center">
-                <div className="flex flex-row items-center justify-between gap-4 mb-8 ">
-                    <div className="flex flex-col items-center justify-center ">
+                <div className="flex flex-row items-center justify-between gap-4 mb-8">
+                    <div className="flex flex-col items-center justify-center w-1/2">
                         <Image src={portrait_traveller} alt="" />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-1/2">
                         <Heading2 as="h1">
                             Velkommen til ny versjon av Tavla!
                         </Heading2>
