@@ -9,7 +9,11 @@ module.exports = {
         container: {
             padding: '2rem',
         },
-        extend: {},
+        extend: {
+            colors: {
+                primary: 'var(--main-background-color)'
+            }
+        },
     },
     plugins: [],
 }
