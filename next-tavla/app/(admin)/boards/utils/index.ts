@@ -12,7 +12,7 @@ export function colorsFromHash(
     saturation?: number,
     lightness?: number,
 ) {
-    return `hsl(${hash(name) % 360}, ${saturation ?? 80}%, ${lightness ?? 40}%)`
+    return `hsl(${hash(name) % 360},${saturation ?? 80}%,${lightness ?? 40}%)`
 }
 
 export function sortArrayByOverlap<T>(toBeSorted: T[], overlapArray: T[]): T[] {
