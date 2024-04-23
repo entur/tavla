@@ -19,10 +19,12 @@ function TileSelector({
     action,
     oid,
     showLabel,
+    col = true,
 }: {
     action: (data: FormData) => void
     oid?: TOrganizationID
     showLabel?: boolean
+    col?: boolean
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch(oid)
@@ -34,10 +36,12 @@ function TileSelector({
         selectedStopPlace?.value ?? '',
     )
 
+    const classname = col ? '' : 'lg:flex-row'
+
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <form
-            className="flex flex-col lg:flex-row gap-4 mr-6 w-full"
+            className={`flex flex-col ${classname} gap-4 mr-6 w-full`}
             action={action}
             onSubmit={(event) => {
                 if (!selectedStopPlace || !selectedQuay) {

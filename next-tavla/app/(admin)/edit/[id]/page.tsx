@@ -54,6 +54,7 @@ export default async function EditPage({ params }: TProps) {
             <div className="flex flex-col gap-4">
                 <Heading2>Stoppesteder i tavlen</Heading2>
                 <TileSelector
+                    col={false}
                     action={async (data: FormData) => {
                         'use server'
 
