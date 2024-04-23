@@ -179,10 +179,7 @@ function NameAndOrganizationSelector({
                 value={selectedOrganization?.value}
             />
             <div className="flex flex-row justify-end mt-8 ">
-                <PrimaryButton
-                    className="flex flex-row items-center justify-center"
-                    type="submit"
-                >
+                <PrimaryButton className="flex flex-row items-center justify-center">
                     Neste
                     <ForwardIcon className="!top-0" />
                 </PrimaryButton>

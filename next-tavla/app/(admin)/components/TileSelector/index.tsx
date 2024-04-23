@@ -4,7 +4,6 @@ import { SearchIcon } from '@entur/icons'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
-import { Button } from '@entur/button'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TOrganizationID } from 'types/settings'
 import {
@@ -14,6 +13,7 @@ import {
 } from 'app/(admin)/utils'
 import { useState } from 'react'
 import { Label } from '@entur/typography'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function TileSelector({
     action,
@@ -104,9 +104,7 @@ function TileSelector({
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
 
-            <Button variant="primary" type="submit">
-                Legg til
-            </Button>
+            <SubmitButton variant="primary">Legg til</SubmitButton>
         </form>
     )
 }

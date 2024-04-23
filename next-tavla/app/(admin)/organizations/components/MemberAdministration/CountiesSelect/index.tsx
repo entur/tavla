@@ -1,12 +1,12 @@
 'use client'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { SecondaryButton } from '@entur/button'
 import { TCountyID, TOrganizationID } from 'types/settings'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { Checkbox } from '@entur/form'
 import { setCounties } from './actions'
 import { Heading2, Paragraph } from '@entur/typography'
 import { useToast } from '@entur/alert'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function CountiesSelect({
     oid,
@@ -58,9 +58,9 @@ function CountiesSelect({
                         ))}
                 </div>
                 <div className="flex flex-row w-full mt-8 justify-end">
-                    <SecondaryButton type="submit" aria-label="Lagre fylker">
+                    <SubmitButton variant="secondary" aria-label="Lagre fylker">
                         Lagre fylker
-                    </SecondaryButton>
+                    </SubmitButton>
                 </div>
             </form>
         </div>
