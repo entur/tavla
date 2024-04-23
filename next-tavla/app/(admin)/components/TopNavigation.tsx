@@ -1,7 +1,6 @@
 'use client'
 import { TopNavigationItem } from '@entur/menu'
 import { Login } from './Login'
-import classes from '../admin.module.css'
 import Link from 'next/link'
 import Image from 'next/image'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
@@ -12,8 +11,8 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
 
     return (
-        <div className={`${classes.pageContainer}`}>
-            <nav className="flex flex-row justify-between items-center p-8">
+        <div className="container mx-auto">
+            <nav className="flex flex-row justify-between items-center py-8">
                 <Link href="/" aria-label="Tilbake til landingssiden">
                     <Image src={TavlaLogoBlue} height={32} alt="" />
                 </Link>
