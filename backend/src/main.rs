@@ -1,4 +1,4 @@
-use std::{collections::HashMap, thread::sleep, time::Duration};
+use std::collections::HashMap;
 
 use axum::{
     extract::{Path, State},
@@ -6,6 +6,10 @@ use axum::{
     routing::get,
     Router,
 };
+use redis::{
+    AsyncCommands, Commands, ConnectionAddr, ConnectionInfo, RedisConnectionInfo, RedisError,
+};
+
 use tokio::{
     net::TcpListener,
     sync::{
@@ -34,12 +38,15 @@ struct AppState {
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
     let port = std::env::var("PORT").unwrap_or("3001".to_string());
+    let redis_pw = std::env::var("REDIS_PASSWORD").expect("Expected to find redis pw");
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
         .await
         .unwrap();
 
     let (sender, receiver) = tokio::sync::mpsc::channel::<Refresh>(32);
+
+    setup_redis(redis_pw).await;
 
     tokio::spawn(async move {
         refresh_manager(receiver).await;
@@ -93,4 +100,50 @@ async fn subscribe(Path(bid): Path<String>, State(state): State<AppState>) -> St
 async fn trigger(Path(bid): Path<String>, State(state): State<AppState>) -> StatusCode {
     let _ = state.sender.send(Refresh::Trigger { bid }).await;
     StatusCode::OK
+}
+
+async fn setup_redis(redis_pw: String) {
+    let conn_info = RedisConnectionInfo {
+        db: 0,
+        username: None,
+        password: Some(redis_pw),
+    };
+    // TODO: replace host with redis master dns
+    let master = redis::Client::open(ConnectionInfo {
+        addr: ConnectionAddr::Tcp("127.0.0.1".into(), 6379),
+        redis: conn_info.clone(),
+    })
+    .expect("Expected valid master connection");
+
+    // let mut master_connection = master
+    //     .get_connection()
+    //     .expect("Expected valid master client connection");
+
+    let mut master_multiplexer = master
+        .get_multiplexed_tokio_connection()
+        .await
+        .expect("Expected multiplexed tokio connection");
+
+    let _: String = master_multiplexer
+        .set("test", "super nice value async multiplexed")
+        .await
+        .expect("expected set command to succeed");
+
+    let slave = redis::Client::open(ConnectionInfo {
+        addr: ConnectionAddr::Tcp("127.0.0.1".into(), 6380),
+        redis: conn_info,
+    })
+    .expect("Expected valid slave connection");
+
+    let mut slave_connection = slave
+        .get_connection()
+        .expect("Expected valid slave client connection");
+
+    let _: Result<String, RedisError> = slave_connection.set("test", "super bad  value");
+    let slave_cmd: Result<String, RedisError> = slave_connection.get("test");
+
+    match slave_cmd {
+        Ok(value) => println!("{} from slave", value),
+        Err(err) => println!("{}", err),
+    }
 }
