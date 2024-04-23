@@ -237,7 +237,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 <Heading3 margin="bottom">
                                     Lagre endringer
                                 </Heading3>
-                                <Paragraph margin="none" className="mr-4">
+                                <Paragraph>
                                     Du har endringer som ikke er lagret.
                                 </Paragraph>
                                 <div className="flex flex-row gap-4">
