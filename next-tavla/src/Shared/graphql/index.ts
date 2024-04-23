@@ -83,6 +83,7 @@ export type TGetQuayQueryVariables = Types.Exact<{
         Array<Types.Scalars['ID']> | Types.Scalars['ID']
     >
     numberOfDepartures?: Types.InputMaybe<Types.Scalars['Int']>
+    startTime: Types.Scalars['DateTime']
 }>
 
 export type TGetQuayQuery = {
@@ -228,6 +229,7 @@ export type TStopPlaceQueryVariables = Types.Exact<{
         Array<Types.Scalars['ID']> | Types.Scalars['ID']
     >
     numberOfDepartures?: Types.InputMaybe<Types.Scalars['Int']>
+    startTime: Types.Scalars['DateTime']
 }>
 
 export type TStopPlaceQuery = {
@@ -446,7 +448,7 @@ export const LinesFragment = new TypedDocumentString(
     { fragmentName: 'lines' },
 ) as unknown as TypedDocumentString<TLinesFragment, unknown>
 export const GetQuayQuery = new TypedDocumentString(`
-    query getQuay($quayId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20) {
+    query getQuay($quayId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20, $startTime: DateTime!) {
   quay(id: $quayId) {
     name
     description
@@ -457,6 +459,7 @@ export const GetQuayQuery = new TypedDocumentString(`
       whiteListedModes: $whitelistedTransportModes
       whiteListed: {lines: $whitelistedLines}
       includeCancelledTrips: true
+      startTime: $startTime
     ) {
       ...departure
     }
@@ -562,7 +565,7 @@ export const QuaysSearchQuery = new TypedDocumentString(`
     TQuaysSearchQueryVariables
 >
 export const StopPlaceQuery = new TypedDocumentString(`
-    query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20) {
+    query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20, $startTime: DateTime!) {
   stopPlace(id: $stopPlaceId) {
     name
     transportMode
@@ -571,6 +574,7 @@ export const StopPlaceQuery = new TypedDocumentString(`
       whiteListedModes: $whitelistedTransportModes
       whiteListed: {lines: $whitelistedLines}
       includeCancelledTrips: true
+      startTime: $startTime
     ) {
       ...departure
     }

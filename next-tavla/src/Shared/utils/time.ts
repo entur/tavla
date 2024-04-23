@@ -32,6 +32,18 @@ export function formatDate(date: Date) {
         .replace(',', '')
 }
 
+export function formatDateToISO(date: Date) {
+    const isoString = date.toISOString()
+    const isoFormat = isoString.replace(/\.\d{3}Z$/, 'Z')
+    return isoFormat
+}
+
+export function addMinutesToDate(date: Date, minutesToAdd: number) {
+    const newDate = new Date(date)
+    newDate.setMinutes(newDate.getMinutes() + minutesToAdd)
+    return newDate
+}
+
 export function getDate(dateString: string) {
     return Intl.DateTimeFormat('no-NB', {
         month: 'short',

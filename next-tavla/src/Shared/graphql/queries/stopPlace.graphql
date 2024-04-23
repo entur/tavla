@@ -3,6 +3,7 @@ query StopPlace(
     $whitelistedTransportModes: [TransportMode]
     $whitelistedLines: [ID!]
     $numberOfDepartures: Int = 20
+    $startTime: DateTime!
 ) {
     stopPlace(id: $stopPlaceId) {
         name
@@ -12,6 +13,7 @@ query StopPlace(
             whiteListedModes: $whitelistedTransportModes
             whiteListed: { lines: $whitelistedLines }
             includeCancelledTrips: true
+            startTime: $startTime
         ) {
             ...departure
         }

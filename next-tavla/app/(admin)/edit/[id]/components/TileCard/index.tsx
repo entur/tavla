@@ -25,7 +25,7 @@ import { TransportModeCheckbox } from './TransportModeCheckbox'
 import { LineCheckbox } from './LineCheckbox'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { usePostHog } from 'posthog-js/react'
-import { Switch } from '@entur/form'
+import { Switch, TextField } from '@entur/form'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
 import { Modal } from '@entur/modal'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -116,6 +116,8 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             data.delete('count')
                             const distance = data.get('showDistance') as string
                             data.delete('showDistance')
+                            const offset = data.get('offset') as number | null
+                            data.delete('offset')
 
                             let lines: string[] = []
                             for (const line of data.values()) {
@@ -135,6 +137,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     visible: distance === 'on',
                                     distance: tile.walkingDistance?.distance,
                                 },
+                                offset: Number(offset),
                             } as TTile
 
                             if (distance === 'on' && !tile.walkingDistance) {
@@ -199,6 +202,20 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     </div>
                                 ),
                             )}
+                        </div>
+                        <div>
+                            <Heading4 className="mb-1">Offset</Heading4>
+                            <Label>
+                                Vis vis avganger x minutter frem i tid.
+                            </Label>
+                            <TextField
+                                label="Offset"
+                                type="number"
+                                name="offset"
+                                min={0}
+                                className="w-30"
+                                defaultValue={tile.offset ?? 0}
+                            />
                         </div>
                         <div>
                             <Heading4>Gåavstand</Heading4>
