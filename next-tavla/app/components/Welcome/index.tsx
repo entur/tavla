@@ -90,7 +90,7 @@ function Welcome() {
                                     </ListItem>
                                 </UnorderedList>
                             </ExpandablePanel>
-                            <div className="flex flex-row items-center mt-8">
+                            <div className="flex flex-row items-center mt-4 mb-1">
                                 <Checkbox
                                     id="welcome"
                                     onChange={welcomeChange}
