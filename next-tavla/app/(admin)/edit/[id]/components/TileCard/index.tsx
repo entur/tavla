@@ -73,8 +73,9 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     return (
         <div>
             <div
-                className={classes.card}
-                style={{ borderRadius: isOpen ? '0.5em 0.5em 0 0' : '0.5em' }}
+                className={`flex justify-between items-center p-2 bg-[--secondary-background-color] ${
+                    isOpen ? 'rounded-t-[0.5em]' : 'rounded-[0.5em]'
+                }`}
             >
                 <div className="flex flex-row gap-4 items-center">
                     <Heading3 className="m-0 pl-4">{tile.name}</Heading3>
