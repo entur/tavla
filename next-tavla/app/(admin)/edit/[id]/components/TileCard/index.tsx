@@ -155,6 +155,41 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
                     >
+                        <div>
+                            <Heading4 className="m-0">Gåavstand</Heading4>
+                            <Label>
+                                Vis gåavstand fra lokasjonen til Tavla til
+                                stoppestedet
+                            </Label>
+                            <Switch
+                                name="showDistance"
+                                defaultChecked={
+                                    tile.walkingDistance?.visible ?? false
+                                }
+                            >
+                                Vis gåavstand
+                            </Switch>
+                        </div>
+                        <div className="gap-4 mb-8">
+                            <Heading4 className="mb-1">
+                                Avganger frem i tid.
+                            </Heading4>
+                            <Label>
+                                Vis kun avganger som går om mer enn valgt antall
+                                minutter.
+                            </Label>
+                            <TextField
+                                label="Antall minutter"
+                                name="offset"
+                                type="number"
+                                min={0}
+                                className="w-1/3"
+                                defaultValue={
+                                    tile.offset ? tile.offset : undefined
+                                }
+                            />
+                        </div>
+
                         <Heading4 className="m-0">Kolonner</Heading4>
                         <SubParagraph className="mt-0">
                             Her bestemmer du hvilke kolonner som skal vises i
@@ -203,35 +238,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 ),
                             )}
                         </div>
-                        <div>
-                            <Heading4 className="mb-1">Offset</Heading4>
-                            <Label>
-                                Vis vis avganger x minutter frem i tid.
-                            </Label>
-                            <TextField
-                                label="Offset"
-                                type="number"
-                                name="offset"
-                                min={0}
-                                className="w-30"
-                                defaultValue={tile.offset ?? 0}
-                            />
-                        </div>
-                        <div>
-                            <Heading4>Gåavstand</Heading4>
-                            <Label>
-                                Vis gåavstand fra lokasjonen til Tavla til
-                                stoppestedet
-                            </Label>
-                            <Switch
-                                name="showDistance"
-                                defaultChecked={
-                                    tile.walkingDistance?.visible ?? false
-                                }
-                            >
-                                Vis gåavstand
-                            </Switch>
-                        </div>
+
                         <HiddenInput
                             id="count"
                             value={uniqLines.length.toString()}
