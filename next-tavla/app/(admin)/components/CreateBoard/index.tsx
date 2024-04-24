@@ -179,9 +179,9 @@ function NameAndOrganizationSelector({
                 value={selectedOrganization?.value}
             />
             <div className="flex flex-row justify-end mt-8 ">
-                <PrimaryButton className="flex flex-row items-center justify-center">
+                <PrimaryButton>
                     Neste
-                    <ForwardIcon className="!top-0" />
+                    <ForwardIcon />
                 </PrimaryButton>
             </div>
         </form>
@@ -247,12 +247,9 @@ function StopSelector({
                 }
             />
             <FormError {...getFormFeedbackForField('general', state)} />
-            <div className="flex flex-row justify-between">
-                <SecondaryButton
-                    onClick={() => router.back()}
-                    className="mt-8 flex flex-row items-center justify-center"
-                >
-                    <BackArrowIcon className="!top-0" />
+            <div className="flex flex-row justify-between pt-8">
+                <SecondaryButton onClick={() => router.back()}>
+                    <BackArrowIcon />
                     Tilbake
                 </SecondaryButton>
                 <PrimaryButton
@@ -275,7 +272,6 @@ function StopSelector({
                         await create(board, oid)
                         setBoard(undefined)
                     }}
-                    className="mt-8"
                     loading={isSubmitting}
                     disabled={isSubmitting}
                 >

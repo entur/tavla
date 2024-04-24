@@ -33,9 +33,9 @@ function ToggleBoardsColumns() {
     return (
         <Popover>
             <PopoverTrigger>
-                <SecondaryButton className="flex flex-row items-center justify-center">
+                <SecondaryButton>
                     Velg kolonner
-                    <AdjustmentsIcon aria-hidden="true" className="!top-0" />
+                    <AdjustmentsIcon aria-hidden="true" />
                 </SecondaryButton>
             </PopoverTrigger>
             <PopoverContent>

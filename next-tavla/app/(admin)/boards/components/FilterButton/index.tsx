@@ -35,10 +35,10 @@ function FilterButton({ boards }: { boards: TBoard[] }) {
                 <div className="relative [&>span]:absolute [&>span]:top-[-10px] [&>span]:right-[-10px]">
                     <SecondaryButton
                         aria-label="Filtrer på merkelapper"
-                        className="flex flex-row items-center justify-center w-full"
+                        className="w-full"
                     >
                         Filtrer på merkelapper
-                        <FilterIcon aria-hidden="true" className="!top-0" />
+                        <FilterIcon aria-hidden="true" />
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
                         {filterTags.length}

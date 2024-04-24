@@ -2,7 +2,6 @@
 import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { TOrganizationID } from 'types/settings'
-import classes from './styles.module.css'
 import { useFormState } from 'react-dom'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
@@ -37,10 +36,10 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                     aria-label="Legg til medlem"
                     variant="secondary"
                     width="fluid"
-                    className={`${classes.addMemberButton} flex flex-row items-center justify-center`}
+                    className="max-w-48"
                 >
                     Legg til medlem
-                    <AddIcon className="!top-0" />
+                    <AddIcon />
                 </SubmitButton>
             </div>
             <FormError {...getFormFeedbackForField('general', state)} />

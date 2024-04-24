@@ -13,21 +13,18 @@ function Footer() {
                 <div className={classes.meta}>
                     <div>
                         <Heading3>Entur AS</Heading3>
-                        <Paragraph className="mr-4 items-center">
+                        <Paragraph className="mb-4 items-center">
                             Rådhusgata 5, 0151 Oslo
                             <br />
                             Postboks 1554, 0117 Oslo
                         </Paragraph>
-                        <Paragraph className="mr-4 items-center">
+                        <Paragraph className="mb-4 items-center">
                             Organisasjonsnummer:
                             <br />
                             917 422 575
                         </Paragraph>
-                        <Paragraph className="mr-4 items-center flex flex-row gap-1">
-                            <EnturLink
-                                href="https://www.entur.org/kontakt-oss/"
-                                className="flex flex-row"
-                            >
+                        <Paragraph className="mb-4 items-center flex flex-row gap-1">
+                            <EnturLink href="https://www.entur.org/kontakt-oss/">
                                 Kontakt oss
                             </EnturLink>
                             <ExternalIcon className="!top-0" />
