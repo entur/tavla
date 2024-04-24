@@ -16,9 +16,9 @@ function AddExistingTag({ board }: { board: TBoard }) {
     const [state, action] = useFormState(addTagAction, undefined)
 
     return (
-        <div className="flexColumn g-1">
+        <div className="flex flex-col gap-1">
             <Heading3>Legg til eksisterende merkelapp</Heading3>
-            <div className="flexRow flexWrap g-1" role="listbox">
+            <div className="flex flex-row flex-wrap gap-1" role="listbox">
                 {existingTags.map((tag) => (
                     <form action={action} key={tag}>
                         <HiddenInput id="bid" value={board.id} />

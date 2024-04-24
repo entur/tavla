@@ -36,7 +36,7 @@ function TagModal({ board }: { board: TBoard }) {
                 onDismiss={close}
                 closeOnClickOutside
             >
-                <div className="flexRow flexWrap g-1 pb-2">
+                <div className="flex flex-row flex-wrap gap-1 pb-8">
                     {tags.map((tag) => (
                         <form key={tag} action={action}>
                             <HiddenInput id="bid" value={board.id} />

@@ -18,10 +18,10 @@ function AddNewTag({ board }: { board: TBoard }) {
         form.current?.reset()
     }
     return (
-        <div className="flexCol g-1">
+        <div className="flexCol gap-1">
             <Heading3>Legg til ny merkelapp</Heading3>
-            <form ref={form} action={submit} className="flexColumn g-2">
-                <div className="flexRow g-1 w-100">
+            <form ref={form} action={submit} className="flex flex-col gap-4">
+                <div className="flex flex-row gap-1 w-full">
                     <TextField
                         aria-label="Navn på ny merkelapp"
                         name="tag"

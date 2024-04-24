@@ -19,7 +19,7 @@ function Header({
 
     return (
         <div className={classNames(classes.headerWrapper, className)}>
-            <div className="positionRelative w-100 h-100">
+            <div className="relative w-full h-full">
                 <Image
                     src={organizationLogo ?? tavlaLogo}
                     alt="Entur Tavla logo"

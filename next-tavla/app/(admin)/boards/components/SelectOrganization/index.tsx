@@ -1,7 +1,6 @@
 'use client'
 import { TOrganization } from 'types/settings'
 import { SideNavigation, SideNavigationItem } from '@entur/menu'
-import classes from './styles.module.css'
 import { Heading1 } from '@entur/typography'
 
 function SelectOrganization({
@@ -12,8 +11,8 @@ function SelectOrganization({
     active?: TOrganization
 }) {
     return (
-        <SideNavigation className={classes.sideNav}>
-            <Heading1 className="text-rem-4">Tavler</Heading1>
+        <SideNavigation className="flex flex-col w-full md:w-1/5 g-6 bg-primary">
+            <Heading1 className="text-[32px]">Tavler</Heading1>
             <div>
                 <SideNavigationItem href="/boards" active={!active?.id}>
                     Mine tavler

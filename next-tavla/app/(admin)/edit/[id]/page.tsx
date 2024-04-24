@@ -39,10 +39,10 @@ export default async function EditPage({ params }: TProps) {
     if (!access) return redirect('/')
 
     return (
-        <main className="flexColumn p-4 g-7">
-            <div className="flexRow justifyBetween alignCenter">
+        <div className="flex flex-col gap-14">
+            <div className="flex flex-col md:flex-row justify-between">
                 <Heading1 margin="top">Rediger {board.meta?.title}</Heading1>
-                <div className="flexRow g-2">
+                <div className="flex flex-col md:flex-row gap-4">
                     <Open bid={board.id} type="button" />
                     <Copy bid={board.id} type="button" />
                     <Delete board={board} type="button" />
@@ -51,9 +51,10 @@ export default async function EditPage({ params }: TProps) {
 
             <MetaSettings bid={params.id} meta={board.meta} />
 
-            <div className="flexColumn g-2">
+            <div className="flex flex-col gap-4">
                 <Heading2>Stoppesteder i tavlen</Heading2>
                 <TileSelector
+                    col={false}
                     action={async (data: FormData) => {
                         'use server'
 
@@ -65,14 +66,13 @@ export default async function EditPage({ params }: TProps) {
                         await addTile(params.id, tile)
                         revalidatePath(`/edit/${params.id}`)
                     }}
-                    direction="Row"
                 />
                 {board.tiles.map((tile) => (
                     <TileCard key={tile.uuid} bid={params.id} tile={tile} />
                 ))}
             </div>
 
-            <div className="flexColumn g-2">
+            <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
                 <div
                     className={classes.preview}
@@ -81,6 +81,6 @@ export default async function EditPage({ params }: TProps) {
                     <ClientBoard board={board} />
                 </div>
             </div>
-        </main>
+        </div>
     )
 }

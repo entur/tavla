@@ -8,31 +8,34 @@ import { ExternalIcon, GithubIcon } from '@entur/icons'
 function Footer() {
     return (
         <footer className="eds-contrast">
-            <div className={classes.footer}>
+            <div className="container mx-auto pt-16 pb-4">
                 <Image src={TavlaLogo} alt="" />
                 <div className={classes.meta}>
                     <div>
                         <Heading3>Entur AS</Heading3>
-                        <Paragraph className="mb-2 alignCenter">
+                        <Paragraph className="mr-4 items-center">
                             Rådhusgata 5, 0151 Oslo
                             <br />
                             Postboks 1554, 0117 Oslo
                         </Paragraph>
-                        <Paragraph className="mb-2 alignCenter">
+                        <Paragraph className="mr-4 items-center">
                             Organisasjonsnummer:
                             <br />
                             917 422 575
                         </Paragraph>
-                        <Paragraph className="mb-2 alignCenter">
-                            <EnturLink href="https://www.entur.org/kontakt-oss/">
+                        <Paragraph className="mr-4 items-center flex flex-row gap-1">
+                            <EnturLink
+                                href="https://www.entur.org/kontakt-oss/"
+                                className="flex flex-row"
+                            >
                                 Kontakt oss
-                                <ExternalIcon className="ml-1" />
                             </EnturLink>
+                            <ExternalIcon className="!top-0" />
                         </Paragraph>
                     </div>
-                    <div className="flexColumn g-2">
+                    <div className="flex flex-col gap-4">
                         <Heading3>Informasjon</Heading3>
-                        <div className="flexRow g-1 alignCenter">
+                        <div className="flex flex-row gap-1 items-center">
                             <EnturLink
                                 as={Link}
                                 href="https://uustatus.no/nb/erklaringer/publisert/ffb3d21b-fbb4-48ed-9043-bb2a904f3143"
@@ -47,7 +50,7 @@ function Footer() {
                                 Personvernerklæring
                             </EnturLink>
                         </div>
-                        <div className="flexRow g-1 alignCenter">
+                        <div className="flex flex-row gap-1 items-center">
                             <EnturLink
                                 href="https://github.com/entur/tavla"
                                 target="_blank"

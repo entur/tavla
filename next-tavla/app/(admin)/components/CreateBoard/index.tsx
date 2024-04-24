@@ -49,7 +49,7 @@ function CreateBoard() {
 
     return (
         <>
-            <IconButton as={Link} href="?board=name" className="g-2 p-2">
+            <IconButton as={Link} href="?board=name" className="gap-4 p-4">
                 <AddIcon /> Opprett tavle
             </IconButton>
             <Modal
@@ -66,7 +66,7 @@ function CreateBoard() {
             >
                 <Stepper steps={stepTitles} activeIndex={stepIndex} />
 
-                <div className="w-75">
+                <div className="w-3/4">
                     <NameAndOrganizationSelector
                         active={pageParam === 'name'}
                         title={board?.meta?.title}
@@ -143,7 +143,7 @@ function NameAndOrganizationSelector({
                 Gi tavlen et navn og legg den til i en organisasjon. Velger du
                 en organisasjon vil alle i organisasjonen ha tilgang til tavlen.
             </Paragraph>
-            <Label className="textLeft">Gi tavlen et navn</Label>
+            <Label className="text-left">Gi tavlen et navn</Label>
             <TextField
                 size="medium"
                 label="Navn"
@@ -153,7 +153,7 @@ function NameAndOrganizationSelector({
                 defaultValue={title}
                 required
                 {...getFormFeedbackForField('name', state)}
-                className="mb-2"
+                className="mb-4"
             />
             <Label>Legg til i en organisasjon</Label>
             <Dropdown
@@ -162,7 +162,7 @@ function NameAndOrganizationSelector({
                 selectedItem={selectedOrganization}
                 onChange={setSelectedOrganization}
                 clearable
-                className="mb-2"
+                className="mb-4"
                 aria-required="true"
                 disabled={personal}
                 {...getFormFeedbackForField('organization', state)}
@@ -178,10 +178,10 @@ function NameAndOrganizationSelector({
                 id="organization"
                 value={selectedOrganization?.value}
             />
-            <div className="flexRow justifyEnd">
-                <PrimaryButton className="mt-2" type="submit">
+            <div className="flex flex-row justify-end mt-8 ">
+                <PrimaryButton className="flex flex-row items-center justify-center">
                     Neste
-                    <ForwardIcon />
+                    <ForwardIcon className="!top-0" />
                 </PrimaryButton>
             </div>
         </form>
@@ -231,11 +231,10 @@ function StopSelector({
                                 : [tile],
                     } as TBoard)
                 }}
-                direction="Column"
                 oid={oid}
                 showLabel
             />
-            <Heading4 className="mt-3">Stoppesteder lagt til i tavlen</Heading4>
+            <Heading4 className="mt-6">Stoppesteder lagt til i tavlen</Heading4>
             <StopPlaceList
                 tiles={board?.tiles}
                 onRemove={(tile: TTile) =>
@@ -248,9 +247,12 @@ function StopSelector({
                 }
             />
             <FormError {...getFormFeedbackForField('general', state)} />
-            <div className="flexRow justifyBetween">
-                <SecondaryButton onClick={() => router.back()} className="mt-2">
-                    <BackArrowIcon />
+            <div className="flex flex-row justify-between">
+                <SecondaryButton
+                    onClick={() => router.back()}
+                    className="mt-8 flex flex-row items-center justify-center"
+                >
+                    <BackArrowIcon className="!top-0" />
                     Tilbake
                 </SecondaryButton>
                 <PrimaryButton
@@ -273,7 +275,7 @@ function StopSelector({
                         await create(board, oid)
                         setBoard(undefined)
                     }}
-                    className="mt-2"
+                    className="mt-8"
                     loading={isSubmitting}
                     disabled={isSubmitting}
                 >

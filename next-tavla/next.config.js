@@ -3,7 +3,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
-    transpilePackages: ['swr'],
+  transpilePackages: ['swr', "tailwindcss"],
     i18n: {
       locales: ["nb"],
       defaultLocale: "nb"

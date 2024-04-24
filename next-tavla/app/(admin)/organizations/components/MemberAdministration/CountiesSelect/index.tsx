@@ -1,13 +1,12 @@
 'use client'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { SecondaryButton } from '@entur/button'
 import { TCountyID, TOrganizationID } from 'types/settings'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { Checkbox } from '@entur/form'
 import { setCounties } from './actions'
-import classes from './styles.module.css'
 import { Heading2, Paragraph } from '@entur/typography'
 import { useToast } from '@entur/alert'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function CountiesSelect({
     oid,
@@ -21,7 +20,7 @@ function CountiesSelect({
     const { addToast } = useToast()
 
     return (
-        <div className="box flexColumn g-1">
+        <div className="box flex flex-col gap-1">
             <Heading2>Fylker</Heading2>
             <Paragraph>
                 Velg hvilke fylker som skal være standard når det opprettes en
@@ -36,7 +35,7 @@ function CountiesSelect({
                     addToast('Fylker lagret!')
                 }}
             >
-                <div className={classes.countiesSelectContainer}>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-[0_0.5em]">
                     {counties()
                         .sort(
                             (
@@ -58,10 +57,10 @@ function CountiesSelect({
                             </Checkbox>
                         ))}
                 </div>
-                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
-                    <SecondaryButton type="submit" aria-label="Lagre fylker">
+                <div className="flex flex-row w-full mt-8 justify-end">
+                    <SubmitButton variant="secondary" aria-label="Lagre fylker">
                         Lagre fylker
-                    </SecondaryButton>
+                    </SubmitButton>
                 </div>
             </form>
         </div>

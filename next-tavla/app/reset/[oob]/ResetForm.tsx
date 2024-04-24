@@ -40,7 +40,7 @@ function ResetForm({ oob }: { oob: string }) {
     const [state, action] = useFormState(submit, undefined)
 
     return (
-        <form className="flexColumn g-2 w-30" action={action}>
+        <form className="flex flex-col gap-4 w-[30%]" action={action}>
             <TextField
                 name="password"
                 label="Nytt passord"

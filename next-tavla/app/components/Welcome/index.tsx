@@ -39,12 +39,12 @@ function Welcome() {
             size="large"
             closeLabel="Lukk dialog med informasjon om ny versjon av Tavla"
         >
-            <div className="flexColumn alignCenter">
-                <div className="flexRow alignCenter justifyBetween g-4 mb-4 ">
-                    <div className="flexColumn alignCenter justifyCenter">
+            <div className="flex flex-col items-center">
+                <div className="flex flex-row items-center justify-between gap-4 mb-8">
+                    <div className="flex flex-col items-center justify-center w-1/2">
                         <Image src={portrait_traveller} alt="" />
                     </div>
-                    <div className="flexColumn">
+                    <div className="flex flex-col w-1/2">
                         <Heading2 as="h1">
                             Velkommen til ny versjon av Tavla!
                         </Heading2>
@@ -53,9 +53,9 @@ function Welcome() {
                             om avgangstavler for stoppesteder over hele Norge.
                             Opprett en bruker for å få tilgang til Tavla.
                         </LeadParagraph>
-                        <div className="flexColumn g-1">
+                        <div className="flex flex-col gap-1">
                             <ExpandablePanel title="Brukte du den gamle versjonen av Tavla?">
-                                <UnorderedList className="flexColumn g-1">
+                                <UnorderedList className="flex flex-col gap-1">
                                     <ListItem>
                                         Nå må du lage en ny bruker.
                                     </ListItem>
@@ -66,7 +66,7 @@ function Welcome() {
                             </ExpandablePanel>
 
                             <ExpandablePanel title="Hva er nytt i denne versjonen?">
-                                <UnorderedList className="flexColumn g-1">
+                                <UnorderedList className="flex flex-col gap-1">
                                     <ListItem>
                                         Oversikten over dine tavler er forbedret
                                         med søk og filter, slik at du enklere
@@ -90,7 +90,7 @@ function Welcome() {
                                     </ListItem>
                                 </UnorderedList>
                             </ExpandablePanel>
-                            <div className="flexRow alignCenter mt-2">
+                            <div className="flex flex-row items-center mt-4 mb-1">
                                 <Checkbox
                                     id="welcome"
                                     onChange={welcomeChange}

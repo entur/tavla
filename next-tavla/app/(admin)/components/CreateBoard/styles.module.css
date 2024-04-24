@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 0.5em;
-    border: 1px solid var(--tertiary-background-color);
+    border: 1px solid var(--primary-button-color);
     margin-bottom: 1em;
     padding: 0.5em;
 }

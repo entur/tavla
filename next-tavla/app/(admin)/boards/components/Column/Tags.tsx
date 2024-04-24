@@ -12,16 +12,16 @@ import { useSearchParam } from '../../hooks/useSearchParam'
 
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
-        <ul className="flexRow flexWrap g-1 alignCenter">
+        <ul className="flex flex-row flex-wrap gap-1 items-center">
             {tags.map((tag) => (
                 <li key={tag}>
                     <Badge
                         variant="primary"
-                        style={{
-                            color: 'white',
-                            backgroundColor: colorsFromHash(tag),
-                        }}
                         type="notification"
+                        style={{
+                            backgroundColor: colorsFromHash(tag),
+                            borderColor: colorsFromHash(tag),
+                        }}
                     >
                         <span className="visuallyHidden">Merkelapp:</span>
                         {tag}
@@ -54,7 +54,7 @@ function Tags({
     return (
         <TagsContext.Provider value={allTags ?? []}>
             <Column column="tags">
-                <div className="flexRow w-100 g-1">
+                <div className="flex flex-row w-full gap-1">
                     <TagModal board={board} />
                     <TagList tags={tags.slice(0, displayNumber)}>
                         {hiddenNumber > 0 && (
@@ -64,7 +64,7 @@ function Tags({
                                     <TagList tags={tags.slice(displayNumber)} />
                                 }
                             >
-                                <div className="cursorHelp">
+                                <div className="cursor-help">
                                     <Badge variant="neutral">
                                         + {hiddenNumber} til
                                     </Badge>

@@ -1,4 +1,3 @@
-import classes from 'styles/pages/admin.module.css'
 import { permanentRedirect } from 'next/navigation'
 import { SelectOrganization } from '../components/SelectOrganization'
 import { Search } from '../components/Search'
@@ -57,23 +56,23 @@ async function OrganizationsBoardsPage({ params }: TProps) {
         : await getBoardsForUser()
 
     return (
-        <div className={classes.root}>
-            <main className="flexRow g-2">
-                <SelectOrganization
-                    organizations={organizations}
-                    active={activeOrganization}
-                />
-                <div className="flexColumn mt-2 g-3 w-100">
-                    <div className="flexRow alignCenter g-1">
-                        <Search />
-                        <div className="flexRow g-1">
-                            <FilterButton boards={boards} />
-                            <ToggleBoardsColumns />
-                        </div>
+        <div className="flex flex-col md:flex-row gap-3 justify-center">
+            <SelectOrganization
+                organizations={organizations}
+                active={activeOrganization}
+            />
+            <div className="flex flex-col mt-4 md:mt-8 gap-3 grow">
+                <div className="flex flex-col sm:flex-row md:items-center gap-3">
+                    <Search />
+                    <div className="flex flex-col md:flex-row gap-3">
+                        <FilterButton boards={boards} />
+                        <ToggleBoardsColumns />
                     </div>
+                </div>
+                <div className="overflow-x-auto">
                     <BoardTable boards={boards} />
                 </div>
-            </main>
+            </div>
         </div>
     )
 }

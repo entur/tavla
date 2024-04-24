@@ -14,15 +14,15 @@ function TransportModeCheckbox({
 }) {
     return (
         <div>
-            <div className="flexRow g-2 alignCenter justifyStart weight600">
+            <div className="flex flex-row gap-4 items-center justify-start font-semibold">
                 <TransportIcon
                     transportMode={transportMode}
-                    className="w-4 h-4"
+                    className="w-8 h-8"
                 />
                 {transportModeNames(transportMode)}
             </div>
             <div className={classes.divider} />
-            <div className="flexRow alignCenter">
+            <div className="flex flex-row items-center">
                 <Checkbox
                     defaultChecked={
                         !tile.whitelistedLines ||

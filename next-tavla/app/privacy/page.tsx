@@ -20,15 +20,14 @@ async function Privacy() {
     const loggedIn = (await verifySession(session)) !== null
 
     return (
-        <div className={classes.page}>
+        <>
             <TopNavigation loggedIn={loggedIn} />
-            <div className="flexColumn  alignCenter justifyCenter mb-4">
-                <div className="minw-80rem p-4">
+            <main className="container mx-auto pb-10 min-h-full">
+                <div className="flex flex-col justify-center mb-8">
                     <Heading1>Personvern</Heading1>
-                </div>
-                <div className="minw-80rem">
-                    <div className={classes.overview}>
-                        <div className="flexColumn justifyCenter alignCenter p-2">
+
+                    <div className="flex flex-col sm:grid sm:grid-cols-3 text-center items-center gap-4 pt-4">
+                        <div className="flex flex-col justify-center items-center">
                             <Image
                                 className={classes.illustration}
                                 src={squirrel}
@@ -40,7 +39,7 @@ async function Privacy() {
                                 med.
                             </Paragraph>
                         </div>
-                        <div className="flexColumn justifyCenter alignCenter p-2">
+                        <div className="flex flex-col justify-center  items-center">
                             <Image
                                 className={classes.illustration}
                                 src={doves}
@@ -52,7 +51,7 @@ async function Privacy() {
                                 er logget inn.
                             </Paragraph>
                         </div>
-                        <div className="flexColumn justifyCenter alignCenter p-2">
+                        <div className="flex flex-col justify-center  items-center">
                             <Image
                                 className={classes.illustration}
                                 src={hedgehog}
@@ -66,12 +65,10 @@ async function Privacy() {
                         </div>
                     </div>
                 </div>
-                <div className="minw-80rem">
-                    <ExpandableInfo />
-                </div>
-            </div>
+                <ExpandableInfo />
+            </main>
             <Footer />
-        </div>
+        </>
     )
 }
 

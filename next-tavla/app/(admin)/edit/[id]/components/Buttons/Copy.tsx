@@ -18,6 +18,7 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
             <Button
                 variant="secondary"
                 aria-label="Kopier tavle"
+                className="flex flex-row justify-center items-center"
                 onClick={copy}
             >
                 Kopier Tavle

@@ -29,7 +29,7 @@ async function Verify({ params }: { params: { oob: string } }) {
         } else message = 'Noe gikk galt, prøv igjen senere.'
     }
     return (
-        <div className="flexColumn alignCenter eds-contrast pt-4">
+        <div className="flex flex-col items-center eds-contrast pt-8">
             <Paragraph>{message}</Paragraph>
             <Button variant="primary" as={Link} href="/">
                 Ta meg tilbake til landingsiden

@@ -8,7 +8,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@entur/tooltip'
-import { Heading2 } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import { Checkbox } from '@entur/form'
 import {
     BoardsColumns,
@@ -33,17 +33,17 @@ function ToggleBoardsColumns() {
     return (
         <Popover>
             <PopoverTrigger>
-                <SecondaryButton>
+                <SecondaryButton className="flex flex-row items-center justify-center">
                     Velg kolonner
-                    <AdjustmentsIcon aria-hidden="true" />
+                    <AdjustmentsIcon aria-hidden="true" className="!top-0" />
                 </SecondaryButton>
             </PopoverTrigger>
             <PopoverContent>
-                <div className="p-1">
-                    <div className="flexRow">
-                        <Heading2 className="m-1 text-rem-2">
+                <div className="p-4">
+                    <div className="flex flex-row">
+                        <Heading4 className="m-2 text-base">
                             Velg kolonner
-                        </Heading2>
+                        </Heading4>
                         <PopoverCloseButton>
                             <IconButton aria-label="Lukk popover">
                                 <CloseIcon aria-hidden="true" />

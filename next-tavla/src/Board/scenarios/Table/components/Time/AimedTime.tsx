@@ -13,7 +13,7 @@ function AimedTime() {
     }))
 
     return (
-        <TableColumn title="Planlagt" className="textRight">
+        <TableColumn title="Planlagt" className="text-right">
             {time.map((t) => (
                 <TableRow key={t.key}>
                     <FormattedTime time={t.aimedDepartureTime} />

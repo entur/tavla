@@ -40,7 +40,7 @@ function Delete({
                 <DeleteButton
                     as={Link}
                     href={`?delete=${organization.id}`}
-                    className="g-2"
+                    className="gap-4"
                     variant="secondary"
                     aria-label="Slett organisasjon"
                 >
@@ -53,7 +53,7 @@ function Delete({
                 size="small"
                 onDismiss={close}
                 closeLabel="Avbryt sletting"
-                className="flexColumn justifyStart alignCenter textCenter"
+                className="flex flex-col justify-start items-center text-center"
             >
                 <SecondarySquareButton
                     aria-label="Avbryt sletting"
@@ -62,21 +62,21 @@ function Delete({
                 >
                     <CloseIcon />
                 </SecondarySquareButton>
-                <Image src={ducks} alt="" className="h-50 w-50" />
+                <Image src={ducks} alt="" className="h-1/2 w-1/2" />
                 <Heading2>Slett organisasjon</Heading2>
-                <Paragraph className="mt-2">
+                <Paragraph className="mt-8">
                     {`Er du sikker på at du vil slette organisasjonen 
                     "${organization.name}"?`}
                 </Paragraph>
                 <form
                     action={action}
-                    className="flexColumn w-100 g-2"
+                    className="flex flex-col w-full gap-4"
                     aria-live="polite"
                     aria-relevant="all"
                 >
                     <HiddenInput id="oname" value={organization.name} />
                     <HiddenInput id="oid" value={organization.id} />
-                    <Label className="weight500 textLeft">
+                    <Label className="font-medium text-left">
                         Bekreft ved å skrive inn navnet på organisasjonen
                     </Label>
                     <TextField
@@ -85,7 +85,7 @@ function Delete({
                         type="text"
                         required
                         aria-required
-                        className="w-100"
+                        className="w-full"
                         {...getFormFeedbackForField('name', state)}
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />

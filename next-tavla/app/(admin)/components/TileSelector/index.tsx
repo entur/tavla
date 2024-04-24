@@ -4,7 +4,6 @@ import { SearchIcon } from '@entur/icons'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
-import { Button } from '@entur/button'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TOrganizationID } from 'types/settings'
 import {
@@ -14,17 +13,18 @@ import {
 } from 'app/(admin)/utils'
 import { useState } from 'react'
 import { Label } from '@entur/typography'
+import { SubmitButton } from 'components/Form/SubmitButton'
 
 function TileSelector({
     action,
-    direction,
     oid,
     showLabel,
+    col = true,
 }: {
     action: (data: FormData) => void
-    direction: 'Row' | 'Column'
     oid?: TOrganizationID
     showLabel?: boolean
+    col?: boolean
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch(oid)
@@ -36,10 +36,12 @@ function TileSelector({
         selectedStopPlace?.value ?? '',
     )
 
+    const classname = col ? '' : 'lg:flex-row'
+
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <form
-            className={`flex${direction} g-2 mb-3 w-100`}
+            className={`flex flex-col ${classname} gap-4 mr-6 w-full`}
             action={action}
             onSubmit={(event) => {
                 if (!selectedStopPlace || !selectedQuay) {
@@ -57,7 +59,7 @@ function TileSelector({
                 setSelectedStopPlace(null)
             }}
         >
-            <div className="w-100">
+            <div className="w-full">
                 {showLabel && <Label>Velg fylke</Label>}
                 <MultiSelect
                     label="Fylker"
@@ -69,7 +71,7 @@ function TileSelector({
                     hideSelectAll
                 />
             </div>
-            <div className="w-100">
+            <div className="w-full">
                 {showLabel && <Label>Søk etter stoppested</Label>}
                 <SearchableDropdown
                     items={stopPlaceItems}
@@ -82,7 +84,7 @@ function TileSelector({
                     {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
-            <div className="w-100">
+            <div className="w-full">
                 {showLabel && <Label>Velg stoppestedets retning</Label>}
                 <Dropdown
                     items={quays}
@@ -102,13 +104,7 @@ function TileSelector({
             />
             <HiddenInput id="quay" value={selectedQuay?.value} />
 
-            <Button
-                variant="primary"
-                type="submit"
-                className={direction === 'Column' ? 'w-100' : undefined}
-            >
-                Legg til
-            </Button>
+            <SubmitButton variant="primary">Legg til</SubmitButton>
         </form>
     )
 }

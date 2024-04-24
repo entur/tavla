@@ -22,18 +22,18 @@ function TileCard({
 
     return (
         <div className={classes.card}>
-            <div className="flexRow g-2 alignCenter">
-                <div className="flexRow g-1 h-3">
+            <div className="flex flex-row gap-4 items-center">
+                <div className="flex flex-row gap-1 h-6">
                     {transportModes.map((tm) => (
                         <TransportIcon transportMode={tm} key={tm} />
                     ))}
                 </div>
                 {tile.name}
             </div>
-            <div className="flexRow">
+            <div className="flex flex-row">
                 <IconButton onClick={() => onRemove(tile)}>
                     <DeleteIcon />
-                    <span className="ml-1">Fjern</span>
+                    <span className="ml-2">Fjern</span>
                 </IconButton>
             </div>
         </div>

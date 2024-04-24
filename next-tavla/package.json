@@ -68,6 +68,7 @@
         "@types/react-dom": "18.2.17",
         "@typescript-eslint/eslint-plugin": "5.57.1",
         "@typescript-eslint/parser": "5.57.1",
+        "autoprefixer": "10.4.19",
         "dependency-cruiser": "13.0.3",
         "eslint": "8.36.0",
         "eslint-config-next": "14.0.1",
@@ -76,7 +77,9 @@
         "eslint-plugin-react": "7.33.2",
         "firebase-tools": "12.5.4",
         "husky": "8.0.3",
+        "postcss": "8.4.38",
         "prettier": "2.8.7",
+        "tailwindcss": "3.4.3",
         "typescript": "5.0.2"
     },
     "packageManager": "yarn@3.5.0",

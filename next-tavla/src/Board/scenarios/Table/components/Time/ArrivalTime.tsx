@@ -13,7 +13,7 @@ function ArrivalTime() {
     }))
 
     return (
-        <TableColumn title="Ankomst" className="textRight">
+        <TableColumn title="Ankomst" className="text-right">
             {time.map((t) => (
                 <TableRow key={t.key}>
                     <FormattedTime time={t.expectedArrivalTime} />

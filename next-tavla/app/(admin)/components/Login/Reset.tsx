@@ -34,14 +34,19 @@ function Reset() {
     }
     const [state, action] = useFormState(submit, undefined)
     return (
-        <div className="textCenter">
-            <Image src={musk} aria-hidden="true" alt="" className="h-50 w-50" />
+        <div className="flex flex-col text-center items-center">
+            <Image
+                src={musk}
+                aria-hidden="true"
+                alt=""
+                className="h-1/2 w-1/2"
+            />
             <Heading3>Glemt passord</Heading3>
             <Paragraph>
                 Skriv inn e-posten du brukte for å opprette brukeren, så sender
                 vi deg en lenke for å tilbakestille passordet ditt.
             </Paragraph>
-            <form className="flexColumn g-2" action={action}>
+            <form className="flex flex-col gap-4 w-full" action={action}>
                 <TextField
                     name="email"
                     label="E-post"
