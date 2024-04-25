@@ -11,7 +11,6 @@ import { CloseIcon, FilterIcon } from '@entur/icons'
 import { TTag } from 'types/meta'
 import { FilterChip } from '@entur/chip'
 import { uniq, xor } from 'lodash'
-import classes from './styles.module.css'
 import { NotificationBadge } from '@entur/layout'
 import { TBoard } from 'types/settings'
 import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
@@ -58,7 +57,7 @@ function FilterButton({ boards }: { boards: TBoard[] }) {
                             </IconButton>
                         </PopoverCloseButton>
                     </div>
-                    <div className={classes.tagsFilterPopover}>
+                    <div className="max-w-[25rem] flex flex-wrap gap-1">
                         {allTags.sort().map((tag: TTag) => (
                             <FilterChip
                                 key={tag}
