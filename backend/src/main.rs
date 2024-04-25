@@ -6,9 +6,6 @@ use axum::{
     routing::get,
     Router,
 };
-use redis::{
-    AsyncCommands, Commands, ConnectionAddr, ConnectionInfo, RedisConnectionInfo, RedisError,
-};
 
 use tokio::{
     net::TcpListener,
@@ -16,6 +13,11 @@ use tokio::{
         mpsc::{Receiver, Sender},
         oneshot,
     },
+};
+
+use redis::{
+    aio::MultiplexedConnection, AsyncCommands, Commands, ConnectionAddr, ConnectionInfo,
+    RedisConnectionInfo, RedisError,
 };
 
 #[derive(Debug)]
@@ -38,7 +40,6 @@ struct AppState {
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
     let port = std::env::var("PORT").unwrap_or("3001".to_string());
-    let redis_pw = std::env::var("REDIS_PASSWORD").expect("Expected to find redis pw");
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
         .await
@@ -46,7 +47,15 @@ async fn main() {
 
     let (sender, receiver) = tokio::sync::mpsc::channel::<Refresh>(32);
 
-    setup_redis(redis_pw).await;
+    let (mut master, mut replica) = setup_redis().await;
+
+    let _: Result<String, RedisError> = master.set("test", "basic value set from master").await;
+    let v: Result<String, RedisError> = replica.get("test").await;
+
+    match v {
+        Ok(value) => println!("{}", value),
+        Err(_) => todo!(),
+    }
 
     tokio::spawn(async move {
         refresh_manager(receiver).await;
@@ -102,7 +111,8 @@ async fn trigger(Path(bid): Path<String>, State(state): State<AppState>) -> Stat
     StatusCode::OK
 }
 
-async fn setup_redis(redis_pw: String) {
+async fn setup_redis() -> (MultiplexedConnection, MultiplexedConnection) {
+    let redis_pw = std::env::var("REDIS_PASSWORD").expect("Expected to find redis pw");
     let conn_info = RedisConnectionInfo {
         db: 0,
         username: None,
@@ -115,35 +125,21 @@ async fn setup_redis(redis_pw: String) {
     })
     .expect("Expected valid master connection");
 
-    // let mut master_connection = master
-    //     .get_connection()
-    //     .expect("Expected valid master client connection");
-
-    let mut master_multiplexer = master
+    let master_multiplexer = master
         .get_multiplexed_tokio_connection()
         .await
-        .expect("Expected multiplexed tokio connection");
+        .expect("Expected multiplexed master connection");
 
-    let _: String = master_multiplexer
-        .set("test", "super nice value async multiplexed")
-        .await
-        .expect("expected set command to succeed");
-
-    let slave = redis::Client::open(ConnectionInfo {
+    let replica = redis::Client::open(ConnectionInfo {
         addr: ConnectionAddr::Tcp("127.0.0.1".into(), 6380),
         redis: conn_info,
     })
-    .expect("Expected valid slave connection");
+    .expect("Expected valid replica connection");
 
-    let mut slave_connection = slave
-        .get_connection()
-        .expect("Expected valid slave client connection");
+    let replica_multiplexer = replica
+        .get_multiplexed_tokio_connection()
+        .await
+        .expect("Expected multiplexed replica connection");
 
-    let _: Result<String, RedisError> = slave_connection.set("test", "super bad  value");
-    let slave_cmd: Result<String, RedisError> = slave_connection.get("test");
-
-    match slave_cmd {
-        Ok(value) => println!("{} from slave", value),
-        Err(err) => println!("{}", err),
-    }
+    (master_multiplexer, replica_multiplexer)
 }
