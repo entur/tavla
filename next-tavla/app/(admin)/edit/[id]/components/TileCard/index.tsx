@@ -1,11 +1,10 @@
 'use client'
-import { BaseExpand } from '@entur/expand'
-import classes from './styles.module.css'
-import { TTile } from 'types/tile'
 import { Button, SecondarySquareButton } from '@entur/button'
-import { DeleteIcon, EditIcon, CloseIcon } from '@entur/icons'
-import { useState } from 'react'
-import { TBoardID } from 'types/settings'
+import { FilterChip } from '@entur/chip'
+import { BaseExpand } from '@entur/expand'
+import { Switch, TextField } from '@entur/form'
+import { CloseIcon, DeleteIcon, EditIcon } from '@entur/icons'
+import { Modal } from '@entur/modal'
 import {
     Heading3,
     Heading4,
@@ -13,24 +12,24 @@ import {
     Paragraph,
     SubParagraph,
 } from '@entur/typography'
-import { isArray, uniqBy } from 'lodash'
+import Goat from 'assets/illustrations/Goat.png'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { SubmitButton } from 'components/Form/SubmitButton'
 import { TransportIcon } from 'components/TransportIcon'
-import { Columns } from 'types/column'
-import { FilterChip } from '@entur/chip'
-import { TColumn } from 'types/column'
+import { isArray, uniqBy } from 'lodash'
+import Image from 'next/image'
+import { usePostHog } from 'posthog-js/react'
+import { useState } from 'react'
+import { Columns, TColumn } from 'types/column'
+import { TBoardID } from 'types/settings'
+import { TTile } from 'types/tile'
+import { getBoard, getWalkingDistanceTile } from '../../actions'
+import { LineCheckbox } from './LineCheckbox'
+import { TransportModeCheckbox } from './TransportModeCheckbox'
+import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
+import classes from './styles.module.css'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
-import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
-import { TransportModeCheckbox } from './TransportModeCheckbox'
-import { LineCheckbox } from './LineCheckbox'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { usePostHog } from 'posthog-js/react'
-import { Switch, TextField } from '@entur/form'
-import { getBoard, getWalkingDistanceTile } from '../../actions'
-import { Modal } from '@entur/modal'
-import { SubmitButton } from 'components/Form/SubmitButton'
-import Image from 'next/image'
-import Goat from 'assets/illustrations/Goat.png'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const posthog = usePostHog()
@@ -161,22 +160,25 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 Vis gåavstand fra lokasjonen til Tavla til
                                 stoppestedet
                             </Label>
-                            {tile.walkingDistance?.visible ?? (
-                                <Label
-                                    style={{ color: '#FF5959' }}
-                                    margin="top"
+                            <div className="flex flex-col">
+                                {tile.walkingDistance?.visible ?? (
+                                    <Label
+                                        className="text-warning"
+                                        margin="top"
+                                    >
+                                        Du må legge til en lokasjon for å kunne
+                                        skru på gåavstand
+                                    </Label>
+                                )}
+                                <Switch
+                                    name="showDistance"
+                                    defaultChecked={
+                                        tile.walkingDistance?.visible ?? false
+                                    }
                                 >
-                                    Husk å legg til en lokasjon øverst på siden
-                                </Label>
-                            )}
-                            <Switch
-                                name="showDistance"
-                                defaultChecked={
-                                    tile.walkingDistance?.visible ?? false
-                                }
-                            >
-                                Vis gåavstand
-                            </Switch>
+                                    Vis gåavstand
+                                </Switch>
+                            </div>
                         </div>
                         <div className="gap-4 mb-8">
                             <Heading4 className="mb-1">
