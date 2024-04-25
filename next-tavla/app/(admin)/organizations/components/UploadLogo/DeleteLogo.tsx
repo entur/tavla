@@ -1,6 +1,5 @@
 'use client'
 import { TLogo, TOrganizationID } from 'types/settings'
-import classes from './styles.module.css'
 import { Button } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { remove } from './actions'
@@ -14,22 +13,20 @@ function DeleteLogo({ oid, logo }: { oid?: TOrganizationID; logo?: TLogo }) {
     const { addToast } = useToast()
     return (
         <>
-            <div className={classes.card}>
-                <Button
-                    type="button"
-                    width="fluid"
-                    variant="secondary"
-                    onClick={async () => {
-                        await remove(oid, logo).then((state) =>
-                            setDeleteState(state),
-                        )
-                        addToast('Logo slettet')
-                    }}
-                >
-                    Slett logo
-                    <DeleteIcon className="mr-2" />
-                </Button>
-            </div>
+            <Button
+                type="button"
+                width="fluid"
+                variant="secondary"
+                onClick={async () => {
+                    await remove(oid, logo).then((state) =>
+                        setDeleteState(state),
+                    )
+                    addToast('Logo slettet')
+                }}
+            >
+                Slett logo
+                <DeleteIcon />
+            </Button>
             <FormError {...getFormFeedbackForField('general', deleteState)} />
         </>
     )

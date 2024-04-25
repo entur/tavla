@@ -1,6 +1,5 @@
 'use client'
 import { ChangeEventHandler, useState } from 'react'
-import classes from './styles.module.css'
 import { ImageIcon, UploadIcon } from '@entur/icons'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
@@ -36,10 +35,13 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
             className="flex flex-col relative"
         >
             <HiddenInput id="oid" value={oid} />
-            <Label htmlFor="logo" className={classes.upload}>
+            <Label
+                htmlFor="logo"
+                className="flex flex-col border-2 rounded-[0.5em] border-dashed border-[var(--primary-button-color)] w-full items-center justify-center p-2 hover:bg-[var(--tertiary-background-color)] p-4"
+            >
                 <Filename fileName={fileName} />
                 <input
-                    className={classes.fileInput}
+                    className="absolute h-full w-full text-transparent hover:cursor-pointer"
                     type="file"
                     name="logo"
                     accept="image/apng,image/jpeg,image/png,image/svg+xml,image/svg,image/webp"
@@ -55,12 +57,12 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                     aria-required
                 />
             </Label>
-            <div className="my-4">
+            <div>
                 <FormError {...getFormFeedbackForField('file', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
             {file && (
-                <div className="flex flex-row justify-between gap-4">
+                <div className="flex flex-row justify-between gap-4 mt-4">
                     <Button
                         className="w-full justify-center "
                         onClick={clearLogo}
@@ -100,14 +102,14 @@ function Filename({ fileName }: { fileName?: string }) {
         )
 
     return (
-        <div className="flex flex-col my-4 font-medium">
+        <div className="flex flex-col py-4 font-medium">
             <div className="flex flex-row gap-4">
                 <UploadIcon size={24} alt="" />
                 <Paragraph margin="none">
                     Dra bilde eller klikk for å laste opp logo
                 </Paragraph>
             </div>
-            <Paragraph className={classes.fileSize} margin="none">
+            <Paragraph className="text-center text-[0.8em]" margin="none">
                 Maksimal størrelse: 10 MB
                 <br />
                 Filtyper: APNG, JPEG, PNG, SVG, GIF, WEBP.
