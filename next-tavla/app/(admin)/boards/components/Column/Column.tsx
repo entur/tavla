@@ -1,5 +1,4 @@
 import { TBoardsColumn } from 'app/(admin)/utils/types'
-import classes from './styles.module.css'
 
 function Column({
     column,
@@ -9,7 +8,7 @@ function Column({
     children: React.ReactNode
 }) {
     return (
-        <div id={column} className={classes.column}>
+        <div id={column} className="pl-2 min-h-[2.25rem] flex items-center">
             {children}
         </div>
     )

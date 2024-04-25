@@ -7,7 +7,10 @@ import {
 import { getFirebaseClientConfig } from 'app/(admin)/actions'
 import { FIREBASE_DEV_CONFIG } from 'app/(admin)/utils/constants'
 
-if (process.env.NODE_ENV === 'development') {
+if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.NEXT_PUBLIC_FORCE_EMULATORS === 'true'
+) {
     const app = initializeApp(FIREBASE_DEV_CONFIG)
     const auth = getAuth(app)
     auth.setPersistence(inMemoryPersistence)
