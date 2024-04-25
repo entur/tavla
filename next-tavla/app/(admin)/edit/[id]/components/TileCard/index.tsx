@@ -25,7 +25,7 @@ import { TransportModeCheckbox } from './TransportModeCheckbox'
 import { LineCheckbox } from './LineCheckbox'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { usePostHog } from 'posthog-js/react'
-import { Switch } from '@entur/form'
+import { Switch, TextField } from '@entur/form'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
 import { Modal } from '@entur/modal'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -116,6 +116,8 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             data.delete('count')
                             const distance = data.get('showDistance') as string
                             data.delete('showDistance')
+                            const offset = data.get('offset') as number | null
+                            data.delete('offset')
 
                             let lines: string[] = []
                             for (const line of data.values()) {
@@ -135,6 +137,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     visible: distance === 'on',
                                     distance: tile.walkingDistance?.distance,
                                 },
+                                offset: Number(offset),
                             } as TTile
 
                             if (distance === 'on' && !tile.walkingDistance) {
@@ -152,6 +155,41 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
                     >
+                        <div>
+                            <Heading4 className="m-0">Gåavstand</Heading4>
+                            <Label>
+                                Vis gåavstand fra lokasjonen til Tavla til
+                                stoppestedet
+                            </Label>
+                            <Switch
+                                name="showDistance"
+                                defaultChecked={
+                                    tile.walkingDistance?.visible ?? false
+                                }
+                            >
+                                Vis gåavstand
+                            </Switch>
+                        </div>
+                        <div className="gap-4 mb-8">
+                            <Heading4 className="mb-1">
+                                Avganger frem i tid.
+                            </Heading4>
+                            <Label>
+                                Vis kun avganger som går om mer enn valgt antall
+                                minutter.
+                            </Label>
+                            <TextField
+                                label="Antall minutter"
+                                name="offset"
+                                type="number"
+                                min={0}
+                                className="w-1/3"
+                                defaultValue={
+                                    tile.offset ? tile.offset : undefined
+                                }
+                            />
+                        </div>
+
                         <Heading4 className="m-0">Kolonner</Heading4>
                         <SubParagraph className="mt-0">
                             Her bestemmer du hvilke kolonner som skal vises i
@@ -200,21 +238,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 ),
                             )}
                         </div>
-                        <div>
-                            <Heading4>Gåavstand</Heading4>
-                            <Label>
-                                Vis gåavstand fra lokasjonen til Tavla til
-                                stoppestedet
-                            </Label>
-                            <Switch
-                                name="showDistance"
-                                defaultChecked={
-                                    tile.walkingDistance?.visible ?? false
-                                }
-                            >
-                                Vis gåavstand
-                            </Switch>
-                        </div>
+
                         <HiddenInput
                             id="count"
                             value={uniqLines.length.toString()}

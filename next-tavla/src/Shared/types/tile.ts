@@ -8,6 +8,7 @@ export type TSharedTile = {
     whitelistedLines?: string[]
     whitelistedTransportModes?: TTransportMode[]
     walkingDistance?: TWalkingDistance
+    offset?: number
 }
 
 export type TColumnTile = {

@@ -11,8 +11,8 @@ module.exports = {
         },
         extend: {
             colors: {
-                primary: 'var(--main-background-color)'
-            }
+                primary: 'var(--main-background-color)',
+            },
         },
     },
     plugins: [],
