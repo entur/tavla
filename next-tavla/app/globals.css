@@ -227,4 +227,10 @@
         padding: 2em;
         background: var(--secondary-background-color);
     }
+
+    .publicCode {
+        background-color: var(--tertiary-background-color);
+        padding: 0.35em 0.5em;
+        border-radius: 0.5em;
+    }
 }

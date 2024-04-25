@@ -1,7 +1,8 @@
 'use client'
+import { BaseExpand } from '@entur/expand'
+import { TTile } from 'types/tile'
 import { Button, SecondarySquareButton } from '@entur/button'
 import { FilterChip } from '@entur/chip'
-import { BaseExpand } from '@entur/expand'
 import { Switch, TextField } from '@entur/form'
 import { CloseIcon, DeleteIcon, EditIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
@@ -22,12 +23,10 @@ import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import { Columns, TColumn } from 'types/column'
 import { TBoardID } from 'types/settings'
-import { TTile } from 'types/tile'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
 import { LineCheckbox } from './LineCheckbox'
 import { TransportModeCheckbox } from './TransportModeCheckbox'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
-import classes from './styles.module.css'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
 
@@ -45,7 +44,12 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
 
     const lines = useLines(tile)
 
-    if (!lines) return <div className={classes.card}>Laster..</div>
+    if (!lines)
+        return (
+            <div className="flex justify-between items-center bg-[var(--secondary-background-color)] p-4 rounded-[0.5em]">
+                Laster..
+            </div>
+        )
 
     const uniqLines = uniqBy(lines, 'id')
 
@@ -73,12 +77,12 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     return (
         <div>
             <div
-                className={`flex justify-between items-center p-2 bg-[--secondary-background-color] ${
+                className={`flex justify-between items-center px-6 py-4 bg-[--secondary-background-color] ${
                     isOpen ? 'rounded-t-[0.5em]' : 'rounded-[0.5em]'
                 }`}
             >
                 <div className="flex flex-row gap-4 items-center">
-                    <Heading3 className="m-0 pl-4">{tile.name}</Heading3>
+                    <Heading3 margin="none">{tile.name}</Heading3>
                     <div className="flex flex-row gap-4 h-8">
                         {transportModes.map((tm) => (
                             <TransportIcon transportMode={tm} key={tm} />
@@ -106,7 +110,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <div className={classes.expandable}>
+                <div className="bg-[--secondary-background-color] px-6 py-4 rounded-b-[0.5em]">
                     <form
                         id={tile.uuid}
                         action={async (data: FormData) => {

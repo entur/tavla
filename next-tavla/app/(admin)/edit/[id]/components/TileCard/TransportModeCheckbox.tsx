@@ -3,7 +3,6 @@ import { TTile } from 'types/tile'
 import { TransportIcon } from 'components/TransportIcon'
 import { transportModeNames } from './utils'
 import { Checkbox } from '@entur/form'
-import classes from './styles.module.css'
 
 function TransportModeCheckbox({
     tile,
@@ -21,7 +20,7 @@ function TransportModeCheckbox({
                 />
                 {transportModeNames(transportMode)}
             </div>
-            <div className={classes.divider} />
+            <div className="border-b-[var(--tertiary-background-color)] border-b-2 my-2" />
             <div className="flex flex-row items-center">
                 <Checkbox
                     defaultChecked={
