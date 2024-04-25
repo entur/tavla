@@ -1,9 +1,13 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, time::Duration};
 
 use axum::{
-    extract::{Path, State},
-    http::StatusCode,
-    routing::get,
+    body::Body,
+    extract::{
+        ws::{self, WebSocket},
+        Path, State, WebSocketUpgrade,
+    },
+    http::{Response, StatusCode},
+    routing::{get, post},
     Router,
 };
 
@@ -16,24 +20,14 @@ use tokio::{
 };
 
 use redis::{
-    aio::MultiplexedConnection, AsyncCommands, Commands, ConnectionAddr, ConnectionInfo,
+    aio::MultiplexedConnection, AsyncCommands, Client, ConnectionAddr, ConnectionInfo,
     RedisConnectionInfo, RedisError,
 };
 
-#[derive(Debug)]
-enum Refresh {
-    Subscribe {
-        bid: String,
-        trigger: oneshot::Sender<()>,
-    },
-    Trigger {
-        bid: String,
-    },
-}
-
 #[derive(Clone)]
-struct AppState {
-    sender: Sender<Refresh>,
+struct RedisClients {
+    master: MultiplexedConnection,
+    replicas: Client,
 }
 
 #[tokio::main]
@@ -45,73 +39,76 @@ async fn main() {
         .await
         .unwrap();
 
-    let (sender, receiver) = tokio::sync::mpsc::channel::<Refresh>(32);
+    let (master, replicas) = setup_redis().await;
 
-    let (mut master, mut replica) = setup_redis().await;
-
-    let _: Result<String, RedisError> = master.set("test", "basic value set from master").await;
-    let v: Result<String, RedisError> = replica.get("test").await;
-
-    match v {
-        Ok(value) => println!("{}", value),
-        Err(_) => todo!(),
-    }
-
-    tokio::spawn(async move {
-        refresh_manager(receiver).await;
-    });
-
-    let shared_state = AppState { sender };
+    let redis_clients = RedisClients { master, replicas };
 
     let app = Router::new()
-        .route("/:bid", get(subscribe).post(trigger))
-        .with_state(shared_state);
+        .route("/subscribe/:bid", get(subscribe))
+        .route("/refresh/:bid", post(trigger))
+        .with_state(redis_clients);
 
     axum::serve(listener, app).await.unwrap();
 }
 
-async fn refresh_manager(mut receiver: Receiver<Refresh>) {
-    let mut store: HashMap<String, oneshot::Sender<()>> = HashMap::new();
-    while let Some(event) = receiver.recv().await {
-        match event {
-            Refresh::Subscribe { bid, trigger } => {
-                println!("Subscribe {:?}", bid);
-                store.insert(bid, trigger);
-            }
-            Refresh::Trigger { bid } => {
-                println!("Trigger: {:?}", bid);
-                let trigger = store.remove(&bid).unwrap();
-                let _ = trigger.send(());
+async fn subscribe(
+    Path(bid): Path<String>,
+    State(state): State<RedisClients>,
+    ws: WebSocketUpgrade,
+) -> Response<Body> {
+    ws.on_upgrade(|socket| active_subscription(socket, bid, state))
+}
+
+async fn active_subscription(mut ws: WebSocket, bid: String, mut state: RedisClients) {
+    let _: Result<String, RedisError> = state.master.incr("active_boards", 1).await;
+    let handle = tokio::spawn(async move {
+        let mut con = match state.replicas.get_connection() {
+            Ok(c) => c,
+            Err(e) => {
+                println!("{:?}", e);
+                return StatusCode::INTERNAL_SERVER_ERROR;
             }
         };
+        let _ = con.set_read_timeout(Some(Duration::from_secs(120)));
+        let mut pubsub = con.as_pubsub();
+        let res = pubsub.subscribe(bid);
+
+        let _ = ws.send(ws::Message::Ping(vec![0])).await;
+
+        println!("{:?}", res);
+
+        loop {
+            let msg = pubsub.get_message();
+
+            println!("{:?}", msg);
+            let _ = match msg {
+                Ok(_) => ws.send(ws::Message::Ping(vec![1])).await,
+                Err(_) => ws.send(ws::Message::Ping(vec![0])).await,
+            };
+        }
+    });
+    let _ = handle.await;
+
+    let _: Result<String, RedisError> = state.master.decr("active_boards", 1).await;
+}
+
+async fn trigger(Path(bid): Path<String>, State(mut state): State<RedisClients>) -> StatusCode {
+    // take new board as input
+    println!("{:?}", bid);
+    let cmd: Result<i8, RedisError> = state.master.publish(bid, "").await;
+    match cmd {
+        Ok(v) => {
+            println!("{:?}", v);
+            StatusCode::OK
+        }
+        Err(e) => {
+            println!("{:?}", e);
+            StatusCode::INTERNAL_SERVER_ERROR
+        }
     }
 }
 
-async fn subscribe(Path(bid): Path<String>, State(state): State<AppState>) -> StatusCode {
-    let handle = tokio::spawn(async move {
-        let (sender, receiver) = oneshot::channel();
-        state
-            .sender
-            .send(Refresh::Subscribe {
-                bid: bid.clone(),
-                trigger: sender,
-            })
-            .await
-            .unwrap();
-
-        let res = receiver.await;
-        println!("refresh for {} was triggered, {:?}", bid, res)
-    });
-    let _ = handle.await;
-    StatusCode::OK
-}
-
-async fn trigger(Path(bid): Path<String>, State(state): State<AppState>) -> StatusCode {
-    let _ = state.sender.send(Refresh::Trigger { bid }).await;
-    StatusCode::OK
-}
-
-async fn setup_redis() -> (MultiplexedConnection, MultiplexedConnection) {
+async fn setup_redis() -> (MultiplexedConnection, Client) {
     let redis_pw = std::env::var("REDIS_PASSWORD").expect("Expected to find redis pw");
     let conn_info = RedisConnectionInfo {
         db: 0,
@@ -136,10 +133,5 @@ async fn setup_redis() -> (MultiplexedConnection, MultiplexedConnection) {
     })
     .expect("Expected valid replica connection");
 
-    let replica_multiplexer = replica
-        .get_multiplexed_tokio_connection()
-        .await
-        .expect("Expected multiplexed replica connection");
-
-    (master_multiplexer, replica_multiplexer)
+    (master_multiplexer, replica)
 }
