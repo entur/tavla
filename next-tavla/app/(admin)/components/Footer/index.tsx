@@ -1,4 +1,3 @@
-import classes from './styles.module.css'
 import Image from 'next/image'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import { Heading3, Link as EnturLink, Paragraph } from '@entur/typography'
@@ -10,7 +9,7 @@ function Footer() {
         <footer className="eds-contrast">
             <div className="container mx-auto pt-16 pb-4">
                 <Image src={TavlaLogo} alt="" />
-                <div className={classes.meta}>
+                <div className="flex flex-col sm:flex-row justify-between">
                     <div>
                         <Heading3>Entur AS</Heading3>
                         <Paragraph className="mb-4 items-center">
