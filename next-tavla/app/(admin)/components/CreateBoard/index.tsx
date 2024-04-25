@@ -26,7 +26,6 @@ import {
 } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
-import classes from './styles.module.css'
 
 type TCreateBoard = 'name' | 'stops'
 
@@ -55,7 +54,7 @@ function CreateBoard() {
             <Modal
                 open={open}
                 size="large"
-                className={classes.createModal}
+                className="flex flex-col items-center"
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)
@@ -247,7 +246,7 @@ function StopSelector({
                 }
             />
             <FormError {...getFormFeedbackForField('general', state)} />
-            <div className="flex flex-row justify-between pt-8">
+            <div className="flex flex-row justify-between pt-4">
                 <SecondaryButton onClick={() => router.back()}>
                     <BackArrowIcon />
                     Tilbake

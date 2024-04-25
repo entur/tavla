@@ -11,12 +11,12 @@ function StopPlaceList({
 }) {
     if (!tiles || tiles.length === 0)
         return (
-            <Paragraph className="mt-8">
+            <Paragraph className="mt-6">
                 Du har ikke lagt til noen stoppesteder enda.
             </Paragraph>
         )
     return (
-        <div className="w-full mt-8">
+        <div className="w-full mt-6">
             {tiles.map((tile) => (
                 <TileCard key={tile.uuid} tile={tile} onRemove={onRemove} />
             ))}
