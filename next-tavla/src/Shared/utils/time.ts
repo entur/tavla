@@ -39,9 +39,7 @@ export function formatDateToISO(date: Date) {
 }
 
 export function addMinutesToDate(date: Date, minutesToAdd: number) {
-    const newDate = new Date(date)
-    newDate.setMinutes(newDate.getMinutes() + minutesToAdd)
-    return newDate
+    return new Date(date.setMinutes(date.getMinutes() + minutesToAdd))
 }
 
 export function getDate(dateString: string) {
