@@ -29,7 +29,7 @@ function TravelTag({
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
-            className="flex items-center justify-between w-full h-full pl-2 rounded-[0.2em] font-bold text-primary"
+            className="flex items-center justify-between w-full h-full pl-2 rounded-[0.2em] font-bold text-bgPrimary"
             style={{
                 backgroundColor: `var(--table-transport-${
                     transportMode ?? 'unknown'
@@ -40,7 +40,7 @@ function TravelTag({
                 className="w-[2em] h-[2em]"
                 transportMode={transportMode}
                 transportSubmode={transportSubmode}
-                color="var(--main-background-color)"
+                color="bgPrimary"
             />
             <div className="flex flex-row items-center justify-center w-full h-full">
                 {publicCode}
