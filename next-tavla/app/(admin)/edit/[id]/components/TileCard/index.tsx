@@ -46,7 +46,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
 
     if (!lines)
         return (
-            <div className="flex justify-between items-center bg-bgSecondary p-4 rounded-[0.5em]">
+            <div className="flex justify-between items-center bg-bgSecondary p-4 rounded">
                 Laster..
             </div>
         )
@@ -78,7 +78,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
         <div>
             <div
                 className={`flex justify-between items-center px-6 py-4 bg-[--secondary-background-color] ${
-                    isOpen ? 'rounded-t-[0.5em]' : 'rounded-[0.5em]'
+                    isOpen ? 'rounded-t' : 'rounded'
                 }`}
             >
                 <div className="flex flex-row gap-4 items-center">
@@ -110,7 +110,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <div className="bg-[--secondary-background-color] px-6 py-4 rounded-b-[0.5em]">
+                <div className="bg-[--secondary-background-color] px-6 py-4 rounded-b">
                     <form
                         id={tile.uuid}
                         action={async (data: FormData) => {

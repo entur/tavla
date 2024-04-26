@@ -16,6 +16,9 @@ module.exports = {
                 bgTertiary: 'var(--tertiary-background-color)',
                 warning: 'var(--warning-color)',
             },
+            borderRadius: {
+                DEFAULT: '0.5em',
+            },
         },
     },
     plugins: [],
