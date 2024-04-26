@@ -40,16 +40,16 @@ function Footer({
     if (organizationBoard) {
         return (
             <form
-                className="box flexColumn justifyBetween g-2"
+                className="box flex flex-col justify-between"
                 action={submitOrgBoard}
             >
-                <div className="flexRow alignCenter g-1">
+                <div className="flex flex-row items-center gap-2">
                     <Heading3 margin="none">Infomelding</Heading3>
                     <Tooltip
                         content="Skriv en kort tekst som skal vises nederst i tavlen."
                         placement="top"
                     >
-                        <ValidationInfoIcon inline />
+                        <ValidationInfoIcon />
                     </Tooltip>
                 </div>
                 <TextField
@@ -57,7 +57,9 @@ function Footer({
                     name="footer"
                     defaultValue={footer?.footer ?? ''}
                     readOnly={override}
+                    className="w-full"
                 />
+
                 <Switch
                     checked={override}
                     name="override"
@@ -65,7 +67,7 @@ function Footer({
                 >
                     Vis infomelding fra organisasjonen.
                 </Switch>
-                <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+                <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton
                         variant="secondary"
                         aria-label="Lagre kolonner"
@@ -79,24 +81,26 @@ function Footer({
 
     return (
         <form
-            className="box flexColumn justifyBetween g-2"
+            className="box flex flex-col justify-between"
             action={submitBoard}
         >
-            <div className="flexRow alignCenter g-1">
-                <Heading3 margin="none">Infomelding</Heading3>
-                <Tooltip
-                    content="Skriv en kort tekst som skal vises nederst i tavlen."
-                    placement="top"
-                >
-                    <ValidationInfoIcon inline />
-                </Tooltip>
+            <div>
+                <div className="flex flex-row items-center gap-2">
+                    <Heading3 margin="none">Infomelding</Heading3>
+                    <Tooltip
+                        content="Skriv en kort tekst som skal vises nederst i tavlen."
+                        placement="top"
+                    >
+                        <ValidationInfoIcon />
+                    </Tooltip>
+                </div>
+                <TextField
+                    label="Infomelding"
+                    name="footer"
+                    defaultValue={footer?.footer ?? ''}
+                />
             </div>
-            <TextField
-                label="Infomelding"
-                name="footer"
-                defaultValue={footer?.footer ?? ''}
-            />
-            <div className="flexRow w-100 mt-4 mr-2 justifyEnd">
+            <div className="flex flex-row w-full mt-8 justify-end">
                 <SubmitButton variant="secondary" aria-label="Lagre kolonner">
                     Lagre infomelding
                 </SubmitButton>

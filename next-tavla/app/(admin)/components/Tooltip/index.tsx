@@ -14,7 +14,6 @@ import {
     FloatingArrow,
     arrow,
 } from '@floating-ui/react'
-import classes from './styles.module.css'
 function Tooltip({
     children,
     content,
@@ -68,13 +67,13 @@ function Tooltip({
                             top: y ?? 0,
                             left: x ?? 0,
                         }}
-                        className={classes.tooltip}
+                        className="bg-tooltip text-primary flex items-center justify-between rounded-[0.25rem] p-[0.5em] text-center min-h-4 min-w-8 max-w-[28rem] z-50"
                         {...getFloatingProps()}
                     >
                         <FloatingArrow
                             ref={arrowRef}
                             context={context}
-                            fill="white"
+                            className="fill-bg-tooltip"
                         />
                         {content}
                     </div>

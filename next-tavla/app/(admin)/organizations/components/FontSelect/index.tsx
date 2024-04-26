@@ -5,7 +5,7 @@ import { FontChoiceChip } from 'app/(admin)/edit/[id]/components/MetaSettings/Fo
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
 import { TOrganizationID } from 'types/settings'
-import { Heading2, Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 
 function FontSelect({
     oid,

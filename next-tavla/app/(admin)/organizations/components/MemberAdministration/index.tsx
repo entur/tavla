@@ -1,4 +1,4 @@
-import { Heading2, Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 import { MemberList } from './MemberList'
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
 import { InviteUser } from './InviteUser'

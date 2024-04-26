@@ -19,15 +19,15 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 saveLocation(bid, selectedPoint?.value)
                 addToast('Adresse oppdatert!')
             }}
-            className="box flexColumn g-2"
+            className="box flex flex-col justify-between"
         >
-            <div className="flexRow alignCenter g-1">
+            <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="none">Lokasjon</Heading3>
                 <Tooltip
                     content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
                     placement="top"
                 >
-                    <ValidationInfoIcon inline />
+                    <ValidationInfoIcon />
                 </Tooltip>
             </div>
             <SearchableDropdown

@@ -1,5 +1,5 @@
 'use client'
-import { Heading2, Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 import React from 'react'
 import { TOrganizationID } from 'types/settings'
 import { Columns, TColumn } from 'types/column'

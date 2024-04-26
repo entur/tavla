@@ -1,6 +1,6 @@
 'use client'
 import { TextField } from '@entur/form'
-import { Heading3, Heading4 } from '@entur/typography'
+import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
 import { saveFont, saveTitle } from './actions'
 import { TBoardID } from 'types/settings'
@@ -43,10 +43,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     </SubmitButton>
                 </div>
             </form>
-            <div className="box flex flex-col justify-between">
-                <Heading4 className="m-0">Hvor skal tavla stå?</Heading4>
-                <Address bid={bid} location={meta.location} />
-            </div>
+            <Address bid={bid} location={meta.location} />
             <form
                 action={async (data: FormData) => {
                     const font = data.get('font') as TFontSize
@@ -55,7 +52,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 }}
                 className="box flex flex-col justify-between"
             >
-                <Heading4 className="m-0">Velg tekststørrelse: </Heading4>
+                <Heading3 className="m-0">Velg tekststørrelse: </Heading3>
                 <FontChoiceChip font={meta.fontSize ?? 'medium'} />
                 <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton variant="secondary">
