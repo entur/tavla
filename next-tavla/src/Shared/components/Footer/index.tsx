@@ -19,7 +19,10 @@ function Footer({
 
     return (
         <footer className="flex flex-row justify-start items-center text-2xl">
-            <div style={style} className="ellipsis">
+            <div
+                style={style}
+                className="overflow-hidden whitespace-nowrap overflow-ellipsis"
+            >
                 {footer}
             </div>
             {logo && <Image src={EnturLogo} alt="Entur logo" height={40} />}
