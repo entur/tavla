@@ -62,7 +62,7 @@
         --table-situation-color: var(--feedback-canary-contrast, #ffe082);
         --table-estimated-time-color: var(--colors-brand-coral);
 
-        /* Rest is same as default theme */
+        /* Rest is same as entur theme */
         --tertiary-background-color: var(--colors-blues-blue30);
 
         --main-text-color: var(--colors-brand-white);

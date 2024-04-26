@@ -14,7 +14,7 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
                 Velg hvilken logo som skal vises på alle tavlene til
                 organisasjonen.
             </Paragraph>
-            <div className="relative flex items-cnter justify-center h-[10em] bg-primary border-2 rounded-[0.5em] border-[var(--tertiary-background-color)] mb-4">
+            <div className="relative flex items-center justify-center h-[10em] bg-bgPrimary border-2 rounded-[0.5em] border-bgTertiary mb-4">
                 <Image
                     src={organization.logo ?? TavlaLogo}
                     alt=""

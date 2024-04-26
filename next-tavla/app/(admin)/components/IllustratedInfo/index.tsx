@@ -10,7 +10,7 @@ function IllustratedInfo({
     description: string
 }) {
     return (
-        <div className="flex flex-col items-center bg-[var(--secondary-background-color)] rounded-[0.5em] pb-16">
+        <div className="flex flex-col items-center bg-bgSecondary rounded-[0.5em] pb-16">
             <Image src={animals} aria-hidden="true" alt="" />
             <Heading2 className="my-4">{title}</Heading2>
             <LeadParagraph margin="bottom">{description}</LeadParagraph>

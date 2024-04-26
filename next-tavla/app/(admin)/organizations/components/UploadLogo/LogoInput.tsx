@@ -37,7 +37,7 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
             <HiddenInput id="oid" value={oid} />
             <Label
                 htmlFor="logo"
-                className="flex flex-col border-2 rounded-[0.5em] border-dashed border-[var(--primary-button-color)] w-full items-center justify-center p-2 hover:bg-[var(--tertiary-background-color)] p-4"
+                className="flex flex-col border-2 rounded-[0.5em] border-dashed border-[var(--primary-button-color)] w-full items-center justify-center p-2 hover:bg-bgTertiary p-4"
             >
                 <Filename fileName={fileName} />
                 <input

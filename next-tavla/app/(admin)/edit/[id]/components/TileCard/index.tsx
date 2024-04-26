@@ -46,7 +46,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
 
     if (!lines)
         return (
-            <div className="flex justify-between items-center bg-[var(--secondary-background-color)] p-4 rounded-[0.5em]">
+            <div className="flex justify-between items-center bg-bgSecondary p-4 rounded-[0.5em]">
                 Laster..
             </div>
         )

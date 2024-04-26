@@ -11,7 +11,9 @@ module.exports = {
         },
         extend: {
             colors: {
-                primary: 'var(--main-background-color)',
+                bgPrimary: 'var(--main-background-color)',
+                bgSecondary: 'var(--secondary-background-color)',
+                bgTertiary: 'var(--tertiary-background-color)',
                 warning: 'var(--warning-color)',
             },
         },
