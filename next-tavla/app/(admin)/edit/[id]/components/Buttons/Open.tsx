@@ -18,7 +18,7 @@ function Open({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
                 target="_blank"
             >
                 Åpne Tavle
-                <ExternalIcon />
+                <ExternalIcon className="!top-[-2px]" />
             </Button>
         )
     }

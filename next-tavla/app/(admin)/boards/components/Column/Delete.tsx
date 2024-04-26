@@ -79,6 +79,7 @@ function DeleteButton({
                 onClick={onClick}
             >
                 Slett Tavle
+                <DeleteIcon />
             </Button>
         )
     }
