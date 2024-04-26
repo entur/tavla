@@ -1,6 +1,5 @@
 import { TQuayTile } from 'types/tile'
 import { Table } from '../../scenarios/Table'
-import classes from './styles.module.css'
 import { GetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
@@ -45,8 +44,9 @@ export function QuayTile({
     const heading: string = [data.quay.name, data.quay.publicCode]
         .filter(isNotNullOrUndefined)
         .join(' ')
+
     return (
-        <Tile className={classes.quayTile}>
+        <Tile className="flex flex-col">
             <TableHeader heading={heading} walkingDistance={walkingDistance} />
             <Table
                 columns={columns}
