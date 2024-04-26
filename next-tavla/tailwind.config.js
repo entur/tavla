@@ -12,6 +12,7 @@ module.exports = {
         extend: {
             colors: {
                 primary: 'var(--main-background-color)',
+                warning: 'var(--warning-color)',
             },
         },
     },
