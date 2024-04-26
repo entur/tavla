@@ -48,7 +48,7 @@ export default async function EditPage({ params }: TProps) {
                     <Delete board={board} type="button" />
                 </div>
             </div>
-            <div className={classes.meta}>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8">
                 <MetaSettings bid={params.id} meta={board.meta} />
                 <Footer
                     bid={params.id}
