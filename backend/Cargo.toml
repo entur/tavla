@@ -7,5 +7,8 @@ edition = "2021"
 
 [dependencies]
 axum = {version = "0.7.4", features = ["ws"]}
+futures-util = "0.3.30"
 redis = {version = "0.25.3", features = ["tokio-comp", "aio"]}
+serde = "1.0.199"
+serde_json = "1.0.116"
 tokio = { version = "1.36.0", features = ["macros", "rt-multi-thread"] }

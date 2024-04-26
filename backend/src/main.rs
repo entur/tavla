@@ -1,5 +1,3 @@
-use std::{collections::HashMap, time::Duration};
-
 use axum::{
     body::Body,
     extract::{
@@ -8,21 +6,17 @@ use axum::{
     },
     http::{Response, StatusCode},
     routing::{get, post},
-    Router,
+    Json, Router,
 };
 
-use tokio::{
-    net::TcpListener,
-    sync::{
-        mpsc::{Receiver, Sender},
-        oneshot,
-    },
-};
+use tokio::net::TcpListener;
 
 use redis::{
     aio::MultiplexedConnection, AsyncCommands, Client, ConnectionAddr, ConnectionInfo,
     RedisConnectionInfo, RedisError,
 };
+
+use futures_util::StreamExt as _;
 
 #[derive(Clone)]
 struct RedisClients {
@@ -62,28 +56,27 @@ async fn subscribe(
 async fn active_subscription(mut ws: WebSocket, bid: String, mut state: RedisClients) {
     let _: Result<String, RedisError> = state.master.incr("active_boards", 1).await;
     let handle = tokio::spawn(async move {
-        let mut con = match state.replicas.get_connection() {
-            Ok(c) => c,
+        let mut pubsub = match state.replicas.get_async_pubsub().await {
+            Ok(ps) => ps,
             Err(e) => {
                 println!("{:?}", e);
                 return StatusCode::INTERNAL_SERVER_ERROR;
             }
         };
-        let _ = con.set_read_timeout(Some(Duration::from_secs(120)));
-        let mut pubsub = con.as_pubsub();
-        let res = pubsub.subscribe(bid);
+        let res = pubsub.subscribe(bid).await;
 
         let _ = ws.send(ws::Message::Ping(vec![0])).await;
 
-        println!("{:?}", res);
-
+        let mut msg_stream = pubsub.on_message();
         loop {
-            let msg = pubsub.get_message();
-
+            let msg = msg_stream.next().await;
             println!("{:?}", msg);
             let _ = match msg {
-                Ok(_) => ws.send(ws::Message::Ping(vec![1])).await,
-                Err(_) => ws.send(ws::Message::Ping(vec![0])).await,
+                Some(m) => {
+                    ws.send(ws::Message::Text(m.get_payload().unwrap_or("".into())))
+                        .await
+                }
+                None => ws.send(ws::Message::Ping(vec![0])).await,
             };
         }
     });
@@ -92,10 +85,16 @@ async fn active_subscription(mut ws: WebSocket, bid: String, mut state: RedisCli
     let _: Result<String, RedisError> = state.master.decr("active_boards", 1).await;
 }
 
-async fn trigger(Path(bid): Path<String>, State(mut state): State<RedisClients>) -> StatusCode {
+use serde_json::Value;
+
+async fn trigger(
+    Path(bid): Path<String>,
+    State(mut state): State<RedisClients>,
+    Json(payload): Json<Value>,
+) -> StatusCode {
     // take new board as input
-    println!("{:?}", bid);
-    let cmd: Result<i8, RedisError> = state.master.publish(bid, "").await;
+    println!("{:?}, {}", bid, payload.clone().to_string());
+    let cmd: Result<i8, RedisError> = state.master.publish(bid, payload.to_string()).await;
     match cmd {
         Ok(v) => {
             println!("{:?}", v);
