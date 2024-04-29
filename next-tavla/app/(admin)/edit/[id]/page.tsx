@@ -74,7 +74,7 @@ export default async function EditPage({ params }: TProps) {
             <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
                 <div
-                    className="rounded p-4 bg-bgPrimary h-[40em]"
+                    className="rounded p-4 bg-alpha h-[40em]"
                     data-theme={board.theme ?? 'dark'}
                 >
                     <ClientBoard board={board} />

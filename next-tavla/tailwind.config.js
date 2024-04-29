@@ -11,9 +11,9 @@ module.exports = {
         },
         extend: {
             colors: {
-                bgPrimary: 'var(--main-background-color)',
-                bgSecondary: 'var(--secondary-background-color)',
-                bgTertiary: 'var(--tertiary-background-color)',
+                alpha: 'var(--main-background-color)',
+                beta: 'var(--secondary-background-color)',
+                omega: 'var(--tertiary-background-color)',
                 warning: 'var(--warning-color)',
             },
             borderRadius: {
