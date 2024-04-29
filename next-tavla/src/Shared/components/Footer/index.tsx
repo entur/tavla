@@ -5,10 +5,12 @@ import { TTheme } from 'types/settings'
 import { CSSProperties } from 'react'
 
 function Footer({
+    theme,
     logo,
     footer,
     style,
 }: {
+    theme?: string
     logo?: boolean
     footer?: string
     style?: CSSProperties
@@ -18,14 +20,20 @@ function Footer({
     const EnturLogo = getLogo(theme)
 
     return (
-        <footer className="flex flex-row justify-start items-center text-2xl">
+        <footer className="flex flex-row text-white justify-between text-2xl">
             <div
                 style={style}
-                className="overflow-hidden whitespace-nowrap overflow-ellipsis"
+                className="overflow-hidden whitespace-nowrap overflow-ellipsis text-tooltip"
             >
                 {footer}
             </div>
-            {logo && <Image src={EnturLogo} alt="Entur logo" height={40} />}
+            {!logo && (
+                <Image
+                    src={theme === 'light' ? EnturLogoBlue : EnturLogoWhite}
+                    alt="Entur logo"
+                    className="object-fill"
+                />
+            )}
         </footer>
     )
 }

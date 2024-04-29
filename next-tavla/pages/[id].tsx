@@ -50,6 +50,7 @@ function BoardPage({
                 />
                 <Board board={board} />
                 <Footer
+                    theme={board.theme}
                     logo={organization?.logo !== undefined}
                     footer={
                         !board.footer?.override
