@@ -1,24 +1,38 @@
-import { useCallback, useEffect } from 'react'
-import { TBoardID } from 'types/settings'
+import { useEffect, useRef, useState } from 'react'
+import { TBoard } from 'types/settings'
 
-function useRefresh(bid?: TBoardID) {
-    const poll = useCallback(() => {
-        if (!bid) return
-        fetch(`http://localhost:3001/${bid}`)
-            .then(() => {
-                location.reload()
-                poll()
-            })
-            .catch(() => {
-                location.reload()
-                setTimeout(poll, 10000)
-            })
-    }, [bid])
+function useRefresh(initialBoard: TBoard) {
+    const [board, setBoard] = useState<TBoard>(initialBoard)
+    const connection = useRef<WebSocket | null>(null)
 
     useEffect(() => {
-        const timeout = setTimeout(poll, 10000)
-        return () => clearTimeout(timeout)
-    }, [poll])
+        const t = setTimeout(() => {
+            const socket = new WebSocket(
+                `ws://localhost:3001/subscribe/${initialBoard.id}`,
+            )
+
+            socket.addEventListener('open', () => {
+                console.log('established connection to websocket server')
+                socket.send(
+                    `Connection with client on board with id ${initialBoard.id} established`,
+                )
+            })
+
+            socket.addEventListener('message', (event) => {
+                console.log('Data from server', event)
+                const newBoard = JSON.parse(event.data) as TBoard
+                setBoard(newBoard)
+            })
+
+            connection.current = socket
+        }, 10000)
+        return () => {
+            connection.current?.close()
+            clearTimeout(t)
+        }
+    }, [initialBoard])
+
+    return board
 }
 
 export { useRefresh }

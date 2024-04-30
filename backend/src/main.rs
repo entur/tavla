@@ -54,35 +54,55 @@ async fn subscribe(
 }
 
 async fn active_subscription(mut ws: WebSocket, bid: String, mut state: RedisClients) {
-    let _: Result<String, RedisError> = state.master.incr("active_boards", 1).await;
-    let handle = tokio::spawn(async move {
-        let mut pubsub = match state.replicas.get_async_pubsub().await {
-            Ok(ps) => ps,
-            Err(e) => {
-                println!("{:?}", e);
-                return StatusCode::INTERNAL_SERVER_ERROR;
-            }
-        };
-        let res = pubsub.subscribe(bid).await;
+    if let Ok(res) = state
+        .master
+        .incr::<&str, i32, i32>("active_boards", 1)
+        .await
+    {
+        println!(
+            "Establishing new connection for board with id {:?}. Total active boards: {:?}",
+            bid.clone(),
+            res
+        );
+    }
 
-        let _ = ws.send(ws::Message::Ping(vec![0])).await;
-
-        let mut msg_stream = pubsub.on_message();
-        loop {
-            let msg = msg_stream.next().await;
-            println!("{:?}", msg);
-            let _ = match msg {
-                Some(m) => {
-                    ws.send(ws::Message::Text(m.get_payload().unwrap_or("".into())))
-                        .await
-                }
-                None => ws.send(ws::Message::Ping(vec![0])).await,
-            };
+    let mut pubsub = match state.replicas.get_async_pubsub().await {
+        Ok(ps) => ps,
+        Err(e) => {
+            println!("{:?}", e);
+            return ();
         }
-    });
-    let _ = handle.await;
+    };
+    let res = pubsub.subscribe(bid.clone()).await;
 
-    let _: Result<String, RedisError> = state.master.decr("active_boards", 1).await;
+    let _ = ws.send(ws::Message::Ping(vec![0])).await;
+
+    let mut msg_stream = pubsub.on_message();
+    loop {
+        let msg = msg_stream.next().await;
+        if let Some(m) = msg {
+            if let Ok(payload) = m.get_payload() {
+                match ws.send(ws::Message::Text(payload)).await {
+                    Ok(_) => (),
+                    Err(e) => {
+                        println!("{:?}", e);
+                        break;
+                    }
+                };
+            }
+        }
+    }
+
+    if let Ok(res) = state
+        .master
+        .decr::<&str, i32, i32>("active_boards", 1)
+        .await
+    {
+        println!(
+            "Cleaning up connection for board with id {:?}. Total active boards: {:?}",
+            bid, res
+        );
+    }
 }
 
 use serde_json::Value;
@@ -92,8 +112,6 @@ async fn trigger(
     State(mut state): State<RedisClients>,
     Json(payload): Json<Value>,
 ) -> StatusCode {
-    // take new board as input
-    println!("{:?}, {}", bid, payload.clone().to_string());
     let cmd: Result<i8, RedisError> = state.master.publish(bid, payload.to_string()).await;
     match cmd {
         Ok(v) => {

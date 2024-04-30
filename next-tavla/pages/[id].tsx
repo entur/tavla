@@ -5,7 +5,6 @@ import {
     getBoard,
     getOrganizationWithBoard,
 } from 'Board/scenarios/Board/firebase'
-import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
 import { useRefresh } from 'hooks/useRefresh'
 
@@ -39,18 +38,18 @@ function BoardPage({
     board: TBoard
     organization: TOrganization | null
 }) {
-    useRefresh(board.id)
+    const updatedBoard = useRefresh(board)
 
     return (
-        <div className="root" data-theme={board.theme ?? 'dark'}>
+        <div className="root" data-theme={updatedBoard.theme ?? 'dark'}>
             <div className="rootContainer">
                 <Header
-                    theme={board.theme}
+                    theme={updatedBoard.theme}
                     organizationLogo={organization?.logo}
                 />
-                <Board board={board} />
+                <Board board={updatedBoard} />
                 <Footer
-                    board={board}
+                    board={updatedBoard}
                     logo={organization?.logo !== undefined}
                     orgFooter={organization?.footer}
                 />
