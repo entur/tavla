@@ -135,6 +135,12 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
                 feedback: 'Du har ikke gitt organisasjonen et navn',
                 variant: 'error',
             }
+        case 'organization/name-exists':
+            return {
+                form_type: 'organization',
+                feedback: 'Organisasjonen finnes fra før.',
+                variant: 'error',
+            }
         case 'board/not-found':
             return {
                 form_type: 'general',
