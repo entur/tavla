@@ -55,6 +55,7 @@ export default async function EditPage({ params }: TProps) {
                 <Heading2>Stoppesteder i tavlen</Heading2>
                 <TileSelector
                     col={false}
+                    oid={organization?.id}
                     action={async (data: FormData) => {
                         'use server'
 
