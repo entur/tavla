@@ -27,11 +27,11 @@ function Footer({
             >
                 {footer}
             </div>
-            {!logo && (
+            {logo && (
                 <Image
                     src={theme === 'light' ? EnturLogoBlue : EnturLogoWhite}
                     alt="Entur logo"
-                    className="object-fill"
+                    height={40}
                 />
             )}
         </footer>
