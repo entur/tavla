@@ -10,7 +10,7 @@
     gap: 10px;
     height: 100%;
     overflow: hidden;
-    color: var(--main-text-color);
+    color: var(--main-background-color);
 }
 
 @supports not (display: grid) {

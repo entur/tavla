@@ -11,7 +11,7 @@ function SelectOrganization({
     active?: TOrganization
 }) {
     return (
-        <SideNavigation className="flex flex-col w-full md:w-1/5 g-6 bg-base-primary">
+        <SideNavigation className="flex flex-col w-full md:w-1/5 g-6 bg-primary">
             <Heading1 className="text-[32px]">Tavler</Heading1>
             <div>
                 <SideNavigationItem href="/boards" active={!active?.id}>

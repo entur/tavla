@@ -7,7 +7,7 @@ function FormattedTime({ time }: { time: string }) {
                 {getRelativeTimeString(time)}
             </div>
             {!isDateStringToday(time) && (
-                <div className="text-right em-text-xs">{getDate(time)}</div>
+                <div className="text-right text-em-xs">{getDate(time)}</div>
             )}
         </>
     )

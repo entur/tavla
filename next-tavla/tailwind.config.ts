@@ -27,10 +27,13 @@ module.exports = {
             padding: '2rem',
         },
         extend: {
+            backgroundColor: {
+                primary: 'var(--main-background-color)',
+                secondary: 'var(--secondary-background-color)',
+                tertiary: 'var(--tertiary-background-color)',
+            },
             colors: {
-                'base-primary': 'var(--main-background-color)',
-                'base-secondary': 'var(--secondary-background-color)',
-                'base-tertiary': 'var(--tertiary-background-color)',
+                background: 'var(--main-background-color)',
                 primary: 'var(--main-text-color)',
                 secondary: 'var(--secondary-text-color)',
                 tertiary: 'var(--tertiary-text-color)',
@@ -45,10 +48,10 @@ module.exports = {
                 DEFAULT: '0.5em',
             },
             fontSize: {
-                'em-text-xs': '0.5625em',
-                'em-text-sm': '0.7em',
-                'em-text-base': '1em',
-                'em-text-lg': '1.3em',
+                'em-xs': '0.5625em',
+                'em-sm': '0.7em',
+                'em-base': '1em',
+                'em-lg': '1.3em',
             },
         },
     },
