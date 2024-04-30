@@ -12,11 +12,11 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
     return (
         <div
             key={column}
-            className="flex items-center gap-1 border-b-2 border-b-[var(--table-header-border-color)] mb-2"
+            className="flex items-center gap-1 border-b-2 border-b-[var(--header-border-color)] mb-2"
         >
             <div
                 id={BoardsColumns[column]}
-                className="flex h-[3em] items-center font-medium text-[var(--primary-text-color)] py-0 px-0.5"
+                className="flex h-[3em] items-center font-medium py-0 px-0.5"
                 aria-sort={
                     sort.column === column && sort.type ? sort.type : 'none'
                 }

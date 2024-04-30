@@ -77,7 +77,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     return (
         <div>
             <div
-                className={`flex justify-between items-center px-6 py-4 bg-beta ${
+                className={`flex justify-between items-center px-6 py-4 bg-base-secondary ${
                     isOpen ? 'rounded-t' : 'rounded'
                 }`}
             >
@@ -110,7 +110,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <div className="bg-beta px-6 py-4 rounded-b">
+                <div className="bg-base-secondary px-6 py-4 rounded-b">
                     <form
                         id={tile.uuid}
                         action={async (data: FormData) => {

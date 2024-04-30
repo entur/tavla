@@ -7,7 +7,7 @@
 .expectedDepartureTime {
     text-align: right;
     font-weight: 600;
-    color: var(--table-estimated-time-color);
+    color: var(--estimated-time-color);
 }
 
 .departureDate {
@@ -19,5 +19,5 @@
     text-align: right;
     font-weight: 600;
     font-size: 0.75em;
-    color: var(--table-estimated-time-color);
+    color: var(--estimated-time-color);
 }

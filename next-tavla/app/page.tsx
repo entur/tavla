@@ -32,7 +32,7 @@ async function Landing() {
                 <div className="flex flex-col justify-center pb-10 pt-6 lg:pt-16">
                     <div className="flex flex-col py-4 container mx-auto">
                         <Heading1>Lag din egen avgangstavle</Heading1>
-                        <Heading1 className="italic !text-[var(--colors-brand-coral)] !font-normal">
+                        <Heading1 className="italic text-highlight font-normal">
                             for reisende
                         </Heading1>
                     </div>

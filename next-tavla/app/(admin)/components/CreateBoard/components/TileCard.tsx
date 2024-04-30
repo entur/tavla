@@ -14,7 +14,7 @@ function TileCard({
     onRemove: (tile: TTile) => void
 }) {
     const classes =
-        'flex justify-between items-center rounded border border-[var(--primary-button-color)] mb-2 p-2'
+        'flex justify-between items-center rounded border border-primary mb-2 p-2'
     const lines = useLines(tile)
     if (!lines) return <div className={classes}>Laster..</div>
     const transportModes = uniqBy(lines, 'transportMode')

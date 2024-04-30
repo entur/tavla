@@ -29,7 +29,7 @@ function OrganizationsTable({
             {ORGANIZATIONS_COLUMNS.map((column) => (
                 <div
                     key={column}
-                    className="border-b-[var(--table-header-border-color)] border-b-2 font-medium text-[var(--primary-text-color)]"
+                    className="border-b-[var(--header-border-color)] border-b-2 font-medium"
                 >
                     {OrganizationsColumns[column]}
                 </div>
