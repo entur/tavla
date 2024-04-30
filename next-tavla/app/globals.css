@@ -10,7 +10,6 @@
 
         --main-text-color: var(--colors-misc-black);
         --secondary-text-color: var(--colors-greys-grey60);
-        --primary-label-color: var(--colors-brand-blue);
 
         --primary-button-color: var(--colors-brand-blue);
         --primary-button-hover-color: var(--colors-blues-blue20);
@@ -64,9 +63,7 @@
         --tertiary-background-color: var(--colors-blues-blue30);
 
         --main-text-color: var(--colors-brand-white);
-        --primary-text-color: var(--colors-brand-white);
         --secondary-text-color: var(--colors-brand-lavender);
-        --primary-label-color: var(--colors-brand-white);
 
         --highlight-text-color: var(--colors-brand-coral);
 
@@ -114,9 +111,7 @@
         --tertiary-background-color: var(--colors-blues-blue30);
 
         --main-text-color: var(--colors-brand-white);
-        --primary-text-color: var(--colors-brand-white);
         --secondary-text-color: var(--colors-brand-lavender);
-        --primary-label-color: var(--colors-brand-white);
 
         --highlight-text-color: var(--colors-brand-coral);
 
