@@ -10,19 +10,27 @@ function useOrganizations() {
         useState<NormalizedDropdownItemType | null>(null)
 
     useEffect(() => {
+        fetchOrganizations()
+    }, [])
+
+    function fetchOrganizations() {
         getOrganizationsForUser().then((res) => {
             setOrganizationList(
                 res?.map((o) => ({ value: o.id ?? '', label: o.name ?? '' })),
             )
         })
-    }, [])
-
+    }
     const organizations = useCallback(
         () => organizationList,
         [organizationList],
     )
 
-    return { organizations, selectedOrganization, setSelectedOrganization }
+    return {
+        organizations,
+        selectedOrganization,
+        setSelectedOrganization,
+        fetchOrganizations,
+    }
 }
 
 export { useOrganizations }
