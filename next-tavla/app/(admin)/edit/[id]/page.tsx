@@ -41,7 +41,9 @@ export default async function EditPage({ params }: TProps) {
     return (
         <div className="flex flex-col gap-14">
             <div className="flex flex-col md:flex-row justify-between">
-                <Heading1 margin="top">Rediger {board.meta?.title}</Heading1>
+                <Heading1 margin="top">
+                    Rediger {board.meta?.title} {organization?.id}
+                </Heading1>
                 <div className="flex flex-col md:flex-row gap-4">
                     <Open bid={board.id} type="button" />
                     <Copy bid={board.id} type="button" />
@@ -55,6 +57,7 @@ export default async function EditPage({ params }: TProps) {
                 <Heading2>Stoppesteder i tavlen</Heading2>
                 <TileSelector
                     col={false}
+                    oid={organization?.id}
                     action={async (data: FormData) => {
                         'use server'
 

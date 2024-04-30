@@ -50,5 +50,8 @@ export async function getOrganizationForBoard(bid: TBoardID) {
         .collection('organizations')
         .where('boards', 'array-contains', bid)
         .get()
-    return ref.docs.map((doc) => doc.data() as TOrganization)[0]
+
+    return ref.docs.map(
+        (doc) => ({ id: doc.id, ...doc.data() } as TOrganization),
+    )[0]
 }
