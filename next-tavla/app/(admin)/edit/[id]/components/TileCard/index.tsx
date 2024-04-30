@@ -163,7 +163,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             <div className="flex flex-col">
                                 {tile.walkingDistance?.visible ?? (
                                     <Label
-                                        className="text-warning"
+                                        className="text-warning mb-2"
                                         margin="top"
                                     >
                                         Du må legge til en lokasjon for å kunne
@@ -175,6 +175,9 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     defaultChecked={
                                         tile.walkingDistance?.visible ?? false
                                     }
+                                    disabled={
+                                        tile.walkingDistance?.visible ?? true
+                                    }
                                 >
                                     Vis gåavstand
                                 </Switch>
@@ -182,7 +185,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         </div>
                         <div className="gap-4 mb-8">
                             <Heading4 className="mb-1">
-                                Avganger frem i tid.
+                                Avganger frem i tid
                             </Heading4>
                             <Label>
                                 Vis kun avganger som går om mer enn valgt antall
