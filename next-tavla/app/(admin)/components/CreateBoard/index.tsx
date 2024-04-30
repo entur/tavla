@@ -1,31 +1,37 @@
 'use client'
-import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
+import {
+    Button,
+    IconButton,
+    PrimaryButton,
+    SecondaryButton,
+} from '@entur/button'
+import { Dropdown } from '@entur/dropdown'
+import { Checkbox, TextField } from '@entur/form'
 import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
 import { Stepper } from '@entur/menu'
 import { Modal } from '@entur/modal'
 import { Heading3, Heading4, Label, Paragraph } from '@entur/typography'
-import Link from 'next/link'
-import { usePageParam } from 'app/(admin)/hooks/usePageParam'
-import { usePathname, useRouter } from 'next/navigation'
-import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
-import { TTile } from 'types/tile'
-import { useState } from 'react'
-import { TBoard, TOrganizationID } from 'types/settings'
-import { create } from './actions'
-import { StopPlaceList } from './components/StopPlaceList'
-import { Checkbox, TextField } from '@entur/form'
-import { Dropdown } from '@entur/dropdown'
-import { HiddenInput } from 'components/Form/HiddenInput'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
-import { TileSelector } from '../TileSelector'
-import { formDataToTile } from '../TileSelector/utils'
+import { usePageParam } from 'app/(admin)/hooks/usePageParam'
+import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { SubmitButton } from 'components/Form/SubmitButton'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { useRef, useState } from 'react'
+import { TBoard, TOrganizationID } from 'types/settings'
+import { TTile } from 'types/tile'
 import { FormError } from '../FormError'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
+import { TileSelector } from '../TileSelector'
+import { formDataToTile } from '../TileSelector/utils'
+import { create, createOrg } from './actions'
+import { StopPlaceList } from './components/StopPlaceList'
 
 type TCreateBoard = 'name' | 'stops'
 
@@ -70,6 +76,7 @@ function CreateBoard() {
                         active={pageParam === 'name'}
                         title={board?.meta?.title}
                         state={state}
+                        setFormError={setFormError}
                         action={async (data: FormData) => {
                             const name = data.get('name') as string
                             if (!name) {
@@ -100,7 +107,6 @@ function CreateBoard() {
                             } as TBoard)
                             setOrganization(personal ? undefined : organization)
                             setFormError(undefined)
-
                             router.push(getPathWithParams('stops'))
                         }}
                     />
@@ -122,17 +128,24 @@ function NameAndOrganizationSelector({
     active,
     title,
     state,
+    setFormError,
     action,
 }: {
     active: boolean
     title?: string
     state: TFormFeedback | undefined
+    setFormError: (error: TFormFeedback | undefined) => void
     action: (data: FormData) => void
 }) {
-    const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizations()
-
+    const {
+        organizations,
+        selectedOrganization,
+        setSelectedOrganization,
+        fetchOrganizations,
+    } = useOrganizations()
     const [personal, setPersonal] = useState<boolean>(false)
+    const [createorg, setCreateOrg] = useState<boolean>(false)
+    const orgName = useRef<HTMLInputElement>(null)
 
     if (!active) return null
     return (
@@ -154,25 +167,111 @@ function NameAndOrganizationSelector({
                 {...getFormFeedbackForField('name', state)}
                 className="mb-4"
             />
-            <Label>Legg til i en organisasjon</Label>
-            <Dropdown
-                items={organizations}
-                label="Dine organisasjoner"
-                selectedItem={selectedOrganization}
-                onChange={setSelectedOrganization}
-                clearable
-                className="mb-4"
-                aria-required="true"
-                disabled={personal}
-                {...getFormFeedbackForField('organization', state)}
-            />
-            <Checkbox
-                checked={personal}
-                onChange={() => setPersonal(!personal)}
-                name="personal"
-            >
-                Jeg vil ikke velge organisasjon
-            </Checkbox>
+            {!createorg && (
+                <>
+                    <Heading4>Legg til i en organisasjon</Heading4>
+                    <Label>Velg en organisasjon</Label>
+                    <Dropdown
+                        items={organizations}
+                        label="Dine organisasjoner"
+                        selectedItem={selectedOrganization}
+                        onChange={setSelectedOrganization}
+                        clearable
+                        className="mb-4"
+                        aria-required="true"
+                        disabled={personal}
+                        {...getFormFeedbackForField('organization', state)}
+                    />
+                    {!selectedOrganization && (
+                        <div className="flex flex-row">
+                            <IconButton
+                                onClick={() => setCreateOrg(true)}
+                                className="gap-2"
+                            >
+                                <AddIcon /> Opprett ny organisasjon
+                            </IconButton>
+                            <Checkbox
+                                checked={personal}
+                                onChange={() => setPersonal(!personal)}
+                                name="personal"
+                            >
+                                Jeg vil ikke velge organisasjon
+                            </Checkbox>
+                        </div>
+                    )}
+                </>
+            )}
+            <div>
+                {createorg && (
+                    <div
+                        className="w-full"
+                        aria-live="polite"
+                        aria-relevant="all"
+                    >
+                        <Label className="weight500">
+                            Opprett ny organisasjonen
+                        </Label>
+                        <TextField
+                            size="medium"
+                            label="Organisasjonsnavn"
+                            required
+                            aria-required
+                            ref={orgName}
+                            {...getFormFeedbackForField('organization', state)}
+                        />
+                        <FormError
+                            {...getFormFeedbackForField('general', state)}
+                        />
+                        <div className="mt-2">
+                            <Button
+                                variant="secondary"
+                                onClick={() => setCreateOrg(false)}
+                            >
+                                Avbryt
+                            </Button>
+                            <SubmitButton
+                                variant="secondary"
+                                className="ml-6"
+                                aria-label="Opprett organisasjon"
+                                onClick={async (event: React.MouseEvent) => {
+                                    event.preventDefault()
+                                    if (!orgName.current?.value) {
+                                        return setFormError(
+                                            getFormFeedbackForError(
+                                                'create/organization-missing',
+                                            ),
+                                        )
+                                    }
+
+                                    const duplicate = organizations()
+                                        .map((e) => e.label)
+                                        .includes(orgName.current.value)
+
+                                    if (duplicate) {
+                                        return setFormError(
+                                            getFormFeedbackForError(
+                                                'organization/name-exists',
+                                            ),
+                                        )
+                                    }
+                                    const oid = await createOrg(
+                                        orgName.current.value,
+                                    )
+                                    fetchOrganizations()
+                                    setSelectedOrganization({
+                                        label: orgName.current.value,
+                                        value: oid.toString(),
+                                    })
+                                    setCreateOrg(false)
+                                    setFormError(undefined)
+                                }}
+                            >
+                                Opprett
+                            </SubmitButton>
+                        </div>
+                    </div>
+                )}
+            </div>
             <HiddenInput
                 id="organization"
                 value={selectedOrganization?.value}
