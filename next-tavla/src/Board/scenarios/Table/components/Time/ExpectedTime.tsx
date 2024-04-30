@@ -39,7 +39,7 @@ function Time({
     aimedDepartureTime: string
     cancelled: boolean
 }) {
-    if (!cancelled)
+    if (cancelled)
         return (
             <>
                 <div className="text-right font-semibold text-estimated-time text-[0.75em]">
