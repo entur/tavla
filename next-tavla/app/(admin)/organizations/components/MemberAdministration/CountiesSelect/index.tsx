@@ -35,7 +35,7 @@ function CountiesSelect({
                     addToast('Fylker lagret!')
                 }}
             >
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-[0_0.5em]">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-[0_0.5rem]">
                     {counties()
                         .sort(
                             (

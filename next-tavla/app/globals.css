@@ -4,7 +4,6 @@
 
 @layer base {
     :root {
-
         --main-background-color: var(--colors-brand-white);
         --secondary-background-color: var(--colors-greys-grey80);
         --tertiary-background-color: var(--colors-blues-blue60);
@@ -38,7 +37,6 @@
     }
 
     [data-theme='dark'] {
-
         --main-background-color: var(--colors-misc-black);
         --secondary-background-color: var(--colors-greys-grey);
         --tertiary-background-color: var(--colors-blues-blue30);
@@ -47,7 +45,7 @@
         --secondary-text-color: var(--colors-brand-lavender);
         --tertiary-text-color: var(--colors-greys-grey50);
         --highlight-text-color: var(--colors-brand-coral);
-        
+
         --error-color: var(--colors-validation-lava-contrast);
         --warning-color: var(--colors-validation-canary-contrast);
         --success-color: #75daad;
@@ -72,7 +70,6 @@
     }
 
     [data-theme='entur'] {
-
         --main-background-color: var(--colors-brand-blue);
         --secondary-background-color: var(--colors-blues-blue10);
         --tertiary-background-color: var(--colors-blues-blue30);
@@ -83,7 +80,7 @@
         --highlight-text-color: var(--colors-brand-coral);
 
         --error-color: var(--colors-validation-lava-contrast);
-        --warning-color: var(--colors-validation-canary-contrast)
+        --warning-color: var(--colors-validation-canary-contrast);
         --success-color: #75daad;
 
         --estimated-time-color: var(--colors-brand-coral);

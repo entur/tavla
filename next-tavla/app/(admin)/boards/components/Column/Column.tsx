@@ -8,7 +8,7 @@ function Column({
     children: React.ReactNode
 }) {
     return (
-        <div id={column} className="pl-2 min-h-[2.25rem] flex items-center">
+        <div id={column} className="pl-2 min-h-9 flex items-center">
             {children}
         </div>
     )

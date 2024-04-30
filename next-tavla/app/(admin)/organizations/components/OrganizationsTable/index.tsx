@@ -21,7 +21,7 @@ function OrganizationsTable({
 
     return (
         <div
-            className="grid auto-rows-[2.5em] gap-y-1 items-center"
+            className="grid auto-rows-[2.5rem] gap-y-1 items-center"
             style={{
                 gridTemplateColumns: `repeat(${ORGANIZATIONS_COLUMNS.length},auto)`,
             }}

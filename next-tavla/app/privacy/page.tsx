@@ -28,7 +28,7 @@ async function Privacy() {
                     <div className="flex flex-col sm:grid sm:grid-cols-3 text-center items-center gap-4 pt-4">
                         <div className="flex flex-col justify-center items-center">
                             <Image
-                                className="h-[10rem] w-auto"
+                                className="h-40 w-auto"
                                 src={squirrel}
                                 alt=""
                             />
@@ -39,11 +39,7 @@ async function Privacy() {
                             </Paragraph>
                         </div>
                         <div className="flex flex-col justify-center  items-center">
-                            <Image
-                                className="h-[10rem] w-auto"
-                                src={doves}
-                                alt=""
-                            />
+                            <Image className="h-40 w-auto" src={doves} alt="" />
                             <Heading4>Informasjonskapsler</Heading4>
                             <Paragraph>
                                 Vi lagrer informasjonskapsler for å huske at du
@@ -52,7 +48,7 @@ async function Privacy() {
                         </div>
                         <div className="flex flex-col justify-center  items-center">
                             <Image
-                                className="h-[10rem] w-auto"
+                                className="h-40 w-auto"
                                 src={hedgehog}
                                 alt=""
                             />
