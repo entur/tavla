@@ -26,14 +26,10 @@ function Board({ board, style }: { board: TBoard; style?: CSSProperties }) {
 
     return (
         <div
-            className={classes.board}
+            className={`${classes.board} ${getFontScale(
+                board.meta?.fontSize || defaultFontSize(board),
+            )} `}
             style={{
-                fontSize:
-                    100 *
-                        getFontScale(
-                            board.meta?.fontSize || defaultFontSize(board),
-                        ) +
-                    '%',
                 ...style,
             }}
         >

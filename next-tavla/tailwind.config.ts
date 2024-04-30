@@ -44,6 +44,12 @@ module.exports = {
             borderRadius: {
                 DEFAULT: '0.5em',
             },
+            fontSize: {
+                'em-text-xs': '0.5625em',
+                'em-text-sm': '0.7em',
+                'em-text-base': '1em',
+                'em-text-lg': '1.3em',
+            },
         },
     },
     safelist: Object.keys(transportModes).map((key) => `bg-${key}`),
