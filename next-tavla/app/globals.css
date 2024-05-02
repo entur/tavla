@@ -18,7 +18,7 @@
         --success-color: var(--colors-validation-mint);
 
         --estimated-time-color: var(--colors-validation-lava);
-        --header-border-color: var(--colors-blues-blue20);
+        --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-greys-grey60);
 
         --metro-color: var(--colors-transport-default-metro);
@@ -51,8 +51,8 @@
         --success-color: #75daad;
 
         --estimated-time-color: var(--colors-brand-coral);
+        --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-greys-grey10);
-        --header-border-color: var(--colors-blues-blue20);
 
         --metro-color: var(--colors-transport-contrast-metro);
         --bus-color: var(--colors-transport-contrast-bus);
@@ -84,8 +84,8 @@
         --success-color: #75daad;
 
         --estimated-time-color: var(--colors-brand-coral);
+        --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-blues-blue30);
-        --header-border-color: var(--colors-blues-blue20);
 
         --metro-color: var(--colors-transport-contrast-metro);
         --bus-color: var(--colors-transport-contrast-bus);

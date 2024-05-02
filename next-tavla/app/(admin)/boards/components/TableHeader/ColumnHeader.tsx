@@ -12,7 +12,7 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
     return (
         <div
             key={column}
-            className="flex items-center gap-1 border-b-2 border-b-[var(--header-border-color)] mb-2"
+            className="flex items-center gap-1 border-b-2 border-b-primary mb-2"
         >
             <div
                 id={BoardsColumns[column]}

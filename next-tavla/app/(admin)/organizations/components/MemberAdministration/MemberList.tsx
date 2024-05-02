@@ -12,14 +12,14 @@ function MemberList({
 }) {
     return (
         <div className="flex flex-col gap-1 mt-6">
-            <div className="flex flex-row justify-between border-b-[var(--header-border-color)] border-b-2 font-semibold pb-2">
+            <div className="flex flex-row justify-between border-b-primary border-b-2 font-semibold pb-2">
                 <p>E-post</p>
                 <p>Handlinger</p>
             </div>
 
             {members.map((member) => (
                 <div
-                    className="flex flex-row justify-between items-center py-2 border-b-2 border-b-[var(--border-color)]"
+                    className="flex flex-row justify-between items-center py-2 border-b-2 border-b-secondary"
                     key={member.uid}
                 >
                     <div>{member.email}</div>

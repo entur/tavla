@@ -47,6 +47,10 @@ module.exports = {
             borderRadius: {
                 DEFAULT: '0.5em',
             },
+            borderColor: {
+                primary: 'var(--divider-color)',
+                secondary: 'var(--border-color)',
+            },
             fontSize: {
                 'em-xs': '0.5625em',
                 'em-sm': '0.7em',
