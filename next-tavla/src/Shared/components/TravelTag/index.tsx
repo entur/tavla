@@ -34,10 +34,9 @@ function TravelTag({
             }`}
         >
             <TransportIcon
-                className="w-em-2 h-em-2"
+                className="w-em-2 h-em-2 fill-background"
                 transportMode={transportMode}
                 transportSubmode={transportSubmode}
-                color="bg-primary"
             />
             <div className="flex flex-row items-center justify-center w-full h-full">
                 {publicCode}

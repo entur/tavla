@@ -5,20 +5,19 @@ function TransportIcon({
     transportMode,
     transportSubmode,
     className,
-    color,
 }: {
     transportMode: TTransportMode | null
     transportSubmode?: TTransportSubmode
     className?: string
-    color?: string
 }) {
     const mode = transportMode ?? 'unknown'
 
     const Component = getTransportIcon(mode, transportSubmode)
+
     return (
         <Component
             className={className ?? 'w-full h-full'}
-            fill={color ?? `var(--${mode}-color)`}
+            fill={`var(--${mode}-color)`}
         />
     )
 }
