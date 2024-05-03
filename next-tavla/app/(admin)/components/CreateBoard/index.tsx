@@ -14,6 +14,7 @@ import { Heading3, Heading4, Label, Paragraph } from '@entur/typography'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
+import { saveOrganization } from 'app/(admin)/organizations/components/CreateOrganization/actions'
 import {
     TFormFeedback,
     getFormFeedbackForError,
@@ -30,9 +31,8 @@ import { FormError } from '../FormError'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { TileSelector } from '../TileSelector'
 import { formDataToTile } from '../TileSelector/utils'
-import { create, createOrg } from './actions'
+import { create } from './actions'
 import { StopPlaceList } from './components/StopPlaceList'
-
 type TCreateBoard = 'name' | 'stops'
 
 function CreateBoard() {
@@ -144,7 +144,7 @@ function NameAndOrganizationSelector({
         fetchOrganizations,
     } = useOrganizations()
     const [personal, setPersonal] = useState<boolean>(false)
-    const [createorg, setCreateOrg] = useState<boolean>(false)
+    const [newOrg, setNewOrg] = useState<boolean>(false)
     const orgName = useRef<HTMLInputElement>(null)
 
     if (!active) return null
@@ -167,13 +167,13 @@ function NameAndOrganizationSelector({
                 {...getFormFeedbackForField('name', state)}
                 className="mb-4"
             />
-            {!createorg && (
+            <Heading4>Legg til i en organisasjon</Heading4>
+            {!newOrg && (
                 <>
-                    <Heading4>Legg til i en organisasjon</Heading4>
-                    <Label>Velg en organisasjon</Label>
+                    <Label>Velg organisasjon</Label>
                     <Dropdown
                         items={organizations}
-                        label="Dine organisasjoner"
+                        label="Organisasjon*"
                         selectedItem={selectedOrganization}
                         onChange={setSelectedOrganization}
                         clearable
@@ -183,10 +183,10 @@ function NameAndOrganizationSelector({
                         {...getFormFeedbackForField('organization', state)}
                     />
                     {!selectedOrganization && (
-                        <div className="flex flex-row">
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
                             <IconButton
-                                onClick={() => setCreateOrg(true)}
-                                className="gap-2"
+                                onClick={() => setNewOrg(true)}
+                                className="justify-start gap-4 sm:gap-2"
                             >
                                 <AddIcon /> Opprett ny organisasjon
                             </IconButton>
@@ -202,13 +202,13 @@ function NameAndOrganizationSelector({
                 </>
             )}
             <div>
-                {createorg && (
+                {newOrg && (
                     <div
                         className="w-full"
                         aria-live="polite"
                         aria-relevant="all"
                     >
-                        <Label className="weight500">
+                        <Label className="font-medium">
                             Opprett ny organisasjonen
                         </Label>
                         <TextField
@@ -217,25 +217,28 @@ function NameAndOrganizationSelector({
                             required
                             aria-required
                             ref={orgName}
+                            className="mb-4"
                             {...getFormFeedbackForField('organization', state)}
                         />
                         <FormError
                             {...getFormFeedbackForField('general', state)}
                         />
-                        <div className="mt-2">
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
                             <Button
                                 variant="secondary"
-                                onClick={() => setCreateOrg(false)}
+                                onClick={() => setNewOrg(false)}
                             >
                                 Avbryt
                             </Button>
                             <SubmitButton
                                 variant="secondary"
-                                className="ml-6"
                                 aria-label="Opprett organisasjon"
                                 onClick={async (event: React.MouseEvent) => {
                                     event.preventDefault()
-                                    if (!orgName.current?.value) {
+                                    if (
+                                        !orgName.current?.value ||
+                                        /^\s*$/.test(orgName.current.value)
+                                    ) {
                                         return setFormError(
                                             getFormFeedbackForError(
                                                 'create/organization-missing',
@@ -243,9 +246,11 @@ function NameAndOrganizationSelector({
                                         )
                                     }
 
-                                    const duplicate = organizations()
-                                        .map((e) => e.label)
-                                        .includes(orgName.current.value)
+                                    const duplicate = organizations().some(
+                                        (organization) =>
+                                            organization.label ===
+                                            orgName.current?.value,
+                                    )
 
                                     if (duplicate) {
                                         return setFormError(
@@ -254,7 +259,8 @@ function NameAndOrganizationSelector({
                                             ),
                                         )
                                     }
-                                    const oid = await createOrg(
+
+                                    const oid = await saveOrganization(
                                         orgName.current.value,
                                     )
                                     fetchOrganizations()
@@ -262,7 +268,7 @@ function NameAndOrganizationSelector({
                                         label: orgName.current.value,
                                         value: oid.toString(),
                                     })
-                                    setCreateOrg(false)
+                                    setNewOrg(false)
                                     setFormError(undefined)
                                 }}
                             >
