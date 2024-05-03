@@ -21,7 +21,7 @@ async function Privacy() {
     return (
         <>
             <TopNavigation loggedIn={loggedIn} />
-            <main className="container mx-auto pb-10 min-h-full">
+            <main className="container mx-auto pb-10">
                 <div className="flex flex-col justify-center mb-8">
                     <Heading1>Personvern</Heading1>
 
