@@ -58,6 +58,12 @@ module.exports = {
                 'em-base': '1em',
                 'em-lg': '1.3em',
             },
+            height: {
+                'em-2': '2em',
+            },
+            width: {
+                'em-2': '2em',
+            },
         },
     },
     safelist: Object.keys(transportModes).map((key) => `bg-${key}`),

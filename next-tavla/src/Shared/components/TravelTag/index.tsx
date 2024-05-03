@@ -34,7 +34,7 @@ function TravelTag({
             }`}
         >
             <TransportIcon
-                className="w-[2em] h-[2em]"
+                className="w-em-2 h-em-2"
                 transportMode={transportMode}
                 transportSubmode={transportSubmode}
                 color="bg-primary"
