@@ -201,83 +201,77 @@ function NameAndOrganizationSelector({
                     )}
                 </>
             )}
-            <div>
-                {newOrg && (
-                    <div
-                        className="w-full"
-                        aria-live="polite"
-                        aria-relevant="all"
-                    >
-                        <Label className="font-medium">
-                            Opprett ny organisasjonen
-                        </Label>
-                        <TextField
-                            size="medium"
-                            label="Organisasjonsnavn"
-                            required
-                            aria-required
-                            ref={orgName}
-                            className="mb-4"
-                            {...getFormFeedbackForField('organization', state)}
-                        />
-                        <FormError
-                            {...getFormFeedbackForField('general', state)}
-                        />
-                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
-                            <Button
-                                variant="secondary"
-                                onClick={() => setNewOrg(false)}
-                            >
-                                Avbryt
-                            </Button>
-                            <SubmitButton
-                                variant="secondary"
-                                aria-label="Opprett organisasjon"
-                                onClick={async (event: React.MouseEvent) => {
-                                    event.preventDefault()
-                                    if (
-                                        !orgName.current?.value ||
-                                        /^\s*$/.test(orgName.current.value)
-                                    ) {
-                                        return setFormError(
-                                            getFormFeedbackForError(
-                                                'create/organization-missing',
-                                            ),
-                                        )
-                                    }
 
-                                    const duplicate = organizations().some(
-                                        (organization) =>
-                                            organization.label ===
-                                            orgName.current?.value,
+            {newOrg && (
+                <div className="w-full" aria-live="polite" aria-relevant="all">
+                    <Label className="font-medium">
+                        Opprett ny organisasjonen
+                    </Label>
+                    <TextField
+                        size="medium"
+                        label="Organisasjonsnavn"
+                        required
+                        aria-required
+                        ref={orgName}
+                        className="mb-4"
+                        {...getFormFeedbackForField('organization', state)}
+                    />
+                    <FormError {...getFormFeedbackForField('general', state)} />
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+                        <Button
+                            variant="secondary"
+                            onClick={() => setNewOrg(false)}
+                        >
+                            Avbryt
+                        </Button>
+                        <SubmitButton
+                            variant="secondary"
+                            aria-label="Opprett organisasjon"
+                            onClick={async (event: React.MouseEvent) => {
+                                event.preventDefault()
+                                if (
+                                    !orgName.current?.value ||
+                                    /^\s*$/.test(orgName.current.value)
+                                ) {
+                                    return setFormError(
+                                        getFormFeedbackForError(
+                                            'create/organization-missing',
+                                        ),
                                     )
+                                }
 
-                                    if (duplicate) {
-                                        return setFormError(
-                                            getFormFeedbackForError(
-                                                'organization/name-exists',
-                                            ),
-                                        )
-                                    }
+                                const duplicate = organizations().some(
+                                    (organization) =>
+                                        organization.label ===
+                                        orgName.current?.value,
+                                )
 
-                                    const oid = await saveOrganization(
-                                        orgName.current.value,
+                                if (duplicate) {
+                                    return setFormError(
+                                        getFormFeedbackForError(
+                                            'organization/name-exists',
+                                        ),
                                     )
-                                    fetchOrganizations()
-                                    setSelectedOrganization({
-                                        label: orgName.current.value,
-                                        value: oid.toString(),
-                                    })
-                                    setNewOrg(false)
-                                    setFormError(undefined)
-                                }}
-                            >
-                                Opprett
-                            </SubmitButton>
-                        </div>
+                                }
+
+                                const oid = await saveOrganization(
+                                    orgName.current.value,
+                                )
+                                fetchOrganizations()
+                                setSelectedOrganization({
+                                    label: orgName.current.value,
+                                    value: oid.toString(),
+                                })
+                                setNewOrg(false)
+                                setFormError(undefined)
+                            }}
+                        >
+                            Opprett
+                        </SubmitButton>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
+
             <HiddenInput
                 id="organization"
                 value={selectedOrganization?.value}
