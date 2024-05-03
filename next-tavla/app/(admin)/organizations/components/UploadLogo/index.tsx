@@ -1,5 +1,4 @@
 'use client'
-import classes from './styles.module.css'
 import Image from 'next/image'
 import TavlaLogo from 'assets/logos/Tavla-blue.svg'
 import { TOrganization } from 'types/settings'
@@ -15,7 +14,7 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
                 Velg hvilken logo som skal vises på alle tavlene til
                 organisasjonen.
             </Paragraph>
-            <div className={classes.logoPreview}>
+            <div className="relative flex items-center justify-center h-40 bg-primary border-2 rounded border-tertiary mb-4">
                 <Image
                     src={organization.logo ?? TavlaLogo}
                     alt=""

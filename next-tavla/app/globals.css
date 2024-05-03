@@ -8,101 +8,65 @@
         --secondary-background-color: var(--colors-greys-grey80);
         --tertiary-background-color: var(--colors-blues-blue60);
 
-        --main-text-color: var(--colors-misc-black);
+        --main-text-color: var(--colors-brand-blue);
         --secondary-text-color: var(--colors-greys-grey60);
+        --tertiary-text-color: var(--colors-greys-grey50);
+        --highlight-text-color: var(--colors-brand-coral);
 
-        --primary-button-color: var(--colors-brand-blue);
-        --primary-button-hover-color: var(--colors-blues-blue20);
+        --error-color: var(--colors-validation-lava);
+        --warning-color: var(--colors-misc-black);
+        --success-color: var(--colors-validation-mint);
 
+        --estimated-time-color: var(--colors-validation-lava);
+        --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-greys-grey60);
-        --warning-color: var(--colors-validation-lava);
 
-        --table-border-color: var(--colors-greys-grey60);
-        --table-situation-color: var(--colors-misc-black);
-        --table-estimated-time-color: var(--colors-brand-coral);
-
-        --table-transport-metro-color: var(--colors-transport-default-metro);
-        --table-transport-bus-color: var(--colors-transport-default-bus);
-        --table-transport-tram-color: var(--colors-transport-default-tram);
-        --table-transport-funicular-color: var(
-            --colors-transport-default-funicular
-        );
-        --table-transport-cableway-color: var(
-            --colors-transport-default-cableway
-        );
-        --table-transport-rail-color: var(--colors-transport-default-train);
-        --table-transport-air-color: var(--colors-transport-default-plane);
-        --table-transport-coach-color: var(--colors-transport-default-bus);
-        --table-transport-lift-color: var(--colors-transport-default-cableway);
-        --table-transport-monorail-color: var(--colors-transport-default-tram);
-        --table-transport-trolleybus-color: var(--colors-transport-default-bus);
-        --table-transport-unknown-color: var(--colors-transport-default-walk);
-        --table-transport-water-color: var(--colors-transport-default-ferry);
-
-        /* Data visualizer colors */
-        --data-blue-color: 24, 28, 86;
-        --data-coral-color: 255, 89, 89;
-        --data-jungle-color: 14, 162, 168;
-        --data-azure-color: 47, 152, 250;
-        --data-lavender-color: 134, 146, 202;
-        --data-peach-color: 202, 130, 91;
-        --data-spring-color: 87, 162, 87;
-        --data-lilac-color: 142, 87, 227;
+        --metro-color: var(--colors-transport-default-metro);
+        --bus-color: var(--colors-transport-default-bus);
+        --tram-color: var(--colors-transport-default-tram);
+        --funicular-color: var(--colors-transport-default-funicular);
+        --cableway-color: var(--colors-transport-default-cableway);
+        --rail-color: var(--colors-transport-default-train);
+        --air-color: var(--colors-transport-default-plane);
+        --coach-color: var(--colors-transport-default-bus);
+        --lift-color: var(--colors-transport-default-cableway);
+        --monorail-color: var(--colors-transport-default-tram);
+        --trolleybus-color: var(--colors-transport-default-bus);
+        --unknown-color: var(--colors-transport-default-walk);
+        --water-color: var(--colors-transport-default-ferry);
     }
 
     [data-theme='dark'] {
         --main-background-color: var(--colors-misc-black);
         --secondary-background-color: var(--colors-greys-grey);
-
-        --table-header-color: var(--colors-greys-grey50);
-        --table-border-color: var(--colors-greys-grey10);
-        --table-situation-color: var(--feedback-canary-contrast, #ffe082);
-        --table-estimated-time-color: var(--colors-brand-coral);
-
-        /* Rest is same as default theme */
         --tertiary-background-color: var(--colors-blues-blue30);
 
         --main-text-color: var(--colors-brand-white);
         --secondary-text-color: var(--colors-brand-lavender);
-
+        --tertiary-text-color: var(--colors-greys-grey50);
         --highlight-text-color: var(--colors-brand-coral);
 
-        --border-color: var(--colors-brand-lavender);
-        --warning-color: var(--colors-validation-lava-contrast);
+        --error-color: var(--colors-validation-lava-contrast);
+        --warning-color: var(--colors-validation-canary-contrast);
+        --success-color: #75daad;
 
-        --table-header-border-color: var(--colors-blues-blue20);
+        --estimated-time-color: var(--colors-brand-coral);
+        --divider-color: var(--colors-blues-blue20);
+        --border-color: var(--colors-greys-grey10);
 
-        --pulse-color: #75daad;
-
-        --table-transport-metro-color: var(--colors-transport-contrast-metro);
-        --table-transport-bus-color: var(--colors-transport-contrast-bus);
-        --table-transport-tram-color: var(--colors-transport-contrast-tram);
-        --table-transport-funicular-color: var(
-            --colors-transport-contrast-funicular
-        );
-        --table-transport-cableway-color: var(
-            --colors-transport-contrast-cableway
-        );
-        --table-transport-rail-color: var(--colors-transport-contrast-train);
-        --table-transport-air-color: var(--colors-transport-contrast-plane);
-        --table-transport-coach-color: var(--colors-transport-contrast-bus);
-        --table-transport-lift-color: var(--colors-transport-contrast-cableway);
-        --table-transport-monorail-color: var(--colors-transport-contrast-tram);
-        --table-transport-trolleybus-color: var(
-            --colors-transport-contrast-bus
-        );
-        --table-transport-unknown-color: var(--colors-transport-contrast-walk);
-        --table-transport-water-color: var(--colors-transport-contrast-ferry);
-
-        /* Data visualizer colors */
-        --data-blue-color: 100, 102, 170;
-        --data-coral-color: 255, 89, 89;
-        --data-jungle-color: 15, 194, 179;
-        --data-azure-color: 100, 178, 251;
-        --data-lavender-color: 74, 183, 226;
-        --data-peach-color: 255, 191, 158;
-        --data-spring-color: 123, 192, 11;
-        --data-lilac-color: 234, 139, 234;
+        --metro-color: var(--colors-transport-contrast-metro);
+        --bus-color: var(--colors-transport-contrast-bus);
+        --tram-color: var(--colors-transport-contrast-tram);
+        --funicular-color: var(--colors-transport-contrast-funicular);
+        --cableway-color: var(--colors-transport-contrast-cableway);
+        --rail-color: var(--colors-transport-contrast-train);
+        --air-color: var(--colors-transport-contrast-plane);
+        --coach-color: var(--colors-transport-contrast-bus);
+        --lift-color: var(--colors-transport-contrast-cableway);
+        --monorail-color: var(--colors-transport-contrast-tram);
+        --trolleybus-color: var(--colors-transport-contrast-bus);
+        --unknown-color: var(--colors-transport-contrast-walk);
+        --water-color: var(--colors-transport-contrast-ferry);
     }
 
     [data-theme='entur'] {
@@ -112,47 +76,30 @@
 
         --main-text-color: var(--colors-brand-white);
         --secondary-text-color: var(--colors-brand-lavender);
-
+        --tertiary-text-color: var(--colors-blues-blue60);
         --highlight-text-color: var(--colors-brand-coral);
 
-        --border-color: var(--colors-brand-lavender);
-        --table-estimated-time-color: var(--colors-brand-coral);
+        --error-color: var(--colors-validation-lava-contrast);
+        --warning-color: var(--colors-validation-canary-contrast);
+        --success-color: #75daad;
 
-        --table-border-color: var(--colors-blues-blue30);
-        --table-header-border-color: var(--colors-blues-blue20);
-        --table-situation-color: var(--colors-validation-canary-contrast);
+        --estimated-time-color: var(--colors-brand-coral);
+        --divider-color: var(--colors-blues-blue20);
+        --border-color: var(--colors-blues-blue30);
 
-        --pulse-color: #75daad;
-
-        --table-transport-metro-color: var(--colors-transport-contrast-metro);
-        --table-transport-bus-color: var(--colors-transport-contrast-bus);
-        --table-transport-tram-color: var(--colors-transport-contrast-tram);
-        --table-transport-funicular-color: var(
-            --colors-transport-contrast-funicular
-        );
-        --table-transport-cableway-color: var(
-            --colors-transport-contrast-cableway
-        );
-        --table-transport-rail-color: var(--colors-transport-contrast-train);
-        --table-transport-air-color: var(--colors-transport-contrast-plane);
-        --table-transport-coach-color: var(--colors-transport-contrast-bus);
-        --table-transport-lift-color: var(--colors-transport-contrast-cableway);
-        --table-transport-monorail-color: var(--colors-transport-contrast-tram);
-        --table-transport-trolleybus-color: var(
-            --colors-transport-contrast-bus
-        );
-        --table-transport-unknown-color: var(--colors-transport-contrast-walk);
-        --table-transport-water-color: var(--colors-transport-contrast-ferry);
-
-        /* Datq visualizer colors */
-        --data-blue-color: 100, 102, 170;
-        --data-coral-color: 255, 89, 89;
-        --data-jungle-color: 15, 194, 179;
-        --data-azure-color: 100, 178, 251;
-        --data-lavender-color: 74, 183, 226;
-        --data-peach-color: 255, 191, 158;
-        --data-spring-color: 123, 192, 11;
-        --data-lilac-color: 234, 139, 234;
+        --metro-color: var(--colors-transport-contrast-metro);
+        --bus-color: var(--colors-transport-contrast-bus);
+        --tram-color: var(--colors-transport-contrast-tram);
+        --funicular-color: var(--colors-transport-contrast-funicular);
+        --cableway-color: var(--colors-transport-contrast-cableway);
+        --rail-color: var(--colors-transport-contrast-train);
+        --air-color: var(--colors-transport-contrast-plane);
+        --coach-color: var(--colors-transport-contrast-bus);
+        --lift-color: var(--colors-transport-contrast-cableway);
+        --monorail-color: var(--colors-transport-contrast-tram);
+        --trolleybus-color: var(--colors-transport-contrast-bus);
+        --unknown-color: var(--colors-transport-contrast-walk);
+        --water-color: var(--colors-transport-contrast-ferry);
     }
 
     html {
@@ -222,5 +169,39 @@
         border-radius: 0.5em;
         padding: 2em;
         background: var(--secondary-background-color);
+    }
+
+    .publicCode {
+        background-color: var(--tertiary-background-color);
+        padding: 0.35em 0.5em;
+        border-radius: 0.5em;
+    }
+
+    /* For Tavla using pages */
+
+    .root {
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        box-sizing: inherit;
+        font-size: 3vmin;
+        padding: 0 1em;
+        background-color: var(--main-background-color);
+    }
+
+    .rootContainer {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+        gap: 0.75em;
+        overflow: hidden;
+        padding: 1em 0;
+    }
+
+    @supports not (gap: 0.75em) {
+        .rootContainer > * {
+            margin: 0.75em;
+        }
     }
 }

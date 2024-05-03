@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import classes from './privacy.module.css'
 import { Heading1, Heading4, Paragraph } from '@entur/typography'
 import doves from 'assets/illustrations/Doves.png'
 import hedgehog from 'assets/illustrations/Hedgehog.png'
@@ -29,7 +28,7 @@ async function Privacy() {
                     <div className="flex flex-col sm:grid sm:grid-cols-3 text-center items-center gap-4 pt-4">
                         <div className="flex flex-col justify-center items-center">
                             <Image
-                                className={classes.illustration}
+                                className="h-40 w-auto"
                                 src={squirrel}
                                 alt=""
                             />
@@ -40,11 +39,7 @@ async function Privacy() {
                             </Paragraph>
                         </div>
                         <div className="flex flex-col justify-center  items-center">
-                            <Image
-                                className={classes.illustration}
-                                src={doves}
-                                alt=""
-                            />
+                            <Image className="h-40 w-auto" src={doves} alt="" />
                             <Heading4>Informasjonskapsler</Heading4>
                             <Paragraph>
                                 Vi lagrer informasjonskapsler for å huske at du
@@ -53,7 +48,7 @@ async function Privacy() {
                         </div>
                         <div className="flex flex-col justify-center  items-center">
                             <Image
-                                className={classes.illustration}
+                                className="h-40 w-auto"
                                 src={hedgehog}
                                 alt=""
                             />

@@ -1,5 +1,4 @@
 import { BoardsColumns, TBoardsColumn, TSort } from 'app/(admin)/utils/types'
-import classes from './styles.module.css'
 import { Sort } from '../Sort'
 import { useSearchParam } from '../../hooks/useSearchParam'
 
@@ -11,10 +10,13 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
     }
 
     return (
-        <div key={column} className={classes.header}>
+        <div
+            key={column}
+            className="flex items-center gap-1 border-b-2 border-b-primary mb-2"
+        >
             <div
                 id={BoardsColumns[column]}
-                className={classes.title}
+                className="flex h-12 items-center font-medium py-0 px-0.5"
                 aria-sort={
                     sort.column === column && sort.type ? sort.type : 'none'
                 }

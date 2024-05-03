@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     height: 3em;
-    border-top: 1px solid var(--table-border-color);
+    border-top: 1px solid var(--border-color);
 }
 
 .tableCell {

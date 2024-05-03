@@ -1,6 +1,5 @@
 import { TStopPlaceTile } from 'types/tile'
 import { Table } from '../../scenarios/Table'
-import classes from './styles.module.css'
 import { StopPlaceQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
@@ -42,7 +41,7 @@ export function StopPlaceTile({
     }
 
     return (
-        <Tile className={classes.stopPlaceTile}>
+        <Tile className="flex flex-col">
             <TableHeader
                 heading={data.stopPlace.name}
                 walkingDistance={walkingDistance}

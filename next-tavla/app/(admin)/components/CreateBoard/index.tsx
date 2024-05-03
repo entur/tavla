@@ -26,7 +26,6 @@ import {
 } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
-import classes from './styles.module.css'
 
 type TCreateBoard = 'name' | 'stops'
 
@@ -55,7 +54,7 @@ function CreateBoard() {
             <Modal
                 open={open}
                 size="large"
-                className={classes.createModal}
+                className="flex flex-col items-center"
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)
@@ -179,9 +178,9 @@ function NameAndOrganizationSelector({
                 value={selectedOrganization?.value}
             />
             <div className="flex flex-row justify-end mt-8 ">
-                <PrimaryButton className="flex flex-row items-center justify-center">
+                <PrimaryButton>
                     Neste
-                    <ForwardIcon className="!top-0" />
+                    <ForwardIcon />
                 </PrimaryButton>
             </div>
         </form>
@@ -247,12 +246,9 @@ function StopSelector({
                 }
             />
             <FormError {...getFormFeedbackForField('general', state)} />
-            <div className="flex flex-row justify-between">
-                <SecondaryButton
-                    onClick={() => router.back()}
-                    className="mt-8 flex flex-row items-center justify-center"
-                >
-                    <BackArrowIcon className="!top-0" />
+            <div className="flex flex-row justify-between pt-4">
+                <SecondaryButton onClick={() => router.back()}>
+                    <BackArrowIcon />
                     Tilbake
                 </SecondaryButton>
                 <PrimaryButton
@@ -275,7 +271,6 @@ function StopSelector({
                         await create(board, oid)
                         setBoard(undefined)
                     }}
-                    className="mt-8"
                     loading={isSubmitting}
                     disabled={isSubmitting}
                 >

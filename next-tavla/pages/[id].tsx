@@ -1,6 +1,5 @@
 import { Header } from 'components/Header'
 import { TBoard, TLogo } from 'types/settings'
-import classes from 'styles/pages/board.module.css'
 import { Board } from 'Board/scenarios/Board'
 import {
     getBoard,
@@ -42,8 +41,8 @@ function BoardPage({
     useUpdateLastActive(board.id)
 
     return (
-        <div className={classes.root} data-theme={board.theme ?? 'dark'}>
-            <div className={classes.rootContainer}>
+        <div className="root" data-theme={board.theme ?? 'dark'}>
+            <div className="rootContainer">
                 <Header
                     theme={board.theme}
                     organizationLogo={organizationLogo}

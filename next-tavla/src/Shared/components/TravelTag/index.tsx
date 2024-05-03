@@ -1,5 +1,4 @@
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
-import classes from './styles.module.css'
 import { TransportIcon } from 'components/TransportIcon'
 
 const transportModeNames: Record<TTransportMode, string> = {
@@ -30,20 +29,16 @@ function TravelTag({
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
-            className={classes.line}
-            style={{
-                backgroundColor: `var(--table-transport-${
-                    transportMode ?? 'unknown'
-                }-color)`,
-            }}
+            className={`flex items-center justify-between w-full h-full pl-2 rounded-sm font-bold text-background bg-${
+                transportMode ?? 'unknown'
+            }`}
         >
             <TransportIcon
-                className={classes.icon}
+                className="w-em-2 h-em-2 fill-background"
                 transportMode={transportMode}
                 transportSubmode={transportSubmode}
-                color="var(--main-background-color)"
             />
-            <div className="flex flex-row items-center justify-center  w-full h-full">
+            <div className="flex flex-row items-center justify-center w-full h-full">
                 {publicCode}
             </div>
         </div>

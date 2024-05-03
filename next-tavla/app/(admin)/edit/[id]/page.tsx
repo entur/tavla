@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
 import { addTile, getBoard, getWalkingDistanceTile } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
-import classes from './styles.module.css'
 import { TileCard } from './components/TileCard'
 import { MetaSettings } from './components/MetaSettings'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
@@ -76,7 +75,7 @@ export default async function EditPage({ params }: TProps) {
             <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
                 <div
-                    className={classes.preview}
+                    className="rounded p-4 bg-primary h-[40rem]"
                     data-theme={board.theme ?? 'dark'}
                 >
                     <ClientBoard board={board} />

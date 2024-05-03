@@ -7,7 +7,7 @@
 .dot,
 .heartbeat {
     position: absolute;
-    background: var(--pulse-color);
+    background: var(--success-color);
     border-radius: 50%;
     width: 0.75em;
     height: 0.75em;

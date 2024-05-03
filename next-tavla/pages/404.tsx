@@ -1,10 +1,9 @@
 import { Header } from 'components/Header'
-import classes from 'styles/pages/board.module.css'
 
 function NotFoundPage() {
     return (
-        <div className={classes.root}>
-            <div className={classes.rootContainer}>
+        <div className="root">
+            <div className="rootContainer">
                 <Header />
                 <p className="pl-8">Tavlen kunne ikke hentes!</p>
             </div>

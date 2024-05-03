@@ -1,5 +1,4 @@
 import { TOrganizationID, TUser, TUserID } from 'types/settings'
-import classes from './styles.module.css'
 import { RemoveUserButton } from './RemoveUserButton'
 
 function MemberList({
@@ -13,13 +12,16 @@ function MemberList({
 }) {
     return (
         <div className="flex flex-col gap-1 mt-6">
-            <div className={classes.tableHeader}>
-                <div>E-post</div>
-                <div>Handlinger</div>
+            <div className="flex flex-row justify-between border-b-primary border-b-2 font-semibold pb-2">
+                <p>E-post</p>
+                <p>Handlinger</p>
             </div>
 
             {members.map((member) => (
-                <div className={classes.memberListRow} key={member.uid}>
+                <div
+                    className="flex flex-row justify-between items-center py-2 border-b-2 border-b-secondary"
+                    key={member.uid}
+                >
                     <div>{member.email}</div>
                     {member.uid !== currentUserId && (
                         <RemoveUserButton user={member} oid={oid} />

@@ -1,5 +1,3 @@
-import classes from './styles.module.css'
-
 function TableColumn({
     title,
     children,
@@ -10,8 +8,8 @@ function TableColumn({
     className?: string
 }) {
     return (
-        <div className={`${classes.tableColumn} ${className}`}>
-            <div className={classes.tableHeader}>{title}</div>
+        <div className={`flex flex-col ${className}`}>
+            <div className="text-tertiary text-em-sm pb-2 mx-2">{title}</div>
             {children}
         </div>
     )

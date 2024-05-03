@@ -1,6 +1,5 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { formatDateString, getRelativeTimeString } from 'utils/time'
-import classes from './styles.module.css'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
@@ -43,8 +42,10 @@ function Time({
     if (cancelled)
         return (
             <>
-                <div className={classes.cancelled}>Innstilt</div>
-                <div className={classes.aimedDepartureTime}>
+                <div className="text-right font-semibold text-estimated-time text-em-sm">
+                    Innstilt
+                </div>
+                <div className="text-right text-em-xs line-through">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>
@@ -58,10 +59,10 @@ function Time({
     if (timeDeviation > 120) {
         return (
             <>
-                <div className={classes.expectedDepartureTime}>
+                <div className="text-right font-semibold text-estimated-time">
                     {getRelativeTimeString(expectedDepartureTime)}
                 </div>
-                <div className={classes.aimedDepartureTime}>
+                <div className="text-right text-em-xs line-through">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>

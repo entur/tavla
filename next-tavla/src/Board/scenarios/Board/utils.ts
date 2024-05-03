@@ -3,13 +3,13 @@ import { TBoard } from 'types/settings'
 export function getFontScale(fontSize: TFontSize | undefined) {
     switch (fontSize) {
         case 'small':
-            return 0.7
+            return 'text-em-sm'
         case 'medium':
-            return 1
+            return 'text-em-base'
         case 'large':
-            return 1.3
+            return 'text-em-lg'
         default:
-            return 1
+            return 'text-em-base'
     }
 }
 export function defaultFontSize(board: TBoard) {

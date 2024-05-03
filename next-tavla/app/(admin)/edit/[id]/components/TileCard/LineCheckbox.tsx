@@ -1,7 +1,6 @@
 import { Checkbox } from '@entur/form'
 import { TTransportMode } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
-import classes from './styles.module.css'
 import { TLineFragment } from './types'
 
 function LineCheckbox({
@@ -33,6 +32,6 @@ function LineCheckbox({
     )
 }
 function PublicCode({ publicCode }: { publicCode: string | null }) {
-    return <div className={classes.publicCode}>{publicCode}</div>
+    return <div className="publicCode">{publicCode}</div>
 }
 export { LineCheckbox }

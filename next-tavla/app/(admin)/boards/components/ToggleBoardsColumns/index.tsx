@@ -1,7 +1,6 @@
 'use client'
 import { IconButton, SecondaryButton } from '@entur/button'
 import { AdjustmentsIcon, CloseIcon } from '@entur/icons'
-import classes from './styles.module.css'
 import {
     Popover,
     PopoverCloseButton,
@@ -33,9 +32,9 @@ function ToggleBoardsColumns() {
     return (
         <Popover>
             <PopoverTrigger>
-                <SecondaryButton className="flex flex-row items-center justify-center">
+                <SecondaryButton>
                     Velg kolonner
-                    <AdjustmentsIcon aria-hidden="true" className="!top-0" />
+                    <AdjustmentsIcon aria-hidden="true" />
                 </SecondaryButton>
             </PopoverTrigger>
             <PopoverContent>
@@ -50,7 +49,7 @@ function ToggleBoardsColumns() {
                             </IconButton>
                         </PopoverCloseButton>
                     </div>
-                    <div className={classes.contentList}>
+                    <div className="p-2 flex flex-col gap-1">
                         {Object.entries(BoardsColumns).map(([column]) => (
                             <Checkbox
                                 key={column}

@@ -19,12 +19,9 @@ function CreateOrganization() {
 
     return (
         <>
-            <PrimaryButton
-                onClick={open}
-                className="flex flex-row items-center justify-center"
-            >
+            <PrimaryButton onClick={open}>
                 Opprett organisasjon
-                <AddIcon className="!top-0" />
+                <AddIcon />
             </PrimaryButton>
             <Modal
                 className="flex flex-col items-center"

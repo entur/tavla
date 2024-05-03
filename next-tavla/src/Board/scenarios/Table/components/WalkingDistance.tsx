@@ -11,7 +11,7 @@ function WalkingDistance({
 
     return (
         <div className="flex flex-row items-center whitespace-nowrap">
-            <WalkIcon color="white" />
+            <WalkIcon color="primary" />
             {formatWalkTime(walkingDistance.distance)}
         </div>
     )

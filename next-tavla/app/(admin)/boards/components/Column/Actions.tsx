@@ -3,7 +3,6 @@ import { EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { TBoard } from 'types/settings'
-import classes from './styles.module.css'
 import { Column } from './Column'
 import { Delete } from './Delete'
 import { Open } from 'app/(admin)/edit/[id]/components/Buttons/Open'
@@ -12,7 +11,7 @@ import { Copy } from 'app/(admin)/edit/[id]/components/Buttons/Copy'
 function Actions({ board }: { board: TBoard }) {
     return (
         <Column column="actions">
-            <div className={classes.actions}>
+            <div className="flex flex-row gap-1">
                 <Edit bid={board.id} />
                 <Copy bid={board.id} />
                 <Open bid={board.id} />

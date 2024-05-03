@@ -1,5 +1,4 @@
 import { getDate, getRelativeTimeString, isDateStringToday } from 'utils/time'
-import classes from '../styles.module.css'
 
 function FormattedTime({ time }: { time: string }) {
     return (
@@ -8,7 +7,7 @@ function FormattedTime({ time }: { time: string }) {
                 {getRelativeTimeString(time)}
             </div>
             {!isDateStringToday(time) && (
-                <div className={classes.departureDate}>{getDate(time)}</div>
+                <div className="text-right text-em-xs">{getDate(time)}</div>
             )}
         </>
     )

@@ -1,5 +1,3 @@
-import classes from '../../admin.module.css'
-
 import { Metadata } from 'next'
 import { Heading1, LeadParagraph } from '@entur/typography'
 import { redirect } from 'next/navigation'
@@ -58,7 +56,7 @@ async function EditOrganizationPage({ params }: TProps) {
                 Innstillingene vil ikke påvirke tavler som allerede har blitt
                 opprettet.
             </LeadParagraph>
-            <div className={classes.organization}>
+            <div className="grid gap-y-12 gap-x-8 lg:grid-cols-2">
                 <MemberAdministration
                     members={usersReq.users}
                     uid={user.uid}

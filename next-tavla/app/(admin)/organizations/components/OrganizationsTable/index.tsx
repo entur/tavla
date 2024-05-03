@@ -1,4 +1,3 @@
-import classes from './styles.module.css'
 import { TOrganization, TUserID } from 'types/settings'
 import { Cell } from '../Cell'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
@@ -22,13 +21,16 @@ function OrganizationsTable({
 
     return (
         <div
-            className={classes.organizations}
+            className="grid auto-rows-[2.5rem] gap-y-1 items-center"
             style={{
                 gridTemplateColumns: `repeat(${ORGANIZATIONS_COLUMNS.length},auto)`,
             }}
         >
             {ORGANIZATIONS_COLUMNS.map((column) => (
-                <div key={column} className={classes.header}>
+                <div
+                    key={column}
+                    className="border-b-primary border-b-2 font-medium"
+                >
                     {OrganizationsColumns[column]}
                 </div>
             ))}
