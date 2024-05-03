@@ -42,7 +42,7 @@ function Time({
     if (cancelled)
         return (
             <>
-                <div className="text-right font-semibold text-estimated-time text-[0.75em]">
+                <div className="text-right font-semibold text-estimated-time text-em-sm">
                     Innstilt
                 </div>
                 <div className="text-right text-em-xs line-through">
