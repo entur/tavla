@@ -11,7 +11,7 @@ import { Copy } from 'app/(admin)/edit/[id]/components/Buttons/Copy'
 function Actions({ board }: { board: TBoard }) {
     return (
         <Column column="actions">
-            <div className="flex gap-1">
+            <div className="flex flex-row gap-1">
                 <Edit bid={board.id} />
                 <Copy bid={board.id} />
                 <Open bid={board.id} />
