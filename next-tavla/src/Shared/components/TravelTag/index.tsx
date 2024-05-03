@@ -29,7 +29,7 @@ function TravelTag({
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
-            className={`flex items-center justify-between w-full h-full pl-2 rounded-[0.2em] font-bold text-background bg-${
+            className={`flex items-center justify-between w-full h-full pl-2 rounded-sm font-bold text-background bg-${
                 transportMode ?? 'unknown'
             }`}
         >

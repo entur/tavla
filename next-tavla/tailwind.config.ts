@@ -45,6 +45,7 @@ module.exports = {
                 ...transportModes,
             },
             borderRadius: {
+                sm: '0.2em',
                 DEFAULT: '0.5em',
             },
             borderColor: {

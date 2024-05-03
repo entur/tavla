@@ -57,7 +57,7 @@ function FilterButton({ boards }: { boards: TBoard[] }) {
                             </IconButton>
                         </PopoverCloseButton>
                     </div>
-                    <div className="max-w-[25rem] flex flex-wrap gap-1">
+                    <div className="max-w-96 flex flex-wrap gap-1">
                         {allTags.sort().map((tag: TTag) => (
                             <FilterChip
                                 key={tag}

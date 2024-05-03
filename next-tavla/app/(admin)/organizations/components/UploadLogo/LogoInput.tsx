@@ -109,7 +109,7 @@ function Filename({ fileName }: { fileName?: string }) {
                     Dra bilde eller klikk for å laste opp logo
                 </Paragraph>
             </div>
-            <Paragraph className="text-center text-[0.8em]" margin="none">
+            <Paragraph className="text-center text-xs/6" margin="none">
                 Maksimal størrelse: 10 MB
                 <br />
                 Filtyper: APNG, JPEG, PNG, SVG, GIF, WEBP.
