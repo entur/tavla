@@ -58,10 +58,7 @@ module.exports = {
                 'em-base': '1em',
                 'em-lg': '1.3em',
             },
-            height: {
-                'em-2': '2em',
-            },
-            width: {
+            spacing: {
                 'em-2': '2em',
             },
         },
