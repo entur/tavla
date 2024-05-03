@@ -48,7 +48,7 @@ function BoardPage({
                     organizationLogo={organizationLogo}
                 />
                 <Board board={board} />
-                {organizationLogo && <Footer />}
+                {organizationLogo && <Footer theme={board.theme ?? 'dark'} />}
             </div>
         </div>
     )

@@ -1,13 +1,25 @@
 import Image from 'next/image'
-import EnturLogo from 'assets/logos/entur/Enturlogo_White.svg'
+import EnturLogoWhite from 'assets/logos/entur/Enturlogo_White.svg'
+import EnturLogoBlue from 'assets/logos/entur/Enturlogo_Blue.svg'
+import { TTheme } from 'types/settings'
 
-function Footer() {
+function Footer({ theme }: { theme: TTheme }) {
     return (
-        <footer className="flex flex-row justify-start items-center text-2xl">
+        <footer className="flex flex-row justify-start items-center text-2xl text-primary">
             <span>Tjenesten leveres av</span>
-            <Image src={EnturLogo} alt="Entur logo" height={70} />
+            <Image src={getLogo(theme)} alt="Entur logo" height={70} />
         </footer>
     )
 }
 
 export { Footer }
+
+export function getLogo(theme: TTheme) {
+    switch (theme) {
+        case 'light':
+            return EnturLogoBlue
+        case 'dark':
+        case 'entur':
+            return EnturLogoWhite
+    }
+}
