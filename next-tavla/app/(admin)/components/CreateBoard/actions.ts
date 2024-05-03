@@ -5,7 +5,6 @@ import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
 import { TBoard, TOrganization, TOrganizationID } from 'types/settings'
 
 initializeAdminApp()
@@ -38,25 +37,4 @@ export async function create(board: TBoard, oid?: TOrganizationID) {
             ),
         })
     redirect(`/edit/${createdBoard.id}`)
-}
-
-export async function createOrg(name: string) {
-    const user = await getUserFromSessionCookie()
-
-    if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-
-    const organization = await firestore()
-        .collection('organizations')
-        .add({
-            name: name,
-            owners: [user.uid],
-            editors: [],
-            boards: [],
-            defaults: {
-                columns: DEFAULT_ORGANIZATION_COLUMNS,
-            },
-        })
-    if (!organization || !organization.id) return getFormFeedbackForError()
-
-    return organization.id
 }

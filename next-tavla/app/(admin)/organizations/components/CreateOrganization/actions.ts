@@ -1,5 +1,4 @@
 'use server'
-
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -15,8 +14,19 @@ export async function createOrganization(
 ) {
     const name = data.get('name')?.toString() ?? ''
 
-    if (!name || /^\s*$/.test(name))
+    const oid = await saveOrganization(name)
+
+    if (typeof oid === 'string') {
+        redirect(`/organizations/${oid}`)
+    }
+    const formError = oid
+    return formError
+}
+
+export async function saveOrganization(name: string) {
+    if (!name || /^\s*$/.test(name)) {
         return getFormFeedbackForError('organization/name-missing')
+    }
 
     const user = await getUserFromSessionCookie()
 
@@ -34,6 +44,5 @@ export async function createOrganization(
             },
         })
     if (!organization || !organization.id) return getFormFeedbackForError()
-
-    redirect(`/organizations/${organization.id}`)
+    return organization.id
 }
