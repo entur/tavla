@@ -45,7 +45,7 @@ function Time({
                 <div className="text-right font-semibold text-estimated-time text-em-sm">
                     Innstilt
                 </div>
-                <div className="text-right text-em-xs line-through">
+                <div className="text-right text-em-xs lineThrough">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>
@@ -62,7 +62,7 @@ function Time({
                 <div className="text-right font-semibold text-estimated-time">
                     {getRelativeTimeString(expectedDepartureTime)}
                 </div>
-                <div className="text-right text-em-xs line-through">
+                <div className="text-right text-em-xs lineThrough">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>

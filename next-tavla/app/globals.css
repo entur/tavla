@@ -210,4 +210,8 @@
             margin: 0.75em;
         }
     }
+
+    .lineThrough {
+        text-decoration: line-through;
+    }
 }
