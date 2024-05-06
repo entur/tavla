@@ -15,11 +15,6 @@ function Footer({ theme }: { theme: TTheme }) {
 export { Footer }
 
 export function getLogo(theme: TTheme) {
-    switch (theme) {
-        case 'light':
-            return EnturLogoBlue
-        case 'dark':
-        case 'entur':
-            return EnturLogoWhite
-    }
+    if (theme === 'light') return EnturLogoBlue
+    return EnturLogoWhite
 }
