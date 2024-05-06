@@ -67,13 +67,13 @@ function Tooltip({
                             top: y ?? 0,
                             left: x ?? 0,
                         }}
-                        className="bg-tooltip text-primary flex items-center justify-between rounded-[0.25rem] p-[0.5em] text-center min-h-4 min-w-8 max-w-[28rem] z-50"
+                        className="bg-tooltip text-tooltip-text flex items-center justify-between rounded-[0.25rem] p-[0.5em] text-center min-h-4 min-w-8 max-w-[28rem] z-50"
                         {...getFloatingProps()}
                     >
                         <FloatingArrow
                             ref={arrowRef}
                             context={context}
-                            className="fill-bg-tooltip"
+                            className="fill-tooltip"
                         />
                         {content}
                     </div>

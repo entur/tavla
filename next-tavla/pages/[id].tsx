@@ -1,5 +1,5 @@
 import { Header } from 'components/Header'
-import { TBoard, TLogo, TOrganization } from 'types/settings'
+import { TBoard, TOrganization } from 'types/settings'
 import { Board } from 'Board/scenarios/Board'
 import {
     getBoard,
@@ -58,13 +58,9 @@ function BoardPage({
                             : organization?.footer
                     }
                     style={{
-                        fontSize:
-                            100 *
-                                getFontScale(
-                                    board.meta?.fontSize ||
-                                        defaultFontSize(board),
-                                ) +
-                            '%',
+                        fontSize: getFontScale(
+                            board.meta?.fontSize || defaultFontSize(board),
+                        ),
                     }}
                 />
             </div>
