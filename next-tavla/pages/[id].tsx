@@ -40,7 +40,6 @@ function BoardPage({
     organization: TOrganization | null
 }) {
     useUpdateLastActive(board.id)
-
     return (
         <div className="root" data-theme={board.theme ?? 'dark'}>
             <div className="rootContainer">
@@ -50,12 +49,12 @@ function BoardPage({
                 />
                 <Board board={board} />
                 <Footer
-                    theme={board.theme}
+                    theme={board.theme ?? 'dark'}
                     logo={organization?.logo !== undefined}
                     footer={
-                        board.footer?.override
-                            ? board.footer.footer
-                            : organization?.footer
+                        organization?.footer && board.footer?.override !== true
+                            ? organization.footer
+                            : board.footer?.footer
                     }
                     style={{
                         fontSize: getFontScale(

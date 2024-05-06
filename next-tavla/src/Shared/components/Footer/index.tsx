@@ -10,7 +10,7 @@ function Footer({
     footer,
     style,
 }: {
-    theme?: string
+    theme: TTheme
     logo?: boolean
     footer?: string
     style?: CSSProperties
@@ -27,13 +27,7 @@ function Footer({
             >
                 {footer}
             </div>
-            {logo && (
-                <Image
-                    src={theme === 'light' ? EnturLogoBlue : EnturLogoWhite}
-                    alt="Entur logo"
-                    height={40}
-                />
-            )}
+            {logo && <Image src={EnturLogo} alt="Entur logo" height={40} />}
         </footer>
     )
 }
