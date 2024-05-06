@@ -53,8 +53,8 @@ function BoardPage({
                     theme={board.theme}
                     logo={organization?.logo !== undefined}
                     footer={
-                        !board.footer?.override
-                            ? board.footer?.footer
+                        board.footer?.override
+                            ? board.footer.footer
                             : organization?.footer
                     }
                     style={{

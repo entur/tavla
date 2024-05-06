@@ -23,7 +23,7 @@ function Footer({
         <footer className="flex flex-row text-white justify-between text-2xl">
             <div
                 style={style}
-                className="overflow-hidden whitespace-nowrap overflow-ellipsis text-tooltip"
+                className="overflow-hidden whitespace-nowrap overflow-ellipsis text-primary"
             >
                 {footer}
             </div>
