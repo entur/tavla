@@ -66,7 +66,7 @@ function Delete({
                 <Heading2>Slett organisasjon</Heading2>
                 <Paragraph className="mt-8">
                     {`Er du sikker på at du vil slette organisasjonen 
-                    "${organization.name}"?`}
+                    "${organization.name}"? Alle tavlene i organisasjonen vil også bli slettet.`}
                 </Paragraph>
                 <form
                     action={action}
