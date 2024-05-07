@@ -11,22 +11,6 @@ import { TBoardID, TFooter } from 'types/settings'
 
 initializeAdminApp()
 
-export async function saveFooter(bid: TBoardID, footer?: string) {
-    const access = hasBoardEditorAccess(bid)
-    if (!access) return redirect('/')
-
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({
-            'footer.footer': !isEmptyOrSpaces(footer)
-                ? footer
-                : firestore.FieldValue.delete(),
-            'meta.dateModified': Date.now(),
-        })
-    revalidatePath(`/edit/${bid}`)
-}
-
 export async function setOrganizationBoardFooter(
     bid: TBoardID,
     footer?: TFooter,

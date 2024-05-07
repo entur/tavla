@@ -7,7 +7,7 @@ import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useState } from 'react'
 import { TBoardID, TFooter } from 'types/settings'
-import { saveFooter, setOrganizationBoardFooter } from './actions'
+import { setOrganizationBoardFooter } from './actions'
 
 function Footer({
     bid,
@@ -33,33 +33,35 @@ function Footer({
 
     const submitBoard = async (data: FormData) => {
         const footer = data.get('footer') as string
-        await saveFooter(bid, footer)
+        await setOrganizationBoardFooter(bid, {
+            footer: footer,
+            override: true,
+        })
         addToast('Infomelding lagret!')
     }
 
-    if (organizationBoard) {
-        return (
-            <form
-                className="box flex flex-col justify-between"
-                action={submitOrgBoard}
-            >
-                <div className="flex flex-row items-center gap-2">
-                    <Heading3 margin="none">Infomelding</Heading3>
-                    <Tooltip
-                        content="Skriv en kort tekst som skal vises nederst i tavlen."
-                        placement="top"
-                    >
-                        <ValidationInfoIcon />
-                    </Tooltip>
-                </div>
-                <TextField
-                    label="Infomelding"
-                    name="footer"
-                    defaultValue={footer?.footer ?? ''}
-                    readOnly={!override}
-                    className="w-full"
-                />
-
+    return (
+        <form
+            className="box flex flex-col justify-between"
+            action={organizationBoard ? submitOrgBoard : submitBoard}
+        >
+            <div className="flex flex-row items-center gap-2">
+                <Heading3 margin="none">Infomelding</Heading3>
+                <Tooltip
+                    content="Skriv en kort tekst som skal vises nederst i tavlen."
+                    placement="top"
+                >
+                    <ValidationInfoIcon />
+                </Tooltip>
+            </div>
+            <TextField
+                label="Infomelding"
+                name="footer"
+                defaultValue={footer?.footer ?? ''}
+                readOnly={!override && organizationBoard}
+                className="w-full"
+            />
+            {organizationBoard && (
                 <Switch
                     checked={!override}
                     name="override"
@@ -67,39 +69,7 @@ function Footer({
                 >
                     Vis infomelding fra organisasjonen.
                 </Switch>
-                <div className="flex flex-row w-full mt-8 justify-end">
-                    <SubmitButton
-                        variant="secondary"
-                        aria-label="Lagre kolonner"
-                    >
-                        Lagre infomelding
-                    </SubmitButton>
-                </div>
-            </form>
-        )
-    }
-
-    return (
-        <form
-            className="box flex flex-col justify-between"
-            action={submitBoard}
-        >
-            <div>
-                <div className="flex flex-row items-center gap-2">
-                    <Heading3 margin="none">Infomelding</Heading3>
-                    <Tooltip
-                        content="Skriv en kort tekst som skal vises nederst i tavlen."
-                        placement="top"
-                    >
-                        <ValidationInfoIcon />
-                    </Tooltip>
-                </div>
-                <TextField
-                    label="Infomelding"
-                    name="footer"
-                    defaultValue={footer?.footer ?? ''}
-                />
-            </div>
+            )}
             <div className="flex flex-row w-full mt-8 justify-end">
                 <SubmitButton variant="secondary" aria-label="Lagre kolonner">
                     Lagre infomelding
