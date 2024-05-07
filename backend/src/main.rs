@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use axum::{
     body::Body,
     extract::{
@@ -9,7 +11,7 @@ use axum::{
     Json, Router,
 };
 
-use tokio::net::TcpListener;
+use tokio::{net::TcpListener, signal, time};
 
 use redis::{
     aio::MultiplexedConnection, AsyncCommands, Client, ConnectionAddr, ConnectionInfo,
@@ -19,9 +21,11 @@ use redis::{
 use futures_util::StreamExt as _;
 
 #[derive(Clone)]
-struct RedisClients {
+struct AppState {
     master: MultiplexedConnection,
     replicas: Client,
+    runtime_status: CancellationToken,
+    task_tracker: TaskTracker,
 }
 
 #[tokio::main]
@@ -35,25 +39,78 @@ async fn main() {
 
     let (master, replicas) = setup_redis().await;
 
-    let redis_clients = RedisClients { master, replicas };
+    let runtime_status = CancellationToken::new();
+    let task_tracker = TaskTracker::new();
+
+    let redis_clients = AppState {
+        master,
+        replicas,
+        runtime_status: runtime_status.clone(),
+        task_tracker: task_tracker.clone(),
+    };
 
     let app = Router::new()
         .route("/subscribe/:bid", get(subscribe))
         .route("/refresh/:bid", post(trigger))
         .with_state(redis_clients);
 
-    axum::serve(listener, app).await.unwrap();
+    axum::serve(listener, app)
+        .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
+        .await
+        .unwrap();
+}
+
+async fn graceful_shutdown(cancellation_token: CancellationToken, tracker: TaskTracker) {
+    let ctrl_c = async {
+        signal::ctrl_c()
+            .await
+            .expect("failed to install ctrl+c handler");
+    };
+
+    #[cfg(unix)]
+    let terminate = async {
+        signal::unix::signal(signal::unix::SignalKind::terminate())
+            .expect("failed to install unix signal handler")
+            .recv()
+            .await;
+    };
+
+    #[cfg(not(unix))]
+    let terminate = std::future::pending::<()>();
+
+    tokio::select! {
+        _ = ctrl_c => { cancellation_token.cancel(); tracker.close(); tracker.wait().await;}
+        _ = terminate => { cancellation_token.cancel(); tracker.close(); tracker.wait().await;}
+    }
 }
 
 async fn subscribe(
     Path(bid): Path<String>,
-    State(state): State<RedisClients>,
+    State(state): State<AppState>,
     ws: WebSocketUpgrade,
 ) -> Response<Body> {
     ws.on_upgrade(|socket| active_subscription(socket, bid, state))
 }
 
-async fn active_subscription(mut ws: WebSocket, bid: String, mut state: RedisClients) {
+async fn active_subscription(mut ws: WebSocket, bid: String, mut state: AppState) {
+    state.task_tracker.spawn(async move {
+          let mut pubsub = match state.replicas.get_async_pubsub().await {
+        Ok(ps) => ps,
+        Err(_) => {
+            return;
+        }
+    };
+    match pubsub.subscribe(bid.clone()).await {
+        Ok(_) => (),
+        Err(_) => {
+            return;
+        }
+    };
+
+    let mut msg_stream = pubsub.on_message();
+
+    let mut timeout_stream = IntervalStream::new(time::interval(Duration::from_secs(10)));
+
     if let Ok(res) = state
         .master
         .incr::<&str, i32, i32>("active_boards", 1)
@@ -66,30 +123,24 @@ async fn active_subscription(mut ws: WebSocket, bid: String, mut state: RedisCli
         );
     }
 
-    let mut pubsub = match state.replicas.get_async_pubsub().await {
-        Ok(ps) => ps,
-        Err(e) => {
-            println!("{:?}", e);
-            return ();
-        }
-    };
-    let res = pubsub.subscribe(bid.clone()).await;
-
-    let _ = ws.send(ws::Message::Ping(vec![0])).await;
-
-    let mut msg_stream = pubsub.on_message();
     loop {
-        let msg = msg_stream.next().await;
-        if let Some(m) = msg {
-            if let Ok(payload) = m.get_payload() {
-                match ws.send(ws::Message::Text(payload)).await {
-                    Ok(_) => (),
-                    Err(e) => {
-                        println!("{:?}", e);
-                        break;
+        tokio::select! {
+            Some(msg) = msg_stream.next() => {
+                if let Ok(payload) = msg.get_payload() {
+                    match ws.send(ws::Message::Text(payload)).await {
+                        Ok(_) => (),
+                        Err(_) => {break;}
                     }
-                };
+                }
             }
+            Some(_) = timeout_stream.next() => {
+                match ws.send(ws::Message::Ping(vec![0])).await {
+                    Ok(_) => (),
+                    Err(_) => {break;},
+                }
+            }
+            _ = state.runtime_status.cancelled() => {println!("Gracefully shutting down..."); break;}
+            else => {break;}
         }
     }
 
@@ -103,13 +154,17 @@ async fn active_subscription(mut ws: WebSocket, bid: String, mut state: RedisCli
             bid, res
         );
     }
+
+    });
 }
 
 use serde_json::Value;
+use tokio_stream::wrappers::IntervalStream;
+use tokio_util::{sync::CancellationToken, task::TaskTracker};
 
 async fn trigger(
     Path(bid): Path<String>,
-    State(mut state): State<RedisClients>,
+    State(mut state): State<AppState>,
     Json(payload): Json<Value>,
 ) -> StatusCode {
     let cmd: Result<i8, RedisError> = state.master.publish(bid, payload.to_string()).await;

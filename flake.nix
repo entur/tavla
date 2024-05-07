@@ -23,6 +23,8 @@
               clippy
               rustfmt
 
+              redis
+
               # Tavla
               yarn
               openjdk19

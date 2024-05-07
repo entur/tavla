@@ -11,12 +11,6 @@ function useRefresh(initialBoard: TBoard) {
             `ws://localhost:3001/subscribe/${initialBoard.id}`,
         )
 
-        socket.addEventListener('open', () => {
-            socket.send(
-                `Connection with client on board with id ${initialBoard.id} established`,
-            )
-        })
-
         socket.addEventListener('message', (event) => {
             const newBoard = JSON.parse(event.data) as TBoard
             setBoard(newBoard)
