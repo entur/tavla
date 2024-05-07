@@ -20,7 +20,7 @@ function Board({ board, style }: { board: TBoard; style?: CSSProperties }) {
     if (!board.tiles || !board.tiles.length)
         return (
             <Tile className={classes.emptyTile}>
-                <p>Du har ikke lagt til noen holdeplasser enda.</p>
+                <p>Du har ikke lagt til noen stoppesteder enda.</p>
             </Tile>
         )
 

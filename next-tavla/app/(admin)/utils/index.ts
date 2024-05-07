@@ -156,7 +156,7 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
         case 'board/tiles-missing':
             return {
                 form_type: 'general',
-                feedback: 'Du har ikke lagt til noen holdeplasser',
+                feedback: 'Du har ikke lagt til noen stoppesteder',
                 variant: 'error',
             }
         case 'boards/tag-exists':
