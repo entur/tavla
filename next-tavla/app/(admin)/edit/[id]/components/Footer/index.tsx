@@ -5,9 +5,9 @@ import { ValidationInfoIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { useState } from 'react'
 import { TBoardID, TFooter } from 'types/settings'
-import { setOrganizationBoardFooter } from './actions'
+import { setFooter } from './actions'
+import { useState } from 'react'
 
 function Footer({
     bid,
@@ -24,18 +24,9 @@ function Footer({
         const footer = data.get('footer') as string
         const override = data.get('override') as string
         const overrideOrg = override !== 'on'
-        await setOrganizationBoardFooter(bid, {
+        await setFooter(bid, {
             footer: footer,
-            override: overrideOrg,
-        })
-        addToast('Infomelding lagret!')
-    }
-
-    const submitBoard = async (data: FormData) => {
-        const footer = data.get('footer') as string
-        await setOrganizationBoardFooter(bid, {
-            footer: footer,
-            override: true,
+            override: overrideOrg ?? true,
         })
         addToast('Infomelding lagret!')
     }
@@ -43,7 +34,7 @@ function Footer({
     return (
         <form
             className="box flex flex-col justify-between"
-            action={organizationBoard ? submitOrgBoard : submitBoard}
+            action={submitOrgBoard}
         >
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="none">Infomelding</Heading3>
@@ -58,14 +49,14 @@ function Footer({
                 label="Infomelding"
                 name="footer"
                 defaultValue={footer?.footer ?? ''}
-                readOnly={!override && organizationBoard}
+                readOnly={override && organizationBoard}
                 className="w-full"
             />
             {organizationBoard && (
                 <Switch
-                    checked={!override}
-                    name="override"
+                    checked={override}
                     onChange={() => setOverride(!override)}
+                    name="override"
                 >
                     Vis infomelding fra organisasjonen.
                 </Switch>

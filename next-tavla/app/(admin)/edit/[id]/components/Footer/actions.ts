@@ -11,10 +11,7 @@ import { TBoardID, TFooter } from 'types/settings'
 
 initializeAdminApp()
 
-export async function setOrganizationBoardFooter(
-    bid: TBoardID,
-    footer?: TFooter,
-) {
+export async function setFooter(bid: TBoardID, footer?: TFooter) {
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
