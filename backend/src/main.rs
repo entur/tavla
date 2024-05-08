@@ -11,22 +11,21 @@ use axum::{
     Json, Router,
 };
 
-use tokio::{net::TcpListener, signal, time};
+use tokio::{net::TcpListener, time};
 
-use redis::{
-    aio::MultiplexedConnection, AsyncCommands, Client, ConnectionAddr, ConnectionInfo,
-    RedisConnectionInfo, RedisError,
-};
+use redis::{AsyncCommands, RedisError};
 
 use futures_util::StreamExt as _;
 
-#[derive(Clone)]
-struct AppState {
-    master: MultiplexedConnection,
-    replicas: Client,
-    runtime_status: CancellationToken,
-    task_tracker: TaskTracker,
-}
+use serde_json::Value;
+use tokio_stream::wrappers::IntervalStream;
+use tokio_util::{sync::CancellationToken, task::TaskTracker};
+
+mod types;
+use types::AppState;
+
+mod utils;
+use utils::{graceful_shutdown, setup_redis};
 
 #[tokio::main]
 async fn main() {
@@ -60,27 +59,21 @@ async fn main() {
         .unwrap();
 }
 
-async fn graceful_shutdown(cancellation_token: CancellationToken, tracker: TaskTracker) {
-    let ctrl_c = async {
-        signal::ctrl_c()
-            .await
-            .expect("failed to install ctrl+c handler");
-    };
-
-    #[cfg(unix)]
-    let terminate = async {
-        signal::unix::signal(signal::unix::SignalKind::terminate())
-            .expect("failed to install unix signal handler")
-            .recv()
-            .await;
-    };
-
-    #[cfg(not(unix))]
-    let terminate = std::future::pending::<()>();
-
-    tokio::select! {
-        _ = ctrl_c => { cancellation_token.cancel(); tracker.close(); tracker.wait().await;}
-        _ = terminate => { cancellation_token.cancel(); tracker.close(); tracker.wait().await;}
+async fn trigger(
+    Path(bid): Path<String>,
+    State(mut state): State<AppState>,
+    Json(payload): Json<Value>,
+) -> StatusCode {
+    let cmd: Result<i8, RedisError> = state.master.publish(bid, payload.to_string()).await;
+    match cmd {
+        Ok(v) => {
+            println!("{:?}", v);
+            StatusCode::OK
+        }
+        Err(e) => {
+            println!("{:?}", e);
+            StatusCode::INTERNAL_SERVER_ERROR
+        }
     }
 }
 
@@ -156,54 +149,4 @@ async fn active_subscription(mut ws: WebSocket, bid: String, mut state: AppState
     }
 
     });
-}
-
-use serde_json::Value;
-use tokio_stream::wrappers::IntervalStream;
-use tokio_util::{sync::CancellationToken, task::TaskTracker};
-
-async fn trigger(
-    Path(bid): Path<String>,
-    State(mut state): State<AppState>,
-    Json(payload): Json<Value>,
-) -> StatusCode {
-    let cmd: Result<i8, RedisError> = state.master.publish(bid, payload.to_string()).await;
-    match cmd {
-        Ok(v) => {
-            println!("{:?}", v);
-            StatusCode::OK
-        }
-        Err(e) => {
-            println!("{:?}", e);
-            StatusCode::INTERNAL_SERVER_ERROR
-        }
-    }
-}
-
-async fn setup_redis() -> (MultiplexedConnection, Client) {
-    let redis_pw = std::env::var("REDIS_PASSWORD").expect("Expected to find redis pw");
-    let conn_info = RedisConnectionInfo {
-        db: 0,
-        username: None,
-        password: Some(redis_pw),
-    };
-    // TODO: replace host with redis master dns
-    let master = redis::Client::open(ConnectionInfo {
-        addr: ConnectionAddr::Tcp("127.0.0.1".into(), 6379),
-        redis: conn_info.clone(),
-    })
-    .expect("Expected valid master connection");
-
-    let master_multiplexer = master
-        .get_multiplexed_tokio_connection()
-        .await
-        .expect("Expected multiplexed master connection");
-
-    let replica = redis::Client::open(ConnectionInfo {
-        addr: ConnectionAddr::Tcp("127.0.0.1".into(), 6380),
-        redis: conn_info,
-    })
-    .expect("Expected valid replica connection");
-
-    (master_multiplexer, replica)
 }
