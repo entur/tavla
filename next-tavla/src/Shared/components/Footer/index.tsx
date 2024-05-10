@@ -2,28 +2,26 @@ import Image from 'next/image'
 import EnturLogoWhite from 'assets/logos/Tavla-white.svg'
 import EnturLogoBlue from 'assets/logos/Tavla-blue.svg'
 import { TTheme } from 'types/settings'
-import { CSSProperties } from 'react'
 
 function Footer({
     theme,
     logo,
     footer,
-    style,
+    fontSize,
 }: {
     theme: TTheme
     logo?: boolean
     footer?: string
-    style?: CSSProperties
+    fontSize?: string
 }) {
     if (!logo && !footer) return null
 
     const EnturLogo = getLogo(theme)
 
     return (
-        <footer className="flex flex-row text-white justify-between text-2xl">
+        <footer className="flex flex-row text-white justify-between">
             <div
-                style={style}
-                className="overflow-hidden whitespace-nowrap overflow-ellipsis text-primary"
+                className={`overflow-hidden whitespace-nowrap overflow-ellipsis text-primary ${fontSize}`}
             >
                 {footer}
             </div>

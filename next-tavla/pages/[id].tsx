@@ -56,11 +56,10 @@ function BoardPage({
                             ? organization.footer
                             : board.footer?.footer
                     }
-                    style={{
-                        fontSize: getFontScale(
-                            board.meta?.fontSize || defaultFontSize(board),
-                        ),
-                    }}
+                    fontSize={
+                        getFontScale(board.meta?.fontSize) ||
+                        defaultFontSize(board)
+                    }
                 />
             </div>
         </div>
