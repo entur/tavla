@@ -19,8 +19,8 @@ export async function createOrganization(
     if (typeof oid === 'string') {
         redirect(`/organizations/${oid}`)
     }
-    const formError = oid
-    return formError
+
+    return oid
 }
 
 export async function saveOrganization(name: string) {

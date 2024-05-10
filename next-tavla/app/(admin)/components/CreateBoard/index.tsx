@@ -5,7 +5,7 @@ import {
     PrimaryButton,
     SecondaryButton,
 } from '@entur/button'
-import { Dropdown } from '@entur/dropdown'
+import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
 import { Checkbox, TextField } from '@entur/form'
 import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
 import { Stepper } from '@entur/menu'
@@ -24,7 +24,7 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useRef, useState } from 'react'
 import { TBoard, TOrganizationID } from 'types/settings'
 import { TTile } from 'types/tile'
 import { FormError } from '../FormError'
@@ -76,7 +76,6 @@ function CreateBoard() {
                         active={pageParam === 'name'}
                         title={board?.meta?.title}
                         state={state}
-                        setFormError={setFormError}
                         action={async (data: FormData) => {
                             const name = data.get('name') as string
                             if (!name) {
@@ -128,26 +127,18 @@ function NameAndOrganizationSelector({
     active,
     title,
     state,
-    setFormError,
     action,
 }: {
     active: boolean
     title?: string
     state: TFormFeedback | undefined
-    setFormError: (error: TFormFeedback | undefined) => void
     action: (data: FormData) => void
 }) {
-    const {
-        organizations,
-        selectedOrganization,
-        setSelectedOrganization,
-        fetchOrganizations,
-    } = useOrganizations()
-    const [personal, setPersonal] = useState<boolean>(false)
     const [newOrg, setNewOrg] = useState<boolean>(false)
-    const orgName = useRef<HTMLInputElement>(null)
+    const { selectedOrganization, setSelectedOrganization } = useOrganizations()
 
     if (!active) return null
+
     return (
         <form action={action}>
             <Heading3>Velg navn og organisasjon for tavlen</Heading3>
@@ -168,108 +159,19 @@ function NameAndOrganizationSelector({
                 className="mb-4"
             />
             <Heading4>Legg til i en organisasjon</Heading4>
-            {!newOrg && (
-                <>
-                    <Label>Velg organisasjon</Label>
-                    <Dropdown
-                        items={organizations}
-                        label="Organisasjon*"
-                        selectedItem={selectedOrganization}
-                        onChange={setSelectedOrganization}
-                        clearable
-                        className="mb-4"
-                        aria-required="true"
-                        disabled={personal}
-                        {...getFormFeedbackForField('organization', state)}
-                    />
-                    {!selectedOrganization && (
-                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
-                            <IconButton
-                                onClick={() => setNewOrg(true)}
-                                className="justify-start gap-4 sm:gap-2"
-                            >
-                                <AddIcon /> Opprett ny organisasjon
-                            </IconButton>
-                            <Checkbox
-                                checked={personal}
-                                onChange={() => setPersonal(!personal)}
-                                name="personal"
-                            >
-                                Jeg vil ikke velge organisasjon
-                            </Checkbox>
-                        </div>
-                    )}
-                </>
-            )}
 
-            {newOrg && (
-                <div className="w-full" aria-live="polite" aria-relevant="all">
-                    <Label className="font-medium">
-                        Opprett ny organisasjonen
-                    </Label>
-                    <TextField
-                        size="medium"
-                        label="Organisasjonsnavn"
-                        required
-                        aria-required
-                        ref={orgName}
-                        className="mb-4"
-                        {...getFormFeedbackForField('organization', state)}
-                    />
-                    <FormError {...getFormFeedbackForField('general', state)} />
-                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
-                        <Button
-                            variant="secondary"
-                            onClick={() => setNewOrg(false)}
-                        >
-                            Avbryt
-                        </Button>
-                        <SubmitButton
-                            variant="secondary"
-                            aria-label="Opprett organisasjon"
-                            onClick={async (event: React.MouseEvent) => {
-                                event.preventDefault()
-                                if (
-                                    !orgName.current?.value ||
-                                    /^\s*$/.test(orgName.current.value)
-                                ) {
-                                    return setFormError(
-                                        getFormFeedbackForError(
-                                            'create/organization-missing',
-                                        ),
-                                    )
-                                }
-
-                                const duplicate = organizations().some(
-                                    (organization) =>
-                                        organization.label ===
-                                        orgName.current?.value,
-                                )
-
-                                if (duplicate) {
-                                    return setFormError(
-                                        getFormFeedbackForError(
-                                            'organization/name-exists',
-                                        ),
-                                    )
-                                }
-
-                                const oid = await saveOrganization(
-                                    orgName.current.value,
-                                )
-                                fetchOrganizations()
-                                setSelectedOrganization({
-                                    label: orgName.current.value,
-                                    value: oid.toString(),
-                                })
-                                setNewOrg(false)
-                                setFormError(undefined)
-                            }}
-                        >
-                            Opprett
-                        </SubmitButton>
-                    </div>
-                </div>
+            {newOrg ? (
+                <CreateOrganization
+                    setNewOrg={setNewOrg}
+                    setSelectedOrganization={setSelectedOrganization}
+                />
+            ) : (
+                <SelectOrganization
+                    state={state}
+                    setNewOrg={setNewOrg}
+                    selectedOrganization={selectedOrganization}
+                    setSelectedOrganization={setSelectedOrganization}
+                />
             )}
 
             <HiddenInput
@@ -283,6 +185,131 @@ function NameAndOrganizationSelector({
                 </PrimaryButton>
             </div>
         </form>
+    )
+}
+
+function CreateOrganization({
+    setNewOrg,
+    setSelectedOrganization,
+}: {
+    setNewOrg: Dispatch<SetStateAction<boolean>>
+    setSelectedOrganization: Dispatch<
+        SetStateAction<NormalizedDropdownItemType | null>
+    >
+}) {
+    const { organizations } = useOrganizations()
+    const orgName = useRef<HTMLInputElement>(null)
+    const [state, setFormError] = useState<TFormFeedback | undefined>()
+
+    const validateName = (name?: string) => {
+        if (!name || /^\s*$/.test(name)) {
+            return setFormError(
+                getFormFeedbackForError('create/organization-missing'),
+            )
+        }
+
+        const duplicate = organizations().some(
+            (organization) => organization.label === name,
+        )
+
+        if (duplicate) {
+            return setFormError(
+                getFormFeedbackForError('organization/name-exists'),
+            )
+        }
+    }
+
+    return (
+        <div className="w-full" aria-live="polite" aria-relevant="all">
+            <Label className="font-medium">Opprett ny organisasjonen</Label>
+            <TextField
+                size="medium"
+                label="Organisasjonsnavn"
+                required
+                aria-required
+                ref={orgName}
+                className="mb-4"
+                {...getFormFeedbackForField('organization', state)}
+            />
+            <FormError {...getFormFeedbackForField('general', state)} />
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+                <Button variant="secondary" onClick={() => setNewOrg(false)}>
+                    Avbryt
+                </Button>
+                <SubmitButton
+                    variant="secondary"
+                    aria-label="Opprett organisasjon"
+                    onClick={async (event: React.MouseEvent) => {
+                        event.preventDefault()
+
+                        validateName(orgName.current?.value)
+
+                        const oid = await saveOrganization(
+                            orgName.current?.value ?? '',
+                        )
+                        setSelectedOrganization({
+                            label: orgName.current?.value ?? '',
+                            value: oid.toString(),
+                        })
+                        setNewOrg(false)
+                        setFormError(undefined)
+                    }}
+                >
+                    Opprett
+                </SubmitButton>
+            </div>
+        </div>
+    )
+}
+
+function SelectOrganization({
+    state,
+    setNewOrg,
+    selectedOrganization,
+    setSelectedOrganization,
+}: {
+    state: TFormFeedback | undefined
+    setNewOrg: Dispatch<SetStateAction<boolean>>
+    selectedOrganization: NormalizedDropdownItemType | null
+    setSelectedOrganization: Dispatch<
+        SetStateAction<NormalizedDropdownItemType | null>
+    >
+}) {
+    const { organizations } = useOrganizations()
+    const [personal, setPersonal] = useState<boolean>(false)
+
+    return (
+        <>
+            <Label>Velg organisasjon</Label>
+            <Dropdown
+                items={organizations}
+                label="Organisasjon*"
+                selectedItem={selectedOrganization}
+                onChange={setSelectedOrganization}
+                clearable
+                className="mb-4"
+                aria-required="true"
+                disabled={personal}
+                {...getFormFeedbackForField('organization', state)}
+            />
+            {!selectedOrganization && (
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+                    <IconButton
+                        onClick={() => setNewOrg(true)}
+                        className="justify-start gap-4 sm:gap-2"
+                    >
+                        <AddIcon /> Opprett ny organisasjon
+                    </IconButton>
+                    <Checkbox
+                        checked={personal}
+                        onChange={() => setPersonal(!personal)}
+                        name="personal"
+                    >
+                        Jeg vil ikke velge organisasjon
+                    </Checkbox>
+                </div>
+            )}
+        </>
     )
 }
 
