@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { TMessage } from 'types/refresh'
 import { TBoard } from 'types/settings'
 
 function useRefresh(initialBoard: TBoard) {
@@ -12,8 +13,13 @@ function useRefresh(initialBoard: TBoard) {
         )
 
         socket.addEventListener('message', (event) => {
-            const newBoard = JSON.parse(event.data) as TBoard
-            setBoard(newBoard)
+            const message = JSON.parse(event.data) as TMessage
+            switch (message.type) {
+                case 'refresh':
+                    return setBoard(message.payload)
+                case 'update':
+                    return window.location.reload()
+            }
         })
 
         socket.addEventListener(
