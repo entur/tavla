@@ -1,29 +1,32 @@
 import Image from 'next/image'
 import EnturLogoWhite from 'assets/logos/Tavla-white.svg'
 import EnturLogoBlue from 'assets/logos/Tavla-blue.svg'
-import { TTheme } from 'types/settings'
+import { TBoard, TTheme } from 'types/settings'
+import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 
 function Footer({
-    theme,
+    board,
     logo,
-    footer,
-    fontSize,
+    orgFooter,
 }: {
-    theme: TTheme
+    board: TBoard
     logo?: boolean
-    footer?: string
-    fontSize?: string
+    orgFooter?: string
 }) {
-    if (!logo && !footer) return null
+    if (!logo && !board.footer?.footer && !orgFooter) return null
 
-    const EnturLogo = getLogo(theme)
+    const EnturLogo = getLogo(board?.theme ?? 'dark')
 
     return (
         <footer className="flex flex-row text-white justify-between">
             <div
-                className={`overflow-hidden whitespace-nowrap overflow-ellipsis text-primary ${fontSize}`}
+                className={`overflow-hidden whitespace-nowrap overflow-ellipsis text-primary ${
+                    getFontScale(board.meta?.fontSize) || defaultFontSize(board)
+                }`}
             >
-                {footer}
+                {orgFooter && board.footer?.override !== true
+                    ? orgFooter
+                    : board.footer?.footer}
             </div>
             {logo && <Image src={EnturLogo} alt="Entur logo" height={40} />}
         </footer>
