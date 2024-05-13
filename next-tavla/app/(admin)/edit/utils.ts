@@ -75,3 +75,7 @@ export function getIcons(layer?: string, category?: TCategory[]) {
         getTransportIcon(categoryToTransportmode(mode)),
     )
 }
+
+export function isEmptyOrSpaces(str?: string) {
+    return str === undefined || str.match(/^ *$/) !== null
+}

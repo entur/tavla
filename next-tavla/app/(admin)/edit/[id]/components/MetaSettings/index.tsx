@@ -1,6 +1,6 @@
 'use client'
 import { TextField } from '@entur/form'
-import { Heading4 } from '@entur/typography'
+import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
 import { saveFont, saveTitle } from './actions'
 import { TBoardID } from 'types/settings'
@@ -9,20 +9,27 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { Address } from './Adress'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { useToast } from '@entur/alert'
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 
 function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
     const { addToast } = useToast()
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <>
             <form
                 action={async (data: FormData) => {
                     const name = data.get('name') as string
+                    if (isEmptyOrSpaces(name))
+                        return addToast({
+                            content:
+                                'Navnet kan ikke være tomt eller bare mellomrom!',
+                            variant: 'info',
+                        })
                     await saveTitle(bid, name)
                     addToast('Tittel lagret!')
                 }}
                 className="box flex flex-col justify-between"
             >
-                <Heading4 className="m-0">Navn på tavlen</Heading4>
+                <Heading3 margin="none">Navn på tavlen</Heading3>
                 <TextField
                     name="name"
                     className="w-full"
@@ -36,10 +43,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     </SubmitButton>
                 </div>
             </form>
-            <div className="box flex flex-col justify-between">
-                <Heading4 className="m-0">Hvor skal tavla stå?</Heading4>
-                <Address bid={bid} location={meta.location} />
-            </div>
+            <Address bid={bid} location={meta.location} />
             <form
                 action={async (data: FormData) => {
                     const font = data.get('font') as TFontSize
@@ -48,7 +52,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 }}
                 className="box flex flex-col justify-between"
             >
-                <Heading4 className="m-0">Velg tekststørrelse: </Heading4>
+                <Heading3 className="m-0">Velg tekststørrelse: </Heading3>
                 <FontChoiceChip font={meta.fontSize ?? 'medium'} />
                 <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton variant="secondary">
@@ -56,7 +60,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     </SubmitButton>
                 </div>
             </form>
-        </div>
+        </>
     )
 }
 

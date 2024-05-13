@@ -14,6 +14,7 @@ import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
+import { Footer } from './components/Footer'
 
 type TProps = {
     params: { id: TBoardID }
@@ -47,8 +48,14 @@ export default async function EditPage({ params }: TProps) {
                     <Delete board={board} type="button" />
                 </div>
             </div>
-
-            <MetaSettings bid={params.id} meta={board.meta} />
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8">
+                <MetaSettings bid={params.id} meta={board.meta} />
+                <Footer
+                    bid={params.id}
+                    footer={board.footer}
+                    organizationBoard={organization !== undefined}
+                />
+            </div>
 
             <div className="flex flex-col gap-4">
                 <Heading2>Stoppesteder i tavlen</Heading2>

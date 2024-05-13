@@ -1,9 +1,9 @@
 import { Header } from 'components/Header'
-import { TBoard, TLogo } from 'types/settings'
+import { TBoard, TOrganization } from 'types/settings'
 import { Board } from 'Board/scenarios/Board'
 import {
     getBoard,
-    getOrganizationLogoWithBoard,
+    getOrganizationWithBoard,
 } from 'Board/scenarios/Board/firebase'
 import { useUpdateLastActive } from 'hooks/useUpdateLastActive'
 import { Footer } from 'components/Footer'
@@ -26,29 +26,32 @@ export async function getServerSideProps({
     return {
         props: {
             board,
-            organizationLogo: await getOrganizationLogoWithBoard(id),
+            organization: await getOrganizationWithBoard(id),
         },
     }
 }
 
 function BoardPage({
     board,
-    organizationLogo,
+    organization,
 }: {
     board: TBoard
-    organizationLogo: TLogo | null
+    organization: TOrganization | null
 }) {
     useUpdateLastActive(board.id)
-
     return (
         <div className="root" data-theme={board.theme ?? 'dark'}>
             <div className="rootContainer">
                 <Header
                     theme={board.theme}
-                    organizationLogo={organizationLogo}
+                    organizationLogo={organization?.logo}
                 />
                 <Board board={board} />
-                {organizationLogo && <Footer theme={board.theme ?? 'dark'} />}
+                <Footer
+                    board={board}
+                    logo={organization?.logo !== undefined}
+                    orgFooter={organization?.footer}
+                />
             </div>
         </div>
     )

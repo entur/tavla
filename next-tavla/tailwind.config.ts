@@ -42,6 +42,8 @@ module.exports = {
                 warning: 'var(--warning-color)',
                 highlight: 'var(--highlight-text-color)',
                 'estimated-time': 'var(--estimated-time-color)',
+                tooltip: 'var(--tooltip-color)',
+                'tooltip-text': 'var(--tooltip-text-color)',
                 ...transportModes,
             },
             borderRadius: {

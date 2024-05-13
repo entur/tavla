@@ -17,6 +17,14 @@ export async function getBoard(bid: TBoardID) {
     return { id: board.id, ...board.data() } as TBoard
 }
 
+export async function getOrganizationWithBoard(bid: TBoardID) {
+    const ref = await firestore()
+        .collection('organizations')
+        .where('boards', 'array-contains', bid)
+        .get()
+    return ref.docs.map((doc) => doc.data() as TOrganization)[0] ?? null
+}
+
 export async function getOrganizationLogoWithBoard(bid: TBoardID) {
     const ref = await firestore()
         .collection('organizations')
@@ -24,6 +32,15 @@ export async function getOrganizationLogoWithBoard(bid: TBoardID) {
         .get()
     const organization = ref.docs.map((doc) => doc.data() as TOrganization)[0]
     return organization?.logo ?? null
+}
+
+export async function getOrganizationFooterWithBoard(bid: TBoardID) {
+    const ref = await firestore()
+        .collection('organizations')
+        .where('boards', 'array-contains', bid)
+        .get()
+    const organization = ref.docs.map((doc) => doc.data() as TOrganization)[0]
+    return organization?.footer ?? null
 }
 
 export async function ping(bid: TBoardID) {

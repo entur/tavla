@@ -43,6 +43,7 @@
         "@entur/travel": "6.0.18",
         "@entur/typography": "1.8.20",
         "@firebase/database-types": "0.10.4",
+        "@floating-ui/react": "0.26.12",
         "classnames": "2.3.2",
         "firebase": "9.18.0",
         "firebase-admin": "11.10.1",
