@@ -11,7 +11,7 @@ use axum::{
     Json, Router,
 };
 
-use serde::de::Error;
+use axum_auth::AuthBearer;
 use tokio::{net::TcpListener, time};
 
 use redis::{AsyncCommands, RedisError};
@@ -34,6 +34,7 @@ use crate::types::Message;
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
     let port = std::env::var("PORT").unwrap_or("3001".to_string());
+    let key = std::env::var("BACKEND_API_KEY").expect("Expected to find api key");
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
         .await
@@ -49,6 +50,7 @@ async fn main() {
         replicas,
         runtime_status: runtime_status.clone(),
         task_tracker: task_tracker.clone(),
+        key,
     };
 
     let app = Router::new()
@@ -65,9 +67,13 @@ async fn main() {
 
 async fn trigger(
     Path(bid): Path<String>,
+    AuthBearer(token): AuthBearer,
     State(mut state): State<AppState>,
     Json(payload): Json<Value>,
 ) -> StatusCode {
+    if token != state.key {
+        return StatusCode::UNAUTHORIZED;
+    }
     let cmd: Result<i8, RedisError> = state.master.publish(bid, payload.to_string()).await;
     match cmd {
         Ok(v) => {
@@ -81,7 +87,10 @@ async fn trigger(
     }
 }
 
-async fn update(State(mut state): State<AppState>) -> StatusCode {
+async fn update(AuthBearer(token): AuthBearer, State(mut state): State<AppState>) -> StatusCode {
+    if token != state.key {
+        return StatusCode::UNAUTHORIZED;
+    }
     let cmd: Result<i8, RedisError> = state.master.publish("update", vec![0]).await;
     match cmd {
         Ok(v) => {

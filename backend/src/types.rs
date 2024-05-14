@@ -9,6 +9,7 @@ pub struct AppState {
     pub replicas: Client,
     pub runtime_status: CancellationToken,
     pub task_tracker: TaskTracker,
+    pub key: String,
 }
 
 #[derive(Serialize)]

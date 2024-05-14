@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 axum = {version = "0.7.4", features = ["ws"]}
+axum-auth = { version = "0.7.0", default-features= false, features = ["auth-bearer"] }
 futures-util = "0.3.30"
 redis = {version = "0.25.3", features = ["tokio-comp", "aio"]}
 serde = {version = "1.0.199", features = ["derive"]}
