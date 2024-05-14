@@ -9,7 +9,7 @@ function useRefresh(initialBoard: TBoard) {
 
     const subscribe = useCallback(() => {
         const socket = new WebSocket(
-            `ws://localhost:3001/subscribe/${initialBoard.id}`,
+            `https://api.tavla.dev.entur.io/subscribe/${initialBoard.id}`,
         )
 
         socket.addEventListener('message', (event) => {

@@ -33,7 +33,7 @@ use crate::types::Message;
 #[tokio::main]
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
-    let port = std::env::var("PORT").unwrap_or("3001".to_string());
+    let port = std::env::var("PORT").unwrap_or("3000".to_string());
     let key = std::env::var("BACKEND_API_KEY").expect("Expected to find api key");
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))

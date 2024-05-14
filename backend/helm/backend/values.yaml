@@ -1,0 +1,45 @@
+common:
+    app: backend
+    shortname: backend
+    team: selvbetjent
+    ingress:
+        enabled: true
+        trafficType: public
+    service:
+        internalPort: 3000
+    container:
+        image: <+artifacts.primary.image>
+        cpu: 0.3
+        memory: 512
+        env:
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: redis
+                key: redis-password
+          - name: BACKEND_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: backend
+                key: api-key
+        probes:
+            enabled: true
+            spec:
+                startupProbe:
+                    tcpSocket:
+                        port: 3000
+                    periodSeconds: 1
+                    timeoutSeconds: 1
+                    failureThreshold: 300
+                livenessProbe:
+                    tcpSocket:
+                        port: 3000
+                    periodSeconds: 5
+                    successThreshold: 1
+                    timeoutSeconds: 1
+                readinessProbe:
+                    tcpSocket:
+                        port: 3000
+                    periodSeconds: 5
+                    successThreshold: 1
+                    timeoutSeconds: 1
