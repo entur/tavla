@@ -156,6 +156,7 @@ async fn active_subscription(mut ws: WebSocket, bid: String, mut state: AppState
                                     Err(_) => {break;}
                             }
                         }
+                        continue;
                     }
                     if let Ok(payload) = msg.get_payload::<String>() {
                         if let Ok(payload_json) = from_str::<Value>(payload.as_str()) {
