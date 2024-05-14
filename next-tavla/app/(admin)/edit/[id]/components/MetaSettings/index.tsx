@@ -29,20 +29,18 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 }}
                 className="box flex flex-col justify-between"
             >
-                <div>
-                    <Heading3 margin="bottom">Navn</Heading3>
-                    <TextField
-                        name="name"
-                        className="w-full"
-                        defaultValue={meta.title ?? DEFAULT_BOARD_NAME}
-                        label="Navn på tavlen"
-                        maxLength={30}
-                    />
-                    <div className="flex flex-row w-full justify-end mt-8">
-                        <SubmitButton variant="secondary">
-                            Lagre tittel
-                        </SubmitButton>
-                    </div>
+                <Heading3 margin="bottom">Navn</Heading3>
+                <TextField
+                    name="name"
+                    className="w-full"
+                    defaultValue={meta.title ?? DEFAULT_BOARD_NAME}
+                    label="Navn på tavlen"
+                    maxLength={30}
+                />
+                <div className="flex flex-row w-full justify-end mt-8">
+                    <SubmitButton variant="secondary">
+                        Lagre tittel
+                    </SubmitButton>
                 </div>
             </form>
             <Address bid={bid} location={meta.location} />
@@ -54,14 +52,12 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 }}
                 className="box flex flex-col justify-between"
             >
-                <div>
-                    <Heading3 margin="bottom">Tekststørrelse: </Heading3>
-                    <FontChoiceChip font={meta.fontSize ?? 'medium'} />
-                    <div className="flex flex-row w-full mt-12 justify-end">
-                        <SubmitButton variant="secondary">
-                            Lagre tekststørrelse
-                        </SubmitButton>
-                    </div>
+                <Heading3 margin="bottom">Tekststørrelse: </Heading3>
+                <FontChoiceChip font={meta.fontSize ?? 'medium'} />
+                <div className="flex flex-row w-full mt-12 justify-end">
+                    <SubmitButton variant="secondary">
+                        Lagre tekststørrelse
+                    </SubmitButton>
                 </div>
             </form>
         </>
