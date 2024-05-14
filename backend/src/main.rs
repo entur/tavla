@@ -76,10 +76,7 @@ async fn trigger(
     }
     let cmd: Result<i8, RedisError> = state.master.publish(bid, payload.to_string()).await;
     match cmd {
-        Ok(v) => {
-            println!("{:?}", v);
-            StatusCode::OK
-        }
+        Ok(_) => StatusCode::OK,
         Err(e) => {
             println!("{:?}", e);
             StatusCode::INTERNAL_SERVER_ERROR
@@ -93,10 +90,7 @@ async fn update(AuthBearer(token): AuthBearer, State(mut state): State<AppState>
     }
     let cmd: Result<i8, RedisError> = state.master.publish("update", vec![0]).await;
     match cmd {
-        Ok(v) => {
-            println!("{:?}", v);
-            StatusCode::OK
-        }
+        Ok(_) => StatusCode::OK,
         Err(e) => {
             println!("{:?}", e);
             StatusCode::INTERNAL_SERVER_ERROR
