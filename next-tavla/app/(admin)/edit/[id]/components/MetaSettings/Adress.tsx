@@ -21,27 +21,29 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
             }}
             className="box flex flex-col justify-between"
         >
-            <div className="flex flex-row items-center gap-2">
-                <Heading3 margin="none">Lokasjon</Heading3>
-                <Tooltip
-                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
-                    placement="top"
-                >
-                    <ValidationInfoIcon />
-                </Tooltip>
-            </div>
-            <SearchableDropdown
-                label="Adresse"
-                items={pointItems}
-                selectedItem={selectedPoint}
-                onChange={setSelectedPoint}
-                debounceTimeout={1000}
-                clearable
-            />
-            <div className="flex flex-row w-full mt-8 justify-end">
-                <SubmitButton variant="secondary" className="mt-8">
-                    Lagre adresse
-                </SubmitButton>
+            <div>
+                <div className="flex flex-row items-center gap-2 mb-2">
+                    <Heading3 margin="none">Lokasjon</Heading3>
+                    <Tooltip
+                        content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
+                        placement="top"
+                    >
+                        <ValidationInfoIcon />
+                    </Tooltip>
+                </div>
+                <SearchableDropdown
+                    label="Hvor befinner tavlen seg?"
+                    items={pointItems}
+                    selectedItem={selectedPoint}
+                    onChange={setSelectedPoint}
+                    debounceTimeout={1000}
+                    clearable
+                />
+                <div className="flex flex-row w-full mt-8 justify-end">
+                    <SubmitButton variant="secondary">
+                        Lagre lokasjon
+                    </SubmitButton>
+                </div>
             </div>
         </form>
     )

@@ -12,6 +12,7 @@
         --secondary-text-color: var(--colors-greys-grey60);
         --tertiary-text-color: var(--colors-greys-grey50);
         --highlight-text-color: var(--colors-brand-coral);
+        --primary-label-color: var(--main-text-color);
 
         --error-color: var(--colors-validation-lava);
         --warning-color: var(--colors-misc-black);
@@ -19,7 +20,7 @@
 
         --estimated-time-color: var(--colors-validation-lava);
         --divider-color: var(--colors-blues-blue20);
-        --border-color: var(--colors-greys-grey60);
+        --border-color: var(--colors-greys-grey50);
 
         --tooltip-color: var(--colors-blues-blue10);
         --tooltip-text-color: var(--colors-brand-white);

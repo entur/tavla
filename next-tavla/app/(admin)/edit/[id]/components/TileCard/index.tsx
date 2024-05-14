@@ -181,7 +181,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                         tile.walkingDistance?.visible ?? false
                                     }
                                     disabled={
-                                        tile.walkingDistance?.visible ?? true
+                                        tile.walkingDistance?.visible ?? false
                                     }
                                 >
                                     Vis gåavstand
@@ -194,7 +194,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             </Heading4>
                             <Label>
                                 Vis kun avganger som går om mer enn valgt antall
-                                minutter.
+                                minutter
                             </Label>
                             <TextField
                                 label="Antall minutter"
@@ -211,7 +211,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         <Heading4 className="m-0">Kolonner</Heading4>
                         <SubParagraph className="mt-0">
                             Her bestemmer du hvilke kolonner som skal vises i
-                            tavlen.
+                            tavlen
                         </SubParagraph>
                         <div className="flex flex-row flex-wrap gap-4 mb-8">
                             {Object.entries(Columns).map(([key, value]) => {
@@ -278,7 +278,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     Lagre endringer
                                 </Heading3>
                                 <Paragraph>
-                                    Du har endringer som ikke er lagret.
+                                    Du har endringer som ikke er lagret
                                 </Paragraph>
                                 <div className="flex flex-row gap-4">
                                     <Button
