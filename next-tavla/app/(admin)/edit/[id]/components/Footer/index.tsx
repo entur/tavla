@@ -32,11 +32,8 @@ function Footer({
     }
 
     return (
-        <form
-            className="box flex flex-col justify-between"
-            action={submitOrgBoard}
-        >
-            <div className="flex flex-row items-center gap-2 mb-2">
+        <form className="box flex flex-col" action={submitOrgBoard}>
+            <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Infomelding</Heading3>
                 <Tooltip
                     content="Skriv en kort tekst som skal vises nederst i tavlen."
@@ -45,7 +42,7 @@ function Footer({
                     <ValidationInfoIcon className="mb-2" />
                 </Tooltip>
             </div>
-            <div className={organizationBoard ? 'mt-8' : ''}>
+            <div className="h-full">
                 <TextField
                     label="Infomelding"
                     name="footer"
@@ -63,7 +60,7 @@ function Footer({
                     </Switch>
                 )}
             </div>
-            <div className="flex flex-row w-full mt-8 justify-end">
+            <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton variant="secondary" aria-label="Lagre kolonner">
                     Lagre infomelding
                 </SubmitButton>

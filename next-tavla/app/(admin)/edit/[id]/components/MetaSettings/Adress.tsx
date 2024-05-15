@@ -19,9 +19,9 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 saveLocation(bid, selectedPoint?.value)
                 addToast('Adresse oppdatert!')
             }}
-            className="box flex flex-col justify-between"
+            className="box flex flex-col"
         >
-            <div className="flex flex-row items-center gap-2 ">
+            <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Lokasjon</Heading3>
                 <Tooltip
                     content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
@@ -30,15 +30,17 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                     <ValidationInfoIcon className="mb-2" />
                 </Tooltip>
             </div>
-            <SearchableDropdown
-                label="Hvor befinner tavlen seg?"
-                items={pointItems}
-                selectedItem={selectedPoint}
-                onChange={setSelectedPoint}
-                debounceTimeout={1000}
-                clearable
-            />
-            <div className="flex flex-row w-full mt-8 justify-end">
+            <div className="h-full">
+                <SearchableDropdown
+                    label="Hvor befinner tavlen seg?"
+                    items={pointItems}
+                    selectedItem={selectedPoint}
+                    onChange={setSelectedPoint}
+                    debounceTimeout={1000}
+                    clearable
+                />
+            </div>
+            <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton variant="secondary">Lagre lokasjon</SubmitButton>
             </div>
         </form>
