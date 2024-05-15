@@ -12,7 +12,6 @@
         --secondary-text-color: var(--colors-greys-grey60);
         --tertiary-text-color: var(--colors-greys-grey50);
         --highlight-text-color: var(--colors-brand-coral);
-        --primary-label-color: var(--main-text-color);
 
         --error-color: var(--colors-validation-lava);
         --warning-color: var(--colors-misc-black);

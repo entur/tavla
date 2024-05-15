@@ -7,7 +7,7 @@ function FontChoiceChip({ font }: { font: TFontSize }) {
 
     return (
         <ChoiceChipGroup
-            className="flex flex-row"
+            className="h-full place-content-center"
             name="font"
             value={fontSize}
             onChange={(e) => setFontSize(e.target.value as TFontSize)}

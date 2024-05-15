@@ -21,13 +21,13 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
             }}
             className="box flex flex-col justify-between"
         >
-            <div className="flex flex-row items-center gap-2 mb-2">
-                <Heading3 margin="none">Lokasjon</Heading3>
+            <div className="flex flex-row items-center gap-2 ">
+                <Heading3 margin="bottom">Lokasjon</Heading3>
                 <Tooltip
                     content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
                     placement="top"
                 >
-                    <ValidationInfoIcon />
+                    <ValidationInfoIcon className="mb-2" />
                 </Tooltip>
             </div>
             <SearchableDropdown

@@ -161,7 +161,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                     >
                         <div>
                             <Heading4 className="m-0">Gåavstand</Heading4>
-                            <Label>
+                            <Label className="text-primary">
                                 Vis gåavstand fra lokasjonen til Tavla til
                                 stoppestedet
                             </Label>
