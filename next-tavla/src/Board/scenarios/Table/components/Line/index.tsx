@@ -2,7 +2,6 @@ import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
-import classes from './styles.module.css'
 import { TravelTag } from 'components/TravelTag'
 
 function Line() {
@@ -20,7 +19,7 @@ function Line() {
         <TableColumn title="Linje">
             {lines.map((line) => (
                 <TableRow key={line.key}>
-                    <div className={classes.row}>
+                    <div className="flex gap-2 justify-start items-center p-r-2 w-full">
                         <TravelTag
                             transportMode={line.transportMode}
                             transportSubmode={line.transportSubmode}

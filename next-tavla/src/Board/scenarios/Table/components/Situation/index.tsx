@@ -1,5 +1,4 @@
 import { SVGProps } from 'react'
-import classes from './styles.module.css'
 import { TSituationFragment } from 'graphql/index'
 
 function Situation({
@@ -18,11 +17,13 @@ function Situation({
     if (!situationText) return null
 
     return (
-        <div className={classes.situation}>
-            <div className={classes.validation}>
+        <div className="text-warning text-[0.65em] flex items-center">
+            <div className="fill-warning flex items-center mr-[0.1em] text-[1.8em]">
                 <ValidationExclamation />
             </div>
-            <div className={classes.situationText}>{situationText}</div>
+            <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+                {situationText}
+            </div>
         </div>
     )
 }

@@ -61,6 +61,7 @@ module.exports = {
                 'em-lg': '1.3em',
             },
             spacing: {
+                'em-1': '1em',
                 'em-2': '2em',
                 'em-3': '3em',
             },
