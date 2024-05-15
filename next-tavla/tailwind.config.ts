@@ -65,6 +65,28 @@ module.exports = {
                 'em-2': '2em',
                 'em-3': '3em',
             },
+            keyframes: {
+                grow: {
+                    '0%, 100%': {
+                        transform: 'none',
+                    },
+
+                    '50%': {
+                        transform: 'scaleX(2)',
+                    },
+                },
+                'back-and-forth': {
+                    '0%, 100%': { transform: 'translateX(calc(0% - 3em))' },
+                    '50%': { transform: 'translateX(calc(100% - 3em))' },
+                },
+            },
+            animation: {
+                loaderBar: 'back-and-forth 1s alternate infinite ease-in-out',
+                loaderBarAfter: 'grow 1s alternate infinite ease-in-out',
+            },
+            content: {
+                content: ' ',
+            },
         },
     },
     safelist: Object.keys(transportModes).map((key) => `bg-${key}`),
