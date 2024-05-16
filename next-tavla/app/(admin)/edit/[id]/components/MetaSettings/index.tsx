@@ -55,7 +55,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 }}
                 className="box flex flex-col justify-between"
             >
-                <Heading3 margin="bottom">Tekststørrelse: </Heading3>
+                <Heading3 margin="bottom">Tekststørrelse </Heading3>
                 <FontChoiceChip font={meta.fontSize ?? 'medium'} />
                 <div className="flex flex-row mt-8 justify-end">
                     <SubmitButton variant="secondary">
