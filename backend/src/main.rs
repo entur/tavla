@@ -6,7 +6,7 @@ use axum::{
         ws::{self, WebSocket},
         Path, State, WebSocketUpgrade,
     },
-    http::{Response, StatusCode},
+    http::{HeaderValue, Response, StatusCode},
     routing::{get, post},
     Json, Router,
 };
@@ -103,7 +103,11 @@ async fn subscribe(
     State(state): State<AppState>,
     ws: WebSocketUpgrade,
 ) -> Response<Body> {
-    ws.on_upgrade(|socket| active_subscription(socket, bid, state))
+    let mut socket = ws.on_upgrade(|socket| active_subscription(socket, bid, state));
+    socket
+        .headers_mut()
+        .append("Keep-Alive", HeaderValue::from_static("timeout=300"));
+    socket
 }
 
 async fn active_subscription(mut ws: WebSocket, bid: String, mut state: AppState) {
