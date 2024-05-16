@@ -19,7 +19,7 @@ function MemberList({
 
             {members.map((member) => (
                 <div
-                    className="flex flex-row justify-between items-center py-2 border-b-2 border-b-secondary"
+                    className="flex flex-row justify-between items-center py-2 border-b-2 border-b-primary"
                     key={member.uid}
                 >
                     <div>{member.email}</div>

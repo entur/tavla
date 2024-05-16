@@ -20,7 +20,7 @@ function TransportModeCheckbox({
                 />
                 {transportModeNames(transportMode)}
             </div>
-            <div className="border-b-tertiary border-b-2 my-2" />
+            <div className="border-b-secondary border-b-2 my-2" />
             <div className="flex flex-row items-center">
                 <Checkbox
                     defaultChecked={

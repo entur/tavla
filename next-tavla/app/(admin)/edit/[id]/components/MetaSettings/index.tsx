@@ -27,18 +27,21 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     await saveTitle(bid, name)
                     addToast('Tittel lagret!')
                 }}
-                className="box flex flex-col justify-between"
+                className="box flex flex-col"
             >
-                <Heading3 margin="none">Navn på tavlen</Heading3>
-                <TextField
-                    name="name"
-                    className="w-full"
-                    defaultValue={meta.title ?? DEFAULT_BOARD_NAME}
-                    label="Navn på tavlen"
-                    maxLength={30}
-                />
-                <div className="flex flex-row w-full mt-8 justify-end">
-                    <SubmitButton variant="secondary" className="mt-8">
+                <Heading3 margin="bottom">Navn</Heading3>
+                <div className="h-full">
+                    <TextField
+                        name="name"
+                        className="w-full"
+                        defaultValue={meta.title ?? DEFAULT_BOARD_NAME}
+                        label="Navn på tavlen"
+                        maxLength={30}
+                    />
+                </div>
+
+                <div className="flex flex-row justify-end mt-8">
+                    <SubmitButton variant="secondary">
                         Lagre tittel
                     </SubmitButton>
                 </div>
@@ -52,9 +55,9 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 }}
                 className="box flex flex-col justify-between"
             >
-                <Heading3 className="m-0">Velg tekststørrelse: </Heading3>
+                <Heading3 margin="bottom">Tekststørrelse </Heading3>
                 <FontChoiceChip font={meta.fontSize ?? 'medium'} />
-                <div className="flex flex-row w-full mt-8 justify-end">
+                <div className="flex flex-row mt-8 justify-end">
                     <SubmitButton variant="secondary">
                         Lagre tekststørrelse
                     </SubmitButton>
