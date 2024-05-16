@@ -181,7 +181,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                         tile.walkingDistance?.visible ?? false
                                     }
                                     disabled={
-                                        tile.walkingDistance?.visible ?? false
+                                        tile.walkingDistance ? false : true
                                     }
                                 >
                                     Vis gåavstand
