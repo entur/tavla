@@ -2,7 +2,6 @@ import { TBoard } from 'types/settings'
 import { TTile } from 'types/tile'
 import { StopPlaceTile } from '../StopPlaceTile'
 import { QuayTile } from '../QuayTile'
-import classes from './styles.module.css'
 import { Tile } from 'components/Tile'
 import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 import { CSSProperties } from 'react'
@@ -19,14 +18,14 @@ function BoardTile({ tileSpec }: { tileSpec: TTile }) {
 function Board({ board, style }: { board: TBoard; style?: CSSProperties }) {
     if (!board.tiles || !board.tiles.length)
         return (
-            <Tile className={classes.emptyTile}>
+            <Tile className="flex items-center justify-center">
                 <p>Du har ikke lagt til noen stoppesteder enda.</p>
             </Tile>
         )
 
     return (
         <div
-            className={`${classes.board} ${getFontScale(
+            className={`grid grid-cols-auto-fit-minmax gap-[10px] h-full overflow-hidden supports-[not(display:grid)]:flex supports-[not(display:grid)]:space-y-[10px] supports-[not(display:grid)]:space-x-[10px] ${getFontScale(
                 board.meta?.fontSize || defaultFontSize(board),
             )} `}
             style={{

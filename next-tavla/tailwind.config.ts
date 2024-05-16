@@ -65,6 +65,9 @@ module.exports = {
                 'em-2': '2em',
                 'em-3': '3em',
             },
+            gridTemplateColumns: {
+                'auto-fit-minmax': 'repeat(auto-fit, minmax(60vmin, 1fr))',
+            },
             keyframes: {
                 grow: {
                     '0%, 100%': {
