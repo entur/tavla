@@ -18,9 +18,9 @@ function Footer({
     const EnturLogo = getLogo(board?.theme ?? 'dark')
 
     return (
-        <footer className="flex flex-row text-white justify-between">
+        <footer className="flex flex-row justify-between min-h-[4vh] items-center gap-em-2">
             <div
-                className={`overflow-hidden whitespace-nowrap overflow-ellipsis text-primary ${
+                className={`truncate text-primary ${
                     getFontScale(board.meta?.fontSize) || defaultFontSize(board)
                 }`}
             >
@@ -28,7 +28,13 @@ function Footer({
                     ? orgFooter
                     : board.footer?.footer}
             </div>
-            {logo && <Image src={EnturLogo} alt="Entur logo" height={40} />}
+            {logo && (
+                <Image
+                    src={EnturLogo}
+                    alt="Entur logo"
+                    className="object-contain w-[70px] h-[20px] md:w-[200px] md:h-[40px]"
+                />
+            )}
         </footer>
     )
 }
