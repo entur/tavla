@@ -25,7 +25,7 @@ function Board({ board, style }: { board: TBoard; style?: CSSProperties }) {
 
     return (
         <div
-            className={`grid grid-cols-auto-fit-minmax gap-[10px] h-full overflow-hidden supports-[not(display:grid)]:flex supports-[not(display:grid)]:space-y-[10px] supports-[not(display:grid)]:space-x-[10px] ${getFontScale(
+            className={`grid grid-cols-auto-fit-minmax gap-[10px] h-full overflow-hidden supports-[not(display:grid)]:flex supports-[not(display:grid)]:*:m-[10px] ${getFontScale(
                 board.meta?.fontSize || defaultFontSize(board),
             )} `}
             style={{
