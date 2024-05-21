@@ -68,27 +68,23 @@ module.exports = {
             gridTemplateColumns: {
                 'auto-fit-minmax': 'repeat(auto-fit, minmax(60vmin, 1fr))',
             },
-            keyframes: {
-                grow: {
-                    '0%, 100%': {
-                        transform: 'none',
-                    },
-
-                    '50%': {
-                        transform: 'scaleX(2)',
-                    },
-                },
-                'back-and-forth': {
-                    '0%, 100%': { transform: 'translateX(calc(0% - 3em))' },
-                    '50%': { transform: 'translateX(calc(100% - 3em))' },
-                },
-            },
-            animation: {
-                loaderBar: 'back-and-forth 1s alternate infinite ease-in-out',
-                loaderBarAfter: 'grow 1s alternate infinite ease-in-out',
-            },
             content: {
                 content: ' ',
+            },
+            animation: {
+                'ping-slow': 'ping 8s  infinite',
+            },
+            keyframes: {
+                ping: {
+                    '0%,75%': {
+                        transform: 'scale(1)',
+                        opacity: '1',
+                    },
+                    '100%': {
+                        transform: 'scale(2)',
+                        opacity: '0',
+                    },
+                },
             },
         },
     },
