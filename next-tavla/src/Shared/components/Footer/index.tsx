@@ -32,7 +32,7 @@ function Footer({
                 <Image
                     src={EnturLogo}
                     alt="Entur logo"
-                    className="object-contain w-[70px] h-[20px] md:w-[200px] md:h-[40px]"
+                    className="ml-4 object-contain w-[70px] h-[20px] md:w-[200px] md:h-[40px]"
                 />
             )}
         </footer>
