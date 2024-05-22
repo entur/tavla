@@ -1,4 +1,4 @@
 common:
     env: prd
     ingress:
-        host: api.tavla.entur.no
+        host: tavla-api.entur.no

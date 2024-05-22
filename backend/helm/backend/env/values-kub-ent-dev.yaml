@@ -1,4 +1,4 @@
 common:
     env: dev
     ingress:
-        host: api.tavla.dev.entur.no
+        host: tavla-api.dev.entur.no
