@@ -1,8 +1,6 @@
 use std::time::Duration;
 
-use anyhow::Context;
 use axum::{
-    debug_handler,
     extract::{Path, State},
     http::StatusCode,
     routing::{get, post},
@@ -11,7 +9,7 @@ use axum::{
 
 use axum_auth::AuthBearer;
 use serde_json::{from_str, Value};
-use tokio::{net::TcpListener, time::timeout};
+use tokio::{net::TcpListener, time};
 
 use redis::{AsyncCommands, RedisError};
 
@@ -92,29 +90,30 @@ async fn update(AuthBearer(token): AuthBearer, State(mut state): State<AppState>
     }
 }
 
-#[debug_handler]
 async fn subscribe(
     Path(bid): Path<String>,
     State(state): State<AppState>,
-) -> Result<Response<Message>, AppError> {
+) -> Result<Message, AppError> {
     let mut pubsub = state.replicas.get_async_pubsub().await?;
-    pubsub.subscribe(bid.clone()).await?;
+    pubsub.subscribe(bid).await?;
     pubsub.subscribe("update").await?;
 
     let mut msg_stream = pubsub.on_message();
 
-    match timeout(Duration::from_secs(55), msg_stream.next()).await {
-        Ok(msg) => {
-            let redis_msg = msg.context("Could not convert to redis msg")?;
-            let channel = redis_msg.get_channel_name();
-            if channel == "update" {
-                return Ok(Response::new(Message::Update));
+    tokio::select! {
+            Some(msg) = msg_stream.next() => {
+    let channel = msg.get_channel_name();
+                if channel == "update" {
+                    return Ok(Message::Update);
+                }
+                let payload = msg.get_payload::<String>()?;
+                Ok(Message::Refresh {
+                    payload: from_str::<Value>(payload.as_str())?,
+                })
+
             }
-            let payload = redis_msg.get_payload::<String>()?;
-            return Ok(Response::new(Message::Refresh {
-                payload: from_str::<Value>(payload.as_str())?,
-            }));
+        () = time::sleep(Duration::from_secs(55)) => {
+            Ok(Message::Timeout)
         }
-        Err(_) => return Ok(Response::new(Message::Timeout)),
-    }
+        }
 }

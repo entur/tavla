@@ -1,7 +1,11 @@
-use axum::{http::StatusCode, response::IntoResponse};
+use axum::{
+    body::Body,
+    http::{Response, StatusCode},
+    response::IntoResponse,
+};
 use redis::{aio::MultiplexedConnection, Client};
 use serde::Serialize;
-use serde_json::Value;
+use serde_json::{to_string, Value};
 use tokio_util::{sync::CancellationToken, task::TaskTracker};
 
 #[derive(Clone)]
@@ -19,6 +23,20 @@ pub enum Message {
     Refresh { payload: Value },
     Update,
     Timeout,
+}
+
+impl IntoResponse for Message {
+    fn into_response(self) -> axum::response::Response {
+        if let Ok(json_string) = to_string(&self) {
+            if let Ok(res) = Response::builder()
+                .header("Content-type", "application/json")
+                .body(Body::from(json_string))
+            {
+                return res;
+            }
+        }
+        StatusCode::INTERNAL_SERVER_ERROR.into_response()
+    }
 }
 
 pub struct AppError(anyhow::Error);
