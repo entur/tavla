@@ -59,7 +59,7 @@ spec:
       containers:
       
         - name: backend
-          image: eu.gcr.io/entur-system-1287/tavla@sha256:132ee56de17eca8f7964549567df87d7a5602ce4ba8744d46041a18e498882f0
+          image: eu.gcr.io/entur-system-1287/tavla@sha256:a5dafac8effb40088ad29b1629d8f07111bc8644c4f2ddf03997a5e78ad2a70e
           imagePullPolicy: Always
           
           env:
@@ -152,7 +152,7 @@ metadata:
   namespace: tavla
 spec:
   rules:
-  - host: api.tavla.dev.entur.io
+  - host: tavla-api.dev.entur.no
     http:
       paths:
       - backend:

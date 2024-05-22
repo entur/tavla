@@ -1,40 +1,44 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { delay } from 'lodash'
+import { useCallback, useEffect, useState } from 'react'
 import { TMessage } from 'types/refresh'
 import { TBoard } from 'types/settings'
 
 function useRefresh(initialBoard: TBoard) {
-    const timeout = useRef<NodeJS.Timeout>()
     const [board, setBoard] = useState<TBoard>(initialBoard)
-    const connection = useRef<WebSocket | null>(null)
 
-    const subscribe = useCallback(() => {
-        const socket = new WebSocket(
-            `https://api.tavla.dev.entur.io/subscribe/${initialBoard.id}`,
-        )
+    const subscribe = useCallback(async () => {
+        try {
+            const res = await fetch(
+                `https://tavla-api.dev.entur.no/subscribe/${initialBoard.id}`,
+            )
+            if (!res.ok) return delay(subscribe, 10000)
 
-        socket.addEventListener('message', (event) => {
-            const message = JSON.parse(event.data) as TMessage
+            const message = (await res.json()) as TMessage
+
             switch (message.type) {
-                case 'refresh':
-                    return setBoard(message.payload)
-                case 'update':
-                    return window.location.reload()
+                case 'refresh': {
+                    setBoard(message.payload)
+                    subscribe()
+                    break
+                }
+                case 'update': {
+                    window.location.reload()
+                    break
+                }
+                case 'timeout': {
+                    subscribe()
+                    break
+                }
             }
-        })
-
-        socket.addEventListener(
-            'error',
-            () => (timeout.current = setTimeout(subscribe, 10000)),
-        )
-
-        connection.current = socket
+        } catch {
+            delay(subscribe, 10000)
+        }
     }, [initialBoard.id])
 
     useEffect(() => {
-        timeout.current = setTimeout(subscribe, 10000)
+        const timeout = setTimeout(subscribe, 10000)
         return () => {
-            connection.current?.close()
-            clearTimeout(timeout.current)
+            clearTimeout(timeout)
         }
     }, [subscribe])
 

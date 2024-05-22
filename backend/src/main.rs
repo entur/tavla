@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use axum::{
     extract::{Path, State},
-    http::StatusCode,
+    http::{HeaderValue, Method, StatusCode},
     routing::{get, post},
     Json, Router,
 };
@@ -11,7 +11,7 @@ use axum_auth::AuthBearer;
 use serde_json::{from_str, Value};
 use tokio::{net::TcpListener, time};
 
-use redis::{AsyncCommands, RedisError};
+use redis::AsyncCommands;
 
 use tokio_stream::StreamExt;
 use tokio_util::{sync::CancellationToken, task::TaskTracker};
@@ -19,6 +19,7 @@ use tokio_util::{sync::CancellationToken, task::TaskTracker};
 mod types;
 
 mod utils;
+use tower_http::cors::{Any, Cors, CorsLayer};
 use types::{AppError, AppState, Message};
 use utils::{graceful_shutdown, setup_redis};
 
@@ -45,16 +46,26 @@ async fn main() {
         key,
     };
 
+    let cors = CorsLayer::new()
+        .allow_methods([Method::GET, Method::POST])
+        .allow_credentials(true)
+        .allow_origin([
+            "http://localhost:3000".parse::<HeaderValue>().unwrap(),
+            "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
+            "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
+        ]);
+
     let app = Router::new()
         .route("/subscribe/:bid", get(subscribe))
         .route("/refresh/:bid", post(trigger))
         .route("/update", post(update))
-        .with_state(redis_clients);
+        .with_state(redis_clients)
+        .layer(cors);
 
     axum::serve(listener, app)
         .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
         .await
-        .unwrap();
+        .unwrap()
 }
 
 async fn trigger(
@@ -62,58 +73,59 @@ async fn trigger(
     AuthBearer(token): AuthBearer,
     State(mut state): State<AppState>,
     Json(payload): Json<Value>,
-) -> StatusCode {
+) -> Result<StatusCode, AppError> {
     if token != state.key {
-        return StatusCode::UNAUTHORIZED;
+        return Ok(StatusCode::UNAUTHORIZED);
     }
-    let cmd: Result<i8, RedisError> = state.master.publish(bid, payload.to_string()).await;
-    match cmd {
-        Ok(_) => StatusCode::OK,
-        Err(e) => {
-            println!("{:?}", e);
-            StatusCode::INTERNAL_SERVER_ERROR
-        }
-    }
+    state.master.publish(bid, payload.to_string()).await?;
+    Ok(StatusCode::OK)
 }
 
-async fn update(AuthBearer(token): AuthBearer, State(mut state): State<AppState>) -> StatusCode {
+async fn update(
+    AuthBearer(token): AuthBearer,
+    State(mut state): State<AppState>,
+) -> Result<StatusCode, AppError> {
     if token != state.key {
-        return StatusCode::UNAUTHORIZED;
+        return Ok(StatusCode::UNAUTHORIZED);
     }
-    let cmd: Result<i8, RedisError> = state.master.publish("update", vec![0]).await;
-    match cmd {
-        Ok(_) => StatusCode::OK,
-        Err(e) => {
-            println!("{:?}", e);
-            StatusCode::INTERNAL_SERVER_ERROR
-        }
-    }
+    state.master.publish("update", vec![0]).await?;
+    Ok(StatusCode::OK)
 }
 
 async fn subscribe(
     Path(bid): Path<String>,
-    State(state): State<AppState>,
+    State(mut state): State<AppState>,
 ) -> Result<Message, AppError> {
     let mut pubsub = state.replicas.get_async_pubsub().await?;
     pubsub.subscribe(bid).await?;
     pubsub.subscribe("update").await?;
 
-    let mut msg_stream = pubsub.on_message();
+    state
+        .master
+        .incr::<&str, i32, i32>("active_boards", 1)
+        .await?;
 
-    tokio::select! {
+    let mut msg_stream = pubsub.on_message();
+    let res = tokio::select! {
             Some(msg) = msg_stream.next() => {
     let channel = msg.get_channel_name();
                 if channel == "update" {
-                    return Ok(Message::Update);
-                }
+                    Message::Update
+                } else {
                 let payload = msg.get_payload::<String>()?;
-                Ok(Message::Refresh {
+                Message::Refresh {
                     payload: from_str::<Value>(payload.as_str())?,
-                })
-
+                }}
             }
         () = time::sleep(Duration::from_secs(55)) => {
-            Ok(Message::Timeout)
+            Message::Timeout
         }
-        }
+    };
+
+    state
+        .master
+        .decr::<&str, i32, i32>("active_boards", 1)
+        .await?;
+
+    Ok(res)
 }
