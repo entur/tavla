@@ -1,7 +1,7 @@
 'use client'
 import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
 import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
-import { Stepper } from '@entur/menu'
+import { SideNavigationItem, Stepper } from '@entur/menu'
 import { Modal } from '@entur/modal'
 import { Heading3, Heading4, Label, Paragraph } from '@entur/typography'
 import Link from 'next/link'
@@ -29,7 +29,7 @@ import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 
 type TCreateBoard = 'name' | 'stops'
 
-function CreateBoard() {
+function CreateBoard({ isSideNav }: { isSideNav?: boolean }) {
     const pathname = usePathname()
     const router = useRouter()
 
@@ -48,13 +48,20 @@ function CreateBoard() {
 
     return (
         <>
-            <IconButton as={Link} href="?board=name" className="gap-4 p-4">
-                <AddIcon /> Opprett tavle
-            </IconButton>
+            {isSideNav ? (
+                <SideNavigationItem as={Link} href="?board=name">
+                    Opprett tavle
+                </SideNavigationItem>
+            ) : (
+                <IconButton as={Link} href="?board=name" className="gap-4 p-4">
+                    <AddIcon /> Opprett tavle
+                </IconButton>
+            )}
+
             <Modal
                 open={open}
                 size="large"
-                className="flex flex-col items-center"
+                className="flex flex-col items-center w-3/4 lg:w-full"
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)
@@ -65,7 +72,7 @@ function CreateBoard() {
             >
                 <Stepper steps={stepTitles} activeIndex={stepIndex} />
 
-                <div className="w-3/4">
+                <div className="w-full md:w-3/4">
                     <NameAndOrganizationSelector
                         active={pageParam === 'name'}
                         title={board?.meta?.title}
@@ -246,7 +253,7 @@ function StopSelector({
                 }
             />
             <FormError {...getFormFeedbackForField('general', state)} />
-            <div className="flex flex-row justify-between pt-4">
+            <div className="flex flex-col sm:flex-row gap-2 pt-4 justify-between">
                 <SecondaryButton onClick={() => router.back()}>
                     <BackArrowIcon />
                     Tilbake

@@ -6,9 +6,11 @@ import Image from 'next/image'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import { CreateBoard } from './CreateBoard'
 import { usePathname } from 'next/navigation'
+import { HamburgerMenu } from './HamburgerMenu'
+import { useBreakpoint } from 'hooks/useBreakpoint'
 
 function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
-    const pathname = usePathname()
+    const isMobileView = useBreakpoint('(max-width: 769px)')
 
     return (
         <div className="container mx-auto">
@@ -16,27 +18,12 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                 <Link href="/" aria-label="Tilbake til landingssiden">
                     <Image src={TavlaLogoBlue} height={32} alt="" />
                 </Link>
-                <div className="flex flex-row items-center gap-4">
-                    {loggedIn && (
-                        <>
-                            <CreateBoard />
-                            <TopNavigationItem
-                                active={pathname?.includes('/boards')}
-                                as={Link}
-                                href="/boards"
-                            >
-                                Tavler
-                            </TopNavigationItem>
-                            <TopNavigationItem
-                                active={pathname?.includes('/organizations')}
-                                as={Link}
-                                href="/organizations"
-                            >
-                                Organisasjoner
-                            </TopNavigationItem>
-                        </>
+                <div className="flex flex-row items-center gap-4 ">
+                    {isMobileView && loggedIn ? (
+                        <HamburgerMenu />
+                    ) : (
+                        <HorizontalNavigation loggedIn={loggedIn} />
                     )}
-                    <Login loggedIn={loggedIn} />
                 </div>
             </nav>
         </div>
@@ -44,3 +31,31 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
 }
 
 export { TopNavigation }
+
+function HorizontalNavigation({ loggedIn }: { loggedIn: boolean }) {
+    const pathname = usePathname()
+    return (
+        <>
+            {loggedIn && (
+                <>
+                    <CreateBoard />
+                    <TopNavigationItem
+                        active={pathname?.includes('/boards')}
+                        as={Link}
+                        href="/boards"
+                    >
+                        Tavler
+                    </TopNavigationItem>
+                    <TopNavigationItem
+                        active={pathname?.includes('/organizations')}
+                        as={Link}
+                        href="/organizations"
+                    >
+                        Organisasjoner
+                    </TopNavigationItem>
+                </>
+            )}
+            <Login loggedIn={loggedIn} />
+        </>
+    )
+}
