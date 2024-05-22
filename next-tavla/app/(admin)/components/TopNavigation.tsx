@@ -1,13 +1,10 @@
 'use client'
-import { TopNavigationItem } from '@entur/menu'
-import { Login } from './Login'
 import Link from 'next/link'
 import Image from 'next/image'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
-import { CreateBoard } from './CreateBoard'
-import { usePathname } from 'next/navigation'
-import { HamburgerMenu } from './HamburgerMenu'
+import { SideNavBar } from './SideNavBar'
 import { useBreakpoint } from 'hooks/useBreakpoint'
+import { HorizontalNavBar } from './HorizontalNavBar'
 
 function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
     const isMobileView = useBreakpoint('(max-width: 769px)')
@@ -20,9 +17,9 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                 </Link>
                 <div className="flex flex-row items-center gap-4 ">
                     {isMobileView && loggedIn ? (
-                        <HamburgerMenu />
+                        <SideNavBar />
                     ) : (
-                        <HorizontalNavigation loggedIn={loggedIn} />
+                        <HorizontalNavBar loggedIn={loggedIn} />
                     )}
                 </div>
             </nav>
@@ -31,31 +28,3 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
 }
 
 export { TopNavigation }
-
-function HorizontalNavigation({ loggedIn }: { loggedIn: boolean }) {
-    const pathname = usePathname()
-    return (
-        <>
-            {loggedIn && (
-                <>
-                    <CreateBoard />
-                    <TopNavigationItem
-                        active={pathname?.includes('/boards')}
-                        as={Link}
-                        href="/boards"
-                    >
-                        Tavler
-                    </TopNavigationItem>
-                    <TopNavigationItem
-                        active={pathname?.includes('/organizations')}
-                        as={Link}
-                        href="/organizations"
-                    >
-                        Organisasjoner
-                    </TopNavigationItem>
-                </>
-            )}
-            <Login loggedIn={loggedIn} />
-        </>
-    )
-}

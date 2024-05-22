@@ -13,7 +13,7 @@ import { logout } from './Login/actions'
 import { Heading2 } from '@entur/typography'
 import { Modal } from '@entur/modal'
 
-function HamburgerMenu() {
+function SideNavBar() {
     const pathname = usePathname()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -72,4 +72,4 @@ function HamburgerMenu() {
     )
 }
 
-export { HamburgerMenu }
+export { SideNavBar }
