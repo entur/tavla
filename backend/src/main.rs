@@ -1,34 +1,28 @@
 use std::time::Duration;
 
+use anyhow::Context;
 use axum::{
-    body::Body,
-    extract::{
-        ws::{self, WebSocket},
-        Path, State, WebSocketUpgrade,
-    },
-    http::{HeaderValue, Response, StatusCode},
+    debug_handler,
+    extract::{Path, State},
+    http::StatusCode,
     routing::{get, post},
     Json, Router,
 };
 
 use axum_auth::AuthBearer;
-use tokio::{net::TcpListener, time};
+use serde_json::{from_str, Value};
+use tokio::{net::TcpListener, time::timeout};
 
 use redis::{AsyncCommands, RedisError};
 
-use futures_util::StreamExt as _;
-
-use serde_json::{from_str, to_string, Value};
-use tokio_stream::wrappers::IntervalStream;
+use tokio_stream::StreamExt;
 use tokio_util::{sync::CancellationToken, task::TaskTracker};
 
 mod types;
-use types::AppState;
 
 mod utils;
+use types::{AppError, AppState, Message};
 use utils::{graceful_shutdown, setup_redis};
-
-use crate::types::Message;
 
 #[tokio::main]
 async fn main() {
@@ -98,102 +92,29 @@ async fn update(AuthBearer(token): AuthBearer, State(mut state): State<AppState>
     }
 }
 
+#[debug_handler]
 async fn subscribe(
     Path(bid): Path<String>,
     State(state): State<AppState>,
-    ws: WebSocketUpgrade,
-) -> Response<Body> {
-    let mut socket = ws.on_upgrade(|socket| active_subscription(socket, bid, state));
-    socket
-        .headers_mut()
-        .append("Keep-Alive", HeaderValue::from_static("timeout=300"));
-    socket
-}
+) -> Result<Response<Message>, AppError> {
+    let mut pubsub = state.replicas.get_async_pubsub().await?;
+    pubsub.subscribe(bid.clone()).await?;
+    pubsub.subscribe("update").await?;
 
-async fn active_subscription(mut ws: WebSocket, bid: String, mut state: AppState) {
-    state.task_tracker.spawn(async move {
-        let mut pubsub = match state.replicas.get_async_pubsub().await {
-            Ok(ps) => ps,
-            Err(_) => {
-                return
+    let mut msg_stream = pubsub.on_message();
+
+    match timeout(Duration::from_secs(55), msg_stream.next()).await {
+        Ok(msg) => {
+            let redis_msg = msg.context("Could not convert to redis msg")?;
+            let channel = redis_msg.get_channel_name();
+            if channel == "update" {
+                return Ok(Response::new(Message::Update));
             }
-        };
-        match pubsub.subscribe(bid.clone()).await {
-            Ok(_) => (),
-            Err(_) => {
-                return
-            }
-        };
-
-        match pubsub.subscribe("update").await {
-            Ok(_) => (),
-            Err(_) => {
-                return
-            }
-        };
-
-
-        let mut msg_stream = pubsub.on_message();
-
-        let mut timeout_stream = IntervalStream::new(time::interval(Duration::from_secs(10)));
-
-        if let Ok(res) = state
-            .master
-            .incr::<&str, i32, i32>("active_boards", 1)
-            .await
-    {
-        println!(
-            "Establishing new connection for board with id {:?}. Total active boards: {:?}",
-            bid.clone(),
-            res
-        );
-    }
-
-        loop {
-            tokio::select! {
-                Some(msg) = msg_stream.next() => {
-                    let channel = msg.get_channel_name();
-                    if channel == "update" {
-                        if let Ok(message) = to_string(&Message::Update) {
-                            match ws.send(ws::Message::Text(message)).await {
-                                    Ok(_) => (),
-                                    Err(_) => {break;}
-                            }
-                        }
-                        continue;
-                    }
-                    if let Ok(payload) = msg.get_payload::<String>() {
-                        if let Ok(payload_json) = from_str::<Value>(payload.as_str()) {
-                            if let Ok(message) = to_string(&Message::Refresh { payload: payload_json }) {
-                                match ws.send(ws::Message::Text(message)).await {
-                                    Ok(_) => (),
-                                    Err(_) => {break;}
-                                }
-                            }
-                        }
-                    }
-                }
-                Some(_) = timeout_stream.next() => {
-                    match ws.send(ws::Message::Ping(vec![0])).await {
-                        Ok(_) => (),
-                        Err(_) => {break;},
-                    }
-                }
-                _ = state.runtime_status.cancelled() => {println!("Gracefully shutting down..."); break;}
-                else => {break;}
-            }
+            let payload = redis_msg.get_payload::<String>()?;
+            return Ok(Response::new(Message::Refresh {
+                payload: from_str::<Value>(payload.as_str())?,
+            }));
         }
-
-        if let Ok(res) = state
-            .master
-            .decr::<&str, i32, i32>("active_boards", 1)
-            .await
-    {
-        println!(
-            "Cleaning up connection for board with id {:?}. Total active boards: {:?}",
-            bid, res
-        );
+        Err(_) => return Ok(Response::new(Message::Timeout)),
     }
-
-    });
 }
