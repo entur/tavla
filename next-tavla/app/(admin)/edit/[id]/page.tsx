@@ -15,6 +15,7 @@ import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
+import { RefreshButton } from './components/RefreshButton/RefreshButton'
 
 type TProps = {
     params: { id: TBoardID }
@@ -46,6 +47,7 @@ export default async function EditPage({ params }: TProps) {
                     <Open bid={board.id} type="button" />
                     <Copy bid={board.id} type="button" />
                     <Delete board={board} type="button" />
+                    <RefreshButton board={board} />
                 </div>
             </div>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8">

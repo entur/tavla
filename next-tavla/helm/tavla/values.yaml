@@ -11,6 +11,12 @@ common:
         image: <+artifacts.primary.image>
         cpu: 0.3
         memory: 512
+        env:
+            - name: BACKEND_API_KEY
+              valueFrom:
+                  secretKeyRef:
+                      name: backend
+                      key: api-key
         probes:
             enabled: true
             spec:
