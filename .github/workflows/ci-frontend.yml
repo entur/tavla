@@ -1,0 +1,26 @@
+name: CI/Frontend
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "next-tavla/**"
+
+jobs:
+  docker-lint:
+    uses: entur/gha-docker/.github/workflows/lint.yml@v1.2.3
+    with:
+      dockerfile: next-tavla/Dockerfile
+      ignore: DL3018,DL3019
+
+  helm-lint:
+    uses: entur/gha-helm/.github/workflows/lint.yml@v1.0.4
+    with:
+      environment: prd
+      chart: next-tavla/helm/tavla
+
+  docker-build:
+    uses: entur/gha-docker/.github/workflows/build.yml@v1.2.3
+    with:
+      context: next-tavla
