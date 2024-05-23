@@ -22,7 +22,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
     if (loggedIn)
         return (
             <form action={logout}>
-                <IconButton type="submit" className="gap-4 p-4">
+                <IconButton type="submit" className="gap-4 p-4 hidden md:flex">
                     <LogOutIcon />
                     Logg ut
                 </IconButton>

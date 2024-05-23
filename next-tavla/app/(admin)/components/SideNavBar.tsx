@@ -13,12 +13,14 @@ import { logout } from './Login/actions'
 import { Heading2 } from '@entur/typography'
 import { Modal } from '@entur/modal'
 
-function SideNavBar() {
+function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
     const [isOpen, setIsOpen] = useState(false)
 
+    if (!loggedIn) return null
+
     return (
-        <>
+        <div className="md:hidden">
             <IconButton
                 onClick={() => setIsOpen(!isOpen)}
                 className="bg-tertiary rounded-full"
@@ -68,7 +70,7 @@ function SideNavBar() {
                     </form>
                 </SideNavigation>
             </Modal>
-        </>
+        </div>
     )
 }
 
