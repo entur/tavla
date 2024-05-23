@@ -1,3 +1,4 @@
+import { BACKEND_URL } from 'app/(admin)/utils/constants'
 import { delay } from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
 import { TMessage } from 'types/refresh'
@@ -9,7 +10,7 @@ function useRefresh(initialBoard: TBoard) {
     const subscribe = useCallback(async () => {
         try {
             const res = await fetch(
-                `https://tavla-api.dev.entur.no/subscribe/${initialBoard.id}`,
+                `${BACKEND_URL}/subscribe/${initialBoard.id}`,
             )
             if (!res.ok) return delay(subscribe, 10000)
 
