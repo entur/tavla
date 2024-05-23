@@ -36,7 +36,11 @@ function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
                 defaultValue={footer ?? ''}
             />
             <div className="flex flex-row w-full mt-8 justify-end">
-                <SubmitButton variant="secondary" aria-label="Lagre kolonner">
+                <SubmitButton
+                    variant="secondary"
+                    aria-label="Lagre kolonner"
+                    className="max-sm:w-full"
+                >
                     Lagre infomelding
                 </SubmitButton>
             </div>

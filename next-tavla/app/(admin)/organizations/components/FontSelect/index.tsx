@@ -37,6 +37,7 @@ function FontSelect({
                     <SubmitButton
                         variant="secondary"
                         aria-label="Lagre tekststørrelse"
+                        className="max-sm:w-full"
                     >
                         Lagre tekststørrelse
                     </SubmitButton>

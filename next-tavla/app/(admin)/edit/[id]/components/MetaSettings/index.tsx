@@ -41,7 +41,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 </div>
 
                 <div className="flex flex-row justify-end mt-8">
-                    <SubmitButton variant="secondary">
+                    <SubmitButton variant="secondary" className="max-sm:w-full">
                         Lagre tittel
                     </SubmitButton>
                 </div>
@@ -58,7 +58,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 <Heading3 margin="bottom">Tekststørrelse </Heading3>
                 <FontChoiceChip font={meta.fontSize ?? 'medium'} />
                 <div className="flex flex-row mt-8 justify-end">
-                    <SubmitButton variant="secondary">
+                    <SubmitButton variant="secondary" className="max-sm:w-full">
                         Lagre tekststørrelse
                     </SubmitButton>
                 </div>

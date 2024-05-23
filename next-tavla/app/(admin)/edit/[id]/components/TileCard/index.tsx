@@ -201,7 +201,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 name="offset"
                                 type="number"
                                 min={0}
-                                className="w-1/3"
+                                className="w-full sm:w-1/3"
                                 defaultValue={
                                     tile.offset ? tile.offset : undefined
                                 }

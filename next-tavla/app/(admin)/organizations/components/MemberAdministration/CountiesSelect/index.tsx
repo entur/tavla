@@ -58,7 +58,11 @@ function CountiesSelect({
                         ))}
                 </div>
                 <div className="flex flex-row w-full mt-8 justify-end">
-                    <SubmitButton variant="secondary" aria-label="Lagre fylker">
+                    <SubmitButton
+                        variant="secondary"
+                        aria-label="Lagre fylker"
+                        className="max-sm:w-full"
+                    >
                         Lagre fylker
                     </SubmitButton>
                 </div>

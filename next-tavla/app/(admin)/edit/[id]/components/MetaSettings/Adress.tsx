@@ -41,7 +41,9 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 />
             </div>
             <div className="flex flex-row mt-8 justify-end">
-                <SubmitButton variant="secondary">Lagre lokasjon</SubmitButton>
+                <SubmitButton variant="secondary" className="max-sm:w-full">
+                    Lagre lokasjon
+                </SubmitButton>
             </div>
         </form>
     )
