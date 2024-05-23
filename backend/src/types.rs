@@ -39,7 +39,9 @@ impl IntoResponse for Message {
     }
 }
 
-pub struct AppError(anyhow::Error);
+pub struct AppError {
+    _e: anyhow::Error,
+}
 
 impl IntoResponse for AppError {
     fn into_response(self) -> axum::response::Response {
@@ -52,6 +54,6 @@ where
     E: Into<anyhow::Error>,
 {
     fn from(err: E) -> Self {
-        Self(err.into())
+        Self { _e: err.into() }
     }
 }

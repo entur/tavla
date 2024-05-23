@@ -19,7 +19,7 @@ use tokio_util::{sync::CancellationToken, task::TaskTracker};
 mod types;
 
 mod utils;
-use tower_http::cors::{Any, Cors, CorsLayer};
+use tower_http::cors::CorsLayer;
 use types::{AppError, AppState, Message};
 use utils::{graceful_shutdown, setup_redis};
 
