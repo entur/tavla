@@ -4,19 +4,33 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - backend
     paths:
       - "next-tavla/**"
 
-
 jobs:
   build-dockerfile:
-    uses: entur/gha-docker/.github/workflows/build.yml@v1.1.2
+    uses: entur/gha-docker/.github/workflows/build.yml@v1.2.2
     with:
       dockerfile: next-tavla/Dockerfile
+
   push-dockerfile:
     needs: [build-dockerfile]
-    uses: entur/gha-docker/.github/workflows/push.yml@v1.1.2
+    uses: entur/gha-docker/.github/workflows/push.yml@v1.2.2
     with:
       environment: prd
       dockerfile: next-tavla/Dockerfile
+
+  helm-deploy-dev:
+    needs: [push-dockerfile]
+    uses: entur/gha-helm/.github/workflows/deploy.yml@v1.0.4
+    with:
+      environment: dev
+      chart: next-tavla/helm/tavla
+
+  helm-deploy-prd:
+    needs: [helm-deploy-dev]
+    uses: entur/gha-helm/.github/workflows/deploy.yml@v1.0.4
+    with:
+      environment: prd
+      chart: next-tavla/helm/tavla

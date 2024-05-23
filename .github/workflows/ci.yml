@@ -2,10 +2,18 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - backend
 
 jobs:
   lint-dockerfile:
-    uses: entur/gha-docker/.github/workflows/lint.yml@v1.0.0
+    uses: entur/gha-docker/.github/workflows/lint.yml@v1.2.2
     with:
       dockerfile: next-tavla/Dockerfile
       ignore: DL3018,DL3019,DL3059
+
+  helm-lint:
+    uses: entur/gha-helm/.github/workflows/lint.yml@v1.0.4
+    with:
+      environment: prd
+      chart: next-tavla/helm/tavla
