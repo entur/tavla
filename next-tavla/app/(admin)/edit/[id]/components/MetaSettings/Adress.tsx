@@ -38,6 +38,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                     onChange={setSelectedPoint}
                     debounceTimeout={1000}
                     clearable
+                    className="[&_span]:flex [&_span]:flex-row"
                 />
             </div>
             <div className="flex flex-row mt-8 justify-end">
