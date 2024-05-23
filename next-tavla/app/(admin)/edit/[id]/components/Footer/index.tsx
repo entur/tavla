@@ -61,7 +61,11 @@ function Footer({
                 )}
             </div>
             <div className="flex flex-row mt-8 justify-end">
-                <SubmitButton variant="secondary" aria-label="Lagre kolonner">
+                <SubmitButton
+                    variant="secondary"
+                    aria-label="Lagre kolonner"
+                    className="max-sm:w-full"
+                >
                     Lagre infomelding
                 </SubmitButton>
             </div>

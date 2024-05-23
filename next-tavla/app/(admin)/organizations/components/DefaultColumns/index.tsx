@@ -75,6 +75,7 @@ function DefaultColumns({
                     <SubmitButton
                         variant="secondary"
                         aria-label="Lagre kolonner"
+                        className="max-sm:w-full"
                     >
                         Lagre kolonner
                     </SubmitButton>

@@ -36,7 +36,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                     aria-label="Legg til medlem"
                     variant="secondary"
                     width="fluid"
-                    className="max-w-48"
+                    className="w-full sm:max-w-48"
                 >
                     Legg til medlem
                     <AddIcon />
