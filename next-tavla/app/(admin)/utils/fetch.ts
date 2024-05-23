@@ -8,6 +8,8 @@ type TPartialGeoResponse = {
         properties: {
             id?: string
             label?: string
+            layer?: string
+            category?: [TCategory]
         }
     }>
 }
@@ -68,6 +70,7 @@ export async function fetchStopPlaces(
             return data.features.map(({ properties }) => ({
                 value: properties.id ?? '',
                 label: properties.label || '',
+                icons: getIcons(properties.layer, properties.category),
             }))
         })
 }
