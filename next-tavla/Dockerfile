@@ -7,9 +7,8 @@ RUN apk add --update nodejs && \
 FROM base AS deps
 WORKDIR /app
 
-COPY next-tavla ./
+COPY . .
 
-COPY next-tavla/yarn.lock ./
 RUN yarn
 
 FROM deps AS builder
