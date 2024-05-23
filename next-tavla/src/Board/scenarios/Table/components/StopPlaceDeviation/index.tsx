@@ -13,7 +13,7 @@ function StopPlaceDeviation({
     if (!situations || numberOfSituations === 0) return null
 
     return (
-        <div className="pb-[0.5em]">
+        <div className="pb-em-0.5">
             <Situation situation={situations[index % numberOfSituations]} />
         </div>
     )
