@@ -2,7 +2,6 @@
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
 import React from 'react'
 import { Destination } from './components/Destination'
-import classes from './styles.module.css'
 import { DeparturesContext } from './contexts'
 import { TColumn } from 'types/column'
 import { isArray } from 'lodash'
@@ -26,7 +25,7 @@ function Table({
 }) {
     if (!columns || !isArray(columns))
         return (
-            <div className={classes.table}>
+            <div className="flex shrink-0">
                 Du har ikke lagt til noen kolonner enda
             </div>
         )
@@ -34,7 +33,7 @@ function Table({
     return (
         <div className="flex flex-col">
             <StopPlaceDeviation situations={situations} />
-            <div className={classes.table}>
+            <div className="flex shrink-0">
                 <DeparturesContext.Provider value={departures}>
                     {columns.includes('aimedTime') && <AimedTime />}
                     {columns.includes('arrivalTime') && <ArrivalTime />}

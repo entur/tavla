@@ -188,6 +188,10 @@
         border-radius: 0.5em;
     }
 
+    .pulse {
+        @apply inline-flex rounded-full bg-success h-em-0.75 w-em-0.75 left-[calc(50%-(0.75em/2))] bottom-[calc(50%-(0.75em/2))];
+    }
+
     /* For Tavla using pages */
 
     .root {

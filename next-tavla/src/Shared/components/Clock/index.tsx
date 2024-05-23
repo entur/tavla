@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useState } from 'react'
-import classes from './styles.module.css'
 import { formatTimeStamp } from 'utils/time'
 
 function Clock() {
@@ -16,7 +15,7 @@ function Clock() {
         return () => clearInterval(intervalId)
     }, [])
 
-    return <span className={classes.clock}>{currentTime}</span>
+    return <span className="text-[1.5625em] text-primary">{currentTime}</span>
 }
 
 export { Clock }

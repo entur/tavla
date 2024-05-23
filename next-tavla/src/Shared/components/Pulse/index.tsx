@@ -1,10 +1,8 @@
-import classes from './styles.module.css'
-
 function Pulse() {
     return (
-        <div className={classes.pulse}>
-            <div className={classes.heartbeat} />
-            <div className={classes.dot} />
+        <div className="relative flex h-full w-full">
+            <span className="animate-ping-slow absolute pulse"></span>
+            <span className="relative pulse"></span>
         </div>
     )
 }

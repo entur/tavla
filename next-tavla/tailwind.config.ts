@@ -61,8 +61,30 @@ module.exports = {
                 'em-lg': '1.3em',
             },
             spacing: {
+                'em-0.25': '0.25em',
+                'em-0.5': '0.5em',
+                'em-0.75': '0.75em',
+                'em-1': '1em',
                 'em-2': '2em',
                 'em-3': '3em',
+            },
+            gridTemplateColumns: {
+                'auto-fit-minmax': 'repeat(auto-fit, minmax(60vmin, 1fr))',
+            },
+            animation: {
+                'ping-slow': 'ping 8s  infinite',
+            },
+            keyframes: {
+                ping: {
+                    '0%,75%': {
+                        transform: 'scale(1)',
+                        opacity: '1',
+                    },
+                    '100%': {
+                        transform: 'scale(2)',
+                        opacity: '0',
+                    },
+                },
             },
         },
     },
