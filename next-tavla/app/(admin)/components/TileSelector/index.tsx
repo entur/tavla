@@ -82,7 +82,6 @@ function TileSelector({
                     onChange={setSelectedStopPlace}
                     debounceTimeout={1000}
                     {...getFormFeedbackForField('stop_place', state)}
-                    className="[&_span]:flex [&_span]:flex-row"
                 />
             </div>
             <div className="w-full">
