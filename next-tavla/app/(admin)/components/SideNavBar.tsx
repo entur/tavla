@@ -23,9 +23,9 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
         <div className="md:hidden">
             <IconButton
                 onClick={() => setIsOpen(!isOpen)}
-                className="bg-tertiary rounded-full"
+                className="bg-contrast rounded-full p-3 flex items-end"
             >
-                <MenuIcon content="Meny" />
+                <MenuIcon content="Meny" color="background" />
             </IconButton>
             <Modal
                 open={isOpen}

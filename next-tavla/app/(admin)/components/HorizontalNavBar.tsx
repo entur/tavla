@@ -7,7 +7,7 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
     if (!loggedIn) return null
     return (
-        <div className="flex-row hidden md:flex">
+        <div className="flex-row hidden md:flex gap-4">
             <CreateBoard />
             <TopNavigationItem
                 active={pathname?.includes('/boards')}
