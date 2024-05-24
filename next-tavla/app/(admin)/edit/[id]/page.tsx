@@ -15,7 +15,7 @@ import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
-import { RefreshButton } from './components/RefreshButton/RefreshButton'
+import { RefreshButton } from './components/RefreshButton'
 
 type TProps = {
     params: { id: TBoardID }
