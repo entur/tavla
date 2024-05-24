@@ -3,6 +3,7 @@ import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import { TravelTag } from 'components/TravelTag'
+import { getAirPublicCode } from 'utils/publicCode'
 
 function Line() {
     const departures = useNonNullContext(DeparturesContext)
@@ -13,6 +14,7 @@ function Line() {
             departure.serviceJourney.transportSubmode ?? undefined,
         publicCode: departure.serviceJourney.line.publicCode ?? '',
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+        id: departure.serviceJourney.id ?? '',
     }))
 
     return (
@@ -23,7 +25,11 @@ function Line() {
                         <TravelTag
                             transportMode={line.transportMode}
                             transportSubmode={line.transportSubmode}
-                            publicCode={line.publicCode}
+                            publicCode={
+                                line.transportMode === 'air'
+                                    ? getAirPublicCode(line.id) ?? ''
+                                    : line.publicCode
+                            }
                         />
                     </div>
                 </TableRow>
