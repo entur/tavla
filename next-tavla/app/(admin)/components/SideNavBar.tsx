@@ -55,7 +55,13 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                         >
                             Organisasjoner
                         </SideNavigationItem>
-                        <form action={logout}>
+                        <form
+                            onClick={(event) => {
+                                event.preventDefault()
+                                logout()
+                                setIsOpen(false)
+                            }}
+                        >
                             <SideNavigationItem
                                 as={Button}
                                 style={{
