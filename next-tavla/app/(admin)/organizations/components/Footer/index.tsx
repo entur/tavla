@@ -1,7 +1,7 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { TextField } from '@entur/form'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TOrganizationID } from 'types/settings'
 import { setFooter } from './actions'
@@ -19,12 +19,11 @@ function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
                 addToast('Infomelding lagret!')
             }}
         >
-            <div className="flex flex-col items-start gap-2">
-                <Heading3 margin="none">Infomelding</Heading3>
-                <Paragraph>
-                    Skriv en kort tekst som skal vises nederst i tavlen.
-                </Paragraph>
-            </div>
+            <Heading2>Infomelding</Heading2>
+            <Paragraph>
+                Skriv en kort tekst som skal vises nederst i tavlen.
+            </Paragraph>
+
             <div className="flex flex-col justify-between h-full">
                 <TextField
                     label="Infomelding"
