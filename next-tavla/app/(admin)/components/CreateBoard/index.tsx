@@ -61,7 +61,7 @@ function CreateBoard({ isSideNav }: { isSideNav?: boolean }) {
             <Modal
                 open={open}
                 size="large"
-                className="flex flex-col items-center w-3/4 lg:w-full"
+                className="flex flex-col items-center w-11/12 lg:w-full"
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)

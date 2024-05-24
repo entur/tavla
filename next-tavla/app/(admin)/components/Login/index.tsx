@@ -43,7 +43,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
             <Modal
                 open={open}
                 size="small"
-                className="w-3/4 lg:w-full"
+                className="w-11/12 lg:w-full"
                 onDismiss={() => router.push(pathname ?? '/')}
             >
                 <div className="flex flex-row justify-between">
