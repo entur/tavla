@@ -6,7 +6,7 @@ import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import { CreateBoard } from './CreateBoard'
 import { usePathname } from 'next/navigation'
 import { Button, IconButton } from '@entur/button'
-import { MenuIcon } from '@entur/icons'
+import { LeftArrowIcon, MenuIcon } from '@entur/icons'
 import { useState } from 'react'
 import { SideNavigation } from '@entur/menu'
 import { logout } from './Login/actions'
@@ -23,7 +23,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
         <div className="md:hidden">
             <IconButton
                 onClick={() => setIsOpen(!isOpen)}
-                className="bg-contrast rounded-full p-3 flex items-end"
+                className="bg-contrast rounded-full p-3"
             >
                 <MenuIcon content="Meny" color="background" />
             </IconButton>
@@ -31,44 +31,49 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                 open={isOpen}
                 onDismiss={() => setIsOpen(false)}
                 size="medium"
-                className="h-full w-9/12 fixed top-0 left-0 py-10 !max-h-full !rounded-none !p-0"
+                className="h-full w-9/12 fixed top-0 left-0 py-10 !max-h-full !rounded-none !p-0 overflow-visible"
             >
                 <SideNavigation className="h-full pt-10">
                     <div className="pl-10">
                         <Link href="/" aria-label="Tilbake til landingssiden">
                             <Image src={TavlaLogoBlue} height={22} alt="" />
                         </Link>
-                        <Heading2 className="mt-16">Meny</Heading2>
+                        <Heading2 className="mt-16 mb-4">Meny</Heading2>
                     </div>
 
-                    <CreateBoard isSideNav={true} />
-
-                    <SideNavigationItem
-                        href="/boards"
-                        active={pathname?.includes('/boards')}
-                    >
-                        Tavler
-                    </SideNavigationItem>
-
-                    <SideNavigationItem
-                        href="/organizations"
-                        active={pathname?.includes('/organizations')}
-                    >
-                        Organisasjoner
-                    </SideNavigationItem>
-
-                    <form action={logout}>
+                    <div className="bg-secondary">
+                        <CreateBoard isSideNav={true} />
                         <SideNavigationItem
-                            as={Button}
-                            style={{
-                                justifyContent: 'start',
-                                padding: '0rem 2.5rem',
-                            }}
+                            href="/boards"
+                            active={pathname?.includes('/boards')}
                         >
-                            Logg ut
+                            Tavler
                         </SideNavigationItem>
-                    </form>
+                        <SideNavigationItem
+                            href="/organizations"
+                            active={pathname?.includes('/organizations')}
+                        >
+                            Organisasjoner
+                        </SideNavigationItem>
+                        <form action={logout}>
+                            <SideNavigationItem
+                                as={Button}
+                                style={{
+                                    justifyContent: 'start',
+                                    padding: '0rem 2.5rem',
+                                }}
+                            >
+                                Logg ut
+                            </SideNavigationItem>
+                        </form>
+                    </div>
                 </SideNavigation>
+                <IconButton
+                    onClick={() => setIsOpen(false)}
+                    className="bg-contrast rounded-full p-3 absolute bottom-[10%] -right-5"
+                >
+                    <LeftArrowIcon color="background" />
+                </IconButton>
             </Modal>
         </div>
     )
