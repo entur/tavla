@@ -1,4 +1,4 @@
-name: CI/Backend
+name: ci/backend
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ jobs:
       environment: prd
       chart: backend/helm/backend
 
-  build:
+  code-lint:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -44,9 +44,4 @@ jobs:
         working-directory: backend
         run: |
           cargo test --verbose
-          cargo build --verbose
-
-  docker-build:
-    uses: entur/gha-docker/.github/workflows/build.yml@v1.2.3
-    with:
-      context: backend
+          cargo check --verbose
