@@ -12,7 +12,7 @@ jobs:
   docker-push:
     uses: entur/gha-docker/.github/workflows/push.yml@v1.2.3
     with:
-      environment: backend-prd
+      environment: prd
       context: backend
 
   helm-deploy-dev:
