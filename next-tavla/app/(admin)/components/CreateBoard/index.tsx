@@ -1,10 +1,9 @@
 'use client'
-import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
-import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
-import { SideNavigationItem, Stepper } from '@entur/menu'
+import { PrimaryButton, SecondaryButton } from '@entur/button'
+import { BackArrowIcon, ForwardIcon } from '@entur/icons'
+import { Stepper } from '@entur/menu'
 import { Modal } from '@entur/modal'
 import { Heading3, Heading4, Label, Paragraph } from '@entur/typography'
-import Link from 'next/link'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { usePathname, useRouter } from 'next/navigation'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
@@ -29,7 +28,7 @@ import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 
 type TCreateBoard = 'name' | 'stops'
 
-function CreateBoard({ isSideNav }: { isSideNav?: boolean }) {
+function CreateBoard() {
     const pathname = usePathname()
     const router = useRouter()
 
@@ -48,16 +47,6 @@ function CreateBoard({ isSideNav }: { isSideNav?: boolean }) {
 
     return (
         <>
-            {isSideNav ? (
-                <SideNavigationItem as={Link} href="?board=name">
-                    Opprett tavle
-                </SideNavigationItem>
-            ) : (
-                <IconButton as={Link} href="?board=name" className="gap-4 p-4">
-                    <AddIcon /> Opprett tavle
-                </IconButton>
-            )}
-
             <Modal
                 open={open}
                 size="large"

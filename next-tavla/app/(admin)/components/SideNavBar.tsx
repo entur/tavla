@@ -42,7 +42,10 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                     </div>
 
                     <div className="bg-secondary">
-                        <CreateBoard isSideNav={true} />
+                        <SideNavigationItem as={Link} href="?board=name">
+                            Opprett tavle
+                            <CreateBoard />
+                        </SideNavigationItem>
                         <SideNavigationItem
                             href="/boards"
                             active={pathname?.includes('/boards')}

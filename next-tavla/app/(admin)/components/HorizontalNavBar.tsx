@@ -3,6 +3,8 @@
 import { TopNavigationItem } from '@entur/menu'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { IconButton } from '@entur/button'
+import { AddIcon } from '@entur/icons'
 import { CreateBoard } from './CreateBoard'
 
 function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
@@ -10,7 +12,9 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
     if (!loggedIn) return null
     return (
         <div className="flex-row hidden md:flex gap-4">
-            <CreateBoard />
+            <IconButton as={Link} href="?board=name" className="gap-4 p-4">
+                <AddIcon /> Opprett tavle <CreateBoard />
+            </IconButton>
             <TopNavigationItem
                 active={pathname?.includes('/boards')}
                 as={Link}
