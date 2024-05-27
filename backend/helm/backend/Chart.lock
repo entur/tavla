@@ -3,4 +3,4 @@ dependencies:
   repository: https://entur.github.io/helm-charts
   version: 1.19.0
 digest: sha256:b14fc84b53257e9c174ae208e41ecad3f9b27e13323e9a5529ae1ec6e361b3c9
-generated: "2024-05-27T14:31:25.94759817+02:00"
+generated: "2024-05-27T13:38:59.043822927+02:00"
