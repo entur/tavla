@@ -1,0 +1,47 @@
+name: ci/backend
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "backend/**"
+
+jobs:
+  docker-lint:
+    uses: entur/gha-docker/.github/workflows/lint.yml@v1.2.3
+    with:
+      dockerfile: backend/Dockerfile
+
+  helm-lint:
+    uses: entur/gha-helm/.github/workflows/lint.yml@v1.0.6
+    with:
+      environment: prd
+      chart: backend/helm/backend
+
+  code-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup cargo cache
+        uses: actions/cache@v4
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+      - name: cargo fmt and clippy
+        working-directory: backend
+        run: |
+          cargo fmt --all --check
+          cargo clippy -- --deny warnings
+      - name: cargo test build
+        working-directory: backend
+        run: |
+          cargo test --verbose
+          cargo check --verbose

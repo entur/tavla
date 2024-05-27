@@ -1,0 +1,163 @@
+# Source: typical-backend/charts/common/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: backend
+    shortname: backend
+    team: selvbetjent
+    common: 1.18.4
+    environment: dev
+  name: backend
+  namespace: tavla
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: backend
+  type: ClusterIP
+---
+# Source: typical-backend/charts/common/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend
+    shortname: backend
+    team: selvbetjent
+    common: 1.18.4
+    environment: dev
+  name: backend
+  namespace: tavla
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  minReadySeconds: 0
+  replicas: 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      labels:
+        app: backend
+        shortname: backend
+        team: selvbetjent
+        common: 1.18.4
+        environment: dev
+    spec:
+      serviceAccountName: application
+
+      containers:
+      
+        - name: backend
+          image: eu.gcr.io/entur-system-1287/tavla@sha256:a5dafac8effb40088ad29b1629d8f07111bc8644c4f2ddf03997a5e78ad2a70e
+          imagePullPolicy: Always
+          
+          env:
+            - name: COMMON_ENV
+              value: dev
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redis-password
+                  name: redis
+            - name: BACKEND_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: api-key
+                  name: backend
+            
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          
+          resources:
+            limits:
+              memory: "614Mi"
+            requests:
+              cpu: "0.3"
+              memory: "512Mi"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
+            
+          livenessProbe:
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: 3000
+            timeoutSeconds: 1
+          readinessProbe:
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: 3000
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 300
+            periodSeconds: 1
+            tcpSocket:
+              port: 3000
+            timeoutSeconds: 1      
+      topologySpreadConstraints:
+        - maxSkew: 3
+          topologyKey: "kubernetes.io/hostname"
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: backend
+        - maxSkew: 5
+          topologyKey: "topology.kubernetes.io/zone"
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: backend
+      restartPolicy: Always
+      securityContext:
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+---
+# Source: typical-backend/charts/common/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  labels:
+    traffic-type: public
+    app: backend
+    shortname: backend
+    team: selvbetjent
+    common: 1.18.4
+    environment: dev
+  name: backend
+  namespace: tavla
+spec:
+  rules:
+  - host: tavla-api.dev.entur.no
+    http:
+      paths:
+      - backend:
+          service:
+            name: backend
+            port:
+              number: 80
+        pathType: ImplementationSpecific

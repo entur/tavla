@@ -1,0 +1,6 @@
+common:
+    env: dev
+    ingress:
+        host: tavla-api.dev.entur.no
+    container:
+        image: eu.gcr.io/entur-system-1287/tavla@sha256:132ee56de17eca8f7964549567df87d7a5602ce4ba8744d46041a18e498882f0

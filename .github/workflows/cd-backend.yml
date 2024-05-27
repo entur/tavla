@@ -1,0 +1,32 @@
+name: cd/backend
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - "backend/**"
+
+jobs:
+  docker-push:
+    uses: entur/gha-docker/.github/workflows/push.yml@v1.2.3
+    with:
+      environment: backend-prd
+      context: backend
+
+  helm-deploy-dev:
+    needs: [docker-push]
+    uses: entur/gha-helm/.github/workflows/deploy.yml@v1.0.4
+    with:
+      environment: backend-dev
+      chart: backend/helm/backend
+      image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}
+
+  helm-deploy-prd:
+    needs: [docker-push, helm-deploy-dev]
+    uses: entur/gha-helm/.github/workflows/deploy.yml@v1.0.4
+    with:
+      environment: backend-prd
+      chart: backend/helm/backend
+      image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}

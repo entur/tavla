@@ -1,0 +1,19 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.86"
+axum = {version = "0.7.4", features = ["ws", "macros"]}
+axum-auth = { version = "0.7.0", default-features= false, features = ["auth-bearer"] }
+futures-util = "0.3.30"
+redis = {version = "0.25.3", features = ["tokio-comp", "aio"]}
+serde = {version = "1.0.199", features = ["derive"]}
+serde_json = "1.0.116"
+tokio = { version = "1.36.0", features = ["macros", "rt","rt-multi-thread", "signal"] }
+tokio-stream = "0.1.15"
+tokio-util = {version = "0.7.11", features = ["rt"]}
+tower-http = { version = "0.5.2", features = ["cors"] }

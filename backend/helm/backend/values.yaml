@@ -1,6 +1,6 @@
 common:
-    app: tavla
-    shortname: tavla
+    app: backend
+    shortname: backend
     team: selvbetjent
     ingress:
         enabled: true
@@ -12,11 +12,16 @@ common:
         cpu: 0.3
         memory: 512
         env:
-            - name: BACKEND_API_KEY
-              valueFrom:
-                  secretKeyRef:
-                      name: backend
-                      key: api-key
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: redis
+                key: redis-password
+          - name: BACKEND_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: backend
+                key: api-key
         probes:
             enabled: true
             spec:
@@ -38,8 +43,3 @@ common:
                     periodSeconds: 5
                     successThreshold: 1
                     timeoutSeconds: 1
-    configmap:
-        enabled: true
-        data:
-            NODE_ENV: production
-            NEXT_PUBLIC_ENV: dev
