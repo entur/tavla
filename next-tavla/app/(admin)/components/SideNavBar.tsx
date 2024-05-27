@@ -58,20 +58,16 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                         >
                             Organisasjoner
                         </SideNavigationItem>
-                        <form
-                            onClick={(event) => {
-                                event.preventDefault()
-                                logout()
+                        <SideNavigationItem
+                            as={Button}
+                            className="[&>button]:justify-start [&>button]:px-10"
+                            onClick={async () => {
                                 setIsOpen(false)
+                                await logout()
                             }}
                         >
-                            <SideNavigationItem
-                                as={Button}
-                                className="[&>button]:justify-start [&>button]:px-10"
-                            >
-                                Logg ut
-                            </SideNavigationItem>
-                        </form>
+                            Logg ut
+                        </SideNavigationItem>
                     </div>
                 </SideNavigation>
                 <IconButton
