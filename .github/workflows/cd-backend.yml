@@ -23,7 +23,7 @@ jobs:
       environment: dev
       chart: backend/helm/backend
       image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}
-      release-name: backend
+      release_name: backend
 
   approval-step:
     runs-on: ubuntu-24.04
@@ -42,4 +42,4 @@ jobs:
       environment: prd
       chart: backend/helm/backend
       image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}
-      release-name: backend
+      release_name: backend
