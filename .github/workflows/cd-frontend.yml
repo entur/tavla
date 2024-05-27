@@ -14,19 +14,30 @@ jobs:
     with:
       environment: frontend-prd
       context: next-tavla
+      image_tag: frontend
 
   helm-deploy-dev:
     needs: [docker-push]
     uses: entur/gha-helm/.github/workflows/deploy.yml@v1.0.4
     with:
-      environment: frontend-dev
+      environment: dev
       chart: next-tavla/helm/tavla
       image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}
 
+  approval-step:
+    runs-on: ubuntu-24.04
+    needs: [helm-deploy-dev]
+    environment: apr
+    steps:
+      - name: Approval step
+        id: approval
+        shell: bash
+        run: echo "Approve the deployment to prod"
+
   helm-deploy-prd:
-    needs: [docker-push, helm-deploy-dev]
+    needs: [docker-push, approval-step]
     uses: entur/gha-helm/.github/workflows/deploy.yml@v1.0.4
     with:
-      environment: frontend-prd
+      environment: prd
       chart: next-tavla/helm/tavla
       image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}
