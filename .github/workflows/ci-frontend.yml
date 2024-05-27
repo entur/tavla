@@ -15,7 +15,7 @@ jobs:
       ignore: DL3018,DL3019
 
   helm-lint:
-    uses: entur/gha-helm/.github/workflows/lint.yml@v1.0.4
+    uses: entur/gha-helm/.github/workflows/lint.yml@v1.0.6
     with:
       environment: prd
       chart: next-tavla/helm/tavla
