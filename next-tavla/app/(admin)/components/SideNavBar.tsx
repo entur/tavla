@@ -64,10 +64,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                         >
                             <SideNavigationItem
                                 as={Button}
-                                style={{
-                                    justifyContent: 'start',
-                                    padding: '0rem 2.5rem',
-                                }}
+                                className="[&>button]:justify-start [&>button]:px-10"
                             >
                                 Logg ut
                             </SideNavigationItem>
