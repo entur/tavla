@@ -1,3 +1,5 @@
+'use client'
+
 import { TopNavigationItem } from '@entur/menu'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
