@@ -4,5 +4,5 @@ common:
         host: tavla.entur.no
     configmap:
         data:
-            NEXT_PUBLIC_ENV: prod
+            KUB_ENV: prd
             GOOGLE_PROJECT_ID: ent-tavla-prd

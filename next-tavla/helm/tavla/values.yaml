@@ -42,4 +42,4 @@ common:
         enabled: true
         data:
             NODE_ENV: production
-            NEXT_PUBLIC_ENV: dev
+            KUB_ENV: dev
