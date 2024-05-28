@@ -38,6 +38,7 @@
         "@entur/menu": "4.2.4",
         "@entur/modal": "1.7.3",
         "@entur/tab": "0.4.51",
+        "@entur/table": "4.8.9",
         "@entur/tokens": "3.8.1",
         "@entur/tooltip": "2.6.26",
         "@entur/travel": "6.0.18",

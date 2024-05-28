@@ -3,14 +3,11 @@ import { TableHeader } from 'app/(admin)/boards/components/TableHeader'
 import { TableRows } from 'app/(admin)/boards/components/TableRows'
 import { TBoard } from 'types/settings'
 import { isEmpty } from 'lodash'
-import { useSearchParam } from '../../hooks/useSearchParam'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
-import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'app/(admin)/utils/types'
+import { DEFAULT_BOARD_COLUMNS } from 'app/(admin)/utils/types'
+import { Table, TableBody } from '@entur/table'
 
 function BoardTable({ boards }: { boards: TBoard[] }) {
-    const value = useSearchParam('columns')
-    const columns = value?.split(',') ?? DEFAULT_BOARD_COLUMNS
-
     if (isEmpty(boards))
         return (
             <IllustratedInfo
@@ -20,15 +17,12 @@ function BoardTable({ boards }: { boards: TBoard[] }) {
         )
 
     return (
-        <div
-            className="grid items-center"
-            style={{
-                gridTemplateColumns: `repeat(${columns.length},auto)`,
-            }}
-        >
-            <TableHeader columns={columns as TBoardsColumn[]} />
-            <TableRows boards={boards} />
-        </div>
+        <Table>
+            <TableHeader columns={DEFAULT_BOARD_COLUMNS} />
+            <TableBody className="[&>*:nth-child(even)]:bg-secondary">
+                <TableRows boards={boards} />
+            </TableBody>
+        </Table>
     )
 }
 export { BoardTable }
