@@ -1,16 +1,15 @@
-import { BACKEND_URL } from 'app/(admin)/utils/constants'
 import { delay } from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
 import { TMessage } from 'types/refresh'
 import { TBoard } from 'types/settings'
 
-function useRefresh(initialBoard: TBoard) {
+function useRefresh(initialBoard: TBoard, backend_url: string) {
     const [board, setBoard] = useState<TBoard>(initialBoard)
 
     const subscribe = useCallback(async () => {
         try {
             const res = await fetch(
-                `${BACKEND_URL}/subscribe/${initialBoard.id}`,
+                `${backend_url}/subscribe/${initialBoard.id}`,
             )
             if (!res.ok) return delay(subscribe, 10000)
 
@@ -34,7 +33,7 @@ function useRefresh(initialBoard: TBoard) {
         } catch {
             delay(subscribe, 10000)
         }
-    }, [initialBoard.id])
+    }, [initialBoard.id, backend_url])
 
     useEffect(() => {
         const timeout = setTimeout(subscribe, 10000)

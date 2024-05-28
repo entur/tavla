@@ -17,8 +17,3 @@ export const FIREBASE_PRD_CONFIG = {
     messagingSenderId: '206753066197',
     appId: '1:206753066197:web:c136b4473eeff99e24c65c',
 }
-
-export const BACKEND_URL =
-    process.env.NEXT_PUBLIC_ENV === 'prod'
-        ? 'https://tavla-api.entur.no'
-        : 'https://tavla-api.dev.entur.no'
