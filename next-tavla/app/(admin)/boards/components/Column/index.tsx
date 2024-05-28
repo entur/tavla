@@ -3,7 +3,6 @@ import { Actions } from './Actions'
 import { LastModified } from './LastModified'
 import { Name } from './Name'
 import { Tags } from './Tags'
-import { Link } from './Link'
 import { TTag } from 'types/meta'
 import { TBoardsColumn } from 'app/(admin)/utils/types'
 
@@ -19,8 +18,6 @@ function Column({
     switch (column) {
         case 'name':
             return <Name name={board.meta?.title} />
-        case 'url':
-            return <Link bid={board.id} />
         case 'actions':
             return <Actions board={board} />
         case 'lastModified':
