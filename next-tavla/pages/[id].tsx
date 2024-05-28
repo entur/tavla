@@ -7,6 +7,7 @@ import {
 } from 'Board/scenarios/Board/firebase'
 import { Footer } from 'components/Footer'
 import { useRefresh } from 'hooks/useRefresh'
+import { getBackendUrl } from 'utils/index'
 
 export async function getServerSideProps({
     params,
@@ -23,16 +24,11 @@ export async function getServerSideProps({
         }
     }
 
-    const backend_url =
-        process.env.KUB_ENV === 'prd'
-            ? 'https://tavla-api.entur.no'
-            : 'https://tavla-api.dev.entur.no'
-
     return {
         props: {
             board,
             organization: await getOrganizationWithBoard(id),
-            backend_url,
+            backend_url: getBackendUrl(),
         },
     }
 }
