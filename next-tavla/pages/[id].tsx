@@ -23,10 +23,16 @@ export async function getServerSideProps({
         }
     }
 
+    const backend_url =
+        process.env.NEXT_PUBLIC_ENV === 'prod'
+            ? 'https://tavla-api.entur.no'
+            : 'https://tavla-api.dev.entur.no'
+
     return {
         props: {
             board,
             organization: await getOrganizationWithBoard(id),
+            backend_url,
         },
     }
 }
@@ -34,11 +40,13 @@ export async function getServerSideProps({
 function BoardPage({
     board,
     organization,
+    backend_url,
 }: {
     board: TBoard
     organization: TOrganization | null
+    backend_url: string
 }) {
-    const updatedBoard = useRefresh(board)
+    const updatedBoard = useRefresh(board, backend_url)
 
     return (
         <div className="root" data-theme={updatedBoard.theme ?? 'dark'}>
