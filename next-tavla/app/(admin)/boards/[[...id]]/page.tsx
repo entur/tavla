@@ -1,8 +1,6 @@
 import { permanentRedirect } from 'next/navigation'
-import { SelectOrganization } from '../components/SelectOrganization'
 import { Search } from '../components/Search'
 import { FilterButton } from '../components/FilterButton'
-import { ToggleBoardsColumns } from '../components/ToggleBoardsColumns'
 import { BoardTable } from '../components/BoardTable'
 import { Metadata } from 'next'
 import React from 'react'
@@ -10,7 +8,6 @@ import {
     getBoardsForOrganization,
     getBoardsForUser,
     getOrganizationIfUserHasAccess,
-    getOrganizationsForUser,
 } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -37,7 +34,6 @@ async function OrganizationsBoardsPage({ params }: TProps) {
     const { id } = params
     const user = await getUserFromSessionCookie()
     if (!user) permanentRedirect('/')
-    const organizations = await getOrganizationsForUser()
     const activeOrganization = await getOrganizationIfUserHasAccess(
         (id ?? '')[0],
     )
@@ -56,23 +52,12 @@ async function OrganizationsBoardsPage({ params }: TProps) {
         : await getBoardsForUser()
 
     return (
-        <div className="flex flex-col md:flex-row gap-3 justify-center">
-            <SelectOrganization
-                organizations={organizations}
-                active={activeOrganization}
-            />
-            <div className="flex flex-col mt-4 md:mt-8 gap-3 grow">
-                <div className="flex flex-col sm:flex-row md:items-center gap-3">
-                    <Search />
-                    <div className="flex flex-col md:flex-row gap-3">
-                        <FilterButton boards={boards} />
-                        <ToggleBoardsColumns />
-                    </div>
-                </div>
-                <div className="overflow-x-auto">
-                    <BoardTable boards={boards} />
-                </div>
+        <div className="flex flex-col mt-4 md:mt-8 gap-3 grow">
+            <div className="flex flex-col sm:flex-row md:items-center gap-3">
+                <Search />
+                <FilterButton boards={boards} />
             </div>
+            <BoardTable boards={boards} />
         </div>
     )
 }
