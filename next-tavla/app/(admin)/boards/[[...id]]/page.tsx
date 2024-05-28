@@ -52,7 +52,7 @@ async function OrganizationsBoardsPage({ params }: TProps) {
         : await getBoardsForUser()
 
     return (
-        <div className="flex flex-col mt-4 md:mt-8 gap-3 grow">
+        <div className="flex flex-col mt-4 md:mt-8 gap-8 grow">
             <div className="flex flex-col sm:flex-row md:items-center gap-3">
                 <Search />
                 <FilterButton boards={boards} />
