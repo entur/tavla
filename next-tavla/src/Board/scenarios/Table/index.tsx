@@ -33,7 +33,7 @@ function Table({
 
     if (departures.length === 0)
         return (
-            <div className="flex flex-col items-center text-center h-full w-full text-em-sm">
+            <div className="flex flex-col items-center justify-center text-center h-full w-full text-em-sm">
                 <Image src={leafs} alt="" height={500} width={500} />
                 Ingen avganger de neste 24 timene.
             </div>
