@@ -24,7 +24,7 @@ export async function getServerSideProps({
     }
 
     const backend_url =
-        process.env.NEXT_PUBLIC_ENV === 'prod'
+        process.env.KUB_ENV === 'prd'
             ? 'https://tavla-api.entur.no'
             : 'https://tavla-api.dev.entur.no'
 
