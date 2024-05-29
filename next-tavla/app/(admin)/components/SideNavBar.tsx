@@ -20,7 +20,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
     if (!loggedIn) return null
 
     return (
-        <div className="visible md:hidden">
+        <div className="block md:hidden">
             <IconButton
                 onClick={() => setIsOpen(!isOpen)}
                 className="bg-contrast rounded-full p-3"
