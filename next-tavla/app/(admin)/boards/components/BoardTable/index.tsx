@@ -1,13 +1,15 @@
 'use client'
-import { TableHeader } from 'app/(admin)/boards/components/TableHeader'
 import { TableRows } from 'app/(admin)/boards/components/TableRows'
 import { TBoard } from 'types/settings'
 import { isEmpty } from 'lodash'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
-import { DEFAULT_BOARD_COLUMNS } from 'app/(admin)/utils/types'
-import { Table, TableBody } from '@entur/table'
+import { Table, useSortableData } from '@entur/table'
+import { TableHeader } from '../TableHeader'
 
 function BoardTable({ boards }: { boards: TBoard[] }) {
+    const { sortedData, getSortableHeaderProps, getSortableTableProps } =
+        useSortableData(boards)
+
     if (isEmpty(boards))
         return (
             <IllustratedInfo
@@ -17,11 +19,9 @@ function BoardTable({ boards }: { boards: TBoard[] }) {
         )
 
     return (
-        <Table>
-            <TableHeader columns={DEFAULT_BOARD_COLUMNS} />
-            <TableBody className="[&>*:nth-child(even)]:bg-secondary">
-                <TableRows boards={boards} />
-            </TableBody>
+        <Table {...getSortableTableProps}>
+            <TableHeader getSortableHeaderProps={getSortableHeaderProps} />
+            <TableRows boards={sortedData} />
         </Table>
     )
 }

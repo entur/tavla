@@ -40,6 +40,12 @@ a.eds-button,
     line-height: normal;
 }
 
+.eds-table__header-cell-button {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
 a.eds-button > .eds-icon,
 .eds-button > .eds-icon {
     top: 0;

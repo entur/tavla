@@ -1,31 +1,37 @@
-import { BoardsColumns, TBoardsColumn, TSort } from 'app/(admin)/utils/types'
-import { HeaderCell, TableHead, TableRow } from '@entur/table'
-import { useSearchParam } from '../../hooks/useSearchParam'
-import { Sort } from '../Sort'
+import {
+    BoardsColumns,
+    DEFAULT_BOARD_COLUMNS,
+    SortableColumns,
+    TBoardsColumn,
+} from 'app/(admin)/utils/types'
+import {
+    HeaderCell,
+    SortableHeaderProps,
+    SortableHeaderReturnProps,
+    TableHead,
+    TableRow,
+} from '@entur/table'
 
-function TableHeader({ columns }: { columns: TBoardsColumn[] }) {
-    const sortParams = useSearchParam('sort')?.split(':')
-    const sort = {
-        column: sortParams?.[0] as TBoardsColumn,
-        type: sortParams?.[1] as TSort,
-    }
+function TableHeader({
+    getSortableHeaderProps,
+}: {
+    getSortableHeaderProps: (
+        args: SortableHeaderProps,
+    ) => SortableHeaderReturnProps
+}) {
     return (
         <TableHead>
-            <TableRow>
-                {columns.map((column: TBoardsColumn) => (
+            <TableRow className="h-10">
+                {DEFAULT_BOARD_COLUMNS.map((column: TBoardsColumn) => (
                     <HeaderCell
+                        {...(SortableColumns.some((item) => item == column) &&
+                            getSortableHeaderProps({
+                                name: column,
+                            }))}
                         key={column}
-                        className="bg-[#E5E5E9] pl-2 font-medium"
-                        aria-sort={
-                            sort.column === column && sort.type
-                                ? sort.type
-                                : 'none'
-                        }
+                        className="bg-grey70 font-medium text-left pl-2"
                     >
-                        <div className="flex flex-row items-center">
-                            {BoardsColumns[column]}
-                            <Sort column={column} />
-                        </div>
+                        {BoardsColumns[column]}
                     </HeaderCell>
                 ))}
             </TableRow>

@@ -3,7 +3,7 @@ import { TBoard } from 'types/settings'
 import { uniq } from 'lodash'
 import { useSearchParam } from '../../hooks/useSearchParam'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { DataCell, TableRow } from '@entur/table'
+import { DataCell, TableBody, TableRow } from '@entur/table'
 import { Name } from '../Column/Name'
 import { Actions } from '../Column/Actions'
 import { LastModified } from '../Column/LastModified'
@@ -28,7 +28,7 @@ function TableRows({ boards }: { boards: TBoard[] }) {
         filter.every((tag) => (board?.meta?.tags ?? []).includes(tag))
 
     return (
-        <>
+        <TableBody className="[&>*:nth-child(even)]:bg-secondary">
             {boards
                 .filter((board: TBoard) => filterByTitle(board))
                 .filter((board: TBoard) => filterByTags(board))
@@ -61,7 +61,7 @@ function TableRows({ boards }: { boards: TBoard[] }) {
                         </DataCell>
                     </TableRow>
                 ))}
-        </>
+        </TableBody>
     )
 }
 
