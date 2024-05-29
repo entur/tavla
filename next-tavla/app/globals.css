@@ -7,6 +7,7 @@
         --main-background-color: var(--colors-brand-white);
         --secondary-background-color: var(--colors-greys-grey80);
         --tertiary-background-color: var(--colors-blues-blue60);
+        --contrast-background-color: var(--colors-brand-blue);
 
         --main-text-color: var(--colors-brand-blue);
         --secondary-text-color: var(--colors-greys-grey60);
@@ -43,6 +44,7 @@
         --main-background-color: var(--colors-misc-black);
         --secondary-background-color: var(--colors-greys-grey);
         --tertiary-background-color: var(--colors-blues-blue30);
+        --contrast-background-color: var(--colors-brand-white);
 
         --main-text-color: var(--colors-brand-white);
         --secondary-text-color: var(--colors-brand-lavender);
@@ -78,6 +80,7 @@
         --main-background-color: var(--colors-brand-blue);
         --secondary-background-color: var(--colors-blues-blue10);
         --tertiary-background-color: var(--colors-blues-blue30);
+        --contrast-background-color: var(--colors-brand-white);
 
         --main-text-color: var(--colors-brand-white);
         --secondary-text-color: var(--colors-brand-lavender);

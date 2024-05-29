@@ -31,6 +31,7 @@ module.exports = {
                 primary: 'var(--main-background-color)',
                 secondary: 'var(--secondary-background-color)',
                 tertiary: 'var(--tertiary-background-color)',
+                contrast: 'var(--contrast-background-color)',
             },
             colors: {
                 background: 'var(--main-background-color)',

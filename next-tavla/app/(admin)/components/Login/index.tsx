@@ -21,12 +21,15 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
 
     if (loggedIn)
         return (
-            <form action={logout}>
-                <IconButton type="submit" className="gap-4 p-4">
-                    <LogOutIcon />
-                    Logg ut
-                </IconButton>
-            </form>
+            <IconButton
+                onClick={async () => {
+                    await logout
+                }}
+                className="gap-4 p-4 hidden md:flex"
+            >
+                <LogOutIcon />
+                Logg ut
+            </IconButton>
         )
 
     return (
@@ -43,6 +46,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
             <Modal
                 open={open}
                 size="small"
+                className="w-11/12 lg:w-full"
                 onDismiss={() => router.push(pathname ?? '/')}
             >
                 <div className="flex flex-row justify-between">

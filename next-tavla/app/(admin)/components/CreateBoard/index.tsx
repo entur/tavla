@@ -1,10 +1,9 @@
 'use client'
-import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
-import { AddIcon, BackArrowIcon, ForwardIcon } from '@entur/icons'
+import { PrimaryButton, SecondaryButton } from '@entur/button'
+import { BackArrowIcon, ForwardIcon } from '@entur/icons'
 import { Stepper } from '@entur/menu'
 import { Modal } from '@entur/modal'
 import { Heading3, Heading4, Label, Paragraph } from '@entur/typography'
-import Link from 'next/link'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { usePathname, useRouter } from 'next/navigation'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
@@ -48,13 +47,10 @@ function CreateBoard() {
 
     return (
         <>
-            <IconButton as={Link} href="?board=name" className="gap-4 p-4">
-                <AddIcon /> Opprett tavle
-            </IconButton>
             <Modal
                 open={open}
                 size="large"
-                className="flex flex-col items-center"
+                className="flex flex-col items-center w-11/12 lg:w-full"
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)
@@ -65,7 +61,7 @@ function CreateBoard() {
             >
                 <Stepper steps={stepTitles} activeIndex={stepIndex} />
 
-                <div className="w-3/4">
+                <div className="w-full md:w-3/4">
                     <NameAndOrganizationSelector
                         active={pageParam === 'name'}
                         title={board?.meta?.title}
@@ -246,7 +242,7 @@ function StopSelector({
                 }
             />
             <FormError {...getFormFeedbackForField('general', state)} />
-            <div className="flex flex-row justify-between pt-4">
+            <div className="flex flex-col sm:flex-row gap-2 pt-4 justify-between">
                 <SecondaryButton onClick={() => router.back()}>
                     <BackArrowIcon />
                     Tilbake
