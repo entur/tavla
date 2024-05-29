@@ -14,7 +14,7 @@ jobs:
     with:
       environment: prd
       context: next-tavla
-      image_tag: frontend
+      image_name: tavla/frontend
 
   helm-deploy-dev:
     needs: [docker-push]
