@@ -23,7 +23,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
         return (
             <IconButton
                 onClick={async () => {
-                    await logout
+                    await logout()
                 }}
                 className="gap-4 p-4 hidden md:flex"
             >
