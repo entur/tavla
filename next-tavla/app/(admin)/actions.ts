@@ -75,7 +75,7 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
         .flat()
 }
 
-export async function getBoardsForUser() {
+export async function getPrivateBoardsForUser() {
     const user = await getUser()
     if (!user)
         throw new TavlaError({
@@ -102,5 +102,16 @@ export async function getBoardsForUser() {
         .map((ref) =>
             ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
         )
+        .flat()
+}
+
+export async function getBoardsForUser() {
+    const user = await getUserFromSessionCookie()
+    if (!user) return redirect('/')
+
+    const boardRef = await firestore().collection('boards').get()
+
+    return boardRef.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() } as TBoard))
         .flat()
 }

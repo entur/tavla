@@ -13,6 +13,11 @@ export type TBoard = {
     footer?: TFooter
 }
 
+export type TBoardWithOrganization = {
+    board: TBoard
+    organization: TOrganization
+}
+
 export type TUser = {
     uid?: TUserID
     email?: string

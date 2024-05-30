@@ -4,53 +4,34 @@ import { FilterButton } from '../components/FilterButton'
 import { BoardTable } from '../components/BoardTable'
 import { Metadata } from 'next'
 import React from 'react'
-import {
-    getBoardsForOrganization,
-    getBoardsForUser,
-    getOrganizationIfUserHasAccess,
-} from 'app/(admin)/actions'
+import { getBoardsForUser, getOrganizationsForUser } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Heading1 } from '@entur/typography'
+import { TBoardWithOrganization } from 'types/settings'
 
 initializeAdminApp()
 
-type TProps = {
-    params: { id: string[] }
+export const metadata: Metadata = {
+    title: `Tavler | Entur Tavla`,
 }
 
-export async function generateMetadata({ params }: TProps): Promise<Metadata> {
-    const { id } = params
-
-    const organization = id
-        ? await getOrganizationIfUserHasAccess(id[0] ?? '')
-        : { name: 'Mine' }
-
-    return {
-        title: `${organization?.name} tavler | Entur Tavla`,
-    }
-}
-
-async function OrganizationsBoardsPage({ params }: TProps) {
-    const { id } = params
+async function OrganizationsBoardsPage() {
     const user = await getUserFromSessionCookie()
     if (!user) permanentRedirect('/')
-    const activeOrganization = await getOrganizationIfUserHasAccess(
-        (id ?? '')[0],
-    )
 
-    const hasAccess =
-        activeOrganization &&
-        (activeOrganization.owners?.includes(user.uid) ||
-            activeOrganization.editors?.includes(user.uid))
+    const organizations = await getOrganizationsForUser()
+    const boards = await getBoardsForUser()
 
-    if (id && !hasAccess) {
-        return <div>Du har ikke tilgang til denne organisasjonen</div>
-    }
-
-    const boards = id
-        ? await getBoardsForOrganization(id[0] ?? '')
-        : await getBoardsForUser()
+    const boardsWithOrganization = boards.map((board) => {
+        const org = organizations.find((org) =>
+            org.boards?.includes(board.id ?? ''),
+        )
+        return {
+            board: { ...board },
+            organization: { ...org },
+        } as TBoardWithOrganization
+    })
 
     return (
         <div className="flex flex-col gap-8">
@@ -59,7 +40,7 @@ async function OrganizationsBoardsPage({ params }: TProps) {
                 <Search />
                 <FilterButton boards={boards} />
             </div>
-            <BoardTable boards={boards} />
+            <BoardTable boardsWithOrgs={boardsWithOrganization} />
         </div>
     )
 }

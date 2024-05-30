@@ -1,16 +1,20 @@
 'use client'
 import { TableRows } from 'app/(admin)/boards/components/TableRows'
-import { TBoard } from 'types/settings'
+import { TBoardWithOrganization } from 'types/settings'
 import { isEmpty } from 'lodash'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
 import { Table, useSortableData } from '@entur/table'
 import { TableHeader } from '../TableHeader'
 
-function BoardTable({ boards }: { boards: TBoard[] }) {
+function BoardTable({
+    boardsWithOrgs,
+}: {
+    boardsWithOrgs: TBoardWithOrganization[]
+}) {
     const { sortedData, getSortableHeaderProps, getSortableTableProps } =
-        useSortableData(boards)
+        useSortableData(boardsWithOrgs)
 
-    if (isEmpty(boards))
+    if (isEmpty(boardsWithOrgs))
         return (
             <IllustratedInfo
                 title="Her var det tomt"
@@ -21,7 +25,7 @@ function BoardTable({ boards }: { boards: TBoard[] }) {
     return (
         <Table {...getSortableTableProps}>
             <TableHeader getSortableHeaderProps={getSortableHeaderProps} />
-            <TableRows boards={sortedData} />
+            <TableRows boardsWithOrgs={sortedData} />
         </Table>
     )
 }

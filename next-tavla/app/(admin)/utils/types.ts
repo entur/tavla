@@ -1,5 +1,3 @@
-export type TSort = 'none' | 'ascending' | 'descending'
-
 export const BoardsColumns = {
     name: 'Navn',
     tags: 'Merkelapper',
@@ -12,9 +10,15 @@ export const DEFAULT_BOARD_COLUMNS = Object.keys(
     BoardsColumns,
 ) as TBoardsColumn[]
 
-export type TBoardsColumn = keyof typeof BoardsColumns
+export const SortableDataKeys = {
+    name: 'board.meta.title',
+    lastModified: 'board.meta.dateModified',
+    organization: 'organization.name',
+}
 
-export const SortableColumns = ['name', 'lastModified', 'organization'] as const
+export type SortableColumns = keyof typeof SortableDataKeys
+
+export type TBoardsColumn = keyof typeof BoardsColumns
 
 export type TTavlaError =
     | 'AUTHORIZATION'

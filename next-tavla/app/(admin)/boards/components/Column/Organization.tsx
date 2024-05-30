@@ -1,12 +1,16 @@
-import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+import Link from 'next/link'
 import { Column } from './Column'
+import { TOrganization } from 'types/settings'
 
-function Organization({
-    organization = DEFAULT_BOARD_NAME,
-}: {
-    organization?: string
-}) {
-    return <Column column="organization">{organization}</Column>
+function Organization({ organization }: { organization: TOrganization }) {
+    const orgName =
+        organization.name == undefined ? 'Privat' : organization.name
+
+    return (
+        <Column column="organization">
+            <Link href={`/organizations/${organization.id}`}>{orgName}</Link>
+        </Column>
+    )
 }
 
 export { Organization }

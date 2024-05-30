@@ -1,5 +1,4 @@
-import { useSortBoardFunction } from '../../hooks/useSortBoardFunction'
-import { TBoard } from 'types/settings'
+import { TBoard, TBoardWithOrganization } from 'types/settings'
 import { uniq } from 'lodash'
 import { useSearchParam } from '../../hooks/useSearchParam'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
@@ -10,11 +9,14 @@ import { LastModified } from '../Column/LastModified'
 import { Tags } from '../Column/Tags'
 import { Organization } from '../Column/Organization'
 
-function TableRows({ boards }: { boards: TBoard[] }) {
+function TableRows({
+    boardsWithOrgs,
+}: {
+    boardsWithOrgs: TBoardWithOrganization[]
+}) {
     const search = useSearchParam('search') ?? ''
     const filter = useSearchParam('tags')?.split(',') ?? []
 
-    const sortFunction = useSortBoardFunction()
     const searchFilter = new RegExp(
         search.replace(/[^a-z/Wæøå0-9- ]+/g, ''),
         'i',
@@ -29,35 +31,44 @@ function TableRows({ boards }: { boards: TBoard[] }) {
 
     return (
         <TableBody className="[&>*:nth-child(even)]:bg-secondary">
-            {boards
-                .filter((board: TBoard) => filterByTitle(board))
-                .filter((board: TBoard) => filterByTags(board))
-                .sort(sortFunction)
-                .map((board: TBoard) => (
-                    <TableRow key={board.id} className="h-14">
+            {boardsWithOrgs
+                .filter((boardWithOrg: TBoardWithOrganization) =>
+                    filterByTitle(boardWithOrg.board),
+                )
+                .filter((boardWithOrg: TBoardWithOrganization) =>
+                    filterByTags(boardWithOrg.board),
+                )
+                .map((boardWithOrg: TBoardWithOrganization) => (
+                    <TableRow key={boardWithOrg.board.id} className="h-14">
                         <DataCell>
-                            <Name name={board.meta?.title} />
+                            <Name board={boardWithOrg.board} />
                         </DataCell>
                         <DataCell>
                             <Tags
-                                board={board}
+                                board={boardWithOrg.board}
                                 allTags={uniq(
-                                    boards.flatMap(
-                                        (board) => board?.meta?.tags ?? [],
+                                    boardsWithOrgs.flatMap(
+                                        (boardWithOrg) =>
+                                            boardWithOrg.board?.meta?.tags ??
+                                            [],
                                     ),
                                 )}
                             />
                         </DataCell>
                         <DataCell>
                             <LastModified
-                                timestamp={board.meta?.dateModified}
+                                timestamp={
+                                    boardWithOrg.board.meta?.dateModified
+                                }
                             />
                         </DataCell>
                         <DataCell>
-                            <Organization organization="org navn" />
+                            <Organization
+                                organization={boardWithOrg.organization}
+                            />
                         </DataCell>
                         <DataCell>
-                            <Actions board={board} />
+                            <Actions board={boardWithOrg.board} />
                         </DataCell>
                     </TableRow>
                 ))}
