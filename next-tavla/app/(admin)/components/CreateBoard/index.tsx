@@ -171,7 +171,7 @@ function NameAndOrganizationSelector({
             </Checkbox>
             <HiddenInput
                 id="organization"
-                value={selectedOrganization?.value}
+                value={selectedOrganization?.value.id}
             />
             <div className="flex flex-row justify-end mt-8 ">
                 <PrimaryButton>

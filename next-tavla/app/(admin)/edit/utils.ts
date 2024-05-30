@@ -4,6 +4,7 @@ import { getTransportIcon } from 'components/TransportIcon'
 import { uniq } from 'lodash'
 import { TTransportMode } from 'types/graphql-schema'
 import { TLocation } from 'types/meta'
+import { TOrganization } from 'types/settings'
 
 export type TCategory =
     | 'onstreetBus'
@@ -28,6 +29,15 @@ export function locationToDropdownItem(
     return {
         label: location.name ?? '',
         value: location,
+    }
+}
+
+export function organizationToDropdownItem(
+    organization: TOrganization,
+): NormalizedDropdownItemType<TOrganization> {
+    return {
+        label: organization.name ?? '',
+        value: organization ?? undefined,
     }
 }
 

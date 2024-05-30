@@ -3,7 +3,7 @@ import { Checkbox, TextField } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
 import { saveFont, saveTitle } from './actions'
-import { TBoardID } from 'types/settings'
+import { TBoardID, TOrganization } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { Address } from './Adress'
@@ -17,15 +17,16 @@ import { useState } from 'react'
 function MetaSettings({
     bid,
     meta,
-    oid,
+
+    organization,
 }: {
     bid: TBoardID
-    meta?: TMeta
-    oid?: TOrganizationID
+    meta: TMeta
+    organization?: TOrganization
 }) {
     const { addToast } = useToast()
     const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizations()
+        useOrganizations(organization)
     const [personal, setPersonal] = useState<boolean>(false)
     return (
         <>
