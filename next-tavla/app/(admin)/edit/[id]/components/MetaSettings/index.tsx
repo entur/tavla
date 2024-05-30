@@ -1,9 +1,9 @@
 'use client'
-import { TextField } from '@entur/form'
+import { Checkbox, TextField } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
 import { saveFont, saveTitle } from './actions'
-import { TBoardID, TOrganizationID } from 'types/settings'
+import { TBoardID } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { Address } from './Adress'
@@ -11,7 +11,8 @@ import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { useToast } from '@entur/alert'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { Dropdown } from '@entur/dropdown'
-import { useOrganizationSearch } from './useOrganizationSearch'
+import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
+import { useState } from 'react'
 
 function MetaSettings({
     bid,
@@ -24,7 +25,8 @@ function MetaSettings({
 }) {
     const { addToast } = useToast()
     const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizationSearch(oid ?? undefined)
+        useOrganizations()
+    const [personal, setPersonal] = useState<boolean>(false)
     return (
         <>
             <form
@@ -79,13 +81,22 @@ function MetaSettings({
                 <Heading3 margin="bottom">Organisasjon</Heading3>
                 <Dropdown
                     items={organizations}
+                    label="Dine organisasjoner"
                     selectedItem={selectedOrganization}
-                    onChange={() =>
-                        setSelectedOrganization(selectedOrganization)
-                    }
-                    label="Organisasjon"
+                    onChange={setSelectedOrganization}
                     clearable
+                    className="mb-4"
+                    aria-required="true"
+                    disabled={personal}
                 />
+
+                <Checkbox
+                    checked={personal}
+                    onChange={() => setPersonal(!personal)}
+                    name="personal"
+                >
+                    Jeg vil ikke velge organisasjon
+                </Checkbox>
                 <div className="flex flex-row mt-8 justify-end">
                     <SubmitButton variant="secondary" className="max-sm:w-full">
                         Lagre organisasjon
