@@ -20,7 +20,7 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
                 aria-label="Kopier lenken til tavlen"
                 onClick={copy}
             >
-                Kopier lenken til tavlen
+                Kopier lenke
                 <CopyIcon className="!top-[-1px]" />
             </Button>
         )
