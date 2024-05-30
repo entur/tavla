@@ -17,17 +17,17 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
         return (
             <Button
                 variant="secondary"
-                aria-label="Kopier tavle"
+                aria-label="Kopier lenken til tavlen"
                 onClick={copy}
             >
-                Kopier Tavle
+                Kopier lenke
                 <CopyIcon className="!top-[-1px]" />
             </Button>
         )
     }
     return (
-        <Tooltip content="Kopier lenke" placement="bottom">
-            <IconButton aria-label="Kopier tavle" onClick={copy}>
+        <Tooltip content="Kopier lenken til tavlen" placement="bottom">
+            <IconButton aria-label="Kopier lenken til tavlen" onClick={copy}>
                 <CopyIcon />
             </IconButton>
         </Tooltip>
