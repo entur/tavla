@@ -11,7 +11,6 @@ import {
     LeadParagraph,
     Paragraph,
 } from '@entur/typography'
-import { Footer } from './(admin)/components/Footer'
 import { Preview } from './(admin)/components/Preview'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
@@ -89,8 +88,6 @@ async function Landing() {
                     </div>
                 </div>
             </main>
-
-            <Footer />
         </>
     )
 }

@@ -7,6 +7,8 @@ import { ReactNode } from 'react'
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { EnturToastProvider, PHProvider } from './providers'
+import { Footer } from './(admin)/components/Footer'
+import { FloatingContact } from './components/FloatingContact'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -44,6 +46,8 @@ function RootLayout({ children }: { children: ReactNode }) {
                     <body>
                         <PostHogPageView />
                         {children}
+                        <FloatingContact />
+                        <Footer />
                     </body>
                 </EnturToastProvider>
             </PHProvider>

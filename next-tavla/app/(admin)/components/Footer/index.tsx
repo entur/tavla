@@ -1,10 +1,13 @@
+'use client'
 import Image from 'next/image'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import { Heading3, Link as EnturLink, Paragraph } from '@entur/typography'
 import Link from 'next/link'
 import { ExternalIcon, GithubIcon } from '@entur/icons'
+import { usePostHog } from 'posthog-js/react'
 
 function Footer() {
+    const posthog = usePostHog()
     return (
         <footer className="eds-contrast">
             <div className="container mx-auto pt-16 pb-4">
@@ -22,9 +25,26 @@ function Footer() {
                             <br />
                             917 422 575
                         </Paragraph>
-                        <Paragraph className="mb-4 items-center flex flex-row gap-1">
+                        <Paragraph
+                            className="mb-4 items-center flex flex-row gap-1"
+                            margin="none"
+                        >
                             <EnturLink href="https://www.entur.org/kontakt-oss/">
-                                Kontakt oss
+                                Kontakt kundesenteret
+                            </EnturLink>
+                            <ExternalIcon className="!top-0" />
+                        </Paragraph>
+                        <Paragraph className="mb-4 items-center flex flex-row gap-1">
+                            <EnturLink
+                                href="mailto:tavla@entur.org"
+                                target="_blank"
+                                onClick={() =>
+                                    posthog.capture('SUPPORT_EMAIL', {
+                                        type: 'footer',
+                                    })
+                                }
+                            >
+                                Kontakt Tavla
                             </EnturLink>
                             <ExternalIcon className="!top-0" />
                         </Paragraph>
