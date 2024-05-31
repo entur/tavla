@@ -4,12 +4,13 @@ import {
     hasBoardEditorAccess,
     initializeAdminApp,
 } from 'app/(admin)/utils/firebase'
-import { firestore } from 'firebase-admin'
+import admin, { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
-import { TBoard, TBoardID } from 'types/settings'
+import { TBoard, TBoardID, TOrganizationID } from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
 initializeAdminApp()
 
@@ -63,4 +64,31 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
             return await getWalkingDistanceTile(tile, location)
         }),
     )
+}
+
+export async function moveBoard(
+    bid: TBoardID,
+    from?: TOrganizationID,
+    to?: TOrganizationID,
+) {
+    const user = await getUserFromSessionCookie()
+    if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
+
+    firestore()
+        .collection(to ? 'organizations' : 'users')
+        .doc(to ? String(to) : String(user.uid))
+        .update({
+            [to ? 'boards' : 'owner']:
+                admin.firestore.FieldValue.arrayUnion(bid),
+        })
+
+    firestore()
+        .collection(from ? 'organizations' : 'users')
+        .doc(from ? String(from) : String(user.uid))
+        .update({
+            [from ? 'boards' : 'owner']:
+                admin.firestore.FieldValue.arrayRemove(bid),
+        })
+
+    revalidatePath(`/edit/${bid}`)
 }

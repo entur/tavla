@@ -2,7 +2,7 @@
 import { Checkbox, TextField } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
-import { saveFont, saveTitle } from './actions'
+import { saveFont, saveTitle, moveBoard } from './actions'
 import { TBoardID, TOrganization } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -78,7 +78,16 @@ function MetaSettings({
                     </SubmitButton>
                 </div>
             </form>
-            <form className="box flex flex-col">
+            <form
+                action={async () => {
+                    await moveBoard(
+                        bid,
+                        organization?.id,
+                        selectedOrganization?.value.id,
+                    )
+                }}
+                className="box flex flex-col"
+            >
                 <Heading3 margin="bottom">Organisasjon</Heading3>
                 <Dropdown
                     items={organizations}
