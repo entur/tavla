@@ -51,7 +51,7 @@ export default async function EditPage({ params }: TProps) {
                     <RefreshButton board={board} />
                 </div>
             </div>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
                 <MetaSettings
                     bid={params.id}
                     meta={board.meta}
