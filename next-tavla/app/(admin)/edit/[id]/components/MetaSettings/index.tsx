@@ -1,5 +1,5 @@
 'use client'
-import { TextField } from '@entur/form'
+import { Checkbox, TextField } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
 import { saveFont, saveTitle, moveBoard } from './actions'
@@ -12,6 +12,7 @@ import { useToast } from '@entur/alert'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { Dropdown } from '@entur/dropdown'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
+import { useState } from 'react'
 
 function MetaSettings({
     bid,
@@ -26,6 +27,9 @@ function MetaSettings({
     const { addToast } = useToast()
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations(organization)
+    const [personal, setPersonal] = useState<boolean>(
+        organization ? false : true,
+    )
     return (
         <>
             <form
@@ -81,7 +85,7 @@ function MetaSettings({
                     await moveBoard(
                         bid,
                         organization?.id,
-                        selectedOrganization?.value.id,
+                        personal ? undefined : selectedOrganization?.value.id,
                     )
                     addToast('Organisasjon lagret!')
                 }}
@@ -96,8 +100,15 @@ function MetaSettings({
                     clearable
                     className="mb-4"
                     aria-required="true"
+                    disabled={personal}
                 />
-
+                <Checkbox
+                    checked={personal}
+                    onChange={() => setPersonal(!personal)}
+                    name="personal"
+                >
+                    Personlig tavle
+                </Checkbox>
                 <div className="flex flex-row mt-8 justify-end">
                     <SubmitButton variant="secondary" className="max-sm:w-full">
                         Lagre organisasjon
