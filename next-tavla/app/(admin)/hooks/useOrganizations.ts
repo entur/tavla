@@ -12,8 +12,6 @@ function useOrganizations(organization?: TOrganization) {
         useState<NormalizedDropdownItemType<TOrganization> | null>(
             organization ? organizationToDropdownItem(organization) : null,
         )
-    console.log('org', organization)
-    console.log('selected', selectedOrganization)
 
     useEffect(() => {
         getOrganizationsForUser().then((res) => {

@@ -83,6 +83,7 @@ function MetaSettings({
                         organization?.id,
                         selectedOrganization?.value.id,
                     )
+                    addToast('Organisasjon lagret!')
                 }}
                 className="box flex flex-col"
             >
