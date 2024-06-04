@@ -11,7 +11,7 @@ import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { useToast } from '@entur/alert'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 
-function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
+function MetaSettings({ bid, meta }: { bid: TBoardID; meta?: TMeta }) {
     const { addToast } = useToast()
     return (
         <>
@@ -34,7 +34,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     <TextField
                         name="name"
                         className="w-full"
-                        defaultValue={meta.title ?? DEFAULT_BOARD_NAME}
+                        defaultValue={meta?.title ?? DEFAULT_BOARD_NAME}
                         label="Navn på tavlen"
                         maxLength={30}
                     />
@@ -46,7 +46,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                     </SubmitButton>
                 </div>
             </form>
-            <Address bid={bid} location={meta.location} />
+            <Address bid={bid} location={meta?.location} />
             <form
                 action={async (data: FormData) => {
                     const font = data.get('font') as TFontSize
@@ -56,7 +56,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta: TMeta }) {
                 className="box flex flex-col justify-between"
             >
                 <Heading3 margin="bottom">Tekststørrelse </Heading3>
-                <FontChoiceChip font={meta.fontSize ?? 'medium'} />
+                <FontChoiceChip font={meta?.fontSize ?? 'medium'} />
                 <div className="flex flex-row mt-8 justify-end">
                     <SubmitButton variant="secondary" className="max-sm:w-full">
                         Lagre tekststørrelse

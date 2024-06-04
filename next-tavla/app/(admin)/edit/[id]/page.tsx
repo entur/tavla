@@ -16,6 +16,7 @@ import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
 import { RefreshButton } from './components/RefreshButton'
+import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 
 type TProps = {
     params: { id: TBoardID }
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     const { id } = params
     const board = await getBoard(id)
     return {
-        title: `${board.meta?.title} | Entur Tavla`,
+        title: `${board.meta?.title ?? DEFAULT_BOARD_NAME} | Entur Tavla`,
     }
 }
 
@@ -69,7 +70,7 @@ export default async function EditPage({ params }: TProps) {
 
                         const tile = await getWalkingDistanceTile(
                             formDataToTile(data, organization),
-                            board.meta.location,
+                            board.meta?.location,
                         )
                         if (!tile.placeId) return
                         await addTile(params.id, tile)
