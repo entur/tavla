@@ -13,6 +13,11 @@ import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { Dropdown } from '@entur/dropdown'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { useState } from 'react'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
 
 function MetaSettings({
     bid,
@@ -30,6 +35,7 @@ function MetaSettings({
     const [personal, setPersonal] = useState<boolean>(
         organization ? false : true,
     )
+    const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <>
             <form
@@ -82,11 +88,19 @@ function MetaSettings({
             </form>
             <form
                 action={async () => {
+                    if (!selectedOrganization && !personal) {
+                        return setFormError(
+                            getFormFeedbackForError(
+                                'create/organization-missing',
+                            ),
+                        )
+                    }
                     await moveBoard(
                         bid,
                         organization?.id,
                         personal ? undefined : selectedOrganization?.value.id,
                     )
+                    setFormError(undefined)
                     addToast('Organisasjon lagret!')
                 }}
                 className="box flex flex-col"
@@ -101,6 +115,7 @@ function MetaSettings({
                     className="mb-4"
                     aria-required="true"
                     disabled={personal}
+                    {...getFormFeedbackForField('organization', state)}
                 />
                 <Checkbox
                     checked={personal}
