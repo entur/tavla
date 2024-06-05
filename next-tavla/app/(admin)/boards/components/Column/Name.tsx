@@ -7,7 +7,7 @@ function Name({ board }: { board: TBoard }) {
     return (
         <Column column="name">
             <Link href={`/edit/${board.id}`}>
-                {board.meta.title ?? DEFAULT_BOARD_NAME}
+                {board.meta?.title ?? DEFAULT_BOARD_NAME}
             </Link>
         </Column>
     )

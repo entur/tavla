@@ -3,8 +3,7 @@ import { Column } from './Column'
 import { TOrganization } from 'types/settings'
 
 function Organization({ organization }: { organization: TOrganization }) {
-    const orgName =
-        organization.name == undefined ? 'Privat' : organization.name
+    const orgName = organization.name ?? 'Privat'
 
     return (
         <Column column="organization">
