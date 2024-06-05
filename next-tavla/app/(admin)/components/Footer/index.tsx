@@ -15,18 +15,18 @@ function Footer() {
                 <div className="flex flex-col sm:flex-row justify-between">
                     <div>
                         <Heading3>Entur AS</Heading3>
-                        <Paragraph className="mb-4 items-center">
+                        <Paragraph className=" items-center">
                             Rådhusgata 5, 0151 Oslo
                             <br />
                             Postboks 1554, 0117 Oslo
                         </Paragraph>
-                        <Paragraph className="mb-4 items-center">
+                        <Paragraph className="items-center">
                             Organisasjonsnummer:
                             <br />
                             917 422 575
                         </Paragraph>
                         <Paragraph
-                            className="mb-4 items-center flex flex-row gap-1"
+                            className="items-center flex flex-row gap-1"
                             margin="none"
                         >
                             <EnturLink href="https://www.entur.org/kontakt-oss/">
@@ -34,7 +34,7 @@ function Footer() {
                             </EnturLink>
                             <ExternalIcon className="!top-0" />
                         </Paragraph>
-                        <Paragraph className="mb-4 items-center flex flex-row gap-1">
+                        <Paragraph className="items-center flex flex-row gap-1">
                             <EnturLink
                                 href="mailto:tavla@entur.org"
                                 target="_blank"
