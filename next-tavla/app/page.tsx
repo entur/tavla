@@ -11,7 +11,6 @@ import {
     LeadParagraph,
     Paragraph,
 } from '@entur/typography'
-import { Footer } from './(admin)/components/Footer'
 import { Preview } from './(admin)/components/Preview'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
@@ -54,7 +53,7 @@ async function Landing() {
                         </LeadParagraph>
                         <div className="flex flex-col xl:flex-row gap-4">
                             <div
-                                className="xl:w-1/2 max-h-[60vh] overflow-y-hidden rounded-2xl"
+                                className="xl:w-1/2 h-[60vh] overflow-y-hidden rounded-2xl"
                                 data-theme="entur"
                             >
                                 <Preview boards={previewBoards} />
@@ -89,8 +88,6 @@ async function Landing() {
                     </div>
                 </div>
             </main>
-
-            <Footer />
         </>
     )
 }
