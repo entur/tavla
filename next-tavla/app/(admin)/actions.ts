@@ -105,13 +105,35 @@ export async function getPrivateBoardsForUser() {
         .flat()
 }
 
-export async function getBoardsForUser() {
-    const user = await getUserFromSessionCookie()
-    if (!user) return redirect('/')
+export async function getAllBoardsForUser() {
+    const user = await getUser()
+    if (!user)
+        throw new TavlaError({
+            code: 'NOT_FOUND',
+            message: `Found no user`,
+        })
 
-    const boardRef = await firestore().collection('boards').get()
+    const privateBoardIDs = concat(user.owner ?? [], user.editor ?? [])
 
-    return boardRef.docs
-        .map((doc) => ({ id: doc.id, ...doc.data() } as TBoard))
+    const organizations = await getOrganizationsForUser()
+    const organizationBoardIDs = organizations.map((o) => o.boards)
+
+    const boardIDs = concat(privateBoardIDs, organizationBoardIDs.flat())
+
+    const batchedBoardIDs = chunk(boardIDs, 20)
+
+    const boardQueries = batchedBoardIDs.map((batch) =>
+        firestore()
+            .collection('boards')
+            .where(firestore.FieldPath.documentId(), 'in', batch)
+            .get(),
+    )
+
+    const boardRefs = await Promise.all(boardQueries)
+
+    return boardRefs
+        .map((ref) =>
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+        )
         .flat()
 }

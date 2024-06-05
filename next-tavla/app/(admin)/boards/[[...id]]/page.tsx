@@ -4,11 +4,14 @@ import { FilterButton } from '../components/FilterButton'
 import { BoardTable } from '../components/BoardTable'
 import { Metadata } from 'next'
 import React from 'react'
-import { getBoardsForUser, getOrganizationsForUser } from 'app/(admin)/actions'
+import {
+    getAllBoardsForUser,
+    getOrganizationsForUser,
+} from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Heading1 } from '@entur/typography'
-import { TBoardWithOrganization } from 'types/settings'
+import { TBoard, TBoardWithOrganization } from 'types/settings'
 
 initializeAdminApp()
 
@@ -20,18 +23,9 @@ async function OrganizationsBoardsPage() {
     const user = await getUserFromSessionCookie()
     if (!user) permanentRedirect('/')
 
-    const organizations = await getOrganizationsForUser()
-    const boards = await getBoardsForUser()
+    const boards = await getAllBoardsForUser()
 
-    const boardsWithOrganization = boards.map((board) => {
-        const org = organizations.find((org) =>
-            org.boards?.includes(board.id ?? ''),
-        )
-        return {
-            board: { ...board },
-            organization: { ...org },
-        } as TBoardWithOrganization
-    })
+    const boardsWithOrganization = await getBoardsWithOrganization(boards)
 
     return (
         <div className="flex flex-col gap-8">
@@ -46,3 +40,20 @@ async function OrganizationsBoardsPage() {
 }
 
 export default OrganizationsBoardsPage
+
+async function getBoardsWithOrganization(boards: TBoard[]) {
+    const organizations = await getOrganizationsForUser()
+
+    const boardsWithOrganization = boards.map((board: TBoard) => {
+        const org = organizations.find((org) =>
+            org.boards?.includes(board.id ?? ''),
+        )
+
+        return {
+            board: { ...board },
+            organization: { ...org },
+        } as TBoardWithOrganization
+    })
+
+    return boardsWithOrganization
+}
