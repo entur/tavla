@@ -10,7 +10,7 @@ function Preview({ boards }: { boards: TBoard[] }) {
     useEffect(() => {
         const interval = setInterval(() => {
             setBoardIndex((boardIndex + 1) % boards.length)
-        }, 5000)
+        }, 10000)
         return () => clearInterval(interval)
     }, [boardIndex, boards])
 
