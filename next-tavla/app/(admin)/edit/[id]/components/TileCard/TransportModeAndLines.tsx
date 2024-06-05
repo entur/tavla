@@ -40,6 +40,18 @@ function TransportModeAndLines({
         defaultChecked(),
     )
 
+    const determineAllChecked = () => {
+        let count = 0
+        for (const l of lineElements.values()) {
+            if (l instanceof HTMLInputElement) {
+                if (l.checked === true) count++
+            }
+        }
+        if (count === 0) setChecked(false)
+        else if (count < lineElements.length) setChecked('indeterminate')
+        else setChecked(true)
+    }
+
     return (
         <div>
             <div className="flex flex-row gap-4 items-center justify-start font-semibold">
@@ -49,7 +61,7 @@ function TransportModeAndLines({
                 />
                 {transportModeNames(transportMode)}
             </div>
-            <div className="border-b-secondary border-b-2 my-2" />
+            <div className="divider" />
             <div className="flex flex-row items-center">
                 <Checkbox
                     checked={checked}
@@ -75,18 +87,7 @@ function TransportModeAndLines({
                     key={line.id}
                     value={line.id}
                     className="pl-6"
-                    onChange={() => {
-                        let count = 0
-                        for (const l of lineElements.values()) {
-                            if (l instanceof HTMLInputElement) {
-                                if (l.checked === true) count++
-                            }
-                        }
-                        if (count === 0) setChecked(false)
-                        else if (count < lineElements.length)
-                            setChecked('indeterminate')
-                        else setChecked(true)
-                    }}
+                    onChange={determineAllChecked}
                 >
                     <div className="flex flex-row items-center gap-1">
                         {line.publicCode && (
