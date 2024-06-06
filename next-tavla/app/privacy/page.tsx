@@ -4,7 +4,6 @@ import doves from 'assets/illustrations/Doves.png'
 import hedgehog from 'assets/illustrations/Hedgehog.png'
 import squirrel from 'assets/illustrations/Squirrel.png'
 import Image from 'next/image'
-import { Footer } from 'app/(admin)/components/Footer'
 import { TopNavigation } from 'app/(admin)/components/TopNavigation'
 import { cookies } from 'next/headers'
 import { ExpandableInfo } from './components/ExpandableInfo'
@@ -62,7 +61,6 @@ async function Privacy() {
                 </div>
                 <ExpandableInfo />
             </main>
-            <Footer />
         </>
     )
 }

@@ -28,18 +28,23 @@ async function Landing() {
             <TopNavigation loggedIn={loggedIn} />
             <main>
                 <Welcome />
-                <div className="flex flex-col justify-center pb-10 pt-6 lg:pt-16">
+                <div className="flex flex-col justify-center pb-10 pt-6">
                     <div className="flex flex-col py-4 container mx-auto">
-                        <Heading1>Lag din egen avgangstavle</Heading1>
-                        <Heading1 className="italic text-highlight font-normal">
+                        <Heading1 margin="none">
+                            Lag din egen avgangstavle
+                        </Heading1>
+                        <Heading1
+                            className="italic !text-highlight !font-normal"
+                            margin="bottom"
+                        >
                             for reisende
                         </Heading1>
                     </div>
-                    <div className="flex flex-row justify-center overflow-hidden py-16 md:py-32">
+                    <div className="flex flex-row justify-center overflow-hidden pt-2 pb-4">
                         <Image
                             src={landingImage}
                             alt=""
-                            className="scale-150"
+                            className="scale-125"
                         />
                     </div>
 

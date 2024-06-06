@@ -71,17 +71,19 @@ function ExpandableInfo() {
                         <EnturLink
                             as={Link}
                             href="https://firebase.google.com/docs/auth"
+                            className="items-center inline-flex flex-row gap-1"
                         >
                             Firebase Auth
-                            <ExternalIcon className="ml-8" />
+                            <ExternalIcon />
                         </EnturLink>{' '}
                         og{' '}
                         <EnturLink
                             as={Link}
                             href="https://firebase.google.com/support/privacy"
+                            className="items-center inline-flex flex-row gap-1"
                         >
                             Firebase Privacy Policy
-                            <ExternalIcon className="ml-8" />
+                            <ExternalIcon />
                         </EnturLink>
                         .
                     </ListItem>
