@@ -40,7 +40,7 @@ async function Landing() {
                             for reisende
                         </Heading1>
                     </div>
-                    <div className="flex flex-row justify-center overflow-hidden py-2">
+                    <div className="flex flex-row justify-center overflow-hidden pt-2 pb-4">
                         <Image
                             src={landingImage}
                             alt=""
