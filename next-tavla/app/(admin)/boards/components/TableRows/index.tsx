@@ -14,7 +14,10 @@ function TableRows({ boards }: { boards: TBoard[] }) {
     const columns =
         useSearchParam('columns')?.split(',') ?? DEFAULT_BOARD_COLUMNS
     const sortFunction = useSortBoardFunction()
-    const searchFilter = new RegExp(search, 'i')
+    const searchFilter = new RegExp(
+        search.replace(/[^a-z/Wæøå0-9- ]+/g, ''),
+        'i',
+    )
 
     const filterByTitle = (board: TBoard) =>
         searchFilter.test(board?.meta?.title ?? DEFAULT_BOARD_NAME)
