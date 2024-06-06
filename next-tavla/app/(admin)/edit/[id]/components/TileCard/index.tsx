@@ -192,7 +192,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             <Heading4 className="mb-1">
                                 Avganger frem i tid
                             </Heading4>
-                            <Label>
+                            <Label className="text-primary">
                                 Vis kun avganger som går om mer enn valgt antall
                                 minutter
                             </Label>
