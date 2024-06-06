@@ -159,57 +159,44 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
                     >
-                        <div>
-                            <Heading4 className="m-0">Gåavstand</Heading4>
-                            <Label className="text-primary">
-                                Vis gåavstand fra lokasjonen til Tavla til
-                                stoppestedet
-                            </Label>
-                            <div className="flex flex-col">
-                                {tile.walkingDistance?.visible ?? (
-                                    <Label
-                                        className="text-warning mb-2"
-                                        margin="top"
-                                    >
-                                        Du må legge til en lokasjon for å kunne
-                                        skru på gåavstand
-                                    </Label>
-                                )}
-                                <Switch
-                                    name="showDistance"
-                                    defaultChecked={
-                                        tile.walkingDistance?.visible ?? false
-                                    }
-                                    disabled={
-                                        tile.walkingDistance ? false : true
-                                    }
-                                >
-                                    Vis gåavstand
-                                </Switch>
-                            </div>
-                        </div>
-                        <div className="gap-4 mb-8">
-                            <Heading4 className="mb-1">
-                                Avganger frem i tid
-                            </Heading4>
-                            <Label>
-                                Vis kun avganger som går om mer enn valgt antall
-                                minutter
-                            </Label>
-                            <TextField
-                                label="Antall minutter"
-                                name="offset"
-                                type="number"
-                                min={0}
-                                className="w-full sm:w-1/3"
-                                defaultValue={
-                                    tile.offset ? tile.offset : undefined
+                        <Heading4 margin="none">Gåavstand</Heading4>
+                        <SubParagraph>
+                            Vis gåavstand fra lokasjonen til Tavla til
+                            stoppestedet
+                        </SubParagraph>
+                        <div className="flex flex-col">
+                            {tile.walkingDistance?.visible ?? (
+                                <Label className="!text-error">
+                                    Du må legge til en lokasjon for å kunne skru
+                                    på gåavstand
+                                </Label>
+                            )}
+                            <Switch
+                                name="showDistance"
+                                defaultChecked={
+                                    tile.walkingDistance?.visible ?? false
                                 }
-                            />
+                                disabled={tile.walkingDistance ? false : true}
+                            >
+                                Vis gåavstand
+                            </Switch>
                         </div>
+                        <Heading4>Avganger frem i tid</Heading4>
+                        <SubParagraph>
+                            Vis kun avganger som går om mer enn valgt antall
+                            minutter
+                        </SubParagraph>
+                        <TextField
+                            label="Antall minutter"
+                            name="offset"
+                            type="number"
+                            min={0}
+                            className="w-full sm:w-1/3"
+                            defaultValue={tile.offset ? tile.offset : undefined}
+                        />
 
-                        <Heading4 className="m-0">Kolonner</Heading4>
-                        <SubParagraph className="mt-0">
+                        <Heading4>Kolonner</Heading4>
+                        <SubParagraph>
                             Her bestemmer du hvilke kolonner som skal vises i
                             tavlen
                         </SubParagraph>
@@ -233,9 +220,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                 )
                             })}
                         </div>
-                        <Heading4 className="mr-2">
-                            Transportmidler og linjer
-                        </Heading4>
+                        <Heading4>Transportmidler og linjer</Heading4>
                         <div className="flex flex-row gap-4">
                             {linesByModeSorted.map(
                                 ({ transportMode, lines }) => (

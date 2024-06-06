@@ -42,7 +42,7 @@ function MetaSettings({ bid, meta }: { bid: TBoardID; meta?: TMeta }) {
 
                 <div className="flex flex-row justify-end mt-8">
                     <SubmitButton variant="secondary" className="max-sm:w-full">
-                        Lagre tittel
+                        Lagre navn
                     </SubmitButton>
                 </div>
             </form>
