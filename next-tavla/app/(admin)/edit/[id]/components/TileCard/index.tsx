@@ -28,11 +28,9 @@ import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
 import { TransportModeAndLines } from './TransportModeAndLines'
-import { useToast } from '@entur/alert'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const posthog = usePostHog()
-    const toast = useToast()
     const [isOpen, setIsOpen] = useState(false)
     const [changed, setChanged] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
@@ -155,12 +153,6 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                                     ),
                                 )
                             }
-                            if (!lines || lines.length === 0)
-                                toast.addToast({
-                                    title: 'Ingen linjer valgt',
-                                    content: 'Du må velge minst én linje.',
-                                    variant: 'info',
-                                })
                             saveTile(bid, newTile)
                         }}
                         onSubmit={reset}
