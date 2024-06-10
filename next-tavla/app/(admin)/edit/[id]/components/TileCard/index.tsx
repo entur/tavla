@@ -24,11 +24,10 @@ import { useState } from 'react'
 import { Columns, TColumn } from 'types/column'
 import { TBoardID } from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
-import { LineCheckbox } from './LineCheckbox'
-import { TransportModeCheckbox } from './TransportModeCheckbox'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
+import { TransportModeAndLines } from './TransportModeAndLines'
 
 function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     const posthog = usePostHog()
@@ -224,20 +223,12 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                         <div className="flex flex-row gap-4">
                             {linesByModeSorted.map(
                                 ({ transportMode, lines }) => (
-                                    <div key={transportMode}>
-                                        <TransportModeCheckbox
-                                            tile={tile}
-                                            transportMode={transportMode}
-                                        />
-                                        {lines.map((line) => (
-                                            <LineCheckbox
-                                                key={line.id}
-                                                tile={tile}
-                                                line={line}
-                                                transportMode={transportMode}
-                                            />
-                                        ))}
-                                    </div>
+                                    <TransportModeAndLines
+                                        key={transportMode}
+                                        tile={tile}
+                                        transportMode={transportMode}
+                                        lines={lines}
+                                    />
                                 ),
                             )}
                         </div>
