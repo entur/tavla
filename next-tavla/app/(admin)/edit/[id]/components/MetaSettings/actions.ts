@@ -66,20 +66,52 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
     )
 }
 
-export async function moveBoard(
+export async function moveBoardToPersonal(
     bid: TBoardID,
     from?: TOrganizationID,
-    to?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
+
+    const fromAccess = await hasBoardEditorAccess(bid)
+    if (!fromAccess) return redirect('/')
+
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
     firestore()
-        .collection(to ? 'organizations' : 'users')
-        .doc(to ? String(to) : String(user.uid))
+        .collection('users')
+        .doc(String(user.uid))
         .update({
-            [to ? 'boards' : 'owner']:
-                admin.firestore.FieldValue.arrayUnion(bid),
+            ['owner']: admin.firestore.FieldValue.arrayUnion(bid),
+        })
+
+    firestore()
+        .collection(from ? 'organizations' : 'users')
+        .doc(from ? String(from) : String(user.uid))
+        .update({
+            [from ? 'boards' : 'owner']:
+                admin.firestore.FieldValue.arrayRemove(bid),
+        })
+
+    revalidatePath(`/edit/${bid}`)
+}
+
+export async function moveBoardToOrganization(
+    bid: TBoardID,
+    oid?: TOrganizationID,
+    from?: TOrganizationID,
+) {
+    const user = await getUserFromSessionCookie()
+
+    const fromAccess = await hasBoardEditorAccess(bid)
+    if (!fromAccess) return redirect('/')
+
+    if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
+
+    firestore()
+        .collection('organizations')
+        .doc(String(oid))
+        .update({
+            ['boards']: admin.firestore.FieldValue.arrayUnion(bid),
         })
 
     firestore()

@@ -2,7 +2,12 @@
 import { Checkbox, TextField } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
-import { saveFont, saveTitle, moveBoard } from './actions'
+import {
+    moveBoardToOrganization,
+    moveBoardToPersonal,
+    saveFont,
+    saveTitle,
+} from './actions'
 import { TBoardID, TOrganization } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -95,11 +100,15 @@ function MetaSettings({
                             ),
                         )
                     }
-                    await moveBoard(
-                        bid,
-                        organization?.id,
-                        personal ? undefined : selectedOrganization?.value.id,
-                    )
+
+                    personal
+                        ? await moveBoardToPersonal(bid, organization?.id)
+                        : await moveBoardToOrganization(
+                              bid,
+                              selectedOrganization?.value.id,
+                              organization?.id,
+                          )
+
                     setFormError(undefined)
                     addToast('Organisasjon lagret!')
                 }}
@@ -122,7 +131,7 @@ function MetaSettings({
                     onChange={() => setPersonal(!personal)}
                     name="personal"
                 >
-                    Personlig tavle
+                    Privat tavle
                 </Checkbox>
                 <div className="flex flex-row mt-8 justify-end">
                     <SubmitButton variant="secondary" className="max-sm:w-full">
