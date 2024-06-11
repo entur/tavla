@@ -22,9 +22,9 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
             className="box flex flex-col"
         >
             <div className="flex flex-row items-center gap-2">
-                <Heading3 margin="bottom">Lokasjon</Heading3>
+                <Heading3 margin="bottom">Adresse</Heading3>
                 <Tooltip
-                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin lokasjon skal vises"
+                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
                     placement="top"
                 >
                     <ValidationInfoIcon className="mb-2" />
@@ -42,7 +42,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
             </div>
             <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton variant="secondary" className="max-sm:w-full">
-                    Lagre lokasjon
+                    Lagre adresse
                 </SubmitButton>
             </div>
         </form>
