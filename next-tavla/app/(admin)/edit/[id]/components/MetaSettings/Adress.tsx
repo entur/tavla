@@ -24,7 +24,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Adresse</Heading3>
                 <Tooltip
-                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden fra tavlen sin adresse skal vises"
+                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
                     placement="top"
                 >
                     <ValidationInfoIcon className="mb-2" />
