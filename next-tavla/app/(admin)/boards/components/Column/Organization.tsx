@@ -8,7 +8,10 @@ function Organization({ organization }: { organization: TOrganization }) {
     return (
         <Column column="organization">
             {organization.id ? (
-                <Link href={`/organizations/${organization.id}`}>
+                <Link
+                    href={`/organizations/${organization.id}`}
+                    className="hover:underline"
+                >
                     {orgName}
                 </Link>
             ) : (
