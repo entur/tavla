@@ -107,11 +107,7 @@ export async function getPrivateBoardsForUser() {
 
 export async function getAllBoardsForUser() {
     const user = await getUser()
-    if (!user)
-        throw new TavlaError({
-            code: 'NOT_FOUND',
-            message: `Found no user`,
-        })
+    if (!user) return redirect('/')
 
     const privateBoardIDs = concat(user.owner ?? [], user.editor ?? [])
 
