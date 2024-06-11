@@ -71,11 +71,12 @@ export async function moveBoardToPersonal(
     from?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
-
-    const fromAccess = await hasBoardEditorAccess(bid)
-    if (!fromAccess) return redirect('/')
-
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
+
+    if (from) {
+        const orgAccess = await hasBoardEditorAccess(bid)
+        if (!orgAccess) return redirect('/')
+    }
 
     firestore()
         .collection('users')
@@ -101,11 +102,15 @@ export async function moveBoardToOrganization(
     from?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
-
-    const fromAccess = await hasBoardEditorAccess(bid)
-    if (!fromAccess) return redirect('/')
-
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
+
+    const orgAccess = await hasBoardEditorAccess(bid)
+    if (!orgAccess) return redirect('/')
+
+    if (from) {
+        const orgAccess = await hasBoardEditorAccess(bid)
+        if (!orgAccess) return redirect('/')
+    }
 
     firestore()
         .collection('organizations')
