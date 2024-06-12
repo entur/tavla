@@ -14,8 +14,15 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { OverflowMenuItem } from '@entur/menu'
 
-function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
+function Delete({
+    board,
+    type,
+}: {
+    board: TBoard
+    type?: 'icon' | 'button' | 'action'
+}) {
     const [state, action] = useFormState(deleteBoardAction, undefined)
     const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
 
@@ -68,7 +75,7 @@ function DeleteButton({
     type,
     onClick,
 }: {
-    type?: 'button' | 'icon'
+    type?: 'button' | 'icon' | 'action'
     onClick: () => void
 }) {
     if (type === 'button') {
@@ -83,6 +90,15 @@ function DeleteButton({
             </Button>
         )
     }
+    if (type === 'action')
+        return (
+            <OverflowMenuItem onSelect={onClick}>
+                <div className="flex flex-row">
+                    <DeleteIcon inline />
+                    Slett Tavle
+                </div>
+            </OverflowMenuItem>
+        )
     return (
         <IconButton aria-label="Slett tavle" onClick={onClick}>
             <DeleteIcon />

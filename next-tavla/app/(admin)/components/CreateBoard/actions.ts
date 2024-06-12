@@ -22,7 +22,10 @@ export async function create(board: TBoard, oid?: TOrganizationID) {
             ...board,
             meta: {
                 ...board.meta,
-                fontSize: organization?.defaults?.font ?? 'medium',
+                fontSize:
+                    board.meta?.fontSize ??
+                    organization?.defaults?.font ??
+                    'medium',
                 created: Date.now(),
                 dateModified: Date.now(),
             },
