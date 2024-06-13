@@ -9,7 +9,6 @@ import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
-import { ClientBoard } from './components/ClientBoard'
 import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Open } from './components/Buttons/Open'
@@ -17,6 +16,7 @@ import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
 import { RefreshButton } from './components/RefreshButton'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+import { Preview } from './components/Preview'
 
 type TProps = {
     params: { id: TBoardID }
@@ -84,11 +84,8 @@ export default async function EditPage({ params }: TProps) {
 
             <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
-                <div
-                    className="rounded p-4 bg-primary h-[40rem]"
-                    data-theme={board.theme ?? 'dark'}
-                >
-                    <ClientBoard board={board} />
+                <div data-theme={board.theme ?? 'dark'}>
+                    <Preview board={board} organization={organization} />
                 </div>
             </div>
         </div>
