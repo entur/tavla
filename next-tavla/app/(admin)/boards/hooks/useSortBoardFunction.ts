@@ -1,4 +1,4 @@
-import { TBoard } from 'types/settings'
+import { TBoard, TBoardWithOrganizaion } from 'types/settings'
 import { useCallback } from 'react'
 import { useSearchParam } from './useSearchParam'
 import { TBoardsColumn, TSort } from 'app/(admin)/utils/types'
@@ -9,7 +9,7 @@ function useSortBoardFunction() {
     const sortParams = value?.split(':')
 
     const sortBoards = useCallback(
-        (boardA: TBoard, boardB: TBoard) => {
+        (boardA: TBoardWithOrganizaion, boardB: TBoardWithOrganizaion) => {
             let sortFunc: () => number
             const sort = {
                 column: sortParams?.[0] as TBoardsColumn,
@@ -18,18 +18,20 @@ function useSortBoardFunction() {
             switch (sort.column) {
                 case 'lastModified':
                     sortFunc = () => {
-                        const modifiedA = boardA.meta?.dateModified ?? 0
-                        const modifiedB = boardB.meta?.dateModified ?? 0
+                        const modifiedA = boardA.board.meta?.dateModified ?? 0
+                        const modifiedB = boardB.board.meta?.dateModified ?? 0
                         return modifiedB - modifiedA
                     }
                     break
+                case 'organization':
+
                 default:
                     sortFunc = () => {
                         const titleA =
-                            boardA?.meta?.title?.toLowerCase() ??
+                            boardA?.board.meta?.title?.toLowerCase() ??
                             DEFAULT_BOARD_NAME
                         const titleB =
-                            boardB?.meta?.title?.toLowerCase() ??
+                            boardB?.board.meta?.title?.toLowerCase() ??
                             DEFAULT_BOARD_NAME
                         return titleB.localeCompare(titleA)
                     }

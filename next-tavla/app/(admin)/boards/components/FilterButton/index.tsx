@@ -12,15 +12,19 @@ import { TTag } from 'types/meta'
 import { FilterChip } from '@entur/chip'
 import { uniq, xor } from 'lodash'
 import { NotificationBadge } from '@entur/layout'
-import { TBoard } from 'types/settings'
+import { TBoardWithOrganizaion } from 'types/settings'
 import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 
-function FilterButton({ boards }: { boards: TBoard[] }) {
+function FilterButton({
+    boardsWithOrg,
+}: {
+    boardsWithOrg: TBoardWithOrganizaion[]
+}) {
     const [value, replace] = useSearchParamReplacer('tags')
     const activeTags = value?.split(',') ?? []
     const allTags = uniq(
-        boards.flatMap((board) => {
-            return board?.meta?.tags ?? []
+        boardsWithOrg.flatMap((boardWithOrg) => {
+            return boardWithOrg?.board.meta?.tags ?? []
         }),
     )
 

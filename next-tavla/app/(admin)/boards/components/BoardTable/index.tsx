@@ -1,17 +1,21 @@
 'use client'
 import { TableHeader } from 'app/(admin)/boards/components/TableHeader'
 import { TableRows } from 'app/(admin)/boards/components/TableRows'
-import { TBoard } from 'types/settings'
+import { TBoardWithOrganizaion } from 'types/settings'
 import { isEmpty } from 'lodash'
 import { useSearchParam } from '../../hooks/useSearchParam'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
 import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'app/(admin)/utils/types'
 
-function BoardTable({ boards }: { boards: TBoard[] }) {
+function BoardTable({
+    boardsWithOrg,
+}: {
+    boardsWithOrg: TBoardWithOrganizaion[]
+}) {
     const value = useSearchParam('columns')
     const columns = value?.split(',') ?? DEFAULT_BOARD_COLUMNS
 
-    if (isEmpty(boards))
+    if (isEmpty(boardsWithOrg))
         return (
             <IllustratedInfo
                 title="Her var det tomt"
@@ -27,7 +31,7 @@ function BoardTable({ boards }: { boards: TBoard[] }) {
             }}
         >
             <TableHeader columns={columns as TBoardsColumn[]} />
-            <TableRows boards={boards} />
+            <TableRows boardsWithOrg={boardsWithOrg} />
         </div>
     )
 }

@@ -1,9 +1,14 @@
 'use server'
 import { firestore } from 'firebase-admin'
-import { TOrganizationID, TOrganization, TBoard } from 'types/settings'
+import {
+    TOrganizationID,
+    TOrganization,
+    TBoard,
+    TBoardID,
+} from 'types/settings'
 import { getUser, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
-import { chunk, concat, isEmpty } from 'lodash'
+import { chunk, concat, isEmpty, flattenDeep } from 'lodash'
 import { TavlaError } from './utils/types'
 import { redirect } from 'next/navigation'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
@@ -75,7 +80,7 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
         .flat()
 }
 
-export async function getBoardsForUser() {
+export async function getPrivateBoardsForUser() {
     const user = await getUser()
     if (!user)
         throw new TavlaError({
@@ -103,4 +108,49 @@ export async function getBoardsForUser() {
             ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
         )
         .flat()
+}
+
+export async function getBoards(ids?: TBoardID[]) {
+    if (!ids) return []
+
+    const batches = chunk(ids, 20)
+    const queries = batches.map((batch) =>
+        firestore()
+            .collection('boards')
+            .where(firestore.FieldPath.documentId(), 'in', batch)
+            .get(),
+    )
+
+    const refs = await Promise.all(queries)
+    return refs
+        .map((ref) =>
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+        )
+        .flat()
+}
+
+export async function getAllBoardsForUser() {
+    const user = await getUser()
+    if (!user) return redirect('/')
+
+    const privateBoardIDs = concat(user.owner ?? [], user.editor ?? [])
+    const privateBoards = (await getBoards(privateBoardIDs)).map((board) => ({
+        board,
+    }))
+
+    const organizations = await getOrganizationsForUser()
+
+    const organizationsBoards = flattenDeep(
+        await Promise.all(
+            organizations.map(async (organization) =>
+                (
+                    await getBoards(organization.boards)
+                ).map((board) => ({
+                    board,
+                    organization,
+                })),
+            ),
+        ),
+    )
+    return [...organizationsBoards, ...privateBoards]
 }

@@ -13,7 +13,6 @@ function Search() {
     }, [replace, search])
     return (
         <TextField
-            className="w-full md:w-1/2"
             label="Søk på navn på tavle"
             prepend={<SearchIcon inline aria-hidden="true" />}
             value={search}
