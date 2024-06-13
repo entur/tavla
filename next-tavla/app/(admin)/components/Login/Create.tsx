@@ -38,7 +38,7 @@ function Create() {
                 password,
             )
             await create(credential.user.uid)
-            sendEmailVerification(credential.user)
+            await sendEmailVerification(credential.user)
             return getFormFeedbackForError('auth/create')
         } catch (e) {
             if (e instanceof FirebaseError) {
