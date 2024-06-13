@@ -21,8 +21,6 @@ async function OrganizationsBoardsPage() {
 
     const boardsWithOrg = await getAllBoardsForUser()
 
-    console.log(boardsWithOrg)
-
     return (
         <div className="flex flex-col gap-8">
             <Heading1>Tavler</Heading1>

@@ -1,4 +1,4 @@
-import { TBoard, TBoardWithOrganizaion } from 'types/settings'
+import { TBoardWithOrganizaion } from 'types/settings'
 import { useCallback } from 'react'
 import { useSearchParam } from './useSearchParam'
 import { TBoardsColumn, TSort } from 'app/(admin)/utils/types'
