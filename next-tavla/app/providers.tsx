@@ -4,9 +4,9 @@ import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { ReactNode } from 'react'
 
-if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-        api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+if (typeof window !== 'undefined') {
+    posthog.init('phc_Iu3qLYA1btPuImlxyuQajuvQUoxp6ShId7wwvaMZGJb', {
+        api_host: 'https://eu.posthog.com',
         capture_pageview: false, // This will be done manually
         autocapture: false, // We will capture manually
     })
