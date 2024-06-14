@@ -18,7 +18,7 @@ function Column({
 }) {
     switch (column) {
         case 'name':
-            return <Name name={boardWithOrg.board.meta?.title} />
+            return <Name board={boardWithOrg.board} />
         case 'actions':
             return <Actions board={boardWithOrg.board} />
         case 'lastModified':
