@@ -9,10 +9,11 @@ function Organization({ organization }: { organization?: TOrganization }) {
         <Column column="organization">
             <Link
                 href={`/organizations/${organization.id}`}
-                className="hover:underline"
+                className="hidden sm:block hover:underline"
             >
                 {organization.name}
             </Link>
+            <p className="block sm:hidden">{organization.name}</p>
         </Column>
     )
 }
