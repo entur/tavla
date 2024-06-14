@@ -15,8 +15,6 @@ function TableRows({
 }) {
     const search = useSearchParam('search') ?? ''
     const filter = useSearchParam('tags')?.split(',') ?? []
-    const columns =
-        useSearchParam('columns')?.split(',') ?? DEFAULT_BOARD_COLUMNS
     const sortFunction = useSortBoardFunction()
     const searchFilter = new RegExp(
         search.replace(/[^a-z/Wæøå0-9- ]+/g, ''),
@@ -44,7 +42,6 @@ function TableRows({
                     <TableRow
                         key={boardWithOrg.board.id}
                         boardWithOrg={boardWithOrg}
-                        columns={columns as TBoardsColumn[]}
                         tags={uniq(
                             boardsWithOrg.flatMap(
                                 (boardWithOrg) =>
@@ -59,13 +56,12 @@ function TableRows({
 
 function TableRow({
     boardWithOrg,
-    columns,
     tags,
 }: {
     boardWithOrg: TBoardWithOrganizaion
-    columns: TBoardsColumn[]
     tags: TTag[]
 }) {
+    const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={boardWithOrg.board.id}>
             {columns.map((column: TBoardsColumn) => (
