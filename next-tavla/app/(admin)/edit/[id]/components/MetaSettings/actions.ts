@@ -68,12 +68,12 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
 
 export async function moveBoardToPersonal(
     bid: TBoardID,
-    from?: TOrganizationID,
+    fromOrganization?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    if (from) {
+    if (fromOrganization) {
         const orgAccess = await hasBoardEditorAccess(bid)
         if (!orgAccess) return redirect('/')
     }
@@ -86,10 +86,10 @@ export async function moveBoardToPersonal(
         })
 
     firestore()
-        .collection(from ? 'organizations' : 'users')
-        .doc(from ? String(from) : String(user.uid))
+        .collection(fromOrganization ? 'organizations' : 'users')
+        .doc(fromOrganization ? String(fromOrganization) : String(user.uid))
         .update({
-            [from ? 'boards' : 'owner']:
+            [fromOrganization ? 'boards' : 'owner']:
                 admin.firestore.FieldValue.arrayRemove(bid),
         })
 
@@ -99,7 +99,7 @@ export async function moveBoardToPersonal(
 export async function moveBoardToOrganization(
     bid: TBoardID,
     oid?: TOrganizationID,
-    from?: TOrganizationID,
+    fromOrganization?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
@@ -107,7 +107,7 @@ export async function moveBoardToOrganization(
     const orgAccess = await hasBoardEditorAccess(bid)
     if (!orgAccess) return redirect('/')
 
-    if (from) {
+    if (fromOrganization) {
         const orgAccess = await hasBoardEditorAccess(bid)
         if (!orgAccess) return redirect('/')
     }
@@ -120,10 +120,10 @@ export async function moveBoardToOrganization(
         })
 
     firestore()
-        .collection(from ? 'organizations' : 'users')
-        .doc(from ? String(from) : String(user.uid))
+        .collection(fromOrganization ? 'organizations' : 'users')
+        .doc(fromOrganization ? String(fromOrganization) : String(user.uid))
         .update({
-            [from ? 'boards' : 'owner']:
+            [fromOrganization ? 'boards' : 'owner']:
                 admin.firestore.FieldValue.arrayRemove(bid),
         })
 

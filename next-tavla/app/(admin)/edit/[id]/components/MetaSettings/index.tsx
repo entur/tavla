@@ -37,9 +37,7 @@ function MetaSettings({
     const { addToast } = useToast()
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations(organization)
-    const [personal, setPersonal] = useState<boolean>(
-        organization ? false : true,
-    )
+    const [personal, setPersonal] = useState(organization ? false : true)
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <>
