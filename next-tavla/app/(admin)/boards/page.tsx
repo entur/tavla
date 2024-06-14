@@ -1,4 +1,4 @@
-import { permanentRedirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { Search } from './components/Search'
 import { FilterButton } from './components/FilterButton'
 import { BoardTable } from './components/BoardTable'
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 async function OrganizationsBoardsPage() {
     const user = await getUserFromSessionCookie()
-    if (!user) permanentRedirect('/')
+    if (!user) redirect('/')
 
     const boardsWithOrg = await getAllBoardsForUser()
 
