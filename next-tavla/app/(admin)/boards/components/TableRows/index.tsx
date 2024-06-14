@@ -1,18 +1,20 @@
 import { useSortBoardFunction } from '../../hooks/useSortBoardFunction'
 import { Column } from '../Column'
 import { Fragment } from 'react'
-import { TBoard } from 'types/settings'
+import { TBoard, TBoardWithOrganizaion } from 'types/settings'
 import { uniq } from 'lodash'
 import { TTag } from 'types/meta'
 import { useSearchParam } from '../../hooks/useSearchParam'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'app/(admin)/utils/types'
 
-function TableRows({ boards }: { boards: TBoard[] }) {
+function TableRows({
+    boardsWithOrg,
+}: {
+    boardsWithOrg: TBoardWithOrganizaion[]
+}) {
     const search = useSearchParam('search') ?? ''
     const filter = useSearchParam('tags')?.split(',') ?? []
-    const columns =
-        useSearchParam('columns')?.split(',') ?? DEFAULT_BOARD_COLUMNS
     const sortFunction = useSortBoardFunction()
     const searchFilter = new RegExp(
         search.replace(/[^a-z/Wæøå0-9- ]+/g, ''),
@@ -28,17 +30,23 @@ function TableRows({ boards }: { boards: TBoard[] }) {
 
     return (
         <>
-            {boards
-                .filter((board: TBoard) => filterByTitle(board))
-                .filter((board: TBoard) => filterByTags(board))
+            {boardsWithOrg
+                .filter((boardWithOrg: TBoardWithOrganizaion) =>
+                    filterByTitle(boardWithOrg.board),
+                )
+                .filter((boardWithOrg: TBoardWithOrganizaion) =>
+                    filterByTags(boardWithOrg.board),
+                )
                 .sort(sortFunction)
-                .map((board: TBoard) => (
+                .map((boardWithOrg: TBoardWithOrganizaion) => (
                     <TableRow
-                        key={board.id}
-                        board={board}
-                        columns={columns as TBoardsColumn[]}
+                        key={boardWithOrg.board.id}
+                        boardWithOrg={boardWithOrg}
                         tags={uniq(
-                            boards.flatMap((board) => board?.meta?.tags ?? []),
+                            boardsWithOrg.flatMap(
+                                (boardWithOrg) =>
+                                    boardWithOrg.board?.meta?.tags ?? [],
+                            ),
                         )}
                     />
                 ))}
@@ -47,20 +55,19 @@ function TableRows({ boards }: { boards: TBoard[] }) {
 }
 
 function TableRow({
-    board,
-    columns,
+    boardWithOrg,
     tags,
 }: {
-    board: TBoard
-    columns: TBoardsColumn[]
+    boardWithOrg: TBoardWithOrganizaion
     tags: TTag[]
 }) {
+    const columns = DEFAULT_BOARD_COLUMNS
     return (
-        <Fragment key={board.id}>
+        <Fragment key={boardWithOrg.board.id}>
             {columns.map((column: TBoardsColumn) => (
                 <Column
                     key={column}
-                    board={board}
+                    boardWithOrg={boardWithOrg}
                     column={column}
                     tags={tags}
                 />

@@ -1,7 +1,8 @@
-import { TBoardsColumn } from 'app/(admin)/utils/types'
+import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'app/(admin)/utils/types'
 import { ColumnHeader } from './ColumnHeader'
 
-function TableHeader({ columns }: { columns: TBoardsColumn[] }) {
+function TableHeader() {
+    const columns = DEFAULT_BOARD_COLUMNS
     return (
         <>
             {columns.map((column: TBoardsColumn) => (
