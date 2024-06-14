@@ -22,6 +22,9 @@
         --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-greys-grey50);
 
+        --grey70: var(--colors-greys-grey70);
+        --grey80: var(--colors-greys-grey80);
+
         --tooltip-color: var(--colors-blues-blue10);
         --tooltip-text-color: var(--colors-brand-white);
 
@@ -61,6 +64,9 @@
 
         --tooltip-color: var(--colors-greys-grey30);
 
+        --grey70: var(--colors-greys-grey70);
+        --grey80: var(--colors-greys-grey80);
+
         --metro-color: var(--colors-transport-contrast-metro);
         --bus-color: var(--colors-transport-contrast-bus);
         --tram-color: var(--colors-transport-contrast-tram);
@@ -94,6 +100,9 @@
         --estimated-time-color: var(--colors-brand-coral);
         --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-blues-blue30);
+
+        --grey70: var(--colors-greys-grey70);
+        --grey80: var(--colors-greys-grey80);
 
         --metro-color: var(--colors-transport-contrast-metro);
         --bus-color: var(--colors-transport-contrast-bus);
@@ -197,6 +206,16 @@
 
     .pulse {
         @apply inline-flex rounded-full bg-success h-em-0.75 w-em-0.75 left-[calc(50%-(0.75em/2))] bottom-[calc(50%-(0.75em/2))];
+    }
+
+    .table-custom-nth-child {
+        &:nth-child(10n + 1),
+        &:nth-child(10n + 2),
+        &:nth-child(10n + 3),
+        &:nth-child(10n + 4),
+        &:nth-child(10n + 5) {
+            @apply bg-grey80;
+        }
     }
 
     /* For Tavla using pages */

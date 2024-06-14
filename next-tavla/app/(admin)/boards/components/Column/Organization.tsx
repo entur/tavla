@@ -3,7 +3,7 @@ import { Column } from './Column'
 import { TOrganization } from 'types/settings'
 
 function Organization({ organization }: { organization?: TOrganization }) {
-    if (!organization) return <p>Privat</p>
+    if (!organization) return <Column column="organization">Privat</Column>
 
     return (
         <Column column="organization">
