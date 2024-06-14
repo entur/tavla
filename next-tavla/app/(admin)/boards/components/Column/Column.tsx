@@ -10,7 +10,7 @@ function Column({
     return (
         <div
             id={column}
-            className="pl-2 flex flex-row items-center min-h-16 table-custom-nth-child"
+            className="pl-2 flex flex-row items-center h-16 table-custom-nth-child"
         >
             {children}
         </div>

@@ -19,7 +19,12 @@ function BoardTable({
         )
 
     return (
-        <div className="grid items-center grid-cols-5">
+        <div
+            className="grid items-center overflow-x-auto"
+            style={{
+                gridTemplateColumns: `repeat(5,auto)`,
+            }}
+        >
             <TableHeader />
             <TableRows boardsWithOrg={boardsWithOrg} />
         </div>
