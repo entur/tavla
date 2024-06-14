@@ -15,6 +15,17 @@ function useSortBoardFunction() {
                 column: sortParams?.[0] as TBoardsColumn,
                 type: sortParams?.[1] as TSort,
             }
+
+            const compareTitle = () => {
+                const titleA =
+                    boardA?.board.meta?.title?.toLowerCase() ??
+                    DEFAULT_BOARD_NAME
+                const titleB =
+                    boardB?.board.meta?.title?.toLowerCase() ??
+                    DEFAULT_BOARD_NAME
+                return titleB.localeCompare(titleA)
+            }
+
             switch (sort.column) {
                 case 'lastModified':
                     sortFunc = () => {
@@ -24,16 +35,23 @@ function useSortBoardFunction() {
                     }
                     break
                 case 'organization':
+                    sortFunc = () => {
+                        const orgNameA =
+                            boardA.organization?.name?.toLowerCase() ?? 'Privat'
+                        const orgNameB =
+                            boardB.organization?.name?.toLowerCase() ?? 'Privat'
 
+                        if (orgNameA == orgNameB) {
+                            return sort.type == 'ascending'
+                                ? compareTitle()
+                                : -compareTitle()
+                        }
+                        return orgNameB.localeCompare(orgNameA)
+                    }
+                    break
                 default:
                     sortFunc = () => {
-                        const titleA =
-                            boardA?.board.meta?.title?.toLowerCase() ??
-                            DEFAULT_BOARD_NAME
-                        const titleB =
-                            boardB?.board.meta?.title?.toLowerCase() ??
-                            DEFAULT_BOARD_NAME
-                        return titleB.localeCompare(titleA)
+                        return compareTitle()
                     }
                     break
             }
