@@ -5,7 +5,10 @@ import { TBoard, TBoardWithOrganizaion } from 'types/settings'
 import { uniq } from 'lodash'
 import { TTag } from 'types/meta'
 import { useSearchParam } from '../../hooks/useSearchParam'
-import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+import {
+    DEFAULT_BOARD_NAME,
+    DEFAULT_ORGANIZATION_NAME,
+} from 'app/(admin)/utils/constants'
 import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'app/(admin)/utils/types'
 
 function TableRows({
@@ -21,8 +24,12 @@ function TableRows({
         'i',
     )
 
-    const filterByTitle = (board: TBoard) =>
-        searchFilter.test(board?.meta?.title ?? DEFAULT_BOARD_NAME)
+    const filterByTitleAndOrgName = (boardWithOrg: TBoardWithOrganizaion) =>
+        searchFilter.test(
+            `${boardWithOrg.board?.meta?.title ?? DEFAULT_BOARD_NAME} ${
+                boardWithOrg.organization?.name ?? DEFAULT_ORGANIZATION_NAME
+            }`,
+        )
 
     const filterByTags = (board: TBoard) =>
         filter.length === 0 ||
@@ -32,7 +39,7 @@ function TableRows({
         <>
             {boardsWithOrg
                 .filter((boardWithOrg: TBoardWithOrganizaion) =>
-                    filterByTitle(boardWithOrg.board),
+                    filterByTitleAndOrgName(boardWithOrg),
                 )
                 .filter((boardWithOrg: TBoardWithOrganizaion) =>
                     filterByTags(boardWithOrg.board),

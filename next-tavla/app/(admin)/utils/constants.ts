@@ -1,4 +1,5 @@
 export const DEFAULT_BOARD_NAME = 'Tavle uten navn'
+export const DEFAULT_ORGANIZATION_NAME = 'Privat'
 
 export const FIREBASE_DEV_CONFIG = {
     apiKey: 'AIzaSyCjyL7k4AehY4M95cxBVaW4LJTy6JNdTjo',
