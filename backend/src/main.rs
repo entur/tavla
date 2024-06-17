@@ -1,8 +1,10 @@
 use std::time::Duration;
 
 use axum::{
+    body::Body,
     extract::{Path, State},
     http::{HeaderValue, Method, StatusCode},
+    response::Response,
     routing::{get, post},
     Json, Router,
 };
@@ -56,6 +58,7 @@ async fn main() {
         ]);
 
     let app = Router::new()
+        .route("/active", get(active_boards))
         .route("/subscribe/:bid", get(subscribe))
         .route("/refresh/:bid", post(trigger))
         .route("/update", post(update))
@@ -66,6 +69,20 @@ async fn main() {
         .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
         .await
         .unwrap()
+}
+
+async fn active_boards(
+    AuthBearer(token): AuthBearer,
+    State(mut state): State<AppState>,
+) -> Result<Response<Body>, AppError> {
+    if token != state.key {
+        return Ok(Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::from(0.to_string()))
+            .unwrap());
+    }
+    let active_boards = state.master.get::<&str, i32>("active_boards").await?;
+    Ok(Response::new(Body::from(active_boards.to_string())))
 }
 
 async fn trigger(
