@@ -3,17 +3,18 @@ import { Column } from './Column'
 import { TBoard } from 'types/settings'
 import Link from 'next/link'
 
-function Name({ board }: { board?: TBoard }) {
-    if (!board) return <Column column="name">{DEFAULT_BOARD_NAME}</Column>
+function Name({ board }: { board: TBoard }) {
     return (
         <Column column="name">
             <Link
                 href={`/edit/${board.id}`}
                 className="hidden sm:block hover:underline"
             >
-                {board.meta.title}
+                {board.meta.title ?? DEFAULT_BOARD_NAME}
             </Link>
-            <p className="block sm:hidden">{board.meta.title}</p>
+            <p className="block sm:hidden">
+                {board.meta.title ?? DEFAULT_BOARD_NAME}
+            </p>
         </Column>
     )
 }
