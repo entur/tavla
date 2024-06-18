@@ -215,6 +215,13 @@ export type TQuaysSearchQuery = {
                 __typename?: 'JourneyPattern'
                 directionType: Types.TDirectionType | null
             } | null>
+            lines: Array<{
+                __typename?: 'Line'
+                id: string
+                publicCode: string | null
+                name: string | null
+                transportMode: Types.TTransportMode | null
+            }>
         } | null> | null
     } | null
 }
@@ -557,10 +564,18 @@ export const QuaysSearchQuery = new TypedDocumentString(`
       journeyPatterns {
         directionType
       }
+      ...lines
     }
   }
 }
-    `) as unknown as TypedDocumentString<
+    fragment lines on Quay {
+  lines {
+    id
+    publicCode
+    name
+    transportMode
+  }
+}`) as unknown as TypedDocumentString<
     TQuaysSearchQuery,
     TQuaysSearchQueryVariables
 >

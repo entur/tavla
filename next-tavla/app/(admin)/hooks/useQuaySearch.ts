@@ -7,17 +7,29 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { countBy } from 'lodash'
 import { getTransportIcon } from 'components/TransportIcon'
 import { useQuery } from 'hooks/useQuery'
+import { TLineFragment } from '../edit/[id]/components/TileCard/types'
 
 function getPlatformLabel(
     index: number,
     publicCode?: string | null,
     description?: string | null,
     directionTypes?: (TDirectionType | null | undefined)[] | null,
+    lines?: TLineFragment[] | null,
 ) {
+    const lineInformation = lines
+        ?.map((line) => line.publicCode)
+        .slice(0, 5)
+        .sort()
+        .join(', ')
+
     if (!publicCode && !description) {
-        return `${index + 1} ${getDirection(directionTypes)}`
+        return `${index + 1} ${getDirection(
+            directionTypes,
+        )} (${lineInformation})`
     }
-    return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
+    return [publicCode, description, `(${lineInformation})`]
+        .filter(isNotNullOrUndefined)
+        .join(' ')
 }
 
 function getDirection(
@@ -52,6 +64,7 @@ function useQuaySearch(stopPlaceId: string) {
                         quay.publicCode,
                         quay.description,
                         quay.journeyPatterns.map((jp) => jp?.directionType),
+                        quay.lines,
                     ),
                     icons: quay.stopPlace?.transportMode?.map((mode) =>
                         getTransportIcon(mode ?? 'unknown'),
@@ -75,6 +88,7 @@ function useQuaySearch(stopPlaceId: string) {
                 }) || [],
         [data],
     )
+    console.log(quays)
 
     const getQuays = useCallback(
         () => [{ value: stopPlaceId, label: 'Vis alle' }, ...quays],
