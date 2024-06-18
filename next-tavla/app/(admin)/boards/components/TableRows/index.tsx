@@ -19,17 +19,23 @@ function TableRows({
     const search = useSearchParam('search') ?? ''
     const filter = useSearchParam('tags')?.split(',') ?? []
     const sortFunction = useSortBoardFunction()
-    const searchFilter = new RegExp(
-        search.replace(/[^a-z/Wæøå0-9- ]+/g, ''),
-        'i',
-    )
+    const searchFilters = search
+        .split(' ')
+        .map((part) => new RegExp(part.replace(/[^a-z/Wæøå0-9- ]+/g, ''), 'i'))
 
     const filterByTitleAndOrgName = (boardWithOrg: TBoardWithOrganizaion) =>
-        searchFilter.test(
-            `${boardWithOrg.board?.meta?.title ?? DEFAULT_BOARD_NAME} ${
-                boardWithOrg.organization?.name ?? DEFAULT_ORGANIZATION_NAME
-            }`,
-        )
+        searchFilters
+            .map(
+                (filter) =>
+                    filter.test(
+                        boardWithOrg?.board.meta.title ?? DEFAULT_BOARD_NAME,
+                    ) ||
+                    filter.test(
+                        boardWithOrg.organization?.name ??
+                            DEFAULT_ORGANIZATION_NAME,
+                    ),
+            )
+            .every((e) => e === true)
 
     const filterByTags = (board: TBoard) =>
         filter.length === 0 ||
