@@ -99,13 +99,19 @@ function MetaSettings({
                         )
                     }
 
-                    personal
-                        ? await moveBoardToPersonal(bid, organization?.id)
-                        : await moveBoardToOrganization(
-                              bid,
-                              selectedOrganization?.value.id,
-                              organization?.id,
-                          )
+                    if (personal)
+                        await moveBoardToPersonal(bid, organization?.id)
+                    else {
+                        if (!selectedOrganization?.value.id)
+                            return getFormFeedbackForError(
+                                'create/organization-missing',
+                            )
+                        await moveBoardToOrganization(
+                            bid,
+                            selectedOrganization.value.id,
+                            organization?.id,
+                        )
+                    }
 
                     setFormError(undefined)
                     addToast('Organisasjon lagret!')

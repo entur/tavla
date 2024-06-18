@@ -3,6 +3,7 @@ import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     hasBoardEditorAccess,
     initializeAdminApp,
+    userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
 import admin, { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
@@ -73,10 +74,8 @@ export async function moveBoardToPersonal(
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    if (fromOrganization) {
-        const orgAccess = await hasBoardEditorAccess(bid)
-        if (!orgAccess) return redirect('/')
-    }
+    const access = await hasBoardEditorAccess(bid)
+    if (!access) return redirect('/')
 
     firestore()
         .collection('users')
@@ -98,19 +97,17 @@ export async function moveBoardToPersonal(
 
 export async function moveBoardToOrganization(
     bid: TBoardID,
-    oid?: TOrganizationID,
+    oid: TOrganizationID,
     fromOrganization?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    const orgAccess = await hasBoardEditorAccess(bid)
-    if (!orgAccess) return redirect('/')
+    const access = await hasBoardEditorAccess(bid)
+    if (!access) return redirect('/')
 
-    if (fromOrganization) {
-        const orgAccess = await hasBoardEditorAccess(bid)
-        if (!orgAccess) return redirect('/')
-    }
+    const orgAccess = userCanEditOrganization(oid)
+    if (!orgAccess) return redirect('/')
 
     firestore()
         .collection('organizations')
