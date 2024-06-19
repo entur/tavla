@@ -5,31 +5,20 @@ import { TDirectionType } from 'types/graphql-schema'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { countBy } from 'lodash'
-import { getTransportIcon } from 'components/TransportIcon'
 import { useQuery } from 'hooks/useQuery'
-import { TLineFragment } from '../edit/[id]/components/TileCard/types'
+
+import { SmallTravelTag } from 'components/TravelTag'
 
 function getPlatformLabel(
     index: number,
     publicCode?: string | null,
     description?: string | null,
     directionTypes?: (TDirectionType | null | undefined)[] | null,
-    lines?: TLineFragment[] | null,
 ) {
-    const lineInformation = lines
-        ?.map((line) => line.publicCode)
-        .slice(0, 5)
-        .sort()
-        .join(', ')
-
     if (!publicCode && !description) {
-        return `${index + 1} ${getDirection(
-            directionTypes,
-        )} (${lineInformation})`
+        return `${index + 1} ${getDirection(directionTypes)}`
     }
-    return [publicCode, description, `(${lineInformation})`]
-        .filter(isNotNullOrUndefined)
-        .join(' ')
+    return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
 }
 
 function getDirection(
@@ -64,11 +53,26 @@ function useQuaySearch(stopPlaceId: string) {
                         quay.publicCode,
                         quay.description,
                         quay.journeyPatterns.map((jp) => jp?.directionType),
-                        quay.lines,
                     ),
-                    icons: quay.stopPlace?.transportMode?.map((mode) =>
-                        getTransportIcon(mode ?? 'unknown'),
-                    ),
+                    icons: quay.lines
+                        ?.sort((l1, l2) => {
+                            if (!l1.publicCode || !l2.publicCode) return 0
+                            const l1Digits = l1.publicCode.match(/[^$,.\d]/)
+                            const l2Digits = l2.publicCode.match(/[^$,.\d]/)
+
+                            if (l1Digits && !l2Digits) return 1
+                            if (!l1Digits && l2Digits) return -1
+                            if (l1.publicCode < l2.publicCode) return -1
+                            return 1
+                        })
+                        .slice(0, 5)
+                        .map(
+                            (line) => () =>
+                                SmallTravelTag({
+                                    transportMode: line.transportMode,
+                                    publicCode: line.publicCode,
+                                }),
+                        ),
                 }))
                 .sort((a, b) => {
                     return a.label.localeCompare(b.label, 'no-NB', {
