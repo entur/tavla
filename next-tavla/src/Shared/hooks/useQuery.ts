@@ -26,6 +26,7 @@ export function useQuery<Data, Variables>(
             revalidateOnFocus: false,
             revalidateOnReconnect: true,
             refreshInterval: mergedOptions.poll ? 30000 : undefined,
+            keepPreviousData: true,
         },
     )
 
