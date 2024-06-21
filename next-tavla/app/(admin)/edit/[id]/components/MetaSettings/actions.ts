@@ -2,14 +2,17 @@
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     hasBoardEditorAccess,
+    hasBoardOwnerAccess,
     initializeAdminApp,
+    userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
-import { firestore } from 'firebase-admin'
+import admin, { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
-import { TBoard, TBoardID } from 'types/settings'
+import { TBoard, TBoardID, TOrganizationID } from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
 initializeAdminApp()
 
@@ -63,4 +66,45 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
             return await getWalkingDistanceTile(tile, location)
         }),
     )
+}
+
+export async function moveBoard(
+    bid: TBoardID,
+    oid?: TOrganizationID,
+    fromOrganization?: TOrganizationID,
+) {
+    const user = await getUserFromSessionCookie()
+    if (!user) return redirect('/')
+
+    const access = await hasBoardOwnerAccess(bid)
+    if (!access) return redirect('/')
+
+    if (fromOrganization && !(await userCanEditOrganization(fromOrganization)))
+        return redirect('/')
+
+    if (oid && !(await userCanEditOrganization(oid))) return redirect('/')
+
+    if (fromOrganization)
+        firestore()
+            .collection('organizations')
+            .doc(fromOrganization)
+            .update({ boards: admin.firestore.FieldValue.arrayRemove(bid) })
+    else
+        firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({ owner: admin.firestore.FieldValue.arrayRemove(bid) })
+
+    if (oid)
+        firestore()
+            .collection('organizations')
+            .doc(oid)
+            .update({ boards: admin.firestore.FieldValue.arrayUnion(bid) })
+    else
+        firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({ owner: admin.firestore.FieldValue.arrayUnion(bid) })
+
+    revalidatePath(`/edit/${bid}`)
 }
