@@ -48,9 +48,11 @@ function TravelTag({
 function SmallTravelTag({
     transportMode,
     publicCode,
+    icons = true,
 }: {
     transportMode?: TTransportMode | null
     publicCode?: string | null
+    icons?: boolean
 }) {
     if (!transportMode || !publicCode) return null
     return (
@@ -61,10 +63,12 @@ function SmallTravelTag({
             }`}
             key={`${transportMode}${publicCode}`}
         >
-            <TransportIcon
-                className="hidden lg:block w-6 h-6 fill-background"
-                transportMode={transportMode}
-            />
+            {icons && (
+                <TransportIcon
+                    className="hidden lg:block w-6 h-6 fill-background"
+                    transportMode={transportMode}
+                />
+            )}
             <div className="text-[0.65rem] w-full flex justify-center align-center">
                 {publicCode}
             </div>

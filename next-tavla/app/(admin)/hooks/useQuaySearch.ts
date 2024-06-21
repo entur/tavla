@@ -6,7 +6,6 @@ import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { countBy } from 'lodash'
 import { useQuery } from 'hooks/useQuery'
-
 import { SmallTravelTag } from 'components/TravelTag'
 
 function getPlatformLabel(
@@ -35,7 +34,7 @@ function getDirection(
     return ''
 }
 
-function useQuaySearch(stopPlaceId: string) {
+function useQuaySearch(stopPlaceId: string, icons = true) {
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId: stopPlaceId })
     const [selectedQuay, setSelectedQuay] =
         useState<NormalizedDropdownItemType | null>(null)
@@ -66,13 +65,19 @@ function useQuaySearch(stopPlaceId: string) {
                             return 1
                         })
                         .slice(0, 5)
-                        .map(
-                            (line) => () =>
-                                SmallTravelTag({
-                                    transportMode: line.transportMode,
-                                    publicCode: line.publicCode,
-                                }),
-                        ),
+                        .map((line, index) => () => {
+                            if (index === 4)
+                                return SmallTravelTag({
+                                    transportMode: 'unknown',
+                                    publicCode: `+${quay.lines.length - index}`,
+                                    icons: false,
+                                })
+                            return SmallTravelTag({
+                                transportMode: line.transportMode,
+                                publicCode: line.publicCode,
+                                icons: icons,
+                            })
+                        }),
                 }))
                 .sort((a, b) => {
                     return a.label.localeCompare(b.label, 'no-NB', {
@@ -90,7 +95,7 @@ function useQuaySearch(stopPlaceId: string) {
                         }
                     }
                 }) || [],
-        [data],
+        [data, icons],
     )
 
     const getQuays = useCallback(
