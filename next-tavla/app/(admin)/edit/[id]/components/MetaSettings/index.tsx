@@ -2,12 +2,7 @@
 import { Checkbox, TextField } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
-import {
-    moveBoardToOrganization,
-    moveBoardToPersonal,
-    saveFont,
-    saveTitle,
-} from './actions'
+import { moveBoard, saveFont, saveTitle } from './actions'
 import { TBoardID, TOrganization } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -98,21 +93,11 @@ function MetaSettings({
                             ),
                         )
                     }
-
-                    if (personal)
-                        await moveBoardToPersonal(bid, organization?.id)
-                    else {
-                        if (!selectedOrganization?.value.id)
-                            return getFormFeedbackForError(
-                                'create/organization-missing',
-                            )
-                        await moveBoardToOrganization(
-                            bid,
-                            selectedOrganization.value.id,
-                            organization?.id,
-                        )
-                    }
-
+                    await moveBoard(
+                        bid,
+                        personal ? undefined : selectedOrganization?.value.id,
+                        organization?.id,
+                    )
                     setFormError(undefined)
                     addToast('Organisasjon lagret!')
                 }}

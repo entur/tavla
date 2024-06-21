@@ -2,6 +2,7 @@
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     hasBoardEditorAccess,
+    hasBoardOwnerAccess,
     initializeAdminApp,
     userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
@@ -67,62 +68,43 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
     )
 }
 
-export async function moveBoardToPersonal(
+export async function moveBoard(
     bid: TBoardID,
+    oid?: TOrganizationID,
     fromOrganization?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
-    if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
+    if (!user) return redirect('/')
 
-    const access = await hasBoardEditorAccess(bid)
+    const access = await hasBoardOwnerAccess(bid)
     if (!access) return redirect('/')
 
-    firestore()
-        .collection('users')
-        .doc(String(user.uid))
-        .update({
-            ['owner']: admin.firestore.FieldValue.arrayUnion(bid),
-        })
+    if (fromOrganization && !(await userCanEditOrganization(fromOrganization)))
+        return redirect('/')
 
-    firestore()
-        .collection(fromOrganization ? 'organizations' : 'users')
-        .doc(fromOrganization ? String(fromOrganization) : String(user.uid))
-        .update({
-            [fromOrganization ? 'boards' : 'owner']:
-                admin.firestore.FieldValue.arrayRemove(bid),
-        })
+    if (oid && !(await userCanEditOrganization(oid))) return redirect('/')
 
-    revalidatePath(`/edit/${bid}`)
-}
+    if (fromOrganization)
+        firestore()
+            .collection('organizations')
+            .doc(fromOrganization)
+            .update({ boards: admin.firestore.FieldValue.arrayRemove(bid) })
+    else
+        firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({ owner: admin.firestore.FieldValue.arrayRemove(bid) })
 
-export async function moveBoardToOrganization(
-    bid: TBoardID,
-    oid: TOrganizationID,
-    fromOrganization?: TOrganizationID,
-) {
-    const user = await getUserFromSessionCookie()
-    if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-
-    const access = await hasBoardEditorAccess(bid)
-    if (!access) return redirect('/')
-
-    const orgAccess = userCanEditOrganization(oid)
-    if (!orgAccess) return redirect('/')
-
-    firestore()
-        .collection('organizations')
-        .doc(String(oid))
-        .update({
-            ['boards']: admin.firestore.FieldValue.arrayUnion(bid),
-        })
-
-    firestore()
-        .collection(fromOrganization ? 'organizations' : 'users')
-        .doc(fromOrganization ? String(fromOrganization) : String(user.uid))
-        .update({
-            [fromOrganization ? 'boards' : 'owner']:
-                admin.firestore.FieldValue.arrayRemove(bid),
-        })
+    if (oid)
+        firestore()
+            .collection('organizations')
+            .doc(oid)
+            .update({ boards: admin.firestore.FieldValue.arrayUnion(bid) })
+    else
+        firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({ owner: admin.firestore.FieldValue.arrayUnion(bid) })
 
     revalidatePath(`/edit/${bid}`)
 }
