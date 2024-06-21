@@ -28,8 +28,17 @@ import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
 import { TransportModeAndLines } from './TransportModeAndLines'
+import { TLocation } from 'types/meta'
 
-function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
+function TileCard({
+    bid,
+    tile,
+    address,
+}: {
+    bid: TBoardID
+    tile: TTile
+    address?: TLocation
+}) {
     const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
     const [changed, setChanged] = useState(false)
@@ -46,7 +55,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
     if (!lines)
         return (
             <div className="flex justify-between items-center bg-secondary p-4 rounded">
-                Laster..
+                Laster...
             </div>
         )
 
@@ -164,7 +173,7 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             stoppestedet
                         </SubParagraph>
                         <div className="flex flex-col">
-                            {tile.walkingDistance?.visible ?? (
+                            {!address?.name && (
                                 <Label className="!text-error">
                                     Du må legge til en lokasjon for å kunne skru
                                     på gåavstand
@@ -172,10 +181,10 @@ function TileCard({ bid, tile }: { bid: TBoardID; tile: TTile }) {
                             )}
                             <Switch
                                 name="showDistance"
+                                disabled={address ? false : true}
                                 defaultChecked={
                                     tile.walkingDistance?.visible ?? false
                                 }
-                                disabled={tile.walkingDistance ? false : true}
                             >
                                 Vis gåavstand
                             </Switch>

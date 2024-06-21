@@ -82,7 +82,12 @@ export default async function EditPage({ params }: TProps) {
                     }}
                 />
                 {board.tiles.map((tile) => (
-                    <TileCard key={tile.uuid} bid={params.id} tile={tile} />
+                    <TileCard
+                        key={tile.uuid}
+                        bid={params.id}
+                        tile={tile}
+                        address={board.meta.location}
+                    />
                 ))}
             </div>
 
