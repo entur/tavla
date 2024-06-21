@@ -17,14 +17,13 @@ function DuplicateBoard({
 }) {
     const { addToast } = useToast()
     const handleSelect = async () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, ...boardWithoutId } = board
+        delete board.id
         await create(
             {
-                ...boardWithoutId,
+                ...board,
                 meta: {
-                    ...boardWithoutId.meta,
-                    title: boardWithoutId.meta.title + ' - duplikat',
+                    ...board.meta,
+                    title: board.meta.title + ' - duplikat',
                 },
             },
             oid,
