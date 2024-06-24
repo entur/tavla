@@ -19,7 +19,7 @@ function Footer({
     organizationBoard: boolean
 }) {
     const { addToast } = useToast()
-    const [override, setOverride] = useState(!footer?.override ?? false)
+    const [override, setOverride] = useState(footer?.override ?? false)
     const submitOrgBoard = async (data: FormData) => {
         const footer = data.get('footer') as string
         const override = data.get('override') as string
@@ -47,12 +47,12 @@ function Footer({
                     label="Infomelding"
                     name="footer"
                     defaultValue={footer?.footer ?? ''}
-                    readOnly={override && organizationBoard}
+                    readOnly={!override && organizationBoard}
                     className="w-full"
                 />
                 {organizationBoard && (
                     <Switch
-                        checked={override}
+                        checked={!override}
                         onChange={() => setOverride(!override)}
                         name="override"
                     >
