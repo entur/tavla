@@ -5,8 +5,8 @@ import { TDirectionType } from 'types/graphql-schema'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { countBy } from 'lodash'
-import { getTransportIcon } from 'components/TransportIcon'
 import { useQuery } from 'hooks/useQuery'
+import { SmallTravelTag } from 'components/TravelTag'
 
 function getPlatformLabel(
     index: number,
@@ -34,7 +34,7 @@ function getDirection(
     return ''
 }
 
-function useQuaySearch(stopPlaceId: string) {
+function useQuaySearch(stopPlaceId: string, icons = true) {
     const { data } = useQuery(QuaysSearchQuery, { stopPlaceId: stopPlaceId })
     const [selectedQuay, setSelectedQuay] =
         useState<NormalizedDropdownItemType | null>(null)
@@ -53,9 +53,31 @@ function useQuaySearch(stopPlaceId: string) {
                         quay.description,
                         quay.journeyPatterns.map((jp) => jp?.directionType),
                     ),
-                    icons: quay.stopPlace?.transportMode?.map((mode) =>
-                        getTransportIcon(mode ?? 'unknown'),
-                    ),
+                    icons: quay.lines
+                        ?.sort((l1, l2) => {
+                            if (!l1.publicCode || !l2.publicCode) return 0
+                            const l1Digits = l1.publicCode.match(/[^$,.\d]/)
+                            const l2Digits = l2.publicCode.match(/[^$,.\d]/)
+
+                            if (l1Digits && !l2Digits) return 1
+                            if (!l1Digits && l2Digits) return -1
+                            if (l1.publicCode < l2.publicCode) return -1
+                            return 1
+                        })
+                        .slice(0, 5)
+                        .map((line, index) => () => {
+                            if (index === 4)
+                                return SmallTravelTag({
+                                    transportMode: 'unknown',
+                                    publicCode: `+${quay.lines.length - index}`,
+                                    icons: false,
+                                })
+                            return SmallTravelTag({
+                                transportMode: line.transportMode,
+                                publicCode: line.publicCode,
+                                icons: icons,
+                            })
+                        }),
                 }))
                 .sort((a, b) => {
                     return a.label.localeCompare(b.label, 'no-NB', {
@@ -73,7 +95,7 @@ function useQuaySearch(stopPlaceId: string) {
                         }
                     }
                 }) || [],
-        [data],
+        [data, icons],
     )
 
     const getQuays = useCallback(

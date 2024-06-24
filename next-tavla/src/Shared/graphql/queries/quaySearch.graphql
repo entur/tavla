@@ -10,6 +10,7 @@ query quaysSearch($stopPlaceId: String!) {
             journeyPatterns {
                 directionType
             }
+            ...lines
         }
     }
 }

@@ -45,4 +45,35 @@ function TravelTag({
     )
 }
 
-export { TravelTag }
+function SmallTravelTag({
+    transportMode,
+    publicCode,
+    icons = true,
+}: {
+    transportMode?: TTransportMode | null
+    publicCode?: string | null
+    icons?: boolean
+}) {
+    if (!transportMode || !publicCode) return null
+    return (
+        <div
+            aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
+            className={`flex items-center justify-between w-full h-5 p-1 rounded-sm font-bold text-background bg-${
+                transportMode ?? 'unknown'
+            }`}
+            key={`${transportMode}${publicCode}`}
+        >
+            {icons && (
+                <TransportIcon
+                    className="hidden lg:block w-6 h-6 fill-background"
+                    transportMode={transportMode}
+                />
+            )}
+            <div className="text-[0.65rem] w-full flex justify-center align-center">
+                {publicCode}
+            </div>
+        </div>
+    )
+}
+
+export { TravelTag, SmallTravelTag }

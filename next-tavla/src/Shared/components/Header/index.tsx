@@ -28,6 +28,8 @@ function Header({
                     src={organizationLogo ?? tavlaLogo}
                     alt="Logo til tavlen"
                     className="object-contain object-left w-[104px] h-[27px] md:w-[208px] md:h-[55px]"
+                    width="100"
+                    height="100"
                 />
             </div>
             <Clock />

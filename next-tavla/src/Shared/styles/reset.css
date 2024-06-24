@@ -69,4 +69,9 @@ a.eds-button > .eds-icon,
 .eds-dropdown__list__item > span {
     display: flex;
     flex-direction: row;
+    gap: 0.2rem;
+}
+
+.eds-dropdown__list__item {
+    word-break: keep-all;
 }
