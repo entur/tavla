@@ -85,23 +85,23 @@ export async function moveBoard(
     if (oid && !(await userCanEditOrganization(oid))) return redirect('/')
 
     if (fromOrganization)
-        firestore()
+        await firestore()
             .collection('organizations')
             .doc(fromOrganization)
             .update({ boards: admin.firestore.FieldValue.arrayRemove(bid) })
     else
-        firestore()
+        await firestore()
             .collection('users')
             .doc(user.uid)
             .update({ owner: admin.firestore.FieldValue.arrayRemove(bid) })
 
     if (oid)
-        firestore()
+        await firestore()
             .collection('organizations')
             .doc(oid)
             .update({ boards: admin.firestore.FieldValue.arrayUnion(bid) })
     else
-        firestore()
+        await firestore()
             .collection('users')
             .doc(user.uid)
             .update({ owner: admin.firestore.FieldValue.arrayUnion(bid) })
