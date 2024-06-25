@@ -47,12 +47,12 @@ function Footer({
                     label="Infomelding"
                     name="footer"
                     defaultValue={footer?.footer ?? ''}
-                    readOnly={override && organizationBoard}
+                    readOnly={!override && organizationBoard}
                     className="w-full"
                 />
                 {organizationBoard && (
                     <Switch
-                        checked={override}
+                        checked={!override}
                         onChange={() => setOverride(!override)}
                         name="override"
                     >
