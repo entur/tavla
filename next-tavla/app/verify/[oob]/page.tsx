@@ -29,12 +29,12 @@ async function Verify({ params }: { params: { oob: string } }) {
         } else message = 'Noe gikk galt, prøv igjen senere.'
     }
     return (
-        <div className="flex flex-col items-center eds-contrast pt-8">
+        <main className="container mx-auto pt-8 pb-20 text-center">
             <Paragraph>{message}</Paragraph>
-            <Button variant="primary" as={Link} href="/">
-                Ta meg tilbake til landingsiden
+            <Button variant="primary" as={Link} href="/?login">
+                Logg inn
             </Button>
-        </div>
+        </main>
     )
 }
 
