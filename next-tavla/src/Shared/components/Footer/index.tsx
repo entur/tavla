@@ -14,8 +14,9 @@ function Footer({
     orgFooter?: string
 }) {
     if (
-        (!logo && !board.footer?.footer && board.footer?.override) ||
-        (!logo && !orgFooter && !board.footer?.footer)
+        !logo &&
+        ((!board.footer?.footer && board.footer?.override) ||
+            (!orgFooter && !board.footer?.footer))
     )
         return null
 
