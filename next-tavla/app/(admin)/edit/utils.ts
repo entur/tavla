@@ -43,7 +43,7 @@ export function organizationToDropdownItem(
 
 export const themes: NormalizedDropdownItemType<TTheme>[] = [
     { label: 'Mørk', value: 'dark' },
-    { label: 'Lyst', value: 'light' },
+    { label: 'Lys', value: 'light' },
     { label: 'Entur', value: 'entur' },
 ]
 
