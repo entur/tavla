@@ -10,13 +10,13 @@ import { revalidatePath } from 'next/cache'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
 import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
-import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
 import { RefreshButton } from './components/RefreshButton'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { Preview } from './components/Preview'
+import { ActionsMenu } from './components/ActionsMenu'
 
 type TProps = {
     params: { id: TBoardID }
@@ -44,11 +44,11 @@ export default async function EditPage({ params }: TProps) {
         <div className="flex flex-col gap-14">
             <div className="flex flex-col md:flex-row justify-between">
                 <Heading1 margin="top">Rediger {board.meta?.title}</Heading1>
-                <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
                     <Open bid={board.id} type="button" />
                     <Copy bid={board.id} type="button" />
-                    <Delete board={board} type="button" />
                     <RefreshButton board={board} />
+                    <ActionsMenu board={board} oid={organization?.id} />
                 </div>
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
