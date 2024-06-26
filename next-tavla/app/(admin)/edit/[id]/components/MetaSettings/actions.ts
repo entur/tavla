@@ -116,7 +116,7 @@ export async function setTheme(bid: TBoardID, theme?: TTheme) {
     await firestore()
         .collection('boards')
         .doc(bid)
-        .update({ theme: theme ?? 'dark' })
+        .update({ theme: theme ?? 'dark', 'meta.dateModified': Date.now() })
 
     revalidatePath(`/edit/${bid}`)
 }
