@@ -30,7 +30,7 @@ import { sortLineByPublicCode } from './utils'
 import { TransportModeAndLines } from './TransportModeAndLines'
 import { TLocation } from 'types/meta'
 import { Tooltip } from '@entur/tooltip'
-import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/columnModal'
+import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/ColumnModal'
 
 function TileCard({
     bid,
@@ -45,7 +45,7 @@ function TileCard({
     const [isOpen, setIsOpen] = useState(false)
     const [changed, setChanged] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
-    const [questionColumns, setQuestionColumns] = useState(false)
+    const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
 
     const reset = () => {
         setConfirmOpen(false)
@@ -210,7 +210,7 @@ function TileCard({
                         <div className="flex flex-row items-center gap-2">
                             <SubParagraph>
                                 Her bestemmer du hvilke kolonner som skal vises
-                                i tavlen{' '}
+                                i tavlen
                             </SubParagraph>
                             <Tooltip
                                 aria-hidden
@@ -220,15 +220,15 @@ function TileCard({
                                 <IconButton
                                     type="button"
                                     aria-label="Vis forklaring på kolonner"
-                                    onClick={() => setQuestionColumns(true)}
+                                    onClick={() => setIsColumnModalOpen(true)}
                                 >
                                     <QuestionIcon />
                                 </IconButton>
                             </Tooltip>
                         </div>
                         <ColumnModal
-                            isOpen={questionColumns}
-                            setIsOpen={setQuestionColumns}
+                            isOpen={isColumnModalOpen}
+                            setIsOpen={setIsColumnModalOpen}
                         />
 
                         <div className="flex flex-row flex-wrap gap-4 mb-8">

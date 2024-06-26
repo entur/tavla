@@ -16,8 +16,8 @@ import { useFormState } from 'react-dom'
 import { saveColumns } from './actions'
 import { Tooltip } from '@entur/tooltip'
 import { IconButton } from '@entur/button'
-import { ColumnModal } from './columnModal'
 import { QuestionIcon } from '@entur/icons'
+import { ColumnModal } from './ColumnModal'
 
 function DefaultColumns({
     oid,
@@ -27,7 +27,7 @@ function DefaultColumns({
     columns?: TColumn[]
 }) {
     const { addToast } = useToast()
-    const [open, setisOpen] = useState(false)
+    const [open, setIsOpen] = useState(false)
 
     const submit = async (
         prevState: TFormFeedback | undefined,
@@ -52,7 +52,7 @@ function DefaultColumns({
     return (
         <div className="box flex flex-col gap-1">
             <Heading2>Kolonner</Heading2>
-            <div className="flex flex-row  items-center mb-4">
+            <div className="flex flex-row  items-center mb-8 gap-2">
                 <Paragraph margin="none">
                     Velg hvilke kolonner som skal være standard når det
                     opprettes en ny tavle.
@@ -61,13 +61,13 @@ function DefaultColumns({
                     <IconButton
                         type="button"
                         aria-label="Vis forklaring på kolonner"
-                        onClick={() => setisOpen(true)}
+                        onClick={() => setIsOpen(true)}
                     >
                         <QuestionIcon />
                     </IconButton>
                 </Tooltip>
             </div>
-            <ColumnModal isOpen={open} setIsOpen={setisOpen} />
+            <ColumnModal isOpen={open} setIsOpen={setIsOpen} />
 
             <form action={action}>
                 <div className="flex flex-row flex-wrap gap-4">
