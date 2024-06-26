@@ -1,6 +1,6 @@
 'use client'
 import { Heading2, Paragraph } from '@entur/typography'
-import React from 'react'
+import React, { useState } from 'react'
 import { TOrganizationID } from 'types/settings'
 import { Columns, TColumn } from 'types/column'
 import { useToast } from '@entur/alert'
@@ -14,6 +14,10 @@ import {
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useFormState } from 'react-dom'
 import { saveColumns } from './actions'
+import { Tooltip } from '@entur/tooltip'
+import { IconButton } from '@entur/button'
+import { ColumnModal } from './columnModal'
+import { QuestionIcon } from '@entur/icons'
 
 function DefaultColumns({
     oid,
@@ -23,6 +27,7 @@ function DefaultColumns({
     columns?: TColumn[]
 }) {
     const { addToast } = useToast()
+    const [open, setisOpen] = useState(false)
 
     const submit = async (
         prevState: TFormFeedback | undefined,
@@ -47,10 +52,22 @@ function DefaultColumns({
     return (
         <div className="box flex flex-col gap-1">
             <Heading2>Kolonner</Heading2>
-            <Paragraph>
-                Velg hvilke kolonner som skal være standard når det opprettes en
-                ny tavle.
-            </Paragraph>
+            <div className="flex flex-row  items-center mb-4">
+                <Paragraph margin="none">
+                    Velg hvilke kolonner som skal være standard når det
+                    opprettes en ny tavle.
+                </Paragraph>
+                <Tooltip aria-hidden placement="top" content="Vis forklaring">
+                    <IconButton
+                        type="button"
+                        aria-label="Vis forklaring på kolonner"
+                        onClick={() => setisOpen(true)}
+                    >
+                        <QuestionIcon />
+                    </IconButton>
+                </Tooltip>
+            </div>
+            <ColumnModal isOpen={open} setIsOpen={setisOpen} />
 
             <form action={action}>
                 <div className="flex flex-row flex-wrap gap-4">

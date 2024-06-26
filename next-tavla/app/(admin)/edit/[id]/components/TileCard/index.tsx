@@ -1,10 +1,10 @@
 'use client'
 import { BaseExpand } from '@entur/expand'
 import { TTile } from 'types/tile'
-import { Button, SecondarySquareButton } from '@entur/button'
+import { Button, IconButton, SecondarySquareButton } from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { Switch, TextField } from '@entur/form'
-import { CloseIcon, DeleteIcon, EditIcon } from '@entur/icons'
+import { CloseIcon, DeleteIcon, EditIcon, QuestionIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import {
     Heading3,
@@ -29,6 +29,8 @@ import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
 import { TransportModeAndLines } from './TransportModeAndLines'
 import { TLocation } from 'types/meta'
+import { Tooltip } from '@entur/tooltip'
+import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/columnModal'
 
 function TileCard({
     bid,
@@ -43,6 +45,7 @@ function TileCard({
     const [isOpen, setIsOpen] = useState(false)
     const [changed, setChanged] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
+    const [questionColumns, setQuestionColumns] = useState(false)
 
     const reset = () => {
         setConfirmOpen(false)
@@ -204,10 +207,30 @@ function TileCard({
                         />
 
                         <Heading4>Kolonner</Heading4>
-                        <SubParagraph>
-                            Her bestemmer du hvilke kolonner som skal vises i
-                            tavlen
-                        </SubParagraph>
+                        <div className="flex flex-row items-center gap-2">
+                            <SubParagraph>
+                                Her bestemmer du hvilke kolonner som skal vises
+                                i tavlen{' '}
+                            </SubParagraph>
+                            <Tooltip
+                                aria-hidden
+                                placement="top"
+                                content="Vis forklaring"
+                            >
+                                <IconButton
+                                    type="button"
+                                    aria-label="Vis forklaring på kolonner"
+                                    onClick={() => setQuestionColumns(true)}
+                                >
+                                    <QuestionIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </div>
+                        <ColumnModal
+                            isOpen={questionColumns}
+                            setIsOpen={setQuestionColumns}
+                        />
+
                         <div className="flex flex-row flex-wrap gap-4 mb-8">
                             {Object.entries(Columns).map(([key, value]) => {
                                 return (
