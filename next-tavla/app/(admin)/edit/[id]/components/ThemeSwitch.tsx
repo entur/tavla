@@ -6,16 +6,19 @@ import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { Heading3 } from '@entur/typography'
 import { themeToDropdownItem, themes } from '../../utils'
+import { useToast } from '@entur/alert'
 
 function ThemeSelect({ board }: { board: TBoard }) {
     const [selectedTheme, setSelectedTheme] =
         useState<NormalizedDropdownItemType<TTheme> | null>(
             themeToDropdownItem(board?.theme ?? 'dark'),
         )
+    const { addToast } = useToast()
     return (
         <form
             action={async () => {
                 await setTheme(board.id ?? '', selectedTheme?.value ?? 'dark')
+                addToast('Fargetema lagret!')
             }}
             className="box flex flex-col"
         >
