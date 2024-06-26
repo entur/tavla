@@ -4,7 +4,7 @@ import { getTransportIcon } from 'components/TransportIcon'
 import { uniq } from 'lodash'
 import { TTransportMode } from 'types/graphql-schema'
 import { TLocation } from 'types/meta'
-import { TOrganization } from 'types/settings'
+import { TOrganization, TTheme } from 'types/settings'
 
 export type TCategory =
     | 'onstreetBus'
@@ -39,6 +39,23 @@ export function organizationToDropdownItem(
         label: organization.name ?? '',
         value: organization ?? undefined,
     }
+}
+
+export const themes: NormalizedDropdownItemType<TTheme>[] = [
+    { label: 'Mørk', value: 'dark' },
+    { label: 'Lyst', value: 'light' },
+    { label: 'Entur', value: 'entur' },
+]
+
+export function themeToDropdownItem(
+    theme: TTheme,
+): NormalizedDropdownItemType<TTheme> {
+    return (
+        themes.find((item) => item.value === theme) ?? {
+            label: 'Mørk',
+            value: 'dark',
+        }
+    )
 }
 
 export function categoryToTransportmode(category: TCategory): TTransportMode {
