@@ -8,7 +8,7 @@ import { useToast } from '@entur/alert'
 import { themeToDropdownItem, themes } from 'app/(admin)/edit/utils'
 import { setTheme } from './actions'
 
-function ThemeSwitch({ board }: { board: TBoard }) {
+function ThemeSelect({ board }: { board: TBoard }) {
     const [selectedTheme, setSelectedTheme] =
         useState<NormalizedDropdownItemType<TTheme> | null>(
             themeToDropdownItem(board?.theme ?? 'dark'),
@@ -47,4 +47,4 @@ function ThemeSwitch({ board }: { board: TBoard }) {
     )
 }
 
-export { ThemeSwitch }
+export { ThemeSelect }

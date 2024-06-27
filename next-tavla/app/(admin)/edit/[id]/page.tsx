@@ -17,7 +17,7 @@ import { RefreshButton } from './components/RefreshButton'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { Preview } from './components/Preview'
 import { ActionsMenu } from './components/ActionsMenu'
-import { ThemeSwitch } from './components/ThemeSwitch'
+import { ThemeSelect } from './components/ThemeSelect'
 
 type TProps = {
     params: { id: TBoardID }
@@ -63,7 +63,7 @@ export default async function EditPage({ params }: TProps) {
                     footer={board.footer}
                     organizationBoard={organization !== undefined}
                 />
-                <ThemeSwitch board={board} />
+                <ThemeSelect board={board} />
             </div>
 
             <div className="flex flex-col gap-4">
