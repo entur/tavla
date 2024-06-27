@@ -22,7 +22,6 @@ import {
 function MetaSettings({
     bid,
     meta,
-
     organization,
 }: {
     bid: TBoardID

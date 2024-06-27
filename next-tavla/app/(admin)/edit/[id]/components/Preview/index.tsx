@@ -14,7 +14,7 @@ function Preview({
 }) {
     return (
         <div
-            className="rounded p-4 bg-primary"
+            className="rounded p-4 bg-primary border border-secondary"
             data-theme={board?.theme ?? 'dark'}
         >
             <Header theme={board.theme} organizationLogo={organization?.logo} />
