@@ -17,21 +17,26 @@ function ColumnModal({
         >
             <Heading4>Planlagt </Heading4>
             <SubParagraph>
-                Den oppsatte rutetiden for når avgangen skal dra fra
-                stoppestedet.
+                Rutetid for avgangen til transportmiddelet. Påvirkes ikke av
+                sanntid.
             </SubParagraph>
             <Heading4>Ankomst </Heading4>
             <SubParagraph>
-                Når transportmiddelet ankommer stoppestedet.
+                Når transportmiddelet ankommer stoppestedet. Viser sanntid, hvis
+                det finnes. Hvis ikke vises rutetid.
             </SubParagraph>
             <Heading4>Forventet </Heading4>
             <SubParagraph>
-                Når det er forventet at avgangen skal gå. Dette kan være
-                påvirket av om den er forsinket eller innstilt
+                Forventet avgangstid for kjøretøyet. Viser sanntid, hvis det
+                finnes. Hvis ikke vises rutetid (det samme tidspunktet som vises
+                under “Planlagt”).
             </SubParagraph>
-            <Heading4>Sanntid </Heading4>
+            <Heading4>Sanntidsikon </Heading4>
             <SubParagraph>
-                Indikerer om tidspunktet er oppdatert med sanntidsinformasjon.
+                Legger til et sanntidsikon i tavlen som pulserer. Sanntidsikonet
+                er grønt eller rødt, avhengig av om kjøretøyet er i rute eller
+                forsinket.Indikerer om tidspunktet er oppdatert med
+                sanntidsinformasjon.
             </SubParagraph>
         </Modal>
     )
