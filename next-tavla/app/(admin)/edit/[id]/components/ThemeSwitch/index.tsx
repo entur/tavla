@@ -1,14 +1,14 @@
 'use client'
 import { TBoard, TTheme } from 'types/settings'
-import { setTheme } from './MetaSettings/actions'
 import { useState } from 'react'
 import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { Heading3 } from '@entur/typography'
-import { themeToDropdownItem, themes } from '../../utils'
 import { useToast } from '@entur/alert'
+import { themeToDropdownItem, themes } from 'app/(admin)/edit/utils'
+import { setTheme } from './actions'
 
-function ThemeSelect({ board }: { board: TBoard }) {
+function ThemeSwitch({ board }: { board: TBoard }) {
     const [selectedTheme, setSelectedTheme] =
         useState<NormalizedDropdownItemType<TTheme> | null>(
             themeToDropdownItem(board?.theme ?? 'dark'),
@@ -37,7 +37,7 @@ function ThemeSelect({ board }: { board: TBoard }) {
             <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton
                     variant="secondary"
-                    aria-label="Lagre kolonner"
+                    aria-label="Lagre fargetema"
                     className="max-sm:w-full"
                 >
                     Lagre fargetema
@@ -47,4 +47,4 @@ function ThemeSelect({ board }: { board: TBoard }) {
     )
 }
 
-export { ThemeSelect }
+export { ThemeSwitch }
