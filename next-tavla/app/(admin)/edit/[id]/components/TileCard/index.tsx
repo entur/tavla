@@ -94,8 +94,17 @@ function TileCard({
         const oldTileIndex = demoBoard.tiles.findIndex(
             (tile) => tile.uuid == newTile.uuid,
         )
+        if (oldTileIndex === -1) return null
         demoBoard.tiles[oldTileIndex] = newTile
         setDemoBoard && setDemoBoard({ ...demoBoard })
+    }
+
+    const deleteFromDemoBoard = (tile: TTile) => {
+        if (!demoBoard) return null
+        const remainingTiles = demoBoard.tiles.filter(
+            (t) => t.uuid !== tile.uuid,
+        )
+        setDemoBoard && setDemoBoard({ ...demoBoard, tiles: remainingTiles })
     }
 
     return (
@@ -116,7 +125,9 @@ function TileCard({
                 <div className="flex flex-row gap-4">
                     <SecondarySquareButton
                         onClick={async () => {
-                            await deleteTile(bid, tile)
+                            bid === 'demo'
+                                ? deleteFromDemoBoard(tile)
+                                : await deleteTile(bid, tile)
                         }}
                         aria-label="Slett stoppested"
                     >
