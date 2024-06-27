@@ -20,9 +20,9 @@ import { TransportIcon } from 'components/TransportIcon'
 import { isArray, uniqBy } from 'lodash'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Columns, TColumn } from 'types/column'
-import { TBoardID } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
@@ -36,10 +36,14 @@ function TileCard({
     bid,
     tile,
     address,
+    demoBoard,
+    setDemoBoard,
 }: {
     bid: TBoardID
     tile: TTile
     address?: TLocation
+    demoBoard?: TBoard
+    setDemoBoard?: Dispatch<SetStateAction<TBoard>>
 }) {
     const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
@@ -83,6 +87,15 @@ function TileCard({
 
         if (hasDefault) posthog.capture('EDIT_COLUMN_CHANGE_DEFAULT_EXISTS')
         else posthog.capture('EDIT_COLUMN_CHANGE')
+    }
+
+    const saveDemoBoard = (newTile: TTile) => {
+        if (!demoBoard) return null
+        const oldTileIndex = demoBoard.tiles.findIndex(
+            (tile) => tile.uuid == newTile.uuid,
+        )
+        demoBoard.tiles[oldTileIndex] = newTile
+        setDemoBoard && setDemoBoard({ ...demoBoard })
     }
 
     return (
@@ -165,7 +178,10 @@ function TileCard({
                                     ),
                                 )
                             }
-                            saveTile(bid, newTile)
+
+                            bid === 'demo'
+                                ? saveDemoBoard(newTile)
+                                : saveTile(bid, newTile)
                         }}
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
