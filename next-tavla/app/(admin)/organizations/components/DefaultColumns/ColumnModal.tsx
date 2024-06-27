@@ -17,13 +17,12 @@ function ColumnModal({
         >
             <Heading4>Planlagt </Heading4>
             <SubParagraph>
-                Rutetid for avgangen til transportmiddelet. Påvirkes ikke av
-                sanntid.
+                Rutetid for avgangen til kjøretøyet. Påvirkes ikke av sanntid.
             </SubParagraph>
             <Heading4>Ankomst </Heading4>
             <SubParagraph>
-                Når transportmiddelet ankommer stoppestedet. Viser sanntid, hvis
-                det finnes. Hvis ikke vises rutetid.
+                Når kjøretøyet ankommer stoppestedet. Viser sanntid, hvis det
+                finnes. Hvis ikke vises rutetid.
             </SubParagraph>
             <Heading4>Forventet </Heading4>
             <SubParagraph>
@@ -33,10 +32,8 @@ function ColumnModal({
             </SubParagraph>
             <Heading4>Sanntidsikon </Heading4>
             <SubParagraph>
-                Legger til et sanntidsikon i tavlen som pulserer. Sanntidsikonet
-                er grønt eller rødt, avhengig av om kjøretøyet er i rute eller
-                forsinket.Indikerer om tidspunktet er oppdatert med
-                sanntidsinformasjon.
+                Legger til et sanntidsikon i tavlen som pulserer. Indikerer om
+                tidspunktet er oppdatert med sanntidsinformasjon.
             </SubParagraph>
         </Modal>
     )
