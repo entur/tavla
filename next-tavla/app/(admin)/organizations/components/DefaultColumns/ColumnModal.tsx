@@ -32,7 +32,7 @@ function ColumnModal({
             </SubParagraph>
             <Heading4>Sanntidsikon </Heading4>
             <SubParagraph>
-                Legger til et sanntidsikon i tavlen som pulserer.Indikerer om
+                Legger til et sanntidsikon i tavlen som pulserer. Indikerer om
                 tidspunktet er oppdatert med sanntidsinformasjon.
             </SubParagraph>
         </Modal>
