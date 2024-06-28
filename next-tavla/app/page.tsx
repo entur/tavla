@@ -1,8 +1,5 @@
-import { verifySession } from './(admin)/utils/firebase'
 import landingImage from 'assets/illustrations/Main_city_2.svg'
 import { Metadata } from 'next'
-import { cookies } from 'next/headers'
-import { TopNavigation } from './(admin)/components/TopNavigation'
 import Image from 'next/image'
 import {
     Heading1,
@@ -19,13 +16,9 @@ export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
 }
 
-async function Landing() {
-    const session = cookies().get('session')?.value
-    const loggedIn = (await verifySession(session)) !== null
-
+function Landing() {
     return (
         <>
-            <TopNavigation loggedIn={loggedIn} />
             <main>
                 <Welcome />
                 <div className="flex flex-col justify-center pb-10 pt-6">
