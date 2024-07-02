@@ -31,14 +31,14 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                 open={isOpen}
                 onDismiss={() => setIsOpen(false)}
                 size="medium"
-                className="h-full w-9/12 fixed top-0 left-0 py-10 !max-h-full !rounded-none !p-0 overflow-visible"
+                className="!h-full !w-9/12 !fixed !top-0 !left-0 py-10 !max-h-full !rounded-none !p-0 overflow-visible"
             >
-                <SideNavigation className="h-full pt-10">
+                <SideNavigation className="h-full !pt-10">
                     <div className="pl-10">
                         <Link href="/" aria-label="Tilbake til landingssiden">
                             <Image src={TavlaLogoBlue} height={22} alt="" />
                         </Link>
-                        <Heading2 className="mt-16 mb-4">Meny</Heading2>
+                        <Heading2 className="!mt-16 !mb-4">Meny</Heading2>
                     </div>
 
                     <div className="bg-secondary">
