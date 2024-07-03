@@ -1,4 +1,3 @@
-'use client'
 import { TableHeader } from 'app/(admin)/boards/components/TableHeader'
 import { TableRows } from 'app/(admin)/boards/components/TableRows'
 import { TBoardWithOrganizaion } from 'types/settings'

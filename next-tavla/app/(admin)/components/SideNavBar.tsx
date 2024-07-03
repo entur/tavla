@@ -35,26 +35,36 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
             >
                 <SideNavigation className="h-full pt-10">
                     <div className="pl-10">
-                        <Link href="/" aria-label="Tilbake til landingssiden">
+                        <Link
+                            href="/"
+                            aria-label="Tilbake til landingssiden"
+                            prefetch={true}
+                        >
                             <Image src={TavlaLogoBlue} height={22} alt="" />
                         </Link>
                         <Heading2 className="mt-16 mb-4">Meny</Heading2>
                     </div>
 
                     <div className="bg-secondary">
-                        <SideNavigationItem as={Link} href="?board=name">
+                        <SideNavigationItem
+                            as={Link}
+                            href="?board=name"
+                            prefetch={true}
+                        >
                             Opprett tavle
                             <CreateBoard />
                         </SideNavigationItem>
                         <SideNavigationItem
                             href="/boards"
                             active={pathname?.includes('/boards')}
+                            prefetch={true}
                         >
                             Tavler
                         </SideNavigationItem>
                         <SideNavigationItem
                             href="/organizations"
                             active={pathname?.includes('/organizations')}
+                            prefetch={true}
                         >
                             Organisasjoner
                         </SideNavigationItem>
