@@ -53,7 +53,7 @@ function Footer() {
                         <Heading3>Informasjon</Heading3>
                         <div>
                             <EnturLink href="/demo" as={Link}>
-                                Test ut Tavla her
+                                Prøv Tavla
                             </EnturLink>
                         </div>
                         <div className="flex flex-row gap-1 items-center">

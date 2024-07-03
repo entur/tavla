@@ -40,7 +40,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 as={Link}
                 href="/demo"
             >
-                Test ut Tavla
+                Prøv Tavla
             </TopNavigationItem>
             <IconButton
                 as={Link}
