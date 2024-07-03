@@ -24,7 +24,7 @@ function OverflowActionsMenu({
         <div className="hidden md:flex">
             <OverflowMenu position="left">
                 <DuplicateBoard board={board} oid={oid} />
-                <Delete board={board} type="action" />
+                <Delete board={board} type="icon" />
             </OverflowMenu>
         </div>
     )

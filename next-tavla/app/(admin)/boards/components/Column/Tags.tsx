@@ -17,7 +17,7 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
                 <li key={tag}>
                     <Badge
                         variant="primary"
-                        type="notification"
+                        type="status"
                         style={{
                             backgroundColor: colorsFromHash(tag),
                             borderColor: colorsFromHash(tag),

@@ -9,20 +9,13 @@ import { Heading2, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useFormState } from 'react-dom'
-import { deleteBoardAction } from '../../utils/formActions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { OverflowMenuItem } from '@entur/menu'
+import { deleteBoardAction } from '../../utils/actions'
 
-function Delete({
-    board,
-    type,
-}: {
-    board: TBoard
-    type?: 'icon' | 'button' | 'action'
-}) {
+function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
     const [state, action] = useFormState(deleteBoardAction, undefined)
     const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
 
@@ -75,7 +68,7 @@ function DeleteButton({
     type,
     onClick,
 }: {
-    type?: 'button' | 'icon' | 'action'
+    type?: 'button' | 'icon'
     onClick: () => void
 }) {
     if (type === 'button') {
@@ -90,15 +83,6 @@ function DeleteButton({
             </Button>
         )
     }
-    if (type === 'action')
-        return (
-            <OverflowMenuItem onSelect={onClick}>
-                <div className="flex flex-row">
-                    <DeleteIcon inline />
-                    Slett Tavle
-                </div>
-            </OverflowMenuItem>
-        )
     return (
         <IconButton aria-label="Slett tavle" onClick={onClick}>
             <DeleteIcon />
