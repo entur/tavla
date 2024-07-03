@@ -19,7 +19,7 @@ function DemoBoard() {
     return (
         <>
             <div className="flex flex-col gap-4">
-                <Heading2>Stoppesteder i tavlen</Heading2>
+                <Heading2>Hvilke stoppesteder vil du vise i tavlen?</Heading2>
                 <TileSelector
                     action={async (data: FormData) => {
                         const tile = formDataToTile(data)
@@ -37,7 +37,7 @@ function DemoBoard() {
                     />
                 ))}
             </div>
-            <div className="flex flex-col gap-4 mt-10">
+            <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
                 <Preview board={board} />
             </div>

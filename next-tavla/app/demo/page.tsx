@@ -1,5 +1,13 @@
 import { Button } from '@entur/button'
-import { Heading1, Paragraph, StrongText } from '@entur/typography'
+import {
+    Heading1,
+    Heading2,
+    Heading3,
+    LeadParagraph,
+    ListItem,
+    Paragraph,
+    UnorderedList,
+} from '@entur/typography'
 import { verifySession } from 'app/(admin)/utils/firebase'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
@@ -10,30 +18,68 @@ async function Demo() {
     const loggedIn = (await verifySession(session)) !== null
 
     return (
-        <main className="container mx-auto pt-8 pb-20">
-            <Heading1>Prøv og lag din egen avgangstavle</Heading1>
-            <Paragraph>
-                Her kan du prøve å opprette din egen tavle for å se hvordan det
-                kan se ut hos deg. For å få full tilgang til all funksjonalitet
-                må du opprette en bruker.
-            </Paragraph>
-            <Paragraph>
-                <StrongText>OBS! Tavlen vil ikke bli lagret.</StrongText>
-            </Paragraph>
-            {!loggedIn && (
-                <Button
-                    variant="primary"
-                    as={Link}
-                    href="?login"
-                    className="mb-8"
-                >
-                    Opprett bruker
-                </Button>
-            )}
+        <main className="container mx-auto pt-8 pb-20 flex flex-col gap-10">
+            <div>
+                <Heading1>Prøv og lag din egen avgangstavle!</Heading1>
+                <LeadParagraph margin="none" className="lg:w-4/5">
+                    Dette er en demo-løsning hvor du kan prøve å opprette din
+                    egen tavle. Du må logge inn for å lagre tavlen og få tilgang
+                    til all funksjonalitet. Tavlen du lager her blir ikke
+                    lagret.
+                </LeadParagraph>
+            </div>
+            <CreateUserButton loggedIn={loggedIn} />
 
-            <DemoBoard />
+            <div className="flex flex-col gap-10">
+                <Heading1 margin="none">Lag en demo-tavle</Heading1>
+                <DemoBoard />
+            </div>
+            <div>
+                <Heading2>Innstillinger som krever innlogging</Heading2>
+                <Paragraph margin="none">Hvis du logger inn, kan du:</Paragraph>
+                <UnorderedList className="flex flex-col gap-1 pl-6">
+                    <ListItem>Endre tekststørrelse</ListItem>
+                    <ListItem>
+                        Legge til en info-melding nederst i tavlen
+                    </ListItem>
+                    <ListItem>Endre fargetema (lys eller mørk modus)</ListItem>
+                    <ListItem>
+                        Legge inn adressen som tavlen står på og vise gåavstand
+                        fra tavlen til stoppested(ene)
+                    </ListItem>
+                    <ListItem>
+                        Opprette så mange tavler du vil og samle disse i ulike
+                        organisasjoner (mapper)
+                    </ListItem>
+                    <ListItem>
+                        Gi andre tilgang til å administrere tavlen
+                    </ListItem>
+                </UnorderedList>
+            </div>
+            <CreateUserButton loggedIn={loggedIn} />
         </main>
     )
 }
 
 export default Demo
+
+const CreateUserButton = ({ loggedIn }: { loggedIn: boolean }) => {
+    return (
+        <div>
+            <Heading3 margin="bottom">Opprett bruker</Heading3>
+            <Paragraph margin="none">
+                Det er helt gratis å bruke Tavla!
+            </Paragraph>
+            {!loggedIn && (
+                <Button
+                    variant="success"
+                    as={Link}
+                    href="?login"
+                    className="mt-2"
+                >
+                    Opprett bruker / Logg inn
+                </Button>
+            )}
+        </div>
+    )
+}
