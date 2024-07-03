@@ -12,7 +12,7 @@ function StopPlaceList({
     if (!tiles || tiles.length === 0)
         return (
             <Paragraph className="!mt-6">
-                Du har ikke lagt til noen stoppesteder enda.
+                Du har ikke lagt til noen stoppesteder ennå.
             </Paragraph>
         )
     return (
