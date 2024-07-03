@@ -28,7 +28,7 @@ async function Demo() {
                     lagret.
                 </LeadParagraph>
             </div>
-            <CreateUserButton loggedIn={loggedIn} />
+            {!loggedIn && <CreateUserButton />}
 
             <div className="flex flex-col gap-10">
                 <Heading1 margin="none">Lag en demo-tavle</Heading1>
@@ -56,30 +56,23 @@ async function Demo() {
                     </ListItem>
                 </UnorderedList>
             </div>
-            <CreateUserButton loggedIn={loggedIn} />
+            {!loggedIn && <CreateUserButton />}
         </main>
     )
 }
 
 export default Demo
 
-const CreateUserButton = ({ loggedIn }: { loggedIn: boolean }) => {
+const CreateUserButton = () => {
     return (
         <div>
             <Heading3 margin="bottom">Opprett bruker</Heading3>
             <Paragraph margin="none">
                 Det er helt gratis å bruke Tavla!
             </Paragraph>
-            {!loggedIn && (
-                <Button
-                    variant="success"
-                    as={Link}
-                    href="?login"
-                    className="mt-2"
-                >
-                    Opprett bruker / Logg inn
-                </Button>
-            )}
+            <Button variant="success" as={Link} href="?login" className="mt-2">
+                Opprett bruker / Logg inn
+            </Button>
         </div>
     )
 }
