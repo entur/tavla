@@ -89,7 +89,7 @@ function TileCard({
         else posthog.capture('EDIT_COLUMN_CHANGE')
     }
 
-    const saveDemoBoard = (newTile: TTile) => {
+    const saveTileToDemoBoard = (newTile: TTile) => {
         if (!demoBoard) return null
         const oldTileIndex = demoBoard.tiles.findIndex(
             (tile) => tile.uuid == newTile.uuid,
@@ -99,7 +99,7 @@ function TileCard({
         setDemoBoard && setDemoBoard({ ...demoBoard })
     }
 
-    const deleteFromDemoBoard = (tile: TTile) => {
+    const removeTileFromDemoBoard = (tile: TTile) => {
         if (!demoBoard) return null
         const remainingTiles = demoBoard.tiles.filter(
             (t) => t.uuid !== tile.uuid,
@@ -126,7 +126,7 @@ function TileCard({
                     <SecondarySquareButton
                         onClick={async () => {
                             bid === 'demo'
-                                ? deleteFromDemoBoard(tile)
+                                ? removeTileFromDemoBoard(tile)
                                 : await deleteTile(bid, tile)
                         }}
                         aria-label="Slett stoppested"
@@ -191,7 +191,7 @@ function TileCard({
                             }
 
                             bid === 'demo'
-                                ? saveDemoBoard(newTile)
+                                ? saveTileToDemoBoard(newTile)
                                 : saveTile(bid, newTile)
                         }}
                         onSubmit={reset}
@@ -205,8 +205,9 @@ function TileCard({
                         <div className="flex flex-col">
                             {!address?.name && (
                                 <Label className="!text-error">
-                                    Du må legge til en lokasjon for å kunne skru
-                                    på gåavstand
+                                    {demoBoard
+                                        ? 'Logg inn for å få tilgang til funksjonaliteten'
+                                        : 'Du må legge til en lokasjon for å kunne skru på gåavstand'}
                                 </Label>
                             )}
                             <Switch

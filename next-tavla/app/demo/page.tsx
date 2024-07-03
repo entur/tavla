@@ -1,60 +1,37 @@
-'use client'
-import { Heading1, Heading2, Paragraph } from '@entur/typography'
-import { TileSelector } from 'app/(admin)/components/TileSelector'
-import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
-import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
-import { TileCard } from 'app/(admin)/edit/[id]/components/TileCard'
-import { useEffect, useState } from 'react'
-import { TBoard } from 'types/settings'
+import { Button } from '@entur/button'
+import { Heading1, Paragraph, StrongText } from '@entur/typography'
+import { verifySession } from 'app/(admin)/utils/firebase'
+import { cookies } from 'next/headers'
+import Link from 'next/link'
+import { DemoBoard } from './components/DemoBoard'
 
-function Demo() {
-    const emptyDemoBoard = {
-        id: 'demo',
-        meta: { title: 'Demo' },
-        tiles: [],
-    }
-
-    const [board, setBoard] = useState<TBoard>(() => {
-        const localStorageBoard = localStorage.getItem('board')
-        return localStorageBoard
-            ? JSON.parse(localStorageBoard)
-            : emptyDemoBoard
-    })
-
-    useEffect(() => {
-        localStorage.setItem('board', JSON.stringify(board))
-    }, [board])
+async function Demo() {
+    const session = cookies().get('session')?.value
+    const loggedIn = (await verifySession(session)) !== null
 
     return (
         <main className="container mx-auto pt-8 pb-20">
-            <Heading1>Test ut å lage din egen tavle</Heading1>
+            <Heading1>Prøv og lag din egen avgangstavle</Heading1>
             <Paragraph>
                 Her kan du prøve å opprette din egen tavle for å se hvordan det
-                kan se ut hos deg.
+                kan se ut hos deg. For å få full tilgang til all funksjonalitet
+                må du opprette en bruker.
             </Paragraph>
-            <div className="flex flex-col gap-4">
-                <Heading2>Stoppesteder i tavlen</Heading2>
-                <TileSelector
-                    action={async (data: FormData) => {
-                        const tile = formDataToTile(data)
-                        setBoard({ ...board, tiles: [...board.tiles, tile] })
-                    }}
-                    col={false}
-                ></TileSelector>
-                {board.tiles?.map((tile) => (
-                    <TileCard
-                        key={tile.uuid}
-                        tile={tile}
-                        bid={board.id ?? 'demo'}
-                        demoBoard={board}
-                        setDemoBoard={setBoard}
-                    ></TileCard>
-                ))}
-            </div>
-            <div className="flex flex-col gap-4 mt-10">
-                <Heading2>Forhåndsvisning</Heading2>
-                <Preview board={board} />
-            </div>
+            <Paragraph>
+                <StrongText>OBS! Tavlen vil ikke bli lagret.</StrongText>
+            </Paragraph>
+            {!loggedIn && (
+                <Button
+                    variant="primary"
+                    as={Link}
+                    href="?login"
+                    className="mb-8"
+                >
+                    Opprett bruker
+                </Button>
+            )}
+
+            <DemoBoard />
         </main>
     )
 }
