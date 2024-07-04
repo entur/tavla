@@ -154,7 +154,7 @@ function NameAndOrganizationSelector({
             <Dropdown
                 items={organizations}
                 label="Dine organisasjoner"
-                selectedItem={selectedOrganization}
+                selectedItem={personal ? null : selectedOrganization}
                 onChange={setSelectedOrganization}
                 clearable
                 className="mb-4"
