@@ -38,7 +38,7 @@ function FilterButton({
                 <div className="relative [&>span]:absolute [&>span]:top-[-10px] [&>span]:right-[-10px]">
                     <SecondaryButton
                         aria-label="Filtrer på merkelapper"
-                        className="w-full"
+                        className="w-full text-nowrap"
                     >
                         Filtrer på merkelapper
                         <FilterIcon aria-hidden="true" />
