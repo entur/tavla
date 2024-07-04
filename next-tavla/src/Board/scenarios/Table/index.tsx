@@ -14,6 +14,7 @@ import { Line } from './components/Line'
 import { StopPlaceDeviation } from './components/StopPlaceDeviation'
 import Image from 'next/image'
 import leafs from 'assets/illustrations/Leafs.png'
+import { Paragraph } from '@entur/typography'
 
 function Table({
     departures,
@@ -33,13 +34,15 @@ function Table({
 
     if (departures.length === 0)
         return (
-            <div className="flex flex-col items-center justify-center text-center h-full w-full text-em-sm">
+            <div className="flex flex-col items-center justify-center text-center h-full w-full text-em-sm p-4">
                 <Image
                     src={leafs}
                     alt=""
-                    className="h-[15em] w-[15em] aspect-square"
+                    className="h-full w-full aspect-square"
                 />
-                Ingen avganger de neste 24 timene.
+                <Paragraph className="text-primary">
+                    Ingen avganger de neste 24 timene.
+                </Paragraph>
             </div>
         )
 
