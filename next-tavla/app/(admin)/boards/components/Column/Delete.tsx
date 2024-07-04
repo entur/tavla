@@ -15,6 +15,7 @@ import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { OverflowMenuItem } from '@entur/menu'
+import { useToast } from '@entur/alert'
 
 function Delete({
     board,
@@ -23,8 +24,15 @@ function Delete({
     board: TBoard
     type?: 'icon' | 'button' | 'action'
 }) {
-    const [state, action] = useFormState(deleteBoardAction, undefined)
+    const { addToast } = useToast()
+
+    const [state, deleteBoard] = useFormState(deleteBoardAction, undefined)
     const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
+
+    const submit = async (data: FormData) => {
+        deleteBoard(data)
+        addToast('Tavle slettet!')
+    }
 
     return (
         <>
@@ -55,7 +63,7 @@ function Delete({
                     til.
                 </Paragraph>
 
-                <form action={action} onSubmit={close} className="w-full">
+                <form action={submit} onSubmit={close} className="w-full">
                     <HiddenInput id="bid" value={board.id} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <SubmitButton
