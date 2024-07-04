@@ -6,7 +6,7 @@ import {
     PopoverCloseButton,
 } from '@entur/tooltip'
 import { IconButton, SecondaryButton } from '@entur/button'
-import { Heading5, Paragraph } from '@entur/typography'
+import { Heading4, Paragraph } from '@entur/typography'
 import { CloseIcon, FilterIcon } from '@entur/icons'
 import { TTag } from 'types/meta'
 import { FilterChip } from '@entur/chip'
@@ -52,7 +52,7 @@ function FilterButton({
             <PopoverContent>
                 <div className="p-4">
                     <div className="flex flex-row justify-between gap-4 items-center">
-                        <Heading5 margin="none">Merkelapper</Heading5>
+                        <Heading4 margin="none">Merkelapper</Heading4>
                         <PopoverCloseButton>
                             <IconButton aria-label="Lukk popover">
                                 <CloseIcon aria-hidden="true" />
