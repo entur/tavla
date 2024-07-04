@@ -38,7 +38,7 @@ function Table({
                 <Image
                     src={leafs}
                     alt=""
-                    className="h-full w-full aspect-square"
+                    className="h-1/2 w-1/2 aspect-square"
                 />
                 <Paragraph className="text-primary">
                     Ingen avganger de neste 24 timene.
