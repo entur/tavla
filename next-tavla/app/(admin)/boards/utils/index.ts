@@ -1,18 +1,26 @@
 function hash(seq: string) {
-    const first = seq.charCodeAt(0)
-    const last = seq.charCodeAt(seq.length - 1)
-    const coefficient = first << last
-    return seq
-        .split('')
-        .reduce((acc, curr) => acc + curr.charCodeAt(0) * coefficient, 0)
+    let hash = 0
+    for (let i = 0; i < seq.length; i++) {
+        const char = seq.charCodeAt(i)
+        hash = (hash << 5) - hash + char
+    }
+    return hash
 }
 
-export function colorsFromHash(
-    name: string,
-    saturation?: number,
-    lightness?: number,
-) {
-    return `hsl(${hash(name) % 360},${saturation ?? 80}%,${lightness ?? 40}%)`
+const colors = [
+    '#181C56', // Blue
+    '#FF5959', // Coral
+    '#0EA2A8', // Jungle
+    '#2F98FA', // Azure
+    '#8692CA', // Lavender
+    '#CA825B', // Peach
+    '#57A257', // Spring
+    '#8E57E3', // Lilac
+]
+
+export function colorsFromHash(name: string) {
+    const index = Math.abs(hash(name)) % colors.length
+    return colors[index]
 }
 
 export function sortArrayByOverlap<T>(toBeSorted: T[], overlapArray: T[]): T[] {
