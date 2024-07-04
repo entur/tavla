@@ -17,6 +17,7 @@ import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
+import { useToast } from '@entur/alert'
 
 function Delete({
     organization,
@@ -26,13 +27,18 @@ function Delete({
     type: 'icon' | 'secondary'
 }) {
     const [modalIsOpen, close] = useSearchParamsModal('delete')
-
-    const [state, action] = useFormState(deleteOrganization, undefined)
+    const { addToast } = useToast()
+    const [state, deleteOrgAction] = useFormState(deleteOrganization, undefined)
 
     const params = useSearchParams()
     const pageParam = params?.get('delete')
 
     const DeleteButton = type === 'icon' ? IconButton : Button
+
+    const submit = async (data: FormData) => {
+        deleteOrgAction(data)
+        addToast('Organisasjon slettet!')
+    }
 
     return (
         <>
@@ -69,7 +75,7 @@ function Delete({
                     "${organization.name}"? Alle tavlene i organisasjonen vil også bli slettet.`}
                 </Paragraph>
                 <form
-                    action={action}
+                    action={submit}
                     className="flex flex-col w-full gap-4"
                     aria-live="polite"
                     aria-relevant="all"
