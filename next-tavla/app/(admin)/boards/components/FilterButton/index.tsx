@@ -6,7 +6,7 @@ import {
     PopoverCloseButton,
 } from '@entur/tooltip'
 import { IconButton, SecondaryButton } from '@entur/button'
-import { Heading4 } from '@entur/typography'
+import { Heading4, Paragraph } from '@entur/typography'
 import { CloseIcon, FilterIcon } from '@entur/icons'
 import { TTag } from 'types/meta'
 import { FilterChip } from '@entur/chip'
@@ -40,7 +40,7 @@ function FilterButton({
                         aria-label="Filtrer på merkelapper"
                         className="w-full"
                     >
-                        Filtrer på merkelapper
+                        Merkelapper
                         <FilterIcon aria-hidden="true" />
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
@@ -51,17 +51,20 @@ function FilterButton({
             </PopoverTrigger>
             <PopoverContent>
                 <div className="p-4">
-                    <div className="flex flex-row justify-between">
-                        <Heading4 className="m-2 text-base">
-                            Filtrer på merkelapper
-                        </Heading4>
+                    <div className="flex flex-row justify-between gap-4 items-center">
+                        <Heading4 margin="none">Merkelapper</Heading4>
                         <PopoverCloseButton>
                             <IconButton aria-label="Lukk popover">
                                 <CloseIcon aria-hidden="true" />
                             </IconButton>
                         </PopoverCloseButton>
                     </div>
-                    <div className="max-w-96 flex flex-wrap gap-1">
+                    <div className="max-w-96 flex flex-wrap gap-2 pt-2">
+                        {allTags.length === 0 && (
+                            <Paragraph>
+                                Du har ikke lagt til noen merkelapper.
+                            </Paragraph>
+                        )}
                         {allTags.sort().map((tag: TTag) => (
                             <FilterChip
                                 key={tag}
