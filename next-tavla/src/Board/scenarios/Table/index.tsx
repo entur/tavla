@@ -13,7 +13,7 @@ import { ExpectedTime } from './components/Time/ExpectedTime'
 import { Line } from './components/Line'
 import { StopPlaceDeviation } from './components/StopPlaceDeviation'
 import Image from 'next/image'
-import leafs from 'assets/illustrations/Leafs.png'
+import leafs from 'assets/illustrations/leafs.svg'
 import { Paragraph } from '@entur/typography'
 
 function Table({
@@ -34,13 +34,13 @@ function Table({
 
     if (departures.length === 0)
         return (
-            <div className="flex flex-col items-center justify-center text-center h-full w-full text-em-sm p-4">
+            <div className="flex flex-col items-center justify-center text-center h-full w-full text-em-sm pb-4">
                 <Image
                     src={leafs}
                     alt=""
-                    className="h-1/2 w-1/2 aspect-square"
+                    className="h-[6em] w-[6em] lg:h-[15em] lg:w-[15em] sm:max-h-[10em] sm:max-w-[10em]"
                 />
-                <Paragraph className="text-primary">
+                <Paragraph className="text-primary sm:pb-8 ">
                     Ingen avganger de neste 24 timene.
                 </Paragraph>
             </div>
