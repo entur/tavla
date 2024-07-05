@@ -14,8 +14,9 @@ function FloatingContact() {
                 href="mailto:tavla@entur.no"
                 target="_blank"
                 className="flex items-center justify-center w-14 h-14 rounded-full border-primary border-2 bg-primary hover:bg-secondary"
+                aria-label="Send en mail til tavla@entur.no"
             >
-                <EmailIcon size={20} />
+                <EmailIcon size={20} aria-hidden="true" />
             </Link>
         </div>
     )
