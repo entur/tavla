@@ -1,11 +1,10 @@
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 import { useSearchParam } from './useSearchParam'
 
 function useSearchParamReplacer(
     param: string,
 ): [string | undefined, (value?: string) => void] {
-    const router = useRouter()
     const pathname = usePathname()
     const params = useSearchParams()
     const value = useSearchParam(param)
@@ -15,12 +14,13 @@ function useSearchParamReplacer(
             const newParams = new URLSearchParams(params ?? undefined)
             if (!value || value === '') newParams.delete(param)
             else newParams.set(param, value)
-
-            router.replace(
+            window.history.replaceState(
+                {},
+                '',
                 `${pathname}?${newParams.toString().replace(/%2C/g, ',')}`,
             )
         },
-        [router, pathname, param, params],
+        [pathname, param, params],
     )
     return [value, replace]
 }

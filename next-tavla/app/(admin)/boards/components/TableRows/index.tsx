@@ -41,28 +41,24 @@ function TableRows({
         filter.length === 0 ||
         filter.every((tag) => (board?.meta?.tags ?? []).includes(tag))
 
+    const boardWithOrg = boardsWithOrg
+        .filter(filterByTitleAndOrgName)
+        .filter((board) => filterByTags(board.board))
+        .sort(sortFunction)
     return (
         <>
-            {boardsWithOrg
-                .filter((boardWithOrg: TBoardWithOrganizaion) =>
-                    filterByTitleAndOrgName(boardWithOrg),
-                )
-                .filter((boardWithOrg: TBoardWithOrganizaion) =>
-                    filterByTags(boardWithOrg.board),
-                )
-                .sort(sortFunction)
-                .map((boardWithOrg: TBoardWithOrganizaion) => (
-                    <TableRow
-                        key={boardWithOrg.board.id}
-                        boardWithOrg={boardWithOrg}
-                        tags={uniq(
-                            boardsWithOrg.flatMap(
-                                (boardWithOrg) =>
-                                    boardWithOrg.board?.meta?.tags ?? [],
-                            ),
-                        )}
-                    />
-                ))}
+            {boardWithOrg.map((boardWithOrg: TBoardWithOrganizaion) => (
+                <TableRow
+                    key={boardWithOrg.board.id}
+                    boardWithOrg={boardWithOrg}
+                    tags={uniq(
+                        boardsWithOrg.flatMap(
+                            (boardWithOrg) =>
+                                boardWithOrg.board?.meta?.tags ?? [],
+                        ),
+                    )}
+                />
+            ))}
         </>
     )
 }

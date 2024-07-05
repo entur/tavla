@@ -8,6 +8,7 @@ import { getAllBoardsForUser } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Heading1 } from '@entur/typography'
+import { uniq } from 'lodash'
 
 initializeAdminApp()
 
@@ -20,13 +21,17 @@ async function OrganizationsBoardsPage() {
     if (!user) redirect('/')
 
     const boardsWithOrg = await getAllBoardsForUser()
-
+    const uniqueTags = uniq(
+        boardsWithOrg.flatMap(
+            (boardWithOrg) => boardWithOrg.board?.meta?.tags ?? [],
+        ),
+    )
     return (
         <div className="flex flex-col gap-8">
             <Heading1>Tavler</Heading1>
             <div className="flex flex-col sm:flex-row md:items-center gap-3">
                 <Search />
-                <FilterButton boardsWithOrg={boardsWithOrg} />
+                <FilterButton filterOptions={uniqueTags} />
             </div>
             <BoardTable boardsWithOrg={boardsWithOrg} />
         </div>
