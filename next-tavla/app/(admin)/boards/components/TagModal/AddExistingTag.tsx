@@ -10,7 +10,7 @@ import { useTags } from '../../utils/context'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { TTag } from 'types/meta'
-import { addTag } from '../../utils/actions'
+import { addTag } from './actions'
 
 function AddExistingTag({ board }: { board: TBoard }) {
     const allTags = useTags()

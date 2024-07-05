@@ -7,7 +7,7 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { useRef } from 'react'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { addTag } from '../../utils/actions'
+import { addTag } from './actions'
 
 function AddNewTag({ board }: { board: TBoard }) {
     const [state, action] = useFormState(addTag, undefined)

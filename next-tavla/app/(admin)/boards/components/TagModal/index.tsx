@@ -13,7 +13,7 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { removeTag } from '../../utils/actions'
+import { removeTag } from './actions'
 
 function TagModal({ board }: { board: TBoard }) {
     const tags = board.meta?.tags ?? []
