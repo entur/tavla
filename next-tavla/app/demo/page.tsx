@@ -1,8 +1,6 @@
-import { Button } from '@entur/button'
 import {
     Heading1,
     Heading2,
-    Heading3,
     LeadParagraph,
     ListItem,
     Paragraph,
@@ -10,9 +8,8 @@ import {
 } from '@entur/typography'
 import { verifySession } from 'app/(admin)/utils/firebase'
 import { cookies } from 'next/headers'
-import Link from 'next/link'
 import { DemoBoard } from './components/DemoBoard'
-import { usePostHog } from 'posthog-js/react'
+import CreateUserButton from './components/CreateUserButton'
 
 async function Demo() {
     const session = cookies().get('session')?.value
@@ -63,27 +60,3 @@ async function Demo() {
 }
 
 export default Demo
-
-const CreateUserButton = () => {
-    const posthog = usePostHog()
-
-    return (
-        <div>
-            <Heading3 margin="bottom">Opprett bruker</Heading3>
-            <Paragraph margin="none">
-                Det er helt gratis å bruke Tavla!
-            </Paragraph>
-            <Button
-                variant="success"
-                as={Link}
-                href="?login"
-                className="mt-2"
-                onClick={() => {
-                    posthog.capture('LOGIN_BTN_DEMO_PAGE')
-                }}
-            >
-                Opprett bruker / Logg inn
-            </Button>
-        </div>
-    )
-}
