@@ -6,6 +6,7 @@ import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
 import { TileCard } from 'app/(admin)/edit/[id]/components/TileCard'
 import useLocalStorage from '../../(admin)/hooks/useLocalStorage'
 import { TTile } from 'types/tile'
+import { usePostHog } from 'posthog-js/react'
 
 const emptyDemoBoard = {
     id: 'demo',
@@ -16,6 +17,8 @@ const emptyDemoBoard = {
 function DemoBoard() {
     const [board, setBoard] = useLocalStorage('board', emptyDemoBoard)
 
+    const posthog = usePostHog()
+
     return (
         <>
             <div className="flex flex-col gap-4">
@@ -24,6 +27,7 @@ function DemoBoard() {
                     action={async (data: FormData) => {
                         const tile = formDataToTile(data)
                         setBoard({ ...board, tiles: [...board.tiles, tile] })
+                        posthog.capture('ADD_STOP_PLACE_DEMO_PAGE')
                     }}
                     col={false}
                 />
