@@ -34,7 +34,6 @@ function Table({
         )
 
     const theme = document.querySelector('.root')?.getAttribute('data-theme')
-    console.log('theme selected', theme)
 
     if (departures.length === 0)
         return (
