@@ -14,6 +14,7 @@ import { Line } from './components/Line'
 import { StopPlaceDeviation } from './components/StopPlaceDeviation'
 import Image from 'next/image'
 import leafs from 'assets/illustrations/leafs.svg'
+import leafsLight from 'assets/illustrations/leafs-light.png'
 import { Paragraph } from '@entur/typography'
 
 function Table({
@@ -32,11 +33,14 @@ function Table({
             </div>
         )
 
+    const theme = document.querySelector('.root')?.getAttribute('data-theme')
+    console.log('theme selected', theme)
+
     if (departures.length === 0)
         return (
             <div className="flex flex-col items-center justify-center text-center h-full w-full text-em-sm pb-4">
                 <Image
-                    src={leafs}
+                    src={theme === 'light' ? leafsLight : leafs}
                     alt=""
                     className="h-[6em] w-[6em] lg:h-[15em] lg:w-[15em] sm:max-h-[10em] sm:max-w-[10em]"
                 />
