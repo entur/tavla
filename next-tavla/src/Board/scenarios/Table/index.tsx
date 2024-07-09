@@ -29,7 +29,7 @@ function Table({
     if (!columns || !isArray(columns))
         return (
             <div className="flex shrink-0">
-                Du har ikke lagt til noen kolonner enda
+                Du har ikke lagt til noen kolonner ennå
             </div>
         )
 

@@ -4,22 +4,15 @@ import doves from 'assets/illustrations/Doves.png'
 import hedgehog from 'assets/illustrations/Hedgehog.png'
 import squirrel from 'assets/illustrations/Squirrel.png'
 import Image from 'next/image'
-import { TopNavigation } from 'app/(admin)/components/TopNavigation'
-import { cookies } from 'next/headers'
 import { ExpandableInfo } from './components/ExpandableInfo'
-import { verifySession } from 'app/(admin)/utils/firebase'
 
 export const metadata: Metadata = {
     title: 'Personvern | Entur Tavla',
 }
 
-async function Privacy() {
-    const session = cookies().get('session')?.value
-    const loggedIn = (await verifySession(session)) !== null
-
+function Privacy() {
     return (
         <>
-            <TopNavigation loggedIn={loggedIn} />
             <main className="container mx-auto pb-10">
                 <div className="flex flex-col justify-center mb-8">
                     <Heading1>Personvern</Heading1>

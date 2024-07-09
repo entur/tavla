@@ -19,7 +19,7 @@ function Board({ board, style }: { board: TBoard; style?: CSSProperties }) {
     if (!board.tiles || !board.tiles.length)
         return (
             <Tile className="flex items-center justify-center">
-                <p>Du har ikke lagt til noen stoppesteder enda.</p>
+                <p>Du har ikke lagt til noen stoppesteder ennå.</p>
             </Tile>
         )
 

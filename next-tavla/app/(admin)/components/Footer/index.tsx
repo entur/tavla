@@ -51,6 +51,11 @@ function Footer() {
                     </div>
                     <div className="flex flex-col gap-4">
                         <Heading3>Informasjon</Heading3>
+                        <div>
+                            <EnturLink href="/demo" as={Link}>
+                                Prøv Tavla
+                            </EnturLink>
+                        </div>
                         <div className="flex flex-row gap-1 items-center">
                             <EnturLink
                                 as={Link}

@@ -20,9 +20,9 @@ import { TransportIcon } from 'components/TransportIcon'
 import { isArray, uniqBy } from 'lodash'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Columns, TColumn } from 'types/column'
-import { TBoardID } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
@@ -36,10 +36,14 @@ function TileCard({
     bid,
     tile,
     address,
+    demoBoard,
+    setDemoBoard,
 }: {
     bid: TBoardID
     tile: TTile
     address?: TLocation
+    demoBoard?: TBoard
+    setDemoBoard?: Dispatch<SetStateAction<TBoard>>
 }) {
     const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
@@ -85,6 +89,24 @@ function TileCard({
         else posthog.capture('EDIT_COLUMN_CHANGE')
     }
 
+    const saveTileToDemoBoard = (newTile: TTile) => {
+        if (!demoBoard) return null
+        const oldTileIndex = demoBoard.tiles.findIndex(
+            (tile) => tile.uuid == newTile.uuid,
+        )
+        if (oldTileIndex === -1) return null
+        demoBoard.tiles[oldTileIndex] = newTile
+        setDemoBoard && setDemoBoard({ ...demoBoard })
+    }
+
+    const removeTileFromDemoBoard = (tile: TTile) => {
+        if (!demoBoard) return null
+        const remainingTiles = demoBoard.tiles.filter(
+            (t) => t.uuid !== tile.uuid,
+        )
+        setDemoBoard && setDemoBoard({ ...demoBoard, tiles: remainingTiles })
+    }
+
     return (
         <div>
             <div
@@ -103,7 +125,9 @@ function TileCard({
                 <div className="flex flex-row gap-4">
                     <SecondarySquareButton
                         onClick={async () => {
-                            await deleteTile(bid, tile)
+                            bid === 'demo'
+                                ? removeTileFromDemoBoard(tile)
+                                : await deleteTile(bid, tile)
                         }}
                         aria-label="Slett stoppested"
                     >
@@ -165,7 +189,10 @@ function TileCard({
                                     ),
                                 )
                             }
-                            saveTile(bid, newTile)
+
+                            bid === 'demo'
+                                ? saveTileToDemoBoard(newTile)
+                                : saveTile(bid, newTile)
                         }}
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
@@ -178,8 +205,9 @@ function TileCard({
                         <div className="flex flex-col">
                             {!address?.name && (
                                 <Label className="!text-error">
-                                    Du må legge til en lokasjon for å kunne skru
-                                    på gåavstand
+                                    {demoBoard
+                                        ? 'Logg inn for å få tilgang til funksjonaliteten'
+                                        : 'Du må legge til en lokasjon for å kunne skru på gåavstand'}
                                 </Label>
                             )}
                             <Switch

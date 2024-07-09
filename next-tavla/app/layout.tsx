@@ -9,6 +9,9 @@ import dynamic from 'next/dynamic'
 import { EnturToastProvider, PHProvider } from './providers'
 import { Footer } from './(admin)/components/Footer'
 import { FloatingContact } from './components/FloatingContact'
+import { TopNavigation } from './(admin)/components/TopNavigation'
+import { cookies } from 'next/headers'
+import { verifySession } from './(admin)/utils/firebase'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -38,12 +41,15 @@ const PostHogPageView = dynamic(() => import('./components/PostHogPageView'), {
     ssr: false,
 })
 
-function RootLayout({ children }: { children: ReactNode }) {
+async function RootLayout({ children }: { children: ReactNode }) {
+    const session = cookies().get('session')?.value
+    const loggedIn = (await verifySession(session)) !== null
     return (
         <html lang="nb">
             <PHProvider>
                 <EnturToastProvider>
                     <body>
+                        <TopNavigation loggedIn={loggedIn} />
                         <PostHogPageView />
                         {children}
                         <FloatingContact />
