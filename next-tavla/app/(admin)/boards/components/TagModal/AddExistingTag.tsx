@@ -5,11 +5,13 @@ import { AddIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 import { addTagAction } from '../../utils/formActions'
 import { HiddenInput } from 'components/Form/HiddenInput'
-import { TBoard } from 'types/settings'
-import { useFormState } from 'react-dom'
+import { TBoard, TBoardID } from 'types/settings'
+import { useFormState, useFormStatus } from 'react-dom'
 import { useTags } from '../../utils/context'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
+import { TTag } from 'types/meta'
+
 function AddExistingTag({ board }: { board: TBoard }) {
     const allTags = useTags()
     const existingTags = difference(allTags, board.meta?.tags ?? [])
@@ -18,26 +20,35 @@ function AddExistingTag({ board }: { board: TBoard }) {
     return (
         <div className="flex flex-col gap-1">
             <Heading3>Legg til eksisterende merkelapp</Heading3>
+            <FormError {...getFormFeedbackForField('general', state)} />
             <div className="flex flex-row flex-wrap gap-1" role="listbox">
                 {existingTags.map((tag) => (
                     <form action={action} key={tag}>
-                        <HiddenInput id="bid" value={board.id} />
-                        <FormError
-                            {...getFormFeedbackForField('general', state)}
-                        />
-                        <ActionChip
-                            key={tag}
-                            name="tag"
-                            value={tag}
-                            type="submit"
-                            aria-label={`Legg til eksisterende merkelapp ${tag}`}
-                        >
-                            {tag} <AddIcon />
-                        </ActionChip>
+                        <TagForm bid={board.id ?? ''} tag={tag} />
                     </form>
                 ))}
             </div>
         </div>
+    )
+}
+
+function TagForm({ bid, tag }: { bid: TBoardID; tag: TTag }) {
+    const { pending } = useFormStatus()
+
+    return (
+        <>
+            <HiddenInput id="bid" value={bid} />
+            <ActionChip
+                name="tag"
+                value={tag}
+                type="submit"
+                loading={pending}
+                disabled={pending}
+                aria-label={`Legg til eksisterende merkelapp ${tag}`}
+            >
+                {tag} <AddIcon />
+            </ActionChip>
+        </>
     )
 }
 
