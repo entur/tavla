@@ -24,7 +24,7 @@ function AddExistingTag({ board }: { board: TBoard }) {
             <div className="flex flex-row flex-wrap gap-1" role="listbox">
                 {existingTags.map((tag) => (
                     <form action={action} key={tag}>
-                        <TagForm bid={board.id ?? ''} tag={tag} />
+                        <TagChip bid={board.id ?? ''} tag={tag} />
                     </form>
                 ))}
             </div>
@@ -32,7 +32,7 @@ function AddExistingTag({ board }: { board: TBoard }) {
     )
 }
 
-function TagForm({ bid, tag }: { bid: TBoardID; tag: TTag }) {
+function TagChip({ bid, tag }: { bid: TBoardID; tag: TTag }) {
     const { pending } = useFormStatus()
 
     return (
