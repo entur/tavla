@@ -10,7 +10,6 @@ import { Start } from './Start'
 import { Create } from './Create'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { Reset } from './Reset'
-import { TopNavigationItem } from '@entur/menu'
 
 type TLoginPage = 'start' | 'email' | 'create' | 'reset'
 
@@ -34,14 +33,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
         )
 
     return (
-        <div className="flex flex-row gap-10">
-            <TopNavigationItem
-                active={pathname?.includes('/demo')}
-                as={Link}
-                href="/demo"
-            >
-                Prøv Tavla
-            </TopNavigationItem>
+        <>
             <IconButton
                 as={Link}
                 href="?login"
@@ -78,7 +70,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 </div>
                 <Page page={pageParam as TLoginPage} />
             </Modal>
-        </div>
+        </>
     )
 }
 
