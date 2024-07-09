@@ -24,15 +24,14 @@ function CreateBoard() {
         <>
             <Modal
                 open={open}
-                size="small"
-                className="flex flex-col items-center w-11/12 lg:w-full"
+                size="medium"
+                className="flex flex-col items-center"
                 onDismiss={() => {
                     setBoard(undefined)
                     setFormError(undefined)
                     close()
                 }}
                 closeLabel="Avbryt opprettelse av tavle"
-                data-theme="light"
             >
                 <form
                     action={async (data: FormData) => {
@@ -54,7 +53,7 @@ function CreateBoard() {
                     className="w-full md:w-3/4"
                 >
                     <Heading3>Hva vil du kalle tavlen?</Heading3>
-                    <Label className="text-left">Gi tavlen et navn</Label>
+                    <Label>Gi tavlen et navn</Label>
                     <TextField
                         size="medium"
                         label="Navn"
@@ -64,10 +63,12 @@ function CreateBoard() {
                         defaultValue={board?.meta?.title}
                         required
                         {...getFormFeedbackForField('name', state)}
-                        className="mb-4"
                     />
-                    <div className="flex flex-row">
-                        <SubmitButton variant="primary" className="w-full">
+                    <div className="flex flex-row mt-8 justify-end">
+                        <SubmitButton
+                            variant="primary"
+                            className="max-sm:w-full"
+                        >
                             Opprett tavle
                             <AddIcon />
                         </SubmitButton>
