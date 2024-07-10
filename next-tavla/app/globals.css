@@ -42,14 +42,14 @@
         --unknown-color: var(--colors-transport-default-walk);
         --water-color: var(--colors-transport-default-ferry);
 
-        --data-visualization-azure: var(--standard-azure);
-        --data-visualization-blue: var(--standard-blue);
-        --data-visualization-coral: var(--standard-coral);
-        --data-visualization-jungle: var(--standard-jungle);
-        --data-visualization-lavender: var(--standard-lavender);
-        --data-visualization-lilac: var(--standard-lilac);
-        --data-visualization-peach: var(--standard-peach);
-        --data-visualization-spring: var(--standard-spring);
+        --data-visualization-azure: var(--colors-data-default-azure);
+        --data-visualization-blue: var(--colors-data-default-blue);
+        --data-visualization-coral: var(--colors-data-default-coral);
+        --data-visualization-jungle: var(--colors-data-default-jungle);
+        --data-visualization-lavender: var(--colors-data-default-lavender);
+        --data-visualization-lilac: var(--colors-data-default-lilac);
+        --data-visualization-peach: var(--colors-data-default-peach);
+        --data-visualization-spring: var(--colors-data-default-spring);
     }
 
     [data-theme='dark'] {

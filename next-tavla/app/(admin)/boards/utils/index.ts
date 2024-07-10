@@ -8,14 +8,14 @@ function hash(seq: string) {
 }
 
 const colors = [
-    'var(--data-visualization-blue)', // Blue
-    'var(--data-visualization-coral)', // Coral
-    'var(--data-visualization-jungle)', // Jungle
-    'var(--data-visualization-azure)', // Azure
-    'var(--data-visualization-lavender)', // Lavender
-    'var(--data-visualization-peach)', // Peach
-    'var(--data-visualization-spring)', // Spring
-    'var(--data-visualization-lilac)', // Lilac
+    'blue', // Blue
+    'coral', // Coral
+    'jungle', // Jungle
+    'azure', // Azure
+    'lavender', // Lavender
+    'peach', // Peach
+    'spring', // Spring
+    'lilac', // Lilac
 ]
 
 export function colorsFromHash(name: string) {

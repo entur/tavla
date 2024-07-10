@@ -45,14 +45,6 @@ module.exports = {
                 contrast: 'var(--contrast-background-color)',
                 grey70: 'var(--grey70)',
                 grey80: 'var(--grey80)',
-                azure: 'var(--data-visualization-azure)',
-                blue: 'var(--data-visualization-blue)',
-                coral: 'var(--data-visualization-coral)',
-                jungle: 'var(--data-visualization-jungle)',
-                lavender: 'var(--data-visualization-lavender)',
-                lilac: 'var(--data-visualization-lilac)',
-                peach: 'var(--data-visualization-peach)',
-                spring: 'var(--data-visualization-spring)',
             },
             colors: {
                 background: 'var(--main-background-color)',
@@ -66,6 +58,14 @@ module.exports = {
                 'estimated-time': 'var(--estimated-time-color)',
                 tooltip: 'var(--tooltip-color)',
                 'tooltip-text': 'var(--tooltip-text-color)',
+                azure: 'var(--data-visualization-azure)',
+                blue: 'var(--data-visualization-blue)',
+                coral: 'var(--data-visualization-coral)',
+                jungle: 'var(--data-visualization-jungle)',
+                lavender: 'var(--data-visualization-lavender)',
+                lilac: 'var(--data-visualization-lilac)',
+                peach: 'var(--data-visualization-peach)',
+                spring: 'var(--data-visualization-spring)',
 
                 ...transportModes,
             },
@@ -111,9 +111,7 @@ module.exports = {
             },
         },
     },
-    safelist: [
-        ...Object.keys(transportModes).map((key) => `bg-${key}`),
-        ...Object.keys(dataColors).map((key) => `bg-visualization-${key}`),
-    ],
+    safelist: Object.keys(transportModes).map((key) => `bg-${key}`),
+
     plugins: [],
 } satisfies Config

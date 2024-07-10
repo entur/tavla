@@ -14,8 +14,7 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
         <ul className="flex flex-row flex-wrap gap-1 items-center">
             {tags.map((tag) => {
-                const color = colorsFromHash(tag)
-                console.log(color)
+                const color = `var(--data-visualization-${colorsFromHash(tag)})`
                 return (
                     <li key={tag}>
                         <Badge
@@ -24,7 +23,6 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
                             style={{
                                 backgroundColor: color,
                                 borderColor: color,
-                                borderWidth: '1px',
                             }}
                         >
                             <span className="visuallyHidden">Merkelapp:</span>
