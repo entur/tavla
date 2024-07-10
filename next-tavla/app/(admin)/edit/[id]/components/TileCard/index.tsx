@@ -262,64 +262,67 @@ function TileCard({
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
                     >
-                        <Heading4 margin="none">Gåavstand</Heading4>
+                        <Heading4 margin="bottom">Gåavstand</Heading4>
                         <SubParagraph>
                             Vis gåavstand fra lokasjonen til Tavla til
-                            stoppestedet
+                            stoppestedet.
                         </SubParagraph>
-                        <div className="flex flex-col">
-                            {!address?.name && (
-                                <Label className="!text-error">
-                                    {demoBoard
-                                        ? 'Logg inn for å få tilgang til funksjonaliteten'
-                                        : 'Du må legge til en lokasjon for å kunne skru på gåavstand'}
-                                </Label>
-                            )}
-                            <Switch
-                                name="showDistance"
-                                disabled={address ? false : true}
-                                defaultChecked={
-                                    tile.walkingDistance?.visible ?? false
-                                }
-                            >
-                                Vis gåavstand
-                            </Switch>
-                        </div>
-                        <Heading4>Forskyv avgangstid</Heading4>
-                        <SubParagraph>
-                            Vis kun avganger som går om mer enn et valgt antall
-                            minutter
-                        </SubParagraph>
-                        <TextField
-                            label="Antall minutter"
-                            name="offset"
-                            id="offset"
-                            type="number"
-                            min={0}
-                            className="!w-2/5"
-                            defaultValue={tile.offset ? tile.offset : undefined}
-                            disabled={offsetBasedOnWalkingDistance}
-                        />
-                        {address && (
-                            <Checkbox
-                                disabled={address ? false : true}
-                                checked={offsetBasedOnWalkingDistance}
-                                onClick={() => {
-                                    setOffsetBasedOnWalkingDistance(
-                                        !offsetBasedOnWalkingDistance,
-                                    )
-                                    handleChangeOnSwitch()
-                                }}
-                            >
-                                Forskyv basert på gåavstand
-                            </Checkbox>
+                        {!address && (
+                            <Label className="!text-error">
+                                {demoBoard
+                                    ? 'Logg inn for å få tilgang til funksjonaliteten.'
+                                    : 'Du må legge til en lokasjon for å kunne skru på gåavstand.'}
+                            </Label>
                         )}
+                        <Switch
+                            name="showDistance"
+                            disabled={address ? false : true}
+                            defaultChecked={
+                                tile.walkingDistance?.visible ?? false
+                            }
+                        >
+                            Vis gåavstand
+                        </Switch>
+
+                        <Heading4>Forskyv avgangstid</Heading4>
+                        <div className="flex flex-col gap-2">
+                            <SubParagraph>
+                                Vis kun avganger som går om mer enn et valgt
+                                antall minutter.
+                            </SubParagraph>
+                            <TextField
+                                label="Antall minutter"
+                                name="offset"
+                                id="offset"
+                                type="number"
+                                min={0}
+                                className="!w-2/5"
+                                defaultValue={
+                                    tile.offset ? tile.offset : undefined
+                                }
+                                disabled={offsetBasedOnWalkingDistance}
+                            />
+                            {address && (
+                                <Checkbox
+                                    disabled={address ? false : true}
+                                    checked={offsetBasedOnWalkingDistance}
+                                    onClick={() => {
+                                        setOffsetBasedOnWalkingDistance(
+                                            !offsetBasedOnWalkingDistance,
+                                        )
+                                        handleChangeOnSwitch()
+                                    }}
+                                >
+                                    Forskyv basert på gåavstand
+                                </Checkbox>
+                            )}
+                        </div>
 
                         <Heading4>Kolonner</Heading4>
                         <div className="flex flex-row items-center gap-2">
                             <SubParagraph>
                                 Her bestemmer du hvilke kolonner som skal vises
-                                i tavlen
+                                i tavlen.
                             </SubParagraph>
                             <Tooltip
                                 aria-hidden
@@ -360,6 +363,7 @@ function TileCard({
                                 )
                             })}
                         </div>
+
                         <Heading4>Transportmidler og linjer</Heading4>
                         <div className="flex flex-row gap-4">
                             {linesByModeSorted.map(
