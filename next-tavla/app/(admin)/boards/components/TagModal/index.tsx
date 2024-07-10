@@ -49,7 +49,7 @@ function TagModal({ board }: { board: TBoard }) {
                                 value={tag}
                                 type="submit"
                             >
-                                {tag} <CloseIcon />
+                                {tag.toUpperCase()} <CloseIcon />
                             </ActionChip>
                         </form>
                     ))}

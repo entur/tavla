@@ -61,7 +61,7 @@ export async function addTag(
         await firestore()
             .collection('boards')
             .doc(bid)
-            .update({ 'meta.tags': uniq([...tags, tag.toUpperCase()]).sort() })
+            .update({ 'meta.tags': uniq([...tags, tag]).sort() })
         revalidatePath('/')
     } catch (e) {
         if (e instanceof FirebaseError || isString(e))

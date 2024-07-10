@@ -41,6 +41,15 @@
         --trolleybus-color: var(--colors-transport-default-bus);
         --unknown-color: var(--colors-transport-default-walk);
         --water-color: var(--colors-transport-default-ferry);
+
+        --data-visualization-azure: var(--standard-azure);
+        --data-visualization-blue: var(--standard-blue);
+        --data-visualization-coral: var(--standard-coral);
+        --data-visualization-jungle: var(--standard-jungle);
+        --data-visualization-lavender: var(--standard-lavender);
+        --data-visualization-lilac: var(--standard-lilac);
+        --data-visualization-peach: var(--standard-peach);
+        --data-visualization-spring: var(--standard-spring);
     }
 
     [data-theme='dark'] {
