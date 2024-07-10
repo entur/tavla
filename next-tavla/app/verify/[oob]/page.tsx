@@ -7,12 +7,30 @@ import { FirebaseError } from 'firebase/app'
 
 async function Verify({ params }: { params: { oob: string } }) {
     let message = 'E-postadressen din er nå verifisert!'
+    const app = await getClientApp()
+    const auth = getAuth(app)
+
     try {
-        const app = await getClientApp()
-        const auth = getAuth(app)
         await applyActionCode(auth, params.oob)
     } catch (e) {
-        if (e instanceof FirebaseError) {
+        // Check manually if email is verified
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${app.options.apiKey}`
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                oobCode: params.oob,
+            }),
+        })
+        let emailVerified = false
+        if (response.ok) {
+            const data = await response.json()
+            emailVerified = data.emailVerified
+        }
+
+        if (e instanceof FirebaseError && !emailVerified) {
             switch (e.code) {
                 case 'auth/expired-action-code':
                     message =
@@ -25,8 +43,10 @@ async function Verify({ params }: { params: { oob: string } }) {
                         'Kontoen din er deaktivert og kunne ikke verifiseres.'
                 case 'auth/user-not-found':
                     message = 'Fant ingen bruker som samsvarte med lenken.'
+                default:
+                    message = 'Noe gikk galt, prøv igjen senere.'
             }
-        } else message = 'Noe gikk galt, prøv igjen senere.'
+        }
     }
     return (
         <main className="container mx-auto pt-8 pb-20 text-center">
