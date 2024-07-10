@@ -8,7 +8,6 @@ import {
     SecondarySquareButton,
 } from '@entur/button'
 import { FilterChip } from '@entur/chip'
-import { Switch, TextField } from '@entur/form'
 import {
     CloseIcon,
     DeleteIcon,
@@ -17,6 +16,7 @@ import {
     QuestionIcon,
     UpwardIcon,
 } from '@entur/icons'
+import { Checkbox, Switch, TextField } from '@entur/form'
 import { Modal } from '@entur/modal'
 import {
     Heading3,
@@ -69,6 +69,12 @@ function TileCard({
     const [confirmOpen, setConfirmOpen] = useState(false)
     const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
 
+    const walkingDistanceInMinutes = Math.ceil(
+        (tile.walkingDistance?.distance ?? 0) / 60,
+    )
+    const [offsetBasedOnWalkingDistance, setOffsetBasedOnWalkingDistance] =
+        useState(walkingDistanceInMinutes === tile.offset)
+
     const reset = () => {
         setConfirmOpen(false)
         setIsOpen(false)
@@ -76,6 +82,13 @@ function TileCard({
     }
 
     const lines = useLines(tile)
+
+    const handleChangeOnSwitch = () => {
+        const input = document.getElementById('offset') as HTMLFormElement
+        !offsetBasedOnWalkingDistance
+            ? (input.value = walkingDistanceInMinutes)
+            : (input.value = tile.offset)
+    }
 
     if (!lines)
         return (
@@ -226,7 +239,9 @@ function TileCard({
                                     visible: distance === 'on',
                                     distance: tile.walkingDistance?.distance,
                                 },
-                                offset: Number(offset),
+                                offset: offsetBasedOnWalkingDistance
+                                    ? Number(walkingDistanceInMinutes)
+                                    : Number(offset),
                             } as TTile
 
                             if (distance === 'on' && !tile.walkingDistance) {
@@ -270,19 +285,35 @@ function TileCard({
                                 Vis gåavstand
                             </Switch>
                         </div>
-                        <Heading4>Avganger frem i tid</Heading4>
+                        <Heading4>Forskyv avgangstid</Heading4>
                         <SubParagraph>
-                            Vis kun avganger som går om mer enn valgt antall
+                            Vis kun avganger som går om mer enn et valgt antall
                             minutter
                         </SubParagraph>
                         <TextField
                             label="Antall minutter"
                             name="offset"
+                            id="offset"
                             type="number"
                             min={0}
-                            className="w-full sm:w-1/3"
+                            className="!w-2/5"
                             defaultValue={tile.offset ? tile.offset : undefined}
+                            disabled={offsetBasedOnWalkingDistance}
                         />
+                        {address && (
+                            <Checkbox
+                                disabled={address ? false : true}
+                                checked={offsetBasedOnWalkingDistance}
+                                onClick={() => {
+                                    setOffsetBasedOnWalkingDistance(
+                                        !offsetBasedOnWalkingDistance,
+                                    )
+                                    handleChangeOnSwitch()
+                                }}
+                            >
+                                Forskyv basert på gåavstand
+                            </Checkbox>
+                        )}
 
                         <Heading4>Kolonner</Heading4>
                         <div className="flex flex-row items-center gap-2">
