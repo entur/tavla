@@ -16,7 +16,6 @@ import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 
 function CreateBoard() {
     const [open, close] = useSearchParamsModal('board')
-    const [board, setBoard] = useState<TBoard>()
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
@@ -27,7 +26,6 @@ function CreateBoard() {
                 size="medium"
                 className="flex flex-col items-center"
                 onDismiss={() => {
-                    setBoard(undefined)
                     setFormError(undefined)
                     close()
                 }}
@@ -43,16 +41,14 @@ function CreateBoard() {
                         }
                         await create({
                             tiles: [],
-                            ...board,
                             meta: {
-                                ...board?.meta,
                                 title: name.substring(0, 30),
                             },
                         } as TBoard)
                     }}
                     className="w-full md:w-3/4"
                 >
-                    <Heading3>Hva vil du kalle tavlen?</Heading3>
+                    <Heading3>Hva skal tavlen hete?</Heading3>
                     <Label>Gi tavlen et navn</Label>
                     <TextField
                         size="medium"
@@ -60,7 +56,6 @@ function CreateBoard() {
                         id="name"
                         name="name"
                         maxLength={30}
-                        defaultValue={board?.meta?.title}
                         required
                         {...getFormFeedbackForField('name', state)}
                     />
