@@ -213,6 +213,13 @@ export function getFormFeedbackForError(
                 variant: 'success',
             }
         }
+        case 'tags/name-missing': {
+            return {
+                form_type: 'general',
+                feedback: 'Merkelappen kan ikke være tom eller bare mellomrom.',
+                variant: 'error',
+            }
+        }
     }
 
     return {

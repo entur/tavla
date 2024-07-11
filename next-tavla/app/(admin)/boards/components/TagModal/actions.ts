@@ -7,6 +7,7 @@ import { hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
 import { TBoardID } from 'types/settings'
 import { firestore } from 'firebase-admin'
 import { TTag } from 'types/meta'
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 
 async function fetchTags({ bid }: { bid: TBoardID }) {
     const board = await firestore().collection('boards').doc(bid).get()
@@ -48,6 +49,9 @@ export async function addTag(
 ) {
     const bid = data.get('bid') as string
     const tag = data.get('tag') as string
+
+    if (isEmptyOrSpaces(tag))
+        return getFormFeedbackForError('tags/name-missing')
 
     const access = await hasBoardEditorAccess(bid)
     if (!access) throw 'auth/operation-not-allowed'
