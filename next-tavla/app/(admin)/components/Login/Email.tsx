@@ -46,7 +46,7 @@ function Email() {
             const error = await login(uid)
             if (error && auth.currentUser) {
                 await sendEmailVerification(auth.currentUser)
-                return getFormFeedbackForError(error)
+                return getFormFeedbackForError(error, email)
             }
         } catch (e: unknown) {
             if (e instanceof FirebaseError) {
@@ -59,7 +59,7 @@ function Email() {
     const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
 
     return (
-        <div className="flex flex-col text-center items-center">
+        <div className="flex flex-col items-center">
             <Image
                 src={musk}
                 aria-hidden="true"

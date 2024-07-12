@@ -23,7 +23,10 @@ export type TFormFeedback = {
 
 export type TError = FirebaseError | string
 
-export function getFormFeedbackForError(e?: TError): TFormFeedback {
+export function getFormFeedbackForError(
+    e?: TError,
+    email?: string,
+): TFormFeedback {
     let code = e
     if (e instanceof FirebaseError) {
         code = e.code
@@ -38,7 +41,7 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
         case 'auth/user-disabled':
             return {
                 form_type: 'user',
-                feedback: 'Kontoen har blitt deaktivert',
+                feedback: 'Kontoen har blitt deaktivert.',
                 variant: 'error',
             }
         case 'auth/user-not-found':
@@ -69,15 +72,13 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
         case 'auth/unverified':
             return {
                 form_type: 'user',
-                feedback:
-                    'E-postadressen er ikke verifisert. Vi har sendt deg en e-post for å verifisere kontoen din.',
+                feedback: `E-postadressen er ikke verifisert. Vi har sendt en verifiseringslenke til ${email}.`,
                 variant: 'warning',
             }
         case 'auth/create':
             return {
                 form_type: 'user',
-                feedback:
-                    'Kontoen din har blitt opprettet. Du har mottatt en e-post for å verifisere kontoen din.',
+                feedback: `Brukeren din er opprettet! Før du er i mål, må du åpne verifiseringslenken som har blitt sendt til ${email}.`,
                 variant: 'success',
             }
         case 'auth/password-no-match':
@@ -210,7 +211,7 @@ export function getFormFeedbackForError(e?: TError): TFormFeedback {
 
     return {
         form_type: 'general',
-        feedback: 'En feil har oppstått',
+        feedback: 'En feil har oppstått.',
         variant: 'error',
     }
 }
