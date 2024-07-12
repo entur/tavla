@@ -83,7 +83,7 @@ function TileCard({
 
     const lines = useLines(tile)
 
-    const handleChangeOnSwitch = () => {
+    const updateOffsetInputValue = () => {
         const input = document.getElementById('offset') as HTMLFormElement
         !offsetBasedOnWalkingDistance
             ? (input.value = walkingDistanceInMinutes)
@@ -310,7 +310,7 @@ function TileCard({
                                         setOffsetBasedOnWalkingDistance(
                                             !offsetBasedOnWalkingDistance,
                                         )
-                                        handleChangeOnSwitch()
+                                        updateOffsetInputValue()
                                     }}
                                 >
                                     Forskyv basert på gåavstand
