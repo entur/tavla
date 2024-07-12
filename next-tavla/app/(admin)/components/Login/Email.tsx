@@ -45,7 +45,7 @@ function Email() {
             const uid = await credential.user.getIdToken()
             const error = await login(uid)
             if (error && auth.currentUser) {
-                sendEmailVerification(auth.currentUser)
+                await sendEmailVerification(auth.currentUser)
                 return getFormFeedbackForError(error)
             }
         } catch (e: unknown) {
