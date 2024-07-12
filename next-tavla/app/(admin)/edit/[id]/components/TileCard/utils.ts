@@ -1,31 +1,5 @@
-import { GRAPHQL_ENDPOINTS } from 'assets/env'
-import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
-import { TQuay, TTransportMode } from 'types/graphql-schema'
-import { TTile } from 'types/tile'
-import { fieldsNotNull } from 'utils/typeguards'
+import { TTransportMode } from 'types/graphql-schema'
 import { TLineFragment } from './types'
-
-export async function fetchLines(tile: TTile) {
-    const res = await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
-        headers: {
-            'Content-Type': 'application/json',
-            'ET-Client-Name': 'tavla-test',
-        },
-        body: JSON.stringify({
-            query: tile.type === 'quay' ? QuayEditQuery : StopPlaceEditQuery,
-            variables: { placeId: tile.placeId },
-        }),
-        method: 'POST',
-    })
-    const data = await res.json()
-    if (tile.type === 'quay')
-        return data.data?.quay?.lines.filter(fieldsNotNull) ?? []
-    return (
-        data.data?.stopPlace?.quays
-            ?.flatMap((q: TQuay) => q?.lines)
-            .filter(fieldsNotNull) || []
-    )
-}
 
 export function sortLineByPublicCode(a: TLineFragment, b: TLineFragment) {
     if (!a || !a.publicCode || !b || !b.publicCode) return 1
