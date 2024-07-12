@@ -39,7 +39,7 @@ function Create() {
             )
             await create(credential.user.uid)
             await sendEmailVerification(credential.user)
-            return getFormFeedbackForError('auth/create')
+            return getFormFeedbackForError('auth/create', email)
         } catch (e) {
             if (e instanceof FirebaseError) {
                 return getFormFeedbackForError(e)
@@ -48,7 +48,7 @@ function Create() {
     }
     const [state, action] = useFormState(submit, undefined)
     return (
-        <div className="flex flex-col text-center items-center">
+        <div className="flex flex-col items-center">
             <Image
                 src={musk}
                 aria-hidden="true"
