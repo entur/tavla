@@ -7,10 +7,10 @@ import { Switch, TextField } from '@entur/form'
 import {
     CloseIcon,
     DeleteIcon,
-    DownArrowIcon,
+    DownwardIcon,
     EditIcon,
     QuestionIcon,
-    UpArrowIcon,
+    UpwardIcon,
 } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import {
@@ -173,7 +173,7 @@ function TileCard({
                             }}
                             aria-label="Flytt opp"
                         >
-                            <UpArrowIcon
+                            <UpwardIcon
                                 onClick={() => {
                                     moveItem(index, 'up')
                                 }}
@@ -188,7 +188,7 @@ function TileCard({
                             }}
                             aria-label="Flytt ned"
                         >
-                            <DownArrowIcon />
+                            <DownwardIcon />
                         </IconButton>
                     )}
                 </div>
