@@ -276,7 +276,7 @@ function TileCard({
                         )}
                         <Switch
                             name="showDistance"
-                            disabled={address ? false : true}
+                            disabled={!address}
                             defaultChecked={
                                 tile.walkingDistance?.visible ?? false
                             }
@@ -304,9 +304,9 @@ function TileCard({
                             />
                             {address && (
                                 <Checkbox
-                                    disabled={address ? false : true}
+                                    disabled={!address}
                                     checked={offsetBasedOnWalkingDistance}
-                                    onClick={() => {
+                                    onChange={() => {
                                         setOffsetBasedOnWalkingDistance(
                                             !offsetBasedOnWalkingDistance,
                                         )
