@@ -9,6 +9,7 @@ import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
 import { getWalkingDistance } from 'app/(admin)/components/TileSelector/utils'
 import { TLocation } from 'types/meta'
+import { revalidatePath } from 'next/cache'
 
 initializeAdminApp()
 
@@ -46,4 +47,14 @@ export async function getWalkingDistanceTile(
             visible: tile.walkingDistance?.visible ?? false,
         },
     }
+}
+export async function saveTiles(bid: TBoardID, tiles: TTile[]) {
+    const access = await hasBoardEditorAccess(bid)
+    if (!access) return redirect('/')
+
+    await firestore().collection('boards').doc(bid).update({
+        tiles: tiles,
+        'meta.dateModified': Date.now(),
+    })
+    revalidatePath(`/edit/${bid}`)
 }

@@ -4,7 +4,14 @@ import { TTile } from 'types/tile'
 import { Button, IconButton, SecondarySquareButton } from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { Switch, TextField } from '@entur/form'
-import { CloseIcon, DeleteIcon, EditIcon, QuestionIcon } from '@entur/icons'
+import {
+    CloseIcon,
+    DeleteIcon,
+    DownArrowIcon,
+    EditIcon,
+    QuestionIcon,
+    UpArrowIcon,
+} from '@entur/icons'
 import { Modal } from '@entur/modal'
 import {
     Heading3,
@@ -38,12 +45,18 @@ function TileCard({
     address,
     demoBoard,
     setDemoBoard,
+    moveItem,
+    index,
+    totalTiles,
 }: {
     bid: TBoardID
     tile: TTile
     address?: TLocation
     demoBoard?: TBoard
     setDemoBoard?: Dispatch<SetStateAction<TBoard>>
+    moveItem: (index: number, direction: string) => void
+    index: number
+    totalTiles: number
 }) {
     const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
@@ -109,43 +122,79 @@ function TileCard({
 
     return (
         <div>
-            <div
-                className={`flex justify-between items-center px-6 py-4 bg-secondary ${
-                    isOpen ? 'rounded-t' : 'rounded'
-                }`}
-            >
-                <div className="flex flex-row gap-4 items-center mr-2">
-                    <Heading3 margin="none">{tile.name}</Heading3>
-                    <div className="hidden sm:flex flex-row gap-4 h-8">
-                        {transportModes.map((tm) => (
-                            <TransportIcon transportMode={tm} key={tm} />
-                        ))}
+            <div className="flex flex-row">
+                <div
+                    className={`flex justify-between items-center px-6  py-4 bg-secondary w-full ${
+                        isOpen ? 'rounded-t' : 'rounded'
+                    }`}
+                >
+                    <div className="flex flex-row gap-4 items-center ">
+                        <Heading3 margin="none">{tile.name}</Heading3>
+                        <div className="hidden sm:flex flex-row gap-4 h-8">
+                            {transportModes.map((tm) => (
+                                <TransportIcon transportMode={tm} key={tm} />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-row gap-4">
+                        <SecondarySquareButton
+                            onClick={async () => {
+                                bid === 'demo'
+                                    ? removeTileFromDemoBoard(tile)
+                                    : await deleteTile(bid, tile)
+                            }}
+                            aria-label="Slett stoppested"
+                        >
+                            <DeleteIcon />
+                        </SecondarySquareButton>
+                        <SecondarySquareButton
+                            onClick={() => {
+                                if (changed) return setConfirmOpen(true)
+                                setIsOpen(!isOpen)
+                            }}
+                            aria-label="Rediger stoppested"
+                        >
+                            {isOpen ? <CloseIcon /> : <EditIcon />}
+                        </SecondarySquareButton>
                     </div>
                 </div>
-                <div className="flex flex-row gap-4">
-                    <SecondarySquareButton
-                        onClick={async () => {
-                            bid === 'demo'
-                                ? removeTileFromDemoBoard(tile)
-                                : await deleteTile(bid, tile)
-                        }}
-                        aria-label="Slett stoppested"
-                    >
-                        <DeleteIcon />
-                    </SecondarySquareButton>
-                    <SecondarySquareButton
-                        onClick={() => {
-                            if (changed) return setConfirmOpen(true)
-                            setIsOpen(!isOpen)
-                        }}
-                        aria-label="Rediger stoppested"
-                    >
-                        {isOpen ? <CloseIcon /> : <EditIcon />}
-                    </SecondarySquareButton>
+                <div
+                    className={` flex flex-col ${
+                        index !== 0 || index !== totalTiles - 1
+                            ? 'justify-center'
+                            : 'justify-between'
+                    }`}
+                >
+                    {index !== 0 && (
+                        <IconButton
+                            onClick={() => {
+                                moveItem(index, 'up')
+                            }}
+                            aria-label="Flytt opp"
+                        >
+                            <UpArrowIcon
+                                onClick={() => {
+                                    moveItem(index, 'up')
+                                }}
+                                aria-label="Flytt opp"
+                            />
+                        </IconButton>
+                    )}
+                    {index !== totalTiles - 1 && (
+                        <IconButton
+                            onClick={() => {
+                                moveItem(index, 'down')
+                            }}
+                            aria-label="Flytt ned"
+                        >
+                            <DownArrowIcon />
+                        </IconButton>
+                    )}
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <div className="bg-secondary px-6 py-4 rounded-b">
+                <div className="bg-secondary px-6 mr-8 py-4 rounded-b">
                     <form
                         id={tile.uuid}
                         action={async (data: FormData) => {
