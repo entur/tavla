@@ -33,7 +33,9 @@ function Table({
             </div>
         )
 
-    const theme = document.querySelector('.root')?.getAttribute('data-theme')
+    const theme = document
+        .querySelector('[data-theme]')
+        ?.getAttribute('data-theme')
 
     if (departures.length === 0)
         return (
@@ -43,7 +45,7 @@ function Table({
                     alt=""
                     className="h-[6em] w-[6em] lg:h-[15em] lg:w-[15em] sm:max-h-[10em] sm:max-w-[10em]"
                 />
-                <Paragraph className="text-primary sm:pb-8 ">
+                <Paragraph className="!text-primary sm:pb-8 ">
                     Ingen avganger de neste 24 timene.
                 </Paragraph>
             </div>
