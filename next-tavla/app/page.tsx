@@ -52,7 +52,7 @@ function Landing() {
                         <div className="flex flex-col xl:flex-row gap-4">
                             <div
                                 className="xl:w-1/2 h-[60vh] overflow-y-hidden rounded-2xl"
-                                data-theme="entur"
+                                data-theme="dark"
                             >
                                 <Preview boards={previewBoards} />
                             </div>
