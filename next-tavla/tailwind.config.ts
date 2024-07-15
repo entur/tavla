@@ -1,3 +1,4 @@
+import { colors } from './app/(admin)/boards/utils'
 import type { Config } from 'tailwindcss'
 
 const transportModes = {
@@ -14,17 +15,6 @@ const transportModes = {
     trolleybus: 'var(--trolleybus-color)',
     unknown: 'var(--unknown-color)',
     water: 'var(--water-color)',
-}
-
-const dataColors = {
-    azure: 'var(--data-visualization-azure)',
-    blue: 'var(--data-visualization-blue)',
-    coral: 'var(--data-visualization-coral)',
-    jungle: 'var(--data-visualization-jungle)',
-    lavender: 'var(--data-visualization-lavender)',
-    lilac: 'var(--data-visualization-lilac)',
-    peach: 'var(--data-visualization-peach)',
-    spring: 'var(--data-visualization-spring)',
 }
 
 module.exports = {
@@ -58,16 +48,8 @@ module.exports = {
                 'estimated-time': 'var(--estimated-time-color)',
                 tooltip: 'var(--tooltip-color)',
                 'tooltip-text': 'var(--tooltip-text-color)',
-                azure: 'var(--data-visualization-azure)',
-                blue: 'var(--data-visualization-blue)',
-                coral: 'var(--data-visualization-coral)',
-                jungle: 'var(--data-visualization-jungle)',
-                lavender: 'var(--data-visualization-lavender)',
-                lilac: 'var(--data-visualization-lilac)',
-                peach: 'var(--data-visualization-peach)',
-                spring: 'var(--data-visualization-spring)',
-
                 ...transportModes,
+                ...colors,
             },
             borderRadius: {
                 sm: '0.2em',

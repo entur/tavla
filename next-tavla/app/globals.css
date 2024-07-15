@@ -89,6 +89,15 @@
         --trolleybus-color: var(--colors-transport-contrast-bus);
         --unknown-color: var(--colors-transport-contrast-walk);
         --water-color: var(--colors-transport-contrast-ferry);
+
+        --data-visualization-azure: var(--colors-data-contrast-azure);
+        --data-visualization-blue: var(--colors-data-contrast-blue);
+        --data-visualization-coral: var(--colors-data-contrast-coral);
+        --data-visualization-jungle: var(--colors-data-contrast-jungle);
+        --data-visualization-lavender: var(--colors-data-contrast-lavender);
+        --data-visualization-lilac: var(--colors-data-contrast-lilac);
+        --data-visualization-peach: var(--colors-data-contrast-peach);
+        --data-visualization-spring: var(--colors-data-contrast-spring);
     }
 
     [data-theme='entur'] {
@@ -126,6 +135,15 @@
         --trolleybus-color: var(--colors-transport-contrast-bus);
         --unknown-color: var(--colors-transport-contrast-walk);
         --water-color: var(--colors-transport-contrast-ferry);
+
+        --data-visualization-azure: var(--colors-data-contrast-azure);
+        --data-visualization-blue: var(--colors-data-contrast-blue);
+        --data-visualization-coral: var(--colors-data-contrast-coral);
+        --data-visualization-jungle: var(--colors-data-contrast-jungle);
+        --data-visualization-lavender: var(--colors-data-contrast-lavender);
+        --data-visualization-lilac: var(--colors-data-contrast-lilac);
+        --data-visualization-peach: var(--colors-data-contrast-peach);
+        --data-visualization-spring: var(--colors-data-contrast-spring);
     }
 
     html {

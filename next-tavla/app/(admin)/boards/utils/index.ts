@@ -7,20 +7,22 @@ function hash(seq: string) {
     return hash
 }
 
-const colors = [
-    'blue', // Blue
-    'coral', // Coral
-    'jungle', // Jungle
-    'azure', // Azure
-    'lavender', // Lavender
-    'peach', // Peach
-    'spring', // Spring
-    'lilac', // Lilac
-]
+export const colors = {
+    azure: 'var(--data-visualization-azure)',
+    blue: 'var(--data-visualization-blue)',
+    coral: 'var(--data-visualization-coral)',
+    jungle: 'var(--data-visualization-jungle)',
+    lavender: 'var(--data-visualization-lavender)',
+    lilac: 'var(--data-visualization-lilac)',
+    peach: 'var(--data-visualization-peach)',
+    spring: 'var(--data-visualization-spring)',
+}
+
+const colorValues = Object.values(colors)
 
 export function colorsFromHash(name: string) {
-    const index = Math.abs(hash(name)) % colors.length
-    return colors[index]
+    const index = Math.abs(hash(name)) % colorValues.length
+    return colorValues[index]
 }
 
 export function sortArrayByOverlap<T>(toBeSorted: T[], overlapArray: T[]): T[] {

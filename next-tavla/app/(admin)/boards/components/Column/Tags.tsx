@@ -14,7 +14,7 @@ function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
         <ul className="flex flex-row flex-wrap gap-1 items-center">
             {tags.map((tag) => {
-                const color = `var(--data-visualization-${colorsFromHash(tag)})`
+                const color = colorsFromHash(tag)
                 return (
                     <li key={tag}>
                         <Badge

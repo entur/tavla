@@ -216,7 +216,8 @@ export function getFormFeedbackForError(
         case 'tags/name-missing': {
             return {
                 form_type: 'general',
-                feedback: 'Merkelappen kan ikke være tom eller bare mellomrom.',
+                feedback:
+                    'Merkelappen kan ikke være tom eller bare bestå av mellomrom.',
                 variant: 'error',
             }
         }
