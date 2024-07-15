@@ -311,6 +311,9 @@ function TileCard({
                                             !offsetBasedOnWalkingDistance,
                                         )
                                         updateOffsetInputValue()
+                                        posthog.capture(
+                                            'OFFSET_BASED_ON_WALKING_DISTANCE_BTN_CLICK',
+                                        )
                                     }}
                                 >
                                     Forskyv basert på gåavstand
