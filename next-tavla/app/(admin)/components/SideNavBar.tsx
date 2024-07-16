@@ -42,7 +42,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                     </div>
 
                     <div className="bg-secondary">
-                        <SideNavigationItem as={Link} href="?board=name">
+                        <SideNavigationItem as={Link} href="?board">
                             Opprett tavle
                             <CreateBoard />
                         </SideNavigationItem>
