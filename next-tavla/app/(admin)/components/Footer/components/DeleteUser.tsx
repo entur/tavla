@@ -57,7 +57,7 @@ function DeleteUser() {
                     <SubmitButton
                         variant="primary"
                         width="fluid"
-                        aria-label="Slett organisasjon"
+                        aria-label="Slett bruker"
                     >
                         Ja, slett
                     </SubmitButton>
