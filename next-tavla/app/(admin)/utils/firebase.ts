@@ -13,6 +13,7 @@ import {
     getOrganizationIfUserHasAccess,
 } from '../actions'
 import { getFormFeedbackForError } from '.'
+import { getPrivateBoardsForUser } from '../actions'
 
 initializeAdminApp()
 
@@ -148,4 +149,17 @@ export async function deleteOrganizationBoard(
     const access = await userCanEditOrganization(oid)
     if (!access) throw 'auth/operation-not-allowed'
     return firestore().collection('boards').doc(bid).delete()
+}
+
+export async function deleteUserBoards() {
+    const user = await getUser()
+    if (!user) return
+
+    const boards = await getPrivateBoardsForUser()
+
+    return Promise.all(
+        boards
+            .filter((board) => board !== undefined)
+            .map((board) => board?.id && deleteBoard(board.id)),
+    )
 }

@@ -53,7 +53,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
                         <PostHogPageView />
                         {children}
                         <FloatingContact />
-                        <Footer />
+                        <Footer loggedIn={loggedIn} />
                     </body>
                 </EnturToastProvider>
             </PHProvider>
