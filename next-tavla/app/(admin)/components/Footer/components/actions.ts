@@ -43,6 +43,7 @@ async function deleteUserBoardsAndOrganizations(uid: TUserID) {
     try {
         const organizations = await getOrganizationsForUser()
 
+        await deleteUserBoards()
         return Promise.all(
             organizations.map((org) => {
                 if (org.owners?.includes(uid) && org.owners.length < 2) {
@@ -50,7 +51,7 @@ async function deleteUserBoardsAndOrganizations(uid: TUserID) {
                     deleteOrganization(org.id)
                 }
             }),
-        ).then(deleteUserBoards)
+        )
     } catch (error) {
         return getFormFeedbackForError()
     }
