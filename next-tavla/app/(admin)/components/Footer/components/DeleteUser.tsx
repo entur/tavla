@@ -1,7 +1,7 @@
 import { SecondarySquareButton } from '@entur/button'
 import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading2, Label } from '@entur/typography'
+import { Heading2, Label, Paragraph } from '@entur/typography'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import Image from 'next/image'
 import ducks from 'assets/illustrations/Ducks.png'
@@ -34,7 +34,11 @@ function DeleteUser() {
                 </SecondarySquareButton>
                 <Image src={ducks} alt="" className="h-1/2 w-1/2" />
                 <Heading2>Slett bruker</Heading2>
-
+                <Paragraph>
+                    Alle dine private tavler, samt tavler tilknyttet
+                    organisasjoner hvor du er det eneste medlemmet, vil også bli
+                    slettet.
+                </Paragraph>
                 <form
                     action={action}
                     className="flex flex-col w-full gap-4"
@@ -42,7 +46,7 @@ function DeleteUser() {
                     aria-relevant="all"
                 >
                     <Label className="font-medium text-left">
-                        Bekreft ved å skrive inn e-postadressen til brukeren.
+                        Bekreft ved å skrive inn din e-postadresse
                     </Label>
                     <TextField
                         name="email"
