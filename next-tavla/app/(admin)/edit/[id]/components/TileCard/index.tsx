@@ -1,7 +1,12 @@
 'use client'
 import { BaseExpand } from '@entur/expand'
 import { TTile } from 'types/tile'
-import { Button, IconButton, SecondarySquareButton } from '@entur/button'
+import {
+    Button,
+    IconButton,
+    NegativeButton,
+    SecondarySquareButton,
+} from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { Switch, TextField } from '@entur/form'
 import {
@@ -139,16 +144,6 @@ function TileCard({
 
                     <div className="flex flex-row gap-4">
                         <SecondarySquareButton
-                            onClick={async () => {
-                                bid === 'demo'
-                                    ? removeTileFromDemoBoard(tile)
-                                    : await deleteTile(bid, tile)
-                            }}
-                            aria-label="Slett stoppested"
-                        >
-                            <DeleteIcon />
-                        </SecondarySquareButton>
-                        <SecondarySquareButton
                             onClick={() => {
                                 if (changed) return setConfirmOpen(true)
                                 setIsOpen(!isOpen)
@@ -162,16 +157,17 @@ function TileCard({
                 <div
                     className={` flex flex-col ${
                         index !== 0 || index !== totalTiles - 1
-                            ? 'justify-center'
+                            ? 'justify-center gap-1'
                             : 'justify-between'
                     }`}
                 >
                     {index !== 0 && (
-                        <IconButton
+                        <SecondarySquareButton
                             onClick={() => {
                                 moveItem(index, 'up')
                             }}
                             aria-label="Flytt opp"
+                            className="ml-2"
                         >
                             <UpwardIcon
                                 onClick={() => {
@@ -179,22 +175,23 @@ function TileCard({
                                 }}
                                 aria-label="Flytt opp"
                             />
-                        </IconButton>
+                        </SecondarySquareButton>
                     )}
                     {index !== totalTiles - 1 && (
-                        <IconButton
+                        <SecondarySquareButton
                             onClick={() => {
                                 moveItem(index, 'down')
                             }}
                             aria-label="Flytt ned"
+                            className="ml-2"
                         >
                             <DownwardIcon />
-                        </IconButton>
+                        </SecondarySquareButton>
                     )}
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <div className="bg-secondary px-6 mr-8 py-4 rounded-b">
+                <div className="bg-secondary px-6 mr-14 py-4  rounded-b">
                     <form
                         id={tile.uuid}
                         action={async (data: FormData) => {
@@ -346,7 +343,19 @@ function TileCard({
                             value={uniqLines.length.toString()}
                         />
 
-                        <div className="flex flex-row justify-end mt-8">
+                        <div className="flex flex-row justify-between mt-8">
+                            <NegativeButton
+                                onClick={async () => {
+                                    bid === 'demo'
+                                        ? removeTileFromDemoBoard(tile)
+                                        : await deleteTile(bid, tile)
+                                }}
+                                aria-label="Slett stoppested"
+                                type="button"
+                            >
+                                Fjern stoppested
+                                <DeleteIcon />
+                            </NegativeButton>
                             <SubmitButton variant="primary">
                                 Lagre endringer
                             </SubmitButton>
