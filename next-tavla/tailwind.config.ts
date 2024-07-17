@@ -1,4 +1,4 @@
-import { colors } from './app/(admin)/boards/utils'
+import { dataColors } from './app/(admin)/boards/utils'
 import type { Config } from 'tailwindcss'
 
 const transportModes = {
@@ -49,7 +49,7 @@ module.exports = {
                 tooltip: 'var(--tooltip-color)',
                 'tooltip-text': 'var(--tooltip-text-color)',
                 ...transportModes,
-                ...colors,
+                ...dataColors,
             },
             borderRadius: {
                 sm: '0.2em',

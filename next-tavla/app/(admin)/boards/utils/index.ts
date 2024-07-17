@@ -7,7 +7,7 @@ function hash(seq: string) {
     return hash
 }
 
-export const colors = {
+export const dataColors = {
     azure: 'var(--data-visualization-azure)',
     blue: 'var(--data-visualization-blue)',
     coral: 'var(--data-visualization-coral)',
@@ -18,7 +18,7 @@ export const colors = {
     spring: 'var(--data-visualization-spring)',
 }
 
-const colorValues = Object.values(colors)
+const colorValues = Object.values(dataColors)
 
 export function colorsFromHash(name: string) {
     const index = Math.abs(hash(name)) % colorValues.length
