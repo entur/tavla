@@ -191,7 +191,11 @@ function TileCard({
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <div className="bg-secondary px-6 mr-14 py-4  rounded-b">
+                <div
+                    className={`bg-secondary px-6 mr-14 py-4  ${
+                        totalTiles == 1 && 'w-full'
+                    } rounded-b`}
+                >
                     <form
                         id={tile.uuid}
                         action={async (data: FormData) => {
@@ -343,7 +347,16 @@ function TileCard({
                             value={uniqLines.length.toString()}
                         />
 
-                        <div className="flex flex-row justify-between mt-8">
+                        <div className="flex flex-row justify-start gap-4 mt-8">
+                            <SubmitButton
+                                variant="primary"
+                                aria-label="lagre valg"
+                            >
+                                Lagre valg
+                            </SubmitButton>
+                            <Button variant="secondary" aria-label="avbryt">
+                                Avbryt
+                            </Button>
                             <NegativeButton
                                 onClick={async () => {
                                     bid === 'demo'
@@ -353,12 +366,9 @@ function TileCard({
                                 aria-label="Slett stoppested"
                                 type="button"
                             >
-                                Fjern stoppested
                                 <DeleteIcon />
+                                Fjern stoppested
                             </NegativeButton>
-                            <SubmitButton variant="primary">
-                                Lagre endringer
-                            </SubmitButton>
                         </div>
                         <Modal
                             size="small"
