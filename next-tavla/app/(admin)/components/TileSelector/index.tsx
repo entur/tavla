@@ -65,7 +65,7 @@ function TileSelector({
             <div className="w-full">
                 {showLabel && <Label>Velg fylke</Label>}
                 <MultiSelect
-                    label="Fylker"
+                    label="Fylker (valgfritt)"
                     items={counties}
                     selectedItems={selectedCounties}
                     onChange={setSelectedCounties}
