@@ -37,9 +37,9 @@ function FilterButton({ filterOptions }: { filterOptions?: TTag[] }) {
                 <div className="relative [&>span]:absolute [&>span]:top-[-10px] [&>span]:right-[-10px]">
                     <SecondaryButton
                         aria-label="Filtrer på merkelapper"
-                        className="w-full"
+                        className="w-full whitespace-nowrap"
                     >
-                        Merkelapper
+                        Filtrer merkelapper
                         <FilterIcon aria-hidden="true" />
                     </SecondaryButton>
                     <NotificationBadge variant="primary" max={10}>
