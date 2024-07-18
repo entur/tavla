@@ -114,9 +114,9 @@ function TileCard({
                     isOpen ? 'rounded-t' : 'rounded'
                 }`}
             >
-                <div className="flex flex-row gap-4 items-center">
+                <div className="flex flex-row gap-4 items-center mr-2">
                     <Heading3 margin="none">{tile.name}</Heading3>
-                    <div className="flex flex-row gap-4 h-8">
+                    <div className="hidden sm:flex flex-row gap-4 h-8">
                         {transportModes.map((tm) => (
                             <TransportIcon transportMode={tm} key={tm} />
                         ))}
