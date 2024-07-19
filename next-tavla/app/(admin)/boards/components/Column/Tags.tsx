@@ -13,21 +13,24 @@ import { useSearchParam } from '../../hooks/useSearchParam'
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
         <ul className="flex flex-row flex-wrap gap-1 items-center">
-            {tags.map((tag) => (
-                <li key={tag}>
-                    <Badge
-                        variant="primary"
-                        type="notification"
-                        style={{
-                            backgroundColor: colorsFromHash(tag),
-                            borderColor: colorsFromHash(tag),
-                        }}
-                    >
-                        <span className="visuallyHidden">Merkelapp:</span>
-                        {tag}
-                    </Badge>
-                </li>
-            ))}
+            {tags.map((tag) => {
+                const color = colorsFromHash(tag)
+                return (
+                    <li key={tag}>
+                        <Badge
+                            variant="primary"
+                            type="status"
+                            style={{
+                                backgroundColor: color,
+                                borderColor: color,
+                            }}
+                        >
+                            <span className="visuallyHidden">Merkelapp:</span>
+                            {tag}
+                        </Badge>
+                    </li>
+                )
+            })}
             {children}
         </ul>
     )

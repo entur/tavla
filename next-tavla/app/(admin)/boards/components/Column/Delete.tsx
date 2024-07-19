@@ -9,13 +9,13 @@ import { Heading2, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useFormState } from 'react-dom'
-import { deleteBoardAction } from '../../utils/formActions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { OverflowMenuItem } from '@entur/menu'
 import { useToast } from '@entur/alert'
+import { deleteBoardAction } from '../../utils/actions'
 
 function Delete({
     board,

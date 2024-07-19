@@ -7,18 +7,18 @@ import { IconButton } from '@entur/button'
 import { CloseIcon, ReferenceIcon } from '@entur/icons'
 import { ActionChip } from '@entur/chip'
 import { AddExistingTag } from './AddExistingTag'
-import { removeTagAction } from '../../utils/formActions'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useFormState } from 'react-dom'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+import { removeTag } from './actions'
 
 function TagModal({ board }: { board: TBoard }) {
     const tags = board.meta?.tags ?? []
     const { isOpen, open, close } = useModalWithValue('addTags', board.id ?? '')
-    const [state, action] = useFormState(removeTagAction, undefined)
+    const [state, action] = useFormState(removeTag, undefined)
     return (
         <>
             <Tooltip content="Administrer merkelapper" placement="bottom">
@@ -49,7 +49,7 @@ function TagModal({ board }: { board: TBoard }) {
                                 value={tag}
                                 type="submit"
                             >
-                                {tag} <CloseIcon />
+                                {tag.toUpperCase()} <CloseIcon />
                             </ActionChip>
                         </form>
                     ))}
