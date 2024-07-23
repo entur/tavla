@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
 import { addTile, getBoard, getWalkingDistanceTile } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
-import { TileCard } from './components/TileCard'
 import { MetaSettings } from './components/MetaSettings'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
@@ -18,8 +17,9 @@ import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { Preview } from './components/Preview'
 import { ActionsMenu } from './components/ActionsMenu'
 import { ThemeSelect } from './components/ThemeSelect'
+import { TileList } from './components/TileList'
 
-type TProps = {
+export type TProps = {
     params: { id: TBoardID }
 }
 
@@ -40,7 +40,6 @@ export default async function EditPage({ params }: TProps) {
 
     const access = await hasBoardEditorAccess(params.id)
     if (!access) return redirect('/')
-
     return (
         <div className="flex flex-col gap-14">
             <div className="flex flex-col md:flex-row justify-between">
@@ -65,7 +64,6 @@ export default async function EditPage({ params }: TProps) {
                 />
                 <ThemeSelect board={board} />
             </div>
-
             <div className="flex flex-col gap-4">
                 <Heading2>Stoppesteder i tavlen</Heading2>
                 <TileSelector
@@ -84,14 +82,8 @@ export default async function EditPage({ params }: TProps) {
                         revalidatePath(`/edit/${params.id}`)
                     }}
                 />
-                {board.tiles.map((tile) => (
-                    <TileCard
-                        key={tile.uuid}
-                        bid={params.id}
-                        tile={tile}
-                        address={board.meta.location}
-                    />
-                ))}
+
+                <TileList board={board} />
             </div>
 
             <div className="flex flex-col gap-4">

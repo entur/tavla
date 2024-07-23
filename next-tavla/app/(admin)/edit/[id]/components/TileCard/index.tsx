@@ -1,10 +1,22 @@
 'use client'
 import { BaseExpand } from '@entur/expand'
 import { TTile } from 'types/tile'
-import { Button, IconButton, SecondarySquareButton } from '@entur/button'
+import {
+    Button,
+    IconButton,
+    NegativeButton,
+    SecondarySquareButton,
+} from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { Switch, TextField } from '@entur/form'
-import { CloseIcon, DeleteIcon, EditIcon, QuestionIcon } from '@entur/icons'
+import {
+    CloseIcon,
+    DeleteIcon,
+    DownwardIcon,
+    EditIcon,
+    QuestionIcon,
+    UpwardIcon,
+} from '@entur/icons'
 import { Modal } from '@entur/modal'
 import {
     Heading3,
@@ -38,12 +50,18 @@ function TileCard({
     address,
     demoBoard,
     setDemoBoard,
+    moveItem,
+    index,
+    totalTiles,
 }: {
     bid: TBoardID
     tile: TTile
     address?: TLocation
     demoBoard?: TBoard
     setDemoBoard?: Dispatch<SetStateAction<TBoard>>
+    moveItem: (index: number, direction: string) => void
+    index: number
+    totalTiles: number
 }) {
     const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
@@ -109,43 +127,75 @@ function TileCard({
 
     return (
         <div>
-            <div
-                className={`flex justify-between items-center px-6 py-4 bg-secondary ${
-                    isOpen ? 'rounded-t' : 'rounded'
-                }`}
-            >
-                <div className="flex flex-row gap-4 items-center mr-2">
-                    <Heading3 margin="none">{tile.name}</Heading3>
-                    <div className="hidden sm:flex flex-row gap-4 h-8">
-                        {transportModes.map((tm) => (
-                            <TransportIcon transportMode={tm} key={tm} />
-                        ))}
+            <div className="flex flex-row">
+                <div
+                    className={`flex justify-between items-center px-6  py-4 bg-secondary w-full ${
+                        isOpen ? 'rounded-t' : 'rounded'
+                    }`}
+                >
+                    <div className="flex flex-row gap-4 items-center ">
+                        <Heading3 margin="none">{tile.name}</Heading3>
+                        <div className="hidden sm:flex flex-row gap-4 h-8">
+                            {transportModes.map((tm) => (
+                                <TransportIcon transportMode={tm} key={tm} />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-row gap-4">
+                        <SecondarySquareButton
+                            onClick={() => {
+                                if (changed) return setConfirmOpen(true)
+                                setIsOpen(!isOpen)
+                            }}
+                            aria-label="Rediger stoppested"
+                        >
+                            {isOpen ? <CloseIcon /> : <EditIcon />}
+                        </SecondarySquareButton>
                     </div>
                 </div>
-                <div className="flex flex-row gap-4">
-                    <SecondarySquareButton
-                        onClick={async () => {
-                            bid === 'demo'
-                                ? removeTileFromDemoBoard(tile)
-                                : await deleteTile(bid, tile)
-                        }}
-                        aria-label="Slett stoppested"
-                    >
-                        <DeleteIcon />
-                    </SecondarySquareButton>
-                    <SecondarySquareButton
-                        onClick={() => {
-                            if (changed) return setConfirmOpen(true)
-                            setIsOpen(!isOpen)
-                        }}
-                        aria-label="Rediger stoppested"
-                    >
-                        {isOpen ? <CloseIcon /> : <EditIcon />}
-                    </SecondarySquareButton>
+                <div
+                    className={` flex flex-col ${
+                        index !== 0 || index !== totalTiles - 1
+                            ? 'justify-center gap-2'
+                            : 'justify-between'
+                    }`}
+                >
+                    {index !== 0 && (
+                        <SecondarySquareButton
+                            onClick={() => {
+                                moveItem(index, 'up')
+                            }}
+                            aria-label="Flytt opp"
+                            className="ml-2 *:!border-gray-300"
+                        >
+                            <UpwardIcon
+                                onClick={() => {
+                                    moveItem(index, 'up')
+                                }}
+                                aria-label="Flytt opp"
+                            />
+                        </SecondarySquareButton>
+                    )}
+                    {index !== totalTiles - 1 && (
+                        <SecondarySquareButton
+                            onClick={() => {
+                                moveItem(index, 'down')
+                            }}
+                            aria-label="Flytt ned"
+                            className="ml-2 *:!border-gray-300"
+                        >
+                            <DownwardIcon />
+                        </SecondarySquareButton>
+                    )}
                 </div>
             </div>
             <BaseExpand open={isOpen}>
-                <div className="bg-secondary px-6 py-4 rounded-b">
+                <div
+                    className={`bg-secondary px-6 mr-14 py-4  ${
+                        totalTiles == 1 && 'w-full'
+                    } rounded-b`}
+                >
                     <form
                         id={tile.uuid}
                         action={async (data: FormData) => {
@@ -297,10 +347,28 @@ function TileCard({
                             value={uniqLines.length.toString()}
                         />
 
-                        <div className="flex flex-row justify-end mt-8">
-                            <SubmitButton variant="primary">
-                                Lagre endringer
+                        <div className="flex flex-row justify-start gap-4 mt-8">
+                            <SubmitButton
+                                variant="primary"
+                                aria-label="lagre valg"
+                            >
+                                Lagre valg
                             </SubmitButton>
+                            <Button variant="secondary" aria-label="avbryt">
+                                Avbryt
+                            </Button>
+                            <NegativeButton
+                                onClick={async () => {
+                                    bid === 'demo'
+                                        ? removeTileFromDemoBoard(tile)
+                                        : await deleteTile(bid, tile)
+                                }}
+                                aria-label="Slett stoppested"
+                                type="button"
+                            >
+                                <DeleteIcon />
+                                Fjern stoppested
+                            </NegativeButton>
                         </div>
                         <Modal
                             size="small"

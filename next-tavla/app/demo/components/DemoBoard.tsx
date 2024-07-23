@@ -3,10 +3,9 @@ import { Heading2 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
-import { TileCard } from 'app/(admin)/edit/[id]/components/TileCard'
 import useLocalStorage from '../../(admin)/hooks/useLocalStorage'
-import { TTile } from 'types/tile'
 import { usePostHog } from 'posthog-js/react'
+import { TileList } from 'app/(admin)/edit/[id]/components/TileList'
 
 const emptyDemoBoard = {
     id: 'demo',
@@ -31,15 +30,7 @@ function DemoBoard() {
                     }}
                     col={false}
                 />
-                {board.tiles?.map((tile: TTile) => (
-                    <TileCard
-                        key={tile.uuid}
-                        tile={tile}
-                        bid={board.id ?? 'demo'}
-                        demoBoard={board}
-                        setDemoBoard={setBoard}
-                    />
-                ))}
+                <TileList board={board} setDemoBoard={setBoard} bid="demo" />
             </div>
             <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
