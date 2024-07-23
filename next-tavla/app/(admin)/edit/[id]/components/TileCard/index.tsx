@@ -157,7 +157,7 @@ function TileCard({
                 <div
                     className={` flex flex-col ${
                         index !== 0 || index !== totalTiles - 1
-                            ? 'justify-center gap-1'
+                            ? 'justify-center gap-2'
                             : 'justify-between'
                     }`}
                 >
@@ -167,7 +167,7 @@ function TileCard({
                                 moveItem(index, 'up')
                             }}
                             aria-label="Flytt opp"
-                            className="ml-2"
+                            className="ml-2 *:!border-gray-300"
                         >
                             <UpwardIcon
                                 onClick={() => {
@@ -183,7 +183,7 @@ function TileCard({
                                 moveItem(index, 'down')
                             }}
                             aria-label="Flytt ned"
-                            className="ml-2"
+                            className="ml-2 *:!border-gray-300"
                         >
                             <DownwardIcon />
                         </SecondarySquareButton>
