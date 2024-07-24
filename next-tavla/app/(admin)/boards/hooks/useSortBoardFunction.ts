@@ -4,16 +4,23 @@ import { useSearchParam } from './useSearchParam'
 import { TBoardsColumn, TSort } from 'app/(admin)/utils/types'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 
+const DEFAULT_SORT_COLUMN: TBoardsColumn = 'lastModified'
+const DEFAULT_SORT_TYPE: TSort = 'descending'
+
 function useSortBoardFunction() {
     const value = useSearchParam('sort')
     const sortParams = value?.split(':')
+
+    const defaultColumn: TBoardsColumn =
+        (sortParams?.[0] as TBoardsColumn) || DEFAULT_SORT_COLUMN
+    const defaultType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
 
     const sortBoards = useCallback(
         (boardA: TBoardWithOrganizaion, boardB: TBoardWithOrganizaion) => {
             let sortFunc: () => number
             const sort = {
-                column: sortParams?.[0] as TBoardsColumn,
-                type: sortParams?.[1] as TSort,
+                column: defaultColumn,
+                type: defaultType,
             }
 
             const compareTitle = () => {
@@ -64,7 +71,7 @@ function useSortBoardFunction() {
                     return 0
             }
         },
-        [sortParams],
+        [defaultColumn, defaultType],
     )
 
     return sortBoards
