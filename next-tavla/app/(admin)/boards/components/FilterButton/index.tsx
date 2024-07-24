@@ -49,12 +49,17 @@ function FilterButton({ filterOptions }: { filterOptions?: TTag[] }) {
                 </div>
             </PopoverTrigger>
             <PopoverContent>
-                <div className="p-4">
+                <div className="p-4 bg-gray-100">
                     <div className="flex flex-row justify-between gap-4 items-center">
-                        <Heading4 margin="none">Merkelapper</Heading4>
+                        <Heading4 margin="none" className="!text-primary">
+                            Merkelapper
+                        </Heading4>
                         <PopoverCloseButton>
                             <IconButton aria-label="Lukk popover">
-                                <CloseIcon aria-hidden="true" />
+                                <CloseIcon
+                                    aria-hidden="true"
+                                    className="!text-primary"
+                                />
                             </IconButton>
                         </PopoverCloseButton>
                     </div>
@@ -71,6 +76,7 @@ function FilterButton({ filterOptions }: { filterOptions?: TTag[] }) {
                                     checked={activeTags.includes(tag)}
                                     onChange={() => handleFilterChipChange(tag)}
                                     value={tag}
+                                    className="!text-primary !bg-primary [&>span]:!bg-gray-100"
                                 >
                                     {tag}
                                 </FilterChip>

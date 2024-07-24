@@ -4,7 +4,7 @@ import { AddNewTag } from './AddNewTag'
 import { TBoard } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
 import { IconButton } from '@entur/button'
-import { CloseIcon, ReferenceIcon } from '@entur/icons'
+import { AddIcon, CloseIcon, ReferenceIcon } from '@entur/icons'
 import { ActionChip } from '@entur/chip'
 import { AddExistingTag } from './AddExistingTag'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -24,6 +24,7 @@ function TagModal({ board }: { board: TBoard }) {
             <Tooltip content="Administrer merkelapper" placement="bottom">
                 <IconButton aria-label="Administrer merkelapper" onClick={open}>
                     <ReferenceIcon />
+                    <AddIcon className="size-2" />
                 </IconButton>
             </Tooltip>
 
