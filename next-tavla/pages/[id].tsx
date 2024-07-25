@@ -44,13 +44,14 @@ function BoardPage({
 }) {
     const updatedBoard = useRefresh(board, backend_url)
 
+    const title = updatedBoard.meta?.title
+        ? updatedBoard.meta.title + ' | Entur tavla'
+        : 'Entur Tavla'
+
     return (
         <div className="root" data-theme={updatedBoard.theme ?? 'dark'}>
             <Head>
-                <title>
-                    {`${updatedBoard.meta?.title} | Entur tavla ` ??
-                        'Entur Tavla'}
-                </title>
+                <title>{title}</title>
             </Head>
             <div className="rootContainer">
                 <Header
