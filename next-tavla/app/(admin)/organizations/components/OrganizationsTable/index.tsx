@@ -14,7 +14,7 @@ function OrganizationsTable({
         return (
             <IllustratedInfo
                 title="Her var det tomt"
-                description="Du må opprette en organisasjon for å kunne organisere tavlene og jobbe med flere."
+                description="Hvis man oppretter en organisasjon kan man organisere tavler, laste opp logo og invitere andre."
             />
         )
     }
