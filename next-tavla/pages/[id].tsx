@@ -8,6 +8,7 @@ import {
 import { Footer } from 'components/Footer'
 import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
+import Head from 'next/head'
 
 export async function getServerSideProps({
     params,
@@ -23,7 +24,6 @@ export async function getServerSideProps({
             notFound: true,
         }
     }
-
     return {
         props: {
             board,
@@ -44,8 +44,15 @@ function BoardPage({
 }) {
     const updatedBoard = useRefresh(board, backend_url)
 
+    const title = updatedBoard.meta?.title
+        ? updatedBoard.meta.title + ' | Entur tavla'
+        : 'Entur Tavla'
+
     return (
         <div className="root" data-theme={updatedBoard.theme ?? 'dark'}>
+            <Head>
+                <title>{title}</title>
+            </Head>
             <div className="rootContainer">
                 <Header
                     theme={updatedBoard.theme}
