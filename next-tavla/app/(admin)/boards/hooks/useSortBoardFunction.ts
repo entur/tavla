@@ -11,18 +11,13 @@ function useSortBoardFunction() {
     const value = useSearchParam('sort')
     const sortParams = value?.split(':')
 
-    const defaultColumn: TBoardsColumn =
+    const sortColumn: TBoardsColumn =
         (sortParams?.[0] as TBoardsColumn) || DEFAULT_SORT_COLUMN
-    const defaultType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
+    const sortType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
 
     const sortBoards = useCallback(
         (boardA: TBoardWithOrganizaion, boardB: TBoardWithOrganizaion) => {
             let sortFunc: () => number
-            const sort = {
-                column: defaultColumn,
-                type: defaultType,
-            }
-
             const compareTitle = () => {
                 const titleA =
                     boardA?.board.meta?.title?.toLowerCase() ??
@@ -33,7 +28,7 @@ function useSortBoardFunction() {
                 return titleB.localeCompare(titleA)
             }
 
-            switch (sort.column) {
+            switch (sortColumn) {
                 case 'lastModified':
                     sortFunc = () => {
                         const modifiedA = boardA.board.meta?.dateModified ?? 0
@@ -49,7 +44,7 @@ function useSortBoardFunction() {
                             boardB.organization?.name?.toLowerCase() ?? 'Privat'
 
                         if (orgNameA == orgNameB) {
-                            return sort.type == 'ascending'
+                            return sortType == 'ascending'
                                 ? compareTitle()
                                 : -compareTitle()
                         }
@@ -62,7 +57,7 @@ function useSortBoardFunction() {
                     }
                     break
             }
-            switch (sort.type) {
+            switch (sortType) {
                 case 'ascending':
                     return -sortFunc()
                 case 'descending':
@@ -71,7 +66,7 @@ function useSortBoardFunction() {
                     return 0
             }
         },
-        [defaultColumn, defaultType],
+        [sortColumn, sortType],
     )
 
     return sortBoards
