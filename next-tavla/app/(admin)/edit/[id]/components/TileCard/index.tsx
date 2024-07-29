@@ -32,7 +32,7 @@ import { TransportIcon } from 'components/TransportIcon'
 import { isArray, uniqBy } from 'lodash'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { Columns, TColumn } from 'types/column'
 import { TBoard, TBoardID } from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
@@ -75,6 +75,26 @@ function TileCard({
     const [offsetBasedOnWalkingDistance, setOffsetBasedOnWalkingDistance] =
         useState(walkingDistanceInMinutes === tile.offset)
 
+    const offsetRef = useRef<HTMLInputElement | null>(null)
+
+    useEffect(() => {
+        const updateOffsetInputValue = () => {
+            if (offsetRef.current) {
+                offsetBasedOnWalkingDistance
+                    ? (offsetRef.current.valueAsNumber =
+                          walkingDistanceInMinutes)
+                    : (offsetRef.current.valueAsNumber = tile.offset ?? 0)
+            }
+        }
+        updateOffsetInputValue()
+    }, [offsetBasedOnWalkingDistance, walkingDistanceInMinutes, tile.offset])
+
+    useEffect(() => {
+        if (!address) {
+            setOffsetBasedOnWalkingDistance(false)
+        }
+    }, [address])
+
     const reset = () => {
         setConfirmOpen(false)
         setIsOpen(false)
@@ -82,13 +102,6 @@ function TileCard({
     }
 
     const lines = useLines(tile)
-
-    const updateOffsetInputValue = () => {
-        const input = document.getElementById('offset') as HTMLFormElement
-        !offsetBasedOnWalkingDistance
-            ? (input.value = walkingDistanceInMinutes)
-            : (input.value = tile.offset)
-    }
 
     if (!lines)
         return (
@@ -294,6 +307,7 @@ function TileCard({
                                 label="Antall minutter"
                                 name="offset"
                                 id="offset"
+                                ref={offsetRef}
                                 type="number"
                                 min={0}
                                 className="!w-2/5"
@@ -310,7 +324,6 @@ function TileCard({
                                         setOffsetBasedOnWalkingDistance(
                                             !offsetBasedOnWalkingDistance,
                                         )
-                                        updateOffsetInputValue()
                                         posthog.capture(
                                             'OFFSET_BASED_ON_WALKING_DISTANCE_BTN_CLICK',
                                         )
