@@ -17,7 +17,7 @@ function Open({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
                 href={link ?? '/'}
                 target="_blank"
             >
-                Åpne Tavle
+                Åpne tavle
                 <ExternalIcon className="!top-[-2px]" />
             </Button>
         )

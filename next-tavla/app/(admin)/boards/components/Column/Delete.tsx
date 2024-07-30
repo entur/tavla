@@ -93,7 +93,7 @@ function DeleteButton({
                 aria-label="Slett tavle"
                 onClick={onClick}
             >
-                Slett Tavle
+                Slett tavle
                 <DeleteIcon />
             </Button>
         )
@@ -103,7 +103,7 @@ function DeleteButton({
             <OverflowMenuItem onSelect={onClick}>
                 <div className="flex flex-row">
                     <DeleteIcon inline />
-                    Slett Tavle
+                    Slett tavle
                 </div>
             </OverflowMenuItem>
         )
