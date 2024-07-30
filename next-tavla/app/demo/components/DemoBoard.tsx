@@ -3,9 +3,10 @@ import { Heading2 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
-import useLocalStorage from '../../(admin)/hooks/useLocalStorage'
 import { usePostHog } from 'posthog-js/react'
 import { TileList } from 'app/(admin)/edit/[id]/components/TileList'
+import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
+import { TBoard } from 'types/settings'
 
 const emptyDemoBoard = {
     id: 'demo',
@@ -14,7 +15,7 @@ const emptyDemoBoard = {
 }
 
 function DemoBoard() {
-    const [board, setBoard] = useLocalStorage('board', emptyDemoBoard)
+    const [board, setBoard] = useLocalStorage<TBoard>('board', emptyDemoBoard)
 
     const posthog = usePostHog()
 
