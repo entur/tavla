@@ -36,6 +36,7 @@ module.exports = {
                 grey70: 'var(--grey70)',
                 grey80: 'var(--grey80)',
                 blue80: 'var(--blue80)',
+                blue90: 'var(--blue90)',
             },
             colors: {
                 background: 'var(--main-background-color)',

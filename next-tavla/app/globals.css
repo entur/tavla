@@ -23,6 +23,7 @@
         --border-color: var(--colors-greys-grey50);
 
         --blue80: var(--colors-blues-blue80);
+        --blue90: var(--colors-blues-blue90);
 
         --grey70: var(--colors-greys-grey70);
         --grey80: var(--colors-greys-grey80);
@@ -76,6 +77,7 @@
         --tooltip-color: var(--colors-greys-grey30);
 
         --blue80: var(--colors-blues-blue80);
+        --blue90: var(--colors-blues-blue90);
 
         --grey70: var(--colors-greys-grey70);
         --grey80: var(--colors-greys-grey80);
@@ -124,6 +126,7 @@
         --border-color: var(--colors-blues-blue30);
 
         --blue80: var(--colors-blues-blue80);
+        --blue90: var(--colors-blues-blue90);
 
         --grey70: var(--colors-greys-grey70);
         --grey80: var(--colors-greys-grey80);
