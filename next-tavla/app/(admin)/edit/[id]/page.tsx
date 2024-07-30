@@ -41,56 +41,76 @@ export default async function EditPage({ params }: TProps) {
     const access = await hasBoardEditorAccess(params.id)
     if (!access) return redirect('/')
     return (
-        <div className="flex flex-col gap-14">
-            <div className="flex flex-col md:flex-row justify-between">
-                <Heading1 margin="top">Rediger {board.meta?.title}</Heading1>
-                <div className="flex flex-col md:flex-row md:items-center gap-4">
-                    <Open bid={board.id} type="button" />
-                    <Copy bid={board.id} type="button" />
-                    <RefreshButton board={board} />
-                    <ActionsMenu board={board} oid={organization?.id} />
+        <div className="bg-blue80">
+            <div className="flex flex-col gap-6 pt-6 container pb-20">
+                <div className="flex flex-col md:flex-row justify-between">
+                    <Heading1 margin="top">
+                        Rediger {board.meta?.title}
+                    </Heading1>
+                    <div className="flex flex-col md:flex-row md:items-center gap-4">
+                        <Open bid={board.id} type="button" />
+                        <Copy bid={board.id} type="button" />
+                        <RefreshButton board={board} />
+                        <ActionsMenu board={board} oid={organization?.id} />
+                    </div>
                 </div>
-            </div>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
-                <MetaSettings
-                    bid={params.id}
-                    meta={board.meta}
-                    organization={organization}
-                />
-                <Footer
-                    bid={params.id}
-                    footer={board.footer}
-                    organizationBoard={organization !== undefined}
-                />
-                <ThemeSelect board={board} />
-            </div>
-            <div className="flex flex-col gap-4">
-                <Heading2>Stoppesteder i tavlen</Heading2>
-                <TileSelector
-                    col={false}
-                    oid={organization?.id}
-                    lineIcons={false}
-                    action={async (data: FormData) => {
-                        'use server'
 
-                        const tile = await getWalkingDistanceTile(
-                            formDataToTile(data, organization),
-                            board.meta?.location,
-                        )
-                        if (!tile.placeId) return
-                        await addTile(params.id, tile)
-                        revalidatePath(`/edit/${params.id}`)
-                    }}
-                />
+                <div className="bg-background rounded-md py-8 px-6 flex flex-col gap-4">
+                    <Heading2>Stoppesteder</Heading2>
+                    <TileSelector
+                        col={false}
+                        oid={organization?.id}
+                        lineIcons={false}
+                        action={async (data: FormData) => {
+                            'use server'
 
-                <TileList board={board} />
-            </div>
+                            const tile = await getWalkingDistanceTile(
+                                formDataToTile(data, organization),
+                                board.meta?.location,
+                            )
+                            if (!tile.placeId) return
+                            await addTile(params.id, tile)
+                            revalidatePath(`/edit/${params.id}`)
+                        }}
+                    />
 
-            <div className="flex flex-col gap-4">
-                <Heading2>Forhåndsvisning</Heading2>
-                <div data-theme={board.theme ?? 'dark'}>
-                    <Preview board={board} organization={organization} />
+                    <TileList board={board} />
+                    <Heading2 className="pt-8">Forhåndsvisning</Heading2>
+                    <div data-theme={board.theme ?? 'dark'}>
+                        <Preview board={board} organization={organization} />
+                    </div>
                 </div>
+
+                <div className="bg-background rounded-md py-8 px-6 flex flex-col gap-4">
+                    <Heading2>Innstillinger</Heading2>
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
+                        <MetaSettings
+                            bid={params.id}
+                            meta={board.meta}
+                            organization={organization}
+                        />
+                        <Footer
+                            bid={params.id}
+                            footer={board.footer}
+                            organizationBoard={organization !== undefined}
+                        />
+                        <ThemeSelect board={board} />
+                    </div>
+                </div>
+
+                {/* <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
+                    <MetaSettings
+                        bid={params.id}
+                        meta={board.meta}
+                        organization={organization}
+                    />
+                    <Footer
+                        bid={params.id}
+                        footer={board.footer}
+                        organizationBoard={organization !== undefined}
+                    />
+                    <ThemeSelect board={board} />
+                </div> */}
             </div>
         </div>
     )

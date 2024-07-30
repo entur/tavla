@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 }
 
 async function AdminLayout({ children }: { children: ReactNode }) {
-    return <main className="container mx-auto pt-4 pb-20">{children}</main>
+    return <main>{children}</main>
 }
 
 export default AdminLayout
