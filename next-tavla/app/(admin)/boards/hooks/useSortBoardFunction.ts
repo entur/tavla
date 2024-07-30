@@ -4,18 +4,20 @@ import { useSearchParam } from './useSearchParam'
 import { TBoardsColumn, TSort } from 'app/(admin)/utils/types'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 
+const DEFAULT_SORT_COLUMN: TBoardsColumn = 'lastModified'
+const DEFAULT_SORT_TYPE: TSort = 'descending'
+
 function useSortBoardFunction() {
     const value = useSearchParam('sort')
     const sortParams = value?.split(':')
 
+    const sortColumn: TBoardsColumn =
+        (sortParams?.[0] as TBoardsColumn) || DEFAULT_SORT_COLUMN
+    const sortType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
+
     const sortBoards = useCallback(
         (boardA: TBoardWithOrganizaion, boardB: TBoardWithOrganizaion) => {
             let sortFunc: () => number
-            const sort = {
-                column: sortParams?.[0] as TBoardsColumn,
-                type: sortParams?.[1] as TSort,
-            }
-
             const compareTitle = () => {
                 const titleA =
                     boardA?.board.meta?.title?.toLowerCase() ??
@@ -26,7 +28,7 @@ function useSortBoardFunction() {
                 return titleB.localeCompare(titleA)
             }
 
-            switch (sort.column) {
+            switch (sortColumn) {
                 case 'lastModified':
                     sortFunc = () => {
                         const modifiedA = boardA.board.meta?.dateModified ?? 0
@@ -42,7 +44,7 @@ function useSortBoardFunction() {
                             boardB.organization?.name?.toLowerCase() ?? 'Privat'
 
                         if (orgNameA == orgNameB) {
-                            return sort.type == 'ascending'
+                            return sortType == 'ascending'
                                 ? compareTitle()
                                 : -compareTitle()
                         }
@@ -55,7 +57,7 @@ function useSortBoardFunction() {
                     }
                     break
             }
-            switch (sort.type) {
+            switch (sortType) {
                 case 'ascending':
                     return -sortFunc()
                 case 'descending':
@@ -64,7 +66,7 @@ function useSortBoardFunction() {
                     return 0
             }
         },
-        [sortParams],
+        [sortColumn, sortType],
     )
 
     return sortBoards
