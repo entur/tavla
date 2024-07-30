@@ -10,7 +10,7 @@ function Footer() {
     const posthog = usePostHog()
     return (
         <footer className="eds-contrast">
-            <div className="container mx-auto pt-16 pb-4">
+            <div className="container pt-16 pb-4">
                 <Image src={TavlaLogo} alt="" />
                 <div className="flex flex-col sm:flex-row justify-between">
                     <div>

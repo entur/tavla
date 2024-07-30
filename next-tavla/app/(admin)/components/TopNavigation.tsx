@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation'
 function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
     return (
-        <nav className="container mx-auto flex flex-row justify-between items-center py-8">
+        <nav className="container flex flex-row justify-between items-center py-8">
             <Link href="/" aria-label="Tilbake til landingssiden">
                 <Image src={TavlaLogoBlue} height={32} alt="" />
             </Link>

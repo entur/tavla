@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 function Privacy() {
     return (
         <>
-            <main className="container mx-auto pb-10">
+            <main className="container pb-10">
                 <div className="flex flex-col justify-center mb-8">
                     <Heading1>Personvern</Heading1>
 
