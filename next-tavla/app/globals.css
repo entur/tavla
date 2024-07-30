@@ -22,6 +22,8 @@
         --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-greys-grey50);
 
+        --blue80: var(--colors-blues-blue80);
+
         --grey70: var(--colors-greys-grey70);
         --grey80: var(--colors-greys-grey80);
 
@@ -73,6 +75,8 @@
 
         --tooltip-color: var(--colors-greys-grey30);
 
+        --blue80: var(--colors-blues-blue80);
+
         --grey70: var(--colors-greys-grey70);
         --grey80: var(--colors-greys-grey80);
 
@@ -118,6 +122,8 @@
         --estimated-time-color: var(--colors-brand-coral);
         --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-blues-blue30);
+
+        --blue80: var(--colors-blues-blue80);
 
         --grey70: var(--colors-greys-grey70);
         --grey80: var(--colors-greys-grey80);

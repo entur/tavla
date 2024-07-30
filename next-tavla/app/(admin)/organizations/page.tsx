@@ -20,7 +20,7 @@ async function OrganizationsPage() {
     const organizations = await getOrganizationsForUser()
 
     return (
-        <>
+        <div className="container pb-20">
             <Heading1>Organisasjoner</Heading1>
             <div className="flex flex-col mx-auto md:flex-row justify-between mb-6 md:mb-0 md:gap-4">
                 <Paragraph className=" w-full md:w-3/4">
@@ -36,7 +36,7 @@ async function OrganizationsPage() {
                 organizations={organizations}
                 userId={user.uid}
             />
-        </>
+        </div>
     )
 }
 

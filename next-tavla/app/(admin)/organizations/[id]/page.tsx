@@ -48,7 +48,7 @@ async function EditOrganizationPage({ params }: TProps) {
     )
 
     return (
-        <>
+        <div className="container pb-20">
             <Heading1 margin="top">{organization.name}</Heading1>
             <LeadParagraph margin="bottom">
                 Valgene som tas blir satt som standard når det opprettes en
@@ -81,7 +81,7 @@ async function EditOrganizationPage({ params }: TProps) {
 
                 <UploadLogo organization={organization} />
             </div>
-        </>
+        </div>
     )
 }
 
