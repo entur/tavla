@@ -105,6 +105,7 @@ function TileSelector({
                 id="stop_place_name"
                 value={selectedStopPlace?.label}
             />
+            <HiddenInput id="quay_name" value={selectedQuay?.label} />
             <HiddenInput id="quay" value={selectedQuay?.value} />
 
             <SubmitButton variant="primary">Legg til</SubmitButton>
