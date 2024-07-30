@@ -142,17 +142,16 @@ function TileCard({
                         </div>
                     </div>
 
-                    <div className="flex flex-row gap-4">
-                        <SecondarySquareButton
-                            onClick={() => {
-                                if (changed) return setConfirmOpen(true)
-                                setIsOpen(!isOpen)
-                            }}
-                            aria-label="Rediger stoppested"
-                        >
-                            {isOpen ? <CloseIcon /> : <EditIcon />}
-                        </SecondarySquareButton>
-                    </div>
+                    <SecondarySquareButton
+                        onClick={() => {
+                            if (changed) return setConfirmOpen(true)
+                            setIsOpen(!isOpen)
+                        }}
+                        aria-label="Rediger stoppested"
+                        className="*:!border-primary"
+                    >
+                        {isOpen ? <CloseIcon /> : <EditIcon />}
+                    </SecondarySquareButton>
                 </div>
                 <div
                     className={` flex flex-col ${
