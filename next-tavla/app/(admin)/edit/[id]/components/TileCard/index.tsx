@@ -79,7 +79,7 @@ function TileCard({
 
     if (!lines)
         return (
-            <div className="flex justify-between items-center bg-secondary p-4 rounded">
+            <div className="flex justify-between items-center bg-blue80 p-4 rounded">
                 Laster...
             </div>
         )
@@ -129,7 +129,7 @@ function TileCard({
         <div>
             <div className="flex flex-row">
                 <div
-                    className={`flex justify-between items-center px-6  py-4 bg-blue80 w-full ${
+                    className={`flex justify-between items-center px-6  py-4 bg-[var(--colors-blues-blue80)] w-full ${
                         isOpen ? 'rounded-t' : 'rounded'
                     }`}
                 >
