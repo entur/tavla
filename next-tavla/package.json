@@ -28,7 +28,7 @@
         "@dnd-kit/utilities": "3.2.1",
         "@entur/alert": "0.14.9",
         "@entur/button": "3.0.8",
-        "@entur/chip": "0.6.54",
+        "@entur/chip": "0.7.15",
         "@entur/dropdown": "5.3.0",
         "@entur/expand": "3.4.0",
         "@entur/form": "7.0.9",
