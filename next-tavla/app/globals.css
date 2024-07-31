@@ -227,7 +227,7 @@
         width: 100%;
         border-radius: 0.5em;
         padding: 2em;
-        background: var(--secondary-background-color);
+        background: var(--blue90);
     }
 
     .divider {

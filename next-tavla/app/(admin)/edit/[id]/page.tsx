@@ -41,9 +41,9 @@ export default async function EditPage({ params }: TProps) {
     const access = await hasBoardEditorAccess(params.id)
     if (!access) return redirect('/')
     return (
-        <div className="bg-blue80">
-            <div className="flex flex-col gap-6 pt-6 container pb-20">
-                <div className="flex flex-col md:flex-row justify-between">
+        <div className="bg-gray-50">
+            <div className="flex flex-col gap-6 pt-16 container pb-20">
+                <div className="flex flex-col md:flex-row justify-between pb-2">
                     <Heading1 margin="top">
                         Rediger {board.meta?.title}
                     </Heading1>
@@ -75,13 +75,12 @@ export default async function EditPage({ params }: TProps) {
                     />
 
                     <TileList board={board} />
-                    <Heading2 className="pt-8">Forhåndsvisning</Heading2>
-                    <div data-theme={board.theme ?? 'dark'}>
+                    <div data-theme={board.theme ?? 'dark'} className="pt-8">
                         <Preview board={board} organization={organization} />
                     </div>
                 </div>
 
-                <div className="bg-background rounded-md py-8 px-6 flex flex-col gap-4">
+                <div className="rounded-md py-8 px-6 flex flex-col gap-4 bg-background">
                     <Heading2>Innstillinger</Heading2>
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
                         <MetaSettings
