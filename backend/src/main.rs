@@ -3,8 +3,7 @@ use std::time::Duration;
 use axum::{
     body::Body,
     extract::{Path, State},
-    http::{HeaderValue, Method, StatusCode},
-    response::Response,
+    http::{HeaderValue, Method, Response, StatusCode},
     routing::{get, post},
     Json, Router,
 };
@@ -13,7 +12,7 @@ use axum_auth::AuthBearer;
 use serde_json::{from_str, Value};
 use tokio::{net::TcpListener, time};
 
-use redis::AsyncCommands;
+use redis::{AsyncCommands, ConnectionLike};
 
 use tokio_stream::StreamExt;
 use tokio_util::{sync::CancellationToken, task::TaskTracker};
@@ -25,10 +24,12 @@ use tower_http::cors::CorsLayer;
 use types::{AppError, AppState, Message};
 use utils::{graceful_shutdown, setup_redis};
 
+use crate::types::Guard;
+
 #[tokio::main]
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
-    let port = std::env::var("PORT").unwrap_or("3000".to_string());
+    let port = std::env::var("PORT").unwrap_or("3001".to_string());
     let key = std::env::var("BACKEND_API_KEY").expect("Expected to find api key");
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
@@ -43,8 +44,6 @@ async fn main() {
     let redis_clients = AppState {
         master,
         replicas,
-        runtime_status: runtime_status.clone(),
-        task_tracker: task_tracker.clone(),
         key,
     };
 
@@ -62,6 +61,8 @@ async fn main() {
         .route("/subscribe/:bid", get(subscribe))
         .route("/refresh/:bid", post(trigger))
         .route("/update", post(update))
+        .route("/health", get(check_health))
+        .route("/reset", post(reset_active))
         .with_state(redis_clients)
         .layer(cors);
 
@@ -69,6 +70,25 @@ async fn main() {
         .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
         .await
         .unwrap()
+}
+
+async fn reset_active(
+    AuthBearer(token): AuthBearer,
+    State(mut state): State<AppState>,
+) -> Result<StatusCode, AppError> {
+    if token != state.key {
+        return Ok(StatusCode::UNAUTHORIZED);
+    }
+
+    state.master.set("active_boards", 0).await?;
+    Ok(StatusCode::OK)
+}
+
+async fn check_health(State(mut state): State<AppState>) -> StatusCode {
+    if state.replicas.check_connection() {
+        return StatusCode::OK;
+    }
+    StatusCode::INTERNAL_SERVER_ERROR
 }
 
 async fn active_boards(
@@ -111,21 +131,18 @@ async fn update(
 
 async fn subscribe(
     Path(bid): Path<String>,
-    State(mut state): State<AppState>,
+    State(state): State<AppState>,
 ) -> Result<Message, AppError> {
     let mut pubsub = state.replicas.get_async_pubsub().await?;
     pubsub.subscribe(bid).await?;
     pubsub.subscribe("update").await?;
 
-    state
-        .master
-        .incr::<&str, i32, i32>("active_boards", 1)
-        .await?;
+    let _guard = Guard::new(state.master.clone());
 
     let mut msg_stream = pubsub.on_message();
     let res = tokio::select! {
             Some(msg) = msg_stream.next() => {
-    let channel = msg.get_channel_name();
+                let channel = msg.get_channel_name();
                 if channel == "update" {
                     Message::Update
                 } else {
@@ -138,11 +155,6 @@ async fn subscribe(
             Message::Timeout
         }
     };
-
-    state
-        .master
-        .decr::<&str, i32, i32>("active_boards", 1)
-        .await?;
 
     Ok(res)
 }

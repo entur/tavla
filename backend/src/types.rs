@@ -3,17 +3,14 @@ use axum::{
     http::{Response, StatusCode},
     response::IntoResponse,
 };
-use redis::{aio::MultiplexedConnection, Client};
+use redis::{aio::MultiplexedConnection, AsyncCommands, Client};
 use serde::Serialize;
 use serde_json::{to_string, Value};
-use tokio_util::{sync::CancellationToken, task::TaskTracker};
 
 #[derive(Clone)]
 pub struct AppState {
     pub master: MultiplexedConnection,
     pub replicas: Client,
-    pub runtime_status: CancellationToken,
-    pub task_tracker: TaskTracker,
     pub key: String,
 }
 
@@ -23,6 +20,29 @@ pub enum Message {
     Refresh { payload: Value },
     Update,
     Timeout,
+}
+
+pub struct Guard {
+    pub master: MultiplexedConnection,
+}
+
+impl Guard {
+    pub fn new(master: MultiplexedConnection) -> Self {
+        let mut m = master.clone();
+        tokio::spawn(async move {
+            let _ = m.incr::<&str, i32, i32>("active_boards", 1).await;
+        });
+        Guard { master }
+    }
+}
+
+impl Drop for Guard {
+    fn drop(&mut self) {
+        let mut m = self.master.clone();
+        tokio::spawn(async move {
+            let _ = m.decr::<&str, i32, i32>("active_boards", 1).await;
+        });
+    }
 }
 
 impl IntoResponse for Message {
