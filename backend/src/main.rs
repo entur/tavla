@@ -62,6 +62,7 @@ async fn main() {
         .route("/refresh/:bid", post(trigger))
         .route("/update", post(update))
         .route("/health", get(check_health))
+        .route("/reset", post(reset_active))
         .with_state(redis_clients)
         .layer(cors);
 
@@ -69,6 +70,18 @@ async fn main() {
         .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
         .await
         .unwrap()
+}
+
+async fn reset_active(
+    AuthBearer(token): AuthBearer,
+    State(mut state): State<AppState>,
+) -> Result<StatusCode, AppError> {
+    if token != state.key {
+        return Ok(StatusCode::UNAUTHORIZED);
+    }
+
+    state.master.set("active_boards", 0).await?;
+    Ok(StatusCode::OK)
 }
 
 async fn check_health(State(mut state): State<AppState>) -> StatusCode {
