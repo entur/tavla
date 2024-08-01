@@ -75,13 +75,13 @@ function TileCard({
     const [offsetBasedOnWalkingDistance, setOffsetBasedOnWalkingDistance] =
         useState(walkingDistanceInMinutes === tile.offset)
 
-    const [offset, setOffset] = useState(tile.offset ?? undefined)
+    const [offset, setOffset] = useState(tile.offset ?? '')
 
     useEffect(() => {
         offsetBasedOnWalkingDistance
             ? setOffset(walkingDistanceInMinutes)
-            : setOffset(offset)
-    }, [offsetBasedOnWalkingDistance, walkingDistanceInMinutes, offset])
+            : setOffset(tile.offset ?? '')
+    }, [offsetBasedOnWalkingDistance, walkingDistanceInMinutes, tile.offset])
 
     useEffect(() => {
         if (!address) {
@@ -225,7 +225,7 @@ function TileCard({
                             data.delete('count')
                             const distance = data.get('showDistance') as string
                             data.delete('showDistance')
-                            const offset = data.get('offset') as number | null
+                            const offset = data.get('offset') as number | ''
                             data.delete('offset')
 
                             let lines: string[] = []
@@ -246,7 +246,7 @@ function TileCard({
                                     visible: distance === 'on',
                                     distance: tile.walkingDistance?.distance,
                                 },
-                                offset: offset,
+                                offset: Number(offset) || undefined,
                             } as TTile
 
                             if (distance === 'on' && !tile.walkingDistance) {
@@ -304,11 +304,11 @@ function TileCard({
                                 className="!w-2/5"
                                 value={offset}
                                 onChange={(e) => {
-                                    e.target.value === ''
-                                        ? setOffset(undefined)
+                                    isNaN(e.target.valueAsNumber)
+                                        ? setOffset('')
                                         : setOffset(e.target.valueAsNumber)
                                 }}
-                                disabled={offsetBasedOnWalkingDistance}
+                                readOnly={offsetBasedOnWalkingDistance}
                             />
                             {address && (
                                 <Checkbox
