@@ -32,7 +32,7 @@ import { TransportIcon } from 'components/TransportIcon'
 import { isArray, uniqBy } from 'lodash'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Columns, TColumn } from 'types/column'
 import { TBoard, TBoardID } from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
@@ -75,19 +75,13 @@ function TileCard({
     const [offsetBasedOnWalkingDistance, setOffsetBasedOnWalkingDistance] =
         useState(walkingDistanceInMinutes === tile.offset)
 
-    const offsetRef = useRef<HTMLInputElement | null>(null)
+    const [offset, setOffset] = useState(tile.offset ?? undefined)
 
     useEffect(() => {
-        const updateOffsetInputValue = () => {
-            if (offsetRef.current) {
-                offsetBasedOnWalkingDistance
-                    ? (offsetRef.current.valueAsNumber =
-                          walkingDistanceInMinutes)
-                    : (offsetRef.current.valueAsNumber = tile.offset ?? 0)
-            }
-        }
-        updateOffsetInputValue()
-    }, [offsetBasedOnWalkingDistance, walkingDistanceInMinutes, tile.offset])
+        offsetBasedOnWalkingDistance
+            ? setOffset(walkingDistanceInMinutes)
+            : setOffset(offset)
+    }, [offsetBasedOnWalkingDistance, walkingDistanceInMinutes, offset])
 
     useEffect(() => {
         if (!address) {
@@ -252,9 +246,7 @@ function TileCard({
                                     visible: distance === 'on',
                                     distance: tile.walkingDistance?.distance,
                                 },
-                                offset: offsetBasedOnWalkingDistance
-                                    ? Number(walkingDistanceInMinutes)
-                                    : Number(offset),
+                                offset: offset,
                             } as TTile
 
                             if (distance === 'on' && !tile.walkingDistance) {
@@ -307,13 +299,15 @@ function TileCard({
                                 label="Antall minutter"
                                 name="offset"
                                 id="offset"
-                                ref={offsetRef}
                                 type="number"
                                 min={0}
                                 className="!w-2/5"
-                                defaultValue={
-                                    tile.offset ? tile.offset : undefined
-                                }
+                                value={offset}
+                                onChange={(e) => {
+                                    e.target.value === ''
+                                        ? setOffset(undefined)
+                                        : setOffset(e.target.valueAsNumber)
+                                }}
                                 disabled={offsetBasedOnWalkingDistance}
                             />
                             {address && (
