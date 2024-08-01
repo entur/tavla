@@ -3,8 +3,7 @@ use std::time::Duration;
 use axum::{
     body::Body,
     extract::{Path, State},
-    http::{HeaderValue, Method, StatusCode},
-    response::Response,
+    http::{HeaderValue, Method, Response, StatusCode},
     routing::{get, post},
     Json, Router,
 };
@@ -13,7 +12,7 @@ use axum_auth::AuthBearer;
 use serde_json::{from_str, Value};
 use tokio::{net::TcpListener, time};
 
-use redis::AsyncCommands;
+use redis::{AsyncCommands, ConnectionLike};
 
 use tokio_stream::StreamExt;
 use tokio_util::{sync::CancellationToken, task::TaskTracker};
@@ -62,6 +61,7 @@ async fn main() {
         .route("/subscribe/:bid", get(subscribe))
         .route("/refresh/:bid", post(trigger))
         .route("/update", post(update))
+        .route("/health", get(check_health))
         .with_state(redis_clients)
         .layer(cors);
 
@@ -69,6 +69,13 @@ async fn main() {
         .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
         .await
         .unwrap()
+}
+
+async fn check_health(State(mut state): State<AppState>) -> StatusCode {
+    if state.replicas.check_connection() {
+        return StatusCode::OK;
+    }
+    StatusCode::INTERNAL_SERVER_ERROR
 }
 
 async fn active_boards(
