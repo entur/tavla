@@ -32,7 +32,6 @@ common:
                     periodSeconds: 5
                     successThreshold: 1
                     timeoutSeconds: 1
-                    path: '/health'
                 readinessProbe:
                     tcpSocket:
                         port: 3000
