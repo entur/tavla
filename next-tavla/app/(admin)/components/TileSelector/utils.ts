@@ -10,13 +10,15 @@ import { TTile } from 'types/tile'
 export function formDataToTile(data: FormData, organization?: TOrganization) {
     const quayId = data.get('quay') as string
     const stopPlaceId = data.get('stop_place') as string
-    const stopPlaceName = data.get('stop_place_name') as string
+    const stopPlaceName = (data.get('stop_place_name') as string).split(',')
+    const quayName = data.get('quay_name') as string
 
     const placeId = quayId ? quayId : stopPlaceId
-
     return {
         type: placeId !== stopPlaceId ? 'quay' : 'stop_place',
-        name: stopPlaceName,
+        name: `${stopPlaceName[0]}${
+            quayName === 'Vis alle' ? '' : ' ' + quayName.trim()
+        }, ${stopPlaceName[1]}`,
         uuid: nanoid(),
         placeId,
         columns:
