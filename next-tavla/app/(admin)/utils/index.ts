@@ -118,12 +118,6 @@ export function getFormFeedbackForError(
                 feedback: 'Skriv inn en e-postadresse.',
                 variant: 'warning',
             }
-        case 'auth/email-mismatch':
-            return {
-                form_type: 'email',
-                feedback: 'E-postadressen stemmer ikke.',
-                variant: 'error',
-            }
         case 'organization/not-found':
             return {
                 form_type: 'general',

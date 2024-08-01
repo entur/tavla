@@ -5,9 +5,8 @@ import { Heading3, Link as EnturLink, Paragraph } from '@entur/typography'
 import Link from 'next/link'
 import { ExternalIcon, GithubIcon } from '@entur/icons'
 import { usePostHog } from 'posthog-js/react'
-import { DeleteUser } from './components/DeleteUser'
 
-function Footer({ loggedIn }: { loggedIn: boolean }) {
+function Footer() {
     const posthog = usePostHog()
     return (
         <footer className="eds-contrast">
@@ -82,14 +81,6 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             <ExternalIcon aria-hidden />
                             <GithubIcon size={25} aria-hidden />
                         </div>
-                        {loggedIn && (
-                            <div className="flex flex-row gap-1 items-center">
-                                <EnturLink as={Link} href="?deleteProfile">
-                                    Slett bruker
-                                </EnturLink>
-                                <DeleteUser />
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
