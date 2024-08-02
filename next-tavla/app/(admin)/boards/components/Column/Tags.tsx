@@ -67,11 +67,9 @@ function Tags({
                                     <TagList tags={tags.slice(displayNumber)} />
                                 }
                             >
-                                <div className="cursor-help">
-                                    <Badge variant="neutral">
-                                        + {hiddenNumber} til
-                                    </Badge>
-                                </div>
+                                <Badge variant="neutral">
+                                    + {hiddenNumber}
+                                </Badge>
                             </Tooltip>
                         )}
                     </TagList>

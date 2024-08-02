@@ -14,7 +14,6 @@ export const dataColors = {
     jungle: 'var(--data-visualization-jungle)',
     lavender: 'var(--data-visualization-lavender)',
     lilac: 'var(--data-visualization-lilac)',
-    peach: 'var(--data-visualization-peach)',
     spring: 'var(--data-visualization-spring)',
 }
 

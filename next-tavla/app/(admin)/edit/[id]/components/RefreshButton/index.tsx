@@ -18,8 +18,8 @@ function RefreshButton({ board }: { board: TBoard }) {
         else
             toast.addToast({
                 variant: 'info',
-                title: 'Feil ved oppdatering av Tavle',
-                content: 'Det oppsto en feil, tavlen har ikke blitt oppdatert',
+                title: 'Feil ved oppdatering av tavlen',
+                content: 'Det oppsto en feil. Tavlen har ikke blitt oppdatert.',
             })
     }
     return (
