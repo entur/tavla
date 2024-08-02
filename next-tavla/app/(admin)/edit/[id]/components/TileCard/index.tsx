@@ -225,7 +225,7 @@ function TileCard({
                             data.delete('count')
                             const distance = data.get('showDistance') as string
                             data.delete('showDistance')
-                            const offset = data.get('offset') as number | ''
+                            const offset = data.get('offset') as number | null
                             data.delete('offset')
 
                             let lines: string[] = []
@@ -312,7 +312,6 @@ function TileCard({
                             />
                             {address && (
                                 <Checkbox
-                                    disabled={!address}
                                     checked={offsetBasedOnWalkingDistance}
                                     onChange={() => {
                                         setOffsetBasedOnWalkingDistance(
