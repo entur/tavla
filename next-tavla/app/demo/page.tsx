@@ -37,16 +37,15 @@ async function Demo() {
                 <Paragraph margin="none">Hvis du logger inn, kan du:</Paragraph>
                 <UnorderedList className="flex flex-col gap-1 pl-6">
                     <ListItem>Endre tekststørrelse</ListItem>
+                    <ListItem>Endre fargetema (lys eller mørk modus)</ListItem>
                     <ListItem>
                         Legge til en info-melding nederst i tavlen
                     </ListItem>
-                    <ListItem>Endre fargetema (lys eller mørk modus)</ListItem>
                     <ListItem>
-                        Legge inn adressen som tavlen står på og vise gåavstand
-                        fra tavlen til stoppested(ene)
+                        Vis gåavstanden fra tavlens adresse til stoppested(ene)
                     </ListItem>
                     <ListItem>
-                        Opprette så mange tavler du vil og samle disse i ulike
+                        Opprette så mange tavler du vil, og samle disse i ulike
                         organisasjoner (mapper)
                     </ListItem>
                     <ListItem>
