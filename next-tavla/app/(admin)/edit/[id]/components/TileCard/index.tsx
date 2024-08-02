@@ -78,12 +78,6 @@ function TileCard({
     const [offset, setOffset] = useState(tile.offset ?? '')
 
     useEffect(() => {
-        offsetBasedOnWalkingDistance
-            ? setOffset(walkingDistanceInMinutes)
-            : setOffset(tile.offset ?? '')
-    }, [offsetBasedOnWalkingDistance, walkingDistanceInMinutes, tile.offset])
-
-    useEffect(() => {
         if (!address) {
             setOffsetBasedOnWalkingDistance(false)
         }
@@ -314,9 +308,15 @@ function TileCard({
                                 <Checkbox
                                     checked={offsetBasedOnWalkingDistance}
                                     onChange={() => {
-                                        setOffsetBasedOnWalkingDistance(
-                                            !offsetBasedOnWalkingDistance,
-                                        )
+                                        setOffsetBasedOnWalkingDistance(() => {
+                                            !offsetBasedOnWalkingDistance
+                                                ? setOffset(
+                                                      walkingDistanceInMinutes,
+                                                  )
+                                                : setOffset(tile.offset ?? '')
+                                            return !offsetBasedOnWalkingDistance
+                                        })
+
                                         posthog.capture(
                                             'OFFSET_BASED_ON_WALKING_DISTANCE_BTN_CLICK',
                                         )
