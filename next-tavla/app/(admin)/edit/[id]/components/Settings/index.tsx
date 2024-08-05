@@ -104,7 +104,6 @@ function Settings({
                         setSelectedPoint={setSelectedPoint}
                     />
                     <Footer
-                        bid={bid}
                         footer={board.footer}
                         organizationBoard={organization !== undefined}
                     />

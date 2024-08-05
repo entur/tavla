@@ -2,15 +2,13 @@ import { Switch, TextField } from '@entur/form'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 import { Tooltip } from 'app/(admin)/components/Tooltip'
-import { TBoardID, TFooter } from 'types/settings'
+import { TFooter } from 'types/settings'
 import { useState } from 'react'
 
 function Footer({
-    bid,
     footer,
     organizationBoard,
 }: {
-    bid: TBoardID
     footer?: TFooter
     organizationBoard: boolean
 }) {
