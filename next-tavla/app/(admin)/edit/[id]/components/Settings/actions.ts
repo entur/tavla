@@ -10,13 +10,26 @@ import admin, { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
-import { TBoard, TBoardID, TOrganizationID } from 'types/settings'
+import {
+    TBoard,
+    TBoardID,
+    TFooter,
+    TOrganizationID,
+    TTheme,
+} from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 
 initializeAdminApp()
 
-export async function saveTitle(bid: TBoardID, name: string) {
+export async function saveSettings(
+    bid: TBoardID,
+    name: string,
+    fontSize: TFontSize,
+    theme: TTheme,
+    footer?: TFooter,
+) {
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
@@ -25,19 +38,17 @@ export async function saveTitle(bid: TBoardID, name: string) {
         .doc(bid)
         .update({
             'meta.title': name.substring(0, 30),
+            'meta.fontSize': fontSize,
+            theme: theme,
+            footer: {
+                footer:
+                    !footer?.footer || !isEmptyOrSpaces(footer?.footer)
+                        ? footer?.footer
+                        : firestore.FieldValue.delete(),
+                override: footer?.override,
+            },
             'meta.dateModified': Date.now(),
         })
-    revalidatePath(`/edit/${bid}`)
-}
-
-export async function saveFont(bid: TBoardID, font: TFontSize) {
-    const access = await hasBoardEditorAccess(bid)
-    if (!access) return redirect('/')
-
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
     revalidatePath(`/edit/${bid}`)
 }
 
@@ -49,6 +60,7 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
 
     const board = await getBoard(bid)
     if (!board) return getFormFeedbackForError('board/not-found')
+
     await firestore()
         .collection('boards')
         .doc(bid)

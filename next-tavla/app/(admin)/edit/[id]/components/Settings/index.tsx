@@ -9,20 +9,19 @@ import {
 import { Name } from './Name'
 import { Organization } from './Organization'
 import { Address } from './Adress'
-import { Footer } from '../Footer'
+import { Footer } from './Footer'
 import { FontChoice } from './FontChoice'
-import { ThemeSelect } from '../ThemeSelect'
+import { ThemeSelect } from './ThemeSelect'
 import { Heading2 } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { themeToDropdownItem } from 'app/(admin)/edit/utils'
 import { useState } from 'react'
-import { moveBoard, saveFont, saveLocation, saveTitle } from './actions'
-import { setFooter } from '../Footer/actions'
+import { moveBoard, saveLocation, saveSettings } from './actions'
 import { TFontSize } from 'types/meta'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { setTheme } from '../ThemeSelect/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { PrimaryButton } from '@entur/button'
+import { isEqual } from 'lodash'
 
 function Settings({
     bid,
@@ -34,7 +33,7 @@ function Settings({
     organization?: TOrganization
 }) {
     const { addToast } = useToast()
-    const [organizationID, setOrganizaionID] = useState<
+    const [newOrganizationID, setNewOrganizationID] = useState<
         TOrganizationID | undefined
     >()
 
@@ -55,27 +54,28 @@ function Settings({
                 id="settings"
                 action={async (data: FormData) => {
                     const name = data.get('name') as string
+                    const fontSize = data.get('font') as TFontSize
 
                     const footer = data.get('footer') as string
                     const override = data.get('override') as string
                     const overrideOrg = override !== 'on'
 
-                    // nå kjører denne alltid, vil vi sjekke om noe er forandret for å så endre?
-                    await setFooter(bid, {
-                        footer: footer,
-                        override: overrideOrg ?? true,
-                    })
+                    newOrganizationID !== organization?.id &&
+                        (await moveBoard(
+                            bid,
+                            newOrganizationID,
+                            organization?.id,
+                        ))
 
-                    await moveBoard(bid, organizationID, organization?.id)
-                    await saveTitle(bid, name)
+                    !isEqual(selectedPoint?.value, board.meta.location) &&
+                        (await saveLocation(bid, selectedPoint?.value))
 
-                    const font = data.get('font') as TFontSize
-                    await saveFont(bid, font)
-
-                    await saveLocation(bid, selectedPoint?.value)
-                    await setTheme(
-                        board.id ?? '',
+                    await saveSettings(
+                        bid,
+                        name,
+                        fontSize,
                         selectedTheme?.value ?? 'dark',
+                        { footer: footer, override: overrideOrg ?? true },
                     )
 
                     addToast('Lagret!')
@@ -94,8 +94,8 @@ function Settings({
 
                     <Name title={board.meta.title} setIsError={setIsError} />
                     <Organization
-                        organization={organization}
-                        setOrg={setOrganizaionID}
+                        organizationBoard={organization}
+                        setNewOrganizationID={setNewOrganizationID}
                         setIsError={setIsError}
                     />
                     <Address
