@@ -1,3 +1,4 @@
+'use client'
 import { TFontSize } from 'types/meta'
 import { setFontSize } from './actions'
 import { FontChoiceChip } from 'app/(admin)/edit/[id]/components/Settings/FontChoiceChip'

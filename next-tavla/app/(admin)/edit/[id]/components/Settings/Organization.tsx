@@ -11,18 +11,18 @@ import { TOrganization, TOrganizationID } from 'types/settings'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 function Organization({
-    setOrg,
-    organization,
+    organizationBoard,
+    setNewOrganizationID,
     setIsError,
 }: {
-    setOrg: Dispatch<SetStateAction<TOrganizationID | undefined>>
-    organization?: TOrganization
+    organizationBoard?: TOrganization
+    setNewOrganizationID: Dispatch<SetStateAction<TOrganizationID | undefined>>
     setIsError: Dispatch<SetStateAction<boolean>>
 }) {
     const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizations(organization)
+        useOrganizations(organizationBoard)
 
-    const [personal, setPersonal] = useState(organization ? false : true)
+    const [personal, setPersonal] = useState(organizationBoard ? false : true)
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
     useEffect(() => {
@@ -31,10 +31,12 @@ function Organization({
             setIsError(true)
             return
         }
-        personal ? setOrg(undefined) : setOrg(selectedOrganization?.value.id)
+        personal
+            ? setNewOrganizationID(undefined)
+            : setNewOrganizationID(selectedOrganization?.value.id)
         setFormError(undefined)
         setIsError(false)
-    }, [selectedOrganization, personal])
+    }, [selectedOrganization, personal, setNewOrganizationID, setIsError])
 
     return (
         <div className="box flex flex-col">
