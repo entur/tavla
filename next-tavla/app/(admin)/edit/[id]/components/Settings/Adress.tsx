@@ -1,26 +1,27 @@
-import { useToast } from '@entur/alert'
-import { SearchableDropdown } from '@entur/dropdown'
+import {
+    NormalizedDropdownItemType,
+    PotentiallyAsyncDropdownItemType,
+    SearchableDropdown,
+} from '@entur/dropdown'
 import { ValidationInfoIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 import { Tooltip } from 'app/(admin)/components/Tooltip'
-import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
-import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
-import { SubmitButton } from 'components/Form/SubmitButton'
+import { Dispatch, SetStateAction } from 'react'
 import { TLocation } from 'types/meta'
-import { TBoardID } from 'types/settings'
 
-function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
-    const { pointItems, selectedPoint, setSelectedPoint } =
-        usePointSearch(location)
-    const { addToast } = useToast()
+function Address({
+    pointItems,
+    selectedPoint,
+    setSelectedPoint,
+}: {
+    pointItems: PotentiallyAsyncDropdownItemType<TLocation>
+    selectedPoint: NormalizedDropdownItemType<TLocation> | null
+    setSelectedPoint: Dispatch<
+        SetStateAction<NormalizedDropdownItemType<TLocation> | null>
+    >
+}) {
     return (
-        <form
-            action={() => {
-                saveLocation(bid, selectedPoint?.value)
-                addToast('Adresse oppdatert!')
-            }}
-            className="box flex flex-col"
-        >
+        <div className="box flex flex-col">
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Adresse</Heading3>
                 <Tooltip
@@ -40,12 +41,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                     clearable
                 />
             </div>
-            <div className="flex flex-row mt-8 justify-end">
-                <SubmitButton variant="secondary" className="max-sm:w-full">
-                    Lagre adresse
-                </SubmitButton>
-            </div>
-        </form>
+        </div>
     )
 }
 

@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
 import { addTile, getBoard, getWalkingDistanceTile } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
-import { MetaSettings } from './components/MetaSettings'
+import { Settings } from './components/Settings'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
@@ -11,12 +11,10 @@ import { getOrganizationForBoard } from './components/TileCard/actions'
 import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
-import { Footer } from './components/Footer'
 import { RefreshButton } from './components/RefreshButton'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { Preview } from './components/Preview'
 import { ActionsMenu } from './components/ActionsMenu'
-import { ThemeSelect } from './components/ThemeSelect'
 import { TileList } from './components/TileList'
 
 export type TProps = {
@@ -54,48 +52,38 @@ export default async function EditPage({ params }: TProps) {
                         <ActionsMenu board={board} oid={organization?.id} />
                     </div>
                 </div>
+            </div>
+            <div className="flex flex-col gap-4">
+                <Heading2>Stoppesteder i tavlen</Heading2>
+                <TileSelector
+                    col={false}
+                    oid={organization?.id}
+                    lineIcons={false}
+                    action={async (data: FormData) => {
+                        'use server'
 
-                <div className="bg-background rounded-md py-8 px-6 flex flex-col gap-4">
-                    <Heading2>Stoppesteder</Heading2>
-                    <TileSelector
-                        col={false}
-                        oid={organization?.id}
-                        lineIcons={false}
-                        action={async (data: FormData) => {
-                            'use server'
+                        const tile = await getWalkingDistanceTile(
+                            formDataToTile(data, organization),
+                            board.meta?.location,
+                        )
+                        if (!tile.placeId) return
+                        await addTile(params.id, tile)
+                        revalidatePath(`/edit/${params.id}`)
+                    }}
+                />
 
-                            const tile = await getWalkingDistanceTile(
-                                formDataToTile(data, organization),
-                                board.meta?.location,
-                            )
-                            if (!tile.placeId) return
-                            await addTile(params.id, tile)
-                            revalidatePath(`/edit/${params.id}`)
-                        }}
-                    />
-
-                    <TileList board={board} />
-                    <div data-theme={board.theme ?? 'dark'} className="pt-8">
-                        <Preview board={board} organization={organization} />
-                    </div>
+                <TileList board={board} />
+                <div data-theme={board.theme ?? 'dark'} className="pt-8">
+                    <Preview board={board} organization={organization} />
                 </div>
+            </div>
 
-                <div className="rounded-md py-8 px-6 flex flex-col gap-4 bg-background">
-                    <Heading2>Innstillinger</Heading2>
-                    <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
-                        <MetaSettings
-                            bid={params.id}
-                            meta={board.meta}
-                            organization={organization}
-                        />
-                        <Footer
-                            bid={params.id}
-                            footer={board.footer}
-                            organizationBoard={organization !== undefined}
-                        />
-                        <ThemeSelect board={board} />
-                    </div>
-                </div>
+            <div className="rounded-md py-8 px-6 flex flex-col gap-4 bg-background">
+                <Settings
+                    bid={params.id}
+                    board={board}
+                    organization={organization}
+                />
             </div>
         </div>
     )
