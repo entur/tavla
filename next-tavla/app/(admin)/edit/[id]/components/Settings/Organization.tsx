@@ -29,14 +29,11 @@ function Organization({
         if (!selectedOrganization && !personal) {
             setFormError(getFormFeedbackForError('create/organization-missing'))
             setIsError(true)
-            return
+        } else {
+            setFormError(undefined)
+            setIsError(false)
         }
-        personal
-            ? setNewOrganizationID(undefined)
-            : setNewOrganizationID(selectedOrganization?.value.id)
-        setFormError(undefined)
-        setIsError(false)
-    }, [selectedOrganization, personal, setNewOrganizationID, setIsError])
+    }, [selectedOrganization, personal, setFormError, setIsError])
 
     return (
         <div className="box flex flex-col">
@@ -45,7 +42,10 @@ function Organization({
                 items={organizations}
                 label="Dine organisasjoner"
                 selectedItem={selectedOrganization}
-                onChange={setSelectedOrganization}
+                onChange={(item) => {
+                    setSelectedOrganization(item)
+                    setNewOrganizationID(item?.value.id)
+                }}
                 clearable
                 className="mb-4"
                 aria-required="true"
@@ -54,7 +54,10 @@ function Organization({
             />
             <Checkbox
                 checked={personal}
-                onChange={() => setPersonal(!personal)}
+                onChange={() => {
+                    setPersonal(!personal)
+                    setNewOrganizationID(undefined)
+                }}
                 name="personal"
             >
                 Privat tavle
