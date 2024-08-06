@@ -17,11 +17,7 @@ export function formDataToTile(data: FormData, organization?: TOrganization) {
     return {
         type: placeId !== stopPlaceId ? 'quay' : 'stop_place',
         name: `${stopPlaceName[0]}${
-<<<<<<< HEAD
             quayName === 'Vis alle' ? '' : ' ' + quayName.trim()
-=======
-            quayName === 'Vis alle' ? '' : ' ' + quayName
->>>>>>> 4e2302aa (feat(tiles): add platform to tile name)
         }, ${stopPlaceName[1]}`,
         uuid: nanoid(),
         placeId,
