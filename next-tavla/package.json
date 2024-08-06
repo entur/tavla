@@ -27,7 +27,7 @@
         "@dnd-kit/sortable": "7.0.2",
         "@dnd-kit/utilities": "3.2.1",
         "@entur/alert": "0.14.9",
-        "@entur/button": "3.0.8",
+        "@entur/button": "3.2.28",
         "@entur/chip": "0.7.15",
         "@entur/dropdown": "5.3.0",
         "@entur/expand": "3.4.0",

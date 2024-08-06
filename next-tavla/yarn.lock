@@ -879,7 +879,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/button@npm:3.0.8, @entur/button@npm:^3.0.8":
+"@entur/button@npm:3.2.28, @entur/button@npm:^3.2.28":
+  version: 3.2.28
+  resolution: "@entur/button@npm:3.2.28"
+  dependencies:
+    "@entur/loader": ^0.5.6
+    "@entur/tokens": ^3.15.2
+    "@entur/utils": ^0.11.1
+    classnames: ^2.3.1
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 928b38195a1a7f939d28c502f332c653aaecba263802d83eebf9887db8d72229501379e6c4a687ff719fde040a3e7548e53421ea012749c88f9a90b06d7c9b75
+  languageName: node
+  linkType: hard
+
+"@entur/button@npm:^3.0.8":
   version: 3.0.8
   resolution: "@entur/button@npm:3.0.8"
   dependencies:
@@ -951,21 +966,6 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: a1023c5be1dde8dd27d44b7bb35fe0e9761e6ba2112c8fb01e879013a83aa71315a31f60a2411aa57f57083e906e38206a4a77c98de5f6925527acfd486616b0
-  languageName: node
-  linkType: hard
-
-"@entur/button@npm:^3.2.28":
-  version: 3.2.28
-  resolution: "@entur/button@npm:3.2.28"
-  dependencies:
-    "@entur/loader": ^0.5.6
-    "@entur/tokens": ^3.15.2
-    "@entur/utils": ^0.11.1
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 928b38195a1a7f939d28c502f332c653aaecba263802d83eebf9887db8d72229501379e6c4a687ff719fde040a3e7548e53421ea012749c88f9a90b06d7c9b75
   languageName: node
   linkType: hard
 
@@ -14142,7 +14142,7 @@ __metadata:
     "@dnd-kit/sortable": 7.0.2
     "@dnd-kit/utilities": 3.2.1
     "@entur/alert": 0.14.9
-    "@entur/button": 3.0.8
+    "@entur/button": 3.2.28
     "@entur/chip": 0.7.15
     "@entur/dropdown": 5.3.0
     "@entur/expand": 3.4.0
