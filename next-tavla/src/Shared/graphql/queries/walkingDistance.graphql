@@ -6,7 +6,7 @@ query walkDistance($placeId: String!, $location: InputCoordinates!) {
     ) {
         tripPatterns {
             duration
-            walkDistance
+            streetDistance
             legs {
                 expectedStartTime
                 expectedEndTime

@@ -349,7 +349,7 @@ export type TWalkDistanceQuery = {
         tripPatterns: Array<{
             __typename?: 'TripPattern'
             duration: Long | null
-            walkDistance: number | null
+            streetDistance: number | null
             legs: Array<{
                 __typename?: 'Leg'
                 expectedStartTime: DateTime
@@ -679,7 +679,7 @@ export const WalkDistanceQuery = new TypedDocumentString(`
   ) {
     tripPatterns {
       duration
-      walkDistance
+      streetDistance
       legs {
         expectedStartTime
         expectedEndTime

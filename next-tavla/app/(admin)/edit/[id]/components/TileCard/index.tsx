@@ -35,7 +35,6 @@ import { usePostHog } from 'posthog-js/react'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Columns, TColumn } from 'types/column'
 import { TBoard, TBoardID } from 'types/settings'
-import { getBoard, getWalkingDistanceTile } from '../../actions'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
@@ -242,17 +241,6 @@ function TileCard({
                                 },
                                 offset: Number(offset) || undefined,
                             } as TTile
-
-                            if (distance === 'on' && !tile.walkingDistance) {
-                                const board = await getBoard(bid)
-                                return saveTile(
-                                    bid,
-                                    await getWalkingDistanceTile(
-                                        newTile,
-                                        board.meta.location,
-                                    ),
-                                )
-                            }
 
                             bid === 'demo'
                                 ? saveTileToDemoBoard(newTile)
