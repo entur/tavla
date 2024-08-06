@@ -8,7 +8,6 @@ import {
     SecondarySquareButton,
 } from '@entur/button'
 import { FilterChip } from '@entur/chip'
-import { Switch, TextField } from '@entur/form'
 import {
     CloseIcon,
     DeleteIcon,
@@ -17,6 +16,7 @@ import {
     QuestionIcon,
     UpwardIcon,
 } from '@entur/icons'
+import { Checkbox, Switch, TextField } from '@entur/form'
 import { Modal } from '@entur/modal'
 import {
     Heading3,
@@ -32,7 +32,7 @@ import { TransportIcon } from 'components/TransportIcon'
 import { isArray, uniqBy } from 'lodash'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Columns, TColumn } from 'types/column'
 import { TBoard, TBoardID } from 'types/settings'
 import { getBoard, getWalkingDistanceTile } from '../../actions'
@@ -68,6 +68,20 @@ function TileCard({
     const [changed, setChanged] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
     const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
+
+    const walkingDistanceInMinutes = Math.ceil(
+        (tile.walkingDistance?.distance ?? 0) / 60,
+    )
+    const [offsetBasedOnWalkingDistance, setOffsetBasedOnWalkingDistance] =
+        useState(walkingDistanceInMinutes === tile.offset)
+
+    const [offset, setOffset] = useState(tile.offset ?? '')
+
+    useEffect(() => {
+        if (!address) {
+            setOffsetBasedOnWalkingDistance(false)
+        }
+    }, [address])
 
     const reset = () => {
         setConfirmOpen(false)
@@ -226,7 +240,7 @@ function TileCard({
                                     visible: distance === 'on',
                                     distance: tile.walkingDistance?.distance,
                                 },
-                                offset: Number(offset),
+                                offset: Number(offset) || undefined,
                             } as TTile
 
                             if (distance === 'on' && !tile.walkingDistance) {
@@ -247,48 +261,74 @@ function TileCard({
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
                     >
-                        <Heading4 margin="none">Gåavstand</Heading4>
+                        <Heading4 margin="bottom">Gåavstand</Heading4>
                         <SubParagraph>
                             Vis gåavstand fra lokasjonen til Tavla til
-                            stoppestedet
+                            stoppestedet.
                         </SubParagraph>
-                        <div className="flex flex-col">
-                            {!address?.name && (
-                                <Label className="!text-error">
-                                    {demoBoard
-                                        ? 'Logg inn for å få tilgang til funksjonaliteten'
-                                        : 'Du må legge til en lokasjon for å kunne skru på gåavstand'}
-                                </Label>
+                        {!address && (
+                            <Label className="!text-error">
+                                {demoBoard
+                                    ? 'Logg inn for å få tilgang til funksjonaliteten.'
+                                    : 'Du må legge til en lokasjon for å kunne skru på gåavstand.'}
+                            </Label>
+                        )}
+                        <Switch
+                            name="showDistance"
+                            disabled={!address}
+                            defaultChecked={
+                                tile.walkingDistance?.visible ?? false
+                            }
+                        >
+                            Vis gåavstand
+                        </Switch>
+
+                        <Heading4>Forskyv avgangstid</Heading4>
+                        <div className="flex flex-col gap-2">
+                            <SubParagraph>
+                                Vis kun avganger som går om mer enn et valgt
+                                antall minutter.
+                            </SubParagraph>
+                            <TextField
+                                label="Antall minutter"
+                                name="offset"
+                                id="offset"
+                                type="number"
+                                min={0}
+                                className="!w-2/5"
+                                value={offset}
+                                onChange={(e) => {
+                                    setOffset(e.target.valueAsNumber || '')
+                                }}
+                                readOnly={offsetBasedOnWalkingDistance}
+                            />
+                            {address && (
+                                <Checkbox
+                                    checked={offsetBasedOnWalkingDistance}
+                                    onChange={() => {
+                                        if (!offsetBasedOnWalkingDistance)
+                                            setOffset(walkingDistanceInMinutes)
+                                        else setOffset(tile.offset ?? '')
+
+                                        setOffsetBasedOnWalkingDistance(
+                                            !offsetBasedOnWalkingDistance,
+                                        )
+
+                                        posthog.capture(
+                                            'OFFSET_BASED_ON_WALKING_DISTANCE_BTN_CLICK',
+                                        )
+                                    }}
+                                >
+                                    Forskyv basert på gåavstand
+                                </Checkbox>
                             )}
-                            <Switch
-                                name="showDistance"
-                                disabled={address ? false : true}
-                                defaultChecked={
-                                    tile.walkingDistance?.visible ?? false
-                                }
-                            >
-                                Vis gåavstand
-                            </Switch>
                         </div>
-                        <Heading4>Avganger frem i tid</Heading4>
-                        <SubParagraph>
-                            Vis kun avganger som går om mer enn valgt antall
-                            minutter
-                        </SubParagraph>
-                        <TextField
-                            label="Antall minutter"
-                            name="offset"
-                            type="number"
-                            min={0}
-                            className="w-full sm:w-1/3"
-                            defaultValue={tile.offset ? tile.offset : undefined}
-                        />
 
                         <Heading4>Kolonner</Heading4>
                         <div className="flex flex-row items-center gap-2">
                             <SubParagraph>
                                 Her bestemmer du hvilke kolonner som skal vises
-                                i tavlen
+                                i tavlen.
                             </SubParagraph>
                             <Tooltip
                                 aria-hidden
@@ -329,6 +369,7 @@ function TileCard({
                                 )
                             })}
                         </div>
+
                         <Heading4>Transportmidler og linjer</Heading4>
                         <div className="flex flex-row gap-4">
                             {linesByModeSorted.map(
