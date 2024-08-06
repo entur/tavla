@@ -298,9 +298,7 @@ function TileCard({
                                 className="!w-2/5"
                                 value={offset}
                                 onChange={(e) => {
-                                    isNaN(e.target.valueAsNumber)
-                                        ? setOffset('')
-                                        : setOffset(e.target.valueAsNumber)
+                                    setOffset(e.target.valueAsNumber || '')
                                 }}
                                 readOnly={offsetBasedOnWalkingDistance}
                             />
@@ -308,14 +306,13 @@ function TileCard({
                                 <Checkbox
                                     checked={offsetBasedOnWalkingDistance}
                                     onChange={() => {
-                                        setOffsetBasedOnWalkingDistance(() => {
-                                            !offsetBasedOnWalkingDistance
-                                                ? setOffset(
-                                                      walkingDistanceInMinutes,
-                                                  )
-                                                : setOffset(tile.offset ?? '')
-                                            return !offsetBasedOnWalkingDistance
-                                        })
+                                        if (!offsetBasedOnWalkingDistance)
+                                            setOffset(walkingDistanceInMinutes)
+                                        else setOffset(tile.offset ?? '')
+
+                                        setOffsetBasedOnWalkingDistance(
+                                            !offsetBasedOnWalkingDistance,
+                                        )
 
                                         posthog.capture(
                                             'OFFSET_BASED_ON_WALKING_DISTANCE_BTN_CLICK',
