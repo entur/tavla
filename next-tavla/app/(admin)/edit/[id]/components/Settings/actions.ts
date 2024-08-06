@@ -9,7 +9,7 @@ import {
 import admin, { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TFontSize, TLocation } from 'types/meta'
+import { TLocation, TMeta } from 'types/meta'
 import {
     TBoard,
     TBoardID,
@@ -25,8 +25,7 @@ initializeAdminApp()
 
 export async function saveSettings(
     bid: TBoardID,
-    name: string,
-    fontSize: TFontSize,
+    meta: TMeta,
     theme: TTheme,
     footer?: TFooter,
 ) {
@@ -37,8 +36,8 @@ export async function saveSettings(
         .collection('boards')
         .doc(bid)
         .update({
-            'meta.title': name.substring(0, 30),
-            'meta.fontSize': fontSize,
+            'meta.title': meta.title,
+            'meta.fontSize': meta.fontSize,
             theme: theme,
             footer: {
                 footer:

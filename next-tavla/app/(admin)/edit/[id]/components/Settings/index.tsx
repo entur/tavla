@@ -2,6 +2,7 @@
 import {
     TBoard,
     TBoardID,
+    TFooter,
     TOrganization,
     TOrganizationID,
     TTheme,
@@ -16,7 +17,7 @@ import { Heading2 } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { themeToDropdownItem } from 'app/(admin)/edit/utils'
 import { useState } from 'react'
-import { moveBoard, saveLocation, saveSettings } from './actions'
+import { moveBoard, saveSettings, saveLocation } from './actions'
 import { TFontSize } from 'types/meta'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
@@ -60,6 +61,18 @@ function Settings({
                     const override = data.get('override') as string
                     const overrideOrg = override !== 'on'
 
+                    const newMeta = {
+                        title: name,
+                        fontSize: fontSize,
+                    }
+
+                    const newFooter = {
+                        footer: footer,
+                        override: overrideOrg ?? true,
+                    } as TFooter
+
+                    const newTheme = selectedTheme?.value ?? 'dark'
+
                     newOrganizationID !== organization?.id &&
                         (await moveBoard(
                             bid,
@@ -70,13 +83,7 @@ function Settings({
                     !isEqual(selectedPoint?.value, board.meta.location) &&
                         (await saveLocation(bid, selectedPoint?.value))
 
-                    await saveSettings(
-                        bid,
-                        name,
-                        fontSize,
-                        selectedTheme?.value ?? 'dark',
-                        { footer: footer, override: overrideOrg ?? true },
-                    )
+                    await saveSettings(bid, newMeta, newTheme, newFooter)
 
                     addToast('Lagret!')
                 }}
