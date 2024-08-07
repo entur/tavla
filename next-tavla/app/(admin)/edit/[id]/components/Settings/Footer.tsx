@@ -16,14 +16,26 @@ function Footer({
 
     return (
         <div className="box flex flex-col gap-2">
-            <div className="flex flex-row items-center gap-2">
-                <Heading4 margin="bottom">Infomelding</Heading4>
-                <Tooltip
-                    content="Skriv en kort tekst som skal vises nederst i tavlen."
-                    placement="top"
-                >
-                    <ValidationInfoIcon />
-                </Tooltip>
+            <div className="flex flex-row justify-between">
+                <div className="flex flex-row items-center gap-2">
+                    <Heading4 margin="bottom">Infomelding</Heading4>
+                    <Tooltip
+                        content="Skriv en kort tekst som skal vises nederst i tavlen."
+                        placement="top"
+                    >
+                        <ValidationInfoIcon />
+                    </Tooltip>
+                </div>
+                {organizationBoard && (
+                    <div className="flex flex-row gap-2.5 items-center">
+                        <p className="mt-1">Vis</p>
+                        <Switch
+                            checked={!override}
+                            onChange={() => setOverride(!override)}
+                            name="override"
+                        ></Switch>
+                    </div>
+                )}
             </div>
             <div className="h-full">
                 <TextField
@@ -33,15 +45,6 @@ function Footer({
                     readOnly={!override && organizationBoard}
                     className="w-full"
                 />
-                {organizationBoard && (
-                    <Switch
-                        checked={!override}
-                        onChange={() => setOverride(!override)}
-                        name="override"
-                    >
-                        Vis infomelding fra organisasjonen.
-                    </Switch>
-                )}
             </div>
         </div>
     )
