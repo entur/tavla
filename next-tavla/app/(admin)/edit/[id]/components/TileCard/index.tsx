@@ -288,26 +288,31 @@ function TileCard({
                                 }}
                                 readOnly={offsetBasedOnWalkingDistance}
                             />
-                            {address && (
-                                <Checkbox
-                                    checked={offsetBasedOnWalkingDistance}
-                                    onChange={() => {
-                                        if (!offsetBasedOnWalkingDistance)
-                                            setOffset(walkingDistanceInMinutes)
-                                        else setOffset(tile.offset ?? '')
+                            {address &&
+                                !Number.isNaN(
+                                    tile.walkingDistance?.distance,
+                                ) && (
+                                    <Checkbox
+                                        checked={offsetBasedOnWalkingDistance}
+                                        onChange={() => {
+                                            if (!offsetBasedOnWalkingDistance)
+                                                setOffset(
+                                                    walkingDistanceInMinutes,
+                                                )
+                                            else setOffset(tile.offset ?? '')
 
-                                        setOffsetBasedOnWalkingDistance(
-                                            !offsetBasedOnWalkingDistance,
-                                        )
+                                            setOffsetBasedOnWalkingDistance(
+                                                !offsetBasedOnWalkingDistance,
+                                            )
 
-                                        posthog.capture(
-                                            'OFFSET_BASED_ON_WALKING_DISTANCE_BTN_CLICK',
-                                        )
-                                    }}
-                                >
-                                    Forskyv basert på gåavstand
-                                </Checkbox>
-                            )}
+                                            posthog.capture(
+                                                'OFFSET_BASED_ON_WALKING_DISTANCE_BTN_CLICK',
+                                            )
+                                        }}
+                                    >
+                                        Forskyv basert på gåavstand
+                                    </Checkbox>
+                                )}
                         </div>
 
                         <Heading4>Kolonner</Heading4>
