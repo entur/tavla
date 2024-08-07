@@ -4,7 +4,7 @@ import {
     SearchableDropdown,
 } from '@entur/dropdown'
 import { ValidationInfoIcon } from '@entur/icons'
-import { Heading3 } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { Dispatch, SetStateAction } from 'react'
 import { TLocation } from 'types/meta'
@@ -21,14 +21,14 @@ function Address({
     >
 }) {
     return (
-        <div className="box flex flex-col">
+        <div className="box flex flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-                <Heading3 margin="bottom">Adresse</Heading3>
+                <Heading4 margin="bottom">Adresse</Heading4>
                 <Tooltip
                     content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
                     placement="top"
                 >
-                    <ValidationInfoIcon className="mb-2" />
+                    <ValidationInfoIcon />
                 </Tooltip>
             </div>
             <div className="h-full">

@@ -1,7 +1,7 @@
 import { TTheme } from 'types/settings'
 import { Dispatch, SetStateAction } from 'react'
 import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
-import { Heading3 } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import { themes } from 'app/(admin)/edit/utils'
 
 function ThemeSelect({
@@ -14,11 +14,8 @@ function ThemeSelect({
     >
 }) {
     return (
-        <div className="box flex flex-col">
-            <div className="flex flex-row items-center gap-2">
-                <Heading3 margin="bottom">Fargetema</Heading3>
-            </div>
-
+        <div className="box flex flex-col gap-2">
+            <Heading4 margin="bottom">Fargetema</Heading4>
             <div className="h-full">
                 <Dropdown
                     items={themes}

@@ -1,6 +1,6 @@
 import { Dropdown } from '@entur/dropdown'
 import { Checkbox } from '@entur/form'
-import { Heading3 } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import {
     TFormFeedback,
     getFormFeedbackForError,
@@ -36,8 +36,8 @@ function Organization({
     }, [selectedOrganization, personal, setFormError, setIsError])
 
     return (
-        <div className="box flex flex-col">
-            <Heading3 margin="bottom">Organisasjon</Heading3>
+        <div className="box flex flex-col gap-2">
+            <Heading4 margin="bottom">Organisasjon</Heading4>
             <Dropdown
                 items={organizations}
                 label="Dine organisasjoner"
@@ -47,7 +47,6 @@ function Organization({
                     setNewOrganizationID(item?.value.id)
                 }}
                 clearable
-                className="mb-4"
                 aria-required="true"
                 disabled={personal}
                 {...getFormFeedbackForField('organization', state)}

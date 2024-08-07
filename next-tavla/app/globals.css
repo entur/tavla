@@ -226,7 +226,7 @@
     .box {
         width: 100%;
         border-radius: 0.5em;
-        padding: 2em;
+        padding: 1em;
         background: var(--blue90);
     }
 

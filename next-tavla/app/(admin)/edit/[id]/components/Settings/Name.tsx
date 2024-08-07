@@ -1,5 +1,5 @@
 import { TextField } from '@entur/form'
-import { Heading3 } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import {
     TFormFeedback,
@@ -18,8 +18,8 @@ function Name({
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
     return (
-        <div className="box flex flex-col">
-            <Heading3 margin="bottom">Navn</Heading3>
+        <div className="box flex flex-col gap-2">
+            <Heading4 margin="bottom">Navn</Heading4>
             <div className="h-full">
                 <TextField
                     name="name"

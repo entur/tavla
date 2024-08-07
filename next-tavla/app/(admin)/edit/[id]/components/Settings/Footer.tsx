@@ -1,6 +1,6 @@
 import { Switch, TextField } from '@entur/form'
 import { ValidationInfoIcon } from '@entur/icons'
-import { Heading3 } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { TFooter } from 'types/settings'
 import { useState } from 'react'
@@ -15,14 +15,14 @@ function Footer({
     const [override, setOverride] = useState(footer?.override ?? false)
 
     return (
-        <div className="box flex flex-col">
+        <div className="box flex flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-                <Heading3 margin="bottom">Infomelding</Heading3>
+                <Heading4 margin="bottom">Infomelding</Heading4>
                 <Tooltip
                     content="Skriv en kort tekst som skal vises nederst i tavlen."
                     placement="top"
                 >
-                    <ValidationInfoIcon className="mb-2" />
+                    <ValidationInfoIcon />
                 </Tooltip>
             </div>
             <div className="h-full">
