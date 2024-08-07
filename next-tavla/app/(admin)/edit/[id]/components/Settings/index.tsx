@@ -88,7 +88,7 @@ function Settings({
                     addToast('Lagret!')
                 }}
             >
-                <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
+                <div className="flex flex-row justify-between">
                     <Heading2>Innstillinger</Heading2>
                     <PrimaryButton
                         type="submit"
@@ -98,7 +98,8 @@ function Settings({
                     >
                         Lagre valg
                     </PrimaryButton>
-
+                </div>
+                <div className="grid md:grid-cols-2 gap-x-5 gap-y-4 pt-6">
                     <Name title={board.meta.title} setIsError={setIsError} />
                     <Organization
                         organizationBoard={organization}
