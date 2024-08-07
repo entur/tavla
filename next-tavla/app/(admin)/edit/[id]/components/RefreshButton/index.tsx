@@ -24,7 +24,7 @@ function RefreshButton({ board }: { board: TBoard }) {
     }
     return (
         <Button variant="secondary" onClick={refresh} className="flex flex-row">
-            Oppdater Tavle
+            Oppdater tavle
             <RefreshIcon inline />
         </Button>
     )

@@ -48,40 +48,45 @@ async function EditOrganizationPage({ params }: TProps) {
     )
 
     return (
-        <>
-            <Heading1 margin="top">{organization.name}</Heading1>
-            <LeadParagraph margin="bottom">
-                Valgene som tas blir satt som standard når det opprettes en
-                tavle i organisasjonen &quot;{organization.name}&quot;. Valgene
-                kan fortsatt justeres i hver enkelt tavle (med unntak av logo).
-                Innstillingene vil ikke påvirke tavler som allerede har blitt
-                opprettet.
-            </LeadParagraph>
-            <div className="grid gap-y-12 gap-x-8 lg:grid-cols-2">
-                <MemberAdministration
-                    members={usersReq.users}
-                    uid={user.uid}
-                    oid={organization.id}
-                />
-                <CountiesSelect
-                    oid={organization.id}
-                    countiesList={organization?.defaults?.counties}
-                />
-                <DefaultColumns
-                    oid={organization.id}
-                    columns={organization.defaults?.columns}
-                />
+        <div className="bg-gray-50">
+            <div className="container pb-20 pt-16">
+                <Heading1 margin="top">{organization.name}</Heading1>
+                <LeadParagraph margin="bottom">
+                    Valgene som tas blir satt som standard når det opprettes en
+                    tavle i organisasjonen &quot;{organization.name}&quot;.
+                    Valgene kan fortsatt justeres i hver enkelt tavle (med
+                    unntak av logo). Innstillingene vil ikke påvirke tavler som
+                    allerede har blitt opprettet.
+                </LeadParagraph>
+                <div className="grid gap-y-12 gap-x-8 lg:grid-cols-2">
+                    <MemberAdministration
+                        members={usersReq.users}
+                        uid={user.uid}
+                        oid={organization.id}
+                    />
+                    <CountiesSelect
+                        oid={organization.id}
+                        countiesList={organization?.defaults?.counties}
+                    />
+                    <DefaultColumns
+                        oid={organization.id}
+                        columns={organization.defaults?.columns}
+                    />
 
-                <FontSelect
-                    oid={organization.id}
-                    font={organization?.defaults?.font}
-                />
+                    <FontSelect
+                        oid={organization.id}
+                        font={organization?.defaults?.font}
+                    />
 
-                <Footer oid={organization.id} footer={organization.footer} />
+                    <Footer
+                        oid={organization.id}
+                        footer={organization.footer}
+                    />
 
-                <UploadLogo organization={organization} />
+                    <UploadLogo organization={organization} />
+                </div>
             </div>
-        </>
+        </div>
     )
 }
 

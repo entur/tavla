@@ -22,7 +22,7 @@ function Landing() {
             <main>
                 <Welcome />
                 <div className="flex flex-col justify-center pb-10 pt-6">
-                    <div className="flex flex-col py-4 container mx-auto">
+                    <div className="flex flex-col py-4 container">
                         <Heading1 margin="none">
                             Lag din egen avgangstavle
                         </Heading1>
@@ -41,7 +41,7 @@ function Landing() {
                         />
                     </div>
 
-                    <div className="flex flex-col justify-center py-4 container mx-auto">
+                    <div className="flex flex-col justify-center py-4 container">
                         <Heading2>Hva er Tavla?</Heading2>
                         <LeadParagraph>
                             Tavla er et verktøy som hjelper deg å lage

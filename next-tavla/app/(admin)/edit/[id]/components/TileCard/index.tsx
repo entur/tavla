@@ -92,7 +92,7 @@ function TileCard({
 
     if (!lines)
         return (
-            <div className="flex justify-between items-center bg-secondary p-4 rounded">
+            <div className="flex justify-between items-center bg-blue80 p-4 rounded">
                 Laster...
             </div>
         )
@@ -142,7 +142,7 @@ function TileCard({
         <div>
             <div className="flex flex-row">
                 <div
-                    className={`flex justify-between items-center px-6  py-4 bg-secondary w-full ${
+                    className={`flex justify-between items-center px-6  py-4 bg-blue80 w-full ${
                         isOpen ? 'rounded-t' : 'rounded'
                     }`}
                 >
@@ -155,17 +155,15 @@ function TileCard({
                         </div>
                     </div>
 
-                    <div className="flex flex-row gap-4">
-                        <SecondarySquareButton
-                            onClick={() => {
-                                if (changed) return setConfirmOpen(true)
-                                setIsOpen(!isOpen)
-                            }}
-                            aria-label="Rediger stoppested"
-                        >
-                            {isOpen ? <CloseIcon /> : <EditIcon />}
-                        </SecondarySquareButton>
-                    </div>
+                    <SecondarySquareButton
+                        onClick={() => {
+                            if (changed) return setConfirmOpen(true)
+                            setIsOpen(!isOpen)
+                        }}
+                        aria-label="Rediger stoppested"
+                    >
+                        {isOpen ? <CloseIcon /> : <EditIcon />}
+                    </SecondarySquareButton>
                 </div>
                 <div
                     className={` flex flex-col ${
@@ -205,7 +203,7 @@ function TileCard({
             </div>
             <BaseExpand open={isOpen}>
                 <div
-                    className={`bg-secondary px-6 mr-14 py-4  ${
+                    className={`bg-blue90 px-6 mr-14 py-4  ${
                         totalTiles == 1 && 'w-full'
                     } rounded-b`}
                 >

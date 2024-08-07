@@ -16,7 +16,7 @@ async function Demo() {
     const loggedIn = (await verifySession(session)) !== null
 
     return (
-        <main className="container mx-auto pt-8 pb-20 flex flex-col gap-10">
+        <main className="container pt-8 pb-20 flex flex-col gap-10">
             <div>
                 <Heading1>Prøv og lag din egen avgangstavle!</Heading1>
                 <LeadParagraph margin="none" className="lg:w-4/5">

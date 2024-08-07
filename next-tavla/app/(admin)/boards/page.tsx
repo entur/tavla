@@ -27,7 +27,7 @@ async function OrganizationsBoardsPage() {
         ),
     )
     return (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-8 container pb-20">
             <Heading1>Tavler</Heading1>
             <div className="flex flex-col sm:flex-row md:items-center gap-3">
                 <Search />
