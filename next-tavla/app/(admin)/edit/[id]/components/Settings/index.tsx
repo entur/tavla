@@ -15,11 +15,9 @@ import { FontChoice } from './FontChoice'
 import { ThemeSelect } from './ThemeSelect'
 import { Heading2 } from '@entur/typography'
 import { useToast } from '@entur/alert'
-import { themeToDropdownItem } from 'app/(admin)/edit/utils'
 import { useState } from 'react'
 import { moveBoard, saveSettings, saveLocation } from './actions'
 import { TFontSize } from 'types/meta'
-import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { PrimaryButton } from '@entur/button'
 import { isEqual } from 'lodash'
@@ -40,11 +38,6 @@ function Settings({
 
     const [isError, setIsError] = useState(false)
 
-    const [selectedTheme, setSelectedTheme] =
-        useState<NormalizedDropdownItemType<TTheme> | null>(
-            themeToDropdownItem(board?.theme ?? 'dark'),
-        )
-
     const { pointItems, selectedPoint, setSelectedPoint } = usePointSearch(
         board.meta.location,
     )
@@ -56,6 +49,7 @@ function Settings({
                 action={async (data: FormData) => {
                     const name = data.get('name') as string
                     const fontSize = data.get('font') as TFontSize
+                    const theme = data.get('theme') as TTheme
 
                     const footer = data.get('footer') as string
                     const override = data.get('override') as string
@@ -71,8 +65,6 @@ function Settings({
                         override: overrideOrg ?? true,
                     } as TFooter
 
-                    const newTheme = selectedTheme?.value ?? 'dark'
-
                     newOrganizationID !== organization?.id &&
                         (await moveBoard(
                             bid,
@@ -83,7 +75,7 @@ function Settings({
                     !isEqual(selectedPoint?.value, board.meta.location) &&
                         (await saveLocation(bid, selectedPoint?.value))
 
-                    await saveSettings(bid, newMeta, newTheme, newFooter)
+                    await saveSettings(bid, newMeta, theme, newFooter)
 
                     addToast('Lagret!')
                 }}
@@ -116,10 +108,7 @@ function Settings({
                         organizationBoard={organization !== undefined}
                     />
                     <FontChoice fontSize={board.meta.fontSize} />
-                    <ThemeSelect
-                        selectedTheme={selectedTheme}
-                        setSelectedTheme={setSelectedTheme}
-                    />
+                    <ThemeSelect theme={board.theme ?? 'dark'} />
                 </div>
             </form>
         </>

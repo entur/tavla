@@ -276,6 +276,10 @@
         padding: 1em 0;
     }
 
+    .choiceChip {
+        width: 100px;
+    }
+
     @supports not (gap: 0.75em) {
         .rootContainer > * {
             margin: 0.5em;

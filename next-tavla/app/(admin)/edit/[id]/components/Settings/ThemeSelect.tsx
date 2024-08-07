@@ -1,29 +1,26 @@
 import { TTheme } from 'types/settings'
-import { Dispatch, SetStateAction } from 'react'
-import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
+import { useState } from 'react'
 import { Heading4 } from '@entur/typography'
-import { themes } from 'app/(admin)/edit/utils'
+import { ChoiceChip, ChoiceChipGroup } from '@entur/chip'
 
-function ThemeSelect({
-    selectedTheme,
-    setSelectedTheme,
-}: {
-    selectedTheme: NormalizedDropdownItemType<TTheme> | null
-    setSelectedTheme: Dispatch<
-        SetStateAction<NormalizedDropdownItemType<TTheme> | null>
-    >
-}) {
+function ThemeSelect({ theme }: { theme: TTheme }) {
+    const [newTheme, setNewTheme] = useState<TTheme>(theme)
     return (
         <div className="box flex flex-col gap-2">
             <Heading4 margin="bottom">Fargetema</Heading4>
-            <div className="h-full">
-                <Dropdown
-                    items={themes}
-                    selectedItem={selectedTheme}
-                    onChange={setSelectedTheme}
-                    label="Fargetema"
-                />
-            </div>
+            <ChoiceChipGroup
+                name="theme"
+                value={newTheme}
+                onChange={(e) => setNewTheme(e.target.value as TTheme)}
+                aria-label="Fargetekst"
+            >
+                <ChoiceChip value="light" className="choiceChip">
+                    Lys
+                </ChoiceChip>
+                <ChoiceChip value="dark" className="choiceChip">
+                    Mørk
+                </ChoiceChip>
+            </ChoiceChipGroup>
         </div>
     )
 }
