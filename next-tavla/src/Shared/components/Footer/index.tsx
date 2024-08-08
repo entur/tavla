@@ -15,13 +15,12 @@ function Footer({
 }) {
     if (
         !logo &&
-        ((!board.footer?.footer && board.footer?.override) ||
+        ((!board.footer?.footer && !board.footer?.override) ||
             (!orgFooter && !board.footer?.footer))
     )
         return null
 
     const EnturLogo = getLogo(board?.theme ?? 'dark')
-
     return (
         <footer className="flex flex-row justify-between min-h-[4vh] items-center gap-em-2">
             <div
@@ -29,9 +28,7 @@ function Footer({
                     getFontScale(board.meta?.fontSize) || defaultFontSize(board)
                 }`}
             >
-                {orgFooter && !board.footer?.override
-                    ? orgFooter
-                    : board.footer?.footer}
+                {board.footer?.override ? orgFooter : board.footer?.footer}
             </div>
             {logo && (
                 <Image

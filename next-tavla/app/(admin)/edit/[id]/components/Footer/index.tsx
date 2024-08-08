@@ -23,10 +23,10 @@ function Footer({
     const submitOrgBoard = async (data: FormData) => {
         const footer = data.get('footer') as string
         const override = data.get('override') as string
-        const overrideOrg = override !== 'on'
+        const overrideOrg = override === 'on'
         await setFooter(bid, {
             footer: footer,
-            override: overrideOrg ?? true,
+            override: overrideOrg,
         })
         addToast('Infomelding lagret!')
     }
@@ -47,12 +47,12 @@ function Footer({
                     label="Infomelding"
                     name="footer"
                     defaultValue={footer?.footer ?? ''}
-                    readOnly={!override && organizationBoard}
+                    readOnly={override && organizationBoard}
                     className="w-full"
                 />
                 {organizationBoard && (
                     <Switch
-                        checked={!override}
+                        checked={override}
                         onChange={() => setOverride(!override)}
                         name="override"
                     >
