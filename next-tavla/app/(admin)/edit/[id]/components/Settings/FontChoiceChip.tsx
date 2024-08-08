@@ -7,15 +7,20 @@ function FontChoiceChip({ font }: { font: TFontSize }) {
 
     return (
         <ChoiceChipGroup
-            className="h-full"
             name="font"
             value={fontSize}
             onChange={(e) => setFontSize(e.target.value as TFontSize)}
             aria-label="Tekststørrelse"
         >
-            <ChoiceChip value="small">Liten</ChoiceChip>
-            <ChoiceChip value="medium">Medium</ChoiceChip>
-            <ChoiceChip value="large">Stor</ChoiceChip>
+            <ChoiceChip value="small" className="choiceChip">
+                Liten
+            </ChoiceChip>
+            <ChoiceChip value="medium" className="choiceChip">
+                Medium
+            </ChoiceChip>
+            <ChoiceChip value="large" className="choiceChip">
+                Stor
+            </ChoiceChip>
         </ChoiceChipGroup>
     )
 }
