@@ -52,38 +52,38 @@ export default async function EditPage({ params }: TProps) {
                         <ActionsMenu board={board} oid={organization?.id} />
                     </div>
                 </div>
-            </div>
-            <div className="flex flex-col gap-4">
-                <Heading2>Stoppesteder i tavlen</Heading2>
-                <TileSelector
-                    col={false}
-                    oid={organization?.id}
-                    lineIcons={false}
-                    action={async (data: FormData) => {
-                        'use server'
+                <div className="flex flex-col gap-4">
+                    <Heading2>Stoppesteder i tavlen</Heading2>
+                    <TileSelector
+                        col={false}
+                        oid={organization?.id}
+                        lineIcons={false}
+                        action={async (data: FormData) => {
+                            'use server'
 
-                        const tile = await getWalkingDistanceTile(
-                            formDataToTile(data, organization),
-                            board.meta?.location,
-                        )
-                        if (!tile.placeId) return
-                        await addTile(params.id, tile)
-                        revalidatePath(`/edit/${params.id}`)
-                    }}
-                />
+                            const tile = await getWalkingDistanceTile(
+                                formDataToTile(data, organization),
+                                board.meta?.location,
+                            )
+                            if (!tile.placeId) return
+                            await addTile(params.id, tile)
+                            revalidatePath(`/edit/${params.id}`)
+                        }}
+                    />
 
-                <TileList board={board} />
-                <div data-theme={board.theme ?? 'dark'} className="pt-8">
-                    <Preview board={board} organization={organization} />
+                    <TileList board={board} />
+                    <div data-theme={board.theme ?? 'dark'} className="pt-8">
+                        <Preview board={board} organization={organization} />
+                    </div>
                 </div>
-            </div>
 
-            <div className="rounded-md py-8 px-6 flex flex-col gap-4 bg-background">
-                <Settings
-                    bid={params.id}
-                    board={board}
-                    organization={organization}
-                />
+                <div className="rounded-md py-8 px-6 flex flex-col gap-4 bg-background">
+                    <Settings
+                        bid={params.id}
+                        board={board}
+                        organization={organization}
+                    />
+                </div>
             </div>
         </div>
     )
