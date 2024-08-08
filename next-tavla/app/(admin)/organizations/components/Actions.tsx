@@ -13,6 +13,7 @@ function Edit({ oid }: { oid?: string }) {
                 as={Link}
                 aria-label="Rediger organisasjon"
                 href={`/organizations/${oid}`}
+                size="small"
             >
                 <EditIcon />
             </IconButton>
@@ -28,7 +29,7 @@ function Actions({
     userId: TUserID
 }) {
     return (
-        <div className="flex flex-row">
+        <div className="flex flex-row gap-2">
             {organization.owners?.includes(userId) && (
                 <>
                     <Edit oid={organization.id} />
