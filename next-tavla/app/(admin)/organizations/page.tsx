@@ -2,10 +2,10 @@ import { Heading1, Paragraph } from '@entur/typography'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { CreateOrganization } from './components/CreateOrganization'
-import { OrganizationsTable } from './components/OrganizationsTable'
 import { Metadata } from 'next'
 import { verifySession } from '../utils/firebase'
 import { getOrganizationsForUser } from '../actions'
+import { Organizations } from './components/Organizations'
 
 export const metadata: Metadata = {
     title: 'Organisasjoner | Entur Tavla',
@@ -32,10 +32,7 @@ async function OrganizationsPage() {
                 </Paragraph>
                 <CreateOrganization />
             </div>
-            <OrganizationsTable
-                organizations={organizations}
-                userId={user.uid}
-            />
+            <Organizations organizations={organizations} userId={user.uid} />
         </div>
     )
 }
