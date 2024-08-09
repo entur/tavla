@@ -20,7 +20,7 @@ function Organizations({
                     key={organization.id}
                 >
                     <div className="h-full w-full grid grid-rows-2">
-                        <div className=" h-full w-full flex align-center justify-center">
+                        <div className="flex align-center justify-center">
                             <Image
                                 src={organization.logo ?? EnturLogoBlue}
                                 alt="Logo til organisasjonen"
@@ -42,7 +42,7 @@ function Organizations({
                                     userId={userId}
                                 />
                             </div>
-                            <Paragraph className="pt-2 !text-xs" margin="none">
+                            <Paragraph className="py-2 !text-xs" margin="none">
                                 Rolle:{' '}
                                 {organization.owners?.includes(userId)
                                     ? 'Eier'
