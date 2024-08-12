@@ -29,10 +29,12 @@ function Organizations({
                                 alt="Logo til organisasjonen"
                                 height={256 / aspect}
                                 width={256}
-                                onLoadingComplete={({
-                                    naturalWidth,
-                                    naturalHeight,
-                                }) => setAspect(naturalWidth / naturalHeight)}
+                                onLoad={({ currentTarget }) =>
+                                    setAspect(
+                                        currentTarget.naturalWidth /
+                                            currentTarget.naturalHeight,
+                                    )
+                                }
                                 className="p-4"
                             />
                         </div>
