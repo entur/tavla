@@ -1,9 +1,11 @@
+'use client'
 import { TOrganization } from 'types/settings'
 import EnturLogoBlue from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import { Link, Paragraph } from '@entur/typography'
 import NextLink from 'next/link'
 import { Actions } from './Actions'
+import { useState } from 'react'
 
 function Organizations({
     userId,
@@ -12,6 +14,7 @@ function Organizations({
     userId: string
     organizations: TOrganization[]
 }) {
+    const [aspect, setAspect] = useState(16 / 9)
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {organizations.map((organization) => (
@@ -24,9 +27,13 @@ function Organizations({
                             <Image
                                 src={organization.logo ?? EnturLogoBlue}
                                 alt="Logo til organisasjonen"
-                                height={64}
-                                width={64}
-                                className="min-w-full h-auto px-10 py-6"
+                                height={256 / aspect}
+                                width={256}
+                                onLoadingComplete={({
+                                    naturalWidth,
+                                    naturalHeight,
+                                }) => setAspect(naturalWidth / naturalHeight)}
+                                className="p-4"
                             />
                         </div>
                         <div className="bg-gray-100 p-4">
