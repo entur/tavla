@@ -84,11 +84,12 @@ async fn reset_active(
     Ok(StatusCode::OK)
 }
 
-async fn check_health(State(mut state): State<AppState>) -> StatusCode {
-    if state.replicas.check_connection() {
-        return StatusCode::OK;
+async fn check_health(State(mut state): State<AppState>) -> Result<StatusCode, AppError> {
+    if !state.replicas.check_connection() {
+        return Ok(StatusCode::INTERNAL_SERVER_ERROR);
     }
-    StatusCode::INTERNAL_SERVER_ERROR
+    state.master.get::<&str, i32>("active_boards").await?;
+    Ok(StatusCode::OK)
 }
 
 async fn active_boards(
