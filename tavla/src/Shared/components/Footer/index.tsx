@@ -16,7 +16,7 @@ function Footer({
     if (
         !logo &&
         ((!board.footer?.footer && !board.footer?.override) ||
-            (!orgFooter && !board.footer?.footer))
+            (!orgFooter && board.footer?.override))
     )
         return null
 
