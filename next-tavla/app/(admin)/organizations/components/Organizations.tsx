@@ -13,7 +13,7 @@ function Organizations({
     organizations: TOrganization[]
 }) {
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {organizations.map((organization) => (
                 <div
                     className="w-full h-64 border rounded-md shadow-sm"
@@ -24,8 +24,9 @@ function Organizations({
                             <Image
                                 src={organization.logo ?? EnturLogoBlue}
                                 alt="Logo til organisasjonen"
-                                height={128}
-                                width={128}
+                                height={64}
+                                width={64}
+                                className="min-w-full h-auto px-10 py-6"
                             />
                         </div>
                         <div className="bg-gray-100 p-4">
