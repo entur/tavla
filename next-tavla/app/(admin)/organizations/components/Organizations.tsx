@@ -20,13 +20,13 @@ function Organizations({
                     key={organization.id}
                 >
                     <div className="h-full w-full grid grid-rows-2">
-                        <div className="flex align-center justify-center">
+                        <div className="flex align-center justify-center relative">
                             <Image
                                 src={organization.logo ?? EnturLogoBlue}
                                 alt="Logo til organisasjonen"
-                                height={64}
-                                width={64}
-                                className="min-w-full h-auto px-10 py-6"
+                                fill
+                                objectFit="contain"
+                                className="py-4 px-16"
                             />
                         </div>
                         <div className="bg-gray-100 p-4">
