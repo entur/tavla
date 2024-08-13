@@ -42,6 +42,7 @@ import { TransportModeAndLines } from './TransportModeAndLines'
 import { TLocation } from 'types/meta'
 import { Tooltip } from '@entur/tooltip'
 import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/ColumnModal'
+import { useToast } from '@entur/alert'
 
 function TileCard({
     bid,
@@ -67,6 +68,7 @@ function TileCard({
     const [changed, setChanged] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
     const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
+    const { addToast } = useToast()
 
     const walkingDistanceInMinutes = Math.ceil(
         (tile.walkingDistance?.distance ?? 0) / 60,
@@ -394,6 +396,7 @@ function TileCard({
                                     bid === 'demo'
                                         ? removeTileFromDemoBoard(tile)
                                         : await deleteTile(bid, tile)
+                                    addToast(`${tile.name} fjernet!`)
                                 }}
                                 aria-label="Slett stoppested"
                                 type="button"
