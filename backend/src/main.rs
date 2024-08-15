@@ -61,7 +61,7 @@ async fn main() {
         .route("/subscribe/:bid", get(subscribe))
         .route("/refresh/:bid", post(trigger))
         .route("/update", post(update))
-        .route("/actuator/health/liveness", get(check_health))
+        .route("/alive", get(check_health))
         .route("/reset", post(reset_active))
         .with_state(redis_clients)
         .layer(cors);
