@@ -49,7 +49,7 @@ function Delete({
                     className="gap-4"
                     variant="secondary"
                     aria-label="Slett organisasjon"
-                    size="small"
+                    size="medium"
                 >
                     {type === 'secondary' && 'Slett'}
                     <DeleteIcon />

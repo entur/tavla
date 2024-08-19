@@ -15,7 +15,7 @@ export function QuayTile({
     columns,
     walkingDistance,
     offset,
-    displayName,
+    name,
 }: TQuayTile) {
     const { data } = useQuery(
         GetQuayQuery,
@@ -49,7 +49,7 @@ export function QuayTile({
     return (
         <Tile className="flex flex-col">
             <TableHeader
-                heading={displayName ?? heading}
+                heading={name ?? heading}
                 walkingDistance={walkingDistance}
             />
             <Table
