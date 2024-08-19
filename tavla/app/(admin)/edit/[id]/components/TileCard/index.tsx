@@ -220,6 +220,8 @@ function TileCard({
                             data.delete('showDistance')
                             const offset = data.get('offset') as number | null
                             data.delete('offset')
+                            const displayName = data.get('displayName')
+                            data.delete('tileName')
 
                             let lines: string[] = []
                             for (const line of data.values()) {
@@ -240,6 +242,7 @@ function TileCard({
                                     distance: tile.walkingDistance?.distance,
                                 },
                                 offset: Number(offset) || undefined,
+                                displayName: displayName || undefined,
                             } as TTile
 
                             bid === 'demo'
@@ -249,7 +252,21 @@ function TileCard({
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
                     >
-                        <Heading4 margin="bottom">Gåavstand</Heading4>
+                        <div className="flex flex-col gap-2">
+                            <Heading4 margin="bottom">
+                                Navn på stoppested
+                            </Heading4>
+                            <SubParagraph>
+                                Dette navnet vil vises i tavlen.
+                            </SubParagraph>
+                            <TextField
+                                label="Navn på stoppested"
+                                className="!w-2/5"
+                                name="displayName"
+                                defaultValue={tile.displayName}
+                            />
+                        </div>
+                        <Heading4>Gåavstand</Heading4>
                         <SubParagraph>
                             Vis gåavstand fra lokasjonen til Tavla til
                             stoppestedet.
