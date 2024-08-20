@@ -84,3 +84,10 @@ export REDIS_MASTER_SERVICE_PORT="6379"
 export REDIS_REPLICAS_SERVICE_HOST"127.0.0.1"
 export REDIS_REPLICAS_SERVICE_PORT="6380"
 ```
+
+## Run
+Finally, you can run the code
+
+```sh
+cargo run
+```
