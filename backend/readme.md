@@ -35,6 +35,7 @@ Your terminal should now look like this:
 82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
 masterauth super_secret_redis_pw
 requirepass super_secret_redis_pw
+SET active_boards 0
 ```
 Finish configuring the first instance with `CTRL-D`
 
@@ -67,8 +68,27 @@ requirepass super_secret_redis_pw
 port 6380
 replicaof 127.0.0.1 6379
 ```
-
 Finish configuring the second instance with `CTRL-D`
+
+## Verify Redis
+You should now be able to connect directly to Redis
+
+```sh
+redis-cli
+```
+
+Authenticate yourself
+```sh
+auth super_secret_redis_pw
+```
+
+Set active_boards (A counter that keeps tracks of currently active boards) to 0
+
+```sh
+set active_boards 0
+```
+
+Quit Redis with `CTRL-C`
 
 ## Environment variables
 
@@ -81,7 +101,7 @@ export BACKEND_API_KEY="super_secret_key"
 export REDIS_PASSWORD="super_secret_redis_pw"
 export REDIS_MASTER_SERVICE_HOST="127.0.0.1"
 export REDIS_MASTER_SERVICE_PORT="6379"
-export REDIS_REPLICAS_SERVICE_HOST"127.0.0.1"
+export REDIS_REPLICAS_SERVICE_HOST="127.0.0.1"
 export REDIS_REPLICAS_SERVICE_PORT="6380"
 ```
 
@@ -90,4 +110,12 @@ Finally, you can run the code
 
 ```sh
 cargo run
+```
+
+## Verify
+
+You should now be able to send requests to the server
+
+```sh
+curl localhost:3001/active -H "Authorization: Bearer super_secret_key"
 ```
