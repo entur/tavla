@@ -35,7 +35,6 @@ Your terminal should now look like this:
 82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
 masterauth super_secret_redis_pw
 requirepass super_secret_redis_pw
-SET active_boards 0
 ```
 Finish configuring the first instance with `CTRL-D`
 
