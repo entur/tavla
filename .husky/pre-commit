@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-if ! git diff --cached --exit-code -s next-tavla
+if ! git diff --cached --exit-code -s tavla
 then
-	echo "Files changed in next-tavla"
-	cd next-tavla
+	echo "Files changed in tavla"
+	cd tavla
 	yarn lint
 	yarn typecheck
 	yarn prettier

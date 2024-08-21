@@ -1,5 +1,5 @@
 import { TQuayTile } from 'types/tile'
-import { Table } from '../../scenarios/Table'
+import { Table } from '../Table'
 import { GetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
