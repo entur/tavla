@@ -160,6 +160,12 @@ export function getFormFeedbackForError(
                 feedback: 'Du har ikke lagt til noen stoppesteder',
                 variant: 'error',
             }
+        case 'board/tiles-name-missing':
+            return {
+                form_type: 'name',
+                feedback: 'Navnet kan ikke være tomt',
+                variant: 'error',
+            }
         case 'boards/tag-exists':
             return {
                 form_type: 'general',

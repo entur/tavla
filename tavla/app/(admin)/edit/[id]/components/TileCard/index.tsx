@@ -1,6 +1,5 @@
 'use client'
-import { BaseExpand } from '@entur/expand'
-import { TTile } from 'types/tile'
+import { useToast } from '@entur/alert'
 import {
     Button,
     IconButton,
@@ -8,6 +7,8 @@ import {
     SecondarySquareButton,
 } from '@entur/button'
 import { FilterChip } from '@entur/chip'
+import { BaseExpand } from '@entur/expand'
+import { Checkbox, Switch, TextField } from '@entur/form'
 import {
     CloseIcon,
     DeleteIcon,
@@ -16,8 +17,8 @@ import {
     QuestionIcon,
     UpwardIcon,
 } from '@entur/icons'
-import { Checkbox, Switch, TextField } from '@entur/form'
 import { Modal } from '@entur/modal'
+import { Tooltip } from '@entur/tooltip'
 import {
     Heading3,
     Heading4,
@@ -25,6 +26,8 @@ import {
     Paragraph,
     SubParagraph,
 } from '@entur/typography'
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
+import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/ColumnModal'
 import Goat from 'assets/illustrations/Goat.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -34,15 +37,13 @@ import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Columns, TColumn } from 'types/column'
+import { TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
+import { TTile } from 'types/tile'
+import { TransportModeAndLines } from './TransportModeAndLines'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
-import { TransportModeAndLines } from './TransportModeAndLines'
-import { TLocation } from 'types/meta'
-import { Tooltip } from '@entur/tooltip'
-import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/ColumnModal'
-import { useToast } from '@entur/alert'
 
 function TileCard({
     bid,
@@ -220,6 +221,16 @@ function TileCard({
                             data.delete('showDistance')
                             const offset = data.get('offset') as number | null
                             data.delete('offset')
+                            const displayName = data.get(
+                                'displayName',
+                            ) as string
+                            data.delete('displayName')
+
+                            if (isEmptyOrSpaces(displayName))
+                                return addToast({
+                                    variant: 'info',
+                                    content: 'Navnet kan ikke være tomt.',
+                                })
 
                             let lines: string[] = []
                             for (const line of data.values()) {
@@ -240,6 +251,7 @@ function TileCard({
                                     distance: tile.walkingDistance?.distance,
                                 },
                                 offset: Number(offset) || undefined,
+                                name: displayName,
                             } as TTile
 
                             bid === 'demo'
@@ -249,7 +261,21 @@ function TileCard({
                         onSubmit={reset}
                         onInput={() => setChanged(true)}
                     >
-                        <Heading4 margin="bottom">Gåavstand</Heading4>
+                        <div className="flex flex-col gap-2">
+                            <Heading4 margin="bottom">
+                                Navn på stoppested
+                            </Heading4>
+                            <SubParagraph>
+                                Dette navnet vil vises i tavlen.
+                            </SubParagraph>
+                            <TextField
+                                label="Navn på stoppested"
+                                className="!w-2/5"
+                                name="displayName"
+                                defaultValue={tile.name}
+                            />
+                        </div>
+                        <Heading4>Gåavstand</Heading4>
                         <SubParagraph>
                             Vis gåavstand fra lokasjonen til Tavla til
                             stoppestedet.
