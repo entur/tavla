@@ -251,7 +251,7 @@ function TileCard({
                                     distance: tile.walkingDistance?.distance,
                                 },
                                 offset: Number(offset) || undefined,
-                                name: displayName || undefined,
+                                name: displayName,
                             } as TTile
 
                             bid === 'demo'
