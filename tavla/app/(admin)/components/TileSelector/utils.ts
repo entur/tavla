@@ -18,7 +18,7 @@ export function formDataToTile(data: FormData, organization?: TOrganization) {
         type: placeId !== stopPlaceId ? 'quay' : 'stop_place',
         name: `${stopPlaceName[0]}${
             quayName === 'Vis alle' ? '' : ' ' + quayName.trim()
-        }, ${stopPlaceName[1]}`,
+        }`,
         uuid: nanoid(),
         placeId,
         columns:
