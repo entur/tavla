@@ -1,39 +1,39 @@
 {
     "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "inlineSources": true,
-        "sourceRoot": "/",
-        "module": "commonjs",
-        "lib": ["es2021", "dom", "dom.iterable"],
-        "target": "es5",
-        "jsx": "react",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "typeRoots": ["./src/types", "node_modules/@types"],
-        "strict": true,
-        "downlevelIteration": true,
+        "target": "es6",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
         "skipLibCheck": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "node",
         "noUncheckedIndexedAccess": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
         "baseUrl": ".",
         "paths": {
-            "routes/*": ["src/routes/*"],
-            "components/*": ["src/components/*"],
-            "scenarios/*": ["src/scenarios/*"],
-            "tiles/*": ["src/tiles/*"],
-            "types/*": ["src/types/*"],
-            "assets/*": ["src/assets/*"],
-            "hooks/*": ["src/hooks/*"],
-            "utils/*": ["src/utils/*"],
-            "containers/*": ["src/containers/*"],
-            "dashboards/*": ["src/dashboards/*"],
-            "logic/*": ["src/logic/*"],
-            "settings/*": ["src/settings/*"],
-            "graphql-generated/*": ["graphql-generated/*"],
-            "lite/*": ["src/routes/Admin/LiteSettings/*"],
-            "src/*": ["src/*"]
+            "Admin/*": ["./src/Admin/*"],
+            "Board/*": ["./src/Board/*"],
+            "components/*": ["./src/Shared/components/*"],
+            "utils/*": ["./src/Shared/utils/*"],
+            "types/*": ["./src/Shared/types/*"],
+            "styles/*": ["./src/Shared/styles/*"],
+            "assets/*": ["./src/Shared/assets/*"],
+            "graphql/*": ["./src/Shared/graphql/*"],
+            "hooks/*": ["./src/Shared/hooks/*"],
+            "src/*": ["./src/*"]
         }
     },
-    "include": ["./src/**/*", "graphql-generated"],
-    "exclude": ["node_modules"]
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "exclude": ["node_modules", ".next/*"]
 }

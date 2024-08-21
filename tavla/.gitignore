@@ -1,16 +1,15 @@
-node_modules/
 .DS_Store
-dist/
-.vscode/
-.idea/
-.firebase/*.cache
-*.log
-functions/lib
-sentry.properties
-.eslintcache
-.stylelintcache
 
-# yarn, see https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.env.local
+entur-tavla-staging-firebase-adminsdk.json
+entur-tavla-prod-firebase-adminsdk.json
+
+node_modules/
+**/.firebase
+
+.vscode/
+.next/
+
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -18,3 +17,12 @@ sentry.properties
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+cypress/videos
+cypress/screenshots
+
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+.db

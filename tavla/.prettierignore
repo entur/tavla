@@ -1,8 +1,7 @@
-dist
-lib
-vendor
-graphql-schemas
-graphql-generated
-*.graphql
+.next
 .yarn
-next-tavla
+.db
+
+next.config.js
+
+graphql-tools/

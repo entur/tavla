@@ -6,14 +6,6 @@ then
 	echo "Files changed in tavla"
 	cd tavla
 	yarn lint
-	cd ..
-fi
-
-if ! git diff --cached --exit-code -s next-tavla
-then
-	echo "Files changed in next-tavla"
-	cd next-tavla
-	yarn lint
 	yarn typecheck
 	yarn prettier
 	cd ..
