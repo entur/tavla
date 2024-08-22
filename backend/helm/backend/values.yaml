@@ -32,7 +32,8 @@ common:
           timeoutSeconds: 1
           failureThreshold: 300
         livenessProbe:
-          tcpSocket:
+          httpGet:
+            path: /alive
             port: 3000
           periodSeconds: 5
           successThreshold: 1
