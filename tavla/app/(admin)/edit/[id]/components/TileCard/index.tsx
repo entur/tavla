@@ -26,7 +26,6 @@ import {
     Paragraph,
     SubParagraph,
 } from '@entur/typography'
-import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/ColumnModal'
 import Goat from 'assets/illustrations/Goat.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -150,7 +149,9 @@ function TileCard({
                     }`}
                 >
                     <div className="flex flex-row gap-4 items-center ">
-                        <Heading3 margin="none">{tile.name}</Heading3>
+                        <Heading3 margin="none">
+                            {tile.displayName ?? tile.name}
+                        </Heading3>
                         <div className="hidden sm:flex flex-row gap-4 h-8">
                             {transportModes.map((tm) => (
                                 <TransportIcon transportMode={tm} key={tm} />
@@ -226,12 +227,6 @@ function TileCard({
                             ) as string
                             data.delete('displayName')
 
-                            if (isEmptyOrSpaces(displayName))
-                                return addToast({
-                                    variant: 'info',
-                                    content: 'Navnet kan ikke være tomt.',
-                                })
-
                             let lines: string[] = []
                             for (const line of data.values()) {
                                 lines.push(line as string)
@@ -251,7 +246,7 @@ function TileCard({
                                     distance: tile.walkingDistance?.distance,
                                 },
                                 offset: Number(offset) || undefined,
-                                name: displayName,
+                                displayName: displayName || undefined,
                             } as TTile
 
                             bid === 'demo'
@@ -272,7 +267,7 @@ function TileCard({
                                 label="Navn på stoppested"
                                 className="!w-2/5"
                                 name="displayName"
-                                defaultValue={tile.name}
+                                defaultValue={tile.displayName}
                             />
                         </div>
                         <Heading4>Gåavstand</Heading4>

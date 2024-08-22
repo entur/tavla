@@ -14,7 +14,7 @@ export function StopPlaceTile({
     columns,
     walkingDistance,
     offset,
-    name,
+    displayName,
 }: TStopPlaceTile) {
     const { data } = useQuery(
         StopPlaceQuery,
@@ -44,7 +44,7 @@ export function StopPlaceTile({
     return (
         <Tile className="flex flex-col">
             <TableHeader
-                heading={name ?? data.stopPlace.name}
+                heading={displayName ?? data.stopPlace.name}
                 walkingDistance={walkingDistance}
             />
             <Table
