@@ -34,6 +34,7 @@ pub async fn setup_redis() -> (MultiplexedConnection, Client) {
         db: 0,
         username: None,
         password: Some(redis_pw),
+        protocol: redis::ProtocolVersion::RESP3,
     };
 
     let master_host = std::env::var("REDIS_MASTER_SERVICE_HOST")
