@@ -47,7 +47,7 @@ impl ToRedisArgs for BoardAction {
 
         match s {
             Ok(s) => out.write_arg_fmt(s),
-            Err(_) => out.write_arg_fmt(""),
+            Err(_) => out.write_arg_fmt(0_u8),
         }
     }
 }
