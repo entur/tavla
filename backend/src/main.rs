@@ -118,7 +118,7 @@ async fn trigger(
     }
     state
         .master
-        .publish(bid, BoardAction::Refresh { payload: payload })
+        .publish(bid, BoardAction::Refresh { payload })
         .await?;
     Ok(StatusCode::OK)
 }
@@ -169,7 +169,7 @@ async fn subscribe(
                 let payload = msg.get_payload::<BoardAction>()?;
 
                 match payload {
-                    BoardAction::Refresh { payload } => Message::Refresh { payload: payload },
+                    BoardAction::Refresh { payload } => Message::Refresh { payload },
                     BoardAction::Update => Message::Update,
                 }
             }
