@@ -144,7 +144,7 @@ async fn update_board(
     }
     state
         .master
-        .publish(bid, to_string(&BoardAction::Update)?) // "update"
+        .publish(bid, to_string(&BoardAction::Update)?)
         .await?;
     Ok(StatusCode::OK)
 }
