@@ -3,8 +3,11 @@ use axum::{
     http::{Response, StatusCode},
     response::IntoResponse,
 };
-use redis::{aio::MultiplexedConnection, AsyncCommands, Client};
-use serde::Serialize;
+use redis::{
+    aio::MultiplexedConnection, from_redis_value, AsyncCommands, Client, FromRedisValue,
+    ToRedisArgs,
+};
+use serde::{Deserialize, Serialize};
 use serde_json::{to_string, Value};
 
 #[derive(Clone)]
@@ -20,6 +23,31 @@ pub enum Message {
     Refresh { payload: Value },
     Update,
     Timeout,
+}
+
+#[derive(Serialize, Deserialize)]
+pub enum BoardAction {
+    Refresh { payload: Value },
+    Update,
+}
+
+impl FromRedisValue for BoardAction {
+    fn from_redis_value(v: &redis::Value) -> redis::RedisResult<Self> {
+        let s: String = from_redis_value(v)?;
+        Ok(serde_json::from_str::<BoardAction>(&s)?)
+    }
+}
+
+impl ToRedisArgs for BoardAction {
+    fn write_redis_args<W>(&self, out: &mut W)
+    where
+        W: ?Sized + redis::RedisWrite,
+    {
+        match to_string(self) {
+            Ok(s) => out.write_arg_fmt(s),
+            Err(_) => out.write_arg_fmt(0_u8),
+        }
+    }
 }
 
 pub struct Guard {
@@ -65,7 +93,7 @@ pub struct AppError {
 
 impl IntoResponse for AppError {
     fn into_response(self) -> axum::response::Response {
-        (StatusCode::INTERNAL_SERVER_ERROR).into_response()
+        StatusCode::INTERNAL_SERVER_ERROR.into_response()
     }
 }
 

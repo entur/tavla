@@ -9,7 +9,7 @@ use axum::{
 };
 
 use axum_auth::AuthBearer;
-use serde_json::{from_str, Value};
+use serde_json::{to_string, Value};
 use tokio::{net::TcpListener, time};
 
 use redis::{AsyncCommands, ConnectionLike};
@@ -21,7 +21,7 @@ mod types;
 
 mod utils;
 use tower_http::cors::CorsLayer;
-use types::{AppError, AppState, Message};
+use types::{AppError, AppState, BoardAction, Message};
 use utils::{graceful_shutdown, setup_redis};
 
 use crate::types::Guard;
@@ -61,6 +61,7 @@ async fn main() {
         .route("/subscribe/:bid", get(subscribe))
         .route("/refresh/:bid", post(trigger))
         .route("/update", post(update))
+        .route("/update/:bid", post(update_board))
         .route("/alive", get(check_health))
         .route("/reset", post(reset_active))
         .with_state(redis_clients)
@@ -115,7 +116,10 @@ async fn trigger(
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
     }
-    state.master.publish(bid, payload.to_string()).await?;
+    state
+        .master
+        .publish(bid, BoardAction::Refresh { payload })
+        .await?;
     Ok(StatusCode::OK)
 }
 
@@ -127,6 +131,21 @@ async fn update(
         return Ok(StatusCode::UNAUTHORIZED);
     }
     state.master.publish("update", vec![0]).await?;
+    Ok(StatusCode::OK)
+}
+
+async fn update_board(
+    AuthBearer(token): AuthBearer,
+    State(mut state): State<AppState>,
+    Path(bid): Path<String>,
+) -> Result<StatusCode, AppError> {
+    if token != state.key {
+        return Ok(StatusCode::UNAUTHORIZED);
+    }
+    state
+        .master
+        .publish(bid, to_string(&BoardAction::Update)?)
+        .await?;
     Ok(StatusCode::OK)
 }
 
@@ -147,11 +166,14 @@ async fn subscribe(
                 if channel == "update" {
                     Message::Update
                 } else {
-                let payload = msg.get_payload::<String>()?;
-                Message::Refresh {
-                    payload: from_str::<Value>(payload.as_str())?,
-                }}
+                let payload = msg.get_payload::<BoardAction>()?;
+
+                match payload {
+                    BoardAction::Refresh { payload } => Message::Refresh { payload },
+                    BoardAction::Update => Message::Update,
+                }
             }
+        }
         () = time::sleep(Duration::from_secs(55)) => {
             Message::Timeout
         }
