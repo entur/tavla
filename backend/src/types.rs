@@ -43,9 +43,7 @@ impl ToRedisArgs for BoardAction {
     where
         W: ?Sized + redis::RedisWrite,
     {
-        let s = serde_json::to_string(self);
-
-        match s {
+        match to_string(self) {
             Ok(s) => out.write_arg_fmt(s),
             Err(_) => out.write_arg_fmt(0_u8),
         }
