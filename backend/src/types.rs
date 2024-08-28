@@ -59,7 +59,6 @@ impl IntoResponse for Message {
     }
 }
 
-#[derive(Debug)]
 pub struct AppError {
     _e: anyhow::Error,
 }
