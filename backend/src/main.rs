@@ -79,7 +79,8 @@ async fn reset_active(
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
     }
-
+    state.master.publish("update", vec![0]).await?;
+    time::sleep(Duration::from_secs(5)).await;
     state.master.set("active_boards", 0).await?;
     Ok(StatusCode::OK)
 }

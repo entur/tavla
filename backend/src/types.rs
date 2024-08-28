@@ -59,12 +59,14 @@ impl IntoResponse for Message {
     }
 }
 
+#[derive(Debug)]
 pub struct AppError {
     _e: anyhow::Error,
 }
 
 impl IntoResponse for AppError {
     fn into_response(self) -> axum::response::Response {
+        println!("{:?}", self);
         (StatusCode::INTERNAL_SERVER_ERROR).into_response()
     }
 }
