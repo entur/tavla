@@ -12,6 +12,7 @@ import { Preview } from './(admin)/components/Preview'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
 import { Button } from '@entur/button'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -43,10 +44,20 @@ function Landing() {
                                     til å planlegge sin neste kollektivreise.
                                 </LeadParagraph>
                                 <div className="flex md:flex-row flex-col md:items-end w-full gap-4 ">
-                                    <Button variant="success" size="medium">
+                                    <Button
+                                        variant="success"
+                                        size="medium"
+                                        as={Link}
+                                        href="?login=create"
+                                    >
                                         Opprett bruker
                                     </Button>
-                                    <Button variant="secondary" size="medium">
+                                    <Button
+                                        variant="secondary"
+                                        size="medium"
+                                        as={Link}
+                                        href="demo"
+                                    >
                                         Test ut Tavla
                                     </Button>
                                 </div>
