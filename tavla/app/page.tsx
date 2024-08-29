@@ -6,7 +6,9 @@ import {
     Heading2,
     Heading3,
     LeadParagraph,
+    ListItem,
     Paragraph,
+    UnorderedList,
 } from '@entur/typography'
 import { Preview } from './(admin)/components/Preview'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
@@ -68,45 +70,86 @@ function Landing() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col justify-center py-4 container">
-                        <Heading2>Hva er Tavla?</Heading2>
-                        <LeadParagraph>
-                            Tavla er et verktøy som hjelper deg å lage
-                            avgangstavler for offentlig transport. Du kan f.eks.
-                            lage avgangstavler for knutepunkter, holdeplasser
-                            eller skoler, arbeidsplasser og idrettshaller.
-                        </LeadParagraph>
-                        <div className="flex flex-col xl:flex-row gap-4">
+                    <div className="flex flex-col mx-auto items-center justify-start py-4 container">
+                        <div className="flex flex-col items-center justify-start gap-4 py-4">
                             <div
-                                className="xl:w-1/2 h-[60vh] overflow-y-hidden rounded-2xl"
+                                className="xl:w-1/2 h-[40vh] overflow-y-hidden overflow-x-hidden rounded-2xl py-10"
                                 data-theme="dark"
                             >
                                 <Preview boards={previewBoards} />
                             </div>
 
                             <div className="xl:w-1/2">
-                                <Heading3>
-                                    Tavla - laget for og med kollektivselskaper
-                                </Heading3>
-                                <Paragraph>
-                                    Tavla er et digitalt produkt som er under
-                                    kontinuerlig utvikling i samarbeid med
-                                    kollektivselskapene. Med Tavla kan du enkelt
-                                    opprette, administrere og samarbeide om
-                                    avgangstavler.
-                                </Paragraph>
-                                <Heading3>Tavla - for knutepunkter</Heading3>
-                                <Paragraph>
-                                    Tavla har støtte for alle stoppesteder i
-                                    Norge. Du velger selv hva slags informasjon
-                                    som skal vises på dine tavler.
+                                <Heading2>Kort om Tavla</Heading2>
+                                <UnorderedList className="space-y-3">
+                                    <ListItem>
+                                        Du kan lage avgangstavler fra alle
+                                        stoppesteder, holdeplasser,
+                                        knutepunkter, fergekaier mm. i hele
+                                        Norge. Dette gjelder for alle typer
+                                        offentlig transport, inkludert ferger,
+                                        hurtigbåter og fly.
+                                    </ListItem>
+                                    <ListItem>
+                                        Det er helt gratis å implementere og
+                                        bruke Tavla.
+                                    </ListItem>
+                                    <ListItem>
+                                        Det er helt gratis å implementere og
+                                        bruke Tavla.
+                                    </ListItem>
+                                </UnorderedList>
+                                <Paragraph className="italic">
+                                    Tavla sin kildekode er åpent tilgjengelig på
+                                    GitHub. Dette gjør at du kan følge
+                                    utviklingen av produktet direkte og foreslå
+                                    forbedringer selv.
                                 </Paragraph>
 
-                                <Heading3>Tavla for alle</Heading3>
+                                <Heading3>
+                                    Enkelt å tilpasse og samarbeide{' '}
+                                </Heading3>
+
+                                <UnorderedList className="space-y-3">
+                                    <ListItem>
+                                        Tilpass tekststørrelse, fargetema, logo
+                                        og hvilken informasjon som skal vises,
+                                        slik at tavlen(e) passer til dine
+                                        omgivelser og dine besøkendes behov.
+                                    </ListItem>
+                                    <ListItem>
+                                        Velg om du vil vise hele
+                                        kollektivtilbudet fra et stoppested,
+                                        eller kun vise spesifikke linjer,
+                                        stoppesteder eller fremkomstmidler.
+                                    </ListItem>
+                                    <ListItem>
+                                        Opprett organisasjoner (mapper) for å
+                                        samle tavler og gi andre tilgang til å
+                                        administrere dem. Her kan du også velge
+                                        standardinnstillinger som vil gjelde
+                                        alle tavler i organisasjonen.
+                                    </ListItem>
+                                </UnorderedList>
+
+                                <Heading2>Eksempler på bruk</Heading2>
+                                <Heading3>Hoteller</Heading3>
                                 <Paragraph>
-                                    Tavla er til for de reisende. Tavla muligjør
-                                    raske og effektive beslutninger for de
-                                    reisende gjennom pålitelig informasjon.
+                                    Plasser Tavla i resepsjonsområdet slik at
+                                    gjester kan se sanntidsinformasjon om
+                                    avganger fra stoppesteder i nærheten.
+                                </Paragraph>
+                                <Heading3>Arbeidsplasser</Heading3>
+                                <Paragraph>
+                                    Vis Tavla på informasjonspunkter eller
+                                    skjermer ved inngangen slik at besøkende
+                                    enkelt kan planlegge hjemreisen.
+                                </Paragraph>
+                                <Heading3>Kjøpesentre</Heading3>
+                                <Paragraph>
+                                    Sett opp Tavla på sentrale steder slik at
+                                    kunder alltid har oppdatert informasjon om
+                                    offentlig transport.
                                 </Paragraph>
                             </div>
                         </div>
