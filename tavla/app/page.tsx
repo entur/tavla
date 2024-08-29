@@ -1,4 +1,4 @@
-import landingImage from 'assets/illustrations/Main_city_2.svg'
+import landingImage from 'assets/illustrations/Landing_illustration.svg'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import {
@@ -11,6 +11,7 @@ import {
 import { Preview } from './(admin)/components/Preview'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
+import { Button } from '@entur/button'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -21,24 +22,39 @@ function Landing() {
         <>
             <main>
                 <Welcome />
-                <div className="flex flex-col justify-center pb-10 pt-6">
-                    <div className="flex flex-col py-4 container">
-                        <Heading1 margin="none">
-                            Lag din egen avgangstavle
-                        </Heading1>
-                        <Heading1
-                            className="italic !text-highlight !font-normal"
-                            margin="bottom"
-                        >
-                            for reisende
-                        </Heading1>
-                    </div>
-                    <div className="flex flex-row justify-center overflow-hidden pt-2 pb-4">
-                        <Image
-                            src={landingImage}
-                            alt=""
-                            className="scale-125"
-                        />
+                <div className="flex flex-col justify-center pb-10">
+                    <div className="bg-secondary">
+                        <div className="flex flex-col container py-12 gap-10 xl:flex-row">
+                            <div className="flex flex-col xl:w-1/2">
+                                <Heading1 margin="none">
+                                    Lag en avgangstavle for
+                                </Heading1>
+                                <Heading1
+                                    className="italic !text-highlight !font-normal"
+                                    margin="bottom"
+                                >
+                                    kontoret
+                                </Heading1>
+                                <LeadParagraph className="w-full xl:w-2/3">
+                                    Tavla er en gratis tjeneste som gjør det
+                                    enkelt å sette opp avgangstavler for
+                                    offentlig transport i hele Norge! Vis
+                                    kollektivtilbudet i nærheten og hjelp folk
+                                    til å planlegge sin neste kollektivreise.
+                                </LeadParagraph>
+                                <div className="flex md:flex-row flex-col md:items-end w-full gap-4 ">
+                                    <Button variant="success" size="medium">
+                                        Opprett bruker
+                                    </Button>
+                                    <Button variant="secondary" size="medium">
+                                        Test ut Tavla
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className="flex flex-row mx-auto items-end xl:w-1/2">
+                                <Image src={landingImage} alt="" />
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex flex-col justify-center py-4 container">
