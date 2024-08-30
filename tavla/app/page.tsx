@@ -15,12 +15,16 @@ import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
 import { Button } from '@entur/button'
 import Link from 'next/link'
+import { verifySession } from './(admin)/utils/firebase'
+import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
 }
 
-function Landing() {
+async function Landing() {
+    const session = cookies().get('session')?.value
+    const loggedIn = (await verifySession(session)) !== null
     return (
         <>
             <main>
@@ -46,14 +50,16 @@ function Landing() {
                                     til å planlegge sin neste kollektivreise.
                                 </LeadParagraph>
                                 <div className="flex md:flex-row flex-col md:items-end w-full gap-4 ">
-                                    <Button
-                                        variant="success"
-                                        size="medium"
-                                        as={Link}
-                                        href="?login=create"
-                                    >
-                                        Opprett bruker
-                                    </Button>
+                                    {!loggedIn && (
+                                        <Button
+                                            variant="success"
+                                            size="medium"
+                                            as={Link}
+                                            href="?login=create"
+                                        >
+                                            Opprett bruker
+                                        </Button>
+                                    )}
                                     <Button
                                         variant="secondary"
                                         size="medium"
