@@ -64,7 +64,7 @@ function Landing() {
                                     </Button>
                                 </div>
                             </div>
-                            <div className="flex flex-row mx-auto items-end xl:w-1/2">
+                            <div className="flex flex-row mx-auto items-end xl:w-2/5">
                                 <Image
                                     src={landingImage}
                                     alt="En avgangstavle"
