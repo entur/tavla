@@ -76,7 +76,7 @@ function Landing() {
                     <div className="flex flex-col mx-auto items-center justify-start py-4 container overflow-hidden">
                         <div className="flex flex-col items-center justify-start gap-4 py-4 w-full">
                             <div
-                                className="xl:w-1/2 h-[40vh] overflow-hidden rounded-2xl py-10 max-w-full"
+                                className="xl:w-1/2 h-[40vh] overflow-hidden rounded-2xl py-10 w-full"
                                 data-theme="dark"
                             >
                                 <Preview boards={previewBoards} />
