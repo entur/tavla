@@ -65,15 +65,18 @@ function Landing() {
                                 </div>
                             </div>
                             <div className="flex flex-row mx-auto items-end xl:w-1/2">
-                                <Image src={landingImage} alt="" />
+                                <Image
+                                    src={landingImage}
+                                    alt="En avgangstavle"
+                                />
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-col mx-auto items-center justify-start py-4 container">
-                        <div className="flex flex-col items-center justify-start gap-4 py-4">
+                    <div className="flex flex-col mx-auto items-center justify-start py-4 container overflow-hidden">
+                        <div className="flex flex-col items-center justify-start gap-4 py-4 w-full">
                             <div
-                                className="xl:w-1/2 h-[40vh] overflow-y-hidden overflow-x-hidden rounded-2xl py-10"
+                                className="xl:w-1/2 h-[40vh] overflow-hidden rounded-2xl py-10 max-w-full"
                                 data-theme="dark"
                             >
                                 <Preview boards={previewBoards} />
@@ -99,7 +102,7 @@ function Landing() {
                                         bruke Tavla.
                                     </ListItem>
                                 </UnorderedList>
-                                <Paragraph className="italic">
+                                <Paragraph>
                                     Tavla sin kildekode er åpent tilgjengelig på
                                     GitHub. Dette gjør at du kan følge
                                     utviklingen av produktet direkte og foreslå
