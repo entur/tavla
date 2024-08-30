@@ -110,7 +110,7 @@ function Landing() {
                                 </Paragraph>
 
                                 <Heading3>
-                                    Enkelt å tilpasse og samarbeide{' '}
+                                    Enkelt å tilpasse og samarbeide
                                 </Heading3>
 
                                 <UnorderedList className="space-y-3">
