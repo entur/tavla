@@ -9,6 +9,7 @@ import { Footer } from 'components/Footer'
 import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
+import { useEffect } from 'react'
 
 export async function getServerSideProps({
     params,
@@ -47,6 +48,14 @@ function BoardPage({
     const title = updatedBoard.meta?.title
         ? updatedBoard.meta.title + ' | Entur tavla'
         : 'Entur Tavla'
+
+    useEffect(() => {
+        const refreshTimeout = setTimeout(() => {
+            window.location.reload()
+        }, 24 * 60 * 60 * 1000)
+
+        return () => clearTimeout(refreshTimeout)
+    }, [])
 
     return (
         <div className="root" data-theme={updatedBoard.theme ?? 'dark'}>
