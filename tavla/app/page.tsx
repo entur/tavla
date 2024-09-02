@@ -33,7 +33,7 @@ async function Landing() {
                 <div className="flex flex-col justify-center pb-10">
                     <div className="bg-secondary">
                         <div className="flex flex-col container py-12 gap-10 xl:flex-row">
-                            <div className="flex flex-col xl:w-1/2">
+                            <div className="flex flex-col xl:w-1/2 md:pl-20">
                                 <Heading1 margin="none">
                                     Lag en avgangstavle for
                                 </Heading1>
@@ -43,7 +43,7 @@ async function Landing() {
                                 >
                                     kontoret
                                 </Heading1>
-                                <LeadParagraph className="w-full xl:w-2/3">
+                                <LeadParagraph className="w-full">
                                     Tavla er en gratis tjeneste som gjør det
                                     enkelt å sette opp avgangstavler for
                                     offentlig transport i hele Norge! Vis
@@ -71,7 +71,7 @@ async function Landing() {
                                     </Button>
                                 </div>
                             </div>
-                            <div className="flex flex-row mx-auto items-end xl:w-2/5">
+                            <div className="flex flex-row mx-auto xl:w-2/5">
                                 <Image
                                     src={landingImage}
                                     alt="En avgangstavle"
