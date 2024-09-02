@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@entur/button'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 
@@ -23,7 +23,7 @@ export const CreateUserButton = () => {
                     posthog.capture('LOGIN_BTN_DEMO_PAGE')
                 }}
             >
-                Opprett bruker / Logg inn
+                Opprett bruker
             </Button>
         </div>
     )
