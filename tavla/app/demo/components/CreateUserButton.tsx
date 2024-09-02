@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@entur/button'
-import { Heading2, Heading3, Paragraph } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 
@@ -10,7 +10,9 @@ export const CreateUserButton = () => {
 
     return (
         <div>
-            <Heading3 margin="bottom">Opprett bruker</Heading3>
+            <Heading3 as="h2" margin="bottom">
+                Opprett bruker
+            </Heading3>
             <Paragraph margin="none">
                 Det er helt gratis å bruke Tavla!
             </Paragraph>
