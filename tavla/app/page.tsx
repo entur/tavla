@@ -17,6 +17,7 @@ import { Button } from '@entur/button'
 import Link from 'next/link'
 import { verifySession } from './(admin)/utils/firebase'
 import { cookies } from 'next/headers'
+import WordCarousel from './components/WordCarousel'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -36,12 +37,7 @@ async function Landing() {
                                 <Heading1 margin="none">
                                     Lag en avgangstavle for
                                 </Heading1>
-                                <Heading1
-                                    className="italic !text-highlight !font-normal"
-                                    margin="bottom"
-                                >
-                                    kontoret
-                                </Heading1>
+                                <WordCarousel />
                                 <LeadParagraph className="w-full xl:w-2/3">
                                     Tavla er en gratis tjeneste som gjør det
                                     enkelt å sette opp avgangstavler for
