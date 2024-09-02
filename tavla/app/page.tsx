@@ -17,6 +17,7 @@ import { Button } from '@entur/button'
 import Link from 'next/link'
 import { verifySession } from './(admin)/utils/firebase'
 import { cookies } from 'next/headers'
+import { Link as EnturLink } from '@entur/typography'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -49,7 +50,7 @@ async function Landing() {
                                     kollektivtilbudet i nærheten og hjelp folk
                                     til å planlegge sin neste kollektivreise.
                                 </LeadParagraph>
-                                <div className="flex md:flex-row flex-col md:items-end w-full gap-4 ">
+                                <div className="flex md:flex-row flex-col md:items-end w-full gap-4 mt-5">
                                     {!loggedIn && (
                                         <Button
                                             variant="success"
@@ -90,7 +91,7 @@ async function Landing() {
 
                             <div className="xl:w-1/2">
                                 <Heading2>Kort om Tavla</Heading2>
-                                <UnorderedList className="space-y-3">
+                                <UnorderedList className="space-y-3 flex flex-col gap-1 pl-6">
                                     <ListItem>
                                         Du kan lage avgangstavler fra alle
                                         stoppesteder, holdeplasser,
@@ -104,27 +105,32 @@ async function Landing() {
                                         bruke Tavla.
                                     </ListItem>
                                     <ListItem>
-                                        Det er helt gratis å implementere og
-                                        bruke Tavla.
+                                        Tavla kan vises på ulike typer skjermer
+                                        og er tilpasset flere operativsystem og
+                                        oppløsninger.
                                     </ListItem>
                                 </UnorderedList>
-                                <Paragraph>
-                                    Tavla sin kildekode er åpent tilgjengelig på
-                                    GitHub. Dette gjør at du kan følge
-                                    utviklingen av produktet direkte og foreslå
-                                    forbedringer selv.
+                                <Paragraph className="pt-50 italic">
+                                    Tavla sin kildekode er tilgjengelig for alle
+                                    på{' '}
+                                    <EnturLink href="https://github.com/entur/tavla">
+                                        GitHub
+                                    </EnturLink>
+                                    . Dette gjør at du kan følge utviklingen av
+                                    produktet direkte og foreslå forbedringer
+                                    selv.
                                 </Paragraph>
 
                                 <Heading3>
                                     Enkelt å tilpasse og samarbeide
                                 </Heading3>
 
-                                <UnorderedList className="space-y-3">
+                                <UnorderedList className="space-y-3 flex flex-col gap-1 pl-6">
                                     <ListItem>
                                         Tilpass tekststørrelse, fargetema, logo
                                         og hvilken informasjon som skal vises,
                                         slik at tavlen(e) passer til dine
-                                        omgivelser og dine besøkendes behov.
+                                        omgivelser og dine besøkende sine behov.
                                     </ListItem>
                                     <ListItem>
                                         Velg om du vil vise hele
@@ -141,7 +147,9 @@ async function Landing() {
                                     </ListItem>
                                 </UnorderedList>
 
-                                <Heading2>Eksempler på bruk</Heading2>
+                                <Heading2 className="pt-8">
+                                    Eksempler på bruk
+                                </Heading2>
                                 <Heading3>Hoteller</Heading3>
                                 <Paragraph>
                                     Plasser Tavla i resepsjonsområdet slik at
