@@ -108,11 +108,11 @@ function CreateBoard() {
                             clearable
                             aria-required="true"
                             className="mb-4"
-                            disabled={personal}
+                            disabled={personal || organizations().length == 0}
                             {...getFormFeedbackForField('organization', state)}
                         />
                         <Checkbox
-                            checked={personal}
+                            checked={personal || organizations().length == 0}
                             onChange={() => {
                                 setPersonal(!personal)
                                 setFormError(undefined)
