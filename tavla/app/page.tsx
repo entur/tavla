@@ -1,11 +1,7 @@
-import landingImage from 'assets/illustrations/Landing_illustration.svg'
 import { Metadata } from 'next'
-import Image from 'next/image'
 import {
-    Heading1,
     Heading2,
     Heading3,
-    LeadParagraph,
     ListItem,
     Paragraph,
     UnorderedList,
@@ -13,8 +9,6 @@ import {
 import { Preview } from './(admin)/components/Preview'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
-import { Button } from '@entur/button'
-import Link from 'next/link'
 import { verifySession } from './(admin)/utils/firebase'
 import { cookies } from 'next/headers'
 import { Link as EnturLink } from '@entur/typography'
