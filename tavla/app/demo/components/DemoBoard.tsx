@@ -1,5 +1,5 @@
 'use client'
-import { Heading3 } from '@entur/typography'
+import { Heading2, Heading3 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
@@ -36,7 +36,7 @@ function DemoBoard() {
                 <TileList board={board} setDemoBoard={setBoard} bid="demo" />
             </div>
             <div className="flex flex-col gap-4">
-                <Heading3>Forhåndsvisning</Heading3>
+                <Heading2>Forhåndsvisning</Heading2>
                 <Preview board={board} />
             </div>
         </>

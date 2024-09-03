@@ -29,7 +29,6 @@ async function Demo() {
             {!loggedIn && <CreateUserButton />}
 
             <div className="flex flex-col gap-10">
-                <Heading2 margin="none">Lag en demo-tavle</Heading2>
                 <DemoBoard />
             </div>
             <div>
