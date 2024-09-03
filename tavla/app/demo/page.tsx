@@ -18,7 +18,7 @@ async function Demo() {
     return (
         <main className="container pt-8 pb-20 flex flex-col gap-10">
             <div>
-                <Heading1>Prøv og lag din egen avgangstavle!</Heading1>
+                <Heading1>Test ut Tavla!</Heading1>
                 <LeadParagraph margin="none" className="lg:w-4/5">
                     Dette er en demo-løsning hvor du kan prøve å opprette din
                     egen tavle. Du må logge inn for å lagre tavlen og få tilgang
@@ -29,7 +29,6 @@ async function Demo() {
             {!loggedIn && <CreateUserButton />}
 
             <div className="flex flex-col gap-10">
-                <Heading1 margin="none">Lag en demo-tavle</Heading1>
                 <DemoBoard />
             </div>
             <div>
