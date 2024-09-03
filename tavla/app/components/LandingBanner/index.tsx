@@ -6,7 +6,7 @@ import landingImage from 'assets/illustrations/Landing_illustration.svg'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
 
-function LandingIllustration({ loggedIn }: { loggedIn: boolean }) {
+function LandingBanner({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePostHog()
     return (
         <div className="bg-secondary">
@@ -61,4 +61,4 @@ function LandingIllustration({ loggedIn }: { loggedIn: boolean }) {
         </div>
     )
 }
-export { LandingIllustration }
+export { LandingBanner }

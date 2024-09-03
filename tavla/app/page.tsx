@@ -12,7 +12,7 @@ import { Welcome } from './components/Welcome'
 import { verifySession } from './(admin)/utils/firebase'
 import { cookies } from 'next/headers'
 import { Link as EnturLink } from '@entur/typography'
-import { LandingIllustration } from './components/LandingIllustration'
+import { LandingBanner } from './components/LandingBanner'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -25,7 +25,7 @@ async function Landing() {
         <>
             <main>
                 <Welcome />
-                <LandingIllustration loggedIn={loggedIn} />
+                <LandingBanner loggedIn={loggedIn} />
                 <div className="flex flex-col justify-center pb-10">
                     <div className="flex flex-col mx-auto items-center justify-start py-4 container overflow-hidden">
                         <div className="flex flex-col items-center justify-start gap-4 py-4 w-full">
