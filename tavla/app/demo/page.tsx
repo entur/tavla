@@ -52,7 +52,6 @@ async function Demo() {
                     </ListItem>
                 </UnorderedList>
             </div>
-            {!loggedIn && <CreateUserButton />}
         </main>
     )
 }
