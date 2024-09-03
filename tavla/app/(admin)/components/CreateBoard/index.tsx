@@ -2,7 +2,7 @@
 import { AddIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Label, Paragraph } from '@entur/typography'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TBoard, TOrganizationID } from 'types/settings'
 import { Checkbox, TextField } from '@entur/form'
 import {
@@ -22,8 +22,12 @@ function CreateBoard() {
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
-    const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizations()
+    const {
+        organizations,
+        selectedOrganization,
+        setSelectedOrganization,
+        fetchOrganizations,
+    } = useOrganizations()
 
     const [personal, setPersonal] = useState<boolean>(false)
 
@@ -32,6 +36,10 @@ function CreateBoard() {
         setSelectedOrganization(null)
         setFormError(undefined)
     }
+
+    useEffect(() => {
+        if (open) fetchOrganizations()
+    }, [open, fetchOrganizations])
 
     return (
         <>
