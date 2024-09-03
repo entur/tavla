@@ -1,7 +1,9 @@
 import { Metadata } from 'next'
 import {
+    Heading1,
     Heading2,
     Heading3,
+    LeadParagraph,
     ListItem,
     Paragraph,
     UnorderedList,
@@ -9,10 +11,13 @@ import {
 import { Preview } from './(admin)/components/Preview'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
-import { verifySession } from './(admin)/utils/firebase'
-import { cookies } from 'next/headers'
 import { Link as EnturLink } from '@entur/typography'
-import { LandingBanner } from './components/LandingBanner'
+import { CreateUserButtonLanding } from './components/CreateUserButtonLanding'
+import { DemoButton } from './components/DemoButtonLanding'
+import { cookies } from 'next/headers'
+import { verifySession } from './(admin)/utils/firebase'
+import landingImage from 'assets/illustrations/Landing_illustration.svg'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -24,7 +29,34 @@ async function Landing() {
     return (
         <main>
             <Welcome />
-            <LandingBanner loggedIn={loggedIn} />
+            <div className="bg-secondary">
+                <div className="flex flex-col container py-12 gap-10 xl:flex-row">
+                    <div className="flex flex-col xl:w-1/2 md:pl-20">
+                        <Heading1 margin="none">
+                            Lag en avgangstavle for
+                        </Heading1>
+                        <Heading1
+                            className="italic !text-highlight !font-normal"
+                            margin="bottom"
+                        >
+                            kontoret
+                        </Heading1>
+                        <LeadParagraph className="w-full">
+                            Tavla er en gratis tjeneste som gjør det enkelt å
+                            sette opp avgangstavler for offentlig transport i
+                            hele Norge! Vis kollektivtilbudet i nærheten og
+                            hjelp folk til å planlegge sin neste kollektivreise.
+                        </LeadParagraph>
+                        <div className="flex md:flex-row flex-col md:items-end w-full gap-4 mt-5">
+                            {!loggedIn && <CreateUserButtonLanding />}
+                            <DemoButton />
+                        </div>
+                    </div>
+                    <div className="flex flex-row mx-auto xl:w-2/5">
+                        <Image src={landingImage} alt="En avgangstavle" />
+                    </div>
+                </div>
+            </div>
             <div className="flex flex-col justify-center pb-10">
                 <div className="flex flex-col mx-auto items-center justify-start py-4 container overflow-hidden">
                     <div className="flex flex-col items-center justify-start gap-4 py-4 w-full">
