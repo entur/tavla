@@ -8,10 +8,10 @@ import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { EnturToastProvider, PHProvider } from './providers'
 import { Footer } from './(admin)/components/Footer'
-import { FloatingContact } from './components/FloatingContact'
 import { TopNavigation } from './(admin)/components/TopNavigation'
 import { cookies } from 'next/headers'
 import { verifySession } from './(admin)/utils/firebase'
+import { ContactForm } from './components/ContactForm'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -52,7 +52,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
                         <TopNavigation loggedIn={loggedIn} />
                         <PostHogPageView />
                         {children}
-                        <FloatingContact />
+                        <ContactForm />
                         <Footer />
                     </body>
                 </EnturToastProvider>

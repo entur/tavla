@@ -241,13 +241,6 @@ export function getFormFeedbackForError(
                 variant: 'error',
             }
         }
-        case 'success': {
-            return {
-                form_type: 'general',
-                feedback: '',
-                variant: 'success',
-            }
-        }
     }
 
     return {
