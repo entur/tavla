@@ -108,7 +108,7 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
                 .filter((quay) =>
                     quay.lines.some((line) => line.transportMode === 'air'),
                 )
-                .map((quay, index) => ({
+                .map((quay) => ({
                     value: quay.id,
                     label: 'Terminal',
                     icons: [
@@ -118,14 +118,13 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
                             }),
                     ],
                 })) || [],
-        [data, icons],
+        [data],
     )
 
-    const quays = [...nonAirQuays, ...airQuays]
-    const getQuays = useCallback(
-        () => [{ value: stopPlaceId, label: 'Vis alle' }, ...quays],
-        [quays, stopPlaceId],
-    )
+    const getQuays = useCallback(() => {
+        const quays = [...nonAirQuays, ...airQuays]
+        return [{ value: stopPlaceId, label: 'Vis alle' }, ...quays]
+    }, [nonAirQuays, airQuays, stopPlaceId])
 
     return { quays: getQuays, selectedQuay, setSelectedQuay }
 }
