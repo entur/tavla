@@ -43,6 +43,12 @@ import { TransportModeAndLines } from './TransportModeAndLines'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
+import { isOnlyWhiteSpace } from 'app/(admin)/edit/utils'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
 
 function TileCard({
     bid,
@@ -77,6 +83,9 @@ function TileCard({
         useState(walkingDistanceInMinutes === tile.offset)
 
     const [offset, setOffset] = useState(tile.offset ?? '')
+    const [formError, setFormError] = useState<TFormFeedback | undefined>(
+        undefined,
+    )
 
     useEffect(() => {
         if (!address) {
@@ -86,8 +95,9 @@ function TileCard({
 
     const reset = () => {
         setConfirmOpen(false)
-        setIsOpen(false)
+        setFormError(undefined)
         setChanged(false)
+        setIsOpen(false)
     }
 
     const lines = useLines(tile)
@@ -226,7 +236,13 @@ function TileCard({
                                 'displayName',
                             ) as string
                             data.delete('displayName')
-
+                            if (isOnlyWhiteSpace(displayName)) {
+                                return setFormError(
+                                    getFormFeedbackForError(
+                                        'board/tiles-name-missing',
+                                    ),
+                                )
+                            }
                             let lines: string[] = []
                             for (const line of data.values()) {
                                 lines.push(line as string)
@@ -248,12 +264,11 @@ function TileCard({
                                 offset: Number(offset) || undefined,
                                 displayName: displayName || undefined,
                             } as TTile
-
+                            reset()
                             bid === 'demo'
                                 ? saveTileToDemoBoard(newTile)
                                 : saveTile(bid, newTile)
                         }}
-                        onSubmit={reset}
                         onInput={() => setChanged(true)}
                     >
                         <div className="flex flex-col gap-2">
@@ -268,6 +283,8 @@ function TileCard({
                                 className="!w-2/5"
                                 name="displayName"
                                 defaultValue={tile.displayName}
+                                maxLength={50}
+                                {...getFormFeedbackForField('name', formError)}
                             />
                         </div>
                         <Heading4>Gåavstand</Heading4>
