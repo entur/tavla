@@ -11,16 +11,20 @@ export default function WordCarousel() {
     useEffect(() => {
         const interval = setInterval(() => {
             setFade(false)
-            setCurrentWordIndex((currentWordIndex + 1) % words.length)
-            setFade(true)
+
+            setTimeout(() => {
+                setCurrentWordIndex((currentWordIndex + 1) % words.length)
+                setFade(true)
+            }, 1000)
         }, 4000)
+
         return () => clearInterval(interval)
-    }, [[currentWordIndex, words.length]])
+    }, [currentWordIndex, words.length])
 
     return (
         <Heading1
-            className={`italic !text-highlight !font-normal transition-opacity duration-500 ease-in-out ${
-                fade ? 'opacity-100' : 'opacity-0'
+            className={`italic !text-highlight !font-normal transform transition-all duration-1000 ease-in-out ${
+                fade ? 'opacity-100 translate-y-4' : 'opacity-0 translate-y-0'
             }`}
         >
             {words[currentWordIndex]}
