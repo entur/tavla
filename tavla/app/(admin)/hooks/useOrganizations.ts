@@ -13,31 +13,23 @@ function useOrganizations(organization?: TOrganization) {
             organization ? organizationToDropdownItem(organization) : null,
         )
 
-    const fetchOrganizations = useCallback(async () => {
-        const res = await getOrganizationsForUser()
-        setOrganizationList(
-            res?.map((o) => ({
-                value: o ?? undefined,
-                label: o.name ?? '',
-            })),
-        )
-    }, [])
-
     useEffect(() => {
-        fetchOrganizations()
-    }, [fetchOrganizations])
+        getOrganizationsForUser().then((res) => {
+            setOrganizationList(
+                res?.map((o) => ({
+                    value: o ?? undefined,
+                    label: o.name ?? '',
+                })),
+            )
+        })
+    }, [])
 
     const organizations = useCallback(
         () => organizationList,
         [organizationList],
     )
 
-    return {
-        organizations,
-        selectedOrganization,
-        setSelectedOrganization,
-        fetchOrganizations,
-    }
+    return { organizations, selectedOrganization, setSelectedOrganization }
 }
 
 export { useOrganizations }
