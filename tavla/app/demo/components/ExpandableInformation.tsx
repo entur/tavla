@@ -1,7 +1,7 @@
 'use client'
 import { BaseExpand } from '@entur/expand'
 import { DownArrowIcon, UpArrowIcon } from '@entur/icons'
-import { Heading5, ListItem, UnorderedList } from '@entur/typography'
+import { Heading5, ListItem, Paragraph, UnorderedList } from '@entur/typography'
 import { useState } from 'react'
 
 function ExpandableInformation() {
@@ -17,9 +17,9 @@ function ExpandableInformation() {
                     onClick={() => setIsOpen(!isOpen)}
                     style={{ cursor: 'pointer' }}
                 >
-                    <Heading5 margin="none">
+                    <Paragraph className="font-bold" margin="none">
                         Hva du kan gjøre med Tavla om du logger inn
-                    </Heading5>
+                    </Paragraph>
                     {isOpen ? <UpArrowIcon /> : <DownArrowIcon />}
                 </div>
             </div>
