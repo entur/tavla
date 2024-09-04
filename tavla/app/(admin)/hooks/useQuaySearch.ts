@@ -41,10 +41,13 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
 
     useEffect(() => setSelectedQuay(null), [stopPlaceId])
 
-    const quays = useMemo(
+    const nonAirQuays = useMemo(
         () =>
             data?.stopPlace?.quays
                 ?.filter(isNotNullOrUndefined)
+                .filter((quay) =>
+                    quay.lines.some((line) => line.transportMode !== 'air'),
+                )
                 .map((quay, index) => ({
                     value: quay.id,
                     label: getPlatformLabel(
@@ -98,6 +101,27 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
         [data, icons],
     )
 
+    const airQuays = useMemo(
+        () =>
+            data?.stopPlace?.quays
+                ?.filter(isNotNullOrUndefined)
+                .filter((quay) =>
+                    quay.lines.some((line) => line.transportMode === 'air'),
+                )
+                .map((quay, index) => ({
+                    value: quay.id,
+                    label: 'Terminal',
+                    icons: [
+                        () =>
+                            SmallTravelTag({
+                                transportMode: 'air',
+                            }),
+                    ],
+                })) || [],
+        [data, icons],
+    )
+
+    const quays = [...nonAirQuays, ...airQuays]
     const getQuays = useCallback(
         () => [{ value: stopPlaceId, label: 'Vis alle' }, ...quays],
         [quays, stopPlaceId],
