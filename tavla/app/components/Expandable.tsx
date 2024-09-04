@@ -15,7 +15,7 @@ function Expandable({
     children: JSX.Element
 }) {
     return (
-        <div className="fixed bottom-0 right-6 w-1/4 z-10">
+        <div className="fixed bottom-0 right-3 w-1/4 z-10">
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex justify-between items-center px-6 py-4 bg-blue80 w-full rounded-t"

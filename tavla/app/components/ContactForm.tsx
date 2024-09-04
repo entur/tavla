@@ -1,6 +1,6 @@
 'use client'
 import { TextArea, TextField } from '@entur/form'
-import { Heading4, Label, Paragraph } from '@entur/typography'
+import { Label, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useFormState } from 'react-dom'
 import { postForm } from './actions'
@@ -38,10 +38,10 @@ export function ContactForm() {
                     ref={formRef}
                     className="flex flex-col gap-4 pt-4 p-6 "
                 >
-                    <Heading4 margin="none">
+                    <Paragraph as="h1" margin="none" className="font-bold">
                         Har du spørsmål/innspill eller ønsker hjelp med å komme
                         i gang?
-                    </Heading4>
+                    </Paragraph>
                     <div>
                         <Label
                             htmlFor="email"
