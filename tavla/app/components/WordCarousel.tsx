@@ -23,8 +23,9 @@ export default function WordCarousel() {
 
     return (
         <Heading1
+            margin="none"
             className={`italic !text-highlight !font-normal transform transition-all duration-1000 ease-in-out ${
-                fade ? 'opacity-100 translate-y-4' : 'opacity-0 translate-y-0'
+                fade ? 'opacity-100 -translate-y-4' : 'opacity-0 -translate-y-6'
             }`}
         >
             {words[currentWordIndex]}
