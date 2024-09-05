@@ -13,18 +13,57 @@ async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
         return getFormFeedbackForError('contact/message-missing')
     }
     const payload = {
-        text: `:email: *Ny melding* :email:\n\n*E-postadresse:* ${email}\n*Melding:* ${message}`,
+        blocks: [
+            {
+                type: 'header',
+                text: {
+                    type: 'plain_text',
+                    text: ':email: Ny Melding :email:',
+                    emoji: true,
+                },
+            },
+            {
+                type: 'divider',
+            },
+            {
+                type: 'section',
+                block_id: 'email_info',
+                fields: [
+                    {
+                        type: 'mrkdwn',
+                        text: `*Fra:* \n${email}`,
+                    },
+                ],
+            },
+            {
+                type: 'section',
+                block_id: 'email_body',
+                text: {
+                    type: 'mrkdwn',
+                    text: `*Melding:* \n${message}`,
+                },
+            },
+            {
+                type: 'divider',
+            },
+        ],
     }
-    const url = process.env.SLACK_WEBHOOK_URL ?? ''
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-    })
 
-    if (!response.ok) {
+    try {
+        const url = process.env.SLACK_WEBHOOK_URL
+        if (!url) throw Error()
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+
+        if (!response.ok) {
+            throw Error()
+        }
+    } catch (e: unknown) {
         return getFormFeedbackForError('general')
     }
 }
