@@ -106,7 +106,7 @@ export function isEmptyOrSpaces(str?: string) {
     return str === undefined || str.match(/^ *$/) !== null
 }
 export function isOnlyWhiteSpace(str: string) {
-    if (typeof str === 'undefined' || str === '') {
+    if (str === undefined || str === '') {
         return false
     }
 

@@ -121,10 +121,11 @@ function TileCard({
                 distance: tile.walkingDistance?.distance,
             },
             offset: Number(offset) || undefined,
-            displayName: displayName || undefined,
+            displayName: displayName.substring(0, 50) || undefined,
         } as TTile
-        reset()
+
         bid === 'demo' ? saveTileToDemoBoard(newTile) : saveTile(bid, newTile)
+        reset()
     }
     const [state, action] = useFormState(submit, undefined)
     useEffect(() => {

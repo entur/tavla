@@ -24,7 +24,7 @@ export async function saveTitle(bid: TBoardID, name: string) {
         .collection('boards')
         .doc(bid)
         .update({
-            'meta.title': name.substring(0, 30),
+            'meta.title': name.substring(0, 50),
             'meta.dateModified': Date.now(),
         })
     revalidatePath(`/edit/${bid}`)
