@@ -66,7 +66,9 @@ function SmallTravelTag({
         >
             {icons && (
                 <TransportIcon
-                    className="hidden lg:block w-6 h-6 fill-background"
+                    className={`block h-6 fill-background ${
+                        transportMode === 'air' ? 'w-4' : 'w-6'
+                    }`}
                     transportMode={transportMode}
                 />
             )}
