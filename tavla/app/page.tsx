@@ -33,11 +33,9 @@ async function Landing() {
             <div className="bg-secondary">
                 <div className="flex flex-col container py-12 gap-10 xl:flex-row">
                     <div className="flex flex-col xl:w-1/2 md:pl-20">
-                        <Heading1 margin="none">
-                            Lag en avgangstavle for
-                        </Heading1>
-                       <WordCarousel />
-                        <LeadParagraph className="w-full">
+                        <Heading1>Lag en avgangstavle for</Heading1>
+                        <WordCarousel />
+                        <LeadParagraph margin="bottom" className="w-full">
                             Tavla er en gratis tjeneste som gjør det enkelt å
                             sette opp avgangstavler for offentlig transport i
                             hele Norge! Vis kollektivtilbudet i nærheten og
