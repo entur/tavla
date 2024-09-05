@@ -52,7 +52,15 @@ function Footer() {
                     <div className="flex flex-col gap-4">
                         <Heading3>Informasjon</Heading3>
                         <div>
-                            <EnturLink href="/demo" as={Link}>
+                            <EnturLink
+                                href="/demo"
+                                as={Link}
+                                onClick={() =>
+                                    posthog.capture('DEMO_FROM_FOOTER', {
+                                        type: 'footer',
+                                    })
+                                }
+                            >
                                 Prøv Tavla
                             </EnturLink>
                         </div>
