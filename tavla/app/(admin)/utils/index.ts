@@ -22,6 +22,12 @@ export type TFormFeedback = {
 }
 
 export type TError = FirebaseError | string
+export function getFormFeedbackForField(
+    form_type: InputType,
+    feedback?: TFormFeedback,
+) {
+    if (form_type === feedback?.form_type) return feedback
+}
 
 export function getFormFeedbackForError(
     e?: TError,
@@ -228,13 +234,6 @@ export function getFormFeedbackForError(
         feedback: 'En feil har oppstått.',
         variant: 'error',
     }
-}
-
-export function getFormFeedbackForField(
-    form_type: InputType,
-    feedback?: TFormFeedback,
-) {
-    if (form_type === feedback?.form_type) return feedback
 }
 
 export function userInOrganization(

@@ -43,6 +43,13 @@ import { TransportModeAndLines } from './TransportModeAndLines'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
+import { isOnlyWhiteSpace } from 'app/(admin)/edit/utils'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
+import { useFormState } from 'react-dom'
 
 function TileCard({
     bid,
@@ -78,6 +85,49 @@ function TileCard({
 
     const [offset, setOffset] = useState(tile.offset ?? '')
 
+    const submit = async (
+        prevState: TFormFeedback | undefined,
+        data: FormData,
+    ) => {
+        const columns = data.getAll('columns') as TColumn[]
+        data.delete('columns')
+        const count = data.get('count') as number | null
+        data.delete('count')
+        const distance = data.get('showDistance') as string
+        data.delete('showDistance')
+        const offset = data.get('offset') as number | null
+        data.delete('offset')
+        const displayName = data.get('displayName') as string
+        data.delete('displayName')
+        if (isOnlyWhiteSpace(displayName)) {
+            return getFormFeedbackForError('board/tiles-name-missing')
+        }
+
+        let lines: string[] = []
+        for (const line of data.values()) {
+            lines.push(line as string)
+        }
+        // If the length of lines equals all the lines, we don't want to include any
+        lines = lines.length == count ? [] : lines
+
+        if (columns !== tile.columns) await captureColumnChangeEvent()
+
+        const newTile = {
+            ...tile,
+            columns: columns,
+            whitelistedLines: lines,
+            walkingDistance: {
+                visible: distance === 'on',
+                distance: tile.walkingDistance?.distance,
+            },
+            offset: Number(offset) || undefined,
+            displayName: displayName.substring(0, 50) || undefined,
+        } as TTile
+
+        bid === 'demo' ? saveTileToDemoBoard(newTile) : saveTile(bid, newTile)
+        reset()
+    }
+    const [state, action] = useFormState(submit, undefined)
     useEffect(() => {
         if (!address) {
             setOffsetBasedOnWalkingDistance(false)
@@ -86,8 +136,8 @@ function TileCard({
 
     const reset = () => {
         setConfirmOpen(false)
-        setIsOpen(false)
         setChanged(false)
+        setIsOpen(false)
     }
 
     const lines = useLines(tile)
@@ -213,47 +263,7 @@ function TileCard({
                 >
                     <form
                         id={tile.uuid}
-                        action={async (data: FormData) => {
-                            const columns = data.getAll('columns') as TColumn[]
-                            data.delete('columns')
-                            const count = data.get('count') as number | null
-                            data.delete('count')
-                            const distance = data.get('showDistance') as string
-                            data.delete('showDistance')
-                            const offset = data.get('offset') as number | null
-                            data.delete('offset')
-                            const displayName = data.get(
-                                'displayName',
-                            ) as string
-                            data.delete('displayName')
-
-                            let lines: string[] = []
-                            for (const line of data.values()) {
-                                lines.push(line as string)
-                            }
-                            // If the length of lines equals all the lines, we don't want to include any
-                            lines = lines.length == count ? [] : lines
-
-                            if (columns !== tile.columns)
-                                captureColumnChangeEvent()
-
-                            const newTile = {
-                                ...tile,
-                                columns: columns,
-                                whitelistedLines: lines,
-                                walkingDistance: {
-                                    visible: distance === 'on',
-                                    distance: tile.walkingDistance?.distance,
-                                },
-                                offset: Number(offset) || undefined,
-                                displayName: displayName || undefined,
-                            } as TTile
-
-                            bid === 'demo'
-                                ? saveTileToDemoBoard(newTile)
-                                : saveTile(bid, newTile)
-                        }}
-                        onSubmit={reset}
+                        action={action}
                         onInput={() => setChanged(true)}
                     >
                         <div className="flex flex-col gap-2">
@@ -268,6 +278,8 @@ function TileCard({
                                 className="!w-2/5"
                                 name="displayName"
                                 defaultValue={tile.displayName}
+                                maxLength={50}
+                                {...getFormFeedbackForField('name', state)}
                             />
                         </div>
                         <Heading4>Gåavstand</Heading4>

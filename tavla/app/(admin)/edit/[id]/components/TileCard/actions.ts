@@ -39,7 +39,16 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
             'meta.dateModified': Date.now(),
         })
     const index = doc.tiles.indexOf(oldTile)
-    doc.tiles[index] = tile
+
+    if (tile.displayName !== undefined) {
+        doc.tiles[index] = {
+            ...tile,
+            displayName: tile.displayName?.substring(0, 50),
+        }
+    } else {
+        doc.tiles[index] = tile
+    }
+
     docRef.update({ tiles: doc.tiles, 'meta.dateModified': Date.now() })
 
     revalidatePath(`/edit/${bid}`)
