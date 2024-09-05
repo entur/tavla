@@ -10,7 +10,9 @@ export const CreateUserButton = () => {
 
     return (
         <div>
-            <Heading3 margin="bottom">Opprett bruker</Heading3>
+            <Heading3 as="h2" margin="bottom">
+                Opprett bruker
+            </Heading3>
             <Paragraph margin="none">
                 Det er helt gratis å bruke Tavla!
             </Paragraph>
@@ -23,7 +25,7 @@ export const CreateUserButton = () => {
                     posthog.capture('LOGIN_BTN_DEMO_PAGE')
                 }}
             >
-                Opprett bruker / Logg inn
+                Opprett bruker
             </Button>
         </div>
     )

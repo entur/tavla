@@ -10,12 +10,14 @@ import { Start } from './Start'
 import { Create } from './Create'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { Reset } from './Reset'
+import { usePostHog } from 'posthog-js/react'
 
 type TLoginPage = 'start' | 'email' | 'create' | 'reset'
 
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
     const pathname = usePathname()
+    const posthog = usePostHog()
 
     const { open, hasPage, pageParam } = usePageParam('login')
 
@@ -39,6 +41,9 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 href="?login"
                 scroll={false}
                 className="gap-4 p-4"
+                onClick={() => {
+                    posthog.capture('LOGIN_BTN_NAV_BAR')
+                }}
             >
                 <UserIcon />
                 Logg inn

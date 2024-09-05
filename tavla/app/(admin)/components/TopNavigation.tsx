@@ -7,9 +7,11 @@ import { HorizontalNavBar } from './HorizontalNavBar'
 import { Login } from './Login'
 import { TopNavigationItem } from '@entur/menu'
 import { usePathname } from 'next/navigation'
+import { usePostHog } from 'posthog-js/react'
 
 function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
+    const posthog = usePostHog()
     return (
         <nav className="container flex flex-row justify-between items-center py-8">
             <Link href="/" aria-label="Tilbake til landingssiden">
@@ -24,6 +26,9 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                             active={pathname?.includes('/demo')}
                             as={Link}
                             href="/demo"
+                            onClick={() => {
+                                posthog.capture('DEMO_FROM_NAV_BAR_BTN')
+                            }}
                         >
                             Prøv Tavla
                         </TopNavigationItem>

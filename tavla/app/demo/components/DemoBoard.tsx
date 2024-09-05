@@ -1,5 +1,5 @@
 'use client'
-import { Heading2 } from '@entur/typography'
+import { Heading2, Heading3 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
@@ -22,7 +22,9 @@ function DemoBoard() {
     return (
         <>
             <div className="flex flex-col gap-4">
-                <Heading2>Hvilke stoppesteder vil du vise i tavlen?</Heading2>
+                <Heading3 margin="none">
+                    Hvilke stoppesteder vil du vise i tavlen?
+                </Heading3>
                 <TileSelector
                     action={async (data: FormData) => {
                         const tile = formDataToTile(data)
