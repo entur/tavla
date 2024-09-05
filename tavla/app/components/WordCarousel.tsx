@@ -1,10 +1,9 @@
 'use client'
-
 import { Heading1 } from '@entur/typography'
 import { useState, useEffect } from 'react'
 
-export default function WordCarousel() {
-    const words = ['Kontoret', 'Biblioteket', 'Skolen', 'Treningssenteret']
+function WordCarousel() {
+    const words = ['kontoret', 'biblioteket', 'skolen', 'treningssenteret']
     const [currentWordIndex, setCurrentWordIndex] = useState(0)
     const [fade, setFade] = useState(true)
 
@@ -32,3 +31,5 @@ export default function WordCarousel() {
         </Heading1>
     )
 }
+
+export { WordCarousel }
