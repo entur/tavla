@@ -26,6 +26,8 @@ function NameAndOrganizationSelector({
 
     const [personal, setPersonal] = useState<boolean>(false)
 
+    const disableOrg = personal || organizations().length == 0
+
     return (
         <form
             action={async (data: FormData) => {
@@ -82,11 +84,11 @@ function NameAndOrganizationSelector({
                     clearable
                     aria-required="true"
                     className="mb-4"
-                    disabled={personal || organizations().length == 0}
+                    disabled={disableOrg}
                     {...getFormFeedbackForField('organization', formState)}
                 />
                 <Checkbox
-                    checked={personal || organizations().length == 0}
+                    checked={disableOrg}
                     onChange={() => {
                         setPersonal(!personal)
                         setFormError(undefined)
