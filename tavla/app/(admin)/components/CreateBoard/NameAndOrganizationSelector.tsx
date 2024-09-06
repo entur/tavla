@@ -1,26 +1,19 @@
+'use client'
 import { Dropdown } from '@entur/dropdown'
 import { TextField, Checkbox } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { Heading3, Paragraph, Label } from '@entur/typography'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
-import {
-    TFormFeedback,
-    getFormFeedbackForError,
-    getFormFeedbackForField,
-} from 'app/(admin)/utils'
+import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useState } from 'react'
-import { TOrganizationID, TBoard } from 'types/settings'
-import { create } from './actions'
+import { useFormState } from 'react-dom'
+import { createBoard } from './actions'
 
-function NameAndOrganizationSelector({
-    formState,
-    setFormError,
-}: {
-    formState: TFormFeedback | undefined
-    setFormError: (feedback: TFormFeedback | undefined) => void
-}) {
+function NameAndOrganizationSelector() {
+    const [state, action] = useFormState(createBoard, undefined)
+
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations()
 
@@ -29,35 +22,7 @@ function NameAndOrganizationSelector({
     const disableOrg = personal || organizations().length == 0
 
     return (
-        <form
-            action={async (data: FormData) => {
-                const name = data.get('name') as string
-                if (!name) {
-                    return setFormError(
-                        getFormFeedbackForError('board/name-missing'),
-                    )
-                }
-
-                const organization = data.get('organization') as TOrganizationID
-                const personal = data.get('personal')
-                if (!organization && !personal) {
-                    return setFormError(
-                        getFormFeedbackForError('create/organization-missing'),
-                    )
-                }
-
-                const board = {
-                    tiles: [],
-                    meta: {
-                        title: name.substring(0, 50),
-                    },
-                } as TBoard
-
-                await create(board, organization)
-                setFormError(undefined)
-            }}
-            className="md:px-10"
-        >
+        <form action={action} className="md:px-10">
             <Heading3>Velg navn og organisasjon for tavlen</Heading3>
             <Paragraph className="!mb-4">
                 Gi tavlen et navn og legg den til i en organisasjon. Velger du
@@ -71,7 +36,7 @@ function NameAndOrganizationSelector({
                 name="name"
                 maxLength={50}
                 required
-                {...getFormFeedbackForField('name', formState)}
+                {...getFormFeedbackForField('name', state)}
             />
 
             <div className="mt-4">
@@ -85,13 +50,12 @@ function NameAndOrganizationSelector({
                     aria-required="true"
                     className="mb-4"
                     disabled={disableOrg}
-                    {...getFormFeedbackForField('organization', formState)}
+                    {...getFormFeedbackForField('organization', state)}
                 />
                 <Checkbox
                     checked={disableOrg}
                     onChange={() => {
                         setPersonal(!personal)
-                        setFormError(undefined)
                     }}
                     name="personal"
                 >

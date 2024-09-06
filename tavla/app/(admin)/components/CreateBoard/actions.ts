@@ -1,6 +1,6 @@
 'use server'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
-import { getFormFeedbackForError } from 'app/(admin)/utils'
+import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
@@ -40,4 +40,28 @@ export async function create(board: TBoard, oid?: TOrganizationID) {
             ),
         })
     redirect(`/edit/${createdBoard.id}`)
+}
+
+export async function createBoard(
+    prevState: TFormFeedback | undefined,
+    data: FormData,
+) {
+    const name = data.get('name') as string
+    if (!name) {
+        return getFormFeedbackForError('board/name-missing')
+    }
+
+    const organization = data.get('organization') as TOrganizationID
+    const personal = data.get('personal')
+    if (!organization && !personal)
+        return getFormFeedbackForError('create/organization-missing')
+
+    const board = {
+        tiles: [],
+        meta: {
+            title: name.substring(0, 50),
+        },
+    } as TBoard
+
+    await create(board, organization)
 }
