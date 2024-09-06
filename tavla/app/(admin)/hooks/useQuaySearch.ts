@@ -1,6 +1,5 @@
 import { QuaysSearchQuery } from 'graphql/index'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { hasDuplicateInArrayByKey } from 'utils/filters'
 import { TDirectionType } from 'types/graphql-schema'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -41,10 +40,13 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
 
     useEffect(() => setSelectedQuay(null), [stopPlaceId])
 
-    const quays = useMemo(
+    const nonAirQuays = useMemo(
         () =>
             data?.stopPlace?.quays
                 ?.filter(isNotNullOrUndefined)
+                .filter((quay) =>
+                    quay.lines.some((line) => line.transportMode !== 'air'),
+                )
                 .map((quay, index) => ({
                     value: quay.id,
                     label: getPlatformLabel(
@@ -83,25 +85,34 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
                     return a.label.localeCompare(b.label, 'no-NB', {
                         numeric: true,
                     })
-                })
-                .map((item, index, array) => {
-                    if (!hasDuplicateInArrayByKey(array, item, 'label')) {
-                        return item
-                    } else {
-                        return {
-                            ...item,
-                            label: item.label,
-                            icons: item.icons,
-                        }
-                    }
                 }) || [],
         [data, icons],
     )
 
-    const getQuays = useCallback(
-        () => [{ value: stopPlaceId, label: 'Vis alle' }, ...quays],
-        [quays, stopPlaceId],
+    const airQuays = useMemo(
+        () =>
+            data?.stopPlace?.quays
+                ?.filter(isNotNullOrUndefined)
+                .filter((quay) =>
+                    quay.lines.some((line) => line.transportMode === 'air'),
+                )
+                .map((quay) => ({
+                    value: quay.id,
+                    label: 'Terminal',
+                    icons: [
+                        () =>
+                            SmallTravelTag({
+                                transportMode: 'air',
+                            }),
+                    ],
+                })) || [],
+        [data],
     )
+
+    const getQuays = useCallback(() => {
+        const quays = [...nonAirQuays, ...airQuays]
+        return [{ value: stopPlaceId, label: 'Vis alle' }, ...quays]
+    }, [nonAirQuays, airQuays, stopPlaceId])
 
     return { quays: getQuays, selectedQuay, setSelectedQuay }
 }
