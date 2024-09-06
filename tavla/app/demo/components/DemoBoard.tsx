@@ -22,7 +22,7 @@ function DemoBoard() {
     return (
         <>
             <div className="flex flex-col gap-4">
-                <Heading3 margin="none">
+                <Heading3 as="h2" margin="none">
                     Hvilke stoppesteder vil du vise i tavlen?
                 </Heading3>
                 <TileSelector

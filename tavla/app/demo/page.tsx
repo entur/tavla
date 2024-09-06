@@ -1,15 +1,9 @@
-import {
-    Heading1,
-    Heading2,
-    LeadParagraph,
-    ListItem,
-    Paragraph,
-    UnorderedList,
-} from '@entur/typography'
+import { Heading1, LeadParagraph } from '@entur/typography'
 import { verifySession } from 'app/(admin)/utils/firebase'
 import { cookies } from 'next/headers'
 import { DemoBoard } from './components/DemoBoard'
 import CreateUserButton from './components/CreateUserButton'
+import { ExpandableInformation } from './components/ExpandableInformation'
 
 async function Demo() {
     const session = cookies().get('session')?.value
@@ -26,33 +20,12 @@ async function Demo() {
                     lagret.
                 </LeadParagraph>
             </div>
+            <ExpandableInformation />
             {!loggedIn && <CreateUserButton />}
 
             <div className="flex flex-col gap-10">
                 <DemoBoard />
             </div>
-            <div>
-                <Heading2>Innstillinger som krever innlogging</Heading2>
-                <Paragraph margin="none">Hvis du logger inn, kan du:</Paragraph>
-                <UnorderedList className="flex flex-col gap-1 pl-6">
-                    <ListItem>Endre tekststørrelse</ListItem>
-                    <ListItem>Endre fargetema (lys eller mørk modus)</ListItem>
-                    <ListItem>
-                        Legge til en info-melding nederst i tavlen
-                    </ListItem>
-                    <ListItem>
-                        Vis gåavstanden fra tavlens adresse til stoppested(ene)
-                    </ListItem>
-                    <ListItem>
-                        Opprette så mange tavler du vil, og samle disse i ulike
-                        organisasjoner (mapper)
-                    </ListItem>
-                    <ListItem>
-                        Gi andre tilgang til å administrere tavlen
-                    </ListItem>
-                </UnorderedList>
-            </div>
-            {!loggedIn && <CreateUserButton />}
         </main>
     )
 }
