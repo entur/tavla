@@ -17,9 +17,13 @@ common:
                   secretKeyRef:
                       name: backend
                       key: api-key
-    secrets:
-        slack:
-            - SLACK_WEB_HOOK
+
+            - name: SLACK_WEBHOOK_URL
+              valueFrom:
+                  secretKeyRef:
+                      name: slack_webhook
+                      key: url
+
         probes:
             enabled: true
             spec:
