@@ -6,6 +6,7 @@ export const previewBoards: TBoard[] = [
         meta: {
             fontSize: 'medium',
         },
+        theme: 'dark',
         tiles: [
             {
                 columns: [
@@ -50,6 +51,7 @@ export const previewBoards: TBoard[] = [
         meta: {
             fontSize: 'medium',
         },
+        theme: 'light',
         tiles: [
             {
                 columns: ['line', 'destination', 'time', 'realtime'],
@@ -69,6 +71,7 @@ export const previewBoards: TBoard[] = [
         meta: {
             fontSize: 'medium',
         },
+        theme: 'light',
         tiles: [
             {
                 columns: ['line', 'destination', 'time', 'realtime'],

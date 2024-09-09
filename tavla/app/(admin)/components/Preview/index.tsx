@@ -20,7 +20,7 @@ const CarouselIndicators = ({
                 <button
                     key={index}
                     className={`w-5 h-5 rounded-full -translate-x-1/2 bottom-5 mt-[3vh] left-1/2 border border-gray-700 ${
-                        index === activeIndex ? 'bg-blue' : 'bg-grey'
+                        index === activeIndex ? 'bg-blue' : 'bg-secondary'
                     }`}
                     onClick={() => onClick(index)}
                 />
@@ -65,7 +65,12 @@ function Preview({ boards }: { boards: TBoard[] }) {
                 >
                     left
                 </LeftArrowIcon>
-                <div className="md:w-full w-2/3 mx-auto">
+                <div
+                    className="md:w-full w-2/3 mx-auto"
+                    data-theme={
+                        currentBoard.theme === 'light' ? 'light' : 'dark'
+                    }
+                >
                     <Board board={currentBoard} style={{ display: 'flex' }} />
                 </div>
                 <RightArrowIcon
