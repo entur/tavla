@@ -27,7 +27,7 @@ export function ContactForm() {
         }
     }, [state, addToast])
     return (
-        <div className="flex items-center justify-center w-1/6 h-14">
+        <div className="flex items-center justify-center w-full md:w-1/6 h-14">
             <Expandable
                 title="Trenger du hjelp?"
                 isOpen={isOpen}
@@ -36,11 +36,12 @@ export function ContactForm() {
                 <form
                     action={action}
                     ref={formRef}
-                    className="flex flex-col gap-4 pt-4 p-6 "
+                    className="flex flex-col gap-4  p-4 sm:p-6 "
                 >
                     <Paragraph as="h1" margin="none" className="font-bold">
-                        Har du spørsmål/innspill eller ønsker hjelp med å komme
-                        i gang?
+                        Vi setter stor pris på tilbakemeldinger og innspill, og
+                        bistår gjerne hvis du vil ha hjelp til å komme i gang
+                        med Tavla
                     </Paragraph>
                     <div>
                         <Label
