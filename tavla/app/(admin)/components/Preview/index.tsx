@@ -15,11 +15,11 @@ const CarouselIndicators = ({
     onClick: (index: number) => void
 }) => {
     return (
-        <div className="flex flex-row space-x-3 justify-center h-[10vh]">
+        <div className="flex flex-row md:space-x-3 space-x-5 justify-center h-[10vh]">
             {boards.map((_, index) => (
                 <button
                     key={index}
-                    className={`w-5 h-5 rounded-full  bottom-5 mt-[2vh] left-1/2 ${
+                    className={`md:w-5 md:h-5 w-6 h-6 rounded-full  bottom-5 mt-[2vh] left-1/2 ${
                         index === activeIndex ? 'bg-blue' : 'bg-tertiary'
                     }`}
                     onClick={() => onClick(index)}
@@ -40,7 +40,7 @@ function Preview({ boards }: { boards: TBoard[] }) {
                 setBoardIndex((boardIndex + 1) % boards.length)
                 setFade(true)
             }, 500)
-        }, 4000)
+        }, 4500)
         return () => clearInterval(interval)
     }, [boardIndex, boards])
 
@@ -66,12 +66,12 @@ function Preview({ boards }: { boards: TBoard[] }) {
             <div className="flex flex-row h-[40vh]">
                 <LeftArrowIcon
                     onClick={prevSlide}
-                    className="w-10 h-10 my-auto md:mr-5 mr-2"
+                    className="w-10 h-10 my-auto mr-5 hidden md:block"
                 >
                     left
                 </LeftArrowIcon>
                 <div
-                    className="md:w-full w-3/4 mx-auto"
+                    className="w-full mx-auto"
                     data-theme={
                         currentBoard.theme === 'light' ? 'light' : 'dark'
                     }
@@ -91,7 +91,7 @@ function Preview({ boards }: { boards: TBoard[] }) {
                 </div>
                 <RightArrowIcon
                     onClick={nextSlide}
-                    className="w-10 h-10 my-auto md:ml-5 ml-2"
+                    className="w-10 h-10 my-auto ml-5 hidden md:block"
                 />
             </div>
             <div className="h-[10vh] mx-10">
