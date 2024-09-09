@@ -19,8 +19,8 @@ const CarouselIndicators = ({
             {boards.map((_, index) => (
                 <button
                     key={index}
-                    className={`w-5 h-5 rounded-full -translate-x-1/2 bottom-5 mt-[3vh] left-1/2 border border-gray-700 ${
-                        index === activeIndex ? 'bg-blue' : 'bg-secondary'
+                    className={`w-5 h-5 rounded-full  bottom-5 mt-[2vh] left-1/2 ${
+                        index === activeIndex ? 'bg-blue' : 'bg-tertiary'
                     }`}
                     onClick={() => onClick(index)}
                 />
@@ -31,11 +31,16 @@ const CarouselIndicators = ({
 
 function Preview({ boards }: { boards: TBoard[] }) {
     const [boardIndex, setBoardIndex] = useState(0)
+    const [fade, setFade] = useState(true)
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setBoardIndex((boardIndex + 1) % boards.length)
-        }, 5000)
+            setFade(false)
+            setTimeout(() => {
+                setBoardIndex((boardIndex + 1) % boards.length)
+                setFade(true)
+            }, 500)
+        }, 4000)
         return () => clearInterval(interval)
     }, [boardIndex, boards])
 
@@ -61,21 +66,32 @@ function Preview({ boards }: { boards: TBoard[] }) {
             <div className="flex flex-row h-[40vh]">
                 <LeftArrowIcon
                     onClick={prevSlide}
-                    className="w-10 h-10 my-auto mr-5"
+                    className="w-10 h-10 my-auto md:mr-5 mr-2"
                 >
                     left
                 </LeftArrowIcon>
                 <div
-                    className="md:w-full w-2/3 mx-auto"
+                    className="md:w-full w-3/4 mx-auto"
                     data-theme={
                         currentBoard.theme === 'light' ? 'light' : 'dark'
                     }
+                    id="default-carousel"
+                    data-carousel="slide"
                 >
-                    <Board board={currentBoard} style={{ display: 'flex' }} />
+                    <div
+                        className={`w-full h-full transform transition-all duration-500 ease-in-out p-4 ${
+                            fade ? 'opacity-100' : 'opacity-0'
+                        }`}
+                    >
+                        <Board
+                            board={currentBoard}
+                            style={{ display: 'flex' }}
+                        />
+                    </div>
                 </div>
                 <RightArrowIcon
                     onClick={nextSlide}
-                    className="w-10 h-10 my-auto ml-5"
+                    className="w-10 h-10 my-auto md:ml-5 ml-2"
                 />
             </div>
             <div className="h-[10vh] mx-10">
