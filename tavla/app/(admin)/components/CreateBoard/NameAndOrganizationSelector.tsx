@@ -10,6 +10,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { useState } from 'react'
 import { useFormState } from 'react-dom'
 import { createBoard } from './actions'
+import { FormError } from '../FormError'
 
 function NameAndOrganizationSelector() {
     const [state, action] = useFormState(createBoard, undefined)
@@ -65,6 +66,9 @@ function NameAndOrganizationSelector() {
                     id="organization"
                     value={selectedOrganization?.value.id}
                 />
+            </div>
+            <div className="mt-4">
+                <FormError {...getFormFeedbackForField('general', state)} />
             </div>
 
             <div className="flex flex-row mt-8 justify-end">

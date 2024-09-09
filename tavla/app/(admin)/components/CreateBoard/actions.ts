@@ -4,6 +4,7 @@ import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
+import { FirebaseError } from 'firebase/app'
 import { redirect } from 'next/navigation'
 import { TBoard, TOrganization, TOrganizationID } from 'types/settings'
 
@@ -63,5 +64,10 @@ export async function createBoard(
         },
     } as TBoard
 
-    await create(board, organization)
+    try {
+        await create(board, organization)
+    } catch (e) {
+        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
+        return getFormFeedbackForError('general')
+    }
 }
