@@ -37,9 +37,7 @@ function DemoBoard() {
             </div>
             <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
-                <div className="text-2xl">
-                    <Preview board={board} />
-                </div>
+                <Preview board={board} />
             </div>
         </>
     )

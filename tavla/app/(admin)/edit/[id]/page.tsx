@@ -75,10 +75,7 @@ export default async function EditPage({ params }: TProps) {
                     />
 
                     <TileList board={board} />
-                    <div
-                        data-theme={board.theme ?? 'dark'}
-                        className="pt-8 text-2xl"
-                    >
+                    <div data-theme={board.theme ?? 'dark'} className="pt-8">
                         <Preview board={board} organization={organization} />
                     </div>
                 </div>
