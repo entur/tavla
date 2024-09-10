@@ -270,9 +270,15 @@ function TileCard({
                             <Heading4 margin="bottom">
                                 Navn på stoppested
                             </Heading4>
-                            <SubParagraph>
-                                Dette navnet vil vises i tavlen.
-                            </SubParagraph>
+                            <div>
+                                <SubParagraph margin="none">
+                                    Dette navnet vil vises i tavlen.
+                                </SubParagraph>
+                                <SubParagraph>
+                                    Det originale navnet til stoppestedet:{' '}
+                                    {tile.name.split(',')[0]}
+                                </SubParagraph>
+                            </div>
                             <TextField
                                 label="Navn på stoppested"
                                 className="!w-2/5"
