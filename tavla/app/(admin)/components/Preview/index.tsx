@@ -2,6 +2,7 @@
 
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
 import { Board } from 'Board/scenarios/Board'
+import { usePostHog } from 'posthog-js/react'
 import { SetStateAction, useEffect, useState } from 'react'
 import { TBoard } from 'types/settings'
 
@@ -32,6 +33,7 @@ const CarouselIndicators = ({
 function Preview({ boards }: { boards: TBoard[] }) {
     const [boardIndex, setBoardIndex] = useState(0)
     const [fade, setFade] = useState(true)
+    const posthog = usePostHog()
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -45,17 +47,20 @@ function Preview({ boards }: { boards: TBoard[] }) {
     }, [boardIndex, boards])
 
     const nextSlide = () => {
+        posthog.capture('CAROUSEL_ARROW_BTN')
         setBoardIndex((prevIndex) =>
             prevIndex === boards.length - 1 ? 0 : prevIndex + 1,
         )
     }
     const prevSlide = () => {
+        posthog.capture('CAROUSEL_ARROW_BTN')
         setBoardIndex((prevIndex) =>
             prevIndex === 0 ? boards.length - 1 : prevIndex - 1,
         )
     }
 
     const goToSlide = (index: SetStateAction<number>) => {
+        posthog.capture('CAROUSEL_INDICATOR_BTNS')
         setBoardIndex(index)
     }
 
