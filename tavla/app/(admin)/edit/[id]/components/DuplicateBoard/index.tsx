@@ -3,8 +3,8 @@ import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { AddIcon } from '@entur/icons'
 import { OverflowMenuItem } from '@entur/menu'
-import { create } from 'app/(admin)/components/CreateBoard/actions'
 import { TBoard, TOrganizationID } from 'types/settings'
+import { duplicateBoard } from './actions'
 
 function DuplicateBoard({
     board,
@@ -18,7 +18,7 @@ function DuplicateBoard({
     const { addToast } = useToast()
     const handleSelect = async () => {
         delete board.id
-        await create(
+        await duplicateBoard(
             {
                 ...board,
                 meta: {

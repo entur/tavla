@@ -10,7 +10,25 @@ import { TBoard, TOrganization, TOrganizationID } from 'types/settings'
 
 initializeAdminApp()
 
-export async function create(board: TBoard, oid?: TOrganizationID) {
+export async function createBoard(
+    prevState: TFormFeedback | undefined,
+    data: FormData,
+) {
+    const name = data.get('name') as string
+    if (!name) return getFormFeedbackForError('board/name-missing')
+
+    const oid = data.get('organization') as TOrganizationID
+    const personal = data.get('personal')
+    if (!oid && !personal)
+        return getFormFeedbackForError('create/organization-missing')
+
+    const board = {
+        tiles: [],
+        meta: {
+            title: name.substring(0, 50),
+        },
+    } as TBoard
+
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
@@ -32,42 +50,20 @@ export async function create(board: TBoard, oid?: TOrganizationID) {
             },
         })
 
-    firestore()
-        .collection(oid ? 'organizations' : 'users')
-        .doc(oid ? String(oid) : String(user.uid))
-        .update({
-            [oid ? 'boards' : 'owner']: admin.firestore.FieldValue.arrayUnion(
-                createdBoard.id,
-            ),
-        })
-    redirect(`/edit/${createdBoard.id}`)
-}
-
-export async function createBoard(
-    prevState: TFormFeedback | undefined,
-    data: FormData,
-) {
-    const name = data.get('name') as string
-    if (!name) {
-        return getFormFeedbackForError('board/name-missing')
-    }
-
-    const organization = data.get('organization') as TOrganizationID
-    const personal = data.get('personal')
-    if (!organization && !personal)
-        return getFormFeedbackForError('create/organization-missing')
-
-    const board = {
-        tiles: [],
-        meta: {
-            title: name.substring(0, 50),
-        },
-    } as TBoard
+    if (!createdBoard) return getFormFeedbackForError('firebase/general')
 
     try {
-        await create(board, organization)
+        firestore()
+            .collection(oid ? 'organizations' : 'users')
+            .doc(oid ? String(oid) : String(user.uid))
+            .update({
+                [oid ? 'boards' : 'owner']:
+                    admin.firestore.FieldValue.arrayUnion(createdBoard.id),
+            })
     } catch (e) {
         if (e instanceof FirebaseError) return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+        return getFormFeedbackForError('firebase/general')
     }
+
+    redirect(`/edit/${createdBoard.id}`)
 }
