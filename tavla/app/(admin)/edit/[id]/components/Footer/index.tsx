@@ -20,14 +20,17 @@ function Footer({
 }) {
     const { addToast } = useToast()
     const [override, setOverride] = useState(footer?.override ?? false)
+
     const submitOrgBoard = async (data: FormData) => {
         const footer = data.get('footer') as string
         const override = data.get('override') as string
         const overrideOrg = override === 'on'
+
         await setFooter(bid, {
             footer: footer,
             override: overrideOrg,
         })
+
         addToast('Infomelding lagret!')
     }
 

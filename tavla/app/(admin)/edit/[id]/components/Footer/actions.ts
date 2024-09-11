@@ -20,10 +20,7 @@ export async function setFooter(bid: TBoardID, footer?: TFooter) {
         .doc(bid)
         .update({
             footer: {
-                footer:
-                    !footer?.footer || !isEmptyOrSpaces(footer?.footer)
-                        ? footer?.footer
-                        : firestore.FieldValue.delete(),
+                footer: !isEmptyOrSpaces(footer?.footer) ? footer?.footer : '',
                 override: footer?.override,
             },
             'meta.dateModified': Date.now(),
