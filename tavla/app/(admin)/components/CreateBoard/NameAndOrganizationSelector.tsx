@@ -56,6 +56,7 @@ function NameAndOrganizationSelector() {
                 <Checkbox
                     checked={disableOrg}
                     onChange={() => {
+                        setSelectedOrganization(null)
                         setPersonal(!personal)
                     }}
                     name="personal"
