@@ -203,9 +203,20 @@ function TileCard({
                             {tile.displayName ?? tile.name}
                         </Heading3>
                         <div className="hidden sm:flex flex-row gap-4 h-8">
-                            {transportModes.map((tm) => (
-                                <TransportIcon transportMode={tm} key={tm} />
-                            ))}
+                            {transportModes
+                                .filter(
+                                    (tm) =>
+                                        !(
+                                            tm === 'coach' &&
+                                            transportModes.includes('bus')
+                                        ),
+                                )
+                                .map((tm) => (
+                                    <TransportIcon
+                                        transportMode={tm}
+                                        key={tm}
+                                    />
+                                ))}
                         </div>
                     </div>
 
