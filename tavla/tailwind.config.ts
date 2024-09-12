@@ -79,7 +79,6 @@ module.exports = {
                 'auto-fit-minmax': 'repeat(auto-fit, minmax(60vmin, 1fr))',
             },
             animation: {
-                'ping-slow': 'ping 4s  infinite',
                 pulse: 'pulse 2s ease-out infinite',
             },
             keyframes: {
