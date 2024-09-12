@@ -31,22 +31,22 @@ async function Landing() {
         <main>
             <Welcome />
             <div className="bg-secondary">
-                <div className="flex flex-col container py-12 gap-10 xl:flex-row">
-                    <div className="flex flex-col xl:w-1/2 md:pl-20">
+                <div className="flex flex-col container py-12 gap-10 lg:flex-row justify-center">
+                    <div className="flex flex-col lg:w-3/4 xl:w-1/2">
                         <Heading1>Lag en avgangstavle for</Heading1>
                         <WordCarousel />
-                        <LeadParagraph margin="bottom" className="w-full">
+                        <LeadParagraph margin="bottom">
                             Tavla er en gratis tjeneste som gjør det enkelt å
                             sette opp avgangstavler for offentlig transport i
                             hele Norge! Vis kollektivtilbudet i nærheten og
                             hjelp folk til å planlegge sin neste kollektivreise.
                         </LeadParagraph>
-                        <div className="flex md:flex-row flex-col md:items-end w-full gap-4 mt-5">
+                        <div className="flex md:flex-row flex-col w-full gap-4 mt-5">
                             {!loggedIn && <CreateUserButtonLanding />}
                             <DemoButton />
                         </div>
                     </div>
-                    <div className="flex flex-row mx-auto xl:w-2/5">
+                    <div className="flex flex-row self-center scale-[0.8] lg:scale-90">
                         <Image src={landingImage} alt="En avgangstavle" />
                     </div>
                 </div>
