@@ -20,13 +20,11 @@ function TileSelector({
     oid,
     showLabel,
     col = true,
-    lineIcons = true,
 }: {
     action: (data: FormData) => void
     oid?: TOrganizationID
     showLabel?: boolean
     col?: boolean
-    lineIcons?: boolean
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch(oid)
@@ -36,7 +34,6 @@ function TileSelector({
 
     const { quays, selectedQuay, setSelectedQuay } = useQuaySearch(
         selectedStopPlace?.value ?? '',
-        lineIcons,
     )
 
     const classname = col ? '' : 'lg:flex-row'

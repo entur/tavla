@@ -60,7 +60,6 @@ export default async function EditPage({ params }: TProps) {
                     <TileSelector
                         col={false}
                         oid={organization?.id}
-                        lineIcons={true}
                         action={async (data: FormData) => {
                             'use server'
 
