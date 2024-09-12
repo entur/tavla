@@ -15,6 +15,7 @@ function BoardTable({
             <IllustratedInfo
                 title="Her var det tomt"
                 description="Du har ikke laget noen tavler ennå"
+                hasCreateButton={true}
             />
         )
 
