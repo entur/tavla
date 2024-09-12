@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { Link, Paragraph } from '@entur/typography'
 import NextLink from 'next/link'
 import { Actions } from './Actions'
+import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
+import { isEmpty } from 'lodash'
 
 function Organizations({
     userId,
@@ -12,6 +14,13 @@ function Organizations({
     userId: string
     organizations: TOrganization[]
 }) {
+    if (isEmpty(organizations))
+        return (
+            <IllustratedInfo
+                title="Her var det tomt"
+                description="Du er ikke en del av noen organisasjoner ennå"
+            />
+        )
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {organizations.map((organization) => (
