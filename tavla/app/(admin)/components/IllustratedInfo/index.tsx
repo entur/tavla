@@ -9,7 +9,7 @@ function IllustratedInfo({
 }: {
     title: string
     description: string
-    children: React.ReactNode
+    children?: React.ReactNode
 }) {
     return (
         <div className="flex flex-col items-center bg-secondary rounded pb-16">
