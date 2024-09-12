@@ -79,18 +79,13 @@ module.exports = {
                 'auto-fit-minmax': 'repeat(auto-fit, minmax(60vmin, 1fr))',
             },
             animation: {
-                'ping-slow': 'ping 8s  infinite',
+                'ping-slow': 'ping 4s  infinite',
+                pulse: 'pulse 2s ease-out infinite',
             },
             keyframes: {
-                ping: {
-                    '0%,75%': {
-                        transform: 'scale(1)',
-                        opacity: '1',
-                    },
-                    '100%': {
-                        transform: 'scale(2)',
-                        opacity: '0',
-                    },
+                pulse: {
+                    '0%': { transform: 'scale(1)', opacity: '1' },
+                    '100%': { transform: 'scale(2.4)', opacity: '0' },
                 },
             },
         },

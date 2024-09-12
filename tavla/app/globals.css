@@ -241,7 +241,7 @@
     }
 
     .pulse {
-        @apply inline-flex rounded-full bg-success h-em-0.75 w-em-0.75 left-[calc(50%-(0.75em/2))] bottom-[calc(50%-(0.75em/2))];
+        @apply inline-flex rounded-full bg-success h-3 w-3 left-[calc(50%-((0.75em)/2))] bottom-[calc(50%-((h-3)/2))];
     }
 
     .table-custom-nth-child {
