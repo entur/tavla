@@ -19,12 +19,11 @@ function BoardTable({
             <IllustratedInfo
                 title="Her var det tomt"
                 description="Du har ikke laget noen tavler ennå"
-                CreateButton={() => (
-                    <PrimaryButton as={Link} href="?board">
-                        Opprett tavle <AddIcon /> <CreateBoard />
-                    </PrimaryButton>
-                )}
-            />
+            >
+                <PrimaryButton as={Link} href="?board">
+                    Opprett tavle <AddIcon /> <CreateBoard />
+                </PrimaryButton>
+            </IllustratedInfo>
         )
 
     return (
