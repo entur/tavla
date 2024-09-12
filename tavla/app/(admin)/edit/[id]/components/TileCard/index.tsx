@@ -281,7 +281,7 @@ function TileCard({
                             </div>
                             <TextField
                                 label="Navn på stoppested"
-                                className="!w-2/5"
+                                className="!w-full md:!w-1/2 lg:!w-1/4"
                                 name="displayName"
                                 defaultValue={tile.displayName}
                                 maxLength={50}
@@ -322,7 +322,7 @@ function TileCard({
                                 id="offset"
                                 type="number"
                                 min={0}
-                                className="!w-2/5"
+                                className="!w-full md:!w-1/2 lg:!w-1/4"
                                 value={offset}
                                 onChange={(e) => {
                                     setOffset(e.target.valueAsNumber || '')
