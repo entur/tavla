@@ -2,6 +2,7 @@ import { COUNTY_ENDPOINT, GEOCODER_ENDPOINT, CLIENT_NAME } from 'assets/env'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { TCategory, getIcons } from '../edit/utils'
 import { TLocation } from 'types/meta'
+import { uniq } from 'lodash'
 
 type TPartialGeoResponse = {
     features: Array<{
@@ -70,7 +71,7 @@ export async function fetchStopPlaces(
             return data.features.map(({ properties }) => ({
                 value: properties.id ?? '',
                 label: properties.label || '',
-                icons: getIcons(properties.layer, properties.category),
+                icons: uniq(getIcons(properties.layer, properties.category)),
             }))
         })
 }
