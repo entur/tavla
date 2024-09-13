@@ -15,6 +15,7 @@ const transportModes = {
     trolleybus: 'var(--trolleybus-color)',
     unknown: 'var(--unknown-color)',
     water: 'var(--water-color)',
+    taxi: 'var(--taxi-color)',
 }
 
 module.exports = {

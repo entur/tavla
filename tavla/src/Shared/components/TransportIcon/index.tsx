@@ -53,6 +53,8 @@ export function getTransportIcon(
             return BusIcon
         case 'water':
             return FerryIcon
+        case 'taxi':
+            return TaxiIcon
         default:
             return UnknownIcon
     }

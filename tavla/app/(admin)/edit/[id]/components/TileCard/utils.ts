@@ -42,6 +42,8 @@ export function transportModeNames(transportMode: TTransportMode | null) {
             return 'Enskinnebane'
         case 'coach':
             return 'Langdistanse buss'
+        case 'taxi':
+            return 'Taxi'
         case 'unknown':
             return 'Ukjent'
         default:

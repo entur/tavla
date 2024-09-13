@@ -44,6 +44,7 @@
         --trolleybus-color: var(--colors-transport-default-bus);
         --unknown-color: var(--colors-transport-default-walk);
         --water-color: var(--colors-transport-default-ferry);
+        --taxi-color: var(--colors-transport-default-taxi);
 
         --data-visualization-azure: var(--colors-data-default-azure);
         --data-visualization-blue: var(--colors-data-default-blue);
@@ -95,6 +96,7 @@
         --trolleybus-color: var(--colors-transport-contrast-bus);
         --unknown-color: var(--colors-transport-contrast-walk);
         --water-color: var(--colors-transport-contrast-ferry);
+        --taxi-color: var(--colors-transport-contrast-taxi);
 
         --data-visualization-azure: var(--colors-data-contrast-azure);
         --data-visualization-blue: var(--colors-data-contrast-blue);
@@ -144,6 +146,7 @@
         --trolleybus-color: var(--colors-transport-contrast-bus);
         --unknown-color: var(--colors-transport-contrast-walk);
         --water-color: var(--colors-transport-contrast-ferry);
+        --taxi-color: var(--colors-transport-contrast-taxi);
 
         --data-visualization-azure: var(--colors-data-contrast-azure);
         --data-visualization-blue: var(--colors-data-contrast-blue);
