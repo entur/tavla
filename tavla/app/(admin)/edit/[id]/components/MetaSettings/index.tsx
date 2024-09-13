@@ -56,7 +56,7 @@ function MetaSettings({
                         className="w-full"
                         defaultValue={meta?.title ?? DEFAULT_BOARD_NAME}
                         label="Navn på tavlen"
-                        maxLength={30}
+                        maxLength={50}
                     />
                 </div>
 

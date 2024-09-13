@@ -227,6 +227,13 @@ export function getFormFeedbackForError(
                 variant: 'error',
             }
         }
+        case 'firebase/general': {
+            return {
+                form_type: 'general',
+                feedback: 'En teknisk feil har oppstått. Vennligst prøv igjen.',
+                variant: 'error',
+            }
+        }
     }
 
     return {
