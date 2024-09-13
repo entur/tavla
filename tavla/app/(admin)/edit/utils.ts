@@ -1,6 +1,6 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { HomeIcon, MapPinIcon } from '@entur/icons'
-import { getTransportIcon } from 'components/TransportIcon'
+import { SmallTravelTag } from 'components/TravelTag'
 import { uniq } from 'lodash'
 import { TTransportMode } from 'types/graphql-schema'
 import { TLocation } from 'types/meta'
@@ -93,13 +93,21 @@ export function getVenueIcon(category: TCategory) {
     }
 }
 
+const travelTags = (category: TCategory[]) => {
+    return uniq(category.map((mode) => categoryToTransportmode(mode))).map(
+        (tm) => () => {
+            return SmallTravelTag({
+                transportMode: tm,
+            })
+        },
+    )
+}
+
 export function getIcons(layer?: string, category?: TCategory[]) {
     if (!layer || !category) return
     if (layer !== 'venue')
         return uniq(uniq(category).map((mode) => getVenueIcon(mode)))
-    return uniq(category).map((mode) =>
-        getTransportIcon(categoryToTransportmode(mode)),
-    )
+    return travelTags(category)
 }
 
 export function isEmptyOrSpaces(str?: string) {

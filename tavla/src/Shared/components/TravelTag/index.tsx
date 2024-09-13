@@ -55,7 +55,7 @@ function SmallTravelTag({
     publicCode?: string | null
     icons?: boolean
 }) {
-    if (!transportMode || (!publicCode && transportMode !== 'air')) return null
+    if (!transportMode) return null
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
@@ -67,12 +67,12 @@ function SmallTravelTag({
             {icons && (
                 <TransportIcon
                     className={`block h-6 fill-background ${
-                        transportMode === 'air' ? 'w-4' : 'w-6'
+                        publicCode ? 'w-6' : 'w-4'
                     }`}
                     transportMode={transportMode}
                 />
             )}
-            {transportMode !== 'air' && (
+            {publicCode && (
                 <div className="text-[0.65rem] w-full flex justify-center align-center">
                     {publicCode}
                 </div>
