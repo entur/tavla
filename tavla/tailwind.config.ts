@@ -27,6 +27,10 @@ module.exports = {
     theme: {
         container: {
             center: true,
+            padding: {
+                DEFAULT: '2rem',
+                md: '0.5rem',
+            },
         },
         extend: {
             backgroundColor: {
