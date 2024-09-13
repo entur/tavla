@@ -18,9 +18,9 @@ function NameAndOrganizationSelector() {
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations()
 
-    const [personal, setPersonal] = useState<boolean>(false)
+    const [isPersonal, setIsPersonal] = useState<boolean>(false)
 
-    const disableOrg = personal || organizations().length == 0
+    const disableOrg = isPersonal || organizations().length == 0
 
     return (
         <form action={action} className="md:px-10">
@@ -45,7 +45,7 @@ function NameAndOrganizationSelector() {
                 <Dropdown
                     items={organizations}
                     label="Dine organisasjoner"
-                    selectedItem={personal ? null : selectedOrganization}
+                    selectedItem={isPersonal ? null : selectedOrganization}
                     onChange={setSelectedOrganization}
                     clearable
                     aria-required="true"
@@ -57,7 +57,7 @@ function NameAndOrganizationSelector() {
                     checked={disableOrg}
                     onChange={() => {
                         setSelectedOrganization(null)
-                        setPersonal(!personal)
+                        setIsPersonal(!isPersonal)
                     }}
                     name="personal"
                 >
