@@ -1,5 +1,6 @@
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 import { TransportIcon } from 'components/TransportIcon'
+import { isOnlyWhiteSpace } from 'app/(admin)/edit/utils'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -67,12 +68,14 @@ function SmallTravelTag({
             {icons && (
                 <TransportIcon
                     className={`block h-6 fill-background ${
-                        publicCode ? 'w-6' : 'w-4'
+                        publicCode && !isOnlyWhiteSpace(publicCode)
+                            ? 'w-6'
+                            : 'w-4'
                     }`}
                     transportMode={transportMode}
                 />
             )}
-            {publicCode && (
+            {publicCode && !isOnlyWhiteSpace(publicCode) && (
                 <div className="text-[0.65rem] w-full flex justify-center align-center">
                     {publicCode}
                 </div>
