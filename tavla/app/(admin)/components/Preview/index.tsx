@@ -1,9 +1,10 @@
 'use client'
 
+import { IconButton } from '@entur/button'
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
 import { Board } from 'Board/scenarios/Board'
 import { usePostHog } from 'posthog-js/react'
-import { SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TBoard } from 'types/settings'
 
 const CarouselIndicators = ({
@@ -16,11 +17,11 @@ const CarouselIndicators = ({
     onClick: (index: number) => void
 }) => {
     return (
-        <div className="flex flex-row md:space-x-3 space-x-5 justify-center h-[10vh]">
+        <div className="flex flex-row md:space-x-3 space-x-5 justify-center mt-4">
             {boards.map((_, index) => (
                 <button
                     key={index}
-                    className={`md:w-5 md:h-5 w-6 h-6 rounded-full  bottom-5 mt-[2vh] left-1/2 ${
+                    className={`md:w-5 md:h-5 w-6 h-6 rounded-full  bottom-5 ${
                         index === activeIndex ? 'bg-blue' : 'bg-tertiary'
                     }`}
                     onClick={() => onClick(index)}
@@ -59,7 +60,7 @@ function Preview({ boards }: { boards: TBoard[] }) {
         )
     }
 
-    const goToSlide = (index: SetStateAction<number>) => {
+    const goToSlide = (index: number) => {
         posthog.capture('CAROUSEL_INDICATOR_BTNS')
         setBoardIndex(index)
     }
@@ -67,24 +68,22 @@ function Preview({ boards }: { boards: TBoard[] }) {
     const currentBoard = boards[boardIndex] ?? undefined
     if (!currentBoard) return null
     return (
-        <div>
+        <div className="xl:w-1/2 h-[50vh] overflow-hidden rounded-2xl py-10 w-full">
             <div className="flex flex-row h-[40vh]">
-                <LeftArrowIcon
-                    onClick={prevSlide}
-                    className="w-10 h-10 my-auto mr-5 hidden md:block"
-                >
-                    left
-                </LeftArrowIcon>
+                <div className="my-auto hidden md:block ml-2">
+                    <IconButton
+                        onClick={prevSlide}
+                        aria-label="Vis forrige tavle"
+                    >
+                        <LeftArrowIcon />
+                    </IconButton>
+                </div>
                 <div
                     className="w-full mx-auto"
-                    data-theme={
-                        currentBoard.theme === 'light' ? 'light' : 'dark'
-                    }
-                    id="default-carousel"
-                    data-carousel="slide"
+                    data-theme={currentBoard.theme ?? 'dark'}
                 >
                     <div
-                        className={`w-full h-full transform transition-all duration-500 ease-in-out p-4 ${
+                        className={`w-full h-full transform transition-all duration-500 ease-in-out p-2 ${
                             fade ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
@@ -94,18 +93,21 @@ function Preview({ boards }: { boards: TBoard[] }) {
                         />
                     </div>
                 </div>
-                <RightArrowIcon
-                    onClick={nextSlide}
-                    className="w-10 h-10 my-auto ml-5 hidden md:block"
-                />
+                <div className="my-auto hidden md:block mr-2">
+                    <IconButton
+                        onClick={nextSlide}
+                        aria-label="Vis neste tavle"
+                    >
+                        <RightArrowIcon />
+                    </IconButton>
+                </div>
             </div>
-            <div className="h-[10vh] mx-10">
-                <CarouselIndicators
-                    boards={boards}
-                    activeIndex={boardIndex}
-                    onClick={goToSlide}
-                />
-            </div>
+
+            <CarouselIndicators
+                boards={boards}
+                activeIndex={boardIndex}
+                onClick={goToSlide}
+            />
         </div>
     )
 }
