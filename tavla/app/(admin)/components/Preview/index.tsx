@@ -17,7 +17,10 @@ const CarouselIndicators = ({
     onClick: (index: number) => void
 }) => {
     return (
-        <div className="flex flex-row md:space-x-3 space-x-5 justify-center mt-4">
+        <div
+            className="flex flex-row md:space-x-3 space-x-5 justify-center mt-4"
+            aria-label="Knapper for å bytte mellom avgangstavler"
+        >
             {boards.map((_, index) => (
                 <button
                     key={index}
