@@ -8,7 +8,11 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { TextField } from '@entur/form'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useFormState } from 'react-dom'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
+import {
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+    TFormFeedback,
+} from 'app/(admin)/utils'
 import { FormError } from '../FormError'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import { deleteOrganization } from './actions'
@@ -18,6 +22,7 @@ import { useSearchParams } from 'next/navigation'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { useToast } from '@entur/alert'
+import { useState } from 'react'
 
 function Delete({
     organization,
@@ -29,6 +34,7 @@ function Delete({
     const [modalIsOpen, close] = useSearchParamsModal('delete')
     const { addToast } = useToast()
     const [state, deleteOrgAction] = useFormState(deleteOrganization, undefined)
+    const [nameError, setNameError] = useState<TFormFeedback>()
 
     const params = useSearchParams()
     const pageParam = params?.get('delete')
@@ -36,6 +42,13 @@ function Delete({
     const DeleteButton = type === 'icon' ? IconButton : Button
 
     const submit = async (data: FormData) => {
+        const organizationName = data.get('oname') as string
+        const name = data.get('name') as string
+        if (name !== organizationName)
+            return setNameError(
+                getFormFeedbackForError('organization/name-mismatch'),
+            )
+
         deleteOrgAction(data)
         addToast('Organisasjon slettet!')
     }
@@ -58,14 +71,20 @@ function Delete({
             <Modal
                 open={modalIsOpen && pageParam === organization.id}
                 size="small"
-                onDismiss={close}
+                onDismiss={() => {
+                    close()
+                    setNameError(undefined)
+                }}
                 closeLabel="Avbryt sletting"
                 className="flex flex-col justify-start items-center text-center"
             >
                 <SecondarySquareButton
                     aria-label="Avbryt sletting"
                     className="ml-auto"
-                    onClick={close}
+                    onClick={() => {
+                        close()
+                        setNameError(undefined)
+                    }}
                 >
                     <CloseIcon />
                 </SecondarySquareButton>
@@ -93,7 +112,7 @@ function Delete({
                         required
                         aria-required
                         className="w-full"
-                        {...getFormFeedbackForField('name', state)}
+                        {...getFormFeedbackForField('name', nameError)}
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <SubmitButton

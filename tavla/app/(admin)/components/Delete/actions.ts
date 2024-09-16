@@ -17,11 +17,6 @@ export async function deleteOrganization(
 
     if (!oid || !user) return getFormFeedbackForError('general')
 
-    const organizationName = data.get('oname') as string
-    const name = data.get('name') as string
-    if (name !== organizationName)
-        return getFormFeedbackForError('organization/name-mismatch')
-
     try {
         await deleteOrg(oid)
         revalidatePath('/')
