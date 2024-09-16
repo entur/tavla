@@ -83,11 +83,13 @@ function Preview({ boards }: { boards: TBoard[] }) {
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
                     <div
+                        aria-label="Eksempel på avgangstavler"
                         className={`w-full h-full transform transition-all duration-500 ease-in-out p-2 ${
                             fade ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
                         <Board
+                            aria-hidden
                             board={currentBoard}
                             style={{ display: 'flex' }}
                         />
