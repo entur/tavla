@@ -23,7 +23,7 @@ export function useQuery<Data, Variables>(
         [query, variables, mergedOptions.endpoint],
         fetcher,
         {
-            revalidateOnFocus: false,
+            revalidateOnFocus: true,
             revalidateOnReconnect: true,
             refreshInterval: mergedOptions.poll ? 30000 : undefined,
             keepPreviousData: true,
