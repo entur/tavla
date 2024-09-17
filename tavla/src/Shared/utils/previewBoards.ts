@@ -6,13 +6,20 @@ export const previewBoards: TBoard[] = [
         meta: {
             fontSize: 'medium',
         },
+        theme: 'dark',
         tiles: [
             {
-                columns: ['line', 'destination', 'time', 'realtime'],
-                placeId: 'NSR:StopPlace:58260',
-                name: 'Dalsbergstien',
+                columns: [
+                    'line',
+                    'destination',
+                    'time',
+                    'realtime',
+                    'platform',
+                ],
+                placeId: 'NSR:StopPlace:61291',
+                name: 'Stavanger stasjon, Stavanger',
                 type: 'stop_place',
-                uuid: 'uoO6yA-S0ztol4auy_QSv',
+                uuid: '1s9E_8qW_e2-cWii94rl4',
             },
         ],
     },
@@ -25,10 +32,17 @@ export const previewBoards: TBoard[] = [
         tiles: [
             {
                 columns: ['line', 'destination', 'time', 'realtime'],
-                placeId: 'NSR:StopPlace:58366',
-                name: 'Jernbanetorget',
+                placeId: 'NSR:StopPlace:58382',
+                name: 'Aker brygge, Oslo',
                 type: 'stop_place',
-                uuid: 'uoO6yA-S0ztol4auy_QSv',
+                uuid: 'lqfe6yE6hStaM8yWbfmb2',
+                whitelistedLines: [
+                    'RUT:Line:3701',
+                    'RUT:Line:3702',
+                    'RUT:Line:3810',
+                    'RUT:Line:3820',
+                    'RUT:Line:3821',
+                ],
             },
         ],
     },
@@ -37,20 +51,34 @@ export const previewBoards: TBoard[] = [
         meta: {
             fontSize: 'medium',
         },
+        theme: 'light',
         tiles: [
             {
-                columns: [
-                    'line',
-                    'destination',
-                    'time',
-                    'realtime',
-                    'arrivalTime',
-                ],
-                placeId: 'NSR:StopPlace:58767',
-                name: 'Festøya ferjekai, Ørsta',
+                columns: ['line', 'destination', 'time', 'realtime'],
+                placeId: 'NSR:StopPlace:58856',
+                name: 'Lysaker stasjon, Bærum',
                 type: 'stop_place',
-                uuid: 'syD_TXEoo5x3R8ar2gB_V',
-                whitelistedLines: ['MOR:Line:1049', 'MOR:Line:1069'],
+                uuid: 'WPLoeygP7d173RifiQDvd',
+                walkingDistance: {
+                    distance: 868,
+                    visible: true,
+                },
+            },
+        ],
+    },
+    {
+        id: 'aLr7VN03RDThtjYYfd9v',
+        meta: {
+            fontSize: 'medium',
+        },
+        theme: 'light',
+        tiles: [
+            {
+                columns: ['line', 'destination', 'time', 'realtime'],
+                placeId: 'NSR:StopPlace:59261',
+                name: 'Trondheim lufthavn, Stjørdal',
+                type: 'stop_place',
+                uuid: 'iELiaTnG7uxRM6aN2Ba9A',
             },
         ],
     },
