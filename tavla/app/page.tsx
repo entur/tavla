@@ -8,7 +8,7 @@ import {
     Paragraph,
     UnorderedList,
 } from '@entur/typography'
-import { Preview } from './(admin)/components/Preview'
+import { PreviewCarousel } from './(admin)/components/PreviewCarousel'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
 import { Link as EnturLink } from '@entur/typography'
@@ -54,7 +54,7 @@ async function Landing() {
 
             <div className="flex flex-col mx-auto items-center justify-start py-4 container overflow-hidden pb-10">
                 <div className="flex flex-col items-center justify-start gap-4 py-4 w-full">
-                    <Preview boards={previewBoards} />
+                    <PreviewCarousel boards={previewBoards} />
 
                     <div className="xl:w-1/2">
                         <Heading2>Kort om Tavla</Heading2>

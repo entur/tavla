@@ -2,7 +2,7 @@
 
 import { IconButton } from '@entur/button'
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
-import { Board } from 'Board/scenarios/Board'
+import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect, useState } from 'react'
 import { TBoard } from 'types/settings'
@@ -34,7 +34,7 @@ const CarouselIndicators = ({
     )
 }
 
-function Preview({ boards }: { boards: TBoard[] }) {
+function PreviewCarousel({ boards }: { boards: TBoard[] }) {
     const [boardIndex, setBoardIndex] = useState(0)
     const [fade, setFade] = useState(true)
     const posthog = usePostHog()
@@ -71,7 +71,7 @@ function Preview({ boards }: { boards: TBoard[] }) {
     const currentBoard = boards[boardIndex] ?? undefined
     if (!currentBoard) return null
     return (
-        <div className="xl:w-1/2 h-[50vh] overflow-hidden rounded-2xl py-10 w-full">
+        <div className="h-[50vh] py-10">
             <div className="flex flex-row h-[40vh]">
                 <div className="my-auto hidden md:block ml-2">
                     <IconButton
@@ -87,15 +87,12 @@ function Preview({ boards }: { boards: TBoard[] }) {
                 >
                     <div
                         aria-label="Eksempel på avgangstavler"
-                        className={`w-full h-full transform transition-all duration-500 ease-in-out p-2 ${
+                        className={`transform transition-all duration-500 ease-in-out ${
                             fade ? 'opacity-100' : 'opacity-0'
                         }`}
+                        style={{ display: 'flex' }}
                     >
-                        <Board
-                            aria-hidden
-                            board={currentBoard}
-                            style={{ display: 'flex' }}
-                        />
+                        <Preview aria-hidden board={currentBoard} landingPage />
                     </div>
                 </div>
                 <div className="my-auto hidden md:block mr-2">
@@ -116,4 +113,4 @@ function Preview({ boards }: { boards: TBoard[] }) {
         </div>
     )
 }
-export { Preview }
+export { PreviewCarousel }
