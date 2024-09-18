@@ -71,8 +71,8 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
     const currentBoard = boards[boardIndex] ?? undefined
     if (!currentBoard) return null
     return (
-        <div className="h-[50vh] py-10">
-            <div className="flex flex-row h-[40vh]">
+        <div className="md:h-[50vh]  py-10">
+            <div className="flex flex-row md:h-[40vh]">
                 <div className="my-auto hidden md:block ml-2">
                     <IconButton
                         onClick={prevSlide}

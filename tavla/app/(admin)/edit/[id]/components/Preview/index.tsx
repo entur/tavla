@@ -24,7 +24,7 @@ function Preview({
             <Header theme={board.theme} organizationLogo={organization?.logo} />
             <div
                 className={`${
-                    landingPage ? 'md:h-[32em] h-[34em]' : 'h-[50rem]'
+                    landingPage ? 'md:h-[32em] h-[22em]' : 'h-[50rem]'
                 }`}
             >
                 <Board board={board} />
