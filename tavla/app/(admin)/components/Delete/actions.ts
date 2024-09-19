@@ -10,10 +10,9 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
 export async function deleteOrganization(
     prevState: TFormFeedback | undefined,
-    data: FormData,
+    oid: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
-    const oid = data.get('oid') as TOrganizationID
 
     if (!oid || !user) return getFormFeedbackForError('general')
 
