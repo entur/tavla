@@ -47,8 +47,10 @@ function Delete({
                 getFormFeedbackForError('organization/name-mismatch'),
             )
 
-        organization.id && deleteOrgAction(organization.id)
-        addToast('Organisasjon slettet!')
+        if (organization.id) {
+            deleteOrgAction(organization.id)
+            addToast('Organisasjon slettet!')
+        }
     }
 
     return (

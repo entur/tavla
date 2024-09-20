@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { logout } from '../Login/actions'
 
 export async function deleteOrganization(
     prevState: TFormFeedback | undefined,
@@ -14,7 +15,7 @@ export async function deleteOrganization(
 ) {
     const user = await getUserFromSessionCookie()
 
-    if (!oid || !user) return getFormFeedbackForError('general')
+    if (!user) logout()
 
     try {
         await deleteOrg(oid)
