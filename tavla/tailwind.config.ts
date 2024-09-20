@@ -79,7 +79,7 @@ module.exports = {
                 'auto-fit-minmax': 'repeat(auto-fit, minmax(60vmin, 1fr))',
             },
             animation: {
-                pulse: 'pulse 2s ease-out infinite',
+                pulse: 'pulse 3s ease-out infinite',
             },
             keyframes: {
                 pulse: {
