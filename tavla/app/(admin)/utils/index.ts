@@ -32,7 +32,7 @@ export function getFormFeedbackForField(
 export function getFormFeedbackForError(
     e?: TError,
     email?: string,
-): TFormFeedback {
+): TFormFeedback | undefined {
     let code = e
     if (e instanceof FirebaseError) {
         code = e.code
@@ -237,9 +237,12 @@ export function getFormFeedbackForError(
         case 'contact/message-missing': {
             return {
                 form_type: 'user',
-                feedback: 'Vennligst legg igjen en melding',
+                feedback: 'Vennligst legg igjen en melding.',
                 variant: 'error',
             }
+        }
+        case 'form/reset': {
+            return
         }
     }
 

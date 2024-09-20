@@ -2,46 +2,73 @@
 import { TextArea, TextField } from '@entur/form'
 import { Label, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { useFormState } from 'react-dom'
 import { postForm } from './actions'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
-import { useEffect, useRef, useState } from 'react'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
+import { useState } from 'react'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useToast } from '@entur/alert'
 import { Expandable } from './Expandable'
+import { usePostHog } from 'posthog-js/react'
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 
-export function ContactForm() {
-    const formRef = useRef<HTMLFormElement>(null)
+function ContactForm() {
+    const posthog = usePostHog()
+
     const { addToast } = useToast()
-    const [state, action] = useFormState(postForm, undefined)
     const [isOpen, setIsOpen] = useState(false)
+    const [formstate, setFormError] = useState<TFormFeedback | undefined>(
+        undefined,
+    )
 
-    useEffect(() => {
-        if (!formRef.current) return
-        if (state?.feedback) {
-            setIsOpen(true)
-        } else {
-            formRef.current?.reset()
+    const validEmail = new RegExp(/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/g)
+
+    const submit = async (data: FormData) => {
+        const email = data.get('email') as string
+        const message = data.get('message') as string
+
+        if (!validEmail.test(email))
+            return setFormError(getFormFeedbackForError('auth/missing-email'))
+
+        if (isEmptyOrSpaces(message))
+            return setFormError(
+                getFormFeedbackForError('contact/message-missing'),
+            )
+        const error = await postForm(formstate, data)
+
+        if (error) return setFormError(error)
+        else {
             setIsOpen(false)
-            addToast('Takk for din tilbakemelding!')
+            setFormError(undefined)
+            addToast('Takk for tilbakemelding!')
         }
-    }, [state, addToast])
+    }
+
     return (
-        <div className="flex items-center justify-center w-full md:w-1/6 h-14">
+        <div
+            className="flex items-center justify-center w-full xl:w-1/6 h-14"
+            onClick={() =>
+                isOpen
+                    ? posthog.capture('CONTACT_FORM_OPENED')
+                    : setFormError(undefined)
+            }
+        >
             <Expandable
-                title="Trenger du hjelp?"
+                title="Send oss en melding"
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
             >
                 <form
-                    action={action}
-                    ref={formRef}
+                    action={submit}
                     className="flex flex-col gap-4  p-4 sm:p-6 "
                 >
                     <Paragraph as="h1" margin="none" className="font-bold">
                         Vi setter stor pris på tilbakemeldinger og innspill, og
                         bistår gjerne hvis du vil ha hjelp til å komme i gang
-                        med Tavla
+                        med Tavla!
                     </Paragraph>
                     <div>
                         <Label
@@ -55,30 +82,33 @@ export function ContactForm() {
                         <TextField
                             label="E-postadresse"
                             name="email"
-                            type="email"
-                            aria-required
-                            {...getFormFeedbackForField('email', state)}
+                            {...getFormFeedbackForField('email', formstate)}
                         />
                     </div>
                     <div>
-                        <Label htmlFor="message" className="font-bold">
-                            Melding
+                        <Label
+                            htmlFor="message"
+                            className="font-bold"
+                            aria-required
+                        >
+                            Melding *
                         </Label>
                         <TextArea
                             name="message"
                             id="message"
                             label="Melding"
                             aria-label="Skriv her"
-                            required
                             aria-required
-                            {...getFormFeedbackForField('user', state)}
+                            {...getFormFeedbackForField('user', formstate)}
                         />
                     </div>
                     <Paragraph margin="none">
                         Hvis du ønsker å legge ved bilder, kan du sende en
-                        e-post til tavla@entur.org
+                        e-post til tavla@entur.org.
                     </Paragraph>
-                    <FormError {...getFormFeedbackForField('general', state)} />
+                    <FormError
+                        {...getFormFeedbackForField('general', formstate)}
+                    />
                     <SubmitButton
                         variant="primary"
                         width="fluid"
@@ -91,3 +121,4 @@ export function ContactForm() {
         </div>
     )
 }
+export { ContactForm }
