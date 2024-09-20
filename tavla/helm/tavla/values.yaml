@@ -21,7 +21,7 @@ common:
             - name: SLACK_WEBHOOK_URL
               valueFrom:
                   secretKeyRef:
-                      name: slack_webhook
+                      name: slack-webhook
                       key: url
 
         probes:
