@@ -12,15 +12,17 @@ function Expandable({
     title: string
     isOpen: boolean
     setIsOpen: Dispatch<SetStateAction<boolean>>
-    children: JSX.Element
+    children: React.ReactNode
 }) {
     return (
-        <div className="fixed bottom-0 right-3 w-full md:w-1/4 z-10 drop-shadow-lg ">
+        <div className="fixed bottom-0 md:right-3 w-full lg:w-1/2 xl:w-1/3 z-10 drop-shadow-lg ">
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex justify-between items-center px-6 py-4 bg-blue80 w-full rounded-t"
             >
-                <Heading5 margin="none">{title} </Heading5>
+                <Heading5 margin="none" className=" sm:text-base !text-lg">
+                    {title}
+                </Heading5>
                 <IconButton className="border-0!">
                     {isOpen ? <DownArrowIcon /> : <UpArrowIcon />}
                 </IconButton>
