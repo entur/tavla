@@ -20,7 +20,7 @@ function ContactForm() {
 
     const { addToast } = useToast()
     const [isOpen, setIsOpen] = useState(false)
-    const [formstate, setFormError] = useState<TFormFeedback | undefined>(
+    const [formState, setFormError] = useState<TFormFeedback | undefined>(
         undefined,
     )
 
@@ -37,7 +37,7 @@ function ContactForm() {
             return setFormError(
                 getFormFeedbackForError('contact/message-missing'),
             )
-        const error = await postForm(formstate, data)
+        const error = await postForm(formState, data)
 
         if (error) return setFormError(error)
         else {
@@ -57,7 +57,7 @@ function ContactForm() {
             }
         >
             <Expandable
-                title="Send oss en melding"
+                title="Send oss en melding!"
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
             >
@@ -82,7 +82,9 @@ function ContactForm() {
                         <TextField
                             label="E-postadresse"
                             name="email"
-                            {...getFormFeedbackForField('email', formstate)}
+                            id="email"
+                            aria-label="E-postadresse"
+                            {...getFormFeedbackForField('email', formState)}
                         />
                     </div>
                     <div>
@@ -99,7 +101,7 @@ function ContactForm() {
                             label="Melding"
                             aria-label="Skriv her"
                             aria-required
-                            {...getFormFeedbackForField('user', formstate)}
+                            {...getFormFeedbackForField('user', formState)}
                         />
                     </div>
                     <Paragraph margin="none">
@@ -107,7 +109,7 @@ function ContactForm() {
                         e-post til tavla@entur.org.
                     </Paragraph>
                     <FormError
-                        {...getFormFeedbackForField('general', formstate)}
+                        {...getFormFeedbackForField('general', formState)}
                     />
                     <SubmitButton
                         variant="primary"

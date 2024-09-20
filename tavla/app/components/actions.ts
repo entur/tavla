@@ -2,10 +2,7 @@
 
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 
-async function postForm(
-    prevState: TFormFeedback | undefined,
-    data: FormData | undefined,
-) {
+async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
     const email = data?.get('email') as string
     const message = data?.get('message') as string
 
