@@ -2,23 +2,26 @@
 
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 
-async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
-    const email = data.get('email') as string
-    const message = data.get('message') as string
+async function postForm(
+    prevState: TFormFeedback | undefined,
+    data: FormData | undefined,
+) {
+    const email = data?.get('email') as string
+    const message = data?.get('message') as string
 
-    if (!email) {
-        return getFormFeedbackForError('auth/missing-email')
-    }
-    if (!message) {
-        return getFormFeedbackForError('contact/message-missing')
-    }
+    if (!email) return getFormFeedbackForError('auth/missing-email')
+
+    if (!message) return getFormFeedbackForError('contact/message-missing')
+
+    const timestamp = Math.floor(Date.now() / 1000)
+
     const payload = {
         blocks: [
             {
                 type: 'header',
                 text: {
                     type: 'plain_text',
-                    text: ':email: Ny Melding :email:',
+                    text: ':email: Ny melding :email:',
                     emoji: true,
                 },
             },
@@ -26,8 +29,24 @@ async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
                 type: 'divider',
             },
             {
+                type: 'rich_text',
+                elements: [
+                    {
+                        type: 'rich_text_section',
+                        elements: [
+                            {
+                                type: 'date',
+                                timestamp: timestamp,
+                                format: '{date_num} klokken {time}',
+                                fallback: 'timey',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
                 type: 'section',
-                block_id: 'email_info',
+                block_id: 'email',
                 fields: [
                     {
                         type: 'mrkdwn',
@@ -35,23 +54,44 @@ async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
                     },
                 ],
             },
+
             {
-                type: 'section',
-                block_id: 'email_body',
-                text: {
-                    type: 'mrkdwn',
-                    text: `*Melding:* \n${message}`,
-                },
+                type: 'rich_text',
+                elements: [
+                    {
+                        type: 'rich_text_section',
+                        elements: [
+                            {
+                                type: 'text',
+                                text: 'Melding:',
+                                style: {
+                                    bold: true,
+                                },
+                            },
+                        ],
+                    },
+                ],
             },
             {
-                type: 'divider',
+                type: 'rich_text',
+                elements: [
+                    {
+                        type: 'rich_text_preformatted',
+                        elements: [
+                            {
+                                type: 'text',
+                                text: `${message}`,
+                            },
+                        ],
+                    },
+                ],
             },
         ],
     }
 
     try {
         const url = process.env.SLACK_WEBHOOK_URL
-        if (!url) throw Error()
+        if (!url) throw Error('Could not find url')
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -61,8 +101,9 @@ async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
         })
 
         if (!response.ok) {
-            throw Error()
+            throw Error('Error in request')
         }
+        return getFormFeedbackForError('form/reset')
     } catch (e: unknown) {
         return getFormFeedbackForError('general')
     }
