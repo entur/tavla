@@ -7,15 +7,18 @@ import { revalidatePath } from 'next/cache'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { logout } from '../Login/actions'
 
 export async function deleteOrganization(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
     const user = await getUserFromSessionCookie()
-    const oid = data.get('oid') as TOrganizationID
 
-    if (!oid || !user) return getFormFeedbackForError('general')
+    if (!user) logout()
+
+    const oid = data.get('oid') as TOrganizationID
+    if (!oid) return getFormFeedbackForError('general')
 
     const organizationName = data.get('oname') as string
     const name = data.get('name') as string
