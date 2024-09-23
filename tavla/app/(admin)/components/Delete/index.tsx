@@ -22,6 +22,7 @@ import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { useToast } from '@entur/alert'
 import { useState } from 'react'
+import { HiddenInput } from 'components/Form/HiddenInput'
 
 function Delete({
     organization,
@@ -47,10 +48,8 @@ function Delete({
                 getFormFeedbackForError('organization/name-mismatch'),
             )
 
-        if (organization.id) {
-            deleteOrgAction(organization.id)
-            addToast('Organisasjon slettet!')
-        }
+        deleteOrgAction(data)
+        addToast('Organisasjon slettet!')
     }
 
     return (
@@ -98,6 +97,8 @@ function Delete({
                     Bekreft ved å skrive inn navnet på organisasjonen
                 </SubParagraph>
                 <form action={submit} aria-live="polite" aria-relevant="all">
+                    <HiddenInput id="oname" value={organization.name} />
+                    <HiddenInput id="oid" value={organization.id} />
                     <div>
                         <TextField
                             name="name"

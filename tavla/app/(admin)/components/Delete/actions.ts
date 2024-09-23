@@ -11,11 +11,19 @@ import { logout } from '../Login/actions'
 
 export async function deleteOrganization(
     prevState: TFormFeedback | undefined,
-    oid: TOrganizationID,
+    data: FormData,
 ) {
     const user = await getUserFromSessionCookie()
 
     if (!user) logout()
+
+    const oid = data.get('oid') as TOrganizationID
+    if (!oid) return getFormFeedbackForError('general')
+
+    const organizationName = data.get('oname') as string
+    const name = data.get('name') as string
+    if (name !== organizationName)
+        return getFormFeedbackForError('organization/name-mismatch')
 
     try {
         await deleteOrg(oid)
