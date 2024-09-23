@@ -21,6 +21,19 @@ export const previewBoards: TBoard[] = [
                 type: 'stop_place',
                 uuid: '1s9E_8qW_e2-cWii94rl4',
             },
+            {
+                columns: [
+                    'line',
+                    'destination',
+                    'time',
+                    'realtime',
+                    'platform',
+                ],
+                placeId: 'NSR:StopPlace:59853',
+                name: 'Stavanger bussterminal, Stavanger',
+                type: 'stop_place',
+                uuid: 'hV659BA6dvQiRCIbNdIJR',
+            },
         ],
     },
     {
@@ -53,6 +66,18 @@ export const previewBoards: TBoard[] = [
         },
         theme: 'light',
         tiles: [
+            {
+                columns: ['line', 'destination', 'time', 'realtime'],
+                placeId: 'NSR:StopPlace:6479',
+                name: 'CC vest, Oslo',
+                type: 'stop_place',
+                uuid: '8y-eAK8DVbuNQS8JYxTMf',
+                walkingDistance: {
+                    distance: 441,
+                    visible: true,
+                },
+            },
+
             {
                 columns: ['line', 'destination', 'time', 'realtime'],
                 placeId: 'NSR:StopPlace:58856',

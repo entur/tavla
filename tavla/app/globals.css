@@ -247,6 +247,10 @@
         @apply inline-flex rounded-full bg-success h-em-0.75 w-em-0.75 left-[calc(50%-(0.75em/2))] bottom-[calc(50%-(0.75em/2))];
     }
 
+    .previewContainer {
+        @apply rounded p-4 bg-primary border border-secondary;
+    }
+
     .table-custom-nth-child {
         &:nth-child(10n + 1),
         &:nth-child(10n + 2),
