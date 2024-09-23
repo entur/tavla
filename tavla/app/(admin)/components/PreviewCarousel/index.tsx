@@ -2,7 +2,9 @@
 
 import { IconButton } from '@entur/button'
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
-import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
+import { Board } from 'Board/scenarios/Board'
+import { Footer } from 'components/Footer'
+import { Header } from 'components/Header'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect, useState } from 'react'
 import { TBoard } from 'types/settings'
@@ -71,8 +73,8 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
     const currentBoard = boards[boardIndex] ?? undefined
     if (!currentBoard) return null
     return (
-        <div className="md:h-[50vh]  py-10">
-            <div className="flex flex-row md:h-[40vh]">
+        <div className="py-10">
+            <div className="flex flex-row">
                 <div className="my-auto hidden md:block ml-2">
                     <IconButton
                         onClick={prevSlide}
@@ -92,7 +94,16 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                         }`}
                         style={{ display: 'flex' }}
                     >
-                        <Preview aria-hidden board={currentBoard} landingPage />
+                        <div
+                            className="previewContainer text-xs"
+                            data-theme={currentBoard?.theme ?? 'dark'}
+                        >
+                            <Header theme={currentBoard.theme} />
+                            <div className="md:h-96 h-72">
+                                <Board board={currentBoard} />
+                            </div>
+                            <Footer board={currentBoard} />
+                        </div>
                     </div>
                 </div>
                 <div className="my-auto hidden md:block mr-2">
