@@ -1,14 +1,16 @@
 'use server'
 
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
-
+import { validEmail } from 'utils/email'
 async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
-    const email = data?.get('email') as string
-    const message = data?.get('message') as string
+    const email = data.get('email') as string
+    const message = data.get('message') as string
 
-    if (!email) return getFormFeedbackForError('auth/missing-email')
+    if (!validEmail(email)) return getFormFeedbackForError('auth/missing-email')
 
-    if (!message) return getFormFeedbackForError('contact/message-missing')
+    if (isEmptyOrSpaces(message))
+        return getFormFeedbackForError('contact/message-missing')
 
     const timestamp = Math.floor(Date.now() / 1000)
 
@@ -100,7 +102,6 @@ async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
         if (!response.ok) {
             throw Error('Error in request')
         }
-        return getFormFeedbackForError('form/reset')
     } catch (e: unknown) {
         return getFormFeedbackForError('general')
     }

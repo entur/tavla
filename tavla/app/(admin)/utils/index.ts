@@ -241,9 +241,6 @@ export function getFormFeedbackForError(
                 variant: 'error',
             }
         }
-        case 'form/reset': {
-            return
-        }
     }
 
     return {

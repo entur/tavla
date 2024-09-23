@@ -14,7 +14,7 @@ import { useToast } from '@entur/alert'
 import { Expandable } from './Expandable'
 import { usePostHog } from 'posthog-js/react'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
-
+import { validEmail } from 'utils/email'
 function ContactForm() {
     const posthog = usePostHog()
 
@@ -24,13 +24,11 @@ function ContactForm() {
         undefined,
     )
 
-    const validEmail = new RegExp(/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/g)
-
     const submit = async (data: FormData) => {
         const email = data.get('email') as string
         const message = data.get('message') as string
 
-        if (!validEmail.test(email))
+        if (!validEmail(email))
             return setFormError(getFormFeedbackForError('auth/missing-email'))
 
         if (isEmptyOrSpaces(message))
