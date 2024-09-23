@@ -11,7 +11,6 @@ function Preview({
 }: {
     board: TBoard
     organization?: TOrganization
-    landingPage?: boolean
 }) {
     return (
         <div
