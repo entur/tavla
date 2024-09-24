@@ -75,7 +75,7 @@ async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
                 type: 'rich_text',
                 elements: [
                     {
-                        type: 'rich_text_preformatted',
+                        type: 'rich_text_section',
                         elements: [
                             {
                                 type: 'text',

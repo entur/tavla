@@ -32,7 +32,7 @@ export function getFormFeedbackForField(
 export function getFormFeedbackForError(
     e?: TError,
     email?: string,
-): TFormFeedback | undefined {
+): TFormFeedback {
     let code = e
     if (e instanceof FirebaseError) {
         code = e.code
