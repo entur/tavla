@@ -12,7 +12,7 @@ import {
     getBoardsForOrganization,
     getOrganizationIfUserHasAccess,
 } from '../actions'
-import { getFormFeedbackForError } from '.'
+import { getOrganizationForBoard } from '../edit/[id]/components/TileCard/actions'
 
 initializeAdminApp()
 
@@ -98,19 +98,28 @@ export async function deleteBoard(bid: TBoardID) {
     const user = await getUserFromSessionCookie()
     const access = await hasBoardOwnerAccess(bid)
 
-    if (!user || !access)
-        return getFormFeedbackForError('auth/operation-not-allowed')
+    if (!user || !access) throw 'auth/operation-not-allowed'
 
-    return Promise.all([
-        firestore().collection('boards').doc(bid).delete(),
-        firestore()
+    const organization = await getOrganizationForBoard(bid)
+
+    await firestore().collection('boards').doc(bid).delete()
+
+    if (organization?.id) {
+        await firestore()
+            .collection('organizations')
+            .doc(organization.id)
+            .update({
+                boards: admin.firestore.FieldValue.arrayRemove(bid),
+            })
+    } else {
+        await firestore()
             .collection('users')
             .doc(user.uid)
             .update({
                 owner: admin.firestore.FieldValue.arrayRemove(bid),
                 editor: admin.firestore.FieldValue.arrayRemove(bid),
-            }),
-    ])
+            })
+    }
 }
 
 export async function deleteOrganization(oid: TOrganizationID) {
