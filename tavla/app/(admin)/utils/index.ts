@@ -234,6 +234,13 @@ export function getFormFeedbackForError(
                 variant: 'error',
             }
         }
+        case 'contact/message-missing': {
+            return {
+                form_type: 'user',
+                feedback: 'Vennligst legg igjen en melding.',
+                variant: 'error',
+            }
+        }
     }
 
     return {
