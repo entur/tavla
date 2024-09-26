@@ -1,4 +1,4 @@
-import { GRAPHQL_ENDPOINTS, TEndpointNames } from 'assets/env'
+import { CLIENT_NAME, GRAPHQL_ENDPOINTS, TEndpointNames } from 'assets/env'
 import { TypedDocumentString } from './index'
 
 export async function fetcher<Data, Variables>([
@@ -9,7 +9,7 @@ export async function fetcher<Data, Variables>([
     return fetch(GRAPHQL_ENDPOINTS[endpointName], {
         headers: {
             'Content-Type': 'application/json',
-            'ET-Client-Name': 'entur-journeyplanner',
+            'ET-Client-Name': CLIENT_NAME,
         },
         body: JSON.stringify({ query, variables }),
         method: 'POST',

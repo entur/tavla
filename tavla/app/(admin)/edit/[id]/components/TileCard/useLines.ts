@@ -1,4 +1,4 @@
-import { GRAPHQL_ENDPOINTS } from 'assets/env'
+import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'assets/env'
 import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
 import { useEffect, useState } from 'react'
 import { TQuay } from 'types/graphql-schema'
@@ -12,7 +12,7 @@ function useLines(tile: TTile): TLineFragment[] | null {
         fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
             headers: {
                 'Content-Type': 'application/json',
-                'ET-Client-Name': 'entur-journeyplanner',
+                'ET-Client-Name': CLIENT_NAME,
             },
             body: JSON.stringify({
                 query:
