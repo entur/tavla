@@ -80,7 +80,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                         onClick={prevSlide}
                         aria-label="Vis forrige tavle"
                     >
-                        <LeftArrowIcon />
+                        <LeftArrowIcon size={24} />
                     </IconButton>
                 </div>
                 <div
@@ -111,7 +111,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                         onClick={nextSlide}
                         aria-label="Vis neste tavle"
                     >
-                        <RightArrowIcon />
+                        <RightArrowIcon size={24} />
                     </IconButton>
                 </div>
             </div>

@@ -55,7 +55,7 @@ function ContactForm() {
             }
         >
             <Expandable
-                title="Send oss en melding!"
+                title="Send oss en melding"
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
             >
@@ -66,7 +66,7 @@ function ContactForm() {
                     <Paragraph as="h1" margin="none" className="font-bold">
                         Vi setter stor pris på tilbakemeldinger og innspill, og
                         bistår gjerne hvis du vil ha hjelp til å komme i gang
-                        med Tavla!
+                        med Tavla
                     </Paragraph>
                     <div>
                         <Label
