@@ -9,7 +9,7 @@ export async function fetcher<Data, Variables>([
     return fetch(GRAPHQL_ENDPOINTS[endpointName], {
         headers: {
             'Content-Type': 'application/json',
-            'ET-Client-Name': 'tavla-test',
+            'ET-Client-Name': 'entur-journeyplanner',
         },
         body: JSON.stringify({ query, variables }),
         method: 'POST',
