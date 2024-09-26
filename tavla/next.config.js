@@ -36,3 +36,14 @@ module.exports = async (phase, { defaultConfig }) => {
 
     return nextConfig
 }
+
+const { withSentryConfig } = require("@sentry/nextjs");
+
+module.exports = withSentryConfig(
+  module.exports,
+  {
+    org: "entur",
+    project: "tavla",
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+  }
+);

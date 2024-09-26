@@ -26,3 +26,5 @@ firestore-debug.log
 ui-debug.log
 
 .db
+
+.env.sentry-build-pluginx
