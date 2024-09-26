@@ -12,7 +12,7 @@ function useLines(tile: TTile): TLineFragment[] | null {
         fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
             headers: {
                 'Content-Type': 'application/json',
-                'ET-Client-Name': 'tavla-test',
+                'ET-Client-Name': 'entur-journeyplanner',
             },
             body: JSON.stringify({
                 query:
