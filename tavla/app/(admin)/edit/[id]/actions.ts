@@ -10,12 +10,13 @@ import { TTile } from 'types/tile'
 import { getWalkingDistance } from 'app/(admin)/components/TileSelector/utils'
 import { TLocation } from 'types/meta'
 import { revalidatePath } from 'next/cache'
+import { makeBoardCompatible } from './compatibility'
 
 initializeAdminApp()
 
 export async function getBoard(bid: TBoardID) {
     const board = await firestore().collection('boards').doc(bid).get()
-    return { id: board.id, ...board.data() } as TBoard
+    return makeBoardCompatible({ id: board.id, ...board.data() } as TBoard)
 }
 
 export async function addTile(bid: TBoardID, tile: TTile) {
