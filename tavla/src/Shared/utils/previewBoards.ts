@@ -6,31 +6,11 @@ export const previewBoards: TBoard[] = [
         meta: {
             fontSize: 'medium',
         },
-        theme: 'dark',
         tiles: [
             {
-                columns: [
-                    'line',
-                    'destination',
-                    'time',
-                    'realtime',
-                    'platform',
-                ],
-                placeId: 'NSR:StopPlace:61291',
-                name: 'Stavanger stasjon, Stavanger',
-                type: 'stop_place',
-                uuid: '1s9E_8qW_e2-cWii94rl4',
-            },
-            {
-                columns: [
-                    'line',
-                    'destination',
-                    'time',
-                    'realtime',
-                    'platform',
-                ],
-                placeId: 'NSR:StopPlace:59853',
-                name: 'Stavanger bussterminal, Stavanger',
+                columns: ['line', 'destination', 'time', 'realtime'],
+                placeId: 'NSR:StopPlace:58293',
+                name: 'Oslo bussterminal, Oslo',
                 type: 'stop_place',
                 uuid: 'hV659BA6dvQiRCIbNdIJR',
             },
@@ -41,6 +21,7 @@ export const previewBoards: TBoard[] = [
         meta: {
             fontSize: 'medium',
         },
+        theme: 'light',
 
         tiles: [
             {
@@ -62,12 +43,18 @@ export const previewBoards: TBoard[] = [
     {
         id: 'aLr7VN03RDThtjYYfd9v',
         meta: {
-            fontSize: 'medium',
+            fontSize: 'small',
         },
-        theme: 'light',
         tiles: [
             {
-                columns: ['line', 'destination', 'time', 'realtime'],
+                columns: [
+                    'line',
+                    'destination',
+                    'time',
+                    'realtime',
+                    'aimedTime',
+                    'arrivalTime',
+                ],
                 placeId: 'NSR:StopPlace:6479',
                 name: 'CC vest, Oslo',
                 type: 'stop_place',
@@ -79,7 +66,14 @@ export const previewBoards: TBoard[] = [
             },
 
             {
-                columns: ['line', 'destination', 'time', 'realtime'],
+                columns: [
+                    'line',
+                    'destination',
+                    'time',
+                    'realtime',
+                    'aimedTime',
+                    'arrivalTime',
+                ],
                 placeId: 'NSR:StopPlace:58856',
                 name: 'Lysaker stasjon, Bærum',
                 type: 'stop_place',
@@ -94,16 +88,16 @@ export const previewBoards: TBoard[] = [
     {
         id: 'aLr7VN03RDThtjYYfd9v',
         meta: {
-            fontSize: 'medium',
+            fontSize: 'large',
         },
         theme: 'light',
         tiles: [
             {
                 columns: ['line', 'destination', 'time', 'realtime'],
-                placeId: 'NSR:StopPlace:59261',
-                name: 'Trondheim lufthavn, Stjørdal',
+                placeId: 'NSR:StopPlace:58287',
+                name: 'Skøyen, Oslo',
                 type: 'stop_place',
-                uuid: 'iELiaTnG7uxRM6aN2Ba9A',
+                uuid: '6hojyqhlUQXu53IZ5Jzyr',
             },
         ],
     },
