@@ -405,7 +405,7 @@ function TileCard({
                         </div>
 
                         <Heading4>Transportmidler og linjer</Heading4>
-                        <div className="flex flex-row gap-4">
+                        <div className="flex flex-col md:flex-row gap-4">
                             {linesByModeSorted.map(
                                 ({ transportMode, lines }) => (
                                     <TransportModeAndLines
@@ -422,7 +422,7 @@ function TileCard({
                             value={uniqLines.length.toString()}
                         />
 
-                        <div className="flex flex-row justify-start gap-4 mt-8">
+                        <div className="flex flex-col md:flex-row justify-start gap-4 mt-8">
                             <SubmitButton
                                 variant="primary"
                                 aria-label="lagre valg"
