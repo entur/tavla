@@ -4,10 +4,13 @@ import { TBoard } from 'types/settings'
 import { refreshBoard } from './actions'
 import { useToast } from '@entur/alert'
 import { RefreshIcon } from '@entur/icons'
+import { usePostHog } from 'posthog-js/react'
 
 function RefreshButton({ board }: { board: TBoard }) {
     const toast = useToast()
+    const posthog = usePostHog()
     const refresh = async () => {
+        posthog.capture('PUBLISH_BOARD_BTN')
         const status = await refreshBoard(board)
         if (status)
             toast.addToast({
@@ -24,7 +27,7 @@ function RefreshButton({ board }: { board: TBoard }) {
     }
     return (
         <Button variant="secondary" onClick={refresh} className="flex flex-row">
-            Oppdater tavle
+            Publiser tavle
             <RefreshIcon inline />
         </Button>
     )
