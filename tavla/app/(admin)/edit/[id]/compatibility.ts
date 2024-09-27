@@ -4,7 +4,7 @@
 import { TBoard } from 'types/settings'
 import { TTile } from 'types/tile'
 
-export const SWITCH_DATE = Date.UTC(2024, 11, 15)
+export const SWITCH_DATE = new Date(2024, 11, 15)
 
 export function makeBoardCompatible(board: TBoard): TBoard {
     const updatedTiles = board.tiles.map(({ whitelistedLines, ...tile }) => ({
