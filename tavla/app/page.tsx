@@ -8,14 +8,14 @@ import {
     Paragraph,
     UnorderedList,
 } from '@entur/typography'
-import { PreviewCarousel } from './(admin)/components/PreviewCarousel'
+import { PreviewCarousel } from './components/PreviewCarousel'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Welcome } from './components/Welcome'
 import { Link as EnturLink } from '@entur/typography'
 import { CreateUserButtonLanding } from './components/CreateUserButtonLanding'
 import { DemoButton } from './components/DemoButtonLanding'
 import { cookies } from 'next/headers'
-import { WordCarousel } from './components/WordCarousel'
+import { WordCarousel } from './components/WordCarousel/WordCarousel'
 import { verifySession } from './(admin)/utils/firebase'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
 
@@ -50,7 +50,7 @@ async function Landing() {
             </div>
 
             <div className="flex flex-col mx-auto items-center justify-start py-4 container overflow-hidden pb-10">
-                <div className="flex flex-col items-center justify-start gap-4 py-4 w-full">
+                <div className="flex flex-col items-center justify-start gap-4 py-14 w-full">
                     <PreviewCarousel boards={previewBoards} />
 
                     <div className="xl:w-1/2">
