@@ -15,7 +15,7 @@ function Expandable({
     children: React.ReactNode
 }) {
     return (
-        <div className="fixed bottom-0 right-3 w-full max-w-screen-sm z-10 drop-shadow-lg ">
+        <div className="fixed bottom-0 right-3 w-full md:w-1/3 sm:max-w-screen-sm z-10 drop-shadow-lg ">
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex justify-between items-center px-6 py-4 bg-blue80 w-full rounded-t"
