@@ -17,8 +17,7 @@ import { DemoButton } from './components/DemoButtonLanding'
 import { cookies } from 'next/headers'
 import { WordCarousel } from './components/WordCarousel'
 import { verifySession } from './(admin)/utils/firebase'
-import landingImage from 'assets/illustrations/Landing_illustration.svg'
-import Image from 'next/image'
+import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -46,9 +45,7 @@ async function Landing() {
                             <DemoButton />
                         </div>
                     </div>
-                    <div className="flex flex-row self-center scale-[0.8] lg:scale-90">
-                        <Image src={landingImage} alt="En avgangstavle" />
-                    </div>
+                    <ImageCarousel />
                 </div>
             </div>
 
