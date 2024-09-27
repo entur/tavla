@@ -79,9 +79,9 @@ export default async function EditPage({ params }: TProps) {
                     </div>
                 </div>
 
-                <div className="rounded-md py-8 px-6 flex flex-col gap-4 bg-background">
+                <div className="rounded-md md:py-8 py-2 md:px-6 px-2 flex flex-col gap-4 bg-background">
                     <Heading2>Innstillinger</Heading2>
-                    <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
+                    <div className="grid grid-cols md:grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
                         <MetaSettings
                             bid={params.id}
                             meta={board.meta}

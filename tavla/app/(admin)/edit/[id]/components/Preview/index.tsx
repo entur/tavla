@@ -14,11 +14,11 @@ function Preview({
 }) {
     return (
         <div
-            className="previewContainer text-2xl"
+            className="previewContainer md:text-2xl"
             data-theme={board?.theme ?? 'dark'}
         >
             <Header theme={board.theme} organizationLogo={organization?.logo} />
-            <div className="h-[50rem]">
+            <div className="md:h-[50rem] h-96">
                 <Board board={board} />
             </div>
             <Footer
