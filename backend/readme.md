@@ -70,7 +70,7 @@ replicaof 127.0.0.1 6379
 Finish configuring the second instance with `CTRL-D`
 
 ## Verify Redis
-You should now be able to connect directly to Redis
+You should now be able to connect directly to Redis. Open a new terminal and run the following:
 
 ```sh
 redis-cli
@@ -91,7 +91,7 @@ Quit Redis with `CTRL-C`
 
 ## Environment variables
 
-You need to set some environment variables.
+You need to set some environment variables. Paste them directly into your terminal.
 
 ```sh
 export HOST="127.0.0.1"
@@ -105,7 +105,7 @@ export REDIS_REPLICAS_SERVICE_PORT="6380"
 ```
 
 ## Run
-Finally, you can run the code
+Finally, you can run the code. Make sure you are in the backend-folder when doing so.
 
 ```sh
 cargo run
@@ -118,3 +118,15 @@ You should now be able to send requests to the server
 ```sh
 curl localhost:3001/active -H "Authorization: Bearer super_secret_key"
 ```
+This should return 0 (since you just set the active_boards-counter to 0). 
+
+## Connect to frontend
+To connect your local backend to the frontend, you need to (TEMPORARILY) change the backendurl to point to your local backend. Do NOT commit this change. 
+
+Go to `tavla/src/Shared/utils/index.ts` and change the `getBackendUrl`-function to the following:
+```
+export function getBackendUrl() {
+    return 'http://127.0.0.1:3001'
+}
+```
+You should now be able to press "Oppdater tavle" successfully on localhost. Remember to revert this change when you are done!
