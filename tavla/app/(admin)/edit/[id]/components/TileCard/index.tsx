@@ -50,6 +50,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { useFormState } from 'react-dom'
+import { OLD_LINE_IDS, SWITCH_DATE } from '../../compatibility'
 
 function TileCard({
     bid,
@@ -140,7 +141,7 @@ function TileCard({
         setIsOpen(false)
     }
 
-    const lines = useLines(tile)
+    let lines = useLines(tile)
 
     if (!lines)
         return (
@@ -148,6 +149,13 @@ function TileCard({
                 Laster...
             </div>
         )
+
+    // TODO: remove 15. december when new lines are active
+    if (Date.now() < Date.parse(SWITCH_DATE.toString())) {
+        lines = lines.filter((line) => OLD_LINE_IDS.includes(line.id))
+    } else {
+        lines = lines.filter((line) => !OLD_LINE_IDS.includes(line.id))
+    }
 
     const uniqLines = uniqBy(lines, 'id')
 
