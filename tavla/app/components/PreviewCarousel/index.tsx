@@ -6,7 +6,7 @@ import { Board } from 'Board/scenarios/Board'
 import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
 import { usePostHog } from 'posthog-js/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { TBoard } from 'types/settings'
 
 const CarouselIndicators = ({
@@ -38,19 +38,7 @@ const CarouselIndicators = ({
 
 function PreviewCarousel({ boards }: { boards: TBoard[] }) {
     const [boardIndex, setBoardIndex] = useState(0)
-    const [fade, setFade] = useState(true)
     const posthog = usePostHog()
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setFade(false)
-            setTimeout(() => {
-                setBoardIndex((boardIndex + 1) % boards.length)
-                setFade(true)
-            }, 500)
-        }, 4500)
-        return () => clearInterval(interval)
-    }, [boardIndex, boards])
 
     const nextSlide = () => {
         posthog.capture('CAROUSEL_ARROW_BTN')
@@ -73,7 +61,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
     const currentBoard = boards[boardIndex] ?? undefined
     if (!currentBoard) return null
     return (
-        <div className="py-10">
+        <>
             <div className="flex flex-row">
                 <div className="my-auto hidden md:block ml-2">
                     <IconButton
@@ -88,11 +76,8 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
                     <div
-                        aria-label="Eksempel på avgangstavler"
-                        className={`transform transition-all duration-500 ease-in-out ${
-                            fade ? 'opacity-100' : 'opacity-0'
-                        }`}
                         style={{ display: 'flex' }}
+                        aria-label="Eksempel på avgangstavler"
                     >
                         <div
                             className="previewContainer text-xs"
@@ -121,7 +106,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                 activeIndex={boardIndex}
                 onClick={goToSlide}
             />
-        </div>
+        </>
     )
 }
 export { PreviewCarousel }
