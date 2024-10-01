@@ -80,9 +80,9 @@ async fn reset_active(
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
     }
-    state.master.publish("update", vec![0]).await?;
+    let _: () = state.master.publish("update", vec![0]).await?;
     time::sleep(Duration::from_secs(5)).await;
-    state.master.set("active_boards", 0).await?;
+    let _: () = state.master.set("active_boards", 0).await?;
     Ok(StatusCode::OK)
 }
 
@@ -117,7 +117,7 @@ async fn trigger(
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
     }
-    state
+    let _: () = state
         .master
         .publish(bid, BoardAction::Refresh { payload })
         .await?;
@@ -131,7 +131,7 @@ async fn update(
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
     }
-    state.master.publish("update", vec![0]).await?;
+    let _: () = state.master.publish("update", vec![0]).await?;
     Ok(StatusCode::OK)
 }
 
@@ -143,7 +143,7 @@ async fn update_board(
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
     }
-    state
+    let _: () = state
         .master
         .publish(bid, to_string(&BoardAction::Update)?)
         .await?;
