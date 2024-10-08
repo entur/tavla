@@ -13,7 +13,6 @@ export function makeBoardCompatible(board: TBoard): TBoard {
             whitelistedLines: whitelistedLines.flatMap(oldLineIdsToNew),
         }),
     })) as TTile[]
-    
     return { ...board, tiles: updatedTiles }
 }
 
