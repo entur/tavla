@@ -9,9 +9,11 @@ export const SWITCH_DATE = new Date(2024, 11, 15)
 export function makeBoardCompatible(board: TBoard): TBoard {
     const updatedTiles = board.tiles.map(({ whitelistedLines, ...tile }) => ({
         ...tile,
-        whitelistedLines: whitelistedLines?.flatMap(oldLineIdsToNew),
+        ...(whitelistedLines && {
+            whitelistedLines: whitelistedLines.flatMap(oldLineIdsToNew),
+        }),
     })) as TTile[]
-
+    
     return { ...board, tiles: updatedTiles }
 }
 
