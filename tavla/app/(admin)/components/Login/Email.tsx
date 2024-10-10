@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading3 } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { Button } from '@entur/button'
 import Image from 'next/image'
