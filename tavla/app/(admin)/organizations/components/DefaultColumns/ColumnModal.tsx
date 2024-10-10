@@ -30,7 +30,7 @@ function ColumnModal({
                 finnes. Hvis ikke vises rutetid (det samme tidspunktet som vises
                 under “Planlagt”).
             </SubParagraph>
-            <Heading4>Sanntidsikon </Heading4>
+            <Heading4>Sanntidsindikator </Heading4>
             <SubParagraph>
                 Legger til et sanntidsikon i tavlen som pulserer. Indikerer om
                 tidspunktet er oppdatert med sanntidsinformasjon.
