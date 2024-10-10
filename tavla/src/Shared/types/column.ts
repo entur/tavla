@@ -5,7 +5,7 @@ export const Columns = {
     destination: 'Destinasjon og avvik',
     platform: 'Plattform',
     time: 'Forventet',
-    realtime: 'Sanntid',
+    realtime: 'Sanntidsindikator',
 } as const
 
 export type TColumn = keyof typeof Columns
