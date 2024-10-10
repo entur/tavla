@@ -58,25 +58,30 @@ function Create() {
 
             <Heading3 margin="bottom">Opprett ny bruker</Heading3>
             <form className="flex flex-col gap-4 w-full" action={action}>
-                <TextField
-                    name="email"
-                    label="E-post"
-                    type="email"
-                    {...getFormFeedbackForField('email', state)}
-                />
-                <TextField
-                    name="password"
-                    label="Passord"
-                    type="password"
-                    {...getFormFeedbackForField('password', state)}
-                />
-                <TextField
-                    name="repeat_password"
-                    label="Gjenta passord"
-                    type="password"
-                    {...getFormFeedbackForField('repeat_password', state)}
-                />
-
+                <div>
+                    <TextField
+                        name="email"
+                        label="E-post"
+                        type="email"
+                        {...getFormFeedbackForField('email', state)}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        name="password"
+                        label="Passord"
+                        type="password"
+                        {...getFormFeedbackForField('password', state)}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        name="repeat_password"
+                        label="Gjenta passord"
+                        type="password"
+                        {...getFormFeedbackForField('repeat_password', state)}
+                    />
+                </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
                 <SubmitButton variant="primary">Opprett ny bruker</SubmitButton>

@@ -66,18 +66,22 @@ function Email() {
             />
             <Heading3 margin="bottom">Logg inn med e-post</Heading3>
             <form className="flex flex-col gap-4 w-full" action={action}>
-                <TextField
-                    name="email"
-                    label="E-post"
-                    type="email"
-                    {...getFormFeedbackForField('email', state)}
-                />
-                <TextField
-                    name="password"
-                    label="Passord"
-                    type="password"
-                    {...getFormFeedbackForField('password', state)}
-                />
+                <div>
+                    <TextField
+                        name="email"
+                        label="E-post"
+                        type="email"
+                        {...getFormFeedbackForField('email', state)}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        name="password"
+                        label="Passord"
+                        type="password"
+                        {...getFormFeedbackForField('password', state)}
+                    />
+                </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
                 <p>
