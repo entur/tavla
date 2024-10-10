@@ -42,7 +42,7 @@ function Footer({
                     content="Skriv en kort tekst som skal vises nederst i tavlen."
                     placement="top"
                 >
-                    <ValidationInfoIcon className="mb-2" />
+                    <ValidationInfoIcon className="mb-3" size={20} />
                 </Tooltip>
             </div>
             <div className="h-full">

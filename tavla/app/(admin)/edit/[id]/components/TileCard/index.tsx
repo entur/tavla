@@ -366,16 +366,12 @@ function TileCard({
                                 )}
                         </div>
 
-                        <Heading4>Kolonner</Heading4>
-                        <div className="flex flex-row items-center gap-2">
-                            <SubParagraph>
-                                Her bestemmer du hvilke kolonner som skal vises
-                                i tavlen.
-                            </SubParagraph>
+                        <div className="flex flex-row items-baseline gap-1">
+                            <Heading4>Kolonner</Heading4>
                             <Tooltip
                                 aria-hidden
                                 placement="top"
-                                content="Vis forklaring"
+                                content="Vis forklaring på kolonner"
                             >
                                 <IconButton
                                     type="button"
@@ -385,6 +381,12 @@ function TileCard({
                                     <QuestionIcon />
                                 </IconButton>
                             </Tooltip>
+                        </div>
+                        <div className="flex flex-row items-center gap-2">
+                            <SubParagraph>
+                                Her bestemmer du hvilke kolonner som skal vises
+                                i tavlen.
+                            </SubParagraph>
                         </div>
                         <ColumnModal
                             isOpen={isColumnModalOpen}
