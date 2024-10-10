@@ -10,7 +10,9 @@ import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { logger } from 'utils/logger'
 
+const log = logger.child({ module: 'board' })
 export async function getServerSideProps({
     params,
 }: {
@@ -44,6 +46,10 @@ function BoardPage({
     backend_url: string
 }) {
     const updatedBoard = useRefresh(board, backend_url)
+    log.info({
+        boardID: board.id,
+        organization: organization?.name,
+    })
 
     const title = updatedBoard.meta?.title
         ? updatedBoard.meta.title + ' | Entur tavla'

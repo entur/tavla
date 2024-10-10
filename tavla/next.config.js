@@ -3,10 +3,10 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
-  transpilePackages: ['swr', "tailwindcss"],
+    transpilePackages: ['swr', 'tailwindcss'],
     i18n: {
-      locales: ["nb"],
-      defaultLocale: "nb"
+        locales: ['nb'],
+        defaultLocale: 'nb',
     },
     images: {
         remotePatterns: [
@@ -20,17 +20,20 @@ const nextConfig = {
             },
         ],
     },
+    experimental: {
+        serverComponentsExternalPackages: ['pino', 'pino-pretty'],
+    },
 }
 
 module.exports = async (phase, { defaultConfig }) => {
     if (phase === PHASE_DEVELOPMENT_SERVER) {
         nextConfig.images.remotePatterns.push({
             protocol: 'http',
-            hostname: 'localhost'
+            hostname: 'localhost',
         })
         nextConfig.images.remotePatterns.push({
             protocol: 'http',
-            hostname: '127.0.0.1'
+            hostname: '127.0.0.1',
         })
     }
 
