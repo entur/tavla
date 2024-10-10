@@ -67,10 +67,10 @@ function SmallTravelTag({
         >
             {icons && (
                 <TransportIcon
-                    className={`block h-6 fill-background ${
+                    className={`h-6 fill-background ${
                         publicCode && !isOnlyWhiteSpace(publicCode)
-                            ? 'w-6'
-                            : 'w-4'
+                            ? 'max-sm:hidden sm:block lg:hidden xl:block w-6'
+                            : 'block w-4'
                     }`}
                     transportMode={transportMode}
                 />
