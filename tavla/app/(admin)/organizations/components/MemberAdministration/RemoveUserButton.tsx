@@ -1,6 +1,6 @@
 'use client'
-import { IconButton, SecondarySquareButton } from '@entur/button'
-import { CloseIcon, DeleteIcon } from '@entur/icons'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
+import { DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
@@ -32,7 +32,7 @@ function RemoveUserButton({
             <Tooltip content="Slett bruker" placement="bottom">
                 <IconButton
                     type="submit"
-                    aria-label="Fjern bruker"
+                    aria-label="Slett bruker"
                     onClick={open}
                 >
                     <DeleteIcon />
@@ -43,38 +43,44 @@ function RemoveUserButton({
                 size="small"
                 onDismiss={close}
                 closeLabel="Avbryt sletting"
-                className="flex flex-col justify-start items-center text-center"
+                className="flex flex-col items-center text-center"
             >
-                <SecondarySquareButton
-                    aria-label="Avbryt sletting"
-                    className="ml-auto"
-                    onClick={close}
-                >
-                    <CloseIcon />
-                </SecondarySquareButton>
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
                 <Heading3 margin="bottom">Slett medlem</Heading3>
-                <Paragraph className="mt-8">
+                <Paragraph>
                     Er du sikker på at du vil slette medlem med e-postadresse{' '}
                     {user?.email} fra organisasjonen?
                 </Paragraph>
                 <form
                     action={formAction}
                     onSubmit={close}
-                    className="flex flex-col w-full gap-4"
                     aria-live="polite"
                     aria-relevant="all"
                 >
                     <HiddenInput id="uid" value={user?.uid} />
                     <HiddenInput id="oid" value={oid} />
                     <FormError {...getFormFeedbackForField('general', state)} />
-                    <SubmitButton
-                        variant="primary"
-                        width="fluid"
-                        aria-label="Slett bruker"
-                    >
-                        Ja, slett
-                    </SubmitButton>
+                    <ButtonGroup className="flex flex-row">
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            aria-label="Slett bruker"
+                            className="w-1/2"
+                        >
+                            Ja, slett!
+                        </SubmitButton>
+
+                        <Button
+                            type="button"
+                            width="fluid"
+                            variant="secondary"
+                            aria-label="Avbryt"
+                            onClick={close}
+                            className="w-1/2"
+                        >
+                            Avbryt
+                        </Button>
+                    </ButtonGroup>
                 </form>
             </Modal>
         </>

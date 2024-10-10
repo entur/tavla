@@ -1,6 +1,6 @@
 'use client'
-import { PrimaryButton, SecondarySquareButton } from '@entur/button'
-import { AddIcon, CloseIcon } from '@entur/icons'
+import { Button, ButtonGroup, PrimaryButton } from '@entur/button'
+import { AddIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { TextField } from '@entur/form'
@@ -29,13 +29,6 @@ function CreateOrganization() {
                 size="small"
                 closeLabel="Avbryt oppretting"
             >
-                <SecondarySquareButton
-                    aria-label="Avbryt oppretting"
-                    className="ml-auto"
-                    onClick={close}
-                >
-                    <CloseIcon />
-                </SecondarySquareButton>
                 <Image src={birds} alt="" className="h-1/2 w-1/2" />
                 <Heading3>Opprett organisasjon</Heading3>
                 <Paragraph className="mt-8 text-center">
@@ -63,14 +56,29 @@ function CreateOrganization() {
                         {...getFormFeedbackForField('name', state)}
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
-                    <SubmitButton
-                        variant="primary"
-                        className="mt-8"
-                        width="fluid"
-                        aria-label="Opprett organisasjon"
-                    >
-                        Opprett
-                    </SubmitButton>
+                    <ButtonGroup className="flex flex-row gap-4 mt-8">
+                        <div className="w-1/2">
+                            <SubmitButton
+                                variant="primary"
+                                width="fluid"
+                                aria-label="Opprett organisasjon"
+                            >
+                                Opprett
+                            </SubmitButton>
+                        </div>
+
+                        <div className="w-1/2">
+                            <Button
+                                type="button"
+                                width="fluid"
+                                variant="secondary"
+                                aria-label="Avbryt oppretting"
+                                onClick={close}
+                            >
+                                Avbryt
+                            </Button>
+                        </div>
+                    </ButtonGroup>
                 </form>
             </Modal>
         </>

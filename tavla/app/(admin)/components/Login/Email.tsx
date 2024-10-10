@@ -9,6 +9,7 @@ import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
 import { Heading3, Link } from '@entur/typography'
 import { TextField } from '@entur/form'
+import { Button, ButtonGroup } from '@entur/button'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
 import {
@@ -22,6 +23,7 @@ import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
 import { TLoginPage } from './types'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { usePathname } from 'next/navigation'
 
 function Email() {
     const submit = async (
@@ -55,6 +57,7 @@ function Email() {
 
     const [state, action] = useFormState(submit, undefined)
     const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
+    const pathname = usePathname()
 
     return (
         <div className="flex flex-col items-center">
@@ -89,7 +92,30 @@ function Email() {
                         Glemt passord?
                     </Link>
                 </p>
-                <SubmitButton variant="primary">Logg inn</SubmitButton>
+                <ButtonGroup className="flex flex-row gap-4">
+                    <div className="w-1/2">
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            aria-label="Logg inn"
+                        >
+                            Logg inn
+                        </SubmitButton>
+                    </div>
+
+                    <div className="w-1/2">
+                        <Button
+                            type="button"
+                            as={Link}
+                            href={pathname ?? '/'}
+                            width="fluid"
+                            variant="secondary"
+                            aria-label="Avbryt"
+                        >
+                            Avbryt
+                        </Button>
+                    </div>
+                </ButtonGroup>
             </form>
         </div>
     )

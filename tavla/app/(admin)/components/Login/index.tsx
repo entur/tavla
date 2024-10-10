@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Modal } from '@entur/modal'
 import { usePathname, useRouter } from 'next/navigation'
 import { IconButton, SecondarySquareButton } from '@entur/button'
-import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
+import { BackArrowIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { logout } from './actions'
 import { Email } from './Email'
 import { Start } from './Start'
@@ -54,25 +54,14 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 className="w-11/12 lg:w-full"
                 onDismiss={() => router.push(pathname ?? '/')}
             >
-                <div className="flex flex-row justify-between">
-                    {hasPage && (
-                        <SecondarySquareButton
-                            onClick={() => router.back()}
-                            aria-label="Tilbake til logg inn"
-                        >
-                            <BackArrowIcon />
-                        </SecondarySquareButton>
-                    )}
-
+                {hasPage && (
                     <SecondarySquareButton
-                        as={Link}
-                        href={pathname ?? '/'}
-                        className="ml-auto"
-                        aria-label="Lukk vindu"
+                        onClick={() => router.back()}
+                        aria-label="Tilbake til logg inn"
                     >
-                        <CloseIcon />
+                        <BackArrowIcon />
                     </SecondarySquareButton>
-                </div>
+                )}
                 <Page page={pageParam as TLoginPage} />
             </Modal>
         </>
