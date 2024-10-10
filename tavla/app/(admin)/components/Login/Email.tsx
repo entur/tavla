@@ -7,9 +7,8 @@ import {
 } from 'firebase/auth'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
-import { Heading3 } from '@entur/typography'
+import { Heading3, Link } from '@entur/typography'
 import { TextField } from '@entur/form'
-import { Button } from '@entur/button'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
 import {
@@ -18,7 +17,6 @@ import {
     getFormFeedbackForField,
 } from '../../utils'
 
-import Link from 'next/link'
 import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
@@ -82,14 +80,13 @@ function Email() {
                 />
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <SubmitButton variant="primary">Logg inn</SubmitButton>
-                <Button
-                    variant="secondary"
-                    as={Link}
+                <Link
+                    className="w-28 text-nowrap"
                     href={getPathWithParams('reset')}
                 >
                     Glemt passord?
-                </Button>
+                </Link>
+                <SubmitButton variant="primary">Logg inn</SubmitButton>
             </form>
         </div>
     )
