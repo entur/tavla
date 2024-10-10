@@ -47,7 +47,7 @@ function ContactForm() {
 
     return (
         <div
-            className="flex items-center justify-center w-full xl:w-1/6 h-14"
+            className="flex items-center justify-center w-full xl:w-1/6"
             onClick={() =>
                 isOpen
                     ? posthog.capture('CONTACT_FORM_OPENED')
