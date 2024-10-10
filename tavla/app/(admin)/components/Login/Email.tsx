@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
-import { Heading3, Link } from '@entur/typography'
+import { Heading3, Link as EnturLink } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { Button, ButtonGroup } from '@entur/button'
 import Image from 'next/image'
@@ -24,6 +24,7 @@ import { FormError } from '../FormError'
 import { TLoginPage } from './types'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 function Email() {
     const submit = async (
@@ -88,9 +89,9 @@ function Email() {
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
                 <p>
-                    <Link href={getPathWithParams('reset')}>
+                    <EnturLink href={getPathWithParams('reset')}>
                         Glemt passord?
-                    </Link>
+                    </EnturLink>
                 </p>
                 <ButtonGroup className="flex flex-row gap-4">
                     <div className="w-1/2">
