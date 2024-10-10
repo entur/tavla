@@ -24,7 +24,7 @@ const defaultPinoConf = {
 }
 
 export const logger: Logger =
-    process.env.COMMON_ENV === 'prd'
+    process.env.COMMON_ENV === 'prd' || process.env.COMMON_ENV === 'dev'
         ? pino({ level: 'warn', ...defaultPinoConf })
         : pino({
               transport: {
