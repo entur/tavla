@@ -1,6 +1,6 @@
 'use client'
-import { Button, IconButton, SecondarySquareButton } from '@entur/button'
-import { CloseIcon, DeleteIcon } from '@entur/icons'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
+import { DeleteIcon } from '@entur/icons'
 import { TBoard } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
 import { useModalWithValue } from '../../hooks/useModalWithValue'
@@ -46,13 +46,6 @@ function Delete({
                 closeLabel="Avbryt sletting"
                 className="flex flex-col justify-start items-center text-center"
             >
-                <SecondarySquareButton
-                    aria-label="Avbryt sletting"
-                    className="ml-auto"
-                    onClick={close}
-                >
-                    <CloseIcon />
-                </SecondarySquareButton>
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
                 <Heading3 margin="bottom">Slett tavle</Heading3>
                 <Paragraph className="mb-8">
@@ -66,13 +59,27 @@ function Delete({
                 <form action={submit} onSubmit={close} className="w-full">
                     <HiddenInput id="bid" value={board.id} />
                     <FormError {...getFormFeedbackForField('general', state)} />
-                    <SubmitButton
-                        variant="primary"
-                        aria-label="Slett tavle"
-                        className="w-full"
-                    >
-                        Ja, slett!
-                    </SubmitButton>
+                    <ButtonGroup className="flex flex-row">
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            aria-label="Slett tavle"
+                            className="w-1/2"
+                        >
+                            Ja, slett!
+                        </SubmitButton>
+
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            aria-label="Avbryt sletting"
+                            onClick={close}
+                            className="w-1/2"
+                            width="fluid"
+                        >
+                            Avbryt
+                        </Button>
+                    </ButtonGroup>
                 </form>
             </Modal>
         </>

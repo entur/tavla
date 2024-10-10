@@ -20,6 +20,9 @@ import { FirebaseError } from 'firebase/app'
 import { useFormState } from 'react-dom'
 import { FormError } from '../FormError'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { usePathname } from 'next/navigation'
+import { Button, ButtonGroup } from '@entur/button'
+import Link from 'next/link'
 
 function Create() {
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
@@ -47,6 +50,8 @@ function Create() {
         }
     }
     const [state, action] = useFormState(submit, undefined)
+    const pathname = usePathname()
+
     return (
         <div className="flex flex-col items-center">
             <Image
@@ -84,7 +89,30 @@ function Create() {
                 </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <SubmitButton variant="primary">Opprett ny bruker</SubmitButton>
+                <ButtonGroup className="flex flex-row gap-4">
+                    <div className="w-1/2">
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            aria-label="Opprett bruker"
+                        >
+                            Opprett bruker
+                        </SubmitButton>
+                    </div>
+
+                    <div className="w-1/2">
+                        <Button
+                            type="button"
+                            as={Link}
+                            href={pathname ?? '/'}
+                            width="fluid"
+                            variant="secondary"
+                            aria-label="Avbryt"
+                        >
+                            Avbryt
+                        </Button>
+                    </div>
+                </ButtonGroup>
             </form>
         </div>
     )

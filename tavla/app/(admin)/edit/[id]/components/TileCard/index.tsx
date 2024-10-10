@@ -2,6 +2,7 @@
 import { useToast } from '@entur/alert'
 import {
     Button,
+    ButtonGroup,
     IconButton,
     NegativeButton,
     SecondarySquareButton,
@@ -463,30 +464,36 @@ function TileCard({
                             closeLabel="Avbryt endring"
                         >
                             <div className="flex flex-col items-center">
-                                <Image alt="" src={Goat} width={250} />
+                                <Image
+                                    alt=""
+                                    src={Goat}
+                                    className="h-1/2 w-1/2"
+                                />
                                 <Heading3 margin="bottom">
                                     Lagre endringer
                                 </Heading3>
                                 <Paragraph>
-                                    Du har endringer som ikke er lagret
+                                    Du har endringer som ikke er lagret.
                                 </Paragraph>
-                                <div className="flex flex-row gap-4">
-                                    <Button
-                                        variant="secondary"
-                                        width="fluid"
-                                        onClick={reset}
-                                    >
-                                        Avbryt endring
-                                    </Button>
+
+                                <ButtonGroup className="flex flex-row">
                                     <SubmitButton
                                         variant="primary"
                                         width="fluid"
-                                        type="submit"
                                         form={tile.uuid}
+                                        aria-label="Lagre endringer"
                                     >
                                         Lagre
                                     </SubmitButton>
-                                </div>
+                                    <Button
+                                        type="button"
+                                        variant="secondary"
+                                        aria-label="Avbryt sletting"
+                                        onClick={reset}
+                                    >
+                                        Avbryt
+                                    </Button>
+                                </ButtonGroup>
                             </div>
                         </Modal>
                     </form>

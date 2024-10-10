@@ -1,6 +1,6 @@
 'use client'
-import { Button, IconButton, SecondarySquareButton } from '@entur/button'
-import { CloseIcon, DeleteIcon } from '@entur/icons'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
+import { DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { TOrganization } from 'types/settings'
@@ -77,16 +77,6 @@ function Delete({
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
-                <SecondarySquareButton
-                    aria-label="Avbryt sletting"
-                    className="ml-auto"
-                    onClick={() => {
-                        close()
-                        setNameError(undefined)
-                    }}
-                >
-                    <CloseIcon />
-                </SecondarySquareButton>
                 <Image src={ducks} alt="" className="h-1/2 w-1/2 mx-auto" />
                 <Heading3 margin="bottom">Slett organisasjon</Heading3>
                 <Paragraph>
@@ -99,27 +89,39 @@ function Delete({
                 <form action={submit} aria-live="polite" aria-relevant="all">
                     <HiddenInput id="oname" value={organization.name} />
                     <HiddenInput id="oid" value={organization.id} />
-                    <div>
-                        <TextField
-                            name="name"
-                            label="Organisasjonsnavn"
-                            type="text"
-                            required
-                            aria-required
-                            {...getFormFeedbackForField('name', nameError)}
-                        />
-                        <FormError
-                            {...getFormFeedbackForField('general', state)}
-                        />
-                    </div>
-                    <SubmitButton
-                        variant="primary"
-                        width="fluid"
-                        aria-label="Slett organisasjon"
-                        className="mt-8"
-                    >
-                        Ja, slett organisasjon
-                    </SubmitButton>
+
+                    <TextField
+                        name="name"
+                        label="Organisasjonsnavn"
+                        type="text"
+                        required
+                        aria-required
+                        {...getFormFeedbackForField('name', nameError)}
+                    />
+                    <FormError {...getFormFeedbackForField('general', state)} />
+                    <ButtonGroup className="flex flex-row mt-8">
+                        <SubmitButton
+                            variant="primary"
+                            aria-label="Slett organisasjonen"
+                            className="w-1/2"
+                            width="fluid"
+                        >
+                            Ja, slett!
+                        </SubmitButton>
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            aria-label="Avbryt sletting"
+                            onClick={() => {
+                                close()
+                                setNameError(undefined)
+                            }}
+                            width="fluid"
+                            className="w-1/2"
+                        >
+                            Avbryt
+                        </Button>
+                    </ButtonGroup>
                 </form>
             </Modal>
         </>
