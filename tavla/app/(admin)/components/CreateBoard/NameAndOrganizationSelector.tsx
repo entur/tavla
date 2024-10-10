@@ -1,8 +1,7 @@
 'use client'
 import { Dropdown } from '@entur/dropdown'
 import { TextField, Checkbox } from '@entur/form'
-import { AddIcon } from '@entur/icons'
-import { Heading3, Paragraph, Label } from '@entur/typography'
+import { Paragraph, Label, Heading2 } from '@entur/typography'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -24,7 +23,9 @@ function NameAndOrganizationSelector() {
 
     return (
         <form action={action} className="md:px-10">
-            <Heading3>Velg navn og organisasjon for tavlen</Heading3>
+            <Heading2 className="text-nowrap">
+                Velg navn og organisasjon for tavlen
+            </Heading2>
             <Paragraph className="!mb-4">
                 Gi tavlen et navn og legg den til i en organisasjon. Velger du
                 en organisasjon vil alle i organisasjonen ha tilgang til tavlen.
@@ -72,10 +73,9 @@ function NameAndOrganizationSelector() {
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
 
-            <div className="flex flex-row mt-8 justify-end">
+            <div className="flex flex-row mt-8 justify-start">
                 <SubmitButton variant="primary" className="max-sm:w-full">
                     Opprett tavle
-                    <AddIcon />
                 </SubmitButton>
             </div>
         </form>
