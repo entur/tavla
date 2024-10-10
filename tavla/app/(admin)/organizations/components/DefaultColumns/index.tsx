@@ -51,22 +51,24 @@ function DefaultColumns({
 
     return (
         <div className="box flex flex-col gap-1">
-            <Heading2>Kolonner</Heading2>
-            <div className="flex flex-row  items-center mb-8 gap-2">
-                <Paragraph margin="none">
-                    Velg hvilke kolonner som skal være standard når det
-                    opprettes en ny tavle.
-                </Paragraph>
+            <div className="flex flex-row items-baseline">
+                <Heading2>Kolonner</Heading2>
                 <Tooltip aria-hidden placement="top" content="Vis forklaring">
                     <IconButton
                         type="button"
                         aria-label="Vis forklaring på kolonner"
                         onClick={() => setIsOpen(true)}
                     >
-                        <QuestionIcon />
+                        <QuestionIcon size={24} />
                     </IconButton>
                 </Tooltip>
             </div>
+
+            <Paragraph margin="none">
+                Velg hvilke kolonner som skal være standard når det opprettes en
+                ny tavle.
+            </Paragraph>
+
             <ColumnModal isOpen={open} setIsOpen={setIsOpen} />
 
             <form action={action}>
