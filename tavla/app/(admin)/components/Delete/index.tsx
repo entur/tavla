@@ -2,7 +2,7 @@
 import { Button, IconButton, SecondarySquareButton } from '@entur/button'
 import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading2, Paragraph, SubParagraph } from '@entur/typography'
+import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { TOrganization } from 'types/settings'
 import { TextField } from '@entur/form'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -88,7 +88,7 @@ function Delete({
                     <CloseIcon />
                 </SecondarySquareButton>
                 <Image src={ducks} alt="" className="h-1/2 w-1/2 mx-auto" />
-                <Heading2>Slett organisasjon</Heading2>
+                <Heading3 margin="bottom">Slett organisasjon</Heading3>
                 <Paragraph>
                     {`Er du sikker på at du vil slette organisasjonen 
                     "${organization.name}"? Alle tavlene i organisasjonen vil også bli slettet.`}

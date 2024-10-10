@@ -17,7 +17,7 @@ function Start() {
                 alt=""
                 className="h-1/2 w-1/2"
             />
-            <Heading3>Logg inn for å fortsette</Heading3>
+            <Heading3 margin="bottom">Logg inn for å fortsette</Heading3>
             <Paragraph>
                 Logg inn for å få tilgang til å opprette og administrere tavler.
             </Paragraph>
