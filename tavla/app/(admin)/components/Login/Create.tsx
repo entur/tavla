@@ -56,7 +56,7 @@ function Create() {
                 className="h-1/2 w-1/2"
             />
 
-            <Heading3>Opprett ny bruker</Heading3>
+            <Heading3 margin="bottom">Opprett ny bruker</Heading3>
             <form className="flex flex-col gap-4 w-full" action={action}>
                 <TextField
                     name="email"

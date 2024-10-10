@@ -3,7 +3,7 @@ import { IconButton, SecondarySquareButton } from '@entur/button'
 import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
-import { Heading2, Paragraph } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -53,7 +53,7 @@ function RemoveUserButton({
                     <CloseIcon />
                 </SecondarySquareButton>
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
-                <Heading2>Slett medlem</Heading2>
+                <Heading3 margin="bottom">Slett medlem</Heading3>
                 <Paragraph className="mt-8">
                     Er du sikker på at du vil slette medlem med e-postadresse{' '}
                     {user?.email} fra organisasjonen?

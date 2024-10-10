@@ -2,7 +2,7 @@
 import { PrimaryButton, SecondarySquareButton } from '@entur/button'
 import { AddIcon, CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading2, Label, Paragraph } from '@entur/typography'
+import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { useFormState } from 'react-dom'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
@@ -37,7 +37,7 @@ function CreateOrganization() {
                     <CloseIcon />
                 </SecondarySquareButton>
                 <Image src={birds} alt="" className="h-1/2 w-1/2" />
-                <Heading2>Opprett organisasjon</Heading2>
+                <Heading3>Opprett organisasjon</Heading3>
                 <Paragraph className="mt-8 text-center">
                     Organisasjonen gir deg mulighet til å samarbeide om tavler
                     med andre. Tavlene vil også organiseres etter organisasjon i
@@ -49,9 +49,9 @@ function CreateOrganization() {
                     aria-live="polite"
                     aria-relevant="all"
                 >
-                    <Label className="font-medium">
+                    <SubParagraph className="font-medium">
                         Sett navn på organisasjonen
-                    </Label>
+                    </SubParagraph>
                     <TextField
                         size="medium"
                         label="Organisasjonsnavn"

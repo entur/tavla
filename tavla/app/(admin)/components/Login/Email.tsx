@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
-import { Heading3 } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import { TextField } from '@entur/form'
 import { Button } from '@entur/button'
 import Image from 'next/image'
@@ -66,7 +66,7 @@ function Email() {
                 alt=""
                 className="h-1/2 w-1/2"
             />
-            <Heading3>Logg inn med e-post</Heading3>
+            <Heading3 margin="bottom">Logg inn med e-post</Heading3>
             <form className="flex flex-col gap-4 w-full" action={action}>
                 <TextField
                     name="email"
