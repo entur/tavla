@@ -47,13 +47,15 @@ function Reset() {
                 vi deg en lenke for å tilbakestille passordet ditt.
             </Paragraph>
             <form className="flex flex-col gap-4 w-full" action={action}>
-                <TextField
-                    name="email"
-                    label="E-post"
-                    aria-label="E-post"
-                    type="email"
-                    {...getFormFeedbackForField('email', state)}
-                />
+                <div>
+                    <TextField
+                        name="email"
+                        label="E-post"
+                        aria-label="E-post"
+                        type="email"
+                        {...getFormFeedbackForField('email', state)}
+                    />
+                </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
                 <PrimaryButton type="submit" aria-label="Tilbakestill passord">
