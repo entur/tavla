@@ -80,12 +80,11 @@ function Email() {
                 />
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <Link
-                    className="w-28 text-nowrap"
-                    href={getPathWithParams('reset')}
-                >
-                    Glemt passord?
-                </Link>
+                <p>
+                    <Link href={getPathWithParams('reset')}>
+                        Glemt passord?
+                    </Link>
+                </p>
                 <SubmitButton variant="primary">Logg inn</SubmitButton>
             </form>
         </div>
