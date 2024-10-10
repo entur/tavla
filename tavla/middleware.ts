@@ -5,7 +5,7 @@ import { logger } from 'utils/logger'
 const log = logger.child({ module: 'middleware' })
 export function middleware(request: NextRequest) {
     const response = NextResponse.next()
-    log.info({
+    log.trace({
         request: {
             browser: userAgent(request).browser,
             device: userAgent(request).device,
