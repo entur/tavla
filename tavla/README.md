@@ -28,11 +28,3 @@ yarn dev:persist #persists the local database
 ```
 
 This will start the development server at `http://localhost:3000`
-
-## Environment variables
-
-You need to set the backend api key, create a `.env.local` file at the root of `/tavla`.
-
-```sh
-BACKEND_API_KEY="secret_key"
-```
