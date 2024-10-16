@@ -22,5 +22,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/:id(\\w{20})'],
+    matcher: [
+        {
+            source: '/:id(\\w{20})',
+            missing: [{ type: 'header', key: 'next-router-prefetch' }],
+        },
+    ],
 }
