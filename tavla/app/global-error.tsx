@@ -26,7 +26,7 @@ export default function GlobalError({
     return (
         <html>
             <body>
-                <div className="mx-auto h-[70vh] lg:w-1/4 flex flex-col justify-center items-center gap-5">
+                <main className="container pb-10 flex flex-col items-center">
                     <Heading3>Au da! Noe gikk galt!</Heading3>
                     <Image
                         src={BeaverIllustration}
@@ -42,7 +42,7 @@ export default function GlobalError({
                     >
                         Prøv igjen
                     </Button>
-                </div>
+                </main>
             </body>
         </html>
     )
