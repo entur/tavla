@@ -11,7 +11,7 @@ import { NextPageContext } from 'next'
 const log = logger.child({ module: 'pagesLevelErrorHandler' })
 function Error() {
     return (
-        <div className="mx-auto h-[70vh] lg:w-1/4 flex flex-col justify-center items-center gap-5">
+        <main className="container pb-10 flex flex-col items-center">
             <Heading3>Au da! Noe gikk galt!</Heading3>
             <Image
                 src={BeaverIllustration}
@@ -22,7 +22,7 @@ function Error() {
             <Button as={Link} href="/" variant="primary">
                 Tilbake til forsiden
             </Button>
-        </div>
+        </main>
     )
 }
 
