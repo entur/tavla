@@ -6,6 +6,7 @@ import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { FormEvent } from 'react'
 import { TLocation } from 'types/meta'
 import { TBoardID } from 'types/settings'
 
@@ -13,14 +14,23 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
     const { pointItems, selectedPoint, setSelectedPoint } =
         usePointSearch(location)
     const { addToast } = useToast()
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
+        try {
+            await saveLocation(bid, selectedPoint?.value)
+            addToast('Adresse oppdatert!')
+        } catch (error) {
+            addToast({
+                content: 'Noe gikk galt under lagring av adresse.',
+                variant: 'info',
+            })
+        }
+    }
+
     return (
-        <form
-            action={() => {
-                saveLocation(bid, selectedPoint?.value)
-                addToast('Adresse oppdatert!')
-            }}
-            className="box flex flex-col"
-        >
+        <form onSubmit={handleSubmit} className="box flex flex-col">
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Adresse</Heading3>
                 <Tooltip
