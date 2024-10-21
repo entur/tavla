@@ -8,7 +8,7 @@ import { logger } from 'utils/logger'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import { NextPageContext } from 'next'
 
-const log = logger.child({ module: 'pagesLevelErrorHandler' })
+const log = logger.child({ module: 'pagesErrorHandler' })
 function Error() {
     return (
         <main className="container pb-10 flex flex-col items-center">

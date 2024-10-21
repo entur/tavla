@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { logger } from 'utils/logger'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
 
-const log = logger.child({ module: 'appLevelErrorHandler' })
+const log = logger.child({ module: 'appErrorHandler' })
 export default function Error({
     error,
 }: {
@@ -19,6 +19,7 @@ export default function Error({
             cause: error.cause,
             stacktrace: error.stack,
             message: error.message,
+            digest: error.digest,
             url: window.location.href,
         })
     }, [error])

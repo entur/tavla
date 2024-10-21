@@ -20,6 +20,7 @@ export default function GlobalError({
             cause: error.cause,
             stacktrace: error.stack,
             message: error.message,
+            digest: error.digest,
             url: window.location.href,
         })
     }, [error])
