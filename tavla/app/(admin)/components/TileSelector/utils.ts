@@ -1,4 +1,3 @@
-import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     QuayCoordinatesQuery,
     StopPlaceCoordinatesQuery,
@@ -31,8 +30,7 @@ export function formDataToTile(data: FormData, organization?: TOrganization) {
 }
 
 export async function getWalkingDistance(from: TCoordinate, to: TCoordinate) {
-    if (!to) return getFormFeedbackForError()
-    if (!from) return undefined
+    if (!from || !to) return undefined
     try {
         const response = await fetchQuery(WalkDistanceQuery, {
             from: {
@@ -46,7 +44,7 @@ export async function getWalkingDistance(from: TCoordinate, to: TCoordinate) {
         })
         return response.trip.tripPatterns[0]?.duration
     } catch (error) {
-        return getFormFeedbackForError()
+        throw new Error('Failed to get walking distance')
     }
 }
 
