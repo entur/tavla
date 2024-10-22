@@ -41,7 +41,7 @@ export async function getWalkingDistance(from: TCoordinate, to: TCoordinate) {
             },
             to: {
                 longitude: to.lng,
-                latitude: from.lat,
+                latitude: to.lat,
             },
         })
         return response.trip.tripPatterns[0]?.duration
