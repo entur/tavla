@@ -7,8 +7,12 @@ import { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
-import { getWalkingDistance } from 'app/(admin)/components/TileSelector/utils'
-import { TLocation } from 'types/meta'
+import {
+    getQuayCoordinates,
+    getStopPlaceCoordinates,
+    getWalkingDistance,
+} from 'app/(admin)/components/TileSelector/utils'
+import { TCoordinate, TLocation } from 'types/meta'
 import { revalidatePath } from 'next/cache'
 import { makeBoardCompatible } from './compatibility'
 
@@ -36,7 +40,23 @@ export async function getWalkingDistanceTile(
     tile: TTile,
     location?: TLocation,
 ) {
-    const walkingDistance = await getWalkingDistance(tile.placeId, location)
+    const fromCoordinates = await (() => {
+        if (tile.type === 'quay') {
+            return getQuayCoordinates(tile.placeId)
+        } else {
+            return getStopPlaceCoordinates(tile.placeId)
+        }
+    })()
+    const toCoordinates: TCoordinate = {
+        lat: 0,
+        lng: 0,
+        ...(location?.coordinate || {}),
+    }
+    const walkingDistance = await getWalkingDistance(
+        fromCoordinates,
+        toCoordinates,
+    )
+
     if (!walkingDistance && !location) {
         delete tile.walkingDistance
         return tile

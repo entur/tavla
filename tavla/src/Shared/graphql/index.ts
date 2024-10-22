@@ -161,6 +161,20 @@ export type TGetQuayQuery = {
     } | null
 }
 
+export type TQuayCoordinatesQueryVariables = Types.Exact<{
+    id: Types.Scalars['String']
+}>
+
+export type TQuayCoordinatesQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        id: string
+        longitude: number | null
+        latitude: number | null
+    } | null
+}
+
 export type TQuayEditQueryVariables = Types.Exact<{
     placeId: Types.Scalars['String']
 }>
@@ -306,6 +320,20 @@ export type TStopPlaceQuery = {
     } | null
 }
 
+export type TStopPlaceCoordinatesQueryVariables = Types.Exact<{
+    id: Types.Scalars['String']
+}>
+
+export type TStopPlaceCoordinatesQuery = {
+    __typename?: 'QueryType'
+    stopPlace: {
+        __typename?: 'StopPlace'
+        id: string
+        longitude: number | null
+        latitude: number | null
+    } | null
+}
+
 export type TStopPlaceEditQueryVariables = Types.Exact<{
     placeId: Types.Scalars['String']
 }>
@@ -338,8 +366,8 @@ export type TStopPlaceNameQuery = {
 }
 
 export type TWalkDistanceQueryVariables = Types.Exact<{
-    placeId: Types.Scalars['String']
-    location: Types.TInputCoordinates
+    from: Types.TInputCoordinates
+    to: Types.TInputCoordinates
 }>
 
 export type TWalkDistanceQuery = {
@@ -524,6 +552,18 @@ fragment situation on PtSituationElement {
     language
   }
 }`) as unknown as TypedDocumentString<TGetQuayQuery, TGetQuayQueryVariables>
+export const QuayCoordinatesQuery = new TypedDocumentString(`
+    query quayCoordinates($id: String!) {
+  quay(id: $id) {
+    id
+    longitude
+    latitude
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TQuayCoordinatesQuery,
+    TQuayCoordinatesQueryVariables
+>
 export const QuayEditQuery = new TypedDocumentString(`
     query quayEdit($placeId: String!) {
   quay(id: $placeId) {
@@ -639,6 +679,18 @@ fragment situation on PtSituationElement {
     language
   }
 }`) as unknown as TypedDocumentString<TStopPlaceQuery, TStopPlaceQueryVariables>
+export const StopPlaceCoordinatesQuery = new TypedDocumentString(`
+    query stopPlaceCoordinates($id: String!) {
+  stopPlace(id: $id) {
+    id
+    longitude
+    latitude
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TStopPlaceCoordinatesQuery,
+    TStopPlaceCoordinatesQueryVariables
+>
 export const StopPlaceEditQuery = new TypedDocumentString(`
     query stopPlaceEdit($placeId: String!) {
   stopPlace(id: $placeId) {
@@ -671,10 +723,10 @@ export const StopPlaceNameQuery = new TypedDocumentString(`
     TStopPlaceNameQueryVariables
 >
 export const WalkDistanceQuery = new TypedDocumentString(`
-    query walkDistance($placeId: String!, $location: InputCoordinates!) {
+    query walkDistance($from: InputCoordinates!, $to: InputCoordinates!) {
   trip(
-    from: {coordinates: $location}
-    to: {place: $placeId}
+    from: {coordinates: $from}
+    to: {coordinates: $to}
     modes: {directMode: foot, transportModes: []}
   ) {
     tripPatterns {
