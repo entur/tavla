@@ -4,6 +4,7 @@ import {
     userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
+import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize } from 'types/meta'
 import { TOrganizationID } from 'types/settings'
@@ -17,4 +18,5 @@ export async function setFontSize(oid: TOrganizationID, fontSize: TFontSize) {
     await firestore().collection('organizations').doc(oid).update({
         'defaults.font': fontSize,
     })
+    revalidatePath(`/organizations/${oid}`)
 }
