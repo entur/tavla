@@ -10,16 +10,11 @@ import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { logger } from 'utils/logger'
-import { IncomingMessage } from 'http'
 
-const log = logger.child({ module: 'board' })
 export async function getServerSideProps({
     params,
-    req,
 }: {
     params: { id: string }
-    req: IncomingMessage
 }) {
     const { id } = params
 
@@ -32,13 +27,6 @@ export async function getServerSideProps({
     }
 
     const organization = await getOrganizationWithBoard(id)
-
-    if (!req.headers['next-router-prefetch']) {
-        log.info({
-            boardID: board.id,
-            organization: organization?.name,
-        })
-    }
 
     return {
         props: {
