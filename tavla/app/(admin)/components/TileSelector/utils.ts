@@ -1,9 +1,12 @@
-import { getFormFeedbackForError } from 'app/(admin)/utils'
-import { WalkDistanceQuery } from 'graphql/index'
+import {
+    QuayCoordinatesQuery,
+    StopPlaceCoordinatesQuery,
+    WalkDistanceQuery,
+} from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 import { nanoid } from 'nanoid'
 import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
-import { TLocation } from 'types/meta'
+import { TCoordinate } from 'types/meta'
 import { TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 
@@ -26,22 +29,49 @@ export function formDataToTile(data: FormData, organization?: TOrganization) {
     } as TTile
 }
 
-export async function getWalkingDistance(
-    placeId?: string,
-    location?: TLocation,
-) {
-    if (!placeId) return getFormFeedbackForError()
-    if (!location) return undefined
+export async function getWalkingDistance(from: TCoordinate, to: TCoordinate) {
+    if (!from || !to) return undefined
     try {
         const response = await fetchQuery(WalkDistanceQuery, {
-            placeId: placeId,
-            location: {
-                longitude: location.coordinate?.lng ?? 0,
-                latitude: location.coordinate?.lat ?? 0,
+            from: {
+                longitude: from.lng,
+                latitude: from.lat,
+            },
+            to: {
+                longitude: to.lng,
+                latitude: to.lat,
             },
         })
         return response.trip.tripPatterns[0]?.duration
     } catch (error) {
-        return getFormFeedbackForError()
+        throw new Error('Failed to get walking distance')
+    }
+}
+
+export async function getStopPlaceCoordinates(stopPlaceId: string) {
+    try {
+        const response = await fetchQuery(StopPlaceCoordinatesQuery, {
+            id: stopPlaceId,
+        })
+        return {
+            lat: response.stopPlace?.latitude ?? 0,
+            lng: response.stopPlace?.longitude ?? 0,
+        } as TCoordinate
+    } catch (error) {
+        throw new Error('Failed to get stop place coordinates')
+    }
+}
+
+export async function getQuayCoordinates(quayId: string) {
+    try {
+        const response = await fetchQuery(QuayCoordinatesQuery, {
+            id: quayId,
+        })
+        return {
+            lat: response.quay?.latitude ?? 0,
+            lng: response.quay?.longitude ?? 0,
+        } as TCoordinate
+    } catch (error) {
+        throw new Error('Failed to get quay coordinates')
     }
 }
