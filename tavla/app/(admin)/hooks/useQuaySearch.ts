@@ -1,9 +1,7 @@
 import { QuaysSearchQuery } from 'graphql/index'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { TDirectionType } from 'types/graphql-schema'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { countBy } from 'lodash'
 import { useQuery } from 'hooks/useQuery'
 import { SmallTravelTag } from 'components/TravelTag'
 
@@ -11,26 +9,11 @@ function getPlatformLabel(
     index: number,
     publicCode?: string | null,
     description?: string | null,
-    directionTypes?: (TDirectionType | null | undefined)[] | null,
 ) {
     if (!publicCode && !description) {
-        return `${index + 1} ${getDirection(directionTypes)}`
+        return `${index + 1}`
     }
     return [publicCode, description].filter(isNotNullOrUndefined).join(' ')
-}
-
-function getDirection(
-    directionTypes?: (TDirectionType | null | undefined)[] | null,
-) {
-    const directionCount = countBy(directionTypes)
-    const direction = Object.keys(directionCount).filter(
-        (k) =>
-            directionCount[k] ==
-            Math.max.apply(null, Object.values(directionCount)),
-    )[0]
-
-    if (direction === 'inbound') return '- Retning sentrum'
-    return ''
 }
 
 function useQuaySearch(stopPlaceId: string, icons = true) {
@@ -53,7 +36,6 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
                         index,
                         quay.publicCode,
                         quay.description,
-                        quay.journeyPatterns.map((jp) => jp?.directionType),
                     ),
                     icons: quay.lines
                         ?.sort((l1, l2) => {
