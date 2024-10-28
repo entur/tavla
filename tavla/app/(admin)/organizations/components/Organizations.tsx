@@ -1,5 +1,5 @@
 import { TOrganization } from 'types/settings'
-import EnturLogoBlue from 'assets/logos/Tavla-blue.svg'
+import EnturLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
 import { Link } from '@entur/typography'
 import NextLink from 'next/link'
@@ -28,17 +28,17 @@ function Organizations({
                     className=" border rounded-md shadow-sm"
                     key={organization.id}
                 >
-                    <div className="flex flex-col">
+                    <div className="flex flex-col bg-grey60">
                         <div className="h-36 flex align-center justify-center relative">
                             <Image
-                                src={organization.logo ?? EnturLogoBlue}
+                                src={organization.logo ?? EnturLogo}
                                 alt="Logo til organisasjonen"
                                 fill
                                 objectFit="contain"
                                 className="py-12 px-8"
                             />
                         </div>
-                        <div className="bg-gray-100 p-4 flex flex-row justify-between gap-4">
+                        <div className="bg-grey80 p-4 flex flex-row justify-between gap-4">
                             <Link
                                 as={NextLink}
                                 href={`/organizations/${organization.id}`}
