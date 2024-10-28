@@ -38,6 +38,7 @@ module.exports = {
                 secondary: 'var(--secondary-background-color)',
                 tertiary: 'var(--tertiary-background-color)',
                 contrast: 'var(--contrast-background-color)',
+                grey60: 'var(--grey60)',
                 grey70: 'var(--grey70)',
                 grey80: 'var(--grey80)',
                 blue80: 'var(--blue80)',
