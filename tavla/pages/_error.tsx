@@ -15,7 +15,7 @@ function Error() {
             <Heading3>Au da! Noe gikk galt!</Heading3>
             <Image
                 src={BeaverIllustration}
-                className="w-1/2"
+                className="w-1/2 lg:w-1/4"
                 alt="Illustrasjon av en bever"
             />
 
