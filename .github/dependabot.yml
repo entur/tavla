@@ -4,8 +4,10 @@ updates:
       directory: "/tavla"
       schedule:
           interval: "daily"
+          time: "10:00"
+          timezone: "Europe/Amsterdam"
       commit-message:
-          prefix: "fix(dependencies):"
+          prefix: "chore(deps):"
       groups:
           patch-minor-dependencies:
               update-types:
