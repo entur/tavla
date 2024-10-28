@@ -61,6 +61,6 @@ export async function getOrganizationForBoard(bid: TBoardID) {
         .get()
 
     return ref.docs.map(
-        (doc) => ({ id: doc.id, ...doc.data() } as TOrganization),
+        (doc) => ({ id: doc.id, ...doc.data() }) as TOrganization,
     )[0]
 }

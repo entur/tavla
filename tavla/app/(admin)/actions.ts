@@ -50,7 +50,7 @@ export async function getOrganizationsForUser() {
     const queries = await Promise.all([owner, editor])
     return queries
         .map((q) =>
-            q.docs.map((d) => ({ ...d.data(), id: d.id } as TOrganization)),
+            q.docs.map((d) => ({ ...d.data(), id: d.id }) as TOrganization),
         )
         .flat()
 }
@@ -75,7 +75,7 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
 
     return boardRefs
         .map((ref) =>
-            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as TBoard),
         )
         .flat()
 }
@@ -105,7 +105,7 @@ export async function getPrivateBoardsForUser() {
 
     return boardRefs
         .map((ref) =>
-            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as TBoard),
         )
         .flat()
 }
@@ -124,7 +124,7 @@ export async function getBoards(ids?: TBoardID[]) {
     const refs = await Promise.all(queries)
     return refs
         .map((ref) =>
-            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TBoard)),
+            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as TBoard),
         )
         .flat()
 }
@@ -143,9 +143,7 @@ export async function getAllBoardsForUser() {
     const organizationsBoards = flattenDeep(
         await Promise.all(
             organizations.map(async (organization) =>
-                (
-                    await getBoards(organization.boards)
-                ).map((board) => ({
+                (await getBoards(organization.boards)).map((board) => ({
                     board,
                     organization,
                 })),

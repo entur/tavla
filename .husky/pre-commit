@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 if ! git diff --cached --exit-code -s tavla
 then
 	echo "Files changed in tavla"

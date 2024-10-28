@@ -27,7 +27,7 @@ function Line() {
                             transportSubmode={line.transportSubmode}
                             publicCode={
                                 line.transportMode === 'air'
-                                    ? getAirPublicCode(line.id) ?? ''
+                                    ? (getAirPublicCode(line.id) ?? '')
                                     : line.publicCode
                             }
                         />
