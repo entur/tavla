@@ -1,4 +1,6 @@
+import { makeBoardCompatible } from 'app/(admin)/edit/[id]/compatibility'
 import admin, { firestore } from 'firebase-admin'
+import { notFound } from 'next/navigation'
 import { TBoard, TBoardID, TOrganization } from 'types/settings'
 
 initializeAdminApp()
@@ -14,7 +16,10 @@ async function initializeAdminApp() {
 
 export async function getBoard(bid: TBoardID) {
     const board = await firestore().collection('boards').doc(bid).get()
-    return { id: board.id, ...board.data() } as TBoard
+    if (!board.exists) {
+        notFound()
+    }
+    return makeBoardCompatible({ id: board.id, ...board.data() } as TBoard)
 }
 
 export async function getOrganizationWithBoard(bid: TBoardID) {

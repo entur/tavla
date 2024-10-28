@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
-import { addTile, getBoard, getWalkingDistanceTile } from './actions'
+import { addTile, getWalkingDistanceTile } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
 import { MetaSettings } from './components/MetaSettings'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
@@ -18,6 +18,7 @@ import { Preview } from './components/Preview'
 import { ActionsMenu } from './components/ActionsMenu'
 import { ThemeSelect } from './components/ThemeSelect'
 import { TileList } from './components/TileList'
+import { getBoard } from 'Board/scenarios/Board/firebase'
 
 export type TProps = {
     params: { id: TBoardID }

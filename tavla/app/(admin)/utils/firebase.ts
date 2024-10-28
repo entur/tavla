@@ -1,12 +1,6 @@
 'use server'
 import admin, { auth, firestore } from 'firebase-admin'
-import {
-    TBoard,
-    TBoardID,
-    TOrganization,
-    TOrganizationID,
-    TUser,
-} from 'types/settings'
+import { TBoardID, TOrganization, TOrganizationID, TUser } from 'types/settings'
 import { getUserFromSessionCookie } from './server'
 import {
     getBoardsForOrganization,
@@ -37,11 +31,6 @@ export async function verifySession(session?: string) {
     } catch {
         return null
     }
-}
-
-export async function getBoard(bid: TBoardID) {
-    const board = await firestore().collection('boards').doc(bid).get()
-    return { id: board.id, ...board.data() } as TBoard
 }
 
 export async function getUser() {
