@@ -1,4 +1,3 @@
-// app/api/log-error/route.ts
 import { logServerError } from 'app/(admin)/utils/serverErrorLogger'
 import { NextResponse } from 'next/server'
 
