@@ -30,8 +30,8 @@ function CountiesSelect({
                 action={async (data: FormData) => {
                     const counties = data.getAll('county') as string[]
 
-                    if (!oid) return null
-                    setCounties(oid, counties)
+                    if (!oid) return
+                    await setCounties(oid, counties)
                     addToast('Fylker lagret!')
                 }}
             >
