@@ -44,7 +44,7 @@ async function EditOrganizationPage({ params }: TProps) {
 
     const uids = concat(organization.owners ?? [], organization.editors ?? [])
     const usersReq = await auth().getUsers(
-        uids.map((uid) => ({ uid } as UidIdentifier)),
+        uids.map((uid) => ({ uid }) as UidIdentifier),
     )
 
     return (

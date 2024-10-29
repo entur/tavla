@@ -53,9 +53,12 @@ function BoardPage({
         : 'Entur Tavla'
 
     useEffect(() => {
-        const refreshTimeout = setTimeout(() => {
-            window.location.reload()
-        }, 24 * 60 * 60 * 1000)
+        const refreshTimeout = setTimeout(
+            () => {
+                window.location.reload()
+            },
+            24 * 60 * 60 * 1000,
+        )
 
         return () => clearTimeout(refreshTimeout)
     }, [])
