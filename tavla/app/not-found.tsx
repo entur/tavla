@@ -10,7 +10,7 @@ function Custom404() {
             <Heading3>Denne siden finnes ikke!</Heading3>
             <Image
                 src={BeaverIllustration}
-                className="w-1/2"
+                className="w-1/2 lg:w-1/4"
                 alt="Illustrasjon av en bever"
             />
 

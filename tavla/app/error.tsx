@@ -5,23 +5,24 @@ import { Heading3 } from '@entur/typography'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { logger } from 'utils/logger'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
+import { logServerError } from './(admin)/utils/serverErrorLogger'
 
-const log = logger.child({ module: 'appErrorHandler' })
 export default function Error({
     error,
 }: {
     error: Error & { digest?: string }
 }) {
     useEffect(() => {
-        log.error({
-            cause: error.cause,
-            stacktrace: error.stack,
+        const errorDetails = {
             message: error.message,
+            stack: error.stack,
+            name: error.name,
+            cause: error.cause,
             digest: error.digest,
-            url: window.location.href,
-        })
+        }
+
+        logServerError(errorDetails)
     }, [error])
 
     return (
@@ -29,7 +30,7 @@ export default function Error({
             <Heading3>Au da! Noe gikk galt!</Heading3>
             <Image
                 src={BeaverIllustration}
-                className="w-1/2"
+                className="w-1/2 lg:w-1/4"
                 alt="Illustrasjon av en bever"
             />
 
