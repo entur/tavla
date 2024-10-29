@@ -16,5 +16,4 @@ export async function logServerError(error: {
         cause: error.cause,
         digest: error.digest,
     })
-    return { success: true }
 }

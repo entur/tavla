@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
+import { logServerError } from './(admin)/utils/serverErrorLogger'
 
 export default function Error({
     error,
@@ -13,23 +14,15 @@ export default function Error({
     error: Error & { digest?: string }
 }) {
     useEffect(() => {
-        const logError = async () => {
-            const errorDetails = {
-                message: error.message,
-                stack: error.stack,
-                name: error.name,
-                cause: error.cause,
-                digest: error.digest,
-            }
-
-            await fetch('/api/log-error', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ error: errorDetails }),
-            })
+        const errorDetails = {
+            message: error.message,
+            stack: error.stack,
+            name: error.name,
+            cause: error.cause,
+            digest: error.digest,
         }
 
-        logError()
+        logServerError(errorDetails)
     }, [error])
 
     return (
