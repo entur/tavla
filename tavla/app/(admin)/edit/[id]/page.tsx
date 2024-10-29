@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
 import { addTile, getWalkingDistanceTile } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
@@ -27,6 +27,9 @@ export type TProps = {
 export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     const { id } = params
     const board = await getBoard(id)
+    if (!board) {
+        return notFound()
+    }
     return {
         title: `${board.meta?.title ?? DEFAULT_BOARD_NAME} | Entur Tavla`,
     }
@@ -37,6 +40,9 @@ export default async function EditPage({ params }: TProps) {
     if (!user || !user.uid) return redirect('/')
 
     const board = await getBoard(params.id)
+    if (!board) {
+        return notFound()
+    }
     const organization = await getOrganizationForBoard(params.id)
 
     const access = await hasBoardEditorAccess(params.id)
