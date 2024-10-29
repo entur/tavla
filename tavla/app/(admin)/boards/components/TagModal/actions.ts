@@ -8,15 +8,19 @@ import { TBoardID } from 'types/settings'
 import { firestore } from 'firebase-admin'
 import { TTag } from 'types/meta'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
+import { getBoard } from 'Board/scenarios/Board/firebase'
+import { notFound } from 'next/navigation'
 
 async function fetchTags({ bid }: { bid: TBoardID }) {
-    const board = await firestore().collection('boards').doc(bid).get()
-    if (!board.exists) throw 'board/not-found'
+    const board = await getBoard(bid)
+    if (!board) {
+        return notFound()
+    }
 
     const access = await hasBoardEditorAccess(board.id)
     if (!access) throw 'auth/operation-not-allowed'
 
-    return (board.data()?.meta?.tags as TTag[]) ?? []
+    return (board?.meta?.tags as TTag[]) ?? []
 }
 
 export async function removeTag(

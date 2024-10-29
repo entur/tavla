@@ -11,8 +11,9 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
 import { TBoard, TBoardID, TOrganizationID } from 'types/settings'
-import { getBoard, getWalkingDistanceTile } from '../../actions'
+import { getWalkingDistanceTile } from '../../actions'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { getBoard } from 'Board/scenarios/Board/firebase'
 
 initializeAdminApp()
 

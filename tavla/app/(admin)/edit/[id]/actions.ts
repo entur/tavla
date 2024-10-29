@@ -5,7 +5,6 @@ import {
 } from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
 import {
     getQuayCoordinates,
@@ -14,14 +13,9 @@ import {
 } from 'app/(admin)/components/TileSelector/utils'
 import { TCoordinate, TLocation } from 'types/meta'
 import { revalidatePath } from 'next/cache'
-import { makeBoardCompatible } from './compatibility'
+import { TBoardID } from 'types/settings'
 
 initializeAdminApp()
-
-export async function getBoard(bid: TBoardID) {
-    const board = await firestore().collection('boards').doc(bid).get()
-    return makeBoardCompatible({ id: board.id, ...board.data() } as TBoard)
-}
 
 export async function addTile(bid: TBoardID, tile: TTile) {
     const access = await hasBoardEditorAccess(bid)
