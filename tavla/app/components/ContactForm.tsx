@@ -109,6 +109,7 @@ function ContactForm() {
                     </div>
                     <div>
                         <Checkbox
+                            className="!items-start"
                             name="disabledEmail"
                             onClick={() => setDisabledEmail(!disabledEmail)}
                         >
