@@ -1,6 +1,6 @@
 'use client'
-import { TextArea, TextField } from '@entur/form'
-import { Label, Paragraph } from '@entur/typography'
+import { Checkbox, TextArea, TextField } from '@entur/form'
+import { Label, Paragraph, SubParagraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { postForm } from './actions'
 import {
@@ -10,11 +10,12 @@ import {
 } from 'app/(admin)/utils'
 import { useState } from 'react'
 import { FormError } from 'app/(admin)/components/FormError'
-import { useToast } from '@entur/alert'
+import { SmallAlertBox, useToast } from '@entur/alert'
 import { Expandable } from './Expandable'
 import { usePostHog } from 'posthog-js/react'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { validEmail } from 'utils/email'
+
 function ContactForm() {
     const posthog = usePostHog()
 
@@ -23,12 +24,13 @@ function ContactForm() {
     const [formState, setFormError] = useState<TFormFeedback | undefined>(
         undefined,
     )
+    const [disabledEmail, setDisabledEmail] = useState(false)
 
     const submit = async (data: FormData) => {
         const email = data.get('email') as string
         const message = data.get('message') as string
 
-        if (!validEmail(email))
+        if (!disabledEmail && !validEmail(email))
             return setFormError(getFormFeedbackForError('auth/missing-email'))
 
         if (isEmptyOrSpaces(message))
@@ -40,6 +42,7 @@ function ContactForm() {
         if (error) return setFormError(error)
         else {
             setIsOpen(false)
+            setDisabledEmail(false)
             setFormError(undefined)
             addToast('Takk for tilbakemelding!')
         }
@@ -66,25 +69,9 @@ function ContactForm() {
                     <Paragraph as="h1" margin="none" className="font-bold">
                         Vi setter stor pris på tilbakemeldinger og innspill, og
                         bistår gjerne hvis du vil ha hjelp til å komme i gang
-                        med Tavla
+                        med Tavla.
                     </Paragraph>
-                    <div>
-                        <Label
-                            htmlFor="email"
-                            className="font-bold"
-                            aria-required
-                        >
-                            E-post *
-                        </Label>
 
-                        <TextField
-                            label="E-postadresse"
-                            name="email"
-                            id="email"
-                            aria-label="E-postadresse"
-                            {...getFormFeedbackForField('email', formState)}
-                        />
-                    </div>
                     <div>
                         <Label
                             htmlFor="message"
@@ -100,12 +87,42 @@ function ContactForm() {
                             aria-label="Skriv her"
                             aria-required
                             {...getFormFeedbackForField('user', formState)}
+                            className="mb-2"
+                        />
+                        <SubParagraph>
+                            Hvis du ønsker å legge ved bilder, kan du sende en
+                            e-post til tavla@entur.org.
+                        </SubParagraph>
+                    </div>
+                    <div>
+                        <Label htmlFor="email" className="font-bold">
+                            E-post
+                        </Label>
+                        <TextField
+                            label="E-postadresse"
+                            name="email"
+                            id="email"
+                            aria-label="E-postadresse"
+                            disabled={disabledEmail}
+                            {...getFormFeedbackForField('email', formState)}
                         />
                     </div>
-                    <Paragraph margin="none">
-                        Hvis du ønsker å legge ved bilder, kan du sende en
-                        e-post til tavla@entur.org.
-                    </Paragraph>
+                    <div>
+                        <Checkbox
+                            name="disabledEmail"
+                            onClick={() => setDisabledEmail(!disabledEmail)}
+                        >
+                            Jeg ønsker ikke å oppgi e-postadresse og vil ikke få
+                            svar på henvendelsen.
+                        </Checkbox>
+                        {disabledEmail && (
+                            <SmallAlertBox variant="info">
+                                Vi kan bare svare på meldingen hvis vi har
+                                e-postadressen din.
+                            </SmallAlertBox>
+                        )}
+                    </div>
+
                     <FormError
                         {...getFormFeedbackForField('general', formState)}
                     />

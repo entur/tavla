@@ -3,11 +3,15 @@
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { validEmail } from 'utils/email'
+
 async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
     const email = data.get('email') as string
     const message = data.get('message') as string
+    const disabledEmail = data.get('disabledEmail') as string
 
-    if (!validEmail(email)) return getFormFeedbackForError('auth/missing-email')
+    if (disabledEmail !== 'on' && !validEmail(email)) {
+        return getFormFeedbackForError('auth/missing-email')
+    }
 
     if (isEmptyOrSpaces(message))
         return getFormFeedbackForError('contact/message-missing')
