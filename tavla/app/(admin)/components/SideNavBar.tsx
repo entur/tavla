@@ -23,17 +23,17 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
         <div className="block md:hidden">
             <IconButton
                 onClick={() => setIsOpen(!isOpen)}
-                className="bg-contrast rounded-full p-3"
+                className="!bg-contrast !rounded-full !p-3"
             >
                 <MenuIcon content="Meny" color="background" />
             </IconButton>
             <Modal
                 open={isOpen}
                 onDismiss={() => setIsOpen(false)}
-                size="medium"
-                className="!h-full !w-9/12 !fixed !top-0 !left-0 py-10 !max-h-full !rounded-none !p-0 overflow-visible"
+                size="small"
+                className="!h-full !w-9/12 !fixed !top-0 !left-0 !max-h-full !rounded-none !p-0 overflow-visible"
             >
-                <SideNavigation className="h-full !pt-10">
+                <SideNavigation className="!pt-10 !bg-primary">
                     <div className="pl-10">
                         <Link href="/" aria-label="Tilbake til landingssiden">
                             <Image src={TavlaLogoBlue} height={22} alt="" />
@@ -60,7 +60,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                         </SideNavigationItem>
                         <SideNavigationItem
                             as={Button}
-                            className="[&>button]:justify-start [&>button]:px-10"
+                            className="[&>button]:justify-start [&>button]:px-10 [&>button]:bg-secondary [&>button]:text-primary"
                             onClick={async () => {
                                 setIsOpen(false)
                                 await logout()
@@ -72,7 +72,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                 </SideNavigation>
                 <IconButton
                     onClick={() => setIsOpen(false)}
-                    className="bg-contrast rounded-full p-3 absolute bottom-[10%] -right-5"
+                    className="!bg-contrast !rounded-full !p-3 !absolute !bottom-[10%] !right-5"
                 >
                     <LeftArrowIcon color="background" />
                 </IconButton>
