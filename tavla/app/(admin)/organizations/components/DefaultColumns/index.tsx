@@ -16,7 +16,7 @@ import { useFormState } from 'react-dom'
 import { saveColumns } from './actions'
 import { Tooltip } from '@entur/tooltip'
 import { IconButton } from '@entur/button'
-import { QuestionIcon } from '@entur/icons'
+import { QuestionFilledIcon } from '@entur/icons'
 import { ColumnModal } from './ColumnModal'
 
 function DefaultColumns({
@@ -51,15 +51,16 @@ function DefaultColumns({
 
     return (
         <div className="box flex flex-col gap-1">
-            <div className="flex flex-row items-baseline">
-                <Heading2>Kolonner</Heading2>
+            <div className="flex flex-row items-center gap-2">
+                <Heading2 margin="none">Kolonner</Heading2>
                 <Tooltip aria-hidden placement="top" content="Vis forklaring">
                     <IconButton
                         type="button"
                         aria-label="Vis forklaring på kolonner"
                         onClick={() => setIsOpen(true)}
+                        className="!p-0"
                     >
-                        <QuestionIcon size={24} />
+                        <QuestionFilledIcon size={24} />
                     </IconButton>
                 </Tooltip>
             </div>

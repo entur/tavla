@@ -19,6 +19,7 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
                 active={pathname?.includes('/boards')}
                 as={Link}
                 href="/boards"
+                className="!text-primary"
             >
                 Tavler
             </TopNavigationItem>
@@ -26,6 +27,7 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
                 active={pathname?.includes('/organizations')}
                 as={Link}
                 href="/organizations"
+                className="!text-primary"
             >
                 Organisasjoner
             </TopNavigationItem>
