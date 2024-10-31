@@ -51,6 +51,7 @@ function CreateOrganization() {
                         className="w-full"
                         id="name"
                         name="name"
+                        maxLength={40}
                         required
                         aria-required
                         {...getFormFeedbackForField('name', state)}
