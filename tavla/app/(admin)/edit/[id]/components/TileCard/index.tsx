@@ -308,7 +308,7 @@ function TileCard({
                             <Label className="!text-error">
                                 {demoBoard
                                     ? 'Logg inn for å få tilgang til funksjonaliteten.'
-                                    : 'Du må legge til en lokasjon for å kunne skru på gåavstand.'}
+                                    : 'Du må legge til tavlens adresse for å kunne skru på gåavstand.'}
                             </Label>
                         )}
                         <Switch
