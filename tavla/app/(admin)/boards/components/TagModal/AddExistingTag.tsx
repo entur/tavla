@@ -24,7 +24,7 @@ function AddExistingTag({ board }: { board: TBoard }) {
             <div className="flex flex-row flex-wrap gap-1" role="listbox">
                 {existingTags.map((tag) => (
                     <form action={action} key={tag}>
-                        <TagChip bid={board.id ?? ''} tag={tag} />
+                        <TagChip bid={board.id ?? ''} tag={tag.toUpperCase()} />
                     </form>
                 ))}
             </div>
