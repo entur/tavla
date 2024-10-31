@@ -72,7 +72,7 @@ function FilterButton({ filterOptions }: { filterOptions?: TTag[] }) {
                                     onChange={() => handleFilterChipChange(tag)}
                                     value={tag}
                                 >
-                                    {tag}
+                                    {tag.toUpperCase()}
                                 </FilterChip>
                             ))
                         )}
