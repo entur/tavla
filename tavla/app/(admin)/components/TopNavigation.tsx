@@ -29,6 +29,7 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                             onClick={() => {
                                 posthog.capture('DEMO_FROM_NAV_BAR_BTN')
                             }}
+                            className="!text-primary"
                         >
                             Prøv Tavla
                         </TopNavigationItem>
