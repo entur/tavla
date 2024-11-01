@@ -1,4 +1,5 @@
 'use client'
+import { useActionState } from 'react'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
@@ -8,12 +9,12 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { useFormState } from 'react-dom'
 import { TOrganizationID, TUser } from 'types/settings'
 import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
 import { useModalWithValue } from 'app/(admin)/boards/hooks/useModalWithValue'
 import { removeUser } from './actions'
+import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 
 function RemoveUserButton({
     user,
@@ -22,22 +23,24 @@ function RemoveUserButton({
     user?: TUser
     oid?: TOrganizationID
 }) {
-    const [state, formAction] = useFormState(removeUser, undefined)
+    const [state, formAction] = useActionState(removeUser, undefined)
     const { isOpen, open, close } = useModalWithValue(
         'deleteUser',
         user?.uid ?? '',
     )
     return (
         <>
-            <Tooltip content="Slett bruker" placement="bottom">
-                <IconButton
-                    type="submit"
-                    aria-label="Slett bruker"
-                    onClick={open}
-                >
-                    <DeleteIcon />
-                </IconButton>
-            </Tooltip>
+            <ClientOnlyComponent>
+                <Tooltip content="Slett bruker" placement="bottom">
+                    <IconButton
+                        type="submit"
+                        aria-label="Slett bruker"
+                        onClick={open}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip>
+            </ClientOnlyComponent>
             <Modal
                 open={isOpen}
                 size="small"

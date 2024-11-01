@@ -1,10 +1,11 @@
 import { useToast } from '@entur/alert'
 import { SearchableDropdown } from '@entur/dropdown'
 import { ValidationInfoIcon } from '@entur/icons'
+import { Tooltip } from '@entur/tooltip'
 import { Heading3 } from '@entur/typography'
-import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
+import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { FormEvent } from 'react'
 import { TLocation } from 'types/meta'
@@ -21,7 +22,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
         try {
             await saveLocation(bid, selectedPoint?.value)
             addToast('Adresse oppdatert!')
-        } catch (error) {
+        } catch {
             addToast({
                 content: 'Noe gikk galt under lagring av adresse.',
                 variant: 'info',
@@ -33,12 +34,17 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
         <form onSubmit={handleSubmit} className="box flex flex-col">
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Adresse</Heading3>
-                <Tooltip
-                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
-                    placement="top"
-                >
-                    <ValidationInfoIcon className="md:mb-2 mb-3" size={20} />
-                </Tooltip>
+                <ClientOnlyComponent>
+                    <Tooltip
+                        content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
+                        placement="top"
+                    >
+                        <ValidationInfoIcon
+                            className="md:mb-2 mb-3"
+                            size={20}
+                        />
+                    </Tooltip>
+                </ClientOnlyComponent>
             </div>
             <div className="h-full">
                 <SearchableDropdown

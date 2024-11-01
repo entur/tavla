@@ -9,7 +9,7 @@ import {
 } from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { BaseExpand } from '@entur/expand'
-import { Checkbox, Switch, TextField } from '@entur/form'
+import { Checkbox, Switch } from '@entur/form'
 import {
     CloseIcon,
     DeleteIcon,
@@ -35,7 +35,13 @@ import { TransportIcon } from 'components/TransportIcon'
 import { isArray, uniqBy } from 'lodash'
 import Image from 'next/image'
 import { usePostHog } from 'posthog-js/react'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import {
+    Dispatch,
+    SetStateAction,
+    useActionState,
+    useEffect,
+    useState,
+} from 'react'
 import { Columns, TColumn } from 'types/column'
 import { TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
@@ -50,8 +56,9 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { useFormState } from 'react-dom'
 import { NEW_LINE_IDS, OLD_LINE_IDS, SWITCH_DATE } from '../../compatibility'
+import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function TileCard({
     bid,
@@ -126,10 +133,15 @@ function TileCard({
             displayName: displayName.substring(0, 50) || undefined,
         } as TTile
 
-        bid === 'demo' ? saveTileToDemoBoard(newTile) : saveTile(bid, newTile)
+        if (bid === 'demo') {
+            saveTileToDemoBoard(newTile)
+        } else {
+            saveTile(bid, newTile)
+        }
+
         reset()
     }
-    const [state, action] = useFormState(submit, undefined)
+    const [state, action] = useActionState(submit, undefined)
     useEffect(() => {
         if (!address) {
             setOffsetBasedOnWalkingDistance(false)
@@ -188,7 +200,7 @@ function TileCard({
         )
         if (oldTileIndex === -1) return null
         demoBoard.tiles[oldTileIndex] = newTile
-        setDemoBoard && setDemoBoard({ ...demoBoard })
+        if (setDemoBoard) setDemoBoard({ ...demoBoard })
     }
 
     const removeTileFromDemoBoard = (tile: TTile) => {
@@ -196,7 +208,7 @@ function TileCard({
         const remainingTiles = demoBoard.tiles.filter(
             (t) => t.uuid !== tile.uuid,
         )
-        setDemoBoard && setDemoBoard({ ...demoBoard, tiles: remainingTiles })
+        if (setDemoBoard) setDemoBoard({ ...demoBoard, tiles: remainingTiles })
     }
 
     const uniqTransportModeIcons = transportModes
@@ -290,7 +302,7 @@ function TileCard({
                                     {tile.name.split(',')[0]}
                                 </SubParagraph>
                             </div>
-                            <TextField
+                            <ClientOnlyTextField
                                 label="Navn på stoppested"
                                 className="!w-full md:!w-1/2 lg:!w-1/4"
                                 name="displayName"
@@ -327,7 +339,7 @@ function TileCard({
                                 Vis kun avganger som går om mer enn et valgt
                                 antall minutter.
                             </SubParagraph>
-                            <TextField
+                            <ClientOnlyTextField
                                 label="Antall minutter"
                                 name="offset"
                                 id="offset"
@@ -369,19 +381,23 @@ function TileCard({
 
                         <div className="flex flex-row items-baseline gap-1">
                             <Heading4>Kolonner</Heading4>
-                            <Tooltip
-                                aria-hidden
-                                placement="top"
-                                content="Vis forklaring på kolonner"
-                            >
-                                <IconButton
-                                    type="button"
-                                    aria-label="Vis forklaring på kolonner"
-                                    onClick={() => setIsColumnModalOpen(true)}
+                            <ClientOnlyComponent>
+                                <Tooltip
+                                    aria-hidden
+                                    placement="top"
+                                    content="Vis forklaring på kolonner"
                                 >
-                                    <QuestionIcon />
-                                </IconButton>
-                            </Tooltip>
+                                    <IconButton
+                                        type="button"
+                                        aria-label="Vis forklaring på kolonner"
+                                        onClick={() =>
+                                            setIsColumnModalOpen(true)
+                                        }
+                                    >
+                                        <QuestionIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </ClientOnlyComponent>
                         </div>
                         <div className="flex flex-row items-center gap-2">
                             <SubParagraph>
@@ -445,9 +461,11 @@ function TileCard({
                             </Button>
                             <NegativeButton
                                 onClick={async () => {
-                                    bid === 'demo'
-                                        ? removeTileFromDemoBoard(tile)
-                                        : await deleteTile(bid, tile)
+                                    if (bid === 'demo') {
+                                        removeTileFromDemoBoard(tile)
+                                    } else {
+                                        await deleteTile(bid, tile)
+                                    }
                                     addToast(`${tile.name} fjernet!`)
                                 }}
                                 aria-label="Slett stoppested"

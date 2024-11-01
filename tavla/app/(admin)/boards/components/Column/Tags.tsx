@@ -9,6 +9,7 @@ import { Column } from './Column'
 import { colorsFromHash, sortArrayByOverlap } from '../../utils'
 import { TagsContext } from '../../utils/context'
 import { useSearchParam } from '../../hooks/useSearchParam'
+import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 
 function TagList({ tags, children }: { tags: TTag[]; children?: ReactNode }) {
     return (
@@ -61,16 +62,20 @@ function Tags({
                     <TagModal board={board} />
                     <TagList tags={tags.slice(0, displayNumber)}>
                         {hiddenNumber > 0 && (
-                            <Tooltip
-                                placement="bottom"
-                                content={
-                                    <TagList tags={tags.slice(displayNumber)} />
-                                }
-                            >
-                                <Badge variant="neutral">
-                                    + {hiddenNumber}
-                                </Badge>
-                            </Tooltip>
+                            <ClientOnlyComponent>
+                                <Tooltip
+                                    placement="bottom"
+                                    content={
+                                        <TagList
+                                            tags={tags.slice(displayNumber)}
+                                        />
+                                    }
+                                >
+                                    <Badge variant="neutral">
+                                        + {hiddenNumber}
+                                    </Badge>
+                                </Tooltip>
+                            </ClientOnlyComponent>
                         )}
                     </TagList>
                 </div>

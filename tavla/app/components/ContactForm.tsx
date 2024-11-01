@@ -1,5 +1,5 @@
 'use client'
-import { TextArea, TextField } from '@entur/form'
+import { TextArea } from '@entur/form'
 import { Label, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { postForm } from './actions'
@@ -15,6 +15,7 @@ import { Expandable } from './Expandable'
 import { usePostHog } from 'posthog-js/react'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { validEmail } from 'utils/email'
+import ClientOnlyTextField from './NoSSR/TextField'
 function ContactForm() {
     const posthog = usePostHog()
 
@@ -77,7 +78,7 @@ function ContactForm() {
                             E-post *
                         </Label>
 
-                        <TextField
+                        <ClientOnlyTextField
                             label="E-postadresse"
                             name="email"
                             id="email"

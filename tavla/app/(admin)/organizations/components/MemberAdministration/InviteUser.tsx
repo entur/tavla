@@ -1,17 +1,17 @@
 'use client'
-import { TextField } from '@entur/form'
 import { AddIcon } from '@entur/icons'
 import { TOrganizationID } from 'types/settings'
-import { useFormState } from 'react-dom'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { useRef } from 'react'
+import { useActionState, useRef } from 'react'
 import { inviteUser } from './actions'
+import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
-    const [state, formAction] = useFormState(inviteUser, undefined)
+    const [state, formAction] = useActionState(inviteUser, undefined)
 
     const formRef = useRef<HTMLFormElement>(null)
 
@@ -24,13 +24,15 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
             <div className="flex flex-col sm:flex-row gap-1">
                 <HiddenInput id="oid" value={oid} />
                 <div className="flex flex-col w-full">
-                    <TextField
-                        name="email"
-                        id="email"
-                        label="E-post"
-                        type="email"
-                        {...getFormFeedbackForField('email', state)}
-                    />
+                    <ClientOnlyComponent>
+                        <ClientOnlyTextField
+                            name="email"
+                            id="email"
+                            label="E-post"
+                            type="email"
+                            {...getFormFeedbackForField('email', state)}
+                        />
+                    </ClientOnlyComponent>
                 </div>
                 <SubmitButton
                     aria-label="Legg til medlem"

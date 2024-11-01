@@ -5,7 +5,6 @@ import './globals.css'
 
 import { ReactNode } from 'react'
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
 import { EnturToastProvider, PHProvider } from './providers'
 import { Footer } from './(admin)/components/Footer'
 import { TopNavigation } from './(admin)/components/TopNavigation'
@@ -37,12 +36,12 @@ export const metadata: Metadata = {
     ],
 }
 
-const PostHogPageView = dynamic(() => import('./components/PostHogPageView'), {
-    ssr: false,
-})
+// const PostHogPageView = dynamic(() => import('./components/PostHogPageView'), {
+//     ssr: false,
+// })
 
 async function RootLayout({ children }: { children: ReactNode }) {
-    const session = cookies().get('session')?.value
+    const session = (await cookies()).get('session')?.value
     const loggedIn = (await verifySession(session)) !== null
     return (
         <html lang="nb">
@@ -50,7 +49,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
                 <EnturToastProvider>
                     <body>
                         <TopNavigation loggedIn={loggedIn} />
-                        <PostHogPageView />
+                        {/* <PostHogPageView /> */}
                         {children}
                         <ContactForm />
                         <Footer />

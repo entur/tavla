@@ -43,7 +43,7 @@ export async function getWalkingDistance(from: TCoordinate, to: TCoordinate) {
             },
         })
         return response.trip.tripPatterns[0]?.duration
-    } catch (error) {
+    } catch {
         throw new Error('Failed to get walking distance')
     }
 }
@@ -57,7 +57,7 @@ export async function getStopPlaceCoordinates(stopPlaceId: string) {
             lat: response.stopPlace?.latitude ?? 0,
             lng: response.stopPlace?.longitude ?? 0,
         } as TCoordinate
-    } catch (error) {
+    } catch {
         throw new Error('Failed to get stop place coordinates')
     }
 }
@@ -71,7 +71,7 @@ export async function getQuayCoordinates(quayId: string) {
             lat: response.quay?.latitude ?? 0,
             lng: response.quay?.longitude ?? 0,
         } as TCoordinate
-    } catch (error) {
+    } catch {
         throw new Error('Failed to get quay coordinates')
     }
 }

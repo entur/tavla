@@ -1,4 +1,5 @@
 'use client'
+import { useActionState } from 'react'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { TBoard } from 'types/settings'
@@ -8,7 +9,6 @@ import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { FormError } from 'app/(admin)/components/FormError'
-import { useFormState } from 'react-dom'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
@@ -16,6 +16,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { OverflowMenuItem } from '@entur/menu'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
+import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 
 function Delete({
     board,
@@ -26,7 +27,7 @@ function Delete({
 }) {
     const { addToast } = useToast()
 
-    const [state, deleteBoard] = useFormState(deleteBoardAction, undefined)
+    const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
     const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
 
     const submit = async (data: FormData) => {
@@ -36,9 +37,11 @@ function Delete({
 
     return (
         <>
-            <Tooltip content="Slett tavle" placement="bottom">
-                <DeleteButton type={type} onClick={open} />
-            </Tooltip>
+            <ClientOnlyComponent>
+                <Tooltip content="Slett tavle" placement="bottom">
+                    <DeleteButton type={type} onClick={open} />
+                </Tooltip>
+            </ClientOnlyComponent>
             <Modal
                 open={isOpen}
                 size="small"

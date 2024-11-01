@@ -1,4 +1,5 @@
 'use client'
+import { useActionState } from 'react'
 import { Modal } from '@entur/modal'
 import { AddNewTag } from './AddNewTag'
 import { TBoard } from 'types/settings'
@@ -8,24 +9,29 @@ import { CloseIcon, ReferenceIcon } from '@entur/icons'
 import { ActionChip } from '@entur/chip'
 import { AddExistingTag } from './AddExistingTag'
 import { HiddenInput } from 'components/Form/HiddenInput'
-import { useFormState } from 'react-dom'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { removeTag } from './actions'
+import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 
 function TagModal({ board }: { board: TBoard }) {
     const tags = board.meta?.tags ?? []
     const { isOpen, open, close } = useModalWithValue('addTags', board.id ?? '')
-    const [state, action] = useFormState(removeTag, undefined)
+    const [state, action] = useActionState(removeTag, undefined)
     return (
         <>
-            <Tooltip content="Administrer merkelapper" placement="bottom">
-                <IconButton aria-label="Administrer merkelapper" onClick={open}>
-                    <ReferenceIcon />
-                </IconButton>
-            </Tooltip>
+            <ClientOnlyComponent>
+                <Tooltip content="Administrer merkelapper" placement="bottom">
+                    <IconButton
+                        aria-label="Administrer merkelapper"
+                        onClick={open}
+                    >
+                        <ReferenceIcon />
+                    </IconButton>
+                </Tooltip>
+            </ClientOnlyComponent>
 
             <Modal
                 size="medium"

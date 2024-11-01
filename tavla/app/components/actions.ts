@@ -102,7 +102,7 @@ async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
         if (!response.ok) {
             throw Error('Error in request')
         }
-    } catch (e: unknown) {
+    } catch {
         return getFormFeedbackForError('general')
     }
 }
