@@ -49,7 +49,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                     items={pointItems}
                     selectedItem={selectedPoint}
                     onChange={setSelectedPoint}
-                    debounceTimeout={1000}
+                    debounceTimeout={150}
                     clearable
                 />
             </div>

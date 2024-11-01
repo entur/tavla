@@ -80,7 +80,7 @@ function TileSelector({
                     prepend={<SearchIcon />}
                     selectedItem={selectedStopPlace}
                     onChange={setSelectedStopPlace}
-                    debounceTimeout={1000}
+                    debounceTimeout={150}
                     {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
