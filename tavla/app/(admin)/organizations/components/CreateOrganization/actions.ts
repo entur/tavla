@@ -25,7 +25,7 @@ export async function createOrganization(
     const organization = await firestore()
         .collection('organizations')
         .add({
-            name: name,
+            name: name.substring(0, 50),
             owners: [user.uid],
             editors: [],
             boards: [],

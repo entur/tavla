@@ -12,13 +12,14 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
     if (!loggedIn) return null
     return (
         <div className="flex-row hidden md:flex gap-4">
-            <IconButton as={Link} href="?board" className="gap-4 p-4">
+            <IconButton as={Link} href="?board" className="gap-4">
                 <AddIcon /> Opprett tavle <CreateBoard />
             </IconButton>
             <TopNavigationItem
                 active={pathname?.includes('/boards')}
                 as={Link}
                 href="/boards"
+                className="!text-primary"
             >
                 Tavler
             </TopNavigationItem>
@@ -26,6 +27,7 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
                 active={pathname?.includes('/organizations')}
                 as={Link}
                 href="/organizations"
+                className="!text-primary"
             >
                 Organisasjoner
             </TopNavigationItem>

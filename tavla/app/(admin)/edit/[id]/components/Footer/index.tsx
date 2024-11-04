@@ -1,7 +1,7 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { Switch } from '@entur/form'
-import { ValidationInfoIcon } from '@entur/icons'
+import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TBoardID, TFooter } from 'types/settings'
@@ -45,7 +45,7 @@ function Footer({
                         content="Skriv en kort tekst som skal vises nederst i tavlen."
                         placement="top"
                     >
-                        <ValidationInfoIcon className="mb-3" size={20} />
+                        <ValidationInfoFilledIcon className="mb-3" size={20} />
                     </Tooltip>
                 </ClientOnlyComponent>
             </div>

@@ -27,7 +27,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 onClick={async () => {
                     await logout()
                 }}
-                className="gap-4 p-4 hidden md:flex"
+                className="gap-4 !hidden md:!flex"
             >
                 <LogOutIcon />
                 Logg ut

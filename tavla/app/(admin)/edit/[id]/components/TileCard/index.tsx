@@ -15,7 +15,7 @@ import {
     DeleteIcon,
     DownwardIcon,
     EditIcon,
-    QuestionIcon,
+    QuestionFilledIcon,
     UpwardIcon,
 } from '@entur/icons'
 import { Modal } from '@entur/modal'
@@ -320,7 +320,7 @@ function TileCard({
                             <Label className="!text-error">
                                 {demoBoard
                                     ? 'Logg inn for å få tilgang til funksjonaliteten.'
-                                    : 'Du må legge til en lokasjon for å kunne skru på gåavstand.'}
+                                    : 'Du må legge til tavlens adresse for å kunne skru på gåavstand.'}
                             </Label>
                         )}
                         <Switch
@@ -394,12 +394,12 @@ function TileCard({
                                             setIsColumnModalOpen(true)
                                         }
                                     >
-                                        <QuestionIcon />
+                                        <QuestionFilledIcon />
                                     </IconButton>
                                 </Tooltip>
                             </ClientOnlyComponent>
                         </div>
-                        <div className="flex flex-row items-center gap-2">
+                        <div className="flex flex-row items-start gap-2">
                             <SubParagraph>
                                 Her bestemmer du hvilke kolonner som skal vises
                                 i tavlen.

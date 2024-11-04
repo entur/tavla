@@ -15,7 +15,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { saveColumns } from './actions'
 import { Tooltip } from '@entur/tooltip'
 import { IconButton } from '@entur/button'
-import { QuestionIcon } from '@entur/icons'
+import { QuestionFilledIcon } from '@entur/icons'
 import { ColumnModal } from './ColumnModal'
 import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 
@@ -64,7 +64,7 @@ function DefaultColumns({
                             aria-label="Vis forklaring på kolonner"
                             onClick={() => setIsOpen(true)}
                         >
-                            <QuestionIcon size={24} />
+                            <QuestionFilledIcon size={24} />
                         </IconButton>
                     </Tooltip>
                 </ClientOnlyComponent>

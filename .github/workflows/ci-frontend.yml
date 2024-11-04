@@ -3,7 +3,7 @@ name: ci/frontend
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - "tavla/**"
 

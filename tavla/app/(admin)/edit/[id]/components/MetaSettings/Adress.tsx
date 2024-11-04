@@ -1,6 +1,6 @@
 import { useToast } from '@entur/alert'
 import { SearchableDropdown } from '@entur/dropdown'
-import { ValidationInfoIcon } from '@entur/icons'
+import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3 } from '@entur/typography'
 import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
@@ -39,7 +39,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                         content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
                         placement="top"
                     >
-                        <ValidationInfoIcon
+                        <ValidationInfoFilledIcon
                             className="md:mb-2 mb-3"
                             size={20}
                         />
@@ -52,7 +52,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                     items={pointItems}
                     selectedItem={selectedPoint}
                     onChange={setSelectedPoint}
-                    debounceTimeout={1000}
+                    debounceTimeout={150}
                     clearable
                 />
             </div>
