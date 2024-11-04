@@ -9,6 +9,7 @@ common:
         internalPort: 3000
     deployment:
         prometheus:
+            enabled: true
             path: /actuator/prometheus
     container:
         image: <+artifacts.primary.image>
