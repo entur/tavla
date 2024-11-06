@@ -27,6 +27,16 @@ common:
                   secretKeyRef:
                       name: slack-webhook
                       key: url
+            - name: METRICS_USERNAME
+              valueFrom:
+                  secretKeyRef:
+                      name: prometheus-basic-auth
+                      key: METRICS_USERNAME
+            - name: METRICS_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                      name: prometheus-basic-auth
+                      key: METRICS_PASSWORD
 
         probes:
             enabled: true
