@@ -1,3 +1,4 @@
+import { AddToastPayload } from '@entur/alert/dist/ToastProvider'
 import { VariantType } from '@entur/form'
 import { FirebaseError } from 'firebase/app'
 import { TOrganization, TUserID } from 'types/settings'
@@ -247,6 +248,23 @@ export function getFormFeedbackForError(
         form_type: 'general',
         feedback: 'En feil har oppstått.',
         variant: 'error',
+    }
+}
+
+export function fireToastFeedback(
+    addToast: (payload: AddToastPayload | string) => void,
+    result: TFormFeedback | undefined,
+    successMessage: string,
+) {
+    if (result === undefined) {
+        addToast(successMessage)
+    } else {
+        const content =
+            getFormFeedbackForField('general', result)?.feedback || ''
+        addToast({
+            content: content,
+            variant: 'info',
+        })
     }
 }
 

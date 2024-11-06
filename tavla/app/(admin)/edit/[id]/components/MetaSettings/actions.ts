@@ -1,5 +1,5 @@
 'use server'
-import { getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError, TFormFeedback } from 'app/(admin)/utils'
 import {
     hasBoardEditorAccess,
     hasBoardOwnerAccess,
@@ -14,32 +14,54 @@ import { TBoard, TBoardID, TOrganizationID } from 'types/settings'
 import { getWalkingDistanceTile } from '../../actions'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getBoard } from 'Board/scenarios/Board/firebase'
+import { FirebaseError } from 'firebase/app'
+import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 
 initializeAdminApp()
 
-export async function saveTitle(bid: TBoardID, name: string) {
+export async function saveTitle(
+    state: TFormFeedback | undefined,
+    bid: TBoardID,
+    data: FormData,
+) {
+    const name = data.get('name') as string
+    if (isEmptyOrSpaces(name))
+        return getFormFeedbackForError('board/tiles-name-missing')
+
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({
-            'meta.title': name.substring(0, 50),
-            'meta.dateModified': Date.now(),
-        })
-    revalidatePath(`/edit/${bid}`)
+    try {
+        await firestore()
+            .collection('23')
+            .doc(bid)
+            .update({
+                'meta.title': name.substring(0, 50),
+                'meta.dateModified': Date.now(),
+            })
+        revalidatePath(`/edit/${bid}`)
+    } catch (e) {
+        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
+        return getFormFeedbackForError('general')
+    }
 }
 
-export async function saveFont(bid: TBoardID, font: TFontSize) {
+export async function saveFont(bid: TBoardID, data: FormData) {
+    const font = data.get('font') as TFontSize
+
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
-    revalidatePath(`/edit/${bid}`)
+    try {
+        await firestore()
+            .collection('boards')
+            .doc(bid)
+            .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
+        revalidatePath(`/edit/${bid}`)
+    } catch (e) {
+        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
+        return getFormFeedbackForError('general')
+    }
 }
 
 export async function saveLocation(bid: TBoardID, location?: TLocation) {
@@ -61,8 +83,9 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
                 'meta.dateModified': Date.now(),
             })
         revalidatePath(`/edit/${bid}`)
-    } catch {
-        return getFormFeedbackForError()
+    } catch (e) {
+        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
+        return getFormFeedbackForError('general')
     }
 }
 
@@ -90,27 +113,32 @@ export async function moveBoard(
 
     if (oid && !(await userCanEditOrganization(oid))) return redirect('/')
 
-    if (fromOrganization)
-        await firestore()
-            .collection('organizations')
-            .doc(fromOrganization)
-            .update({ boards: admin.firestore.FieldValue.arrayRemove(bid) })
-    else
-        await firestore()
-            .collection('users')
-            .doc(user.uid)
-            .update({ owner: admin.firestore.FieldValue.arrayRemove(bid) })
+    try {
+        if (fromOrganization)
+            await firestore()
+                .collection('organizations')
+                .doc(fromOrganization)
+                .update({ boards: admin.firestore.FieldValue.arrayRemove(bid) })
+        else
+            await firestore()
+                .collection('users')
+                .doc(user.uid)
+                .update({ owner: admin.firestore.FieldValue.arrayRemove(bid) })
 
-    if (oid)
-        await firestore()
-            .collection('organizations')
-            .doc(oid)
-            .update({ boards: admin.firestore.FieldValue.arrayUnion(bid) })
-    else
-        await firestore()
-            .collection('users')
-            .doc(user.uid)
-            .update({ owner: admin.firestore.FieldValue.arrayUnion(bid) })
+        if (oid)
+            await firestore()
+                .collection('organizations')
+                .doc(oid)
+                .update({ boards: admin.firestore.FieldValue.arrayUnion(bid) })
+        else
+            await firestore()
+                .collection('users')
+                .doc(user.uid)
+                .update({ owner: admin.firestore.FieldValue.arrayUnion(bid) })
 
-    revalidatePath(`/edit/${bid}`)
+        revalidatePath(`/edit/${bid}`)
+    } catch (e) {
+        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
+        return getFormFeedbackForError('general')
+    }
 }

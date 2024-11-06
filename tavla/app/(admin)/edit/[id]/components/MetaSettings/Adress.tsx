@@ -3,8 +3,9 @@ import { SearchableDropdown } from '@entur/dropdown'
 import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3 } from '@entur/typography'
-import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
+import { saveLocation as saveLocationAction } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
+import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 import { SubmitButton } from 'components/Form/SubmitButton'
 
@@ -16,27 +17,23 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
         usePointSearch(location)
     const { addToast } = useToast()
 
-    const saveLocationWithParams = saveLocation.bind(
-        null,
-        bid,
-        selectedPoint?.value,
-    )
+    const saveLocation = async () => {
+        const result = await saveLocationAction(bid, selectedPoint?.value)
 
-    const handleSubmit = async () => {
-        const feedback = await saveLocationWithParams()
-
-        if (feedback === undefined) {
+        if (result === undefined) {
             addToast('Adresse oppdatert!')
         } else {
+            const content =
+                getFormFeedbackForField('general', result)?.feedback || ''
             addToast({
-                content: feedback.feedback,
+                content: content,
                 variant: 'info',
             })
         }
     }
 
     return (
-        <form action={handleSubmit} className="box flex flex-col">
+        <form action={saveLocation} className="box flex flex-col">
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Adresse</Heading3>
                 <ClientOnlyComponent>
