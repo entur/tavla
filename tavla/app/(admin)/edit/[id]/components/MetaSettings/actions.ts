@@ -50,15 +50,20 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
 
     const board = await getBoard(bid)
     if (!board) return getFormFeedbackForError('board/not-found')
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({
-            tiles: await getTilesWithDistance(board, location),
-            'meta.location': location ?? firestore.FieldValue.delete(),
-            'meta.dateModified': Date.now(),
-        })
-    revalidatePath(`/edit/${bid}`)
+
+    try {
+        await firestore()
+            .collection('boards')
+            .doc(bid)
+            .update({
+                tiles: await getTilesWithDistance(board, location),
+                'meta.location': location ?? firestore.FieldValue.delete(),
+                'meta.dateModified': Date.now(),
+            })
+        revalidatePath(`/edit/${bid}`)
+    } catch {
+        return getFormFeedbackForError()
+    }
 }
 
 async function getTilesWithDistance(board: TBoard, location?: TLocation) {

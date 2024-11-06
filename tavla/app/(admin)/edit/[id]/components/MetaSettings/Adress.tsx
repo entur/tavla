@@ -7,7 +7,7 @@ import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/acti
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { FormEvent } from 'react'
+
 import { TLocation } from 'types/meta'
 import { TBoardID } from 'types/settings'
 
@@ -16,22 +16,27 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
         usePointSearch(location)
     const { addToast } = useToast()
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+    const saveLocationWithParams = saveLocation.bind(
+        null,
+        bid,
+        selectedPoint?.value,
+    )
 
-        try {
-            await saveLocation(bid, selectedPoint?.value)
+    const handleSubmit = async () => {
+        const feedback = await saveLocationWithParams()
+
+        if (feedback === undefined) {
             addToast('Adresse oppdatert!')
-        } catch {
+        } else {
             addToast({
-                content: 'Noe gikk galt under lagring av adresse.',
+                content: feedback.feedback,
                 variant: 'info',
             })
         }
     }
 
     return (
-        <form onSubmit={handleSubmit} className="box flex flex-col">
+        <form action={handleSubmit} className="box flex flex-col">
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Adresse</Heading3>
                 <ClientOnlyComponent>
