@@ -19,6 +19,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 
 function MetaSettings({
     bid,
@@ -104,17 +105,19 @@ function MetaSettings({
                 className="box flex flex-col"
             >
                 <Heading3 margin="bottom">Organisasjon</Heading3>
-                <Dropdown
-                    items={organizations}
-                    label="Dine organisasjoner"
-                    selectedItem={selectedOrganization}
-                    onChange={setSelectedOrganization}
-                    clearable
-                    className="mb-4"
-                    aria-required="true"
-                    disabled={personal}
-                    {...getFormFeedbackForField('organization', state)}
-                />
+                <ClientOnlyComponent>
+                    <Dropdown
+                        items={organizations}
+                        label="Dine organisasjoner"
+                        selectedItem={selectedOrganization}
+                        onChange={setSelectedOrganization}
+                        clearable
+                        className="mb-4"
+                        aria-required="true"
+                        disabled={personal}
+                        {...getFormFeedbackForField('organization', state)}
+                    />
+                </ClientOnlyComponent>
                 <Checkbox
                     checked={personal}
                     onChange={() => setPersonal(!personal)}

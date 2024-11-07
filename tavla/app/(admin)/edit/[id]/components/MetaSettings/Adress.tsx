@@ -47,14 +47,16 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 </ClientOnlyComponent>
             </div>
             <div className="h-full">
-                <SearchableDropdown
-                    label="Hvor befinner tavlen seg?"
-                    items={pointItems}
-                    selectedItem={selectedPoint}
-                    onChange={setSelectedPoint}
-                    debounceTimeout={150}
-                    clearable
-                />
+                <ClientOnlyComponent>
+                    <SearchableDropdown
+                        label="Hvor befinner tavlen seg?"
+                        items={pointItems}
+                        selectedItem={selectedPoint}
+                        onChange={setSelectedPoint}
+                        debounceTimeout={150}
+                        clearable
+                    />
+                </ClientOnlyComponent>
             </div>
             <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton variant="secondary" className="max-sm:w-full">
