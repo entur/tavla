@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { TextField, TextFieldProps } from '@entur/form'
 import ClientOnlyComponent from './ClientOnlyComponent'
