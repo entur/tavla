@@ -57,7 +57,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { NEW_LINE_IDS, OLD_LINE_IDS, SWITCH_DATE } from '../../compatibility'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function TileCard({
@@ -381,7 +381,7 @@ function TileCard({
 
                         <div className="flex flex-row items-baseline gap-1">
                             <Heading4>Kolonner</Heading4>
-                            <ClientOnlyComponent>
+                            <ClientOnly>
                                 <Tooltip
                                     aria-hidden
                                     placement="top"
@@ -397,7 +397,7 @@ function TileCard({
                                         <QuestionFilledIcon />
                                     </IconButton>
                                 </Tooltip>
-                            </ClientOnlyComponent>
+                            </ClientOnly>
                         </div>
                         <div className="flex flex-row items-start gap-2">
                             <SubParagraph>

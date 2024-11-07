@@ -14,7 +14,7 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { removeTag } from './actions'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function TagModal({ board }: { board: TBoard }) {
     const tags = board.meta?.tags ?? []
@@ -22,7 +22,7 @@ function TagModal({ board }: { board: TBoard }) {
     const [state, action] = useActionState(removeTag, undefined)
     return (
         <>
-            <ClientOnlyComponent>
+            <ClientOnly>
                 <Tooltip content="Administrer merkelapper" placement="bottom">
                     <IconButton
                         aria-label="Administrer merkelapper"
@@ -31,7 +31,7 @@ function TagModal({ board }: { board: TBoard }) {
                         <ReferenceIcon />
                     </IconButton>
                 </Tooltip>
-            </ClientOnlyComponent>
+            </ClientOnly>
 
             <Modal
                 size="medium"

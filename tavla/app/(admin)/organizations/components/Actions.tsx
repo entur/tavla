@@ -5,11 +5,11 @@ import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
 import { Delete } from 'app/(admin)/components/Delete'
 import { Tooltip } from '@entur/tooltip'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function Edit({ oid }: { oid?: string }) {
     return (
-        <ClientOnlyComponent>
+        <ClientOnly>
             <Tooltip content="Rediger organisasjon" placement="bottom">
                 <IconButton
                     as={Link}
@@ -20,7 +20,7 @@ function Edit({ oid }: { oid?: string }) {
                     <EditIcon />
                 </IconButton>
             </Tooltip>
-        </ClientOnlyComponent>
+        </ClientOnly>
     )
 }
 

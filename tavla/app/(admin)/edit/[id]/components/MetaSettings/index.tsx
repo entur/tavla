@@ -19,7 +19,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function MetaSettings({
     bid,
@@ -105,7 +105,7 @@ function MetaSettings({
                 className="box flex flex-col"
             >
                 <Heading3 margin="bottom">Organisasjon</Heading3>
-                <ClientOnlyComponent>
+                <ClientOnly>
                     <Dropdown
                         items={organizations}
                         label="Dine organisasjoner"
@@ -117,7 +117,7 @@ function MetaSettings({
                         disabled={personal}
                         {...getFormFeedbackForField('organization', state)}
                     />
-                </ClientOnlyComponent>
+                </ClientOnly>
                 <Checkbox
                     checked={personal}
                     onChange={() => setPersonal(!personal)}

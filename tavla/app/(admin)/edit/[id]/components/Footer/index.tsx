@@ -8,7 +8,7 @@ import { TBoardID, TFooter } from 'types/settings'
 import { setFooter } from './actions'
 import { useState } from 'react'
 import { Tooltip } from '@entur/tooltip'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function Footer({
@@ -40,14 +40,14 @@ function Footer({
         <form className="box flex flex-col" action={submitOrgBoard}>
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Infomelding</Heading3>
-                <ClientOnlyComponent>
+                <ClientOnly>
                     <Tooltip
                         content="Skriv en kort tekst som skal vises nederst i tavlen."
                         placement="top"
                     >
                         <ValidationInfoFilledIcon className="mb-3" size={20} />
                     </Tooltip>
-                </ClientOnlyComponent>
+                </ClientOnly>
             </div>
             <div className="h-full">
                 <ClientOnlyTextField

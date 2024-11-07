@@ -7,7 +7,7 @@ import { ReactNode, useEffect, useState } from 'react'
  *
  * Wrap the component in this component to ensure it only renders on the client.
  */
-function ClientOnlyComponent({ children }: { children: ReactNode }) {
+function ClientOnly({ children }: { children: ReactNode }) {
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
@@ -21,4 +21,4 @@ function ClientOnlyComponent({ children }: { children: ReactNode }) {
     return <>{children}</>
 }
 
-export default ClientOnlyComponent
+export default ClientOnly

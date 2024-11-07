@@ -14,7 +14,7 @@ import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
 import { useModalWithValue } from 'app/(admin)/boards/hooks/useModalWithValue'
 import { removeUser } from './actions'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function RemoveUserButton({
     user,
@@ -30,7 +30,7 @@ function RemoveUserButton({
     )
     return (
         <>
-            <ClientOnlyComponent>
+            <ClientOnly>
                 <Tooltip content="Slett bruker" placement="bottom">
                     <IconButton
                         type="submit"
@@ -40,7 +40,7 @@ function RemoveUserButton({
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-            </ClientOnlyComponent>
+            </ClientOnly>
             <Modal
                 open={isOpen}
                 size="small"

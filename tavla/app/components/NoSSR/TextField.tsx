@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
 import { TextField, TextFieldProps } from '@entur/form'
-import ClientOnlyComponent from './ClientOnlyComponent'
+import ClientOnly from './ClientOnly'
 
 function ClientOnlyTextField(props: TextFieldProps) {
     return (
-        <ClientOnlyComponent>
+        <ClientOnly>
             <TextField {...props} />
-        </ClientOnlyComponent>
+        </ClientOnly>
     )
 }
 

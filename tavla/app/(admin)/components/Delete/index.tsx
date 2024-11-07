@@ -21,7 +21,7 @@ import Link from 'next/link'
 import { useToast } from '@entur/alert'
 import { useActionState, useState } from 'react'
 import { HiddenInput } from 'components/Form/HiddenInput'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function Delete({
@@ -57,7 +57,7 @@ function Delete({
 
     return (
         <>
-            <ClientOnlyComponent>
+            <ClientOnly>
                 <Tooltip content="Slett organisasjon" placement="bottom">
                     <DeleteButton
                         as={Link}
@@ -71,7 +71,7 @@ function Delete({
                         <DeleteIcon />
                     </DeleteButton>
                 </Tooltip>
-            </ClientOnlyComponent>
+            </ClientOnly>
             <Modal
                 open={modalIsOpen && pageParam === organization.id}
                 size="small"

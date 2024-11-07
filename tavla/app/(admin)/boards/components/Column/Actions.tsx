@@ -7,7 +7,7 @@ import { Delete } from './Delete'
 import { Open } from 'app/(admin)/edit/[id]/components/Buttons/Open'
 import { Copy } from 'app/(admin)/edit/[id]/components/Buttons/Copy'
 import { Tooltip } from '@entur/tooltip'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function Actions({ board }: { board: TBoard }) {
     return (
@@ -24,7 +24,7 @@ function Actions({ board }: { board: TBoard }) {
 
 function Edit({ bid }: { bid?: string }) {
     return (
-        <ClientOnlyComponent>
+        <ClientOnly>
             <Tooltip content="Rediger tavle" placement="bottom">
                 <IconButton
                     as={Link}
@@ -34,7 +34,7 @@ function Edit({ bid }: { bid?: string }) {
                     <EditIcon />
                 </IconButton>
             </Tooltip>
-        </ClientOnlyComponent>
+        </ClientOnly>
     )
 }
 
