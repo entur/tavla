@@ -5,8 +5,8 @@ const collectDefaultMetrics = client.collectDefaultMetrics
 const Registry = client.Registry
 const register = new Registry()
 collectDefaultMetrics({ register })
-const username = process.env.METRICS_USERNAME || 'username'
-const password = process.env.METRICS_PASSWORD || 'password'
+const username = process.env.METRICS_USERNAME
+const password = process.env.METRICS_PASSWORD
 const authString =
     'Basic ' + Buffer.from(`${username}:${password}`).toString('base64')
 
