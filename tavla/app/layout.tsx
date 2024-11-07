@@ -43,8 +43,8 @@ async function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="nb">
             <PHProvider>
-                <EnturToastProvider>
-                    <body>
+                <body>
+                    <EnturToastProvider>
                         <TopNavigation loggedIn={loggedIn} />
                         <Suspense>
                             <PostHogPageView />
@@ -52,8 +52,8 @@ async function RootLayout({ children }: { children: ReactNode }) {
                         {children}
                         <ContactForm />
                         <Footer />
-                    </body>
-                </EnturToastProvider>
+                    </EnturToastProvider>
+                </body>
             </PHProvider>
         </html>
     )
