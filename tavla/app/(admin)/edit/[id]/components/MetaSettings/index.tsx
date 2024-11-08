@@ -22,7 +22,6 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { FormError } from 'app/(admin)/components/FormError'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function MetaSettings({
@@ -82,10 +81,9 @@ function MetaSettings({
                         defaultValue={meta?.title ?? DEFAULT_BOARD_NAME}
                         label="Navn på tavlen"
                         maxLength={50}
+                        {...getFormFeedbackForField('name', titleState)}
                     />
                 </div>
-                <FormError {...getFormFeedbackForField('name', titleState)} />
-
                 <div className="flex flex-row justify-end mt-8">
                     <SubmitButton variant="secondary" className="max-sm:w-full">
                         Lagre navn

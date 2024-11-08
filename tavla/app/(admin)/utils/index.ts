@@ -258,7 +258,7 @@ export function fireToastFeedback(
 ) {
     if (result === undefined) {
         addToast(successMessage)
-    } else {
+    } else if (result.form_type === 'general') {
         const content =
             getFormFeedbackForField('general', result)?.feedback || ''
         addToast({
