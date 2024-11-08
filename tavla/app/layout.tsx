@@ -3,7 +3,7 @@ import 'styles/fonts.css'
 import 'styles/reset.css'
 import './globals.css'
 
-import { ReactNode } from 'react'
+import { ReactNode, Suspense } from 'react'
 import { Metadata } from 'next'
 import { EnturToastProvider, PHProvider } from './providers'
 import { Footer } from './(admin)/components/Footer'
@@ -11,6 +11,7 @@ import { TopNavigation } from './(admin)/components/TopNavigation'
 import { cookies } from 'next/headers'
 import { verifySession } from './(admin)/utils/firebase'
 import { ContactForm } from './components/ContactForm'
+import PostHogPageView from './components/PostHogPageView'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -36,25 +37,23 @@ export const metadata: Metadata = {
     ],
 }
 
-// const PostHogPageView = dynamic(() => import('./components/PostHogPageView'), {
-//     ssr: false,
-// })
-
 async function RootLayout({ children }: { children: ReactNode }) {
     const session = (await cookies()).get('session')?.value
     const loggedIn = (await verifySession(session)) !== null
     return (
         <html lang="nb">
             <PHProvider>
-                <EnturToastProvider>
-                    <body>
+                <body>
+                    <EnturToastProvider>
                         <TopNavigation loggedIn={loggedIn} />
-                        {/* <PostHogPageView /> */}
+                        <Suspense>
+                            <PostHogPageView />
+                        </Suspense>
                         {children}
                         <ContactForm />
                         <Footer />
-                    </body>
-                </EnturToastProvider>
+                    </EnturToastProvider>
+                </body>
             </PHProvider>
         </html>
     )

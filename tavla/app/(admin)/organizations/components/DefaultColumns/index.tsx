@@ -17,7 +17,6 @@ import { Tooltip } from '@entur/tooltip'
 import { IconButton } from '@entur/button'
 import { QuestionFilledIcon } from '@entur/icons'
 import { ColumnModal } from './ColumnModal'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 
 function DefaultColumns({
     oid,
@@ -53,21 +52,20 @@ function DefaultColumns({
         <div className="box flex flex-col gap-1">
             <div className="flex flex-row items-baseline">
                 <Heading2>Kolonner</Heading2>
-                <ClientOnlyComponent>
-                    <Tooltip
-                        aria-hidden
-                        placement="top"
-                        content="Vis forklaring"
+                <Tooltip
+                    aria-hidden
+                    placement="top"
+                    content="Vis forklaring"
+                    id="tooltip-columns-explanation"
+                >
+                    <IconButton
+                        type="button"
+                        aria-label="Vis forklaring på kolonner"
+                        onClick={() => setIsOpen(true)}
                     >
-                        <IconButton
-                            type="button"
-                            aria-label="Vis forklaring på kolonner"
-                            onClick={() => setIsOpen(true)}
-                        >
-                            <QuestionFilledIcon size={24} />
-                        </IconButton>
-                    </Tooltip>
-                </ClientOnlyComponent>
+                        <QuestionFilledIcon size={24} />
+                    </IconButton>
+                </Tooltip>
             </div>
 
             <Paragraph margin="none">

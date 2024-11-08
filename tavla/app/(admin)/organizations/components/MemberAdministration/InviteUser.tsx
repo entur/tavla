@@ -7,7 +7,7 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState, useRef } from 'react'
 import { inviteUser } from './actions'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
@@ -24,7 +24,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
             <div className="flex flex-col sm:flex-row gap-1">
                 <HiddenInput id="oid" value={oid} />
                 <div className="flex flex-col w-full">
-                    <ClientOnlyComponent>
+                    <ClientOnly>
                         <ClientOnlyTextField
                             name="email"
                             id="email"
@@ -32,7 +32,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                             type="email"
                             {...getFormFeedbackForField('email', state)}
                         />
-                    </ClientOnlyComponent>
+                    </ClientOnly>
                 </div>
                 <SubmitButton
                     aria-label="Legg til medlem"

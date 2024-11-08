@@ -16,7 +16,6 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { OverflowMenuItem } from '@entur/menu'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
-import ClientOnlyComponent from 'app/components/NoSSR/ClientOnlyComponent'
 
 function Delete({
     board,
@@ -37,11 +36,14 @@ function Delete({
 
     return (
         <>
-            <ClientOnlyComponent>
-                <Tooltip content="Slett tavle" placement="bottom">
-                    <DeleteButton type={type} onClick={open} />
-                </Tooltip>
-            </ClientOnlyComponent>
+            <Tooltip
+                content="Slett tavle"
+                placement="bottom"
+                id="tooltip-delete-board"
+            >
+                <DeleteButton type={type} onClick={open} />
+            </Tooltip>
+
             <Modal
                 open={isOpen}
                 size="small"

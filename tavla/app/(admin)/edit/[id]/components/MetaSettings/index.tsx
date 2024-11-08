@@ -23,6 +23,7 @@ import {
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { FormError } from 'app/(admin)/components/FormError'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function MetaSettings({
     bid,
@@ -106,17 +107,18 @@ function MetaSettings({
             </form>
             <form action={moveBoard} className="box flex flex-col">
                 <Heading3 margin="bottom">Organisasjon</Heading3>
-                <Dropdown
-                    items={organizations}
-                    label="Dine organisasjoner"
-                    selectedItem={selectedOrganization}
-                    onChange={setSelectedOrganization}
-                    clearable
-                    className="mb-4"
-                    aria-required="true"
-                    disabled={personal}
-                />
-
+                <ClientOnly>
+                    <Dropdown
+                        items={organizations}
+                        label="Dine organisasjoner"
+                        selectedItem={selectedOrganization}
+                        onChange={setSelectedOrganization}
+                        clearable
+                        className="mb-4"
+                        aria-required="true"
+                        disabled={personal}
+                    />
+                </ClientOnly>
                 <Checkbox
                     checked={personal}
                     onChange={() => setPersonal(!personal)}
