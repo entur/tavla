@@ -11737,9 +11737,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino-pretty@npm:11.3.0":
-  version: 11.3.0
-  resolution: "pino-pretty@npm:11.3.0"
+"pino-pretty@npm:12.1.0":
+  version: 12.1.0
+  resolution: "pino-pretty@npm:12.1.0"
   dependencies:
     colorette: ^2.0.7
     dateformat: ^4.6.3
@@ -11757,7 +11757,7 @@ __metadata:
     strip-json-comments: ^3.1.1
   bin:
     pino-pretty: bin.js
-  checksum: 76d8d87dbfd15063c47accea9e24762db4181a02ef5bee05fe0a863e2a46caacd68bbcb4d5a8bcff9b51f97dbe83ace9b554c393ad5ef231532acc19160b4b57
+  checksum: fe4d9c54349dacb06b3aa5de8d4aa3b2abecf4f014d71d8391040bfc3c0285acfe891381cc36f4a646c88e660dfa97043c624283f9938c173811cc274cfaaae0
   languageName: node
   linkType: hard
 
@@ -14079,7 +14079,7 @@ __metadata:
     nanoid: 5.0.8
     next: 15.0.2
     pino: 9.5.0
-    pino-pretty: 11.3.0
+    pino-pretty: 12.1.0
     postcss: 8.4.47
     posthog-js: 1.176.0
     prettier: 3.3.3
