@@ -17,7 +17,7 @@ export async function setTheme(bid: TBoardID, theme?: TTheme) {
 
     try {
         await firestore()
-            .collection('s')
+            .collection('boards')
             .doc(bid)
             .update({
                 theme: theme ?? 'dark',
