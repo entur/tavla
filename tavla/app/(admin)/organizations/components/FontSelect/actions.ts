@@ -1,11 +1,10 @@
 'use server'
-import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     initializeAdminApp,
     userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
+import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore } from 'firebase-admin'
-import { FirebaseError } from 'firebase/app'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize } from 'types/meta'
@@ -23,7 +22,6 @@ export async function setFontSize(oid: TOrganizationID, fontSize: TFontSize) {
         })
         revalidatePath(`/organizations/${oid}`)
     } catch (e) {
-        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+        return handleError(e)
     }
 }

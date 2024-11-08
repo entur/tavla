@@ -14,8 +14,8 @@ import { TBoard, TBoardID, TOrganizationID } from 'types/settings'
 import { getWalkingDistanceTile } from '../../actions'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getBoard } from 'Board/scenarios/Board/firebase'
-import { FirebaseError } from 'firebase/app'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
+import { handleError } from 'app/(admin)/utils/handleError'
 
 initializeAdminApp()
 
@@ -33,7 +33,7 @@ export async function saveTitle(
 
     try {
         await firestore()
-            .collection('23')
+            .collection('boards')
             .doc(bid)
             .update({
                 'meta.title': name.substring(0, 50),
@@ -41,8 +41,7 @@ export async function saveTitle(
             })
         revalidatePath(`/edit/${bid}`)
     } catch (e) {
-        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+        return handleError(e)
     }
 }
 
@@ -59,8 +58,7 @@ export async function saveFont(bid: TBoardID, data: FormData) {
             .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
         revalidatePath(`/edit/${bid}`)
     } catch (e) {
-        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+        return handleError(e)
     }
 }
 
@@ -84,8 +82,7 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
             })
         revalidatePath(`/edit/${bid}`)
     } catch (e) {
-        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+        return handleError(e)
     }
 }
 
@@ -138,7 +135,6 @@ export async function moveBoard(
 
         revalidatePath(`/edit/${bid}`)
     } catch (e) {
-        if (e instanceof FirebaseError) return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+        return handleError(e)
     }
 }

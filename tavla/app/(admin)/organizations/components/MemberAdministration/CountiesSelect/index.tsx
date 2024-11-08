@@ -3,10 +3,11 @@ import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { TCountyID, TOrganizationID } from 'types/settings'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { Checkbox } from '@entur/form'
-import { setCounties } from './actions'
+import { setCounties as setCountiesAction } from './actions'
 import { Heading2, Paragraph } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { fireToastFeedback } from 'app/(admin)/utils'
 
 function CountiesSelect({
     oid,
@@ -16,8 +17,14 @@ function CountiesSelect({
     countiesList?: TCountyID[]
 }) {
     const { counties } = useCountiesSearch(oid)
-
     const { addToast } = useToast()
+
+    const setCounties = async (data: FormData) => {
+        if (!oid) return
+        const counties = data.getAll('county') as string[]
+        const result = await setCountiesAction(oid, counties)
+        fireToastFeedback(addToast, result, 'Fylker lagret!')
+    }
 
     return (
         <div className="box flex flex-col gap-1">
@@ -26,15 +33,7 @@ function CountiesSelect({
                 Velg hvilke fylker som skal være standard når det opprettes en
                 ny tavle.
             </Paragraph>
-            <form
-                action={async (data: FormData) => {
-                    const counties = data.getAll('county') as string[]
-
-                    if (!oid) return
-                    await setCounties(oid, counties)
-                    addToast('Fylker lagret!')
-                }}
-            >
+            <form action={setCounties}>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-x-2">
                     {counties()
                         .sort(

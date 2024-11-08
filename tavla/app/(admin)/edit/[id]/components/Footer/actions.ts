@@ -4,6 +4,7 @@ import {
     hasBoardEditorAccess,
     initializeAdminApp,
 } from 'app/(admin)/utils/firebase'
+import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -15,15 +16,21 @@ export async function setFooter(bid: TBoardID, footer?: TFooter) {
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({
-            footer: {
-                footer: !isEmptyOrSpaces(footer?.footer) ? footer?.footer : '',
-                override: footer?.override,
-            },
-            'meta.dateModified': Date.now(),
-        })
-    revalidatePath(`edit/${bid}`)
+    try {
+        await firestore()
+            .collection('boards')
+            .doc(bid)
+            .update({
+                footer: {
+                    footer: !isEmptyOrSpaces(footer?.footer)
+                        ? footer?.footer
+                        : '',
+                    override: footer?.override,
+                },
+                'meta.dateModified': Date.now(),
+            })
+        revalidatePath(`edit/${bid}`)
+    } catch (e) {
+        return handleError(e)
+    }
 }

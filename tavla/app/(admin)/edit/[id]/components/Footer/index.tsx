@@ -9,6 +9,7 @@ import { setFooter } from './actions'
 import { useState } from 'react'
 import { Tooltip } from '@entur/tooltip'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { fireToastFeedback } from 'app/(admin)/utils'
 
 function Footer({
     bid,
@@ -27,12 +28,11 @@ function Footer({
         const override = data.get('override') as string
         const overrideOrg = override === 'on'
 
-        await setFooter(bid, {
+        const result = await setFooter(bid, {
             footer: footer,
             override: overrideOrg,
         })
-
-        addToast('Infomelding lagret!')
+        fireToastFeedback(addToast, result, 'Infomelding lagret!')
     }
 
     return (

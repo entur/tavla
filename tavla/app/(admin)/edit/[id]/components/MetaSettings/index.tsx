@@ -56,7 +56,6 @@ function MetaSettings({
     const saveFont = async (data: FormData) => {
         const result = await saveFontAction(bid, data)
         fireToastFeedback(addToast, result, 'Tekststørrelse lagret!')
-        return result
     }
 
     // Handle move board
@@ -67,7 +66,6 @@ function MetaSettings({
             organization?.id,
         )
         fireToastFeedback(addToast, result, 'Organisasjon lagret!')
-        return result
     }
 
     return (

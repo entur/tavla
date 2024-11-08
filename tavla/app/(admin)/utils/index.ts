@@ -242,6 +242,13 @@ export function getFormFeedbackForError(
                 variant: 'error',
             }
         }
+        case 'unknown': {
+            return {
+                form_type: 'general',
+                feedback: 'En ukjent feil har oppstått.',
+                variant: 'error',
+            }
+        }
     }
 
     return {

@@ -3,6 +3,7 @@ import {
     initializeAdminApp,
     userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
+import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -17,8 +18,12 @@ export async function setCounties(
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
 
-    await firestore().collection('organizations').doc(oid).update({
-        'defaults.counties': countiesList,
-    })
-    revalidatePath(`/organizations/${oid}`)
+    try {
+        await firestore().collection('organizations').doc(oid).update({
+            'defaults.counties': countiesList,
+        })
+        revalidatePath(`/organizations/${oid}`)
+    } catch (e) {
+        return handleError(e)
+    }
 }
