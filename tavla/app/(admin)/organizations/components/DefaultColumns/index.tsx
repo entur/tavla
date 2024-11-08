@@ -1,6 +1,6 @@
 'use client'
 import { Heading2, Paragraph } from '@entur/typography'
-import React, { useState } from 'react'
+import React, { useActionState, useState } from 'react'
 import { TOrganizationID } from 'types/settings'
 import { Columns, TColumn } from 'types/column'
 import { useToast } from '@entur/alert'
@@ -12,7 +12,6 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { useFormState } from 'react-dom'
 import { saveColumns } from './actions'
 import { Tooltip } from '@entur/tooltip'
 import { IconButton } from '@entur/button'
@@ -47,18 +46,23 @@ function DefaultColumns({
         addToast('Kolonner lagret!')
     }
 
-    const [state, action] = useFormState(submit, undefined)
+    const [state, action] = useActionState(submit, undefined)
 
     return (
         <div className="box flex flex-col gap-1">
-            <div className="flex flex-row items-center gap-2">
-                <Heading2 margin="none">Kolonner</Heading2>
-                <Tooltip aria-hidden placement="top" content="Vis forklaring">
+            <div className="flex flex-row items-baseline">
+                <Heading2>Kolonner</Heading2>
+
+                <Tooltip
+                    aria-hidden
+                    placement="top"
+                    content="Vis forklaring"
+                    id="tooltip-columns-explanation"
+                >
                     <IconButton
                         type="button"
                         aria-label="Vis forklaring på kolonner"
                         onClick={() => setIsOpen(true)}
-                        className="!p-0"
                     >
                         <QuestionFilledIcon size={24} />
                     </IconButton>

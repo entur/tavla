@@ -11,7 +11,7 @@ export default async function handler(
     try {
         await ping(id as TBoardID)
         return response.status(200).json({ message: 'Successfully updated!' })
-    } catch (error) {
+    } catch {
         return response.status(400).json({ error: 'Could not update!' })
     }
 }

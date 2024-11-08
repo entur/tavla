@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 }
 
 async function Landing() {
-    const session = cookies().get('session')?.value
+    const session = (await cookies()).get('session')?.value
     const loggedIn = (await verifySession(session)) !== null
     return (
         <main>

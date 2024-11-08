@@ -1,10 +1,9 @@
 import { redirect } from 'next/navigation'
 
-function Auth({
-    searchParams,
-}: {
-    searchParams: { [key: string]: string | string[] | undefined }
+async function Auth(props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
+    const searchParams = await props.searchParams
     const { mode, oobCode } = searchParams
 
     switch (mode) {

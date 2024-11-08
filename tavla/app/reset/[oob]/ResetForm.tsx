@@ -1,6 +1,5 @@
 'use client'
-
-import { TextField } from '@entur/form'
+import { useActionState } from 'react'
 import {
     TFormFeedback,
     getFormFeedbackForError,
@@ -9,9 +8,9 @@ import {
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { confirmPasswordReset, getAuth } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
-import { useFormState } from 'react-dom'
 import { redirect } from 'next/navigation'
 import { getClientApp } from 'utils/firebase'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function ResetForm({ oob }: { oob: string }) {
     const submit = async (
@@ -37,17 +36,17 @@ function ResetForm({ oob }: { oob: string }) {
         redirect('/?login=email')
     }
 
-    const [state, action] = useFormState(submit, undefined)
+    const [state, action] = useActionState(submit, undefined)
 
     return (
         <form className="flex flex-col gap-4 w-[30%]" action={action}>
-            <TextField
+            <ClientOnlyTextField
                 name="password"
                 label="Nytt passord"
                 type="password"
                 {...getFormFeedbackForField('password', state)}
             />
-            <TextField
+            <ClientOnlyTextField
                 name="repeat_password"
                 label="Gjenta passord"
                 type="password"
