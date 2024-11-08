@@ -5,22 +5,23 @@ import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
 import { Delete } from 'app/(admin)/components/Delete'
 import { Tooltip } from '@entur/tooltip'
-import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function Edit({ oid }: { oid?: string }) {
     return (
-        <ClientOnly>
-            <Tooltip content="Rediger organisasjon" placement="bottom">
-                <IconButton
-                    as={Link}
-                    aria-label="Rediger organisasjon"
-                    href={`/organizations/${oid}`}
-                    size="small"
-                >
-                    <EditIcon />
-                </IconButton>
-            </Tooltip>
-        </ClientOnly>
+        <Tooltip
+            content="Rediger organisasjon"
+            placement="bottom"
+            id="tooltip-edit-org"
+        >
+            <IconButton
+                as={Link}
+                aria-label="Rediger organisasjon"
+                href={`/organizations/${oid}`}
+                size="small"
+            >
+                <EditIcon />
+            </IconButton>
+        </Tooltip>
     )
 }
 

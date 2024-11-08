@@ -34,17 +34,17 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
         <form onSubmit={handleSubmit} className="box flex flex-col">
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Adresse</Heading3>
-                <ClientOnly>
-                    <Tooltip
-                        content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
-                        placement="top"
-                    >
-                        <ValidationInfoFilledIcon
-                            className="md:mb-2 mb-3"
-                            size={20}
-                        />
-                    </Tooltip>
-                </ClientOnly>
+
+                <Tooltip
+                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
+                    placement="top"
+                    id="tooltip-address"
+                >
+                    <ValidationInfoFilledIcon
+                        className="md:mb-2 mb-3"
+                        size={20}
+                    />
+                </Tooltip>
             </div>
             <div className="h-full">
                 <ClientOnly>

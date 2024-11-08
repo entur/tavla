@@ -57,7 +57,6 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { NEW_LINE_IDS, OLD_LINE_IDS, SWITCH_DATE } from '../../compatibility'
-import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function TileCard({
@@ -381,23 +380,21 @@ function TileCard({
 
                         <div className="flex flex-row items-baseline gap-1">
                             <Heading4>Kolonner</Heading4>
-                            <ClientOnly>
-                                <Tooltip
-                                    aria-hidden
-                                    placement="top"
-                                    content="Vis forklaring på kolonner"
+
+                            <Tooltip
+                                aria-hidden
+                                placement="top"
+                                content="Vis forklaring på kolonner"
+                                id="tooltip-columns"
+                            >
+                                <IconButton
+                                    type="button"
+                                    aria-label="Vis forklaring på kolonner"
+                                    onClick={() => setIsColumnModalOpen(true)}
                                 >
-                                    <IconButton
-                                        type="button"
-                                        aria-label="Vis forklaring på kolonner"
-                                        onClick={() =>
-                                            setIsColumnModalOpen(true)
-                                        }
-                                    >
-                                        <QuestionFilledIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </ClientOnly>
+                                    <QuestionFilledIcon />
+                                </IconButton>
+                            </Tooltip>
                         </div>
                         <div className="flex flex-row items-start gap-2">
                             <SubParagraph>

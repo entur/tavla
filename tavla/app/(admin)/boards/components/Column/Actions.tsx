@@ -7,7 +7,6 @@ import { Delete } from './Delete'
 import { Open } from 'app/(admin)/edit/[id]/components/Buttons/Open'
 import { Copy } from 'app/(admin)/edit/[id]/components/Buttons/Copy'
 import { Tooltip } from '@entur/tooltip'
-import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function Actions({ board }: { board: TBoard }) {
     return (
@@ -24,17 +23,19 @@ function Actions({ board }: { board: TBoard }) {
 
 function Edit({ bid }: { bid?: string }) {
     return (
-        <ClientOnly>
-            <Tooltip content="Rediger tavle" placement="bottom">
-                <IconButton
-                    as={Link}
-                    aria-label="Rediger tavle"
-                    href={`/edit/${bid}`}
-                >
-                    <EditIcon />
-                </IconButton>
-            </Tooltip>
-        </ClientOnly>
+        <Tooltip
+            content="Rediger tavle"
+            placement="bottom"
+            id="tooltip-edit-board"
+        >
+            <IconButton
+                as={Link}
+                aria-label="Rediger tavle"
+                href={`/edit/${bid}`}
+            >
+                <EditIcon />
+            </IconButton>
+        </Tooltip>
     )
 }
 
