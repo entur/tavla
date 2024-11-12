@@ -20,6 +20,13 @@ const nextConfig = {
                 hostname: 'firebasestorage.googleapis.com',
             },
         ],
+        dangerouslyAllowSVG: true,
+    },
+    experimental: {
+        serverActions: {
+            bodySizeLimit: '10mb',
+        },
+        serverComponentsExternalPackages: ['pino', 'pino-pretty'],
     },
 }
 
