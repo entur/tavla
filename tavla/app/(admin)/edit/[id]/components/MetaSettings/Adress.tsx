@@ -1,11 +1,10 @@
 import { useToast } from '@entur/alert'
 import { SearchableDropdown } from '@entur/dropdown'
 import { ValidationInfoFilledIcon } from '@entur/icons'
-import { Tooltip } from '@entur/tooltip'
 import { Heading3 } from '@entur/typography'
+import { Tooltip } from 'app/(admin)/components/Tooltip'
 import { saveLocation } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
-import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { FormEvent } from 'react'
 import { TLocation } from 'types/meta'
@@ -22,7 +21,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
         try {
             await saveLocation(bid, selectedPoint?.value)
             addToast('Adresse oppdatert!')
-        } catch {
+        } catch (error) {
             addToast({
                 content: 'Noe gikk galt under lagring av adresse.',
                 variant: 'info',
@@ -34,11 +33,9 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
         <form onSubmit={handleSubmit} className="box flex flex-col">
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Adresse</Heading3>
-
                 <Tooltip
                     content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
                     placement="top"
-                    id="tooltip-address"
                 >
                     <ValidationInfoFilledIcon
                         className="md:mb-2 mb-3"
@@ -47,16 +44,14 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 </Tooltip>
             </div>
             <div className="h-full">
-                <ClientOnly>
-                    <SearchableDropdown
-                        label="Hvor befinner tavlen seg?"
-                        items={pointItems}
-                        selectedItem={selectedPoint}
-                        onChange={setSelectedPoint}
-                        debounceTimeout={150}
-                        clearable
-                    />
-                </ClientOnly>
+                <SearchableDropdown
+                    label="Hvor befinner tavlen seg?"
+                    items={pointItems}
+                    selectedItem={selectedPoint}
+                    onChange={setSelectedPoint}
+                    debounceTimeout={150}
+                    clearable
+                />
             </div>
             <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton variant="secondary" className="max-sm:w-full">

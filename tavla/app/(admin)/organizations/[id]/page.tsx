@@ -17,11 +17,10 @@ import { Footer } from '../components/Footer'
 initializeAdminApp()
 
 type TProps = {
-    params: Promise<{ id: string }>
+    params: { id: string }
 }
 
-export async function generateMetadata(props: TProps): Promise<Metadata> {
-    const params = await props.params
+export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     const { id } = params
 
     const organization = await getOrganizationIfUserHasAccess(id)
@@ -31,8 +30,7 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
     }
 }
 
-async function EditOrganizationPage(props: TProps) {
-    const params = await props.params
+async function EditOrganizationPage({ params }: TProps) {
     const { id } = params
 
     const user = await getUserFromSessionCookie()
@@ -46,12 +44,7 @@ async function EditOrganizationPage(props: TProps) {
 
     const uids = concat(organization.owners ?? [], organization.editors ?? [])
     const usersReq = await auth().getUsers(
-        uids.map(
-            (uid) =>
-                ({
-                    uid,
-                }) as UidIdentifier,
-        ),
+        uids.map((uid) => ({ uid }) as UidIdentifier),
     )
 
     return (

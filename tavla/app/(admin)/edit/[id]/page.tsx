@@ -21,11 +21,10 @@ import { TileList } from './components/TileList'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 
 export type TProps = {
-    params: Promise<{ id: TBoardID }>
+    params: { id: TBoardID }
 }
 
-export async function generateMetadata(props: TProps): Promise<Metadata> {
-    const params = await props.params
+export async function generateMetadata({ params }: TProps): Promise<Metadata> {
     const { id } = params
     const board = await getBoard(id)
     if (!board) {
@@ -36,8 +35,7 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
     }
 }
 
-export default async function EditPage(props: TProps) {
-    const params = await props.params
+export default async function EditPage({ params }: TProps) {
     const user = await getUser()
     if (!user || !user.uid) return redirect('/')
 

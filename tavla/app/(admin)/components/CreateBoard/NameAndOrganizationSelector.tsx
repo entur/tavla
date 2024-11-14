@@ -1,18 +1,18 @@
 'use client'
 import { Dropdown } from '@entur/dropdown'
-import { Checkbox } from '@entur/form'
+import { TextField, Checkbox } from '@entur/form'
 import { Paragraph, Label, Heading2 } from '@entur/typography'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { useActionState, useState } from 'react'
+import { useState } from 'react'
+import { useFormState } from 'react-dom'
 import { createBoard } from './actions'
 import { FormError } from '../FormError'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function NameAndOrganizationSelector() {
-    const [state, action] = useActionState(createBoard, undefined)
+    const [state, action] = useFormState(createBoard, undefined)
 
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations()
@@ -29,7 +29,7 @@ function NameAndOrganizationSelector() {
                 en organisasjon vil alle i organisasjonen ha tilgang til tavlen.
             </Paragraph>
             <Label>Gi tavlen et navn</Label>
-            <ClientOnlyTextField
+            <TextField
                 size="medium"
                 label="Navn"
                 id="name"

@@ -1,7 +1,7 @@
 import { QuaysSearchQuery } from 'graphql/index'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'hooks/useQuery'
 import { SmallTravelTag } from 'components/TravelTag'
 
@@ -49,31 +49,20 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
                             return 1
                         })
                         .slice(0, 5)
-                        .map((line, index) => {
-                            if (index === 4) {
-                                // Create unique icons
-                                const UnknownSmallTravelTag: FC = () =>
-                                    SmallTravelTag({
-                                        transportMode: 'unknown',
-                                        publicCode: `+${quay.lines.length - index}`,
-                                        icons: false,
-                                    })
-                                UnknownSmallTravelTag.displayName = `SmallTravelTag-unknown-${quay.id}-${index}`
-                                return UnknownSmallTravelTag
-                            }
-
-                            // Create unique icons
-                            const UniqueSmallTravelTag: FC = () =>
-                                SmallTravelTag({
-                                    transportMode: line.transportMode,
-                                    publicCode: line.publicCode,
-                                    icons: icons,
+                        .map((line, index) => () => {
+                            if (index === 4)
+                                return SmallTravelTag({
+                                    transportMode: 'unknown',
+                                    publicCode: `+${quay.lines.length - index}`,
+                                    icons: false,
                                 })
-                            UniqueSmallTravelTag.displayName = `SmallTravelTag-${quay.id}-${line.transportMode}-${index}`
-                            return UniqueSmallTravelTag
+                            return SmallTravelTag({
+                                transportMode: line.transportMode,
+                                publicCode: line.publicCode,
+                                icons: icons,
+                            })
                         }),
                 }))
-
                 .sort((a, b) => {
                     return a.label.localeCompare(b.label, 'no-NB', {
                         numeric: true,
