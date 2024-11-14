@@ -1,9 +1,10 @@
 'use client'
-import { useActionState } from 'react'
 import { Button, ButtonGroup, PrimaryButton } from '@entur/button'
 import { AddIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
+import { TextField } from '@entur/form'
+import { useFormState } from 'react-dom'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useModalWithValue } from 'app/(admin)/boards/hooks/useModalWithValue'
@@ -11,11 +12,10 @@ import Image from 'next/image'
 import birds from 'assets/illustrations/Birds.png'
 import { createOrganization } from './actions'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function CreateOrganization() {
     const { isOpen, open, close } = useModalWithValue('create', '')
-    const [state, formAction] = useActionState(createOrganization, undefined)
+    const [state, formAction] = useFormState(createOrganization, undefined)
 
     return (
         <>
@@ -45,7 +45,7 @@ function CreateOrganization() {
                     <SubParagraph className="font-medium">
                         Sett navn på organisasjonen
                     </SubParagraph>
-                    <ClientOnlyTextField
+                    <TextField
                         size="medium"
                         label="Organisasjonsnavn"
                         className="w-full"

@@ -4,7 +4,9 @@ import { DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { TOrganization } from 'types/settings'
+import { TextField } from '@entur/form'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { useFormState } from 'react-dom'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
@@ -19,10 +21,8 @@ import { useSearchParams } from 'next/navigation'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { useToast } from '@entur/alert'
-import { useActionState, useState } from 'react'
+import { useState } from 'react'
 import { HiddenInput } from 'components/Form/HiddenInput'
-
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function Delete({
     organization,
@@ -33,10 +33,7 @@ function Delete({
 }) {
     const [modalIsOpen, close] = useSearchParamsModal('delete')
     const { addToast } = useToast()
-    const [state, deleteOrgAction] = useActionState(
-        deleteOrganization,
-        undefined,
-    )
+    const [state, deleteOrgAction] = useFormState(deleteOrganization, undefined)
     const [nameError, setNameError] = useState<TFormFeedback>()
 
     const params = useSearchParams()
@@ -57,11 +54,7 @@ function Delete({
 
     return (
         <>
-            <Tooltip
-                content="Slett organisasjon"
-                placement="bottom"
-                id="tooltip-delete-org"
-            >
+            <Tooltip content="Slett organisasjon" placement="bottom">
                 <DeleteButton
                     as={Link}
                     href={`?delete=${organization.id}`}
@@ -74,7 +67,6 @@ function Delete({
                     <DeleteIcon />
                 </DeleteButton>
             </Tooltip>
-
             <Modal
                 open={modalIsOpen && pageParam === organization.id}
                 size="small"
@@ -98,7 +90,7 @@ function Delete({
                     <HiddenInput id="oname" value={organization.name} />
                     <HiddenInput id="oid" value={organization.id} />
 
-                    <ClientOnlyTextField
+                    <TextField
                         name="name"
                         label="Organisasjonsnavn"
                         type="text"

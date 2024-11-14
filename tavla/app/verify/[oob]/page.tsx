@@ -5,8 +5,7 @@ import { Button } from '@entur/button'
 import Link from 'next/link'
 import { FirebaseError } from 'firebase/app'
 
-async function Verify(props: { params: Promise<{ oob: string }> }) {
-    const params = await props.params
+async function Verify({ params }: { params: { oob: string } }) {
     let message = 'E-postadressen din er nå verifisert!'
 
     try {

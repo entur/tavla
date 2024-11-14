@@ -6,7 +6,7 @@ import CreateUserButton from './components/CreateUserButton'
 import { ExpandableInformation } from './components/ExpandableInformation'
 
 async function Demo() {
-    const session = (await cookies()).get('session')?.value
+    const session = cookies().get('session')?.value
     const loggedIn = (await verifySession(session)) !== null
 
     return (

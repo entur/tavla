@@ -1,5 +1,4 @@
 'use client'
-import { useActionState } from 'react'
 import Image from 'next/image'
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 import musk from 'assets/illustrations/Musk.png'
@@ -11,6 +10,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
+import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
 import { getClientApp } from 'utils/firebase'
@@ -32,7 +32,7 @@ function Reset() {
             }
         }
     }
-    const [state, action] = useActionState(submit, undefined)
+    const [state, action] = useFormState(submit, undefined)
     return (
         <div className="flex flex-col text-center items-center">
             <Image

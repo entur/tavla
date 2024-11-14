@@ -94,19 +94,13 @@ export function getVenueIcon(category: TCategory) {
 }
 
 const travelTags = (category: TCategory[]) => {
-    const transportModes = uniq(
-        category.map((mode) => categoryToTransportmode(mode)),
-    )
-
-    return transportModes.map((tm, index) => {
-        // unique key for each travel tag
-        const UniqueSmallTravelTag = () =>
-            SmallTravelTag({
+    return uniq(category.map((mode) => categoryToTransportmode(mode))).map(
+        (tm) => () => {
+            return SmallTravelTag({
                 transportMode: tm,
             })
-        UniqueSmallTravelTag.displayName = `TravelTag-${tm}-${index}`
-        return UniqueSmallTravelTag
-    })
+        },
+    )
 }
 
 export function getIcons(layer?: string, category?: TCategory[]) {

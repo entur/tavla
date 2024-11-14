@@ -1,8 +1,8 @@
 'use client'
+import { TextField } from '@entur/form'
 import { SearchIcon } from '@entur/icons'
 import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 import { useEffect, useState } from 'react'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function Search() {
     const [value, replace] = useSearchParamReplacer('search')
@@ -12,7 +12,7 @@ function Search() {
         replace(search)
     }, [replace, search])
     return (
-        <ClientOnlyTextField
+        <TextField
             label="Søk på navn på tavle eller organisasjon"
             prepend={<SearchIcon inline aria-hidden="true" />}
             value={search}

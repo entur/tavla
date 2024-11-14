@@ -2,7 +2,6 @@
 import { Button, IconButton } from '@entur/button'
 import { ExternalIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-
 import { useLink } from 'hooks/useLink'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
@@ -28,11 +27,7 @@ function Open({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     }
 
     return (
-        <Tooltip
-            content="Åpne tavle"
-            placement="bottom"
-            id="tooltip-open-board"
-        >
+        <Tooltip content="Åpne tavle" placement="bottom">
             <IconButton
                 as={Link}
                 aria-label="Åpne tavle"

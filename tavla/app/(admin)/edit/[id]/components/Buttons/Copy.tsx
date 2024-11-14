@@ -3,7 +3,6 @@ import { useToast } from '@entur/alert'
 import { Button, IconButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-
 import { useLink } from 'hooks/useLink'
 
 function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
@@ -27,11 +26,7 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
         )
     }
     return (
-        <Tooltip
-            content="Kopier lenken til tavlen"
-            placement="bottom"
-            id="tooltip-copy-link-board"
-        >
+        <Tooltip content="Kopier lenken til tavlen" placement="bottom">
             <IconButton aria-label="Kopier lenken til tavlen" onClick={copy}>
                 <CopyIcon />
             </IconButton>
