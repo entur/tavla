@@ -6,6 +6,7 @@ import useSWR from 'swr'
 type TUseQueryOptions = {
     poll: boolean
     endpoint: TEndpointNames
+    offset?: number
 }
 
 export function useQuery<Data, Variables>(
@@ -20,7 +21,7 @@ export function useQuery<Data, Variables>(
     }
 
     const { data, error, isLoading } = useSWR<Data>(
-        [query, variables, mergedOptions.endpoint],
+        [query, variables, mergedOptions.endpoint, mergedOptions.offset ?? 0],
         fetcher,
         {
             revalidateOnFocus: true,
