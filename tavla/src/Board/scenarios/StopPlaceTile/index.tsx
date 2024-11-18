@@ -1,6 +1,6 @@
 import { TStopPlaceTile } from 'types/tile'
 import { Table } from '../Table'
-import { StopPlaceQuery } from 'graphql/index'
+import { StopPlaceQuery, TStopPlaceQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
@@ -15,8 +15,9 @@ export function StopPlaceTile({
     walkingDistance,
     offset,
     displayName,
-}: TStopPlaceTile) {
-    const { data } = useQuery(
+    data: initialData,
+}: TStopPlaceTile & { data?: TStopPlaceQuery }) {
+    const { data, isLoading, error } = useQuery(
         StopPlaceQuery,
         {
             stopPlaceId: placeId,
@@ -26,10 +27,10 @@ export function StopPlaceTile({
                 addMinutesToDate(new Date(), offset ?? 0),
             ),
         },
-        { poll: true },
+        { poll: true, fallbackData: initialData },
     )
 
-    if (!data) {
+    if (isLoading && !data) {
         return (
             <Tile>
                 <TileLoader />
@@ -37,7 +38,11 @@ export function StopPlaceTile({
         )
     }
 
-    if (!data.stopPlace) {
+    if (error) {
+        return <Tile>Error loading data</Tile>
+    }
+
+    if (!data || !data.stopPlace) {
         return <Tile>Data not found</Tile>
     }
 
