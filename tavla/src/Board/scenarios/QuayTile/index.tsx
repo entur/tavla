@@ -7,6 +7,7 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
 import { addMinutesToDate, formatDateToISO } from 'utils/time'
+import { DataFetchingFailed } from 'Board/components/DataFetchingFailed'
 
 export function QuayTile({
     placeId,
@@ -17,7 +18,7 @@ export function QuayTile({
     offset,
     displayName,
 }: TQuayTile) {
-    const { data } = useQuery(
+    const { data, isLoading } = useQuery(
         GetQuayQuery,
         {
             quayId: placeId,
@@ -30,7 +31,7 @@ export function QuayTile({
         { poll: true },
     )
 
-    if (!data) {
+    if (isLoading) {
         return (
             <Tile>
                 <TileLoader />
@@ -38,8 +39,12 @@ export function QuayTile({
         )
     }
 
-    if (!data.quay) {
-        return <Tile>Data not found</Tile>
+    if (!data || !data.quay) {
+        return (
+            <Tile>
+                <DataFetchingFailed />
+            </Tile>
+        )
     }
 
     const heading: string = [data.quay.name, data.quay.publicCode]

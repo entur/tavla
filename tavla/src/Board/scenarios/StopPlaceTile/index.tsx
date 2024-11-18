@@ -6,6 +6,7 @@ import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
 import { addMinutesToDate, formatDateToISO } from 'utils/time'
+import { DataFetchingFailed } from 'Board/components/DataFetchingFailed'
 
 export function StopPlaceTile({
     placeId,
@@ -16,7 +17,7 @@ export function StopPlaceTile({
     offset,
     displayName,
 }: TStopPlaceTile) {
-    const { data } = useQuery(
+    const { data, isLoading } = useQuery(
         StopPlaceQuery,
         {
             stopPlaceId: placeId,
@@ -29,7 +30,7 @@ export function StopPlaceTile({
         { poll: true },
     )
 
-    if (!data) {
+    if (isLoading) {
         return (
             <Tile>
                 <TileLoader />
@@ -37,8 +38,12 @@ export function StopPlaceTile({
         )
     }
 
-    if (!data.stopPlace) {
-        return <Tile>Data not found</Tile>
+    if (!data || !data.stopPlace) {
+        return (
+            <Tile>
+                <DataFetchingFailed />
+            </Tile>
+        )
     }
 
     return (
