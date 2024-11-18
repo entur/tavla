@@ -6,7 +6,6 @@ import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
-import { addMinutesToDate, formatDateToISO } from 'utils/time'
 
 export function QuayTile({
     placeId,
@@ -23,11 +22,8 @@ export function QuayTile({
             quayId: placeId,
             whitelistedLines,
             whitelistedTransportModes,
-            startTime: formatDateToISO(
-                addMinutesToDate(new Date(), offset ?? 0),
-            ),
         },
-        { poll: true },
+        { poll: true, offset: offset ?? 0 },
     )
 
     if (!data) {
