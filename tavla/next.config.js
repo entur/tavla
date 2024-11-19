@@ -20,9 +20,7 @@ const nextConfig = {
             },
         ],
     },
-    experimental: {
-        serverComponentsExternalPackages: ['pino', 'pino-pretty'],
-    },
+    serverExternalPackages: ['pino', 'pino-pretty'],
 }
 
 module.exports = async (phase, { defaultConfig }) => {
