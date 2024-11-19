@@ -10,7 +10,6 @@ import {
 } from '@entur/typography'
 import { PreviewCarousel } from './components/PreviewCarousel'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
-import { Welcome } from './components/Welcome'
 import { Link as EnturLink } from '@entur/typography'
 import { CreateUserButtonLanding } from './components/CreateUserButtonLanding'
 import { DemoButton } from './components/DemoButtonLanding'
@@ -28,7 +27,6 @@ async function Landing() {
     const loggedIn = (await verifySession(session)) !== null
     return (
         <main>
-            <Welcome />
             <div className="bg-secondary">
                 <div className="flex flex-col container py-12 gap-10 lg:flex-row justify-center">
                     <div className="flex flex-col lg:w-3/4 xl:w-1/2">

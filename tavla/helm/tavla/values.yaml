@@ -7,9 +7,6 @@ common:
         trafficType: public
     service:
         internalPort: 3000
-    deployment:
-        prometheus:
-            path: /actuator/prometheus
     container:
         image: <+artifacts.primary.image>
         cpu: 0.3

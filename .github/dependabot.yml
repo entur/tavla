@@ -3,8 +3,9 @@ updates:
     - package-ecosystem: "npm"
       directory: "/tavla"
       schedule:
-          interval: "daily"
-          time: "10:00"
+          interval: "weekly"
+          day: "monday"
+          time: "08:00"
           timezone: "Europe/Amsterdam"
       commit-message:
           prefix: "chore(deps):"
