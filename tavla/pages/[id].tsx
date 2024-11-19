@@ -12,15 +12,10 @@ import Head from 'next/head'
 import { useEffect } from 'react'
 import { fetchQuery } from 'graphql/utils'
 import { addMinutesToDate, formatDateToISO } from 'utils/time'
-import {
-    TGetQuayQuery,
-    TGetQuayQueryVariables,
-    TStopPlaceQuery,
-    TStopPlaceQueryVariables,
-    TypedDocumentString,
-} from 'graphql/index'
+import { TGetQuayQuery, TStopPlaceQuery } from 'graphql/index'
 import { isUnsupportedBrowser } from 'utils/browserDetection'
 import { GetServerSideProps } from 'next'
+import { SSRQuayQuery, SSRStopPlaceQuery } from 'graphql/ssrQueries'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { params, req } = context
@@ -105,6 +100,7 @@ function BoardPage({
 export default BoardPage
 
 // Fetch data for each tile on the board
+// Used for server side rendering on unsupported browsers
 const getTileData = async (board: TBoard) => {
     const tileData = await Promise.all(
         board.tiles.map(async (tile) => {
@@ -117,7 +113,7 @@ const getTileData = async (board: TBoard) => {
                         addMinutesToDate(new Date(), tile.offset ?? 0),
                     ),
                 }
-                const data = await fetchQuery(StopPlaceQuery, variables)
+                const data = await fetchQuery(SSRStopPlaceQuery, variables)
                 return data
             } else if (tile.type === 'quay') {
                 const variables = {
@@ -128,7 +124,7 @@ const getTileData = async (board: TBoard) => {
                         addMinutesToDate(new Date(), tile.offset ?? 0),
                     ),
                 }
-                const data = await fetchQuery(QuayQuery, variables)
+                const data = await fetchQuery(SSRQuayQuery, variables)
                 return data
             } else {
                 return null
@@ -137,138 +133,3 @@ const getTileData = async (board: TBoard) => {
     )
     return tileData
 }
-
-const StopPlaceQuery = `
-        query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20, $startTime: DateTime) {
-      stopPlace(id: $stopPlaceId) {
-        name
-        transportMode
-        estimatedCalls(
-          numberOfDepartures: $numberOfDepartures
-          whiteListedModes: $whitelistedTransportModes
-          whiteListed: {lines: $whitelistedLines}
-          includeCancelledTrips: true
-          startTime: $startTime
-        ) {
-          ...departure
-        }
-        situations {
-          ...situation
-        }
-      }
-    }
-        fragment departure on EstimatedCall {
-      quay {
-        publicCode
-      }
-      destinationDisplay {
-        frontText
-        via
-      }
-      aimedDepartureTime
-      expectedDepartureTime
-      expectedArrivalTime
-      serviceJourney {
-        id
-        transportMode
-        transportSubmode
-        line {
-          id
-          publicCode
-          presentation {
-            textColour
-            colour
-          }
-        }
-      }
-      cancellation
-      realtime
-      situations {
-        ...situation
-      }
-    }
-    fragment situation on PtSituationElement {
-      id
-      description {
-        value
-        language
-      }
-      summary {
-        value
-        language
-      }
-    }` as unknown as TypedDocumentString<
-    TStopPlaceQuery,
-    TStopPlaceQueryVariables
->
-
-const QuayQuery = `
-    query getQuay($quayId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20, $startTime: DateTime) {
-  quay(id: $quayId) {
-    name
-    description
-    publicCode
-    ...lines
-    estimatedCalls(
-      numberOfDepartures: $numberOfDepartures
-      whiteListedModes: $whitelistedTransportModes
-      whiteListed: {lines: $whitelistedLines}
-      includeCancelledTrips: true
-      startTime: $startTime
-    ) {
-      ...departure
-    }
-    situations {
-      ...situation
-    }
-  }
-}
-    fragment departure on EstimatedCall {
-  quay {
-    publicCode
-  }
-  destinationDisplay {
-    frontText
-    via
-  }
-  aimedDepartureTime
-  expectedDepartureTime
-  expectedArrivalTime
-  serviceJourney {
-    id
-    transportMode
-    transportSubmode
-    line {
-      id
-      publicCode
-      presentation {
-        textColour
-        colour
-      }
-    }
-  }
-  cancellation
-  realtime
-  situations {
-    ...situation
-  }
-}
-fragment lines on Quay {
-  lines {
-    id
-    publicCode
-    name
-    transportMode
-  }
-}
-fragment situation on PtSituationElement {
-  id
-  description {
-    value
-    language
-  }
-  summary {
-    value
-    language
-  }
-}` as unknown as TypedDocumentString<TGetQuayQuery, TGetQuayQueryVariables>
