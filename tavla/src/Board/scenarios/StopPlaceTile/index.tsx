@@ -6,6 +6,7 @@ import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
 import { addMinutesToDate, formatDateToISO } from 'utils/time'
+import { TTheme } from 'types/settings'
 
 export function StopPlaceTile({
     placeId,
@@ -16,7 +17,8 @@ export function StopPlaceTile({
     offset,
     displayName,
     data: initialData,
-}: TStopPlaceTile & { data?: TStopPlaceQuery }) {
+    theme,
+}: TStopPlaceTile & { data?: TStopPlaceQuery; theme?: TTheme }) {
     const { data, isLoading, error } = useQuery(
         StopPlaceQuery,
         {
@@ -56,6 +58,7 @@ export function StopPlaceTile({
                 departures={data.stopPlace.estimatedCalls}
                 situations={data.stopPlace.situations}
                 columns={columns}
+                theme={theme}
             />
         </Tile>
     )

@@ -91,7 +91,7 @@ function BoardPage({
                     theme={updatedBoard.theme}
                     organizationLogo={organization?.logo}
                 />
-                <Board board={board} data={tileData} />
+                <Board board={updatedBoard} data={tileData} />
                 <Footer
                     board={updatedBoard}
                     logo={organization?.logo !== undefined}

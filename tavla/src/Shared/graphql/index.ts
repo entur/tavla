@@ -74,16 +74,16 @@ export type TSituationFragment = {
 }
 
 export type TGetQuayQueryVariables = Types.Exact<{
-    quayId: Types.Scalars['String']
+    quayId: Types.Scalars['String']['input']
     whitelistedTransportModes?: Types.InputMaybe<
         | Array<Types.InputMaybe<Types.TTransportMode>>
         | Types.InputMaybe<Types.TTransportMode>
     >
     whitelistedLines?: Types.InputMaybe<
-        Array<Types.Scalars['ID']> | Types.Scalars['ID']
+        Array<Types.Scalars['ID']['input']> | Types.Scalars['ID']['input']
     >
-    numberOfDepartures?: Types.InputMaybe<Types.Scalars['Int']>
-    startTime?: Types.InputMaybe<Types.Scalars['DateTime']>
+    numberOfDepartures?: Types.InputMaybe<Types.Scalars['Int']['input']>
+    startTime?: Types.InputMaybe<Types.Scalars['DateTime']['input']>
 }>
 
 export type TGetQuayQuery = {
@@ -162,7 +162,7 @@ export type TGetQuayQuery = {
 }
 
 export type TQuayCoordinatesQueryVariables = Types.Exact<{
-    id: Types.Scalars['String']
+    id: Types.Scalars['String']['input']
 }>
 
 export type TQuayCoordinatesQuery = {
@@ -176,7 +176,7 @@ export type TQuayCoordinatesQuery = {
 }
 
 export type TQuayEditQueryVariables = Types.Exact<{
-    placeId: Types.Scalars['String']
+    placeId: Types.Scalars['String']['input']
 }>
 
 export type TQuayEditQuery = {
@@ -194,7 +194,7 @@ export type TQuayEditQuery = {
 }
 
 export type TQuayNameQueryVariables = Types.Exact<{
-    id: Types.Scalars['String']
+    id: Types.Scalars['String']['input']
 }>
 
 export type TQuayNameQuery = {
@@ -209,7 +209,7 @@ export type TQuayNameQuery = {
 }
 
 export type TQuaysSearchQueryVariables = Types.Exact<{
-    stopPlaceId: Types.Scalars['String']
+    stopPlaceId: Types.Scalars['String']['input']
 }>
 
 export type TQuaysSearchQuery = {
@@ -237,16 +237,16 @@ export type TQuaysSearchQuery = {
 }
 
 export type TStopPlaceQueryVariables = Types.Exact<{
-    stopPlaceId: Types.Scalars['String']
+    stopPlaceId: Types.Scalars['String']['input']
     whitelistedTransportModes?: Types.InputMaybe<
         | Array<Types.InputMaybe<Types.TTransportMode>>
         | Types.InputMaybe<Types.TTransportMode>
     >
     whitelistedLines?: Types.InputMaybe<
-        Array<Types.Scalars['ID']> | Types.Scalars['ID']
+        Array<Types.Scalars['ID']['input']> | Types.Scalars['ID']['input']
     >
-    numberOfDepartures?: Types.InputMaybe<Types.Scalars['Int']>
-    startTime?: Types.InputMaybe<Types.Scalars['DateTime']>
+    numberOfDepartures?: Types.InputMaybe<Types.Scalars['Int']['input']>
+    startTime?: Types.InputMaybe<Types.Scalars['DateTime']['input']>
 }>
 
 export type TStopPlaceQuery = {
@@ -317,7 +317,7 @@ export type TStopPlaceQuery = {
 }
 
 export type TStopPlaceCoordinatesQueryVariables = Types.Exact<{
-    id: Types.Scalars['String']
+    id: Types.Scalars['String']['input']
 }>
 
 export type TStopPlaceCoordinatesQuery = {
@@ -331,7 +331,7 @@ export type TStopPlaceCoordinatesQuery = {
 }
 
 export type TStopPlaceEditQueryVariables = Types.Exact<{
-    placeId: Types.Scalars['String']
+    placeId: Types.Scalars['String']['input']
 }>
 
 export type TStopPlaceEditQuery = {
@@ -353,7 +353,7 @@ export type TStopPlaceEditQuery = {
 }
 
 export type TStopPlaceNameQueryVariables = Types.Exact<{
-    id: Types.Scalars['String']
+    id: Types.Scalars['String']['input']
 }>
 
 export type TStopPlaceNameQuery = {
