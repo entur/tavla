@@ -1,4 +1,4 @@
-import { TBoard } from 'types/settings'
+import { TBoard, TTheme } from 'types/settings'
 import { TTile } from 'types/tile'
 import { StopPlaceTile } from '../StopPlaceTile'
 import { QuayTile } from '../QuayTile'
@@ -10,9 +10,11 @@ import { TGetQuayQuery, TStopPlaceQuery } from 'graphql/index'
 function BoardTile({
     tileSpec,
     data,
+    theme,
 }: {
     tileSpec: TTile
     data?: TStopPlaceQuery | TGetQuayQuery | null
+    theme: TTheme
 }) {
     switch (tileSpec.type) {
         case 'stop_place':
@@ -20,6 +22,7 @@ function BoardTile({
                 <StopPlaceTile
                     {...tileSpec}
                     data={data as TStopPlaceQuery | undefined}
+                    theme={theme}
                 />
             )
         case 'quay':
@@ -27,6 +30,7 @@ function BoardTile({
                 <QuayTile
                     {...tileSpec}
                     data={data as TGetQuayQuery | undefined}
+                    theme={theme}
                 />
             )
     }
@@ -63,6 +67,7 @@ function Board({
                         key={index}
                         tileSpec={tile}
                         data={data ? data[index] : undefined}
+                        theme={board.theme || 'dark'}
                     />
                 )
             })}

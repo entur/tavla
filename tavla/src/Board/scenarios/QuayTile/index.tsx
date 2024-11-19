@@ -7,6 +7,7 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
 import { addMinutesToDate, formatDateToISO } from 'utils/time'
+import { TTheme } from 'types/settings'
 
 export function QuayTile({
     placeId,
@@ -17,7 +18,8 @@ export function QuayTile({
     offset,
     displayName,
     data: initialData,
-}: TQuayTile & { data?: TGetQuayQuery }) {
+    theme,
+}: TQuayTile & { data?: TGetQuayQuery; theme: TTheme }) {
     const { data, isLoading, error } = useQuery(
         GetQuayQuery,
         {
@@ -64,6 +66,7 @@ export function QuayTile({
                 columns={columns}
                 departures={data.quay.estimatedCalls}
                 situations={data.quay.situations}
+                theme={theme}
             />
         </Tile>
     )
