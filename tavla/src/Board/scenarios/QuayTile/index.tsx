@@ -18,7 +18,7 @@ export function QuayTile({
     offset,
     displayName,
 }: TQuayTile) {
-    const { data, isLoading } = useQuery(
+    const { data, error, isLoading } = useQuery(
         GetQuayQuery,
         {
             quayId: placeId,
@@ -30,11 +30,25 @@ export function QuayTile({
         },
         { poll: true },
     )
-
     if (isLoading) {
         return (
             <Tile>
                 <TileLoader />
+            </Tile>
+        )
+    }
+
+    if (error) {
+        if (error.message == 'Request timed out') {
+            return (
+                <Tile>
+                    <DataFetchingFailed timeout={true} />
+                </Tile>
+            )
+        }
+        return (
+            <Tile>
+                <DataFetchingFailed />
             </Tile>
         )
     }

@@ -17,7 +17,7 @@ export function StopPlaceTile({
     offset,
     displayName,
 }: TStopPlaceTile) {
-    const { data, isLoading } = useQuery(
+    const { data, error, isLoading } = useQuery(
         StopPlaceQuery,
         {
             stopPlaceId: placeId,
@@ -34,6 +34,21 @@ export function StopPlaceTile({
         return (
             <Tile>
                 <TileLoader />
+            </Tile>
+        )
+    }
+
+    if (error) {
+        if (error.message == 'Request timed out') {
+            return (
+                <Tile>
+                    <DataFetchingFailed timeout={true} />
+                </Tile>
+            )
+        }
+        return (
+            <Tile>
+                <DataFetchingFailed />
             </Tile>
         )
     }

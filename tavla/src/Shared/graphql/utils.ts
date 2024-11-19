@@ -1,12 +1,36 @@
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS, TEndpointNames } from 'assets/env'
 import { TypedDocumentString } from './index'
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
+
+async function fetchWithTimeout(
+    url: RequestInfo | URL,
+    options: RequestInit | undefined,
+    timeout = 15000,
+) {
+    const controller = new AbortController()
+    const signal = controller.signal
+
+    const timeoutScheduler = setTimeout(() => controller.abort(), timeout)
+
+    try {
+        const response = await fetch(url, { ...options, signal })
+        clearTimeout(timeoutScheduler)
+        return response
+    } catch (error) {
+        clearTimeout(timeoutScheduler)
+        if (signal.aborted) {
+            throw new Error('Request timed out')
+        }
+        throw error
+    }
+}
 
 export async function fetcher<Data, Variables>([
     query,
     variables,
     endpointName,
 ]: [TypedDocumentString<Data, Variables>, Variables, TEndpointNames]) {
-    return fetch(GRAPHQL_ENDPOINTS[endpointName], {
+    return fetchWithTimeout(GRAPHQL_ENDPOINTS[endpointName], {
         headers: {
             'Content-Type': 'application/json',
             'ET-Client-Name': CLIENT_NAME,
