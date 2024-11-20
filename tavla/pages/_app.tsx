@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <Head>
                 <title>Entur Tavla</title>
             </Head>
-            <Component {...pageProps} />;
+            <Component {...pageProps} />
         </>
     )
 }
