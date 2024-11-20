@@ -8,14 +8,14 @@ import Document, {
 } from 'next/document'
 import { isUnsupportedBrowser } from 'utils/browserDetection'
 
-interface MyDocumentProps extends DocumentInitialProps {
+interface TavlaDocumentProps extends DocumentInitialProps {
     needsRefresh: boolean
 }
 
-class MyDocument extends Document {
+class TavlaDocument extends Document {
     static async getInitialProps(
         context: DocumentContext,
-    ): Promise<MyDocumentProps> {
+    ): Promise<TavlaDocumentProps> {
         const initialProps = await Document.getInitialProps(context)
         const ua = context.req?.headers['user-agent'] || ''
 
@@ -27,7 +27,7 @@ class MyDocument extends Document {
     }
 
     render() {
-        const { needsRefresh } = this.props as unknown as MyDocumentProps
+        const { needsRefresh } = this.props as unknown as TavlaDocumentProps
 
         return (
             <Html>
@@ -61,4 +61,4 @@ class MyDocument extends Document {
     }
 }
 
-export default MyDocument
+export default TavlaDocument
