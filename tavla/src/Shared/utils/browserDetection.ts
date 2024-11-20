@@ -23,7 +23,7 @@ export function getBrowserInfo(ua: string) {
 
     return {
         name,
-        version: version ? version.version : '0.0.0',
+        version: version?.version || '0.0.0',
     }
 }
 
