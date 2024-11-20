@@ -1,17 +1,22 @@
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS, TEndpointNames } from 'assets/env'
 import { TypedDocumentString } from './index'
+import { formatDateToISO, addMinutesToDate } from 'utils/time'
 
 export async function fetcher<Data, Variables>([
     query,
     variables,
     endpointName,
-]: [TypedDocumentString<Data, Variables>, Variables, TEndpointNames]) {
+    offset,
+]: [TypedDocumentString<Data, Variables>, Variables, TEndpointNames, number]) {
+    const startTime = formatDateToISO(addMinutesToDate(new Date(), offset))
+    const mergedVariables = { ...variables, startTime }
+
     return fetch(GRAPHQL_ENDPOINTS[endpointName], {
         headers: {
             'Content-Type': 'application/json',
             'ET-Client-Name': CLIENT_NAME,
         },
-        body: JSON.stringify({ query, variables }),
+        body: JSON.stringify({ query, variables: mergedVariables }),
         method: 'POST',
     })
         .then((res) => {
@@ -24,6 +29,7 @@ export async function fetcher<Data, Variables>([
 
 type TFetchQueryOptions = {
     endpoint: TEndpointNames
+    offset?: number
 }
 
 export async function fetchQuery<Data, Variables>(
@@ -35,5 +41,10 @@ export async function fetchQuery<Data, Variables>(
         endpoint: 'journey-planner',
         ...options,
     }
-    return fetcher([query, variables, mergedOptions.endpoint])
+    return fetcher([
+        query,
+        variables,
+        mergedOptions.endpoint,
+        mergedOptions.offset ?? 0,
+    ])
 }

@@ -5,7 +5,6 @@ import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
-import { addMinutesToDate, formatDateToISO } from 'utils/time'
 import { TTheme } from 'types/settings'
 
 export function StopPlaceTile({
@@ -25,11 +24,8 @@ export function StopPlaceTile({
             stopPlaceId: placeId,
             whitelistedTransportModes,
             whitelistedLines,
-            startTime: formatDateToISO(
-                addMinutesToDate(new Date(), offset ?? 0),
-            ),
         },
-        { poll: true, fallbackData: initialData },
+        { poll: true, offset: offset, fallbackData: initialData },
     )
 
     if (isLoading && !data) {
