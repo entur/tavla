@@ -7,12 +7,12 @@ function DataFetchingFailed({ timeout = false }) {
         <div className="w-full h-full flex flex-col items-center justify-center">
             <Image src={LeafIllustration} alt="Illustrasjon av blader" />
             <div className="w-full text-center">
-                <Heading3 className="text-primary">
+                <Heading3 className="!text-primary">
                     {timeout
                         ? 'Innlasting av avganger tok for lang tid'
                         : 'Au da! Vi greide ikke å hente avgangene!'}
                 </Heading3>
-                <Paragraph className="text-primary">
+                <Paragraph className="!text-primary">
                     Prøv å laste inn siden på nytt. Hvis dette ikke hjelper,
                     kontakt oss på tavla@entur.org
                 </Paragraph>
