@@ -6,7 +6,10 @@ import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
 import { addMinutesToDate, formatDateToISO } from 'utils/time'
-import { DataFetchingFailed } from 'Board/components/DataFetchingFailed'
+import {
+    DataFetchingFailed,
+    FetchErrorTypes,
+} from 'Board/components/DataFetchingFailed'
 
 export function StopPlaceTile({
     placeId,
@@ -42,7 +45,7 @@ export function StopPlaceTile({
         return (
             <Tile>
                 <DataFetchingFailed
-                    timeout={error?.message === 'Request timed out'}
+                    timeout={error?.message === FetchErrorTypes.TIMEOUT}
                 />
             </Tile>
         )

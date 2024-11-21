@@ -2,6 +2,10 @@ import Image from 'next/image'
 import LeafIllustration from 'assets/illustrations/leafs.svg'
 import { Heading3, Paragraph } from '@entur/typography'
 
+export enum FetchErrorTypes {
+    TIMEOUT = 'Request timed out',
+}
+
 function DataFetchingFailed({ timeout = false }) {
     return (
         <div className="w-full h-full flex flex-col items-center justify-center">

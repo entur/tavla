@@ -7,7 +7,10 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
 import { addMinutesToDate, formatDateToISO } from 'utils/time'
-import { DataFetchingFailed } from 'Board/components/DataFetchingFailed'
+import {
+    DataFetchingFailed,
+    FetchErrorTypes,
+} from 'Board/components/DataFetchingFailed'
 
 export function QuayTile({
     placeId,
@@ -42,7 +45,7 @@ export function QuayTile({
         return (
             <Tile>
                 <DataFetchingFailed
-                    timeout={error?.message === 'Request timed out'}
+                    timeout={error?.message === FetchErrorTypes.TIMEOUT}
                 />
             </Tile>
         )
