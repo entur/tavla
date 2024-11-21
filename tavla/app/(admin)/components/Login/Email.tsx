@@ -1,4 +1,5 @@
 'use client'
+import { useActionState } from 'react'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import {
     getAuth,
@@ -8,7 +9,7 @@ import {
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
 import { Heading3, Link as EnturLink } from '@entur/typography'
-import { TextField } from '@entur/form'
+
 import { Button, ButtonGroup } from '@entur/button'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
@@ -18,13 +19,13 @@ import {
     getFormFeedbackForField,
 } from '../../utils'
 
-import { useFormState } from 'react-dom'
 import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
 import { TLoginPage } from './types'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function Email() {
     const submit = async (
@@ -56,7 +57,7 @@ function Email() {
         }
     }
 
-    const [state, action] = useFormState(submit, undefined)
+    const [state, action] = useActionState(submit, undefined)
     const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
     const pathname = usePathname()
 
@@ -71,7 +72,7 @@ function Email() {
             <Heading3 margin="bottom">Logg inn med e-post</Heading3>
             <form className="flex flex-col gap-4 w-full" action={action}>
                 <div>
-                    <TextField
+                    <ClientOnlyTextField
                         name="email"
                         label="E-post"
                         type="email"
@@ -79,7 +80,7 @@ function Email() {
                     />
                 </div>
                 <div>
-                    <TextField
+                    <ClientOnlyTextField
                         name="password"
                         label="Passord"
                         type="password"

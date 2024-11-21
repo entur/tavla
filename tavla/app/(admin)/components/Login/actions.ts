@@ -9,7 +9,7 @@ import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 initializeAdminApp()
 
 export async function logout() {
-    cookies().delete('session')
+    ;(await cookies()).delete('session')
     revalidatePath('/')
     redirect('/')
 }
@@ -22,8 +22,7 @@ export async function login(token: string) {
 
     const user = await auth().verifySessionCookie(sessionCookie, true)
     if (!user.email_verified) return 'auth/unverified'
-
-    cookies().set({
+    ;(await cookies()).set({
         name: 'session',
         value: sessionCookie,
         maxAge: expiresIn,

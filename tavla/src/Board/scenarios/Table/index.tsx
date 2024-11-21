@@ -21,10 +21,12 @@ function Table({
     departures,
     columns,
     situations,
+    theme,
 }: {
     departures: TDepartureFragment[]
     columns?: TColumn[]
     situations?: TSituationFragment[]
+    theme?: string
 }) {
     if (!columns || !isArray(columns))
         return (
@@ -32,10 +34,6 @@ function Table({
                 Du har ikke lagt til noen kolonner ennå
             </div>
         )
-
-    const theme = document
-        .querySelector('[data-theme]')
-        ?.getAttribute('data-theme')
 
     if (departures.length === 0)
         return (

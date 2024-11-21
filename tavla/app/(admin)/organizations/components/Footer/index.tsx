@@ -1,10 +1,10 @@
 'use client'
 import { useToast } from '@entur/alert'
-import { TextField } from '@entur/form'
 import { Heading2, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TOrganizationID } from 'types/settings'
 import { setFooter } from './actions'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
     const { addToast } = useToast()
@@ -25,7 +25,7 @@ function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
             </Paragraph>
 
             <div className="flex flex-col justify-between h-full">
-                <TextField
+                <ClientOnlyTextField
                     label="Infomelding"
                     name="footer"
                     defaultValue={footer ?? ''}

@@ -29,7 +29,10 @@ const config: CodegenConfig = {
     },
     generates: {
         'src/Shared/types/graphql-schema.ts': {
-            plugins: ['typescript'],
+            plugins: [
+                'typescript',
+                { add: { content: '/* eslint-disable */' } },
+            ],
         },
         'src/Shared/graphql/index.ts': {
             preset: 'import-types',

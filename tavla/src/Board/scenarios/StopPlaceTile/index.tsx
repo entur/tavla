@@ -1,10 +1,11 @@
 import { TStopPlaceTile } from 'types/tile'
 import { Table } from '../Table'
-import { StopPlaceQuery } from 'graphql/index'
+import { StopPlaceQuery, TStopPlaceQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
+import { TTheme } from 'types/settings'
 
 export function StopPlaceTile({
     placeId,
@@ -14,18 +15,20 @@ export function StopPlaceTile({
     walkingDistance,
     offset,
     displayName,
-}: TStopPlaceTile) {
-    const { data } = useQuery(
+    data: initialData,
+    theme,
+}: TStopPlaceTile & { data?: TStopPlaceQuery; theme?: TTheme }) {
+    const { data, isLoading, error } = useQuery(
         StopPlaceQuery,
         {
             stopPlaceId: placeId,
             whitelistedTransportModes,
             whitelistedLines,
         },
-        { poll: true, offset: offset },
+        { poll: true, offset: offset, fallbackData: initialData },
     )
 
-    if (!data) {
+    if (isLoading && !data) {
         return (
             <Tile>
                 <TileLoader />
@@ -33,7 +36,11 @@ export function StopPlaceTile({
         )
     }
 
-    if (!data.stopPlace) {
+    if (error) {
+        return <Tile>Error loading data</Tile>
+    }
+
+    if (!data || !data.stopPlace) {
         return <Tile>Data not found</Tile>
     }
 
@@ -47,6 +54,7 @@ export function StopPlaceTile({
                 departures={data.stopPlace.estimatedCalls}
                 situations={data.stopPlace.situations}
                 columns={columns}
+                theme={theme}
             />
         </Tile>
     )
