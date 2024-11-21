@@ -17,7 +17,7 @@ function BoardTable({
     if (isEmpty(boardsWithOrg))
         return (
             <IllustratedInfo
-                title="Her var det tomt"
+                title="Her var det tomt!"
                 description="Du har ikke laget noen tavler ennå"
             >
                 <PrimaryButton as={Link} href="?board">

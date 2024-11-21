@@ -15,7 +15,7 @@ function IllustratedInfo({
         <div className="flex flex-col items-center bg-secondary rounded pb-16">
             <Image src={animals} aria-hidden="true" alt="" />
             <Heading2 className="my-4">{title}</Heading2>
-            <LeadParagraph margin="bottom">{description}</LeadParagraph>
+            <LeadParagraph className="text-center">{description}</LeadParagraph>
             {children}
         </div>
     )
