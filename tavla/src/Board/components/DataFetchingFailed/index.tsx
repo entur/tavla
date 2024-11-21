@@ -9,7 +9,7 @@ function DataFetchingFailed({ timeout = false }) {
             <div className="w-full text-center">
                 <Heading3 className="!text-primary">
                     {timeout
-                        ? 'Innlasting av avganger tok for lang tid'
+                        ? 'Innlasting av avganger tok for lang tid!'
                         : 'Au da! Vi greide ikke å hente avgangene!'}
                 </Heading3>
                 <Paragraph className="!text-primary">

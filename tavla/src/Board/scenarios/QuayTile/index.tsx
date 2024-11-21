@@ -38,25 +38,12 @@ export function QuayTile({
         )
     }
 
-    if (error) {
-        if (error.message == 'Request timed out') {
-            return (
-                <Tile>
-                    <DataFetchingFailed timeout={true} />
-                </Tile>
-            )
-        }
+    if (error || !data || !data.quay) {
         return (
             <Tile>
-                <DataFetchingFailed />
-            </Tile>
-        )
-    }
-
-    if (!data || !data.quay) {
-        return (
-            <Tile>
-                <DataFetchingFailed />
+                <DataFetchingFailed
+                    timeout={error?.message === 'Request timed out'}
+                />
             </Tile>
         )
     }

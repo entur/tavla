@@ -38,25 +38,12 @@ export function StopPlaceTile({
         )
     }
 
-    if (error) {
-        if (error.message == 'Request timed out') {
-            return (
-                <Tile>
-                    <DataFetchingFailed timeout={true} />
-                </Tile>
-            )
-        }
+    if (error || !data || !data.stopPlace) {
         return (
             <Tile>
-                <DataFetchingFailed />
-            </Tile>
-        )
-    }
-
-    if (!data || !data.stopPlace) {
-        return (
-            <Tile>
-                <DataFetchingFailed />
+                <DataFetchingFailed
+                    timeout={error?.message === 'Request timed out'}
+                />
             </Tile>
         )
     }
