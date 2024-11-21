@@ -32,7 +32,7 @@ class TavlaDocument extends Document {
         return (
             <Html>
                 <Head>
-                    {needsRefresh && <meta httpEquiv="refresh" content="60" />}
+                    {needsRefresh && <meta httpEquiv="refresh" content="45" />}
                     <link
                         rel="apple-touch-icon"
                         sizes="180x180"
