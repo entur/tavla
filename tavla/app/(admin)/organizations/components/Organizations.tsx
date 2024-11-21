@@ -6,9 +6,7 @@ import NextLink from 'next/link'
 import { Actions } from './Actions'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
 import { isEmpty } from 'lodash'
-import { PrimaryButton } from '@entur/button'
-import { AddIcon } from '@entur/icons'
-import { CreateBoard } from 'app/(admin)/components/CreateBoard'
+import { CreateOrganization } from './CreateOrganization'
 
 function Organizations({
     userId,
@@ -23,9 +21,7 @@ function Organizations({
                 title="Her var det tomt!"
                 description="Du har ikke opprettet noen organisasjoner ennå."
             >
-                <PrimaryButton as={Link} href="?create">
-                    Opprett organisasjon <AddIcon /> <CreateBoard />
-                </PrimaryButton>
+                <CreateOrganization />
             </IllustratedInfo>
         )
     return (
