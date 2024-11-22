@@ -6,13 +6,11 @@ import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
-import { addMinutesToDate, formatDateToISO } from 'utils/time'
 import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
 import { TTheme } from 'types/settings'
-
 
 export function QuayTile({
     placeId,

@@ -5,7 +5,6 @@ import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
-import { addMinutesToDate, formatDateToISO } from 'utils/time'
 import {
     DataFetchingFailed,
     FetchErrorTypes,
@@ -32,7 +31,6 @@ export function StopPlaceTile({
         },
         { poll: true, offset: offset, fallbackData: initialData },
     )
-
 
     if (isLoading && !data) {
         return (
