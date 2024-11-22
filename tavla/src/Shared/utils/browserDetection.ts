@@ -3,45 +3,53 @@ import { UAParser } from 'ua-parser-js'
 
 /* Browser helpers */
 
-// Minimum versions for each browser
-// If lower version, the page will refresh every 60 seconds
+// Minimum versions for each browser and engine in full semver format
 const MIN_VERSIONS: { [key: string]: string } = {
-    chrome: '60',
-    firefox: '55',
-    edge: '80',
-    safari: '11.1',
+    chrome: '60.0.0',
+    firefox: '55.0.0',
+    edge: '80.0.0',
+    safari: '11.1.0',
+    webkit: '605.1.15', // Safari 11.1.0
 }
 
-// Function to get browser name and version
-export function getBrowserInfo(ua: string) {
-    const parser = UAParser(ua)
-    const browser = parser.browser || {}
-
-    const name = browser.name ? browser.name.toLowerCase() : 'unknown'
-    const versionString = browser.version || '0.0.0'
-    const version = semver.coerce(versionString)
-
-    return {
-        name,
-        version: version?.version || '0.0.0',
-    }
+// Map engine names to browser names for minimum version lookup
+const ENGINE_TO_BROWSER: { [key: string]: string } = {
+    blink: 'chrome',
+    webkit: 'webkit',
+    gecko: 'firefox',
 }
 
-// Function to check if the browser is unsupported for running the board
+// Function to check if the browser is unsupported
 export function isUnsupportedBrowser(ua: string): boolean {
-    const { name, version } = getBrowserInfo(ua)
+    const parser = UAParser(ua)
+    const browserName = parser.browser?.name?.toLowerCase() || 'unknown'
+    const browserVersion = parser.browser?.version || '0.0.0'
+    const engineName = parser.engine?.name?.toLowerCase() || 'unknown'
+    const engineVersion = parser.engine?.version || '0.0.0'
 
-    if (name in MIN_VERSIONS) {
-        const minVersion = MIN_VERSIONS[name]
-        if (minVersion && isVersionLower(version, minVersion)) {
-            return true
+    // Initialize minVersion and currentVersion
+    let minVersion = MIN_VERSIONS[browserName]
+    let currentVersion = browserVersion
+
+    // If minVersion not found using browserName, try engineName
+    if (!minVersion) {
+        const mappedBrowserName = ENGINE_TO_BROWSER[engineName]
+        if (mappedBrowserName) {
+            minVersion = MIN_VERSIONS[mappedBrowserName]
+            currentVersion = engineVersion
         }
     }
 
+    // Compare the current version with the minimum required version
+    if (minVersion) {
+        return isVersionLower(currentVersion, minVersion)
+    }
+
+    // Default to supported if no minimum version info is found
     return false
 }
 
-// Function to compare versions of browsers
+// Function to compare versions of browsers or engines
 function isVersionLower(currentVersion: string, minVersion: string): boolean {
     const current = semver.coerce(currentVersion)
     const min = semver.coerce(minVersion)
