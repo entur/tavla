@@ -1,8 +1,8 @@
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS, TEndpointNames } from 'assets/env'
 import { TypedDocumentString } from './index'
-
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import { formatDateToISO, addMinutesToDate } from 'utils/time'
+import { FetchErrorTypes } from 'Board/components/DataFetchingFailed'
 
 async function fetchWithTimeout(
     url: RequestInfo | URL,
@@ -21,7 +21,7 @@ async function fetchWithTimeout(
     } catch (error) {
         clearTimeout(timeoutScheduler)
         if (signal.aborted) {
-            throw new Error('Request timed out')
+            throw new Error(FetchErrorTypes.TIMEOUT)
         }
         throw error
     }
