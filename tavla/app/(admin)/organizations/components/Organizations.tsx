@@ -6,6 +6,7 @@ import NextLink from 'next/link'
 import { Actions } from './Actions'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
 import { isEmpty } from 'lodash'
+import { CreateOrganization } from './CreateOrganization'
 
 function Organizations({
     userId,
@@ -17,9 +18,11 @@ function Organizations({
     if (isEmpty(organizations))
         return (
             <IllustratedInfo
-                title="Her var det tomt"
-                description="Du er ikke en del av noen organisasjoner ennå"
-            />
+                title="Her var det tomt!"
+                description="Du har ikke opprettet noen organisasjoner ennå."
+            >
+                <CreateOrganization />
+            </IllustratedInfo>
         )
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
