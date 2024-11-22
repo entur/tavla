@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 async function OrganizationsPage() {
-    const session = cookies().get('session')
+    const session = (await cookies()).get('session')
     const user = await verifySession(session?.value)
 
     if (!user) redirect('/#login')

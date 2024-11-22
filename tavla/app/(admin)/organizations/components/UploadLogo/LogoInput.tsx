@@ -1,11 +1,11 @@
 'use client'
-import { ChangeEventHandler, useState } from 'react'
+import { ChangeEventHandler, useActionState, useState } from 'react'
 import { ImageIcon, UploadIcon } from '@entur/icons'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { Label, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormStatus } from 'react-dom'
 import { upload } from './actions'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TOrganizationID } from 'types/settings'
@@ -13,7 +13,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { Loader } from '@entur/loader'
 
 function LogoInput({ oid }: { oid?: TOrganizationID }) {
-    const [state, action] = useFormState(upload, undefined)
+    const [state, action] = useActionState(upload, undefined)
     const [file, setFile] = useState('')
     const [fileName, setFileName] = useState<string>()
 

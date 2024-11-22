@@ -1,9 +1,9 @@
 'use client'
+import { useActionState } from 'react'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
 import { Heading3 } from '@entur/typography'
 import { create } from './actions'
-import { TextField } from '@entur/form'
 import {
     createUserWithEmailAndPassword,
     getAuth,
@@ -17,12 +17,12 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { FirebaseError } from 'firebase/app'
-import { useFormState } from 'react-dom'
 import { FormError } from '../FormError'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePathname } from 'next/navigation'
 import { Button, ButtonGroup } from '@entur/button'
 import Link from 'next/link'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function Create() {
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
@@ -49,7 +49,7 @@ function Create() {
             }
         }
     }
-    const [state, action] = useFormState(submit, undefined)
+    const [state, action] = useActionState(submit, undefined)
     const pathname = usePathname()
 
     return (
@@ -64,7 +64,7 @@ function Create() {
             <Heading3 margin="bottom">Opprett ny bruker</Heading3>
             <form className="flex flex-col gap-4 w-full" action={action}>
                 <div>
-                    <TextField
+                    <ClientOnlyTextField
                         name="email"
                         label="E-post"
                         type="email"
@@ -72,7 +72,7 @@ function Create() {
                     />
                 </div>
                 <div>
-                    <TextField
+                    <ClientOnlyTextField
                         name="password"
                         label="Passord"
                         type="password"
@@ -80,7 +80,7 @@ function Create() {
                     />
                 </div>
                 <div>
-                    <TextField
+                    <ClientOnlyTextField
                         name="repeat_password"
                         label="Gjenta passord"
                         type="password"

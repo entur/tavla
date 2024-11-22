@@ -1,5 +1,5 @@
 'use client'
-import { Checkbox, TextField } from '@entur/form'
+import { Checkbox } from '@entur/form'
 import { Heading3 } from '@entur/typography'
 import { TFontSize, TMeta } from 'types/meta'
 import { moveBoard, saveFont, saveTitle } from './actions'
@@ -18,6 +18,8 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 
 function MetaSettings({
     bid,
@@ -51,7 +53,7 @@ function MetaSettings({
             >
                 <Heading3 margin="bottom">Navn</Heading3>
                 <div className="h-full">
-                    <TextField
+                    <ClientOnlyTextField
                         name="name"
                         className="w-full"
                         defaultValue={meta?.title ?? DEFAULT_BOARD_NAME}
@@ -103,17 +105,19 @@ function MetaSettings({
                 className="box flex flex-col"
             >
                 <Heading3 margin="bottom">Organisasjon</Heading3>
-                <Dropdown
-                    items={organizations}
-                    label="Dine organisasjoner"
-                    selectedItem={selectedOrganization}
-                    onChange={setSelectedOrganization}
-                    clearable
-                    className="mb-4"
-                    aria-required="true"
-                    disabled={personal}
-                    {...getFormFeedbackForField('organization', state)}
-                />
+                <ClientOnly>
+                    <Dropdown
+                        items={organizations}
+                        label="Dine organisasjoner"
+                        selectedItem={selectedOrganization}
+                        onChange={setSelectedOrganization}
+                        clearable
+                        className="mb-4"
+                        aria-required="true"
+                        disabled={personal}
+                        {...getFormFeedbackForField('organization', state)}
+                    />
+                </ClientOnly>
                 <Checkbox
                     checked={personal}
                     onChange={() => setPersonal(!personal)}

@@ -23,7 +23,11 @@ function Actions({ board }: { board: TBoard }) {
 
 function Edit({ bid }: { bid?: string }) {
     return (
-        <Tooltip content="Rediger tavle" placement="bottom">
+        <Tooltip
+            content="Rediger tavle"
+            placement="bottom"
+            id="tooltip-edit-board"
+        >
             <IconButton
                 as={Link}
                 aria-label="Rediger tavle"

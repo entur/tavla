@@ -1,6 +1,6 @@
 import { TQuayTile } from 'types/tile'
 import { Table } from '../Table'
-import { GetQuayQuery } from 'graphql/index'
+import { GetQuayQuery, TGetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
@@ -11,6 +11,8 @@ import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
+import { TTheme } from 'types/settings'
+
 
 export function QuayTile({
     placeId,
@@ -20,20 +22,20 @@ export function QuayTile({
     walkingDistance,
     offset,
     displayName,
-}: TQuayTile) {
-    const { data, error, isLoading } = useQuery(
+    data: initialData,
+    theme,
+}: TQuayTile & { data?: TGetQuayQuery; theme: TTheme }) {
+    const { data, isLoading, error } = useQuery(
         GetQuayQuery,
         {
             quayId: placeId,
             whitelistedLines,
             whitelistedTransportModes,
-            startTime: formatDateToISO(
-                addMinutesToDate(new Date(), offset ?? 0),
-            ),
         },
-        { poll: true },
+        { poll: true, offset: offset ?? 0, fallbackData: initialData },
     )
-    if (isLoading) {
+
+    if (isLoading && !data) {
         return (
             <Tile>
                 <TileLoader />
@@ -65,6 +67,7 @@ export function QuayTile({
                 columns={columns}
                 departures={data.quay.estimatedCalls}
                 situations={data.quay.situations}
+                theme={theme}
             />
         </Tile>
     )

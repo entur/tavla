@@ -66,6 +66,7 @@ function Tags({
                                 content={
                                     <TagList tags={tags.slice(displayNumber)} />
                                 }
+                                id="tooltip-tags"
                             >
                                 <Badge variant="neutral">
                                     + {hiddenNumber}
