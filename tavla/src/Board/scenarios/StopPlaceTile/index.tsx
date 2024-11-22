@@ -5,6 +5,10 @@ import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
+import {
+    DataFetchingFailed,
+    FetchErrorTypes,
+} from 'Board/components/DataFetchingFailed'
 import { TTheme } from 'types/settings'
 
 export function StopPlaceTile({
@@ -36,12 +40,14 @@ export function StopPlaceTile({
         )
     }
 
-    if (error) {
-        return <Tile>Error loading data</Tile>
-    }
-
-    if (!data || !data.stopPlace) {
-        return <Tile>Data not found</Tile>
+    if (error || !data || !data.stopPlace) {
+        return (
+            <Tile>
+                <DataFetchingFailed
+                    timeout={error?.message === FetchErrorTypes.TIMEOUT}
+                />
+            </Tile>
+        )
     }
 
     return (

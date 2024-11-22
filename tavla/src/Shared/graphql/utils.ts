@@ -1,6 +1,31 @@
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS, TEndpointNames } from 'assets/env'
 import { TypedDocumentString } from './index'
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import { formatDateToISO, addMinutesToDate } from 'utils/time'
+import { FetchErrorTypes } from 'Board/components/DataFetchingFailed'
+
+async function fetchWithTimeout(
+    url: RequestInfo | URL,
+    options: RequestInit | undefined,
+    timeout = 15000,
+) {
+    const controller = new AbortController()
+    const signal = controller.signal
+
+    const timeoutScheduler = setTimeout(() => controller.abort(), timeout)
+
+    try {
+        const response = await fetch(url, { ...options, signal })
+        clearTimeout(timeoutScheduler)
+        return response
+    } catch (error) {
+        clearTimeout(timeoutScheduler)
+        if (signal.aborted) {
+            throw new Error(FetchErrorTypes.TIMEOUT)
+        }
+        throw error
+    }
+}
 
 export async function fetcher<Data, Variables>([
     query,
@@ -11,7 +36,7 @@ export async function fetcher<Data, Variables>([
     const startTime = formatDateToISO(addMinutesToDate(new Date(), offset))
     const mergedVariables = { ...variables, startTime }
 
-    return fetch(GRAPHQL_ENDPOINTS[endpointName], {
+    return fetchWithTimeout(GRAPHQL_ENDPOINTS[endpointName], {
         headers: {
             'Content-Type': 'application/json',
             'ET-Client-Name': CLIENT_NAME,

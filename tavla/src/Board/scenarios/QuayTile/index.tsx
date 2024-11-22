@@ -6,6 +6,10 @@ import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { TileLoader } from 'Board/components/TileLoader'
 import { useQuery } from 'hooks/useQuery'
+import {
+    DataFetchingFailed,
+    FetchErrorTypes,
+} from 'Board/components/DataFetchingFailed'
 import { TTheme } from 'types/settings'
 
 export function QuayTile({
@@ -37,12 +41,14 @@ export function QuayTile({
         )
     }
 
-    if (error) {
-        return <Tile>Error loading data</Tile>
-    }
-
-    if (!data || !data.quay) {
-        return <Tile>Data not found</Tile>
+    if (error || !data || !data.quay) {
+        return (
+            <Tile>
+                <DataFetchingFailed
+                    timeout={error?.message === FetchErrorTypes.TIMEOUT}
+                />
+            </Tile>
+        )
     }
 
     const heading: string = [data.quay.name, data.quay.publicCode]
