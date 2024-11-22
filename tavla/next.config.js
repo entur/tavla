@@ -1,4 +1,5 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
+const { withSentryConfig } = require("@sentry/nextjs");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,6 +21,9 @@ const nextConfig = {
             },
         ],
     },
+    experimental: {
+        instrumentationHook: true,
+      },
 }
 
 module.exports = async (phase, { defaultConfig }) => {
@@ -36,3 +40,19 @@ module.exports = async (phase, { defaultConfig }) => {
 
     return nextConfig
 }
+
+module.exports = withSentryConfig(nextConfig, {
+    // For all available options, see:
+    // https://github.com/getsentry/sentry-webpack-plugin#options
+
+    org: "entur",
+    project: "tavla",
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+    silent: !process.env.CI,
+
+    // For all available options, see:
+    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+    hideSourceMaps: true,
+    disableLogger: true, 
+  }
+);

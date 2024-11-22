@@ -24,6 +24,12 @@ common:
                       name: slack-webhook
                       key: url
 
+            - name: SENTRY_AUTH_TOKEN
+              valueFrom:
+                  secretKeyRef:
+                      name: sentry
+                      key: auth-token
+
         probes:
             enabled: true
             spec:

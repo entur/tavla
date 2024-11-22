@@ -45,6 +45,7 @@
         "@firebase/database-types": "1.0.6",
         "@floating-ui/react": "0.26.25",
         "abortcontroller-polyfill": "1.7.6",
+        "@sentry/nextjs": "^8",
         "classnames": "2.5.1",
         "firebase": "11.0.1",
         "firebase-admin": "12.7.0",
