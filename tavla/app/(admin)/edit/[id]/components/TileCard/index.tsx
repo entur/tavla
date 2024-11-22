@@ -453,7 +453,15 @@ function TileCard({
                             >
                                 Lagre valg
                             </SubmitButton>
-                            <Button variant="secondary" aria-label="avbryt">
+                            <Button
+                                variant="secondary"
+                                aria-label="avbryt"
+                                type="button"
+                                onClick={() => {
+                                    if (changed) return setConfirmOpen(true)
+                                    return setIsOpen(false)
+                                }}
+                            >
                                 Avbryt
                             </Button>
                             <NegativeButton
