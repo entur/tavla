@@ -910,68 +910,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/accessibility@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "@dnd-kit/accessibility@npm:3.1.0"
-  dependencies:
-    tslib: ^2.0.0
-  peerDependencies:
-    react: ">=16.8.0"
-  checksum: fcb88c961e2f4c226ab575bc4a13712419884bb0f60761befcaa23bcb6c9939dc2cac6633416f2a07baee9a8830350c6df444039332408cdaaf27cad17c6b64b
-  languageName: node
-  linkType: hard
-
-"@dnd-kit/core@npm:6.1.0":
-  version: 6.1.0
-  resolution: "@dnd-kit/core@npm:6.1.0"
-  dependencies:
-    "@dnd-kit/accessibility": ^3.1.0
-    "@dnd-kit/utilities": ^3.2.2
-    tslib: ^2.0.0
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 3b8f46d2f4d2723abad4721c7bc4d1df2c4f6f26ce54673243666212cfa6f34f33e3255b53144a847da469dc736c966c19e4c45330f967ce8c01f8f878ec7f5b
-  languageName: node
-  linkType: hard
-
-"@dnd-kit/modifiers@npm:7.0.0":
-  version: 7.0.0
-  resolution: "@dnd-kit/modifiers@npm:7.0.0"
-  dependencies:
-    "@dnd-kit/utilities": ^3.2.2
-    tslib: ^2.0.0
-  peerDependencies:
-    "@dnd-kit/core": ^6.1.0
-    react: ">=16.8.0"
-  checksum: 176f76a552a2692a205f7fe647c836aa7ded7f0fdc3370407f3633c153139fe838cb85e59cbc3b156377cc8fe3fb7b72af15b97ed3de15cec904eae35f0c36e6
-  languageName: node
-  linkType: hard
-
-"@dnd-kit/sortable@npm:8.0.0":
-  version: 8.0.0
-  resolution: "@dnd-kit/sortable@npm:8.0.0"
-  dependencies:
-    "@dnd-kit/utilities": ^3.2.2
-    tslib: ^2.0.0
-  peerDependencies:
-    "@dnd-kit/core": ^6.1.0
-    react: ">=16.8.0"
-  checksum: 26589fd23c18d930a949489b232a7345c0bee4abb6be91d3673232bc79085f13cb5d82087c2068edbc51cbdd3d47c2fe386bada92dc7f2d0dcde13d6be379daa
-  languageName: node
-  linkType: hard
-
-"@dnd-kit/utilities@npm:3.2.2, @dnd-kit/utilities@npm:^3.2.2":
-  version: 3.2.2
-  resolution: "@dnd-kit/utilities@npm:3.2.2"
-  dependencies:
-    tslib: ^2.0.0
-  peerDependencies:
-    react: ">=16.8.0"
-  checksum: 8a5015c2faa52760ab82a64287b2ac6a3d798867a1bca5ccbc1178560dbd9a1f9f1a21faea80f590ba1a4277c3eb7e7c4d3b4a39f1f32171bf6bc8174b370547
-  languageName: node
-  linkType: hard
-
 "@electric-sql/pglite@npm:^0.2.0":
   version: 0.2.12
   resolution: "@electric-sql/pglite@npm:0.2.12"
@@ -1299,21 +1237,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/tab@npm:0.4.75":
-  version: 0.4.75
-  resolution: "@entur/tab@npm:0.4.75"
-  dependencies:
-    "@entur/tokens": ^3.17.2
-    "@entur/utils": ^0.12.0
-    "@reach/tabs": ^0.15.0
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: ba09597b3ad6f1c33352465e0ae9cb266f9c10fa8d90e06289a91945639dd47584844f5bb2545b09fd1ffa8c221ad893eef307c3c5570d4ce186e9e376b02256
-  languageName: node
-  linkType: hard
-
 "@entur/tokens@npm:3.17.2, @entur/tokens@npm:^3.17.2":
   version: 3.17.2
   resolution: "@entur/tokens@npm:3.17.2"
@@ -1369,23 +1292,6 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: b3c2fe15b6661d29898a9c9fd8747b96e43acfbcd5ba3c7c86e9f28251e713fa0745143e6c32949034d7919b7234788c90db248e2627d0b5286a3ed7b8ff80e2
-  languageName: node
-  linkType: hard
-
-"@entur/travel@npm:6.2.9":
-  version: 6.2.9
-  resolution: "@entur/travel@npm:6.2.9"
-  dependencies:
-    "@entur/form": ^8.1.5
-    "@entur/icons": ^7.4.2
-    "@entur/layout": ^2.3.18
-    "@entur/tokens": ^3.17.2
-    "@entur/utils": ^0.12.0
-    classnames: ^2.3.1
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: f3b337ec468127bc7becd9877c32b14a624bfaedbfca18fd7cbbd55d8e320b921fc305099ee5312d461106f0aec89bbfca1a97d562b3b7267e6e89d7631b164d
   languageName: node
   linkType: hard
 
@@ -2175,7 +2081,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:0.26.25, @floating-ui/react@npm:^0.26.23, @floating-ui/react@npm:^0.26.24":
+"@floating-ui/react@npm:^0.26.23, @floating-ui/react@npm:^0.26.24":
   version: 0.26.25
   resolution: "@floating-ui/react@npm:0.26.25"
   dependencies:
@@ -3649,32 +3555,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reach/auto-id@npm:0.15.3":
-  version: 0.15.3
-  resolution: "@reach/auto-id@npm:0.15.3"
-  dependencies:
-    "@reach/utils": 0.15.3
-    tslib: ^2.3.0
-  peerDependencies:
-    react: ^16.8.0 || 17.x
-    react-dom: ^16.8.0 || 17.x
-  checksum: 52f7915970f8de51b923274964bb18e61adf147845e2cb65ff93f17ebf4179f3cc743d6f791da64801447de5965b10e3a2c48c1debbcb5ab85bb1fd73a5fa61a
-  languageName: node
-  linkType: hard
-
-"@reach/descendants@npm:0.15.3":
-  version: 0.15.3
-  resolution: "@reach/descendants@npm:0.15.3"
-  dependencies:
-    "@reach/utils": 0.15.3
-    tslib: ^2.3.0
-  peerDependencies:
-    react: ^16.8.0 || 17.x
-    react-dom: ^16.8.0 || 17.x
-  checksum: 7fa392107a07bdd2f28cda52f9ffc674cbe14a7b4e2d3a4dc8a76f45883a2cd9ff55f4a367a044e0860c3315f01165c99815d472b32976ec35b3115c59b760f4
-  languageName: node
-  linkType: hard
-
 "@reach/dialog@npm:^0.16.0":
   version: 0.16.2
   resolution: "@reach/dialog@npm:0.16.2"
@@ -3703,35 +3583,6 @@ __metadata:
     react: ^16.8.0 || 17.x
     react-dom: ^16.8.0 || 17.x
   checksum: 7413dcd169cfb9854dd0d3a01f811ec19ef170558fcbd00118d676fc02c197d1c0bce1d1357508879d4775169561d103e13a8e4d74cc677eb0037cc7b04f7a1e
-  languageName: node
-  linkType: hard
-
-"@reach/tabs@npm:^0.15.0":
-  version: 0.15.3
-  resolution: "@reach/tabs@npm:0.15.3"
-  dependencies:
-    "@reach/auto-id": 0.15.3
-    "@reach/descendants": 0.15.3
-    "@reach/utils": 0.15.3
-    prop-types: ^15.7.2
-    tslib: ^2.3.0
-  peerDependencies:
-    react: ^16.8.0 || 17.x
-    react-dom: ^16.8.0 || 17.x
-  checksum: 3ce4bec7d40a98191a07acccf1864140c1a988bd4ae283074c6043dc44277292cc423d8d786a1ea11829ec53c3599c45067cd2ffa721eef563cffef38cfc251e
-  languageName: node
-  linkType: hard
-
-"@reach/utils@npm:0.15.3":
-  version: 0.15.3
-  resolution: "@reach/utils@npm:0.15.3"
-  dependencies:
-    tiny-warning: ^1.0.3
-    tslib: ^2.3.0
-  peerDependencies:
-    react: ^16.8.0 || 17.x
-    react-dom: ^16.8.0 || 17.x
-  checksum: 387f0ddc5375590ced9d6a90a84d39a30bd11b8d39eaff6cbb005415b44c011861c897111e7734562916172b2ec2114111d3f0952b5795faf43822bc44ae3f14
   languageName: node
   linkType: hard
 
@@ -14047,10 +13898,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tavla@workspace:."
   dependencies:
-    "@dnd-kit/core": 6.1.0
-    "@dnd-kit/modifiers": 7.0.0
-    "@dnd-kit/sortable": 8.0.0
-    "@dnd-kit/utilities": 3.2.2
     "@entur/alert": 0.16.19
     "@entur/button": 3.2.34
     "@entur/chip": 0.7.23
@@ -14062,13 +13909,9 @@ __metadata:
     "@entur/loader": 0.5.12
     "@entur/menu": 5.0.3
     "@entur/modal": 1.7.55
-    "@entur/tab": 0.4.75
     "@entur/tokens": 3.17.2
     "@entur/tooltip": 5.1.1
-    "@entur/travel": 6.2.9
     "@entur/typography": 1.8.47
-    "@firebase/database-types": 1.0.6
-    "@floating-ui/react": 0.26.25
     "@graphql-codegen/cli": 5.0.3
     "@graphql-codegen/import-types-preset": 3.0.0
     "@graphql-codegen/typed-document-node": 5.0.10
