@@ -36,6 +36,7 @@
         "@entur/tokens": "3.17.2",
         "@entur/tooltip": "5.1.1",
         "@entur/typography": "1.8.47",
+        "@sentry/nextjs": "^8",
         "abortcontroller-polyfill": "1.7.6",
         "classnames": "2.5.1",
         "firebase": "11.0.1",

@@ -5,8 +5,16 @@ import { Heading3 } from '@entur/typography'
 import Image from 'next/image'
 import Link from 'next/link'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
+import * as Sentry from '@sentry/nextjs'
+import type { NextPageContext } from 'next'
+import Error from 'next/error'
 
-function Error() {
+Error.getInitialProps = async (contextData: NextPageContext) => {
+    await Sentry.captureUnderscoreErrorException(contextData)
+    return Error.getInitialProps(contextData)
+}
+
+function CustomError() {
     return (
         <main className="container pb-10 flex flex-col items-center">
             <Heading3>Au da! Noe gikk galt!</Heading3>
@@ -23,4 +31,4 @@ function Error() {
     )
 }
 
-export default Error
+export default CustomError
