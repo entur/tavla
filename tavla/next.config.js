@@ -21,12 +21,8 @@ const nextConfig = {
             },
         ],
         dangerouslyAllowSVG: true,
-    },
-    experimental: {
-        serverActions: {
-            bodySizeLimit: '10mb',
-        },
-        serverComponentsExternalPackages: ['pino', 'pino-pretty'],
+	contentDispositionType: 'attachment',
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
 }
 

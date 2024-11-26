@@ -191,6 +191,12 @@ export function getFormFeedbackForError(
                 feedback: 'Du må velge minst èn kolonne',
                 variant: 'error',
             }
+        case 'file/invalid':
+            return {
+                form_type: 'file',
+                feedback: 'Du må legge til en gyldig fil.',
+                variant: 'error',
+            }
         case 'file/size-too-big': {
             return {
                 form_type: 'file',
