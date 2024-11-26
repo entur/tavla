@@ -21,9 +21,6 @@ const nextConfig = {
             },
         ],
     },
-    experimental: {
-        instrumentationHook: true,
-      },
 }
 
 module.exports = async (phase, { defaultConfig }) => {
