@@ -16,35 +16,58 @@ import { TGetQuayQuery, TStopPlaceQuery } from 'graphql/index'
 import { isUnsupportedBrowser } from 'utils/browserDetection'
 import { GetServerSideProps } from 'next'
 import { SSRQuayQuery, SSRStopPlaceQuery } from 'graphql/ssrQueries'
+import * as Sentry from '@sentry/nextjs'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { params, req } = context
-    const { id } = params as { id: string }
-    const ua = req.headers['user-agent'] || ''
-    const fetchBoardServerSide = isUnsupportedBrowser(ua)
+    try {
+        const { params, req } = context
+        if (!params || !req) {
+            Sentry.captureMessage('Missing params or req in getServerSideProps')
+            return {
+                notFound: true,
+            }
+        }
+        const { id } = params as { id: string }
+        const ua = req.headers['user-agent'] || ''
+        const fetchBoardServerSide = isUnsupportedBrowser(ua)
 
-    const board: TBoard | undefined = await getBoard(id)
+        if (!id) {
+            Sentry.captureMessage('Missing board ID in getServerSideProps')
+            return {
+                notFound: true,
+            }
+        }
 
-    if (!board) {
+        const board: TBoard | undefined = await getBoard(id)
+
+        if (!board) {
+            Sentry.captureMessage('Missing board-object in getServerSideProps')
+            return {
+                notFound: true,
+            }
+        }
+
+        const organization = await getOrganizationWithBoard(id)
+
+        let tileData = null
+        if (fetchBoardServerSide) {
+            tileData = await getTileData(board)
+        }
+
+        return {
+            props: {
+                board,
+                organization,
+                backend_url: getBackendUrl(),
+                tileData,
+            },
+        }
+    } catch (error) {
+        Sentry.captureMessage('Unknown error occurred in getServerSideProps')
+        Sentry.captureException(error)
         return {
             notFound: true,
         }
-    }
-
-    const organization = await getOrganizationWithBoard(id)
-
-    let tileData = null
-    if (fetchBoardServerSide) {
-        tileData = await getTileData(board)
-    }
-
-    return {
-        props: {
-            board,
-            organization,
-            backend_url: getBackendUrl(),
-            tileData,
-        },
     }
 }
 
