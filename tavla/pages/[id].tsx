@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         const board: TBoard | undefined = await getBoard(id)
 
         if (!board) {
-            Sentry.captureMessage('Missing board-object in getServerSideProps')
+            Sentry.captureMessage('Board is undefined in getServerSideProps')
             return {
                 notFound: true,
             }
@@ -63,8 +63,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         }
     } catch (error) {
-        Sentry.captureMessage('Unknown error occurred in getServerSideProps')
-        Sentry.captureException(error)
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Unknown error occurred in getServerSideProps',
+            },
+        })
         return {
             notFound: true,
         }

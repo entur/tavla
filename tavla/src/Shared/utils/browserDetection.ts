@@ -22,9 +22,6 @@ const ENGINE_TO_BROWSER: { [key: string]: string } = {
 // Function to check if the browser is unsupported
 export function isUnsupportedBrowser(ua: string): boolean {
     const parser = UAParser(ua)
-    if (!parser) {
-        return false
-    }
     const browserName = parser.browser?.name?.toLowerCase() || 'unknown'
     const browserVersion = parser.browser?.version || '0.0.0'
     const engineName = parser.engine?.name?.toLowerCase() || 'unknown'
