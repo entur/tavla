@@ -1,39 +1,81 @@
 'use client'
-import { ChangeEventHandler, useActionState, useState } from 'react'
+import { ChangeEventHandler, useState } from 'react'
 import { ImageIcon, UploadIcon } from '@entur/icons'
 import { FormError } from 'app/(admin)/components/FormError'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
 import { Label, Paragraph } from '@entur/typography'
 import { Button } from '@entur/button'
 import { useFormStatus } from 'react-dom'
-import { upload } from './actions'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TOrganizationID } from 'types/settings'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { Loader } from '@entur/loader'
+import { useRouter } from 'next/navigation'
 
 function LogoInput({ oid }: { oid?: TOrganizationID }) {
-    const [state, action] = useActionState(upload, undefined)
-    const [file, setFile] = useState('')
+    const [state, setFormError] = useState<TFormFeedback | undefined>()
+    const [file, setFile] = useState<File | null>(null)
     const [fileName, setFileName] = useState<string>()
+    const router = useRouter()
 
     const clearLogo = () => {
-        setFile('')
+        setFile(null)
         setFileName(undefined)
+        setFormError(undefined)
+    }
+
+    const submit = async (data: FormData) => {
+        const response = await fetch(`/api/upload`, {
+            method: 'POST',
+            body: data,
+        })
+
+        if (!response.ok) {
+            switch (response.status) {
+                case 400:
+                    return setFormError(getFormFeedbackForError('file/invalid'))
+                case 403:
+                    return setFormError(
+                        getFormFeedbackForError('auth/operation-not-allowed'),
+                    )
+                case 413:
+                    return setFormError(
+                        getFormFeedbackForError('file/size-too-big'),
+                    )
+                case 500:
+                    return setFormError(
+                        getFormFeedbackForError('firebase/general'),
+                    )
+                default:
+                    return setFormError(getFormFeedbackForError('general'))
+            }
+        }
+
+        clearLogo()
+
+        router.refresh()
     }
 
     const setLogo: ChangeEventHandler<HTMLInputElement> = (e) => {
         if (!e.target) return
-        setFile(e.target.value)
-        setFileName(e.target?.files?.item(0)?.name ?? 'Logo uten navn')
+
+        const selectedFile = e.target.files?.[0]
+
+        if (!selectedFile) {
+            setFile(null)
+            setFileName('Logo uten navn')
+        } else {
+            setFile(selectedFile)
+            setFileName(selectedFile.name)
+        }
     }
 
     return (
-        <form
-            action={action}
-            onSubmit={clearLogo}
-            className="flex flex-col relative"
-        >
+        <form action={submit} className="flex flex-col relative">
             <HiddenInput id="oid" value={oid} />
             <Label
                 htmlFor="logo"
@@ -52,12 +94,12 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                         e.preventDefault()
                         e.stopPropagation()
                     }}
-                    value={file}
                     required
                     aria-required
                 />
             </Label>
-            <div>
+
+            <div className="mt-2">
                 <FormError {...getFormFeedbackForField('file', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
