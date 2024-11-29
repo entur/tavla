@@ -11,6 +11,7 @@ import {
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
 import { TTheme } from 'types/settings'
+import * as Sentry from '@sentry/nextjs'
 
 export function QuayTile({
     placeId,
@@ -42,6 +43,18 @@ export function QuayTile({
     }
 
     if (error || !data || !data.quay) {
+        Sentry.captureException(
+            new Error(
+                error
+                    ? 'Unknown error occurred while fetching quay departures'
+                    : 'Departure fetch for quay returned no data',
+            ),
+            {
+                extra: {
+                    quayId: placeId,
+                },
+            },
+        )
         return (
             <Tile>
                 <DataFetchingFailed

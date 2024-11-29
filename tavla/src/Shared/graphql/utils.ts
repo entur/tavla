@@ -3,6 +3,7 @@ import { TypedDocumentString } from './index'
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import { formatDateToISO, addMinutesToDate } from 'utils/time'
 import { FetchErrorTypes } from 'Board/components/DataFetchingFailed'
+import * as Sentry from '@sentry/nextjs'
 
 async function fetchWithTimeout(
     url: RequestInfo | URL,
@@ -21,8 +22,21 @@ async function fetchWithTimeout(
     } catch (error) {
         clearTimeout(timeoutScheduler)
         if (signal.aborted) {
+            Sentry.captureException(new Error('Departure fetch timed out'), {
+                extra: {
+                    url: url,
+                    fetchOptions: options,
+                },
+            })
             throw new Error(FetchErrorTypes.TIMEOUT)
         }
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Unknown error occured during fetch',
+                url: url,
+                fetchOptions: options,
+            },
+        })
         throw error
     }
 }
