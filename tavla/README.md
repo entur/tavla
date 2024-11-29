@@ -25,7 +25,7 @@ The project integrates with Sentry for error tracking and performance monitoring
 2. Add the following lines to your `.env.local` file:
 
 ```bash
-SENTRY_DSN_URL=your-sentry-dsn-url
+PUBLIC_NEXT_SENTRY_DSN_URL=your-sentry-dsn-url
 SENTRY_AUTH_TOKEN=your-sentry-auth-token
 ```
 
