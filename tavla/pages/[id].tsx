@@ -121,7 +121,7 @@ const getTileData = async (board: TBoard) => {
                     Sentry.captureException(error, {
                         extra: {
                             message:
-                                'server-side fetching of stopPlace data failed',
+                                'Server-side fetching of departures for stopPlace failed',
                             queryVariables: variables,
                         },
                     })
@@ -142,7 +142,8 @@ const getTileData = async (board: TBoard) => {
                 } catch (error) {
                     Sentry.captureException(error, {
                         extra: {
-                            message: 'server-side fetching of quay data failed',
+                            message:
+                                'Server-side fetching of departures for quay failed',
                             queryVariables: variables,
                         },
                     })
