@@ -15,7 +15,6 @@ function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
         const message = data.get('footer') as string
         const result = await setFooterAction(oid, message)
         fireToastFeedback(addToast, result, 'Infomelding lagret!')
-        return result
     }
 
     return (
