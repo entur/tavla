@@ -43,18 +43,16 @@ export function QuayTile({
     }
 
     if (error || !data || !data.quay) {
-        Sentry.captureException(
-            new Error(
-                error
-                    ? 'Unknown error occurred while fetching quay departures'
-                    : 'Departure fetch for quay returned no data',
-            ),
-            {
-                extra: {
-                    quayId: placeId,
+        if (!error) {
+            Sentry.captureException(
+                new Error('Departure fetch for quay returned no data'),
+                {
+                    extra: {
+                        quayId: placeId,
+                    },
                 },
-            },
-        )
+            )
+        }
         return (
             <Tile>
                 <DataFetchingFailed

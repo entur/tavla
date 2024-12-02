@@ -16,6 +16,7 @@ import { TGetQuayQuery, TStopPlaceQuery } from 'graphql/index'
 import { isUnsupportedBrowser } from 'utils/browserDetection'
 import { GetServerSideProps } from 'next'
 import { SSRQuayQuery, SSRStopPlaceQuery } from 'graphql/ssrQueries'
+import * as Sentry from '@sentry/nextjs'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { params, req } = context
@@ -113,8 +114,19 @@ const getTileData = async (board: TBoard) => {
                         addMinutesToDate(new Date(), tile.offset ?? 0),
                     ),
                 }
-                const data = await fetchQuery(SSRStopPlaceQuery, variables)
-                return data
+                try {
+                    const data = await fetchQuery(SSRStopPlaceQuery, variables)
+                    return data
+                } catch (error) {
+                    Sentry.captureException(error, {
+                        extra: {
+                            message:
+                                'server-side fetching of stopPlace data failed',
+                            queryVariables: variables,
+                        },
+                    })
+                    return null
+                }
             } else if (tile.type === 'quay') {
                 const variables = {
                     quayId: tile.placeId,
@@ -124,8 +136,18 @@ const getTileData = async (board: TBoard) => {
                         addMinutesToDate(new Date(), tile.offset ?? 0),
                     ),
                 }
-                const data = await fetchQuery(SSRQuayQuery, variables)
-                return data
+                try {
+                    const data = await fetchQuery(SSRQuayQuery, variables)
+                    return data
+                } catch (error) {
+                    Sentry.captureException(error, {
+                        extra: {
+                            message: 'server-side fetching of quay data failed',
+                            queryVariables: variables,
+                        },
+                    })
+                    return null
+                }
             } else {
                 return null
             }
