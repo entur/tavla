@@ -22,7 +22,6 @@ function FontSelect({
         const font = data.get('font') as TFontSize
         const result = await setFontSizeAction(oid, font)
         fireToastFeedback(addToast, result, 'Tekststørrelse lagret!')
-        return result
     }
 
     return (

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-// TODO: Use a better logger than console
+// TODO: switch console.log to Sentry.captureException
 import { FirebaseError } from 'firebase/app'
 import { getFormFeedbackForError } from '.'
 
@@ -9,7 +9,6 @@ export function handleError(e: unknown) {
         return getFormFeedbackForError(e)
     } else if (e instanceof Error) {
         console.error(e.message)
-        return getFormFeedbackForError('general')
     }
-    return getFormFeedbackForError('unknown')
+    return getFormFeedbackForError('general')
 }

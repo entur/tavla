@@ -38,7 +38,6 @@ function MetaSettings({
         useOrganizations(organization)
     const [personal, setPersonal] = useState(organization ? false : true)
 
-    // Handle save title
     const saveTitleWithParams = async (
         state: TFormFeedback | undefined,
         data: FormData,
@@ -52,13 +51,11 @@ function MetaSettings({
         undefined,
     )
 
-    // Handle save font
     const saveFont = async (data: FormData) => {
         const result = await saveFontAction(bid, data)
         fireToastFeedback(addToast, result, 'Tekststørrelse lagret!')
     }
 
-    // Handle move board
     const moveBoard = async () => {
         const result = await moveBoardAction(
             bid,

@@ -5,7 +5,7 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading3 } from '@entur/typography'
 import { saveLocation as saveLocationAction } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
+import { fireToastFeedback } from 'app/(admin)/utils'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import { SubmitButton } from 'components/Form/SubmitButton'
 
@@ -19,17 +19,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
 
     const saveLocation = async () => {
         const result = await saveLocationAction(bid, selectedPoint?.value)
-
-        if (result === undefined) {
-            addToast('Adresse oppdatert!')
-        } else {
-            const content =
-                getFormFeedbackForField('general', result)?.feedback || ''
-            addToast({
-                content: content,
-                variant: 'info',
-            })
-        }
+        fireToastFeedback(addToast, result, 'Adresse oppdatert!')
     }
 
     return (

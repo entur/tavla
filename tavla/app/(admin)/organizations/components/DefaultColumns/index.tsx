@@ -6,11 +6,7 @@ import { Columns, TColumn } from 'types/column'
 import { useToast } from '@entur/alert'
 import { FilterChip } from '@entur/chip'
 import { FormError } from 'app/(admin)/components/FormError'
-import {
-    TFormFeedback,
-    fireToastFeedback,
-    getFormFeedbackForField,
-} from 'app/(admin)/utils'
+import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { saveColumns as saveColumnsAction } from './actions'
 import { Tooltip } from '@entur/tooltip'
@@ -35,7 +31,10 @@ function DefaultColumns({
         if (!oid) return
         const columns = data.getAll('columns') as TColumn[]
         const result = await saveColumnsAction(state, oid, columns)
-        fireToastFeedback(addToast, result, 'Kolonner lagret!')
+        if (result === undefined) {
+            addToast('Kolonner lagret!')
+        }
+
         return result
     }
     const [state, saveColumns] = useActionState(handleSaveColumns, undefined)

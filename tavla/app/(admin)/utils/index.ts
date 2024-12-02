@@ -242,13 +242,6 @@ export function getFormFeedbackForError(
                 variant: 'error',
             }
         }
-        case 'unknown': {
-            return {
-                form_type: 'general',
-                feedback: 'En ukjent feil har oppstått.',
-                variant: 'error',
-            }
-        }
     }
 
     return {
@@ -260,14 +253,14 @@ export function getFormFeedbackForError(
 
 export function fireToastFeedback(
     addToast: (payload: AddToastPayload | string) => void,
-    result: TFormFeedback | undefined,
+    formFeedback: TFormFeedback | undefined,
     successMessage: string,
 ) {
-    if (result === undefined) {
+    if (formFeedback === undefined) {
         addToast(successMessage)
-    } else if (result.form_type === 'general') {
+    } else if (formFeedback.form_type === 'general') {
         const content =
-            getFormFeedbackForField('general', result)?.feedback || ''
+            getFormFeedbackForField('general', formFeedback)?.feedback || ''
         addToast({
             content: content,
             variant: 'info',
