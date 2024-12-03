@@ -30,7 +30,7 @@ common:
                       name: sentry
                       key: auth-token
 
-            - name: SENTRY_DSN_URL
+            - name: NEXT_PUBLIC_SENTRY_DSN_URL
               valueFrom:
                   secretKeyRef:
                       name: sentry

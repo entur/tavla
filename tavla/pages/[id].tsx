@@ -139,8 +139,19 @@ const getTileData = async (board: TBoard) => {
                         addMinutesToDate(new Date(), tile.offset ?? 0),
                     ),
                 }
-                const data = await fetchQuery(SSRStopPlaceQuery, variables)
-                return data
+                try {
+                    const data = await fetchQuery(SSRStopPlaceQuery, variables)
+                    return data
+                } catch (error) {
+                    Sentry.captureException(error, {
+                        extra: {
+                            message:
+                                'Server-side fetching of departures for stopPlace failed',
+                            queryVariables: variables,
+                        },
+                    })
+                    return null
+                }
             } else if (tile.type === 'quay') {
                 const variables = {
                     quayId: tile.placeId,
@@ -150,8 +161,19 @@ const getTileData = async (board: TBoard) => {
                         addMinutesToDate(new Date(), tile.offset ?? 0),
                     ),
                 }
-                const data = await fetchQuery(SSRQuayQuery, variables)
-                return data
+                try {
+                    const data = await fetchQuery(SSRQuayQuery, variables)
+                    return data
+                } catch (error) {
+                    Sentry.captureException(error, {
+                        extra: {
+                            message:
+                                'Server-side fetching of departures for quay failed',
+                            queryVariables: variables,
+                        },
+                    })
+                    return null
+                }
             } else {
                 return null
             }
