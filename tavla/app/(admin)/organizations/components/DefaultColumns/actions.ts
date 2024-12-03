@@ -15,11 +15,14 @@ initializeAdminApp()
 
 export async function saveColumns(
     state: TFormFeedback | undefined,
-    oid: TOrganizationID,
-    columns: TColumn[],
+    oid: TOrganizationID | undefined,
+    data: FormData,
 ) {
+    if (!oid) return getFormFeedbackForError()
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
+
+    const columns = data.getAll('columns') as TColumn[]
     if (columns.length === 0)
         return getFormFeedbackForError('organization/invalid-columns')
 

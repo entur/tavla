@@ -5,7 +5,7 @@ import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TBoardID, TFooter } from 'types/settings'
-import { setFooter } from './actions'
+import { setFooter as setFooterAction } from './actions'
 import { useState } from 'react'
 import { Tooltip } from '@entur/tooltip'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
@@ -23,20 +23,13 @@ function Footer({
     const { addToast } = useToast()
     const [override, setOverride] = useState(footer?.override ?? false)
 
-    const submitOrgBoard = async (data: FormData) => {
-        const footer = data.get('footer') as string
-        const override = data.get('override') as string
-        const overrideOrg = override === 'on'
-
-        const result = await setFooter(bid, {
-            footer: footer,
-            override: overrideOrg,
-        })
+    const setFooter = async (data: FormData) => {
+        const result = await setFooterAction(bid, data)
         fireToastFeedback(addToast, result, 'Infomelding lagret!')
     }
 
     return (
-        <form className="box flex flex-col" action={submitOrgBoard}>
+        <form className="box flex flex-col" action={setFooter}>
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Infomelding</Heading3>
 

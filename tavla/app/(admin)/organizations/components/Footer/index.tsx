@@ -10,15 +10,13 @@ import { fireToastFeedback } from 'app/(admin)/utils'
 function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
     const { addToast } = useToast()
 
-    const setFooter = async (data: FormData) => {
-        if (!oid) return
-        const message = data.get('footer') as string
-        const result = await setFooterAction(oid, message)
+    const setOrgFooter = async (data: FormData) => {
+        const result = await setFooterAction(oid, data)
         fireToastFeedback(addToast, result, 'Infomelding lagret!')
     }
 
     return (
-        <form className="box flex flex-col gap-1 " action={setFooter}>
+        <form className="box flex flex-col gap-1 " action={setOrgFooter}>
             <Heading2>Infomelding</Heading2>
             <Paragraph>
                 Skriv en kort tekst som skal vises nederst i tavlen.

@@ -1,4 +1,5 @@
 'use server'
+import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     initializeAdminApp,
     userCanEditOrganization,
@@ -12,7 +13,12 @@ import { TOrganizationID } from 'types/settings'
 
 initializeAdminApp()
 
-export async function setFontSize(oid: TOrganizationID, fontSize: TFontSize) {
+export async function setFontSize(
+    oid: TOrganizationID | undefined,
+    data: FormData,
+) {
+    if (!oid) return getFormFeedbackForError()
+    const fontSize = data.get('font') as TFontSize
     const access = await userCanEditOrganization(oid)
     if (!access) return redirect('/')
 

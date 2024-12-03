@@ -18,9 +18,7 @@ function FontSelect({
     const { addToast } = useToast()
 
     const setFontSize = async (data: FormData) => {
-        if (!oid) return
-        const font = data.get('font') as TFontSize
-        const result = await setFontSizeAction(oid, font)
+        const result = await setFontSizeAction(oid, data)
         fireToastFeedback(addToast, result, 'Tekststørrelse lagret!')
     }
 

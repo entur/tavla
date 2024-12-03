@@ -46,10 +46,10 @@ export async function saveTitle(
 }
 
 export async function saveFont(bid: TBoardID, data: FormData) {
-    const font = data.get('font') as TFontSize
-
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
+
+    const font = data.get('font') as TFontSize
 
     try {
         await firestore()

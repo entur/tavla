@@ -20,9 +20,7 @@ function CountiesSelect({
     const { addToast } = useToast()
 
     const setCounties = async (data: FormData) => {
-        if (!oid) return
-        const counties = data.getAll('county') as string[]
-        const result = await setCountiesAction(oid, counties)
+        const result = await setCountiesAction(oid, data)
         fireToastFeedback(addToast, result, 'Fylker lagret!')
     }
 

@@ -8,13 +8,16 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TBoardID, TFooter } from 'types/settings'
+import { TBoardID } from 'types/settings'
 
 initializeAdminApp()
 
-export async function setFooter(bid: TBoardID, footer?: TFooter) {
+export async function setFooter(bid: TBoardID, data: FormData) {
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
+
+    const footerText = data.get('footer') as string
+    const override = (data.get('override') as string) === 'on'
 
     try {
         await firestore()
@@ -22,10 +25,8 @@ export async function setFooter(bid: TBoardID, footer?: TFooter) {
             .doc(bid)
             .update({
                 footer: {
-                    footer: !isEmptyOrSpaces(footer?.footer)
-                        ? footer?.footer
-                        : '',
-                    override: footer?.override,
+                    footer: !isEmptyOrSpaces(footerText) ? footerText : '',
+                    override: override,
                 },
                 'meta.dateModified': Date.now(),
             })

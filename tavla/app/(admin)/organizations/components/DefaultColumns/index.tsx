@@ -28,9 +28,7 @@ function DefaultColumns({
         state: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        if (!oid) return
-        const columns = data.getAll('columns') as TColumn[]
-        const result = await saveColumnsAction(state, oid, columns)
+        const result = await saveColumnsAction(state, oid, data)
         if (result === undefined) {
             addToast('Kolonner lagret!')
         }
