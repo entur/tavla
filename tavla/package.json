@@ -40,7 +40,7 @@
         "abortcontroller-polyfill": "1.7.6",
         "classnames": "2.5.1",
         "firebase": "11.0.1",
-        "firebase-admin": "12.7.0",
+        "firebase-admin": "13.0.1",
         "graphql": "16.9.0",
         "lodash": "4.17.21",
         "nanoid": "5.0.8",
