@@ -1,21 +1,24 @@
 'use client'
 import { Checkbox } from '@entur/form'
 import { Heading3 } from '@entur/typography'
-import { TFontSize, TMeta } from 'types/meta'
-import { moveBoard, saveFont, saveTitle } from './actions'
+import { TMeta } from 'types/meta'
+import {
+    moveBoard as moveBoardAction,
+    saveFont as saveFontAction,
+    saveTitle as saveTitleAction,
+} from './actions'
 import { TBoardID, TOrganization } from 'types/settings'
 import { FontChoiceChip } from './FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { Address } from './Adress'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { useToast } from '@entur/alert'
-import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { Dropdown } from '@entur/dropdown'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
-import { useState } from 'react'
+import { useActionState, useState } from 'react'
 import {
     TFormFeedback,
-    getFormFeedbackForError,
+    fireToastFeedback,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
@@ -34,23 +37,37 @@ function MetaSettings({
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations(organization)
     const [personal, setPersonal] = useState(organization ? false : true)
-    const [state, setFormError] = useState<TFormFeedback | undefined>()
+
+    const saveTitleWithParams = async (
+        state: TFormFeedback | undefined,
+        data: FormData,
+    ) => {
+        const result = await saveTitleAction(state, bid, data)
+        fireToastFeedback(addToast, result, 'Tittel oppdatert!')
+        return result
+    }
+    const [titleState, saveTitle] = useActionState(
+        saveTitleWithParams,
+        undefined,
+    )
+
+    const saveFont = async (data: FormData) => {
+        const result = await saveFontAction(bid, data)
+        fireToastFeedback(addToast, result, 'Tekststørrelse lagret!')
+    }
+
+    const moveBoard = async () => {
+        const result = await moveBoardAction(
+            bid,
+            personal ? undefined : selectedOrganization?.value.id,
+            organization?.id,
+        )
+        fireToastFeedback(addToast, result, 'Organisasjon lagret!')
+    }
+
     return (
         <>
-            <form
-                action={async (data: FormData) => {
-                    const name = data.get('name') as string
-                    if (isEmptyOrSpaces(name))
-                        return addToast({
-                            content:
-                                'Navnet kan ikke være tomt eller bare mellomrom!',
-                            variant: 'info',
-                        })
-                    await saveTitle(bid, name)
-                    addToast('Tittel lagret!')
-                }}
-                className="box flex flex-col"
-            >
+            <form action={saveTitle} className="box flex flex-col">
                 <Heading3 margin="bottom">Navn</Heading3>
                 <div className="h-full">
                     <ClientOnlyTextField
@@ -59,9 +76,9 @@ function MetaSettings({
                         defaultValue={meta?.title ?? DEFAULT_BOARD_NAME}
                         label="Navn på tavlen"
                         maxLength={50}
+                        {...getFormFeedbackForField('name', titleState)}
                     />
                 </div>
-
                 <div className="flex flex-row justify-end mt-8">
                     <SubmitButton variant="secondary" className="max-sm:w-full">
                         Lagre navn
@@ -70,11 +87,7 @@ function MetaSettings({
             </form>
             <Address bid={bid} location={meta?.location} />
             <form
-                action={async (data: FormData) => {
-                    const font = data.get('font') as TFontSize
-                    await saveFont(bid, font)
-                    addToast('Tekststørrelse lagret!')
-                }}
+                action={saveFont}
                 className="box flex flex-col justify-between"
             >
                 <Heading3 margin="bottom">Tekststørrelse </Heading3>
@@ -85,25 +98,7 @@ function MetaSettings({
                     </SubmitButton>
                 </div>
             </form>
-            <form
-                action={async () => {
-                    if (!selectedOrganization && !personal) {
-                        return setFormError(
-                            getFormFeedbackForError(
-                                'create/organization-missing',
-                            ),
-                        )
-                    }
-                    await moveBoard(
-                        bid,
-                        personal ? undefined : selectedOrganization?.value.id,
-                        organization?.id,
-                    )
-                    setFormError(undefined)
-                    addToast('Organisasjon lagret!')
-                }}
-                className="box flex flex-col"
-            >
+            <form action={moveBoard} className="box flex flex-col">
                 <Heading3 margin="bottom">Organisasjon</Heading3>
                 <ClientOnly>
                     <Dropdown
@@ -115,7 +110,6 @@ function MetaSettings({
                         className="mb-4"
                         aria-required="true"
                         disabled={personal}
-                        {...getFormFeedbackForField('organization', state)}
                     />
                 </ClientOnly>
                 <Checkbox

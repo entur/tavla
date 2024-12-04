@@ -3,7 +3,6 @@ import { useToast } from '@entur/alert'
 import { Button, IconButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-
 import { useLink } from 'hooks/useLink'
 
 function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {

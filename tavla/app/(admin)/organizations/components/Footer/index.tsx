@@ -3,22 +3,20 @@ import { useToast } from '@entur/alert'
 import { Heading2, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TOrganizationID } from 'types/settings'
-import { setFooter } from './actions'
+import { setFooter as setFooterAction } from './actions'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { fireToastFeedback } from 'app/(admin)/utils'
 
 function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
     const { addToast } = useToast()
-    return (
-        <form
-            className="box flex flex-col gap-1 "
-            action={async (data: FormData) => {
-                if (!oid) return
-                const info = data.get('footer') as string
 
-                await setFooter(oid, info)
-                addToast('Infomelding lagret!')
-            }}
-        >
+    const setOrgFooter = async (data: FormData) => {
+        const result = await setFooterAction(oid, data)
+        fireToastFeedback(addToast, result, 'Infomelding lagret!')
+    }
+
+    return (
+        <form className="box flex flex-col gap-1 " action={setOrgFooter}>
             <Heading2>Infomelding</Heading2>
             <Paragraph>
                 Skriv en kort tekst som skal vises nederst i tavlen.

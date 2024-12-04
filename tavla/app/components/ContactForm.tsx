@@ -1,5 +1,5 @@
 'use client'
-import { Checkbox, TextArea, TextField } from '@entur/form'
+import { Checkbox, TextArea } from '@entur/form'
 import { Label, Paragraph, SubParagraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { postForm } from './actions'
@@ -15,6 +15,7 @@ import { Expandable } from './Expandable'
 import { usePostHog } from 'posthog-js/react'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { validEmail } from 'utils/email'
+import ClientOnlyTextField from './NoSSR/TextField'
 
 function ContactForm() {
     const posthog = usePostHog()
@@ -72,6 +73,14 @@ function ContactForm() {
                         med Tavla.
                     </Paragraph>
 
+                    <ClientOnlyTextField
+                        label="E-postadresse"
+                        name="email"
+                        id="email"
+                        aria-label="E-postadresse"
+                        {...getFormFeedbackForField('email', formState)}
+                    />
+
                     <div>
                         <Label
                             htmlFor="message"
@@ -98,7 +107,7 @@ function ContactForm() {
                         <Label htmlFor="email" className="font-bold">
                             E-post
                         </Label>
-                        <TextField
+                        <ClientOnlyTextField
                             label="E-postadresse"
                             name="email"
                             id="email"

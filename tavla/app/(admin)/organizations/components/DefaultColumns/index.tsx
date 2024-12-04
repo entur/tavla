@@ -6,13 +6,9 @@ import { Columns, TColumn } from 'types/column'
 import { useToast } from '@entur/alert'
 import { FilterChip } from '@entur/chip'
 import { FormError } from 'app/(admin)/components/FormError'
-import {
-    TFormFeedback,
-    getFormFeedbackForError,
-    getFormFeedbackForField,
-} from 'app/(admin)/utils'
+import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { saveColumns } from './actions'
+import { saveColumns as saveColumnsAction } from './actions'
 import { Tooltip } from '@entur/tooltip'
 import { IconButton } from '@entur/button'
 import { QuestionFilledIcon } from '@entur/icons'
@@ -28,31 +24,23 @@ function DefaultColumns({
     const { addToast } = useToast()
     const [open, setIsOpen] = useState(false)
 
-    const submit = async (
-        prevState: TFormFeedback | undefined,
+    const handleSaveColumns = async (
+        state: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        const columns = data.getAll('columns') as TColumn[]
-
-        if (!oid) {
-            return getFormFeedbackForError('auth/operation-not-allowed')
+        const result = await saveColumnsAction(state, oid, data)
+        if (result === undefined) {
+            addToast('Kolonner lagret!')
         }
 
-        if (columns.length === 0) {
-            return getFormFeedbackForError('organization/invalid-columns')
-        }
-
-        saveColumns(oid, columns)
-        addToast('Kolonner lagret!')
+        return result
     }
-
-    const [state, action] = useActionState(submit, undefined)
+    const [state, saveColumns] = useActionState(handleSaveColumns, undefined)
 
     return (
         <div className="box flex flex-col gap-1">
             <div className="flex flex-row items-baseline">
                 <Heading2>Kolonner</Heading2>
-
                 <Tooltip
                     aria-hidden
                     placement="top"
@@ -76,7 +64,7 @@ function DefaultColumns({
 
             <ColumnModal isOpen={open} setIsOpen={setIsOpen} />
 
-            <form action={action}>
+            <form action={saveColumns}>
                 <div className="flex flex-row flex-wrap gap-4">
                     {Object.entries(Columns).map(([key, information]) => (
                         <FilterChip
@@ -93,7 +81,6 @@ function DefaultColumns({
                 </div>
                 <div className="mt-8" aria-live="polite">
                     <FormError {...getFormFeedbackForField('column', state)} />
-                    <FormError {...getFormFeedbackForField('general', state)} />
                 </div>
                 <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton

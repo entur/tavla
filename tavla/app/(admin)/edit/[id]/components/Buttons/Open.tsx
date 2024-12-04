@@ -2,7 +2,6 @@
 import { Button, IconButton } from '@entur/button'
 import { ExternalIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-
 import { useLink } from 'hooks/useLink'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'

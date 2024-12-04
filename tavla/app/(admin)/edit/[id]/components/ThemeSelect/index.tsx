@@ -6,7 +6,8 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { Heading3 } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { themeToDropdownItem, themes } from 'app/(admin)/edit/utils'
-import { setTheme } from './actions'
+import { setTheme as setThemeAction } from './actions'
+import { fireToastFeedback } from 'app/(admin)/utils'
 
 function ThemeSelect({ board }: { board: TBoard }) {
     const [selectedTheme, setSelectedTheme] =
@@ -14,14 +15,17 @@ function ThemeSelect({ board }: { board: TBoard }) {
             themeToDropdownItem(board?.theme ?? 'dark'),
         )
     const { addToast } = useToast()
+
+    const setTheme = async () => {
+        const result = await setThemeAction(
+            board.id ?? '',
+            selectedTheme?.value ?? 'dark',
+        )
+        fireToastFeedback(addToast, result, 'Fargetema lagret!')
+    }
+
     return (
-        <form
-            action={async () => {
-                await setTheme(board.id ?? '', selectedTheme?.value ?? 'dark')
-                addToast('Fargetema lagret!')
-            }}
-            className="box flex flex-col"
-        >
+        <form action={setTheme} className="box flex flex-col">
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Fargetema</Heading3>
             </div>
