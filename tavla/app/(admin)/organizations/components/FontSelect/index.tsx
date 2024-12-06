@@ -6,7 +6,6 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
 import { TOrganizationID } from 'types/settings'
 import { Heading2, Paragraph } from '@entur/typography'
-import { fireToastFeedback } from 'app/(admin)/utils'
 
 function FontSelect({
     oid,
@@ -18,8 +17,10 @@ function FontSelect({
     const { addToast } = useToast()
 
     const setFontSize = async (data: FormData) => {
-        const result = await setFontSizeAction(oid, data)
-        fireToastFeedback(addToast, result, 'Tekststørrelse lagret!')
+        const formFeedback = await setFontSizeAction(oid, data)
+        if (!formFeedback) {
+            addToast('Tekststørrelse lagret!')
+        }
     }
 
     return (
@@ -34,7 +35,6 @@ function FontSelect({
                 action={setFontSize}
             >
                 <FontChoiceChip font={font ?? 'medium'} />
-
                 <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton
                         variant="secondary"

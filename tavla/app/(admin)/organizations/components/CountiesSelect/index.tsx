@@ -7,7 +7,6 @@ import { setCounties as setCountiesAction } from './actions'
 import { Heading2, Paragraph } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { fireToastFeedback } from 'app/(admin)/utils'
 
 function CountiesSelect({
     oid,
@@ -20,8 +19,10 @@ function CountiesSelect({
     const { addToast } = useToast()
 
     const setCounties = async (data: FormData) => {
-        const result = await setCountiesAction(oid, data)
-        fireToastFeedback(addToast, result, 'Fylker lagret!')
+        const formFeedback = await setCountiesAction(oid, data)
+        if (!formFeedback) {
+            addToast('Fylker lagret!')
+        }
     }
 
     return (

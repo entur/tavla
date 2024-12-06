@@ -9,7 +9,6 @@ import { setFooter as setFooterAction } from './actions'
 import { useState } from 'react'
 import { Tooltip } from '@entur/tooltip'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { fireToastFeedback } from 'app/(admin)/utils'
 
 function Footer({
     bid,
@@ -24,8 +23,10 @@ function Footer({
     const [override, setOverride] = useState(footer?.override ?? false)
 
     const setFooter = async (data: FormData) => {
-        const result = await setFooterAction(bid, data)
-        fireToastFeedback(addToast, result, 'Infomelding lagret!')
+        const formFeedback = await setFooterAction(bid, data)
+        if (!formFeedback) {
+            addToast('Infomelding lagret!')
+        }
     }
 
     return (
@@ -62,7 +63,7 @@ function Footer({
             <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton
                     variant="secondary"
-                    aria-label="Lagre kolonner"
+                    aria-label="Lagre infomelding"
                     className="max-sm:w-full"
                 >
                     Lagre infomelding

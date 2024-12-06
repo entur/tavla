@@ -1,3 +1,4 @@
+'use client'
 import { useToast } from '@entur/alert'
 import { SearchableDropdown } from '@entur/dropdown'
 import { ValidationInfoFilledIcon } from '@entur/icons'
@@ -5,7 +6,6 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading3 } from '@entur/typography'
 import { saveLocation as saveLocationAction } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
-import { fireToastFeedback } from 'app/(admin)/utils'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import { SubmitButton } from 'components/Form/SubmitButton'
 
@@ -18,8 +18,10 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
     const { addToast } = useToast()
 
     const saveLocation = async () => {
-        const result = await saveLocationAction(bid, selectedPoint?.value)
-        fireToastFeedback(addToast, result, 'Adresse oppdatert!')
+        const formFeedback = await saveLocationAction(bid, selectedPoint?.value)
+        if (!formFeedback) {
+            addToast('Adresse oppdatert!')
+        }
     }
 
     return (

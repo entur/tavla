@@ -5,14 +5,15 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { TOrganizationID } from 'types/settings'
 import { setFooter as setFooterAction } from './actions'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { fireToastFeedback } from 'app/(admin)/utils'
 
 function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
     const { addToast } = useToast()
 
     const setOrgFooter = async (data: FormData) => {
-        const result = await setFooterAction(oid, data)
-        fireToastFeedback(addToast, result, 'Infomelding lagret!')
+        const formFeedback = await setFooterAction(oid, data)
+        if (!formFeedback) {
+            addToast('Infomelding lagret!')
+        }
     }
 
     return (
