@@ -1,10 +1,9 @@
 'use server'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
-import { FirebaseError } from 'firebase/app'
-import { isString } from 'lodash'
+import { TFormFeedback } from 'app/(admin)/utils'
 import { revalidatePath } from 'next/cache'
 import { deleteBoard, initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
+import { handleError } from 'app/(admin)/utils/handleError'
 
 initializeAdminApp()
 
@@ -18,9 +17,7 @@ export async function deleteBoardAction(
         await deleteBoard(bid)
         revalidatePath('/')
     } catch (e) {
-        if (e instanceof FirebaseError || isString(e))
-            return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+        return handleError(e)
     }
     redirect('/boards')
 }

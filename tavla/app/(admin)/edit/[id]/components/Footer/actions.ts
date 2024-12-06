@@ -9,6 +9,7 @@ import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -31,7 +32,13 @@ export async function setFooter(bid: TBoardID, data: FormData) {
                 'meta.dateModified': Date.now(),
             })
         revalidatePath(`edit/${bid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while setting footer of board',
+                boardID: bid,
+            },
+        })
+        return handleError(error)
     }
 }

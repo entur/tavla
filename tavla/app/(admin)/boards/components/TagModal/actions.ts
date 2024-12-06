@@ -1,7 +1,6 @@
 'use server'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
-import { FirebaseError } from 'firebase/app'
-import { isString, uniq } from 'lodash'
+import { uniq } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
 import { TBoardID } from 'types/settings'
@@ -10,6 +9,8 @@ import { TTag } from 'types/meta'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 import { notFound } from 'next/navigation'
+import * as Sentry from '@sentry/nextjs'
+import { handleError } from 'app/(admin)/utils/handleError'
 
 async function fetchTags({ bid }: { bid: TBoardID }) {
     const board = await getBoard(bid)
@@ -32,18 +33,23 @@ export async function removeTag(
 
     const access = await hasBoardEditorAccess(bid)
     if (!access) throw 'auth/operation-not-allowed'
+    const tags = await fetchTags({ bid })
 
     try {
-        const tags = await fetchTags({ bid })
         await firestore()
             .collection('boards')
             .doc(bid)
             .update({ 'meta.tags': tags.filter((t) => t !== tag) })
         revalidatePath('/')
-    } catch (e) {
-        if (e instanceof FirebaseError || isString(e))
-            return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while removing tag from firestore',
+                boardID: bid,
+                tagValue: tag,
+            },
+        })
+        return handleError(error)
     }
 }
 
@@ -60,9 +66,9 @@ export async function addTag(
     const access = await hasBoardEditorAccess(bid)
     if (!access) throw 'auth/operation-not-allowed'
 
-    try {
-        const tags = await fetchTags({ bid })
+    const tags = await fetchTags({ bid })
 
+    try {
         if (tags.map((t) => t.toUpperCase()).includes(tag.toUpperCase()))
             throw 'boards/tag-exists'
 
@@ -71,9 +77,14 @@ export async function addTag(
             .doc(bid)
             .update({ 'meta.tags': uniq([...tags, tag]).sort() })
         revalidatePath('/')
-    } catch (e) {
-        if (e instanceof FirebaseError || isString(e))
-            return getFormFeedbackForError(e)
-        return getFormFeedbackForError('general')
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while adding new tag to firestore',
+                boardID: bid,
+                tagValue: tag,
+            },
+        })
+        return handleError(error)
     }
 }

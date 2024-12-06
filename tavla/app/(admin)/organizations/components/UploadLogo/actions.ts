@@ -13,6 +13,8 @@ import {
 import { getDownloadURL } from 'firebase-admin/storage'
 import { redirect } from 'next/navigation'
 import { nanoid } from 'nanoid'
+import { handleError } from 'app/(admin)/utils/handleError'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -31,19 +33,29 @@ export async function upload(
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
 
-    const bucket = storage().bucket((await getConfig()).bucket)
-    const file = bucket.file(`logo/${oid}-${nanoid()}`)
-    await file.save(Buffer.from(await logo.arrayBuffer()))
+    try {
+        const bucket = storage().bucket((await getConfig()).bucket)
+        const file = bucket.file(`logo/${oid}-${nanoid()}`)
+        await file.save(Buffer.from(await logo.arrayBuffer()))
 
-    const logoUrl = await getDownloadURL(file)
+        const logoUrl = await getDownloadURL(file)
 
-    if (!logoUrl) return getFormFeedbackForError()
+        if (!logoUrl) return getFormFeedbackForError()
 
-    await firestore().collection('organizations').doc(oid).update({
-        logo: logoUrl,
-    })
+        await firestore().collection('organizations').doc(oid).update({
+            logo: logoUrl,
+        })
 
-    revalidatePath('/')
+        revalidatePath('/')
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while uploading logo to organization',
+                orgID: oid,
+            },
+        })
+        return handleError(error)
+    }
 }
 
 export async function remove(oid?: TOrganizationID, logo?: TLogo) {
@@ -57,14 +69,25 @@ export async function remove(oid?: TOrganizationID, logo?: TLogo) {
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
 
-    const bucket = storage().bucket((await getConfig()).bucket)
-    const logoFile = bucket.file('logo/' + file)
+    try {
+        const bucket = storage().bucket((await getConfig()).bucket)
+        const logoFile = bucket.file('logo/' + file)
 
-    await logoFile.delete()
+        await logoFile.delete()
 
-    await firestore().collection('organizations').doc(oid).update({
-        logo: firestore.FieldValue.delete(),
-    })
+        await firestore().collection('organizations').doc(oid).update({
+            logo: firestore.FieldValue.delete(),
+        })
 
-    revalidatePath('/')
+        revalidatePath('/')
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while removing logo from organization',
+                orgID: oid,
+                fileName: file,
+            },
+        })
+        return handleError(error)
+    }
 }
