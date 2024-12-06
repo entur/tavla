@@ -7,6 +7,7 @@ import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TOrganizationID } from 'types/settings'
+import * as Sentry from '@sentry/nextjs'
 
 export async function setFooter(
     oid: TOrganizationID | undefined,
@@ -28,7 +29,14 @@ export async function setFooter(
                     : firestore.FieldValue.delete(),
             })
         revalidatePath(`organizations/${oid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while setting organization footer',
+                orgID: oid,
+                footerMessage: message,
+            },
+        })
+        return handleError(error)
     }
 }

@@ -14,6 +14,7 @@ import {
 import { TCoordinate, TLocation } from 'types/meta'
 import { revalidatePath } from 'next/cache'
 import { TBoardID } from 'types/settings'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -21,13 +22,20 @@ export async function addTile(bid: TBoardID, tile: TTile) {
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
-    await firestore()
-        .collection('boards')
-        .doc(bid)
-        .update({
-            tiles: firestore.FieldValue.arrayUnion(tile),
-            'meta.dateModified': Date.now(),
-        })
+    try {
+        await firestore()
+            .collection('boards')
+            .doc(bid)
+            .update({
+                tiles: firestore.FieldValue.arrayUnion(tile),
+                'meta.dateModified': Date.now(),
+            })
+    } catch (error) {
+        Sentry.captureMessage(
+            'Failed to save tile to board in firestore. BoardID: ' + bid,
+        )
+        throw error
+    }
 }
 
 export async function getWalkingDistanceTile(
@@ -63,13 +71,24 @@ export async function getWalkingDistanceTile(
         },
     }
 }
-export async function saveTiles(bid: TBoardID, tiles: TTile[]) {
+export async function saveUpdatedTileOrder(bid: TBoardID, tiles: TTile[]) {
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
-    await firestore().collection('boards').doc(bid).update({
-        tiles: tiles,
-        'meta.dateModified': Date.now(),
-    })
-    revalidatePath(`/edit/${bid}`)
+    try {
+        await firestore().collection('boards').doc(bid).update({
+            tiles: tiles,
+            'meta.dateModified': Date.now(),
+        })
+        revalidatePath(`/edit/${bid}`)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message:
+                    'Error while saving updated tile ordering to firestore',
+                boardID: bid,
+                tilesObjects: tiles,
+            },
+        })
+    }
 }

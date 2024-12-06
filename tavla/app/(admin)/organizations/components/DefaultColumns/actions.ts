@@ -10,6 +10,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TColumn } from 'types/column'
 import { TOrganizationID } from 'types/settings'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -31,7 +32,14 @@ export async function saveColumns(
             'defaults.columns': columns,
         })
         revalidatePath(`/organizations/${oid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while saving columns in organization',
+                orgID: oid,
+                columnsList: columns,
+            },
+        })
+        return handleError(error)
     }
 }
