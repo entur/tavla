@@ -1,6 +1,6 @@
 import { TStopPlaceTile } from 'types/tile'
 import { Table } from '../Table'
-import { StopPlaceQuery, TStopPlaceQuery } from 'graphql/index'
+import { StopPlaceQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
@@ -9,7 +9,6 @@ import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
-import { TTheme } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 export function StopPlaceTile({
@@ -20,9 +19,7 @@ export function StopPlaceTile({
     walkingDistance,
     offset,
     displayName,
-    data: initialData,
-    theme,
-}: TStopPlaceTile & { data?: TStopPlaceQuery; theme?: TTheme }) {
+}: TStopPlaceTile) {
     const { data, isLoading, error } = useQuery(
         StopPlaceQuery,
         {
@@ -30,7 +27,7 @@ export function StopPlaceTile({
             whitelistedTransportModes,
             whitelistedLines,
         },
-        { poll: true, offset: offset, fallbackData: initialData },
+        { poll: true, offset: offset },
     )
 
     if (isLoading && !data) {
@@ -71,7 +68,6 @@ export function StopPlaceTile({
                 departures={data.stopPlace.estimatedCalls}
                 situations={data.stopPlace.situations}
                 columns={columns}
-                theme={theme}
             />
         </Tile>
     )

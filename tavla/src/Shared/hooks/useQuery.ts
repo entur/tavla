@@ -3,19 +3,18 @@ import { TypedDocumentString } from 'graphql/index'
 import { fetcher } from 'graphql/utils'
 import useSWR from 'swr'
 
-type TUseQueryOptions<Data> = {
+type TUseQueryOptions = {
     poll: boolean
     endpoint: TEndpointNames
-    fallbackData?: Data
     offset?: number
 }
 
 export function useQuery<Data, Variables>(
     query: TypedDocumentString<Data, Variables>,
     variables: Variables,
-    options?: Partial<TUseQueryOptions<Data>>,
+    options?: Partial<TUseQueryOptions>,
 ) {
-    const mergedOptions: TUseQueryOptions<Data> = {
+    const mergedOptions: TUseQueryOptions = {
         poll: false,
         endpoint: 'journey-planner',
         ...options,
@@ -29,7 +28,6 @@ export function useQuery<Data, Variables>(
             revalidateOnReconnect: true,
             refreshInterval: mergedOptions.poll ? 30000 : undefined,
             keepPreviousData: true,
-            fallbackData: mergedOptions.fallbackData,
         },
     )
 
