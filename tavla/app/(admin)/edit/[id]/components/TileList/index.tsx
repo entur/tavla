@@ -16,10 +16,10 @@ function TileList({
     bid?: TBoardID
     setDemoBoard?: Dispatch<SetStateAction<TBoard>>
 }) {
-    const [array, setArray] = useState<TTile[]>(board.tiles)
+    const [tileArray, setTileArray] = useState<TTile[]>(board.tiles)
 
     useEffect(() => {
-        setArray(board.tiles)
+        setTileArray(board.tiles)
     }, [board.tiles])
 
     const moveItem = (index: number, direction: string) => {
@@ -35,7 +35,7 @@ function TileList({
         newArray[newIndex] = newArray[index] as TTile
         newArray[index] = oldElement as TTile
 
-        setArray(newArray)
+        setTileArray(newArray)
         if (bid === 'demo' && setDemoBoard) {
             const newBoard: TBoard = { ...board, tiles: newArray }
             setDemoBoard(newBoard ?? board)
@@ -46,7 +46,7 @@ function TileList({
     const debouncedSave = debounce(moveItem, 150)
     return (
         <div className="flex flex-col gap-4">
-            {array.map((tile, index) => (
+            {tileArray.map((tile, index) => (
                 <TileCard
                     key={tile.uuid}
                     bid={bid ?? board.id ?? ''}
