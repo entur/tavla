@@ -71,7 +71,7 @@ function Footer({
                         Vis infomelding fra organisasjonen.
                     </Switch>
                 )}
-                <div>
+                <div className="mt-4">
                     <FormError
                         {...getFormFeedbackForField('general', footerState)}
                     />

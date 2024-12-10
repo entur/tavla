@@ -7,6 +7,9 @@ import { setCounties as setCountiesAction } from './actions'
 import { Heading2, Paragraph } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { useActionState } from 'react'
+import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
+import { FormError } from 'app/(admin)/components/FormError'
 
 function CountiesSelect({
     oid,
@@ -18,12 +21,21 @@ function CountiesSelect({
     const { counties } = useCountiesSearch(oid)
     const { addToast } = useToast()
 
-    const setCounties = async (data: FormData) => {
+    const setCounties = async (
+        state: TFormFeedback | undefined,
+        data: FormData,
+    ) => {
         const formFeedback = await setCountiesAction(oid, data)
         if (!formFeedback) {
             addToast('Fylker lagret!')
         }
+        return formFeedback
     }
+
+    const [countiesState, countiesFormAction] = useActionState(
+        setCounties,
+        undefined,
+    )
 
     return (
         <div className="box flex flex-col gap-1">
@@ -32,7 +44,7 @@ function CountiesSelect({
                 Velg hvilke fylker som skal være standard når det opprettes en
                 ny tavle.
             </Paragraph>
-            <form action={setCounties}>
+            <form action={countiesFormAction}>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-x-2">
                     {counties()
                         .sort(
@@ -54,6 +66,11 @@ function CountiesSelect({
                                 {county.label}
                             </Checkbox>
                         ))}
+                </div>
+                <div className="mt-4">
+                    <FormError
+                        {...getFormFeedbackForField('general', countiesState)}
+                    />
                 </div>
                 <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton
