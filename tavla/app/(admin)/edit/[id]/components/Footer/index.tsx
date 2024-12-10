@@ -36,13 +36,10 @@ function Footer({
         return formFeedback
     }
 
-    const [footerState, setFooterFormAction] = useActionState(
-        setFooter,
-        undefined,
-    )
+    const [footerState, footerFormAction] = useActionState(setFooter, undefined)
 
     return (
-        <form className="box flex flex-col" action={setFooterFormAction}>
+        <form className="box flex flex-col" action={footerFormAction}>
             <div className="flex flex-row items-center gap-2">
                 <Heading3 margin="bottom">Infomelding</Heading3>
 

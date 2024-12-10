@@ -24,11 +24,11 @@ function FontSelect({ bid, font }: { bid: TBoardID; font: TFontSize }) {
         return formFeedback
     }
 
-    const [fontState, setFontFormAction] = useActionState(saveFont, undefined)
+    const [fontState, fontFormAction] = useActionState(saveFont, undefined)
 
     return (
         <form
-            action={setFontFormAction}
+            action={fontFormAction}
             className="box flex flex-col justify-between"
         >
             <Heading3 margin="bottom">Tekststørrelse </Heading3>
