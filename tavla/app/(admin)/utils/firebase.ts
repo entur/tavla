@@ -1,12 +1,14 @@
 'use server'
 import admin, { auth, firestore } from 'firebase-admin'
-import { TBoardID, TOrganization, TOrganizationID, TUser } from 'types/settings'
+import { TBoardID, TOrganizationID, TUser } from 'types/settings'
 import { getUserFromSessionCookie } from './server'
 import {
     getBoardsForOrganization,
     getOrganizationIfUserHasAccess,
 } from '../actions'
 import { getOrganizationForBoard } from '../edit/[id]/components/TileCard/actions'
+import * as Sentry from '@sentry/nextjs'
+import { getOrganizationWithBoard } from 'Board/scenarios/Board/firebase'
 
 initializeAdminApp()
 
@@ -75,14 +77,6 @@ export async function hasBoardEditorAccess(bid?: TBoardID) {
     return userEditorAccess
 }
 
-export async function getOrganizationWithBoard(bid: TBoardID) {
-    const ref = await firestore()
-        .collection('organizations')
-        .where('boards', 'array-contains', bid)
-        .get()
-    return ref.docs.map((doc) => doc.data() as TOrganization)[0]
-}
-
 export async function deleteBoard(bid: TBoardID) {
     const user = await getUserFromSessionCookie()
     const access = await hasBoardOwnerAccess(bid)
@@ -91,23 +85,28 @@ export async function deleteBoard(bid: TBoardID) {
 
     const organization = await getOrganizationForBoard(bid)
 
-    await firestore().collection('boards').doc(bid).delete()
+    try {
+        await firestore().collection('boards').doc(bid).delete()
 
-    if (organization?.id) {
-        await firestore()
-            .collection('organizations')
-            .doc(organization.id)
-            .update({
-                boards: admin.firestore.FieldValue.arrayRemove(bid),
-            })
-    } else {
-        await firestore()
-            .collection('users')
-            .doc(user.uid)
-            .update({
-                owner: admin.firestore.FieldValue.arrayRemove(bid),
-                editor: admin.firestore.FieldValue.arrayRemove(bid),
-            })
+        if (organization?.id) {
+            await firestore()
+                .collection('organizations')
+                .doc(organization.id)
+                .update({
+                    boards: admin.firestore.FieldValue.arrayRemove(bid),
+                })
+        } else {
+            await firestore()
+                .collection('users')
+                .doc(user.uid)
+                .update({
+                    owner: admin.firestore.FieldValue.arrayRemove(bid),
+                    editor: admin.firestore.FieldValue.arrayRemove(bid),
+                })
+        }
+    } catch (error) {
+        Sentry.captureMessage('Failed to delete board with id: ' + bid)
+        throw error
     }
 }
 
@@ -145,5 +144,12 @@ export async function deleteOrganizationBoard(
 ) {
     const access = await userCanEditOrganization(oid)
     if (!access) throw 'auth/operation-not-allowed'
-    return firestore().collection('boards').doc(bid).delete()
+    try {
+        return firestore().collection('boards').doc(bid).delete()
+    } catch (error) {
+        Sentry.captureMessage(
+            'Erorr while deleting board ' + bid + ' in organization ' + oid,
+        )
+        throw error
+    }
 }

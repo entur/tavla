@@ -1,14 +1,10 @@
-/* eslint-disable no-console */
-// TODO: switch console.log to Sentry.captureException
 import { FirebaseError } from 'firebase/app'
 import { getFormFeedbackForError } from '.'
+import { isString } from 'lodash'
 
 export function handleError(e: unknown) {
-    if (e instanceof FirebaseError) {
-        console.error(e.message)
+    if (e instanceof FirebaseError || isString(e)) {
         return getFormFeedbackForError(e)
-    } else if (e instanceof Error) {
-        console.error(e.message)
     }
     return getFormFeedbackForError('general')
 }

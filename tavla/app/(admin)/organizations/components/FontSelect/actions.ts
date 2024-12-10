@@ -10,6 +10,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize } from 'types/meta'
 import { TOrganizationID } from 'types/settings'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -27,7 +28,14 @@ export async function setFontSize(
             'defaults.font': fontSize,
         })
         revalidatePath(`/organizations/${oid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while setting font size in organization',
+                orgID: oid,
+                fontSizeValue: fontSize,
+            },
+        })
+        return handleError(error)
     }
 }
