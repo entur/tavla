@@ -6,6 +6,8 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
 import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
+import * as Sentry from '@sentry/nextjs'
+import { handleError } from 'app/(admin)/utils/handleError'
 
 initializeAdminApp()
 
@@ -22,18 +24,28 @@ export async function createOrganization(
 
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    const organization = await firestore()
-        .collection('organizations')
-        .add({
-            name: name.substring(0, 50),
-            owners: [user.uid],
-            editors: [],
-            boards: [],
-            defaults: {
-                columns: DEFAULT_ORGANIZATION_COLUMNS,
+    let organization = null
+
+    try {
+        organization = await firestore()
+            .collection('organizations')
+            .add({
+                name: name.substring(0, 50),
+                owners: [user.uid],
+                editors: [],
+                boards: [],
+                defaults: {
+                    columns: DEFAULT_ORGANIZATION_COLUMNS,
+                },
+            })
+        if (!organization || !organization.id) return getFormFeedbackForError()
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while creating new organization in firestore',
             },
         })
-    if (!organization || !organization.id) return getFormFeedbackForError()
-
+        return handleError(error)
+    }
     redirect(`/organizations/${organization.id}`)
 }

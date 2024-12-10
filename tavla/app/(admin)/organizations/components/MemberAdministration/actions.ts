@@ -5,6 +5,8 @@ import { userCanEditOrganization } from 'app/(admin)/utils/firebase'
 import admin, { auth, firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import * as Sentry from '@sentry/nextjs'
+import { handleError } from 'app/(admin)/utils/handleError'
 
 export async function removeUser(
     prevState: TFormFeedback | undefined,
@@ -16,15 +18,26 @@ export async function removeUser(
     const access = await userCanEditOrganization(organizationId)
     if (!access) return redirect('/')
 
-    await firestore()
-        .collection('organizations')
-        .doc(organizationId)
-        .update({
-            owners: admin.firestore.FieldValue.arrayRemove(uid),
-            editors: admin.firestore.FieldValue.arrayRemove(uid),
-        })
+    try {
+        await firestore()
+            .collection('organizations')
+            .doc(organizationId)
+            .update({
+                owners: admin.firestore.FieldValue.arrayRemove(uid),
+                editors: admin.firestore.FieldValue.arrayRemove(uid),
+            })
 
-    revalidatePath('/')
+        revalidatePath('/')
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while removing user from organization',
+                orgID: organizationId,
+                userID: uid,
+            },
+        })
+        return handleError(error)
+    }
 }
 
 export async function inviteUser(
@@ -52,12 +65,22 @@ export async function inviteUser(
     if (organization?.owners?.includes(invitee.uid))
         return getFormFeedbackForError('organization/user-already-invited')
 
-    await firestore()
-        .collection('organizations')
-        .doc(oid)
-        .update({
-            owners: admin.firestore.FieldValue.arrayUnion(invitee.uid),
+    try {
+        await firestore()
+            .collection('organizations')
+            .doc(oid)
+            .update({
+                owners: admin.firestore.FieldValue.arrayUnion(invitee.uid),
+            })
+        revalidatePath('/')
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while inviting user to organization',
+                orgID: oid,
+                inviteeID: invitee.uid,
+            },
         })
-
-    revalidatePath('/')
+        return handleError(error)
+    }
 }

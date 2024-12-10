@@ -9,6 +9,7 @@ import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
 import { TCoordinate } from 'types/meta'
 import { TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
+import * as Sentry from '@sentry/nextjs'
 
 export function formDataToTile(data: FormData, organization?: TOrganization) {
     const quayId = data.get('quay') as string
@@ -43,8 +44,14 @@ export async function getWalkingDistance(from: TCoordinate, to: TCoordinate) {
             },
         })
         return response.trip.tripPatterns[0]?.duration
-    } catch {
-        throw new Error('Failed to get walking distance')
+    } catch (error) {
+        Sentry.captureMessage(
+            'getWalkingDistance failed with from-coordinates ' +
+                from +
+                ' and to-coordinates' +
+                to,
+        )
+        throw error
     }
 }
 
@@ -57,8 +64,11 @@ export async function getStopPlaceCoordinates(stopPlaceId: string) {
             lat: response.stopPlace?.latitude ?? 0,
             lng: response.stopPlace?.longitude ?? 0,
         } as TCoordinate
-    } catch {
-        throw new Error('Failed to get stop place coordinates')
+    } catch (error) {
+        Sentry.captureMessage(
+            'getStopPlaceCoordinates failed for stopPlaceId ' + stopPlaceId,
+        )
+        throw error
     }
 }
 
@@ -71,7 +81,8 @@ export async function getQuayCoordinates(quayId: string) {
             lat: response.quay?.latitude ?? 0,
             lng: response.quay?.longitude ?? 0,
         } as TCoordinate
-    } catch {
-        throw new Error('Failed to get quay coordinates')
+    } catch (error) {
+        Sentry.captureMessage('getQuayCoordinates failed for quayId' + quayId)
+        throw error
     }
 }

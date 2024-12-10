@@ -9,6 +9,7 @@ import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TOrganizationID } from 'types/settings'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -26,7 +27,13 @@ export async function setCounties(
             'defaults.counties': counties,
         })
         revalidatePath(`/organizations/${oid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while setting counties in organization',
+                orgID: oid,
+            },
+        })
+        return handleError(error)
     }
 }

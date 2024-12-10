@@ -4,7 +4,7 @@ import { TBoard, TBoardID } from 'types/settings'
 import { TileCard } from 'app/(admin)/edit/[id]/components/TileCard/index'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { TTile } from 'types/tile'
-import { saveTiles } from '../../actions'
+import { saveUpdatedTileOrder } from '../../actions'
 import { debounce } from 'lodash'
 
 function TileList({
@@ -40,7 +40,7 @@ function TileList({
             const newBoard: TBoard = { ...board, tiles: newArray }
             setDemoBoard(newBoard ?? board)
         } else {
-            saveTiles(board.id ?? '', newArray)
+            saveUpdatedTileOrder(board.id ?? '', newArray)
         }
     }
     const debouncedSave = debounce(moveItem, 150)
