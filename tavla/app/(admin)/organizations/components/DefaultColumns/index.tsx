@@ -24,18 +24,20 @@ function DefaultColumns({
     const { addToast } = useToast()
     const [open, setIsOpen] = useState(false)
 
-    const handleSaveColumns = async (
+    const saveColumns = async (
         state: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        const result = await saveColumnsAction(state, oid, data)
-        if (result === undefined) {
+        const formFeedback = await saveColumnsAction(state, oid, data)
+        if (!formFeedback) {
             addToast('Kolonner lagret!')
         }
-
-        return result
+        return formFeedback
     }
-    const [state, saveColumns] = useActionState(handleSaveColumns, undefined)
+    const [state, saveColumnsFormAction] = useActionState(
+        saveColumns,
+        undefined,
+    )
 
     return (
         <div className="box flex flex-col gap-1">
@@ -64,7 +66,7 @@ function DefaultColumns({
 
             <ColumnModal isOpen={open} setIsOpen={setIsOpen} />
 
-            <form action={saveColumns}>
+            <form action={saveColumnsFormAction}>
                 <div className="flex flex-row flex-wrap gap-4">
                     {Object.entries(Columns).map(([key, information]) => (
                         <FilterChip
@@ -79,8 +81,9 @@ function DefaultColumns({
                         </FilterChip>
                     ))}
                 </div>
-                <div className="mt-8" aria-live="polite">
+                <div className="mt-4" aria-live="polite">
                     <FormError {...getFormFeedbackForField('column', state)} />
+                    <FormError {...getFormFeedbackForField('general', state)} />
                 </div>
                 <div className="flex flex-row w-full mt-8 justify-end">
                     <SubmitButton

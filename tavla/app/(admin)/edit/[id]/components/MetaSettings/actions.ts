@@ -8,7 +8,7 @@ import {
 } from 'app/(admin)/utils/firebase'
 import admin, { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
 import { TBoard, TBoardID, TOrganizationID } from 'types/settings'
 import { getWalkingDistanceTile } from '../../actions'
@@ -63,13 +63,13 @@ export async function saveFont(bid: TBoardID, data: FormData) {
 }
 
 export async function saveLocation(bid: TBoardID, location?: TLocation) {
-    if (!bid) return getFormFeedbackForError()
-
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
     const board = await getBoard(bid)
-    if (!board) return getFormFeedbackForError('board/not-found')
+    if (!board) {
+        return notFound()
+    }
 
     try {
         await firestore()
@@ -96,7 +96,8 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
 
 export async function moveBoard(
     bid: TBoardID,
-    oid?: TOrganizationID,
+    personal: boolean,
+    toOrganization: TOrganizationID | undefined,
     fromOrganization?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
@@ -105,10 +106,21 @@ export async function moveBoard(
     const access = await hasBoardOwnerAccess(bid)
     if (!access) return redirect('/')
 
-    if (fromOrganization && !(await userCanEditOrganization(fromOrganization)))
-        return redirect('/')
+    if (!personal && !toOrganization)
+        return getFormFeedbackForError('create/organization-missing')
 
-    if (oid && !(await userCanEditOrganization(oid))) return redirect('/')
+    if (!toOrganization)
+        if (fromOrganization) {
+            const canEditFromOrganization =
+                await userCanEditOrganization(fromOrganization)
+            if (!canEditFromOrganization) return redirect('/')
+        }
+
+    if (toOrganization) {
+        const canEditToOrganization =
+            await userCanEditOrganization(toOrganization)
+        if (!canEditToOrganization) return redirect('/')
+    }
 
     try {
         if (fromOrganization)
@@ -122,10 +134,10 @@ export async function moveBoard(
                 .doc(user.uid)
                 .update({ owner: admin.firestore.FieldValue.arrayRemove(bid) })
 
-        if (oid)
+        if (toOrganization)
             await firestore()
                 .collection('organizations')
-                .doc(oid)
+                .doc(toOrganization)
                 .update({ boards: admin.firestore.FieldValue.arrayUnion(bid) })
         else
             await firestore()
