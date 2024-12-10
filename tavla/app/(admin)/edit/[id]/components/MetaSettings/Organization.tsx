@@ -61,13 +61,17 @@ function Organization({
                 defaultChecked={personal}
                 onChange={() => setPersonal(!personal)}
                 name="personal"
-                className="!mb-4"
             >
                 Privat tavle
             </Checkbox>
-            <FormError
-                {...getFormFeedbackForField('organization', moveBoardState)}
-            />
+            <div className="mt-4">
+                <FormError
+                    {...getFormFeedbackForField('organization', moveBoardState)}
+                />
+                <FormError
+                    {...getFormFeedbackForField('general', moveBoardState)}
+                />
+            </div>
             <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton variant="secondary" className="max-sm:w-full">
                     Lagre organisasjon

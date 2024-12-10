@@ -7,6 +7,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState } from 'react'
 import { saveTitle as saveTitleAction } from './actions'
 import { TBoardID } from 'types/settings'
+import { FormError } from 'app/(admin)/components/FormError'
 
 function Title({ bid, title }: { bid: TBoardID; title: string }) {
     const { addToast } = useToast()
@@ -36,6 +37,11 @@ function Title({ bid, title }: { bid: TBoardID; title: string }) {
                     label="Navn på tavlen"
                     maxLength={50}
                     {...getFormFeedbackForField('name', titleState)}
+                />
+            </div>
+            <div className="mt-4">
+                <FormError
+                    {...getFormFeedbackForField('general', titleState)}
                 />
             </div>
             <div className="flex flex-row justify-end mt-8">
