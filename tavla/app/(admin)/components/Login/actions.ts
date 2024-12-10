@@ -45,5 +45,6 @@ export async function create(uid: TUserID) {
                 userID: uid,
             },
         })
+        throw error
     }
 }
