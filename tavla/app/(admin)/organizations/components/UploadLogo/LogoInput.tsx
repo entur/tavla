@@ -35,6 +35,7 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
         })
 
         if (!response.ok) {
+            clearLogo()
             switch (response.status) {
                 case 400:
                     return setFormError(getFormFeedbackForError('file/invalid'))
@@ -48,7 +49,7 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                     )
                 case 429:
                     return setFormError(
-                        getFormFeedbackForError('general/rate-limit'),
+                        getFormFeedbackForError('file/rate-limit'),
                     )
                 case 500:
                     return setFormError(

@@ -235,10 +235,10 @@ export function getFormFeedbackForError(
                 variant: 'error',
             }
         }
-        case 'general/rate-limit': {
+        case 'file/rate-limit': {
             return {
-                form_type: 'general',
-                feedback: 'For mange forsøk. Vennligst prøv igjen senere',
+                form_type: 'file',
+                feedback: 'Noe gikk galt. Vennligst prøv igjen senere',
                 variant: 'error',
             }
         }
