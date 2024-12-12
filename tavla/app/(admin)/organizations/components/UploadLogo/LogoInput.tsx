@@ -46,6 +46,10 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                     return setFormError(
                         getFormFeedbackForError('file/size-too-big'),
                     )
+                case 429:
+                    return setFormError(
+                        getFormFeedbackForError('general/rate-limit'),
+                    )
                 case 500:
                     return setFormError(
                         getFormFeedbackForError('firebase/general'),
@@ -56,22 +60,15 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
         }
 
         clearLogo()
-
         router.refresh()
     }
 
     const setLogo: ChangeEventHandler<HTMLInputElement> = (e) => {
-        if (!e.target) return
-
         const selectedFile = e.target.files?.[0]
+        if (!selectedFile) return
 
-        if (!selectedFile) {
-            setFile(null)
-            setFileName('Logo uten navn')
-        } else {
-            setFile(selectedFile)
-            setFileName(selectedFile.name)
-        }
+        setFile(selectedFile)
+        setFileName(selectedFile.name)
     }
 
     return (
