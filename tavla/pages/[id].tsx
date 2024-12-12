@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         const board: TBoard | undefined = await getBoard(id)
 
         if (!board) {
-            Sentry.captureMessage('Board is undefined in getServerSideProps')
+            //Sentry.captureMessage('Board is undefined in getServerSideProps')
             return {
                 notFound: true,
             }
