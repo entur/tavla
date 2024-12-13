@@ -191,6 +191,13 @@ export function getFormFeedbackForError(
                 feedback: 'Du må velge minst èn kolonne',
                 variant: 'error',
             }
+        case 'file/invalid':
+            return {
+                form_type: 'file',
+                feedback:
+                    'Du må legge til en gyldig fil (APNG, JPEG, PNG, SVG, GIP, WEBP).',
+                variant: 'error',
+            }
         case 'file/size-too-big': {
             return {
                 form_type: 'file',
@@ -225,6 +232,13 @@ export function getFormFeedbackForError(
                 form_type: 'general',
                 feedback:
                     'Merkelappen kan ikke være tom eller bare bestå av mellomrom.',
+                variant: 'error',
+            }
+        }
+        case 'file/rate-limit': {
+            return {
+                form_type: 'file',
+                feedback: 'Noe gikk galt. Vennligst prøv igjen senere',
                 variant: 'error',
             }
         }
