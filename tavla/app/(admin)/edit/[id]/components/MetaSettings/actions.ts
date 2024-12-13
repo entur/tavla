@@ -110,15 +110,13 @@ export async function moveBoard(
         return getFormFeedbackForError('create/organization-missing')
 
     if (fromOrganization) {
-        const canEditFromOrganization =
-            await userCanEditOrganization(fromOrganization)
-        if (!canEditFromOrganization) return redirect('/')
+        const canEdit = await userCanEditOrganization(fromOrganization)
+        if (!canEdit) return redirect('/')
     }
 
     if (toOrganization) {
-        const canEditToOrganization =
-            await userCanEditOrganization(toOrganization)
-        if (!canEditToOrganization) return redirect('/')
+        const canEdit = await userCanEditOrganization(toOrganization)
+        if (!canEdit) return redirect('/')
     }
 
     try {
