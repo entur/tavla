@@ -8,7 +8,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { useState } from 'react'
+import { useState, type SetStateAction } from 'react'
 import { FormError } from 'app/(admin)/components/FormError'
 import { SmallAlertBox, useToast } from '@entur/alert'
 import { Expandable } from './Expandable'
@@ -27,6 +27,13 @@ function ContactForm() {
     )
     const [disabledEmail, setDisabledEmail] = useState(false)
 
+    const setModal: React.Dispatch<SetStateAction<boolean>> = (isVisible) => {
+        setIsOpen(isVisible)
+        if (!isVisible) {
+            setDisabledEmail(false)
+            setFormError(undefined)
+        }
+    }
     const submit = async (data: FormData) => {
         const email = data.get('email') as string
         const message = data.get('message') as string
@@ -61,7 +68,7 @@ function ContactForm() {
             <Expandable
                 title="Send oss en melding"
                 isOpen={isOpen}
-                setIsOpen={setIsOpen}
+                setIsOpen={setModal}
             >
                 <form
                     action={submit}
