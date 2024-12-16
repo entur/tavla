@@ -3,7 +3,7 @@ import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { uniq } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
-import { TBoardID } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
 import { firestore } from 'firebase-admin'
 import { TTag } from 'types/meta'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
@@ -11,8 +11,9 @@ import { getBoard } from 'Board/scenarios/Board/firebase'
 import { notFound, redirect } from 'next/navigation'
 import * as Sentry from '@sentry/nextjs'
 import { handleError } from 'app/(admin)/utils/handleError'
+import { getAllBoardsForUser } from 'app/(admin)/actions'
 
-async function fetchTags({ bid }: { bid: TBoardID }) {
+async function fetchBoardTags({ bid }: { bid: TBoardID }) {
     const board = await getBoard(bid)
     if (!board) {
         return notFound()
@@ -26,6 +27,18 @@ async function fetchTags({ bid }: { bid: TBoardID }) {
     return (board?.meta?.tags as TTag[]) ?? []
 }
 
+async function getAllTags() {
+    const allBoards = (await getAllBoardsForUser()).map(
+        ({ board }) => board,
+    ) as TBoard[]
+
+    const allTags = allBoards.reduce((tags: TTag[], board: TBoard) => {
+        const boardTags = board.meta?.tags ?? []
+        return [...tags, ...boardTags]
+    }, [])
+    return (allTags as TTag[]) ?? []
+}
+
 export async function removeTag(
     prevState: TFormFeedback | undefined,
     data: FormData,
@@ -35,7 +48,7 @@ export async function removeTag(
 
     const access = await hasBoardEditorAccess(bid)
     if (!access) throw 'auth/operation-not-allowed'
-    const tags = await fetchTags({ bid })
+    const tags = await fetchBoardTags({ bid })
 
     try {
         await firestore()
@@ -68,8 +81,7 @@ export async function addTag(
     const access = await hasBoardEditorAccess(bid)
     if (!access) throw 'auth/operation-not-allowed'
 
-    const tags = await fetchTags({ bid })
-
+    const tags = await fetchBoardTags({ bid })
     try {
         if (tags.map((t) => t.toUpperCase()).includes(tag.toUpperCase()))
             throw 'boards/tag-exists'
