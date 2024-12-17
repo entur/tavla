@@ -32,11 +32,8 @@ async function getAllTags() {
         ({ board }) => board,
     ) as TBoard[]
 
-    const allTags = allBoards.reduce((tags: TTag[], board: TBoard) => {
-        const boardTags = board.meta?.tags ?? []
-        return [...tags, ...boardTags]
-    }, [])
-    return (allTags as TTag[]) ?? []
+    const allTags = allBoards.flatMap((board: TBoard) => board.meta?.tags ?? [])
+    return allTags as TTag[]
 }
 
 export async function removeTag(
