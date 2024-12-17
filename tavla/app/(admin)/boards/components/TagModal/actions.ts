@@ -78,15 +78,25 @@ export async function addTag(
     const access = await hasBoardEditorAccess(bid)
     if (!access) throw 'auth/operation-not-allowed'
 
-    const tags = await fetchBoardTags({ bid })
     try {
-        if (tags.map((t) => t.toUpperCase()).includes(tag.toUpperCase()))
+        const allTags = await getAllTags()
+        const currentTags = await fetchBoardTags({ bid })
+        const existingTag = allTags.find(
+            (t) => t.toUpperCase() === tag.toUpperCase(),
+        )
+
+        const tagToAdd = existingTag || tag
+
+        if (
+            currentTags.some((t) => t.toUpperCase() === tagToAdd.toUpperCase())
+        ) {
             throw 'boards/tag-exists'
+        }
 
         await firestore()
             .collection('boards')
             .doc(bid)
-            .update({ 'meta.tags': uniq([...tags, tag]).sort() })
+            .update({ 'meta.tags': uniq([...currentTags, tagToAdd]).sort() })
         revalidatePath('/')
     } catch (error) {
         Sentry.captureException(error, {
