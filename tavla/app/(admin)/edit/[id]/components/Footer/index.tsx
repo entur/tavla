@@ -58,7 +58,6 @@ function Footer({
                     defaultValue={footer?.footer ?? ''}
                     readOnly={override && organizationBoard}
                     className="w-full mb-2"
-                    {...getFormFeedbackForField('user', footerState)}
                 />
                 {organizationBoard && (
                     <Switch

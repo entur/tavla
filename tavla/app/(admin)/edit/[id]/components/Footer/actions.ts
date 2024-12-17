@@ -1,5 +1,5 @@
 'use server'
-import { TFormFeedback } from 'app/(admin)/utils'
+import { isOnlyWhiteSpace } from 'app/(admin)/edit/utils'
 import {
     hasBoardEditorAccess,
     initializeAdminApp,
@@ -17,15 +17,20 @@ export async function setFooter(bid: TBoardID, data: FormData) {
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
-    const footerText = data.get('footer') as string
-    const override = (data.get('override') as string) === 'on'
+    const message = data.get('footer') as string
+    const shouldOverrideOrgFooter = (data.get('override') as string) === 'on'
 
     let newFooter = {}
 
-    if (footerText && footerText.trim() !== '') {
-        newFooter = { footer: footerText, override: override }
+    const validFooter =
+        message && !isOnlyWhiteSpace(message) && message.trim() !== ''
+
+    if (validFooter) {
+        newFooter = { footer: message, override: shouldOverrideOrgFooter }
+    } else if (shouldOverrideOrgFooter) {
+        newFooter = { override: shouldOverrideOrgFooter }
     } else {
-        newFooter = { override: override }
+        newFooter = firestore.FieldValue.delete()
     }
     try {
         await firestore().collection('boards').doc(bid).update({

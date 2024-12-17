@@ -18,15 +18,16 @@ export async function setFooter(
     if (!access) return redirect('/')
 
     const message = data.get('footer') as string
-    if (isOnlyWhiteSpace(message)) {
-        return getFormFeedbackForError('footer/empty')
-    }
+
+    const validMessage =
+        message && !isOnlyWhiteSpace(message) && message.trim() !== ''
+
     try {
         await firestore()
             .collection('organizations')
             .doc(oid)
             .update({
-                footer: message ?? firestore.FieldValue.delete(),
+                footer: validMessage ? message : firestore.FieldValue.delete(),
             })
         revalidatePath(`organizations/${oid}`)
     } catch (error) {

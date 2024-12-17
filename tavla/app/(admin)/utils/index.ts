@@ -242,13 +242,6 @@ export function getFormFeedbackForError(
                 variant: 'error',
             }
         }
-        case 'footer/empty': {
-            return {
-                form_type: 'user',
-                feedback: 'Infomelding må inneholde tall eller bokstaver',
-                variant: 'warning',
-            }
-        }
         case 'firebase/general': {
             return {
                 form_type: 'general',
