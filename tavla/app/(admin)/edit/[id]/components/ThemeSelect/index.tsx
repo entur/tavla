@@ -7,7 +7,6 @@ import { Heading3 } from '@entur/typography'
 import { useToast } from '@entur/alert'
 import { themeToDropdownItem, themes } from 'app/(admin)/edit/utils'
 import { setTheme as setThemeAction } from './actions'
-import { fireToastFeedback } from 'app/(admin)/utils'
 
 function ThemeSelect({ board }: { board: TBoard }) {
     const [selectedTheme, setSelectedTheme] =
@@ -17,11 +16,13 @@ function ThemeSelect({ board }: { board: TBoard }) {
     const { addToast } = useToast()
 
     const setTheme = async () => {
-        const result = await setThemeAction(
+        const formFeedback = await setThemeAction(
             board.id ?? '',
             selectedTheme?.value ?? 'dark',
         )
-        fireToastFeedback(addToast, result, 'Fargetema lagret!')
+        if (!formFeedback) {
+            addToast('Fargetema lagret!')
+        }
     }
 
     return (

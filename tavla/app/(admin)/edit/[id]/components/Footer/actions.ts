@@ -1,5 +1,6 @@
 'use server'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
+import { TFormFeedback } from 'app/(admin)/utils'
 import {
     hasBoardEditorAccess,
     initializeAdminApp,
@@ -13,7 +14,11 @@ import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
-export async function setFooter(bid: TBoardID, data: FormData) {
+export async function setFooter(
+    state: TFormFeedback | undefined,
+    bid: TBoardID,
+    data: FormData,
+) {
     const access = hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
 
