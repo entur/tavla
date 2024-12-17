@@ -168,7 +168,7 @@ export async function moveBoard(
             extra: {
                 message: 'Error while moving board to new organization',
                 boardID: bid,
-                newOrg: oid,
+                newOrg: toOrganization,
                 oldOrg: fromOrganization,
             },
         })
