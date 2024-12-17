@@ -162,6 +162,7 @@ function TileCard({
             </div>
         )
 
+    // TODO: remove when old lines no longer return any data (2025)
     lines = lines.filter((line) => !OLD_LINE_IDS.includes(line.id))
 
     const uniqLines = uniqBy(lines, 'id')
