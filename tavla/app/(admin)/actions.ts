@@ -9,10 +9,10 @@ import {
 import { getUser, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
 import { chunk, concat, isEmpty, flattenDeep } from 'lodash'
-import { TavlaError } from './utils/types'
 import { redirect } from 'next/navigation'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { userInOrganization } from './utils'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -24,7 +24,18 @@ export async function getFirebaseClientConfig() {
 
 export async function getOrganizationIfUserHasAccess(oid?: TOrganizationID) {
     if (!oid) return undefined
-    const doc = await firestore().collection('organizations').doc(oid).get()
+
+    let doc = null
+
+    try {
+        doc = await firestore().collection('organizations').doc(oid).get()
+        if (!doc) throw Error('Fetch org returned null or undefined')
+    } catch (error) {
+        Sentry.captureMessage(
+            'Error while fetching organization from firestore, orgID: ' + oid,
+        )
+        throw error
+    }
 
     const organization = { ...doc.data(), id: doc.id } as TOrganization
     const user = await getUserFromSessionCookie()
@@ -37,22 +48,29 @@ export async function getOrganizationsForUser() {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
-    const owner = firestore()
-        .collection('organizations')
-        .where('owners', 'array-contains', user.uid)
-        .get()
+    try {
+        const owner = firestore()
+            .collection('organizations')
+            .where('owners', 'array-contains', user.uid)
+            .get()
 
-    const editor = firestore()
-        .collection('organizations')
-        .where('editors', 'array-contains', user.uid)
-        .get()
+        const editor = firestore()
+            .collection('organizations')
+            .where('editors', 'array-contains', user.uid)
+            .get()
 
-    const queries = await Promise.all([owner, editor])
-    return queries
-        .map((q) =>
-            q.docs.map((d) => ({ ...d.data(), id: d.id }) as TOrganization),
+        const queries = await Promise.all([owner, editor])
+        return queries
+            .map((q) =>
+                q.docs.map((d) => ({ ...d.data(), id: d.id }) as TOrganization),
+            )
+            .flat()
+    } catch (error) {
+        Sentry.captureMessage(
+            'Error while fetching organizations for user with id ' + user.uid,
         )
-        .flat()
+        throw error
+    }
 }
 
 export async function getBoardsForOrganization(oid: TOrganizationID) {
@@ -64,69 +82,55 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
 
     const batchedBoardIDs = chunk(boards, 20)
 
-    const boardQueries = batchedBoardIDs.map((batch) =>
-        firestore()
-            .collection('boards')
-            .where(firestore.FieldPath.documentId(), 'in', batch)
-            .get(),
-    )
-
-    const boardRefs = await Promise.all(boardQueries)
-
-    return boardRefs
-        .map((ref) =>
-            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as TBoard),
+    try {
+        const boardQueries = batchedBoardIDs.map((batch) =>
+            firestore()
+                .collection('boards')
+                .where(firestore.FieldPath.documentId(), 'in', batch)
+                .get(),
         )
-        .flat()
-}
 
-export async function getPrivateBoardsForUser() {
-    const user = await getUser()
-    if (!user)
-        throw new TavlaError({
-            code: 'NOT_FOUND',
-            message: `Found no user`,
-        })
+        const boardRefs = await Promise.all(boardQueries)
 
-    const boardIDs = concat(user.owner ?? [], user.editor ?? [])
-
-    if (isEmpty(boardIDs)) return []
-
-    const batchedBoardIDs = chunk(boardIDs, 20)
-
-    const boardQueries = batchedBoardIDs.map((batch) =>
-        firestore()
-            .collection('boards')
-            .where(firestore.FieldPath.documentId(), 'in', batch)
-            .get(),
-    )
-
-    const boardRefs = await Promise.all(boardQueries)
-
-    return boardRefs
-        .map((ref) =>
-            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as TBoard),
+        return boardRefs
+            .map((ref) =>
+                ref.docs.map(
+                    (doc) => ({ id: doc.id, ...doc.data() }) as TBoard,
+                ),
+            )
+            .flat()
+    } catch (error) {
+        Sentry.captureMessage(
+            'Error while fetching boards for organization with orgID ' + oid,
         )
-        .flat()
+        throw error
+    }
 }
 
 export async function getBoards(ids?: TBoardID[]) {
     if (!ids) return []
 
     const batches = chunk(ids, 20)
-    const queries = batches.map((batch) =>
-        firestore()
-            .collection('boards')
-            .where(firestore.FieldPath.documentId(), 'in', batch)
-            .get(),
-    )
-
-    const refs = await Promise.all(queries)
-    return refs
-        .map((ref) =>
-            ref.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as TBoard),
+    try {
+        const queries = batches.map((batch) =>
+            firestore()
+                .collection('boards')
+                .where(firestore.FieldPath.documentId(), 'in', batch)
+                .get(),
         )
-        .flat()
+
+        const refs = await Promise.all(queries)
+        return refs
+            .map((ref) =>
+                ref.docs.map(
+                    (doc) => ({ id: doc.id, ...doc.data() }) as TBoard,
+                ),
+            )
+            .flat()
+    } catch (error) {
+        Sentry.captureMessage('Error while fetching list of boards: ' + ids)
+        throw error
+    }
 }
 
 export async function getAllBoardsForUser() {

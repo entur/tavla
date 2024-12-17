@@ -11,6 +11,9 @@ import {
     userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
+import { handleError } from 'app/(admin)/utils/handleError'
+import * as Sentry from '@sentry/nextjs'
+
 initializeAdminApp()
 
 export async function remove(oid?: TOrganizationID, logo?: TLogo) {
@@ -24,14 +27,25 @@ export async function remove(oid?: TOrganizationID, logo?: TLogo) {
     const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
 
-    const bucket = storage().bucket((await getConfig()).bucket)
-    const logoFile = bucket.file('logo/' + file)
+    try {
+        const bucket = storage().bucket((await getConfig()).bucket)
+        const logoFile = bucket.file('logo/' + file)
 
-    await logoFile.delete()
+        await logoFile.delete()
 
-    await firestore().collection('organizations').doc(oid).update({
-        logo: firestore.FieldValue.delete(),
-    })
+        await firestore().collection('organizations').doc(oid).update({
+            logo: firestore.FieldValue.delete(),
+        })
 
-    revalidatePath('/')
+        revalidatePath('/')
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while removing logo from organization',
+                orgID: oid,
+                fileName: file,
+            },
+        })
+        return handleError(error)
+    }
 }

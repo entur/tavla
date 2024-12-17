@@ -3,6 +3,8 @@
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { validEmail } from 'utils/email'
+import * as Sentry from '@sentry/nextjs'
+import { handleError } from 'app/(admin)/utils/handleError'
 
 async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
     const email = data.get('email') as string
@@ -106,8 +108,14 @@ async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
         if (!response.ok) {
             throw Error('Error in request')
         }
-    } catch {
-        return getFormFeedbackForError('general')
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while submitting contact form',
+                formMessage: message,
+            },
+        })
+        return handleError(error)
     }
 }
 

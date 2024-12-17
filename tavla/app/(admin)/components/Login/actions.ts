@@ -5,6 +5,7 @@ import { TUserID } from 'types/settings'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -35,5 +36,15 @@ export async function login(token: string) {
 }
 
 export async function create(uid: TUserID) {
-    await firestore().collection('users').doc(uid).create({})
+    try {
+        await firestore().collection('users').doc(uid).create({})
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while creating new user',
+                userID: uid,
+            },
+        })
+        throw error
+    }
 }

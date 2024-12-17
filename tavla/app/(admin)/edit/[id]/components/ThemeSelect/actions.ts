@@ -8,6 +8,7 @@ import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TBoardID, TTheme } from 'types/settings'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -25,7 +26,14 @@ export async function setTheme(bid: TBoardID, theme?: TTheme) {
             })
 
         revalidatePath(`/edit/${bid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while updating theme of board',
+                boardID: bid,
+                newTheme: theme,
+            },
+        })
+        return handleError(error)
     }
 }

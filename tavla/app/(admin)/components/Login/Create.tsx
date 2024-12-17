@@ -16,13 +16,13 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { FirebaseError } from 'firebase/app'
 import { FormError } from '../FormError'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePathname } from 'next/navigation'
 import { Button, ButtonGroup } from '@entur/button'
 import Link from 'next/link'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { handleError } from 'app/(admin)/utils/handleError'
 
 function Create() {
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
@@ -44,9 +44,7 @@ function Create() {
             await sendEmailVerification(credential.user)
             return getFormFeedbackForError('auth/create', email)
         } catch (e) {
-            if (e instanceof FirebaseError) {
-                return getFormFeedbackForError(e)
-            }
+            return handleError(e)
         }
     }
     const [state, action] = useActionState(submit, undefined)

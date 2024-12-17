@@ -16,6 +16,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { handleError } from 'app/(admin)/utils/handleError'
+import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
@@ -40,8 +41,14 @@ export async function saveTitle(
                 'meta.dateModified': Date.now(),
             })
         revalidatePath(`/edit/${bid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while saving title of board tile',
+                boardID: bid,
+            },
+        })
+        return handleError(error)
     }
 }
 
@@ -57,8 +64,14 @@ export async function saveFont(bid: TBoardID, data: FormData) {
             .doc(bid)
             .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
         revalidatePath(`/edit/${bid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while updating font size of board',
+                boardID: bid,
+            },
+        })
+        return handleError(error)
     }
 }
 
@@ -81,8 +94,15 @@ export async function saveLocation(bid: TBoardID, location?: TLocation) {
                 'meta.dateModified': Date.now(),
             })
         revalidatePath(`/edit/${bid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while updating location of board',
+                boardID: bid,
+                location: location,
+            },
+        })
+        return handleError(error)
     }
 }
 
@@ -134,7 +154,15 @@ export async function moveBoard(
                 .update({ owner: admin.firestore.FieldValue.arrayUnion(bid) })
 
         revalidatePath(`/edit/${bid}`)
-    } catch (e) {
-        return handleError(e)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while moving board to new organization',
+                boardID: bid,
+                newOrg: oid,
+                oldOrg: fromOrganization,
+            },
+        })
+        return handleError(error)
     }
 }
