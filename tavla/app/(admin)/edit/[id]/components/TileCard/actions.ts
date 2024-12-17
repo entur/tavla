@@ -17,20 +17,19 @@ export async function deleteTile(bid: TBoardID, tile: TTile) {
     const access = await hasBoardOwnerAccess(bid)
     if (!access) return redirect('/')
 
-
     try {
-      const boardRef = firestore().collection('boards').doc(bid)
-      const board = (await boardRef.get()).data() as TBoard
-      const tileToDelete = board.tiles.find((t) => t.uuid === tile.uuid)
+        const boardRef = firestore().collection('boards').doc(bid)
+        const board = (await boardRef.get()).data() as TBoard
+        const tileToDelete = board.tiles.find((t) => t.uuid === tile.uuid)
 
-      await firestore()
-          .collection('boards')
-          .doc(bid)
-          .update({
-              tiles: firestore.FieldValue.arrayRemove(tileToDelete),
-              'meta.dateModified': Date.now(),
-
-      revalidatePath(`/edit/${bid}`)
+        await firestore()
+            .collection('boards')
+            .doc(bid)
+            .update({
+                tiles: firestore.FieldValue.arrayRemove(tileToDelete),
+                'meta.dateModified': Date.now(),
+            })
+        revalidatePath(`/edit/${bid}`)
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
@@ -45,7 +44,7 @@ export async function deleteTile(bid: TBoardID, tile: TTile) {
 export async function saveTile(bid: TBoardID, tile: TTile) {
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
-    
+
     try {
         const boardRef = firestore().collection('boards').doc(bid)
         const board = (await boardRef.get()).data() as TBoard

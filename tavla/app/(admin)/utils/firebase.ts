@@ -6,7 +6,6 @@ import {
     getBoardsForOrganization,
     getOrganizationIfUserHasAccess,
 } from '../actions'
-import { getOrganizationForBoard } from '../edit/[id]/components/TileCard/actions'
 import * as Sentry from '@sentry/nextjs'
 import { getOrganizationWithBoard } from 'Board/scenarios/Board/firebase'
 
@@ -83,7 +82,7 @@ export async function deleteBoard(bid: TBoardID) {
 
     if (!user || !access) throw 'auth/operation-not-allowed'
 
-    const organization = await getOrganizationForBoard(bid)
+    const organization = await getOrganizationWithBoard(bid)
 
     try {
         await firestore().collection('boards').doc(bid).delete()
