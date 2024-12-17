@@ -56,7 +56,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { NEW_LINE_IDS, OLD_LINE_IDS, SWITCH_DATE } from '../../compatibility'
+import { OLD_LINE_IDS } from '../../compatibility'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function TileCard({
@@ -162,12 +162,8 @@ function TileCard({
             </div>
         )
 
-    // TODO: remove 15. december when new lines are active
-    if (Date.now() < Date.parse(SWITCH_DATE.toString())) {
-        lines = lines.filter((line) => !NEW_LINE_IDS.includes(line.id))
-    } else {
-        lines = lines.filter((line) => !OLD_LINE_IDS.includes(line.id))
-    }
+    // TODO: remove when old lines no longer return any data (2025)
+    lines = lines.filter((line) => !OLD_LINE_IDS.includes(line.id))
 
     const uniqLines = uniqBy(lines, 'id')
 
