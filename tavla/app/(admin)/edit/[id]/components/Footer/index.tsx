@@ -28,7 +28,7 @@ function Footer({
         state: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        const formFeedback = await setFooterAction(state, bid, data)
+        const formFeedback = await setFooterAction(bid, data)
 
         if (!formFeedback) {
             addToast('Infomelding lagret!')
@@ -57,7 +57,8 @@ function Footer({
                     name="footer"
                     defaultValue={footer?.footer ?? ''}
                     readOnly={override && organizationBoard}
-                    className="w-full"
+                    className="w-full mb-2"
+                    {...getFormFeedbackForField('user', footerState)}
                 />
                 {organizationBoard && (
                     <Switch

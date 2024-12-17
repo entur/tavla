@@ -22,6 +22,7 @@ export type TFormFeedback = {
 }
 
 export type TError = FirebaseError | string
+
 export function getFormFeedbackForField(
     form_type: InputType,
     feedback?: TFormFeedback,
@@ -239,6 +240,13 @@ export function getFormFeedbackForError(
                 form_type: 'file',
                 feedback: 'Noe gikk galt. Vennligst prøv igjen senere',
                 variant: 'error',
+            }
+        }
+        case 'footer/empty': {
+            return {
+                form_type: 'user',
+                feedback: 'Infomelding må inneholde tall eller bokstaver',
+                variant: 'warning',
             }
         }
         case 'firebase/general': {
