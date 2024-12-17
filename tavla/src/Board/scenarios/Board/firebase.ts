@@ -22,12 +22,7 @@ export async function getBoard(bid: TBoardID) {
         }
         return makeBoardCompatible({ id: board.id, ...board.data() } as TBoard)
     } catch (error) {
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while fetching board from firestore',
-                boardID: bid,
-            },
-        })
+        Sentry.captureMessage('Failed to fetch board with bid ' + bid)
         throw error
     }
 }
@@ -40,7 +35,7 @@ export async function getOrganizationWithBoard(bid: TBoardID) {
             .get()
         return ref.docs.map((doc) => doc.data() as TOrganization)[0] ?? null
     } catch (error) {
-        Sentry.captureMessage('Failed to fetch orgabization with board ' + bid)
+        Sentry.captureMessage('Failed to fetch organization with board ' + bid)
         throw error
     }
 }
