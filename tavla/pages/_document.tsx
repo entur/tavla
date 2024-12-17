@@ -1,38 +1,15 @@
-import Document, {
-    Html,
-    Head,
-    Main,
-    NextScript,
-    DocumentContext,
-    DocumentInitialProps,
-} from 'next/document'
-import { isUnsupportedBrowser } from 'utils/browserDetection'
-
-interface TavlaDocumentProps extends DocumentInitialProps {
-    needsRefresh: boolean
-}
+import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Script from 'next/script'
 
 class TavlaDocument extends Document {
-    static async getInitialProps(
-        context: DocumentContext,
-    ): Promise<TavlaDocumentProps> {
-        const initialProps = await Document.getInitialProps(context)
-        const ua = context.req?.headers['user-agent'] || ''
-
-        const needsRefresh = isUnsupportedBrowser(ua)
-        return {
-            ...initialProps,
-            needsRefresh,
-        }
-    }
-
     render() {
-        const { needsRefresh } = this.props as unknown as TavlaDocumentProps
-
         return (
             <Html>
                 <Head>
-                    {needsRefresh && <meta httpEquiv="refresh" content="45" />}
+                    <Script
+                        strategy="beforeInteractive"
+                        src="global-this.js"
+                    ></Script>
                     <link
                         rel="apple-touch-icon"
                         sizes="180x180"

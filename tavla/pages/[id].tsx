@@ -10,12 +10,7 @@ import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { fetchQuery } from 'graphql/utils'
-import { addMinutesToDate, formatDateToISO } from 'utils/time'
-import { TGetQuayQuery, TStopPlaceQuery } from 'graphql/index'
-import { isUnsupportedBrowser } from 'utils/browserDetection'
 import { GetServerSideProps } from 'next'
-import { SSRQuayQuery, SSRStopPlaceQuery } from 'graphql/ssrQueries'
 import * as Sentry from '@sentry/nextjs'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -28,8 +23,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             }
         }
         const { id } = params as { id: string }
-        const ua = req.headers['user-agent'] || ''
-        const fetchBoardServerSide = isUnsupportedBrowser(ua)
 
         if (!id) {
             Sentry.captureMessage('Missing board ID in getServerSideProps')
@@ -41,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         const board: TBoard | undefined = await getBoard(id)
 
         if (!board) {
-            Sentry.captureMessage('Board is undefined in getServerSideProps')
+            //Sentry.captureMessage('Board is undefined in getServerSideProps')
             return {
                 notFound: true,
             }
@@ -49,17 +42,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
         const organization = await getOrganizationWithBoard(id)
 
-        let tileData = null
-        if (fetchBoardServerSide) {
-            tileData = await getTileData(board)
-        }
-
         return {
             props: {
                 board,
                 organization,
                 backend_url: getBackendUrl(),
-                tileData,
             },
         }
     } catch (error) {
@@ -78,12 +65,10 @@ function BoardPage({
     board,
     organization,
     backend_url,
-    tileData,
 }: {
     board: TBoard
     organization: TOrganization | null
     backend_url: string
-    tileData?: (TStopPlaceQuery | TGetQuayQuery | null)[]
 }) {
     const updatedBoard = useRefresh(board, backend_url)
 
@@ -112,7 +97,7 @@ function BoardPage({
                     theme={updatedBoard.theme}
                     organizationLogo={organization?.logo}
                 />
-                <Board board={updatedBoard} data={tileData} />
+                <Board board={updatedBoard} />
                 <Footer
                     board={updatedBoard}
                     logo={organization?.logo !== undefined}
@@ -124,60 +109,3 @@ function BoardPage({
 }
 
 export default BoardPage
-
-// Fetch data for each tile on the board
-// Used for server side rendering on unsupported browsers
-const getTileData = async (board: TBoard) => {
-    const tileData = await Promise.all(
-        board.tiles.map(async (tile) => {
-            if (tile.type === 'stop_place') {
-                const variables = {
-                    stopPlaceId: tile.placeId,
-                    whitelistedTransportModes: tile.whitelistedTransportModes,
-                    whitelistedLines: tile.whitelistedLines,
-                    startTime: formatDateToISO(
-                        addMinutesToDate(new Date(), tile.offset ?? 0),
-                    ),
-                }
-                try {
-                    const data = await fetchQuery(SSRStopPlaceQuery, variables)
-                    return data
-                } catch (error) {
-                    Sentry.captureException(error, {
-                        extra: {
-                            message:
-                                'Server-side fetching of departures for stopPlace failed',
-                            queryVariables: variables,
-                        },
-                    })
-                    return null
-                }
-            } else if (tile.type === 'quay') {
-                const variables = {
-                    quayId: tile.placeId,
-                    whitelistedLines: tile.whitelistedLines,
-                    whitelistedTransportModes: tile.whitelistedTransportModes,
-                    startTime: formatDateToISO(
-                        addMinutesToDate(new Date(), tile.offset ?? 0),
-                    ),
-                }
-                try {
-                    const data = await fetchQuery(SSRQuayQuery, variables)
-                    return data
-                } catch (error) {
-                    Sentry.captureException(error, {
-                        extra: {
-                            message:
-                                'Server-side fetching of departures for quay failed',
-                            queryVariables: variables,
-                        },
-                    })
-                    return null
-                }
-            } else {
-                return null
-            }
-        }),
-    )
-    return tileData
-}

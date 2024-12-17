@@ -17,15 +17,20 @@ export async function deleteTile(bid: TBoardID, tile: TTile) {
     const access = await hasBoardOwnerAccess(bid)
     if (!access) return redirect('/')
 
+
     try {
-        await firestore()
-            .collection('boards')
-            .doc(bid)
-            .update({
-                tiles: firestore.FieldValue.arrayRemove(tile),
-                'meta.dateModified': Date.now(),
-            })
-        revalidatePath(`/edit/${bid}`)
+      const boardRef = firestore().collection('boards').doc(bid)
+      const board = (await boardRef.get()).data() as TBoard
+      const tileToDelete = board.tiles.find((t) => t.uuid === tile.uuid)
+
+      await firestore()
+          .collection('boards')
+          .doc(bid)
+          .update({
+              tiles: firestore.FieldValue.arrayRemove(tileToDelete),
+              'meta.dateModified': Date.now(),
+
+      revalidatePath(`/edit/${bid}`)
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
@@ -40,28 +45,28 @@ export async function deleteTile(bid: TBoardID, tile: TTile) {
 export async function saveTile(bid: TBoardID, tile: TTile) {
     const access = await hasBoardEditorAccess(bid)
     if (!access) return redirect('/')
-
+    
     try {
-        const docRef = firestore().collection('boards').doc(bid)
-        const doc = (await docRef.get()).data() as TBoard
-        const oldTile = doc.tiles.find((t) => t.uuid === tile.uuid)
-        if (!oldTile)
-            return docRef.update({
+        const boardRef = firestore().collection('boards').doc(bid)
+        const board = (await boardRef.get()).data() as TBoard
+        const existingTile = board.tiles.find((t) => t.uuid === tile.uuid)
+        if (!existingTile)
+            return boardRef.update({
                 tiles: firestore.FieldValue.arrayUnion(tile),
                 'meta.dateModified': Date.now(),
             })
-        const index = doc.tiles.indexOf(oldTile)
+        const indexExistingTile = board.tiles.indexOf(existingTile)
 
-        if (tile.displayName !== undefined) {
-            doc.tiles[index] = {
+        if (tile.displayName) {
+            board.tiles[indexExistingTile] = {
                 ...tile,
-                displayName: tile.displayName?.substring(0, 50),
+                displayName: tile.displayName.substring(0, 50),
             }
         } else {
-            doc.tiles[index] = tile
+            board.tiles[indexExistingTile] = tile
         }
 
-        docRef.update({ tiles: doc.tiles, 'meta.dateModified': Date.now() })
+        boardRef.update({ tiles: board.tiles, 'meta.dateModified': Date.now() })
 
         revalidatePath(`/edit/${bid}`)
     } catch (error) {

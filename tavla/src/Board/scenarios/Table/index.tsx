@@ -21,13 +21,15 @@ function Table({
     departures,
     columns,
     situations,
-    theme,
 }: {
     departures: TDepartureFragment[]
     columns?: TColumn[]
     situations?: TSituationFragment[]
-    theme?: string
 }) {
+    const theme = document
+        .querySelector('[data-theme]')
+        ?.getAttribute('data-theme')
+
     if (!columns || !isArray(columns))
         return (
             <div className="flex shrink-0">

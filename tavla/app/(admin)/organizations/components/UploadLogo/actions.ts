@@ -1,6 +1,6 @@
 'use server'
 
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { revalidatePath } from 'next/cache'
 import { TLogo, TOrganizationID } from 'types/settings'
 import { getFilename } from './utils'
@@ -10,7 +10,6 @@ import {
     initializeAdminApp,
     userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
-import { getDownloadURL } from 'firebase-admin/storage'
 import { redirect } from 'next/navigation'
 import { nanoid } from 'nanoid'
 import { handleError } from 'app/(admin)/utils/handleError'

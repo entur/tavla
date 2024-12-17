@@ -4,7 +4,7 @@ const { withSentryConfig } = require("@sentry/nextjs");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
-    transpilePackages: ['swr', 'tailwindcss'],
+    transpilePackages: ['swr', 'tailwindcss', 'next', '@sentry/nextjs', '@sentry/browser', '@sentry/react', '@sentry/core', '@sentry/utils', '@sentry-internal'],
     i18n: {
         locales: ['nb'],
         defaultLocale: 'nb',
@@ -20,6 +20,9 @@ const nextConfig = {
                 hostname: 'firebasestorage.googleapis.com',
             },
         ],
+        dangerouslyAllowSVG: true,
+	contentDispositionType: 'attachment',
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
 }
 

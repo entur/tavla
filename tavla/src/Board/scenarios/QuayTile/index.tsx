@@ -1,6 +1,6 @@
 import { TQuayTile } from 'types/tile'
 import { Table } from '../Table'
-import { GetQuayQuery, TGetQuayQuery } from 'graphql/index'
+import { GetQuayQuery } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
@@ -10,7 +10,6 @@ import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
-import { TTheme } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 export function QuayTile({
@@ -21,9 +20,7 @@ export function QuayTile({
     walkingDistance,
     offset,
     displayName,
-    data: initialData,
-    theme,
-}: TQuayTile & { data?: TGetQuayQuery; theme: TTheme }) {
+}: TQuayTile) {
     const { data, isLoading, error } = useQuery(
         GetQuayQuery,
         {
@@ -31,7 +28,7 @@ export function QuayTile({
             whitelistedLines,
             whitelistedTransportModes,
         },
-        { poll: true, offset: offset ?? 0, fallbackData: initialData },
+        { poll: true, offset: offset ?? 0 },
     )
 
     if (isLoading && !data) {
@@ -76,7 +73,6 @@ export function QuayTile({
                 columns={columns}
                 departures={data.quay.estimatedCalls}
                 situations={data.quay.situations}
-                theme={theme}
             />
         </Tile>
     )

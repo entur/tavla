@@ -73,14 +73,6 @@ function ContactForm() {
                         med Tavla.
                     </Paragraph>
 
-                    <ClientOnlyTextField
-                        label="E-postadresse"
-                        name="email"
-                        id="email"
-                        aria-label="E-postadresse"
-                        {...getFormFeedbackForField('email', formState)}
-                    />
-
                     <div>
                         <Label
                             htmlFor="message"
