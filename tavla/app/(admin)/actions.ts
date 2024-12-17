@@ -9,7 +9,6 @@ import {
 import { getUser, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
 import { chunk, concat, isEmpty, flattenDeep } from 'lodash'
-import { TavlaError } from './utils/types'
 import { redirect } from 'next/navigation'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { userInOrganization } from './utils'
@@ -103,45 +102,6 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
     } catch (error) {
         Sentry.captureMessage(
             'Error while fetching boards for organization with orgID ' + oid,
-        )
-        throw error
-    }
-}
-
-export async function getPrivateBoardsForUser() {
-    const user = await getUser()
-    if (!user)
-        throw new TavlaError({
-            code: 'NOT_FOUND',
-            message: `Found no user`,
-        })
-
-    const boardIDs = concat(user.owner ?? [], user.editor ?? [])
-
-    if (isEmpty(boardIDs)) return []
-
-    const batchedBoardIDs = chunk(boardIDs, 20)
-
-    try {
-        const boardQueries = batchedBoardIDs.map((batch) =>
-            firestore()
-                .collection('boards')
-                .where(firestore.FieldPath.documentId(), 'in', batch)
-                .get(),
-        )
-
-        const boardRefs = await Promise.all(boardQueries)
-
-        return boardRefs
-            .map((ref) =>
-                ref.docs.map(
-                    (doc) => ({ id: doc.id, ...doc.data() }) as TBoard,
-                ),
-            )
-            .flat()
-    } catch (error) {
-        Sentry.captureMessage(
-            'Error while fetching private boards for user: ' + user.uid,
         )
         throw error
     }

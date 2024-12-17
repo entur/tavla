@@ -8,7 +8,7 @@ import { firestore } from 'firebase-admin'
 import { TTag } from 'types/meta'
 import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { getBoard } from 'Board/scenarios/Board/firebase'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import * as Sentry from '@sentry/nextjs'
 import { handleError } from 'app/(admin)/utils/handleError'
 
@@ -19,7 +19,9 @@ async function fetchTags({ bid }: { bid: TBoardID }) {
     }
 
     const access = await hasBoardEditorAccess(board.id)
-    if (!access) throw 'auth/operation-not-allowed'
+    if (!access) {
+        redirect('/')
+    }
 
     return (board?.meta?.tags as TTag[]) ?? []
 }

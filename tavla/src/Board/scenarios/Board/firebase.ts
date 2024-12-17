@@ -80,7 +80,7 @@ export async function getOrganizationFooterWithBoard(bid: TBoardID) {
         Sentry.captureException(error, {
             extra: {
                 message:
-                    'Error while organization footer for board from firestore',
+                    'Error while fetching organization footer for board from firestore',
                 boardID: bid,
             },
         })
