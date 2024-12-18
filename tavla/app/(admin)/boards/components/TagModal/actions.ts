@@ -32,7 +32,9 @@ async function getAllTags() {
         ({ board }) => board,
     ) as TBoard[]
 
-    const allTags = allBoards.flatMap((board: TBoard) => board.meta?.tags ?? [])
+    const allTags = uniq(
+        allBoards.flatMap((board: TBoard) => board.meta?.tags ?? []),
+    )
     return allTags as TTag[]
 }
 
@@ -78,21 +80,18 @@ export async function addTag(
     const access = await hasBoardEditorAccess(bid)
     if (!access) throw 'auth/operation-not-allowed'
 
+    const allTags = await getAllTags()
+    const currentTags = await fetchBoardTags({ bid })
+    const existingTag = allTags.find(
+        (t) => t.toUpperCase() === tag.toUpperCase(),
+    )
+
+    const tagToAdd = existingTag || tag
+    if (currentTags.some((t) => t.toUpperCase() === tagToAdd.toUpperCase())) {
+        return getFormFeedbackForError('boards/tag-exists')
+    }
+
     try {
-        const allTags = await getAllTags()
-        const currentTags = await fetchBoardTags({ bid })
-        const existingTag = allTags.find(
-            (t) => t.toUpperCase() === tag.toUpperCase(),
-        )
-
-        const tagToAdd = existingTag || tag
-
-        if (
-            currentTags.some((t) => t.toUpperCase() === tagToAdd.toUpperCase())
-        ) {
-            throw 'boards/tag-exists'
-        }
-
         await firestore()
             .collection('boards')
             .doc(bid)
