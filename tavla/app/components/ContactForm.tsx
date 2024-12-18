@@ -26,7 +26,6 @@ function ContactForm() {
         undefined,
     )
     const [disabledEmail, setDisabledEmail] = useState(false)
-
     const submit = async (data: FormData) => {
         const email = data.get('email') as string
         const message = data.get('message') as string
@@ -43,19 +42,20 @@ function ContactForm() {
         if (error) return setFormError(error)
         else {
             setIsOpen(false)
-            setDisabledEmail(false)
-            setFormError(undefined)
+            resetForm()
             addToast('Takk for tilbakemelding!')
         }
     }
 
+    const resetForm = () => {
+        setFormError(undefined)
+        setDisabledEmail(false)
+    }
     return (
         <div
             className="flex items-center justify-center w-full xl:w-1/6"
             onClick={() =>
-                isOpen
-                    ? posthog.capture('CONTACT_FORM_OPENED')
-                    : setFormError(undefined)
+                isOpen ? posthog.capture('CONTACT_FORM_OPENED') : resetForm()
             }
         >
             <Expandable
@@ -112,7 +112,7 @@ function ContactForm() {
                         <Checkbox
                             className="!items-start"
                             name="disabledEmail"
-                            onClick={() => setDisabledEmail(!disabledEmail)}
+                            onChange={(e) => setDisabledEmail(e.target.checked)}
                         >
                             Jeg ønsker ikke å oppgi e-postadresse og vil ikke få
                             svar på henvendelsen.
