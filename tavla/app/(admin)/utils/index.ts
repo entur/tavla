@@ -1,4 +1,4 @@
-import { VariantType } from '@entur/form'
+import { VariantType } from '@entur/utils'
 import { FirebaseError } from 'firebase/app'
 import { TOrganization, TUserID } from 'types/settings'
 
@@ -43,13 +43,13 @@ export function getFormFeedbackForError(
             return {
                 form_type: 'email',
                 feedback: 'E-postadressen er ikke gyldig.',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'auth/user-disabled':
             return {
                 form_type: 'user',
                 feedback: 'Kontoen har blitt deaktivert.',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'auth/user-not-found':
             return {
@@ -62,7 +62,7 @@ export function getFormFeedbackForError(
             return {
                 form_type: 'password',
                 feedback: 'Passordet er ikke gyldig.',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'auth/email-already-in-use':
             return {
@@ -92,7 +92,7 @@ export function getFormFeedbackForError(
             return {
                 form_type: 'repeat_password',
                 feedback: 'Passordene er ikke like.',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'auth/too-many-requests':
             return {
@@ -105,19 +105,19 @@ export function getFormFeedbackForError(
             return {
                 form_type: 'general',
                 feedback: 'Du har ikke tilgang til å utføre denne operasjonen',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'auth/expired-action-code':
             return {
                 form_type: 'user',
                 feedback: 'Lenken du har fulgt er utgått.',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'auth/invalid-action-code':
             return {
                 form_type: 'user',
                 feedback: 'Lenken du har fulgt er ugyldig.',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'auth/missing-email':
             return {
@@ -129,94 +129,94 @@ export function getFormFeedbackForError(
             return {
                 form_type: 'general',
                 feedback: 'Fant ikke organisasjonen',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'organization/user-already-invited':
             return {
                 form_type: 'general',
                 feedback: 'Denne personen er allerede medlem av organisasjoen.',
-                variant: 'info',
+                variant: 'information',
             }
         case 'organization/name-missing':
             return {
                 form_type: 'name',
                 feedback: 'Du har ikke gitt organisasjonen et navn',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'board/not-found':
             return {
                 form_type: 'general',
                 feedback: 'Denne tavla finnes ikke',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'board/name-missing':
             return {
                 form_type: 'name',
                 feedback: 'Du har ikke gitt tavla et navn',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'create/organization-missing':
             return {
                 form_type: 'organization',
                 feedback: 'Du har ikke valgt organisasjon',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'board/tiles-missing':
             return {
                 form_type: 'general',
                 feedback: 'Du har ikke lagt til noen stoppesteder',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'board/tiles-name-missing':
             return {
                 form_type: 'name',
                 feedback: 'Navnet kan ikke være tomt',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'boards/tag-exists':
             return {
                 form_type: 'general',
                 feedback: 'Denne merkelappen finnes allerede',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'organization/name-mismatch':
             return {
                 form_type: 'name',
                 feedback: 'Navnet på organisasjonen er ikke skrevet riktig',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'organization/invalid-columns':
             return {
                 form_type: 'column',
                 feedback: 'Du må velge minst èn kolonne',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'file/invalid':
             return {
                 form_type: 'file',
                 feedback:
                     'Du må legge til en gyldig fil (APNG, JPEG, PNG, SVG, GIP, WEBP).',
-                variant: 'error',
+                variant: 'negative',
             }
         case 'file/size-too-big': {
             return {
                 form_type: 'file',
                 feedback: 'Filen du prøver å laste opp er for stor.',
-                variant: 'error',
+                variant: 'negative',
             }
         }
         case 'create/quay-missing': {
             return {
                 form_type: 'quay',
                 feedback: 'Du har ikke valgt retning enda',
-                variant: 'error',
+                variant: 'negative',
             }
         }
         case 'create/stop_place-missing': {
             return {
                 form_type: 'stop_place',
                 feedback: 'Du har ikke valgt stoppested',
-                variant: 'error',
+                variant: 'negative',
             }
         }
         case 'reset/email-sent': {
@@ -232,28 +232,28 @@ export function getFormFeedbackForError(
                 form_type: 'general',
                 feedback:
                     'Merkelappen kan ikke være tom eller bare bestå av mellomrom.',
-                variant: 'error',
+                variant: 'negative',
             }
         }
         case 'file/rate-limit': {
             return {
                 form_type: 'file',
                 feedback: 'Noe gikk galt. Vennligst prøv igjen senere',
-                variant: 'error',
+                variant: 'negative',
             }
         }
         case 'firebase/general': {
             return {
                 form_type: 'general',
                 feedback: 'En teknisk feil har oppstått. Vennligst prøv igjen.',
-                variant: 'error',
+                variant: 'negative',
             }
         }
         case 'contact/message-missing': {
             return {
                 form_type: 'user',
                 feedback: 'Vennligst legg igjen en melding.',
-                variant: 'error',
+                variant: 'negative',
             }
         }
     }
@@ -261,7 +261,7 @@ export function getFormFeedbackForError(
     return {
         form_type: 'general',
         feedback: 'En feil har oppstått.',
-        variant: 'error',
+        variant: 'negative',
     }
 }
 
