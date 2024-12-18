@@ -1,5 +1,5 @@
 'use server'
-import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
+import { isOnlyWhiteSpace } from 'app/(admin)/edit/utils'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { userCanEditOrganization } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
@@ -19,14 +19,15 @@ export async function setFooter(
 
     const message = data.get('footer') as string
 
+    const validMessage =
+        message && !isOnlyWhiteSpace(message) && message.trim() !== ''
+
     try {
         await firestore()
             .collection('organizations')
             .doc(oid)
             .update({
-                footer: !isEmptyOrSpaces(message)
-                    ? message
-                    : firestore.FieldValue.delete(),
+                footer: validMessage ? message : firestore.FieldValue.delete(),
             })
         revalidatePath(`organizations/${oid}`)
     } catch (error) {

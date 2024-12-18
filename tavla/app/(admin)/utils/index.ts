@@ -22,6 +22,7 @@ export type TFormFeedback = {
 }
 
 export type TError = FirebaseError | string
+
 export function getFormFeedbackForField(
     form_type: InputType,
     feedback?: TFormFeedback,
