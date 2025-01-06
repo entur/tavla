@@ -10,54 +10,29 @@ import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { GetServerSideProps } from 'next'
-import * as Sentry from '@sentry/nextjs'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    try {
-        const { params, req } = context
-        if (!params || !req) {
-            Sentry.captureMessage('Missing params or req in getServerSideProps')
-            return {
-                notFound: true,
-            }
-        }
-        const { id } = params as { id: string }
+export async function getServerSideProps({
+    params,
+}: {
+    params: { id: string }
+}) {
+    const { id } = params
+    const board: TBoard | undefined = await getBoard(id)
 
-        if (!id) {
-            Sentry.captureMessage('Missing board ID in getServerSideProps')
-            return {
-                notFound: true,
-            }
-        }
-
-        const board: TBoard | undefined = await getBoard(id)
-
-        if (!board) {
-            //Sentry.captureMessage('Board is undefined in getServerSideProps')
-            return {
-                notFound: true,
-            }
-        }
-
-        const organization = await getOrganizationWithBoard(id)
-
-        return {
-            props: {
-                board,
-                organization,
-                backend_url: getBackendUrl(),
-            },
-        }
-    } catch (error) {
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Unknown error occurred in getServerSideProps',
-            },
-        })
+    if (!board) {
         return {
             notFound: true,
         }
+    }
+
+    const organization = await getOrganizationWithBoard(id)
+
+    return {
+        props: {
+            board,
+            organization,
+            backend_url: getBackendUrl(),
+        },
     }
 }
 
