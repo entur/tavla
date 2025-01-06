@@ -9,7 +9,6 @@ import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
-import * as Sentry from '@sentry/nextjs'
 
 export function StopPlaceTile({
     placeId,
@@ -39,16 +38,6 @@ export function StopPlaceTile({
     }
 
     if (error || !data || !data.stopPlace) {
-        if (!error) {
-            Sentry.captureException(
-                new Error('Departure fetch for stopPlace returned no data'),
-                {
-                    extra: {
-                        stopPlaceId: placeId,
-                    },
-                },
-            )
-        }
         return (
             <Tile>
                 <DataFetchingFailed
