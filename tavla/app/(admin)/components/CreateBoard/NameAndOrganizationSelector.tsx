@@ -23,7 +23,7 @@ function NameAndOrganizationSelector() {
 
     return (
         <form action={action} className="md:px-10">
-            <Heading2>Velg navn og organisasjon for tavlen</Heading2>
+            <Heading2>Opprett tavle</Heading2>
             <Paragraph className="!mb-4">
                 Gi tavlen et navn og legg den til i en organisasjon. Velger du
                 en organisasjon vil alle i organisasjonen ha tilgang til tavlen.
