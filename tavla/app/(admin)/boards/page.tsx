@@ -7,7 +7,7 @@ import React from 'react'
 import { getAllBoardsForUser } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { Heading1 } from '@entur/typography'
+import { Heading1, Label } from '@entur/typography'
 import { uniq } from 'lodash'
 
 initializeAdminApp()
@@ -33,6 +33,7 @@ async function OrganizationsBoardsPage() {
                 <Search />
                 <FilterButton filterOptions={uniqueTags} />
             </div>
+            <Label>Antall tavler: {boardsWithOrg.length}</Label>
             <BoardTable boardsWithOrg={boardsWithOrg} />
         </div>
     )
