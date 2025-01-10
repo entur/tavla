@@ -53,7 +53,7 @@ export function QuayTile({
         .join(' ')
 
     return (
-        <Tile className="flex flex-col">
+        <Tile className="flex flex-col max-sm:min-h-[30vh]">
             <TableHeader
                 heading={displayName ?? heading}
                 walkingDistance={walkingDistance}
