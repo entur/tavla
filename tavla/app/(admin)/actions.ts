@@ -6,7 +6,7 @@ import {
     TBoard,
     TBoardID,
 } from 'types/settings'
-import { getUser, initializeAdminApp } from './utils/firebase'
+import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
 import { chunk, concat, isEmpty, flattenDeep } from 'lodash'
 import { redirect } from 'next/navigation'
@@ -134,7 +134,7 @@ export async function getBoards(ids?: TBoardID[]) {
 }
 
 export async function getAllBoardsForUser() {
-    const user = await getUser()
+    const user = await getUserWithBoardIds()
     if (!user) return redirect('/')
 
     const privateBoardIDs = concat(user.owner ?? [], user.editor ?? [])

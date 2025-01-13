@@ -13,18 +13,16 @@ import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { Link as EnturLink } from '@entur/typography'
 import { CreateUserButtonLanding } from './components/CreateUserButtonLanding'
 import { DemoButton } from './components/DemoButtonLanding'
-import { cookies } from 'next/headers'
 import { WordCarousel } from './components/WordCarousel/WordCarousel'
-import { verifySession } from './(admin)/utils/firebase'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
+import { getUserFromSessionCookie } from './(admin)/utils/server'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
 }
 
 async function Landing() {
-    const session = (await cookies()).get('session')?.value
-    const loggedIn = (await verifySession(session)) !== null
+    const loggedIn = (await getUserFromSessionCookie()) !== null
     return (
         <main>
             <div className="bg-secondary">

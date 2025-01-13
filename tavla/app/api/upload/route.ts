@@ -6,7 +6,6 @@ import {
     getConfig,
     initializeAdminApp,
     userCanEditOrganization,
-    verifySession,
 } from 'app/(admin)/utils/firebase'
 import { getDownloadURL } from 'firebase-admin/storage'
 import { nanoid } from 'nanoid'
@@ -15,6 +14,7 @@ import { JSDOM } from 'jsdom'
 import { NextRequest } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import rateLimit from 'utils/rateLimit'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
 initializeAdminApp()
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     const cookies = request.cookies
     const token = cookies.get('session')?.value
 
-    const user = await verifySession(token)
+    const user = await getUserFromSessionCookie()
     const response = new Response()
     response.headers.set('Content-Type', 'application/json')
     if (!user || !token) {

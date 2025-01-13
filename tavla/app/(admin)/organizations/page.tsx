@@ -1,21 +1,19 @@
 import { Heading1, Paragraph } from '@entur/typography'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { CreateOrganization } from './components/CreateOrganization'
 import { Metadata } from 'next'
-import { verifySession } from '../utils/firebase'
 import { getOrganizationsForUser } from '../actions'
 import { Organizations } from './components/Organizations'
+import { getUserFromSessionCookie } from '../utils/server'
 
 export const metadata: Metadata = {
     title: 'Organisasjoner | Entur Tavla',
 }
 
 async function OrganizationsPage() {
-    const session = (await cookies()).get('session')
-    const user = await verifySession(session?.value)
+    const user = await getUserFromSessionCookie()
 
-    if (!user) redirect('/#login')
+    if (!user || !user.uid) redirect('/')
 
     const organizations = await getOrganizationsForUser()
 
