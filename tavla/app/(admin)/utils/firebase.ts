@@ -34,6 +34,18 @@ export async function verifySession(session?: string) {
     }
 }
 
+export async function revokeUserTokenOnLogout() {
+    const user = await getUser()
+    if (!user || !user.uid) {
+        return null
+    }
+    try {
+        await auth().revokeRefreshTokens(user.uid)
+    } catch {
+        return null
+    }
+}
+
 export async function getUser() {
     const user = await getUserFromSessionCookie()
     if (!user) return null
