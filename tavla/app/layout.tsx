@@ -8,10 +8,9 @@ import { Metadata } from 'next'
 import { EnturToastProvider, PHProvider } from './providers'
 import { Footer } from './(admin)/components/Footer'
 import { TopNavigation } from './(admin)/components/TopNavigation'
-import { cookies } from 'next/headers'
-import { verifySession } from './(admin)/utils/firebase'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
+import { getUserFromSessionCookie } from './(admin)/utils/server'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -38,8 +37,7 @@ export const metadata: Metadata = {
 }
 
 async function RootLayout({ children }: { children: ReactNode }) {
-    const session = (await cookies()).get('session')?.value
-    const loggedIn = (await verifySession(session)) !== null
+    const loggedIn = (await getUserFromSessionCookie()) !== null
     return (
         <html lang="nb">
             <PHProvider>

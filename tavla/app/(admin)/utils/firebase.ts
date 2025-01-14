@@ -34,7 +34,19 @@ export async function verifySession(session?: string) {
     }
 }
 
-export async function getUser() {
+export async function revokeUserTokenOnLogout() {
+    const user = await getUserFromSessionCookie()
+    if (!user || !user.uid) {
+        return null
+    }
+    try {
+        await auth().revokeRefreshTokens(user.uid)
+    } catch {
+        return null
+    }
+}
+
+export async function getUserWithBoardIds() {
     const user = await getUserFromSessionCookie()
     if (!user) return null
     const userDoc = await firestore().collection('users').doc(user.uid).get()
@@ -44,7 +56,7 @@ export async function getUser() {
 export async function hasBoardOwnerAccess(bid?: TBoardID) {
     if (!bid) return false
 
-    const user = await getUser()
+    const user = await getUserWithBoardIds()
     const userOwnerAccess = user && user.owner?.includes(bid)
 
     if (user?.uid && !userOwnerAccess) {
@@ -61,7 +73,7 @@ export async function hasBoardOwnerAccess(bid?: TBoardID) {
 export async function hasBoardEditorAccess(bid?: TBoardID) {
     if (!bid) return false
 
-    const user = await getUser()
+    const user = await getUserWithBoardIds()
     const userEditorAccess =
         user && (user.editor?.includes(bid) || user.owner?.includes(bid))
 

@@ -6,7 +6,6 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { logout } from '../Login/actions'
 import { handleError } from 'app/(admin)/utils/handleError'
 
 export async function deleteOrganization(
@@ -15,7 +14,7 @@ export async function deleteOrganization(
 ) {
     const user = await getUserFromSessionCookie()
 
-    if (!user) logout()
+    if (!user) redirect('/')
 
     const oid = data.get('oid') as TOrganizationID
     if (!oid) return getFormFeedbackForError('general')

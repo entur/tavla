@@ -6,7 +6,6 @@ import {
     getConfig,
     initializeAdminApp,
     userCanEditOrganization,
-    verifySession,
 } from 'app/(admin)/utils/firebase'
 import { getDownloadURL } from 'firebase-admin/storage'
 import { nanoid } from 'nanoid'
@@ -15,6 +14,7 @@ import { JSDOM } from 'jsdom'
 import { NextRequest } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import rateLimit from 'utils/rateLimit'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
 initializeAdminApp()
 
@@ -23,13 +23,10 @@ const rateLimiter = rateLimit({
     interval: 60000,
 })
 export async function POST(request: NextRequest) {
-    const cookies = request.cookies
-    const token = cookies.get('session')?.value
-
-    const user = await verifySession(token)
+    const user = await getUserFromSessionCookie()
     const response = new Response()
     response.headers.set('Content-Type', 'application/json')
-    if (!user || !token) {
+    if (!user || !user.uid) {
         return new Response(JSON.stringify({ error: 'Invalid token' }), {
             status: 401,
             headers: response.headers,
@@ -37,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        await rateLimiter.check(response, 5, token)
+        await rateLimiter.check(response, 5, user.uid)
     } catch {
         response.headers.set('Content-Type', 'application/json')
         return new Response(JSON.stringify({ error: 'Too Many Requests' }), {

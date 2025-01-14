@@ -8,7 +8,7 @@ import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
-import { getUser, hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
+import { hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
@@ -19,6 +19,7 @@ import { ActionsMenu } from './components/ActionsMenu'
 import { ThemeSelect } from './components/ThemeSelect'
 import { TileList } from './components/TileList'
 import { getBoard } from 'Board/scenarios/Board/firebase'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
 export type TProps = {
     params: Promise<{ id: TBoardID }>
@@ -38,7 +39,7 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
 
 export default async function EditPage(props: TProps) {
     const params = await props.params
-    const user = await getUser()
+    const user = await getUserFromSessionCookie()
     if (!user || !user.uid) return redirect('/')
 
     const board = await getBoard(params.id)

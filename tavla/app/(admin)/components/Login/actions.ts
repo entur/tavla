@@ -4,12 +4,16 @@ import admin, { auth, firestore } from 'firebase-admin'
 import { TUserID } from 'types/settings'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import {
+    initializeAdminApp,
+    revokeUserTokenOnLogout,
+} from 'app/(admin)/utils/firebase'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
 export async function logout() {
+    revokeUserTokenOnLogout()
     ;(await cookies()).delete('session')
     revalidatePath('/')
     redirect('/')
