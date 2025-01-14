@@ -23,13 +23,10 @@ const rateLimiter = rateLimit({
     interval: 60000,
 })
 export async function POST(request: NextRequest) {
-    const cookies = request.cookies
-    const token = cookies.get('session')?.value
-
     const user = await getUserFromSessionCookie()
     const response = new Response()
     response.headers.set('Content-Type', 'application/json')
-    if (!user || !token) {
+    if (!user || !user.uid) {
         return new Response(JSON.stringify({ error: 'Invalid token' }), {
             status: 401,
             headers: response.headers,
@@ -37,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        await rateLimiter.check(response, 5, token)
+        await rateLimiter.check(response, 5, user.uid)
     } catch {
         response.headers.set('Content-Type', 'application/json')
         return new Response(JSON.stringify({ error: 'Too Many Requests' }), {
