@@ -1,6 +1,10 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { withSentryConfig } = require("@sentry/nextjs");
 
+const cspHeader = `
+    frame-ancestors 'none';
+`
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
@@ -21,10 +25,54 @@ const nextConfig = {
             },
         ],
         dangerouslyAllowSVG: true,
-	contentDispositionType: 'attachment',
+        contentDispositionType: 'attachment',
         contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
+    async headers() {
+        return [
+            {         
+                source: '/(.*)?',
+                headers: [
+                    {
+                        key: 'Strict-Transport-Security',
+                        value: 'max-age=63072000; includeSubDomains; preload'
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: cspHeader.replace(/\n/g, ''),
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff'
+                    },
+                    {
+                        key: 'Referrer-Policy',
+                        value: 'strict-origin-when-cross-origin'
+                    },
+                ]
+            },
+            {         
+                source: '/:id(\\w{20})',
+                headers: [
+                    {
+                        key: 'Strict-Transport-Security',
+                        value: 'max-age=63072000; includeSubDomains; preload'
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff'
+                    },
+                    {
+                        key: 'Referrer-Policy',
+                        value: 'strict-origin-when-cross-origin'
+                    },
+                ]
+            },
+        ]
+    }
 }
+
+
 
 module.exports = async (phase, { defaultConfig }) => {
     if (phase === PHASE_DEVELOPMENT_SERVER) {
