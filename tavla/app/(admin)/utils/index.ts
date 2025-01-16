@@ -269,10 +269,5 @@ export function userInOrganization(
     uid?: TUserID,
     organization?: TOrganization,
 ) {
-    return (
-        uid &&
-        organization &&
-        (organization.owners?.includes(uid) ||
-            organization.editors?.includes(uid))
-    )
+    return uid && organization && organization.owners?.includes(uid)
 }

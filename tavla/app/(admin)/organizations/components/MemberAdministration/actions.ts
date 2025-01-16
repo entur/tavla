@@ -24,7 +24,6 @@ export async function removeUser(
             .doc(organizationId)
             .update({
                 owners: admin.firestore.FieldValue.arrayRemove(uid),
-                editors: admin.firestore.FieldValue.arrayRemove(uid),
             })
 
         revalidatePath('/')

@@ -61,11 +61,7 @@ export async function hasBoardOwnerAccess(bid?: TBoardID) {
 
     if (user?.uid && !userOwnerAccess) {
         const organization = await getOrganizationWithBoard(bid)
-        return (
-            organization &&
-            (organization.editors?.includes(user.uid) ||
-                organization.owners?.includes(user.uid))
-        )
+        return organization && organization.owners?.includes(user.uid)
     }
     return userOwnerAccess
 }
@@ -74,16 +70,11 @@ export async function hasBoardEditorAccess(bid?: TBoardID) {
     if (!bid) return false
 
     const user = await getUserWithBoardIds()
-    const userEditorAccess =
-        user && (user.editor?.includes(bid) || user.owner?.includes(bid))
+    const userEditorAccess = user && user.owner?.includes(bid)
 
     if (user?.uid && !userEditorAccess) {
         const organization = await getOrganizationWithBoard(bid)
-        return (
-            organization &&
-            (organization.editors?.includes(user.uid) ||
-                organization.owners?.includes(user.uid))
-        )
+        return organization && organization.owners?.includes(user.uid)
     }
     return userEditorAccess
 }
@@ -112,7 +103,6 @@ export async function deleteBoard(bid: TBoardID) {
                 .doc(user.uid)
                 .update({
                     owner: admin.firestore.FieldValue.arrayRemove(bid),
-                    editor: admin.firestore.FieldValue.arrayRemove(bid),
                 })
         }
     } catch (error) {

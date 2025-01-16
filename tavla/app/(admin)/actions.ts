@@ -8,7 +8,7 @@ import {
 } from 'types/settings'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
-import { chunk, concat, isEmpty, flattenDeep } from 'lodash'
+import { chunk, isEmpty, flattenDeep } from 'lodash'
 import { redirect } from 'next/navigation'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { userInOrganization } from './utils'
@@ -54,12 +54,7 @@ export async function getOrganizationsForUser() {
             .where('owners', 'array-contains', user.uid)
             .get()
 
-        const editor = firestore()
-            .collection('organizations')
-            .where('editors', 'array-contains', user.uid)
-            .get()
-
-        const queries = await Promise.all([owner, editor])
+        const queries = await Promise.all([owner])
         return queries
             .map((q) =>
                 q.docs.map((d) => ({ ...d.data(), id: d.id }) as TOrganization),
@@ -137,7 +132,7 @@ export async function getAllBoardsForUser() {
     const user = await getUserWithBoardIds()
     if (!user) return redirect('/')
 
-    const privateBoardIDs = concat(user.owner ?? [], user.editor ?? [])
+    const privateBoardIDs = user.owner ?? []
     const privateBoards = (await getBoards(privateBoardIDs)).map((board) => ({
         board,
     }))

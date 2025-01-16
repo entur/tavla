@@ -32,7 +32,6 @@ export async function createOrganization(
             .add({
                 name: name.substring(0, 50),
                 owners: [user.uid],
-                editors: [],
                 boards: [],
                 defaults: {
                     columns: DEFAULT_ORGANIZATION_COLUMNS,
