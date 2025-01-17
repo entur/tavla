@@ -1,7 +1,7 @@
 'use server'
 import { isOnlyWhiteSpace } from 'app/(admin)/edit/utils'
 import {
-    hasBoardEditorAccess,
+    userCanEditBoard,
     initializeAdminApp,
 } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
@@ -14,7 +14,7 @@ import * as Sentry from '@sentry/nextjs'
 initializeAdminApp()
 
 export async function setFooter(bid: TBoardID, data: FormData) {
-    const access = hasBoardEditorAccess(bid)
+    const access = userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     const message = data.get('footer') as string

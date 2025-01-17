@@ -53,20 +53,7 @@ export async function getUserWithBoardIds() {
     return { ...userDoc.data(), uid: userDoc.id } as TUser
 }
 
-export async function hasBoardOwnerAccess(bid?: TBoardID) {
-    if (!bid) return false
-
-    const user = await getUserWithBoardIds()
-    const userOwnerAccess = user && user.owner?.includes(bid)
-
-    if (user?.uid && !userOwnerAccess) {
-        const organization = await getOrganizationWithBoard(bid)
-        return organization && organization.owners?.includes(user.uid)
-    }
-    return userOwnerAccess
-}
-
-export async function hasBoardEditorAccess(bid?: TBoardID) {
+export async function userCanEditBoard(bid?: TBoardID) {
     if (!bid) return false
 
     const user = await getUserWithBoardIds()
@@ -81,7 +68,7 @@ export async function hasBoardEditorAccess(bid?: TBoardID) {
 
 export async function deleteBoard(bid: TBoardID) {
     const user = await getUserFromSessionCookie()
-    const access = await hasBoardOwnerAccess(bid)
+    const access = await userCanEditBoard(bid)
 
     if (!user || !access) throw 'auth/operation-not-allowed'
 

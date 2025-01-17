@@ -1,6 +1,6 @@
 'use server'
 import {
-    hasBoardEditorAccess,
+    userCanEditBoard,
     initializeAdminApp,
 } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
@@ -13,7 +13,7 @@ import * as Sentry from '@sentry/nextjs'
 initializeAdminApp()
 
 export async function setTheme(bid: TBoardID, theme?: TTheme) {
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {

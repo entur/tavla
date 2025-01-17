@@ -4,8 +4,7 @@ import { TBoard, TBoardID, TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 import { revalidatePath } from 'next/cache'
 import {
-    hasBoardEditorAccess,
-    hasBoardOwnerAccess,
+    userCanEditBoard,
     initializeAdminApp,
 } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
@@ -14,7 +13,7 @@ import * as Sentry from '@sentry/nextjs'
 initializeAdminApp()
 
 export async function deleteTile(bid: TBoardID, tile: TTile) {
-    const access = await hasBoardOwnerAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {
@@ -42,7 +41,7 @@ export async function deleteTile(bid: TBoardID, tile: TTile) {
 }
 
 export async function saveTile(bid: TBoardID, tile: TTile) {
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {

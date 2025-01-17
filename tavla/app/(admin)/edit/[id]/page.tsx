@@ -8,7 +8,7 @@ import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
 import { Metadata } from 'next'
 import { getOrganizationForBoard } from './components/TileCard/actions'
-import { hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
+import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
 import { Footer } from './components/Footer'
@@ -48,7 +48,7 @@ export default async function EditPage(props: TProps) {
     }
     const organization = await getOrganizationForBoard(params.id)
 
-    const access = await hasBoardEditorAccess(params.id)
+    const access = await userCanEditBoard(params.id)
     if (!access) return redirect('/')
     return (
         <div className="bg-gray-50">
