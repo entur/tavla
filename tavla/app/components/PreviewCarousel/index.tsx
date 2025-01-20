@@ -76,7 +76,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
                     <div
-                        style={{ display: 'flex' }}
+                        className="flex"
                         aria-label="Eksempel på avgangstavler"
                     >
                         <div
