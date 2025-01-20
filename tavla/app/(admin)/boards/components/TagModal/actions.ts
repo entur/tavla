@@ -2,7 +2,7 @@
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { uniq } from 'lodash'
 import { revalidatePath } from 'next/cache'
-import { hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
+import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { TBoard, TBoardID } from 'types/settings'
 import { firestore } from 'firebase-admin'
 import { TTag } from 'types/meta'
@@ -19,7 +19,7 @@ async function fetchBoardTags({ bid }: { bid: TBoardID }) {
         return notFound()
     }
 
-    const access = await hasBoardEditorAccess(board.id)
+    const access = await userCanEditBoard(board.id)
     if (!access) {
         redirect('/')
     }
@@ -45,7 +45,7 @@ export async function removeTag(
     const bid = data.get('bid') as string
     const tag = data.get('tag') as string
 
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) throw 'auth/operation-not-allowed'
     const tags = await fetchBoardTags({ bid })
 
@@ -77,7 +77,7 @@ export async function addTag(
     if (isEmptyOrSpaces(tag))
         return getFormFeedbackForError('tags/name-missing')
 
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) throw 'auth/operation-not-allowed'
 
     const allTags = await getAllTags()

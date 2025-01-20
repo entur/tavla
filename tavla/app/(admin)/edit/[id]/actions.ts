@@ -1,6 +1,6 @@
 'use server'
 import {
-    hasBoardEditorAccess,
+    userCanEditBoard,
     initializeAdminApp,
 } from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
@@ -19,7 +19,7 @@ import * as Sentry from '@sentry/nextjs'
 initializeAdminApp()
 
 export async function addTile(bid: TBoardID, tile: TTile) {
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {
@@ -72,7 +72,7 @@ export async function getWalkingDistanceTile(
     }
 }
 export async function saveUpdatedTileOrder(bid: TBoardID, tiles: TTile[]) {
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {

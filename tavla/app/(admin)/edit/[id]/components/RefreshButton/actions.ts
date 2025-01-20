@@ -1,12 +1,12 @@
 'use server'
 
-import { hasBoardEditorAccess } from 'app/(admin)/utils/firebase'
+import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { TBoard } from 'types/settings'
 import { getBackendUrl } from 'utils/index'
 
 export async function refreshBoard(board: TBoard) {
-    const access = await hasBoardEditorAccess(board.id)
+    const access = await userCanEditBoard(board.id)
     if (!access) return redirect('/')
 
     const res = await fetch(`${getBackendUrl()}/refresh/${board.id}`, {

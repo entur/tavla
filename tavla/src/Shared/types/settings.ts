@@ -22,14 +22,12 @@ export type TUser = {
     uid?: TUserID
     email?: string
     owner?: TBoardID[]
-    editor?: TBoardID[]
 }
 
 export type TOrganization = {
     id?: TOrganizationID
     name?: string
     owners?: TUserID[]
-    editors?: TUserID[]
     boards?: TBoardID[]
     logo?: TLogo
     defaults?: TDefaults
@@ -45,7 +43,7 @@ export type TDefaults = {
 export type TInvite = {
     uid: TUserID
     type: 'board' | 'organization'
-    access: 'owner' | 'editor'
+    access: 'owner'
 }
 
 export type TFooter = {

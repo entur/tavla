@@ -9,7 +9,6 @@ import { DefaultColumns } from '../components/DefaultColumns'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { concat } from 'lodash'
 import { auth } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { Footer } from '../components/Footer'
@@ -44,7 +43,7 @@ async function EditOrganizationPage(props: TProps) {
     if (!organization || !organization?.owners?.includes(user.uid))
         return <div>Du har ikke tilgang til denne organisasjonen</div>
 
-    const uids = concat(organization.owners ?? [], organization.editors ?? [])
+    const uids = organization.owners ?? []
     const usersReq = await auth().getUsers(
         uids.map(
             (uid) =>

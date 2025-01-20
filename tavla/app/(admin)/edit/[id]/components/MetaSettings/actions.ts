@@ -1,8 +1,7 @@
 'use server'
 import { getFormFeedbackForError, TFormFeedback } from 'app/(admin)/utils'
 import {
-    hasBoardEditorAccess,
-    hasBoardOwnerAccess,
+    userCanEditBoard,
     initializeAdminApp,
     userCanEditOrganization,
 } from 'app/(admin)/utils/firebase'
@@ -29,7 +28,7 @@ export async function saveTitle(
     if (isEmptyOrSpaces(name))
         return getFormFeedbackForError('board/tiles-name-missing')
 
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {
@@ -53,7 +52,7 @@ export async function saveTitle(
 }
 
 export async function saveFont(bid: TBoardID, data: FormData) {
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     const font = data.get('font') as TFontSize
@@ -76,7 +75,7 @@ export async function saveFont(bid: TBoardID, data: FormData) {
 }
 
 export async function saveLocation(bid: TBoardID, location?: TLocation) {
-    const access = await hasBoardEditorAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     const board = await getBoard(bid)
@@ -123,7 +122,7 @@ export async function moveBoard(
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
-    const access = await hasBoardOwnerAccess(bid)
+    const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     if (!personal && !toOrganization)
