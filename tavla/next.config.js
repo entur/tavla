@@ -1,8 +1,37 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { withSentryConfig } = require("@sentry/nextjs");
 
-const cspHeader = `
+const connectSrc = [
+    "'self'",
+    "https://ws.geonorge.no",
+    "https://*.posthog.com",
+    "https://api.entur.io",
+    "https://*.googleapis.com",
+    "https://www.google.com"
+];
+
+if (process.env.NODE_ENV == 'development') {
+    connectSrc.push("http://*.identitytoolkit.googleapis.com http://127.0.0.1:9099")
+}
+
+const cspHeaderCommon = `
+    default-src 'self';
+    style-src 'self' 'unsafe-inline';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+`
+
+const cspHeaderAdmin = `
+    connect-src ${connectSrc.join(' ')};
     frame-ancestors 'none';
+    ${cspHeaderCommon}
+`
+
+const cspHeaderTavlevisning = `
+    connect-src 'self' https://api.entur.io;
+    ${cspHeaderCommon}
 `
 
 /** @type {import('next').NextConfig} */
@@ -39,7 +68,7 @@ const nextConfig = {
                     },
                     {
                         key: 'Content-Security-Policy',
-                        value: cspHeader.replace(/\n/g, ''),
+                        value: cspHeaderAdmin.replace(/\n/g, '')
                     },
                     {
                         key: 'X-Content-Type-Options',
@@ -60,7 +89,7 @@ const nextConfig = {
                     },
                     {
                         key: 'Content-Security-Policy',
-                        value: '',
+                        value: cspHeaderTavlevisning.replace(/\n/g, ''),
                     },
                     {
                         key: 'X-Content-Type-Options',
