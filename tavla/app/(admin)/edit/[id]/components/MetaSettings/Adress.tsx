@@ -8,7 +8,6 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { saveLocation as saveLocationAction } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
-import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState } from 'react'
 
@@ -50,16 +49,14 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                 </Tooltip>
             </div>
             <div className="h-full">
-                <ClientOnly>
-                    <SearchableDropdown
-                        label="Hvor befinner tavlen seg?"
-                        items={pointItems}
-                        selectedItem={selectedPoint}
-                        onChange={setSelectedPoint}
-                        debounceTimeout={150}
-                        clearable
-                    />
-                </ClientOnly>
+                <SearchableDropdown
+                    label="Hvor befinner tavlen seg?"
+                    items={pointItems}
+                    selectedItem={selectedPoint}
+                    onChange={setSelectedPoint}
+                    debounceTimeout={150}
+                    clearable
+                />
             </div>
             <div className="mt-4">
                 <FormError
