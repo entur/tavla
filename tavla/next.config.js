@@ -59,6 +59,10 @@ const nextConfig = {
                         value: 'max-age=63072000; includeSubDomains; preload'
                     },
                     {
+                        key: 'Content-Security-Policy',
+                        value: '',
+                    },
+                    {
                         key: 'X-Content-Type-Options',
                         value: 'nosniff'
                     },
