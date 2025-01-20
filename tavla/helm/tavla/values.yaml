@@ -7,17 +7,14 @@ common:
         trafficType: public
     service:
         internalPort: 3000
+    secrets:
+        backend:
+            - BACKEND_API_KEY
     container:
         image: <+artifacts.primary.image>
         cpu: 0.3
         memory: 512
         env:
-            - name: BACKEND_API_KEY
-              valueFrom:
-                  secretKeyRef:
-                      name: backend
-                      key: api-key
-
             - name: SLACK_WEBHOOK_URL
               valueFrom:
                   secretKeyRef:
