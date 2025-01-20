@@ -9,7 +9,7 @@ use axum::{
 };
 
 use axum_auth::AuthBearer;
-use serde_json::{to_string, Value};
+use serde_json::{json, to_string, Value};
 use tokio::{net::TcpListener, time};
 
 use redis::{AsyncCommands, ConnectionLike};
@@ -64,6 +64,7 @@ async fn main() {
         .route("/update/:bid", post(update_board))
         .route("/alive", get(check_health))
         .route("/reset", post(reset_active))
+        .route("/active/bids", get(active_board_ids))
         .with_state(redis_clients)
         .layer(cors);
 
@@ -92,6 +93,42 @@ async fn check_health(State(mut state): State<AppState>) -> Result<StatusCode, A
     }
     state.master.get::<&str, i32>("active_boards").await?;
     Ok(StatusCode::OK)
+}
+
+async fn active_board_ids(
+    AuthBearer(token): AuthBearer,
+    State(state): State<AppState>,
+) -> Result<Response<Body>, AppError> {
+    if token != state.key {
+        return Ok(Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::from(vec![]))
+            .unwrap());
+    }
+
+    let mut connection = state.replicas.get_multiplexed_async_connection().await?;
+
+    let channels: Vec<String> = redis::cmd("PUBSUB")
+        .arg("CHANNELS")
+        .query_async(&mut connection)
+        .await?;
+
+    let filtered_channels: Vec<String> = channels
+        .into_iter()
+        .filter(|channel| channel != "update")
+        .collect();
+
+    let count = filtered_channels.len();
+
+    let response = json!(
+        {
+            "channels": filtered_channels,
+            "count": count
+        }
+    );
+    let json_body = serde_json::to_string(&response)?;
+
+    Ok(Response::new(Body::from(json_body)))
 }
 
 async fn active_boards(
