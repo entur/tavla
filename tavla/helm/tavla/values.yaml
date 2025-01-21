@@ -10,28 +10,15 @@ common:
     secrets:
         backend:
             - BACKEND_API_KEY
+        slack-webhook:
+            - SLACK_WEBHOOK_URL
+        sentry:
+            - SENTRY_AUTH_TOKEN
+            - NEXT_PUBLIC_SENTRY_DSN_URL
     container:
         image: <+artifacts.primary.image>
         cpu: 0.3
         memory: 512
-        env:
-            - name: SLACK_WEBHOOK_URL
-              valueFrom:
-                  secretKeyRef:
-                      name: slack-webhook
-                      key: url
-
-            - name: SENTRY_AUTH_TOKEN
-              valueFrom:
-                  secretKeyRef:
-                      name: sentry
-                      key: auth-token
-
-            - name: NEXT_PUBLIC_SENTRY_DSN_URL
-              valueFrom:
-                  secretKeyRef:
-                      name: sentry
-                      key: dsn-url
 
         probes:
             enabled: true
