@@ -47,7 +47,18 @@ function Email() {
             const uid = await credential.user.getIdToken()
             const error = await login(uid)
             if (error && auth.currentUser) {
-                await sendEmailVerification(auth.currentUser)
+                try {
+                    await sendEmailVerification(auth.currentUser)
+                } catch (e: unknown) {
+                    // if email verification returns too-many-requests, verification email was sent very recently
+                    // user should not be shown the too-many-requests feedback
+                    if (
+                        e instanceof FirebaseError &&
+                        e.code != 'auth/too-many-requests'
+                    ) {
+                        return getFormFeedbackForError(e)
+                    }
+                }
                 return getFormFeedbackForError(error, email)
             }
         } catch (e: unknown) {
