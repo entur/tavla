@@ -1,17 +1,15 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { withSentryConfig } = require("@sentry/nextjs");
 
-const connectSrc = [
+const commonConnectSrc = [
     "'self'",
-    "https://ws.geonorge.no",
-    "https://*.posthog.com",
     "https://api.entur.io",
-    "https://*.googleapis.com",
-    "https://www.google.com"
-];
+    "https://tavla-api.entur.no",
+    "https://tavla-api.dev.entur.no"
+]
 
 if (process.env.NODE_ENV == 'development') {
-    connectSrc.push("http://*.identitytoolkit.googleapis.com http://127.0.0.1:9099")
+    commonConnectSrc.push("http://*.identitytoolkit.googleapis.com http://127.0.0.1:9099 ws://localhost:3000")
 }
 
 const cspHeaderCommon = `
@@ -23,14 +21,14 @@ const cspHeaderCommon = `
     form-action 'self';
 `
 
-const cspHeaderAdmin = `
-    connect-src ${connectSrc.join(' ')};
+const cspHeader = `
+    connect-src ${commonConnectSrc.join(' ')} https://ws.geonorge.no https://*.posthog.com https://*.googleapis.com https://www.google.com;
     frame-ancestors 'none';
     ${cspHeaderCommon}
 `
 
 const cspHeaderTavlevisning = `
-    connect-src 'self' https://api.entur.io;
+    connect-src ${commonConnectSrc.join(' ')};
     ${cspHeaderCommon}
 `
 
@@ -68,7 +66,7 @@ const nextConfig = {
                     },
                     {
                         key: 'Content-Security-Policy',
-                        value: cspHeaderAdmin.replace(/\n/g, '')
+                        value: cspHeader.replace(/\n/g, '')
                     },
                     {
                         key: 'X-Content-Type-Options',
