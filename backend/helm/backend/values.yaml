@@ -7,6 +7,9 @@ common:
     trafficType: public
   service:
     internalPort: 3000
+  secrets:
+    backend:
+      - BACKEND_API_KEY
   container:
     image: <+artifacts.primary.image>
     cpu: 0.3
@@ -17,11 +20,6 @@ common:
           secretKeyRef:
             name: redis
             key: redis-password
-      - name: BACKEND_API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: backend
-            key: api-key
     probes:
       enabled: true
       spec:
