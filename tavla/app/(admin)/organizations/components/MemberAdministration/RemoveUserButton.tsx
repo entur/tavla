@@ -51,7 +51,9 @@ function RemoveUserButton({
                 className="flex flex-col items-center text-center"
             >
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
-                <Heading3 margin="bottom">Slett medlem</Heading3>
+                <Heading3 margin="bottom" as="h1">
+                    Slett medlem
+                </Heading3>
                 <Paragraph>
                     Er du sikker på at du vil slette medlem med e-postadresse{' '}
                     {user?.email} fra organisasjonen?
@@ -69,7 +71,7 @@ function RemoveUserButton({
                         <SubmitButton
                             variant="primary"
                             width="fluid"
-                            aria-label="Slett bruker"
+                            aria-label="Ja, slett!"
                             className="w-1/2"
                         >
                             Ja, slett!

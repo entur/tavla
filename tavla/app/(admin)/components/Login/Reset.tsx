@@ -41,7 +41,9 @@ function Reset() {
                 alt=""
                 className="h-1/2 w-1/2"
             />
-            <Heading3 margin="bottom">Glemt passord</Heading3>
+            <Heading3 margin="bottom" as="h1">
+                Glemt passord
+            </Heading3>
             <Paragraph>
                 Skriv inn e-posten du brukte for å opprette brukeren, så sender
                 vi deg en lenke for å tilbakestille passordet ditt.

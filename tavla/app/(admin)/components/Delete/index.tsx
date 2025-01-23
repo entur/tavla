@@ -85,7 +85,9 @@ function Delete({
                 className="flex flex-col text-center"
             >
                 <Image src={ducks} alt="" className="h-1/2 w-1/2 mx-auto" />
-                <Heading3 margin="bottom">Slett organisasjon</Heading3>
+                <Heading3 margin="bottom" as="h1">
+                    Slett organisasjon
+                </Heading3>
                 <Paragraph>
                     {`Er du sikker på at du vil slette organisasjonen 
                     "${organization.name}"? Alle tavlene i organisasjonen vil også bli slettet.`}
@@ -109,7 +111,7 @@ function Delete({
                     <ButtonGroup className="flex flex-row mt-8">
                         <SubmitButton
                             variant="primary"
-                            aria-label="Slett organisasjonen"
+                            aria-label="Ja, slett!"
                             className="w-1/2"
                             width="fluid"
                         >

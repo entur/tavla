@@ -69,7 +69,9 @@ function Email() {
                 alt=""
                 className="h-1/2 w-1/2"
             />
-            <Heading3 margin="bottom">Logg inn med e-post</Heading3>
+            <Heading3 margin="bottom" as="h1">
+                Logg inn med e-post
+            </Heading3>
             <form className="flex flex-col gap-4 w-full" action={action}>
                 <div>
                     <ClientOnlyTextField
