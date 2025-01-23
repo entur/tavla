@@ -5,9 +5,31 @@ import gymImage from 'assets/illustrations/Gym_illustration.svg'
 import libraryImage from 'assets/illustrations/Library_illustration.svg'
 import schoolImage from 'assets/illustrations/School_illustration.svg'
 import Image from 'next/image'
+import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
+type TImage = {
+    src: StaticImport | string
+    alt: string
+}
 function ImageCarousel() {
-    const images = [receptionImage, schoolImage, libraryImage, gymImage]
+    const images: TImage[] = [
+        {
+            src: receptionImage,
+            alt: 'En mor og hennes sønn står i en resepsjon, hvor det er en avgangstavle på veggen som viser viktig informasjon',
+        },
+        {
+            src: schoolImage,
+            alt: 'En jente henter bøker fra skapet sitt på skolen og ser på en avgangstavle på veggen.',
+        },
+        {
+            src: libraryImage,
+            alt: 'En mann ser på bøker på et bibliotek. Det er en avgangstavle på veggen',
+        },
+        {
+            src: gymImage,
+            alt: 'En kvinne løper på en tredemølle. En avgangstavle på veggen viser avganger.',
+        },
+    ]
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const [fade, setFade] = useState(true)
 
@@ -31,8 +53,8 @@ function ImageCarousel() {
             }`}
         >
             <Image
-                src={images[currentImageIndex]}
-                alt="Et bilde av en avgangstavle"
+                src={images[currentImageIndex]!.src}
+                alt={images[currentImageIndex]!.alt}
             />
         </div>
     )
