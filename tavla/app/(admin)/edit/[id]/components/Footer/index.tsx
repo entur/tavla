@@ -48,7 +48,11 @@ function Footer({
                     placement="top"
                     id="tooltip-footer"
                 >
-                    <ValidationInfoFilledIcon className="mb-3" size={20} />
+                    <ValidationInfoFilledIcon
+                        className="mb-3"
+                        size={20}
+                        aria-hidden
+                    />
                 </Tooltip>
             </div>
             <div className="h-full">

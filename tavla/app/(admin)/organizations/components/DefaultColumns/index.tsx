@@ -54,7 +54,7 @@ function DefaultColumns({
                         aria-label="Vis forklaring på kolonner"
                         onClick={() => setIsOpen(true)}
                     >
-                        <QuestionFilledIcon size={24} />
+                        <QuestionFilledIcon size={24} aria-hidden />
                     </IconButton>
                 </Tooltip>
             </div>

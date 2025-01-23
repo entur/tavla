@@ -13,11 +13,13 @@ function TransportIcon({
     const mode = transportMode ?? 'unknown'
 
     const Component = getTransportIcon(mode, transportSubmode)
-
+    const altText =
+        mode === 'unknown' ? 'Unknown transport mode' : `${mode} transport mode`
     return (
         <Component
             className={className ?? 'w-full h-full'}
             fill={`var(--${mode}-color)`}
+            aria-label={altText}
         />
     )
 }

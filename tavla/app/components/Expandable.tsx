@@ -20,10 +20,17 @@ function Expandable({
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex justify-between items-center px-6 py-4 bg-blue80 w-full rounded-t"
             >
-                <Heading5 margin="none" className=" sm:text-base !text-lg">
+                <Heading5
+                    margin="none"
+                    className=" sm:text-base !text-lg"
+                    as="h1"
+                >
                     {title}
                 </Heading5>
-                <IconButton className="border-0!">
+                <IconButton
+                    className="border-0!"
+                    aria-label={isOpen ? 'Åpne skjema' : 'Lukk skjema'}
+                >
                     {isOpen ? <DownArrowIcon /> : <UpArrowIcon />}
                 </IconButton>
             </div>

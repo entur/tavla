@@ -11,18 +11,18 @@ function Footer() {
     return (
         <footer className="eds-contrast">
             <div className="container pt-16 pb-4">
-                <Image src={TavlaLogo} alt="" />
+                <Image src={TavlaLogo} alt="Entur Tavla logo" />
                 <div className="flex flex-col sm:flex-row justify-between">
                     <div>
-                        <Heading3>Entur AS</Heading3>
+                        <Heading3 as="h2">Entur AS</Heading3>
                         <Paragraph className=" items-center">
                             Rådhusgata 5, 0151 Oslo
-                            <br />
+                            <br aria-hidden />
                             Postboks 1554, 0117 Oslo
                         </Paragraph>
                         <Paragraph className="items-center">
                             Organisasjonsnummer:
-                            <br />
+                            <br aria-hidden />
                             917 422 575
                         </Paragraph>
                         <Paragraph
@@ -32,7 +32,7 @@ function Footer() {
                             <EnturLink href="https://www.entur.org/kontakt-oss/">
                                 Kontakt kundesenteret
                             </EnturLink>
-                            <ExternalIcon className="!top-0" />
+                            <ExternalIcon aria-hidden className="!top-0" />
                         </Paragraph>
                         <Paragraph className="items-center flex flex-row gap-1">
                             <EnturLink
@@ -46,7 +46,7 @@ function Footer() {
                             >
                                 Kontakt Tavla
                             </EnturLink>
-                            <ExternalIcon className="!top-0" />
+                            <ExternalIcon aria-hidden className="!top-0" />
                         </Paragraph>
                     </div>
                     <div className="flex flex-col gap-4">
