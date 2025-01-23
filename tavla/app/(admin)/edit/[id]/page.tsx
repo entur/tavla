@@ -84,7 +84,11 @@ export default async function EditPage(props: TProps) {
                     />
 
                     <TileList board={board} />
-                    <div data-theme={board.theme ?? 'dark'} className="pt-8">
+                    <div
+                        data-theme={board.theme ?? 'dark'}
+                        className="pt-8"
+                        aria-label="Forhåndsvisning av Tavla"
+                    >
                         <Preview board={board} organization={organization} />
                     </div>
                 </div>

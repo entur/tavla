@@ -469,7 +469,7 @@ function TileCard({
                                     }
                                     addToast(`${tile.name} fjernet!`)
                                 }}
-                                aria-label="Slett stoppested"
+                                aria-label="Fjern stoppested"
                                 type="button"
                             >
                                 <DeleteIcon />
