@@ -36,7 +36,7 @@ function FilterButton({ filterOptions }: { filterOptions?: TTag[] }) {
             <PopoverTrigger>
                 <div className="relative [&>span]:absolute [&>span]:top-[-10px] [&>span]:right-[-10px]">
                     <SecondaryButton
-                        aria-label="Filtrer på merkelapper"
+                        aria-label="Filtrer merkelapper"
                         className="w-full whitespace-nowrap"
                     >
                         Filtrer merkelapper
