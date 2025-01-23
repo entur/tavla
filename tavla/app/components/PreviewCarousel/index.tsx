@@ -29,6 +29,11 @@ const CarouselIndicators = ({
                     className={`md:w-5 md:h-5 w-6 h-6 rounded-full  bottom-5 ${
                         index === activeIndex ? 'bg-blue' : 'bg-tertiary'
                     }`}
+                    aria-label={
+                        index === activeIndex
+                            ? `Aktiv knapp for tavle ${index + 1}`
+                            : `Bytt til tavle ${index + 1}`
+                    }
                     onClick={() => onClick(index)}
                 />
             ))}
