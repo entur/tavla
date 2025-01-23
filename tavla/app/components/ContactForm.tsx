@@ -67,7 +67,7 @@ function ContactForm() {
                     action={submit}
                     className="flex flex-col gap-4  p-4 sm:p-6 "
                 >
-                    <Paragraph as="h1" margin="none" className="font-bold">
+                    <Paragraph as="h2" margin="none" className="font-bold">
                         Vi setter stor pris på tilbakemeldinger og innspill, og
                         bistår gjerne hvis du vil ha hjelp til å komme i gang
                         med Tavla.

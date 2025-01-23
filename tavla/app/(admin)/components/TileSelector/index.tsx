@@ -66,7 +66,7 @@ function TileSelector({
                     items={counties}
                     selectedItems={selectedCounties}
                     onChange={setSelectedCounties}
-                    prepend={<SearchIcon />}
+                    prepend={<SearchIcon aria-hidden />}
                     maxChips={2}
                     hideSelectAll
                 />
@@ -77,7 +77,7 @@ function TileSelector({
                     items={stopPlaceItems}
                     label="Stoppested"
                     clearable
-                    prepend={<SearchIcon />}
+                    prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
                     onChange={setSelectedStopPlace}
                     debounceTimeout={150}
@@ -90,7 +90,7 @@ function TileSelector({
                     items={quays}
                     label="Plattform/retning"
                     clearable
-                    prepend={<SearchIcon />}
+                    prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedQuay}
                     onChange={setSelectedQuay}
                     disabled={!selectedStopPlace}
