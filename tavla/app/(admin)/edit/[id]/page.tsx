@@ -65,7 +65,7 @@ export default async function EditPage(props: TProps) {
                         <ActionsMenu board={board} oid={organization?.id} />
                     </div>
                 </div>
-                <div className="w-fit">
+                <div className="md:w-fit">
                     <Copy bid={board.id} type="button" />
                 </div>
 
