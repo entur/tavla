@@ -17,7 +17,11 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
             <div className="relative flex items-center justify-center h-40 bg-black border-2 rounded border-tertiary mb-4">
                 <Image
                     src={organization.logo ?? TavlaLogo}
-                    alt=""
+                    alt={
+                        organization.logo
+                            ? 'Organisasjonslogo'
+                            : 'Eksempel på logo for tavlene'
+                    }
                     objectFit="contain"
                     fill
                     className="p-8"
