@@ -51,7 +51,7 @@ function Footer({
                     <ValidationInfoFilledIcon
                         className="mb-3"
                         size={20}
-                        aria-hidden
+                        aria-labelledby="tooltip-footer"
                     />
                 </Tooltip>
             </div>

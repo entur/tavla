@@ -45,7 +45,7 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
                     <ValidationInfoFilledIcon
                         className="md:mb-2 mb-3"
                         size={20}
-                        aria-hidden
+                        aria-labelledby="tooltip-address"
                     />
                 </Tooltip>
             </div>
