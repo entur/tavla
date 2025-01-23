@@ -59,8 +59,8 @@ export default async function EditPage(props: TProps) {
                     </Heading1>
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
                         <Open bid={board.id} type="button" />
-                        <Copy bid={board.id} type="button" />
                         <RefreshButton board={board} />
+                        <Copy bid={board.id} type="button" />
                         <ActionsMenu board={board} oid={organization?.id} />
                     </div>
                 </div>
