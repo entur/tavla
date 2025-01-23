@@ -52,7 +52,9 @@ function Delete({
                 className="flex flex-col justify-start items-center text-center"
             >
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
-                <Heading3 margin="bottom">Slett tavle</Heading3>
+                <Heading3 margin="bottom" as="h1">
+                    Slett tavle
+                </Heading3>
                 <Paragraph className="mb-8">
                     {board?.meta?.title
                         ? `Er du sikker på at du vil slette tavlen "${board.meta.title}"? `
@@ -68,7 +70,7 @@ function Delete({
                         <SubmitButton
                             variant="primary"
                             width="fluid"
-                            aria-label="Slett tavle"
+                            aria-label="Ja, slett!"
                             className="w-1/2"
                         >
                             Ja, slett!

@@ -488,7 +488,7 @@ function TileCard({
                                     src={Goat}
                                     className="h-1/2 w-1/2"
                                 />
-                                <Heading3 margin="bottom">
+                                <Heading3 margin="bottom" as="h1">
                                     Lagre endringer
                                 </Heading3>
                                 <Paragraph>
