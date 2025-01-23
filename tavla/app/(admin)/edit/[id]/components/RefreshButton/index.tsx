@@ -3,7 +3,7 @@ import { Button } from '@entur/button'
 import { TBoard } from 'types/settings'
 import { refreshBoard } from './actions'
 import { useToast } from '@entur/alert'
-import { RefreshIcon } from '@entur/icons'
+
 import { usePostHog } from 'posthog-js/react'
 
 function RefreshButton({ board }: { board: TBoard }) {
@@ -26,9 +26,8 @@ function RefreshButton({ board }: { board: TBoard }) {
             })
     }
     return (
-        <Button variant="secondary" onClick={refresh} className="flex flex-row">
+        <Button variant="success" onClick={refresh} className="flex flex-row">
             Publiser tavle
-            <RefreshIcon inline />
         </Button>
     )
 }
