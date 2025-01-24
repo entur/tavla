@@ -10,13 +10,23 @@ import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { GetServerSideProps } from 'next'
+import { isUnsupportedBrowser } from 'utils/browserDetection'
 
-export async function getServerSideProps({
-    params,
-}: {
-    params: { id: string }
-}) {
-    const { id } = params
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { params, req } = context
+    const { id } = params as { id: string }
+
+    const ua = req.headers['user-agent'] || ''
+    if (isUnsupportedBrowser(ua)) {
+        return {
+            redirect: {
+                destination: '/unsupported-browser',
+                permanent: false,
+            },
+        }
+    }
+
     const board: TBoard | undefined = await getBoard(id)
 
     if (!board) {
