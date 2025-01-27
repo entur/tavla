@@ -14,15 +14,18 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     }
 
     if (type === 'button') {
-        return (
-            <CopyableText
-                successHeading=""
-                successMessage="Lenken til tavlen ble kopiert!"
-                aria-label="Kopier lenken til tavlen"
-            >
-                {(link ?? '').toString()}
-            </CopyableText>
-        )
+        if (link) {
+            return (
+                <CopyableText
+                    successHeading=""
+                    successMessage="Lenken til tavlen ble kopiert!"
+                    aria-label="Kopier lenken til tavlen"
+                >
+                    {link.toString()}
+                </CopyableText>
+            )
+        }
+        return
     }
     return (
         <Tooltip
