@@ -31,7 +31,7 @@ function DeleteAccount() {
 
     return (
         <>
-            <EnturLink href="/?deleteAccount" as={Link}>
+            <EnturLink href="?deleteAccount" as={Link}>
                 Slett din konto
             </EnturLink>
             <Modal
