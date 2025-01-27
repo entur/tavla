@@ -3,7 +3,7 @@ import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
-import { Delete } from 'app/(admin)/components/Delete'
+import { Delete } from 'app/(admin)/components/DeleteOrganization'
 import { Tooltip } from '@entur/tooltip'
 
 function Edit({ oid }: { oid?: string }) {

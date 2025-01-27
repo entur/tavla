@@ -49,7 +49,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
                         </Suspense>
                         {children}
                         <ContactForm />
-                        <Footer />
+                        <Footer loggedIn={loggedIn} />
                     </EnturToastProvider>
                 </body>
             </PHProvider>
