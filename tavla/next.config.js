@@ -1,6 +1,37 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { withSentryConfig } = require("@sentry/nextjs");
 
+const commonConnectSrc = [
+    "'self'",
+    "https://api.entur.io",
+    "https://tavla-api.entur.no",
+    "https://tavla-api.dev.entur.no"
+]
+
+if (process.env.NODE_ENV == 'development') {
+    commonConnectSrc.push("http://*.identitytoolkit.googleapis.com http://127.0.0.1:9099 ws://localhost:3000 http://127.0.0.1:3001")
+}
+
+const cspHeaderCommon = `
+    default-src 'self';
+    style-src 'self' 'unsafe-inline';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+`
+
+const cspHeader = `
+    connect-src ${commonConnectSrc.join(' ')} https://ws.geonorge.no https://*.posthog.com https://*.googleapis.com https://www.google.com;
+    frame-ancestors 'none';
+    ${cspHeaderCommon}
+`
+
+const cspHeaderTavlevisning = `
+    connect-src ${commonConnectSrc.join(' ')};
+    ${cspHeaderCommon}
+`
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
@@ -21,10 +52,58 @@ const nextConfig = {
             },
         ],
         dangerouslyAllowSVG: true,
-	contentDispositionType: 'attachment',
+        contentDispositionType: 'attachment',
         contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
+    async headers() {
+        return [
+            {         
+                source: '/(.*)?',
+                headers: [
+                    {
+                        key: 'Strict-Transport-Security',
+                        value: 'max-age=63072000; includeSubDomains; preload'
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: cspHeader.replace(/\n/g, '')
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff'
+                    },
+                    {
+                        key: 'Referrer-Policy',
+                        value: 'strict-origin-when-cross-origin'
+                    },
+                ]
+            },
+            {         
+                source: '/:id(\\w{20})',
+                headers: [
+                    {
+                        key: 'Strict-Transport-Security',
+                        value: 'max-age=63072000; includeSubDomains; preload'
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: cspHeaderTavlevisning.replace(/\n/g, ''),
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff'
+                    },
+                    {
+                        key: 'Referrer-Policy',
+                        value: 'strict-origin-when-cross-origin'
+                    },
+                ]
+            },
+        ]
+    }
 }
+
+
 
 module.exports = async (phase, { defaultConfig }) => {
     if (phase === PHASE_DEVELOPMENT_SERVER) {
