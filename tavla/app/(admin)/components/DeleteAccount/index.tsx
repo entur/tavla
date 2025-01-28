@@ -62,9 +62,6 @@ function DeleteAccount() {
                             aria-label="Ja, slett!"
                             className="w-1/2"
                             width="fluid"
-                            onClick={() => {
-                                deleteAccount()
-                            }}
                         >
                             Ja, slett!
                         </SubmitButton>

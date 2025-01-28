@@ -3,7 +3,6 @@ import { getOrganizationsForUser } from 'app/(admin)/actions'
 import {
     deleteBoard,
     deleteOrganization,
-    deleteOrganizationBoards,
     deleteUserFromFirebaseAuth,
     deleteUserFromFirestore,
     getUserWithBoardIds,
@@ -11,12 +10,14 @@ import {
 } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
-import { logout } from '../Login/actions'
+import { redirect } from 'next/navigation'
+import * as Sentry from '@sentry/nextjs'
 
 export async function deleteAccount() {
     const user = await getUserFromSessionCookie()
-    if (!user || !user.uid)
+    if (!user || !user.uid) {
         return getFormFeedbackForError('auth/operation-not-allowed')
+    }
 
     try {
         await deleteOrgsAndBoardsWithSoleMember()
@@ -24,10 +25,16 @@ export async function deleteAccount() {
         await deletePrivateBoardsForUser()
         await deleteUserFromFirestore()
         await deleteUserFromFirebaseAuth()
-    } catch {
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while deleting user account',
+                userID: user.uid,
+            },
+        })
         return getFormFeedbackForError('firebase/general')
     }
-    logout()
+    redirect('/')
 }
 
 async function deleteOrgsAndBoardsWithSoleMember() {
@@ -37,26 +44,20 @@ async function deleteOrgsAndBoardsWithSoleMember() {
         (org) => org.owners?.length === 1,
     )
 
-    orgsWithSoleMember.forEach(async (org) => {
-        if (org.id) {
-            await deleteOrganizationBoards(org.id)
-        }
-    })
-
-    orgsWithSoleMember.forEach(async (org) => {
+    for (const org of orgsWithSoleMember) {
         if (org.id) {
             await deleteOrganization(org.id)
         }
-    })
+    }
 }
 
 async function deletePrivateBoardsForUser() {
     const userBoards = await getUserWithBoardIds()
-    const ownerList = userBoards?.owner
+    const ownerList = userBoards?.owner ?? []
 
-    ownerList?.forEach((bid) => {
-        deleteBoard(bid)
-    })
+    for (const bid of ownerList) {
+        await deleteBoard(bid)
+    }
 }
 
 async function removeUserFromOrgs(uid: string) {
