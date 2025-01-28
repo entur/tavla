@@ -2,7 +2,12 @@
 
 import { ButtonGroup, Button } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading3, Paragraph, Link as EnturLink } from '@entur/typography'
+import {
+    Heading3,
+    Paragraph,
+    Link as EnturLink,
+    SubParagraph,
+} from '@entur/typography'
 import Link from 'next/link'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import { deleteAccount } from './actions'
@@ -10,29 +15,21 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState } from 'react'
 import { FormError } from '../FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
-import { useToast } from '@entur/alert'
+import Image from 'next/image'
+import sheep from 'assets/illustrations/Sheep.png'
 
 function DeleteAccount() {
     const [modalIsOpen, close] = useSearchParamsModal('deleteAccount')
-    const { addToast } = useToast()
-
-    const deleteAccountSubmit = async () => {
-        const formFeedback = deleteAccount()
-        if (!formFeedback) {
-            addToast('Brukerkonto slettet!')
-        }
-        return formFeedback
-    }
 
     const [formError, deleteAccountAction] = useActionState(
-        deleteAccountSubmit,
+        deleteAccount,
         undefined,
     )
 
     return (
         <>
             <EnturLink href="?deleteAccount" as={Link}>
-                Slett din konto
+                Slett min bruker
             </EnturLink>
             <Modal
                 open={modalIsOpen}
@@ -43,42 +40,53 @@ function DeleteAccount() {
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
-                <form action={deleteAccountAction}>
+                <div className="flex flex-col items-center">
+                    <Image
+                        src={sheep}
+                        aria-hidden="true"
+                        alt=""
+                        className="h-1/2 w-1/2"
+                    />
                     <Heading3 margin="bottom" as="h1">
-                        Slett din konto
+                        Slett din bruker
                     </Heading3>
                     <Paragraph>
-                        Er du sikker på at du vil slette din brukerkonto hos
-                        Entur Tavla? Alle tavler og organisasjoner du har
-                        opprettet vil også bli slettet
+                        Er du sikker på at du vil slette din bruker hos Entur
+                        Tavla? Alle dine private tavler, samt tavler i
+                        organisasjoner der du er eneste medlem, vil bli slettet.
                     </Paragraph>
-                    <FormError
-                        {...getFormFeedbackForField('general', formError)}
-                    />
+                    <SubParagraph>
+                        Det er ikke mulig å angre denne handlingen!
+                    </SubParagraph>
+                    <form action={deleteAccountAction}>
+                        <FormError
+                            {...getFormFeedbackForField('general', formError)}
+                        />
 
-                    <ButtonGroup className="flex flex-row mt-8">
-                        <SubmitButton
-                            variant="primary"
-                            aria-label="Ja, slett!"
-                            className="w-1/2"
-                            width="fluid"
-                        >
-                            Ja, slett!
-                        </SubmitButton>
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            aria-label="Avbryt sletting"
-                            onClick={() => {
-                                close()
-                            }}
-                            width="fluid"
-                            className="w-1/2"
-                        >
-                            Avbryt
-                        </Button>
-                    </ButtonGroup>
-                </form>
+                        <ButtonGroup className="flex flex-row mt-8">
+                            <SubmitButton
+                                variant="primary"
+                                aria-label="Ja, slett!"
+                                className="w-1/2"
+                                width="fluid"
+                            >
+                                Ja, slett!
+                            </SubmitButton>
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                aria-label="Avbryt sletting"
+                                onClick={() => {
+                                    close()
+                                }}
+                                width="fluid"
+                                className="w-1/2"
+                            >
+                                Avbryt
+                            </Button>
+                        </ButtonGroup>
+                    </form>
+                </div>
             </Modal>
         </>
     )
