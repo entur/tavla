@@ -38,9 +38,10 @@ function WalkingDistance({
 
     return (
         <form action={saveLocationFormAction} className="box flex flex-col">
-            <Heading3 margin="bottom">Gåavstand</Heading3>
+            <Heading3 margin="bottom">Gangavstand</Heading3>
             <SubParagraph className="mb-2">
-                Vis gåavstand fra tavlens adresse til hvert stoppested.
+                Om du legger inn tavlens adresse, vises gangavstanden fra tavlen
+                til hvert stoppested.
             </SubParagraph>
 
             <div className="h-full">

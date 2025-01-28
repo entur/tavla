@@ -7,7 +7,7 @@ function WalkingDistance({
 }: {
     walkingDistance?: TWalkingDistance
 }) {
-    if (!walkingDistance?.visible) return null
+    if (!walkingDistance || walkingDistance.visible == false) return null
 
     return (
         <div className="flex flex-row items-center whitespace-nowrap">

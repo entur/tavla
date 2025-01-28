@@ -31,8 +31,8 @@ function ExpandableInformation() {
                     </ListItem>
                     <ListItem>Endre fargetema (lys eller mørk modus)</ListItem>
                     <ListItem>
-                        Legge inn adressen som tavlen står på og vise gåavstand
-                        fra tavlen til stoppested(ene)
+                        Legge inn adressen som tavlen står på og vise
+                        gangavstand fra tavlen til stoppested(ene)
                     </ListItem>
                     <ListItem>
                         Opprette så mange tavler du vil og samle disse i ulike
