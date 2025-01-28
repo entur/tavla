@@ -10,16 +10,12 @@ common:
   secrets:
     backend:
       - BACKEND_API_KEY
+    redis:
+      - REDIS_PASSWORD
   container:
     image: <+artifacts.primary.image>
     cpu: 0.3
     memory: 512
-    env:
-      - name: REDIS_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: redis
-            key: redis-password
     probes:
       enabled: true
       spec:
