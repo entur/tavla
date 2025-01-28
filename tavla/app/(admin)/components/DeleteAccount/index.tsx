@@ -17,9 +17,11 @@ import { FormError } from '../FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
+import { usePostHog } from 'posthog-js/react'
 
 function DeleteAccount() {
     const [modalIsOpen, close] = useSearchParamsModal('deleteAccount')
+    const posthog = usePostHog()
 
     const [formError, deleteAccountAction] = useActionState(
         deleteAccount,
@@ -28,7 +30,13 @@ function DeleteAccount() {
 
     return (
         <>
-            <EnturLink href="?deleteAccount" as={Link}>
+            <EnturLink
+                href="?deleteAccount"
+                as={Link}
+                onClick={() => {
+                    posthog.capture('DELETE_USER_LINK_FOOTER')
+                }}
+            >
                 Slett min bruker
             </EnturLink>
             <Modal
@@ -69,6 +77,9 @@ function DeleteAccount() {
                                 aria-label="Ja, slett!"
                                 className="w-1/2"
                                 width="fluid"
+                                onClick={() => {
+                                    posthog.capture('DELETE_USER_BUTTON_MODAL')
+                                }}
                             >
                                 Ja, slett!
                             </SubmitButton>
