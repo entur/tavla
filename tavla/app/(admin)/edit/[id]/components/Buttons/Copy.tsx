@@ -1,6 +1,6 @@
 'use client'
-import { useToast } from '@entur/alert'
-import { Button, IconButton } from '@entur/button'
+import { CopyableText, useToast } from '@entur/alert'
+import { IconButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { useLink } from 'hooks/useLink'
@@ -10,20 +10,22 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     const link = useLink(bid)
     const copy = () => {
         navigator.clipboard.writeText(link ?? '')
-        addToast('Lenke til Tavla kopiert')
+        addToast('Lenken til tavlen ble kopiert!')
     }
 
     if (type === 'button') {
-        return (
-            <Button
-                variant="secondary"
-                aria-label="Kopier lenken til tavlen"
-                onClick={copy}
-            >
-                Kopier lenke
-                <CopyIcon className="!top-[-1px]" />
-            </Button>
-        )
+        if (link) {
+            return (
+                <CopyableText
+                    successHeading=""
+                    successMessage="Lenken til tavlen ble kopiert!"
+                    aria-label="Kopier lenken til tavlen"
+                >
+                    {link.toString()}
+                </CopyableText>
+            )
+        }
+        return
     }
     return (
         <Tooltip

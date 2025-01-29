@@ -20,6 +20,7 @@ import { ThemeSelect } from './components/ThemeSelect'
 import { TileList } from './components/TileList'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 
 export type TProps = {
     params: Promise<{ id: TBoardID }>
@@ -60,9 +61,12 @@ export default async function EditPage(props: TProps) {
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
                         <Open bid={board.id} type="button" />
                         <RefreshButton board={board} />
-                        <Copy bid={board.id} type="button" />
+                        <Delete board={board} type="button" />
                         <ActionsMenu board={board} oid={organization?.id} />
                     </div>
+                </div>
+                <div className="md:w-fit">
+                    <Copy bid={board.id} type="button" />
                 </div>
 
                 <div className="bg-background rounded-md py-8 px-6 flex flex-col gap-4">
