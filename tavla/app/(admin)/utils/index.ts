@@ -256,6 +256,14 @@ export function getFormFeedbackForError(
                 variant: 'negative',
             }
         }
+        case 'survey/content-missing': {
+            return {
+                form_type: 'general',
+                feedback:
+                    'Vennligst velg et alternativ eller skriv en kommentar',
+                variant: 'negative',
+            }
+        }
     }
 
     return {
