@@ -1,9 +1,7 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { SearchableDropdown } from '@entur/dropdown'
-import { ValidationInfoFilledIcon } from '@entur/icons'
-import { Tooltip } from '@entur/tooltip'
-import { Heading3 } from '@entur/typography'
+import { Heading3, SubParagraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import { saveLocation as saveLocationAction } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
@@ -14,7 +12,13 @@ import { useActionState } from 'react'
 import { TLocation } from 'types/meta'
 import { TBoardID } from 'types/settings'
 
-function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
+function WalkingDistance({
+    bid,
+    location,
+}: {
+    bid: TBoardID
+    location?: TLocation
+}) {
     const { pointItems, selectedPoint, setSelectedPoint } =
         usePointSearch(location)
     const { addToast } = useToast()
@@ -34,21 +38,12 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
 
     return (
         <form action={saveLocationFormAction} className="box flex flex-col">
-            <div className="flex flex-row items-center gap-2">
-                <Heading3 margin="bottom">Adresse</Heading3>
+            <Heading3 margin="bottom">Gangavstand</Heading3>
+            <SubParagraph className="mb-2">
+                Om du legger inn tavlens adresse, vises gangavstanden fra tavlen
+                til hvert stoppested.
+            </SubParagraph>
 
-                <Tooltip
-                    content="Under innstillingene til hvert stoppested kan du velge om gåavstanden, fra tavlens adresse til selve stoppestedet, skal vises"
-                    placement="top"
-                    id="tooltip-address"
-                >
-                    <ValidationInfoFilledIcon
-                        className="md:mb-2 mb-3"
-                        size={20}
-                        aria-labelledby="tooltip-address"
-                    />
-                </Tooltip>
-            </div>
             <div className="h-full">
                 <SearchableDropdown
                     label="Hvor befinner tavlen seg?"
@@ -73,4 +68,4 @@ function Address({ bid, location }: { bid: TBoardID; location?: TLocation }) {
     )
 }
 
-export { Address }
+export { WalkingDistance }
