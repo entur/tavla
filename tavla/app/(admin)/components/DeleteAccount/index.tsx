@@ -14,19 +14,25 @@ import { deleteAccount } from './actions'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState } from 'react'
 import { FormError } from '../FormError'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
+import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
 import { usePostHog } from 'posthog-js/react'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function DeleteAccount() {
     const [modalIsOpen, close] = useSearchParamsModal('deleteAccount')
     const posthog = usePostHog()
 
-    const [formError, deleteAccountAction] = useActionState(
-        deleteAccount,
-        undefined,
-    )
+    const submit = async (
+        prevState: TFormFeedback | undefined,
+        data: FormData,
+    ) => {
+        const formFeedback = await deleteAccount(data)
+        return formFeedback
+    }
+
+    const [formError, deleteAccountAction] = useActionState(submit, undefined)
 
     return (
         <>
@@ -37,7 +43,7 @@ function DeleteAccount() {
                     posthog.capture('DELETE_USER_LINK_FOOTER')
                 }}
             >
-                Slett min bruker
+                Slett bruker
             </EnturLink>
             <Modal
                 open={modalIsOpen}
@@ -52,21 +58,30 @@ function DeleteAccount() {
                     <Image
                         src={sheep}
                         aria-hidden="true"
-                        alt=""
+                        alt="Illustrasjon av sauer"
                         className="h-1/2 w-1/2"
                     />
                     <Heading3 margin="bottom" as="h1">
-                        Slett din bruker
+                        Slett bruker
                     </Heading3>
                     <Paragraph>
                         Er du sikker på at du vil slette din bruker hos Entur
                         Tavla? Alle dine private tavler, samt tavler i
                         organisasjoner der du er eneste medlem, vil bli slettet.
                     </Paragraph>
-                    <SubParagraph>
-                        Det er ikke mulig å angre denne handlingen!
-                    </SubParagraph>
+
                     <form action={deleteAccountAction}>
+                        <SubParagraph className="font-medium text-left">
+                            Bekreft ved å skrive inn din e-postadresse
+                        </SubParagraph>
+                        <ClientOnlyTextField
+                            name="confirmEmail"
+                            label="E-post"
+                            type="email"
+                            required
+                            aria-required
+                            {...getFormFeedbackForField('email', formError)}
+                        />
                         <FormError
                             {...getFormFeedbackForField('general', formError)}
                         />

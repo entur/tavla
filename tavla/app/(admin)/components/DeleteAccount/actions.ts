@@ -8,15 +8,22 @@ import {
     getUserWithBoardIds,
     removeUserFromOrg,
 } from 'app/(admin)/utils/firebase'
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { redirect } from 'next/navigation'
 import * as Sentry from '@sentry/nextjs'
+import { auth } from 'firebase-admin'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 
-export async function deleteAccount() {
+export async function deleteAccount(data: FormData) {
     const user = await getUserFromSessionCookie()
     if (!user || !user.uid) {
         return getFormFeedbackForError('auth/operation-not-allowed')
+    }
+
+    const userObject = await auth().getUser(user.uid)
+    const confirmEmail = data.get('confirmEmail') as string
+    if (userObject.email !== confirmEmail) {
+        return getFormFeedbackForError('delete/email-mismatch')
     }
 
     try {
@@ -52,8 +59,8 @@ async function deleteOrgsAndBoardsWithSoleMember() {
 }
 
 async function deletePrivateBoardsForUser() {
-    const userBoards = await getUserWithBoardIds()
-    const ownerList = userBoards?.owner ?? []
+    const privateBoards = await getUserWithBoardIds()
+    const ownerList = privateBoards?.owner ?? []
 
     for (const bid of ownerList) {
         await deleteBoard(bid)
