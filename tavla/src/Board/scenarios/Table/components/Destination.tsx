@@ -4,6 +4,8 @@ import { Situations } from './Situations'
 import { TableColumn } from './TableColumn'
 import { TableRow } from './TableRow'
 import { isNotNullOrUndefined } from 'utils/typeguards'
+import { TDepartureFragment } from 'graphql/index'
+import { nanoid } from 'nanoid'
 
 function Destination({ deviations = true }: { deviations?: boolean }) {
     const departures = useNonNullContext(DeparturesContext)
@@ -37,5 +39,26 @@ function Destination({ deviations = true }: { deviations?: boolean }) {
         </div>
     )
 }
+type TDepartureWithName = TDepartureFragment & { name: string }
 
-export { Destination }
+function Name() {
+    const departures = useNonNullContext(DeparturesContext)
+    const names = (departures as TDepartureWithName[]).map((departure) => ({
+        text: departure?.name,
+        key: departure.serviceJourney.id,
+    }))
+    const id = nanoid(7)
+    return (
+        <div className="grow overflow-hidden">
+            <TableColumn title="Stoppested">
+                {names.map((name) => (
+                    <TableRow key={id}>
+                        <div className="justify-items-end">{name.text}</div>
+                    </TableRow>
+                ))}
+            </TableColumn>
+        </div>
+    )
+}
+
+export { Destination, Name }

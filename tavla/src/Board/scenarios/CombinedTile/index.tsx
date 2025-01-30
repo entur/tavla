@@ -74,12 +74,20 @@ export function CombinedTile({
             </Tile>
         )
     }
-
     const estimatedCalls = [
-        ...(quayData?.flatMap((data) => data?.quay?.estimatedCalls ?? []) ??
-            []),
+        ...(quayData?.flatMap(
+            (data) =>
+                data?.quay?.estimatedCalls.map((call) => ({
+                    ...call,
+                    name: data.quay?.name,
+                })) ?? [],
+        ) ?? []),
         ...(stopPlaceData?.flatMap(
-            (data) => data?.stopPlace?.estimatedCalls ?? [],
+            (data) =>
+                data?.stopPlace?.estimatedCalls.map((call) => ({
+                    ...call,
+                    name: data.stopPlace?.name,
+                })) ?? [],
         ) ?? []),
     ]
     const situations: TSituationFragment[] = [

@@ -1,6 +1,6 @@
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
 import React from 'react'
-import { Destination } from './components/Destination'
+import { Destination, Name } from './components/Destination'
 import { DeparturesContext } from './contexts'
 import { TColumn } from 'types/column'
 import { isArray } from 'lodash'
@@ -49,7 +49,6 @@ function Table({
                 </Paragraph>
             </div>
         )
-
     return (
         <div className="flex flex-col">
             <StopPlaceDeviation situations={situations} />
@@ -61,6 +60,8 @@ function Table({
                     {columns.includes('destination') && (
                         <Destination deviations />
                     )}
+                    {columns.includes('name') && <Name />}
+
                     {columns.includes('platform') && <Platform />}
                     {columns.includes('time') && <ExpectedTime />}
                     {columns.includes('realtime') && <RealTime />}

@@ -4,6 +4,7 @@ export const Columns = {
     line: 'Linje',
     destination: 'Destinasjon og avvik',
     platform: 'Plattform',
+    name: 'Stoppested',
     time: 'Forventet',
     realtime: 'Sanntidsindikator',
 } as const
