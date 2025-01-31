@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from '@entur/modal'
 import {
     Heading3,
@@ -33,11 +33,22 @@ const alternatives = [
 function CompressSurvey() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [selectedOption, setSelectedOption] = useState<string>('')
+    const [switchChecked, setSwitchChecked] = useState<boolean>(false)
+    const [surveyID, setSurveyID] = useState<string>('')
     const { addToast } = useToast()
     const [formState, setFormError] = useState<TFormFeedback | undefined>(
         undefined,
     )
     const posthog = usePostHog()
+
+    useEffect(() => {
+        posthog.getActiveMatchingSurveys((surveys) => {
+            if (surveys.length > 0) {
+                const survey = surveys[0]
+                if (survey) setSurveyID(survey.id)
+            }
+        })
+    }, [posthog])
 
     const submitSurvey = async (data: FormData) => {
         const freeText = data.get('freeText') as string
@@ -45,7 +56,7 @@ function CompressSurvey() {
 
         if (selectedChoice || !isEmptyOrSpaces(freeText)) {
             posthog.capture('survey sent', {
-                $survey_id: process.env.COMPRESS_SURVEY_ID,
+                $survey_id: surveyID,
                 $survey_response: selectedChoice,
                 $survey_response_1: freeText ?? null,
             })
@@ -62,6 +73,7 @@ function CompressSurvey() {
         setIsOpen(false)
         setFormError(undefined)
         setSelectedOption('')
+        setSwitchChecked(false)
     }
 
     return (
@@ -76,7 +88,12 @@ function CompressSurvey() {
                     plass på skjermen din
                 </SubParagraph>
                 <div>
-                    <Switch>Komprimer</Switch>
+                    <Switch
+                        checked={switchChecked}
+                        onChange={() => setSwitchChecked(!switchChecked)}
+                    >
+                        Komprimer
+                    </Switch>
                 </div>
 
                 <div className="flex flex-row mt-8 justify-end">
@@ -85,6 +102,7 @@ function CompressSurvey() {
                         className="max-sm:w-full"
                         onClick={() => {
                             setIsOpen(true)
+                            posthog.capture('COMPRESS_SETTING_SAVE_BTN')
                         }}
                     >
                         Lagre valg
@@ -114,23 +132,21 @@ function CompressSurvey() {
                         <Heading5>
                             Hvorfor trykket du på denne knappen?
                         </Heading5>
-                        <div className="flex flex-col">
-                            <RadioGroup
-                                name="multipleChoice"
-                                value={selectedOption}
-                                onChange={(e) => {
-                                    setSelectedOption(e.target.value as string)
-                                }}
-                            >
-                                <div className="flex flex-col items-start gap-2">
-                                    {alternatives.map((option) => (
-                                        <Radio key={option} value={option}>
-                                            {option}
-                                        </Radio>
-                                    ))}
-                                </div>
-                            </RadioGroup>
-                        </div>
+                        <RadioGroup
+                            name="multipleChoice"
+                            value={selectedOption}
+                            onChange={(e) => {
+                                setSelectedOption(e.target.value as string)
+                            }}
+                        >
+                            <div className="flex flex-col items-start gap-8 sm:gap-2 w-full">
+                                {alternatives.map((option) => (
+                                    <Radio key={option} value={option}>
+                                        {option}
+                                    </Radio>
+                                ))}
+                            </div>
+                        </RadioGroup>
 
                         <div className="flex flex-col gap-2">
                             <Heading5>Andre kommentarer</Heading5>
