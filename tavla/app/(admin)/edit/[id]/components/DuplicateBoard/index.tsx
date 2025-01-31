@@ -37,7 +37,7 @@ function DuplicateBoard({
                 aria-label="Dupliser tavle"
                 onClick={handleSelect}
             >
-                Dupliser Tavle
+                Dupliser tavle
                 <AddIcon />
             </Button>
         )

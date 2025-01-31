@@ -9,7 +9,7 @@ import {
 } from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { BaseExpand } from '@entur/expand'
-import { Checkbox, Switch } from '@entur/form'
+import { Checkbox } from '@entur/form'
 import {
     CloseIcon,
     DeleteIcon,
@@ -20,13 +20,7 @@ import {
 } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
-import {
-    Heading3,
-    Heading4,
-    Label,
-    Paragraph,
-    SubParagraph,
-} from '@entur/typography'
+import { Heading3, Heading4, Paragraph, SubParagraph } from '@entur/typography'
 import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/ColumnModal'
 import Goat from 'assets/illustrations/Goat.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -101,8 +95,6 @@ function TileCard({
         data.delete('columns')
         const count = data.get('count') as number | null
         data.delete('count')
-        const distance = data.get('showDistance') as string
-        data.delete('showDistance')
         const offset = data.get('offset') as number | null
         data.delete('offset')
         const displayName = data.get('displayName') as string
@@ -124,10 +116,11 @@ function TileCard({
             ...tile,
             columns: columns,
             whitelistedLines: lines,
-            walkingDistance: {
-                visible: distance === 'on',
-                distance: tile.walkingDistance?.distance,
-            },
+            ...(address && {
+                walkingDistance: {
+                    distance: tile.walkingDistance?.distance,
+                },
+            }),
             offset: Number(offset) || undefined,
             displayName: displayName.substring(0, 50) || undefined,
         } as TTile
@@ -306,27 +299,6 @@ function TileCard({
                                 {...getFormFeedbackForField('name', state)}
                             />
                         </div>
-                        <Heading4>Gåavstand</Heading4>
-                        <SubParagraph>
-                            Vis gåavstand fra lokasjonen til Tavla til
-                            stoppestedet.
-                        </SubParagraph>
-                        {!address && (
-                            <Label className="!text-error">
-                                {demoBoard
-                                    ? 'Logg inn for å få tilgang til funksjonaliteten.'
-                                    : 'Du må legge til tavlens adresse for å kunne skru på gåavstand.'}
-                            </Label>
-                        )}
-                        <Switch
-                            name="showDistance"
-                            disabled={!address}
-                            defaultChecked={
-                                tile.walkingDistance?.visible ?? false
-                            }
-                        >
-                            Vis gåavstand
-                        </Switch>
 
                         <Heading4>Forskyv avgangstid</Heading4>
                         <div className="flex flex-col gap-2">
@@ -369,7 +341,7 @@ function TileCard({
                                             )
                                         }}
                                     >
-                                        Forskyv basert på gåavstand
+                                        Forskyv basert på gangavstand
                                     </Checkbox>
                                 )}
                         </div>
