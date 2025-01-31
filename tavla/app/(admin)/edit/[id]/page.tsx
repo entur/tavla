@@ -23,7 +23,6 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { CompressSurvey } from './components/CompressSurvey'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 
-
 export type TProps = {
     params: Promise<{ id: TBoardID }>
 }
