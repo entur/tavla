@@ -23,7 +23,7 @@ import { useActionState, useState } from 'react'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
-function Delete({
+function DeleteOrganization({
     organization,
     type,
 }: {
@@ -137,4 +137,4 @@ function Delete({
     )
 }
 
-export { Delete }
+export { DeleteOrganization as Delete }

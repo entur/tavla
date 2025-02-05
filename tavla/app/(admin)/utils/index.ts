@@ -185,6 +185,12 @@ export function getFormFeedbackForError(
                 feedback: 'Navnet på organisasjonen er ikke skrevet riktig',
                 variant: 'negative',
             }
+        case 'delete/email-mismatch':
+            return {
+                form_type: 'email',
+                feedback: 'E-posten samsvarer ikke med kontoen din',
+                variant: 'negative',
+            }
         case 'organization/invalid-columns':
             return {
                 form_type: 'column',

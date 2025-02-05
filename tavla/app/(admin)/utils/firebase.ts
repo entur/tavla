@@ -141,3 +141,49 @@ export async function deleteOrganizationBoard(
         throw error
     }
 }
+
+export async function removeUserFromOrg(oid: string, uid: string) {
+    try {
+        await firestore()
+            .collection('organizations')
+            .doc(oid)
+            .update({
+                owners: admin.firestore.FieldValue.arrayRemove(uid),
+            })
+    } catch (error) {
+        Sentry.captureMessage(
+            'Error while removing user ' + uid + ' from organization ' + oid,
+        )
+        throw error
+    }
+}
+
+export async function deleteUserFromFirebaseAuth() {
+    const user = await getUserFromSessionCookie()
+    if (!user || !user.uid) {
+        return
+    }
+    try {
+        await auth().deleteUser(user.uid)
+    } catch (error) {
+        Sentry.captureMessage(
+            'Error while deleting user ' + user?.uid + ' from firebase auth',
+        )
+        throw error
+    }
+}
+
+export async function deleteUserFromFirestore() {
+    const user = await getUserFromSessionCookie()
+    if (!user || !user.uid) {
+        return
+    }
+    try {
+        await firestore().collection('users').doc(user.uid).delete()
+    } catch (error) {
+        Sentry.captureMessage(
+            'Error while deleting user ' + user?.uid + ' from firestore',
+        )
+        throw error
+    }
+}

@@ -1,7 +1,10 @@
 'use server'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
-import { userCanEditOrganization } from 'app/(admin)/utils/firebase'
+import {
+    removeUserFromOrg,
+    userCanEditOrganization,
+} from 'app/(admin)/utils/firebase'
 import admin, { auth, firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -19,13 +22,7 @@ export async function removeUser(
     if (!access) return redirect('/')
 
     try {
-        await firestore()
-            .collection('organizations')
-            .doc(organizationId)
-            .update({
-                owners: admin.firestore.FieldValue.arrayRemove(uid),
-            })
-
+        await removeUserFromOrg(organizationId, uid)
         revalidatePath('/')
     } catch (error) {
         Sentry.captureException(error, {
