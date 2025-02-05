@@ -14,6 +14,7 @@ import {
 import { useState } from 'react'
 import { Label } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { usePostHog } from 'posthog-js/react'
 
 function TileSelector({
     action,
@@ -36,6 +37,8 @@ function TileSelector({
         selectedStopPlace?.value ?? '',
     )
 
+    const posthog = usePostHog()
+
     const classname = col ? '' : 'lg:flex-row'
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
@@ -54,6 +57,7 @@ function TileSelector({
                         ),
                     )
                 }
+                posthog.capture('ADD_TILE_TO_BOARD')
                 setFormError(undefined)
                 setSelectedQuay(null)
                 setSelectedStopPlace(null)
