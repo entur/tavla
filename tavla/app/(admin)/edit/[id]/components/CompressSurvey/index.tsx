@@ -77,26 +77,23 @@ function CompressSurvey() {
     }
 
     return (
-        <div>
-            <div className="box">
-                <div className="flex flex-row items-center gap-2">
-                    <Heading3 margin="bottom">
-                        Tilpass tavlen til liten skjerm
-                    </Heading3>
-                </div>
+        <>
+            <div className="box flex flex-col">
+                <Heading3 margin="bottom">
+                    Tilpass tavlen til liten skjerm
+                </Heading3>
 
                 <SubParagraph>
                     Fjern klokke, logo og infomelding, slik at avgangene får mer
                     plass på skjermen din.
                 </SubParagraph>
-                <div>
-                    <Switch
-                        checked={switchChecked}
-                        onChange={() => setSwitchChecked(!switchChecked)}
-                    >
-                        Tilpass
-                    </Switch>
-                </div>
+
+                <Switch
+                    checked={switchChecked}
+                    onChange={() => setSwitchChecked(!switchChecked)}
+                >
+                    Tilpass
+                </Switch>
 
                 <div className="flex flex-row mt-8 justify-end">
                     <SubmitButton
@@ -118,76 +115,63 @@ function CompressSurvey() {
                     closeAndReset()
                 }}
             >
-                <div>
-                    <div className="flex flex-col gap-2">
-                        <Heading4>
-                            Vi holder på å utvikle denne funksjonaliteten!
-                        </Heading4>
-                        <Paragraph>
-                            I mellomtiden ønsker vi din tilbakemelding!
-                        </Paragraph>
-                    </div>
-                    <form
-                        action={submitSurvey}
-                        className="flex flex-col justify-between gap-2"
+                <div className="flex flex-col gap-2">
+                    <Heading4>
+                        Vi holder på å utvikle denne funksjonaliteten!
+                    </Heading4>
+                    <Paragraph>
+                        I mellomtiden ønsker vi din tilbakemelding!
+                    </Paragraph>
+                </div>
+                <form
+                    action={submitSurvey}
+                    className="flex flex-col justify-between gap-2"
+                >
+                    <Heading5>Hvorfor trykket du på denne knappen?</Heading5>
+                    <RadioGroup
+                        name="multipleChoice"
+                        value={selectedOption}
+                        onChange={(e) => {
+                            setSelectedOption(e.target.value as string)
+                        }}
                     >
-                        <Heading5>
-                            Hvorfor trykket du på denne knappen?
-                        </Heading5>
-                        <RadioGroup
-                            name="multipleChoice"
-                            value={selectedOption}
-                            onChange={(e) => {
-                                setSelectedOption(e.target.value as string)
+                        <div className="flex flex-col items-start gap-8 sm:gap-2 w-full">
+                            {alternatives.map((option) => (
+                                <Radio key={option} value={option}>
+                                    {option}
+                                </Radio>
+                            ))}
+                        </div>
+                    </RadioGroup>
+
+                    <Heading5>Andre kommentarer</Heading5>
+                    <ClientOnly>
+                        <TextArea
+                            label="Utdyp gjerne!"
+                            name="freeText"
+                            id="freeText"
+                            defaultValue=""
+                        />
+                    </ClientOnly>
+                    <div className="mt-4">
+                        <FormError
+                            {...getFormFeedbackForField('general', formState)}
+                        />
+                    </div>
+                    <ButtonGroup className="flex flex-row mt-8">
+                        <SubmitButton variant="primary">Send</SubmitButton>
+                        <Button
+                            variant="secondary"
+                            onClick={() => {
+                                closeAndReset()
                             }}
                         >
-                            <div className="flex flex-col items-start gap-8 sm:gap-2 w-full">
-                                {alternatives.map((option) => (
-                                    <Radio key={option} value={option}>
-                                        {option}
-                                    </Radio>
-                                ))}
-                            </div>
-                        </RadioGroup>
-
-                        <div className="flex flex-col gap-2">
-                            <Heading5>Andre kommentarer</Heading5>
-                            <ClientOnly>
-                                <TextArea
-                                    label="Utdyp gjerne!"
-                                    name="freeText"
-                                    id="freeText"
-                                    defaultValue=""
-                                />
-                            </ClientOnly>
-                        </div>
-                        <div className="mt-4">
-                            <FormError
-                                {...getFormFeedbackForField(
-                                    'general',
-                                    formState,
-                                )}
-                            />
-                        </div>
-                        <div>
-                            <ButtonGroup className="flex flex-row mt-8">
-                                <SubmitButton variant="primary">
-                                    Send
-                                </SubmitButton>
-                                <Button
-                                    variant="secondary"
-                                    onClick={() => {
-                                        closeAndReset()
-                                    }}
-                                >
-                                    Avbryt
-                                </Button>
-                            </ButtonGroup>
-                        </div>
-                    </form>
-                </div>
+                            Avbryt
+                        </Button>
+                    </ButtonGroup>
+                </form>
             </Modal>
-        </div>
+        </>
     )
 }
 
