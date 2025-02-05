@@ -25,7 +25,7 @@ import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 
 const alternatives = [
     'Jeg var nysgjerrig på funksjonaliteten',
-    'Jeg har behov for komprimert visning av tavlen min på grunn av liten skjerm',
+    'Jeg har behov for tilpasset visning av tavlen min på grunn av liten skjerm',
     'Jeg ønsker ikke logo, klokke eller infomelding på tavlen min',
     'Annet',
 ]
@@ -80,19 +80,21 @@ function CompressSurvey() {
         <div>
             <div className="box">
                 <div className="flex flex-row items-center gap-2">
-                    <Heading3 margin="bottom">Komprimer Tavle</Heading3>
+                    <Heading3 margin="bottom">
+                        Tilpass tavlen til liten skjerm
+                    </Heading3>
                 </div>
 
                 <SubParagraph>
                     Fjern klokke, logo og infomelding, slik at avgangene får mer
-                    plass på skjermen din
+                    plass på skjermen din.
                 </SubParagraph>
                 <div>
                     <Switch
                         checked={switchChecked}
                         onChange={() => setSwitchChecked(!switchChecked)}
                     >
-                        Komprimer
+                        Tilpass
                     </Switch>
                 </div>
 
