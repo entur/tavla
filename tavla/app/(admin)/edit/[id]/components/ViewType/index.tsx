@@ -7,12 +7,14 @@ import { useState } from 'react'
 import { TBoard } from 'types/settings'
 import { setViewType as setViewTypeAction } from './actions'
 import { useToast } from '@entur/alert'
+import { usePostHog } from 'posthog-js/react'
 
 function ViewTypeSetting({ board }: { board: TBoard }) {
     const [value, setValue] = useState(
         board.combinedTiles ? 'combined' : 'separate',
     )
     const { addToast } = useToast()
+    const posthog = usePostHog()
 
     const setViewType = async () => {
         const formFeedback = await setViewTypeAction(board, value)
@@ -44,6 +46,7 @@ function ViewTypeSetting({ board }: { board: TBoard }) {
                     variant="secondary"
                     aria-label="Lagre visningstype"
                     className="max-sm:w-full"
+                    onClick={() => posthog.capture('SAVE_VIEW_TYPE_BTN')}
                 >
                     Lagre visningstype
                 </SubmitButton>
