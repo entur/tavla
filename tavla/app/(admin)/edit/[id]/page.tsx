@@ -1,6 +1,10 @@
 import { notFound, redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
-import { addTile, getWalkingDistanceTile } from './actions'
+import {
+    addTile,
+    addTileToCombinedList,
+    getWalkingDistanceTile,
+} from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
 import { MetaSettings } from './components/MetaSettings'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
@@ -22,6 +26,7 @@ import { getBoard } from 'Board/scenarios/Board/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { CompressSurvey } from './components/CompressSurvey'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
+import { ViewTypeSetting } from './components/ViewType'
 
 export type TProps = {
     params: Promise<{ id: TBoardID }>
@@ -52,6 +57,7 @@ export default async function EditPage(props: TProps) {
 
     const access = await userCanEditBoard(params.id)
     if (!access) return redirect('/')
+
     return (
         <div className="bg-gray-50">
             <div className="flex flex-col gap-6 pt-16 container pb-20">
@@ -84,6 +90,8 @@ export default async function EditPage(props: TProps) {
                             )
                             if (!tile.placeId) return
                             await addTile(params.id, tile)
+                            if (board.combinedTiles)
+                                await addTileToCombinedList(board, tile.uuid)
                             revalidatePath(`/edit/${params.id}`)
                         }}
                     />
@@ -106,6 +114,7 @@ export default async function EditPage(props: TProps) {
                             meta={board.meta}
                             organization={organization}
                         />
+                        <ViewTypeSetting board={board} />
                         <Footer
                             bid={params.id}
                             footer={board.footer}

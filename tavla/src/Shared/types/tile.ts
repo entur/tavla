@@ -30,14 +30,5 @@ export type TWalkingDistance = {
     distance?: number
     visible?: boolean
 }
-export type TPlaceId = {
-    id: string
-    type: 'stop_place' | 'quay'
-}
-export type TCombinedTile = {
-    type: 'combined'
-    placeId: TPlaceId[]
-} & TSharedTile &
-    TColumnTile
 
-export type TTile = TStopPlaceTile | TQuayTile | TCombinedTile
+export type TTile = TStopPlaceTile | TQuayTile

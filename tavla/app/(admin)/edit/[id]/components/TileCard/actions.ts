@@ -9,6 +9,7 @@ import {
 } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import * as Sentry from '@sentry/nextjs'
+import { isEmpty } from 'lodash'
 
 initializeAdminApp()
 
@@ -21,10 +22,19 @@ export async function deleteTile(bid: TBoardID, tile: TTile) {
         const board = (await boardRef.get()).data() as TBoard
         const tileToDelete = board.tiles.find((t) => t.uuid === tile.uuid)
 
+        const updatedCombinedTiles = board.combinedTiles?.map((t) => {
+            return {
+                ids: t.ids.filter((id) => id !== tile.uuid),
+            }
+        })
+
         await firestore()
             .collection('boards')
             .doc(bid)
             .update({
+                combinedTiles: isEmpty(updatedCombinedTiles)
+                    ? firestore.FieldValue.delete()
+                    : updatedCombinedTiles,
                 tiles: firestore.FieldValue.arrayRemove(tileToDelete),
                 'meta.dateModified': Date.now(),
             })

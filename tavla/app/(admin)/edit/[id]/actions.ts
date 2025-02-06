@@ -13,7 +13,7 @@ import {
 } from 'app/(admin)/components/TileSelector/utils'
 import { TCoordinate, TLocation } from 'types/meta'
 import { revalidatePath } from 'next/cache'
-import { TBoardID } from 'types/settings'
+import { TBoard, TBoardID } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
@@ -33,6 +33,29 @@ export async function addTile(bid: TBoardID, tile: TTile) {
     } catch (error) {
         Sentry.captureMessage(
             'Failed to save tile to board in firestore. BoardID: ' + bid,
+        )
+        throw error
+    }
+}
+
+export async function addTileToCombinedList(board: TBoard, tileId: string) {
+    const access = await userCanEditBoard(board.id)
+    if (!access) return redirect('/')
+
+    try {
+        const updatedCombinedTiles = board.combinedTiles?.map((tile) => {
+            return { ids: [...tile.ids, tileId] }
+        })
+        await firestore()
+            .collection('boards')
+            .doc(board.id ?? '')
+            .update({
+                combinedTiles: updatedCombinedTiles,
+                'meta.dateModified': Date.now(),
+            })
+    } catch (error) {
+        Sentry.captureMessage(
+            'Failed to save tile to board in firestore. BoardID: ' + board.id,
         )
         throw error
     }

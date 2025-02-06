@@ -1,5 +1,5 @@
 import React from 'react'
-import { TCombinedTile } from 'types/tile'
+import { TTile } from 'types/tile'
 import { GetQuayQuery, StopPlaceQuery, TSituationFragment } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
@@ -10,38 +10,32 @@ import {
 } from 'Board/components/DataFetchingFailed'
 import { Table } from '../Table'
 import { useQueries } from 'hooks/useQuery'
+import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
+import { sortBy } from 'lodash'
 
-export function CombinedTile({
-    placeId,
-    whitelistedLines,
-    whitelistedTransportModes,
-    columns,
-    walkingDistance,
-    offset,
-    displayName,
-}: TCombinedTile) {
-    const quayQueries = placeId
+export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
+    const quayQueries = combinedTile
         .filter(({ type }) => type === 'quay')
-        .map(({ id }) => ({
+        .map((tile) => ({
             query: GetQuayQuery,
             variables: {
-                quayId: id,
-                whitelistedTransportModes,
-                whitelistedLines,
+                quayId: tile.placeId,
+                whitelistedTransportModes: tile.whitelistedTransportModes,
+                whitelistedLines: tile.whitelistedLines,
             },
-            options: { offset, poll: true },
+            options: { offset: tile.offset, poll: true },
         }))
 
-    const stopPlaceQueries = placeId
+    const stopPlaceQueries = combinedTile
         .filter(({ type }) => type === 'stop_place')
-        .map(({ id }) => ({
+        .map((tile) => ({
             query: StopPlaceQuery,
             variables: {
-                stopPlaceId: id,
-                whitelistedTransportModes,
-                whitelistedLines,
+                stopPlaceId: tile.placeId,
+                whitelistedTransportModes: tile.whitelistedTransportModes,
+                whitelistedLines: tile.whitelistedLines,
             },
-            options: { offset, poll: true },
+            options: { offset: tile.offset, poll: true },
         }))
 
     const {
@@ -49,6 +43,7 @@ export function CombinedTile({
         error: quayError,
         isLoading: quayLoading,
     } = useQueries(quayQueries)
+
     const {
         data: stopPlaceData,
         error: stopPlaceError,
@@ -74,6 +69,7 @@ export function CombinedTile({
             </Tile>
         )
     }
+
     const estimatedCalls = [
         ...(quayData?.flatMap(
             (data) =>
@@ -90,32 +86,30 @@ export function CombinedTile({
                 })) ?? [],
         ) ?? []),
     ]
+
     const situations: TSituationFragment[] = [
         ...(quayData?.flatMap((data) => data?.quay?.situations ?? []) ?? []),
         ...(stopPlaceData?.flatMap(
             (data) => data?.stopPlace?.situations ?? [],
         ) ?? []),
     ]
-    const sortedEstimatedCalls = estimatedCalls.sort((a, b) => {
-        const timeA = new Date(a.expectedDepartureTime).getTime()
-        const timeB = new Date(b.expectedDepartureTime).getTime()
 
-        if (isNaN(timeA)) return 1
-        if (isNaN(timeB)) return -1
-
-        return timeA - timeB
+    const sortedEstimatedCalls = sortBy(estimatedCalls, (call) => {
+        const time = new Date(call.expectedDepartureTime).getTime()
+        return isNaN(time) ? Infinity : time
     })
+
+    const heading = combinedTile
+        .map((tile) => tile.displayName || tile.name?.split(',')[0])
+        .join(', ')
 
     return (
         <Tile className="flex flex-col max-sm:min-h-[30vh]">
-            <TableHeader
-                heading={displayName ?? 'Kombinerte stoppesteder'}
-                walkingDistance={walkingDistance}
-            />
+            <TableHeader heading={heading} />
             <Table
                 departures={sortedEstimatedCalls}
                 situations={situations}
-                columns={columns}
+                columns={DEFAULT_COMBINED_COLUMNS}
             />
         </Tile>
     )

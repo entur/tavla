@@ -57,6 +57,7 @@ function TileList({
                     index={index}
                     totalTiles={board.tiles.length}
                     setDemoBoard={setDemoBoard}
+                    isCombined={board.combinedTiles ? true : false}
                 />
             ))}
         </div>

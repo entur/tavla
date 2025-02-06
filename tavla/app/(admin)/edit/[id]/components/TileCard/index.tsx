@@ -36,7 +36,12 @@ import {
     useEffect,
     useState,
 } from 'react'
-import { Columns, TColumn } from 'types/column'
+import {
+    Columns,
+    DEFAULT_COMBINED_COLUMNS,
+    DEFAULT_ORGANIZATION_COLUMNS,
+    TColumn,
+} from 'types/column'
 import { TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
@@ -62,6 +67,7 @@ function TileCard({
     moveItem,
     index,
     totalTiles,
+    isCombined,
 }: {
     bid: TBoardID
     tile: TTile
@@ -71,6 +77,7 @@ function TileCard({
     moveItem: (index: number, direction: string) => void
     index: number
     totalTiles: number
+    isCombined: boolean
 }) {
     const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
@@ -91,7 +98,7 @@ function TileCard({
         prevState: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        const columns = data.getAll('columns') as TColumn[]
+        let columns = data.getAll('columns') as TColumn[]
         data.delete('columns')
         const count = data.get('count') as number | null
         data.delete('count')
@@ -102,7 +109,6 @@ function TileCard({
         if (isOnlyWhiteSpace(displayName)) {
             return getFormFeedbackForError('board/tiles-name-missing')
         }
-
         let lines: string[] = []
         for (const line of data.values()) {
             lines.push(line as string)
@@ -111,6 +117,10 @@ function TileCard({
         lines = lines.length == count ? [] : lines
 
         if (columns !== tile.columns) await captureColumnChangeEvent()
+
+        if (isCombined) {
+            columns = tile.columns ?? DEFAULT_ORGANIZATION_COLUMNS
+        }
 
         const newTile = {
             ...tile,
@@ -345,7 +355,6 @@ function TileCard({
                                     </Checkbox>
                                 )}
                         </div>
-
                         <div className="flex flex-row items-baseline gap-1">
                             <Heading4>Kolonner</Heading4>
 
@@ -364,30 +373,34 @@ function TileCard({
                                 </IconButton>
                             </Tooltip>
                         </div>
-                        <div className="flex flex-row items-start gap-2">
-                            <SubParagraph>
-                                Her bestemmer du hvilke kolonner som skal vises
-                                i tavlen.
+                        <SubParagraph>
+                            Her bestemmer du hvilke kolonner som skal vises i
+                            tavlen.
+                        </SubParagraph>
+                        {isCombined && (
+                            <SubParagraph className="!text-error mb-2">
+                                Har du samlet stoppestedene i én liste vil du
+                                ikke ha mulighet til å sette kolonner.
                             </SubParagraph>
-                        </div>
+                        )}
                         <ColumnModal
                             isOpen={isColumnModalOpen}
                             setIsOpen={setIsColumnModalOpen}
                         />
-
                         <div className="flex flex-row flex-wrap gap-4 mb-8">
                             {Object.entries(Columns).map(([key, value]) => {
+                                const columns = isCombined
+                                    ? DEFAULT_COMBINED_COLUMNS
+                                    : tile.columns
                                 return (
                                     <FilterChip
                                         name="columns"
                                         key={key}
                                         value={key}
+                                        disabled={isCombined}
                                         defaultChecked={
-                                            isArray(tile.columns)
-                                                ? tile.columns?.includes(
-                                                      key as TColumn,
-                                                  )
-                                                : false
+                                            isArray(columns) &&
+                                            columns.includes(key as TColumn)
                                         }
                                     >
                                         {value}

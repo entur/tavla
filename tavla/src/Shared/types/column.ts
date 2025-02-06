@@ -17,3 +17,12 @@ export const DEFAULT_ORGANIZATION_COLUMNS = [
     'time',
     'realtime',
 ] as TColumn[]
+
+export const DEFAULT_COMBINED_COLUMNS = [
+    'line',
+    'destination',
+    'name',
+    'platform',
+    'time',
+    'realtime',
+] as TColumn[]
