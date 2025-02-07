@@ -380,7 +380,7 @@ function TileCard({
                         {isCombined && (
                             <SubParagraph className="!text-error mb-2">
                                 Har du samlet stoppestedene i én liste vil du
-                                ikke ha mulighet til å sette kolonner.
+                                ikke ha mulighet til å velge kolonner.
                             </SubParagraph>
                         )}
                         <ColumnModal

@@ -11,7 +11,7 @@ async function Demo() {
         <main className="container pt-8 pb-20 flex flex-col gap-10">
             <div>
                 <Heading1>Test ut Tavla!</Heading1>
-                <LeadParagraph margin="none" className="lg:w-4/5">
+                <LeadParagraph margin="none">
                     Dette er en demo-løsning hvor du kan prøve å opprette din
                     egen tavle. Du må logge inn for å lagre tavlen og få tilgang
                     til all funksjonalitet. Tavlen du lager her blir ikke
