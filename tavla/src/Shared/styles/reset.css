@@ -40,6 +40,11 @@ a.eds-button,
     line-height: normal;
 }
 
+a.eds-link {
+    display: inline-flex;
+    width: fit-content;
+}
+
 a.eds-button > .eds-icon,
 .eds-button > .eds-icon {
     top: 0;

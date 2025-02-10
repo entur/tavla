@@ -10,7 +10,6 @@ import {
 } from '@entur/typography'
 import { PreviewCarousel } from './components/PreviewCarousel'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
-import { Link as EnturLink } from '@entur/typography'
 import { CreateUserButtonLanding } from './components/CreateUserButtonLanding'
 import { DemoButton } from './components/DemoButtonLanding'
 import { WordCarousel } from './components/WordCarousel/WordCarousel'
@@ -68,14 +67,6 @@ async function Landing() {
                                 tilpasset flere operativsystem og oppløsninger.
                             </ListItem>
                         </UnorderedList>
-                        <Paragraph className="pt-50 italic">
-                            Tavla sin kildekode er tilgjengelig for alle på{' '}
-                            <EnturLink href="https://github.com/entur/tavla">
-                                GitHub
-                            </EnturLink>
-                            . Dette gjør at du kan følge utviklingen av
-                            produktet direkte og foreslå forbedringer selv.
-                        </Paragraph>
 
                         <Heading3>Enkelt å tilpasse og samarbeide</Heading3>
 
