@@ -1,55 +1,32 @@
 'use client'
-import { useToast } from '@entur/alert'
-import { Heading3 } from '@entur/typography'
-import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { SubmitButton } from 'components/Form/SubmitButton'
-import { useActionState } from 'react'
-import { saveTitle as saveTitleAction } from './actions'
-import { TBoardID } from 'types/settings'
-import { FormError } from 'app/(admin)/components/FormError'
-
-function Title({ bid, title }: { bid: TBoardID; title: string }) {
-    const { addToast } = useToast()
-
-    const saveTitle = async (
-        state: TFormFeedback | undefined,
-        data: FormData,
-    ) => {
-        const formFeedback = await saveTitleAction(state, bid, data)
-        if (!formFeedback) {
-            addToast('Navnet på tavlen er lagret!')
-        }
-        return formFeedback
-    }
-    const [titleState, saveTitleFormAction] = useActionState(
-        saveTitle,
-        undefined,
-    )
+import { Heading4 } from '@entur/typography'
+import { TFormFeedback } from 'app/(admin)/utils'
+import dynamic from 'next/dynamic'
+const TextField = dynamic(
+    () => import('@entur/form').then((mod) => mod.TextField),
+    { ssr: false },
+)
+function Title({
+    title,
+    feedback,
+}: {
+    title: string
+    feedback?: TFormFeedback
+}) {
     return (
-        <form action={saveTitleFormAction} className="box flex flex-col">
-            <Heading3 margin="bottom">Navn</Heading3>
+        <div>
+            <Heading4 margin="bottom">Navn</Heading4>
             <div className="h-full">
-                <ClientOnlyTextField
+                <TextField
                     name="name"
                     className="w-full"
                     defaultValue={title}
                     label="Navn på tavlen"
                     maxLength={50}
-                    {...getFormFeedbackForField('name', titleState)}
+                    {...feedback}
                 />
             </div>
-            <div className="mt-4">
-                <FormError
-                    {...getFormFeedbackForField('general', titleState)}
-                />
-            </div>
-            <div className="flex flex-row justify-end mt-8">
-                <SubmitButton variant="secondary" className="max-sm:w-full">
-                    Lagre navn
-                </SubmitButton>
-            </div>
-        </form>
+        </div>
     )
 }
 export { Title }

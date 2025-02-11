@@ -1,44 +1,32 @@
 'use client'
-import { useToast } from '@entur/alert'
-import { SearchableDropdown } from '@entur/dropdown'
-import { Heading3, SubParagraph } from '@entur/typography'
-import { FormError } from 'app/(admin)/components/FormError'
-import { saveLocation as saveLocationAction } from 'app/(admin)/edit/[id]/components/MetaSettings/actions'
-import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
-import { SubmitButton } from 'components/Form/SubmitButton'
-import { useActionState } from 'react'
-
+import { NormalizedDropdownItemType } from '@entur/dropdown'
+import { Heading4, SubParagraph } from '@entur/typography'
+import dynamic from 'next/dynamic'
+import { Dispatch, ReactElement, SetStateAction } from 'react'
 import { TLocation } from 'types/meta'
-import { TBoardID } from 'types/settings'
 
+const SearchableDropdown = dynamic(
+    () => import('@entur/dropdown').then((mod) => mod.SearchableDropdown),
+    { ssr: false },
+)
 function WalkingDistance({
-    bid,
-    location,
+    pointItems,
+    selectedPoint,
+    setSelectedPoint,
+    error,
 }: {
-    bid: TBoardID
-    location?: TLocation
+    pointItems: (
+        search: string,
+    ) => Promise<NormalizedDropdownItemType<TLocation>[]>
+    selectedPoint: NormalizedDropdownItemType<TLocation | unknown> | null
+    setSelectedPoint: Dispatch<
+        SetStateAction<NormalizedDropdownItemType<TLocation | unknown> | null>
+    >
+    error?: ReactElement
 }) {
-    const { pointItems, selectedPoint, setSelectedPoint } =
-        usePointSearch(location)
-    const { addToast } = useToast()
-
-    const saveLocation = async () => {
-        const formFeedback = await saveLocationAction(bid, selectedPoint?.value)
-        if (!formFeedback) {
-            addToast('Adresse oppdatert!')
-        }
-        return formFeedback
-    }
-
-    const [locationState, saveLocationFormAction] = useActionState(
-        saveLocation,
-        undefined,
-    )
-
     return (
-        <form action={saveLocationFormAction} className="box flex flex-col">
-            <Heading3 margin="bottom">Gangavstand</Heading3>
+        <div className="flex flex-col">
+            <Heading4 margin="bottom">Gangavstand</Heading4>
             <SubParagraph className="mb-2">
                 Om du legger inn tavlens adresse, vises gangavstanden fra tavlen
                 til hvert stoppested.
@@ -54,17 +42,8 @@ function WalkingDistance({
                     clearable
                 />
             </div>
-            <div className="mt-4">
-                <FormError
-                    {...getFormFeedbackForField('general', locationState)}
-                />
-            </div>
-            <div className="flex flex-row mt-8 justify-end">
-                <SubmitButton variant="secondary" className="max-sm:w-full">
-                    Lagre adresse
-                </SubmitButton>
-            </div>
-        </form>
+            <div className="mt-4">{error}</div>
+        </div>
     )
 }
 

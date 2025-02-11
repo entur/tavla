@@ -2,7 +2,6 @@ import { notFound, redirect } from 'next/navigation'
 import { TBoardID } from 'types/settings'
 import { addTile, getWalkingDistanceTile } from './actions'
 import { Heading1, Heading2 } from '@entur/typography'
-import { MetaSettings } from './components/MetaSettings'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
@@ -11,16 +10,15 @@ import { getOrganizationForBoard } from './components/TileCard/actions'
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
-import { Footer } from './components/Footer'
 import { RefreshButton } from './components/RefreshButton'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { Preview } from './components/Preview'
 import { ActionsMenu } from './components/ActionsMenu'
-import { ThemeSelect } from './components/ThemeSelect'
 import { TileList } from './components/TileList'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
+import { Settings } from './components/Settings'
 
 export type TProps = {
     params: Promise<{ id: TBoardID }>
@@ -51,6 +49,7 @@ export default async function EditPage(props: TProps) {
 
     const access = await userCanEditBoard(params.id)
     if (!access) return redirect('/')
+
     return (
         <div className="bg-gray-50">
             <div className="flex flex-col gap-6 pt-16 container pb-20">
@@ -96,23 +95,11 @@ export default async function EditPage(props: TProps) {
                         <Preview board={board} organization={organization} />
                     </div>
                 </div>
-
-                <div className="rounded-md md:py-8 py-2 md:px-6 px-2 flex flex-col gap-4 bg-background">
-                    <Heading2>Innstillinger</Heading2>
-                    <div className="grid grid-cols md:grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-8">
-                        <MetaSettings
-                            bid={params.id}
-                            meta={board.meta}
-                            organization={organization}
-                        />
-                        <Footer
-                            bid={params.id}
-                            footer={board.footer}
-                            organizationBoard={organization !== undefined}
-                        />
-                        <ThemeSelect board={board} />
-                    </div>
-                </div>
+                <Settings
+                    board={board}
+                    meta={board.meta}
+                    organization={organization}
+                />
             </div>
         </div>
     )
