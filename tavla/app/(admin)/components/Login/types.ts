@@ -1,4 +1,4 @@
-export type TLoginPage = 'start' | 'email' | 'create' | 'reset'
+export type TLoginPage = 'email' | 'create' | 'reset'
 
 export type TErrorType = 'email' | 'password' | 'repeat_password' | 'user'
 
