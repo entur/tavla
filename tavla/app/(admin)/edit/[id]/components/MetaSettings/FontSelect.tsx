@@ -1,47 +1,24 @@
 'use client'
-import { Heading3 } from '@entur/typography'
-import { SubmitButton } from 'components/Form/SubmitButton'
+import { Heading4 } from '@entur/typography'
 import { TFontSize } from 'types/meta'
-import { saveFont as saveFontAction } from './actions'
 import { TBoardID } from 'types/settings'
-import { useToast } from '@entur/alert'
 import { FontChoiceChip } from './FontChoiceChip'
-import { useActionState } from 'react'
-import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
-import { FormError } from 'app/(admin)/components/FormError'
+import { ReactElement } from 'react'
 
-function FontSelect({ bid, font }: { bid: TBoardID; font: TFontSize }) {
-    const { addToast } = useToast()
-
-    const saveFont = async (
-        state: TFormFeedback | undefined,
-        data: FormData,
-    ) => {
-        const formFeedback = await saveFontAction(bid, data)
-        if (!formFeedback) {
-            addToast('Tekststørrelse lagret!')
-        }
-        return formFeedback
-    }
-
-    const [fontState, fontFormAction] = useActionState(saveFont, undefined)
-
+function FontSelect({
+    font,
+    error,
+}: {
+    bid: TBoardID
+    font: TFontSize
+    error?: ReactElement
+}) {
     return (
-        <form
-            action={fontFormAction}
-            className="box flex flex-col justify-between"
-        >
-            <Heading3 margin="bottom">Tekststørrelse </Heading3>
+        <div className=" flex flex-col justify-between">
+            <Heading4 margin="bottom">Tekststørrelse </Heading4>
             <FontChoiceChip font={font} />
-            <div className="mt-4">
-                <FormError {...getFormFeedbackForField('general', fontState)} />
-            </div>
-            <div className="flex flex-row mt-8 justify-end">
-                <SubmitButton variant="secondary" className="max-sm:w-full">
-                    Lagre tekststørrelse
-                </SubmitButton>
-            </div>
-        </form>
+            <div className="mt-4">{error}</div>
+        </div>
     )
 }
 

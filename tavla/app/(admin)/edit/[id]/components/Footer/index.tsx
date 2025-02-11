@@ -1,47 +1,33 @@
 'use client'
-import { useToast } from '@entur/alert'
 import { Switch } from '@entur/form'
 import { ValidationInfoFilledIcon } from '@entur/icons'
-import { Heading3 } from '@entur/typography'
-import { SubmitButton } from 'components/Form/SubmitButton'
-import { TBoardID, TFooter } from 'types/settings'
-import { setFooter as setFooterAction } from './actions'
-import { useActionState, useState } from 'react'
+import { Heading4 } from '@entur/typography'
+import { TFooter } from 'types/settings'
+import { ReactNode, useState } from 'react'
 import { Tooltip } from '@entur/tooltip'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
-import { FormError } from 'app/(admin)/components/FormError'
+
+import dynamic from 'next/dynamic'
+
+const TextField = dynamic(
+    () => import('@entur/form').then((mod) => mod.TextField),
+    { ssr: false },
+)
 
 function Footer({
-    bid,
     footer,
     organizationBoard,
+    error,
 }: {
-    bid: TBoardID
     footer?: TFooter
     organizationBoard: boolean
+    error?: ReactNode
 }) {
-    const { addToast } = useToast()
     const [override, setOverride] = useState(footer?.override ?? false)
 
-    const setFooter = async (
-        state: TFormFeedback | undefined,
-        data: FormData,
-    ) => {
-        const formFeedback = await setFooterAction(bid, data)
-
-        if (!formFeedback) {
-            addToast('Infomelding lagret!')
-        }
-        return formFeedback
-    }
-
-    const [footerState, footerFormAction] = useActionState(setFooter, undefined)
-
     return (
-        <form className="box flex flex-col" action={footerFormAction}>
+        <div className="flex flex-col">
             <div className="flex flex-row items-center gap-2">
-                <Heading3 margin="bottom">Infomelding</Heading3>
+                <Heading4 margin="bottom">Infomelding</Heading4>
 
                 <Tooltip
                     content="Skriv en kort tekst som skal vises nederst i tavlen."
@@ -56,7 +42,7 @@ function Footer({
                 </Tooltip>
             </div>
             <div className="h-full">
-                <ClientOnlyTextField
+                <TextField
                     label="Infomelding"
                     name="footer"
                     defaultValue={footer?.footer ?? ''}
@@ -72,22 +58,9 @@ function Footer({
                         Vis infomelding fra mappen.
                     </Switch>
                 )}
-                <div className="mt-4">
-                    <FormError
-                        {...getFormFeedbackForField('general', footerState)}
-                    />
-                </div>
+                <div className="mt-4">{error}</div>
             </div>
-            <div className="flex flex-row mt-8 justify-end">
-                <SubmitButton
-                    variant="secondary"
-                    aria-label="Lagre infomelding"
-                    className="max-sm:w-full"
-                >
-                    Lagre infomelding
-                </SubmitButton>
-            </div>
-        </form>
+        </div>
     )
 }
 
