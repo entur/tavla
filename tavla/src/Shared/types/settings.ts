@@ -6,7 +6,6 @@ import { TTile } from './tile'
 export type TTheme = 'entur' | 'dark' | 'light'
 
 export type TCombinedTiles = { ids: TBoardID[] }
-
 export type TBoard = {
     id?: TBoardID
     meta: TMeta
@@ -14,6 +13,10 @@ export type TBoard = {
     combinedTiles?: TCombinedTiles[]
     theme?: TTheme
     footer?: TFooter
+}
+export type TBoardWithOrganizaion = {
+    board: TBoard
+    organization?: TOrganization
 }
 
 export type TUser = {

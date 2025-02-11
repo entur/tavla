@@ -6,12 +6,18 @@ import { TMeta } from 'types/meta'
 import { TBoard, TOrganization } from 'types/settings'
 import { BoardSettings } from '../BoardSetttings'
 import { MetaSettings } from '../MetaSettings'
-import { FormEvent } from 'react'
+import { saveForm } from './actions'
 import { WalkingDistance } from '../MetaSettings/WalkingDistance'
 import { Footer } from '../Footer'
 import { ThemeSelect } from '../ThemeSelect'
 import { FontSelect } from '../MetaSettings/FontSelect'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
+import { Title } from '../MetaSettings/Title'
+import { Organization } from '../MetaSettings/Organization'
+import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
+import { ViewTypeSetting } from '../ViewType'
+import { usePostHog } from 'posthog-js/react'
 function Settings({
     board,
     meta,
@@ -21,10 +27,20 @@ function Settings({
     meta: TMeta
     organization?: TOrganization
 }) {
+    const posthog = usePostHog()
+    const submit = async (data: FormData) => {
+        data.append('organization', selectedOrganization?.value as string)
+        posthog.capture('SAVE_VIEW_TYPE_BTN', {
+            value: data.get('viewType') as string,
+        })
+        await saveForm(undefined, data)
+    }
     const { pointItems, selectedPoint, setSelectedPoint } = usePointSearch(
         meta.location,
     )
-
+    const { organizations, selectedOrganization, setSelectedOrganization } =
+        useOrganizations(organization)
+    //const [state, action] = useActionState(saveForm, undefined)
     return (
         <div className="rounded-md md:py-8 py-2 md:px-6 px-2 flex flex-col gap-4 bg-background">
             <Heading2>Innstillinger</Heading2>
@@ -36,26 +52,26 @@ function Settings({
                         e.currentTarget as HTMLFormElement,
                     )
                 }}
+                action={submit}
             >
-                <MetaSettings
-                    bid={board.id!}
-                    meta={board.meta}
-                    organization={organization}
-                />
+                <MetaSettings>
+                    <Title title={meta?.title ?? DEFAULT_BOARD_NAME} />
+                    <Organization
+                        organization={organization}
+                        organizations={organizations}
+                        selectedOrganization={selectedOrganization}
+                        setSelectedOrganization={setSelectedOrganization}
+                    />
+                </MetaSettings>
 
-                <BoardSettings
-                    board={board}
-                    meta={board.meta}
-                    organization={organization}
-                >
+                <BoardSettings>
+                    <ViewTypeSetting board={board} />
                     <WalkingDistance
-                        bid={board.id!}
                         pointItems={pointItems}
                         selectedPoint={selectedPoint}
                         setSelectedPoint={setSelectedPoint}
                     />
                     <Footer
-                        bid={board.id!}
                         footer={board.footer}
                         organizationBoard={organization !== undefined}
                     />
