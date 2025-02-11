@@ -37,23 +37,23 @@ function Help() {
                 </div>
                 <div>
                     <Heading2 href="#how-to-guides">
-                        Hvordan komme i gang med Tavla
+                        Guider: hvordan komme i gang med Tavla
                     </Heading2>
                     <Paragraph>
                         Vi har laget to guider som skal gjøre det enklere å
                         komme i gang med Tavla. En for å opprette en
-                        avgangstavle og en for å få tavlen på en skjerm.
+                        avgangstavle og en for å vise tavlen på en smart-TV.
                     </Paragraph>
                     <div className="flex flex-col">
                         <EnturLink
                             external
                             href="https://www.kakadu.no/entur/slik-oppretter-du-en-tavle"
                         >
-                            Guide: Lag en avgangstavle
+                            Guide: lag en avgangstavle
                         </EnturLink>
                         <br></br>
                         <EnturLink external>
-                            Guide: Vis tavlen på en smartTV
+                            Guide: vis tavlen på en smart-TV
                         </EnturLink>
                     </div>
                 </div>

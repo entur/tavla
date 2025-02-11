@@ -19,7 +19,7 @@ function Questions() {
                 Ja, Tavla er helt gratis å bruke uavhengig av hvor mange tavler
                 man har.
             </AccordionItem>
-            <AccordionItem title="Jeg har ikke fått en e-post om verifisering">
+            <AccordionItem title="Jeg har ikke fått en e-post om verifisering, hva gjør jeg?">
                 Det kan hende det tar litt tid å få en e-post fra oss om
                 verifisering. Dette skal normalt ikke ta mer enn 10 minutter.
                 Hvis du ikke får den innen da, så prøv gjerne igjen. Hvis
@@ -31,9 +31,10 @@ function Questions() {
                 kjøre opp Tavla i det hele tatt. Da vil enten tavlen ikke se ut
                 som den skal, eller så kan det hende at skjermen er blank.
             </AccordionItem>
-            <AccordionItem title="Støtte på eldre nettlesere">
-                Tavla er utviklet for å støtte eldre nettlesere ned til visse
-                versjoner. Vi støtter helt ned til disse versjonene og oppover:
+            <AccordionItem title="Hvilke eldre nettlesere støttes?">
+                Tavla er utviklet med tanke på at vi skal støtte eldre
+                nettlesere siden mange skjermer har eldre, innebygde nettlesere.
+                Vi støtter helt ned til disse versjonene og oppover:
                 <ListItem>Chromium 49</ListItem>
                 <ListItem>Firefox 52</ListItem>
                 <ListItem>Safari 8.1</ListItem>
@@ -59,7 +60,7 @@ function Questions() {
                     her
                 </Link>
                 på hvordan du lager en avgangstavle og hvordan du får tavlen på
-                en skjerm.
+                en smart-TV.
             </AccordionItem>
         </Accordion>
     )
