@@ -89,7 +89,7 @@ function Create() {
                 </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <ButtonGroup className="flex flex-row gap-4">
+                <ButtonGroup className="flex flex-row gap-4 pb-4">
                     <div className="w-1/2">
                         <SubmitButton
                             variant="primary"
@@ -113,7 +113,7 @@ function Create() {
                         </Button>
                     </div>
                 </ButtonGroup>
-                <Paragraph className="text-center">
+                <Paragraph className="text-center" margin="none">
                     Har du allerede en bruker?{' '}
                     <Link className="underline" href="?login=email">
                         Logg inn

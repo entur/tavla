@@ -134,7 +134,7 @@ function Email() {
                         </Button>
                     </div>
                 </ButtonGroup>
-                <Paragraph className="text-center">
+                <Paragraph className="text-center" margin="none">
                     Har du ikke en bruker?{' '}
                     <Link
                         className="underline"
