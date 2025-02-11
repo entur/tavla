@@ -16,14 +16,6 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
                 <AddIcon /> Opprett tavle <CreateBoard />
             </IconButton>
             <TopNavigationItem
-                active={pathname?.includes('/help')}
-                as={Link}
-                href="/help"
-                className="!text-primary"
-            >
-                Ofte stilte spørsmål
-            </TopNavigationItem>
-            <TopNavigationItem
                 active={pathname?.includes('/boards')}
                 as={Link}
                 href="/boards"
