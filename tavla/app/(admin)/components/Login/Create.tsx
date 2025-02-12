@@ -2,7 +2,7 @@
 import { useActionState } from 'react'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
-import { Heading3 } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 import { create } from './actions'
 import {
     createUserWithEmailAndPassword,
@@ -89,14 +89,14 @@ function Create() {
                 </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <ButtonGroup className="flex flex-row gap-4">
+                <ButtonGroup className="flex flex-row gap-4 pb-4">
                     <div className="w-1/2">
                         <SubmitButton
                             variant="primary"
                             width="fluid"
                             aria-label="Opprett bruker"
                         >
-                            Opprett bruker
+                            Opprett
                         </SubmitButton>
                     </div>
 
@@ -113,6 +113,12 @@ function Create() {
                         </Button>
                     </div>
                 </ButtonGroup>
+                <Paragraph className="text-center" margin="none">
+                    Har du allerede en bruker?{' '}
+                    <Link className="underline" href="?login=email">
+                        Logg inn
+                    </Link>
+                </Paragraph>
             </form>
         </div>
     )

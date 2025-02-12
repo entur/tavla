@@ -5,14 +5,12 @@ import { usePathname, useRouter } from 'next/navigation'
 import { IconButton, SecondarySquareButton } from '@entur/button'
 import { BackArrowIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { logout } from './actions'
-import { Email } from './Email'
-import { Start } from './Start'
 import { Create } from './Create'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { Reset } from './Reset'
 import { usePostHog } from 'posthog-js/react'
-
-type TLoginPage = 'start' | 'email' | 'create' | 'reset'
+import { TLoginPage } from './types'
+import { Email } from './Email'
 
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
@@ -77,7 +75,7 @@ function Page({ page }: { page: TLoginPage }) {
         case 'reset':
             return <Reset />
         default:
-            return <Start />
+            return <Email />
     }
 }
 

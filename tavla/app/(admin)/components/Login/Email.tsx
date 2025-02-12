@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
-import { Heading3, Link as EnturLink } from '@entur/typography'
+import { Heading3, Paragraph } from '@entur/typography'
 
 import { Button, ButtonGroup } from '@entur/button'
 import Image from 'next/image'
@@ -103,11 +103,14 @@ function Email() {
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
                 <p>
-                    <EnturLink href={getPathWithParams('reset')}>
+                    <Link
+                        className="underline"
+                        href={getPathWithParams('reset')}
+                    >
                         Glemt passord?
-                    </EnturLink>
+                    </Link>
                 </p>
-                <ButtonGroup className="flex flex-row gap-4">
+                <ButtonGroup className="flex flex-row gap-4 pb-4">
                     <div className="w-1/2">
                         <SubmitButton
                             variant="primary"
@@ -131,6 +134,15 @@ function Email() {
                         </Button>
                     </div>
                 </ButtonGroup>
+                <Paragraph className="text-center" margin="none">
+                    Har du ikke en bruker?{' '}
+                    <Link
+                        className="underline"
+                        href={getPathWithParams('create')}
+                    >
+                        Opprett bruker
+                    </Link>
+                </Paragraph>
             </form>
         </div>
     )
