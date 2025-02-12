@@ -3,15 +3,14 @@ import { DeparturesContext } from '../contexts'
 import { TableColumn } from './TableColumn'
 import { TableRow } from './TableRow'
 import { Pulse } from 'components/Pulse'
+import { nanoid } from 'nanoid'
 
 function RealTime() {
     const departures = useNonNullContext(DeparturesContext)
 
     const realtimes = departures.map((departure) => ({
         realtime: departure.realtime,
-        key: `${departure.serviceJourney.id}_${
-            departure.aimedDepartureTime
-        }_${Date.now()}`,
+        key: nanoid(),
     }))
 
     return (

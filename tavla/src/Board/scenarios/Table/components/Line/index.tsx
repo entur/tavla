@@ -4,6 +4,7 @@ import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import { TravelTag } from 'components/TravelTag'
 import { getAirPublicCode } from 'utils/publicCode'
+import { nanoid } from 'nanoid'
 
 function Line() {
     const departures = useNonNullContext(DeparturesContext)
@@ -13,7 +14,7 @@ function Line() {
         transportSubmode:
             departure.serviceJourney.transportSubmode ?? undefined,
         publicCode: departure.serviceJourney.line.publicCode ?? '',
-        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+        key: nanoid(),
         id: departure.serviceJourney.id ?? '',
     }))
 

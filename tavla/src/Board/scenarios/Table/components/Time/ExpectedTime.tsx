@@ -4,6 +4,7 @@ import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import { FormattedTime } from './components/FormattedTime'
+import { nanoid } from 'nanoid'
 
 function ExpectedTime() {
     const departures = useNonNullContext(DeparturesContext)
@@ -12,7 +13,7 @@ function ExpectedTime() {
         aimedDepartureTime: departure.aimedDepartureTime,
         expectedDepartureTime: departure.expectedDepartureTime,
         cancelled: departure.cancellation,
-        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+        key: nanoid(),
     }))
 
     return (
