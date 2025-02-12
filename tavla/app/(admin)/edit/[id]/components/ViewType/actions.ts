@@ -15,35 +15,21 @@ export async function setViewType(board: TBoard, viewType: string) {
     const access = await userCanEditBoard(board.id)
     if (!access) return redirect('/')
 
-    if (viewType == 'combined') {
-        try {
-            await firestore()
-                .collection('boards')
-                .doc(board.id ?? '')
-                .update({
-                    combinedTiles: [
-                        { ids: board.tiles.map((tile) => tile.uuid) },
-                    ],
-                    'meta.dateModified': Date.now(),
-                })
+    const shouldDeleteCombinedTiles = viewType === 'separate'
 
-            revalidatePath(`/edit/${board.id}`)
-        } catch (e) {
-            handleError(e)
-        }
-    } else {
-        try {
-            await firestore()
-                .collection('boards')
-                .doc(board.id ?? '')
-                .update({
-                    combinedTiles: firestore.FieldValue.delete(),
-                    'meta.dateModified': Date.now(),
-                })
+    try {
+        await firestore()
+            .collection('boards')
+            .doc(board.id ?? '')
+            .update({
+                combinedTiles: shouldDeleteCombinedTiles
+                    ? firestore.FieldValue.delete()
+                    : [{ ids: board.tiles.map((tile) => tile.uuid) }],
+                'meta.dateModified': Date.now(),
+            })
 
-            revalidatePath(`/edit/${board.id}`)
-        } catch (e) {
-            handleError(e)
-        }
+        revalidatePath(`/edit/${board.id}`)
+    } catch (e) {
+        handleError(e)
     }
 }
