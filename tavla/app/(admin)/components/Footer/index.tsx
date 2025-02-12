@@ -11,7 +11,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePostHog()
     return (
         <footer className="eds-contrast">
-            <div className="container pt-16 pb-4">
+            <div className="container pt-16 pb-20">
                 <Image src={TavlaLogo} alt="Entur Tavla logo" />
                 <div className="flex flex-col sm:flex-row justify-between">
                     <div>
@@ -63,6 +63,11 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 }
                             >
                                 Prøv Tavla
+                            </EnturLink>
+                        </div>
+                        <div>
+                            <EnturLink href="/help" as={Link}>
+                                Ofte stilte spørsmål
                             </EnturLink>
                         </div>
                         <div className="flex flex-row gap-1 items-center">

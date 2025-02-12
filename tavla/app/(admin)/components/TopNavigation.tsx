@@ -22,17 +22,27 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                 <HorizontalNavBar loggedIn={loggedIn} />
                 <div className="flex flex-row sm:gap-10">
                     {!loggedIn && (
-                        <TopNavigationItem
-                            active={pathname?.includes('/demo')}
-                            as={Link}
-                            href="/demo"
-                            onClick={() => {
-                                posthog.capture('DEMO_FROM_NAV_BAR_BTN')
-                            }}
-                            className="!text-primary"
-                        >
-                            Prøv Tavla
-                        </TopNavigationItem>
+                        <>
+                            <TopNavigationItem
+                                active={pathname?.includes('/demo')}
+                                as={Link}
+                                href="/demo"
+                                onClick={() => {
+                                    posthog.capture('DEMO_FROM_NAV_BAR_BTN')
+                                }}
+                                className="!text-primary"
+                            >
+                                Prøv Tavla
+                            </TopNavigationItem>
+                            <TopNavigationItem
+                                active={pathname?.includes('/help')}
+                                as={Link}
+                                href="/help"
+                                className="!text-primary"
+                            >
+                                Ofte stilte spørsmål
+                            </TopNavigationItem>
+                        </>
                     )}
                     <Login loggedIn={loggedIn} />
                 </div>
