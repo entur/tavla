@@ -26,8 +26,8 @@ function ViewTypeSetting({ board }: { board: TBoard }) {
         <form action={setViewType} className="box flex flex-col">
             <Heading3 margin="bottom">Visningstype</Heading3>
             <Paragraph>
-                Velg om alle stoppestedene skal vises i hver sin tabell eller
-                kombinert i samme tabell.
+                Velg om alle stoppestedene skal vises i hver sin liste eller
+                kombinert i samme liste.
             </Paragraph>
 
             <div className="h-full">
