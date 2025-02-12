@@ -10,14 +10,14 @@ import { useToast } from '@entur/alert'
 import { usePostHog } from 'posthog-js/react'
 
 function ViewTypeSetting({ board }: { board: TBoard }) {
-    const [value, setValue] = useState(
+    const [viewTypeValue, setViewTypeValue] = useState(
         board.combinedTiles ? 'combined' : 'separate',
     )
     const { addToast } = useToast()
     const posthog = usePostHog()
 
     const setViewType = async () => {
-        const formFeedback = await setViewTypeAction(board, value)
+        const formFeedback = await setViewTypeAction(board, viewTypeValue)
         if (!formFeedback) {
             addToast('Visningstype lagret!')
         }
@@ -34,8 +34,8 @@ function ViewTypeSetting({ board }: { board: TBoard }) {
                 <RadioGroup
                     name="viewType"
                     label="Visningstype"
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
+                    onChange={(e) => setViewTypeValue(e.target.value)}
+                    value={viewTypeValue}
                 >
                     <Radio value="separate">Én liste per stoppested</Radio>
                     <Radio value="combined">Alle stoppesteder i én liste</Radio>
@@ -46,7 +46,11 @@ function ViewTypeSetting({ board }: { board: TBoard }) {
                     variant="secondary"
                     aria-label="Lagre visningstype"
                     className="max-sm:w-full"
-                    onClick={() => posthog.capture('SAVE_VIEW_TYPE_BTN')}
+                    onClick={() =>
+                        posthog.capture('SAVE_VIEW_TYPE_BTN', {
+                            value: viewTypeValue,
+                        })
+                    }
                 >
                     Lagre visningstype
                 </SubmitButton>
