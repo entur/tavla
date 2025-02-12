@@ -50,11 +50,7 @@ function getCombinedTiles(board: TBoard) {
 
     const combinedTiles =
         combinedTileIds?.map((tileIds) =>
-            tileIds.map(
-                (tileId) =>
-                    board.tiles.find((tile) => tile.uuid === tileId) ||
-                    ({} as TTile),
-            ),
+            board.tiles.filter((tile) => tileIds.includes(tile.uuid)),
         ) || []
 
     return combinedTiles
