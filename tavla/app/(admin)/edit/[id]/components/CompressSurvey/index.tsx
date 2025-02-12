@@ -117,10 +117,11 @@ function CompressSurvey() {
             >
                 <div className="flex flex-col gap-2">
                     <Heading4>
-                        Vi holder på å utvikle denne funksjonaliteten!
+                        Vi holder på å sjekke ut interessen for denne
+                        funksjonaliteten!
                     </Heading4>
                     <Paragraph>
-                        I mellomtiden ønsker vi din tilbakemelding!
+                        I mellomtiden ønsker vi din tilbakemelding.
                     </Paragraph>
                 </div>
                 <form
