@@ -9,10 +9,10 @@ import {
     removeUserFromOrg,
 } from 'app/(admin)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
-import { redirect } from 'next/navigation'
 import * as Sentry from '@sentry/nextjs'
 import { auth } from 'firebase-admin'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { logout } from '../Login/actions'
 
 export async function deleteAccount(data: FormData) {
     const user = await getUserFromSessionCookie()
@@ -41,7 +41,7 @@ export async function deleteAccount(data: FormData) {
         })
         return getFormFeedbackForError('firebase/general')
     }
-    redirect('/')
+    await logout()
 }
 
 async function deleteOrgsAndBoardsWithSoleMember() {
