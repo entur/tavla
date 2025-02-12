@@ -5,7 +5,7 @@
 @layer base {
     :root {
         --main-background-color: var(--colors-brand-white);
-        --secondary-background-color: var(--colors-greys-grey80);
+        --secondary-background-color: var(--colors-blues-blue90);
         --tertiary-background-color: var(--colors-blues-blue60);
         --contrast-background-color: var(--colors-brand-blue);
 

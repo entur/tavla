@@ -59,12 +59,6 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                             Organisasjoner
                         </SideNavigationItem>
                         <SideNavigationItem
-                            href="/help"
-                            active={pathname?.includes('/help')}
-                        >
-                            Ofte stilte spørsmål
-                        </SideNavigationItem>
-                        <SideNavigationItem
                             as={Button}
                             className="[&>button]:justify-start [&>button]:px-10 [&>button]:bg-secondary [&>button]:text-primary"
                             onClick={async () => {

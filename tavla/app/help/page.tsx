@@ -19,9 +19,16 @@ function Help() {
                         <Paragraph>
                             Nedenfor kan du finne svar på ofte stilte spørsmål.
                             Finner du ikke svaret du leter etter, ber vi deg ta
-                            kontakt med oss på tavla@entur.org eller send oss en
-                            melding ved å bruke skjemaet som du finner nederst i
-                            høyre hjørne.
+                            kontakt med oss på{' '}
+                            <a
+                                href="mailto:tavla@entur.org"
+                                target="_blank"
+                                className="underline"
+                            >
+                                tavla@entur.org
+                            </a>{' '}
+                            eller send oss en melding ved å bruke skjemaet som
+                            du finner nederst i høyre hjørne.
                         </Paragraph>
                     </div>
                     <Image
@@ -37,23 +44,19 @@ function Help() {
                 </div>
                 <div>
                     <Heading2 href="#how-to-guides">
-                        Guider: hvordan komme i gang med Tavla
+                        Guide: Hvordan komme i gang med Tavla
                     </Heading2>
                     <Paragraph>
-                        Vi har laget to guider som skal gjøre det enklere å
-                        komme i gang med Tavla. En for å opprette en
-                        avgangstavle og en for å vise tavlen på en smart-TV.
+                        Vi har laget en guide som skal gjøre det enklere å komme
+                        i gang med Tavla og hvordan du oppretter en
+                        avgangstavle.
                     </Paragraph>
                     <div className="flex flex-col">
                         <EnturLink
                             external
                             href="https://www.kakadu.no/entur/slik-oppretter-du-en-tavle"
                         >
-                            Guide: lag en avgangstavle
-                        </EnturLink>
-                        <br></br>
-                        <EnturLink external>
-                            Guide: vis tavlen på en smart-TV
+                            Guide: Lag en avgangstavle
                         </EnturLink>
                     </div>
                 </div>

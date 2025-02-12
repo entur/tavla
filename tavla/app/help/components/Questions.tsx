@@ -23,7 +23,15 @@ function Questions() {
                 Det kan hende det tar litt tid å få en e-post fra oss om
                 verifisering. Dette skal normalt ikke ta mer enn 10 minutter.
                 Hvis du ikke får den innen da, så prøv gjerne igjen. Hvis
-                problemet vedvarer, så send oss en e-post på tavla@entur.org.
+                problemet vedvarer, så send oss en e-post på{' '}
+                <a
+                    href="mailto:tavla@entur.org"
+                    target="_blank"
+                    className="underline"
+                >
+                    tavla@entur.org
+                </a>
+                .
             </AccordionItem>
             <AccordionItem title="Tavlen min funker ikke på skjermen min eller er blank, hva gjør jeg?">
                 Det er ikke alle skjermer hvor Tavla er støttet. Er skjermen din
@@ -55,12 +63,11 @@ function Questions() {
                 at du kan endre på de senere.
             </AccordionItem>
             <AccordionItem title="Hvordan setter jeg opp Tavla hos meg?">
-                Se guidene våre{' '}
+                Se guiden vår{' '}
                 <Link href="/help#how-to-guides" className="underline">
                     her
-                </Link>
-                på hvordan du lager en avgangstavle og hvordan du får tavlen på
-                en smart-TV.
+                </Link>{' '}
+                på hvordan du lager en avgangstavle.
             </AccordionItem>
         </Accordion>
     )
