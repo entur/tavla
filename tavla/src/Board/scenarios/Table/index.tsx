@@ -61,7 +61,6 @@ function Table({
                         <Destination deviations />
                     )}
                     {columns.includes('name') && <Name />}
-
                     {columns.includes('platform') && <Platform />}
                     {columns.includes('time') && <ExpectedTime />}
                     {columns.includes('realtime') && <RealTime />}
