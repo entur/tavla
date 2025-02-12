@@ -20,6 +20,7 @@ import { ThemeSelect } from './components/ThemeSelect'
 import { TileList } from './components/TileList'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { CompressSurvey } from './components/CompressSurvey'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 
 export type TProps = {
@@ -111,6 +112,7 @@ export default async function EditPage(props: TProps) {
                             organizationBoard={organization !== undefined}
                         />
                         <ThemeSelect board={board} />
+                        <CompressSurvey />
                     </div>
                 </div>
             </div>
