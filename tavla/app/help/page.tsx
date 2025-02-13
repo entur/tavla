@@ -8,13 +8,18 @@ import HedgehogIllustration from 'assets/illustrations/Hedgehog.png'
 import Image from 'next/image'
 import { Questions } from './components/Questions'
 import { Link as EnturLink } from '@entur/typography'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Ofte stilte spørsmål | Entur Tavla',
+}
 
 function Help() {
     return (
         <main>
             <div className="bg-secondary">
                 <div className="flex flex-row container gap-10 lg:w-3/4 xl:w-1/2 pt-12 pb-4 justify-between flex-start">
-                    <div>
+                    <div className="align-center">
                         <Heading1>Ofte stilte spørsmål</Heading1>
                         <Paragraph>
                             Nedenfor kan du finne svar på ofte stilte spørsmål.
@@ -38,7 +43,7 @@ function Help() {
                     />
                 </div>
             </div>
-            <div className="container pt-12 pb-20 flex flex-col lg:w-3/4 xl:w-1/2 gap-10">
+            <div className="container pt-12 pb-20 flex flex-col lg:w-3/4 xl:w-1/2 gap-14">
                 <div>
                     <Questions />
                 </div>

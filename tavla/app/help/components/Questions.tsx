@@ -37,7 +37,10 @@ function Questions() {
                 Det er ikke alle skjermer hvor Tavla er støttet. Er skjermen din
                 veldig gammel, så kan det hende at nettleseren ikke klarer å
                 kjøre opp Tavla i det hele tatt. Da vil enten tavlen ikke se ut
-                som den skal, eller så kan det hende at skjermen er blank.
+                som den skal, eller så kan det hende at skjermen er blank. Du
+                kan sjekke om det er mulig å oppdatere nettleseren på skjermen
+                til en nyere versjon. Hvis dette ikke er mulig eller ikke
+                hjelper, må du dessverre anskaffe deg en nyere skjerm.
             </AccordionItem>
             <AccordionItem title="Hvilke eldre nettlesere støttes?">
                 Tavla er utviklet med tanke på at vi skal støtte eldre
@@ -54,9 +57,10 @@ function Questions() {
                 skjermen har i bunnen.
             </AccordionItem>
             <AccordionItem title="Kan jeg invitere andre til å administrere tavlen min?">
-                Ja, ved å legge til medlemmer på tavlen din kan også andre
-                redigere på tavlen. Man kan dele selve tavlen med hvem man vil
-                gjennom lenken til tavlen.
+                Om du ønsker at andre også skal kunne redigere tavlen din må du
+                opprette en organisasjon og plassere tavlen som du ønsker skal
+                deles der. Da kan du invitere andre til å administrere alle
+                tavlene i organisasjonen.
             </AccordionItem>
             <AccordionItem title="Lagres tavlene mine?">
                 Når du oppretter en tavle på brukere din, så vil de lagres slik
