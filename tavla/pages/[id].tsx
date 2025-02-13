@@ -77,6 +77,14 @@ function BoardPage({
             <div className="root" data-theme={updatedBoard.theme ?? 'dark'}>
                 <Head>
                     <title>{title}</title>
+                    <meta
+                        name="theme-color"
+                        content={
+                            updatedBoard.theme === 'dark'
+                                ? '#000000'
+                                : '#ffffff'
+                        }
+                    />
                 </Head>
                 <div className="rootContainer">
                     <Header
