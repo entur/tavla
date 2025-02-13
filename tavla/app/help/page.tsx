@@ -48,9 +48,7 @@ function Help() {
                     <Questions />
                 </div>
                 <div>
-                    <Heading2 href="#how-to-guides">
-                        Guide: Hvordan komme i gang med Tavla
-                    </Heading2>
+                    <Heading2>Guide: Hvordan komme i gang med Tavla</Heading2>
                     <Paragraph>
                         Vi har laget en guide som skal gjøre det enklere å komme
                         i gang med Tavla og hvordan du oppretter en
