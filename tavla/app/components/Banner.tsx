@@ -1,5 +1,4 @@
 'use client'
-
 import { BannerAlertBox } from '@entur/alert'
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import ClientOnly from './NoSSR/ClientOnly'
@@ -23,8 +22,8 @@ function Banner() {
                 }}
                 title="Nyhet! Nå kan du kombinere flere stoppesteder i en liste."
             >
-                Du finner det under "Innstillinger" nederst på siden hvor du
-                redigerer tavlen din.
+                Du finner det under &quot;Innstillinger&quot; nederst på siden
+                hvor du redigerer tavlen din.
             </BannerAlertBox>
         </ClientOnly>
     )
