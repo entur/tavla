@@ -25,21 +25,23 @@ function ExpandableInformation() {
                 className="bg-blue90 px-6  py-4 rounded-b"
             >
                 <UnorderedList className="space-y-3 gap-1 pl-6">
-                    <ListItem>Endre tekststørrelse</ListItem>
+                    <ListItem>
+                        Vise stoppestedene hver for seg eller samlet i én liste
+                    </ListItem>
+                    <ListItem>
+                        Vise gangavstand fra tavlen til stoppested(ene)
+                    </ListItem>
                     <ListItem>
                         Legge til en infomelding nederst i tavlen
                     </ListItem>
                     <ListItem>Endre fargetema (lys eller mørk modus)</ListItem>
+                    <ListItem>Endre tekststørrelse</ListItem>
                     <ListItem>
-                        Legge inn adressen som tavlen står på og vise
-                        gangavstand fra tavlen til stoppested(ene)
+                        Gi andre tilgang til å administrere tavlen
                     </ListItem>
                     <ListItem>
                         Opprette så mange tavler du vil og samle disse i ulike
                         organisasjoner (mapper)
-                    </ListItem>
-                    <ListItem>
-                        Gi andre tilgang til å administrere tavlen
                     </ListItem>
                 </UnorderedList>
             </BaseExpand>

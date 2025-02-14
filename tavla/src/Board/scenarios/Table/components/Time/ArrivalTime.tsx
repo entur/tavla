@@ -3,13 +3,14 @@ import { useNonNullContext } from 'hooks/useNonNullContext'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import { FormattedTime } from './components/FormattedTime'
+import { nanoid } from 'nanoid'
 
 function ArrivalTime() {
     const departures = useNonNullContext(DeparturesContext)
 
     const time = departures.map((departure) => ({
         expectedArrivalTime: departure.expectedArrivalTime,
-        key: `${departure.serviceJourney.id}_${departure.expectedArrivalTime}`,
+        key: nanoid(),
     }))
 
     return (

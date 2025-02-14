@@ -1,6 +1,7 @@
 fragment departure on EstimatedCall {
     quay {
         publicCode
+        name
     }
     destinationDisplay {
         frontText

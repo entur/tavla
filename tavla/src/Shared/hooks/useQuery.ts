@@ -3,7 +3,7 @@ import { TypedDocumentString } from 'graphql/index'
 import { fetcher } from 'graphql/utils'
 import useSWR from 'swr'
 
-type TUseQueryOptions = {
+export type TUseQueryOptions = {
     poll: boolean
     endpoint: TEndpointNames
     offset?: number
@@ -29,6 +29,40 @@ export function useQuery<Data, Variables>(
             refreshInterval: mergedOptions.poll ? 30000 : undefined,
             keepPreviousData: true,
         },
+    )
+
+    return { data, error, isLoading }
+}
+export type TQuery<Data, Variables> = {
+    query: TypedDocumentString<Data, Variables>
+    variables: Variables
+    options?: Partial<TUseQueryOptions>
+}
+
+export function useQueries<Data, Variables>(
+    queries: Array<TQuery<Data, Variables>>,
+) {
+    const swrOptions = {
+        revalidateOnFocus: true,
+        revalidateOnReconnect: true,
+        refreshInterval: 30000,
+    }
+    const endpointName = 'journey-planner'
+
+    const { data, error, isLoading } = useSWR(
+        queries,
+        (queries) =>
+            Promise.all(
+                queries.map((query) =>
+                    fetcher([
+                        query.query,
+                        query.variables,
+                        endpointName,
+                        query.options?.offset ?? 0,
+                    ]),
+                ),
+            ),
+        swrOptions,
     )
 
     return { data, error, isLoading }
