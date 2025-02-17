@@ -4644,6 +4644,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ua-parser-js@npm:^0.7.39":
+  version: 0.7.39
+  resolution: "@types/ua-parser-js@npm:0.7.39"
+  checksum: 81046605eb2815b098228743b7dfde887cc8990369f2ad56e71f1400b4cef5078481c7ca91ca3dddf2e8d4e183fe93224bfdeee13bfe034a1e62d55cfbac9e26
+  languageName: node
+  linkType: hard
+
 "@types/ws@npm:^8.0.0":
   version: 8.5.14
   resolution: "@types/ws@npm:8.5.14"
@@ -14236,6 +14243,7 @@ __metadata:
     "@types/react": "npm:types-react@19.0.0-rc.1"
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
     "@types/semver": 7.5.8
+    "@types/ua-parser-js": ^0.7.39
     "@typescript-eslint/eslint-plugin": 8.12.2
     "@typescript-eslint/parser": 8.12.2
     abortcontroller-polyfill: 1.7.6
