@@ -2,7 +2,6 @@ import 'styles/imports.css'
 import 'styles/fonts.css'
 import 'styles/reset.css'
 import './globals.css'
-
 import { ReactNode, Suspense } from 'react'
 import { Metadata } from 'next'
 import { EnturToastProvider, PHProvider } from './providers'
@@ -11,6 +10,7 @@ import { TopNavigation } from './(admin)/components/TopNavigation'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
+import { Banner } from './components/Banner'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -43,6 +43,8 @@ async function RootLayout({ children }: { children: ReactNode }) {
             <PHProvider>
                 <body>
                     <EnturToastProvider>
+                        {loggedIn && <Banner />}
+
                         <TopNavigation loggedIn={loggedIn} />
                         <Suspense>
                             <PostHogPageView />
