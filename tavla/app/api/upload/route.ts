@@ -2,11 +2,7 @@
 
 import { TOrganizationID } from 'types/settings'
 import { storage, firestore } from 'firebase-admin'
-import {
-    getConfig,
-    initializeAdminApp,
-    userCanEditOrganization,
-} from 'app/(admin)/utils/firebase'
+
 import { getDownloadURL } from 'firebase-admin/storage'
 import { nanoid } from 'nanoid'
 import createDOMPurify from 'dompurify'
@@ -14,7 +10,12 @@ import { JSDOM } from 'jsdom'
 import { NextRequest } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import rateLimit from 'utils/rateLimit'
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import {
+    initializeAdminApp,
+    userCanEditOrganization,
+} from 'app/(root)/(admin)/utils/firebase'
+import { getUserFromSessionCookie } from 'app/(root)/(admin)/utils/server'
+import getConfig from 'next/config'
 
 initializeAdminApp()
 

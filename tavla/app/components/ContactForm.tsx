@@ -7,13 +7,13 @@ import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
-} from 'app/(admin)/utils'
+} from 'app/(root)/(admin)/utils'
 import { useState } from 'react'
-import { FormError } from 'app/(admin)/components/FormError'
+import { FormError } from 'app/(root)/(admin)/components/FormError'
 import { SmallAlertBox, useToast } from '@entur/alert'
 import { Expandable } from './Expandable'
 import { usePostHog } from 'posthog-js/react'
-import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
+import { isEmptyOrSpaces } from 'app/(root)/(admin)/edit/utils'
 import { validEmail } from 'utils/email'
 import ClientOnlyTextField from './NoSSR/TextField'
 

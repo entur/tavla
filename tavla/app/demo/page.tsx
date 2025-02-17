@@ -2,7 +2,7 @@ import { Heading1, LeadParagraph } from '@entur/typography'
 import { DemoBoard } from './components/DemoBoard'
 import CreateUserButton from './components/CreateUserButton'
 import { ExpandableInformation } from './components/ExpandableInformation'
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { getUserFromSessionCookie } from 'app/(root)/(admin)/utils/server'
 
 async function Demo() {
     const loggedIn = (await getUserFromSessionCookie()) !== null

@@ -4,7 +4,7 @@ import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
-} from 'app/(admin)/utils'
+} from 'app/(root)/(admin)/utils'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { confirmPasswordReset, getAuth } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'

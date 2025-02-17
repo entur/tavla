@@ -4,8 +4,8 @@ import {
     getAuth,
     inMemoryPersistence,
 } from 'firebase/auth'
-import { getFirebaseClientConfig } from 'app/(admin)/actions'
-import { FIREBASE_DEV_CONFIG } from 'app/(admin)/utils/constants'
+import { getFirebaseClientConfig } from 'app/(root)/(admin)/actions'
+import { FIREBASE_DEV_CONFIG } from 'app/(root)/(admin)/utils/constants'
 
 if (process.env.NODE_ENV === 'development') {
     const app = initializeApp(FIREBASE_DEV_CONFIG)

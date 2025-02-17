@@ -1,4 +1,4 @@
-import { makeBoardCompatible } from 'app/(admin)/edit/[id]/compatibility'
+import { makeBoardCompatible } from 'app/(root)/(admin)/edit/[id]/compatibility'
 import admin, { firestore } from 'firebase-admin'
 import { TBoard, TBoardID, TOrganization } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'

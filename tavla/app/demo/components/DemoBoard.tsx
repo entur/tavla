@@ -1,11 +1,11 @@
 'use client'
 import { Heading2, Heading3 } from '@entur/typography'
-import { TileSelector } from 'app/(admin)/components/TileSelector'
-import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
-import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
+import { TileSelector } from 'app/(root)/(admin)/components/TileSelector'
+import { formDataToTile } from 'app/(root)/(admin)/components/TileSelector/utils'
+import { Preview } from 'app/(root)/(admin)/edit/[id]/components/Preview'
 import { usePostHog } from 'posthog-js/react'
-import { TileList } from 'app/(admin)/edit/[id]/components/TileList'
-import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
+import { TileList } from 'app/(root)/(admin)/edit/[id]/components/TileList'
+import { useLocalStorage } from 'app/(root)/(admin)/hooks/useLocalStorage'
 import { TBoard } from 'types/settings'
 
 const emptyDemoBoard = {

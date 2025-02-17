@@ -1,10 +1,13 @@
 'use server'
 
-import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { isEmptyOrSpaces } from 'app/(root)/(admin)/edit/utils'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+} from 'app/(root)/(admin)/utils'
 import { validEmail } from 'utils/email'
 import * as Sentry from '@sentry/nextjs'
-import { handleError } from 'app/(admin)/utils/handleError'
+import { handleError } from 'app/(root)/(admin)/utils/handleError'
 
 async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
     const email = data.get('email') as string

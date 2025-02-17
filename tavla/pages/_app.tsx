@@ -1,7 +1,7 @@
 import 'styles/imports.css'
 import 'styles/fonts.css'
 import 'styles/reset.css'
-import '../app/globals.css'
+import '../app/(root)/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 
