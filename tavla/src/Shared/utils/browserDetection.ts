@@ -7,7 +7,7 @@ import { UAParser } from 'ua-parser-js'
 const MIN_VERSIONS: { [key: string]: string } = {
     chrome: '45.0.0',
     firefox: '49.0.0',
-    safari: '8.1.0',
+    safari: '9.1.0',
 }
 
 // Map engine names to browser names for minimum version lookup
