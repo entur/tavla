@@ -2,7 +2,6 @@ import 'styles/imports.css'
 import 'styles/fonts.css'
 import 'styles/reset.css'
 import 'app/(root)/globals.css'
-import Head from 'next/head'
 import Script from 'next/script'
 
 export const metadata = {
