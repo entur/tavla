@@ -2,7 +2,7 @@ import { VariantType } from '@entur/utils'
 import { FirebaseError } from 'firebase/app'
 import { TOrganization, TUserID } from 'types/settings'
 
-type InputType =
+export type InputType =
     | 'general'
     | 'user'
     | 'email'

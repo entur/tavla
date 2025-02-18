@@ -2,7 +2,9 @@
 import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
 import { Checkbox } from '@entur/form'
 import { Heading4 } from '@entur/typography'
-import { useState, Dispatch, SetStateAction, ReactElement } from 'react'
+import { FormError } from 'app/(admin)/components/FormError'
+import { TFormFeedback } from 'app/(admin)/utils'
+import { useState, Dispatch, SetStateAction } from 'react'
 import { TOrganization } from 'types/settings'
 
 function Organization({
@@ -10,7 +12,7 @@ function Organization({
     organizations,
     selectedOrganization,
     setSelectedOrganization,
-    error,
+    feedback,
 }: {
     organization?: TOrganization
     organizations: () => NormalizedDropdownItemType<TOrganization>[]
@@ -18,7 +20,7 @@ function Organization({
     setSelectedOrganization: Dispatch<
         SetStateAction<NormalizedDropdownItemType<TOrganization> | null>
     >
-    error?: ReactElement
+    feedback?: TFormFeedback
 }) {
     const [personal, setPersonal] = useState(organization ? false : true)
 
@@ -44,7 +46,9 @@ function Organization({
                 Privat tavle
             </Checkbox>
 
-            <div className="mt-4">{error}</div>
+            <div className="mt-4">
+                <FormError {...feedback} />
+            </div>
         </div>
     )
 }

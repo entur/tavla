@@ -26,29 +26,22 @@ function Footer({
 
     return (
         <div className="flex flex-col">
-            <div className="flex flex-row items-center gap-2">
-                <Heading4 margin="bottom">Infomelding</Heading4>
+            <div className="flex flex-row justify-between items-center gap-2">
+                <div className=" flex gap-2 items-center">
+                    <Heading4 margin="bottom">Infomelding</Heading4>
 
-                <Tooltip
-                    content="Skriv en kort tekst som skal vises nederst i tavlen."
-                    placement="top"
-                    id="tooltip-footer"
-                >
-                    <ValidationInfoFilledIcon
-                        className="mb-3"
-                        size={20}
-                        aria-labelledby="tooltip-footer"
-                    />
-                </Tooltip>
-            </div>
-            <div className="h-full">
-                <TextField
-                    label="Infomelding"
-                    name="footer"
-                    defaultValue={footer?.footer ?? ''}
-                    readOnly={override && organizationBoard}
-                    className="w-full mb-2"
-                />
+                    <Tooltip
+                        content="Skriv en kort tekst som skal vises nederst i tavlen."
+                        placement="top"
+                        id="tooltip-footer"
+                    >
+                        <ValidationInfoFilledIcon
+                            size={20}
+                            aria-labelledby="tooltip-footer"
+                        />
+                    </Tooltip>
+                </div>
+
                 {organizationBoard && (
                     <Switch
                         checked={override}
@@ -58,6 +51,15 @@ function Footer({
                         Vis infomelding fra mappen.
                     </Switch>
                 )}
+            </div>
+            <div className="h-full">
+                <TextField
+                    label="Infomelding"
+                    name="footer"
+                    defaultValue={footer?.footer ?? ''}
+                    readOnly={override && organizationBoard}
+                    className="w-full mb-2"
+                />
                 <div className="mt-4">{error}</div>
             </div>
         </div>
