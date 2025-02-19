@@ -47,20 +47,18 @@ function Footer({
                         onChange={() => setOverride(!override)}
                         name="override"
                     >
-                        Vis
+                        Vis organisasjons infomelding
                     </Switch>
                 )}
             </div>
-            <div className="h-full">
-                <TextField
-                    label="Infomelding"
-                    name="footer"
-                    defaultValue={footer?.footer ?? ''}
-                    readOnly={override && organizationBoard}
-                    className="w-full mb-2"
-                />
-                <div className="mt-4">{error}</div>
-            </div>
+            <TextField
+                label="Infomelding"
+                name="footer"
+                defaultValue={footer?.footer ?? ''}
+                readOnly={override && organizationBoard}
+                className="w-full"
+            />
+            <div className="mt-4">{error}</div>
         </div>
     )
 }

@@ -1,10 +1,9 @@
 'use client'
 import { ButtonGroup, Button } from '@entur/button'
-import { Heading2 } from '@entur/typography'
+import { Heading2, Heading3 } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TLocation, TMeta } from 'types/meta'
 import { TBoard, TOrganization } from 'types/settings'
-import { BoardSettings } from '../BoardSetttings'
 import { MetaSettings } from '../MetaSettings'
 import { WalkingDistance } from '../MetaSettings/WalkingDistance'
 import { Footer } from '../Footer'
@@ -89,26 +88,33 @@ function Settings({
                         )}
                     />
                 </MetaSettings>
+                <div className="box">
+                    <Heading3 margin="bottom">Tavlevisning </Heading3>
+                    <div className=" flex flex-col gap-4">
+                        <ViewTypeSetting board={board} />
+                        <ThemeSelect board={board} />
+                        <FontSelect
+                            bid={board.id!}
+                            font={meta?.fontSize ?? 'medium'}
+                        />
+                        <WalkingDistance
+                            pointItems={pointItems}
+                            selectedPoint={selectedPoint}
+                            setSelectedPoint={setSelectedPoint}
+                        />
+                        <Footer
+                            footer={board.footer}
+                            organizationBoard={organization !== undefined}
+                        />
 
-                <BoardSettings>
-                    <ViewTypeSetting board={board} />
-                    <WalkingDistance
-                        pointItems={pointItems}
-                        selectedPoint={selectedPoint}
-                        setSelectedPoint={setSelectedPoint}
-                    />
-                    <Footer
-                        footer={board.footer}
-                        organizationBoard={organization !== undefined}
-                    />
-                    <ThemeSelect board={board} />
-                    <FontSelect
-                        bid={board.id!}
-                        font={meta?.fontSize ?? 'medium'}
-                    />
-                    <HiddenInput id="bid" value={board.id} />
-                    <HiddenInput id="fromOrg" value={organization?.id ?? ''} />
-                </BoardSettings>
+                        <HiddenInput id="bid" value={board.id} />
+
+                        <HiddenInput
+                            id="fromOrg"
+                            value={organization?.id ?? ''}
+                        />
+                    </div>
+                </div>
                 <FormError
                     {...getFormFeedbackForField('general', errors.general)}
                 />

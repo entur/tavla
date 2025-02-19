@@ -1,7 +1,7 @@
 'use client'
 
 import { Radio, RadioGroup } from '@entur/form'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading4, Paragraph } from '@entur/typography'
 import { useState } from 'react'
 import { TBoard } from 'types/settings'
 
@@ -11,16 +11,15 @@ function ViewTypeSetting({ board }: { board: TBoard }) {
     )
     return (
         <div>
-            <Heading3 margin="bottom">Visningstype</Heading3>
-            <Paragraph>
+            <Heading4 margin="bottom">Visningstype</Heading4>
+            <Paragraph margin="none">
                 Velg om alle stoppestedene skal vises i hver sin tabell eller
                 kombinert i samme tabell.
             </Paragraph>
 
-            <div className="h-full mb-4">
+            <div className="mb-2">
                 <RadioGroup
                     name="viewType"
-                    label="Visningstype"
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
                 >
