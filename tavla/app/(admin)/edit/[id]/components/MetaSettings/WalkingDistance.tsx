@@ -1,6 +1,6 @@
 'use client'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { Heading4, SubParagraph } from '@entur/typography'
+import { Heading4, Paragraph } from '@entur/typography'
 import dynamic from 'next/dynamic'
 import { Dispatch, ReactElement, SetStateAction } from 'react'
 import { TLocation } from 'types/meta'
@@ -27,21 +27,18 @@ function WalkingDistance({
     return (
         <div className="flex flex-col">
             <Heading4 margin="bottom">Gangavstand</Heading4>
-            <SubParagraph className="mb-2">
-                Om du legger inn tavlens adresse, vises gangavstanden fra tavlen
-                til hvert stoppested.
-            </SubParagraph>
+            <Paragraph className="mb-2">
+                Vis gåavstanden fra tavlens adresse til stoppestedet.
+            </Paragraph>
 
-            <div className="h-full">
-                <SearchableDropdown
-                    label="Hvor befinner tavlen seg?"
-                    items={pointItems}
-                    selectedItem={selectedPoint}
-                    onChange={setSelectedPoint}
-                    debounceTimeout={150}
-                    clearable
-                />
-            </div>
+            <SearchableDropdown
+                label="Hvor befinner tavlen seg?"
+                items={pointItems}
+                selectedItem={selectedPoint}
+                onChange={setSelectedPoint}
+                debounceTimeout={150}
+                clearable
+            />
             <div className="mt-4">{error}</div>
         </div>
     )

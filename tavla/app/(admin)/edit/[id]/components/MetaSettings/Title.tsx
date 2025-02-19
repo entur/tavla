@@ -16,16 +16,14 @@ function Title({
     return (
         <div>
             <Heading4 margin="bottom">Navn</Heading4>
-            <div className="h-full">
-                <TextField
-                    name="name"
-                    className="w-full"
-                    defaultValue={title}
-                    label="Navn på tavlen"
-                    maxLength={50}
-                    {...feedback}
-                />
-            </div>
+            <TextField
+                name="name"
+                className="w-full"
+                defaultValue={title}
+                label="Navn på tavlen"
+                maxLength={50}
+                {...feedback}
+            />
         </div>
     )
 }

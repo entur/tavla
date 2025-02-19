@@ -4,8 +4,8 @@ import { ReactNode } from 'react'
 function MetaSettings({ children }: { children: ReactNode }) {
     return (
         <div className="box">
-            <Heading3> Generelt </Heading3>
-            <div className="flex flex-col gap-16">{children}</div>
+            <Heading3 margin="bottom"> Generelt </Heading3>
+            <div className="flex flex-col gap-8">{children}</div>
         </div>
     )
 }

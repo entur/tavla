@@ -78,7 +78,7 @@ function CompressSurvey() {
 
     return (
         <>
-            <div className="box flex flex-col">
+            <div className="box flex flex-col w-1/2">
                 <Heading3 margin="bottom">
                     Tilpass tavlen til liten skjerm
                 </Heading3>

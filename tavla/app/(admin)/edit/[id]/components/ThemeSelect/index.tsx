@@ -10,10 +10,10 @@ function ThemeSelect({ board }: { board: TBoard }) {
     )
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
             <Heading4 margin="bottom">Fargetema</Heading4>
             <ChoiceChipGroup
-                className="h-full"
+                className="mb-2"
                 name="theme"
                 value={selectedTheme}
                 onChange={(e) => setSelectedTheme(e.target.value as TTheme)}
