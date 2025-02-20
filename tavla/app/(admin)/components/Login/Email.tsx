@@ -26,6 +26,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import Google from './Google'
 
 function Email() {
     const submit = async (
@@ -144,6 +145,7 @@ function Email() {
                     </Link>
                 </Paragraph>
             </form>
+            <Google />
         </div>
     )
 }

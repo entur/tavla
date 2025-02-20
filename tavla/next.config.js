@@ -15,9 +15,9 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 const cspHeaderCommon = `
-    default-src 'self';
+    default-src 'self' apis.google.com http://127.0.0.1:9099;
     style-src 'self' 'unsafe-inline';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu-assets.i.posthog.com;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu-assets.i.posthog.com https://apis.google.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';
