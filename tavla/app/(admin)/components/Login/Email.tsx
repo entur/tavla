@@ -135,17 +135,15 @@ function Email() {
                         </Button>
                     </div>
                 </ButtonGroup>
-                <Paragraph className="text-center" margin="none">
-                    Har du ikke en bruker?{' '}
-                    <Link
-                        className="underline"
-                        href={getPathWithParams('create')}
-                    >
-                        Opprett bruker
-                    </Link>
-                </Paragraph>
             </form>
+            <Paragraph className="mb-2 mt-6">Eller...</Paragraph>
             <Google />
+            <Paragraph className="text-center mt-10" margin="none">
+                Har du ikke en bruker?{' '}
+                <Link className="underline" href={getPathWithParams('create')}>
+                    Opprett bruker
+                </Link>
+            </Paragraph>
         </div>
     )
 }
