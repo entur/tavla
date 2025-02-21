@@ -1,9 +1,10 @@
 import {
     GoogleAuthProvider,
-    getAdditionalUserInfo,
     getAuth,
     signInWithPopup,
+    getAdditionalUserInfo,
 } from 'firebase/auth'
+import { getClientApp } from 'utils/firebase'
 import { create, login } from './actions'
 import GoogleButton from 'react-google-button'
 import * as Sentry from '@sentry/nextjs'
@@ -11,7 +12,8 @@ import * as Sentry from '@sentry/nextjs'
 export default function Google() {
     const googleAction = async () => {
         const provider = new GoogleAuthProvider()
-        const auth = getAuth()
+        const app = await getClientApp()
+        const auth = getAuth(app)
         try {
             const credential = await signInWithPopup(auth, provider)
             const userIdToken = await credential.user.getIdToken()
@@ -26,6 +28,7 @@ export default function Google() {
                         'Error while creating new user with Google sign in',
                 },
             })
+            return error
         }
     }
 

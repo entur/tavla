@@ -15,7 +15,7 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 const cspHeaderCommon = `
-    default-src 'self' apis.google.com http://127.0.0.1:9099;
+    default-src 'self' apis.google.com http://127.0.0.1:9099 https://ent-tavla-dev.firebaseapp.com/;
     style-src 'self' 'unsafe-inline';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu-assets.i.posthog.com https://apis.google.com;
     object-src 'none';
@@ -88,6 +88,10 @@ const nextConfig = {
                     {
                         key: 'Referrer-Policy',
                         value: 'strict-origin-when-cross-origin',
+                    },
+                    {
+                        key: 'Cross-Origin-Opener-Policy',
+                        value: 'same-origin-allow-popups',
                     },
                 ],
             },
