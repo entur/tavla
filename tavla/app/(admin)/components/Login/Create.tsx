@@ -115,7 +115,7 @@ function Create() {
                     </div>
                 </ButtonGroup>
             </form>
-            <Paragraph className="mb-2 mt-6">Eller...</Paragraph>
+            <div className="border-2 rounded-sm w-full mb-8 mt-4"></div>
             <Google />
             <Paragraph className="text-center mt-10" margin="none">
                 Har du allerede en bruker?{' '}

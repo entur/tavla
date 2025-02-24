@@ -27,8 +27,10 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import Google from './Google'
+import { usePostHog } from 'posthog-js/react'
 
 function Email() {
+    const posthog = usePostHog()
     const submit = async (
         previousState: TFormFeedback | undefined,
         data: FormData,
@@ -117,6 +119,11 @@ function Email() {
                             variant="primary"
                             width="fluid"
                             aria-label="Logg inn"
+                            onClick={() => {
+                                posthog.capture(
+                                    'LOG_IN_WITH_PASSWORD_BTN_CLICK',
+                                )
+                            }}
                         >
                             Logg inn
                         </SubmitButton>
@@ -136,8 +143,9 @@ function Email() {
                     </div>
                 </ButtonGroup>
             </form>
-            <Paragraph className="mb-2 mt-6">Eller...</Paragraph>
+            <div className="border-2 rounded-sm w-full mb-8 mt-4"></div>
             <Google />
+
             <Paragraph className="text-center mt-10" margin="none">
                 Har du ikke en bruker?{' '}
                 <Link className="underline" href={getPathWithParams('create')}>
