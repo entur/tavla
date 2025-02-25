@@ -33,7 +33,7 @@ function Organization({
             organization?.id,
         )
         if (!formFeedback) {
-            addToast('Tavlen ble flyttet til organisasjon!')
+            addToast('Tavlen ble flyttet til mappen!')
         }
         return formFeedback
     }
@@ -44,11 +44,11 @@ function Organization({
     )
     return (
         <form action={moveBordFormAction} className="box flex flex-col">
-            <Heading3 margin="bottom">Organisasjon</Heading3>
+            <Heading3 margin="bottom">Mappe</Heading3>
             <ClientOnly>
                 <Dropdown
                     items={organizations}
-                    label="Dine organisasjoner"
+                    label="Dine mapper"
                     selectedItem={selectedOrganization}
                     onChange={setSelectedOrganization}
                     clearable
@@ -74,7 +74,7 @@ function Organization({
             </div>
             <div className="flex flex-row mt-8 justify-end">
                 <SubmitButton variant="secondary" className="max-sm:w-full">
-                    Lagre organisasjon
+                    Lagre mappe
                 </SubmitButton>
             </div>
         </form>

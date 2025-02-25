@@ -41,7 +41,7 @@ function ExpandableInformation() {
                     </ListItem>
                     <ListItem>
                         Opprette så mange tavler du vil og samle disse i ulike
-                        organisasjoner (mapper)
+                        mapper
                     </ListItem>
                 </UnorderedList>
             </BaseExpand>

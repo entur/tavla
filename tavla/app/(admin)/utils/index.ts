@@ -128,19 +128,19 @@ export function getFormFeedbackForError(
         case 'organization/not-found':
             return {
                 form_type: 'general',
-                feedback: 'Fant ikke organisasjonen',
+                feedback: 'Fant ikke mappen',
                 variant: 'negative',
             }
         case 'organization/user-already-invited':
             return {
                 form_type: 'general',
-                feedback: 'Denne personen er allerede medlem av organisasjoen.',
+                feedback: 'Denne personen er allerede medlem av mappen.',
                 variant: 'information',
             }
         case 'organization/name-missing':
             return {
                 form_type: 'name',
-                feedback: 'Du har ikke gitt organisasjonen et navn',
+                feedback: 'Du har ikke gitt mappen et navn',
                 variant: 'negative',
             }
         case 'board/not-found':
@@ -158,7 +158,7 @@ export function getFormFeedbackForError(
         case 'create/organization-missing':
             return {
                 form_type: 'organization',
-                feedback: 'Du har ikke valgt organisasjon',
+                feedback: 'Du har ikke valgt mappe',
                 variant: 'negative',
             }
         case 'board/tiles-missing':
@@ -182,7 +182,7 @@ export function getFormFeedbackForError(
         case 'organization/name-mismatch':
             return {
                 form_type: 'name',
-                feedback: 'Navnet på organisasjonen er ikke skrevet riktig',
+                feedback: 'Navnet på mappen er ikke skrevet riktig',
                 variant: 'negative',
             }
         case 'delete/email-mismatch':

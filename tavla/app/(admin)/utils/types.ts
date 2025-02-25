@@ -4,7 +4,7 @@ export const BoardsColumns = {
     name: 'Navn',
     tags: 'Merkelapper',
     lastModified: 'Sist oppdatert',
-    organization: 'Organisasjon',
+    organization: 'Mappe',
     actions: 'Handlinger',
 } as const
 

@@ -25,8 +25,8 @@ function NameAndOrganizationSelector() {
         <form action={action} className="md:px-10">
             <Heading2 as="h1">Opprett tavle</Heading2>
             <Paragraph className="!mb-4">
-                Gi tavlen et navn og legg den til i en organisasjon. Velger du
-                en organisasjon vil alle i organisasjonen ha tilgang til tavlen.
+                Gi tavlen et navn og legg den til i en mappe. Velger du en mappe
+                vil alle i mappen ha tilgang til tavlen.
             </Paragraph>
             <Label>Gi tavlen et navn</Label>
             <ClientOnlyTextField
@@ -40,10 +40,10 @@ function NameAndOrganizationSelector() {
             />
 
             <div className="mt-4">
-                <Label>Legg til i en organisasjon</Label>
+                <Label>Legg til i en mappe</Label>
                 <Dropdown
                     items={organizations}
-                    label="Dine organisasjoner"
+                    label="Dine mapper"
                     selectedItem={isPersonal ? null : selectedOrganization}
                     onChange={setSelectedOrganization}
                     clearable

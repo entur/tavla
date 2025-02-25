@@ -19,7 +19,7 @@ function Organizations({
         return (
             <IllustratedInfo
                 title="Her var det tomt!"
-                description="Du har ikke opprettet noen organisasjoner ennå."
+                description="Du har ikke opprettet noen mapper ennå."
             >
                 <CreateOrganization />
             </IllustratedInfo>
@@ -35,7 +35,7 @@ function Organizations({
                         <div className="h-36 flex align-center justify-center relative">
                             <Image
                                 src={organization.logo ?? EnturLogo}
-                                alt="Logo til organisasjonen"
+                                alt="Logo til mappen"
                                 fill
                                 objectFit="contain"
                                 className="py-12 px-8"
@@ -44,7 +44,7 @@ function Organizations({
                         <div className="bg-grey80 p-4 flex flex-row justify-between gap-4">
                             <Link
                                 as={NextLink}
-                                href={`/organizations/${organization.id}`}
+                                href={`/folders/${organization.id}`}
                                 className="!text-xl !font-bold truncate"
                             >
                                 {organization.name}

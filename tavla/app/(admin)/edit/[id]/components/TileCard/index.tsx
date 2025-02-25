@@ -21,7 +21,7 @@ import {
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Heading4, Paragraph, SubParagraph } from '@entur/typography'
-import { ColumnModal } from 'app/(admin)/organizations/components/DefaultColumns/ColumnModal'
+import { ColumnModal } from 'app/(admin)/folders/components/DefaultColumns/ColumnModal'
 import Goat from 'assets/illustrations/Goat.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'

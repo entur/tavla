@@ -20,7 +20,7 @@ function CreateOrganization() {
     return (
         <>
             <PrimaryButton onClick={open}>
-                Opprett organisasjon
+                Opprett mappe
                 <AddIcon />
             </PrimaryButton>
             <Modal
@@ -30,10 +30,10 @@ function CreateOrganization() {
                 closeLabel="Avbryt oppretting"
             >
                 <Image src={birds} alt="" className="h-1/2 w-1/2" />
-                <Heading3 as="h1">Opprett organisasjon</Heading3>
+                <Heading3 as="h1">Opprett mappe</Heading3>
                 <Paragraph className="mt-8 text-center">
-                    Organisasjonen gir deg mulighet til å samarbeide om tavler
-                    med andre. Tavlene vil også organiseres etter organisasjon i
+                    Mappen gir deg mulighet til å samarbeide om tavler med
+                    andre. Tavlene vil også organiseres etter mappe i
                     tavleoversikten.
                 </Paragraph>
                 <form
@@ -43,11 +43,11 @@ function CreateOrganization() {
                     aria-relevant="all"
                 >
                     <SubParagraph className="font-medium">
-                        Sett navn på organisasjonen
+                        Sett navn på mappen
                     </SubParagraph>
                     <ClientOnlyTextField
                         size="medium"
-                        label="Organisasjonsnavn"
+                        label="Mappenavn"
                         className="w-full"
                         id="name"
                         name="name"
@@ -62,7 +62,7 @@ function CreateOrganization() {
                             <SubmitButton
                                 variant="primary"
                                 width="fluid"
-                                aria-label="Opprett organisasjon"
+                                aria-label="Opprett mappe"
                             >
                                 Opprett
                             </SubmitButton>

@@ -1,5 +1,5 @@
 'use server'
-import { getFormFeedbackForError, TFormFeedback } from 'app/(admin)/utils'
+import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     initializeAdminApp,
     userCanEditOrganization,
@@ -8,36 +8,32 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TColumn } from 'types/column'
+import { TFontSize } from 'types/meta'
 import { TOrganizationID } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
-export async function saveColumns(
-    state: TFormFeedback | undefined,
+export async function setFontSize(
     oid: TOrganizationID | undefined,
     data: FormData,
 ) {
     if (!oid) return getFormFeedbackForError()
-    const access = userCanEditOrganization(oid)
+    const fontSize = data.get('font') as TFontSize
+    const access = await userCanEditOrganization(oid)
     if (!access) return redirect('/')
-
-    const columns = data.getAll('columns') as TColumn[]
-    if (columns.length === 0)
-        return getFormFeedbackForError('organization/invalid-columns')
 
     try {
         await firestore().collection('organizations').doc(oid).update({
-            'defaults.columns': columns,
+            'defaults.font': fontSize,
         })
-        revalidatePath(`/organizations/${oid}`)
+        revalidatePath(`/folders/${oid}`)
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
-                message: 'Error while saving columns in organization',
+                message: 'Error while setting font size in organization',
                 orgID: oid,
-                columnsList: columns,
+                fontSizeValue: fontSize,
             },
         })
         return handleError(error)

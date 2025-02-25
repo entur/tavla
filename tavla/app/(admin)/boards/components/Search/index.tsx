@@ -13,7 +13,7 @@ function Search() {
     }, [replace, search])
     return (
         <ClientOnlyTextField
-            label="Søk på navn på tavle eller organisasjon"
+            label="Søk på navn på tavle eller mappe"
             prepend={<SearchIcon inline aria-hidden="true" />}
             value={search}
             onChange={(e) => {

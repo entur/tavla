@@ -9,14 +9,14 @@ import { Tooltip } from '@entur/tooltip'
 function Edit({ oid }: { oid?: string }) {
     return (
         <Tooltip
-            content="Rediger organisasjon"
+            content="Rediger mappe"
             placement="bottom"
             id="tooltip-edit-org"
         >
             <IconButton
                 as={Link}
-                aria-label="Rediger organisasjon"
-                href={`/organizations/${oid}`}
+                aria-label="Rediger mappe"
+                href={`/folders/${oid}`}
                 size="small"
             >
                 <EditIcon />

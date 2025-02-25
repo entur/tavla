@@ -53,10 +53,10 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                             Tavler
                         </SideNavigationItem>
                         <SideNavigationItem
-                            href="/organizations"
-                            active={pathname?.includes('/organizations')}
+                            href="/folders"
+                            active={pathname?.includes('/folders')}
                         >
-                            Organisasjoner
+                            Mapper
                         </SideNavigationItem>
                         <SideNavigationItem
                             as={Button}

@@ -56,7 +56,7 @@ function RemoveUserButton({
                 </Heading3>
                 <Paragraph>
                     Er du sikker på at du vil slette medlem med e-postadresse{' '}
-                    {user?.email} fra organisasjonen?
+                    {user?.email} fra mappen?
                 </Paragraph>
                 <form
                     action={formAction}

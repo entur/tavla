@@ -58,9 +58,9 @@ function Questions() {
             </AccordionItem>
             <AccordionItem title="Kan jeg invitere andre til å administrere tavlen min?">
                 Om du ønsker at andre også skal kunne redigere tavlen din må du
-                opprette en organisasjon og plassere tavlen som du ønsker skal
-                deles der. Da kan du invitere andre til å administrere alle
-                tavlene i organisasjonen.
+                opprette en mappe og plassere tavlen som du ønsker skal deles
+                der. Da kan du invitere andre til å administrere alle tavlene i
+                mappen.
             </AccordionItem>
             <AccordionItem title="Lagres tavlene mine?">
                 Når du oppretter en tavle på brukere din, så vil de lagres slik

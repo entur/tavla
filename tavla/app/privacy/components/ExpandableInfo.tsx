@@ -53,7 +53,7 @@ function ExpandableInfo() {
                 <UnorderedList className="pl-8">
                     <ListItem>For å holde styr på dine tavler.</ListItem>
                     <ListItem>
-                        For å vite hvilke organisasjoner du er en del av.
+                        For å vite hvilke mapper du er en del av.
                     </ListItem>
                 </UnorderedList>
             </ExpandablePanel>
