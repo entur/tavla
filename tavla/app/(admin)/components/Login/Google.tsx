@@ -13,12 +13,15 @@ import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import { Paragraph } from '@entur/typography'
 import { FirebaseError } from 'firebase/app'
+import { BannerAlertBox } from '@entur/alert'
 
 export default function Google() {
     const [isLoading, setIsLoading] = useState(false)
+    const [errorMessage, setErrorMessage] = useState(['', ''])
     const posthog = usePostHog()
     const googleAction = async () => {
         setIsLoading(true)
+        setErrorMessage(['', ''])
         const provider = new GoogleAuthProvider()
         const app = await getClientApp()
         const auth = getAuth(app)
@@ -37,6 +40,15 @@ export default function Google() {
                     error.code == 'auth/cancelled-popup-request')
             ) {
                 setIsLoading(false)
+            } else if (
+                error instanceof FirebaseError &&
+                error.code == 'auth/popup-blocked'
+            ) {
+                setIsLoading(false)
+                setErrorMessage([
+                    'Popup-vinduet ble blokkert.',
+                    'Endre denne innstillingen i nettleseren din for å logge på med Google.',
+                ])
             } else {
                 Sentry.captureException(error, {
                     extra: {
@@ -62,6 +74,16 @@ export default function Google() {
                         googleAction()
                     }}
                 />
+            )}
+
+            {errorMessage[0] && (
+                <BannerAlertBox
+                    className="mt-10"
+                    variant="information"
+                    title={errorMessage[0]}
+                >
+                    {errorMessage[1]}
+                </BannerAlertBox>
             )}
         </div>
     )
