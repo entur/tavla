@@ -8,32 +8,30 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TFontSize } from 'types/meta'
 import { TOrganizationID } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
-export async function setFontSize(
+export async function setCounties(
     oid: TOrganizationID | undefined,
     data: FormData,
 ) {
     if (!oid) return getFormFeedbackForError()
-    const fontSize = data.get('font') as TFontSize
-    const access = await userCanEditOrganization(oid)
+    const access = userCanEditOrganization(oid)
     if (!access) return redirect('/')
+    const counties = data.getAll('county') as string[]
 
     try {
         await firestore().collection('organizations').doc(oid).update({
-            'defaults.font': fontSize,
+            'defaults.counties': counties,
         })
-        revalidatePath(`/organizations/${oid}`)
+        revalidatePath(`/folders/${oid}`)
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
-                message: 'Error while setting font size in organization',
+                message: 'Error while setting counties in organization',
                 orgID: oid,
-                fontSizeValue: fontSize,
             },
         })
         return handleError(error)

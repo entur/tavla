@@ -12,8 +12,8 @@ function MemberAdministration(props: {
         <div className="box flex flex-col gap-1">
             <Heading2>Medlemmer</Heading2>
             <Paragraph>
-                Administrer medlemmer i organisasjonen. Du kan kun legge til
-                medlemmer som har opprettet en Tavla-bruker.
+                Administrer medlemmer i mappen. Du kan kun legge til medlemmer
+                som har opprettet en Tavla-bruker.
             </Paragraph>
             <InviteUser oid={props.oid} />
             <MemberList {...props} />

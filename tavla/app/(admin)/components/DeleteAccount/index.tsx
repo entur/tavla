@@ -66,8 +66,8 @@ function DeleteAccount() {
                     </Heading3>
                     <Paragraph>
                         Er du sikker på at du vil slette din bruker hos Entur
-                        Tavla? Alle dine private tavler, samt tavler i
-                        organisasjoner der du er eneste medlem, vil bli slettet.
+                        Tavla? Alle dine private tavler, samt tavler i mapper
+                        der du er eneste medlem, vil bli slettet.
                     </Paragraph>
 
                     <form action={deleteAccountAction}>

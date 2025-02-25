@@ -41,7 +41,7 @@ async function EditOrganizationPage(props: TProps) {
     const organization = await getOrganizationIfUserHasAccess(id)
 
     if (!organization || !organization?.owners?.includes(user.uid))
-        return <div>Du har ikke tilgang til denne organisasjonen</div>
+        return <div>Du har ikke tilgang til denne mappen</div>
 
     const uids = organization.owners ?? []
     const usersReq = await auth().getUsers(
@@ -59,10 +59,10 @@ async function EditOrganizationPage(props: TProps) {
                 <Heading1 margin="top">{organization.name}</Heading1>
                 <LeadParagraph margin="bottom">
                     Valgene som tas blir satt som standard når det opprettes en
-                    tavle i organisasjonen &quot;{organization.name}&quot;.
-                    Valgene kan fortsatt justeres i hver enkelt tavle (med
-                    unntak av logo). Innstillingene vil ikke påvirke tavler som
-                    allerede har blitt opprettet.
+                    tavle i mappen &quot;{organization.name}&quot;. Valgene kan
+                    fortsatt justeres i hver enkelt tavle (med unntak av logo).
+                    Innstillingene vil ikke påvirke tavler som allerede har
+                    blitt opprettet.
                 </LeadParagraph>
                 <div className="grid gap-y-12 gap-x-8 lg:grid-cols-2">
                     <MemberAdministration

@@ -83,10 +83,10 @@ async function Landing() {
                                 stoppesteder eller fremkomstmidler.
                             </ListItem>
                             <ListItem>
-                                Opprett organisasjoner (mapper) for å samle
-                                tavler og gi andre tilgang til å administrere
-                                dem. Her kan du også velge standardinnstillinger
-                                som vil gjelde alle tavler i organisasjonen.
+                                Opprett mapper for å samle tavler og gi andre
+                                tilgang til å administrere dem. Her kan du også
+                                velge standardinnstillinger som vil gjelde alle
+                                tavler i mappen.
                             </ListItem>
                         </UnorderedList>
 

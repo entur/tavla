@@ -51,13 +51,13 @@ function DeleteOrganization({
             )
 
         deleteOrgAction(data)
-        addToast('Organisasjon slettet!')
+        addToast('Mappe slettet!')
     }
 
     return (
         <>
             <Tooltip
-                content="Slett organisasjon"
+                content="Slett mappe"
                 placement="bottom"
                 id="tooltip-delete-org"
             >
@@ -66,7 +66,7 @@ function DeleteOrganization({
                     href={`?delete=${organization.id}`}
                     className="gap-4"
                     variant="secondary"
-                    aria-label="Slett organisasjon"
+                    aria-label="Slett mappe"
                     size="small"
                 >
                     {type === 'secondary' && 'Slett'}
@@ -86,14 +86,14 @@ function DeleteOrganization({
             >
                 <Image src={ducks} alt="" className="h-1/2 w-1/2 mx-auto" />
                 <Heading3 margin="bottom" as="h1">
-                    Slett organisasjon
+                    Slett mappe
                 </Heading3>
                 <Paragraph>
-                    {`Er du sikker på at du vil slette organisasjonen 
-                    "${organization.name}"? Alle tavlene i organisasjonen vil også bli slettet.`}
+                    {`Er du sikker på at du vil slette mappen 
+                    "${organization.name}"? Alle tavlene i mappen vil også bli slettet.`}
                 </Paragraph>
                 <SubParagraph className="font-medium text-left">
-                    Bekreft ved å skrive inn navnet på organisasjonen
+                    Bekreft ved å skrive inn navnet på mappen
                 </SubParagraph>
                 <form action={submit} aria-live="polite" aria-relevant="all">
                     <HiddenInput id="oname" value={organization.name} />
@@ -101,7 +101,7 @@ function DeleteOrganization({
 
                     <ClientOnlyTextField
                         name="name"
-                        label="Organisasjonsnavn"
+                        label="Mappenavn"
                         type="text"
                         required
                         aria-required

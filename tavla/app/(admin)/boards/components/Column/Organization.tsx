@@ -12,7 +12,7 @@ function Organization({ organization }: { organization?: TOrganization }) {
     return (
         <Column column="organization">
             <Link
-                href={`/organizations/${organization.id}`}
+                href={`/folders/${organization.id}`}
                 className="hidden sm:block hover:underline"
             >
                 {organization.name}

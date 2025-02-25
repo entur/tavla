@@ -69,7 +69,7 @@ function Footer({
                         onChange={() => setOverride(!override)}
                         name="override"
                     >
-                        Vis infomelding fra organisasjonen.
+                        Vis infomelding fra mappen.
                     </Switch>
                 )}
                 <div className="mt-4">

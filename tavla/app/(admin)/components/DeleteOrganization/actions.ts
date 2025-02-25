@@ -31,5 +31,5 @@ export async function deleteOrganization(
         return handleError(e)
     }
 
-    redirect('/organizations')
+    redirect('/folders')
 }

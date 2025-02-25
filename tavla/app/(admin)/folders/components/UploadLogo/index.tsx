@@ -10,14 +10,13 @@ function UploadLogo({ organization }: { organization: TOrganization }) {
         <div className="box flex flex-col gap-1">
             <Heading2>Logo</Heading2>
             <Paragraph>
-                Velg hvilken logo som skal vises på alle tavlene til
-                organisasjonen.
+                Velg hvilken logo som skal vises på alle tavlene i mappen.
             </Paragraph>
             {organization.logo && (
                 <div className="relative flex items-center justify-center h-40 bg-black border-2 rounded border-tertiary mb-4">
                     <Image
                         src={organization.logo}
-                        alt="Organisasjonslogo"
+                        alt="Mappelogo"
                         objectFit="contain"
                         fill
                         className="p-8"
