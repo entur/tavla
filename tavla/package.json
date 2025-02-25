@@ -71,7 +71,6 @@
         "@types/react": "npm:types-react@19.0.0-rc.1",
         "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
         "@types/semver": "7.5.8",
-        "@types/ua-parser-js": "^0.7.39",
         "@typescript-eslint/eslint-plugin": "8.12.2",
         "@typescript-eslint/parser": "8.12.2",
         "autoprefixer": "10.4.20",

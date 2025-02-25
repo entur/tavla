@@ -10,11 +10,13 @@ import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { GetServerSideProps } from 'next'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { params } = context
-    const { id } = params as { id: string }
+export async function getServerSideProps({
+    params,
+}: {
+    params: { id: string }
+}) {
+    const { id } = params
 
     const board: TBoard | undefined = await getBoard(id)
 
