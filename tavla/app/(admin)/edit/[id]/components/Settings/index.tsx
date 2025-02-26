@@ -4,17 +4,15 @@ import { Heading2, Heading3 } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TLocation, TMeta } from 'types/meta'
 import { TBoard, TOrganization } from 'types/settings'
-import { MetaSettings } from '../MetaSettings'
-import { WalkingDistance } from '../MetaSettings/WalkingDistance'
-import { Footer } from '../Footer'
-import { ThemeSelect } from '../ThemeSelect'
-import { FontSelect } from '../MetaSettings/FontSelect'
+import { WalkingDistance } from './WalkingDistance'
+import { Footer } from './Footer'
+import { ThemeSelect } from './ThemeSelect'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
-import { Title } from '../MetaSettings/Title'
-import { Organization } from '../MetaSettings/Organization'
+import { Title } from './Title'
+import { Organization } from './Organization'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
-import { ViewTypeSetting } from '../ViewType'
+import { ViewTypeSetting } from './ViewType'
 import { usePostHog } from 'posthog-js/react'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useToast } from '@entur/alert'
@@ -26,6 +24,7 @@ import {
 } from 'app/(admin)/utils'
 import { saveForm } from './actions'
 import { FormError } from 'app/(admin)/components/FormError'
+import { FontSelect } from './FontSelect'
 
 function Settings({
     board,
@@ -65,6 +64,7 @@ function Settings({
             setFormErrors(errors)
         }
     }
+
     return (
         <div className="rounded-md md:py-8 py-2 md:px-6 px-2 flex flex-col gap-4 bg-background">
             <Heading2>Innstillinger</Heading2>
@@ -72,22 +72,28 @@ function Settings({
                 className="grid grid-cols md:grid-cols-[repeat(auto-fill,minmax(500px,1fr))] gap-8"
                 onSubmit={handleSubmit}
             >
-                <MetaSettings>
-                    <Title
-                        title={meta?.title ?? DEFAULT_BOARD_NAME}
-                        feedback={getFormFeedbackForField('name', errors.name)}
-                    />
-                    <Organization
-                        organization={organization}
-                        organizations={organizations}
-                        selectedOrganization={selectedOrganization}
-                        setSelectedOrganization={setSelectedOrganization}
-                        feedback={getFormFeedbackForField(
-                            'organization',
-                            errors.organization,
-                        )}
-                    />
-                </MetaSettings>
+                <div className="box  ">
+                    <Heading3 margin="bottom"> Generelt </Heading3>
+                    <div className="flex flex-col gap-4">
+                        <Title
+                            title={meta?.title ?? DEFAULT_BOARD_NAME}
+                            feedback={getFormFeedbackForField(
+                                'name',
+                                errors.name,
+                            )}
+                        />
+                        <Organization
+                            organization={organization}
+                            organizations={organizations}
+                            selectedOrganization={selectedOrganization}
+                            setSelectedOrganization={setSelectedOrganization}
+                            feedback={getFormFeedbackForField(
+                                'organization',
+                                errors.organization,
+                            )}
+                        />
+                    </div>
+                </div>
                 <div className="box">
                     <Heading3 margin="bottom">Tavlevisning </Heading3>
                     <div className=" flex flex-col gap-4">

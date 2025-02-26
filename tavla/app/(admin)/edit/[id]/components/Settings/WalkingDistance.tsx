@@ -1,19 +1,12 @@
 'use client'
-import { NormalizedDropdownItemType } from '@entur/dropdown'
+import { NormalizedDropdownItemType, SearchableDropdown } from '@entur/dropdown'
 import { Heading4, Paragraph } from '@entur/typography'
-import dynamic from 'next/dynamic'
-import { Dispatch, ReactElement, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { TLocation } from 'types/meta'
-
-const SearchableDropdown = dynamic(
-    () => import('@entur/dropdown').then((mod) => mod.SearchableDropdown),
-    { ssr: false },
-)
 function WalkingDistance({
     pointItems,
     selectedPoint,
     setSelectedPoint,
-    error,
 }: {
     pointItems: (
         search: string,
@@ -22,7 +15,6 @@ function WalkingDistance({
     setSelectedPoint: Dispatch<
         SetStateAction<NormalizedDropdownItemType<TLocation | unknown> | null>
     >
-    error?: ReactElement
 }) {
     return (
         <div className="flex flex-col">
@@ -39,7 +31,6 @@ function WalkingDistance({
                 debounceTimeout={150}
                 clearable
             />
-            <div className="mt-4">{error}</div>
         </div>
     )
 }
