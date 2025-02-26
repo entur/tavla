@@ -1,7 +1,7 @@
 'use client'
 import { TFontSize } from 'types/meta'
 import { setFontSize as setFontSizeAction } from './actions'
-import { FontChoiceChip } from 'app/(admin)/edit/[id]/components/MetaSettings/FontChoiceChip'
+import { FontChoiceChip } from 'app/(admin)/edit/[id]/components/Settings/FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
 import { TOrganizationID } from 'types/settings'
