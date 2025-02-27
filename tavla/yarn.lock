@@ -12619,6 +12619,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-google-button@npm:0.8.0":
+  version: 0.8.0
+  resolution: "react-google-button@npm:0.8.0"
+  dependencies:
+    prop-types: ^15.8.1
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: a0a0585349c2ea3687e0d7baa16360c25ca5cc16c42c5ce72e4aceebd3b390eb7d691d03bc3b15a71ddaeb22d7480ba92b02696531c36ec47114b75c95554305
+  languageName: node
+  linkType: hard
+
 "react-is@npm:18.2.0":
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
@@ -14275,6 +14286,7 @@ __metadata:
     prettier: 3.3.3
     react: 18.3.1
     react-dom: 18.3.1
+    react-google-button: 0.8.0
     sharp: 0.33.5
     swr: 2.2.5
     tailwindcss: 3.4.14

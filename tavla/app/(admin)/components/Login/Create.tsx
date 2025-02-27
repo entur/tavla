@@ -23,6 +23,7 @@ import { Button, ButtonGroup } from '@entur/button'
 import Link from 'next/link'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { handleError } from 'app/(admin)/utils/handleError'
+import Google from './Google'
 
 function Create() {
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
@@ -113,13 +114,15 @@ function Create() {
                         </Button>
                     </div>
                 </ButtonGroup>
-                <Paragraph className="text-center" margin="none">
-                    Har du allerede en bruker?{' '}
-                    <Link className="underline" href="?login=email">
-                        Logg inn
-                    </Link>
-                </Paragraph>
             </form>
+            <div className="border-2 rounded-sm w-full mb-8 mt-4"></div>
+            <Google />
+            <Paragraph className="text-center mt-10" margin="none">
+                Har du allerede en bruker?{' '}
+                <Link className="underline" href="?login=email">
+                    Logg inn
+                </Link>
+            </Paragraph>
         </div>
     )
 }
