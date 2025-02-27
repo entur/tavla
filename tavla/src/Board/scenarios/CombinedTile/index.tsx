@@ -2,7 +2,6 @@ import React from 'react'
 import { TTile } from 'types/tile'
 import { GetQuayQuery, StopPlaceQuery, TSituationFragment } from 'graphql/index'
 import { Tile } from 'components/Tile'
-import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
 import {
     DataFetchingFailed,
@@ -89,13 +88,8 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
         return isNaN(time) ? Infinity : time
     })
 
-    const heading = combinedTile
-        .map((tile) => tile.displayName || tile.name?.split(',')[0])
-        .join(', ')
-
     return (
         <Tile className="flex flex-col max-sm:min-h-[30vh]">
-            <TableHeader heading={heading} />
             <Table
                 departures={sortedEstimatedCalls}
                 situations={situations}

@@ -299,6 +299,13 @@ function TileCard({
                                     Det originale navnet til stoppestedet:{' '}
                                     {tile.name.split(',')[0]}
                                 </SubParagraph>
+                                {isCombined && (
+                                    <SubParagraph className="!text-error">
+                                        Har du samlet stoppestedene i én liste
+                                        vil du ikke ha mulighet til å sette navn
+                                        på stoppested.
+                                    </SubParagraph>
+                                )}
                             </div>
                             <ClientOnlyTextField
                                 label="Navn på stoppested"
