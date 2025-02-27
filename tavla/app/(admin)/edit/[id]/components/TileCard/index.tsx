@@ -312,6 +312,7 @@ function TileCard({
                                 className="!w-full md:!w-1/2 lg:!w-1/4"
                                 name="displayName"
                                 defaultValue={tile.displayName}
+                                disabled={isCombined}
                                 maxLength={50}
                                 {...getFormFeedbackForField('name', state)}
                             />
