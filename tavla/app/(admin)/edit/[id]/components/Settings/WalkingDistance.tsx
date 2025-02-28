@@ -11,16 +11,16 @@ function WalkingDistance({
     pointItems: (
         search: string,
     ) => Promise<NormalizedDropdownItemType<TLocation>[]>
-    selectedPoint: NormalizedDropdownItemType<TLocation | unknown> | null
+    selectedPoint: NormalizedDropdownItemType<TLocation> | null
     setSelectedPoint: Dispatch<
-        SetStateAction<NormalizedDropdownItemType<TLocation | unknown> | null>
+        SetStateAction<NormalizedDropdownItemType<TLocation> | null>
     >
 }) {
     return (
         <div className="flex flex-col">
             <Heading4 margin="bottom">Gangavstand</Heading4>
             <Paragraph className="mb-2">
-                Vis gåavstanden fra tavlens adresse til stoppestedet.
+                Vis gangavstand fra tavlens adresse til stoppestedet.
             </Paragraph>
 
             <SearchableDropdown

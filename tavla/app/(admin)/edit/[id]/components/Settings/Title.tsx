@@ -13,7 +13,7 @@ function Title({
         <div>
             <Heading4 margin="bottom">Navn</Heading4>
             <ClientOnlyTextField
-                name="name"
+                name="title"
                 className="w-full"
                 defaultValue={title}
                 label="Navn på tavlen"

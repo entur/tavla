@@ -1,20 +1,16 @@
 'use server'
-import {
-    userCanEditBoard,
-    initializeAdminApp,
-} from 'app/(admin)/utils/firebase'
+import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import { TBoardID, TTheme } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
+import { userHasAccessToEdit } from '../Settings/actions'
 
 initializeAdminApp()
 
 export async function setTheme(bid: TBoardID, theme?: TTheme) {
-    const access = await userCanEditBoard(bid)
-    if (!access) return redirect('/')
+    userHasAccessToEdit(bid)
 
     try {
         await firestore()

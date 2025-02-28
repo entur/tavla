@@ -1,28 +1,24 @@
 'use client'
-import { Dropdown, NormalizedDropdownItemType } from '@entur/dropdown'
+import { Dropdown } from '@entur/dropdown'
 import { Checkbox } from '@entur/form'
 import { Heading4 } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
+import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { TFormFeedback } from 'app/(admin)/utils'
-import { useState, Dispatch, SetStateAction } from 'react'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { useState } from 'react'
 import { TOrganization } from 'types/settings'
 
 function Organization({
     organization,
-    organizations,
-    selectedOrganization,
-    setSelectedOrganization,
     feedback,
 }: {
     organization?: TOrganization
-    organizations: () => NormalizedDropdownItemType<TOrganization>[]
-    selectedOrganization: NormalizedDropdownItemType<TOrganization> | null
-    setSelectedOrganization: Dispatch<
-        SetStateAction<NormalizedDropdownItemType<TOrganization> | null>
-    >
     feedback?: TFormFeedback
 }) {
     const [personal, setPersonal] = useState(organization ? false : true)
+    const { organizations, selectedOrganization, setSelectedOrganization } =
+        useOrganizations(organization)
 
     return (
         <div>
@@ -45,7 +41,8 @@ function Organization({
             >
                 Privat tavle
             </Checkbox>
-
+            <HiddenInput id="fromOrg" value={organization?.id ?? ''} />
+            <HiddenInput id="toOrg" value={selectedOrganization?.value.id} />
             <div className="mt-4">
                 <FormError {...feedback} />
             </div>

@@ -1,5 +1,5 @@
 'use server'
-import { getFormFeedbackForError, TFormFeedback } from 'app/(admin)/utils'
+import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     userCanEditBoard,
     initializeAdminApp,
@@ -19,13 +19,8 @@ import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
-export async function saveTitle(
-    state: TFormFeedback | undefined,
-    bid: TBoardID,
-    data: FormData,
-) {
-    const name = data.get('name') as string
-    if (isEmptyOrSpaces(name))
+export async function saveTitle(bid: TBoardID, title: string) {
+    if (isEmptyOrSpaces(title))
         return getFormFeedbackForError('board/tiles-name-missing')
 
     const access = await userCanEditBoard(bid)
@@ -36,7 +31,7 @@ export async function saveTitle(
             .collection('boards')
             .doc(bid)
             .update({
-                'meta.title': name.substring(0, 50),
+                'meta.title': title.substring(0, 50),
                 'meta.dateModified': Date.now(),
             })
         revalidatePath(`/edit/${bid}`)
@@ -150,7 +145,7 @@ export async function moveBoard(
                 .doc(user.uid)
                 .update({ owner: admin.firestore.FieldValue.arrayRemove(bid) })
 
-        if (toOrganization)
+        if (toOrganization && !personal)
             await firestore()
                 .collection('organizations')
                 .doc(toOrganization)

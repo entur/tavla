@@ -6,7 +6,7 @@ import { fetchPoints } from '../utils/fetch'
 
 function usePointSearch(location?: TLocation) {
     const [selectedPoint, setSelectedPoint] =
-        useState<NormalizedDropdownItemType<TLocation | unknown> | null>(
+        useState<NormalizedDropdownItemType<TLocation> | null>(
             location ? locationToDropdownItem(location) : null,
         )
 

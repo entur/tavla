@@ -10,10 +10,10 @@ import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function Footer({
     footer,
-    organizationBoard,
+    boardInOrganization,
 }: {
     footer?: TFooter
-    organizationBoard: boolean
+    boardInOrganization: boolean
 }) {
     const [override, setOverride] = useState(footer?.override ?? false)
 
@@ -35,7 +35,7 @@ function Footer({
                     </Tooltip>
                 </div>
 
-                {organizationBoard && (
+                {boardInOrganization && (
                     <Switch
                         checked={override}
                         onChange={() => setOverride(!override)}
@@ -49,7 +49,7 @@ function Footer({
                 label="Infomelding"
                 name="footer"
                 defaultValue={footer?.footer ?? ''}
-                readOnly={override && organizationBoard}
+                readOnly={override && boardInOrganization}
                 className="w-full"
             />
         </div>

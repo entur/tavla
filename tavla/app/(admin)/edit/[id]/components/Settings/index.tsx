@@ -1,5 +1,4 @@
 'use client'
-import { ButtonGroup, Button } from '@entur/button'
 import { Heading2, Heading3 } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TLocation, TMeta } from 'types/meta'
@@ -11,18 +10,16 @@ import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { Title } from './Title'
 import { Organization } from './Organization'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { ViewTypeSetting } from './ViewType'
-import { usePostHog } from 'posthog-js/react'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useToast } from '@entur/alert'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
     getFormFeedbackForField,
     InputType,
     TFormFeedback,
 } from 'app/(admin)/utils'
-import { saveForm } from './actions'
+import { saveSettings } from './actions'
 import { FormError } from 'app/(admin)/components/FormError'
 import { FontSelect } from './FontSelect'
 
@@ -35,27 +32,24 @@ function Settings({
     meta: TMeta
     organization?: TOrganization
 }) {
-    const posthog = usePostHog()
+    const formRef = useRef<HTMLFormElement>(null)
     const { pointItems, selectedPoint, setSelectedPoint } = usePointSearch(
         meta.location,
     )
-    const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizations(organization)
     const { addToast } = useToast()
     const [errors, setFormErrors] = useState<
         Partial<Record<InputType, TFormFeedback>>
     >({})
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const submitSettings = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         const data = new FormData(e.currentTarget)
-        data.append('organization', selectedOrganization?.value.id as string)
-        posthog.capture('SAVE_VIEW_TYPE_BTN', {
-            value: data.get('viewType') as string,
-        })
 
-        const errors = await saveForm(data, selectedPoint?.value as TLocation)
+        const errors = await saveSettings(
+            data,
+            selectedPoint?.value as TLocation,
+        )
 
         if (!errors) {
             setFormErrors({})
@@ -70,9 +64,10 @@ function Settings({
             <Heading2>Innstillinger</Heading2>
             <form
                 className="grid grid-cols md:grid-cols-[repeat(auto-fill,minmax(500px,1fr))] gap-8"
-                onSubmit={handleSubmit}
+                onSubmit={submitSettings}
+                ref={formRef}
             >
-                <div className="box  ">
+                <div className="box">
                     <Heading3 margin="bottom"> Generelt </Heading3>
                     <div className="flex flex-col gap-4">
                         <Title
@@ -84,9 +79,6 @@ function Settings({
                         />
                         <Organization
                             organization={organization}
-                            organizations={organizations}
-                            selectedOrganization={selectedOrganization}
-                            setSelectedOrganization={setSelectedOrganization}
                             feedback={getFormFeedbackForField(
                                 'organization',
                                 errors.organization,
@@ -110,29 +102,17 @@ function Settings({
                         />
                         <Footer
                             footer={board.footer}
-                            organizationBoard={organization !== undefined}
+                            boardInOrganization={organization !== undefined}
                         />
 
                         <HiddenInput id="bid" value={board.id} />
-
-                        <HiddenInput
-                            id="fromOrg"
-                            value={organization?.id ?? ''}
-                        />
                     </div>
                 </div>
                 <FormError
                     {...getFormFeedbackForField('general', errors.general)}
                 />
                 <div>
-                    <ButtonGroup className="flex flex-row mt-8">
-                        <SubmitButton variant="primary">
-                            Lagre valg
-                        </SubmitButton>
-                        <Button variant="secondary" type="button">
-                            Avbryt
-                        </Button>
-                    </ButtonGroup>
+                    <SubmitButton variant="primary">Lagre valg</SubmitButton>
                 </div>
             </form>
         </div>
