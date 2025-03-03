@@ -19,7 +19,7 @@ function Footer({
 
     return (
         <div className="flex flex-col">
-            <div className="flex flex-row justify-between items-center gap-2">
+            <div className="flex  flex-col items-start sm:flex-row justify-between sm:items-center gap-2">
                 <div className=" flex gap-2 items-center">
                     <Heading4 margin="bottom">Infomelding</Heading4>
 
