@@ -47,7 +47,7 @@ function TileSelector({
             className={`flex flex-col ${classname} gap-4 mr-6 w-full`}
             action={action}
             onSubmit={(event) => {
-                if (!selectedStopPlace || !selectedQuay) {
+                if (!selectedStopPlace) {
                     event.preventDefault()
                     return setFormError(
                         getFormFeedbackForError(
