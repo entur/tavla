@@ -31,7 +31,6 @@ function DemoBoard() {
                         setBoard({ ...board, tiles: [...board.tiles, tile] })
                         posthog.capture('ADD_STOP_PLACE_DEMO_PAGE')
                     }}
-                    col={false}
                 />
                 <TileList board={board} setDemoBoard={setBoard} bid="demo" />
             </div>
