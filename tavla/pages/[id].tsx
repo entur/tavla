@@ -10,6 +10,7 @@ import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { SingleDepartureView } from 'Board/scenarios/SingleDepartureView'
 
 export async function getServerSideProps({
     params,
@@ -92,7 +93,11 @@ function BoardPage({
                         theme={updatedBoard.theme}
                         organizationLogo={organization?.logo}
                     />
-                    <Board board={updatedBoard} />
+                    {true ? (
+                        <SingleDepartureView board={updatedBoard} />
+                    ) : (
+                        <Board board={updatedBoard} />
+                    )}
                     <Footer
                         board={updatedBoard}
                         logo={organization?.logo !== undefined}

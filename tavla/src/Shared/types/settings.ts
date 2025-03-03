@@ -14,6 +14,7 @@ export type TBoard = {
     combinedTiles?: TCombinedTiles[]
     theme?: TTheme
     footer?: TFooter
+    isSingleDepartureView?: boolean
 }
 
 export type TBoardWithOrganizaion = {
