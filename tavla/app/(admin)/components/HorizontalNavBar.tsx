@@ -12,8 +12,13 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
     if (!loggedIn) return null
     return (
         <div className="flex-row hidden md:flex gap-4">
-            <IconButton as={Link} href="?board" className="gap-4">
-                <AddIcon /> Opprett tavle <CreateBoard />
+            <IconButton
+                as={Link}
+                href={{ query: { board: null } }}
+                className="gap-4"
+            >
+                <AddIcon /> Opprett tavle
+                <CreateBoard />
             </IconButton>
             <TopNavigationItem
                 active={pathname?.includes('/boards')}
