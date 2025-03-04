@@ -1,4 +1,4 @@
-import { TBoardWithOrganizaion } from 'types/settings'
+import { TBoard, TOrganization } from 'types/settings'
 import { useCallback } from 'react'
 import { useSearchParam } from './useSearchParam'
 import { TBoardsColumn, TSort } from 'app/(admin)/utils/types'
@@ -16,39 +16,22 @@ function useSortBoardFunction() {
     const sortType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
 
     const sortBoards = useCallback(
-        (boardA: TBoardWithOrganizaion, boardB: TBoardWithOrganizaion) => {
+        (boardA: TBoard, boardB: TBoard) => {
             let sortFunc: () => number
             const compareTitle = () => {
                 const titleA =
-                    boardA?.board.meta?.title?.toLowerCase() ??
-                    DEFAULT_BOARD_NAME
+                    boardA?.meta?.title?.toLowerCase() ?? DEFAULT_BOARD_NAME
                 const titleB =
-                    boardB?.board.meta?.title?.toLowerCase() ??
-                    DEFAULT_BOARD_NAME
+                    boardB?.meta?.title?.toLowerCase() ?? DEFAULT_BOARD_NAME
                 return titleB.localeCompare(titleA)
             }
 
             switch (sortColumn) {
                 case 'lastModified':
                     sortFunc = () => {
-                        const modifiedA = boardA.board.meta?.dateModified ?? 0
-                        const modifiedB = boardB.board.meta?.dateModified ?? 0
+                        const modifiedA = boardA.meta?.dateModified ?? 0
+                        const modifiedB = boardB.meta?.dateModified ?? 0
                         return modifiedB - modifiedA
-                    }
-                    break
-                case 'organization':
-                    sortFunc = () => {
-                        const orgNameA =
-                            boardA.organization?.name?.toLowerCase() ?? 'Privat'
-                        const orgNameB =
-                            boardB.organization?.name?.toLowerCase() ?? 'Privat'
-
-                        if (orgNameA == orgNameB) {
-                            return sortType == 'ascending'
-                                ? compareTitle()
-                                : -compareTitle()
-                        }
-                        return orgNameB.localeCompare(orgNameA)
                     }
                     break
                 default:
@@ -72,4 +55,54 @@ function useSortBoardFunction() {
     return sortBoards
 }
 
-export { useSortBoardFunction }
+function useSortFolderFunction() {
+    const value = useSearchParam('sort')
+    const sortParams = value?.split(':')
+
+    const sortColumn: TBoardsColumn =
+        (sortParams?.[0] as TBoardsColumn) || DEFAULT_SORT_COLUMN
+    const sortType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
+
+    const sortFolders = useCallback(
+        (folderA: TOrganization, folderB: TOrganization) => {
+            let sortFunc: () => number
+            const compareTitle = () => {
+                const titleA =
+                    folderA?.name?.toLowerCase() ?? DEFAULT_BOARD_NAME
+                const titleB =
+                    folderB?.name?.toLowerCase() ?? DEFAULT_BOARD_NAME
+                return titleB.localeCompare(titleA)
+            }
+
+            switch (sortColumn) {
+                case 'numOfBoards':
+                    sortFunc = () => {
+                        const numBoardsA = folderA.boards?.length ?? 0
+                        const numBoardsB = folderB.boards?.length ?? 0
+                        return numBoardsB - numBoardsA
+                    }
+                    break
+                case 'lastModified':
+                    return 0
+                default:
+                    sortFunc = () => {
+                        return compareTitle()
+                    }
+                    break
+            }
+            switch (sortType) {
+                case 'ascending':
+                    return -sortFunc()
+                case 'descending':
+                    return sortFunc()
+                default:
+                    return 0
+            }
+        },
+        [sortColumn, sortType],
+    )
+
+    return sortFolders
+}
+
+export { useSortBoardFunction, useSortFolderFunction }

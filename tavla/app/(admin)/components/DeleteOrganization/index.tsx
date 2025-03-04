@@ -67,7 +67,6 @@ function DeleteOrganization({
                     className="gap-4"
                     variant="secondary"
                     aria-label="Slett mappe"
-                    size="small"
                 >
                     {type === 'secondary' && 'Slett'}
                     <DeleteIcon />
@@ -137,4 +136,4 @@ function DeleteOrganization({
     )
 }
 
-export { DeleteOrganization as Delete }
+export { DeleteOrganization }

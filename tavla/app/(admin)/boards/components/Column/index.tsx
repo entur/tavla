@@ -1,32 +1,51 @@
-import { TBoardWithOrganizaion } from 'types/settings'
-import { Actions } from './Actions'
+import { TBoard, TOrganization } from 'types/settings'
 import { LastModified } from './LastModified'
-import { Name } from './Name'
 import { TBoardsColumn } from 'app/(admin)/utils/types'
-import { Organization } from './Organization'
+import { NumOfBoards } from './NumOfBoards'
+import { BoardName, FolderName } from './Name'
+import { BoardActions, FolderActions } from './Actions'
 
 function Column({
-    boardWithOrg,
+    boardWithoutFolder,
+    folder,
     column,
 }: {
-    boardWithOrg: TBoardWithOrganizaion
+    boardWithoutFolder?: TBoard
+    folder?: TOrganization
     column: TBoardsColumn
 }) {
-    switch (column) {
-        case 'name':
-            return <Name board={boardWithOrg.board} />
-        case 'actions':
-            return <Actions board={boardWithOrg.board} />
-        case 'lastModified':
-            return (
-                <LastModified
-                    timestamp={boardWithOrg.board.meta?.dateModified}
-                />
-            )
-        case 'organization':
-            return <Organization organization={boardWithOrg.organization} />
-        default:
-            return <div>Ukjent kolonne</div>
+    if (boardWithoutFolder) {
+        switch (column) {
+            case 'name':
+                return <BoardName board={boardWithoutFolder} />
+            case 'actions':
+                return <BoardActions board={boardWithoutFolder} />
+            case 'numOfBoards':
+                return <NumOfBoards />
+            case 'lastModified':
+                return (
+                    <LastModified
+                        timestamp={boardWithoutFolder.meta?.dateModified}
+                    />
+                )
+
+            default:
+                return <div>Ukjent kolonne</div>
+        }
+    } else if (folder) {
+        switch (column) {
+            case 'name':
+                return <FolderName folder={folder} />
+            case 'actions':
+                return <FolderActions folder={folder} />
+            case 'numOfBoards':
+                return <NumOfBoards folder={folder} />
+            case 'lastModified':
+                return <LastModified />
+
+            default:
+                return <div>Ukjent kolonne</div>
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 'use client'
 import { TableHeader } from 'app/(admin)/boards/components/TableHeader'
 import { TableRows } from 'app/(admin)/boards/components/TableRows'
-import { TBoardWithOrganizaion } from 'types/settings'
+import { TBoard, TOrganization } from 'types/settings'
 import { isEmpty } from 'lodash'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
 import { PrimaryButton } from '@entur/button'
@@ -11,12 +11,15 @@ import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { BoardsColumns } from 'app/(admin)/utils/types'
 
 function BoardTable({
-    boardsWithOrg,
+    folders,
+    boardsWithoutFolder,
 }: {
-    boardsWithOrg: TBoardWithOrganizaion[]
+    folders: TOrganization[]
+    boardsWithoutFolder: TBoard[]
 }) {
     const numOfBoardColumns = Object.keys(BoardsColumns).length
-    if (isEmpty(boardsWithOrg))
+
+    if (isEmpty(folders) && isEmpty(boardsWithoutFolder))
         return (
             <IllustratedInfo
                 title="Her var det tomt!"
@@ -36,7 +39,10 @@ function BoardTable({
             }}
         >
             <TableHeader />
-            <TableRows boardsWithOrg={boardsWithOrg} />
+            <TableRows
+                folders={folders}
+                boardsWithoutFolder={boardsWithoutFolder}
+            />
         </div>
     )
 }
