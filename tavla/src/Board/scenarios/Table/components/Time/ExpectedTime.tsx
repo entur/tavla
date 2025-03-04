@@ -6,6 +6,8 @@ import { TableRow } from '../TableRow'
 import { FormattedTime } from './components/FormattedTime'
 import { nanoid } from 'nanoid'
 
+const TWO_MINUTES = 120
+
 function ExpectedTime() {
     const departures = useNonNullContext(DeparturesContext)
 
@@ -52,12 +54,12 @@ function Time({
             </>
         )
 
-    const timeDeviation = Math.abs(
+    const timeDeviationInSeconds = Math.abs(
         (Date.parse(aimedDepartureTime) - Date.parse(expectedDepartureTime)) /
             1000,
     )
 
-    if (timeDeviation > 120) {
+    if (timeDeviationInSeconds > TWO_MINUTES) {
         return (
             <>
                 <div className="text-right font-semibold text-estimated-time">

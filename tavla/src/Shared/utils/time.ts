@@ -1,8 +1,15 @@
-export function getRelativeTimeString(dateString: string) {
-    const timeDiff = Date.parse(dateString) - Date.now()
+const ONE_MINUTE = 60
+const TEN_MINUTES = 600
 
-    if (timeDiff < 60_000) return 'Nå'
-    else if (timeDiff < 600_000) return Math.floor(timeDiff / 60_000) + ' min'
+export function getRelativeTimeString(dateString: string) {
+    const timeDiffInSeconds = (Date.parse(dateString) - Date.now()) / 1000
+
+    // Compensate to avoid optimistic time since fetch of departures happens every 30 seconds
+    const adjustedTimeDiffInSeconds = timeDiffInSeconds - 30
+
+    if (adjustedTimeDiffInSeconds < ONE_MINUTE) return 'Nå'
+    else if (adjustedTimeDiffInSeconds < TEN_MINUTES)
+        return Math.floor(adjustedTimeDiffInSeconds / ONE_MINUTE) + ' min'
     return formatDateString(dateString)
 }
 
@@ -17,19 +24,6 @@ export function formatTimeStamp(timestamp: number) {
         minute: '2-digit',
         timeZone: 'Europe/Oslo',
     }).format(timestamp)
-}
-
-export function formatDate(date: Date) {
-    return date
-        .toLocaleDateString('no-NB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            timeZone: 'Europe/Oslo',
-        })
-        .replace(',', '')
 }
 
 export function formatDateToISO(date: Date) {
@@ -48,12 +42,6 @@ export function getDate(dateString: string) {
         day: '2-digit',
         timeZone: 'Europe/Oslo',
     }).format(Date.parse(dateString))
-}
-
-export function isTimestampToday(timestamp: number) {
-    const today = new Date().setHours(0, 0, 0, 0)
-    const timestampDay = new Date(timestamp).setHours(0, 0, 0, 0)
-    return today === timestampDay
 }
 
 export function isDateStringToday(dateString: string) {
