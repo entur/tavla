@@ -1,6 +1,6 @@
 import { TBoard, TOrganization } from 'types/settings'
 import { LastModified } from './LastModified'
-import { TBoardsColumn } from 'app/(admin)/utils/types'
+import { TTableColumn } from 'app/(admin)/utils/types'
 import { NumOfBoards } from './NumOfBoards'
 import { BoardName, FolderName } from './Name'
 import { BoardActions, FolderActions } from './Actions'
@@ -12,7 +12,7 @@ function Column({
 }: {
     boardWithoutFolder?: TBoard
     folder?: TOrganization
-    column: TBoardsColumn
+    column: TTableColumn
 }) {
     if (boardWithoutFolder) {
         switch (column) {

@@ -1,18 +1,18 @@
 import { TBoard, TOrganization } from 'types/settings'
 import { useCallback } from 'react'
 import { useSearchParam } from './useSearchParam'
-import { TBoardsColumn, TSort } from 'app/(admin)/utils/types'
+import { TTableColumn, TSort } from 'app/(admin)/utils/types'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 
-const DEFAULT_SORT_COLUMN: TBoardsColumn = 'lastModified'
+const DEFAULT_SORT_COLUMN: TTableColumn = 'lastModified'
 const DEFAULT_SORT_TYPE: TSort = 'descending'
 
 function useSortBoardFunction() {
     const value = useSearchParam('sort')
     const sortParams = value?.split(':')
 
-    const sortColumn: TBoardsColumn =
-        (sortParams?.[0] as TBoardsColumn) || DEFAULT_SORT_COLUMN
+    const sortColumn: TTableColumn =
+        (sortParams?.[0] as TTableColumn) || DEFAULT_SORT_COLUMN
     const sortType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
 
     const sortBoards = useCallback(
@@ -59,8 +59,8 @@ function useSortFolderFunction() {
     const value = useSearchParam('sort')
     const sortParams = value?.split(':')
 
-    const sortColumn: TBoardsColumn =
-        (sortParams?.[0] as TBoardsColumn) || DEFAULT_SORT_COLUMN
+    const sortColumn: TTableColumn =
+        (sortParams?.[0] as TTableColumn) || DEFAULT_SORT_COLUMN
     const sortType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
 
     const sortFolders = useCallback(

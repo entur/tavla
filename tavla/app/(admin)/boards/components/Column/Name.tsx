@@ -24,7 +24,7 @@ function FolderName({ folder }: { folder: TOrganization }) {
             <IconButton>
                 <FolderIcon />
             </IconButton>
-            <Link href={`/folders/${folder.id}`} className="hover:underline">
+            <Link href={`/boards/${folder.id}`} className="hover:underline">
                 {folder.name ?? DEFAULT_BOARD_NAME}
             </Link>
         </Column>

@@ -8,7 +8,10 @@ import { PrimaryButton } from '@entur/button'
 import Link from 'next/link'
 import { AddIcon } from '@entur/icons'
 import { CreateBoard } from 'app/(admin)/components/CreateBoard'
-import { BoardsColumns } from 'app/(admin)/utils/types'
+import {
+    BoardsAndFoldersColumns,
+    DEFAULT_BOARD_COLUMNS,
+} from 'app/(admin)/utils/types'
 
 function BoardTable({
     folders,
@@ -17,7 +20,7 @@ function BoardTable({
     folders: TOrganization[]
     boardsWithoutFolder: TBoard[]
 }) {
-    const numOfBoardColumns = Object.keys(BoardsColumns).length
+    const numOfBoardColumns = Object.keys(BoardsAndFoldersColumns).length
 
     if (isEmpty(folders) && isEmpty(boardsWithoutFolder))
         return (
@@ -38,7 +41,7 @@ function BoardTable({
                 gridTemplateColumns: `repeat(${numOfBoardColumns},auto)`,
             }}
         >
-            <TableHeader />
+            <TableHeader columns={DEFAULT_BOARD_COLUMNS} />
             <TableRows
                 folders={folders}
                 boardsWithoutFolder={boardsWithoutFolder}

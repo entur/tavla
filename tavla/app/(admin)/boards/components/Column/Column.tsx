@@ -1,10 +1,10 @@
-import { TBoardsColumn } from 'app/(admin)/utils/types'
+import { TTableColumn } from 'app/(admin)/utils/types'
 
 function Column({
     column,
     children,
 }: {
-    column: TBoardsColumn
+    column: TTableColumn
     children: React.ReactNode
 }) {
     return (

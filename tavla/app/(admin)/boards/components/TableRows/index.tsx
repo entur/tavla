@@ -7,7 +7,7 @@ import { Fragment } from 'react'
 import { TBoard, TOrganization } from 'types/settings'
 import { useSearchParam } from '../../hooks/useSearchParam'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { DEFAULT_BOARD_COLUMNS, TBoardsColumn } from 'app/(admin)/utils/types'
+import { DEFAULT_BOARD_COLUMNS, TTableColumn } from 'app/(admin)/utils/types'
 
 function TableRows({
     folders,
@@ -61,7 +61,7 @@ function TableRow({ boardWithoutFolder }: { boardWithoutFolder: TBoard }) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={boardWithoutFolder.id}>
-            {columns.map((column: TBoardsColumn) => (
+            {columns.map((column: TTableColumn) => (
                 <Column
                     key={column}
                     boardWithoutFolder={boardWithoutFolder}
@@ -72,11 +72,11 @@ function TableRow({ boardWithoutFolder }: { boardWithoutFolder: TBoard }) {
     )
 }
 
-function FolderTableRow({ folder }: { folder: TOrganization }) {
+export default function FolderTableRow({ folder }: { folder: TOrganization }) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={folder.id}>
-            {columns.map((column: TBoardsColumn) => (
+            {columns.map((column: TTableColumn) => (
                 <Column key={column} folder={folder} column={column} />
             ))}
         </Fragment>
