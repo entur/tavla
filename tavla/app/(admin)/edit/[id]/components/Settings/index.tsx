@@ -63,7 +63,7 @@ function Settings({
         <div className="rounded-md md:py-8 py-2 md:px-6 px-2 flex flex-col gap-4 bg-background">
             <Heading2>Innstillinger</Heading2>
             <form
-                className="grid grid-cols md:grid-cols-[repeat(auto-fill,minmax(500px,1fr))] gap-8"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8"
                 onSubmit={submitSettings}
                 ref={formRef}
             >
@@ -112,7 +112,7 @@ function Settings({
                     {...getFormFeedbackForField('general', errors.general)}
                 />
                 <div>
-                    <SubmitButton variant="primary">Lagre valg</SubmitButton>
+                    <SubmitButton variant="primary">Lagre</SubmitButton>
                 </div>
             </form>
         </div>

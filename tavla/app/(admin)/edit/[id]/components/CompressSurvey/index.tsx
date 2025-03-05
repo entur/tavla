@@ -104,7 +104,7 @@ function CompressSurvey() {
                             posthog.capture('COMPRESS_SETTING_SAVE_BTN')
                         }}
                     >
-                        Lagre valg
+                        Lagre
                     </SubmitButton>
                 </div>
             </div>
