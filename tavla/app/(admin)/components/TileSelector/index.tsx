@@ -92,7 +92,6 @@ function TileSelector({
                 <Dropdown
                     items={quays}
                     label="Plattform/retning"
-                    clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={
                         selectedQuay ??
