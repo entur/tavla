@@ -3,17 +3,16 @@ import { Column } from './Column'
 import { BoardIcon, FolderIcon } from '@entur/icons'
 import { TBoard, TOrganization } from 'types/settings'
 import Link from 'next/link'
-import { IconButton } from '@entur/button'
 
 function BoardName({ board }: { board: TBoard }) {
     return (
         <Column column="name">
-            <IconButton>
-                <BoardIcon />
-            </IconButton>
-            <Link href={`/edit/${board.id}`} className="hover:underline">
-                {board.meta.title ?? DEFAULT_BOARD_NAME}
-            </Link>
+            <p className="flex flex-row gap-1 items-center">
+                <BoardIcon inline className="!top-0" />
+                <Link href={`/edit/${board.id}`} className="hover:underline">
+                    {board.meta.title ?? DEFAULT_BOARD_NAME}
+                </Link>
+            </p>
         </Column>
     )
 }
@@ -21,12 +20,12 @@ function BoardName({ board }: { board: TBoard }) {
 function FolderName({ folder }: { folder: TOrganization }) {
     return (
         <Column column="name">
-            <IconButton>
-                <FolderIcon />
-            </IconButton>
-            <Link href={`/boards/${folder.id}`} className="hover:underline">
-                {folder.name ?? DEFAULT_BOARD_NAME}
-            </Link>
+            <p className="flex flex-row gap-1 items-center">
+                <FolderIcon inline className="!top-0" />
+                <Link href={`/boards/${folder.id}`} className="hover:underline">
+                    {folder.name ?? DEFAULT_BOARD_NAME}
+                </Link>
+            </p>
         </Column>
     )
 }

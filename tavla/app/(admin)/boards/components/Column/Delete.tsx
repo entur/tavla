@@ -122,9 +122,15 @@ function DeleteButton({
             </OverflowMenuItem>
         )
     return (
-        <IconButton aria-label="Slett tavle" onClick={onClick}>
-            <DeleteIcon />
-        </IconButton>
+        <Tooltip
+            content="Slett tavle"
+            placement="bottom"
+            id="tooltip-delete-board"
+        >
+            <IconButton aria-label="Slett tavle" onClick={onClick}>
+                <DeleteIcon />
+            </IconButton>
+        </Tooltip>
     )
 }
 
