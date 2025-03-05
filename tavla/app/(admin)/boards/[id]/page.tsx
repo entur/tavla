@@ -28,10 +28,10 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
 }
 
 async function FolderPage(props: TProps) {
-    const params = await props.params
     const user = await getUserFromSessionCookie()
     if (!user || !user.uid) return redirect('/')
 
+    const params = await props.params
     const folder = await getOrganizationById(params.id)
 
     if (!folder || !folder.id) {
@@ -43,18 +43,16 @@ async function FolderPage(props: TProps) {
     return (
         <div className="flex flex-col gap-4 container pb-20">
             <p className="flex flex-row gap-2 items-center">
-                <BackArrowIcon className="!top-0" />
-                <Link href="/boards" className="gap-4 justify-start underline">
+                <BackArrowIcon className="!top-0" aria-label="Tilbake-ikon" />
+                <Link href="/boards" className="underline">
                     Mapper og tavler
                 </Link>
             </p>
-            <div className="w-full flex flex-row justify-between">
-                <div>
-                    <Heading1 className="flex flex-row gap-4">
-                        <FolderIcon inline aria-label="Mappe-ikon" />
-                        {folder.name}
-                    </Heading1>
-                </div>
+            <div className="flex flex-row justify-between">
+                <Heading1 className="flex flex-row gap-4">
+                    <FolderIcon inline aria-label="Mappe-ikon" />
+                    {folder.name}
+                </Heading1>
                 <Button
                     variant="secondary"
                     as={Link}

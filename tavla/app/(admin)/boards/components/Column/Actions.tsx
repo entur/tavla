@@ -50,8 +50,7 @@ function Edit({ bid, fid }: { bid?: string; fid?: string }) {
                 </IconButton>
             </Tooltip>
         )
-    }
-    if (fid) {
+    } else if (fid) {
         return (
             <Tooltip
                 content="Rediger mappe"

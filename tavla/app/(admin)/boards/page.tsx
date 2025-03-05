@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: `Mapper og Tavler | Entur Tavla`,
 }
 
-async function FolderAndBoardsPage() {
+async function FoldersAndBoardsPage() {
     const user = await getUserFromSessionCookie()
     if (!user) redirect('/')
 
@@ -34,12 +34,12 @@ async function FolderAndBoardsPage() {
 
     return (
         <div className="flex flex-col gap-8 container pb-20">
-            <div className="flex flex-row justify-between">
+            <div className="flex max-sm:flex-col flex-row justify-between">
                 <Heading1>Mapper og tavler</Heading1>
                 <div className="flex flex-row gap-4">
                     <Button variant="secondary" as={Link} href="boards/?board">
                         Opprett tavle
-                        <BoardIcon inline aria-label="Tavle-ikon" />
+                        <BoardIcon aria-label="Tavle-ikon" />
                     </Button>
                     <CreateOrganization />
                 </div>
@@ -52,4 +52,4 @@ async function FolderAndBoardsPage() {
     )
 }
 
-export default FolderAndBoardsPage
+export default FoldersAndBoardsPage

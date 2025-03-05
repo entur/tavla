@@ -21,7 +21,7 @@ function CreateOrganization() {
         <>
             <SecondaryButton onClick={open}>
                 Opprett mappe
-                <FolderIcon />
+                <FolderIcon aria-label="Mappe-ikon" />
             </SecondaryButton>
             <Modal
                 className="flex flex-col items-center"

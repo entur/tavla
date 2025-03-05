@@ -5,26 +5,22 @@ import { BoardName, FolderName } from './Name'
 import { BoardActions, FolderActions } from './Actions'
 
 function Column({
-    boardWithoutFolder,
+    board,
     folder,
     column,
 }: {
-    boardWithoutFolder?: TBoard
+    board?: TBoard
     folder?: TOrganization
     column: TTableColumn
 }) {
-    if (boardWithoutFolder) {
+    if (board) {
         switch (column) {
             case 'name':
-                return <BoardName board={boardWithoutFolder} />
+                return <BoardName board={board} />
             case 'actions':
-                return <BoardActions board={boardWithoutFolder} />
+                return <BoardActions board={board} />
             case 'lastModified':
-                return (
-                    <LastModified
-                        timestamp={boardWithoutFolder.meta?.dateModified}
-                    />
-                )
+                return <LastModified timestamp={board.meta?.dateModified} />
 
             default:
                 return <div>Ukjent kolonne</div>

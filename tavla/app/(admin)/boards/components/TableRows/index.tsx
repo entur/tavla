@@ -11,10 +11,10 @@ import { DEFAULT_BOARD_COLUMNS, TTableColumn } from 'app/(admin)/utils/types'
 
 function TableRows({
     folders,
-    boardsWithoutFolder,
+    boards,
 }: {
     folders: TOrganization[]
-    boardsWithoutFolder: TBoard[]
+    boards: TBoard[]
 }) {
     const search = useSearchParam('search') ?? ''
     const sortBoardFunction = useSortBoardFunction()
@@ -35,7 +35,7 @@ function TableRows({
             .map((filter) => filter.test(folder.name ?? DEFAULT_BOARD_NAME))
             .every((e) => e === true)
 
-    const sortedBoards = boardsWithoutFolder
+    const sortedBoards = boards
         .filter(filterByTitleAndOrgName)
         .sort(sortBoardFunction)
 
@@ -47,26 +47,19 @@ function TableRows({
             {sortedFolders.map((folder: TOrganization) => (
                 <FolderTableRow key={folder.id} folder={folder} />
             ))}
-            {sortedBoards.map((boardWithoutFolder: TBoard) => (
-                <TableRow
-                    key={boardWithoutFolder.id}
-                    boardWithoutFolder={boardWithoutFolder}
-                />
+            {sortedBoards.map((board: TBoard) => (
+                <BoardTableRow key={board.id} board={board} />
             ))}
         </>
     )
 }
 
-function TableRow({ boardWithoutFolder }: { boardWithoutFolder: TBoard }) {
+function BoardTableRow({ board }: { board: TBoard }) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
-        <Fragment key={boardWithoutFolder.id}>
+        <Fragment key={board.id}>
             {columns.map((column: TTableColumn) => (
-                <Column
-                    key={column}
-                    boardWithoutFolder={boardWithoutFolder}
-                    column={column}
-                />
+                <Column key={column} board={board} column={column} />
             ))}
         </Fragment>
     )
