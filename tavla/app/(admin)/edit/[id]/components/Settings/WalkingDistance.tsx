@@ -1,21 +1,13 @@
 'use client'
-import { NormalizedDropdownItemType, SearchableDropdown } from '@entur/dropdown'
+import { SearchableDropdown } from '@entur/dropdown'
 import { Heading4, Paragraph } from '@entur/typography'
-import { Dispatch, SetStateAction } from 'react'
+import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
+import { HiddenInput } from 'components/Form/HiddenInput'
 import { TLocation } from 'types/meta'
-function WalkingDistance({
-    pointItems,
-    selectedPoint,
-    setSelectedPoint,
-}: {
-    pointItems: (
-        search: string,
-    ) => Promise<NormalizedDropdownItemType<TLocation>[]>
-    selectedPoint: NormalizedDropdownItemType<TLocation> | null
-    setSelectedPoint: Dispatch<
-        SetStateAction<NormalizedDropdownItemType<TLocation> | null>
-    >
-}) {
+function WalkingDistance({ location }: { location?: TLocation }) {
+    const { pointItems, selectedPoint, setSelectedPoint } =
+        usePointSearch(location)
+
     return (
         <div className="flex flex-col">
             <Heading4 margin="bottom">Gangavstand</Heading4>
@@ -30,6 +22,14 @@ function WalkingDistance({
                 onChange={setSelectedPoint}
                 debounceTimeout={150}
                 clearable
+            />
+            <HiddenInput
+                id="newLoc"
+                value={
+                    selectedPoint?.value
+                        ? JSON.stringify(selectedPoint.value)
+                        : ''
+                }
             />
         </div>
     )

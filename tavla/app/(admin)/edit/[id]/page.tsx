@@ -102,11 +102,7 @@ export default async function EditPage(props: TProps) {
                         <Preview board={board} organization={organization} />
                     </div>
                 </div>
-                <Settings
-                    board={board}
-                    meta={board.meta}
-                    organization={organization}
-                />
+                <Settings board={board} organization={organization} />
                 <CompressSurvey />
             </div>
         </div>

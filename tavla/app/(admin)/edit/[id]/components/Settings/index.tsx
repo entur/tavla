@@ -1,12 +1,10 @@
 'use client'
 import { Heading2, Heading3 } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { TLocation, TMeta } from 'types/meta'
 import { TBoard, TOrganization } from 'types/settings'
 import { WalkingDistance } from './WalkingDistance'
 import { Footer } from './Footer'
 import { ThemeSelect } from './ThemeSelect'
-import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import { Title } from './Title'
 import { Organization } from './Organization'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
@@ -25,17 +23,12 @@ import { FontSelect } from './FontSelect'
 
 function Settings({
     board,
-    meta,
     organization,
 }: {
     board: TBoard
-    meta: TMeta
     organization?: TOrganization
 }) {
     const formRef = useRef<HTMLFormElement>(null)
-    const { pointItems, selectedPoint, setSelectedPoint } = usePointSearch(
-        meta.location,
-    )
     const { addToast } = useToast()
     const [errors, setFormErrors] = useState<
         Partial<Record<InputType, TFormFeedback>>
@@ -46,10 +39,7 @@ function Settings({
 
         const data = new FormData(e.currentTarget)
 
-        const errors = await saveSettings(
-            data,
-            selectedPoint?.value as TLocation,
-        )
+        const errors = await saveSettings(data)
 
         if (!errors) {
             setFormErrors({})
@@ -71,7 +61,7 @@ function Settings({
                     <Heading3 margin="bottom"> Generelt </Heading3>
                     <div className="flex flex-col gap-4">
                         <Title
-                            title={meta?.title ?? DEFAULT_BOARD_NAME}
+                            title={board.meta?.title ?? DEFAULT_BOARD_NAME}
                             feedback={getFormFeedbackForField(
                                 'name',
                                 errors.name,
@@ -93,17 +83,10 @@ function Settings({
                         <ThemeSelect board={board} />
                         <FontSelect
                             bid={board.id!}
-                            font={meta?.fontSize ?? 'medium'}
+                            font={board.meta?.fontSize ?? 'medium'}
                         />
-                        <WalkingDistance
-                            pointItems={pointItems}
-                            selectedPoint={selectedPoint}
-                            setSelectedPoint={setSelectedPoint}
-                        />
-                        <Footer
-                            footer={board.footer}
-                            boardInOrganization={organization !== undefined}
-                        />
+                        <WalkingDistance location={board.meta.location} />
+                        <Footer footer={board.footer} />
 
                         <HiddenInput id="bid" value={board.id} />
                     </div>

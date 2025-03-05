@@ -34,6 +34,13 @@ export async function saveSettings(data: FormData) {
     if (organization === 'undefined') {
         organization = undefined
     }
+    let location: TLocation | undefined | string = data.get('newLoc') as string
+
+    if (location) {
+        location = JSON.parse(location) as TLocation
+    } else {
+        location = undefined
+    }
 
     const personal = (data.get('personal') as string) === 'on'
     const fromOrg = data.get('fromOrg') as string
