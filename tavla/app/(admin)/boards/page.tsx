@@ -11,11 +11,15 @@ import {
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Heading1 } from '@entur/typography'
 import { TBoardID } from 'types/settings'
+import { Button } from '@entur/button'
+import Link from 'next/link'
+import { BoardIcon } from '@entur/icons'
+import { CreateOrganization } from '../components/CreateOrganization'
 
 initializeAdminApp()
 
 export const metadata: Metadata = {
-    title: `Tavler | Entur Tavla`,
+    title: `Mapper og Tavler | Entur Tavla`,
 }
 
 async function FolderAndBoardsPage() {
@@ -30,7 +34,16 @@ async function FolderAndBoardsPage() {
 
     return (
         <div className="flex flex-col gap-8 container pb-20">
-            <Heading1>Mapper og Tavler</Heading1>
+            <div className="flex flex-row justify-between">
+                <Heading1>Mapper og Tavler</Heading1>
+                <div className="flex flex-row gap-4">
+                    <Button variant="secondary" as={Link} href="boards/?board">
+                        Opprett tavle
+                        <BoardIcon inline aria-label="Tavle-ikon" />
+                    </Button>
+                    <CreateOrganization />
+                </div>
+            </div>
             <div className="flex flex-col sm:flex-row md:items-center gap-3">
                 <Search />
             </div>

@@ -1,7 +1,7 @@
 'use client'
 import { useActionState } from 'react'
-import { Button, ButtonGroup, PrimaryButton } from '@entur/button'
-import { AddIcon } from '@entur/icons'
+import { Button, ButtonGroup, SecondaryButton } from '@entur/button'
+import { FolderIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
@@ -19,10 +19,10 @@ function CreateOrganization() {
 
     return (
         <>
-            <PrimaryButton onClick={open}>
+            <SecondaryButton onClick={open}>
                 Opprett mappe
-                <AddIcon />
-            </PrimaryButton>
+                <FolderIcon />
+            </SecondaryButton>
             <Modal
                 className="flex flex-col items-center"
                 open={isOpen}

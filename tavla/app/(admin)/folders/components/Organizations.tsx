@@ -6,7 +6,7 @@ import NextLink from 'next/link'
 import { Actions } from './Actions'
 import { IllustratedInfo } from 'app/(admin)/components/IllustratedInfo'
 import { isEmpty } from 'lodash'
-import { CreateOrganization } from './CreateOrganization'
+import { CreateOrganization } from '../../components/CreateOrganization'
 
 function Organizations({
     userId,
