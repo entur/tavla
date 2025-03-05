@@ -17,7 +17,6 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { useState } from 'react'
-import { Label } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePostHog } from 'posthog-js/react'
 
@@ -63,7 +62,6 @@ function TileSelector({
             }}
         >
             <div className="w-full">
-                <Label>Velg fylke</Label>
                 <MultiSelect
                     label="Fylker (valgfritt)"
                     items={counties}
@@ -75,7 +73,6 @@ function TileSelector({
                 />
             </div>
             <div className="w-full">
-                <Label>Søk etter stoppested</Label>
                 <SearchableDropdown
                     items={stopPlaceItems}
                     label="Stoppested"
@@ -88,7 +85,6 @@ function TileSelector({
                 />
             </div>
             <div className="w-full">
-                <Label>Velg stoppestedets retning</Label>
                 <Dropdown
                     items={quays}
                     label="Plattform/retning"
