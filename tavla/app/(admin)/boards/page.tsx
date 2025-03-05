@@ -35,7 +35,7 @@ async function FolderAndBoardsPage() {
     return (
         <div className="flex flex-col gap-8 container pb-20">
             <div className="flex flex-row justify-between">
-                <Heading1>Mapper og Tavler</Heading1>
+                <Heading1>Mapper og tavler</Heading1>
                 <div className="flex flex-row gap-4">
                     <Button variant="secondary" as={Link} href="boards/?board">
                         Opprett tavle
@@ -47,10 +47,7 @@ async function FolderAndBoardsPage() {
             <div className="flex flex-col sm:flex-row md:items-center gap-3">
                 <Search />
             </div>
-            <BoardTable
-                folders={folders}
-                boardsWithoutFolder={boardsWithoutFolder}
-            />
+            <BoardTable folders={folders} boards={boardsWithoutFolder} />
         </div>
     )
 }

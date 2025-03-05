@@ -5,10 +5,10 @@ import { getOrganizationById } from 'Board/scenarios/Board/firebase'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { TOrganizationID } from 'types/settings'
-import { FolderBoardTable } from './components/FolderBoardTable'
-import { Button, IconButton } from '@entur/button'
+import { Button } from '@entur/button'
 import { BackArrowIcon, EditIcon, FolderIcon } from '@entur/icons'
 import Link from 'next/link'
+import { BoardTable } from '../components/BoardTable'
 
 export type TProps = {
     params: Promise<{ id: TOrganizationID }>
@@ -42,15 +42,12 @@ async function FolderPage(props: TProps) {
 
     return (
         <div className="flex flex-col gap-4 container pb-20">
-            <IconButton
-                as={Link}
-                href="/boards"
-                className="gap-4 justify-start"
-                size="medium"
-            >
-                <BackArrowIcon />
-                Tavler og Mapper
-            </IconButton>
+            <p className="flex flex-row gap-2 items-center">
+                <BackArrowIcon className="!top-0" />
+                <Link href="/boards" className="gap-4 justify-start underline">
+                    Mapper og tavler
+                </Link>
+            </p>
             <div className="w-full flex flex-row justify-between">
                 <div>
                     <Heading1 className="flex flex-row gap-4">
@@ -71,7 +68,7 @@ async function FolderPage(props: TProps) {
                 sammen med deg. Du kan også laste opp en logo, som vil vises i
                 alle tavlene.
             </Paragraph>
-            <FolderBoardTable boardsInFolder={boardsInFolder} />
+            <BoardTable boards={boardsInFolder} />
         </div>
     )
 }

@@ -1,7 +1,6 @@
 import { TBoard, TOrganization } from 'types/settings'
 import { LastModified } from './LastModified'
 import { TTableColumn } from 'app/(admin)/utils/types'
-import { NumOfBoards } from './NumOfBoards'
 import { BoardName, FolderName } from './Name'
 import { BoardActions, FolderActions } from './Actions'
 
@@ -20,8 +19,6 @@ function Column({
                 return <BoardName board={boardWithoutFolder} />
             case 'actions':
                 return <BoardActions board={boardWithoutFolder} />
-            case 'numOfBoards':
-                return <NumOfBoards />
             case 'lastModified':
                 return (
                     <LastModified
@@ -38,8 +35,6 @@ function Column({
                 return <FolderName folder={folder} />
             case 'actions':
                 return <FolderActions folder={folder} />
-            case 'numOfBoards':
-                return <NumOfBoards folder={folder} />
             case 'lastModified':
                 return <LastModified />
 

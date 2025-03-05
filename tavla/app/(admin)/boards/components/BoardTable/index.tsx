@@ -15,14 +15,14 @@ import {
 
 function BoardTable({
     folders,
-    boardsWithoutFolder,
+    boards,
 }: {
-    folders: TOrganization[]
-    boardsWithoutFolder: TBoard[]
+    folders?: TOrganization[]
+    boards: TBoard[]
 }) {
     const numOfBoardColumns = Object.keys(BoardsAndFoldersColumns).length
 
-    if (isEmpty(folders) && isEmpty(boardsWithoutFolder))
+    if (isEmpty(folders) && isEmpty(boards))
         return (
             <IllustratedInfo
                 title="Her var det tomt!"
@@ -42,10 +42,7 @@ function BoardTable({
             }}
         >
             <TableHeader columns={DEFAULT_BOARD_COLUMNS} />
-            <TableRows
-                folders={folders}
-                boardsWithoutFolder={boardsWithoutFolder}
-            />
+            <TableRows folders={folders ?? []} boardsWithoutFolder={boards} />
         </div>
     )
 }

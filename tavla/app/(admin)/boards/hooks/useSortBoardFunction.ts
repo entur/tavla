@@ -75,13 +75,6 @@ function useSortFolderFunction() {
             }
 
             switch (sortColumn) {
-                case 'numOfBoards':
-                    sortFunc = () => {
-                        const numBoardsA = folderA.boards?.length ?? 0
-                        const numBoardsB = folderB.boards?.length ?? 0
-                        return numBoardsB - numBoardsA
-                    }
-                    break
                 case 'lastModified':
                     return 0
                 default:

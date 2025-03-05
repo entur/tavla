@@ -2,7 +2,6 @@ export type TSort = 'none' | 'ascending' | 'descending'
 
 export const BoardsAndFoldersColumns = {
     name: 'Navn',
-    numOfBoards: 'Antall tavler',
     lastModified: 'Sist oppdatert',
     actions: 'Handlinger',
 } as const
@@ -11,7 +10,7 @@ export const DEFAULT_BOARD_COLUMNS = Object.keys(
     BoardsAndFoldersColumns,
 ) as TTableColumn[]
 
-export const SortableColumns = ['name', 'numOfBoards', 'lastModified'] as const
+export const SortableColumns = ['name', 'lastModified'] as const
 
 export const BoardsInFoldersColumns = {
     name: 'Tavler',
