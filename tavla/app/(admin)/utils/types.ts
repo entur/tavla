@@ -2,7 +2,6 @@ export type TSort = 'none' | 'ascending' | 'descending'
 
 export const BoardsColumns = {
     name: 'Navn',
-    tags: 'Merkelapper',
     lastModified: 'Sist oppdatert',
     organization: 'Mappe',
     actions: 'Handlinger',

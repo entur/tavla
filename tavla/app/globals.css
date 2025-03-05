@@ -265,11 +265,10 @@
     }
 
     .table-custom-nth-child {
-        &:nth-child(10n + 1),
-        &:nth-child(10n + 2),
-        &:nth-child(10n + 3),
-        &:nth-child(10n + 4),
-        &:nth-child(10n + 5) {
+        &:nth-child(8n + 1),
+        &:nth-child(8n + 2),
+        &:nth-child(8n + 3),
+        &:nth-child(8n + 4) {
             @apply bg-grey80;
         }
     }

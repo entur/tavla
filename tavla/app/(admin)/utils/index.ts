@@ -173,12 +173,7 @@ export function getFormFeedbackForError(
                 feedback: 'Navnet kan ikke være tomt',
                 variant: 'negative',
             }
-        case 'boards/tag-exists':
-            return {
-                form_type: 'general',
-                feedback: 'Denne merkelappen finnes allerede',
-                variant: 'negative',
-            }
+
         case 'organization/name-mismatch':
             return {
                 form_type: 'name',
@@ -231,14 +226,6 @@ export function getFormFeedbackForError(
                 feedback:
                     'Vi har sendt deg en lenke for å nullstille passordet.',
                 variant: 'success',
-            }
-        }
-        case 'tags/name-missing': {
-            return {
-                form_type: 'general',
-                feedback:
-                    'Merkelappen kan ikke være tom eller bare bestå av mellomrom.',
-                variant: 'negative',
             }
         }
         case 'file/rate-limit': {

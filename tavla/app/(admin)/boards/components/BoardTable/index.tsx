@@ -8,12 +8,14 @@ import { PrimaryButton } from '@entur/button'
 import Link from 'next/link'
 import { AddIcon } from '@entur/icons'
 import { CreateBoard } from 'app/(admin)/components/CreateBoard'
+import { BoardsColumns } from 'app/(admin)/utils/types'
 
 function BoardTable({
     boardsWithOrg,
 }: {
     boardsWithOrg: TBoardWithOrganizaion[]
 }) {
+    const numOfBoardColumns = Object.keys(BoardsColumns).length
     if (isEmpty(boardsWithOrg))
         return (
             <IllustratedInfo
@@ -30,7 +32,7 @@ function BoardTable({
         <div
             className="grid items-center overflow-x-auto"
             style={{
-                gridTemplateColumns: `repeat(5,auto)`,
+                gridTemplateColumns: `repeat(${numOfBoardColumns},auto)`,
             }}
         >
             <TableHeader />
