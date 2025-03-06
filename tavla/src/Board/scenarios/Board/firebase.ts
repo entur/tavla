@@ -54,53 +54,13 @@ export async function getOrganizationWithBoard(bid: TBoardID) {
             .collection('organizations')
             .where('boards', 'array-contains', bid)
             .get()
-        return ref.docs.map((doc) => doc.data() as TOrganization)[0] ?? null
+        const org = ref.docs.map(
+            (doc) => ({ id: doc.id, ...doc.data() }) as TOrganization,
+        )
+        return org[0]
     } catch (error) {
         Sentry.captureMessage('Failed to fetch organization with board ' + bid)
         throw error
-    }
-}
-
-export async function getOrganizationLogoWithBoard(bid: TBoardID) {
-    try {
-        const ref = await firestore()
-            .collection('organizations')
-            .where('boards', 'array-contains', bid)
-            .get()
-        const organization = ref.docs.map(
-            (doc) => doc.data() as TOrganization,
-        )[0]
-        return organization?.logo ?? null
-    } catch (error) {
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while fetching logo of organization of board',
-                boardID: bid,
-            },
-        })
-        return null
-    }
-}
-
-export async function getOrganizationFooterWithBoard(bid: TBoardID) {
-    try {
-        const ref = await firestore()
-            .collection('organizations')
-            .where('boards', 'array-contains', bid)
-            .get()
-        const organization = ref.docs.map(
-            (doc) => doc.data() as TOrganization,
-        )[0]
-        return organization?.footer ?? null
-    } catch (error) {
-        Sentry.captureException(error, {
-            extra: {
-                message:
-                    'Error while fetching organization footer for board from firestore',
-                boardID: bid,
-            },
-        })
-        return null
     }
 }
 
