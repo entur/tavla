@@ -3,7 +3,6 @@ import { SideNavigationItem } from '@entur/menu'
 import Link from 'next/link'
 import Image from 'next/image'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
-import { CreateBoard } from './CreateBoard'
 import { usePathname } from 'next/navigation'
 import { Button, IconButton } from '@entur/button'
 import { LeftArrowIcon, MenuIcon } from '@entur/icons'
@@ -42,10 +41,6 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                     </div>
 
                     <div className="bg-secondary">
-                        <SideNavigationItem as={Link} href="?board">
-                            Opprett tavle
-                            <CreateBoard />
-                        </SideNavigationItem>
                         <SideNavigationItem
                             href="/boards"
                             active={pathname?.includes('/boards')}

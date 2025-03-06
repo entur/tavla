@@ -1,10 +1,10 @@
-import { TBoardsColumn } from 'app/(admin)/utils/types'
+import { TTableColumn } from 'app/(admin)/utils/types'
 
-function Column({
+function ColumnWrapper({
     column,
     children,
 }: {
-    column: TBoardsColumn
+    column: TTableColumn
     children: React.ReactNode
 }) {
     return (
@@ -17,4 +17,4 @@ function Column({
     )
 }
 
-export { Column }
+export { ColumnWrapper }

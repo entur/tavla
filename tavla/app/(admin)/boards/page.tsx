@@ -3,32 +3,44 @@ import { Search } from './components/Search'
 import { BoardTable } from './components/BoardTable'
 import { Metadata } from 'next'
 import React from 'react'
-import { getAllBoardsForUser } from 'app/(admin)/actions'
+import {
+    getOrganizationsForUser,
+    getPrivateBoardsForUser,
+} from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { Heading1, Label } from '@entur/typography'
+import { Heading1 } from '@entur/typography'
+import { CreateOrganization } from '../components/CreateOrganization'
+import { CreateBoard } from '../components/CreateBoard'
 
 initializeAdminApp()
 
 export const metadata: Metadata = {
-    title: `Tavler | Entur Tavla`,
+    title: `Mapper og tavler | Entur Tavla`,
 }
 
-async function OrganizationsBoardsPage() {
+async function FoldersAndBoardsPage() {
     const user = await getUserFromSessionCookie()
     if (!user) redirect('/')
 
-    const boardsWithOrg = await getAllBoardsForUser()
+    const folders = await getOrganizationsForUser()
+    const privateBoards = await getPrivateBoardsForUser()
+
     return (
         <div className="flex flex-col gap-8 container pb-20">
-            <Heading1>Tavler</Heading1>
+            <div className="flex max-sm:flex-col flex-row justify-between">
+                <Heading1>Mapper og tavler</Heading1>
+                <div className="flex flex-row gap-4">
+                    <CreateBoard />
+                    <CreateOrganization />
+                </div>
+            </div>
             <div className="flex flex-col sm:flex-row md:items-center gap-3">
                 <Search />
             </div>
-            <Label>Antall tavler: {boardsWithOrg.length}</Label>
-            <BoardTable boardsWithOrg={boardsWithOrg} />
+            <BoardTable folders={folders} boards={privateBoards} />
         </div>
     )
 }
 
-export default OrganizationsBoardsPage
+export default FoldersAndBoardsPage

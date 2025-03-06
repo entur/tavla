@@ -14,7 +14,7 @@ function Search() {
     return (
         <ClientOnlyTextField
             label="Søk på navn på tavle eller mappe"
-            prepend={<SearchIcon inline aria-hidden="true" />}
+            prepend={<SearchIcon aria-hidden="true" />}
             value={search}
             onChange={(e) => {
                 setSearch(e.target.value)

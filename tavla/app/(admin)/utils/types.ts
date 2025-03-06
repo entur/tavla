@@ -1,16 +1,13 @@
 export type TSort = 'none' | 'ascending' | 'descending'
 
-export const BoardsColumns = {
+export const TableColumns = {
     name: 'Navn',
     lastModified: 'Sist oppdatert',
-    organization: 'Mappe',
     actions: 'Handlinger',
 } as const
 
-export const DEFAULT_BOARD_COLUMNS = Object.keys(
-    BoardsColumns,
-) as TBoardsColumn[]
+export const DEFAULT_BOARD_COLUMNS = Object.keys(TableColumns) as TTableColumn[]
 
-export type TBoardsColumn = keyof typeof BoardsColumns
+export const SortableColumns = ['name', 'lastModified'] as const
 
-export const SortableColumns = ['name', 'organization', 'lastModified'] as const
+export type TTableColumn = keyof typeof TableColumns

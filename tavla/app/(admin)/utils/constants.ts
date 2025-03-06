@@ -1,5 +1,10 @@
+import { TTableColumn, TSort } from './types'
+
 export const DEFAULT_BOARD_NAME = 'Tavle uten navn'
-export const DEFAULT_ORGANIZATION_NAME = 'Privat'
+export const DEFAULT_FOLDER_NAME = 'Mappe uten navn'
+
+export const DEFAULT_SORT_COLUMN: TTableColumn = 'lastModified'
+export const DEFAULT_SORT_TYPE: TSort = 'descending'
 
 export const FIREBASE_DEV_CONFIG = {
     apiKey: 'AIzaSyCjyL7k4AehY4M95cxBVaW4LJTy6JNdTjo',

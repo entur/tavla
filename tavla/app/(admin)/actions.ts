@@ -8,7 +8,7 @@ import {
 } from 'types/settings'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
-import { chunk, isEmpty, flattenDeep } from 'lodash'
+import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { userInOrganization } from './utils'
@@ -128,26 +128,9 @@ export async function getBoards(ids?: TBoardID[]) {
     }
 }
 
-export async function getAllBoardsForUser() {
-    const user = await getUserWithBoardIds()
-    if (!user) return redirect('/')
+export async function getPrivateBoardsForUser() {
+    const userWithBoards = await getUserWithBoardIds()
+    const privateBoards = await getBoards(userWithBoards?.owner as TBoardID[])
 
-    const privateBoardIDs = user.owner ?? []
-    const privateBoards = (await getBoards(privateBoardIDs)).map((board) => ({
-        board,
-    }))
-
-    const organizations = await getOrganizationsForUser()
-
-    const organizationsBoards = flattenDeep(
-        await Promise.all(
-            organizations.map(async (organization) =>
-                (await getBoards(organization.boards)).map((board) => ({
-                    board,
-                    organization,
-                })),
-            ),
-        ),
-    )
-    return [...organizationsBoards, ...privateBoards]
+    return privateBoards
 }

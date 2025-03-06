@@ -1,6 +1,11 @@
 import { makeBoardCompatible } from 'app/(admin)/edit/[id]/compatibility'
 import admin, { firestore } from 'firebase-admin'
-import { TBoard, TBoardID, TOrganization } from 'types/settings'
+import {
+    TBoard,
+    TBoardID,
+    TOrganization,
+    TOrganizationID,
+} from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
@@ -23,6 +28,22 @@ export async function getBoard(bid: TBoardID) {
         return makeBoardCompatible({ id: board.id, ...board.data() } as TBoard)
     } catch (error) {
         Sentry.captureMessage('Failed to fetch board with bid ' + bid)
+        throw error
+    }
+}
+
+export async function getOrganization(oid: TOrganizationID) {
+    try {
+        const folder = await firestore()
+            .collection('organizations')
+            .doc(oid)
+            .get()
+        if (!folder.exists) {
+            return undefined
+        }
+        return { id: folder.id, ...folder.data() } as TOrganization
+    } catch (error) {
+        Sentry.captureMessage('Failed to fetch organization with OID ' + oid)
         throw error
     }
 }

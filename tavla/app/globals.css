@@ -265,10 +265,9 @@
     }
 
     .table-custom-nth-child {
-        &:nth-child(8n + 1),
-        &:nth-child(8n + 2),
-        &:nth-child(8n + 3),
-        &:nth-child(8n + 4) {
+        &:nth-child(6n + 1),
+        &:nth-child(6n + 2),
+        &:nth-child(6n + 3) {
             @apply bg-grey80;
         }
     }

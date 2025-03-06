@@ -1,6 +1,6 @@
 import { Heading1, Paragraph } from '@entur/typography'
 import { redirect } from 'next/navigation'
-import { CreateOrganization } from './components/CreateOrganization'
+import { CreateOrganization } from '../components/CreateOrganization'
 import { Metadata } from 'next'
 import { getOrganizationsForUser } from '../actions'
 import { Organizations } from './components/Organizations'

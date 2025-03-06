@@ -3,7 +3,7 @@ import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import Link from 'next/link'
 import { TOrganization, TUserID } from 'types/settings'
-import { Delete } from 'app/(admin)/components/DeleteOrganization'
+import { DeleteOrganization } from 'app/(admin)/components/DeleteOrganization'
 import { Tooltip } from '@entur/tooltip'
 
 function Edit({ oid }: { oid?: string }) {
@@ -17,7 +17,6 @@ function Edit({ oid }: { oid?: string }) {
                 as={Link}
                 aria-label="Rediger mappe"
                 href={`/folders/${oid}`}
-                size="small"
             >
                 <EditIcon />
             </IconButton>
@@ -37,7 +36,10 @@ function Actions({
             {organization.owners?.includes(userId) && (
                 <>
                     <Edit oid={organization.id} />
-                    <Delete organization={organization} type="icon" />
+                    <DeleteOrganization
+                        organization={organization}
+                        type="icon"
+                    />
                 </>
             )}
         </div>

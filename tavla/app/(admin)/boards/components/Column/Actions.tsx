@@ -1,42 +1,33 @@
-import { IconButton } from '@entur/button'
-import { EditIcon } from '@entur/icons'
-import Link from 'next/link'
-import { TBoard } from 'types/settings'
-import { Column } from './Column'
+import { TBoard, TOrganization } from 'types/settings'
+import { ColumnWrapper } from './ColumnWrapper'
 import { Delete } from './Delete'
 import { Open } from 'app/(admin)/edit/[id]/components/Buttons/Open'
 import { Copy } from 'app/(admin)/edit/[id]/components/Buttons/Copy'
-import { Tooltip } from '@entur/tooltip'
+import { DeleteOrganization } from 'app/(admin)/components/DeleteOrganization'
+import { EditBoard, EditFolder } from './Edit'
 
-function Actions({ board }: { board: TBoard }) {
+function BoardActions({ board }: { board: TBoard }) {
     return (
-        <Column column="actions">
+        <ColumnWrapper column="actions">
             <div className="flex flex-row gap-1">
-                <Edit bid={board.id} />
+                <EditBoard bid={board.id} />
                 <Copy bid={board.id} />
                 <Open bid={board.id} />
                 <Delete board={board} />
             </div>
-        </Column>
+        </ColumnWrapper>
     )
 }
 
-function Edit({ bid }: { bid?: string }) {
+function FolderActions({ folder }: { folder: TOrganization }) {
     return (
-        <Tooltip
-            content="Rediger tavle"
-            placement="bottom"
-            id="tooltip-edit-board"
-        >
-            <IconButton
-                as={Link}
-                aria-label="Rediger tavle"
-                href={`/edit/${bid}`}
-            >
-                <EditIcon />
-            </IconButton>
-        </Tooltip>
+        <ColumnWrapper column="actions">
+            <div className="flex flex-row gap-1">
+                <EditFolder fid={folder.id} />
+                <DeleteOrganization organization={folder} type="icon" />
+            </div>
+        </ColumnWrapper>
     )
 }
 
-export { Actions }
+export { BoardActions, FolderActions }

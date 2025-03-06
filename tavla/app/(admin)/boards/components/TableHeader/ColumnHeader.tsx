@@ -1,11 +1,11 @@
-import { BoardsColumns, TBoardsColumn, TSort } from 'app/(admin)/utils/types'
+import { TableColumns, TTableColumn, TSort } from 'app/(admin)/utils/types'
 import { Sort } from '../Sort'
 import { useSearchParam } from '../../hooks/useSearchParam'
 
-function ColumnHeader({ column }: { column: TBoardsColumn }) {
+function ColumnHeader({ column }: { column: TTableColumn }) {
     const sortParams = useSearchParam('sort')?.split(':')
     const sort = {
-        column: sortParams?.[0] as TBoardsColumn,
+        column: sortParams?.[0] as TTableColumn,
         type: sortParams?.[1] as TSort,
     }
 
@@ -15,13 +15,13 @@ function ColumnHeader({ column }: { column: TBoardsColumn }) {
             className="flex items-center gap-1 bg-grey70 pl-2 h-10"
         >
             <div
-                id={BoardsColumns[column]}
+                id={TableColumns[column]}
                 className="items-center font-medium py-0 px-0.5"
                 aria-sort={
                     sort.column === column && sort.type ? sort.type : 'none'
                 }
             >
-                {BoardsColumns[column]}
+                {TableColumns[column]}
             </div>
             <Sort column={column} />
         </div>
