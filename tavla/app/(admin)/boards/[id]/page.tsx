@@ -50,7 +50,7 @@ async function FolderPage(props: TProps) {
             </p>
             <div className="flex flex-row justify-between">
                 <Heading1 className="flex flex-row gap-4">
-                    <FolderIcon inline aria-label="Mappe-ikon" />
+                    <FolderIcon aria-label="Mappe-ikon" />
                     {folder.name}
                 </Heading1>
                 <Button
@@ -58,7 +58,7 @@ async function FolderPage(props: TProps) {
                     as={Link}
                     href={`/folders/${folder.id}`}
                 >
-                    Rediger <EditIcon inline aria-label="Rediger-ikon" />
+                    Rediger <EditIcon aria-label="Rediger-ikon" />
                 </Button>
             </div>
             <Paragraph>

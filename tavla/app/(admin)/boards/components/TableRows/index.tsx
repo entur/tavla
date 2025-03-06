@@ -6,7 +6,10 @@ import { Column } from '../Column'
 import { Fragment } from 'react'
 import { TBoard, TOrganization } from 'types/settings'
 import { useSearchParam } from '../../hooks/useSearchParam'
-import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+import {
+    DEFAULT_BOARD_NAME,
+    DEFAULT_FOLDER_NAME,
+} from 'app/(admin)/utils/constants'
 import { DEFAULT_BOARD_COLUMNS, TTableColumn } from 'app/(admin)/utils/types'
 
 function TableRows({
@@ -32,7 +35,7 @@ function TableRows({
 
     const filterByFolderName = (folder: TOrganization) =>
         searchFilters
-            .map((filter) => filter.test(folder.name ?? DEFAULT_BOARD_NAME))
+            .map((filter) => filter.test(folder.name ?? DEFAULT_FOLDER_NAME))
             .every((e) => e === true)
 
     const sortedBoards = boards

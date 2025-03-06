@@ -108,7 +108,7 @@ function DeleteButton({
                 onClick={onClick}
             >
                 Slett tavle
-                <DeleteIcon />
+                <DeleteIcon aria-label="Slette-ikon" />
             </Button>
         )
     }
@@ -116,7 +116,7 @@ function DeleteButton({
         return (
             <OverflowMenuItem onSelect={onClick}>
                 <div className="flex flex-row">
-                    <DeleteIcon inline />
+                    <DeleteIcon aria-label="Slette-ikon" />
                     Slett tavle
                 </div>
             </OverflowMenuItem>
@@ -128,7 +128,7 @@ function DeleteButton({
             id="tooltip-delete-board"
         >
             <IconButton aria-label="Slett tavle" onClick={onClick}>
-                <DeleteIcon />
+                <DeleteIcon aria-label="Slette-ikon" />
             </IconButton>
         </Tooltip>
     )
