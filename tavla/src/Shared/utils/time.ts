@@ -5,7 +5,7 @@ export function getRelativeTimeString(dateString: string) {
     const timeDiffInSeconds = (Date.parse(dateString) - Date.now()) / 1000
 
     // Compensate to avoid optimistic time since fetch of departures happens every 30 seconds
-    const adjustedTimeDiffInSeconds = timeDiffInSeconds - 30
+    const adjustedTimeDiffInSeconds = timeDiffInSeconds - 15
 
     if (adjustedTimeDiffInSeconds < ONE_MINUTE) return 'Nå'
     else if (adjustedTimeDiffInSeconds < TEN_MINUTES)
