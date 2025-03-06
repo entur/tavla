@@ -18,7 +18,7 @@ import {
     saveTitle,
 } from '../MetaSettings/actions'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
-import { isOnlyWhiteSpace } from 'app/(admin)/edit/utils'
+import { isEmptyOrSpaces, isOnlyWhiteSpace } from 'app/(admin)/edit/utils'
 import { firestore } from 'firebase-admin'
 import * as Sentry from '@sentry/nextjs'
 export async function userHasAccessToEdit(bid: string) {
@@ -30,10 +30,14 @@ export async function saveSettings(data: FormData) {
     const bid = data.get('bid') as TBoardID
     const viewType = data.get('viewType') as string
     const theme = data.get('theme') as TTheme
-    let organization = data.get('toOrg') as string | undefined
-    if (organization === 'undefined') {
-        organization = undefined
+
+    let newOrganization = data.get('toOrg') as string | undefined
+    const oldOrganization = data.get('fromOrg') as string
+    const personal = (data.get('personal') as string) === 'on'
+    if (newOrganization === 'undefined') {
+        newOrganization = undefined
     }
+
     let location: TLocation | undefined | string = data.get(
         'newLocation',
     ) as string
@@ -44,33 +48,33 @@ export async function saveSettings(data: FormData) {
         location = undefined
     }
 
-    const personal = (data.get('personal') as string) === 'on'
-    const fromOrg = data.get('fromOrg') as string
     const board = await getBoard(bid)
     const errors = {} as Record<InputType, TFormFeedback>
 
-    try {
-        const nameError = await saveTitle(bid, title)
-        if (nameError) {
-            errors['name'] = nameError
-        }
-        if (!board) {
-            errors['general'] = getFormFeedbackForError('board/not-found')
-        }
+    if (!board) {
+        errors['general'] = getFormFeedbackForError('board/not-found')
+        return errors
+    }
 
-        const orgError = await moveBoard(bid, personal, organization, fromOrg)
-        if (orgError) {
-            errors['organization'] = orgError
-        }
+    try {
+        if (isEmptyOrSpaces(title))
+            errors['name'] = getFormFeedbackForError('board/tiles-name-missing')
+
+        if (!personal && !newOrganization)
+            errors['organization'] = getFormFeedbackForError(
+                'create/organization-missing',
+            )
 
         if (Object.keys(errors).length !== 0) {
             return errors
         }
 
+        await saveTitle(bid, title)
+        await moveBoard(bid, personal, newOrganization, oldOrganization)
         await saveLocation(bid, location)
         await saveFont(bid, data)
         await setTheme(bid, theme)
-        await setViewType(board!, viewType)
+        await setViewType(board, viewType)
         await setFooter(bid, data)
 
         revalidatePath(`/edit/${bid}`)

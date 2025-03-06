@@ -1,5 +1,4 @@
 'use server'
-import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     userCanEditBoard,
     initializeAdminApp,
@@ -13,16 +12,12 @@ import { TBoard, TBoardID, TOrganizationID } from 'types/settings'
 import { getWalkingDistanceTile } from '../../actions'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getBoard } from 'Board/scenarios/Board/firebase'
-import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
 import { handleError } from 'app/(admin)/utils/handleError'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
 export async function saveTitle(bid: TBoardID, title: string) {
-    if (isEmptyOrSpaces(title))
-        return getFormFeedbackForError('board/tiles-name-missing')
-
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -119,9 +114,6 @@ export async function moveBoard(
 
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
-
-    if (!personal && !toOrganization)
-        return getFormFeedbackForError('create/organization-missing')
 
     if (fromOrganization) {
         const canEdit = await userCanEditOrganization(fromOrganization)

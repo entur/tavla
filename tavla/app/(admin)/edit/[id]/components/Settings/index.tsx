@@ -90,7 +90,6 @@ function Settings({
                             footer={board.footer}
                             isInOrganization={organization ? true : false}
                         />
-
                         <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
