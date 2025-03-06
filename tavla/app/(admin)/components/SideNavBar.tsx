@@ -45,14 +45,9 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                             href="/boards"
                             active={pathname?.includes('/boards')}
                         >
-                            Tavler
+                            Mapper og tavler
                         </SideNavigationItem>
-                        <SideNavigationItem
-                            href="/folders"
-                            active={pathname?.includes('/folders')}
-                        >
-                            Mapper
-                        </SideNavigationItem>
+
                         <SideNavigationItem
                             as={Button}
                             className="[&>button]:justify-start [&>button]:px-10 [&>button]:bg-secondary [&>button]:text-primary"

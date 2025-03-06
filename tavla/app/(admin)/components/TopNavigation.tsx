@@ -17,7 +17,7 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
             <Link href="/" aria-label="Tilbake til landingssiden">
                 <Image src={TavlaLogoBlue} height={32} alt="" />
             </Link>
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center gap-4">
                 <SideNavBar loggedIn={loggedIn} />
                 <HorizontalNavBar loggedIn={loggedIn} />
                 <div className="flex flex-row sm:gap-10">
