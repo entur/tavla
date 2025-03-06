@@ -14,15 +14,7 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
                 href="/boards"
                 className="!text-primary"
             >
-                Tavler
-            </TopNavigationItem>
-            <TopNavigationItem
-                active={pathname?.includes('/folders')}
-                as={Link}
-                href="/folders"
-                className="!text-primary"
-            >
-                Mapper
+                Mapper og tavler
             </TopNavigationItem>
         </div>
     )
