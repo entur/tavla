@@ -86,7 +86,10 @@ function Settings({
                             font={board.meta?.fontSize ?? 'medium'}
                         />
                         <WalkingDistance location={board.meta.location} />
-                        <Footer footer={board.footer} />
+                        <Footer
+                            footer={board.footer}
+                            isInOrganization={organization ? true : false}
+                        />
 
                         <HiddenInput id="bid" value={board.id} />
                     </div>
