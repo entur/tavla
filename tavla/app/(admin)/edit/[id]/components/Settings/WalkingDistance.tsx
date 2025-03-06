@@ -14,7 +14,6 @@ function WalkingDistance({ location }: { location?: TLocation }) {
             <Paragraph className="mb-2">
                 Vis gangavstand fra tavlens adresse til stoppestedet.
             </Paragraph>
-
             <SearchableDropdown
                 label="Hvor befinner tavlen seg?"
                 items={pointItems}
@@ -24,7 +23,7 @@ function WalkingDistance({ location }: { location?: TLocation }) {
                 clearable
             />
             <HiddenInput
-                id="newLoc"
+                id="newLocation"
                 value={
                     selectedPoint?.value
                         ? JSON.stringify(selectedPoint.value)
