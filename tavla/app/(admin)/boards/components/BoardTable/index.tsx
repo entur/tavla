@@ -13,7 +13,7 @@ function BoardTable({
     folders?: TOrganization[]
     boards: TBoard[]
 }) {
-    const numOfBoardColumns = Object.keys(TableColumns).length
+    const numOfColumns = Object.keys(TableColumns).length
 
     if (isEmpty(folders) && isEmpty(boards))
         return (
@@ -27,7 +27,7 @@ function BoardTable({
         <div
             className="grid items-center overflow-x-auto"
             style={{
-                gridTemplateColumns: `repeat(${numOfBoardColumns},auto)`,
+                gridTemplateColumns: `repeat(${numOfColumns},auto)`,
             }}
         >
             <TableHeader />

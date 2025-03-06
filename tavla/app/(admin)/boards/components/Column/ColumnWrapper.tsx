@@ -1,6 +1,6 @@
 import { TTableColumn } from 'app/(admin)/utils/types'
 
-function Column({
+function ColumnWrapper({
     column,
     children,
 }: {
@@ -17,4 +17,4 @@ function Column({
     )
 }
 
-export { Column }
+export { ColumnWrapper }

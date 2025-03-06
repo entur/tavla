@@ -21,9 +21,6 @@ function Column({
                 return <BoardActions board={board} />
             case 'lastModified':
                 return <LastModified timestamp={board.meta?.dateModified} />
-
-            default:
-                return <div>Ukjent kolonne</div>
         }
     } else if (folder) {
         switch (column) {
@@ -33,9 +30,6 @@ function Column({
                 return <FolderActions folder={folder} />
             case 'lastModified':
                 return <LastModified />
-
-            default:
-                return <div>Ukjent kolonne</div>
         }
     }
 }

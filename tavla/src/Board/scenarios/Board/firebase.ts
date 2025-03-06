@@ -32,7 +32,7 @@ export async function getBoard(bid: TBoardID) {
     }
 }
 
-export async function getOrganizationById(oid: TOrganizationID) {
+export async function getOrganization(oid: TOrganizationID) {
     try {
         const folder = await firestore()
             .collection('organizations')

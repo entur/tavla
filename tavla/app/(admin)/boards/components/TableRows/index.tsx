@@ -26,7 +26,7 @@ function TableRows({
         .split(' ')
         .map((part) => new RegExp(part.replace(/[^a-z/Wæøå0-9- ]+/g, ''), 'i'))
 
-    const filterByTitleAndOrgName = (board: TBoard) =>
+    const filterByBoardName = (board: TBoard) =>
         searchFilters
             .map((filter) =>
                 filter.test(board.meta.title ?? DEFAULT_BOARD_NAME),
@@ -39,7 +39,7 @@ function TableRows({
             .every((e) => e === true)
 
     const sortedBoards = boards
-        .filter(filterByTitleAndOrgName)
+        .filter(filterByBoardName)
         .sort(sortBoardFunction)
 
     const sortedFolders = folders
@@ -68,7 +68,7 @@ function BoardTableRow({ board }: { board: TBoard }) {
     )
 }
 
-export default function FolderTableRow({ folder }: { folder: TOrganization }) {
+function FolderTableRow({ folder }: { folder: TOrganization }) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={folder.id}>

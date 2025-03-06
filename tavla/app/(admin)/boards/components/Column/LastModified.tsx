@@ -1,11 +1,11 @@
 import { formatTimestamp } from 'app/(admin)/utils/time'
-import { Column } from './Column'
+import { ColumnWrapper } from './ColumnWrapper'
 
 function LastModified({ timestamp }: { timestamp?: number }) {
     return (
-        <Column column="lastModified">
+        <ColumnWrapper column="lastModified">
             {timestamp ? formatTimestamp(timestamp) : '-'}
-        </Column>
+        </ColumnWrapper>
     )
 }
 

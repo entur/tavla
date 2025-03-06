@@ -16,11 +16,6 @@ export type TBoard = {
     footer?: TFooter
 }
 
-export type TBoardWithOrganizaion = {
-    board: TBoard
-    organization?: TOrganization
-}
-
 export type TUser = {
     uid?: TUserID
     email?: string
