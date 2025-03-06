@@ -50,8 +50,8 @@ async function FolderPage(props: TProps) {
                 </Link>
             </p>
             <div className="flex flex-row justify-between">
-                <Heading1 className="flex flex-row gap-4">
-                    <FolderIcon aria-label="Mappe-ikon" />
+                <Heading1 className="flex flex-row gap-4 items-center">
+                    <FolderIcon aria-label="Mappe-ikon" className="!top-0" />
                     {folder.name}
                 </Heading1>
                 <div className="flex flex-row gap-4">
