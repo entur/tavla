@@ -79,7 +79,6 @@ export default async function EditPage(props: TProps) {
                 <div className="bg-background rounded-md py-8 px-6 flex flex-col gap-4">
                     <Heading2>Stoppesteder</Heading2>
                     <TileSelector
-                        col={false}
                         oid={organization?.id}
                         action={async (data: FormData) => {
                             'use server'

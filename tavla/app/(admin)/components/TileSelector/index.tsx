@@ -1,5 +1,10 @@
 'use client'
-import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
+import {
+    Dropdown,
+    MultiSelect,
+    NormalizedDropdownItemType,
+    SearchableDropdown,
+} from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
@@ -12,20 +17,15 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import { useState } from 'react'
-import { Label } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePostHog } from 'posthog-js/react'
 
 function TileSelector({
     action,
     oid,
-    showLabel,
-    col = true,
 }: {
     action: (data: FormData) => void
     oid?: TOrganizationID
-    showLabel?: boolean
-    col?: boolean
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch(oid)
@@ -39,15 +39,13 @@ function TileSelector({
 
     const posthog = usePostHog()
 
-    const classname = col ? '' : 'lg:flex-row'
-
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     return (
         <form
-            className={`flex flex-col ${classname} gap-4 mr-6 w-full`}
+            className="flex flex-col lg:flex-row gap-4 mr-6 w-full"
             action={action}
             onSubmit={(event) => {
-                if (!selectedStopPlace || !selectedQuay) {
+                if (!selectedStopPlace) {
                     event.preventDefault()
                     return setFormError(
                         getFormFeedbackForError(
@@ -64,7 +62,6 @@ function TileSelector({
             }}
         >
             <div className="w-full">
-                {showLabel && <Label>Velg fylke</Label>}
                 <MultiSelect
                     label="Fylker (valgfritt)"
                     items={counties}
@@ -76,7 +73,6 @@ function TileSelector({
                 />
             </div>
             <div className="w-full">
-                {showLabel && <Label>Søk etter stoppested</Label>}
                 <SearchableDropdown
                     items={stopPlaceItems}
                     label="Stoppested"
@@ -89,13 +85,17 @@ function TileSelector({
                 />
             </div>
             <div className="w-full">
-                {showLabel && <Label>Velg stoppestedets retning</Label>}
                 <Dropdown
                     items={quays}
                     label="Plattform/retning"
-                    clearable
                     prepend={<SearchIcon aria-hidden />}
-                    selectedItem={selectedQuay}
+                    selectedItem={
+                        selectedQuay ??
+                        ({
+                            value: selectedStopPlace?.value,
+                            label: 'Vis alle',
+                        } as NormalizedDropdownItemType)
+                    }
                     onChange={setSelectedQuay}
                     disabled={!selectedStopPlace}
                     {...getFormFeedbackForField('quay', state)}
