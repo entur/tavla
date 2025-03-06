@@ -45,7 +45,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                             href="/boards"
                             active={pathname?.includes('/boards')}
                         >
-                            Mapper og Tavler
+                            Mapper og tavler
                         </SideNavigationItem>
 
                         <SideNavigationItem
