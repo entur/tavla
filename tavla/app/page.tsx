@@ -85,8 +85,8 @@ async function Landing() {
                             <ListItem>
                                 Opprett mapper for å samle tavler og gi andre
                                 tilgang til å administrere dem. Her kan du også
-                                velge standardinnstillinger som vil gjelde alle
-                                tavler i mappen.
+                                laste opp en logo som vil vises på alle tavlene
+                                i mappen.
                             </ListItem>
                         </UnorderedList>
 

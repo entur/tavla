@@ -76,12 +76,11 @@ export default async function EditPage(props: TProps) {
                 <div className="bg-background rounded-md py-8 px-6 flex flex-col gap-4">
                     <Heading2>Stoppesteder</Heading2>
                     <TileSelector
-                        oid={organization?.id}
                         action={async (data: FormData) => {
                             'use server'
 
                             const tile = await getWalkingDistanceTile(
-                                formDataToTile(data, organization),
+                                formDataToTile(data),
                                 board.meta?.location,
                             )
                             if (!tile.placeId) return

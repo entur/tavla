@@ -1,12 +1,11 @@
 'use server'
-import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { TBoard, TOrganization, TOrganizationID } from 'types/settings'
+import { TBoard, TOrganizationID } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
@@ -33,9 +32,6 @@ export async function createBoard(
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    let organization: TOrganization | undefined
-    if (oid) organization = await getOrganizationIfUserHasAccess(oid)
-
     let createdBoard = null
 
     try {
@@ -45,10 +41,7 @@ export async function createBoard(
                 ...board,
                 meta: {
                     ...board.meta,
-                    fontSize:
-                        board.meta?.fontSize ??
-                        organization?.defaults?.font ??
-                        'medium',
+                    fontSize: board.meta?.fontSize ?? 'medium',
                     created: Date.now(),
                     dateModified: Date.now(),
                 },

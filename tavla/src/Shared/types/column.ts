@@ -11,7 +11,7 @@ export const Columns = {
 
 export type TColumn = keyof typeof Columns
 
-export const DEFAULT_ORGANIZATION_COLUMNS = [
+export const DEFAULT_COLUMNS = [
     'line',
     'destination',
     'time',

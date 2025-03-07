@@ -5,7 +5,6 @@ import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
 import * as Sentry from '@sentry/nextjs'
 import { handleError } from 'app/(admin)/utils/handleError'
 
@@ -33,9 +32,6 @@ export async function createOrganization(
                 name: name.substring(0, 50),
                 owners: [user.uid],
                 boards: [],
-                defaults: {
-                    columns: DEFAULT_ORGANIZATION_COLUMNS,
-                },
             })
         if (!organization || !organization.id) return getFormFeedbackForError()
     } catch (error) {
