@@ -2,13 +2,13 @@
 import { Heading2, Heading3 } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TBoard, TOrganization } from 'types/settings'
-import { WalkingDistance } from './WalkingDistance'
-import { Footer } from './Footer'
-import { ThemeSelect } from './ThemeSelect'
-import { Title } from './Title'
-import { Organization } from './Organization'
+import { WalkingDistance } from './components/WalkingDistance'
+import { Footer } from './components/Footer'
+import { ThemeSelect } from './components/ThemeSelect'
+import { Title } from './components/Title'
+import { Organization } from './components/Organization'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { ViewTypeSetting } from './ViewType'
+import { ViewTypeSetting } from './components/ViewType'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useToast } from '@entur/alert'
 import { useState } from 'react'
@@ -19,7 +19,7 @@ import {
 } from 'app/(admin)/utils'
 import { saveSettings } from './actions'
 import { FormError } from 'app/(admin)/components/FormError'
-import { FontSelect } from './FontSelect'
+import { FontSelect } from './components/FontSelect'
 
 function Settings({
     board,
