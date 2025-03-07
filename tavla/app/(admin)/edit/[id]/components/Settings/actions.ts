@@ -42,8 +42,8 @@ export async function saveSettings(data: FormData) {
     const theme = data.get('theme') as TTheme
     const font = data.get('font') as TFontSize
 
-    let newOrganization = data.get('toOrg') as string | undefined
-    const oldOrganization = data.get('fromOrg') as string
+    let newOrganization = data.get('newOrganization') as string | undefined
+    const oldOrganization = data.get('oldOrganization') as string
     const personal = (data.get('personal') as string) === 'on'
     if (newOrganization === 'undefined') {
         newOrganization = undefined

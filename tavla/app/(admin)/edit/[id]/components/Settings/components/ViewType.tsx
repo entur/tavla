@@ -4,11 +4,10 @@ import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
 import posthog from 'posthog-js'
 import { useState } from 'react'
-import { TBoard } from 'types/settings'
 
-function ViewTypeSetting({ board }: { board: TBoard }) {
+function ViewType({ hasCombinedTiles }: { hasCombinedTiles: boolean }) {
     const [value, setValue] = useState(
-        board.combinedTiles ? 'combined' : 'separate',
+        hasCombinedTiles ? 'combined' : 'separate',
     )
     return (
         <div>
@@ -37,4 +36,4 @@ function ViewTypeSetting({ board }: { board: TBoard }) {
     )
 }
 
-export { ViewTypeSetting }
+export { ViewType }

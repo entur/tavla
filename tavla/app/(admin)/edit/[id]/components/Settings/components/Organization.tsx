@@ -41,8 +41,11 @@ function Organization({
             >
                 Privat tavle
             </Checkbox>
-            <HiddenInput id="fromOrg" value={organization?.id ?? ''} />
-            <HiddenInput id="toOrg" value={selectedOrganization?.value.id} />
+            <HiddenInput id="oldOrganization" value={organization?.id ?? ''} />
+            <HiddenInput
+                id="newOrganization"
+                value={selectedOrganization?.value.id}
+            />
             <div className="mt-4">
                 <FormError {...feedback} />
             </div>

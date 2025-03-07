@@ -1,13 +1,11 @@
 'use client'
-import { TBoard, TTheme } from 'types/settings'
+import { TTheme } from 'types/settings'
 import { useState } from 'react'
 import { Heading4 } from '@entur/typography'
 import { ChoiceChip, ChoiceChipGroup } from '@entur/chip'
 
-function ThemeSelect({ board }: { board: TBoard }) {
-    const [selectedTheme, setSelectedTheme] = useState<TTheme>(
-        board?.theme ?? 'dark',
-    )
+function ThemeSelect({ theme = 'dark' }: { theme?: TTheme }) {
+    const [selectedTheme, setSelectedTheme] = useState<TTheme>(theme)
 
     return (
         <div className="flex flex-col">

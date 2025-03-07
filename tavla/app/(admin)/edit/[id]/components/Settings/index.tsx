@@ -8,7 +8,7 @@ import { ThemeSelect } from './components/ThemeSelect'
 import { Title } from './components/Title'
 import { Organization } from './components/Organization'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { ViewTypeSetting } from './components/ViewType'
+import { ViewType } from './components/ViewType'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useToast } from '@entur/alert'
 import { useState } from 'react'
@@ -29,7 +29,8 @@ function Settings({
     organization?: TOrganization
 }) {
     const { addToast } = useToast()
-    const [errors, setFormErrors] = useState<
+
+    const [formErrors, setFormErrors] = useState<
         Partial<Record<InputType, TFormFeedback>>
     >({})
 
@@ -38,13 +39,13 @@ function Settings({
 
         const data = new FormData(e.currentTarget)
 
-        const errors = await saveSettings(data)
+        const resultingErrors = await saveSettings(data)
 
-        if (!errors) {
+        if (!resultingErrors) {
             setFormErrors({})
             addToast('Innstillinger lagret!')
         } else {
-            setFormErrors(errors)
+            setFormErrors(resultingErrors)
         }
     }
 
@@ -62,14 +63,14 @@ function Settings({
                             title={board.meta?.title ?? DEFAULT_BOARD_NAME}
                             feedback={getFormFeedbackForField(
                                 'name',
-                                errors.name,
+                                formErrors.name,
                             )}
                         />
                         <Organization
                             organization={organization}
                             feedback={getFormFeedbackForField(
                                 'organization',
-                                errors.organization,
+                                formErrors.organization,
                             )}
                         />
                     </div>
@@ -77,12 +78,13 @@ function Settings({
                 <div className="box">
                     <Heading3 margin="bottom">Tavlevisning </Heading3>
                     <div className=" flex flex-col gap-4">
-                        <ViewTypeSetting board={board} />
-                        <ThemeSelect board={board} />
-                        <FontSelect
-                            bid={board.id!}
-                            font={board.meta?.fontSize ?? 'medium'}
+                        <ViewType
+                            hasCombinedTiles={
+                                board.combinedTiles ? true : false
+                            }
                         />
+                        <ThemeSelect theme={board.theme} />
+                        <FontSelect font={board.meta.fontSize} />
                         <WalkingDistance location={board.meta.location} />
                         <Footer
                             footer={board.footer}
@@ -92,7 +94,7 @@ function Settings({
                     </div>
                 </div>
                 <FormError
-                    {...getFormFeedbackForField('general', errors.general)}
+                    {...getFormFeedbackForField('general', formErrors.general)}
                 />
                 <div>
                     <SubmitButton variant="primary">Lagre</SubmitButton>
