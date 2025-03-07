@@ -11,7 +11,7 @@ import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { ViewTypeSetting } from './ViewType'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useToast } from '@entur/alert'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import {
     getFormFeedbackForField,
     InputType,
@@ -28,7 +28,6 @@ function Settings({
     board: TBoard
     organization?: TOrganization
 }) {
-    const formRef = useRef<HTMLFormElement>(null)
     const { addToast } = useToast()
     const [errors, setFormErrors] = useState<
         Partial<Record<InputType, TFormFeedback>>
@@ -55,7 +54,6 @@ function Settings({
             <form
                 className="grid grid-cols-1 lg:grid-cols-2 gap-8"
                 onSubmit={submitSettings}
-                ref={formRef}
             >
                 <div className="box">
                     <Heading3 margin="bottom"> Generelt </Heading3>
