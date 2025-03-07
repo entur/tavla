@@ -43,8 +43,8 @@ function DuplicateBoard({
         )
     return (
         <OverflowMenuItem onSelect={handleSelect}>
-            <div className="flex flex-row">
-                <AddIcon inline />
+            <div className="flex flex-row place-items-center">
+                <AddIcon />
                 Dupliser tavle
             </div>
         </OverflowMenuItem>

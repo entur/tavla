@@ -2,6 +2,7 @@
 import { SearchableDropdown } from '@entur/dropdown'
 import { Heading4, Paragraph } from '@entur/typography'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
+import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TLocation } from 'types/meta'
 function WalkingDistance({ location }: { location?: TLocation }) {
@@ -14,14 +15,16 @@ function WalkingDistance({ location }: { location?: TLocation }) {
             <Paragraph className="mb-2">
                 Vis gangavstand fra tavlens adresse til stoppestedet.
             </Paragraph>
-            <SearchableDropdown
-                label="Hvor befinner tavlen seg?"
-                items={pointItems}
-                selectedItem={selectedPoint}
-                onChange={setSelectedPoint}
-                debounceTimeout={150}
-                clearable
-            />
+            <ClientOnly>
+                <SearchableDropdown
+                    label="Hvor befinner tavlen seg?"
+                    items={pointItems}
+                    selectedItem={selectedPoint}
+                    onChange={setSelectedPoint}
+                    debounceTimeout={150}
+                    clearable
+                />
+            </ClientOnly>
             <HiddenInput
                 id="newLocation"
                 value={
