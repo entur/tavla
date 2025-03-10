@@ -2,6 +2,7 @@ export type TSort = 'none' | 'ascending' | 'descending'
 
 export const TableColumns = {
     name: 'Navn',
+    tags: 'Merkelapper',
     lastModified: 'Sist oppdatert',
     actions: 'Handlinger',
 } as const
