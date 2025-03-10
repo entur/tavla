@@ -57,7 +57,7 @@ export async function getOrganizationWithBoard(bid: TBoardID) {
         const org = ref.docs.map(
             (doc) => ({ id: doc.id, ...doc.data() }) as TOrganization,
         )
-        return org[0]
+        return org[0] ?? null
     } catch (error) {
         Sentry.captureMessage('Failed to fetch organization with board ' + bid)
         throw error
