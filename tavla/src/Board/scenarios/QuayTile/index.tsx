@@ -27,7 +27,7 @@ export function QuayTile({
             whitelistedLines,
             whitelistedTransportModes,
         },
-        { poll: true, offset: offset ?? 0 },
+        { poll: true, offset: offset },
     )
 
     if (isLoading && !data) {
