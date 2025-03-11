@@ -2,7 +2,7 @@
 import { useActionState } from 'react'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
-import { TBoard } from 'types/settings'
+import { TBoard, TOrganizationID } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
 import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { Modal } from '@entur/modal'
@@ -16,6 +16,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { OverflowMenuItem } from '@entur/menu'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
+import { useParams } from 'next/navigation'
 
 function Delete({
     board,
@@ -28,6 +29,9 @@ function Delete({
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
     const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
+
+    const params = useParams()
+    const oid = params?.id as TOrganizationID
 
     const submit = async (data: FormData) => {
         deleteBoard(data)
@@ -65,6 +69,7 @@ function Delete({
 
                 <form action={submit} onSubmit={close} className="w-full">
                     <HiddenInput id="bid" value={board.id} />
+                    <HiddenInput id="oid" value={oid ?? undefined} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <ButtonGroup className="flex flex-row">
                         <SubmitButton
