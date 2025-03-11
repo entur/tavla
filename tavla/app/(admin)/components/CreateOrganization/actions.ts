@@ -46,5 +46,5 @@ export async function createOrganization(
         })
         return handleError(error)
     }
-    redirect(`/folders/${organization.id}`)
+    redirect(`/boards/${organization.id}`)
 }
