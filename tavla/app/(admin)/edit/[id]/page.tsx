@@ -24,6 +24,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { CompressSurvey } from './components/CompressSurvey'
 import { Delete } from 'app/(admin)/boards/components/Column/Delete'
 import { Settings } from './components/Settings'
+import { BreadcrumbsNav } from 'app/(admin)/boards/[id]/BreadcrumbsNav'
 
 export type TProps = {
     params: Promise<{ id: TBoardID }>
@@ -58,6 +59,7 @@ export default async function EditPage(props: TProps) {
     return (
         <div className="bg-gray-50">
             <div className="flex flex-col gap-6 pt-16 container pb-20">
+                <BreadcrumbsNav folder={organization} board={board} />
                 <div className="flex flex-col md:flex-row justify-between pb-2">
                     <Heading1 margin="top">
                         Rediger {board.meta?.title}

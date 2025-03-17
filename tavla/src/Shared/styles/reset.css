@@ -80,3 +80,8 @@ a.eds-button > .eds-icon,
 .eds-dropdown__list__item {
     word-break: keep-all;
 }
+
+.eds-breadcrumbs {
+    display: flex;
+    flex-direction: row;
+}
