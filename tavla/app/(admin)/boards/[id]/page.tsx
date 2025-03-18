@@ -6,10 +6,11 @@ import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { TOrganizationID } from 'types/settings'
 import { Button } from '@entur/button'
-import { BackArrowIcon, EditIcon, FolderIcon } from '@entur/icons'
+import { EditIcon, FolderIcon } from '@entur/icons'
 import Link from 'next/link'
 import { BoardTable } from '../components/BoardTable'
 import { CreateBoard } from 'app/(admin)/components/CreateBoard'
+import { BreadcrumbsNav } from './BreadcrumbsNav'
 
 export type TProps = {
     params: Promise<{ id: TOrganizationID }>
@@ -43,12 +44,7 @@ async function FolderPage(props: TProps) {
 
     return (
         <div className="flex flex-col gap-4 container pb-20">
-            <p className="flex flex-row gap-2 items-center">
-                <BackArrowIcon className="!top-0" aria-label="Tilbake-ikon" />
-                <Link href="/boards" className="underline">
-                    Mapper og tavler
-                </Link>
-            </p>
+            <BreadcrumbsNav folder={folder} />
             <div className="flex flex-row justify-between">
                 <Heading1 className="flex flex-row gap-4 items-center">
                     <FolderIcon aria-label="Mappe-ikon" className="!top-0" />
