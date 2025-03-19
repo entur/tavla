@@ -13,6 +13,7 @@ export type TBoard = {
     combinedTiles?: TCombinedTiles[]
     theme?: TTheme
     footer?: TFooter
+    viewType?: string
 }
 export type TBoardWithOrganizaion = {
     board: TBoard
