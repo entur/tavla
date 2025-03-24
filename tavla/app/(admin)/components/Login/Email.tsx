@@ -145,7 +145,6 @@ function Email() {
             </form>
             <div className="border-2 rounded-sm w-full mb-8 mt-4"></div>
             <Google />
-
             <Paragraph className="text-center mt-10" margin="none">
                 Har du ikke en bruker?{' '}
                 <Link className="underline" href={getPathWithParams('create')}>
