@@ -9,4 +9,4 @@ export function getBackendUrl() {
 }
 
 // silje koder :))
-// mer kode :)) for signering!!
+// mer kode :))
