@@ -113,8 +113,8 @@ function Email() {
                         Glemt passord?
                     </Link>
                 </p>
-                <ButtonGroup className="flex flex-row gap-4 pb-4">
-                    <div className="w-1/2">
+                <ButtonGroup className="flex sm:flex-row flex-col gap-4 pb-4">
+                    <div className="sm:w-1/2 w-full">
                         <SubmitButton
                             variant="primary"
                             width="fluid"
@@ -129,7 +129,7 @@ function Email() {
                         </SubmitButton>
                     </div>
 
-                    <div className="w-1/2">
+                    <div className="sm:w-1/2 w-full">
                         <Button
                             type="button"
                             as={Link}
@@ -145,7 +145,6 @@ function Email() {
             </form>
             <div className="border-2 rounded-sm w-full mb-8 mt-4"></div>
             <Google />
-
             <Paragraph className="text-center mt-10" margin="none">
                 Har du ikke en bruker?{' '}
                 <Link className="underline" href={getPathWithParams('create')}>
