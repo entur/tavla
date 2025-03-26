@@ -10,12 +10,13 @@ import { useActionState, useState } from 'react'
 import { createBoard } from './actions'
 import { FormError } from '../FormError'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { TOrganization } from 'types/settings'
 
-function NameAndOrganizationSelector() {
+function NameAndOrganizationSelector({ folder }: { folder?: TOrganization }) {
     const [state, action] = useActionState(createBoard, undefined)
 
     const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizations()
+        useOrganizations(folder)
 
     const [isPersonal, setIsPersonal] = useState<boolean>(false)
 

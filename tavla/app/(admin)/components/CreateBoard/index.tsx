@@ -5,8 +5,9 @@ import { NameAndOrganizationSelector } from './NameAndOrganizationSelector'
 import { Button } from '@entur/button'
 import { BoardIcon } from '@entur/icons'
 import Link from 'next/link'
+import { TOrganization } from 'types/settings'
 
-function CreateBoard() {
+function CreateBoard({ folder }: { folder?: TOrganization }) {
     const [open, close] = useSearchParamsModal('board')
 
     return (
@@ -21,7 +22,7 @@ function CreateBoard() {
                 onDismiss={() => close()}
                 closeLabel="Avbryt opprettelse av tavle"
             >
-                <NameAndOrganizationSelector />
+                <NameAndOrganizationSelector folder={folder} />
             </Modal>
         </>
     )
