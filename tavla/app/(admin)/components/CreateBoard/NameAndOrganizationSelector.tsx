@@ -1,26 +1,21 @@
 'use client'
-import { Dropdown } from '@entur/dropdown'
-import { Checkbox } from '@entur/form'
 import { Paragraph, Label, Heading2 } from '@entur/typography'
-import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { useActionState, useState } from 'react'
+import { useActionState } from 'react'
 import { createBoard } from './actions'
 import { FormError } from '../FormError'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { TOrganization } from 'types/settings'
+import { Dropdown } from '@entur/dropdown'
+import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 
 function NameAndOrganizationSelector({ folder }: { folder?: TOrganization }) {
     const [state, action] = useActionState(createBoard, undefined)
 
     const { organizations, selectedOrganization, setSelectedOrganization } =
         useOrganizations(folder)
-
-    const [isPersonal, setIsPersonal] = useState<boolean>(false)
-
-    const disableOrg = isPersonal || organizations().length == 0
 
     return (
         <form action={action} className="md:px-10">
@@ -45,28 +40,12 @@ function NameAndOrganizationSelector({ folder }: { folder?: TOrganization }) {
                 <Dropdown
                     items={organizations}
                     label="Dine mapper"
-                    selectedItem={isPersonal ? null : selectedOrganization}
+                    selectedItem={selectedOrganization}
                     onChange={setSelectedOrganization}
-                    clearable
                     aria-required="true"
                     className="mb-4"
-                    disabled={disableOrg}
-                    {...getFormFeedbackForField('organization', state)}
                 />
-                <Checkbox
-                    checked={disableOrg}
-                    onChange={() => {
-                        setSelectedOrganization(null)
-                        setIsPersonal(!isPersonal)
-                    }}
-                    name="personal"
-                >
-                    Privat tavle
-                </Checkbox>
-                <HiddenInput
-                    id="organization"
-                    value={selectedOrganization?.value.id}
-                />
+                <HiddenInput id="oid" value={selectedOrganization?.value.id} />
             </div>
             <div className="mt-4">
                 <FormError {...getFormFeedbackForField('general', state)} />

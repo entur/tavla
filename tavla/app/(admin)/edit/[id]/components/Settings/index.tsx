@@ -66,13 +66,7 @@ function Settings({
                                 formErrors.name,
                             )}
                         />
-                        <Organization
-                            organization={organization}
-                            feedback={getFormFeedbackForField(
-                                'organization',
-                                formErrors.organization,
-                            )}
-                        />
+                        <Organization organization={organization} />
                     </div>
                 </div>
                 <div className="box">
