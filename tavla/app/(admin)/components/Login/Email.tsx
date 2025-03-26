@@ -114,7 +114,7 @@ function Email() {
                     </Link>
                 </p>
                 <ButtonGroup className="flex sm:flex-row flex-col gap-4 pb-4">
-                    <div className="sm:w-1/2 w-full order-1">
+                    <div className="sm:w-1/2 w-full">
                         <SubmitButton
                             variant="primary"
                             width="fluid"
@@ -129,7 +129,7 @@ function Email() {
                         </SubmitButton>
                     </div>
 
-                    <div className="sm:w-1/2 w-full order-2">
+                    <div className="sm:w-1/2 w-full">
                         <Button
                             type="button"
                             as={Link}
