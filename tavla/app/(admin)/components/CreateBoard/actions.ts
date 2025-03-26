@@ -22,13 +22,6 @@ export async function createBoard(
     if (!oid && !personal)
         return getFormFeedbackForError('create/organization-missing')
 
-    const board = {
-        tiles: [],
-        meta: {
-            title: name.substring(0, 50),
-        },
-    } as TBoard
-
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
@@ -38,18 +31,18 @@ export async function createBoard(
         createdBoard = await firestore()
             .collection('boards')
             .add({
-                ...board,
+                tiles: [],
                 meta: {
-                    ...board.meta,
-                    fontSize: board.meta?.fontSize ?? 'medium',
+                    title: name.substring(0, 50),
+                    fontSize: 'medium',
                     created: Date.now(),
                     dateModified: Date.now(),
                 },
-            })
+            } as TBoard)
 
         if (!createdBoard) return getFormFeedbackForError('firebase/general')
 
-        firestore()
+        await firestore()
             .collection(oid ? 'organizations' : 'users')
             .doc(oid ? String(oid) : String(user.uid))
             .update({
