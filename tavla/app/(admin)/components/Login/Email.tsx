@@ -6,7 +6,7 @@ import {
     sendEmailVerification,
     signInWithEmailAndPassword,
 } from 'firebase/auth'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
 
@@ -30,6 +30,7 @@ import { TLoginPage } from './types'
 
 function Email() {
     const posthog = usePostHog()
+    const [email, setEmail] = useState('')
     const submit = async (
         previousState: TFormFeedback | undefined,
         data: FormData,
@@ -91,6 +92,8 @@ function Email() {
                         name="email"
                         label="E-post"
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         {...getFormFeedbackForField('email', state)}
                     />
                 </div>
