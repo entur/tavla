@@ -5,7 +5,7 @@ import { deleteBoard, initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { TBoardID } from 'types/settings'
-import { getOrganizationWithBoard } from 'Board/scenarios/Board/firebase'
+import { getOrganizationForBoard } from 'Board/scenarios/Board/firebase'
 
 initializeAdminApp()
 
@@ -14,7 +14,7 @@ export async function deleteBoardAction(
     data: FormData,
 ) {
     const bid = data.get('bid') as TBoardID
-    const organization = await getOrganizationWithBoard(bid)
+    const organization = await getOrganizationForBoard(bid)
 
     try {
         await deleteBoard(bid)

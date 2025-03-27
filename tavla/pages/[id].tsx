@@ -3,7 +3,7 @@ import { TBoard, TOrganization } from 'types/settings'
 import { Board } from 'Board/scenarios/Board'
 import {
     getBoard,
-    getOrganizationWithBoard,
+    getOrganizationForBoard,
 } from 'Board/scenarios/Board/firebase'
 import { Footer } from 'components/Footer'
 import { useRefresh } from 'hooks/useRefresh'
@@ -26,7 +26,7 @@ export async function getServerSideProps({
         }
     }
 
-    const organization = await getOrganizationWithBoard(id)
+    const organization = await getOrganizationForBoard(id)
 
     return {
         props: {
