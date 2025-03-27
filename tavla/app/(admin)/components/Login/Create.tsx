@@ -1,5 +1,5 @@
 'use client'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
 import { Heading3, Paragraph } from '@entur/typography'
@@ -26,10 +26,17 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import Google from './Google'
 
 function Create() {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [repeat, setRepeat] = useState('')
     const submit = async (p: TFormFeedback | undefined, data: FormData) => {
         const email = data.get('email') as string
         const password = data.get('password') as string
         const repeat = data.get('repeat_password') as string
+
+        setEmail('')
+        setPassword('')
+        setRepeat('')
         if (password !== repeat)
             return getFormFeedbackForError('auth/password-no-match')
 
@@ -45,6 +52,9 @@ function Create() {
             await sendEmailVerification(credential.user)
             return getFormFeedbackForError('auth/create', email)
         } catch (e) {
+            setEmail(email)
+            setPassword(password)
+            setRepeat(repeat)
             return handleError(e)
         }
     }
@@ -69,6 +79,7 @@ function Create() {
                         name="email"
                         label="E-post"
                         type="email"
+                        defaultValue={email}
                         {...getFormFeedbackForField('email', state)}
                     />
                 </div>
@@ -77,6 +88,7 @@ function Create() {
                         name="password"
                         label="Passord"
                         type="password"
+                        defaultValue={password}
                         {...getFormFeedbackForField('password', state)}
                     />
                 </div>
@@ -85,6 +97,7 @@ function Create() {
                         name="repeat_password"
                         label="Gjenta passord"
                         type="password"
+                        defaultValue={repeat}
                         {...getFormFeedbackForField('repeat_password', state)}
                     />
                 </div>
