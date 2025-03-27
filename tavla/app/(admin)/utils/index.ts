@@ -155,18 +155,6 @@ export function getFormFeedbackForError(
                 feedback: 'Du har ikke gitt tavla et navn',
                 variant: 'negative',
             }
-        case 'create/organization-missing':
-            return {
-                form_type: 'organization',
-                feedback: 'Du har ikke valgt mappe',
-                variant: 'negative',
-            }
-        case 'board/tiles-missing':
-            return {
-                form_type: 'general',
-                feedback: 'Du har ikke lagt til noen stoppesteder',
-                variant: 'negative',
-            }
         case 'board/tiles-name-missing':
             return {
                 form_type: 'name',

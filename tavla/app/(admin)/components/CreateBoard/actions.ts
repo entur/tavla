@@ -18,10 +18,7 @@ export async function createBoard(
     const name = data.get('name') as string
     if (!name) return getFormFeedbackForError('board/name-missing')
 
-    const oid = data.get('organization') as TOrganizationID
-    const personal = data.get('personal')
-    if (!oid && !personal)
-        return getFormFeedbackForError('create/organization-missing')
+    const oid = data.get('oid') as TOrganizationID
 
     const board = {
         tiles: [],
@@ -58,7 +55,7 @@ export async function createBoard(
 
         firestore()
             .collection(oid ? 'organizations' : 'users')
-            .doc(oid ? String(oid) : String(user.uid))
+            .doc(oid ? oid : user.uid)
             .update({
                 [oid ? 'boards' : 'owner']:
                     admin.firestore.FieldValue.arrayUnion(createdBoard.id),
