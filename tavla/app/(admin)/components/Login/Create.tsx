@@ -37,8 +37,12 @@ function Create() {
         setEmail('')
         setPassword('')
         setRepeat('')
-        if (password !== repeat)
+        if (password !== repeat) {
+            setEmail(email)
+            setPassword(password)
+            setRepeat(repeat)
             return getFormFeedbackForError('auth/password-no-match')
+        }
 
         try {
             const app = await getClientApp()
