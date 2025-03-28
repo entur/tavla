@@ -13,7 +13,7 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { SmallAlertBox, useToast } from '@entur/alert'
 import { Expandable } from './Expandable'
 import { usePostHog } from 'posthog-js/react'
-import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
+import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/rediger/utils'
 import { validEmail } from 'utils/email'
 import ClientOnlyTextField from './NoSSR/TextField'
 

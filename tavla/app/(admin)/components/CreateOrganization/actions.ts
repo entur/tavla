@@ -46,5 +46,5 @@ export async function createOrganization(
         })
         return handleError(error)
     }
-    redirect(`/boards/${organization.id}`)
+    redirect(`/mapper/${organization.id}`)
 }

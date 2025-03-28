@@ -36,7 +36,7 @@ export async function login(token: string) {
         sameSite: 'strict',
         path: '/',
     })
-    redirect('/boards')
+    redirect('/oversikt')
 }
 
 export async function create(uid: TUserID) {

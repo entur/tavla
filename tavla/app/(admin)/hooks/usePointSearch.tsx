@@ -1,7 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useState } from 'react'
 import { TLocation } from 'types/meta'
-import { locationToDropdownItem } from '../edit/utils'
+import { locationToDropdownItem } from '../tavler/[id]/rediger/utils'
 import { fetchPoints } from '../utils/fetch'
 
 function usePointSearch(location?: TLocation) {

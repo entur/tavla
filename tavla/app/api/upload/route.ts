@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
     await firestore().collection('organizations').doc(oid).update({
         logo: logoUrl,
     })
-    revalidatePath(`/folders/${oid}`)
+    revalidatePath(`/mapper/${oid}/rediger`)
     return new Response(
         JSON.stringify({ message: 'Logo uploaded successfully' }),
         {
