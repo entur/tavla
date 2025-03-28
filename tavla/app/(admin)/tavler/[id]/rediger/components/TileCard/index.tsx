@@ -49,7 +49,7 @@ import { TransportModeAndLines } from './TransportModeAndLines'
 import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
-import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/rediger/utils'
+import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import {
     TFormFeedback,
     getFormFeedbackForError,

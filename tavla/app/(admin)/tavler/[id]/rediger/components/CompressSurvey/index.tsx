@@ -21,7 +21,7 @@ import { useToast } from '@entur/alert'
 import { FormError } from 'app/(admin)/components/FormError'
 import { usePostHog } from 'posthog-js/react'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
-import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/rediger/utils'
+import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/utils'
 
 const alternatives = [
     'Jeg var nysgjerrig på funksjonaliteten',

@@ -1,5 +1,5 @@
 'use server'
-import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/rediger/utils'
+import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { userCanEditOrganization } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'

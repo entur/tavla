@@ -25,7 +25,7 @@ import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import {
     isEmptyOrSpaces,
     isOnlyWhiteSpace,
-} from 'app/(admin)/tavler/[id]/rediger/utils'
+} from 'app/(admin)/tavler/[id]/utils'
 import { firestore } from 'firebase-admin'
 import * as Sentry from '@sentry/nextjs'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'

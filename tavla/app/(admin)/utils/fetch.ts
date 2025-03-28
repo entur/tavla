@@ -1,6 +1,6 @@
 import { COUNTY_ENDPOINT, GEOCODER_ENDPOINT, CLIENT_NAME } from 'assets/env'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { TCategory, getIcons } from '../tavler/[id]/rediger/utils'
+import { TCategory, getIcons } from '../tavler/[id]/utils'
 import { TLocation } from 'types/meta'
 import { uniq } from 'lodash'
 
