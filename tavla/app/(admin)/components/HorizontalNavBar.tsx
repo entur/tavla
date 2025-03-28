@@ -9,9 +9,9 @@ function HorizontalNavBar({ loggedIn }: { loggedIn: boolean }) {
     return (
         <div className="flex-row hidden md:flex gap-4">
             <TopNavigationItem
-                active={pathname?.includes('/boards')}
+                active={pathname?.includes('/oversikt')}
                 as={Link}
-                href="/boards"
+                href="/oversikt"
                 className="!text-primary"
             >
                 Mapper og tavler

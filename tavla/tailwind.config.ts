@@ -1,4 +1,4 @@
-import { dataColors } from './app/(admin)/boards/utils'
+import { dataColors } from './app/(admin)/oversikt/utils'
 import type { Config } from 'tailwindcss'
 
 const transportModes = {

@@ -1,8 +1,7 @@
 'use server'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
-import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
@@ -11,25 +10,7 @@ import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
-export async function createBoard(
-    prevState: TFormFeedback | undefined,
-    data: FormData,
-) {
-    const name = data.get('name') as string
-    if (!name) return getFormFeedbackForError('board/name-missing')
-
-    const oid = data.get('organization') as TOrganizationID
-    const personal = data.get('personal')
-    if (!oid && !personal)
-        return getFormFeedbackForError('create/organization-missing')
-
-    const board = {
-        tiles: [],
-        meta: {
-            title: name.substring(0, 50),
-        },
-    } as TBoard
-
+export async function duplicateBoard(board: TBoard, oid?: TOrganizationID) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
@@ -54,7 +35,8 @@ export async function createBoard(
                 },
             })
 
-        if (!createdBoard) return getFormFeedbackForError('firebase/general')
+        if (!createdBoard || !createdBoard.id)
+            throw Error('failed to create board')
 
         firestore()
             .collection(oid ? 'organizations' : 'users')
@@ -64,16 +46,8 @@ export async function createBoard(
                     admin.firestore.FieldValue.arrayUnion(createdBoard.id),
             })
     } catch (error) {
-        Sentry.captureException(error, {
-            extra: {
-                message:
-                    'Error while adding newly created board to either user or org',
-                userID: user.uid,
-                orgID: oid,
-            },
-        })
-        return handleError(error)
+        Sentry.captureMessage('Error while duplicating board object: ' + board)
+        throw error
     }
-
     redirect(`/tavler/${createdBoard.id}/rediger`)
 }
