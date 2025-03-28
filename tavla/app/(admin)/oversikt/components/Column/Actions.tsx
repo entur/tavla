@@ -1,10 +1,10 @@
 import { TBoard, TOrganization } from 'types/settings'
 import { ColumnWrapper } from './ColumnWrapper'
 import { Delete } from './Delete'
+import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
+import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
 import { DeleteOrganization } from 'app/(admin)/components/DeleteOrganization'
 import { EditBoard, EditFolder } from './Edit'
-import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
-import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
 
 function BoardActions({ board }: { board: TBoard }) {
     return (

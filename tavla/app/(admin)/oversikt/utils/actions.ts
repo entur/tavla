@@ -21,5 +21,5 @@ export async function deleteBoardAction(
         return handleError(e)
     }
     if (oid) redirect(`/mapper/${oid}`)
-    redirect('/mapper')
+    redirect('/oversikt')
 }

@@ -1,3 +1,4 @@
+import { makeBoardCompatible } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import admin, { firestore } from 'firebase-admin'
 import {
     TBoard,
@@ -6,7 +7,6 @@ import {
     TOrganizationID,
 } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
-import { makeBoardCompatible } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 
 initializeAdminApp()
 

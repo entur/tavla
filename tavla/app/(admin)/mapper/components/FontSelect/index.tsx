@@ -1,6 +1,7 @@
 'use client'
 import { TFontSize } from 'types/meta'
 import { setFontSize as setFontSizeAction } from './actions'
+import { FontChoiceChip } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/FontChoiceChip'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
 import { TOrganizationID } from 'types/settings'
@@ -8,7 +9,6 @@ import { Heading2, Paragraph } from '@entur/typography'
 import { useActionState } from 'react'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
-import { FontChoiceChip } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/FontChoiceChip'
 
 function FontSelect({
     oid,

@@ -8,8 +8,8 @@ import { TOrganizationID } from 'types/settings'
 import { Button } from '@entur/button'
 import { EditIcon, FolderIcon } from '@entur/icons'
 import Link from 'next/link'
-import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { BoardTable } from 'app/(admin)/oversikt/components/BoardTable'
+import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { BreadcrumbsNav } from '../../tavler/[id]/BreadcrumbsNav'
 
 export type TProps = {
