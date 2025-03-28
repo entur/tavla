@@ -1,3 +1,5 @@
+import { TBoard, TOrganization } from 'types/settings'
+
 function hash(seq: string) {
     let hash = 0
     for (let i = 0; i < seq.length; i++) {
@@ -22,4 +24,12 @@ const colorValues = Object.values(dataColors)
 export function colorsFromHash(name: string) {
     const index = Math.abs(hash(name)) % colorValues.length
     return colorValues[index]
+}
+
+export function getNumberOfBoards(folders: TOrganization[], boards: TBoard[]) {
+    let number = 0
+    folders.map(
+        (folder) => folder.boards?.length && (number += folder.boards.length),
+    )
+    return number + boards.length
 }
