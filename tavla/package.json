@@ -84,7 +84,7 @@
         "firebase-tools": "13.27.0",
         "husky": "9.1.6",
         "postcss": "8.4.47",
-        "prettier": "^3.3.3",
+        "prettier": "3.3.3",
         "tailwindcss": "3.4.14",
         "typescript": "5.6.3"
     },
