@@ -45,12 +45,8 @@ export async function saveSettings(data: FormData) {
     const theme = data.get('theme') as TTheme
     const font = data.get('font') as TFontSize
 
-    let newOrganization = data.get('newOrganization') as string | undefined
-    const oldOrganization = data.get('oldOrganization') as string
-    const personal = (data.get('personal') as string) === 'on'
-    if (newOrganization === 'undefined') {
-        newOrganization = undefined
-    }
+    const newOrganization = data.get('newOid') as TOrganizationID | undefined
+    const oldOrganization = data.get('oldOid') as TOrganizationID | undefined
 
     let location: TLocation | undefined | string = data.get(
         'newLocation',
@@ -77,17 +73,12 @@ export async function saveSettings(data: FormData) {
         if (isEmptyOrSpaces(title))
             errors['name'] = getFormFeedbackForError('board/tiles-name-missing')
 
-        if (!personal && !newOrganization)
-            errors['organization'] = getFormFeedbackForError(
-                'create/organization-missing',
-            )
-
         if (Object.keys(errors).length !== 0) {
             return errors
         }
 
         await saveTitle(bid, title)
-        await moveBoard(bid, personal, newOrganization, oldOrganization)
+        await moveBoard(bid, newOrganization, oldOrganization)
         await saveLocation(board, location)
         await saveFont(bid, font)
         await setTheme(bid, theme)
@@ -263,8 +254,7 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
 
 async function moveBoard(
     bid: TBoardID,
-    personal: boolean,
-    toOrganization: TOrganizationID | undefined,
+    toOrganization?: TOrganizationID,
     fromOrganization?: TOrganizationID,
 ) {
     const user = await getUserFromSessionCookie()
@@ -294,7 +284,7 @@ async function moveBoard(
                 .doc(user.uid)
                 .update({ owner: firestore.FieldValue.arrayRemove(bid) })
 
-        if (toOrganization && !personal)
+        if (toOrganization)
             await firestore()
                 .collection('organizations')
                 .doc(toOrganization)

@@ -3,9 +3,6 @@ import { Heading1, LeadParagraph } from '@entur/typography'
 import { redirect } from 'next/navigation'
 import { UploadLogo } from '../../components/UploadLogo'
 import { MemberAdministration } from '../../components/MemberAdministration'
-import { CountiesSelect } from '../../components/CountiesSelect'
-import { FontSelect } from '../../components/FontSelect'
-import { DefaultColumns } from '../../components/DefaultColumns'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -59,8 +56,7 @@ async function EditOrganizationPage(props: TProps) {
                 <Heading1 margin="top">{organization.name}</Heading1>
                 <LeadParagraph margin="bottom">
                     Valgene som tas blir satt som standard når det opprettes en
-                    tavle i mappen &quot;{organization.name}&quot;. Valgene kan
-                    fortsatt justeres i hver enkelt tavle (med unntak av logo).
+                    tavle i mappen &quot;{organization.name}&quot;.
                     Innstillingene vil ikke påvirke tavler som allerede har
                     blitt opprettet.
                 </LeadParagraph>
@@ -70,25 +66,10 @@ async function EditOrganizationPage(props: TProps) {
                         uid={user.uid}
                         oid={organization.id}
                     />
-                    <CountiesSelect
-                        oid={organization.id}
-                        countiesList={organization?.defaults?.counties}
-                    />
-                    <DefaultColumns
-                        oid={organization.id}
-                        columns={organization.defaults?.columns}
-                    />
-
-                    <FontSelect
-                        oid={organization.id}
-                        font={organization?.defaults?.font}
-                    />
-
                     <Footer
                         oid={organization.id}
                         footer={organization.footer}
                     />
-
                     <UploadLogo organization={organization} />
                 </div>
             </div>

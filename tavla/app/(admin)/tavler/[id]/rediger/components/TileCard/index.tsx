@@ -21,7 +21,7 @@ import {
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Heading4, Paragraph, SubParagraph } from '@entur/typography'
-import { ColumnModal } from 'app/(admin)/mapper/components/DefaultColumns/ColumnModal'
+import { ColumnModal } from './ColumnModal'
 import Goat from 'assets/illustrations/Goat.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -39,14 +39,14 @@ import {
 import {
     Columns,
     DEFAULT_COMBINED_COLUMNS,
-    DEFAULT_ORGANIZATION_COLUMNS,
+    DEFAULT_COLUMNS,
     TColumn,
 } from 'types/column'
 import { TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
 import { TransportModeAndLines } from './TransportModeAndLines'
-import { deleteTile, getOrganizationForBoard, saveTile } from './actions'
+import { deleteTile, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
@@ -116,10 +116,8 @@ function TileCard({
         // If the length of lines equals all the lines, we don't want to include any
         lines = lines.length == count ? [] : lines
 
-        if (columns !== tile.columns) await captureColumnChangeEvent()
-
         if (isCombined) {
-            columns = tile.columns ?? DEFAULT_ORGANIZATION_COLUMNS
+            columns = tile.columns ?? DEFAULT_COLUMNS
         }
 
         const newTile = {
@@ -182,14 +180,6 @@ function TileCard({
                 .sort(sortLineByPublicCode),
         }))
         .sort((a, b) => b.lines.length - a.lines.length)
-
-    const captureColumnChangeEvent = async () => {
-        const organization = await getOrganizationForBoard(bid)
-        const hasDefault = organization?.defaults?.columns !== undefined
-
-        if (hasDefault) posthog.capture('EDIT_COLUMN_CHANGE_DEFAULT_EXISTS')
-        else posthog.capture('EDIT_COLUMN_CHANGE')
-    }
 
     const saveTileToDemoBoard = (newTile: TTile) => {
         if (!demoBoard) return null

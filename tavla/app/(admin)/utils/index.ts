@@ -1,6 +1,5 @@
 import { VariantType } from '@entur/utils'
 import { FirebaseError } from 'firebase/app'
-import { TOrganization, TUserID } from 'types/settings'
 
 export type InputType =
     | 'general'
@@ -155,18 +154,6 @@ export function getFormFeedbackForError(
                 feedback: 'Du har ikke gitt tavla et navn',
                 variant: 'negative',
             }
-        case 'create/organization-missing':
-            return {
-                form_type: 'organization',
-                feedback: 'Du har ikke valgt mappe',
-                variant: 'negative',
-            }
-        case 'board/tiles-missing':
-            return {
-                form_type: 'general',
-                feedback: 'Du har ikke lagt til noen stoppesteder',
-                variant: 'negative',
-            }
         case 'board/tiles-name-missing':
             return {
                 form_type: 'name',
@@ -184,12 +171,6 @@ export function getFormFeedbackForError(
             return {
                 form_type: 'email',
                 feedback: 'E-posten samsvarer ikke med kontoen din',
-                variant: 'negative',
-            }
-        case 'organization/invalid-columns':
-            return {
-                form_type: 'column',
-                feedback: 'Du må velge minst èn kolonne',
                 variant: 'negative',
             }
         case 'file/invalid':
@@ -264,11 +245,4 @@ export function getFormFeedbackForError(
         feedback: 'En feil har oppstått.',
         variant: 'negative',
     }
-}
-
-export function userInOrganization(
-    uid?: TUserID,
-    organization?: TOrganization,
-) {
-    return uid && organization && organization.owners?.includes(uid)
 }
