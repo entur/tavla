@@ -21,10 +21,7 @@ function Organization({ organization }: { organization?: TOrganization }) {
                 className="mb-4"
             />
             <HiddenInput id="oldOid" value={organization?.id} />
-            <HiddenInput
-                id="newOid"
-                value={selectedOrganization?.value.id}
-            />{' '}
+            <HiddenInput id="newOid" value={selectedOrganization?.value.id} />
         </div>
     )
 }

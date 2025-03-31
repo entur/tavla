@@ -22,9 +22,9 @@ function useOrganizations(organization?: TOrganization) {
 
     useEffect(() => {
         getOrganizationsForUser().then((res) => {
-            const organizations = res?.map((o) => ({
-                value: o ?? undefined,
-                label: o.name ?? '',
+            const organizations = res?.map((organization) => ({
+                value: organization ?? undefined,
+                label: organization.name ?? '',
                 icons: [FolderIcon],
             }))
             setOrganizationList([...organizations, NO_FOLDER])
