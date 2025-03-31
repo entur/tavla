@@ -118,6 +118,15 @@ const nextConfig = {
             },
         ]
     },
+    async redirects() {
+        return [
+            {
+                source: '/boards',
+                destination: '/oversikt',
+                permanent: true,
+            },
+        ]
+    },
 }
 
 module.exports = async (phase, { defaultConfig }) => {
