@@ -5,13 +5,12 @@ import {
 } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 import { nanoid } from 'nanoid'
-import { DEFAULT_ORGANIZATION_COLUMNS } from 'types/column'
+import { DEFAULT_COLUMNS } from 'types/column'
 import { TCoordinate } from 'types/meta'
-import { TOrganization } from 'types/settings'
 import { TTile } from 'types/tile'
 import * as Sentry from '@sentry/nextjs'
 
-export function formDataToTile(data: FormData, organization?: TOrganization) {
+export function formDataToTile(data: FormData) {
     const quayId = data.get('quay') as string
     const stopPlaceId = data.get('stop_place') as string
     const stopPlaceName = (data.get('stop_place_name') as string).split(',')
@@ -27,8 +26,7 @@ export function formDataToTile(data: FormData, organization?: TOrganization) {
         }, ${stopPlaceName[1]}`,
         uuid: nanoid(),
         placeId,
-        columns:
-            organization?.defaults?.columns ?? DEFAULT_ORGANIZATION_COLUMNS,
+        columns: DEFAULT_COLUMNS,
     } as TTile
 }
 

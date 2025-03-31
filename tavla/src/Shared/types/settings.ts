@@ -1,5 +1,3 @@
-import { TFontSize } from './meta'
-import { TColumn } from './column'
 import { TMeta } from './meta'
 import { TTile } from './tile'
 
@@ -31,14 +29,7 @@ export type TOrganization = {
     owners?: TUserID[]
     boards?: TBoardID[]
     logo?: TLogo
-    defaults?: TDefaults
     footer?: string
-}
-
-export type TDefaults = {
-    counties?: TCountyID[]
-    font?: TFontSize
-    columns?: TColumn[]
 }
 
 export type TInvite = {
@@ -56,4 +47,3 @@ export type TLogo = string
 export type TUserID = string
 export type TBoardID = string
 export type TOrganizationID = string
-export type TCountyID = string

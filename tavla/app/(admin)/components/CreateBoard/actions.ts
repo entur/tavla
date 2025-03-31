@@ -1,12 +1,11 @@
 'use server'
-import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { TBoard, TOrganization, TOrganizationID } from 'types/settings'
+import { TBoard, TOrganizationID } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
@@ -20,18 +19,8 @@ export async function createBoard(
 
     const oid = data.get('oid') as TOrganizationID
 
-    const board = {
-        tiles: [],
-        meta: {
-            title: name.substring(0, 50),
-        },
-    } as TBoard
-
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-
-    let organization: TOrganization | undefined
-    if (oid) organization = await getOrganizationIfUserHasAccess(oid)
 
     let createdBoard = null
 
@@ -39,21 +28,18 @@ export async function createBoard(
         createdBoard = await firestore()
             .collection('boards')
             .add({
-                ...board,
+                tiles: [],
                 meta: {
-                    ...board.meta,
-                    fontSize:
-                        board.meta?.fontSize ??
-                        organization?.defaults?.font ??
-                        'medium',
+                    title: name.substring(0, 50),
+                    fontSize: 'medium',
                     created: Date.now(),
                     dateModified: Date.now(),
                 },
-            })
+            } as TBoard)
 
         if (!createdBoard) return getFormFeedbackForError('firebase/general')
 
-        firestore()
+        await firestore()
             .collection(oid ? 'organizations' : 'users')
             .doc(oid ? oid : user.uid)
             .update({

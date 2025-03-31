@@ -1,6 +1,5 @@
 import { VariantType } from '@entur/utils'
 import { FirebaseError } from 'firebase/app'
-import { TOrganization, TUserID } from 'types/settings'
 
 export type InputType =
     | 'general'
@@ -174,12 +173,6 @@ export function getFormFeedbackForError(
                 feedback: 'E-posten samsvarer ikke med kontoen din',
                 variant: 'negative',
             }
-        case 'organization/invalid-columns':
-            return {
-                form_type: 'column',
-                feedback: 'Du må velge minst èn kolonne',
-                variant: 'negative',
-            }
         case 'file/invalid':
             return {
                 form_type: 'file',
@@ -252,11 +245,4 @@ export function getFormFeedbackForError(
         feedback: 'En feil har oppstått.',
         variant: 'negative',
     }
-}
-
-export function userInOrganization(
-    uid?: TUserID,
-    organization?: TOrganization,
-) {
-    return uid && organization && organization.owners?.includes(uid)
 }
