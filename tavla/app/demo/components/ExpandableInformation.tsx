@@ -9,7 +9,7 @@ function ExpandableInformation() {
 
     return (
         <div>
-            <div
+            <button
                 className={`flex flex-row justify-between items-center px-6  py-4 bg-blue80 w-full cursor-pointer ${
                     isOpen ? 'rounded-t' : 'rounded'
                 }`}
@@ -19,7 +19,7 @@ function ExpandableInformation() {
                     Hva kan du gjøre med Tavla om du logger inn?
                 </Paragraph>
                 {isOpen ? <UpArrowIcon /> : <DownArrowIcon />}
-            </div>
+            </button>
             <BaseExpand
                 open={isOpen}
                 className="bg-blue90 px-6  py-4 rounded-b"
