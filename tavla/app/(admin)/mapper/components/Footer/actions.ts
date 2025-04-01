@@ -29,7 +29,7 @@ export async function setFooter(
             .update({
                 footer: validMessage ? message : firestore.FieldValue.delete(),
             })
-        revalidatePath(`organizations/${oid}`)
+        revalidatePath(`mapper/${oid}`)
     } catch (error) {
         Sentry.captureException(error, {
             extra: {

@@ -117,7 +117,7 @@ async function setFooter(bid: TBoardID, { footer, override }: TFooter) {
             footer: newFooter,
             'meta.dateModified': Date.now(),
         })
-        revalidatePath(`edit/${bid}`)
+        revalidatePath(`tavler/${bid}/rediger`)
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
