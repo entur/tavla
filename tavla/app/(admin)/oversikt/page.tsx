@@ -9,10 +9,10 @@ import {
 } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { Heading1 } from '@entur/typography'
+import { Heading1, Label } from '@entur/typography'
 import { CreateOrganization } from '../components/CreateOrganization'
 import { CreateBoard } from '../components/CreateBoard'
-import { getNumberOfBoards } from './utils'
+import { countAllBoards } from './utils/actions'
 
 initializeAdminApp()
 
@@ -26,6 +26,7 @@ async function FoldersAndBoardsPage() {
 
     const folders = await getOrganizationsForUser()
     const privateBoards = await getPrivateBoardsForUser()
+    const count = await countAllBoards(folders, privateBoards)
 
     return (
         <div className="flex flex-col gap-8 container pb-20">
@@ -37,11 +38,8 @@ async function FoldersAndBoardsPage() {
                 </div>
             </div>
             <Search />
-            <div>
-                <p className="pb-[16px] text-[0.9rem] text-gray-500">
-                    Totalt antall tavler:{' '}
-                    {getNumberOfBoards(folders, privateBoards)}
-                </p>
+            <div className="gap-4">
+                <Label>Totalt antall tavler: {count}</Label>
                 <BoardTable folders={folders} boards={privateBoards} />
             </div>
         </div>
