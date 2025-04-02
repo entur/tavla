@@ -4,13 +4,9 @@ import { revalidatePath } from 'next/cache'
 import { deleteBoard, initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { handleError } from 'app/(admin)/utils/handleError'
-import {
-    TBoard,
-    TBoardID,
-    TOrganization,
-    TOrganizationID,
-} from 'types/settings'
+import { TBoard, TBoardID, TOrganization } from 'types/settings'
 import { getBoardsForOrganization } from 'app/(admin)/actions'
+import { getOrganizationForBoard } from 'Board/scenarios/Board/firebase'
 
 initializeAdminApp()
 
@@ -19,14 +15,15 @@ export async function deleteBoardAction(
     data: FormData,
 ) {
     const bid = data.get('bid') as TBoardID
-    const oid = data.get('oid') as TOrganizationID
+    const organization = await getOrganizationForBoard(bid)
+
     try {
         await deleteBoard(bid)
         revalidatePath('/')
     } catch (e) {
         return handleError(e)
     }
-    if (oid) redirect(`/boards/${oid}`)
+    if (organization) redirect(`/boards/${organization?.id}`)
     redirect('/boards')
 }
 

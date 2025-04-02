@@ -22,13 +22,12 @@ import { usePostHog } from 'posthog-js/react'
 
 function TileSelector({
     action,
-    oid,
 }: {
     action: (data: FormData) => void
     oid?: TOrganizationID
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
-        useCountiesSearch(oid)
+        useCountiesSearch()
 
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))

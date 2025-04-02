@@ -5,13 +5,13 @@ import {
     TOrganization,
     TBoard,
     TBoardID,
+    TUserID,
 } from 'types/settings'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
-import { userInOrganization } from './utils'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
@@ -20,6 +20,10 @@ export async function getFirebaseClientConfig() {
     const env = process.env.GOOGLE_PROJECT_ID
     if (env === 'ent-tavla-prd') return FIREBASE_PRD_CONFIG
     return FIREBASE_DEV_CONFIG
+}
+
+function userInOrganization(uid?: TUserID, organization?: TOrganization) {
+    return uid && organization && organization.owners?.includes(uid)
 }
 
 export async function getOrganizationIfUserHasAccess(oid?: TOrganizationID) {

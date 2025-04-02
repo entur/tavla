@@ -7,7 +7,7 @@ import {
     getOrganizationIfUserHasAccess,
 } from '../actions'
 import * as Sentry from '@sentry/nextjs'
-import { getOrganizationWithBoard } from 'Board/scenarios/Board/firebase'
+import { getOrganizationForBoard } from 'Board/scenarios/Board/firebase'
 
 initializeAdminApp()
 
@@ -60,7 +60,7 @@ export async function userCanEditBoard(bid?: TBoardID) {
     const userEditorAccess = user && user.owner?.includes(bid)
 
     if (user?.uid && !userEditorAccess) {
-        const organization = await getOrganizationWithBoard(bid)
+        const organization = await getOrganizationForBoard(bid)
         return organization && organization.owners?.includes(user.uid)
     }
     return userEditorAccess
@@ -72,7 +72,7 @@ export async function deleteBoard(bid: TBoardID) {
 
     if (!user || !access) throw 'auth/operation-not-allowed'
 
-    const organization = await getOrganizationWithBoard(bid)
+    const organization = await getOrganizationForBoard(bid)
 
     try {
         await firestore().collection('boards').doc(bid).delete()

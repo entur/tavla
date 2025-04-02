@@ -48,7 +48,7 @@ export async function getOrganization(oid: TOrganizationID) {
     }
 }
 
-export async function getOrganizationWithBoard(bid: TBoardID) {
+export async function getOrganizationForBoard(bid: TBoardID) {
     try {
         const ref = await firestore()
             .collection('organizations')

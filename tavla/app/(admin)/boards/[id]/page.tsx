@@ -51,7 +51,7 @@ async function FolderPage(props: TProps) {
                     {folder.name}
                 </Heading1>
                 <div className="flex flex-row gap-4">
-                    <CreateBoard />
+                    <CreateBoard folder={folder} />
                     <Button
                         variant="secondary"
                         as={Link}
