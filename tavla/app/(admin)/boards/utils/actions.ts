@@ -4,7 +4,8 @@ import { revalidatePath } from 'next/cache'
 import { deleteBoard, initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { handleError } from 'app/(admin)/utils/handleError'
-import { TBoardID } from 'types/settings'
+import { TBoard, TBoardID, TOrganization } from 'types/settings'
+import { getBoardsForOrganization } from 'app/(admin)/actions'
 import { getOrganizationForBoard } from 'Board/scenarios/Board/firebase'
 
 initializeAdminApp()
@@ -24,4 +25,25 @@ export async function deleteBoardAction(
     }
     if (organization) redirect(`/boards/${organization?.id}`)
     redirect('/boards')
+}
+
+export async function getBoardsInFolder(folderId?: string) {
+    if (folderId) {
+        const boardsInFolder = await getBoardsForOrganization(folderId)
+        return boardsInFolder.length
+    } else {
+        return 0
+    }
+}
+
+export async function getNumberOfBoards(
+    folders: TOrganization[],
+    boards: TBoard[],
+) {
+    const folderCounts = await Promise.all(
+        folders.map(async (folder) => await getBoardsInFolder(folder.id)),
+    )
+
+    const total = folderCounts.reduce((sum, count) => sum + count, 0)
+    return total + boards.length
 }
