@@ -21,7 +21,6 @@ import { ActionsMenu } from './components/ActionsMenu'
 import { TileList } from './components/TileList'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { CompressSurvey } from './components/CompressSurvey'
 import { Delete } from 'app/(admin)/oversikt/components/Column/Delete'
 import { Settings } from './components/Settings'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
@@ -103,7 +102,6 @@ export default async function EditPage(props: TProps) {
                     </div>
                 </div>
                 <Settings board={board} organization={organization} />
-                <CompressSurvey />
             </div>
         </div>
     )
