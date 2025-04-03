@@ -10,7 +10,7 @@ import Link from 'next/link'
 function BoardName({ board }: { board: TBoard }) {
     return (
         <ColumnWrapper column="name">
-            <p className="flex flex-row gap-1 items-center">
+            <p className="flex flex-row gap-2 items-center">
                 <BoardIcon className="!top-0" aria-label="Tavle-ikon" />
                 <Link
                     href={`/tavler/${board.id}/rediger`}
@@ -26,7 +26,7 @@ function BoardName({ board }: { board: TBoard }) {
 function FolderName({ folder }: { folder: TOrganization }) {
     return (
         <ColumnWrapper column="name">
-            <p className="flex flex-row gap-1 items-center">
+            <p className="flex flex-row gap-2 items-center">
                 <FolderIcon className="!top-0" aria-label="Mappe-ikon" />
                 <Link href={`/mapper/${folder.id}`} className="hover:underline">
                     {folder.name ?? DEFAULT_FOLDER_NAME}
