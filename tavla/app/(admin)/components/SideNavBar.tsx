@@ -42,8 +42,8 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
 
                     <div className="bg-secondary">
                         <SideNavigationItem
-                            href="/boards"
-                            active={pathname?.includes('/boards')}
+                            href="/oversikt"
+                            active={pathname?.includes('/oversikt')}
                         >
                             Mapper og tavler
                         </SideNavigationItem>
