@@ -19,13 +19,13 @@ export type TProps = {
 export async function generateMetadatas(props: TProps): Promise<Metadata> {
     const params = await props.params
     const { id } = params
-    const folder = await getOrganization(id)
+    const singleFolder = await getOrganization(id)
 
-    if (!folder || !folder.id) {
+    if (!singleFolder || !singleFolder.id) {
         return notFound()
     }
     return {
-        title: `${folder.name ?? 'Mappe'} | Entur Tavla`,
+        title: `${singleFolder.name ?? 'Mappe'} | Entur Tavla`,
     }
 }
 
