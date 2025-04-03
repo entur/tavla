@@ -29,6 +29,19 @@ export async function generateMetadatas(props: TProps): Promise<Metadata> {
     }
 }
 
+export async function newGenerateMetadatas(props: TProps): Promise<Metadata> {
+    const params = await props.params
+    const { id } = params
+    const singleFolder = await getOrganization(id)
+
+    if (!singleFolder || !singleFolder.id) {
+        return notFound()
+    }
+    return {
+        title: `${singleFolder.name ?? 'Mappe'} | Entur Tavla`,
+    }
+}
+
 async function FolderPage(props: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user || !user.uid) return redirect('/')
