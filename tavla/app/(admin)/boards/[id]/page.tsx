@@ -16,7 +16,7 @@ export type TProps = {
     params: Promise<{ id: TOrganizationID }>
 }
 
-export async function generateMetadata(props: TProps): Promise<Metadata> {
+export async function generateMetadatas(props: TProps): Promise<Metadata> {
     const params = await props.params
     const { id } = params
     const folder = await getOrganization(id)
