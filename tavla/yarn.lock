@@ -12412,15 +12412,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.176.0":
-  version: 1.176.0
-  resolution: "posthog-js@npm:1.176.0"
+"posthog-js@npm:1.234.7":
+  version: 1.234.7
+  resolution: "posthog-js@npm:1.234.7"
   dependencies:
     core-js: ^3.38.1
     fflate: ^0.4.8
     preact: ^10.19.3
-    web-vitals: ^4.2.0
-  checksum: 1da83b6f3d475232678358a72b52fa9da32125a4e9fbea2cfddefc67757a3a55108960077b23a60e5b916109712067c3dd5d2c857d5f0c0274d89dbf7c9a80c6
+    web-vitals: ^4.2.4
+  peerDependencies:
+    "@rrweb/types": 2.0.0-alpha.17
+    rrweb-snapshot: 2.0.0-alpha.17
+  peerDependenciesMeta:
+    "@rrweb/types":
+      optional: true
+    rrweb-snapshot:
+      optional: true
+  checksum: 91197f8e324dd038a1e8399220c9783d121ab770468962768816f26700d1c8a1c444ebac122336f12643f5c64f90a82c2424d04f7206381ac37414e67171277e
   languageName: node
   linkType: hard
 
@@ -14424,7 +14432,7 @@ __metadata:
     nanoid: 5.0.9
     next: 15.1.2
     postcss: 8.4.47
-    posthog-js: 1.176.0
+    posthog-js: 1.234.7
     prettier: 3.3.3
     react: 18.3.1
     react-dom: 18.3.1
@@ -15216,7 +15224,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^4.2.0":
+"web-vitals@npm:^4.2.4":
   version: 4.2.4
   resolution: "web-vitals@npm:4.2.4"
   checksum: 5b3ffe1db33f23aebf8cc8560ac574401a95939baafde5841835c1bb1c01f9a2478442f319f77aa0d7914739fc2f6b020c5d5b128c16c5c77ca6be2f9dfbbde6
