@@ -2,7 +2,7 @@ import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useState } from 'react'
 import { getOrganizationsForUser } from '../actions'
 import { TOrganization } from 'types/settings'
-import { organizationToDropdownItem } from '../edit/utils'
+import { organizationToDropdownItem } from '../tavler/[id]/utils'
 import { FolderIcon } from '@entur/icons'
 
 const NO_FOLDER = {

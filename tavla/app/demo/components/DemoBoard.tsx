@@ -2,9 +2,9 @@
 import { Heading2, Heading3 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
-import { Preview } from 'app/(admin)/edit/[id]/components/Preview'
+import { Preview } from 'app/(admin)/tavler/[id]/rediger/components/Preview'
 import { usePostHog } from 'posthog-js/react'
-import { TileList } from 'app/(admin)/edit/[id]/components/TileList'
+import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { TBoard } from 'types/settings'
 

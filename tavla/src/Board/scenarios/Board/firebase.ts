@@ -1,4 +1,4 @@
-import { makeBoardCompatible } from 'app/(admin)/edit/[id]/compatibility'
+import { makeBoardCompatible } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import admin, { firestore } from 'firebase-admin'
 import {
     TBoard,

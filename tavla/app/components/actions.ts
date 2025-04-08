@@ -1,6 +1,6 @@
 'use server'
 
-import { isEmptyOrSpaces } from 'app/(admin)/edit/utils'
+import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { validEmail } from 'utils/email'
 import * as Sentry from '@sentry/nextjs'
