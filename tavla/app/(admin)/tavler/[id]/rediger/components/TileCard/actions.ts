@@ -65,15 +65,7 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
             })
         const indexExistingTile = board.tiles.indexOf(existingTile)
 
-        if (tile.displayName) {
-            board.tiles[indexExistingTile] = {
-                ...tile,
-                displayName: tile.displayName.substring(0, 50),
-            }
-        } else {
-            board.tiles[indexExistingTile] = tile
-        }
-
+        board.tiles[indexExistingTile] = tile
         boardRef.update({ tiles: board.tiles, 'meta.dateModified': Date.now() })
 
         revalidatePath(`/tavler/${bid}/rediger`)

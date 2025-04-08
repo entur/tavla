@@ -93,6 +93,7 @@ function TileCard({
         useState(walkingDistanceInMinutes === tile.offset)
 
     const [offset, setOffset] = useState(tile.offset ?? '')
+    const [displayName, setDisplayName] = useState(tile.displayName ?? '')
 
     const submit = async (
         prevState: TFormFeedback | undefined,
@@ -106,9 +107,11 @@ function TileCard({
         data.delete('offset')
         const displayName = data.get('displayName') as string
         data.delete('displayName')
+
         if (isOnlyWhiteSpace(displayName)) {
             return getFormFeedbackForError('board/tiles-name-missing')
         }
+
         let lines: string[] = []
         for (const line of data.values()) {
             lines.push(line as string)
@@ -142,6 +145,7 @@ function TileCard({
         reset()
     }
     const [state, action] = useActionState(submit, undefined)
+
     useEffect(() => {
         if (!address) {
             setOffsetBasedOnWalkingDistance(false)
@@ -301,9 +305,14 @@ function TileCard({
                                 label="Navn på stoppested"
                                 className="!w-full md:!w-1/2 lg:!w-1/4"
                                 name="displayName"
-                                defaultValue={tile.displayName}
-                                disabled={isCombined}
+                                value={displayName}
+                                readOnly={isCombined}
                                 maxLength={50}
+                                clearable={!isCombined}
+                                onClear={() => {
+                                    setDisplayName('')
+                                }}
+                                onChange={(e) => setDisplayName(e.target.value)}
                                 {...getFormFeedbackForField('name', state)}
                             />
                         </div>
