@@ -51,7 +51,7 @@
         "jsdom": "25.0.1",
         "lodash": "4.17.21",
         "nanoid": "5.0.9",
-        "next": "15.1.2",
+        "next": "15.2.3",
         "posthog-js": "1.234.7",
         "react": "18.3.1",
         "react-dom": "18.3.1",
@@ -69,15 +69,15 @@
         "@graphql-codegen/typescript-operations": "4.3.0",
         "@types/lodash": "4.17.12",
         "@types/node": "22.8.4",
-        "@types/react": "npm:types-react@19.0.0-rc.1",
-        "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+        "@types/react": "19.0.12",
+        "@types/react-dom": "19.0.4",
         "@types/semver": "7.5.8",
         "@typescript-eslint/eslint-plugin": "8.12.2",
         "@typescript-eslint/parser": "8.12.2",
         "autoprefixer": "10.4.20",
         "dependency-cruiser": "16.5.0",
         "eslint": "9.13.0",
-        "eslint-config-next": "15.0.3",
+        "eslint-config-next": "15.2.3",
         "eslint-config-prettier": "9.1.0",
         "eslint-plugin-prettier": "5.2.1",
         "eslint-plugin-react": "7.37.2",
@@ -93,6 +93,8 @@
         "node": "18"
     },
     "resolutions": {
-        "ip": ">=2.0.1"
+        "ip": ">=2.0.1",
+        "@types/react": "19.0.12",
+        "@types/react-dom": "19.0.4"
     }
 }
