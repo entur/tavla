@@ -80,10 +80,7 @@ function Settings({
                         <ThemeSelect theme={board.theme} />
                         <FontSelect font={board.meta.fontSize} />
                         <WalkingDistance location={board.meta.location} />
-                        <Footer
-                            footer={board.footer}
-                            isInOrganization={organization ? true : false}
-                        />
+                        <Footer footer={board.footer} />
                         <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
