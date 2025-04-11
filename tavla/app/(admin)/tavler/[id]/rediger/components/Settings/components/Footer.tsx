@@ -4,18 +4,8 @@ import { Heading4 } from '@entur/typography'
 import { TFooter } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { Switch } from '@entur/form'
-import { useState } from 'react'
 
-function Footer({
-    footer,
-    isInOrganization,
-}: {
-    footer?: TFooter
-    isInOrganization: boolean
-}) {
-    const [override, setOverride] = useState(footer?.override ?? false)
-
+function Footer({ footer }: { footer?: TFooter }) {
     return (
         <div className="flex flex-col">
             <div className="flex flex-col items-start sm:flex-row justify-between sm:items-center gap-2">
@@ -33,22 +23,12 @@ function Footer({
                         />
                     </Tooltip>
                 </div>
-                {isInOrganization && (
-                    <Switch
-                        checked={override}
-                        onChange={() => setOverride(!override)}
-                        name="override"
-                    >
-                        Vis infomelding fra mappen
-                    </Switch>
-                )}
             </div>
             <ClientOnlyTextField
                 label="Infomelding"
                 name="footer"
                 defaultValue={footer?.footer ?? ''}
                 className="w-full"
-                readOnly={override && isInOrganization}
             />
         </div>
     )

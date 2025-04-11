@@ -8,7 +8,6 @@ import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { auth } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
-import { Footer } from '../../components/Footer'
 
 initializeAdminApp()
 
@@ -65,10 +64,6 @@ async function EditOrganizationPage(props: TProps) {
                         members={usersReq.users}
                         uid={user.uid}
                         oid={organization.id}
-                    />
-                    <Footer
-                        oid={organization.id}
-                        footer={organization.footer}
                     />
                     <UploadLogo organization={organization} />
                 </div>
