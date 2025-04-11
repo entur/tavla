@@ -17,7 +17,7 @@
         "generate": "graphql-codegen",
         "lint": "next lint --max-warnings 0",
         "prettier": "prettier . --check",
-        "fix": "next lint --fix && prettier .",
+        "fix": "next lint --fix && prettier . --write",
         "build-start": "next build && next start",
         "postinstall": "cd .. && husky install ./.husky"
     },
