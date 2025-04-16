@@ -10,7 +10,7 @@ import {
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Heading1, Label } from '@entur/typography'
-import { CreateOrganization } from '../components/CreateOrganization'
+import { CreateOrganization } from '../components/CreateFolder'
 import { CreateBoard } from '../components/CreateBoard'
 import { countAllBoards } from './utils/actions'
 

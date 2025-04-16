@@ -6,11 +6,11 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState, useRef } from 'react'
-import { inviteUser } from './actions'
+import { inviteUserAction } from './actions'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
-    const [state, formAction] = useActionState(inviteUser, undefined)
+    const [state, formAction] = useActionState(inviteUserAction, undefined)
 
     const formRef = useRef<HTMLFormElement>(null)
 

@@ -14,7 +14,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function CreateOrganization() {
-    const { isOpen, open, close } = useModalWithValue('create', '')
+    const { isOpen, open, close } = useModalWithValue('opprett', 'mappe')
     const [state, formAction] = useActionState(createOrganization, undefined)
 
     return (

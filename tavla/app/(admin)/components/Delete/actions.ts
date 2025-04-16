@@ -8,7 +8,7 @@ import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { handleError } from 'app/(admin)/utils/handleError'
 
-export async function deleteOrganization(
+export async function deleteFolderAction(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
@@ -22,7 +22,7 @@ export async function deleteOrganization(
     const organizationName = data.get('oname') as string
     const name = data.get('name') as string
     if (name !== organizationName)
-        return getFormFeedbackForError('organization/name-mismatch')
+        return getFormFeedbackForError('folder/name-mismatch')
 
     try {
         await deleteOrg(oid)

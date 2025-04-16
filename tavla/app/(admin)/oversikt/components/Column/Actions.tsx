@@ -3,7 +3,7 @@ import { ColumnWrapper } from './ColumnWrapper'
 import { Delete } from './Delete'
 import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
 import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
-import { DeleteOrganization } from 'app/(admin)/components/DeleteOrganization'
+import { DeleteOrganization } from 'app/(admin)/components/Delete'
 import { EditBoard, EditFolder } from './Edit'
 
 function BoardActions({ board }: { board: TBoard }) {
