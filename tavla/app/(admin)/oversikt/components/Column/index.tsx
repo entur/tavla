@@ -3,7 +3,6 @@ import { LastModified } from './LastModified'
 import { TTableColumn } from 'app/(admin)/utils/types'
 import { BoardName, FolderName } from './Name'
 import { BoardActions, FolderActions } from './Actions'
-import { Tags } from './Tags'
 
 function Column({
     board,
@@ -18,8 +17,6 @@ function Column({
         switch (column) {
             case 'name':
                 return <BoardName board={board} />
-            case 'tags':
-                return <Tags tags={board.meta.tags ?? []} />
             case 'actions':
                 return <BoardActions board={board} />
             case 'lastModified':
@@ -29,8 +26,6 @@ function Column({
         switch (column) {
             case 'name':
                 return <FolderName folder={folder} />
-            case 'tags':
-                return <Tags tags={[]} />
             case 'actions':
                 return <FolderActions folder={folder} />
             case 'lastModified':
