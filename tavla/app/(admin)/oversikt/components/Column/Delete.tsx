@@ -1,10 +1,8 @@
 'use client'
 import { useActionState } from 'react'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { DeleteIcon } from '@entur/icons'
 import { TBoard } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
-import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -15,6 +13,9 @@ import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
+import { useDeleteModal } from '../../hooks/useDeleteModal'
+import { DeleteIcon } from '@entur/icons'
+import { OverflowMenuItem } from '@entur/menu/dist/OverflowMenu'
 
 function Delete({
     board,
@@ -26,7 +27,7 @@ function Delete({
     const { addToast } = useToast()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
-    const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
+    const { isOpen, open, close } = useDeleteModal('tavle', board.id ?? '')
 
     const submit = async (data: FormData) => {
         deleteBoard(data)
@@ -105,6 +106,15 @@ function DeleteButton({
             </Button>
         )
     }
+    if (type === 'action')
+        return (
+            <OverflowMenuItem onSelect={onClick}>
+                <div className="flex flex-row">
+                    <DeleteIcon aria-label="Slette-ikon" />
+                    Slett tavle
+                </div>
+            </OverflowMenuItem>
+        )
     return (
         <Tooltip
             content="Slett tavle"

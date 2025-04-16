@@ -1,9 +1,7 @@
 'use client'
 import { useActionState } from 'react'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { DeleteIcon } from '@entur/icons'
+import { Button, ButtonGroup } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
@@ -12,8 +10,9 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { TOrganizationID, TUser } from 'types/settings'
 import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
-import { useModalWithValue } from 'app/(admin)/oversikt/hooks/useModalWithValue'
-import { removeUser } from './actions'
+import { removeUserAction } from './actions'
+import { useDeleteModal } from 'app/(admin)/oversikt/hooks/useDeleteModal'
+import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
 
 function RemoveUserButton({
     user,
@@ -22,27 +21,15 @@ function RemoveUserButton({
     user?: TUser
     oid?: TOrganizationID
 }) {
-    const [state, formAction] = useActionState(removeUser, undefined)
-    const { isOpen, open, close } = useModalWithValue(
-        'deleteUser',
-        user?.uid ?? '',
-    )
+    const [state, deleteUser] = useActionState(removeUserAction, undefined)
+    const { isOpen, open, close } = useDeleteModal('bruker', user?.uid ?? '')
     return (
         <>
-            <Tooltip
-                content="Slett bruker"
-                placement="bottom"
-                id="tooltip-delete-user"
-            >
-                <IconButton
-                    type="submit"
-                    aria-label="Slett bruker"
-                    onClick={open}
-                >
-                    <DeleteIcon />
-                </IconButton>
-            </Tooltip>
-
+            <DeleteButton
+                type="icon"
+                aria-label="Slett bruker"
+                onClick={open}
+            />
             <Modal
                 open={isOpen}
                 size="small"
@@ -59,7 +46,7 @@ function RemoveUserButton({
                     {user?.email} fra mappen?
                 </Paragraph>
                 <form
-                    action={formAction}
+                    action={deleteUser}
                     onSubmit={close}
                     aria-live="polite"
                     aria-relevant="all"

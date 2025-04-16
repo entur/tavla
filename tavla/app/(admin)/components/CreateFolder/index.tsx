@@ -13,8 +13,8 @@ import { createOrganization } from './actions'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
-function CreateOrganization() {
-    const { isOpen, open, close } = useModalWithValue('create', '')
+function CreateFolder() {
+    const { isOpen, open, close } = useModalWithValue('opprett', 'mappe')
     const [state, formAction] = useActionState(createOrganization, undefined)
 
     return (
@@ -86,4 +86,4 @@ function CreateOrganization() {
     )
 }
 
-export { CreateOrganization }
+export { CreateFolder }
