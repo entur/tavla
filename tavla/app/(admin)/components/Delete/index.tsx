@@ -11,46 +11,40 @@ import {
     TFormFeedback,
 } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
-import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
-import { deleteOrganization } from './actions'
+import { deleteFolderAction } from './actions'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
 import { Tooltip } from '@entur/tooltip'
-import Link from 'next/link'
 import { useToast } from '@entur/alert'
 import { useActionState, useState } from 'react'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { OverflowMenuItem } from '@entur/menu'
+import { useDeleteModal } from 'app/(admin)/oversikt/hooks/useDeleteModal'
 
 function DeleteOrganization({
     organization,
     type,
 }: {
     organization: TOrganization
-    type: 'icon' | 'secondary'
+    type?: 'icon' | 'button' | 'action'
 }) {
-    const [modalIsOpen, close] = useSearchParamsModal('delete')
     const { addToast } = useToast()
-    const [state, deleteOrgAction] = useActionState(
-        deleteOrganization,
-        undefined,
+
+    const [state, deleteFolder] = useActionState(deleteFolderAction, undefined)
+    const { isOpen, open, close } = useDeleteModal(
+        'mappe',
+        organization.id ?? '',
     )
+
     const [nameError, setNameError] = useState<TFormFeedback>()
-
-    const params = useSearchParams()
-    const pageParam = params?.get('delete')
-
-    const DeleteButton = type === 'icon' ? IconButton : Button
 
     const submit = async (data: FormData) => {
         const name = data.get('name') as string
         if (name !== organization.name)
-            return setNameError(
-                getFormFeedbackForError('organization/name-mismatch'),
-            )
+            return setNameError(getFormFeedbackForError('folder/name-mismatch'))
 
-        deleteOrgAction(data)
+        deleteFolder(data)
         addToast('Mappe slettet!')
     }
 
@@ -61,25 +55,13 @@ function DeleteOrganization({
                 placement="bottom"
                 id="tooltip-delete-org"
             >
-                <DeleteButton
-                    as={Link}
-                    href={`?delete=${organization.id}`}
-                    className="gap-4"
-                    variant="secondary"
-                    aria-label="Slett mappe"
-                >
-                    {type === 'secondary' && 'Slett'}
-                    <DeleteIcon />
-                </DeleteButton>
+                <DeleteButton type={type} onClick={open} />
             </Tooltip>
 
             <Modal
-                open={modalIsOpen && pageParam === organization.id}
+                open={isOpen}
                 size="small"
-                onDismiss={() => {
-                    close()
-                    setNameError(undefined)
-                }}
+                onDismiss={close}
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
@@ -136,4 +118,45 @@ function DeleteOrganization({
     )
 }
 
-export { DeleteOrganization }
+function DeleteButton({
+    type,
+    onClick,
+}: {
+    type?: 'button' | 'icon' | 'action'
+    onClick: () => void
+}) {
+    if (type === 'button') {
+        return (
+            <Button
+                variant="secondary"
+                aria-label="Slett tavle"
+                onClick={onClick}
+            >
+                Slett tavle
+                <DeleteIcon aria-label="Slette-ikon" />
+            </Button>
+        )
+    }
+    if (type === 'action')
+        return (
+            <OverflowMenuItem onSelect={onClick}>
+                <div className="flex flex-row">
+                    <DeleteIcon aria-label="Slette-ikon" />
+                    Slett tavle
+                </div>
+            </OverflowMenuItem>
+        )
+    return (
+        <Tooltip
+            content="Slett tavle"
+            placement="bottom"
+            id="tooltip-delete-board"
+        >
+            <IconButton aria-label="Slett tavle" onClick={onClick}>
+                <DeleteIcon aria-label="Slette-ikon" />
+            </IconButton>
+        </Tooltip>
+    )
+}
+
+export { DeleteOrganization, DeleteButton }

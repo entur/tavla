@@ -12,8 +12,8 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { TOrganizationID, TUser } from 'types/settings'
 import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
-import { useModalWithValue } from 'app/(admin)/oversikt/hooks/useModalWithValue'
-import { removeUser } from './actions'
+import { removeUserAction } from './actions'
+import { useDeleteModal } from 'app/(admin)/oversikt/hooks/useDeleteModal'
 
 function RemoveUserButton({
     user,
@@ -22,11 +22,8 @@ function RemoveUserButton({
     user?: TUser
     oid?: TOrganizationID
 }) {
-    const [state, formAction] = useActionState(removeUser, undefined)
-    const { isOpen, open, close } = useModalWithValue(
-        'deleteUser',
-        user?.uid ?? '',
-    )
+    const [state, deleteUser] = useActionState(removeUserAction, undefined)
+    const { isOpen, open, close } = useDeleteModal('bruker', user?.uid ?? '')
     return (
         <>
             <Tooltip
@@ -59,7 +56,7 @@ function RemoveUserButton({
                     {user?.email} fra mappen?
                 </Paragraph>
                 <form
-                    action={formAction}
+                    action={deleteUser}
                     onSubmit={close}
                     aria-live="polite"
                     aria-relevant="all"

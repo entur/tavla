@@ -11,24 +11,24 @@ import { redirect } from 'next/navigation'
 import * as Sentry from '@sentry/nextjs'
 import { handleError } from 'app/(admin)/utils/handleError'
 
-export async function removeUser(
+export async function removeUserAction(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
-    const organizationId = data.get('oid')?.toString() ?? ''
+    const folderId = data.get('oid')?.toString() ?? ''
     const uid = data.get('uid')?.toString() ?? ''
 
-    const access = await userCanEditOrganization(organizationId)
+    const access = await userCanEditOrganization(folderId)
     if (!access) return redirect('/')
 
     try {
-        await removeUserFromOrg(organizationId, uid)
+        await removeUserFromOrg(folderId, uid)
         revalidatePath('/')
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while removing user from organization',
-                orgID: organizationId,
+                orgID: folderId,
                 userID: uid,
             },
         })
@@ -36,7 +36,7 @@ export async function removeUser(
     }
 }
 
-export async function inviteUser(
+export async function inviteUserAction(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
@@ -56,10 +56,10 @@ export async function inviteUser(
 
     const organization = await getOrganizationIfUserHasAccess(oid)
 
-    if (!organization) return getFormFeedbackForError('organization/not-found')
+    if (!organization) return getFormFeedbackForError('folder/not-found')
 
     if (organization?.owners?.includes(invitee.uid))
-        return getFormFeedbackForError('organization/user-already-invited')
+        return getFormFeedbackForError('folder/user-already-invited')
 
     try {
         await firestore()

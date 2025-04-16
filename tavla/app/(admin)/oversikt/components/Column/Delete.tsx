@@ -1,10 +1,8 @@
 'use client'
 import { useActionState } from 'react'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { DeleteIcon } from '@entur/icons'
+import { Button, ButtonGroup } from '@entur/button'
 import { TBoard } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
-import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -13,9 +11,10 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { OverflowMenuItem } from '@entur/menu'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
+import { DeleteButton } from 'app/(admin)/components/Delete'
+import { useDeleteModal } from '../../hooks/useDeleteModal'
 
 function Delete({
     board,
@@ -27,7 +26,7 @@ function Delete({
     const { addToast } = useToast()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
-    const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
+    const { isOpen, open, close } = useDeleteModal('tavle', board.id ?? '')
 
     const submit = async (data: FormData) => {
         deleteBoard(data)
@@ -93,45 +92,4 @@ function Delete({
     )
 }
 
-function DeleteButton({
-    type,
-    onClick,
-}: {
-    type?: 'button' | 'icon' | 'action'
-    onClick: () => void
-}) {
-    if (type === 'button') {
-        return (
-            <Button
-                variant="secondary"
-                aria-label="Slett tavle"
-                onClick={onClick}
-            >
-                Slett tavle
-                <DeleteIcon aria-label="Slette-ikon" />
-            </Button>
-        )
-    }
-    if (type === 'action')
-        return (
-            <OverflowMenuItem onSelect={onClick}>
-                <div className="flex flex-row">
-                    <DeleteIcon aria-label="Slette-ikon" />
-                    Slett tavle
-                </div>
-            </OverflowMenuItem>
-        )
-    return (
-        <Tooltip
-            content="Slett tavle"
-            placement="bottom"
-            id="tooltip-delete-board"
-        >
-            <IconButton aria-label="Slett tavle" onClick={onClick}>
-                <DeleteIcon aria-label="Slette-ikon" />
-            </IconButton>
-        </Tooltip>
-    )
-}
-
-export { Delete, DeleteButton }
+export { Delete }
