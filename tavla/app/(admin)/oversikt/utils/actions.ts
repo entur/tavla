@@ -4,9 +4,15 @@ import { revalidatePath } from 'next/cache'
 import { deleteBoard, initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { handleError } from 'app/(admin)/utils/handleError'
-import { TBoard, TBoardID, TOrganization } from 'types/settings'
+import {
+    TBoard,
+    TBoardID,
+    TOrganization,
+    TOrganizationID,
+} from 'types/settings'
 import { getBoardsForOrganization } from 'app/(admin)/actions'
 import { getOrganizationForBoard } from 'Board/scenarios/Board/firebase'
+import { moveBoard } from 'app/(admin)/tavler/[id]/rediger/components/Settings/actions'
 
 initializeAdminApp()
 
@@ -47,4 +53,16 @@ export async function countAllBoards(
     let count = boards.length
     folderCounts.map((folderCount) => (count += folderCount))
     return count
+}
+
+export async function moveBoardAction(data: FormData) {
+    const bid = data.get('bid') as TBoardID
+    const newOrganizationID = data.get('newOid') as TOrganizationID | undefined
+    const oldOrganization = await getOrganizationForBoard(bid)
+    try {
+        await moveBoard(bid, newOrganizationID, oldOrganization?.id)
+        revalidatePath('/')
+    } catch (e) {
+        return handleError(e)
+    }
 }

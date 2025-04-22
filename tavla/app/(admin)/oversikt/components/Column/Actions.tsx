@@ -5,6 +5,7 @@ import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
 import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
 import { DeleteOrganization } from 'app/(admin)/components/DeleteOrganization'
 import { EditBoard, EditFolder } from './Edit'
+import { Move } from './Move'
 
 function BoardActions({ board }: { board: TBoard }) {
     return (
@@ -13,6 +14,7 @@ function BoardActions({ board }: { board: TBoard }) {
                 <EditBoard bid={board.id} />
                 <Copy bid={board.id} />
                 <Open bid={board.id} />
+                <Move board={board} />
                 <Delete board={board} />
             </div>
         </ColumnWrapper>

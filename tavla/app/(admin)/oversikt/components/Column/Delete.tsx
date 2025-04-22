@@ -36,13 +36,7 @@ function Delete({
 
     return (
         <>
-            <Tooltip
-                content="Slett tavle"
-                placement="bottom"
-                id="tooltip-delete-board"
-            >
-                <DeleteButton type={type} onClick={open} />
-            </Tooltip>
+            <DeleteButton type={type} onClick={open} />
 
             <Modal
                 open={isOpen}

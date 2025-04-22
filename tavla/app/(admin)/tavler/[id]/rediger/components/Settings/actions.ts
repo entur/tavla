@@ -252,7 +252,7 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
     )
 }
 
-async function moveBoard(
+export async function moveBoard(
     bid: TBoardID,
     toOrganization?: TOrganizationID,
     fromOrganization?: TOrganizationID,
@@ -294,8 +294,6 @@ async function moveBoard(
                 .collection('users')
                 .doc(user.uid)
                 .update({ owner: firestore.FieldValue.arrayUnion(bid) })
-
-        revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
@@ -305,6 +303,6 @@ async function moveBoard(
                 oldOrg: fromOrganization,
             },
         })
-        return handleError(error)
+        throw error
     }
 }
