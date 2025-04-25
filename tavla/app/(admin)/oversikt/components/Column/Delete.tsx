@@ -13,7 +13,6 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { OverflowMenuItem } from '@entur/menu'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
 
@@ -106,15 +105,6 @@ function DeleteButton({
             </Button>
         )
     }
-    if (type === 'action')
-        return (
-            <OverflowMenuItem onSelect={onClick}>
-                <div className="flex flex-row">
-                    <DeleteIcon aria-label="Slette-ikon" />
-                    Slett tavle
-                </div>
-            </OverflowMenuItem>
-        )
     return (
         <Tooltip
             content="Slett tavle"
