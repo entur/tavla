@@ -2,18 +2,15 @@
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { AddIcon } from '@entur/icons'
-import { OverflowMenuItem } from '@entur/menu'
 import { TBoard, TOrganizationID } from 'types/settings'
 import { duplicateBoard } from './actions'
 
 function DuplicateBoard({
     board,
     oid,
-    type,
 }: {
     board: TBoard
     oid?: TOrganizationID
-    type?: 'button' | 'action'
 }) {
     const { addToast } = useToast()
     const handleSelect = async () => {
@@ -30,24 +27,15 @@ function DuplicateBoard({
         )
         addToast('Tavle duplisert!')
     }
-    if (type === 'button')
-        return (
-            <Button
-                variant="secondary"
-                aria-label="Dupliser tavle"
-                onClick={handleSelect}
-            >
-                Dupliser tavle
-                <AddIcon />
-            </Button>
-        )
     return (
-        <OverflowMenuItem onSelect={handleSelect}>
-            <div className="flex flex-row place-items-center">
-                <AddIcon />
-                Dupliser tavle
-            </div>
-        </OverflowMenuItem>
+        <Button
+            variant="secondary"
+            aria-label="Dupliser tavle"
+            onClick={handleSelect}
+        >
+            Dupliser tavle
+            <AddIcon />
+        </Button>
     )
 }
 

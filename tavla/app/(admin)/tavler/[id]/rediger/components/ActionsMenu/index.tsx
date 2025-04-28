@@ -31,7 +31,7 @@ function OverflowActionsMenu({
 function ButtonsMenu({ board, oid }: { board: TBoard; oid?: TOrganizationID }) {
     return (
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:hidden">
-            <DuplicateBoard board={board} oid={oid} type="button" />
+            <DuplicateBoard board={board} oid={oid} />
         </div>
     )
 }
