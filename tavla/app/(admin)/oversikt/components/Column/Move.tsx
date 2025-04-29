@@ -75,7 +75,7 @@ function Move({ board }: { board: TBoard }) {
                         selectedItem={selectedOrganization}
                         onChange={setSelectedOrganization}
                         aria-required="true"
-                        className="mb-4 z-1000"
+                        className="mb-4"
                     />
                     <HiddenInput id="bid" value={board.id} />
                     <HiddenInput
