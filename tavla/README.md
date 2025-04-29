@@ -42,3 +42,23 @@ yarn dev:persist # persists the local database
 ```
 
 This will start the development server at `http://localhost:3000`.
+
+## Running the migration script
+
+The `migration` script in the "migrations"-folder can take in two arguments - either 'setup' or 'run'. Usage of these as follows:
+
+1. Setting up the environment for the first time:
+
+From the root of the migrations-folder run:
+
+```bash
+./migration setup
+```
+
+2. Running a migration file through the script:
+
+From the root of the migrations-folder run:
+
+```bash
+./migration run path/to/filename.py
+```
