@@ -18,22 +18,28 @@ import { useToast } from '@entur/alert'
 import { useActionState, useState } from 'react'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { useDeleteModal } from 'app/(admin)/oversikt/hooks/useDeleteModal'
 import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 
 function DeleteFolder({
     organization,
     type,
 }: {
     organization: TOrganization
-    type?: 'icon' | 'button' | 'action'
+    type?: 'icon' | 'button'
 }) {
     const { addToast } = useToast()
 
     const [state, deleteFolder] = useActionState(deleteFolderAction, undefined)
-    const { isOpen, open, close } = useDeleteModal(
-        'mappe',
-        organization.id ?? '',
+    const { isOpen, open, close } = useModalWithValues(
+        {
+            key: 'slett',
+            value: 'mappe',
+        },
+        {
+            key: 'id',
+            value: organization.id ?? '',
+        },
     )
 
     const [nameError, setNameError] = useState<TFormFeedback>()

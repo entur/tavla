@@ -4,10 +4,13 @@ import { NameAndOrganizationSelector } from './NameAndOrganizationSelector'
 import { SecondaryButton } from '@entur/button'
 import { BoardIcon } from '@entur/icons'
 import { TOrganization } from 'types/settings'
-import { useModalWithValue } from 'app/(admin)/oversikt/hooks/useModalWithValue'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 
 function CreateBoard({ folder }: { folder?: TOrganization }) {
-    const { isOpen, open, close } = useModalWithValue('opprett', 'tavle')
+    const { isOpen, open, close } = useModalWithValues({
+        key: 'opprett',
+        value: 'tavle',
+    })
 
     return (
         <>

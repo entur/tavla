@@ -13,21 +13,23 @@ import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
-import { useDeleteModal } from '../../hooks/useDeleteModal'
 import { DeleteIcon } from '@entur/icons'
-import { OverflowMenuItem } from '@entur/menu/dist/OverflowMenu'
+import { useModalWithValues } from '../../hooks/useModalWithValue'
 
-function Delete({
-    board,
-    type,
-}: {
-    board: TBoard
-    type?: 'icon' | 'button' | 'action'
-}) {
+function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
     const { addToast } = useToast()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
-    const { isOpen, open, close } = useDeleteModal('tavle', board.id ?? '')
+    const { isOpen, open, close } = useModalWithValues(
+        {
+            key: 'slett',
+            value: 'tavle',
+        },
+        {
+            key: 'id',
+            value: board.id ?? '',
+        },
+    )
 
     const submit = async (data: FormData) => {
         deleteBoard(data)
@@ -91,7 +93,7 @@ function DeleteButton({
     type,
     onClick,
 }: {
-    type?: 'button' | 'icon' | 'action'
+    type?: 'button' | 'icon'
     onClick: () => void
 }) {
     if (type === 'button') {
@@ -106,15 +108,6 @@ function DeleteButton({
             </Button>
         )
     }
-    if (type === 'action')
-        return (
-            <OverflowMenuItem onSelect={onClick}>
-                <div className="flex flex-row">
-                    <DeleteIcon aria-label="Slette-ikon" />
-                    Slett tavle
-                </div>
-            </OverflowMenuItem>
-        )
     return (
         <Tooltip
             content="Slett tavle"

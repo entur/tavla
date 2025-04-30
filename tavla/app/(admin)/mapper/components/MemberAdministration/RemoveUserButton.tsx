@@ -11,8 +11,8 @@ import { TOrganizationID, TUser } from 'types/settings'
 import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
 import { removeUserAction } from './actions'
-import { useDeleteModal } from 'app/(admin)/oversikt/hooks/useDeleteModal'
 import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 
 function RemoveUserButton({
     user,
@@ -22,7 +22,16 @@ function RemoveUserButton({
     oid?: TOrganizationID
 }) {
     const [state, deleteUser] = useActionState(removeUserAction, undefined)
-    const { isOpen, open, close } = useDeleteModal('bruker', user?.uid ?? '')
+    const { isOpen, open, close } = useModalWithValues(
+        {
+            key: 'slett',
+            value: 'bruker',
+        },
+        {
+            key: 'id',
+            value: user?.uid ?? '',
+        },
+    )
     return (
         <>
             <DeleteButton
