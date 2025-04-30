@@ -63,6 +63,10 @@ a.eds-button > .eds-icon,
     padding: 0;
 }
 
+.eds-dropdown__list__floating-container {
+    transform: translate(-2px, 50px) !important;
+}
+
 .eds-contrast .eds-expandable-panel__trigger {
     background: var(--secondary-background-color);
 }
