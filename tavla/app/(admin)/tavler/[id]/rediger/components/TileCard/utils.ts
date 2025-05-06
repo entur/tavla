@@ -4,7 +4,7 @@ import { TLineFragment } from './types'
 export function sortLineByPublicCode(a: TLineFragment, b: TLineFragment) {
     if (!a || !a.publicCode || !b || !b.publicCode) return 1
 
-    const containsLetters = /[a-åA-Å]/
+    const containsLetters = /[a-zæøåA-ZÆØÅ]/
     const aContainsLetters = containsLetters.test(a.publicCode)
     const bContainsLetters = containsLetters.test(b.publicCode)
 
