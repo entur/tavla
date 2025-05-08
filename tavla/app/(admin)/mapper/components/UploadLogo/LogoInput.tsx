@@ -103,6 +103,13 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
             </div>
             {file && (
                 <div className="flex flex-row justify-between gap-4 mt-4">
+                    <SubmitButton
+                        variant="primary"
+                        aria-label="Last opp logo"
+                        className="w-full justify-center "
+                    >
+                        Last opp logo
+                    </SubmitButton>
                     <Button
                         className="w-full justify-center "
                         onClick={clearLogo}
@@ -111,13 +118,6 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                     >
                         Avbryt
                     </Button>
-                    <SubmitButton
-                        variant="primary"
-                        aria-label="Last opp logo"
-                        className="w-full justify-center "
-                    >
-                        Last opp logo
-                    </SubmitButton>
                 </div>
             )}
         </form>
