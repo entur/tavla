@@ -4,7 +4,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getOrganization } from 'Board/scenarios/Board/firebase'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-import { TOrganizationID } from 'types/settings'
+import { TOrganizationID, TUser } from 'types/settings'
 import { Button, ButtonGroup } from '@entur/button'
 import { EditIcon, FolderIcon } from '@entur/icons'
 import Link from 'next/link'
@@ -13,6 +13,9 @@ import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { BreadcrumbsNav } from '../../tavler/[id]/BreadcrumbsNav'
 import { DeleteFolder } from 'app/(admin)/components/Delete'
 import { UploadLogo } from '../components/UploadLogo'
+import { MemberAdministration } from '../components/MemberAdministration'
+import { auth } from 'firebase-admin'
+import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 
 export type TProps = {
     params: Promise<{ id: TOrganizationID }>
@@ -44,6 +47,25 @@ async function FolderPage(props: TProps) {
 
     const boardsInFolder = await getBoardsForOrganization(folder.id)
 
+    const owners = folder.owners ?? []
+
+    const userRecords = await auth().getUsers(
+        owners.map(
+            (uid) =>
+                ({
+                    uid,
+                }) as UidIdentifier,
+        ),
+    )
+
+    const members = userRecords.users.map(
+        (user) =>
+            ({
+                uid: user.uid,
+                email: user.email,
+            }) as TUser,
+    )
+
     return (
         <div className="flex flex-col gap-4 container pb-20">
             <BreadcrumbsNav folder={folder} />
@@ -55,6 +77,11 @@ async function FolderPage(props: TProps) {
                 <ButtonGroup>
                     <CreateBoard folder={folder} />
                     <UploadLogo folder={folder} />
+                    <MemberAdministration
+                        folder={folder}
+                        uid={user.uid}
+                        members={members}
+                    />
                     <Button
                         variant="secondary"
                         as={Link}

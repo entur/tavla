@@ -7,13 +7,13 @@ function MemberList({
     oid,
 }: {
     members: TUser[]
-    uid?: TUserID
+    uid: TUserID
     oid?: TOrganizationID
 }) {
     return (
-        <div className="flex flex-col gap-1 mt-6">
+        <div className="flex flex-col gap-1">
             <div className="flex flex-row justify-between border-b-primary border-b-2 font-semibold pb-2">
-                <p>E-post</p>
+                <p>Medlemmer</p>
                 <p>Handlinger</p>
             </div>
 
