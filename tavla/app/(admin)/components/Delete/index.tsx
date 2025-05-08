@@ -1,6 +1,5 @@
 'use client'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { DeleteIcon } from '@entur/icons'
+import { Button, ButtonGroup } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { TOrganization } from 'types/settings'
@@ -11,37 +10,39 @@ import {
     TFormFeedback,
 } from 'app/(admin)/utils'
 import { FormError } from '../FormError'
-import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
-import { deleteOrganization } from './actions'
+import { deleteFolderAction } from './actions'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
 import { Tooltip } from '@entur/tooltip'
-import Link from 'next/link'
 import { useToast } from '@entur/alert'
 import { useActionState, useState } from 'react'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 
-function DeleteOrganization({
+function DeleteFolder({
     organization,
     type,
 }: {
     organization: TOrganization
-    type: 'icon' | 'secondary'
+    type?: 'icon' | 'button'
 }) {
-    const [modalIsOpen, close] = useSearchParamsModal('delete')
     const { addToast } = useToast()
-    const [state, deleteOrgAction] = useActionState(
-        deleteOrganization,
-        undefined,
+
+    const [state, deleteFolder] = useActionState(deleteFolderAction, undefined)
+    const { isOpen, open, close } = useModalWithValues(
+        {
+            key: 'slett',
+            value: 'mappe',
+        },
+        {
+            key: 'id',
+            value: organization.id ?? '',
+        },
     )
+
     const [nameError, setNameError] = useState<TFormFeedback>()
-
-    const params = useSearchParams()
-    const pageParam = params?.get('delete')
-
-    const DeleteButton = type === 'icon' ? IconButton : Button
 
     const submit = async (data: FormData) => {
         const name = data.get('name') as string
@@ -50,7 +51,7 @@ function DeleteOrganization({
                 getFormFeedbackForError('organization/name-mismatch'),
             )
 
-        deleteOrgAction(data)
+        deleteFolder(data)
         addToast('Mappe slettet!')
     }
 
@@ -61,25 +62,13 @@ function DeleteOrganization({
                 placement="bottom"
                 id="tooltip-delete-org"
             >
-                <DeleteButton
-                    as={Link}
-                    href={`?delete=${organization.id}`}
-                    className="gap-4"
-                    variant="secondary"
-                    aria-label="Slett mappe"
-                >
-                    {type === 'secondary' && 'Slett'}
-                    <DeleteIcon />
-                </DeleteButton>
+                <DeleteButton type={type} onClick={open} />
             </Tooltip>
 
             <Modal
-                open={modalIsOpen && pageParam === organization.id}
+                open={isOpen}
                 size="small"
-                onDismiss={() => {
-                    close()
-                    setNameError(undefined)
-                }}
+                onDismiss={close}
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
@@ -136,4 +125,4 @@ function DeleteOrganization({
     )
 }
 
-export { DeleteOrganization }
+export { DeleteFolder }

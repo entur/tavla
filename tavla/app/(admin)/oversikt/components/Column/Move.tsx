@@ -8,7 +8,7 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TBoard } from 'types/settings'
-import { useModalWithValue } from '../../hooks/useModalWithValue'
+import { useModalWithValues } from '../../hooks/useModalWithValue'
 import { Dropdown } from '@entur/dropdown'
 import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
 import { moveBoardAction } from '../../utils/actions'
@@ -19,7 +19,10 @@ import { useState } from 'react'
 function Move({ board }: { board: TBoard }) {
     const { addToast } = useToast()
 
-    const { isOpen, open, close } = useModalWithValue('flytt', board.id ?? '')
+    const { isOpen, open, close } = useModalWithValues({
+        key: 'flytt',
+        value: board.id ?? '',
+    })
     const [error, setError] = useState<TFormFeedback | undefined>(undefined)
 
     const submit = async (data: FormData) => {

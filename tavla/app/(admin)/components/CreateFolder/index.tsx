@@ -6,15 +6,18 @@ import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
-import { useModalWithValue } from 'app/(admin)/oversikt/hooks/useModalWithValue'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 import Image from 'next/image'
 import birds from 'assets/illustrations/Birds.png'
 import { createOrganization } from './actions'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
-function CreateOrganization() {
-    const { isOpen, open, close } = useModalWithValue('create', '')
+function CreateFolder() {
+    const { isOpen, open, close } = useModalWithValues({
+        key: 'opprett',
+        value: 'mappe',
+    })
     const [state, formAction] = useActionState(createOrganization, undefined)
 
     return (
@@ -86,4 +89,4 @@ function CreateOrganization() {
     )
 }
 
-export { CreateOrganization }
+export { CreateFolder }

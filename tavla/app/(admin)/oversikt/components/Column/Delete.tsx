@@ -1,10 +1,8 @@
 'use client'
 import { useActionState } from 'react'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { DeleteIcon } from '@entur/icons'
 import { TBoard } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
-import { useModalWithValue } from '../../hooks/useModalWithValue'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -15,18 +13,23 @@ import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
+import { DeleteIcon } from '@entur/icons'
+import { useModalWithValues } from '../../hooks/useModalWithValue'
 
-function Delete({
-    board,
-    type,
-}: {
-    board: TBoard
-    type?: 'icon' | 'button' | 'action'
-}) {
+function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
     const { addToast } = useToast()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
-    const { isOpen, open, close } = useModalWithValue('delete', board.id ?? '')
+    const { isOpen, open, close } = useModalWithValues(
+        {
+            key: 'slett',
+            value: 'tavle',
+        },
+        {
+            key: 'id',
+            value: board.id ?? '',
+        },
+    )
 
     const submit = async (data: FormData) => {
         deleteBoard(data)
@@ -90,7 +93,7 @@ function DeleteButton({
     type,
     onClick,
 }: {
-    type?: 'button' | 'icon' | 'action'
+    type?: 'button' | 'icon'
     onClick: () => void
 }) {
     if (type === 'button') {

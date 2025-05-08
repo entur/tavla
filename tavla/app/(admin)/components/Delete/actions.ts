@@ -8,7 +8,7 @@ import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { handleError } from 'app/(admin)/utils/handleError'
 
-export async function deleteOrganization(
+export async function deleteFolderAction(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {

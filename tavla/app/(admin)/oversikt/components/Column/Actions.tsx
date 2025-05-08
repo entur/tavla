@@ -3,7 +3,7 @@ import { ColumnWrapper } from './ColumnWrapper'
 import { Delete } from './Delete'
 import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
 import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
-import { DeleteOrganization } from 'app/(admin)/components/DeleteOrganization'
+import { DeleteFolder } from 'app/(admin)/components/Delete'
 import { EditBoard, EditFolder } from './Edit'
 import { Move } from './Move'
 
@@ -26,7 +26,7 @@ function FolderActions({ folder }: { folder: TOrganization }) {
         <ColumnWrapper column="actions">
             <div className="flex flex-row gap-1">
                 <EditFolder fid={folder.id} />
-                <DeleteOrganization organization={folder} type="icon" />
+                <DeleteFolder organization={folder} type="icon" />
             </div>
         </ColumnWrapper>
     )

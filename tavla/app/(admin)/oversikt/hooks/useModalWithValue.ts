@@ -1,25 +1,42 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 
-function useModalWithValue(modal: string, value: string) {
+type QueryKeys = 'opprett' | 'flytt' | 'slett' | 'id'
+
+interface QueryParam {
+    key: QueryKeys
+    value: string
+}
+
+function useModalWithValues(...queryParams: QueryParam[]) {
     const params = useSearchParams()
     const router = useRouter()
     const pathname = usePathname()
-    const validId = params?.get(modal) === value
-    const isOpen = (params?.has(modal) && validId) ?? false
+    let validId = false
+    let isOpen = true
+    for (const queryParam of queryParams) {
+        validId = params?.get(queryParam.key) === queryParam.value
+
+        isOpen = isOpen && ((params?.has(queryParam.key) && validId) ?? false)
+    }
 
     const open = useCallback(() => {
         const newParams = new URLSearchParams(params ?? undefined)
-        newParams.set(modal, value)
+        for (const queryParam of queryParams) {
+            newParams.set(queryParam.key, queryParam.value)
+        }
         router.push(`${pathname}?${newParams.toString()}`)
-    }, [router, pathname, params, modal, value])
+    }, [router, pathname, params, queryParams])
 
     const close = useCallback(() => {
         const newParams = new URLSearchParams(params ?? undefined)
-        newParams.delete(modal)
+        for (const queryParam of queryParams) {
+            newParams.delete(queryParam.key)
+        }
         router.push(`${pathname}?${newParams.toString()}`)
-    }, [router, pathname, params, modal])
+    }, [router, pathname, params, queryParams])
 
     return { isOpen, open, close }
 }
-export { useModalWithValue }
+
+export { useModalWithValues }

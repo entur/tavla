@@ -1,23 +1,25 @@
 'use client'
 import { Modal } from '@entur/modal'
-import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import { NameAndOrganizationSelector } from './NameAndOrganizationSelector'
-import { Button } from '@entur/button'
+import { SecondaryButton } from '@entur/button'
 import { BoardIcon } from '@entur/icons'
-import Link from 'next/link'
 import { TOrganization } from 'types/settings'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 
 function CreateBoard({ folder }: { folder?: TOrganization }) {
-    const [open, close] = useSearchParamsModal('board')
+    const { isOpen, open, close } = useModalWithValues({
+        key: 'opprett',
+        value: 'tavle',
+    })
 
     return (
         <>
-            <Button variant="secondary" as={Link} href="?board">
+            <SecondaryButton onClick={open}>
                 Opprett tavle
                 <BoardIcon aria-label="Tavle-ikon" />
-            </Button>
+            </SecondaryButton>
             <Modal
-                open={open}
+                open={isOpen}
                 size="medium"
                 onDismiss={() => close()}
                 closeLabel="Avbryt opprettelse av tavle"
