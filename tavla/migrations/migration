@@ -1,0 +1,64 @@
+#bin/bash
+
+# One time setup run
+setup_environment() {
+    echo "> Setting up the python virtual environment"
+    python3 -m venv python-venv
+    source python-venv/bin/activate
+    cd python-venv
+    echo "> Installing requirements"
+    pip install -r ../requirements.txt
+}
+
+# Opens the virtual enviroment and runs the specified migration script
+run_environment() {
+    echo "> Starting the virtual environment"
+    source python-venv/bin/activate
+
+    if [ is_in_environment ]; then
+        echo "> Virtual environment active"
+        if [ -z "$1" ]; then
+            echo "> Error: No file specified"
+            exit 1
+        fi
+
+        echo "> Running migration for: $1"
+        ./python-venv/bin/python3 $1
+    
+    else 
+        echo "> Error: No virtual environment running"
+        exit 1
+    fi
+
+}
+
+# Checks if the virtual enviroment is active
+is_in_environment() {
+    if [ -n "$VIRTUAL_ENV" ]; then 
+        return 1
+    else
+        return 0
+    fi
+}
+
+# Usage help
+usage() {
+    echo "Usage: setup | run path/to/filename.py"
+}
+
+# Lets you run either setup or the migration script through a virtual environment
+parse_arguments() {
+    if [ $# = 0 ]; then
+        usage
+        return
+    fi
+
+    case $1 in
+        setup) setup_environment;;
+        run) shift; run_environment $@;;
+        -h | --help) usage;;
+        *) echo "Invalid argument. Please use 'setup' or 'run'";;
+    esac
+} 
+
+parse_arguments $@
