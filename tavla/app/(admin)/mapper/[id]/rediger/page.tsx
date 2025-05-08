@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import { Heading1, LeadParagraph } from '@entur/typography'
 import { redirect } from 'next/navigation'
-import { UploadLogo } from '../../components/UploadLogo'
 import { MemberAdministration } from '../../components/MemberAdministration'
 import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
@@ -65,7 +64,6 @@ async function EditOrganizationPage(props: TProps) {
                         uid={user.uid}
                         oid={organization.id}
                     />
-                    <UploadLogo organization={organization} />
                 </div>
             </div>
         </div>
