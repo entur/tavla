@@ -26,7 +26,7 @@ function DeleteFolder({
     type,
 }: {
     organization: TOrganization
-    type?: 'icon' | 'button'
+    type: 'icon' | 'button'
 }) {
     const { addToast } = useToast()
 
@@ -62,7 +62,7 @@ function DeleteFolder({
                 placement="bottom"
                 id="tooltip-delete-org"
             >
-                <DeleteButton type={type} onClick={open} />
+                <DeleteButton text="Slett mappe" type={type} onClick={open} />
             </Tooltip>
 
             <Modal

@@ -38,8 +38,7 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
 
     return (
         <>
-            <DeleteButton type={type} onClick={open} />
-
+            <DeleteButton text="Slett tavle" type={type} onClick={open} />
             <Modal
                 open={isOpen}
                 size="small"
@@ -90,31 +89,25 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
 }
 
 function DeleteButton({
+    text,
     type,
     onClick,
 }: {
+    text: string
     type?: 'button' | 'icon'
     onClick: () => void
 }) {
     if (type === 'button') {
         return (
-            <Button
-                variant="secondary"
-                aria-label="Slett tavle"
-                onClick={onClick}
-            >
-                Slett tavle
+            <Button variant="secondary" aria-label={text} onClick={onClick}>
+                {text}
                 <DeleteIcon aria-label="Slette-ikon" />
             </Button>
         )
     }
     return (
-        <Tooltip
-            content="Slett tavle"
-            placement="bottom"
-            id="tooltip-delete-board"
-        >
-            <IconButton aria-label="Slett tavle" onClick={onClick}>
+        <Tooltip content={text} placement="bottom" id="tooltip-delete-board">
+            <IconButton aria-label={text} onClick={onClick}>
                 <DeleteIcon aria-label="Slette-ikon" />
             </IconButton>
         </Tooltip>
