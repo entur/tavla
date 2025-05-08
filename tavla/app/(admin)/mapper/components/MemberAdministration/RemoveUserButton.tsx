@@ -34,11 +34,7 @@ function RemoveUserButton({
     )
     return (
         <>
-            <DeleteButton
-                type="icon"
-                aria-label="Slett bruker"
-                onClick={open}
-            />
+            <DeleteButton text="Slett bruker" type="icon" onClick={open} />
             <Modal
                 open={isOpen}
                 size="small"

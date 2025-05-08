@@ -5,12 +5,13 @@ import { getOrganization } from 'Board/scenarios/Board/firebase'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { TOrganizationID } from 'types/settings'
-import { Button } from '@entur/button'
+import { Button, ButtonGroup } from '@entur/button'
 import { EditIcon, FolderIcon } from '@entur/icons'
 import Link from 'next/link'
 import { BoardTable } from 'app/(admin)/oversikt/components/BoardTable'
 import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { BreadcrumbsNav } from '../../tavler/[id]/BreadcrumbsNav'
+import { DeleteFolder } from 'app/(admin)/components/Delete'
 
 export type TProps = {
     params: Promise<{ id: TOrganizationID }>
@@ -50,7 +51,7 @@ async function FolderPage(props: TProps) {
                     <FolderIcon aria-label="Mappe-ikon" className="!top-0" />
                     {folder.name}
                 </Heading1>
-                <div className="flex flex-row gap-4">
+                <ButtonGroup>
                     <CreateBoard folder={folder} />
                     <Button
                         variant="secondary"
@@ -59,7 +60,8 @@ async function FolderPage(props: TProps) {
                     >
                         Rediger <EditIcon aria-label="Rediger-ikon" />
                     </Button>
-                </div>
+                    <DeleteFolder organization={folder} type="button" />
+                </ButtonGroup>
             </div>
             <Paragraph>
                 Med en mappe kan du invitere andre til å administrere tavlene
