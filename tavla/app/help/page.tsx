@@ -64,7 +64,7 @@ function Help() {
                     </div>
                 </div>
                 <div>
-                    <Heading2>Github</Heading2>
+                    <Heading2>GitHub</Heading2>
                     <EmphasizedText className="italic">
                         Tavla sin kildekode er tilgjengelig for alle på{' '}
                         <EnturLink href="https://github.com/entur/tavla">

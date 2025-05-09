@@ -6,7 +6,7 @@ for å komme i gang! Abonner på oppdateringer til Tavla ved å klikke på “Wa
 
 ## Bidrag
 
-Har du funnet en feil eller har du en idé til noe som kunne vært bedre? Opprett et [issue](https://github.com/entur/tavla/issues/new) her på Github, så skal vi se på det!
+Har du funnet en feil eller har du en idé til noe som kunne vært bedre? Opprett et [issue](https://github.com/entur/tavla/issues/new) her på GitHub, så skal vi se på det!
 
 ### Lisenser og betingelser
 
