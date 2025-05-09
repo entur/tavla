@@ -59,7 +59,6 @@ function ExpandableInfo() {
             </ExpandablePanel>
             <ExpandablePanel title="Informasjonskapsler">
                 <Heading3>Nødvendige cookies</Heading3>
-                <StrongText>session</StrongText>
                 <UnorderedList className="pl-8">
                     <ListItem>
                         Formål: Nødvendig for å vite om du er logget inn.
