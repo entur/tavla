@@ -8,7 +8,7 @@ organizations = "organizations"
 boards = "boards"
 
 # Init local database with default credentials
-def init_local_app() -> firestore.Client:
+def init_local_app(name = "ent-tavla-local") -> firestore.Client:
     # Use the application default credentials.
     cred = credentials.ApplicationDefault()
 
@@ -18,7 +18,7 @@ def init_local_app() -> firestore.Client:
 
     os.environ["FIRESTORE_EMULATOR_HOST"] = "127.0.0.1:8080"
     
-    app = firebase_admin.initialize_app(cred, options, name="ent-tavla-local")
+    app = firebase_admin.initialize_app(cred, options, name=name)
 
     print(f"Connected to: {app.name}")
 
@@ -26,7 +26,7 @@ def init_local_app() -> firestore.Client:
 
 # Init dev database with the right service key for dev credentials
 def init_dev_app() -> firestore.Client:
-    cred = credentials.Certificate("./ent-tavla-dev-875a70280651.json")
+    cred = credentials.Certificate("../ent-tavla-dev-875a70280651.json")
 
     options = {
         "projectId": "ent-tavla-dev"
@@ -40,7 +40,7 @@ def init_dev_app() -> firestore.Client:
 
 # Init prod database with the right service key for prod credentials
 def init_prod_app() -> firestore.Client:
-    cred = credentials.Certificate("./ent-tavla-prd-54ef424ea2f0.json")
+    cred = credentials.Certificate("../ent-tavla-prd-54ef424ea2f0.json")
 
     options = {
         "projectId": "ent-tavla-prd"

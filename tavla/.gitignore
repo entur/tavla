@@ -5,6 +5,7 @@ entur-tavla-staging-firebase-adminsdk.json
 entur-tavla-prod-firebase-adminsdk.json
 
 migrations/python-venv
+migrations/scripts/__pycache__
 
 node_modules/
 **/.firebase
