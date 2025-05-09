@@ -12,6 +12,7 @@ import { BoardTable } from 'app/(admin)/oversikt/components/BoardTable'
 import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { BreadcrumbsNav } from '../../tavler/[id]/BreadcrumbsNav'
 import { DeleteFolder } from 'app/(admin)/components/Delete'
+import { UploadLogo } from '../components/UploadLogo'
 
 export type TProps = {
     params: Promise<{ id: TOrganizationID }>
@@ -53,6 +54,7 @@ async function FolderPage(props: TProps) {
                 </Heading1>
                 <ButtonGroup>
                     <CreateBoard folder={folder} />
+                    <UploadLogo folder={folder} />
                     <Button
                         variant="secondary"
                         as={Link}
