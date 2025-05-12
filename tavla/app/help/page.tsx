@@ -57,7 +57,7 @@ function Help() {
                     <div className="flex flex-col">
                         <EnturLink
                             external
-                            href="https://www.kakadu.no/entur/slik-oppretter-du-en-tavle"
+                            href="https://www.kakadu.no/entur/slik-logger-du-inn-og-oppretter-en-tavle"
                         >
                             Guide: Lag en avgangstavle
                         </EnturLink>
