@@ -19,7 +19,7 @@ yarn install
 
 To access the Firebase database and being able to create a user and log into the application, two service keys are required; `ent-tavla-dev-875a70280651.json` and `ent-tavla-prd-54ef424ea2f0.json`. These files should be placed in `tavla/tavla`.
 
-## Node Version Configuration (using `mise`)
+### Node Version Configuration (using `mise`)
 
 The project is currently using node v18.20.5. `mise` can be used to configure the right node version, see https://mise.jdx.dev/.
 
@@ -59,15 +59,32 @@ This will start the development server at `http://localhost:3000` and the local 
 
 The project integrates with Sentry for error tracking and performance monitoring. However, Sentry is not required for running the application locally or in development mode. If you want to use Sentry, follow these steps:
 
-1. Create a `.env.local` file in the root of the project (if it doesn’t already exist).
-2. Add the following lines to your `.env.local` file:
+1. Create a `.env.local` file in the root of the project (if it does not already exist).
+2. Add the content in the team's LastPass to your `.env.local` file.
 
-```bash
-NEXT_PUBLIC_SENTRY_DSN_URL=your-sentry-dsn-url
-SENTRY_AUTH_TOKEN=your-sentry-auth-token
-```
+<br />
 
-Replace `your-sentry-dsn-url` and `your-sentry-auth-token` with the DSN provided by your Sentry project.
+# Development
+
+## Verified Commits
+
+To be able to push commits to the project, the GitHub user needs to have [verified commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification#ssh-commit-signature-verification) and a part of the Entur organisation.
+
+## Conventional Commits
+
+The project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) as a standard. The branches and commits should have the following format:
+
+`<type>(scope): <description>`
+
+Commonly used `<types>` are `fix`, `feat`, `chore`, `build`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`, etc.`
+
+For example,
+
+`feat(oversikt): add animation when a new folder is created`
+
+## Tailwind CSS IntelliSense
+
+The extension [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) can be useful when writing Tailwind in the project and can be easily applied in VS Code.
 
 ## Running the Migration Script
 
@@ -88,15 +105,3 @@ The `migration` script in the "migrations"-folder can take in two arguments - ei
     ```bash
     ./migration run path/to/filename.py
     ```
-
-## Conventional Commits
-
-The project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) as a standard. The branches and commits should have the following format:
-
-`<type>(scope): <description>`
-
-Commonly used `<types>` are `fix`, `feat`, `chore`, `build`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`, etc.`
-
-For example,
-
-`feat(oversikt): add animation when a new folder is created`
