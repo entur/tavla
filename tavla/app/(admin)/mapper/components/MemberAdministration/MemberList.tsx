@@ -11,23 +11,36 @@ function MemberList({
     oid?: TOrganizationID
 }) {
     return (
-        <div className="flex flex-col gap-1">
-            <div className="flex flex-row justify-between border-b-primary border-b-2 font-semibold pb-2">
-                <p>Medlemmer</p>
-                <p>Handlinger</p>
+        <div>
+            <div className="grid items-center overflow-x-auto grid-cols-3">
+                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5 col-span-2">
+                    Medlemmer
+                </p>
+                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5">
+                    Handlinger
+                </p>
             </div>
 
-            {members.map((member) => (
-                <div
-                    className="flex flex-row justify-between items-center py-2 border-b-2 border-b-primary"
-                    key={member.uid}
-                >
-                    <div>{member.email}</div>
-                    {member.uid !== currentUserId && (
-                        <RemoveUserButton user={member} oid={oid} />
-                    )}
-                </div>
-            ))}
+            <div className="grid items-center overflow-x-auto grid-cols-3 [&>*:nth-child(4n+3)]:bg-grey80 [&>*:nth-child(4n+4)]:bg-grey80">
+                {members.map((member) => (
+                    <>
+                        <p
+                            className="content-center pl-2 h-16 py-2 col-span-2"
+                            key={'email' + member.uid}
+                        >
+                            {member.email}
+                        </p>
+                        <div
+                            className="content-center pl-2 h-16"
+                            key={member.uid}
+                        >
+                            {member.uid !== currentUserId && (
+                                <RemoveUserButton user={member} oid={oid} />
+                            )}
+                        </div>
+                    </>
+                ))}
+            </div>
         </div>
     )
 }
