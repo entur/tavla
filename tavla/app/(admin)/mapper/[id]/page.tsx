@@ -5,9 +5,8 @@ import { getOrganization } from 'Board/scenarios/Board/firebase'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { TOrganizationID, TUser } from 'types/settings'
-import { Button, ButtonGroup } from '@entur/button'
-import { EditIcon, FolderIcon } from '@entur/icons'
-import Link from 'next/link'
+import { ButtonGroup } from '@entur/button'
+import { FolderIcon } from '@entur/icons'
 import { BoardTable } from 'app/(admin)/oversikt/components/BoardTable'
 import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { BreadcrumbsNav } from '../../tavler/[id]/BreadcrumbsNav'
@@ -82,13 +81,6 @@ async function FolderPage(props: TProps) {
                         uid={user.uid}
                         members={members}
                     />
-                    <Button
-                        variant="secondary"
-                        as={Link}
-                        href={`/mapper/${folder.id}/rediger`}
-                    >
-                        Rediger <EditIcon aria-label="Rediger-ikon" />
-                    </Button>
                     <DeleteFolder organization={folder} type="button" />
                 </ButtonGroup>
             </div>

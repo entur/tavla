@@ -32,7 +32,7 @@ function EditFolder({ fid }: { fid?: TOrganizationID }) {
             <IconButton
                 as={Link}
                 aria-label="Rediger mappe"
-                href={`/mapper/${fid}/rediger`}
+                href={`/mapper/${fid}`}
             >
                 <EditIcon aria-label="Rediger-ikon" />
             </IconButton>
