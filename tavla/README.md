@@ -55,14 +55,12 @@ yarn dev:persist # preffered - persists the local database
 
 This will start the development server at `http://localhost:3000` and the local Firebase database emulator `http://127.0.0.1:4000/`.
 
-To access the Firebase database and being able to create a user and log into the application, two service keys are required; `ent-tavla-dev-875a70280651.json` and `ent-tavla-prd-54ef424ea2f0.json`. These files should be placed in `tavla/tavla`.
-
 ## Environment Configuration
 
 The project integrates with Sentry for error tracking and performance monitoring. However, Sentry is not required for running the application locally or in development mode. If you want to use Sentry, follow these steps:
 
 1. Create a `.env.local` file in the root of the project (if it does not already exist).
-2. Add the content in the team's LastPass to your `.env.local` file.
+2. Add the content in the team's password manager to your `.env.local` file.
 
 <br />
 
