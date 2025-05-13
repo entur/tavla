@@ -66,26 +66,6 @@ The project integrates with Sentry for error tracking and performance monitoring
 
 <br />
 
-# Development
-
-## Verified and Conventional Commits
-
-To be able to push commits to the project, the GitHub user needs to have [verified commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification#ssh-commit-signature-verification) and a part of the Entur organisation.
-
-The project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) as a standard. The branches and commits should have the following format:
-
-`<type>(scope): <description>`
-
-Commonly used `<types>` are `fix`, `feat`, `chore`, `build`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`, etc.`
-
-For example,
-
-`feat(oversikt): add animation when a new folder is created`
-
-## Tailwind CSS IntelliSense
-
-The extension [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) can be useful when writing Tailwind in the project and can be easily applied in VS Code.
-
 ## Running the Migration Script
 
 The `migration` script in the "migrations"-folder can take in two arguments - either 'setup' or 'run'. Usage of these as follows:
