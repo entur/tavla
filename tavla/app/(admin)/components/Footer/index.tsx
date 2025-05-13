@@ -39,11 +39,6 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             <EnturLink
                                 href="mailto:tavla@entur.org"
                                 target="_blank"
-                                onClick={() =>
-                                    posthog.capture('SUPPORT_EMAIL', {
-                                        type: 'footer',
-                                    })
-                                }
                             >
                                 Kontakt Tavla
                             </EnturLink>
