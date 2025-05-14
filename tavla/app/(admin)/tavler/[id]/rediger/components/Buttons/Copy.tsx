@@ -8,9 +8,18 @@ import { useLink } from 'hooks/useLink'
 function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     const { addToast } = useToast()
     const link = useLink(bid)
-    const copy = () => {
-        navigator.clipboard.writeText(link ?? '')
-        addToast('Lenken til tavlen ble kopiert!')
+    const copy = async () => {
+        if (!link) {
+            addToast('Lenken er ikke tilgjengelig for kopiering.')
+            return
+        }
+
+        try {
+            await navigator.clipboard.writeText(link)
+            addToast('Lenken til tavlen ble kopiert!')
+        } catch (error) {
+            addToast('Kunne ikke kopiere lenken. Prøv igjen.')
+        }
     }
 
     if (type === 'button') {
