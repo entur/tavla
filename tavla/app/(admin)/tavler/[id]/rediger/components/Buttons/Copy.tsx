@@ -16,9 +16,15 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
 
         try {
             await navigator.clipboard.writeText(link)
-            addToast('Lenken til tavlen ble kopiert!')
-        } catch (error) {
-            addToast('Kunne ikke kopiere lenken. Prøv igjen.')
+            addToast({
+                content: 'Lenken til tavlen ble kopiert!',
+                variant: 'success',
+            })
+        } catch {
+            addToast({
+                content: 'Kunne ikke kopiere lenken. Prøv igjen.',
+                variant: 'information', //TODO: should be error, but the design system have to be bumped up
+            })
         }
     }
 
