@@ -1,20 +1,17 @@
 'use server'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
-import { userCanEditOrganization } from 'app/(admin)/utils/firebase'
+import { userCanEditFolder } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TOrganizationID } from 'types/settings'
+import { TFolderID } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
-export async function setFooter(
-    oid: TOrganizationID | undefined,
-    data: FormData,
-) {
+export async function setFooter(oid: TFolderID | undefined, data: FormData) {
     if (!oid) return getFormFeedbackForError()
-    const access = await userCanEditOrganization(oid)
+    const access = await userCanEditFolder(oid)
     if (!access) return redirect('/')
 
     const message = data.get('footer') as string
@@ -24,7 +21,7 @@ export async function setFooter(
 
     try {
         await firestore()
-            .collection('organizations')
+            .collection('folders')
             .doc(oid)
             .update({
                 footer: validMessage ? message : firestore.FieldValue.delete(),
@@ -33,7 +30,7 @@ export async function setFooter(
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
-                message: 'Error while setting organization footer',
+                message: 'Error while setting folder footer',
                 orgID: oid,
                 footerMessage: message,
             },

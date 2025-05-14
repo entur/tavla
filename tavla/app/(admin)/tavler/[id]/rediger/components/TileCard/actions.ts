@@ -1,6 +1,6 @@
 'use server'
 import { firestore } from 'firebase-admin'
-import { TBoard, TBoardID, TOrganization } from 'types/settings'
+import { TBoard, TBoardID, TFolder } from 'types/settings'
 import { TTile } from 'types/tile'
 import { revalidatePath } from 'next/cache'
 import {
@@ -80,20 +80,18 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
     }
 }
 
-export async function getOrganizationForBoard(bid: TBoardID) {
+export async function getFolderForBoard(bid: TBoardID) {
     try {
         const ref = await firestore()
-            .collection('organizations')
+            .collection('folders')
             .where('boards', 'array-contains', bid)
             .get()
 
         return ref.docs.map(
-            (doc) => ({ id: doc.id, ...doc.data() }) as TOrganization,
+            (doc) => ({ id: doc.id, ...doc.data() }) as TFolder,
         )[0]
     } catch (error) {
-        Sentry.captureMessage(
-            'Error while fetching organization for board: ' + bid,
-        )
+        Sentry.captureMessage('Error while fetching folder for board: ' + bid)
         throw error
     }
 }

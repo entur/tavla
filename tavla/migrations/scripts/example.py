@@ -4,7 +4,7 @@ from firebase_admin import credentials
 import firebase_admin.firestore
 from google.cloud import firestore
 
-organizations = "organizations"
+folders = "folders"
 boards = "boards"
 
 # Init local database with default credentials
@@ -70,24 +70,24 @@ def update_board_footer(transaction, board_ref, org_footer, log_file):
             "footer.footer": org_footer,
             "footer.override": False,
         })
-        log_file.write(f"✅ Updating board '{board_ref.id}', board footer: '{footer.get("footer")}' -> organization footer: '{org_footer}'\n")
+        log_file.write(f"✅ Updating board '{board_ref.id}', board footer: '{footer.get("footer")}' -> folder footer: '{org_footer}'\n")
 
 # Reads through the database 
 def migrate_footer(db: firestore.Client):
-    org_collection = db.collection(organizations).stream()
+    org_collection = db.collection(folders).stream()
     board_collection = db.collection(boards)
 
     # Open a local file to store the results of the migration
     with open("migrate_prod_footer_result.txt", "a") as log_file:
         
-        for organization in org_collection:
-            org = organization.to_dict()
+        for folder in org_collection:
+            org = folder.to_dict()
             org_footer = org.get("footer")
 
             if not org_footer:
                 continue
 
-            log_file.write(f"--- Updating for folder ID: {organization.id} ---\n")
+            log_file.write(f"--- Updating for folder ID: {folder.id} ---\n")
 
             for board_id in org.get("boards", []):
                 board_ref = board_collection.document(board_id)

@@ -1,11 +1,11 @@
 'use server'
 
-import { TOrganizationID } from 'types/settings'
+import { TFolderID } from 'types/settings'
 import { storage, firestore } from 'firebase-admin'
 import {
     getConfig,
     initializeAdminApp,
-    userCanEditOrganization,
+    userCanEditFolder,
 } from 'app/(admin)/utils/firebase'
 import { getDownloadURL } from 'firebase-admin/storage'
 import { nanoid } from 'nanoid'
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
         })
     }
     const data = await request.formData()
-    const oid = data.get('oid') as TOrganizationID
+    const oid = data.get('oid') as TFolderID
 
     const logo = data.get('logo') as File
 
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
         })
 
     try {
-        await userCanEditOrganization(oid)
+        await userCanEditFolder(oid)
     } catch {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
             headers: response.headers,
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
             },
         )
 
-    await firestore().collection('organizations').doc(oid).update({
+    await firestore().collection('folders').doc(oid).update({
         logo: logoUrl,
     })
     revalidatePath(`/mapper/${oid}`)

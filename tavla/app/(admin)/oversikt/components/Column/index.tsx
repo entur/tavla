@@ -1,4 +1,4 @@
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard, TFolder } from 'types/settings'
 import { LastModified } from './LastModified'
 import { TTableColumn } from 'app/(admin)/utils/types'
 import { BoardName, FolderName } from './Name'
@@ -10,7 +10,7 @@ function Column({
     column,
 }: {
     board?: TBoard
-    folder?: TOrganization
+    folder?: TFolder
     column: TTableColumn
 }) {
     if (board) {

@@ -9,7 +9,7 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 import Image from 'next/image'
 import birds from 'assets/illustrations/Birds.png'
-import { createOrganization } from './actions'
+import { createFolder } from './actions'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
@@ -18,7 +18,7 @@ function CreateFolder() {
         key: 'opprett',
         value: 'mappe',
     })
-    const [state, formAction] = useActionState(createOrganization, undefined)
+    const [state, formAction] = useActionState(createFolder, undefined)
 
     return (
         <>

@@ -10,7 +10,7 @@ import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { HiddenInput } from 'components/Form/HiddenInput'
-import { TOrganizationID } from 'types/settings'
+import { TFolderID } from 'types/settings'
 import {
     TFormFeedback,
     getFormFeedbackForError,
@@ -24,7 +24,7 @@ function TileSelector({
     action,
 }: {
     action: (data: FormData) => void
-    oid?: TOrganizationID
+    oid?: TFolderID
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch()

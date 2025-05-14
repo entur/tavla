@@ -12,9 +12,9 @@ export type TBoard = {
     theme?: TTheme
     footer?: TFooter
 }
-export type TBoardWithOrganizaion = {
+export type TBoardWithFolder = {
     board: TBoard
-    organization?: TOrganization
+    folder?: TFolder
 }
 
 export type TUser = {
@@ -23,8 +23,8 @@ export type TUser = {
     owner?: TBoardID[]
 }
 
-export type TOrganization = {
-    id?: TOrganizationID
+export type TFolder = {
+    id?: TFolderID
     name?: string
     owners?: TUserID[]
     boards?: TBoardID[]
@@ -34,7 +34,7 @@ export type TOrganization = {
 
 export type TInvite = {
     uid: TUserID
-    type: 'board' | 'organization'
+    type: 'board' | 'folder'
     access: 'owner'
 }
 
@@ -46,4 +46,4 @@ export type TFooter = {
 export type TLogo = string
 export type TUserID = string
 export type TBoardID = string
-export type TOrganizationID = string
+export type TFolderID = string

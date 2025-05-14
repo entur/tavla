@@ -3,10 +3,7 @@ import { Search } from './components/Search'
 import { BoardTable } from './components/BoardTable'
 import { Metadata } from 'next'
 import React from 'react'
-import {
-    getOrganizationsForUser,
-    getPrivateBoardsForUser,
-} from 'app/(admin)/actions'
+import { getFoldersForUser, getPrivateBoardsForUser } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Heading1, Label } from '@entur/typography'
@@ -24,7 +21,7 @@ async function FoldersAndBoardsPage() {
     const user = await getUserFromSessionCookie()
     if (!user) redirect('/')
 
-    const folders = await getOrganizationsForUser()
+    const folders = await getFoldersForUser()
     const privateBoards = await getPrivateBoardsForUser()
     const count = await countAllBoards(folders, privateBoards)
 

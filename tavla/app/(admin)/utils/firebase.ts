@@ -1,13 +1,10 @@
 'use server'
 import admin, { auth, firestore } from 'firebase-admin'
-import { TBoardID, TOrganizationID, TUser } from 'types/settings'
+import { TBoardID, TFolderID, TUser } from 'types/settings'
 import { getUserFromSessionCookie } from './server'
-import {
-    getBoardsForOrganization,
-    getOrganizationIfUserHasAccess,
-} from '../actions'
+import { getBoardsForFolder, getFolderIfUserHasAccess } from '../actions'
 import * as Sentry from '@sentry/nextjs'
-import { getOrganizationForBoard } from 'Board/scenarios/Board/firebase'
+import { getFolderForBoard } from 'Board/scenarios/Board/firebase'
 
 initializeAdminApp()
 
@@ -60,8 +57,8 @@ export async function userCanEditBoard(bid?: TBoardID) {
     const userEditorAccess = user && user.owner?.includes(bid)
 
     if (user?.uid && !userEditorAccess) {
-        const organization = await getOrganizationForBoard(bid)
-        return organization && organization.owners?.includes(user.uid)
+        const folder = await getFolderForBoard(bid)
+        return folder && folder.owners?.includes(user.uid)
     }
     return userEditorAccess
 }
@@ -72,15 +69,15 @@ export async function deleteBoard(bid: TBoardID) {
 
     if (!user || !access) throw 'auth/operation-not-allowed'
 
-    const organization = await getOrganizationForBoard(bid)
+    const folder = await getFolderForBoard(bid)
 
     try {
         await firestore().collection('boards').doc(bid).delete()
 
-        if (organization?.id) {
+        if (folder?.id) {
             await firestore()
-                .collection('organizations')
-                .doc(organization.id)
+                .collection('folders')
+                .doc(folder.id)
                 .update({
                     boards: admin.firestore.FieldValue.arrayRemove(bid),
                 })
@@ -98,45 +95,40 @@ export async function deleteBoard(bid: TBoardID) {
     }
 }
 
-export async function deleteOrganization(oid: TOrganizationID) {
-    const access = await userCanEditOrganization(oid)
+export async function deleteFolder(oid: TFolderID) {
+    const access = await userCanEditFolder(oid)
     if (!access) throw 'auth/operation-not-allowed'
-    await deleteOrganizationBoards(oid)
-    await firestore().collection('organizations').doc(oid).delete()
+    await deleteFolderBoards(oid)
+    await firestore().collection('folders').doc(oid).delete()
 }
 
-export async function userCanEditOrganization(oid: TOrganizationID) {
+export async function userCanEditFolder(oid: TFolderID) {
     const user = await getUserFromSessionCookie()
     if (!user) return false
 
-    const organization = await getOrganizationIfUserHasAccess(oid)
-    if (!organization) return false
+    const folder = await getFolderIfUserHasAccess(oid)
+    if (!folder) return false
     return true
 }
 
-export async function deleteOrganizationBoards(oid: TOrganizationID) {
-    const boards = await getBoardsForOrganization(oid)
+export async function deleteFolderBoards(oid: TFolderID) {
+    const boards = await getBoardsForFolder(oid)
 
     return Promise.all(
         boards
             .filter((board) => board !== undefined)
-            .map(
-                (board) => board?.id && deleteOrganizationBoard(oid, board.id),
-            ),
+            .map((board) => board?.id && deleteFolderBoard(oid, board.id)),
     )
 }
 
-export async function deleteOrganizationBoard(
-    oid: TOrganizationID,
-    bid: TBoardID,
-) {
-    const access = await userCanEditOrganization(oid)
+export async function deleteFolderBoard(oid: TFolderID, bid: TBoardID) {
+    const access = await userCanEditFolder(oid)
     if (!access) throw 'auth/operation-not-allowed'
     try {
         return firestore().collection('boards').doc(bid).delete()
     } catch (error) {
         Sentry.captureMessage(
-            'Erorr while deleting board ' + bid + ' in organization ' + oid,
+            'Erorr while deleting board ' + bid + ' in folder ' + oid,
         )
         throw error
     }
@@ -145,14 +137,14 @@ export async function deleteOrganizationBoard(
 export async function removeUserFromOrg(oid: string, uid: string) {
     try {
         await firestore()
-            .collection('organizations')
+            .collection('folders')
             .doc(oid)
             .update({
                 owners: admin.firestore.FieldValue.arrayRemove(uid),
             })
     } catch (error) {
         Sentry.captureMessage(
-            'Error while removing user ' + uid + ' from organization ' + oid,
+            'Error while removing user ' + uid + ' from folder ' + oid,
         )
         throw error
     }

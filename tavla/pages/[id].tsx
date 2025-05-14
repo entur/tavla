@@ -1,10 +1,7 @@
 import { Header } from 'components/Header'
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard, TFolder } from 'types/settings'
 import { Board } from 'Board/scenarios/Board'
-import {
-    getBoard,
-    getOrganizationForBoard,
-} from 'Board/scenarios/Board/firebase'
+import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { Footer } from 'components/Footer'
 import { useRefresh } from 'hooks/useRefresh'
 import { getBackendUrl } from 'utils/index'
@@ -26,12 +23,12 @@ export async function getServerSideProps({
         }
     }
 
-    const organization = await getOrganizationForBoard(id)
+    const folder = await getFolderForBoard(id)
 
     return {
         props: {
             board,
-            organization,
+            folder,
             backend_url: getBackendUrl(),
         },
     }
@@ -39,11 +36,11 @@ export async function getServerSideProps({
 
 function BoardPage({
     board,
-    organization,
+    folder,
     backend_url,
 }: {
     board: TBoard
-    organization: TOrganization | null
+    folder: TFolder | null
     backend_url: string
 }) {
     const updatedBoard = useRefresh(board, backend_url)
@@ -90,13 +87,13 @@ function BoardPage({
                 <div className="rootContainer">
                     <Header
                         theme={updatedBoard.theme}
-                        organizationLogo={organization?.logo}
+                        folderLogo={folder?.logo}
                     />
                     <Board board={updatedBoard} />
                     <Footer
                         board={updatedBoard}
-                        logo={organization?.logo !== undefined}
-                        orgFooter={organization?.footer}
+                        logo={folder?.logo !== undefined}
+                        orgFooter={folder?.footer}
                     />
                 </div>
             </div>

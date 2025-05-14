@@ -1,9 +1,9 @@
 'use client'
 import { OverflowMenu } from '@entur/menu'
-import { TBoard, TOrganizationID } from 'types/settings'
+import { TBoard, TFolderID } from 'types/settings'
 import { DuplicateBoard } from '../DuplicateBoard'
 
-function ActionsMenu({ board, oid }: { board: TBoard; oid?: TOrganizationID }) {
+function ActionsMenu({ board, oid }: { board: TBoard; oid?: TFolderID }) {
     return (
         <>
             <OverflowActionsMenu board={board} oid={oid} />
@@ -17,7 +17,7 @@ function OverflowActionsMenu({
     oid,
 }: {
     board: TBoard
-    oid?: TOrganizationID
+    oid?: TFolderID
 }) {
     return (
         <div className="hidden md:flex">
@@ -28,7 +28,7 @@ function OverflowActionsMenu({
     )
 }
 
-function ButtonsMenu({ board, oid }: { board: TBoard; oid?: TOrganizationID }) {
+function ButtonsMenu({ board, oid }: { board: TBoard; oid?: TFolderID }) {
     return (
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:hidden">
             <DuplicateBoard board={board} oid={oid} />

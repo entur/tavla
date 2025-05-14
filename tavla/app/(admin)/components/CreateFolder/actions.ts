@@ -10,37 +10,37 @@ import { handleError } from 'app/(admin)/utils/handleError'
 
 initializeAdminApp()
 
-export async function createOrganization(
+export async function createFolder(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
     const name = data.get('name')?.toString() ?? ''
 
     if (!name || /^\s*$/.test(name))
-        return getFormFeedbackForError('organization/name-missing')
+        return getFormFeedbackForError('folder/name-missing')
 
     const user = await getUserFromSessionCookie()
 
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    let organization = null
+    let folder = null
 
     try {
-        organization = await firestore()
-            .collection('organizations')
+        folder = await firestore()
+            .collection('folders')
             .add({
                 name: name.substring(0, 50),
                 owners: [user.uid],
                 boards: [],
             })
-        if (!organization || !organization.id) return getFormFeedbackForError()
+        if (!folder || !folder.id) return getFormFeedbackForError()
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
-                message: 'Error while creating new organization in firestore',
+                message: 'Error while creating new folder in firestore',
             },
         })
         return handleError(error)
     }
-    redirect(`/mapper/${organization.id}`)
+    redirect(`/mapper/${folder.id}`)
 }

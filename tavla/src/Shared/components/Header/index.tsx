@@ -6,10 +6,10 @@ import { Clock } from 'components/Clock'
 
 function Header({
     theme,
-    organizationLogo,
+    folderLogo,
 }: {
     theme?: TTheme
-    organizationLogo?: TLogo | null
+    folderLogo?: TLogo | null
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
 
@@ -17,7 +17,7 @@ function Header({
         <div className="flex flex-row justify-between items-center gap-em-3">
             <div className="relative w-full h-full">
                 <Image
-                    src={organizationLogo ?? tavlaLogo}
+                    src={folderLogo ?? tavlaLogo}
                     alt="Logo til tavlen"
                     className="object-contain object-left w-[104px] h-[27px] md:w-[208px] md:h-[55px]"
                     width="100"
