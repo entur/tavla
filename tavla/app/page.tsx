@@ -30,10 +30,11 @@ async function Landing() {
                         <Heading1>Lag en avgangstavle for</Heading1>
                         <WordCarousel />
                         <LeadParagraph margin="bottom">
-                            Tavla er en gratis tjeneste som gjør det enkelt å
-                            sette opp avgangstavler for offentlig transport i
-                            hele Norge! Vis kollektivtilbudet i nærheten og
-                            hjelp folk til å planlegge sin neste kollektivreise.
+                            Tavla er en <b>gratis</b> tjeneste som gjør det
+                            enkelt å sette opp avgangstavler for offentlig
+                            transport i hele Norge! Vis kollektivtilbudet i
+                            nærheten og hjelp folk til å planlegge sin neste
+                            kollektivreise.
                         </LeadParagraph>
                         <div className="flex md:flex-row flex-col w-full gap-4 mt-5">
                             {!loggedIn && <CreateUserButtonLanding />}
