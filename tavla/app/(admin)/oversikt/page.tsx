@@ -9,7 +9,7 @@ import {
 } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { Heading1, Label } from '@entur/typography'
+import { Heading1, Heading4, Label } from '@entur/typography'
 import { CreateFolder } from '../components/CreateFolder'
 import { CreateBoard } from '../components/CreateBoard'
 import { countAllBoards } from './utils/actions'
@@ -37,10 +37,25 @@ async function FoldersAndBoardsPage() {
                     <CreateFolder />
                 </div>
             </div>
-            <Search />
+
             <div className="gap-4">
-                <Label>Totalt antall tavler: {count}</Label>
-                <BoardTable folders={folders} boards={privateBoards} />
+                {count === 0 ? (
+                    <Heading4 className="text-center">
+                        Oisann, her var det tomt! Start med å lage en mappe
+                        eller en tavle!
+                    </Heading4>
+                ) : (
+                    <>
+                        <Search />
+                        <div className="flex flex-col mt-8">
+                            <Label>Totalt antall tavler: {count}</Label>
+                            <BoardTable
+                                folders={folders}
+                                boards={privateBoards}
+                            />
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     )
