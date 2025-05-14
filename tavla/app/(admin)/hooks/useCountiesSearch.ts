@@ -14,7 +14,19 @@ function useCountiesSearch() {
         fetchCounties().then((res) => setCountiesList(res))
     }, [])
 
-    const counties = useCallback(() => countiesList, [countiesList])
+    const counties = useCallback(() => {
+        return [
+            ...countiesList
+                .filter(
+                    (county) =>
+                        !selectedCounties.some(
+                            (selected) => selected.value === county.value,
+                        ),
+                )
+                .sort((a, b) => a.label.localeCompare(b.label)),
+            ...selectedCounties.sort((a, b) => a.label.localeCompare(b.label)),
+        ]
+    }, [countiesList, selectedCounties])
 
     return { counties, selectedCounties, setSelectedCounties }
 }
