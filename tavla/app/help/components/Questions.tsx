@@ -79,16 +79,6 @@ function Questions() {
                 du ønsker å bruke - du vil fortsatt ha tilgang til alle dine
                 tavler og mapper med begge metoder.
             </AccordionItem>
-            <AccordionItem title="Hvordan setter jeg opp Tavla hos meg?">
-                Se guiden vår{' '}
-                <Link
-                    href="https://www.kakadu.no/entur/slik-oppretter-du-en-tavle"
-                    className="underline"
-                >
-                    her
-                </Link>{' '}
-                på hvordan du lager en avgangstavle.
-            </AccordionItem>
         </Accordion>
     )
 }
