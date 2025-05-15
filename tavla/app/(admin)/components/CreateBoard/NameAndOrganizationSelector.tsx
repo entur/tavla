@@ -32,6 +32,7 @@ function NameAndOrganizationSelector({ folder }: { folder?: TOrganization }) {
                 name="name"
                 maxLength={50}
                 required
+                autoComplete="off"
                 {...getFormFeedbackForField('name', state)}
             />
 
