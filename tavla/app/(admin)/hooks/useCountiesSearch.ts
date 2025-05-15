@@ -23,8 +23,10 @@ function useCountiesSearch() {
                             (selected) => selected.value === county.value,
                         ),
                 )
-                .sort((a, b) => a.label.localeCompare(b.label)),
-            ...selectedCounties.sort((a, b) => a.label.localeCompare(b.label)),
+                .sort((a, b) => a.label.localeCompare(b.label, 'nb')),
+            ...selectedCounties.sort((a, b) =>
+                a.label.localeCompare(b.label, 'nb'),
+            ),
         ]
     }, [countiesList, selectedCounties])
 
