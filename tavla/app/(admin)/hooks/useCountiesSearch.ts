@@ -15,19 +15,18 @@ function useCountiesSearch() {
     }, [])
 
     const counties = useCallback(() => {
-        return [
-            ...countiesList
-                .filter(
-                    (county) =>
-                        !selectedCounties.some(
-                            (selected) => selected.value === county.value,
-                        ),
-                )
-                .sort((a, b) => a.label.localeCompare(b.label, 'nb')),
-            ...selectedCounties.sort((a, b) =>
-                a.label.localeCompare(b.label, 'nb'),
+        const uniqueCounties = [
+            ...countiesList,
+            ...selectedCounties.filter(
+                (selected) =>
+                    !countiesList.some(
+                        (county) => county.value === selected.value,
+                    ),
             ),
         ]
+        return uniqueCounties.sort((a, b) =>
+            a.label.localeCompare(b.label, 'nb'),
+        )
     }, [countiesList, selectedCounties])
 
     return { counties, selectedCounties, setSelectedCounties }
