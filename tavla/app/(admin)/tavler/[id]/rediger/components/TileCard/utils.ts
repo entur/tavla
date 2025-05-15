@@ -41,7 +41,7 @@ export function transportModeNames(transportMode: TTransportMode | null) {
         case 'monorail':
             return 'Enskinnebane'
         case 'coach':
-            return 'Langdistanse buss'
+            return 'Langdistansebuss'
         case 'taxi':
             return 'Taxi'
         case 'unknown':
