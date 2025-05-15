@@ -12,21 +12,12 @@ function useCountiesSearch() {
     >([])
 
     useEffect(() => {
-        fetchCounties().then((res) => setCountiesList(res))
+        fetchCounties().then((res) =>
+            setCountiesList(sortCountiesAlphabetically(res)),
+        )
     }, [])
 
-    const counties = useCallback(() => {
-        const uniqueCounties = [
-            ...countiesList,
-            ...selectedCounties.filter(
-                (selected) =>
-                    !countiesList.some(
-                        (county) => county.value === selected.value,
-                    ),
-            ),
-        ]
-        return sortCountiesAlphabetically(uniqueCounties)
-    }, [countiesList, selectedCounties])
+    const counties = useCallback(() => countiesList, [countiesList])
 
     return { counties, selectedCounties, setSelectedCounties }
 }
