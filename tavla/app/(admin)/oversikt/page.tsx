@@ -13,6 +13,8 @@ import { Heading1, Heading4, Label } from '@entur/typography'
 import { CreateFolder } from '../components/CreateFolder'
 import { CreateBoard } from '../components/CreateBoard'
 import { countAllBoards } from './utils/actions'
+import leafs from 'assets/illustrations/leafs.svg'
+import Image from 'next/image'
 
 initializeAdminApp()
 
@@ -27,6 +29,7 @@ async function FoldersAndBoardsPage() {
     const folders = await getOrganizationsForUser()
     const privateBoards = await getPrivateBoardsForUser()
     const count = await countAllBoards(folders, privateBoards)
+    const elementsListCount = privateBoards.length + folders.length
 
     return (
         <div className="flex flex-col gap-8 container pb-20">
@@ -39,11 +42,18 @@ async function FoldersAndBoardsPage() {
             </div>
 
             <div className="gap-4">
-                {count === 0 ? (
-                    <Heading4 className="text-center">
-                        Oisann, her var det tomt! Start med å lage en mappe
-                        eller en tavle!
-                    </Heading4>
+                {elementsListCount === 0 ? (
+                    <>
+                        <Image
+                            src={leafs}
+                            alt=""
+                            className="h-1/4 w-1/4 mx-auto"
+                        />
+                        <Heading4 className="text-center">
+                            Oisann, her var det tomt! Start med å lage en mappe
+                            eller en tavle!
+                        </Heading4>
+                    </>
                 ) : (
                     <>
                         <Search />
