@@ -39,6 +39,13 @@ function TileSelector({
     const posthog = usePostHog()
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
+
+    const handleCountyChange = (
+        newSelectedCounties: typeof selectedCounties,
+    ) => {
+        setSelectedCounties(newSelectedCounties)
+    }
+
     return (
         <form
             className="flex flex-col lg:flex-row gap-4 mr-6 w-full"
@@ -65,7 +72,8 @@ function TileSelector({
                     label="Fylker (valgfritt)"
                     items={counties}
                     selectedItems={selectedCounties}
-                    onChange={setSelectedCounties}
+                    onChange={handleCountyChange}
+                    clearInputOnSelect={true}
                     prepend={<SearchIcon aria-hidden />}
                     maxChips={2}
                     hideSelectAll
