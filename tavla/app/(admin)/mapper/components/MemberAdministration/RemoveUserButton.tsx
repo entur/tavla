@@ -7,20 +7,14 @@ import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { TOrganizationID, TUser } from 'types/settings'
+import { TFolderID, TUser } from 'types/settings'
 import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
 import { removeUserAction } from './actions'
 import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
 import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 
-function RemoveUserButton({
-    user,
-    oid,
-}: {
-    user?: TUser
-    oid?: TOrganizationID
-}) {
+function RemoveUserButton({ user, oid }: { user?: TUser; oid?: TFolderID }) {
     const [state, deleteUser] = useActionState(removeUserAction, undefined)
     const { isOpen, open, close } = useModalWithValues(
         {

@@ -1,10 +1,10 @@
 import { Heading1, Paragraph } from '@entur/typography'
-import { getBoardsForOrganization } from 'app/(admin)/actions'
+import { getBoardsForFolder } from 'app/(admin)/actions'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { getOrganization } from 'Board/scenarios/Board/firebase'
+import { getFolder } from 'Board/scenarios/Board/firebase'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-import { TOrganizationID, TUser } from 'types/settings'
+import { TFolderID, TUser } from 'types/settings'
 import { ButtonGroup } from '@entur/button'
 import { FolderIcon } from '@entur/icons'
 import { BoardTable } from 'app/(admin)/oversikt/components/BoardTable'
@@ -17,13 +17,13 @@ import { auth } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
 
 export type TProps = {
-    params: Promise<{ id: TOrganizationID }>
+    params: Promise<{ id: TFolderID }>
 }
 
 export async function generateMetadata(props: TProps): Promise<Metadata> {
     const params = await props.params
     const { id } = params
-    const folder = await getOrganization(id)
+    const folder = await getFolder(id)
 
     if (!folder || !folder.id) {
         return notFound()
@@ -38,13 +38,13 @@ async function FolderPage(props: TProps) {
     if (!user || !user.uid) return redirect('/')
 
     const params = await props.params
-    const folder = await getOrganization(params.id)
+    const folder = await getFolder(params.id)
 
     if (!folder || !folder.id) {
         return notFound()
     }
 
-    const boardsInFolder = await getBoardsForOrganization(folder.id)
+    const boardsInFolder = await getBoardsForFolder(folder.id)
 
     const owners = folder.owners ?? []
 
@@ -81,7 +81,7 @@ async function FolderPage(props: TProps) {
                         uid={user.uid}
                         members={members}
                     />
-                    <DeleteFolder organization={folder} type="button" />
+                    <DeleteFolder folder={folder} type="button" />
                 </ButtonGroup>
             </div>
             <Paragraph>

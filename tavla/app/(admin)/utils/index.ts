@@ -10,7 +10,7 @@ export type InputType =
     | 'name'
     | 'file'
     | 'column'
-    | 'organization'
+    | 'folder'
     | 'quay'
     | 'stop_place'
 
@@ -124,19 +124,19 @@ export function getFormFeedbackForError(
                 feedback: 'Skriv inn en e-postadresse.',
                 variant: 'warning',
             }
-        case 'organization/not-found':
+        case 'folder/not-found':
             return {
                 form_type: 'general',
                 feedback: 'Fant ikke mappen',
                 variant: 'negative',
             }
-        case 'organization/user-already-invited':
+        case 'folder/user-already-invited':
             return {
                 form_type: 'general',
                 feedback: 'Denne personen er allerede medlem av mappen.',
                 variant: 'information',
             }
-        case 'organization/name-missing':
+        case 'folder/name-missing':
             return {
                 form_type: 'name',
                 feedback: 'Du har ikke gitt mappen et navn',
@@ -161,7 +161,7 @@ export function getFormFeedbackForError(
                 variant: 'negative',
             }
 
-        case 'organization/name-mismatch':
+        case 'folder/name-mismatch':
             return {
                 form_type: 'name',
                 feedback: 'Navnet på mappen er ikke skrevet riktig',

@@ -2,13 +2,13 @@
 import { useToast } from '@entur/alert'
 import { Heading2, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { TOrganizationID } from 'types/settings'
+import { TFolderID } from 'types/settings'
 import { setFooter as setFooterAction } from './actions'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import { useActionState } from 'react'
-function Footer({ oid, footer }: { oid?: TOrganizationID; footer?: string }) {
+function Footer({ oid, footer }: { oid?: TFolderID; footer?: string }) {
     const { addToast } = useToast()
 
     const setOrgFooter = async (

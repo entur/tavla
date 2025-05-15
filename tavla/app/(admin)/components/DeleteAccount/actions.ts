@@ -1,8 +1,8 @@
 'use server'
-import { getOrganizationsForUser } from 'app/(admin)/actions'
+import { getFoldersForUser } from 'app/(admin)/actions'
 import {
     deleteBoard,
-    deleteOrganization,
+    deleteFolder,
     deleteUserFromFirebaseAuth,
     deleteUserFromFirestore,
     getUserWithBoardIds,
@@ -45,7 +45,7 @@ export async function deleteAccount(data: FormData) {
 }
 
 async function deleteOrgsAndBoardsWithSoleMember() {
-    const allOrgsWithUser = await getOrganizationsForUser()
+    const allOrgsWithUser = await getFoldersForUser()
 
     const orgsWithSoleMember = allOrgsWithUser.filter(
         (org) => org.owners?.length === 1,
@@ -53,7 +53,7 @@ async function deleteOrgsAndBoardsWithSoleMember() {
 
     for (const org of orgsWithSoleMember) {
         if (org.id) {
-            await deleteOrganization(org.id)
+            await deleteFolder(org.id)
         }
     }
 }
@@ -68,7 +68,7 @@ async function deletePrivateBoardsForUser() {
 }
 
 async function removeUserFromOrgs(uid: string) {
-    const allOrgsWithUser = await getOrganizationsForUser()
+    const allOrgsWithUser = await getFoldersForUser()
 
     const orgsWithMultipleMembers = allOrgsWithUser.filter(
         (org) => (org.owners?.length ?? 0) > 1,

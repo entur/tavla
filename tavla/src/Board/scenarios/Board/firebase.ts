@@ -1,11 +1,6 @@
 import { makeBoardCompatible } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import admin, { firestore } from 'firebase-admin'
-import {
-    TBoard,
-    TBoardID,
-    TOrganization,
-    TOrganizationID,
-} from 'types/settings'
+import { TBoard, TBoardID, TFolder, TFolderID } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
@@ -32,34 +27,31 @@ export async function getBoard(bid: TBoardID) {
     }
 }
 
-export async function getOrganization(oid: TOrganizationID) {
+export async function getFolder(oid: TFolderID) {
     try {
-        const folder = await firestore()
-            .collection('organizations')
-            .doc(oid)
-            .get()
+        const folder = await firestore().collection('folders').doc(oid).get()
         if (!folder.exists) {
             return undefined
         }
-        return { id: folder.id, ...folder.data() } as TOrganization
+        return { id: folder.id, ...folder.data() } as TFolder
     } catch (error) {
-        Sentry.captureMessage('Failed to fetch organization with OID ' + oid)
+        Sentry.captureMessage('Failed to fetch folder with OID ' + oid)
         throw error
     }
 }
 
-export async function getOrganizationForBoard(bid: TBoardID) {
+export async function getFolderForBoard(bid: TBoardID) {
     try {
         const ref = await firestore()
-            .collection('organizations')
+            .collection('folders')
             .where('boards', 'array-contains', bid)
             .get()
         const org = ref.docs.map(
-            (doc) => ({ id: doc.id, ...doc.data() }) as TOrganization,
+            (doc) => ({ id: doc.id, ...doc.data() }) as TFolder,
         )
         return org[0] ?? null
     } catch (error) {
-        Sentry.captureMessage('Failed to fetch organization with board ' + bid)
+        Sentry.captureMessage('Failed to fetch folder with board ' + bid)
         throw error
     }
 }

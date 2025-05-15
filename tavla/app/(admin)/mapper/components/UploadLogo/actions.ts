@@ -2,13 +2,13 @@
 
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { revalidatePath } from 'next/cache'
-import { TLogo, TOrganizationID } from 'types/settings'
+import { TLogo, TFolderID } from 'types/settings'
 import { getFilename } from './utils'
 import { storage, firestore } from 'firebase-admin'
 import {
     getConfig,
     initializeAdminApp,
-    userCanEditOrganization,
+    userCanEditFolder,
 } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { handleError } from 'app/(admin)/utils/handleError'
@@ -16,7 +16,7 @@ import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
 
-export async function remove(oid?: TOrganizationID, logo?: TLogo) {
+export async function remove(oid?: TFolderID, logo?: TLogo) {
     if (!oid || !logo)
         return getFormFeedbackForError('auth/operation-not-allowed')
 
@@ -24,7 +24,7 @@ export async function remove(oid?: TOrganizationID, logo?: TLogo) {
 
     if (!file) return getFormFeedbackForError()
 
-    const access = userCanEditOrganization(oid)
+    const access = userCanEditFolder(oid)
     if (!access) return redirect('/')
 
     try {
@@ -33,7 +33,7 @@ export async function remove(oid?: TOrganizationID, logo?: TLogo) {
 
         await logoFile.delete()
 
-        await firestore().collection('organizations').doc(oid).update({
+        await firestore().collection('folders').doc(oid).update({
             logo: firestore.FieldValue.delete(),
         })
 
@@ -41,7 +41,7 @@ export async function remove(oid?: TOrganizationID, logo?: TLogo) {
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
-                message: 'Error while removing logo from organization',
+                message: 'Error while removing logo from folder',
                 orgID: oid,
                 fileName: file,
             },

@@ -7,15 +7,14 @@ import { useActionState } from 'react'
 import { createBoard } from './actions'
 import { FormError } from '../FormError'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { TOrganization } from 'types/settings'
+import { TFolder } from 'types/settings'
 import { Dropdown } from '@entur/dropdown'
-import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
+import { useFolders } from 'app/(admin)/hooks/useFolders'
 
-function NameAndOrganizationSelector({ folder }: { folder?: TOrganization }) {
+function NameAndFolderSelector({ folder }: { folder?: TFolder }) {
     const [state, action] = useActionState(createBoard, undefined)
 
-    const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizations(folder)
+    const { folders, selectedFolder, setSelectedFolder } = useFolders(folder)
 
     return (
         <form action={action} className="md:px-10">
@@ -38,14 +37,14 @@ function NameAndOrganizationSelector({ folder }: { folder?: TOrganization }) {
             <div className="mt-4">
                 <Label>Legg til i en mappe</Label>
                 <Dropdown
-                    items={organizations}
+                    items={folders}
                     label="Dine mapper"
-                    selectedItem={selectedOrganization}
-                    onChange={setSelectedOrganization}
+                    selectedItem={selectedFolder}
+                    onChange={setSelectedFolder}
                     aria-required="true"
                     className="mb-4"
                 />
-                <HiddenInput id="oid" value={selectedOrganization?.value.id} />
+                <HiddenInput id="oid" value={selectedFolder?.value.id} />
             </div>
             <div className="mt-4">
                 <FormError {...getFormFeedbackForField('general', state)} />
@@ -60,4 +59,4 @@ function NameAndOrganizationSelector({ folder }: { folder?: TOrganization }) {
     )
 }
 
-export { NameAndOrganizationSelector }
+export { NameAndFolderSelector }
