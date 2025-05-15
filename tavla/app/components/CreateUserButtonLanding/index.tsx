@@ -7,7 +7,7 @@ function CreateUserButtonLanding() {
     const posthog = usePostHog()
     return (
         <Button
-            variant="success"
+            variant="primary"
             size="medium"
             as={Link}
             href="?login=create"

@@ -17,7 +17,7 @@ export const CreateUserButton = () => {
                 Det er helt gratis å bruke Tavla!
             </Paragraph>
             <Button
-                variant="success"
+                variant="primary"
                 as={Link}
                 href="?login"
                 className="mt-2"
