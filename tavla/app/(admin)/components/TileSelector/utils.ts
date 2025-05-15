@@ -9,6 +9,7 @@ import { DEFAULT_COLUMNS } from 'types/column'
 import { TCoordinate } from 'types/meta'
 import { TTile } from 'types/tile'
 import * as Sentry from '@sentry/nextjs'
+import { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 
 export function formDataToTile(data: FormData) {
     const quayId = data.get('quay') as string
@@ -85,4 +86,10 @@ export async function getQuayCoordinates(quayId: string) {
         Sentry.captureMessage('getQuayCoordinates failed for quayId' + quayId)
         throw error
     }
+}
+
+export function sortCountiesAlphabetically(
+    counties: NormalizedDropdownItemType[],
+): NormalizedDropdownItemType[] {
+    return counties.sort((a, b) => a.label.localeCompare(b.label, 'nb'))
 }

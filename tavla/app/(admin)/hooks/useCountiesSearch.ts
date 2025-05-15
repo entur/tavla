@@ -1,6 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useEffect, useState } from 'react'
 import { fetchCounties } from 'app/(admin)/utils/fetch'
+import { sortCountiesAlphabetically } from '../components/TileSelector/utils'
 
 function useCountiesSearch() {
     const [countiesList, setCountiesList] = useState<
@@ -24,9 +25,7 @@ function useCountiesSearch() {
                     ),
             ),
         ]
-        return uniqueCounties.sort((a, b) =>
-            a.label.localeCompare(b.label, 'nb'),
-        )
+        return sortCountiesAlphabetically(uniqueCounties)
     }, [countiesList, selectedCounties])
 
     return { counties, selectedCounties, setSelectedCounties }
