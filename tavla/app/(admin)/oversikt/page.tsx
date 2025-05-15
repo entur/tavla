@@ -50,8 +50,8 @@ async function FoldersAndBoardsPage() {
                             className="h-1/4 w-1/4 mx-auto"
                         />
                         <Heading4 className="text-center">
-                            Oisann, her var det tomt! Start med å lage en mappe
-                            eller en tavle!
+                            Her var det tomt gitt! Start med å opprette en mappe
+                            eller en tavle
                         </Heading4>
                     </>
                 ) : (
