@@ -9,12 +9,11 @@ import {
 } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { Heading1, Heading4, Label } from '@entur/typography'
+import { Heading1, Label } from '@entur/typography'
 import { CreateFolder } from '../components/CreateFolder'
 import { CreateBoard } from '../components/CreateBoard'
 import { countAllBoards } from './utils/actions'
-import leafs from 'assets/illustrations/leafs.svg'
-import Image from 'next/image'
+import EmptyOverview from './components/EmptyOverview'
 
 initializeAdminApp()
 
@@ -43,17 +42,7 @@ async function FoldersAndBoardsPage() {
 
             <div className="gap-4">
                 {elementsListCount === 0 ? (
-                    <>
-                        <Image
-                            src={leafs}
-                            alt=""
-                            className="h-1/4 w-1/4 mx-auto"
-                        />
-                        <Heading4 className="text-center">
-                            Her var det tomt gitt! Start med å opprette en mappe
-                            eller en tavle
-                        </Heading4>
-                    </>
+                    <EmptyOverview text="Her var det tomt gitt! Start med å opprette en mappe eller en tavle" />
                 ) : (
                     <>
                         <Search />
