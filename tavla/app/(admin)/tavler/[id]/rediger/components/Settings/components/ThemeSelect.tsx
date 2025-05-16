@@ -8,14 +8,14 @@ function ThemeSelect({ theme = 'dark' }: { theme?: TTheme }) {
     const [selectedTheme, setSelectedTheme] = useState<TTheme>(theme)
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
             <Heading4 margin="bottom">Fargetema</Heading4>
             <ChoiceChipGroup
-                className="mb-2"
+                className="h-full mb-2"
                 name="theme"
                 value={selectedTheme}
                 onChange={(e) => setSelectedTheme(e.target.value as TTheme)}
-                aria-label="Tekststørrelse"
+                aria-label="Fargetema"
             >
                 <ChoiceChip value="light">Lys</ChoiceChip>
                 <ChoiceChip value="dark">Mørk</ChoiceChip>

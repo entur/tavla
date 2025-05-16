@@ -8,10 +8,10 @@ function FontSelect({ font = 'medium' }: { font?: TFontSize }) {
     const [fontSize, setFontSize] = useState<TFontSize>(font)
 
     return (
-        <div>
+        <div className="flex flex-col gap-1">
             <Heading4 margin="bottom">Tekststørrelse </Heading4>
             <ChoiceChipGroup
-                className="h-full"
+                className="h-full mb-2"
                 name="font"
                 value={fontSize}
                 onChange={(e) => setFontSize(e.target.value as TFontSize)}
