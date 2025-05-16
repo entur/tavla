@@ -468,6 +468,13 @@ function TileCard({
                             onDismiss={reset}
                             closeLabel="Avbryt endring"
                         >
+                            <IconButton
+                                aria-label="Lukk"
+                                onClick={close}
+                                className="absolute top-4 right-4"
+                            >
+                                <CloseIcon />
+                            </IconButton>
                             <div className="flex flex-col items-center">
                                 <Image
                                     alt=""

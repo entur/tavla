@@ -1,6 +1,6 @@
 'use client'
 import { useActionState } from 'react'
-import { Button, ButtonGroup } from '@entur/button'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
@@ -13,6 +13,7 @@ import sheep from 'assets/illustrations/Sheep.png'
 import { removeUserAction } from './actions'
 import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
 import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
+import { CloseIcon } from '@entur/icons'
 
 function RemoveUserButton({
     user,
@@ -42,6 +43,13 @@ function RemoveUserButton({
                 closeLabel="Avbryt sletting"
                 className="flex flex-col items-center text-center"
             >
+                <IconButton
+                    aria-label="Lukk"
+                    onClick={close}
+                    className="absolute top-4 right-4"
+                >
+                    <CloseIcon />
+                </IconButton>
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
                 <Heading3 margin="bottom" as="h1">
                     Slett medlem

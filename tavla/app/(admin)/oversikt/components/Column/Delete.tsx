@@ -13,7 +13,7 @@ import Image from 'next/image'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useToast } from '@entur/alert'
 import { deleteBoardAction } from '../../utils/actions'
-import { DeleteIcon } from '@entur/icons'
+import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { useModalWithValues } from '../../hooks/useModalWithValue'
 
 function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
@@ -46,6 +46,13 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
                 closeLabel="Avbryt sletting"
                 className="flex flex-col justify-start items-center text-center"
             >
+                <IconButton
+                    aria-label="Lukk"
+                    onClick={close}
+                    className="absolute top-4 right-4"
+                >
+                    <CloseIcon />
+                </IconButton>
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
                 <Heading3 margin="bottom" as="h1">
                     Slett tavle

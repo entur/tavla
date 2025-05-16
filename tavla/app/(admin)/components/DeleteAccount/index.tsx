@@ -1,6 +1,6 @@
 'use client'
 
-import { ButtonGroup, Button } from '@entur/button'
+import { ButtonGroup, Button, IconButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import {
     Heading3,
@@ -19,6 +19,7 @@ import Image from 'next/image'
 import sheep from 'assets/illustrations/Sheep.png'
 import { usePostHog } from 'posthog-js/react'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { CloseIcon } from '@entur/icons'
 
 function DeleteAccount() {
     const [modalIsOpen, close] = useSearchParamsModal('deleteAccount')
@@ -54,6 +55,13 @@ function DeleteAccount() {
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
+                <IconButton
+                    aria-label="Lukk"
+                    onClick={close}
+                    className="absolute top-4 right-4"
+                >
+                    <CloseIcon />
+                </IconButton>
                 <div className="flex flex-col items-center">
                     <Image
                         src={sheep}
