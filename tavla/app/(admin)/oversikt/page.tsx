@@ -13,6 +13,7 @@ import { Heading1, Label } from '@entur/typography'
 import { CreateFolder } from '../components/CreateFolder'
 import { CreateBoard } from '../components/CreateBoard'
 import { countAllBoards } from './utils/actions'
+import EmptyOverview from './components/EmptyOverview'
 
 initializeAdminApp()
 
@@ -27,6 +28,7 @@ async function FoldersAndBoardsPage() {
     const folders = await getOrganizationsForUser()
     const privateBoards = await getPrivateBoardsForUser()
     const count = await countAllBoards(folders, privateBoards)
+    const elementsListCount = privateBoards.length + folders.length
 
     return (
         <div className="flex flex-col gap-8 container pb-20">
@@ -37,10 +39,22 @@ async function FoldersAndBoardsPage() {
                     <CreateFolder />
                 </div>
             </div>
-            <Search />
+
             <div className="gap-4">
-                <Label>Totalt antall tavler: {count}</Label>
-                <BoardTable folders={folders} boards={privateBoards} />
+                {elementsListCount === 0 ? (
+                    <EmptyOverview text="Her var det tomt gitt! Start med å opprette en mappe eller en tavle" />
+                ) : (
+                    <>
+                        <Search />
+                        <div className="flex flex-col mt-8">
+                            <Label>Totalt antall tavler: {count}</Label>
+                            <BoardTable
+                                folders={folders}
+                                boards={privateBoards}
+                            />
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     )
