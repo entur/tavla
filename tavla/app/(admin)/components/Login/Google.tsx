@@ -7,13 +7,14 @@ import {
 } from 'firebase/auth'
 import { getClientApp } from 'utils/firebase'
 import { create, login } from './actions'
-import GoogleButton from 'react-google-button'
 import * as Sentry from '@sentry/nextjs'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import { Paragraph } from '@entur/typography'
 import { FirebaseError } from 'firebase/app'
 import { BannerAlertBox } from '@entur/alert'
+import { Button } from '@entur/button'
+import GoogleButton from 'react-google-button'
 
 export default function Google() {
     const [isLoading, setIsLoading] = useState(false)
@@ -62,18 +63,38 @@ export default function Google() {
     }
 
     return (
-        <div className="w-full [&>div]:!w-full">
+        <div className="w-full [&>div]:!w-full items-center justify-center flex flex-col mb-4">
             {isLoading ? (
-                <Paragraph className="text-center">Vent litt....</Paragraph>
+                <Paragraph className="text-center">Vent litt...</Paragraph>
             ) : (
-                <GoogleButton
-                    type="light"
-                    label="Logg inn med Google"
-                    onClick={() => {
-                        posthog.capture('LOG_IN_WITH_GOOGLE_BTN_CLICK')
-                        googleAction()
-                    }}
-                />
+                <>
+                    <GoogleButton
+                        className="w-full"
+                        type="light"
+                        font-family="normal"
+                        font-weight="normal"
+                        font-size="normal"
+                        font-color="default"
+                        label="Logg inn med Google"
+                        onClick={() => {
+                            posthog.capture('LOG_IN_WITH_GOOGLE_BTN_CLICK')
+                            googleAction()
+                        }}
+                    />
+                    <Button
+                        variant="secondary"
+                        size="medium"
+                        loading={isLoading}
+                        onClick={() => {
+                            posthog.capture('LOG_IN_WITH_GOOGLE_BTN_CLICK')
+                            googleAction()
+                        }}
+                    >
+                        <div className="flex items-center">
+                            Logg inn med Google
+                        </div>
+                    </Button>
+                </>
             )}
 
             {errorMessage[0] && (
