@@ -388,7 +388,7 @@ function TileCard({
                             isOpen={isColumnModalOpen}
                             setIsOpen={setIsColumnModalOpen}
                         />
-                        <div className="flex flex-row flex-wrap gap-4 mb-8">
+                        <div className="flex flex-row flex-wrap gap-4 mb-8 mt-2">
                             {Object.entries(Columns).map(([key, value]) => {
                                 const columns = isCombined
                                     ? DEFAULT_COMBINED_COLUMNS
