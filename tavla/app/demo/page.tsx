@@ -8,7 +8,7 @@ async function Demo() {
     const loggedIn = (await getUserFromSessionCookie()) !== null
 
     return (
-        <main className="container pt-8 pb-20 flex flex-col gap-10">
+        <main className="container pt-8 pb-20 flex flex-col gap-6">
             <div className="flex items-center justify-between">
                 <Heading1>Test ut Tavla!</Heading1>
                 {!loggedIn && <CreateUserButton />}
