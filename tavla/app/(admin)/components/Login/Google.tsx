@@ -66,15 +66,15 @@ export default function Google() {
             {isLoading ? (
                 <Paragraph className="text-center">Vent litt...</Paragraph>
             ) : (
-                  <GoogleButton
-                      className="w-full mb-4"
-                      type="light"
-                      label="Logg inn med Google"
-                      onClick={() => {
-                          posthog.capture('LOG_IN_WITH_GOOGLE_BTN_CLICK')
-                          googleAction()
-                      }}
-                  />
+                <GoogleButton
+                    className="w-full mb-4"
+                    type="light"
+                    label="Logg inn med Google"
+                    onClick={() => {
+                        posthog.capture('LOG_IN_WITH_GOOGLE_BTN_CLICK')
+                        googleAction()
+                    }}
+                />
             )}
 
             {errorMessage[0] && (
