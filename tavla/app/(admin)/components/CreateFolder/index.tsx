@@ -1,7 +1,7 @@
 'use client'
 import { useActionState } from 'react'
-import { Button, ButtonGroup, SecondaryButton } from '@entur/button'
-import { FolderIcon } from '@entur/icons'
+import { Button, ButtonGroup, IconButton, SecondaryButton } from '@entur/button'
+import { CloseIcon, FolderIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
@@ -32,6 +32,13 @@ function CreateFolder() {
                 size="small"
                 closeLabel="Avbryt oppretting"
             >
+                <IconButton
+                    aria-label="Lukk"
+                    onClick={close}
+                    className="absolute top-4 right-4"
+                >
+                    <CloseIcon />
+                </IconButton>
                 <Image src={birds} alt="" className="h-1/2 w-1/2" />
                 <Heading3 as="h1">Opprett mappe</Heading3>
                 <Paragraph className="mt-8 text-center">
