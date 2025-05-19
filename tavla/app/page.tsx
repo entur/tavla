@@ -27,7 +27,7 @@ async function Landing() {
             <div className="bg-secondary">
                 <div className="flex flex-col container py-12 gap-10 lg:flex-row justify-center">
                     <div className="flex flex-col lg:w-3/4 xl:w-1/2">
-                        <Heading1>Lag en avgangstavle for</Heading1>
+                        <Heading1>Lag en helt gratis avgangstavle for</Heading1>
                         <WordCarousel />
                         <LeadParagraph margin="bottom">
                             Tavla er en <b>gratis</b> tjeneste som gjør det
@@ -53,11 +53,11 @@ async function Landing() {
                         <Heading2>Kort om Tavla</Heading2>
                         <UnorderedList className="space-y-3 flex flex-col gap-1 pl-6">
                             <ListItem>
-                                Du kan lage avgangstavler fra alle stoppesteder,
-                                holdeplasser, knutepunkter, fergekaier mm. i
-                                hele Norge. Dette gjelder for alle typer
-                                offentlig transport, inkludert ferger,
-                                hurtigbåter og fly.
+                                Du kan lage avgangstavler helt gratis fra alle
+                                stoppesteder, holdeplasser, knutepunkter,
+                                fergekaier mm. i hele Norge. Dette gjelder for
+                                alle typer offentlig transport, inkludert
+                                ferger, hurtigbåter og fly.
                             </ListItem>
                             <ListItem>
                                 Det er helt gratis å implementere og bruke
