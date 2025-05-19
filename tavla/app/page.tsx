@@ -10,7 +10,7 @@ import {
 } from '@entur/typography'
 import { PreviewCarousel } from './components/PreviewCarousel'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
-import { CreateUserButtonLanding } from './components/CreateUserButtonLanding'
+import { CreateUserButton } from './components/CreateUserButton'
 import { DemoButton } from './components/DemoButtonLanding'
 import { WordCarousel } from './components/WordCarousel/WordCarousel'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
@@ -37,7 +37,7 @@ async function Landing() {
                             kollektivreise.
                         </LeadParagraph>
                         <div className="flex md:flex-row flex-col w-full gap-4 mt-5">
-                            {!loggedIn && <CreateUserButtonLanding />}
+                            {!loggedIn && <CreateUserButton />}
                             <DemoButton />
                         </div>
                     </div>

@@ -3,7 +3,7 @@ import { Button } from '@entur/button'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 
-function CreateUserButtonLanding() {
+function CreateUserButton() {
     const posthog = usePostHog()
     return (
         <Button
@@ -19,4 +19,4 @@ function CreateUserButtonLanding() {
         </Button>
     )
 }
-export { CreateUserButtonLanding }
+export { CreateUserButton }

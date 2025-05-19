@@ -116,7 +116,7 @@ function TileSelector({
             <HiddenInput id="quay_name" value={selectedQuay?.label} />
             <HiddenInput id="quay" value={selectedQuay?.value} />
 
-            <SubmitButton variant="primary">Legg til</SubmitButton>
+            <SubmitButton variant="secondary">Legg til</SubmitButton>
         </form>
     )
 }
