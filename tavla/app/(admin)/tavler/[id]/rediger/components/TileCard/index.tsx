@@ -28,7 +28,6 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { TransportIcon } from 'components/TransportIcon'
 import { isArray, uniqBy } from 'lodash'
 import Image from 'next/image'
-import { usePostHog } from 'posthog-js/react'
 import {
     Dispatch,
     SetStateAction,
@@ -79,7 +78,6 @@ function TileCard({
     totalTiles: number
     isCombined: boolean
 }) {
-    const posthog = usePostHog()
     const [isOpen, setIsOpen] = useState(false)
     const [changed, setChanged] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
@@ -351,10 +349,6 @@ function TileCard({
 
                                             setOffsetBasedOnWalkingDistance(
                                                 !offsetBasedOnWalkingDistance,
-                                            )
-
-                                            posthog.capture(
-                                                'OFFSET_BASED_ON_WALKING_DISTANCE_BTN_CLICK',
                                             )
                                         }}
                                     >

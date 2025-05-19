@@ -39,11 +39,6 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             <EnturLink
                                 href="mailto:tavla@entur.org"
                                 target="_blank"
-                                onClick={() =>
-                                    posthog.capture('SUPPORT_EMAIL', {
-                                        type: 'footer',
-                                    })
-                                }
                             >
                                 Kontakt Tavla
                             </EnturLink>
@@ -57,9 +52,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 href="/demo"
                                 as={Link}
                                 onClick={() =>
-                                    posthog.capture('DEMO_FROM_FOOTER', {
-                                        type: 'footer',
-                                    })
+                                    posthog.capture('DEMO_FROM_FOOTER')
                                 }
                             >
                                 Prøv Tavla
