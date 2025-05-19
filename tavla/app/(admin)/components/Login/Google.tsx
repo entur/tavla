@@ -13,7 +13,6 @@ import { useState } from 'react'
 import { Paragraph } from '@entur/typography'
 import { FirebaseError } from 'firebase/app'
 import { BannerAlertBox } from '@entur/alert'
-import { Button } from '@entur/button'
 import GoogleButton from 'react-google-button'
 
 export default function Google() {
@@ -69,31 +68,14 @@ export default function Google() {
             ) : (
                 <>
                     <GoogleButton
-                        className="w-full"
+                        className="w-full mb-4"
                         type="light"
-                        font-family="normal"
-                        font-weight="normal"
-                        font-size="normal"
-                        font-color="default"
                         label="Logg inn med Google"
                         onClick={() => {
                             posthog.capture('LOG_IN_WITH_GOOGLE_BTN_CLICK')
                             googleAction()
                         }}
                     />
-                    <Button
-                        variant="secondary"
-                        size="medium"
-                        loading={isLoading}
-                        onClick={() => {
-                            posthog.capture('LOG_IN_WITH_GOOGLE_BTN_CLICK')
-                            googleAction()
-                        }}
-                    >
-                        <div className="flex items-center">
-                            Logg inn med Google
-                        </div>
-                    </Button>
                 </>
             )}
 
