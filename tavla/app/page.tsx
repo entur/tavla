@@ -37,7 +37,9 @@ async function Landing() {
                             kollektivreise.
                         </LeadParagraph>
                         <div className="flex md:flex-row flex-col w-full gap-4 mt-5">
-                            {!loggedIn && <CreateUserButton />}
+                            {!loggedIn && (
+                                <CreateUserButton trackingEvent="CREATE_USER_BTN_FROM_LANDING" />
+                            )}
                             <DemoButton />
                         </div>
                     </div>

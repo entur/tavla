@@ -11,7 +11,9 @@ async function Demo() {
         <main className="container pt-8 pb-20 flex flex-col gap-6">
             <div className="flex items-center justify-between">
                 <Heading1>Test ut Tavla!</Heading1>
-                {!loggedIn && <CreateUserButton />}
+                {!loggedIn && (
+                    <CreateUserButton trackingEvent="LOGIN_BTN_DEMO_PAGE" />
+                )}
             </div>
             <LeadParagraph margin="none">
                 Dette er en demo-løsning hvor du kan prøve å opprette din egen
