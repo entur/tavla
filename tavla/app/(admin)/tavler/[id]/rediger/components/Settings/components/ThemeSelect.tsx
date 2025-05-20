@@ -2,10 +2,16 @@
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 import { TTheme } from 'types/settings'
 
-function ThemeSelect({ theme = 'dark' }: { theme?: TTheme }) {
+function ThemeSelect({
+    theme = 'dark',
+    onChange,
+}: {
+    theme?: TTheme
+    onChange?: (value: TTheme) => void
+}) {
     return (
         <ChoiceChipGroupGeneral<TTheme>
-            label="Fargetema"
+            header="Fargetema"
             options={[
                 { value: 'light', label: 'Lys' },
                 { value: 'dark', label: 'Mørk' },
@@ -13,6 +19,12 @@ function ThemeSelect({ theme = 'dark' }: { theme?: TTheme }) {
             defaultValue={theme}
             name="theme"
             ariaLabel="Fargetema"
+            onChange={(value) => {
+                if (Array.isArray(value)) {
+                } else {
+                    onChange?.(value)
+                }
+            }}
         />
     )
 }

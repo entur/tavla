@@ -3,11 +3,9 @@ import { useToast } from '@entur/alert'
 import {
     Button,
     ButtonGroup,
-    IconButton,
     NegativeButton,
     SecondarySquareButton,
 } from '@entur/button'
-import { FilterChip } from '@entur/chip'
 import { BaseExpand } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 import {
@@ -15,18 +13,15 @@ import {
     DeleteIcon,
     DownwardIcon,
     EditIcon,
-    QuestionFilledIcon,
     UpwardIcon,
 } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Tooltip } from '@entur/tooltip'
 import { Heading3, Heading4, Paragraph, SubParagraph } from '@entur/typography'
-import { ColumnModal } from './ColumnModal'
 import Goat from 'assets/illustrations/Goat.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { TransportIcon } from 'components/TransportIcon'
-import { isArray, uniqBy } from 'lodash'
+import { uniqBy } from 'lodash'
 import Image from 'next/image'
 import {
     Dispatch,
@@ -36,7 +31,6 @@ import {
     useState,
 } from 'react'
 import {
-    Columns,
     DEFAULT_COMBINED_COLUMNS,
     DEFAULT_COLUMNS,
     TColumn,
@@ -56,6 +50,7 @@ import {
 } from 'app/(admin)/utils'
 import { OLD_LINE_IDS } from '../../compatibility'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { FilterChip } from '../Settings/components/FilterChip'
 
 function TileCard({
     bid,
@@ -81,7 +76,6 @@ function TileCard({
     const [isOpen, setIsOpen] = useState(false)
     const [changed, setChanged] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
-    const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
     const { addToast } = useToast()
 
     const walkingDistanceInMinutes = Math.ceil(
@@ -356,60 +350,23 @@ function TileCard({
                                     </Checkbox>
                                 )}
                         </div>
-                        <div className="flex flex-row items-baseline gap-1">
-                            <Heading4>Kolonner</Heading4>
-
-                            <Tooltip
-                                aria-hidden
-                                placement="top"
-                                content="Vis forklaring på kolonner"
-                                id="tooltip-columns"
-                            >
-                                <IconButton
-                                    type="button"
-                                    aria-label="Vis forklaring på kolonner"
-                                    onClick={() => setIsColumnModalOpen(true)}
-                                >
-                                    <QuestionFilledIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </div>
-                        <SubParagraph>
-                            Her bestemmer du hvilke kolonner som skal vises i
-                            tavlen.
-                        </SubParagraph>
-                        {isCombined && (
-                            <SubParagraph className="!text-error mb-2">
-                                Har du samlet stoppestedene i én liste vil du
-                                ikke ha mulighet til å velge kolonner.
-                            </SubParagraph>
-                        )}
-                        <ColumnModal
-                            isOpen={isColumnModalOpen}
-                            setIsOpen={setIsColumnModalOpen}
-                        />
                         <div className="flex flex-row flex-wrap gap-4 mb-8 mt-2">
-                            {Object.entries(Columns).map(([key, value]) => {
-                                const columns = isCombined
-                                    ? DEFAULT_COMBINED_COLUMNS
-                                    : tile.columns
-                                return (
-                                    <FilterChip
-                                        name="columns"
-                                        key={key}
-                                        value={key}
-                                        disabled={isCombined}
-                                        defaultChecked={
-                                            isArray(columns) &&
-                                            columns.includes(key as TColumn)
-                                        }
-                                    >
-                                        {value}
-                                    </FilterChip>
-                                )
-                            })}
+                            <FilterChip
+                                columns={
+                                    isCombined
+                                        ? DEFAULT_COMBINED_COLUMNS
+                                        : tile.columns
+                                }
+                                isCombined={isCombined}
+                                onChange={(selectedColumns) => {
+                                    tile.columns = selectedColumns
+                                    setChanged(true)
+                                }}
+                                setIsColumnModalOpen={function (): void {
+                                    throw new Error('Function not implemented.')
+                                }}
+                            />
                         </div>
-
                         <Heading4>Transportmidler og linjer</Heading4>
                         <div className="flex flex-col md:flex-row gap-4">
                             {linesByModeSorted.map(
