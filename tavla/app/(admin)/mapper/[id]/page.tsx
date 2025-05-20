@@ -1,4 +1,4 @@
-import { Heading1, Paragraph } from '@entur/typography'
+import { Heading1, Label, Paragraph } from '@entur/typography'
 import { getBoardsForOrganization } from 'app/(admin)/actions'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getOrganization } from 'Board/scenarios/Board/firebase'
@@ -15,6 +15,7 @@ import { UploadLogo } from '../components/UploadLogo'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { auth } from 'firebase-admin'
 import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
+import EmptyOverview from 'app/(admin)/oversikt/components/EmptyOverview'
 
 export type TProps = {
     params: Promise<{ id: TOrganizationID }>
@@ -39,6 +40,7 @@ async function FolderPage(props: TProps) {
 
     const params = await props.params
     const folder = await getOrganization(params.id)
+    const boardCount = folder?.boards?.length
 
     if (!folder || !folder.id) {
         return notFound()
@@ -89,7 +91,16 @@ async function FolderPage(props: TProps) {
                 sammen med deg. Du kan også laste opp en logo, som vil vises i
                 alle tavlene.
             </Paragraph>
-            <BoardTable boards={boardsInFolder} />
+            <div className="gap-4">
+                {boardCount === 0 ? (
+                    <EmptyOverview text="Her var det tomt gitt! Start med å opprette en tavle" />
+                ) : (
+                    <div className="flex flex-col">
+                        <Label>Totalt antall tavler: {boardCount}</Label>
+                        <BoardTable boards={boardsInFolder} />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
