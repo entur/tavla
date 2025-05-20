@@ -1,5 +1,5 @@
 'use client'
-import { Button, ButtonGroup } from '@entur/button'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { TOrganization } from 'types/settings'
@@ -20,6 +20,7 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
 import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
+import { CloseIcon } from '@entur/icons'
 
 function DeleteFolder({
     organization,
@@ -72,6 +73,13 @@ function DeleteFolder({
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
+                <IconButton
+                    aria-label="Lukk"
+                    onClick={close}
+                    className="absolute top-4 right-4"
+                >
+                    <CloseIcon />
+                </IconButton>
                 <Image src={ducks} alt="" className="h-1/2 w-1/2 mx-auto" />
                 <Heading3 margin="bottom" as="h1">
                     Slett mappe
