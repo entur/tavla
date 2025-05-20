@@ -5,7 +5,7 @@ import Image from 'next/image'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import { usePathname } from 'next/navigation'
 import { Button, IconButton } from '@entur/button'
-import { LeftArrowIcon, MenuIcon } from '@entur/icons'
+import { CloseIcon, LeftArrowIcon, MenuIcon } from '@entur/icons'
 import { useState } from 'react'
 import { SideNavigation } from '@entur/menu'
 import { logout } from './Login/actions'
@@ -32,6 +32,13 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                 size="small"
                 className="!h-full !w-9/12 !fixed !top-0 !left-0 !max-h-full !rounded-none !p-0 overflow-visible"
             >
+                <IconButton
+                    aria-label="Lukk"
+                    onClick={close}
+                    className="absolute top-4 right-4"
+                >
+                    <CloseIcon />
+                </IconButton>
                 <SideNavigation className="!pt-10 !bg-primary">
                     <div className="pl-10">
                         <Link href="/" aria-label="Tilbake til landingssiden">

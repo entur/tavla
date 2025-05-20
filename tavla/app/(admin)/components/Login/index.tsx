@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Modal } from '@entur/modal'
 import { usePathname, useRouter } from 'next/navigation'
 import { IconButton, SecondarySquareButton } from '@entur/button'
-import { BackArrowIcon, LogOutIcon, UserIcon } from '@entur/icons'
+import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { logout } from './actions'
 import { Create } from './Create'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
@@ -47,6 +47,13 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 className="w-11/12 lg:w-full"
                 onDismiss={() => router.push(pathname ?? '/')}
             >
+                <IconButton
+                    aria-label="Lukk"
+                    onClick={() => router.push(pathname ?? '/')}
+                    className="absolute top-4 right-4"
+                >
+                    <CloseIcon />
+                </IconButton>
                 {hasPage && (
                     <SecondarySquareButton
                         onClick={() => router.back()}
