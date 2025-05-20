@@ -1,27 +1,20 @@
 'use client'
-import { Heading4 } from '@entur/typography'
+import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 import { TFontSize } from 'types/meta'
-import { useState } from 'react'
-import { ChoiceChipGroup, ChoiceChip } from '@entur/chip'
 
 function FontSelect({ font = 'medium' }: { font?: TFontSize }) {
-    const [fontSize, setFontSize] = useState<TFontSize>(font)
-
     return (
-        <div className="flex flex-col gap-1">
-            <Heading4 margin="bottom">Tekststørrelse </Heading4>
-            <ChoiceChipGroup
-                className="h-full mb-2"
-                name="font"
-                value={fontSize}
-                onChange={(e) => setFontSize(e.target.value as TFontSize)}
-                aria-label="Tekststørrelse"
-            >
-                <ChoiceChip value="small">Liten</ChoiceChip>
-                <ChoiceChip value="medium">Medium</ChoiceChip>
-                <ChoiceChip value="large">Stor</ChoiceChip>
-            </ChoiceChipGroup>
-        </div>
+        <ChoiceChipGroupGeneral<TFontSize>
+            label="Tekststørrelse"
+            options={[
+                { value: 'small', label: 'Liten' },
+                { value: 'medium', label: 'Medium' },
+                { value: 'large', label: 'Stor' },
+            ]}
+            defaultValue={font}
+            name="font"
+            ariaLabel="Tekststørrelse"
+        />
     )
 }
 
