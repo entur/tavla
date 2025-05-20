@@ -49,7 +49,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={close}
+                    onClick={() => router.push(pathname ?? '/')}
                     className="absolute top-4 right-4"
                 >
                     <CloseIcon />
