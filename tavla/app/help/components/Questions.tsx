@@ -83,7 +83,7 @@ function Questions() {
                 Ja, det er mulig å vise flere stoppesteder og/eller plattformer
                 i samme liste. Slik gjør du det: <br /> 1. Legg til ønskede
                 stoppesteder/plattformer. <br /> 2. Skroll ned til Innstillinger{' '}
-                {'>'} tavlevisning {'>'} visningstype og velg “Alle stoppesteder
+                {'>'} Tavlevisning {'>'} Visningstype og velg “Alle stoppesteder
                 i én liste”. Da vil alt vises i én visning/liste.
             </ExpandablePanel>
         </div>
