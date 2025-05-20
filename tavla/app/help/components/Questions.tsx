@@ -79,6 +79,13 @@ function Questions() {
                 du ønsker å bruke - du vil fortsatt ha tilgang til alle dine
                 tavler og mapper med begge metoder.
             </ExpandablePanel>
+            <ExpandablePanel title="Kan jeg vise flere stoppesteder og/eller plattformer i samme visning/liste, i stedet for at jeg får en boks for hvert stoppested?">
+                Ja, det er mulig å vise flere stoppesteder og/eller plattformer
+                i samme liste. Slik gjør du det: <br /> 1. Legg til ønskede
+                stoppesteder/plattformer. <br /> 2. Skroll ned til Innstillinger{' '}
+                {'>'} Tavlevisning {'>'} Visningstype og velg “Alle stoppesteder
+                i én liste”. Da vil alt vises i én visning/liste.
+            </ExpandablePanel>
         </div>
     )
 }
