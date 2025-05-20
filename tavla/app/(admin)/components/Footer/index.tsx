@@ -55,7 +55,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     posthog.capture('DEMO_FROM_FOOTER')
                                 }
                             >
-                                Prøv Tavla
+                                Test ut Tavla
                             </EnturLink>
                         </div>
                         <div>

@@ -180,10 +180,6 @@
             Cantarell,
             Helvetica Neue,
             sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 1.2;
-        min-height: 100vh;
         display: flex;
         flex-direction: column;
     }
