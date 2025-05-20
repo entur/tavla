@@ -1,7 +1,7 @@
 'use client'
 import { Modal } from '@entur/modal'
 import { NameAndOrganizationSelector } from './NameAndOrganizationSelector'
-import { SecondaryButton } from '@entur/button'
+import { PrimaryButton } from '@entur/button'
 import { BoardIcon } from '@entur/icons'
 import { TOrganization } from 'types/settings'
 import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
@@ -14,10 +14,10 @@ function CreateBoard({ folder }: { folder?: TOrganization }) {
 
     return (
         <>
-            <SecondaryButton onClick={open}>
+            <PrimaryButton onClick={open}>
                 Opprett tavle
                 <BoardIcon aria-label="Tavle-ikon" />
-            </SecondaryButton>
+            </PrimaryButton>
             <Modal
                 open={isOpen}
                 size="medium"
