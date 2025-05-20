@@ -35,8 +35,8 @@ async function FoldersAndBoardsPage() {
             <div className="flex max-sm:flex-col flex-row justify-between">
                 <Heading1>Mapper og tavler</Heading1>
                 <div className="flex flex-row gap-4">
-                    <CreateBoard />
                     <CreateFolder />
+                    <CreateBoard />
                 </div>
             </div>
 
