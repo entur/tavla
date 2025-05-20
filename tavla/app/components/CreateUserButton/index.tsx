@@ -3,7 +3,11 @@ import { Button } from '@entur/button'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 
-function CreateUserButtonLanding() {
+interface CreateUserButtonProps {
+    trackingEvent: string
+}
+
+function CreateUserButton({ trackingEvent }: CreateUserButtonProps) {
     const posthog = usePostHog()
     return (
         <Button
@@ -12,11 +16,12 @@ function CreateUserButtonLanding() {
             as={Link}
             href="?login=create"
             onClick={() => {
-                posthog.capture('CREATE_USER_BTN_FROM_LANDING')
+                posthog.capture(trackingEvent)
             }}
         >
             Opprett bruker
         </Button>
     )
 }
-export { CreateUserButtonLanding }
+
+export { CreateUserButton }
