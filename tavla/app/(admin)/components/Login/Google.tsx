@@ -7,13 +7,13 @@ import {
 } from 'firebase/auth'
 import { getClientApp } from 'utils/firebase'
 import { create, login } from './actions'
-import GoogleButton from 'react-google-button'
 import * as Sentry from '@sentry/nextjs'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import { Paragraph } from '@entur/typography'
 import { FirebaseError } from 'firebase/app'
 import { BannerAlertBox } from '@entur/alert'
+import GoogleButton from 'react-google-button'
 
 export default function Google() {
     const [isLoading, setIsLoading] = useState(false)
@@ -62,11 +62,12 @@ export default function Google() {
     }
 
     return (
-        <div className="w-full [&>div]:!w-full">
+        <div className="w-full [&>div]:!w-full items-center justify-center flex flex-col mb-4">
             {isLoading ? (
-                <Paragraph className="text-center">Vent litt....</Paragraph>
+                <Paragraph className="text-center">Vent litt...</Paragraph>
             ) : (
                 <GoogleButton
+                    className="w-full mb-4"
                     type="light"
                     label="Logg inn med Google"
                     onClick={() => {

@@ -32,7 +32,7 @@ function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
                                 }}
                                 className="!text-primary"
                             >
-                                Prøv Tavla
+                                Test ut Tavla
                             </TopNavigationItem>
                             <TopNavigationItem
                                 active={pathname?.includes('/help')}
