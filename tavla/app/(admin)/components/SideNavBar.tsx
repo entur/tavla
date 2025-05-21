@@ -26,6 +26,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
             >
                 <MenuIcon content="Meny" color="background" />
             </IconButton>
+
             <Modal
                 open={isOpen}
                 onDismiss={() => setIsOpen(false)}
