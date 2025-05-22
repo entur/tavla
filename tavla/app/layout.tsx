@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Script from 'next/script'
 import { ReactNode, Suspense } from 'react'
 import 'styles/fonts.css'
 import 'styles/imports.css'
@@ -41,6 +42,14 @@ async function RootLayout({ children }: { children: ReactNode }) {
         <html lang="nb">
             <PHProvider>
                 <body>
+                    <Script
+                        strategy="beforeInteractive"
+                        id="usercentrics-cmp"
+                        src="https://web.cmp.usercentrics.eu/ui/loader.js"
+                        data-draft="true"
+                        data-settings-id="4OOPZiVslbVZnE"
+                        async
+                    />
                     <EnturToastProvider>
                         <Navbar loggedIn={loggedIn} />
                         <Suspense>

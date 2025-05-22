@@ -83,13 +83,6 @@ function BoardPage({
                                 : '#ffffff'
                         }
                     />
-                    <script
-                        key="cmp"
-                        id="usercentrics-cmp"
-                        src="https://web.cmp.usercentrics.eu/ui/loader.js"
-                        data-settings-id="4OOPZiVslbVZnE"
-                        async
-                    />
                 </Head>
                 <div className="rootContainer">
                     <Header
