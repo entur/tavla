@@ -10,6 +10,7 @@ import { Navbar } from './(admin)/components/Navbar'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -41,6 +42,14 @@ async function RootLayout({ children }: { children: ReactNode }) {
         <html lang="nb">
             <PHProvider>
                 <body>
+                    <Script
+                        strategy="beforeInteractive"
+                        id="usercentrics-cmp"
+                        src="https://web.cmp.usercentrics.eu/ui/loader.js"
+                        data-draft="true"
+                        data-settings-id="4OOPZiVslbVZnE"
+                        async
+                    />
                     <EnturToastProvider>
                         <Navbar loggedIn={loggedIn} />
                         <Suspense>
