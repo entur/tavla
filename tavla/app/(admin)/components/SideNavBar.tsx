@@ -35,7 +35,9 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={close}
+                    onClick={() => {
+                        setIsOpen(false)
+                    }}
                     className="absolute top-4 right-4"
                 >
                     <CloseIcon />
