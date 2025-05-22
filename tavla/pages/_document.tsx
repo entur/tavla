@@ -28,13 +28,6 @@ class TavlaDocument extends Document {
                         href="/favicon-16x16.png"
                     />
                     <link rel="manifest" href="/tavlevisning.webmanifest" />
-                    <script
-                        key="cmp"
-                        id="usercentrics-cmp"
-                        src="https://web.cmp.usercentrics.eu/ui/loader.js"
-                        data-settings-id="4OOPZiVslbVZnE"
-                        async
-                    />
                 </Head>
                 <body>
                     <Main />
