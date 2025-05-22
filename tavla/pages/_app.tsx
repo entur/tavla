@@ -10,6 +10,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <>
             <Head>
                 <title>Entur Tavla</title>
+                <script
+                    key="cmp"
+                    id="usercentrics-cmp"
+                    src="https://web.cmp.usercentrics.eu/ui/loader.js"
+                    data-settings-id="4OOPZiVslbVZnE"
+                    async
+                />
             </Head>
             <Component {...pageProps} />
         </>
