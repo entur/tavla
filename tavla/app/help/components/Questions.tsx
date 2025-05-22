@@ -85,8 +85,9 @@ function Questions() {
                 <br /> 1. Legg til ønskede stoppesteder eller plattformer.{' '}
                 <br /> 2. Gå ned til <b>Innstillinger</b> {'>'}{' '}
                 <b>Tavlevisning</b> {'>'} <b>Visningstype</b> og velg &quot;Alle
-                stoppesteder i én liste&quot;. Husk å lagre, slik at endringene
-                blir synlige i forhåndsvisningen.
+                stoppesteder i én liste&quot;. Husk å lagre og trykk på
+                &quot;Publiser tavle&quot;, slik at endringene vises og
+                oppdateres i tavlen.
             </ExpandablePanel>
         </div>
     )
