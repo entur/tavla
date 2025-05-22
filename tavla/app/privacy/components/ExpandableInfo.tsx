@@ -106,7 +106,7 @@ function ExpandableInfo() {
                 </Paragraph>
                 <Heading3>Hvilken informasjon lagres?</Heading3>
                 <Paragraph>
-                    Posthog mottar generell web- og appstatistikk. Ingenting av
+                    PostHog mottar generell web- og appstatistikk. Ingenting av
                     dette kan brukes til å identifisere deg.
                     <UnorderedList className="pl-8">
                         <ListItem>
