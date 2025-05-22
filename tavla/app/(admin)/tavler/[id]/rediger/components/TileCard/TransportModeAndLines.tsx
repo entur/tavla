@@ -73,7 +73,7 @@ function TransportModeAndLines({
                         })
                     }}
                 >
-                    Velg alle
+                    Velg alle linjer
                 </Checkbox>
             </div>
             {lines.map((line) => (
