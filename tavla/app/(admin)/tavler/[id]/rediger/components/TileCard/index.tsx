@@ -470,7 +470,7 @@ function TileCard({
                         >
                             <IconButton
                                 aria-label="Lukk"
-                                onClick={close}
+                                onClick={reset}
                                 className="absolute top-4 right-4"
                             >
                                 <CloseIcon />

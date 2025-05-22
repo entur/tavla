@@ -31,11 +31,12 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
                 open={isOpen}
                 onDismiss={() => setIsOpen(false)}
                 size="small"
+                closeLabel="Lukk meny"
                 className="!h-full !w-9/12 !fixed !top-0 !left-0 !max-h-full !rounded-none !p-0 overflow-visible"
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={close}
+                    onClick={() => setIsOpen(false)}
                     className="absolute top-4 right-4"
                 >
                     <CloseIcon />
