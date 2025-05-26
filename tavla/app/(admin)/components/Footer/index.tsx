@@ -78,11 +78,13 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 <DeleteAccount />
                             </div>
                         )}
-                        <div>
-                            <EnturLink as={Link} href="/privacy">
-                                Personvernerklæring
-                            </EnturLink>
-                        </div>
+                        <EnturLink as={Link} href="/privacy">
+                            Personvernerklæring
+                        </EnturLink>
+                        <EnturLink as={Link} href="">
+                            {/* TODO: Add link to cookie policy */}
+                            Endre informasjonskapsler
+                        </EnturLink>
                         <div className="flex flex-row gap-1 items-center">
                             <EnturLink
                                 href="https://github.com/entur/tavla"
