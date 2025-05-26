@@ -23,7 +23,7 @@ function Destination({ deviations = true }: { deviations?: boolean }) {
             <TableColumn title="Destinasjon">
                 {destinations.map((destination) => (
                     <TableRow key={destination.key}>
-                        <div className="truncate">
+                        <div>
                             {destination.via
                                 ? `${destination.destination} via ${destination.via}`
                                 : destination.destination}
