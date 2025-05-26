@@ -1,19 +1,10 @@
 'use client'
-import { useActionState } from 'react'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { Modal } from '@entur/modal'
-import { Heading3, Paragraph } from '@entur/typography'
-import { FormError } from 'app/(admin)/components/FormError'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { SubmitButton } from 'components/Form/SubmitButton'
+import { useState } from 'react'
+import { Button, IconButton } from '@entur/button'
 import { TOrganizationID, TUser } from 'types/settings'
-import Image from 'next/image'
-import sheep from 'assets/illustrations/Sheep.png'
 import { removeUserAction } from './actions'
-import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
-import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
-import { CloseIcon } from '@entur/icons'
+import { useActionState } from 'react'
+import { DeleteIcon } from '@entur/icons'
 
 function RemoveUserButton({
     user,
@@ -22,75 +13,45 @@ function RemoveUserButton({
     user?: TUser
     oid?: TOrganizationID
 }) {
-    const [state, deleteUser] = useActionState(removeUserAction, undefined)
-    const { isOpen, open, close } = useModalWithValues(
-        {
-            key: 'slett',
-            value: 'bruker',
-        },
-        {
-            key: 'id',
-            value: user?.uid ?? '',
-        },
-    )
-    return (
-        <>
-            <DeleteButton text="Slett bruker" type="icon" onClick={open} />
-            <Modal
-                open={isOpen}
-                size="small"
-                onDismiss={close}
-                closeLabel="Avbryt sletting"
-                className="flex flex-col items-center text-center"
-            >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={close}
-                    className="absolute top-4 right-4"
-                >
-                    <CloseIcon />
-                </IconButton>
-                <Image src={sheep} alt="" className="h-1/2 w-1/2" />
-                <Heading3 margin="bottom" as="h1">
-                    Slett medlem
-                </Heading3>
-                <Paragraph>
-                    Er du sikker på at du vil slette medlem med e-postadresse{' '}
-                    {user?.email} fra mappen?
-                </Paragraph>
-                <form
-                    action={deleteUser}
-                    onSubmit={close}
-                    aria-live="polite"
-                    aria-relevant="all"
-                >
-                    <HiddenInput id="uid" value={user?.uid} />
-                    <HiddenInput id="oid" value={oid} />
-                    <FormError {...getFormFeedbackForField('general', state)} />
-                    <ButtonGroup className="flex flex-row">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            aria-label="Ja, slett!"
-                            className="w-1/2"
-                        >
-                            Ja, slett!
-                        </SubmitButton>
+    const [isConfirming, setIsConfirming] = useState(false)
+    const [, deleteUser] = useActionState(removeUserAction, undefined)
 
-                        <Button
-                            type="button"
-                            width="fluid"
-                            variant="secondary"
-                            aria-label="Avbryt"
-                            onClick={close}
-                            className="w-1/2"
-                        >
-                            Avbryt
-                        </Button>
-                    </ButtonGroup>
-                </form>
-            </Modal>
-        </>
+    const handleDelete = async () => {
+        const formData = new FormData()
+        if (user?.uid) formData.append('uid', user.uid)
+        if (oid) formData.append('oid', oid)
+        deleteUser(formData)
+        setIsConfirming(false)
+    }
+
+    return (
+        <div className="flex items-center justify-center w-full h-full">
+            {isConfirming ? (
+                <div className="flex flex-row items-center gap-2">
+                    <Button
+                        variant="primary"
+                        onClick={handleDelete}
+                        aria-label="Ja, slett!"
+                    >
+                        Ja, slett!
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        onClick={() => setIsConfirming(false)}
+                        aria-label="Avbryt"
+                    >
+                        Avbryt
+                    </Button>
+                </div>
+            ) : (
+                <IconButton
+                    onClick={() => setIsConfirming(true)}
+                    aria-label="Slett bruker"
+                >
+                    <DeleteIcon />
+                </IconButton>
+            )}
+        </div>
     )
 }
 
