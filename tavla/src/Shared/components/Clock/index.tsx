@@ -1,17 +1,24 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { formatTimeStamp } from 'utils/time'
 
 function Clock() {
     const [currentTime, setCurrentTime] = useState<string>()
 
     useEffect(() => {
-        setCurrentTime(formatTimeStamp(Date.now()))
+        const formatTime = () => {
+            const now = new Date()
+            return new Intl.DateTimeFormat('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                // second: '2-digit',
+                hour12: false,
+                timeZone: 'Europe/Oslo',
+            }).format(now)
+        }
 
-        const intervalId = setInterval(
-            () => setCurrentTime(formatTimeStamp(Date.now())),
-            1000,
-        )
+        setCurrentTime(formatTime())
+
+        const intervalId = setInterval(() => setCurrentTime(formatTime()), 1000)
         return () => clearInterval(intervalId)
     }, [])
 
