@@ -8,7 +8,7 @@ import { TopNavigationItem } from '@entur/menu'
 import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
 
-export function TopNavigation({ loggedIn }: { loggedIn: boolean }) {
+export function TopNavBar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
     const posthog = usePostHog()
 
