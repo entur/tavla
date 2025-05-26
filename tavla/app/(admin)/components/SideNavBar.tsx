@@ -26,6 +26,7 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
             >
                 <MenuIcon content="Meny" color="background" />
             </IconButton>
+
             <Modal
                 open={isOpen}
                 onDismiss={() => setIsOpen(false)}
@@ -35,7 +36,9 @@ function SideNavBar({ loggedIn }: { loggedIn: boolean }) {
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                        setIsOpen(false)
+                    }}
                     className="absolute top-4 right-4"
                 >
                     <CloseIcon />

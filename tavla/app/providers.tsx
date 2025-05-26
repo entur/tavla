@@ -9,6 +9,7 @@ if (typeof window !== 'undefined') {
         api_host: 'https://eu.posthog.com',
         capture_pageview: false, // This will be done manually
         autocapture: false, // We will capture manually
+        opt_out_capturing_by_default: true,
     })
 }
 
