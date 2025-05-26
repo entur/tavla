@@ -13,12 +13,7 @@ function Footer({
     logo?: boolean
     orgFooter?: string
 }) {
-    if (
-        !logo &&
-        ((!board.footer?.footer && !board.footer?.override) ||
-            (!orgFooter && board.footer?.override))
-    )
-        return null
+    if (!logo && (!board.footer?.footer || !orgFooter)) return null
 
     const EnturLogo = getLogo(board?.theme ?? 'dark')
     return (
@@ -28,7 +23,7 @@ function Footer({
                     getFontScale(board.meta?.fontSize) || defaultFontSize(board)
                 }`}
             >
-                {board.footer?.override ? orgFooter : board.footer?.footer}
+                {board.footer?.footer}
             </div>
             {logo && (
                 <Image
