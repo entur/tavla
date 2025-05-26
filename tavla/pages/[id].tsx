@@ -96,7 +96,6 @@ function BoardPage({
                     <Footer
                         board={updatedBoard}
                         logo={organization?.logo !== undefined}
-                        orgFooter={organization?.footer}
                     />
                 </div>
             </div>

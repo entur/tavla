@@ -4,16 +4,8 @@ import EnturLogoBlue from 'assets/logos/Tavla-blue.svg'
 import { TBoard, TTheme } from 'types/settings'
 import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 
-function Footer({
-    board,
-    logo,
-    orgFooter,
-}: {
-    board: TBoard
-    logo?: boolean
-    orgFooter?: string
-}) {
-    if (!logo && (!board.footer?.footer || !orgFooter)) return null
+function Footer({ board, logo }: { board: TBoard; logo?: boolean }) {
+    if (!logo && !board.footer?.footer) return null
 
     const EnturLogo = getLogo(board?.theme ?? 'dark')
     return (

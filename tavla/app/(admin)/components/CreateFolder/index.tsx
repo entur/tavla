@@ -30,6 +30,7 @@ function CreateFolder() {
                 className="flex flex-col items-center"
                 open={isOpen}
                 size="small"
+                onDismiss={close}
                 closeLabel="Avbryt oppretting"
             >
                 <IconButton
