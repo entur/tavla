@@ -17,9 +17,10 @@ def update_board_footer(transaction, board_ref, org_footer, log_file):
     board = snapshot.to_dict()
     footer = board.get("footer")
 
-    if footer:
+    if footer and footer.get("override"):
         transaction.update(board_ref, {
             "footer.footer": org_footer,
+            "footer.override": False,
         })
         log_file.write(f"✅ Updating board '{board_ref.id}', board footer: '{footer.get("footer")}' -> organization footer: '{org_footer}'\n")
 
