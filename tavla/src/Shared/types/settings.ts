@@ -29,7 +29,6 @@ export type TOrganization = {
     owners?: TUserID[]
     boards?: TBoardID[]
     logo?: TLogo
-    footer?: string
 }
 
 export type TInvite = {

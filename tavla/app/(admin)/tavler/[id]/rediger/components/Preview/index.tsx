@@ -21,11 +21,7 @@ function Preview({
             <div className="md:h-[50rem] h-96">
                 <Board board={board} />
             </div>
-            <Footer
-                board={board}
-                logo={organization?.logo !== undefined}
-                orgFooter={organization?.footer}
-            />
+            <Footer board={board} logo={organization?.logo !== undefined} />
         </div>
     )
 }
