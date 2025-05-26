@@ -33,6 +33,7 @@
         "@entur/loader": "0.5.12",
         "@entur/menu": "5.1.3",
         "@entur/modal": "1.7.64",
+        "@entur/table": "4.9.10",
         "@entur/tokens": "3.17.2",
         "@entur/tooltip": "5.1.1",
         "@entur/typography": "1.8.47",

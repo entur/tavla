@@ -61,7 +61,7 @@ function DeleteFolder({
             <Tooltip
                 content="Slett mappe"
                 placement="bottom"
-                id="tooltip-delete-org"
+                id="tooltip-delete-folder"
             >
                 <DeleteButton text="Slett mappe" type={type} onClick={open} />
             </Tooltip>
