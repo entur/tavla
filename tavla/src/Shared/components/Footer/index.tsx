@@ -24,7 +24,7 @@ function Footer({
     return (
         <footer className="flex flex-row justify-between min-h-[4vh] items-center gap-em-2">
             <div
-                className={`text-primary ${
+                className={`truncate text-primary ${
                     getFontScale(board.meta?.fontSize) || defaultFontSize(board)
                 }`}
             >

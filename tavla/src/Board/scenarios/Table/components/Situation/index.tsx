@@ -21,7 +21,7 @@ function Situation({
             <div className="fill-warning flex items-center mr-[0.1em] text-[1.8em]">
                 <ValidationExclamation />
             </div>
-            <div>{situationText}</div>
+            <div className="truncate">{situationText}</div>
         </div>
     )
 }
