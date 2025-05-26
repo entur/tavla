@@ -19,9 +19,9 @@ export function TopNavBar({ loggedIn }: { loggedIn: boolean }) {
             </Link>
             <div className="flex flex-row items-center gap-4">
                 <SideNavBar loggedIn={loggedIn} />
-                <div className="flex flex-row sm:gap-10">
-                    {loggedIn ? (
-                        <div className="flex-row hidden md:flex gap-4">
+                <div className="flex flex-row items-center gap-6">
+                    {loggedIn && (
+                        <div className="hidden md:flex">
                             <TopNavigationItem
                                 active={pathname?.includes('/oversikt')}
                                 as={Link}
@@ -31,29 +31,26 @@ export function TopNavBar({ loggedIn }: { loggedIn: boolean }) {
                                 Mapper og tavler
                             </TopNavigationItem>
                         </div>
-                    ) : (
-                        <>
-                            <TopNavigationItem
-                                active={pathname?.includes('/demo')}
-                                as={Link}
-                                href="/demo"
-                                onClick={() => {
-                                    posthog.capture('DEMO_FROM_NAV_BAR_BTN')
-                                }}
-                                className="!text-primary"
-                            >
-                                Test ut Tavla
-                            </TopNavigationItem>
-                            <TopNavigationItem
-                                active={pathname?.includes('/help')}
-                                as={Link}
-                                href="/help"
-                                className="!text-primary"
-                            >
-                                Ofte stilte spørsmål
-                            </TopNavigationItem>
-                        </>
                     )}
+                    <TopNavigationItem
+                        active={pathname?.includes('/demo')}
+                        as={Link}
+                        href="/demo"
+                        onClick={() => {
+                            posthog.capture('DEMO_FROM_NAV_BAR_BTN')
+                        }}
+                        className="!text-primary"
+                    >
+                        Test ut Tavla
+                    </TopNavigationItem>
+                    <TopNavigationItem
+                        active={pathname?.includes('/help')}
+                        as={Link}
+                        href="/help"
+                        className="!text-primary"
+                    >
+                        Ofte stilte spørsmål
+                    </TopNavigationItem>
                     <Login loggedIn={loggedIn} />
                 </div>
             </div>
