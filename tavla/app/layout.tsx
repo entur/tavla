@@ -6,7 +6,7 @@ import { ReactNode, Suspense } from 'react'
 import { Metadata } from 'next'
 import { EnturToastProvider, PHProvider } from './providers'
 import { Footer } from './(admin)/components/Footer'
-import { TopNavBar } from './(admin)/components/TopNavBar'
+import { Navbar } from './(admin)/components/Navbar'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
@@ -42,7 +42,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
             <PHProvider>
                 <body>
                     <EnturToastProvider>
-                        <TopNavBar loggedIn={loggedIn} />
+                        <Navbar loggedIn={loggedIn} />
                         <Suspense>
                             <PostHogPageView />
                         </Suspense>

@@ -2,13 +2,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
-import { SideNavBar } from './SideNavBar'
+import { MobileNavbar } from './MobileNavbar'
 import { Login } from './Login'
 import { TopNavigationItem } from '@entur/menu'
 import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
 
-export function TopNavBar({ loggedIn }: { loggedIn: boolean }) {
+export function Navbar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
     const posthog = usePostHog()
 
@@ -18,7 +18,7 @@ export function TopNavBar({ loggedIn }: { loggedIn: boolean }) {
                 <Image src={TavlaLogoBlue} height={32} alt="" />
             </Link>
             <div className="flex flex-row items-center gap-4">
-                <SideNavBar loggedIn={loggedIn} />
+                <MobileNavbar loggedIn={loggedIn} />
                 <div className="flex flex-row sm:gap-10">
                     {loggedIn ? (
                         <div className="flex-row hidden md:flex gap-4">
