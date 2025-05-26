@@ -38,7 +38,6 @@ export type TInvite = {
 }
 
 export type TFooter = {
-    override?: boolean
     footer?: string
 }
 
