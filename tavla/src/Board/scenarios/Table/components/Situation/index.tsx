@@ -17,11 +17,13 @@ function Situation({
     if (!situationText) return null
 
     return (
-        <div className="text-warning text-[0.65em] flex items-center">
+        <div className="text-warning text-[0.65em] flex items-center mt-[0.1em]">
             <div className="fill-warning flex items-center mr-[0.1em] text-[1.8em]">
                 <ValidationExclamation />
             </div>
-            <div>{situationText}</div>
+            <div className="overflow-ellipsis whitespace-nowrap">
+                {situationText}
+            </div>
         </div>
     )
 }
