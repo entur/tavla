@@ -81,8 +81,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         <EnturLink as={Link} href="/privacy">
                             Personvernerklæring
                         </EnturLink>
-                        <EnturLink as={Link} href="">
-                            {/* TODO: Add link to cookie policy */}
+                        <EnturLink as={Link} href="#usercentrics-cmp">
                             Endre informasjonskapsler
                         </EnturLink>
                         <div className="flex flex-row gap-1 items-center">
