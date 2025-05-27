@@ -15,6 +15,7 @@ import { DemoButton } from './components/DemoButtonLanding'
 import { WordCarousel } from './components/WordCarousel/WordCarousel'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
+import { NavigateToFoldersAndBoardsPageButton } from './components/NavigateToFoldersAndBoardsPageButton'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -37,10 +38,14 @@ async function Landing() {
                             kollektivreise.
                         </LeadParagraph>
                         <div className="flex md:flex-row flex-col w-full gap-4 mt-5">
-                            {!loggedIn && (
-                                <CreateUserButton trackingEvent="CREATE_USER_BTN_FROM_LANDING" />
+                            {!loggedIn ? (
+                                <div>
+                                    <CreateUserButton trackingEvent="CREATE_USER_BTN_FROM_LANDING" />
+                                    <DemoButton />
+                                </div>
+                            ) : (
+                                <NavigateToFoldersAndBoardsPageButton />
                             )}
-                            <DemoButton />
                         </div>
                     </div>
                     <ImageCarousel />
