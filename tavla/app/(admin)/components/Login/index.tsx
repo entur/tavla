@@ -44,6 +44,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
             <Modal
                 open={open}
                 size="small"
+                closeLabel='"Avbryt"'
                 className="w-11/12 lg:w-full"
                 onDismiss={() => router.push(pathname ?? '/')}
             >

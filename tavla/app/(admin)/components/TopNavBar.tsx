@@ -32,17 +32,19 @@ export function TopNavBar({ loggedIn }: { loggedIn: boolean }) {
                             </TopNavigationItem>
                         </div>
                     )}
-                    <TopNavigationItem
-                        active={pathname?.includes('/demo')}
-                        as={Link}
-                        href="/demo"
-                        onClick={() => {
-                            posthog.capture('DEMO_FROM_NAV_BAR_BTN')
-                        }}
-                        className="!text-primary"
-                    >
-                        Test ut Tavla
-                    </TopNavigationItem>
+                    {!loggedIn && (
+                        <TopNavigationItem
+                            active={pathname?.includes('/demo')}
+                            as={Link}
+                            href="/demo"
+                            onClick={() => {
+                                posthog.capture('DEMO_FROM_NAV_BAR_BTN')
+                            }}
+                            className="!text-primary"
+                        >
+                            Test ut Tavla
+                        </TopNavigationItem>
+                    )}
                     <TopNavigationItem
                         active={pathname?.includes('/help')}
                         as={Link}
