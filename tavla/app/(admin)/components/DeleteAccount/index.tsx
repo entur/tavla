@@ -49,9 +49,7 @@ function DeleteAccount() {
             <Modal
                 open={modalIsOpen}
                 size="small"
-                onDismiss={() => {
-                    close()
-                }}
+                onDismiss={close}
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >

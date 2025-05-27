@@ -59,7 +59,6 @@ export async function saveSettings(data: FormData) {
     }
 
     const footer = data.get('footer') as string
-    const override = (data.get('override') as string) === 'on'
 
     const board = await getBoard(bid)
     const errors = {} as Record<InputType, TFormFeedback>
@@ -83,7 +82,7 @@ export async function saveSettings(data: FormData) {
         await saveFont(bid, font)
         await setTheme(bid, theme)
         await setViewType(board, viewType)
-        await setFooter(bid, { footer, override })
+        await setFooter(bid, { footer })
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
@@ -96,7 +95,7 @@ export async function saveSettings(data: FormData) {
     }
 }
 
-async function setFooter(bid: TBoardID, { footer, override }: TFooter) {
+async function setFooter(bid: TBoardID, { footer }: TFooter) {
     userHasAccessToEditBoard(bid)
 
     let newFooter = {}
@@ -105,9 +104,7 @@ async function setFooter(bid: TBoardID, { footer, override }: TFooter) {
         footer && !isOnlyWhiteSpace(footer) && footer.trim() !== ''
 
     if (footerContainsText) {
-        newFooter = { footer: footer, override: override }
-    } else if (override) {
-        newFooter = { override: override }
+        newFooter = { footer: footer }
     } else {
         newFooter = firestore.FieldValue.delete()
     }

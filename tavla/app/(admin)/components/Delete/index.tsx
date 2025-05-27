@@ -69,13 +69,19 @@ function DeleteFolder({
             <Modal
                 open={isOpen}
                 size="small"
-                onDismiss={close}
+                onDismiss={() => {
+                    close()
+                    setNameError(undefined)
+                }}
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={close}
+                    onClick={() => {
+                        close()
+                        setNameError(undefined)
+                    }}
                     className="absolute top-4 right-4"
                 >
                     <CloseIcon />

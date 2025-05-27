@@ -29,7 +29,6 @@ export type TOrganization = {
     owners?: TUserID[]
     boards?: TBoardID[]
     logo?: TLogo
-    footer?: string
 }
 
 export type TInvite = {
@@ -39,7 +38,6 @@ export type TInvite = {
 }
 
 export type TFooter = {
-    override?: boolean
     footer?: string
 }
 
