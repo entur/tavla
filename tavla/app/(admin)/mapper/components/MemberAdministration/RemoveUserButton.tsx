@@ -25,31 +25,39 @@ function RemoveUserButton({
     }
 
     return (
-        <div className="flex items-center justify-center w-full h-full">
-            {isConfirming ? (
-                <div className="flex flex-row items-center gap-2">
-                    <Button
-                        variant="primary"
-                        onClick={handleDelete}
-                        aria-label="Ja, slett!"
-                    >
-                        Ja, slett!
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        onClick={() => setIsConfirming(false)}
-                        aria-label="Avbryt"
-                    >
-                        Avbryt
-                    </Button>
-                </div>
-            ) : (
+        <div className="flex flex-col items-start w-full">
+            {!isConfirming && (
                 <IconButton
                     onClick={() => setIsConfirming(true)}
                     aria-label="Slett bruker"
                 >
                     <DeleteIcon />
                 </IconButton>
+            )}
+            {isConfirming && (
+                <div className="flex flex-col items-start gap-2 w-full">
+                    <div className="flex flex-row items-center gap-2">
+                        <Button
+                            variant="primary"
+                            size="small"
+                            onClick={handleDelete}
+                            aria-label="Ja, slett!"
+                        >
+                            Ja, slett!
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            size="small"
+                            onClick={() => setIsConfirming(false)}
+                            aria-label="Avbryt"
+                        >
+                            Avbryt
+                        </Button>
+                    </div>
+                    <p className="text-red-600 text-xs">
+                        Er du sikker på at du vil slette denne brukeren?
+                    </p>
+                </div>
             )}
         </div>
     )

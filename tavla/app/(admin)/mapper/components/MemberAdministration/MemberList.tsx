@@ -11,34 +11,39 @@ function MemberList({
     oid?: TOrganizationID
 }) {
     return (
-        <div className="w-full">
-            <div className="grid items-center grid-cols-3">
-                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium col-span-2">
+        <div>
+            <div className="grid items-center overflow-x-auto grid-cols-3">
+                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5 col-span-2">
                     Medlemmer
                 </p>
-                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium">
+                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5">
                     Handlinger
                 </p>
             </div>
 
-            <div className="grid items-center grid-cols-3 [&>*:nth-child(4n+3)]:bg-grey80 [&>*:nth-child(4n+4)]:bg-grey80">
-                {members.map((member) => (
-                    <>
+            <div className="grid items-center overflow-x-auto grid-cols-3">
+                {members.map((member, index) => (
+                    <div
+                        className={`flex items-stretch col-span-3 ${
+                            index % 2 === 0 ? 'bg-white' : 'bg-grey80'
+                        }`}
+                        key={member.uid}
+                    >
                         <p
-                            className="flex items-center pl-2 h-16 col-span-2"
-                            key={'email' + member.uid}
+                            className="flex items-center pl-2 py-2 col-span-2"
+                            style={{ flex: 2 }}
                         >
                             {member.email}
                         </p>
                         <div
-                            className="flex items-center justify-center h-16"
-                            key={member.uid}
+                            className="flex items-center pl-2 p-4"
+                            style={{ flex: 1 }}
                         >
                             {member.uid !== currentUserId && (
                                 <RemoveUserButton user={member} oid={oid} />
                             )}
                         </div>
-                    </>
+                    </div>
                 ))}
             </div>
         </div>
