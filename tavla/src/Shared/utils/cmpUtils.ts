@@ -1,3 +1,4 @@
+'use client'
 declare global {
     interface Window {
         __ucCmp: {
@@ -15,6 +16,8 @@ declare global {
         }
         UC_UI: {
             isInitialized: () => boolean
+            showFirstLayer: () => void
+            showSecondLayer: () => void
         }
     }
 }

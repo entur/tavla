@@ -18,14 +18,7 @@ import { EnturToastProvider, PHProvider } from './providers'
 //     formatConsentEvent,
 //     waitFor,
 // } from '../src/Shared/utils/cmpUtils'
-
-declare global {
-    interface Window {
-        posthog?: {
-            identify: (id: string) => void
-        }
-    }
-}
+import ConsentHandler from './components/ConsentHandler'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -53,53 +46,20 @@ export const metadata: Metadata = {
 
 async function RootLayout({ children }: { children: ReactNode }) {
     const loggedIn = (await getUserFromSessionCookie()) !== null
-    // useEffect(() => {
-    //     let previousConsents: Consents | null = null
-    //     const POSTHOG_SERVICE_NAME = 'PostHog.com'
 
-    //     //TODO: Sentry (evt andre) også inn her?
-
-    //     async function handleConsentUpdate(
-    //         event: Event & { detail?: ConsentDetails },
-    //     ) {
-    //         if (typeof window === 'undefined') return
-
-    //         const consents = formatConsentEvent(event)
-    //         const posthogConsent = consents?.find(
-    //             (c) => c.name === POSTHOG_SERVICE_NAME,
-    //         )
-
-    //         if (posthogConsent?.consentGiven) {
-    //             await waitFor(() => window.posthog !== undefined)
-    //             // @ts-expect-error identify does exist on posthog
-    //             window.posthog?.identify(event.detail?.consent.controllerId)
-    //         }
-
-    //         if (previousConsents !== null) {
-    //             const previousPostHogConsent = previousConsents?.find(
-    //                 (c) => c.name === POSTHOG_SERVICE_NAME,
-    //             )
-
-    //             const posthogDeclined =
-    //                 previousPostHogConsent?.consentGiven === true &&
-    //                 posthogConsent?.consentGiven === false
-
-    //             if (posthogDeclined) location.reload()
-    //         }
-
-    //         previousConsents = consents
-    //     }
-
-    //     window.addEventListener(CONSENT_UPDATED_EVENT, handleConsentUpdate)
-
-    //     return () =>
-    //         window.removeEventListener(
-    //             CONSENT_UPDATED_EVENT,
-    //             handleConsentUpdate,
-    //         )
-    // }, [])
     return (
         <html lang="nb">
+            <head>
+                <Script
+                    strategy="beforeInteractive"
+                    id="usercentrics-cmp"
+                    src="https://web.cmp.usercentrics.eu/ui/loader.js"
+                    // data-draft="true"
+                    data-settings-id={process.env.USERCENTRICS_DATA_SETTINGS_ID}
+                    async
+                />
+                <ConsentHandler />
+            </head>
             <PHProvider>
                 <body className="min-h-screen">
                     <Script

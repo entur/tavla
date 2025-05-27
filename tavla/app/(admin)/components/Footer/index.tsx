@@ -7,6 +7,12 @@ import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import DeleteAccount from '../DeleteAccount'
 
+function showUC_UI() {
+    if (typeof window !== 'undefined') {
+        window.UC_UI.showSecondLayer()
+    }
+}
+
 function Footer({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePostHog()
     return (
@@ -81,9 +87,12 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         <EnturLink as={Link} href="/privacy">
                             Personvernerklæring
                         </EnturLink>
-                        <EnturLink as={Link} href="">
-                            {/* TODO: Add link to cookie policy */}
-                            Endre informasjonskapsler
+                        <EnturLink
+                            as={Link}
+                            href="javascript:void(0)"
+                            onClick={showUC_UI}
+                        >
+                            Informasjonskapsler
                         </EnturLink>
                         <div className="flex flex-row gap-1 items-center">
                             <EnturLink
