@@ -50,17 +50,19 @@ async function RootLayout({ children }: { children: ReactNode }) {
 
     return (
         <html lang="nb">
+            <head>
+                <Script
+                    strategy="beforeInteractive"
+                    id="usercentrics-cmp"
+                    src="https://web.cmp.usercentrics.eu/ui/loader.js"
+                    data-draft="true"
+                    data-settings-id="4OOPZiVslbVZnE"
+                    async
+                />
+                <ConsentHandler />
+            </head>
             <PHProvider>
                 <body>
-                    <Script
-                        strategy="beforeInteractive"
-                        id="usercentrics-cmp"
-                        src="https://web.cmp.usercentrics.eu/ui/loader.js"
-                        data-draft="true"
-                        data-settings-id="4OOPZiVslbVZnE"
-                        async
-                    />
-                    <ConsentHandler />
                     <EnturToastProvider>
                         <TopNavigation loggedIn={loggedIn} />
                         <Suspense>

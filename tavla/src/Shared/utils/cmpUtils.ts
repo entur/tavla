@@ -1,3 +1,4 @@
+'use client'
 declare global {
     interface Window {
         __ucCmp: {
