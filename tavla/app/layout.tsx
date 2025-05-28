@@ -10,6 +10,16 @@ import { Navbar } from './(admin)/components/Navbar'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
+import Script from 'next/script'
+import ConsentHandler from './components/ConsentHandler'
+
+declare global {
+    interface Window {
+        posthog?: {
+            identify: (id: string) => void
+        }
+    }
+}
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -37,8 +47,20 @@ export const metadata: Metadata = {
 
 async function RootLayout({ children }: { children: ReactNode }) {
     const loggedIn = (await getUserFromSessionCookie()) !== null
+
     return (
         <html lang="nb">
+            <head>
+                <Script
+                    strategy="beforeInteractive"
+                    id="usercentrics-cmp"
+                    src="https://web.cmp.usercentrics.eu/ui/loader.js"
+                    data-draft="true"
+                    data-settings-id="4OOPZiVslbVZnE"
+                    async
+                />
+                <ConsentHandler />
+            </head>
             <PHProvider>
                 <body>
                     <EnturToastProvider>
