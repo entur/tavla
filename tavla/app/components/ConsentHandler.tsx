@@ -27,7 +27,6 @@ declare global {
 
 const POSTHOG_SERVICE_NAME = 'PostHog.com'
 const SENTRY_SERVICE_NAME = 'Sentry.io'
-const FIREBASE_SERVICE_NAME = 'Firebase'
 
 export default function ConsentHandler() {
     useEffect(() => {
@@ -65,21 +64,7 @@ export default function ConsentHandler() {
                 })
             }
 
-            // Handle Firebase consent
-            const firebaseConsent = consents?.find(
-                (c) => c.name === FIREBASE_SERVICE_NAME,
-            )
-
-            if (firebaseConsent?.consentGiven) {
-                // console.log(`Firebase consent given`)
-                await waitFor(() => window.firebase !== undefined)
-                const controllerId = event.detail?.consent.controllerId
-                if (controllerId) {
-                    window.firebase?.analytics()?.setUserId(controllerId)
-                }
-            }
-
-            // Handle previous consents for PostHog, Sentry, and Firebase
+            // Handle previous consents for PostHog and Sentry
             if (previousConsents !== null) {
                 // Handle PostHog
                 const previousPostHogConsent = previousConsents?.find(
@@ -102,17 +87,6 @@ export default function ConsentHandler() {
                     sentryConsent?.consentGiven === false
 
                 if (sentryDeclined) location.reload()
-
-                // Handle Firebase
-                const previousFirebaseConsent = previousConsents?.find(
-                    (c) => c.name === FIREBASE_SERVICE_NAME,
-                )
-
-                const firebaseDeclined =
-                    previousFirebaseConsent?.consentGiven === true &&
-                    firebaseConsent?.consentGiven === false
-
-                if (firebaseDeclined) location.reload()
             }
 
             previousConsents = consents
