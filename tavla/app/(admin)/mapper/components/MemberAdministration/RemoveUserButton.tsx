@@ -1,10 +1,10 @@
 'use client'
 import { useState } from 'react'
-import { Button, IconButton } from '@entur/button'
+import { Button } from '@entur/button'
 import { TOrganizationID, TUser } from 'types/settings'
 import { removeUserAction } from './actions'
 import { useActionState } from 'react'
-import { DeleteIcon } from '@entur/icons'
+import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
 
 function RemoveUserButton({
     user,
@@ -27,23 +27,25 @@ function RemoveUserButton({
     return (
         <div className="flex flex-col items-start w-full">
             {!isConfirming && (
-                <IconButton
+                <DeleteButton
+                    text="Slett bruker fra mappen"
+                    tooltipId="tooltip-delete-user-from-folder"
                     onClick={() => setIsConfirming(true)}
-                    aria-label="Slett bruker"
-                >
-                    <DeleteIcon />
-                </IconButton>
+                />
             )}
             {isConfirming && (
                 <div className="flex flex-col items-start gap-2 w-full">
+                    <p className="text-red-600">
+                        Er du sikker på at du vil slette brukeren fra mappen?
+                    </p>
                     <div className="flex flex-row items-center gap-2">
                         <Button
                             variant="primary"
                             size="small"
                             onClick={handleDelete}
-                            aria-label="Ja, slett!"
+                            aria-label="Ja, slett"
                         >
-                            Ja, slett!
+                            Ja, slett
                         </Button>
                         <Button
                             variant="secondary"
@@ -54,9 +56,6 @@ function RemoveUserButton({
                             Avbryt
                         </Button>
                     </div>
-                    <p className="text-red-600 text-xs">
-                        Er du sikker på at du vil slette denne brukeren?
-                    </p>
                 </div>
             )}
         </div>

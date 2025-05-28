@@ -11,41 +11,31 @@ function MemberList({
     oid?: TOrganizationID
 }) {
     return (
-        <div>
-            <div className="grid items-center overflow-x-auto grid-cols-3">
-                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5 col-span-2">
-                    Medlemmer
-                </p>
-                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5">
-                    Handlinger
-                </p>
+        <div className="overflow-x-auto">
+            <div className="grid items-center grid-cols-2 sm:grid-cols-3 font-medium bg-grey70">
+                <p className="flex p-2 pr-0.5 sm:col-span-2">Medlemmer</p>
+                <p className="flex p-2 pr-0.5">Handlinger</p>
             </div>
 
-            <div className="grid items-center overflow-x-auto grid-cols-3">
-                {members.map((member, index) => (
+            {members.map((member, index) => (
+                <div
+                    className={`grid items-center grid-cols-2 sm:grid-cols-3 ${
+                        index % 2 === 0 ? 'bg-white' : 'bg-grey80'
+                    }`}
+                    key={member.uid}
+                >
+                    <p className="flex p-2 pr-0.5 sm:col-span-2">
+                        {member.email}
+                    </p>
                     <div
-                        className={`flex items-stretch col-span-3 ${
-                            index % 2 === 0 ? 'bg-white' : 'bg-grey80'
-                        }`}
-                        key={member.uid}
+                        className={`flex p-2 pr-0.5 ${member.uid !== currentUserId ? 'py-2' : 'h-12'}`}
                     >
-                        <p
-                            className="flex items-center pl-2 py-2 col-span-2"
-                            style={{ flex: 2 }}
-                        >
-                            {member.email}
-                        </p>
-                        <div
-                            className="flex items-center pl-2 p-4"
-                            style={{ flex: 1 }}
-                        >
-                            {member.uid !== currentUserId && (
-                                <RemoveUserButton user={member} oid={oid} />
-                            )}
-                        </div>
+                        {member.uid !== currentUserId && (
+                            <RemoveUserButton user={member} oid={oid} />
+                        )}
                     </div>
-                ))}
-            </div>
+                </div>
+            ))}
         </div>
     )
 }
