@@ -56,7 +56,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                             href="/oversikt"
                             active={pathname?.includes('/oversikt')}
                         >
-                            Mapper og tavler
+                            Mine tavler
                         </SideNavigationItem>
 
                         <SideNavigationItem

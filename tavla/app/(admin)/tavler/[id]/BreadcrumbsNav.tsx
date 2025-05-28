@@ -12,7 +12,7 @@ function FolderBreadcrumbs({ folder }: { folder: TOrganization }) {
     return (
         <BreadcrumbNavigation>
             <BreadcrumbItem as={Link} href="/oversikt">
-                Mapper og tavler
+                Mine tavler
             </BreadcrumbItem>
             <BreadcrumbItem as={Link} href={`/mapper/${folder?.id}`}>
                 {folder?.name ?? DEFAULT_FOLDER_NAME}
@@ -25,7 +25,7 @@ function BoardBreadcrumbs({ board }: { board: TBoard }) {
     return (
         <BreadcrumbNavigation>
             <BreadcrumbItem as={Link} href="/oversikt">
-                Mapper og tavler
+                Mine tavler
             </BreadcrumbItem>
             <BreadcrumbItem as={Link} href={`/tavler/${board?.id}/rediger`}>
                 {board?.meta.title ?? DEFAULT_BOARD_NAME}
@@ -44,7 +44,7 @@ function BoardInFolderBreadcrumbs({
     return (
         <BreadcrumbNavigation>
             <BreadcrumbItem as={Link} href="/oversikt">
-                Mapper og tavler
+                Mine tavler
             </BreadcrumbItem>
             <BreadcrumbItem as={Link} href={`/mapper/${folder?.id}`}>
                 {folder?.name ?? DEFAULT_FOLDER_NAME}
