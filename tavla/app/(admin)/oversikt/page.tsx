@@ -33,7 +33,7 @@ async function FoldersAndBoardsPage() {
     return (
         <div className="flex flex-col gap-8 container pb-20">
             <div className="flex max-sm:flex-col flex-row justify-between">
-                <Heading1>Mapper og tavler</Heading1>
+                <Heading1>Mine tavler</Heading1>
                 <div className="flex flex-row gap-4">
                     <CreateFolder />
                     <CreateBoard />
