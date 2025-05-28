@@ -22,7 +22,7 @@ declare global {
 }
 
 const POSTHOG_SERVICE_NAME = 'PostHog.com'
-const SENTRY_SERVICE_NAME = 'Sentry.io'
+const SENTRY_SERVICE_NAME = 'Sentry'
 
 export function initSentry(consent: boolean) {
     Sentry.close().then(() => {
@@ -55,7 +55,6 @@ export default function ConsentHandler() {
             )
 
             if (posthogConsent?.consentGiven) {
-                // console.log(`PostHog consent given`)
                 await waitFor(() => window.posthog !== undefined)
                 // @ts-expect-error identify does exist on posthog
                 window.posthog?.identify(event.detail?.consent.controllerId)
@@ -68,7 +67,6 @@ export default function ConsentHandler() {
 
             if (sentryConsent?.consentGiven) {
                 initSentry(true)
-                // console.log(`Sentry consent given`)
                 await waitFor(() => window.Sentry !== undefined)
                 window.Sentry?.setUser({
                     id: event.detail?.consent.controllerId ?? '',
@@ -89,9 +87,6 @@ export default function ConsentHandler() {
                     posthogConsent?.consentGiven === false
 
                 if (posthogDeclined) location.reload()
-                // console.log(
-                //     `PostHog consent changed: ${posthogConsent?.consentGiven}`,
-                // )
 
                 // Handle Sentry
                 const previousSentryConsent = previousConsents?.find(
@@ -103,9 +98,6 @@ export default function ConsentHandler() {
                     sentryConsent?.consentGiven === false
 
                 if (sentryDeclined) location.reload()
-                // console.log(
-                //     `Sentry consent changed: ${sentryConsent?.consentGiven}`,
-                // )
             }
 
             previousConsents = consents
