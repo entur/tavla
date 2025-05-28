@@ -1,10 +1,11 @@
 'use client'
 import { useState } from 'react'
-import { Button, IconButton } from '@entur/button'
+import { Button } from '@entur/button'
 import { TOrganizationID, TUser } from 'types/settings'
 import { removeUserAction } from './actions'
 import { useActionState } from 'react'
-import { DeleteIcon } from '@entur/icons'
+import { Tooltip } from '@entur/tooltip'
+import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
 
 function RemoveUserButton({
     user,
@@ -27,15 +28,22 @@ function RemoveUserButton({
     return (
         <div className="flex flex-col items-start w-full">
             {!isConfirming && (
-                <IconButton
-                    onClick={() => setIsConfirming(true)}
-                    aria-label="Slett bruker"
+                <Tooltip
+                    content="Slett mappe"
+                    placement="bottom"
+                    id="tooltip-delete-user-from-folder"
                 >
-                    <DeleteIcon />
-                </IconButton>
+                    <DeleteButton
+                        text="Slett bruker fra mappen"
+                        onClick={() => setIsConfirming(true)}
+                    />
+                </Tooltip>
             )}
             {isConfirming && (
                 <div className="flex flex-col items-start gap-2 w-full">
+                    <p className="text-red-600 text-s">
+                        Er du sikker på at du vil slette brukeren fra mappen?
+                    </p>
                     <div className="flex flex-row items-center gap-2">
                         <Button
                             variant="primary"
@@ -54,9 +62,6 @@ function RemoveUserButton({
                             Avbryt
                         </Button>
                     </div>
-                    <p className="text-red-600 text-xs">
-                        Er du sikker på at du vil slette denne brukeren?
-                    </p>
                 </div>
             )}
         </div>
