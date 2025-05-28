@@ -15,6 +15,8 @@ declare global {
         }
         UC_UI: {
             isInitialized: () => boolean
+            showFirstLayer: () => void
+            showSecondLayer: () => void
         }
     }
 }
