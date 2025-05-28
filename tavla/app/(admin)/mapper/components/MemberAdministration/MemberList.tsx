@@ -21,24 +21,29 @@ function MemberList({
                 </p>
             </div>
 
-            <div className="grid items-center overflow-x-auto grid-cols-3 [&>*:nth-child(4n+3)]:bg-grey80 [&>*:nth-child(4n+4)]:bg-grey80">
-                {members.map((member) => (
-                    <>
+            <div className="grid items-center overflow-x-auto grid-cols-3">
+                {members.map((member, index) => (
+                    <div
+                        className={`flex items-stretch col-span-3 ${
+                            index % 2 === 0 ? 'bg-white' : 'bg-grey80'
+                        }`}
+                        key={member.uid}
+                    >
                         <p
-                            className="content-center pl-2 h-16 py-2 col-span-2"
-                            key={'email' + member.uid}
+                            className="flex items-center pl-2 py-2 col-span-2"
+                            style={{ flex: 2 }}
                         >
                             {member.email}
                         </p>
                         <div
-                            className="content-center pl-2 h-16"
-                            key={member.uid}
+                            className="flex items-center pl-2 p-4"
+                            style={{ flex: 1 }}
                         >
                             {member.uid !== currentUserId && (
                                 <RemoveUserButton user={member} oid={oid} />
                             )}
                         </div>
-                    </>
+                    </div>
                 ))}
             </div>
         </div>
