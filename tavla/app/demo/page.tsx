@@ -23,12 +23,14 @@ async function Demo() {
                 tavle. Tavlen du lager her blir ikke lagret.
             </LeadParagraph>{' '}
             {!loggedIn && (
-                <LeadParagraph margin="none">
-                    Du må logge inn for å lagre tavlen og få tilgang til all
-                    funksjonalitet.
-                </LeadParagraph>
+                <>
+                    <LeadParagraph margin="none">
+                        Du må logge inn for å lagre tavlen og få tilgang til all
+                        funksjonalitet.
+                    </LeadParagraph>
+                    <ExpandableInformation />
+                </>
             )}
-            {!loggedIn && <ExpandableInformation />}
             <div className="flex flex-col gap-10">
                 <DemoBoard />
             </div>
