@@ -8,6 +8,7 @@ import {
     formatConsentEvent,
     waitFor,
 } from '../../src/Shared/utils/cmpUtils'
+import * as Sentry from '@sentry/react'
 
 declare global {
     interface Window {
@@ -17,16 +18,25 @@ declare global {
         Sentry?: {
             setUser: (user: { id: string }) => void
         }
-        firebase?: {
-            analytics: () => {
-                setUserId: (id: string) => void
-            }
-        }
     }
 }
 
 const POSTHOG_SERVICE_NAME = 'PostHog.com'
 const SENTRY_SERVICE_NAME = 'Sentry.io'
+
+export function initSentry(consent: boolean) {
+    Sentry.close().then(() => {
+        if (process.env.NODE_ENV === 'production') {
+            Sentry.init({
+                dsn: 'https://5f539001c534616984cd2b40e794ae39@o4508182734503936.ingest.de.sentry.io/4508336084484176',
+                beforeSend(event) {
+                    if (!consent) return null
+                    return event
+                },
+            })
+        }
+    })
+}
 
 export default function ConsentHandler() {
     useEffect(() => {
@@ -57,11 +67,14 @@ export default function ConsentHandler() {
             )
 
             if (sentryConsent?.consentGiven) {
+                initSentry(true)
                 // console.log(`Sentry consent given`)
                 await waitFor(() => window.Sentry !== undefined)
                 window.Sentry?.setUser({
                     id: event.detail?.consent.controllerId ?? '',
                 })
+            } else {
+                initSentry(false)
             }
 
             // Handle previous consents for PostHog and Sentry
@@ -76,6 +89,9 @@ export default function ConsentHandler() {
                     posthogConsent?.consentGiven === false
 
                 if (posthogDeclined) location.reload()
+                // console.log(
+                //     `PostHog consent changed: ${posthogConsent?.consentGiven}`,
+                // )
 
                 // Handle Sentry
                 const previousSentryConsent = previousConsents?.find(
@@ -87,6 +103,9 @@ export default function ConsentHandler() {
                     sentryConsent?.consentGiven === false
 
                 if (sentryDeclined) location.reload()
+                // console.log(
+                //     `Sentry consent changed: ${sentryConsent?.consentGiven}`,
+                // )
             }
 
             previousConsents = consents
