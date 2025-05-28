@@ -12,7 +12,7 @@ export function NavigateToFoldersAndBoardsPageButton() {
             href="oversikt"
             onClick={() => {}}
         >
-            Naviger til mapper og tavler
+            Gå til mine tavler
             <ForwardIcon />
         </Button>
     )

@@ -28,7 +28,7 @@ export function Navbar({ loggedIn }: { loggedIn: boolean }) {
                                 href="/oversikt"
                                 className="!text-primary"
                             >
-                                Mapper og tavler
+                                Mine tavler
                             </TopNavigationItem>
                         </div>
                     )}
