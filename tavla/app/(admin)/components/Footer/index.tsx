@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { ExternalIcon, GithubIcon } from '@entur/icons'
 import { usePostHog } from 'posthog-js/react'
 import DeleteAccount from '../DeleteAccount'
-import { Button } from '@entur/button'
 
 function showUC_UI() {
     if (typeof window !== 'undefined') {
@@ -89,10 +88,13 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             Personvernerklæring
                         </EnturLink>
 
-                        <Button onClick={showUC_UI} variant="primary">
-                            {/* TODO: Lag om til en link som de andre? */}
+                        <EnturLink
+                            as={Link}
+                            href="javascript:void(0)"
+                            onClick={showUC_UI}
+                        >
                             Endre informasjonskapsler
-                        </Button>
+                        </EnturLink>
                         <div className="flex flex-row gap-1 items-center">
                             <EnturLink
                                 href="https://github.com/entur/tavla"
