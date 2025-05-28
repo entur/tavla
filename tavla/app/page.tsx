@@ -15,7 +15,7 @@ import { DemoButton } from './components/DemoButtonLanding'
 import { WordCarousel } from './components/WordCarousel/WordCarousel'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
-import { NavigateToFoldersAndBoardsPageButton } from './components/NavigateToFoldersAndBoardsPageButton'
+import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -39,12 +39,12 @@ async function Landing() {
                         </LeadParagraph>
                         <div className="flex md:flex-row flex-col w-full gap-4 mt-5">
                             {!loggedIn ? (
-                                <div>
+                                <div className="gap-4 flex flex-col md:flex-row w-full">
                                     <CreateUserButton trackingEvent="CREATE_USER_BTN_FROM_LANDING" />
                                     <DemoButton />
                                 </div>
                             ) : (
-                                <NavigateToFoldersAndBoardsPageButton />
+                                <NavigateToOversiktButton />
                             )}
                         </div>
                     </div>

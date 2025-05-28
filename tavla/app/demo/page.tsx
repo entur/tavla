@@ -3,7 +3,7 @@ import { DemoBoard } from './components/DemoBoard'
 import { ExpandableInformation } from './components/ExpandableInformation'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { CreateUserButton } from 'app/components/CreateUserButton'
-import { NavigateToFoldersAndBoardsPageButton } from 'app/components/NavigateToFoldersAndBoardsPageButton'
+import { NavigateToOversiktButton } from 'app/components/NavigateToOversiktButton'
 
 async function Demo() {
     const loggedIn = (await getUserFromSessionCookie()) !== null
@@ -15,20 +15,22 @@ async function Demo() {
                 {!loggedIn ? (
                     <CreateUserButton trackingEvent="LOGIN_BTN_DEMO_PAGE" />
                 ) : (
-                    <NavigateToFoldersAndBoardsPageButton />
+                    <NavigateToOversiktButton />
                 )}
             </div>
             <LeadParagraph margin="none">
                 Dette er en demo-løsning hvor du kan prøve å opprette din egen
                 tavle. Tavlen du lager her blir ikke lagret.
-            </LeadParagraph>{' '}
+            </LeadParagraph>
             {!loggedIn && (
-                <LeadParagraph margin="none">
-                    Du må logge inn for å lagre tavlen og få tilgang til all
-                    funksjonalitet.
-                </LeadParagraph>
+                <>
+                    <LeadParagraph margin="none">
+                        Du må logge inn for å lagre tavlen og få tilgang til all
+                        funksjonalitet.
+                    </LeadParagraph>
+                    <ExpandableInformation />
+                </>
             )}
-            {!loggedIn && <ExpandableInformation />}
             <div className="flex flex-col gap-10">
                 <DemoBoard />
             </div>

@@ -5,7 +5,7 @@ import {
     NormalizedDropdownItemType,
     SearchableDropdown,
 } from '@entur/dropdown'
-import { AddIcon, SearchIcon } from '@entur/icons'
+import { SearchIcon } from '@entur/icons'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
@@ -116,10 +116,7 @@ function TileSelector({
             <HiddenInput id="quay_name" value={selectedQuay?.label} />
             <HiddenInput id="quay" value={selectedQuay?.value} />
 
-            <SubmitButton variant="secondary">
-                Legg til
-                <AddIcon />
-            </SubmitButton>
+            <SubmitButton variant="secondary">Legg til</SubmitButton>
         </form>
     )
 }
