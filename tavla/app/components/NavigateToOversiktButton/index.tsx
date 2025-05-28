@@ -3,7 +3,7 @@ import { Button } from '@entur/button'
 import Link from 'next/link'
 import { ForwardIcon } from '@entur/icons'
 
-export function NavigateToFoldersAndBoardsPageButton() {
+export function NavigateToOversiktButton() {
     return (
         <Button
             variant="primary"

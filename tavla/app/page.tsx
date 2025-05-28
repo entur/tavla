@@ -15,7 +15,7 @@ import { DemoButton } from './components/DemoButtonLanding'
 import { WordCarousel } from './components/WordCarousel/WordCarousel'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
-import { NavigateToFoldersAndBoardsPageButton } from './components/NavigateToFoldersAndBoardsPageButton'
+import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
@@ -44,7 +44,7 @@ async function Landing() {
                                     <DemoButton />
                                 </div>
                             ) : (
-                                <NavigateToFoldersAndBoardsPageButton />
+                                <NavigateToOversiktButton />
                             )}
                         </div>
                     </div>
