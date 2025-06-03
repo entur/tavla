@@ -71,10 +71,10 @@ function RemoveUserButton({
                         <SubmitButton
                             variant="primary"
                             width="fluid"
-                            aria-label="Ja, slett!"
+                            aria-label="Ja, slett"
                             className="w-1/2"
                         >
-                            Ja, slett!
+                            Ja, slett
                         </SubmitButton>
 
                         <Button
