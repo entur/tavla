@@ -1,7 +1,6 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
-import { AddIcon } from '@entur/icons'
 import { TBoard, TOrganizationID } from 'types/settings'
 import { duplicateBoard } from './actions'
 
@@ -34,7 +33,6 @@ function DuplicateBoard({
             onClick={handleSelect}
         >
             Dupliser tavle
-            <AddIcon />
         </Button>
     )
 }

@@ -1,5 +1,4 @@
 'use client'
-import { AddIcon } from '@entur/icons'
 import { TOrganizationID } from 'types/settings'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
@@ -40,7 +39,6 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                     className="w-full sm:max-w-48 mb-4"
                 >
                     Legg til medlem
-                    <AddIcon />
                 </SubmitButton>
             </div>
             <FormError {...getFormFeedbackForField('general', state)} />

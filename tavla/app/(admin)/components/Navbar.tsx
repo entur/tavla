@@ -28,32 +28,30 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                                 href="/oversikt"
                                 className="!text-primary"
                             >
-                                Mapper og tavler
+                                Mine tavler
                             </TopNavigationItem>
                         </div>
                     ) : (
-                        <>
-                            <TopNavigationItem
-                                active={pathname?.includes('/demo')}
-                                as={Link}
-                                href="/demo"
-                                onClick={() => {
-                                    posthog.capture('DEMO_FROM_NAV_BAR_BTN')
-                                }}
-                                className="!text-primary"
-                            >
-                                Test ut Tavla
-                            </TopNavigationItem>
-                            <TopNavigationItem
-                                active={pathname?.includes('/help')}
-                                as={Link}
-                                href="/help"
-                                className="!text-primary"
-                            >
-                                Ofte stilte spørsmål
-                            </TopNavigationItem>
-                        </>
+                        <TopNavigationItem
+                            active={pathname?.includes('/demo')}
+                            as={Link}
+                            href="/demo"
+                            onClick={() => {
+                                posthog.capture('DEMO_FROM_NAV_BAR_BTN')
+                            }}
+                            className="!text-primary"
+                        >
+                            Test ut Tavla
+                        </TopNavigationItem>
                     )}
+                    <TopNavigationItem
+                        active={pathname?.includes('/help')}
+                        as={Link}
+                        href="/help"
+                        className="!text-primary"
+                    >
+                        Ofte stilte spørsmål
+                    </TopNavigationItem>
                     <Login loggedIn={loggedIn} />
                 </div>
             </div>
