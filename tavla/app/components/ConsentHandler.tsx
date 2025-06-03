@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import {
     CONSENT_UPDATED_EVENT,
     ConsentDetails,
-    Consents,
     formatConsentEvent,
     waitFor,
 } from '../../src/Shared/utils/cmpUtils'
@@ -28,7 +27,7 @@ export function initSentry(consent: boolean) {
     Sentry.close().then(() => {
         if (process.env.NODE_ENV === 'production') {
             Sentry.init({
-                dsn: 'https://5f539001c534616984cd2b40e794ae39@o4508182734503936.ingest.de.sentry.io/4508336084484176',
+                dsn: process.env.NEXT_PUBLIC_SENTRY_DSN_URL,
                 beforeSend(event) {
                     if (!consent) return null
                     return event
@@ -40,8 +39,6 @@ export function initSentry(consent: boolean) {
 
 export default function ConsentHandler() {
     useEffect(() => {
-        let previousConsents: Consents | null = null
-
         async function handleConsentUpdate(
             event: Event & { detail?: ConsentDetails },
         ) {
@@ -51,18 +48,19 @@ export default function ConsentHandler() {
 
             // Handle PostHog consent
             const posthogConsent = consents?.find(
-                (c) => c.name === POSTHOG_SERVICE_NAME,
+                (consent) => consent.name === POSTHOG_SERVICE_NAME,
             )
 
             if (posthogConsent?.consentGiven) {
                 await waitFor(() => window.posthog !== undefined)
-                // @ts-expect-error identify does exist on posthog
-                window.posthog?.identify(event.detail?.consent.controllerId)
+                window.posthog?.identify(
+                    event.detail?.consent.controllerId ?? '',
+                )
             }
 
             // Handle Sentry consent
             const sentryConsent = consents?.find(
-                (c) => c.name === SENTRY_SERVICE_NAME,
+                (consent) => consent.name === SENTRY_SERVICE_NAME,
             )
 
             if (sentryConsent?.consentGiven) {
@@ -74,33 +72,6 @@ export default function ConsentHandler() {
             } else {
                 initSentry(false)
             }
-
-            // Handle previous consents for PostHog and Sentry
-            if (previousConsents !== null) {
-                // Handle PostHog
-                const previousPostHogConsent = previousConsents?.find(
-                    (c) => c.name === POSTHOG_SERVICE_NAME,
-                )
-
-                const posthogDeclined =
-                    previousPostHogConsent?.consentGiven === true &&
-                    posthogConsent?.consentGiven === false
-
-                if (posthogDeclined) location.reload()
-
-                // Handle Sentry
-                const previousSentryConsent = previousConsents?.find(
-                    (c) => c.name === SENTRY_SERVICE_NAME,
-                )
-
-                const sentryDeclined =
-                    previousSentryConsent?.consentGiven === true &&
-                    sentryConsent?.consentGiven === false
-
-                if (sentryDeclined) location.reload()
-            }
-
-            previousConsents = consents
         }
 
         window.addEventListener(CONSENT_UPDATED_EVENT, handleConsentUpdate)

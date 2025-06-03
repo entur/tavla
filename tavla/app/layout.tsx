@@ -13,14 +13,6 @@ import { getUserFromSessionCookie } from './(admin)/utils/server'
 import Script from 'next/script'
 import ConsentHandler from './components/ConsentHandler'
 
-declare global {
-    interface Window {
-        posthog?: {
-            identify: (id: string) => void
-        }
-    }
-}
-
 export const metadata: Metadata = {
     title: 'Entur Tavla',
     manifest: '/site.webmanifest',
@@ -55,8 +47,8 @@ async function RootLayout({ children }: { children: ReactNode }) {
                     strategy="beforeInteractive"
                     id="usercentrics-cmp"
                     src="https://web.cmp.usercentrics.eu/ui/loader.js"
-                    data-draft="true"
-                    data-settings-id="4OOPZiVslbVZnE"
+                    // data-draft="true"
+                    data-settings-id={process.env.USERCENTRICS_DATA_SETTINGS_ID}
                     async
                 />
                 <ConsentHandler />
