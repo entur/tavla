@@ -87,13 +87,12 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         <EnturLink as={Link} href="/privacy">
                             Personvernerklæring
                         </EnturLink>
-
                         <EnturLink
                             as={Link}
                             href="javascript:void(0)"
                             onClick={showUC_UI}
                         >
-                            Endre informasjonskapsler
+                            Informasjonskapsler
                         </EnturLink>
                         <div className="flex flex-row gap-1 items-center">
                             <EnturLink
