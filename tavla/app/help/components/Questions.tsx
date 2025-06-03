@@ -34,7 +34,7 @@ function Questions() {
                 Vi støtter helt ned til disse versjonene og oppover:
                 <ListItem>Chromium 49</ListItem>
                 <ListItem>Firefox 52</ListItem>
-                <ListItem>Safari 8.1</ListItem>
+                <ListItem>Safari 10.1</ListItem>
                 <ListItem>Edge 15</ListItem>
                 <ListItem>Opera 36</ListItem>
                 Det kan hende vi støtter versjoner lengre ned, men Tavla skal
