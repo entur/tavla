@@ -1,5 +1,8 @@
 'use client'
 
+import { ToastProvider } from '@entur/alert'
+import { PostHogProvider } from 'posthog-js/react'
+import { ReactNode } from 'react'
 import { useEffect } from 'react'
 import {
     CONSENT_UPDATED_EVENT,
@@ -8,6 +11,7 @@ import {
     waitFor,
 } from '../../src/Shared/utils/cmpUtils'
 import * as Sentry from '@sentry/react'
+import posthog, { PostHogConfig } from 'posthog-js'
 
 declare global {
     interface Window {
@@ -18,6 +22,14 @@ declare global {
             setUser: (user: { id: string }) => void
         }
     }
+}
+
+const basePosthogOptions: Partial<PostHogConfig> = {
+    api_host: 'https://eu.posthog.com',
+    capture_pageview: false,
+    autocapture: false,
+    opt_out_capturing_by_default: true,
+    // debug: true, // Used to test if posthog turns on only with consent
 }
 
 const POSTHOG_SERVICE_NAME = 'PostHog.com'
@@ -52,10 +64,16 @@ export default function ConsentHandler() {
             )
 
             if (posthogConsent?.consentGiven) {
-                await waitFor(() => window.posthog !== undefined)
-                window.posthog?.identify(
-                    event.detail?.consent.controllerId ?? '',
-                )
+                if (posthog.__loaded) {
+                    posthog.opt_in_capturing()
+                } else {
+                    posthog.init(
+                        process.env.NEXT_PUBLIC_POSTHOG_TOKEN ?? '',
+                        basePosthogOptions,
+                    )
+                }
+            } else {
+                disablePosthog()
             }
 
             // Handle Sentry consent
@@ -84,4 +102,30 @@ export default function ConsentHandler() {
     }, [])
 
     return null
+}
+
+function disablePosthog() {
+    if (posthog.__loaded) {
+        posthog.opt_out_capturing()
+        posthog.reset()
+    }
+
+    try {
+        const keyPrefix = `ph_${process.env.NEXT_PUBLIC_POSTHOG_TOKEN}_posthog`
+        Object.keys(localStorage).forEach((key) => {
+            if (key.startsWith(keyPrefix)) {
+                localStorage.removeItem(key)
+            }
+        })
+    } catch {
+        // Ignore mistakes
+    }
+}
+
+export function PHProvider({ children }: { children: ReactNode }) {
+    return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+}
+
+export function EnturToastProvider({ children }: { children: ReactNode }) {
+    return <ToastProvider>{children}</ToastProvider>
 }

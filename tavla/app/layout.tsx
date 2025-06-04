@@ -4,14 +4,16 @@ import 'styles/reset.css'
 import './globals.css'
 import { ReactNode, Suspense } from 'react'
 import { Metadata } from 'next'
-import { EnturToastProvider, PHProvider } from './providers'
 import { Footer } from './(admin)/components/Footer'
 import { Navbar } from './(admin)/components/Navbar'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
 import Script from 'next/script'
-import ConsentHandler from './components/ConsentHandler'
+import ConsentHandler, {
+    EnturToastProvider,
+    PHProvider,
+} from './components/ConsentHandler'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -47,7 +49,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
                     strategy="beforeInteractive"
                     id="usercentrics-cmp"
                     src="https://web.cmp.usercentrics.eu/ui/loader.js"
-                    // data-draft="true"
+                    // data-draft="true" // used for testing
                     data-settings-id={process.env.USERCENTRICS_DATA_SETTINGS_ID}
                     async
                 />
