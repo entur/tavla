@@ -1,4 +1,5 @@
 'use client'
+
 declare global {
     interface Window {
         __ucCmp: {
@@ -21,6 +22,7 @@ declare global {
         }
     }
 }
+
 export type ConsentActionType =
     | 'onAcceptAllServices'
     | 'onDenyAllServices'
@@ -31,13 +33,17 @@ export type ConsentActionType =
     | 'onTcfStringChange'
     | 'onUpdateServices'
     | 'onMobileSessionRestore'
+
 type SettingType = 'TCF' | 'GDPR' | 'CCPA'
+
 type ConsentType = 'IMPLICIT' | 'EXPLICIT'
+
 export interface ConsentDetails {
     consent: ConsentData
     services: Record<string, ServiceData>
     categories: Record<string, CategoryData>
 }
+
 interface ConsentData {
     status: 'ALL_ACCEPTED' | 'ALL_DENIED' | 'SOME_ACCEPTED' | 'SOME_DENIED'
     serviceIds?: string[]
@@ -55,6 +61,7 @@ interface ConsentData {
     isBot?: true
     isOutsideEu?: true
 }
+
 interface SettingData {
     id: string
     type: SettingType
@@ -62,6 +69,7 @@ interface SettingData {
     abVariant?: string
     sandbox?: true
 }
+
 interface ServiceData {
     name: string
     version: string
@@ -79,6 +87,7 @@ interface ServiceData {
     thirdCountryDataTransfer?: boolean
     status?: 'added'
 }
+
 interface CategoryData {
     essential?: boolean
     state: 'ALL_DENIED' | 'SOME_ACCEPTED' | 'ALL_ACCEPTED'
@@ -87,7 +96,9 @@ interface CategoryData {
 }
 
 export const CMP_INITIALIZE_EVENT = 'UC_UI_INITIALIZED'
+
 export const CONSENT_UPDATED_EVENT = 'UC_CONSENT'
+
 export type Consents =
     | {
           id: string

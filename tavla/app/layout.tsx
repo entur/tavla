@@ -1,24 +1,19 @@
 import { Metadata } from 'next'
 import Script from 'next/script'
-import { ReactNode, Suspense } from 'react' //TODO: add "useEffect"
+import { ReactNode, Suspense } from 'react'
 import 'styles/fonts.css'
 import 'styles/imports.css'
 import 'styles/reset.css'
 import { Footer } from './(admin)/components/Footer'
 import { Navbar } from './(admin)/components/Navbar'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
+import ConsentHandler, {
+    EnturToastProvider,
+    PHProvider,
+} from './components/ConsentHandler'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
 import './globals.css'
-import { EnturToastProvider, PHProvider } from './providers'
-// import {
-//     CONSENT_UPDATED_EVENT,
-//     ConsentDetails,
-//     Consents,
-//     formatConsentEvent,
-//     waitFor,
-// } from '../src/Shared/utils/cmpUtils'
-import ConsentHandler from './components/ConsentHandler'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
@@ -54,7 +49,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
                     strategy="beforeInteractive"
                     id="usercentrics-cmp"
                     src="https://web.cmp.usercentrics.eu/ui/loader.js"
-                    // data-draft="true"
+                    // data-draft="true" // used for testing draft version of banner
                     data-settings-id={process.env.USERCENTRICS_DATA_SETTINGS_ID}
                     async
                 />
