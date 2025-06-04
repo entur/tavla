@@ -94,7 +94,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         >
                             Informasjonskapsler
                         </EnturLink>
-                        <div className="flex flex-row gap-1 items-center">
+                        <div className="flex flex-row items-center gap-1">
                             <EnturLink
                                 href="https://github.com/entur/tavla"
                                 target="_blank"
