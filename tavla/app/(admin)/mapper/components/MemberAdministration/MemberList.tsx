@@ -11,36 +11,31 @@ function MemberList({
     oid?: TOrganizationID
 }) {
     return (
-        <div>
-            <div className="grid items-center overflow-x-auto grid-cols-3">
-                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5 col-span-2">
-                    Medlemmer
-                </p>
-                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5">
-                    Handlinger
-                </p>
+        <div className="overflow-x-auto">
+            <div className="grid items-center grid-cols-2 sm:grid-cols-3 font-medium bg-grey70">
+                <p className="flex p-2 pr-0.5 sm:col-span-2">Medlemmer</p>
+                <p className="flex p-2 pr-0.5">Handlinger</p>
             </div>
 
-            <div className="grid items-center overflow-x-auto grid-cols-3 [&>*:nth-child(4n+3)]:bg-grey80 [&>*:nth-child(4n+4)]:bg-grey80">
-                {members.map((member) => (
-                    <>
-                        <p
-                            className="content-center pl-2 h-16 py-2 col-span-2"
-                            key={'email' + member.uid}
-                        >
-                            {member.email}
-                        </p>
-                        <div
-                            className="content-center pl-2 h-16"
-                            key={member.uid}
-                        >
-                            {member.uid !== currentUserId && (
-                                <RemoveUserButton user={member} oid={oid} />
-                            )}
-                        </div>
-                    </>
-                ))}
-            </div>
+            {members.map((member, index) => (
+                <div
+                    className={`grid items-center grid-cols-2 sm:grid-cols-3 ${
+                        index % 2 === 0 ? 'bg-white' : 'bg-grey80'
+                    }`}
+                    key={member.uid}
+                >
+                    <p className="flex p-2 pr-0.5 sm:col-span-2">
+                        {member.email}
+                    </p>
+                    <div
+                        className={`flex p-2 pr-0.5 ${member.uid !== currentUserId ? 'py-2' : 'h-12'}`}
+                    >
+                        {member.uid !== currentUserId && (
+                            <RemoveUserButton user={member} oid={oid} />
+                        )}
+                    </div>
+                </div>
+            ))}
         </div>
     )
 }
