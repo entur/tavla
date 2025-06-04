@@ -1,9 +1,27 @@
+"""
+Purpose: Count number of tiles in each board
+
+Description:
+    This counts the number of boards with more than one tile, and that does not
+    have identical columns. Used as a measure of how much the customisable 
+    columns functionality is used. 
+
+Usage:
+    ./migration run scripts/002_read_tile_column_count.py
+
+Date: 2025-05-16
+Author: Annika
+"""
+
 from google.cloud import firestore
 
 import init
 
 boards = "boards"
 
+# Reads through the values in the database and increments the correct
+# counts when the correct requirements are met.
+# No transaction needed as we are only reading values from the database.
 def read_columns(db: firestore.Client): 
     board_collection = db.collection(boards).stream()
     total_boards = 0
