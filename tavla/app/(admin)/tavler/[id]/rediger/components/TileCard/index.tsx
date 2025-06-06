@@ -160,7 +160,7 @@ function TileCard({
 
     if (!lines)
         return (
-            <div className="flex justify-between items-center bg-blue80 p-4 rounded">
+            <div className="flex items-center justify-between rounded bg-blue80 p-4">
                 Laster...
             </div>
         )
@@ -209,15 +209,15 @@ function TileCard({
         <div>
             <div className="flex flex-row">
                 <div
-                    className={`flex justify-between items-center px-6  py-4 bg-blue80 w-full ${
+                    className={`flex w-full items-center justify-between bg-blue80 px-6 py-4 ${
                         isOpen ? 'rounded-t' : 'rounded'
                     }`}
                 >
-                    <div className="flex flex-row gap-4 items-center ">
+                    <div className="flex flex-row items-center gap-4">
                         <Heading3 margin="none">
                             {tile.displayName ?? tile.name}
                         </Heading3>
-                        <div className="hidden sm:flex flex-row gap-4 h-8">
+                        <div className="hidden h-8 flex-row gap-4 sm:flex">
                             {uniqTransportModeIcons}
                         </div>
                     </div>
@@ -233,7 +233,7 @@ function TileCard({
                     </SecondarySquareButton>
                 </div>
                 <div
-                    className={` flex flex-col ${
+                    className={`flex flex-col ${
                         index !== 0 || index !== totalTiles - 1
                             ? 'justify-center gap-2'
                             : 'justify-between'
@@ -270,7 +270,7 @@ function TileCard({
             </div>
             <BaseExpand open={isOpen}>
                 <div
-                    className={`bg-blue90 px-6 mr-14 py-4  ${
+                    className={`mr-14 bg-blue90 px-6 py-4 ${
                         totalTiles == 1 && 'w-full'
                     } rounded-b`}
                 >
@@ -379,7 +379,7 @@ function TileCard({
                             tavlen.
                         </SubParagraph>
                         {isCombined && (
-                            <SubParagraph className="!text-error mb-2">
+                            <SubParagraph className="mb-2 !text-error">
                                 Har du samlet stoppestedene i én liste vil du
                                 ikke ha mulighet til å velge kolonner.
                             </SubParagraph>
@@ -388,7 +388,7 @@ function TileCard({
                             isOpen={isColumnModalOpen}
                             setIsOpen={setIsColumnModalOpen}
                         />
-                        <div className="flex flex-row flex-wrap gap-4 mb-8 mt-2">
+                        <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
                             {Object.entries(Columns).map(([key, value]) => {
                                 const columns = isCombined
                                     ? DEFAULT_COMBINED_COLUMNS
@@ -411,7 +411,7 @@ function TileCard({
                         </div>
 
                         <Heading4>Transportmidler og linjer</Heading4>
-                        <div className="flex flex-col md:flex-row gap-4">
+                        <div className="flex flex-col gap-4 md:flex-row">
                             {linesByModeSorted.map(
                                 ({ transportMode, lines }) => (
                                     <TransportModeAndLines
@@ -428,7 +428,7 @@ function TileCard({
                             value={uniqLines.length.toString()}
                         />
 
-                        <div className="flex flex-col md:flex-row justify-start gap-4 mt-8">
+                        <div className="mt-8 flex flex-col justify-start gap-4 md:flex-row">
                             <SubmitButton
                                 variant="primary"
                                 aria-label="lagre valg"
@@ -471,7 +471,7 @@ function TileCard({
                             <IconButton
                                 aria-label="Lukk"
                                 onClick={reset}
-                                className="absolute top-4 right-4"
+                                className="absolute right-4 top-4"
                             >
                                 <CloseIcon />
                             </IconButton>

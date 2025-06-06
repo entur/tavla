@@ -68,10 +68,10 @@ async function FolderPage(props: TProps) {
     )
 
     return (
-        <div className="flex flex-col gap-4 container pb-20">
+        <div className="container flex flex-col gap-4 pb-20">
             <BreadcrumbsNav folder={folder} />
-            <div className="flex flex-col lg:flex-row justify-between">
-                <Heading1 className="flex flex-row gap-4 items-center">
+            <div className="flex flex-col justify-between lg:flex-row">
+                <Heading1 className="flex flex-row items-center gap-4">
                     <FolderIcon aria-label="Mappe-ikon" className="!top-0" />
                     {folder.name}
                 </Heading1>

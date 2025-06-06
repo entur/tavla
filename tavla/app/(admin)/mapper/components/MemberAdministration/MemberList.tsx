@@ -12,26 +12,26 @@ function MemberList({
 }) {
     return (
         <div>
-            <div className="grid items-center overflow-x-auto grid-cols-3">
-                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5 col-span-2">
+            <div className="grid grid-cols-3 items-center overflow-x-auto">
+                <p className="col-span-2 flex h-10 items-center gap-1 bg-grey70 px-0.5 py-0 pl-2 font-medium">
                     Medlemmer
                 </p>
-                <p className="flex items-center gap-1 bg-grey70 pl-2 h-10 font-medium py-0 px-0.5">
+                <p className="flex h-10 items-center gap-1 bg-grey70 px-0.5 py-0 pl-2 font-medium">
                     Handlinger
                 </p>
             </div>
 
-            <div className="grid items-center overflow-x-auto grid-cols-3 [&>*:nth-child(4n+3)]:bg-grey80 [&>*:nth-child(4n+4)]:bg-grey80">
+            <div className="grid grid-cols-3 items-center overflow-x-auto [&>*:nth-child(4n+3)]:bg-grey80 [&>*:nth-child(4n+4)]:bg-grey80">
                 {members.map((member) => (
                     <>
                         <p
-                            className="content-center pl-2 h-16 py-2 col-span-2"
+                            className="col-span-2 h-16 content-center py-2 pl-2"
                             key={'email' + member.uid}
                         >
                             {member.email}
                         </p>
                         <div
-                            className="content-center pl-2 h-16"
+                            className="h-16 content-center pl-2"
                             key={member.uid}
                         >
                             {member.uid !== currentUserId && (

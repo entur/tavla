@@ -22,7 +22,7 @@ function Line() {
         <TableColumn title="Linje">
             {lines.map((line) => (
                 <TableRow key={line.key}>
-                    <div className="flex gap-2 justify-start items-center pr-2 w-full">
+                    <div className="flex w-full items-center justify-start gap-2 pr-2">
                         <TravelTag
                             transportMode={line.transportMode}
                             transportSubmode={line.transportSubmode}

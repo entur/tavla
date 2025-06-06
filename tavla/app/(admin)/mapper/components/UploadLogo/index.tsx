@@ -26,7 +26,7 @@ function UploadLogo({ folder }: { folder: TOrganization }) {
                     Velg hvilken logo som skal vises på alle tavlene i mappen.
                 </Paragraph>
                 {folder.logo && (
-                    <div className="relative flex items-center justify-center h-40 bg-black border-2 rounded border-tertiary mb-4">
+                    <div className="relative mb-4 flex h-40 items-center justify-center rounded border-2 border-tertiary bg-black">
                         <Image
                             src={folder.logo}
                             alt="Mappelogo"

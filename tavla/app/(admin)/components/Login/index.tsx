@@ -23,7 +23,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 onClick={async () => {
                     await logout()
                 }}
-                className="gap-4 !hidden md:!flex"
+                className="!hidden gap-4 md:!flex"
             >
                 <LogOutIcon />
                 Logg ut
@@ -51,7 +51,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => router.push(pathname ?? '/')}
-                    className="absolute top-4 right-4"
+                    className="absolute right-4 top-4"
                 >
                     <CloseIcon />
                 </IconButton>

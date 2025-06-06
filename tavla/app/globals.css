@@ -243,7 +243,7 @@
     }
 
     .divider {
-        @apply border-b-secondary border-b-2 my-2;
+        @apply my-2 border-b-2 border-b-secondary;
     }
 
     .publicCode {
@@ -253,11 +253,11 @@
     }
 
     .pulse {
-        @apply inline-flex rounded-full bg-success h-3 w-3 left-[calc(50%-((0.75em)/2))] bottom-[calc(50%-((h-3)/2))];
+        @apply bottom-[calc(50%-((h-3)/2))] left-[calc(50%-((0.75em)/2))] inline-flex h-3 w-3 rounded-full bg-success;
     }
 
     .previewContainer {
-        @apply rounded p-4 bg-primary border border-secondary;
+        @apply rounded border border-secondary bg-primary p-4;
     }
 
     .table-custom-nth-child {

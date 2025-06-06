@@ -52,7 +52,7 @@ function NameAndOrganizationSelector({ folder }: { folder?: TOrganization }) {
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
 
-            <div className="flex flex-row mt-8 justify-start">
+            <div className="mt-8 flex flex-row justify-start">
                 <SubmitButton variant="primary" className="max-sm:w-full">
                     Opprett tavle
                 </SubmitButton>

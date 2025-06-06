@@ -8,8 +8,8 @@ import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 function Footer({ footer }: { footer?: TFooter }) {
     return (
         <div className="flex flex-col">
-            <div className="flex flex-col items-start sm:flex-row justify-between sm:items-center gap-2">
-                <div className="flex flex-row gap-2 items-center">
+            <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
+                <div className="flex flex-row items-center gap-2">
                     <Heading4 margin="bottom">Infomelding</Heading4>
 
                     <Tooltip
