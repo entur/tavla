@@ -73,11 +73,11 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
     }
 
     return (
-        <form action={submit} className="flex flex-col relative">
+        <form action={submit} className="relative flex flex-col">
             <HiddenInput id="oid" value={oid} />
             <Label
                 htmlFor="logo"
-                className="flex flex-col border-2 rounded border-dashed border-primary  w-full items-center justify-center hover:bg-tertiary p-4"
+                className="flex w-full flex-col items-center justify-center rounded border-2 border-dashed border-primary p-4 hover:bg-tertiary"
             >
                 <Filename fileName={fileName} />
                 <input
@@ -102,16 +102,16 @@ function LogoInput({ oid }: { oid?: TOrganizationID }) {
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
             {file && (
-                <div className="flex flex-row justify-between gap-4 mt-4">
+                <div className="mt-4 flex flex-row justify-between gap-4">
                     <SubmitButton
                         variant="primary"
                         aria-label="Last opp logo"
-                        className="w-full justify-center "
+                        className="w-full justify-center"
                     >
                         Last opp logo
                     </SubmitButton>
                     <Button
-                        className="w-full justify-center "
+                        className="w-full justify-center"
                         onClick={clearLogo}
                         aria-label="Avbryt opplastning"
                         variant="secondary"
@@ -128,7 +128,7 @@ function Filename({ fileName }: { fileName?: string }) {
     const { pending } = useFormStatus()
     if (pending)
         return (
-            <div className="flex flex-col w-full h-full items-center">
+            <div className="flex h-full w-full flex-col items-center">
                 <Paragraph>Laster opp logo..</Paragraph>
                 <Loader className="w-full" />
             </div>

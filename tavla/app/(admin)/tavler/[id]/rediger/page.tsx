@@ -57,13 +57,13 @@ export default async function EditPage(props: TProps) {
 
     return (
         <div className="bg-gray-50">
-            <div className="flex flex-col gap-6 pt-16 container pb-20">
+            <div className="container flex flex-col gap-6 pb-20 pt-16">
                 <BreadcrumbsNav folder={organization} board={board} />
-                <div className="flex flex-col md:flex-row justify-between pb-2">
+                <div className="flex flex-col justify-between pb-2 md:flex-row">
                     <Heading1 margin="top">
                         Rediger {board.meta?.title}
                     </Heading1>
-                    <div className="flex flex-col md:flex-row md:items-center gap-4">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center">
                         <Open bid={board.id} type="button" />
                         <RefreshButton board={board} />
                         <Delete board={board} type="button" />
@@ -74,7 +74,7 @@ export default async function EditPage(props: TProps) {
                     <Copy bid={board.id} type="button" />
                 </div>
 
-                <div className="bg-background rounded-md py-8 px-6 flex flex-col gap-4">
+                <div className="flex flex-col gap-4 rounded-md bg-background px-6 py-8">
                     <Heading2>Stoppesteder</Heading2>
                     <TileSelector
                         action={async (data: FormData) => {

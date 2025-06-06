@@ -87,7 +87,7 @@ function Move({ board }: { board: TBoard }) {
                     />
                     <FormError {...getFormFeedbackForField('general', error)} />
 
-                    <div className="flex flex-row mt-8 justify-start">
+                    <div className="mt-8 flex flex-row justify-start">
                         <SubmitButton
                             variant="primary"
                             className="max-sm:w-full"

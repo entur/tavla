@@ -8,7 +8,7 @@ export enum FetchErrorTypes {
 
 function DataFetchingFailed({ timeout = false }) {
     return (
-        <div className="w-full h-full flex flex-col items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center">
             <Image src={LeafIllustration} alt="Illustrasjon av blader" />
             <div className="w-full text-center">
                 <Heading3 className="!text-primary">

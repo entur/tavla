@@ -6,7 +6,7 @@ import BeaverIllustration from 'assets/illustrations/Beaver.png'
 
 function Custom404() {
     return (
-        <main className="container pb-10 flex flex-col items-center">
+        <main className="container flex flex-col items-center pb-10">
             <Heading3>Denne siden finnes ikke!</Heading3>
             <Image
                 src={BeaverIllustration}

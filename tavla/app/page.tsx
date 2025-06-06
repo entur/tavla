@@ -26,7 +26,7 @@ async function Landing() {
     return (
         <main>
             <div className="bg-secondary">
-                <div className="flex flex-col container py-12 gap-10 lg:flex-row justify-center">
+                <div className="container flex flex-col justify-center gap-10 py-12 lg:flex-row">
                     <div className="flex flex-col lg:w-3/4 xl:w-1/2">
                         <Heading1>Lag en helt gratis avgangstavle for</Heading1>
                         <WordCarousel />
@@ -37,9 +37,9 @@ async function Landing() {
                             nærheten og hjelp folk til å planlegge sin neste
                             kollektivreise.
                         </LeadParagraph>
-                        <div className="flex md:flex-row flex-col w-full gap-4 mt-5">
+                        <div className="mt-5 flex w-full flex-col gap-4 md:flex-row">
                             {!loggedIn ? (
-                                <div className="gap-4 flex flex-col md:flex-row w-full">
+                                <div className="flex w-full flex-col gap-4 md:flex-row">
                                     <CreateUserButton trackingEvent="CREATE_USER_BTN_FROM_LANDING" />
                                     <DemoButton />
                                 </div>
@@ -52,13 +52,13 @@ async function Landing() {
                 </div>
             </div>
 
-            <div className="flex flex-col mx-auto items-center justify-start py-4 container overflow-hidden pb-10">
-                <div className="flex flex-col items-center justify-start gap-4 py-14 w-full">
+            <div className="container mx-auto flex flex-col items-center justify-start overflow-hidden py-4 pb-10">
+                <div className="flex w-full flex-col items-center justify-start gap-4 py-14">
                     <PreviewCarousel boards={previewBoards} />
 
                     <div className="xl:w-1/2">
                         <Heading2>Kort om Tavla</Heading2>
-                        <UnorderedList className="space-y-3 flex flex-col gap-1 pl-6">
+                        <UnorderedList className="flex flex-col gap-1 space-y-3 pl-6">
                             <ListItem>
                                 Du kan lage avgangstavler helt gratis fra alle
                                 stoppesteder, holdeplasser, knutepunkter,
@@ -78,7 +78,7 @@ async function Landing() {
 
                         <Heading3>Enkelt å tilpasse og samarbeide</Heading3>
 
-                        <UnorderedList className="space-y-3 flex flex-col gap-1 pl-6">
+                        <UnorderedList className="flex flex-col gap-1 space-y-3 pl-6">
                             <ListItem>
                                 Tilpass tekststørrelse, fargetema, logo og
                                 hvilken informasjon som skal vises, slik at

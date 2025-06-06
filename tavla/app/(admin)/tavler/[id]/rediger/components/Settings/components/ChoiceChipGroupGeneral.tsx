@@ -33,7 +33,7 @@ function ChoiceChipGroupGeneral<T extends string>({
         <div className="flex flex-col gap-1">
             <Heading4 margin="bottom">{label}</Heading4>
             <ChoiceChipGroup
-                className="h-full mb-2"
+                className="mb-2 h-full"
                 name={name}
                 value={selectedValue}
                 onChange={(e) => handleChange(e.target.value as T)}

@@ -31,16 +31,16 @@ function TravelTag({
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
-            className={`flex items-center justify-between w-full h-full pl-2 rounded-sm font-bold text-background bg-${
+            className={`flex h-full w-full items-center justify-between rounded-sm pl-2 font-bold text-background bg-${
                 transportMode ?? 'unknown'
             }`}
         >
             <TransportIcon
-                className="w-em-2 h-em-2 fill-background"
+                className="h-em-2 w-em-2 fill-background"
                 transportMode={transportMode}
                 transportSubmode={transportSubmode}
             />
-            <div className="flex flex-row items-center justify-center w-full h-full">
+            <div className="flex h-full w-full flex-row items-center justify-center">
                 {publicCode}
             </div>
         </div>
@@ -60,7 +60,7 @@ function SmallTravelTag({
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
-            className={`flex items-center justify-between w-full h-5 p-1 rounded-sm font-bold text-background bg-${
+            className={`flex h-5 w-full items-center justify-between rounded-sm p-1 font-bold text-background bg-${
                 transportMode ?? 'unknown'
             }`}
             key={`${transportMode}${publicCode}`}
@@ -69,14 +69,14 @@ function SmallTravelTag({
                 <TransportIcon
                     className={`h-6 fill-background ${
                         publicCode && !isOnlyWhiteSpace(publicCode)
-                            ? 'max-sm:hidden sm:block lg:hidden xl:block w-6'
+                            ? 'w-6 max-sm:hidden sm:block lg:hidden xl:block'
                             : 'block w-4'
                     }`}
                     transportMode={transportMode}
                 />
             )}
             {publicCode && !isOnlyWhiteSpace(publicCode) && (
-                <div className="text-[0.65rem] w-full flex justify-center align-center">
+                <div className="align-center flex w-full justify-center text-[0.65rem]">
                     {publicCode}
                 </div>
             )}

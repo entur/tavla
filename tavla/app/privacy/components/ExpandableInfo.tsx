@@ -13,7 +13,7 @@ import { ExternalIcon } from '@entur/icons'
 
 function ExpandableInfo() {
     return (
-        <div className="flex flex-col justify-center  items-center gap-1 p-4">
+        <div className="flex flex-col items-center justify-center gap-1 p-4">
             <ExpandablePanel title="Behandling av personopplysninger">
                 <Heading3>Behandlingsansvar</Heading3>
                 <Paragraph>
@@ -74,7 +74,7 @@ function ExpandableInfo() {
                         <EnturLink
                             as={Link}
                             href="https://firebase.google.com/docs/auth"
-                            className="items-center inline-flex flex-row gap-1"
+                            className="inline-flex flex-row items-center gap-1"
                         >
                             Firebase Auth
                             <ExternalIcon />
@@ -83,7 +83,7 @@ function ExpandableInfo() {
                         <EnturLink
                             as={Link}
                             href="https://firebase.google.com/support/privacy"
-                            className="items-center inline-flex flex-row gap-1"
+                            className="inline-flex flex-row items-center gap-1"
                         >
                             Firebase Privacy Policy
                             <ExternalIcon />

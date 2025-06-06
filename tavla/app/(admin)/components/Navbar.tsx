@@ -13,7 +13,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePostHog()
 
     return (
-        <nav className="container flex flex-row justify-between items-center py-8">
+        <nav className="container flex flex-row items-center justify-between py-8">
             <Link href="/" aria-label="Tilbake til landingssiden">
                 <Image src={TavlaLogoBlue} height={32} alt="" />
             </Link>
@@ -21,7 +21,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                 <MobileNavbar loggedIn={loggedIn} />
                 <div className="flex flex-row sm:gap-10">
                     {loggedIn ? (
-                        <div className="flex-row hidden md:flex gap-4">
+                        <div className="hidden flex-row gap-4 md:flex">
                             <TopNavigationItem
                                 active={pathname?.includes('/oversikt')}
                                 as={Link}

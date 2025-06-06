@@ -86,7 +86,7 @@ function Email() {
             <Heading3 margin="bottom" as="h1">
                 Logg inn med e-post
             </Heading3>
-            <form className="flex flex-col gap-4 w-full" action={action}>
+            <form className="flex w-full flex-col gap-4" action={action}>
                 <div>
                     <ClientOnlyTextField
                         name="email"
@@ -113,8 +113,8 @@ function Email() {
                         Glemt passord?
                     </Link>
                 </p>
-                <ButtonGroup className="flex sm:flex-row flex-col gap-4 pb-4">
-                    <div className="sm:w-1/2 w-full">
+                <ButtonGroup className="flex flex-col gap-4 pb-4 sm:flex-row">
+                    <div className="w-full sm:w-1/2">
                         <SubmitButton
                             variant="primary"
                             width="fluid"
@@ -129,7 +129,7 @@ function Email() {
                         </SubmitButton>
                     </div>
 
-                    <div className="sm:w-1/2 w-full">
+                    <div className="w-full sm:w-1/2">
                         <Button
                             type="button"
                             as={Link}
@@ -143,9 +143,9 @@ function Email() {
                     </div>
                 </ButtonGroup>
             </form>
-            <div className="border-2 rounded-sm w-full mb-8 mt-4"></div>
+            <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
             <Google />
-            <Paragraph className="text-center mt-10" margin="none">
+            <Paragraph className="mt-10 text-center" margin="none">
                 Har du ikke en bruker?{' '}
                 <Link className="underline" href={getPathWithParams('create')}>
                     Opprett bruker
