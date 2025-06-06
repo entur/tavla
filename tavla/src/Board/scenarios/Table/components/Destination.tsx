@@ -22,15 +22,19 @@ function Destination({ deviations = true }: { deviations?: boolean }) {
         <div className="grow overflow-hidden">
             <TableColumn title="Destinasjon">
                 {destinations.map((destination) => (
-                    <TableRow key={destination.key}>
-                        <div className="truncate">
+                    <TableRow key={destination.key} className="flex flex-row">
+                        <div className="flex-[7] overflow-ellipsis whitespace-nowrap">
                             {destination.via
                                 ? `${destination.destination} via ${destination.via}`
                                 : destination.destination}
                         </div>
 
                         {deviations && (
-                            <Situations situations={destination.situations} />
+                            <div className="flex-[3]">
+                                <Situations
+                                    situations={destination.situations}
+                                />
+                            </div>
                         )}
                     </TableRow>
                 ))}
