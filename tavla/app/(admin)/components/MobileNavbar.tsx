@@ -22,7 +22,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
         <div className="block md:hidden">
             <IconButton
                 onClick={() => setIsOpen(!isOpen)}
-                className="!bg-contrast !rounded-full !p-3"
+                className="!rounded-full !bg-contrast !p-3"
             >
                 <MenuIcon content="Meny" color="background" />
             </IconButton>
@@ -32,23 +32,23 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                 onDismiss={() => setIsOpen(false)}
                 size="small"
                 closeLabel="Lukk meny"
-                className="!h-full !w-9/12 !fixed !top-0 !left-0 !max-h-full !rounded-none !p-0 overflow-visible"
+                className="!fixed !left-0 !top-0 !h-full !max-h-full !w-9/12 overflow-visible !rounded-none !p-0"
             >
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => {
                         setIsOpen(false)
                     }}
-                    className="absolute top-4 right-4"
+                    className="absolute right-4 top-4"
                 >
                     <CloseIcon />
                 </IconButton>
-                <SideNavigation className="!pt-10 !bg-primary">
+                <SideNavigation className="!bg-primary !pt-10">
                     <div className="pl-10">
                         <Link href="/" aria-label="Tilbake til landingssiden">
                             <Image src={TavlaLogoBlue} height={22} alt="" />
                         </Link>
-                        <Heading2 className="!mt-16 !mb-4">Meny</Heading2>
+                        <Heading2 className="!mb-4 !mt-16">Meny</Heading2>
                     </div>
 
                     <div className="bg-secondary">
@@ -61,7 +61,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
 
                         <SideNavigationItem
                             as={Button}
-                            className="[&>button]:justify-start [&>button]:px-10 [&>button]:bg-secondary [&>button]:text-primary"
+                            className="[&>button]:justify-start [&>button]:bg-secondary [&>button]:px-10 [&>button]:text-primary"
                             onClick={async () => {
                                 setIsOpen(false)
                                 await logout()
@@ -73,7 +73,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                 </SideNavigation>
                 <IconButton
                     onClick={() => setIsOpen(false)}
-                    className="!bg-contrast !rounded-full !p-3 !absolute !bottom-[10%] !right-5"
+                    className="!absolute !bottom-[10%] !right-5 !rounded-full !bg-contrast !p-3"
                 >
                     <LeftArrowIcon color="background" />
                 </IconButton>

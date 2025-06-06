@@ -17,8 +17,8 @@ function Situation({
     if (!situationText) return null
 
     return (
-        <div className="text-warning text-[0.65em] flex items-center">
-            <div className="fill-warning flex items-center mr-[0.1em] text-[1.8em]">
+        <div className="flex items-center text-[0.65em] text-warning">
+            <div className="mr-[0.1em] flex items-center fill-warning text-[1.8em]">
                 <ValidationExclamation />
             </div>
             <div className="truncate">{situationText}</div>

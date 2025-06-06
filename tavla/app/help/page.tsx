@@ -18,7 +18,7 @@ function Help() {
     return (
         <main>
             <div className="bg-secondary">
-                <div className="flex flex-row container gap-10 lg:w-3/4 xl:w-1/2 pt-12 pb-4 justify-between flex-start">
+                <div className="flex-start container flex flex-row justify-between gap-10 pb-4 pt-12 lg:w-3/4 xl:w-1/2">
                     <div className="align-center">
                         <Heading1>Ofte stilte spørsmål</Heading1>
                         <Paragraph>
@@ -39,11 +39,11 @@ function Help() {
                     <Image
                         src={HedgehogIllustration}
                         alt="Illustrasjon av et pinnsvin"
-                        className="max-md:hidden w-1/4 xl:w-1/3"
+                        className="w-1/4 max-md:hidden xl:w-1/3"
                     />
                 </div>
             </div>
-            <div className="container pt-12 pb-20 flex flex-col lg:w-3/4 xl:w-1/2 gap-14">
+            <div className="container flex flex-col gap-14 pb-20 pt-12 lg:w-3/4 xl:w-1/2">
                 <div>
                     <Questions />
                 </div>

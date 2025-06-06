@@ -12,11 +12,11 @@ function ColumnHeader({ column }: { column: TTableColumn }) {
     return (
         <div
             key={column}
-            className="flex items-center gap-1 bg-grey70 pl-2 h-10"
+            className="flex h-10 items-center gap-1 bg-grey70 pl-2"
         >
             <div
                 id={TableColumns[column]}
-                className="items-center font-medium py-0 px-0.5"
+                className="items-center px-0.5 py-0 font-medium"
                 aria-sort={
                     sort.column === column && sort.type ? sort.type : 'none'
                 }

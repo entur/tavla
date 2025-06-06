@@ -50,10 +50,10 @@ function Settings({
     }
 
     return (
-        <div className="rounded-md md:py-8 py-2 md:px-6 px-2 flex flex-col gap-4 bg-background">
+        <div className="flex flex-col gap-4 rounded-md bg-background px-2 py-2 md:px-6 md:py-8">
             <Heading2>Innstillinger</Heading2>
             <form
-                className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+                className="grid grid-cols-1 gap-8 lg:grid-cols-2"
                 onSubmit={submitSettings}
             >
                 <div className="box">
@@ -71,7 +71,7 @@ function Settings({
                 </div>
                 <div className="box">
                     <Heading3 margin="bottom">Tavlevisning </Heading3>
-                    <div className=" flex flex-col gap-4">
+                    <div className="flex flex-col gap-4">
                         <ViewType
                             hasCombinedTiles={
                                 board.combinedTiles ? true : false

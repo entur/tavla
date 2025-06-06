@@ -48,7 +48,7 @@ function ImageCarousel() {
 
     return (
         <div
-            className={`flex flex-row self-center md:scale-90 overflow-hidden transform transition-all duration-1000 ease-in-out ${
+            className={`flex transform flex-row self-center overflow-hidden transition-all duration-1000 ease-in-out md:scale-90 ${
                 fade ? 'opacity-100' : 'opacity-0'
             }`}
         >

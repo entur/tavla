@@ -82,11 +82,11 @@ function DeleteFolder({
                         close()
                         setNameError(undefined)
                     }}
-                    className="absolute top-4 right-4"
+                    className="absolute right-4 top-4"
                 >
                     <CloseIcon />
                 </IconButton>
-                <Image src={ducks} alt="" className="h-1/2 w-1/2 mx-auto" />
+                <Image src={ducks} alt="" className="mx-auto h-1/2 w-1/2" />
                 <Heading3 margin="bottom" as="h1">
                     Slett mappe
                 </Heading3>
@@ -94,7 +94,7 @@ function DeleteFolder({
                     {`Er du sikker på at du vil slette mappen 
                     "${organization.name}"? Alle tavlene i mappen vil også bli slettet.`}
                 </Paragraph>
-                <SubParagraph className="font-medium text-left">
+                <SubParagraph className="text-left font-medium">
                     Bekreft ved å skrive inn navnet på mappen
                 </SubParagraph>
                 <form action={submit} aria-live="polite" aria-relevant="all">
@@ -110,7 +110,7 @@ function DeleteFolder({
                         {...getFormFeedbackForField('name', nameError)}
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
-                    <ButtonGroup className="flex flex-row mt-8">
+                    <ButtonGroup className="mt-8 flex flex-row">
                         <SubmitButton
                             variant="primary"
                             aria-label="Ja, slett"
