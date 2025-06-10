@@ -1,10 +1,10 @@
 'use client'
-import { useState } from 'react'
-import { Button } from '@entur/button'
 import { TOrganizationID, TUser } from 'types/settings'
 import { removeUserAction } from './actions'
 import { useActionState } from 'react'
-import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { DeleteIcon } from '@entur/icons'
+import { IconButton } from '@entur/button'
 
 function RemoveUserButton({
     user,
@@ -13,51 +13,18 @@ function RemoveUserButton({
     user?: TUser
     oid?: TOrganizationID
 }) {
-    const [isConfirming, setIsConfirming] = useState(false)
     const [, deleteUser] = useActionState(removeUserAction, undefined)
-
-    const handleDelete = async () => {
-        const formData = new FormData()
-        if (user?.uid) formData.append('uid', user.uid)
-        if (oid) formData.append('oid', oid)
-        deleteUser(formData)
-        setIsConfirming(false)
-    }
 
     return (
         <div className="flex flex-col items-start w-full">
-            {!isConfirming && (
-                <DeleteButton
-                    text="Slett bruker fra mappen"
-                    tooltipId="tooltip-delete-user-from-folder"
-                    onClick={() => setIsConfirming(true)}
-                />
-            )}
-            {isConfirming && (
-                <div className="flex flex-col items-start gap-2 w-full">
-                    <p className="text-red-600">
-                        Er du sikker på at du vil slette brukeren fra mappen?
-                    </p>
-                    <div className="flex flex-row items-center gap-2">
-                        <Button
-                            variant="primary"
-                            size="small"
-                            onClick={handleDelete}
-                            aria-label="Ja, slett"
-                        >
-                            Ja, slett
-                        </Button>
-                        <Button
-                            variant="secondary"
-                            size="small"
-                            onClick={() => setIsConfirming(false)}
-                            aria-label="Avbryt"
-                        >
-                            Avbryt
-                        </Button>
-                    </div>
-                </div>
-            )}
+            <form action={deleteUser} aria-live="polite" aria-relevant="all">
+                <HiddenInput id="uid" value={user?.uid} />
+                <HiddenInput id="oid" value={oid} />
+                <IconButton type="submit" className="gap-2">
+                    <DeleteIcon />
+                    Fjern fra mappe
+                </IconButton>
+            </form>
         </div>
     )
 }

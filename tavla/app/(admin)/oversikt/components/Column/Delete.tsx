@@ -97,12 +97,10 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
 function DeleteButton({
     text,
     type,
-    tooltipId,
     onClick,
 }: {
     text: string
     type?: 'button' | 'icon'
-    tooltipId?: string
     onClick: () => void
 }) {
     if (type === 'button') {
@@ -114,11 +112,7 @@ function DeleteButton({
         )
     }
     return (
-        <Tooltip
-            content={text}
-            placement="bottom"
-            id={tooltipId ?? 'tooltip-delete-board'}
-        >
+        <Tooltip content={text} placement="bottom" id="tooltip-delete-board">
             <IconButton aria-label={text} onClick={onClick}>
                 <DeleteIcon aria-label="Slette-ikon" />
             </IconButton>
