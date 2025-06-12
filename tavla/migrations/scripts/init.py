@@ -1,3 +1,20 @@
+"""
+Purpose: Init-functions overview
+
+Description:
+    Gathers all init-functions in a single file, to avoid duplicate code. This provides easy
+    access to all environments through imports. 
+    NB! Needs access to service keys (json format) to be able to connect to the different 
+    databases, see README for further info. 
+
+Usage:
+    import init
+    db = init.dev()
+
+Date: 2025-05-16
+Author: Annika and Silje
+"""
+
 import os
 import firebase_admin
 from firebase_admin import credentials
