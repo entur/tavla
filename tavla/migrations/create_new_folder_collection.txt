@@ -1,0 +1,15 @@
+-----> 🏁 Starting with: 5fF90yxnzErtgledawm2
+🦺 Copied doc path: folders/5fF90yxnzErtgledawm2
+📈 Source data: {'meta': {'tags': {'deeptags': {'deep2': 'value2', 'deep3': 'value3', 'deep1': 'value1'}}}, 'owners': ['kMuKf0EQq1Kk7VHkDLvasN1pAwgG'], 'defaults': {'counties': ['03', '11', '08'], 'font': 'large', 'columns': ['line', 'destination', 'time', 'realtime']}, 'footer': 'kjemperå', 'boards': ['FuqViXDoejdG6o3NEn7w'], 'name': 'LKJD'}
+📉 Filtered data: {'meta': {'tags': {'deeptags': {'deep2': 'value2', 'deep3': 'value3', 'deep1': 'value1'}}}, 'owners': ['kMuKf0EQq1Kk7VHkDLvasN1pAwgG'], 'boards': ['FuqViXDoejdG6o3NEn7w'], 'name': 'LKJD'}
+❎ Removed data: {'defaults': {'counties': ['03', '11', '08'], 'font': 'large', 'columns': ['line', 'destination', 'time', 'realtime']}, 'footer': 'kjemperå'}
+-----> 🏁 Starting with: NvnqYjasAFmNKjK4jUmi
+🦺 Copied doc path: folders/NvnqYjasAFmNKjK4jUmi
+📈 Source data: {'owners': ['kMuKf0EQq1Kk7VHkDLvasN1pAwgG'], 'footer': 'Du er kul', 'boards': [], 'name': 'SILJEEE'}
+📉 Filtered data: {'owners': ['kMuKf0EQq1Kk7VHkDLvasN1pAwgG'], 'boards': [], 'name': 'SILJEEE'}
+❎ Removed data: {'footer': 'Du er kul'}
+-----> 🏁 Starting with: nRq2MV2kqHwkahIKQfYX
+🦺 Copied doc path: folders/nRq2MV2kqHwkahIKQfYX
+📈 Source data: {'owners': ['kMuKf0EQq1Kk7VHkDLvasN1pAwgG'], 'footer': 'jihuu', 'boards': [], 'name': 'Silje2'}
+📉 Filtered data: {'owners': ['kMuKf0EQq1Kk7VHkDLvasN1pAwgG'], 'boards': [], 'name': 'Silje2'}
+❎ Removed data: {'footer': 'jihuu'}
