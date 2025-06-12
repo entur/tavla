@@ -44,12 +44,12 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
                 size="small"
                 onDismiss={close}
                 closeLabel="Avbryt sletting"
-                className="flex flex-col justify-start items-center text-center"
+                className="flex flex-col items-center justify-start text-center"
             >
                 <IconButton
                     aria-label="Lukk"
                     onClick={close}
-                    className="absolute top-4 right-4"
+                    className="absolute right-4 top-4"
                 >
                     <CloseIcon />
                 </IconButton>

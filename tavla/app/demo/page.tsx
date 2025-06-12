@@ -9,8 +9,8 @@ async function Demo() {
     const loggedIn = (await getUserFromSessionCookie()) !== null
 
     return (
-        <main className="container pt-8 pb-20 flex flex-col gap-6">
-            <div className="flex items-center justify-between align-middle h-full">
+        <main className="container flex flex-col gap-6 pb-20 pt-8">
+            <div className="flex h-full items-center justify-between align-middle">
                 <Heading1 className="!mb-0">Test ut Tavla</Heading1>
                 {!loggedIn ? (
                     <CreateUserButton trackingEvent="LOGIN_BTN_DEMO_PAGE" />

@@ -20,7 +20,7 @@ export default function Error({
     return (
         <html>
             <body>
-                <main className="container pb-10 flex flex-col items-center">
+                <main className="container flex flex-col items-center pb-10">
                     <Heading3>Au da! Noe gikk galt!</Heading3>
                     <Image
                         src={BeaverIllustration}

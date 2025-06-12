@@ -21,9 +21,9 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
     return (
         <form action={action} ref={formRef}>
             <SubParagraph>Legg til medlem</SubParagraph>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
                 <HiddenInput id="oid" value={oid} />
-                <div className="flex flex-col w-full">
+                <div className="flex w-full flex-col">
                     <ClientOnlyTextField
                         name="email"
                         id="email"
@@ -36,7 +36,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                     aria-label="Legg til medlem"
                     variant="secondary"
                     width="fluid"
-                    className="w-full sm:max-w-48 mb-4"
+                    className="mb-4 w-full sm:max-w-48"
                 >
                     Legg til medlem
                 </SubmitButton>

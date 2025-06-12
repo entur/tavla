@@ -14,11 +14,11 @@ function Privacy() {
     return (
         <>
             <main className="container pb-10">
-                <div className="flex flex-col justify-center mb-8">
+                <div className="mb-8 flex flex-col justify-center">
                     <Heading1>Personvern</Heading1>
 
-                    <div className="flex flex-col sm:grid sm:grid-cols-3 text-center items-center gap-4 pt-4">
-                        <div className="flex flex-col justify-center items-center">
+                    <div className="flex flex-col items-center gap-4 pt-4 text-center sm:grid sm:grid-cols-3">
+                        <div className="flex flex-col items-center justify-center">
                             <Image
                                 className="h-40 w-auto"
                                 src={squirrel}
@@ -30,7 +30,7 @@ function Privacy() {
                                 med.
                             </Paragraph>
                         </div>
-                        <div className="flex flex-col justify-center  items-center">
+                        <div className="flex flex-col items-center justify-center">
                             <Image className="h-40 w-auto" src={doves} alt="" />
                             <Heading4>Informasjonskapsler</Heading4>
                             <Paragraph>
@@ -38,7 +38,7 @@ function Privacy() {
                                 er logget inn.
                             </Paragraph>
                         </div>
-                        <div className="flex flex-col justify-center  items-center">
+                        <div className="flex flex-col items-center justify-center">
                             <Image
                                 className="h-40 w-auto"
                                 src={hedgehog}

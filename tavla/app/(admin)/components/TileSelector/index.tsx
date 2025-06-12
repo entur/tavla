@@ -48,7 +48,7 @@ function TileSelector({
 
     return (
         <form
-            className="flex flex-col lg:flex-row gap-4 mr-6 w-full"
+            className="mr-6 flex w-full flex-col gap-4 lg:flex-row"
             action={action}
             onSubmit={(event) => {
                 if (!selectedStopPlace) {

@@ -4,7 +4,7 @@ import { ResetForm } from './ResetForm'
 async function Reset(props: { params: Promise<{ oob: string }> }) {
     const params = await props.params
     return (
-        <main className="container justify-center flex flex-col items-center mb-10">
+        <main className="container mb-10 flex flex-col items-center justify-center">
             <Heading3>Tilbakestill passord</Heading3>
             <ResetForm oob={params.oob} />
         </main>

@@ -32,7 +32,7 @@ async function Verify(props: { params: Promise<{ oob: string }> }) {
         } else message = 'Noe gikk galt, prøv igjen senere.'
     }
     return (
-        <main className="container pt-8 pb-20 text-center">
+        <main className="container pb-20 pt-8 text-center">
             <Paragraph>{message}</Paragraph>
             <Button variant="primary" as={Link} href="/?login">
                 Logg inn

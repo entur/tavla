@@ -31,8 +31,8 @@ async function FoldersAndBoardsPage() {
     const elementsListCount = privateBoards.length + folders.length
 
     return (
-        <div className="flex flex-col gap-8 container pb-20">
-            <div className="flex max-sm:flex-col flex-row justify-between">
+        <div className="container flex flex-col gap-8 pb-20">
+            <div className="flex flex-row justify-between max-sm:flex-col">
                 <Heading1>Mine tavler</Heading1>
                 <div className="flex flex-row gap-4">
                     <CreateFolder />
@@ -46,7 +46,7 @@ async function FoldersAndBoardsPage() {
                 ) : (
                     <>
                         <Search />
-                        <div className="flex flex-col mt-8">
+                        <div className="mt-8 flex flex-col">
                             <Label>Totalt antall tavler: {count}</Label>
                             <BoardTable
                                 folders={folders}

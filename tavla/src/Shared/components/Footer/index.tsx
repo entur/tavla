@@ -9,7 +9,7 @@ function Footer({ board, logo }: { board: TBoard; logo?: boolean }) {
 
     const EnturLogo = getLogo(board?.theme ?? 'dark')
     return (
-        <footer className="flex flex-row justify-between min-h-[4vh] items-center gap-em-2">
+        <footer className="flex min-h-[4vh] flex-row items-center justify-between gap-em-2">
             <div
                 className={`truncate text-primary ${
                     getFontScale(board.meta?.fontSize) || defaultFontSize(board)
@@ -21,7 +21,7 @@ function Footer({ board, logo }: { board: TBoard; logo?: boolean }) {
                 <Image
                     src={EnturLogo}
                     alt="Entur logo"
-                    className="ml-4 object-contain w-[70px] h-[20px] md:w-[200px] md:h-[40px]"
+                    className="ml-4 h-[20px] w-[70px] object-contain md:h-[40px] md:w-[200px]"
                 />
             )}
         </footer>

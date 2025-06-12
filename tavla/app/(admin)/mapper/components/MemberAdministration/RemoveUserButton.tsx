@@ -46,7 +46,7 @@ function RemoveUserButton({
                 <IconButton
                     aria-label="Lukk"
                     onClick={close}
-                    className="absolute top-4 right-4"
+                    className="absolute right-4 top-4"
                 >
                     <CloseIcon />
                 </IconButton>

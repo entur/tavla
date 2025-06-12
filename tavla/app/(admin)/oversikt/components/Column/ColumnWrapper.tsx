@@ -10,7 +10,7 @@ function ColumnWrapper({
     return (
         <div
             id={column}
-            className="pl-2 flex flex-row items-center h-16 table-custom-nth-child"
+            className="table-custom-nth-child flex h-16 flex-row items-center pl-2"
         >
             {children}
         </div>

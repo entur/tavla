@@ -38,13 +38,13 @@ function Table({
 
     if (departures.length === 0)
         return (
-            <div className="flex flex-col items-center justify-center text-center h-full w-full text-em-sm pb-4">
+            <div className="flex h-full w-full flex-col items-center justify-center pb-4 text-center text-em-sm">
                 <Image
                     src={theme === 'light' ? leafsLight : leafs}
                     alt=""
-                    className="h-[6em] w-[6em] lg:h-[15em] lg:w-[15em] sm:max-h-[10em] sm:max-w-[10em]"
+                    className="h-[6em] w-[6em] sm:max-h-[10em] sm:max-w-[10em] lg:h-[15em] lg:w-[15em]"
                 />
-                <Paragraph className="!text-primary sm:pb-8 ">
+                <Paragraph className="!text-primary sm:pb-8">
                     Ingen avganger de neste 24 timene.
                 </Paragraph>
             </div>

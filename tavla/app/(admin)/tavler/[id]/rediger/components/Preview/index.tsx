@@ -18,7 +18,7 @@ function Preview({
             data-theme={board?.theme ?? 'dark'}
         >
             <Header theme={board.theme} organizationLogo={organization?.logo} />
-            <div className="md:h-[50rem] h-96">
+            <div className="h-96 md:h-[50rem]">
                 <Board board={board} />
             </div>
             <Footer board={board} logo={organization?.logo !== undefined} />

@@ -20,13 +20,13 @@ const CarouselIndicators = ({
 }) => {
     return (
         <div
-            className="flex flex-row md:space-x-3 space-x-5 justify-center mt-4"
+            className="mt-4 flex flex-row justify-center space-x-5 md:space-x-3"
             aria-label="Knapper for å bytte mellom avgangstavler"
         >
             {boards.map((_, index) => (
                 <button
                     key={index}
-                    className={`md:w-5 md:h-5 w-6 h-6 rounded-full  bottom-5 ${
+                    className={`bottom-5 h-6 w-6 rounded-full md:h-5 md:w-5 ${
                         index === activeIndex ? 'bg-blue' : 'bg-tertiary'
                     }`}
                     aria-label={
@@ -68,7 +68,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
     return (
         <>
             <div className="flex flex-row">
-                <div className="my-auto hidden md:block ml-2">
+                <div className="my-auto ml-2 hidden md:block">
                     <IconButton
                         onClick={prevSlide}
                         aria-label="Vis forrige tavle"
@@ -77,7 +77,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                     </IconButton>
                 </div>
                 <div
-                    className="w-full mx-auto"
+                    className="mx-auto w-full"
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
                     <div
@@ -89,14 +89,14 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                             data-theme={currentBoard?.theme ?? 'dark'}
                         >
                             <Header theme={currentBoard.theme} />
-                            <div className="md:h-96 h-72">
+                            <div className="h-72 md:h-96">
                                 <Board board={currentBoard} />
                             </div>
                             <Footer board={currentBoard} />
                         </div>
                     </div>
                 </div>
-                <div className="my-auto hidden md:block mr-2">
+                <div className="my-auto mr-2 hidden md:block">
                     <IconButton
                         onClick={nextSlide}
                         aria-label="Vis neste tavle"
