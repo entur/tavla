@@ -18,7 +18,7 @@ const compat = new FlatCompat({
 
 export default [
     {
-        ignores: ['src/types/graphql/*'],
+        ignores: ['src/types/graphql/*', 'migrations/*'],
     },
     ...compat.extends(
         'next/core-web-vitals',
