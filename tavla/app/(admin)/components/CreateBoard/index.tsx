@@ -1,12 +1,12 @@
 'use client'
 import { Modal } from '@entur/modal'
-import { NameAndOrganizationSelector } from './NameAndOrganizationSelector'
+import { NameAndFolderSelector } from './NameAndFolderSelector'
 import { PrimaryButton } from '@entur/button'
 import { BoardIcon } from '@entur/icons'
-import { TOrganization } from 'types/settings'
+import { TFolder } from 'types/settings'
 import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 
-function CreateBoard({ folder }: { folder?: TOrganization }) {
+function CreateBoard({ folder }: { folder?: TFolder }) {
     const { isOpen, open, close } = useModalWithValues({
         key: 'opprett',
         value: 'tavle',
@@ -24,7 +24,7 @@ function CreateBoard({ folder }: { folder?: TOrganization }) {
                 onDismiss={() => close()}
                 closeLabel="Avbryt opprettelse av tavle"
             >
-                <NameAndOrganizationSelector folder={folder} />
+                <NameAndFolderSelector folder={folder} />
             </Modal>
         </>
     )

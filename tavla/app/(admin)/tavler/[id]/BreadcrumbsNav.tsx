@@ -6,9 +6,9 @@ import {
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
 import Link from 'next/link'
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard, TFolder } from 'types/settings'
 
-function FolderBreadcrumbs({ folder }: { folder: TOrganization }) {
+function FolderBreadcrumbs({ folder }: { folder: TFolder }) {
     return (
         <BreadcrumbNavigation>
             <BreadcrumbItem as={Link} href="/oversikt">
@@ -38,7 +38,7 @@ function BoardInFolderBreadcrumbs({
     folder,
     board,
 }: {
-    folder?: TOrganization
+    folder?: TFolder
     board?: TBoard
 }) {
     return (
@@ -60,7 +60,7 @@ function BreadcrumbsNav({
     folder,
     board,
 }: {
-    folder?: TOrganization
+    folder?: TFolder
     board?: TBoard
 }) {
     if (board && folder) {

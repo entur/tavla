@@ -1,9 +1,9 @@
 'use server'
-import { getOrganizationIfUserHasAccess } from 'app/(admin)/actions'
+import { getFolderIfUserHasAccess } from 'app/(admin)/actions'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import {
-    removeUserFromOrg,
-    userCanEditOrganization,
+    removeUserFromFolder,
+    userCanEditFolder,
 } from 'app/(admin)/utils/firebase'
 import admin, { auth, firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
@@ -18,17 +18,17 @@ export async function removeUserAction(
     const folderId = data.get('oid')?.toString() ?? ''
     const uid = data.get('uid')?.toString() ?? ''
 
-    const access = await userCanEditOrganization(folderId)
+    const access = await userCanEditFolder(folderId)
     if (!access) return redirect('/')
 
     try {
-        await removeUserFromOrg(folderId, uid)
+        await removeUserFromFolder(folderId, uid)
         revalidatePath('/')
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
-                message: 'Error while removing user from organization',
-                orgID: folderId,
+                message: 'Error while removing user from folder',
+                folderID: folderId,
                 userID: uid,
             },
         })
@@ -45,7 +45,7 @@ export async function inviteUserAction(
     const email = data.get('email')?.toString()
     if (!email) return getFormFeedbackForError('auth/invalid-email')
 
-    const access = await userCanEditOrganization(oid)
+    const access = await userCanEditFolder(oid)
     if (!access) return redirect('/')
 
     const invitee = await auth()
@@ -54,16 +54,16 @@ export async function inviteUserAction(
 
     if (!invitee) return getFormFeedbackForError('auth/user-not-found')
 
-    const organization = await getOrganizationIfUserHasAccess(oid)
+    const folder = await getFolderIfUserHasAccess(oid)
 
-    if (!organization) return getFormFeedbackForError('organization/not-found')
+    if (!folder) return getFormFeedbackForError('folder/not-found')
 
-    if (organization?.owners?.includes(invitee.uid))
-        return getFormFeedbackForError('organization/user-already-invited')
+    if (folder?.owners?.includes(invitee.uid))
+        return getFormFeedbackForError('folder/user-already-invited')
 
     try {
         await firestore()
-            .collection('organizations')
+            .collection('folders')
             .doc(oid)
             .update({
                 owners: admin.firestore.FieldValue.arrayUnion(invitee.uid),
@@ -72,8 +72,8 @@ export async function inviteUserAction(
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
-                message: 'Error while inviting user to organization',
-                orgID: oid,
+                message: 'Error while inviting user to folder',
+                folderID: oid,
                 inviteeID: invitee.uid,
             },
         })

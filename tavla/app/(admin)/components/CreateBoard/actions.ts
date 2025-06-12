@@ -5,7 +5,7 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { TBoard, TOrganizationID } from 'types/settings'
+import { TBoard, TFolderID } from 'types/settings'
 import * as Sentry from '@sentry/nextjs'
 
 initializeAdminApp()
@@ -17,7 +17,7 @@ export async function createBoard(
     const name = data.get('name') as string
     if (!name) return getFormFeedbackForError('board/name-missing')
 
-    const oid = data.get('oid') as TOrganizationID
+    const oid = data.get('oid') as TFolderID
 
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
@@ -40,7 +40,7 @@ export async function createBoard(
         if (!createdBoard) return getFormFeedbackForError('firebase/general')
 
         await firestore()
-            .collection(oid ? 'organizations' : 'users')
+            .collection(oid ? 'folder' : 'users')
             .doc(oid ? oid : user.uid)
             .update({
                 [oid ? 'boards' : 'owner']:
@@ -50,9 +50,9 @@ export async function createBoard(
         Sentry.captureException(error, {
             extra: {
                 message:
-                    'Error while adding newly created board to either user or org',
+                    'Error while adding newly created board to either user or folder',
                 userID: user.uid,
-                orgID: oid,
+                folderID: oid,
             },
         })
         return handleError(error)

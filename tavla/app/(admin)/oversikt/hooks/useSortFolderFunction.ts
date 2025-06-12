@@ -5,7 +5,7 @@ import {
 } from 'app/(admin)/utils/constants'
 
 import { useCallback } from 'react'
-import { TOrganization } from 'types/settings'
+import { TFolder } from 'types/settings'
 import { useSearchParam } from './useSearchParam'
 import { TTableColumn, TSort } from 'app/(admin)/utils/types'
 
@@ -18,7 +18,7 @@ function useSortFolderFunction() {
     const sortType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
 
     const sortFolders = useCallback(
-        (folderA: TOrganization, folderB: TOrganization) => {
+        (folderA: TFolder, folderB: TFolder) => {
             let sortFunc: () => number
             const compareTitle = () => {
                 const titleA =

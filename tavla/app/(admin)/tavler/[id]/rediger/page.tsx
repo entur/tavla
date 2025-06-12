@@ -10,7 +10,7 @@ import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { revalidatePath } from 'next/cache'
 import { Metadata } from 'next'
-import { getOrganizationForBoard } from './components/TileCard/actions'
+import { getFolderForBoard } from './components/TileCard/actions'
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { Open } from './components/Buttons/Open'
 import { Copy } from './components/Buttons/Copy'
@@ -50,7 +50,7 @@ export default async function EditPage(props: TProps) {
     if (!board) {
         return notFound()
     }
-    const organization = await getOrganizationForBoard(params.id)
+    const folder = await getFolderForBoard(params.id)
 
     const access = await userCanEditBoard(params.id)
     if (!access) return redirect('/')
@@ -58,7 +58,7 @@ export default async function EditPage(props: TProps) {
     return (
         <div className="bg-gray-50">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
-                <BreadcrumbsNav folder={organization} board={board} />
+                <BreadcrumbsNav folder={folder} board={board} />
                 <div className="flex flex-col justify-between pb-2 md:flex-row">
                     <Heading1 margin="top">
                         Rediger {board.meta?.title}
@@ -67,7 +67,7 @@ export default async function EditPage(props: TProps) {
                         <Open bid={board.id} type="button" />
                         <RefreshButton board={board} />
                         <Delete board={board} type="button" />
-                        <ActionsMenu board={board} oid={organization?.id} />
+                        <ActionsMenu board={board} oid={folder?.id} />
                     </div>
                 </div>
                 <div className="md:w-fit">
@@ -98,10 +98,10 @@ export default async function EditPage(props: TProps) {
                         className="pt-8"
                         aria-label="Forhåndsvisning av Tavla"
                     >
-                        <Preview board={board} organization={organization} />
+                        <Preview board={board} folder={folder} />
                     </div>
                 </div>
-                <Settings board={board} organization={organization} />
+                <Settings board={board} folder={folder} />
             </div>
         </div>
     )

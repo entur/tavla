@@ -4,14 +4,9 @@ import { revalidatePath } from 'next/cache'
 import { deleteBoard, initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { handleError } from 'app/(admin)/utils/handleError'
-import {
-    TBoard,
-    TBoardID,
-    TOrganization,
-    TOrganizationID,
-} from 'types/settings'
-import { getBoardsForOrganization } from 'app/(admin)/actions'
-import { getOrganizationForBoard } from 'Board/scenarios/Board/firebase'
+import { TBoard, TBoardID, TFolder, TFolderID } from 'types/settings'
+import { getBoardsForFolder } from 'app/(admin)/actions'
+import { getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { moveBoard } from 'app/(admin)/tavler/[id]/rediger/components/Settings/actions'
 
 initializeAdminApp()
@@ -21,7 +16,7 @@ export async function deleteBoardAction(
     data: FormData,
 ) {
     const bid = data.get('bid') as TBoardID
-    const organization = await getOrganizationForBoard(bid)
+    const folder = await getFolderForBoard(bid)
 
     try {
         await deleteBoard(bid)
@@ -29,21 +24,18 @@ export async function deleteBoardAction(
     } catch (e) {
         return handleError(e)
     }
-    if (organization) redirect(`/mapper/${organization?.id}`)
+    if (folder) redirect(`/mapper/${folder?.id}`)
     redirect('/oversikt')
 }
 
 export async function getNumberOfBoardsInFolder(folderId?: string) {
     if (!folderId) return 0
 
-    const boardsInFolder = await getBoardsForOrganization(folderId)
+    const boardsInFolder = await getBoardsForFolder(folderId)
     return boardsInFolder.length
 }
 
-export async function countAllBoards(
-    folders: TOrganization[],
-    boards: TBoard[],
-) {
+export async function countAllBoards(folders: TFolder[], boards: TBoard[]) {
     const folderCounts = await Promise.all(
         folders.map(
             async (folder) => await getNumberOfBoardsInFolder(folder.id),
@@ -57,10 +49,10 @@ export async function countAllBoards(
 
 export async function moveBoardAction(data: FormData) {
     const bid = data.get('bid') as TBoardID
-    const newOrganizationID = data.get('newOid') as TOrganizationID | undefined
-    const oldOrganization = await getOrganizationForBoard(bid)
+    const newFolderID = data.get('newOid') as TFolderID | undefined
+    const oldFolder = await getFolderForBoard(bid)
     try {
-        await moveBoard(bid, newOrganizationID, oldOrganization?.id)
+        await moveBoard(bid, newFolderID, oldFolder?.id)
         revalidatePath('/')
     } catch (e) {
         return handleError(e)

@@ -1,12 +1,6 @@
 'use server'
 import { firestore } from 'firebase-admin'
-import {
-    TOrganizationID,
-    TOrganization,
-    TBoard,
-    TBoardID,
-    TUserID,
-} from 'types/settings'
+import { TFolderID, TFolder, TBoard, TBoardID, TUserID } from 'types/settings'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
 import { chunk, isEmpty } from 'lodash'
@@ -22,61 +16,61 @@ export async function getFirebaseClientConfig() {
     return FIREBASE_DEV_CONFIG
 }
 
-function userInOrganization(uid?: TUserID, organization?: TOrganization) {
-    return uid && organization && organization.owners?.includes(uid)
+function userInFolder(uid?: TUserID, folder?: TFolder) {
+    return uid && folder && folder.owners?.includes(uid)
 }
 
-export async function getOrganizationIfUserHasAccess(oid?: TOrganizationID) {
+export async function getFolderIfUserHasAccess(oid?: TFolderID) {
     if (!oid) return undefined
 
     let doc = null
 
     try {
-        doc = await firestore().collection('organizations').doc(oid).get()
-        if (!doc) throw Error('Fetch org returned null or undefined')
+        doc = await firestore().collection('folders').doc(oid).get()
+        if (!doc) throw Error('Fetch folders returned null or undefined')
     } catch (error) {
         Sentry.captureMessage(
-            'Error while fetching organization from firestore, orgID: ' + oid,
+            'Error while fetching folders from firestore, folderID: ' + oid,
         )
         throw error
     }
 
-    const organization = { ...doc.data(), id: doc.id } as TOrganization
+    const folder = { ...doc.data(), id: doc.id } as TFolder
     const user = await getUserFromSessionCookie()
 
-    if (!userInOrganization(user?.uid, organization)) return redirect('/')
-    return organization
+    if (!userInFolder(user?.uid, folder)) return redirect('/')
+    return folder
 }
 
-export async function getOrganizationsForUser() {
+export async function getFoldersForUser() {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
     try {
         const owner = firestore()
-            .collection('organizations')
+            .collection('folders')
             .where('owners', 'array-contains', user.uid)
             .get()
 
         const queries = await Promise.all([owner])
         return queries
             .map((q) =>
-                q.docs.map((d) => ({ ...d.data(), id: d.id }) as TOrganization),
+                q.docs.map((d) => ({ ...d.data(), id: d.id }) as TFolder),
             )
             .flat()
     } catch (error) {
         Sentry.captureMessage(
-            'Error while fetching organizations for user with id ' + user.uid,
+            'Error while fetching folders for user with id ' + user.uid,
         )
         throw error
     }
 }
 
-export async function getBoardsForOrganization(oid: TOrganizationID) {
-    const organization = await getOrganizationIfUserHasAccess(oid)
-    if (!organization) return redirect('/')
+export async function getBoardsForFolder(oid: TFolderID) {
+    const folder = await getFolderIfUserHasAccess(oid)
+    if (!folder) return redirect('/')
 
-    const boards = organization.boards
+    const boards = folder.boards
     if (isEmpty(boards)) return []
 
     const batchedBoardIDs = chunk(boards, 20)
@@ -100,7 +94,7 @@ export async function getBoardsForOrganization(oid: TOrganizationID) {
             .flat()
     } catch (error) {
         Sentry.captureMessage(
-            'Error while fetching boards for organization with orgID ' + oid,
+            'Error while fetching boards for folder with folderID ' + oid,
         )
         throw error
     }
