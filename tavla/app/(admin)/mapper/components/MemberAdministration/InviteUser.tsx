@@ -1,5 +1,5 @@
 'use client'
-import { TOrganizationID } from 'types/settings'
+import { TFolderID } from 'types/settings'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
@@ -9,7 +9,7 @@ import { inviteUserAction } from './actions'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { SubParagraph } from '@entur/typography'
 
-function InviteUser({ oid }: { oid?: TOrganizationID }) {
+function InviteUser({ oid }: { oid?: TFolderID }) {
     const [state, formAction] = useActionState(inviteUserAction, undefined)
 
     const formRef = useRef<HTMLFormElement>(null)
