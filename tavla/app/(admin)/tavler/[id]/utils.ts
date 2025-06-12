@@ -4,7 +4,7 @@ import { SmallTravelTag } from 'components/TravelTag'
 import { uniq } from 'lodash'
 import { TTransportMode } from 'types/graphql-schema'
 import { TLocation } from 'types/meta'
-import { TOrganization, TTheme } from 'types/settings'
+import { TFolder, TTheme } from 'types/settings'
 
 export type TCategory =
     | 'onstreetBus'
@@ -32,12 +32,12 @@ export function locationToDropdownItem(
     }
 }
 
-export function organizationToDropdownItem(
-    organization: TOrganization,
-): NormalizedDropdownItemType<TOrganization> {
+export function folderToDropdownItem(
+    folder: TFolder,
+): NormalizedDropdownItemType<TFolder> {
     return {
-        label: organization.name ?? '',
-        value: organization ?? undefined,
+        label: folder.name ?? '',
+        value: folder ?? undefined,
     }
 }
 

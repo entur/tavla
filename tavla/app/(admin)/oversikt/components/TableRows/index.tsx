@@ -4,7 +4,7 @@ import {
 } from '../../hooks/useSortBoardFunction'
 import { Column } from '../Column'
 import { Fragment } from 'react'
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard, TFolder } from 'types/settings'
 import { useSearchParam } from '../../hooks/useSearchParam'
 import {
     DEFAULT_BOARD_NAME,
@@ -16,7 +16,7 @@ function TableRows({
     folders,
     boards,
 }: {
-    folders: TOrganization[]
+    folders: TFolder[]
     boards: TBoard[]
 }) {
     const search = useSearchParam('search') ?? ''
@@ -33,7 +33,7 @@ function TableRows({
             )
             .every((e) => e === true)
 
-    const filterByFolderName = (folder: TOrganization) =>
+    const filterByFolderName = (folder: TFolder) =>
         searchFilters
             .map((filter) => filter.test(folder.name ?? DEFAULT_FOLDER_NAME))
             .every((e) => e === true)
@@ -47,7 +47,7 @@ function TableRows({
         .sort(sortFolderFunction)
     return (
         <>
-            {sortedFolders.map((folder: TOrganization) => (
+            {sortedFolders.map((folder: TFolder) => (
                 <FolderTableRow key={folder.id} folder={folder} />
             ))}
             {sortedBoards.map((board: TBoard) => (
@@ -68,7 +68,7 @@ function BoardTableRow({ board }: { board: TBoard }) {
     )
 }
 
-function FolderTableRow({ folder }: { folder: TOrganization }) {
+function FolderTableRow({ folder }: { folder: TFolder }) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={folder.id}>

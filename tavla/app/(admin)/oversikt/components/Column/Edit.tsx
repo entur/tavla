@@ -2,7 +2,7 @@ import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
-import { TBoardID, TOrganizationID } from 'types/settings'
+import { TBoardID, TFolderID } from 'types/settings'
 
 function EditBoard({ bid }: { bid?: TBoardID }) {
     return (
@@ -22,7 +22,7 @@ function EditBoard({ bid }: { bid?: TBoardID }) {
     )
 }
 
-function EditFolder({ fid }: { fid?: TOrganizationID }) {
+function EditFolder({ fid }: { fid?: TFolderID }) {
     return (
         <Tooltip
             content="Rediger mappe"
