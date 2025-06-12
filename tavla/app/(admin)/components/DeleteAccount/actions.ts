@@ -1,12 +1,12 @@
 'use server'
-import { getOrganizationsForUser } from 'app/(admin)/actions'
+import { getFoldersForUser } from 'app/(admin)/actions'
 import {
     deleteBoard,
-    deleteOrganization,
+    deleteFolder,
     deleteUserFromFirebaseAuth,
     deleteUserFromFirestore,
     getUserWithBoardIds,
-    removeUserFromOrg,
+    removeUserFromFolder,
 } from 'app/(admin)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(admin)/utils'
 import * as Sentry from '@sentry/nextjs'
@@ -27,8 +27,8 @@ export async function deleteAccount(data: FormData) {
     }
 
     try {
-        await deleteOrgsAndBoardsWithSoleMember()
-        await removeUserFromOrgs(user.uid)
+        await deleteFoldersAndBoardsWithSoleMember()
+        await removeUserFromFolders(user.uid)
         await deletePrivateBoardsForUser()
         await deleteUserFromFirestore()
         await deleteUserFromFirebaseAuth()
@@ -44,16 +44,16 @@ export async function deleteAccount(data: FormData) {
     await logout()
 }
 
-async function deleteOrgsAndBoardsWithSoleMember() {
-    const allOrgsWithUser = await getOrganizationsForUser()
+async function deleteFoldersAndBoardsWithSoleMember() {
+    const allFoldersWithUser = await getFoldersForUser()
 
-    const orgsWithSoleMember = allOrgsWithUser.filter(
-        (org) => org.owners?.length === 1,
+    const foldersWithSoleMember = allFoldersWithUser.filter(
+        (folder) => folder.owners?.length === 1,
     )
 
-    for (const org of orgsWithSoleMember) {
-        if (org.id) {
-            await deleteOrganization(org.id)
+    for (const folder of foldersWithSoleMember) {
+        if (folder.id) {
+            await deleteFolder(folder.id)
         }
     }
 }
@@ -67,16 +67,16 @@ async function deletePrivateBoardsForUser() {
     }
 }
 
-async function removeUserFromOrgs(uid: string) {
-    const allOrgsWithUser = await getOrganizationsForUser()
+async function removeUserFromFolders(uid: string) {
+    const allFoldersWithUser = await getFoldersForUser()
 
-    const orgsWithMultipleMembers = allOrgsWithUser.filter(
-        (org) => (org.owners?.length ?? 0) > 1,
+    const foldersWithMultipleMembers = allFoldersWithUser.filter(
+        (folder) => (folder.owners?.length ?? 0) > 1,
     )
 
-    orgsWithMultipleMembers.forEach((org) => {
-        if (org.id) {
-            removeUserFromOrg(org.id, uid)
+    foldersWithMultipleMembers.forEach((folder) => {
+        if (folder.id) {
+            removeUserFromFolder(folder.id, uid)
         }
     })
 }

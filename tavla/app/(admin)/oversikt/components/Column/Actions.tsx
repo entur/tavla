@@ -1,4 +1,4 @@
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard, TFolder } from 'types/settings'
 import { ColumnWrapper } from './ColumnWrapper'
 import { Delete } from './Delete'
 import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
@@ -21,12 +21,12 @@ function BoardActions({ board }: { board: TBoard }) {
     )
 }
 
-function FolderActions({ folder }: { folder: TOrganization }) {
+function FolderActions({ folder }: { folder: TFolder }) {
     return (
         <ColumnWrapper column="actions">
             <div className="flex flex-row gap-1">
                 <EditFolder fid={folder.id} />
-                <DeleteFolder organization={folder} type="icon" />
+                <DeleteFolder folder={folder} type="icon" />
             </div>
         </ColumnWrapper>
     )

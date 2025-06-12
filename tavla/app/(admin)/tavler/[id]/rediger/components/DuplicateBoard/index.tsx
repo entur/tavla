@@ -1,16 +1,10 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
-import { TBoard, TOrganizationID } from 'types/settings'
+import { TBoard, TFolderID } from 'types/settings'
 import { duplicateBoard } from './actions'
 
-function DuplicateBoard({
-    board,
-    oid,
-}: {
-    board: TBoard
-    oid?: TOrganizationID
-}) {
+function DuplicateBoard({ board, oid }: { board: TBoard; oid?: TFolderID }) {
     const { addToast } = useToast()
     const handleSelect = async () => {
         delete board.id

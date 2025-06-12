@@ -7,20 +7,14 @@ import {
 import {
     initializeAdminApp,
     userCanEditBoard,
-    userCanEditOrganization,
+    userCanEditFolder,
 } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
-import {
-    TBoard,
-    TBoardID,
-    TFooter,
-    TOrganizationID,
-    TTheme,
-} from 'types/settings'
+import { TBoard, TBoardID, TFooter, TFolderID, TTheme } from 'types/settings'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import {
     isEmptyOrSpaces,
@@ -45,8 +39,8 @@ export async function saveSettings(data: FormData) {
     const theme = data.get('theme') as TTheme
     const font = data.get('font') as TFontSize
 
-    const newOrganization = data.get('newOid') as TOrganizationID | undefined
-    const oldOrganization = data.get('oldOid') as TOrganizationID | undefined
+    const newFolder = data.get('newOid') as TFolderID | undefined
+    const oldFolder = data.get('oldOid') as TFolderID | undefined
 
     let location: TLocation | undefined | string = data.get(
         'newLocation',
@@ -77,7 +71,7 @@ export async function saveSettings(data: FormData) {
         }
 
         await saveTitle(bid, title)
-        await moveBoard(bid, newOrganization, oldOrganization)
+        await moveBoard(bid, newFolder, oldFolder)
         await saveLocation(board, location)
         await saveFont(bid, font)
         await setTheme(bid, theme)
@@ -251,29 +245,29 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
 
 export async function moveBoard(
     bid: TBoardID,
-    toOrganization?: TOrganizationID,
-    fromOrganization?: TOrganizationID,
+    toFolder?: TFolderID,
+    fromFolder?: TFolderID,
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
     userHasAccessToEditBoard(bid)
 
-    if (fromOrganization) {
-        const canEdit = await userCanEditOrganization(fromOrganization)
+    if (fromFolder) {
+        const canEdit = await userCanEditFolder(fromFolder)
         if (!canEdit) return redirect('/')
     }
 
-    if (toOrganization) {
-        const canEdit = await userCanEditOrganization(toOrganization)
+    if (toFolder) {
+        const canEdit = await userCanEditFolder(toFolder)
         if (!canEdit) return redirect('/')
     }
 
     try {
-        if (fromOrganization)
+        if (fromFolder)
             await firestore()
-                .collection('organizations')
-                .doc(fromOrganization)
+                .collection('folders')
+                .doc(fromFolder)
                 .update({ boards: firestore.FieldValue.arrayRemove(bid) })
         else
             await firestore()
@@ -281,10 +275,10 @@ export async function moveBoard(
                 .doc(user.uid)
                 .update({ owner: firestore.FieldValue.arrayRemove(bid) })
 
-        if (toOrganization)
+        if (toFolder)
             await firestore()
-                .collection('organizations')
-                .doc(toOrganization)
+                .collection('folders')
+                .doc(toFolder)
                 .update({ boards: firestore.FieldValue.arrayUnion(bid) })
         else
             await firestore()
@@ -294,10 +288,10 @@ export async function moveBoard(
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
-                message: 'Error while moving board to new organization',
+                message: 'Error while moving board to new folder',
                 boardID: bid,
-                newOrg: toOrganization,
-                oldOrg: fromOrganization,
+                newFolder: toFolder,
+                oldFolder: fromFolder,
             },
         })
         throw error

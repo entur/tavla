@@ -4,7 +4,7 @@ import {
 } from 'app/(admin)/utils/constants'
 import { ColumnWrapper } from './ColumnWrapper'
 import { BoardIcon, FolderIcon } from '@entur/icons'
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard, TFolder } from 'types/settings'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { SkeletonRectangle } from '@entur/loader'
@@ -27,7 +27,7 @@ function BoardName({ board }: { board: TBoard }) {
     )
 }
 
-function FolderName({ folder }: { folder: TOrganization }) {
+function FolderName({ folder }: { folder: TFolder }) {
     const [boardsInFolderCount, setBoardsInFolderCount] = useState<
         number | undefined
     >()
