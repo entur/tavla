@@ -31,8 +31,9 @@ function MemberAdministration({
                 size="medium"
             >
                 <Paragraph>
-                    Administrer medlemmer i mappen. Du kan kun legge til
-                    medlemmer som har opprettet en Tavla-bruker.
+                    Administrer hvem som skal ha tilgang til tavlene i denne
+                    mappen. Du kan kun legge til medlemmer som har opprettet en
+                    Tavla-bruker.
                 </Paragraph>
                 <div className="flex flex-col gap-10">
                     <MemberList oid={folder.id} uid={uid} members={members} />

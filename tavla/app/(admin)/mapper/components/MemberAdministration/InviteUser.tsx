@@ -7,7 +7,8 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState, useRef } from 'react'
 import { inviteUserAction } from './actions'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { SubParagraph } from '@entur/typography'
+import { Heading3 } from '@entur/typography'
+import { AddIcon } from '@entur/icons'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
     const [state, formAction] = useActionState(inviteUserAction, undefined)
@@ -20,7 +21,7 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
     }
     return (
         <form action={action} ref={formRef}>
-            <SubParagraph>Legg til medlem</SubParagraph>
+            <Heading3 className="pb-2">Legg til medlem i mappen</Heading3>
             <div className="flex flex-col sm:flex-row gap-2">
                 <HiddenInput id="oid" value={oid} />
                 <div className="flex flex-col w-full">
@@ -34,11 +35,12 @@ function InviteUser({ oid }: { oid?: TOrganizationID }) {
                 </div>
                 <SubmitButton
                     aria-label="Legg til medlem"
-                    variant="secondary"
+                    variant="primary"
                     width="fluid"
                     className="w-full sm:max-w-48 mb-4"
                 >
-                    Legg til medlem
+                    <AddIcon />
+                    Legg til
                 </SubmitButton>
             </div>
             <FormError {...getFormFeedbackForField('general', state)} />
