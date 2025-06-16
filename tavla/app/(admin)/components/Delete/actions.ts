@@ -1,7 +1,7 @@
 'use server'
 
 import { TFolderID } from 'types/settings'
-import { deleteFolder as deleteFolder } from 'app/(admin)/utils/firebase'
+import { deleteFolder } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
