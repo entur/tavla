@@ -36,7 +36,7 @@ function CreateFolder() {
                 <IconButton
                     aria-label="Lukk"
                     onClick={close}
-                    className="absolute top-4 right-4"
+                    className="absolute right-4 top-4"
                 >
                     <CloseIcon />
                 </IconButton>
@@ -48,7 +48,7 @@ function CreateFolder() {
                     tavleoversikten.
                 </Paragraph>
                 <form
-                    className="flex flex-col w-full"
+                    className="flex w-full flex-col"
                     action={formAction}
                     aria-live="polite"
                     aria-relevant="all"
@@ -68,7 +68,7 @@ function CreateFolder() {
                         {...getFormFeedbackForField('name', state)}
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
-                    <ButtonGroup className="flex flex-row gap-4 mt-8">
+                    <ButtonGroup className="mt-8 flex flex-row gap-4">
                         <div className="w-1/2">
                             <SubmitButton
                                 variant="primary"

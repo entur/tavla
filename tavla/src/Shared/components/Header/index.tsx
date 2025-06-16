@@ -14,12 +14,12 @@ function Header({
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
 
     return (
-        <div className="flex flex-row justify-between items-center gap-em-3">
-            <div className="relative w-full h-full">
+        <div className="flex flex-row items-center justify-between gap-em-3">
+            <div className="relative h-full w-full">
                 <Image
                     src={organizationLogo ?? tavlaLogo}
                     alt="Logo til tavlen"
-                    className="object-contain object-left w-[104px] h-[27px] md:w-[208px] md:h-[55px]"
+                    className="h-[27px] w-[104px] object-contain object-left md:h-[55px] md:w-[208px]"
                     width="100"
                     height="100"
                 />

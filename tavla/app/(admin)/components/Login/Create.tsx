@@ -63,7 +63,7 @@ function Create() {
             <Heading3 margin="bottom" as="h1">
                 Opprett ny bruker
             </Heading3>
-            <form className="flex flex-col gap-4 w-full" action={action}>
+            <form className="flex w-full flex-col gap-4" action={action}>
                 <div>
                     <ClientOnlyTextField
                         name="email"
@@ -115,9 +115,9 @@ function Create() {
                     </div>
                 </ButtonGroup>
             </form>
-            <div className="border-2 rounded-sm w-full mb-8 mt-4"></div>
+            <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
             <Google />
-            <Paragraph className="text-center mt-10" margin="none">
+            <Paragraph className="mt-10 text-center" margin="none">
                 Har du allerede en bruker?{' '}
                 <Link className="underline" href="?login=email">
                     Logg inn

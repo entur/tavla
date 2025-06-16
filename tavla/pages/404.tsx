@@ -6,7 +6,7 @@ import BeaverIllustration from 'assets/illustrations/Beaver.png'
 
 function Custom404() {
     return (
-        <div className="mx-auto h-[70vh] lg:w-1/4 flex flex-col justify-center items-center gap-5">
+        <div className="mx-auto flex h-[70vh] flex-col items-center justify-center gap-5 lg:w-1/4">
             <Heading3>Denne siden finnes ikke!</Heading3>
             <Image
                 src={BeaverIllustration}

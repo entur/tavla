@@ -56,7 +56,7 @@ function DeleteAccount() {
                 <IconButton
                     aria-label="Lukk"
                     onClick={close}
-                    className="absolute top-4 right-4"
+                    className="absolute right-4 top-4"
                 >
                     <CloseIcon />
                 </IconButton>
@@ -77,7 +77,7 @@ function DeleteAccount() {
                     </Paragraph>
 
                     <form action={deleteAccountAction}>
-                        <SubParagraph className="font-medium text-left">
+                        <SubParagraph className="text-left font-medium">
                             Bekreft ved å skrive inn din e-postadresse
                         </SubParagraph>
                         <ClientOnlyTextField
@@ -92,7 +92,7 @@ function DeleteAccount() {
                             {...getFormFeedbackForField('general', formError)}
                         />
 
-                        <ButtonGroup className="flex flex-row mt-8">
+                        <ButtonGroup className="mt-8 flex flex-row">
                             <SubmitButton
                                 variant="primary"
                                 aria-label="Ja, slett"

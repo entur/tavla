@@ -14,7 +14,7 @@ import { getNumberOfBoardsInFolder } from '../../utils/actions'
 function BoardName({ board }: { board: TBoard }) {
     return (
         <ColumnWrapper column="name">
-            <div className="flex flex-row gap-2 items-center">
+            <div className="flex flex-row items-center gap-2">
                 <BoardIcon className="!top-0" aria-label="Tavle-ikon" />
                 <Link
                     href={`/tavler/${board.id}/rediger`}
@@ -54,7 +54,7 @@ function FolderName({ folder }: { folder: TOrganization }) {
 
     return (
         <ColumnWrapper column="name">
-            <div className="flex flex-row gap-2 items-center">
+            <div className="flex flex-row items-center gap-2">
                 <FolderIcon className="!top-0" aria-label="Mappe-ikon" />
                 <Link href={`/mapper/${folder.id}`} className="hover:underline">
                     {folder.name ?? DEFAULT_FOLDER_NAME}

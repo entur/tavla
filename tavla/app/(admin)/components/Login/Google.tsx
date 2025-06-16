@@ -62,12 +62,12 @@ export default function Google() {
     }
 
     return (
-        <div className="w-full [&>div]:!w-full items-center justify-center flex flex-col mb-4">
+        <div className="mb-4 flex w-full flex-col items-center justify-center [&>div]:!w-full">
             {isLoading ? (
                 <Paragraph className="text-center">Vent litt...</Paragraph>
             ) : (
                 <GoogleButton
-                    className="w-full mb-4"
+                    className="mb-4 w-full"
                     type="light"
                     label="Logg inn med Google"
                     onClick={() => {

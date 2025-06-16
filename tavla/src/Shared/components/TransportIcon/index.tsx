@@ -17,7 +17,7 @@ function TransportIcon({
         mode === 'unknown' ? 'Unknown transport mode' : `${mode} transport mode`
     return (
         <Component
-            className={className ?? 'w-full h-full'}
+            className={className ?? 'h-full w-full'}
             fill={`var(--${mode}-color)`}
             aria-label={altText}
         />

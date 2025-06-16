@@ -11,12 +11,12 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePostHog()
     return (
         <footer className="eds-contrast">
-            <div className="container pt-16 pb-20">
+            <div className="container pb-20 pt-16">
                 <Image src={TavlaLogo} alt="Entur Tavla logo" />
-                <div className="flex flex-col sm:flex-row justify-between">
+                <div className="flex flex-col justify-between sm:flex-row">
                     <div>
                         <Heading3 as="h2">Entur AS</Heading3>
-                        <Paragraph className=" items-center">
+                        <Paragraph className="items-center">
                             Rådhusgata 5, 0151 Oslo
                             <br aria-hidden />
                             Postboks 1554, 0117 Oslo
@@ -27,7 +27,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             917 422 575
                         </Paragraph>
                         <Paragraph
-                            className="items-center flex flex-row gap-1"
+                            className="flex flex-row items-center gap-1"
                             margin="none"
                         >
                             <EnturLink href="https://www.entur.org/kontakt-oss/">
@@ -35,7 +35,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             </EnturLink>
                             <ExternalIcon aria-hidden className="!top-0" />
                         </Paragraph>
-                        <Paragraph className="items-center flex flex-row gap-1">
+                        <Paragraph className="flex flex-row items-center gap-1">
                             <EnturLink
                                 href="mailto:tavla@entur.org"
                                 target="_blank"
@@ -63,7 +63,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 Ofte stilte spørsmål
                             </EnturLink>
                         </div>
-                        <div className="flex flex-row gap-1 items-center">
+                        <div className="flex flex-row items-center gap-1">
                             <EnturLink
                                 as={Link}
                                 href="https://uustatus.no/nb/erklaringer/publisert/ffb3d21b-fbb4-48ed-9043-bb2a904f3143"
@@ -74,7 +74,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             <ExternalIcon aria-hidden />
                         </div>
                         {loggedIn && (
-                            <div className="flex flex-row gap-1 items-center">
+                            <div className="flex flex-row items-center gap-1">
                                 <DeleteAccount />
                             </div>
                         )}
@@ -83,7 +83,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 Personvernerklæring
                             </EnturLink>
                         </div>
-                        <div className="flex flex-row gap-1 items-center">
+                        <div className="flex flex-row items-center gap-1">
                             <EnturLink
                                 href="https://github.com/entur/tavla"
                                 target="_blank"

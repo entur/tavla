@@ -53,7 +53,7 @@ function ContactForm() {
     }
     return (
         <div
-            className="flex items-center justify-center w-full xl:w-1/6"
+            className="flex w-full items-center justify-center xl:w-1/6"
             onClick={() =>
                 isOpen ? posthog.capture('CONTACT_FORM_OPENED') : resetForm()
             }
@@ -65,7 +65,7 @@ function ContactForm() {
             >
                 <form
                     action={submit}
-                    className="flex flex-col gap-4  p-4 sm:p-6 "
+                    className="flex flex-col gap-4 p-4 sm:p-6"
                 >
                     <Paragraph as="h2" margin="none" className="font-bold">
                         Vi setter stor pris på tilbakemeldinger og innspill, og

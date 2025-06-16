@@ -45,10 +45,10 @@ function Time({
     if (cancelled)
         return (
             <>
-                <div className="text-right font-semibold text-estimated-time text-em-sm">
+                <div className="text-right text-em-sm font-semibold text-estimated-time">
                     Innstilt
                 </div>
-                <div className="text-right text-em-xs lineThrough">
+                <div className="lineThrough text-right text-em-xs">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>
@@ -65,7 +65,7 @@ function Time({
                 <div className="text-right font-semibold text-estimated-time">
                     {getRelativeTimeString(expectedDepartureTime)}
                 </div>
-                <div className="text-right text-em-xs lineThrough">
+                <div className="lineThrough text-right text-em-xs">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>
