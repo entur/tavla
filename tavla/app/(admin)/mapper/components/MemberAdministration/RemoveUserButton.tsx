@@ -5,6 +5,7 @@ import { useActionState } from 'react'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { DeleteIcon } from '@entur/icons'
 import { IconButton } from '@entur/button'
+import { useToast } from '@entur/alert'
 
 function RemoveUserButton({
     user,
@@ -14,10 +15,16 @@ function RemoveUserButton({
     oid?: TOrganizationID
 }) {
     const [, deleteUser] = useActionState(removeUserAction, undefined)
+    const { addToast } = useToast()
+
+    const action = async (data: FormData) => {
+        deleteUser(data)
+        addToast('Medlem fjernet fra mappen')
+    }
 
     return (
         <div className="flex w-full flex-col items-start">
-            <form action={deleteUser} aria-live="polite" aria-relevant="all">
+            <form action={action} aria-live="polite" aria-relevant="all">
                 <HiddenInput id="uid" value={user?.uid} />
                 <HiddenInput id="oid" value={oid} />
                 <IconButton type="submit" className="gap-2">
