@@ -18,6 +18,7 @@ function MemberAdministration({
     members: TUser[]
 }) {
     const [isOpen, setIsOpen] = useState(false)
+
     return (
         <>
             <Button onClick={() => setIsOpen(true)} variant="secondary">
@@ -31,10 +32,11 @@ function MemberAdministration({
                 size="medium"
             >
                 <Paragraph>
-                    Administrer medlemmer i mappen. Du kan kun legge til
-                    medlemmer som har opprettet en Tavla-bruker.
+                    Administrer hvem som skal ha tilgang til tavlene i denne
+                    mappen. Du kan kun legge til medlemmer som har opprettet en
+                    Tavla-bruker.
                 </Paragraph>
-                <div className="flex flex-col gap-10">
+                <div className="flex flex-col gap-6">
                     <MemberList oid={folder.id} uid={uid} members={members} />
                     <InviteUser oid={folder.id} />
                 </div>
