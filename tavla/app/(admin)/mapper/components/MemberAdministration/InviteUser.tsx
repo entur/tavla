@@ -9,15 +9,18 @@ import { inviteUserAction } from './actions'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { Heading3 } from '@entur/typography'
 import { AddIcon } from '@entur/icons'
+import { useToast } from '@entur/alert'
 
 function InviteUser({ oid }: { oid?: TOrganizationID }) {
     const [state, formAction] = useActionState(inviteUserAction, undefined)
+    const { addToast } = useToast()
 
     const formRef = useRef<HTMLFormElement>(null)
 
     const action = async (data: FormData) => {
         formAction(data)
         formRef.current?.reset()
+        addToast('Medlem lagt til i mappen')
     }
     return (
         <form action={action} ref={formRef}>
