@@ -11,7 +11,7 @@ function Footer({ board, logo }: { board: TBoard; logo?: boolean }) {
     return (
         <footer className="flex min-h-[4vh] flex-row items-center justify-between gap-em-2">
             <div
-                className={`truncate text-primary ${
+                className={`truncate leading-em-base text-primary ${
                     getFontScale(board.meta?.fontSize) || defaultFontSize(board)
                 }`}
             >

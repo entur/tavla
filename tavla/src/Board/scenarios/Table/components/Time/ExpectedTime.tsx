@@ -45,10 +45,10 @@ function Time({
     if (cancelled)
         return (
             <>
-                <div className="text-right text-em-sm font-semibold text-estimated-time">
+                <div className="text-right text-em-sm/em-sm font-semibold text-estimated-time">
                     Innstilt
                 </div>
-                <div className="lineThrough text-right text-em-xs">
+                <div className="lineThrough text-right text-em-xs/em-xs">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>
@@ -62,10 +62,10 @@ function Time({
     if (timeDeviationInSeconds > TWO_MINUTES) {
         return (
             <>
-                <div className="text-right font-semibold text-estimated-time">
+                <div className="text-right font-semibold leading-em-base text-estimated-time">
                     {getRelativeTimeString(expectedDepartureTime)}
                 </div>
-                <div className="lineThrough text-right text-em-xs">
+                <div className="lineThrough text-right text-em-xs/em-xs">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>

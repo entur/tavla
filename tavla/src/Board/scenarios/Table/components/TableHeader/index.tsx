@@ -10,7 +10,7 @@ function TableHeader({
 }) {
     return (
         <div className="mb-2 flex min-h-em-2 flex-row items-center justify-between">
-            <h1 className="m-0 text-[1.5em] font-semibold">{heading}</h1>
+            <h1 className="m-0 text-em-xl font-semibold">{heading}</h1>
             <WalkingDistance walkingDistance={walkingDistance} />
         </div>
     )
