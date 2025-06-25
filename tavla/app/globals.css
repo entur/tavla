@@ -33,7 +33,10 @@
         --tooltip-text-color: var(--colors-brand-white);
 
         --metro-color: var(--colors-transport-default-metro);
-        --bus-color: var(--colors-transport-default-bus);
+        --bus-color: var(
+            --chosen-bus-color,
+            var(--colors-transport-default-bus)
+        );
         --tram-color: var(--colors-transport-default-tram);
         --funicular-color: var(--colors-transport-default-funicular);
         --cableway-color: var(--colors-transport-default-cableway);
@@ -56,6 +59,17 @@
         --data-visualization-peach: var(--colors-data-default-peach);
         --data-visualization-spring: var(--colors-data-default-spring);
     }
+
+    /* Define colour palettes for default and dark mode transport icons */
+    [data-transport-palette='swap-bus-rail'] {
+        --bus-color: var(--colors-transport-default-train);
+        --rail-color: var(--colors-transport-default-bus);
+    }
+    [data-theme='dark'][data-palette='swap-bus-rail'] {
+        --bus-color: var(--colors-transport-contrast-bus);
+        --rail-color: var(--colors-transport-contrast-train);
+    }
+    /* end colour palettes */
 
     [data-theme='dark'] {
         --main-background-color: var(--colors-misc-black);

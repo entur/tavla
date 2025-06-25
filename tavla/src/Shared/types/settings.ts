@@ -12,6 +12,7 @@ export type TBoard = {
     combinedTiles?: TCombinedTiles[]
     theme?: TTheme
     footer?: TFooter
+    transportPalette?: TTransportPalette
 }
 
 export type TBoardWithFolder = {
@@ -41,6 +42,10 @@ export type TInvite = {
 
 export type TFooter = {
     footer?: string
+}
+
+export type TTransportPalette = {
+    transportPalette?: string
 }
 
 export type TLogo = string
