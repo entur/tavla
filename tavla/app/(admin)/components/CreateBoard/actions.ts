@@ -40,7 +40,7 @@ export async function createBoard(
         if (!createdBoard) return getFormFeedbackForError('firebase/general')
 
         await firestore()
-            .collection(oid ? 'folder' : 'users')
+            .collection(oid ? 'folders' : 'users')
             .doc(oid ? oid : user.uid)
             .update({
                 [oid ? 'boards' : 'owner']:
