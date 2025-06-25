@@ -1,4 +1,4 @@
-import { TOrganizationID, TUser, TUserID } from 'types/settings'
+import { TFolderID, TUser, TUserID } from 'types/settings'
 import { RemoveUserButton } from './RemoveUserButton'
 import {
     DataCell,
@@ -16,7 +16,7 @@ function MemberList({
 }: {
     members: TUser[]
     uid: TUserID
-    oid?: TOrganizationID
+    oid?: TFolderID
 }) {
     return (
         <Table>

@@ -2,7 +2,7 @@
 import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
-import { TOrganization } from 'types/settings'
+import { TFolder } from 'types/settings'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import {
     getFormFeedbackForError,
@@ -23,10 +23,10 @@ import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue
 import { CloseIcon } from '@entur/icons'
 
 function DeleteFolder({
-    organization,
+    folder,
     type,
 }: {
-    organization: TOrganization
+    folder: TFolder
     type: 'icon' | 'button'
 }) {
     const { addToast } = useToast()
@@ -39,7 +39,7 @@ function DeleteFolder({
         },
         {
             key: 'id',
-            value: organization.id ?? '',
+            value: folder.id ?? '',
         },
     )
 
@@ -47,10 +47,8 @@ function DeleteFolder({
 
     const submit = async (data: FormData) => {
         const name = data.get('name') as string
-        if (name !== organization.name)
-            return setNameError(
-                getFormFeedbackForError('organization/name-mismatch'),
-            )
+        if (name !== folder.name)
+            return setNameError(getFormFeedbackForError('folder/name-mismatch'))
 
         deleteFolder(data)
         addToast('Mappe slettet!')
@@ -92,14 +90,14 @@ function DeleteFolder({
                 </Heading3>
                 <Paragraph>
                     {`Er du sikker på at du vil slette mappen 
-                    "${organization.name}"? Alle tavlene i mappen vil også bli slettet.`}
+                    "${folder.name}"? Alle tavlene i mappen vil også bli slettet.`}
                 </Paragraph>
                 <SubParagraph className="text-left font-medium">
                     Bekreft ved å skrive inn navnet på mappen
                 </SubParagraph>
                 <form action={submit} aria-live="polite" aria-relevant="all">
-                    <HiddenInput id="oname" value={organization.name} />
-                    <HiddenInput id="oid" value={organization.id} />
+                    <HiddenInput id="oname" value={folder.name} />
+                    <HiddenInput id="oid" value={folder.id} />
 
                     <ClientOnlyTextField
                         name="name"

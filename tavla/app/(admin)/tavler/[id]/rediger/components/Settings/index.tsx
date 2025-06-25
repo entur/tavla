@@ -1,12 +1,12 @@
 'use client'
 import { Heading2, Heading3 } from '@entur/typography'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { TBoard, TOrganization } from 'types/settings'
+import { TBoard, TFolder } from 'types/settings'
 import { WalkingDistance } from './components/WalkingDistance'
 import { Footer } from './components/Footer'
 import { ThemeSelect } from './components/ThemeSelect'
 import { Title } from './components/Title'
-import { Organization } from './components/Organization'
+import { Folder } from './components/Folder'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { ViewType } from './components/ViewType'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -21,13 +21,7 @@ import { saveSettings } from './actions'
 import { FormError } from 'app/(admin)/components/FormError'
 import { FontSelect } from './components/FontSelect'
 
-function Settings({
-    board,
-    organization,
-}: {
-    board: TBoard
-    organization?: TOrganization
-}) {
+function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
     const { addToast } = useToast()
 
     const [formErrors, setFormErrors] = useState<
@@ -66,7 +60,7 @@ function Settings({
                                 formErrors.name,
                             )}
                         />
-                        <Organization organization={organization} />
+                        <Folder folder={folder} />
                     </div>
                 </div>
                 <div className="box">

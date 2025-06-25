@@ -1,5 +1,5 @@
 'use client'
-import { TOrganizationID, TUser } from 'types/settings'
+import { TFolderID, TUser } from 'types/settings'
 import { removeUserAction } from './actions'
 import { useActionState } from 'react'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -7,13 +7,7 @@ import { DeleteIcon } from '@entur/icons'
 import { IconButton } from '@entur/button'
 import { useToast } from '@entur/alert'
 
-function RemoveUserButton({
-    user,
-    oid,
-}: {
-    user?: TUser
-    oid?: TOrganizationID
-}) {
+function RemoveUserButton({ user, oid }: { user?: TUser; oid?: TFolderID }) {
     const [, deleteUser] = useActionState(removeUserAction, undefined)
     const { addToast } = useToast()
 

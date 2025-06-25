@@ -10,7 +10,7 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { TBoard } from 'types/settings'
 import { useModalWithValues } from '../../hooks/useModalWithValue'
 import { Dropdown } from '@entur/dropdown'
-import { useOrganizations } from 'app/(admin)/hooks/useOrganizations'
+import { useFolders } from 'app/(admin)/hooks/useFolders'
 import { moveBoardAction } from '../../utils/actions'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
@@ -30,8 +30,8 @@ function Move({ board }: { board: TBoard }) {
         if (resultingError) {
             setError(resultingError)
         } else {
-            const toastText = selectedOrganization?.value.id
-                ? `Tavlen er flyttet til "${selectedOrganization?.value.name}"!`
+            const toastText = selectedFolder?.value.id
+                ? `Tavlen er flyttet til "${selectedFolder?.value.name}"!`
                 : 'Tavlen er ikke lengre i en mappe!'
             addToast(toastText)
             setError(undefined)
@@ -39,8 +39,7 @@ function Move({ board }: { board: TBoard }) {
         }
     }
 
-    const { organizations, selectedOrganization, setSelectedOrganization } =
-        useOrganizations()
+    const { folders, selectedFolder, setSelectedFolder } = useFolders()
 
     return (
         <>
@@ -73,18 +72,15 @@ function Move({ board }: { board: TBoard }) {
                 </Paragraph>
                 <form action={submit} className="w-full">
                     <Dropdown
-                        items={organizations}
+                        items={folders}
                         label="Dine mapper"
-                        selectedItem={selectedOrganization}
-                        onChange={setSelectedOrganization}
+                        selectedItem={selectedFolder}
+                        onChange={setSelectedFolder}
                         aria-required="true"
                         className="mb-4"
                     />
                     <HiddenInput id="bid" value={board.id} />
-                    <HiddenInput
-                        id="newOid"
-                        value={selectedOrganization?.value.id}
-                    />
+                    <HiddenInput id="newOid" value={selectedFolder?.value.id} />
                     <FormError {...getFormFeedbackForField('general', error)} />
 
                     <div className="mt-8 flex flex-row justify-start">

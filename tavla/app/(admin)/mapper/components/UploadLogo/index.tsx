@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { TOrganization } from 'types/settings'
+import { TFolder } from 'types/settings'
 import { LogoInput } from './LogoInput'
 import { Paragraph } from '@entur/typography'
 import { DeleteLogo } from './DeleteLogo'
@@ -9,7 +9,7 @@ import { useState } from 'react'
 import { Button } from '@entur/button'
 import { ImageIcon } from '@entur/icons'
 
-function UploadLogo({ folder }: { folder: TOrganization }) {
+function UploadLogo({ folder }: { folder: TFolder }) {
     const [isOpen, setIsOpen] = useState(false)
     return (
         <>

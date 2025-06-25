@@ -1,5 +1,5 @@
 'use client'
-import { TOrganizationID } from 'types/settings'
+import { TFolderID } from 'types/settings'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
@@ -11,7 +11,7 @@ import { Heading3 } from '@entur/typography'
 import { AddIcon } from '@entur/icons'
 import { useToast } from '@entur/alert'
 
-function InviteUser({ oid }: { oid?: TOrganizationID }) {
+function InviteUser({ oid }: { oid?: TFolderID }) {
     const [state, formAction] = useActionState(inviteUserAction, undefined)
     const { addToast } = useToast()
 

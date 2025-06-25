@@ -1,7 +1,7 @@
 'use client'
 import { Paragraph } from '@entur/typography'
 import { MemberList } from './MemberList'
-import { TOrganization, TUser, TUserID } from 'types/settings'
+import { TFolder, TUser, TUserID } from 'types/settings'
 import { InviteUser } from './InviteUser'
 import { Modal } from '@entur/modal'
 import { useState } from 'react'
@@ -13,7 +13,7 @@ function MemberAdministration({
     uid,
     members,
 }: {
-    folder: TOrganization
+    folder: TFolder
     uid: TUserID
     members: TUser[]
 }) {
