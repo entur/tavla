@@ -223,30 +223,42 @@ function TileCard({
                     </div>
 
                     <div className="flex gap-md">
-                        <NegativeButton
-                            onClick={async () => {
-                                if (bid === 'demo') {
-                                    removeTileFromDemoBoard(tile)
-                                } else {
-                                    await deleteTile(bid, tile)
-                                }
-                                addToast(`${tile.name} fjernet!`)
-                            }}
-                            aria-label="Fjern stoppested"
-                            width="fluid"
-                            className="!min-w-0"
+                        <Tooltip
+                            placement="bottom"
+                            content="Fjern stoppested"
+                            id="tooltip-remove-tile"
                         >
-                            <DeleteIcon />
-                        </NegativeButton>
-                        <SecondarySquareButton
-                            onClick={() => {
-                                if (changed) return setConfirmOpen(true)
-                                setIsOpen(!isOpen)
-                            }}
-                            aria-label="Rediger stoppested"
+                            <NegativeButton
+                                onClick={async () => {
+                                    if (bid === 'demo') {
+                                        removeTileFromDemoBoard(tile)
+                                    } else {
+                                        await deleteTile(bid, tile)
+                                    }
+                                    addToast(`${tile.name} fjernet!`)
+                                }}
+                                aria-label="Fjern stoppested"
+                                width="fluid"
+                                className="!min-w-0"
+                            >
+                                <DeleteIcon />
+                            </NegativeButton>
+                        </Tooltip>
+                        <Tooltip
+                            placement="bottom"
+                            content="Rediger stoppested"
+                            id="tooltip-edit-tile"
                         >
-                            {isOpen ? <CloseIcon /> : <EditIcon />}
-                        </SecondarySquareButton>
+                            <SecondarySquareButton
+                                onClick={() => {
+                                    if (changed) return setConfirmOpen(true)
+                                    setIsOpen(!isOpen)
+                                }}
+                                aria-label="Rediger stoppested"
+                            >
+                                {isOpen ? <CloseIcon /> : <EditIcon />}
+                            </SecondarySquareButton>
+                        </Tooltip>
                     </div>
                 </div>
                 <div
