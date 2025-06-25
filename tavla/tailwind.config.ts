@@ -80,6 +80,7 @@ module.exports = {
                 'em-1': '1em',
                 'em-2': '2em',
                 'em-3': '3em',
+                md: '16px',
             },
             gridTemplateColumns: {
                 'auto-fit-minmax': 'repeat(auto-fit, minmax(60vmin, 1fr))',
