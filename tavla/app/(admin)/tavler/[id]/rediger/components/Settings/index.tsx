@@ -34,12 +34,15 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
 
         const data = new FormData(e.currentTarget)
 
+        console.log('----> data: ', data)
+
         const resultingErrors = await saveSettings(data)
 
         if (!resultingErrors) {
             setFormErrors({})
             addToast('Innstillinger lagret!')
         } else {
+            console.log('---> ERROR: ', resultingErrors)
             setFormErrors(resultingErrors)
         }
     }

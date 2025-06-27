@@ -5,41 +5,31 @@ import { TTransportPalette } from 'types/settings'
 import { useState } from 'react'
 
 const transportPalettes = [
-    { label: 'Default', value: '' },
-    { label: 'Bus for train', value: 'swap-bus-rail' },
+    { label: 'Default', value: 'default' },
+    { label: 'Bus for train', value: 'swap-bus' },
 ]
 
 function TransportPaletteSelect({
-    transportPalette = '',
+    transportPalette = 'default',
 }: {
     transportPalette?: TTransportPalette
 }) {
-    const [selectedValue, setSelectedValue] = useState(transportPalette)
+    const [selectedValue, setSelectedValue] =
+        useState<TTransportPalette>(transportPalette)
 
     const handleChange = (value: TTransportPalette) => {
         console.log(value)
         setSelectedValue(value)
     }
 
-    // const [palette, setPalette] = useState(transportPalette)
-
-    // useEffect(() => {
-    //     document.documentElement.setAttribute('data-transport-palette', palette)
-    // }, [palette])
-
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const value = e.target.value
-    //     setPalette(value)
-    // }
-
     return (
         <RadioGroup
-            name="Velg fargepalett"
+            name="Fargepalett"
             // value={transportPalette!.toString()}
-            value="bus"
+            value={selectedValue}
             // onChange={handleChange()}
-            onChange={() => {
-                handleChange
+            onChange={(e) => {
+                handleChange(e.target.value as TTransportPalette)
             }}
             children={transportPalettes.map((palette) => (
                 <RadioPanel title={palette.label} value={palette.value}>

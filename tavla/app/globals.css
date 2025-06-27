@@ -60,17 +60,6 @@
         --data-visualization-spring: var(--colors-data-default-spring);
     }
 
-    /* Define colour palettes for default and dark mode transport icons */
-    [data-transport-palette='swap-bus-rail'] {
-        --bus-color: var(--colors-transport-default-train);
-        --rail-color: var(--colors-transport-default-bus);
-    }
-    [data-theme='dark'][data-palette='swap-bus-rail'] {
-        --bus-color: var(--colors-transport-contrast-bus);
-        --rail-color: var(--colors-transport-contrast-train);
-    }
-    /* end colour palettes */
-
     [data-theme='dark'] {
         --main-background-color: var(--colors-misc-black);
         --secondary-background-color: var(--colors-greys-grey);
