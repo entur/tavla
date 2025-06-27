@@ -45,7 +45,7 @@ function Time({
     if (cancelled)
         return (
             <>
-                <div className="text-right text-em-sm/em-sm font-semibold text-estimated-time">
+                <div className="text-right text-em-sm/em-base font-semibold text-estimated-time">
                     Innstilt
                 </div>
                 <div className="lineThrough text-right text-em-xs/em-xs">

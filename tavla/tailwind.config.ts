@@ -78,7 +78,7 @@ module.exports = {
             lineHeight: {
                 'em-xs': '0.5625em',
                 'em-sm': '0.7em',
-                'em-base': '1em',
+                'em-base': '1.1em',
                 'em-lg': '1.3em',
                 'em-xl': '1.5em',
                 'em-situation': '0.65em',
