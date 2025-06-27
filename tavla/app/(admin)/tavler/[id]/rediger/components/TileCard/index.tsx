@@ -223,6 +223,21 @@ function TileCard({
                     </div>
 
                     <div className="flex gap-md">
+                        <Tooltip
+                            placement="bottom"
+                            content="Rediger stoppested"
+                            id="tooltip-edit-tile"
+                        >
+                            <SecondarySquareButton
+                                onClick={() => {
+                                    if (changed) return setConfirmOpen(true)
+                                    setIsOpen(!isOpen)
+                                }}
+                                aria-label="Rediger stoppested"
+                            >
+                                {isOpen ? <CloseIcon /> : <EditIcon />}
+                            </SecondarySquareButton>
+                        </Tooltip>
                         <div className="hidden sm:block">
                             <Tooltip
                                 placement="bottom"
@@ -246,21 +261,6 @@ function TileCard({
                                 </NegativeButton>
                             </Tooltip>
                         </div>
-                        <Tooltip
-                            placement="bottom"
-                            content="Rediger stoppested"
-                            id="tooltip-edit-tile"
-                        >
-                            <SecondarySquareButton
-                                onClick={() => {
-                                    if (changed) return setConfirmOpen(true)
-                                    setIsOpen(!isOpen)
-                                }}
-                                aria-label="Rediger stoppested"
-                            >
-                                {isOpen ? <CloseIcon /> : <EditIcon />}
-                            </SecondarySquareButton>
-                        </Tooltip>
                     </div>
                 </div>
                 <div
