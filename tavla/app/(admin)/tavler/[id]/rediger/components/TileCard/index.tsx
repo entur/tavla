@@ -223,27 +223,29 @@ function TileCard({
                     </div>
 
                     <div className="flex gap-md">
-                        <Tooltip
-                            placement="bottom"
-                            content="Fjern stoppested"
-                            id="tooltip-remove-tile"
-                        >
-                            <NegativeButton
-                                onClick={async () => {
-                                    if (bid === 'demo') {
-                                        removeTileFromDemoBoard(tile)
-                                    } else {
-                                        await deleteTile(bid, tile)
-                                    }
-                                    addToast(`${tile.name} fjernet!`)
-                                }}
-                                aria-label="Fjern stoppested"
-                                width="fluid"
-                                className="!min-w-0"
+                        <div className="hidden sm:block">
+                            <Tooltip
+                                placement="bottom"
+                                content="Fjern stoppested"
+                                id="tooltip-remove-tile"
                             >
-                                <DeleteIcon />
-                            </NegativeButton>
-                        </Tooltip>
+                                <NegativeButton
+                                    onClick={async () => {
+                                        if (bid === 'demo') {
+                                            removeTileFromDemoBoard(tile)
+                                        } else {
+                                            await deleteTile(bid, tile)
+                                        }
+                                        addToast(`${tile.name} fjernet!`)
+                                    }}
+                                    aria-label="Fjern stoppested"
+                                    width="fluid"
+                                    className="!min-w-0"
+                                >
+                                    <DeleteIcon />
+                                </NegativeButton>
+                            </Tooltip>
+                        </div>
                         <Tooltip
                             placement="bottom"
                             content="Rediger stoppested"
@@ -475,6 +477,24 @@ function TileCard({
                             >
                                 Avbryt
                             </Button>
+                            <div className="sm:hidden">
+                                <NegativeButton
+                                    onClick={async () => {
+                                        if (bid === 'demo') {
+                                            removeTileFromDemoBoard(tile)
+                                        } else {
+                                            await deleteTile(bid, tile)
+                                        }
+                                        addToast(`${tile.name} fjernet!`)
+                                    }}
+                                    aria-label="Fjern stoppested"
+                                    type="button"
+                                    width="fluid"
+                                >
+                                    <DeleteIcon />
+                                    Fjern stoppested
+                                </NegativeButton>
+                            </div>
                         </div>
                         <Modal
                             size="small"
