@@ -9,5 +9,5 @@ Sentry.init({
 
     tracesSampleRate: 1,
 
-    enabled: false, //process.env.NODE_ENV !== 'development',
+    enabled: false,
 })
