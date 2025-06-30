@@ -8,13 +8,7 @@ export const previewBoards: TBoard[] = [
         },
         tiles: [
             {
-                columns: [
-                    'line',
-                    'destination',
-                    'time',
-                    'realtime',
-                    'platform',
-                ],
+                columns: ['line', 'destination', 'time', 'platform'],
                 placeId: 'NSR:StopPlace:58856',
                 name: 'Lysaker stasjon, Bærum',
                 type: 'stop_place',

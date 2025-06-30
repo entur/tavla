@@ -4,7 +4,6 @@ import { Destination, Name } from './components/Destination'
 import { DeparturesContext } from './contexts'
 import { TColumn } from 'types/column'
 import { isArray } from 'lodash'
-import { RealTime } from './components/RealTime'
 import { AimedTime } from './components/Time/AimedTime'
 import { ArrivalTime } from './components/Time/ArrivalTime'
 import { Platform } from './components/Platform'
@@ -63,7 +62,6 @@ function Table({
                     {columns.includes('name') && <Name />}
                     {columns.includes('platform') && <Platform />}
                     {columns.includes('time') && <ExpectedTime />}
-                    {columns.includes('realtime') && <RealTime />}
                 </DeparturesContext.Provider>
             </div>
         </div>
