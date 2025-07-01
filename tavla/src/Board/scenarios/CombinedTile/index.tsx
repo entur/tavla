@@ -70,17 +70,17 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
     }
 
     const estimatedCalls = [
-        ...(quayData?.flatMap((data) => data.quay?.estimatedCalls ?? []) ?? []),
         ...(stopPlaceData?.flatMap(
             (data) => data.stopPlace?.estimatedCalls ?? [],
         ) ?? []),
+        ...(quayData?.flatMap((data) => data.quay?.estimatedCalls ?? []) ?? []),
     ]
 
     const situations: TSituationFragment[] = [
-        ...(quayData?.flatMap((data) => data?.quay?.situations ?? []) ?? []),
         ...(stopPlaceData?.flatMap(
             (data) => data?.stopPlace?.situations ?? [],
         ) ?? []),
+        ...(quayData?.flatMap((data) => data?.quay?.situations ?? []) ?? []),
     ]
 
     const sortedEstimatedCalls = sortBy(estimatedCalls, (call) => {
