@@ -55,20 +55,3 @@ export async function getFolderForBoard(bid: TBoardID) {
         throw error
     }
 }
-
-export async function ping(bid: TBoardID) {
-    try {
-        await firestore()
-            .collection('boards')
-            .doc(bid)
-            .update({ 'meta.lastActive': Date.now() })
-    } catch (error) {
-        Sentry.captureException(error, {
-            extra: {
-                message:
-                    'Error while updating lastActive-field of board (ping)',
-                boardID: bid,
-            },
-        })
-    }
-}
