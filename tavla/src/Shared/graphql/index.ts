@@ -59,6 +59,7 @@ export type TLinesFragment = {
 }
 
 export type TSituationFragment = {
+    origin?: string
     __typename?: 'PtSituationElement'
     id: string
     description: Array<{
