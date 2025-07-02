@@ -1067,14 +1067,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/icons@npm:7.7.0":
-  version: 7.7.0
-  resolution: "@entur/icons@npm:7.7.0"
+"@entur/icons@npm:7.9.0":
+  version: 7.9.0
+  resolution: "@entur/icons@npm:7.9.0"
   dependencies:
-    "@entur/tokens": ^3.17.6
+    "@entur/tokens": ^3.19.0
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 592a9b661b729f3cd12dd56581e9296ff14dd23b15197de2c9a1ef79e8e141f4afb2199201e2a756d3734bc0b3a0d8dd5013f8fb81bc50b96d7c996780a000ec
+  checksum: 4812482f2b3b45df77791f46188efb4f196b048a8891cef49ec060fe747940f57a8400ec68fb3ad245496cbc0f625a8847e8b8f2ea3a05b9b8a27a0438e99bb2
   languageName: node
   linkType: hard
 
@@ -1360,16 +1360,6 @@ __metadata:
     flat: ^5.0.1
     hex-rgb: ^4.3.0
   checksum: c0ba0466c62174bdc379c4fd6322bb77215687a44bfa61c46f1d250c6e03984a6df545dc84afd538bbd753113f6bf2fb5616a0b7140e1a053b04326374a6328d
-  languageName: node
-  linkType: hard
-
-"@entur/tokens@npm:^3.17.6":
-  version: 3.17.6
-  resolution: "@entur/tokens@npm:3.17.6"
-  dependencies:
-    flat: ^5.0.1
-    hex-rgb: ^4.3.0
-  checksum: e633df66bf70b8ac1cfd23c09975355c0b1b1861d55462b692a63176d6413e934e7ae9e0dfd18a23cb0e727ecc547f8e2303fb81da498ea697eab9b449f0077d
   languageName: node
   linkType: hard
 
@@ -14757,7 +14747,7 @@ __metadata:
     "@entur/dropdown": 6.0.13
     "@entur/expand": ^3.6.0
     "@entur/form": 8.2.4
-    "@entur/icons": 7.7.0
+    "@entur/icons": 7.9.0
     "@entur/layout": 2.3.18
     "@entur/loader": 0.5.12
     "@entur/menu": 5.1.3
