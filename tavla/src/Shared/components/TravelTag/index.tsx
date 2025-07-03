@@ -65,6 +65,7 @@ function SmallTravelTag({
             }`}
             key={`${transportMode}${publicCode}`}
         >
+            {/* SILJE her er ikoner for transport */}
             {icons && (
                 <TransportIcon
                     className={`h-6 fill-background ${

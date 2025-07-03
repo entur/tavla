@@ -4,6 +4,18 @@
 
 @layer base {
     :root {
+        --colors-transport-pink-train: var(--colors-transport-default-bus);
+        --colors-transport-pink-train-contrast: var(
+            --colors-transport-contrast-bus
+        );
+
+        --colors-transport-blue-bus: var(--colors-transport-default-train);
+        --colors-transport-blue-bus-contrast: var(
+            --colors-transport-contrast-train
+        );
+    }
+
+    :root {
         --main-background-color: var(--colors-brand-white);
         --secondary-background-color: var(--colors-blues-blue90);
         --tertiary-background-color: var(--colors-blues-blue60);
@@ -33,7 +45,10 @@
         --tooltip-text-color: var(--colors-brand-white);
 
         --metro-color: var(--colors-transport-default-metro);
-        --bus-color: var(--colors-transport-default-bus);
+        --bus-color: var(
+            --chosen-bus-color,
+            var(--colors-transport-default-bus)
+        );
         --tram-color: var(--colors-transport-default-tram);
         --funicular-color: var(--colors-transport-default-funicular);
         --cableway-color: var(--colors-transport-default-cableway);
@@ -108,6 +123,20 @@
         --data-visualization-lilac: var(--colors-data-contrast-lilac);
         --data-visualization-peach: var(--colors-data-contrast-peach);
         --data-visualization-spring: var(--colors-data-contrast-spring);
+    }
+
+    /* Light theme palettes */
+
+    [data-transport-palette='swap-bus'] {
+        --bus-color: var(--colors-transport-default-train);
+        --rail-color: var(--colors-transport-default-bus);
+    }
+
+    /* Dark theme palettes */
+
+    [data-theme='dark'][data-transport-palette='swap-bus'] {
+        --bus-color: var(--colors-transport-contrast-train);
+        --rail-color: var(--colors-transport-contrast-bus);
     }
 
     [data-theme='entur'] {

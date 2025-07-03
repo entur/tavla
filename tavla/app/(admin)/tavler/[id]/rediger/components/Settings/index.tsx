@@ -20,6 +20,7 @@ import {
 import { saveSettings } from './actions'
 import { FormError } from 'app/(admin)/components/FormError'
 import { FontSelect } from './components/FontSelect'
+import { TransportPaletteSelect } from './components/TransportPaletteSelect'
 
 function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
     const { addToast } = useToast()
@@ -33,12 +34,16 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
 
         const data = new FormData(e.currentTarget)
 
+        console.log('----> data: ', data)
+        console.log('Submitted palette:', data.get('transportPalette'))
+
         const resultingErrors = await saveSettings(data)
 
         if (!resultingErrors) {
             setFormErrors({})
             addToast('Innstillinger lagret!')
         } else {
+            console.log('---> ERROR: ', resultingErrors)
             setFormErrors(resultingErrors)
         }
     }
@@ -73,6 +78,9 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                         />
                         <ThemeSelect theme={board.theme} />
                         <FontSelect font={board.meta.fontSize} />
+                        <TransportPaletteSelect
+                            transportPalette={board.transportPalette}
+                        ></TransportPaletteSelect>
                         <WalkingDistance location={board.meta.location} />
                         <Footer footer={board.footer} />
                         <HiddenInput id="bid" value={board.id} />
