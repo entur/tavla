@@ -18,7 +18,8 @@ function TransportIcon({
     return (
         <Component
             className={className ?? 'h-full w-full'}
-            fill={`var(--${mode}-color)`}
+            // fill={`var(--${mode}-color)`} // SILJE - her kan vi legge inn farge??
+            fill="red"
             aria-label={altText}
         />
     )

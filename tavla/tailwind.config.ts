@@ -1,6 +1,8 @@
 import { dataColors } from './app/(admin)/oversikt/utils'
 import type { Config } from 'tailwindcss'
 
+// SILJE --> transportmodes, gjøre denne her dynamisk?
+
 const transportModes = {
     metro: 'var(--metro-color)',
     bus: 'var(--bus-color)',
