@@ -5,13 +5,38 @@ import { TableColumn } from './TableColumn'
 import { TableRow } from './TableRow'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { nanoid } from 'nanoid'
+import { TSituationFragment } from 'graphql/index'
 
-function Destination({ deviations = true }: { deviations?: boolean }) {
+function filterExistingSituation(
+    originSituations?: TSituationFragment[],
+    departureSituations?: TSituationFragment[],
+) {
+    if (!originSituations || !departureSituations) {
+        return departureSituations ?? []
+    }
+    const filteredSituations: TSituationFragment[] = []
+    departureSituations.map((departureSituation) => {
+        originSituations.map((originSituation) => {
+            if (departureSituation.id !== originSituation.id) {
+                filteredSituations.push(departureSituation)
+            }
+        })
+    })
+    return filteredSituations
+}
+
+function Destination({
+    deviations = true,
+    situations,
+}: {
+    deviations?: boolean
+    situations?: TSituationFragment[]
+}) {
     const departures = useNonNullContext(DeparturesContext)
 
     const destinations = departures.map((departure) => ({
         destination: departure.destinationDisplay?.frontText ?? '',
-        situations: departure.situations ?? [],
+        situations: filterExistingSituation(situations, departure.situations),
         via:
             departure.destinationDisplay?.via
                 ?.filter(isNotNullOrUndefined)
