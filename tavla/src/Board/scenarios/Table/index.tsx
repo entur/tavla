@@ -57,7 +57,7 @@ function Table({
                     {columns.includes('arrivalTime') && <ArrivalTime />}
                     {columns.includes('line') && <Line />}
                     {columns.includes('destination') && (
-                        <Destination deviations />
+                        <Destination deviations situations={situations} />
                     )}
                     {columns.includes('name') && <Name />}
                     {columns.includes('platform') && <Platform />}
