@@ -81,7 +81,7 @@ module.exports = {
                 'em-base': '1.1em',
                 'em-lg': '1.3em',
                 'em-xl': '1.5em',
-                'em-situation': '0.65em',
+                'em-situation': '1.1em',
             },
             spacing: {
                 'em-0.25': '0.25em',

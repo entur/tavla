@@ -1,5 +1,38 @@
 import { SVGProps } from 'react'
 import { TSituationFragment } from 'graphql/index'
+import { PageNavigationIcon } from '@entur/icons'
+
+function TitleSituation({
+    situation,
+}: {
+    situation: TSituationFragment | undefined
+    origin?: string
+}) {
+    const situationText =
+        situation?.summary.find((summary) => summary.language === 'no')
+            ?.value ??
+        situation?.summary[0]?.value ??
+        situation?.description.find((desc) => desc.language === 'no')?.value ??
+        situation?.description[0]?.value ??
+        null
+
+    const origin = situation?.origin
+    if (!situationText) return null
+
+    return (
+        <div
+            className={`mt-[0.1em] flex min-h-max items-center gap-[8px] text-em-situation/em-situation text-warning ${origin && 'mt-[2.5em] pb-[1em]'}`}
+        >
+            <div className="flex self-start pt-[0.05em] text-[1.8em]">
+                <PageNavigationIcon aria-label="" size="0.5em" />
+            </div>
+            <div>
+                {origin && <b>{origin + ': '}</b>}
+                {situationText}
+            </div>
+        </div>
+    )
+}
 
 function Situation({
     situation,
@@ -17,8 +50,8 @@ function Situation({
     if (!situationText) return null
 
     return (
-        <div className="mt-[0.1em] flex items-center text-em-situation/em-situation text-warning">
-            <div className="mr-[0.1em] flex items-center fill-warning text-[1.8em]">
+        <div className="mt-[0.1em] flex items-center gap-[8px] text-em-situation/em-situation text-warning">
+            <div className="flex items-center fill-warning text-[1.8em]">
                 <ValidationExclamation />
             </div>
             <div className="overflow-ellipsis whitespace-nowrap">
@@ -48,4 +81,4 @@ function ValidationExclamation(props: SVGProps<SVGSVGElement>) {
     )
 }
 
-export { Situation }
+export { Situation, TitleSituation }
