@@ -26,6 +26,7 @@ function filterIdenticalSituations(
             return shouldKeep
         },
     )
+
     return filteredSituations
 }
 
@@ -47,7 +48,6 @@ function Destination({
                 .join(', ') ?? '',
         key: nanoid(),
     }))
-
     return (
         <div className="grow overflow-hidden">
             <TableColumn title="Destinasjon">
