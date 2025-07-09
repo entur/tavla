@@ -12,6 +12,26 @@ import { useQueries } from 'hooks/useQuery'
 import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
 import { sortBy } from 'lodash'
 
+function combineIdenticalSituations(situations: TSituationFragment[]) {
+    const situationById: { [id: string]: TSituationFragment } = {}
+
+    situations.map((situation) => {
+        const id = situation.id
+        if (situationById[id]) {
+            const existingOrigins = situationById[id].origin
+                ?.split(', ')
+                .concat([situation.origin ?? ''])
+                .sort()
+
+            situationById[id].origin = existingOrigins?.join(', ')
+        } else {
+            situationById[id] = situation
+        }
+    })
+
+    return Object.values(situationById)
+}
+
 export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
     const quayQueries = combinedTile
         .filter(({ type }) => type === 'quay')
@@ -94,6 +114,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
             }))
         }) ?? []),
     ]
+    const combinedSituations = combineIdenticalSituations(situations)
 
     const sortedEstimatedCalls = sortBy(estimatedCalls, (call) => {
         const time = new Date(call.expectedDepartureTime).getTime()
@@ -104,7 +125,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
         <Tile className="flex flex-col max-sm:min-h-[30vh]">
             <Table
                 departures={sortedEstimatedCalls}
-                situations={situations}
+                situations={combinedSituations}
                 columns={DEFAULT_COMBINED_COLUMNS}
             />
         </Tile>
