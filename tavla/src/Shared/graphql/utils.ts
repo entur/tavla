@@ -16,7 +16,10 @@ async function fetchWithTimeout(
     const timeoutScheduler = setTimeout(() => controller.abort(), timeout)
 
     try {
-        const response = await fetch(url, { ...options, signal })
+        const response = await fetch(url, {
+            ...options,
+            signal,
+        })
         clearTimeout(timeoutScheduler)
         return response
     } catch (error) {
