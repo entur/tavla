@@ -39,7 +39,7 @@
         "@entur/typography": "1.8.47",
         "@firebase/database-types": "1.0.6",
         "@floating-ui/react": "0.26.25",
-        "@sentry/nextjs": "^9",
+        "@sentry/nextjs": "^8",
         "@types/formidable": "3.4.5",
         "@types/jsdom": "21.1.7",
         "abortcontroller-polyfill": "1.7.6",
