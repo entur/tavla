@@ -1,6 +1,6 @@
 import { TStopPlaceTile } from 'types/tile'
 import { Table } from '../Table'
-import { StopPlaceQuery } from 'graphql/index'
+import { StopPlaceQuery, TSituationFragment } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { TileLoader } from 'Board/components/TileLoader'
@@ -10,6 +10,7 @@ import {
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
+import { combineIdenticalSituations } from '../Board/utils'
 
 export function StopPlaceTile({
     placeId,
@@ -29,6 +30,31 @@ export function StopPlaceTile({
         },
         { poll: true, offset: offset },
     )
+
+    const situations: TSituationFragment[] = combineIdenticalSituations([
+        ...(data?.stopPlace?.situations ?? []),
+        ...(data?.stopPlace?.quays?.flatMap((quay) => {
+            const origin =
+                quay.publicCode && quay.publicCode !== ''
+                    ? quay.publicCode
+                    : undefined
+            const situations = quay.situations ?? []
+            return situations.map((situation) => ({
+                origin,
+                ...situation,
+            }))
+        }) ?? []),
+    ]).map((situation) => {
+        if (
+            situation.origin &&
+            situation.origin.split(' ')[0] !== 'Plattform'
+        ) {
+            situation.origin = 'Plattform ' + situation.origin
+        } else {
+            situation.origin = 'På plattform'
+        }
+        return situation
+    })
 
     if (isLoading && !data) {
         return (
@@ -54,10 +80,10 @@ export function StopPlaceTile({
                 heading={displayName ?? data.stopPlace.name}
                 walkingDistance={walkingDistance}
             />
-            <StopPlaceQuayDeviation situations={data.stopPlace.situations} />
+            <StopPlaceQuayDeviation situations={situations} />
             <Table
                 departures={data.stopPlace.estimatedCalls}
-                situations={data.stopPlace.situations}
+                situations={situations}
                 columns={columns}
             />
         </Tile>

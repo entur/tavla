@@ -276,6 +276,26 @@ export type TStopPlaceQuery = {
         __typename?: 'StopPlace'
         name: string
         transportMode: Array<Types.TTransportMode | null> | null
+        quays: Array<{
+            __typename?: 'QuaySituations'
+            publicCode: string | null
+            name: string
+
+            situations: Array<{
+                __typename?: 'PtSituationElement'
+                id: string
+                description: Array<{
+                    __typename?: 'MultilingualString'
+                    value: string
+                    language: string | null
+                }>
+                summary: Array<{
+                    __typename?: 'MultilingualString'
+                    value: string
+                    language: string | null
+                }>
+            }>
+        }>
         estimatedCalls: Array<{
             __typename?: 'EstimatedCall'
             aimedDepartureTime: DateTime
@@ -678,6 +698,13 @@ query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMod
     }
     situations {
       ...situation
+    }
+    quays {
+      publicCode
+      name
+      situations {
+        ...situation
+      }
     }
   }
 }
