@@ -14,7 +14,14 @@ import { getBoard } from 'Board/scenarios/Board/firebase'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
-import { TBoard, TBoardID, TFooter, TFolderID, TTheme } from 'types/settings'
+import {
+    TBoard,
+    TBoardID,
+    TFooter,
+    TFolderID,
+    TTheme,
+    TTransportPalette,
+} from 'types/settings'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import {
     isEmptyOrSpaces,
@@ -38,6 +45,7 @@ export async function saveSettings(data: FormData) {
     const viewType = data.get('viewType') as string
     const theme = data.get('theme') as TTheme
     const font = data.get('font') as TFontSize
+    const transportPalette = data.get('transportPalette') as TTransportPalette
 
     const newFolder = data.get('newOid') as TFolderID | undefined
     const oldFolder = data.get('oldOid') as TFolderID | undefined
@@ -77,6 +85,7 @@ export async function saveSettings(data: FormData) {
         await setTheme(bid, theme)
         await setViewType(board, viewType)
         await setFooter(bid, { footer })
+        await setTransportPalette(bid, transportPalette)
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
@@ -295,5 +304,33 @@ export async function moveBoard(
             },
         })
         throw error
+    }
+}
+
+async function setTransportPalette(
+    bid: TBoardID,
+    transportPalette?: TTransportPalette,
+) {
+    userHasAccessToEditBoard(bid)
+
+    try {
+        await firestore()
+            .collection('boards')
+            .doc(bid)
+            .update({
+                transportPalette: transportPalette ?? 'default',
+                'meta.dateModified': Date.now(),
+            })
+
+        revalidatePath(`/tavler/${bid}/rediger`)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while updating transport palette',
+                boardID: bid,
+                newTransportPalette: transportPalette,
+            },
+        })
+        return handleError(error)
     }
 }

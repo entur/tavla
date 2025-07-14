@@ -110,6 +110,20 @@
         --data-visualization-spring: var(--colors-data-contrast-spring);
     }
 
+    /* Light theme palettes */
+
+    [data-transport-palette='blue-bus'] {
+        --bus-color: var(--colors-transport-default-train);
+        --rail-color: var(--colors-transport-default-bus);
+    }
+
+    /* Dark theme palettes */
+
+    [data-theme='dark'][data-transport-palette='blue-bus'] {
+        --bus-color: var(--colors-transport-contrast-train);
+        --rail-color: var(--colors-transport-contrast-bus);
+    }
+
     [data-theme='entur'] {
         --main-background-color: var(--colors-brand-blue);
         --secondary-background-color: var(--colors-blues-blue10);

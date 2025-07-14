@@ -1,0 +1,121 @@
+'use client'
+import { Radio } from '@entur/form'
+import { RadioGroup } from '@entur/form'
+import { TTheme, TTransportPalette } from 'types/settings'
+import { useState } from 'react'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { Heading4, Paragraph } from '@entur/typography'
+import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
+import { TravelTag } from 'components/TravelTag'
+
+const transportPalettes = [
+    { label: 'Standard', value: 'default' },
+    { label: 'Blå buss og rosa tog', value: 'blue-bus' },
+]
+
+const busAndTrainModes: { mode: TTransportMode }[] = [
+    {
+        mode: 'bus',
+    },
+    {
+        mode: 'rail',
+    },
+]
+
+const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
+    [
+        {
+            mode: 'water',
+            submode: 'internationalCarFerry',
+        },
+        {
+            mode: 'air',
+        },
+        {
+            mode: 'water',
+        },
+        {
+            mode: 'metro',
+        },
+        {
+            mode: 'taxi',
+        },
+        {
+            mode: 'tram',
+        },
+    ]
+
+function TransportPaletteSelect({
+    transportPalette = 'default',
+    theme,
+}: {
+    transportPalette?: TTransportPalette
+    theme?: TTheme
+}) {
+    const [selectedValue, setSelectedValue] =
+        useState<TTransportPalette>(transportPalette)
+
+    const handleChange = (value: TTransportPalette) => {
+        setSelectedValue(value)
+    }
+
+    return (
+        <>
+            <Heading4 margin="bottom">Farger på transportmidler</Heading4>
+            <Paragraph className="!mb-0">
+                Velg hvilke farger transportmidlene i tavlevisningen skal ha.
+            </Paragraph>
+            <RadioGroup
+                name="Fargepalett"
+                value={selectedValue}
+                onChange={(e) => {
+                    handleChange(e.target.value as TTransportPalette)
+                }}
+            >
+                {transportPalettes.map((palette) => (
+                    <div key={palette.value}>
+                        <Radio value={palette.value}>{palette.label}</Radio>
+                        <div
+                            className={`max-w-max rounded-sm ${theme === 'dark' ? 'bg-black' : 'bg-white'} flex flex-col px-2 py-3`}
+                            data-theme={theme}
+                            data-transport-palette={palette.value}
+                        >
+                            <div className="mb-4 flex flex-row gap-2">
+                                {busAndTrainModes.map((mode) => (
+                                    <div
+                                        className="max-w-min"
+                                        key={theme + mode.mode}
+                                    >
+                                        {TravelTag({
+                                            transportMode: mode.mode,
+                                            publicCode: '00',
+                                        })}
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex flex-row flex-wrap gap-2">
+                                {transportModes.map((mode) => (
+                                    <div
+                                        className="max-w-min"
+                                        key={
+                                            theme + (mode.submode ?? mode.mode)
+                                        }
+                                    >
+                                        {TravelTag({
+                                            transportMode: mode.mode,
+                                            publicCode: '00',
+                                            transportSubmode: mode.submode,
+                                        })}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </RadioGroup>
+            <HiddenInput id="transportPalette" value={selectedValue} />
+        </>
+    )
+}
+
+export { TransportPaletteSelect }
