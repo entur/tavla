@@ -18,3 +18,7 @@
 - [ ] UU-sjekk/gjennomgang
 - [ ] Skrevet eventuell dokumentasjon/tester
 - [ ] ...
+
+<!--Liten merknad om at dette er en oppgave som er blitt jobbet med alene-->
+
+> 🌞 En av Annika sine aleneoppgaver 🌞
