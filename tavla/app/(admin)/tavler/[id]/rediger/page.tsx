@@ -74,7 +74,10 @@ export default async function EditPage(props: TProps) {
                     <Copy bid={board.id} type="button" />
                 </div>
 
-                <div className="flex flex-col gap-4 rounded-md bg-background px-6 py-8">
+                <div
+                    data-transport-palette={board.transportPalette}
+                    className="flex flex-col gap-4 rounded-md bg-background px-6 py-8"
+                >
                     <Heading2>Stoppesteder</Heading2>
                     <TileSelector
                         action={async (data: FormData) => {

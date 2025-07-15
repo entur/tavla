@@ -20,6 +20,7 @@ import {
 import { saveSettings } from './actions'
 import { FormError } from 'app/(admin)/components/FormError'
 import { FontSelect } from './components/FontSelect'
+import { TransportPaletteSelect } from './components/TransportPaletteSelect'
 
 function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
     const { addToast } = useToast()
@@ -72,6 +73,10 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             }
                         />
                         <ThemeSelect theme={board.theme} />
+                        <TransportPaletteSelect
+                            transportPalette={board.transportPalette}
+                            theme={board.theme}
+                        ></TransportPaletteSelect>
                         <FontSelect font={board.meta.fontSize} />
                         <WalkingDistance location={board.meta.location} />
                         <Footer footer={board.footer} />

@@ -3,6 +3,8 @@ import { TTile } from './tile'
 
 export type TTheme = 'entur' | 'dark' | 'light'
 
+export type TTransportPalette = 'default' | 'blue-bus'
+
 export type TCombinedTiles = { ids: TBoardID[] }
 
 export type TBoard = {
@@ -12,6 +14,7 @@ export type TBoard = {
     combinedTiles?: TCombinedTiles[]
     theme?: TTheme
     footer?: TFooter
+    transportPalette?: TTransportPalette
 }
 
 export type TBoardWithFolder = {
