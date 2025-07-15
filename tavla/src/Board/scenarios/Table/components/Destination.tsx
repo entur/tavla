@@ -80,7 +80,7 @@ function Name() {
             <TableColumn title="Stoppested">
                 {departures.map((departure) => (
                     <TableRow key={nanoid()}>
-                        <div className="justify-items-end">
+                        <div className="line-clamp-2 justify-items-end overflow-ellipsis hyphens-auto text-em-base/em-base">
                             {departure.quay.name}
                         </div>
                     </TableRow>
