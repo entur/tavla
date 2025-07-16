@@ -1,3 +1,4 @@
+import { TSituationFragment } from 'graphql/index'
 import { TFontSize } from 'types/meta'
 import { TBoard } from 'types/settings'
 export function getFontScale(fontSize: TFontSize | undefined) {
@@ -23,4 +24,24 @@ export function defaultFontSize(board: TBoard) {
         default:
             return 'small'
     }
+}
+
+export function combineIdenticalSituations(situations: TSituationFragment[]) {
+    const situationById: { [id: string]: TSituationFragment } = {}
+
+    situations.map((situation) => {
+        const id = situation.id
+        if (situationById[id]) {
+            const existingOrigins = situationById[id].origin
+                ?.split(', ')
+                .concat([situation.origin ?? ''])
+                .sort()
+
+            situationById[id].origin = existingOrigins?.join(', ')
+        } else {
+            situationById[id] = situation
+        }
+    })
+
+    return Object.values(situationById)
 }

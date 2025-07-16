@@ -1,6 +1,6 @@
 import { TQuayTile } from 'types/tile'
 import { Table } from '../Table'
-import { GetQuayQuery } from 'graphql/index'
+import { GetQuayQuery, TSituationFragment } from 'graphql/index'
 import { Tile } from 'components/Tile'
 import { TableHeader } from '../Table/components/TableHeader'
 import { isNotNullOrUndefined } from 'utils/typeguards'
@@ -11,6 +11,7 @@ import {
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
+import { combineIdenticalSituations } from '../Board/utils'
 
 export function QuayTile({
     placeId,
@@ -30,6 +31,11 @@ export function QuayTile({
         },
         { poll: true, offset: offset ?? 0 },
     )
+
+    const situations: TSituationFragment[] = combineIdenticalSituations([
+        ...(data?.quay?.stopPlace.situations ?? []),
+        ...(data?.quay?.situations ?? []),
+    ])
 
     if (isLoading && !data) {
         return (
@@ -59,11 +65,11 @@ export function QuayTile({
                 heading={displayName ?? heading}
                 walkingDistance={walkingDistance}
             />
-            <StopPlaceQuayDeviation situations={data.quay.situations} />
+            <StopPlaceQuayDeviation situations={situations} />
             <Table
                 columns={columns}
                 departures={data.quay.estimatedCalls}
-                situations={data.quay.situations}
+                situations={situations}
             />
         </Tile>
     )
