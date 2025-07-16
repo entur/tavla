@@ -11,6 +11,7 @@ import { Table } from '../Table'
 import { useQueries } from 'hooks/useQuery'
 import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
 import { sortBy } from 'lodash'
+import { CombinedTileDeviation } from '../Table/components/StopPlaceDeviation'
 
 function combineIdenticalSituations(situations: TSituationFragment[]) {
     const situationById: { [id: string]: TSituationFragment } = {}
@@ -123,6 +124,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
 
     return (
         <Tile className="flex flex-col max-sm:min-h-[30vh]">
+            <CombinedTileDeviation situations={combinedSituations} />
             <Table
                 departures={sortedEstimatedCalls}
                 situations={combinedSituations}

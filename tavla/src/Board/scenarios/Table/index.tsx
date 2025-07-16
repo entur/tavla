@@ -9,7 +9,6 @@ import { ArrivalTime } from './components/Time/ArrivalTime'
 import { Platform } from './components/Platform'
 import { ExpectedTime } from './components/Time/ExpectedTime'
 import { Line } from './components/Line'
-import { StopPlaceDeviation } from './components/StopPlaceDeviation'
 import Image from 'next/image'
 import leafs from 'assets/illustrations/leafs.svg'
 import leafsLight from 'assets/illustrations/leafs-light.png'
@@ -50,7 +49,6 @@ function Table({
         )
     return (
         <div className="flex flex-col">
-            <StopPlaceDeviation situations={situations} />
             <div className="flex shrink-0">
                 <DeparturesContext.Provider value={departures}>
                     {columns.includes('aimedTime') && <AimedTime />}
