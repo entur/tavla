@@ -9,6 +9,7 @@ import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
+import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
 
 export function StopPlaceTile({
     placeId,
@@ -53,6 +54,7 @@ export function StopPlaceTile({
                 heading={displayName ?? data.stopPlace.name}
                 walkingDistance={walkingDistance}
             />
+            <StopPlaceQuayDeviation situations={data.stopPlace.situations} />
             <Table
                 departures={data.stopPlace.estimatedCalls}
                 situations={data.stopPlace.situations}

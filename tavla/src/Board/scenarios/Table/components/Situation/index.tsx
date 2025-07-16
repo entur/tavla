@@ -20,9 +20,7 @@ function TitleSituation({
     if (!situationText) return null
 
     return (
-        <div
-            className={`mt-[0.1em] flex min-h-max items-center gap-[8px] text-em-situation/em-situation text-warning ${origin && 'mt-[2.5em] pb-[1em]'}`}
-        >
+        <div className="mt-[0.1em] flex min-h-max items-center gap-[8px] text-em-situation/em-situation text-warning">
             <div className="flex self-start pt-[0.05em] text-[1.8em]">
                 <PageNavigationIcon aria-label="" size="0.5em" />
             </div>

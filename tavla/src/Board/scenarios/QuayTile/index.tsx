@@ -10,6 +10,7 @@ import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
+import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
 
 export function QuayTile({
     placeId,
@@ -58,6 +59,7 @@ export function QuayTile({
                 heading={displayName ?? heading}
                 walkingDistance={walkingDistance}
             />
+            <StopPlaceQuayDeviation situations={data.quay.situations} />
             <Table
                 columns={columns}
                 departures={data.quay.estimatedCalls}

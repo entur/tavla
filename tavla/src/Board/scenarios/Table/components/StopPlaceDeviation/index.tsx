@@ -2,12 +2,14 @@ import { TSituationFragment } from 'graphql/index'
 import { useCycler } from '../../useCycler'
 import { TitleSituation } from '../Situation'
 
-function StopPlaceDeviation({
+const timerInMilliseconds = 10000
+
+function StopPlaceQuayDeviation({
     situations,
 }: {
     situations?: TSituationFragment[]
 }) {
-    const index = useCycler(situations, 10000)
+    const index = useCycler(situations, timerInMilliseconds)
     const numberOfSituations = situations?.length ?? 0
 
     return (
@@ -21,4 +23,23 @@ function StopPlaceDeviation({
     )
 }
 
-export { StopPlaceDeviation }
+function CombinedTileDeviation({
+    situations,
+}: {
+    situations?: TSituationFragment[]
+}) {
+    const index = useCycler(situations, timerInMilliseconds)
+    const numberOfSituations = situations?.length ?? 0
+
+    return (
+        <div className="mt-[0.5em] min-h-[1.5em] pb-[1em]">
+            {situations && numberOfSituations > 0 && (
+                <TitleSituation
+                    situation={situations[index % numberOfSituations]}
+                />
+            )}
+        </div>
+    )
+}
+
+export { StopPlaceQuayDeviation, CombinedTileDeviation }
