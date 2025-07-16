@@ -13,7 +13,7 @@ function Platform() {
     }))
 
     return (
-        <TableColumn title="Plattform">
+        <TableColumn title="Plf.">
             {platforms.map((platform) => (
                 <TableRow key={platform.key}>{platform.publicCode}</TableRow>
             ))}
