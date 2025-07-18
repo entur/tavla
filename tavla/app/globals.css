@@ -47,6 +47,20 @@
         --water-color: var(--colors-transport-default-ferry);
         --taxi-color: var(--colors-transport-default-taxi);
 
+        --metro-color-transparent: var(--standard-metro-transparent);
+        --bus-color-transparent: var(--standard-bus-transparent);
+        --tram-color-transparent: var(--standard-tram-transparent);
+        --funicular-color-transparent: var(--standard-funicular-transparent);
+        --cableway-color-transparent: var(--standard-cableway-transparent);
+        --rail-color-transparent: var(--standard-train-transparent);
+        --air-color-transparent: var(--standard-plane-transparent);
+        --coach-color-transparent: var(--standard-bus-transparent);
+        --lift-color-transparent: var(--standard-cableway-transparent);
+        --monorail-color-transparent: var(--standard-tram-transparent);
+        --trolleybus-color-transparent: var(--standard-bus-transparent);
+        --water-color-transparent: var(--standard-ferry-transparent);
+        --taxi-color-transparent: var(--standard-taxi-transparent);
+
         --data-visualization-azure: var(--colors-data-default-azure);
         --data-visualization-blue: var(--colors-data-default-blue);
         --data-visualization-coral: var(--colors-data-default-coral);
@@ -100,6 +114,20 @@
         --water-color: var(--colors-transport-contrast-ferry);
         --taxi-color: var(--colors-transport-contrast-taxi);
 
+        --metro-color-transparent: var(--contrast-metro-transparent);
+        --bus-color-transparent: var(--contrast-bus-transparent);
+        --tram-color-transparent: var(--contrast-tram-transparent);
+        --funicular-color-transparent: var(--contrast-funicular-transparent);
+        --cableway-color-transparent: var(--contrast-cableway-transparent);
+        --rail-color-transparent: var(--contrast-train-transparent);
+        --air-color-transparent: var(--contrast-plane-transparent);
+        --coach-color-transparent: var(--contrast-bus-transparent);
+        --lift-color-transparent: var(--contrast-cableway-transparent);
+        --monorail-color-transparent: var(--contrast-tram-transparent);
+        --trolleybus-color-transparent: var(--contrast-bus-transparent);
+        --water-color-transparent: var(--contrast-ferry-transparent);
+        --taxi-color-transparent: var(--contrast-taxi-transparent);
+
         --data-visualization-azure: var(--colors-data-contrast-azure);
         --data-visualization-blue: var(--colors-data-contrast-blue);
         --data-visualization-coral: var(--colors-data-contrast-coral);
@@ -111,17 +139,20 @@
     }
 
     /* Light theme palettes */
-
     [data-transport-palette='blue-bus'] {
-        --bus-color: var(--colors-transport-default-train);
-        --rail-color: var(--colors-transport-default-bus);
+        --bus-color: var(--standard-train);
+        --bus-color-transparent: var(--standard-train-transparent);
+        --rail-color: var(--standard-bus);
+        --rail-color-transparent: var(--standard-bus-transparent);
     }
 
     /* Dark theme palettes */
 
     [data-theme='dark'][data-transport-palette='blue-bus'] {
-        --bus-color: var(--colors-transport-contrast-train);
-        --rail-color: var(--colors-transport-contrast-bus);
+        --bus-color: var(--contrast-train);
+        --bus-color-transparent: var(--contrast-train-transparent);
+        --rail-color: var(--contrast-bus);
+        --rail-color-transparent: var(--contrast-bus-transparent);
     }
 
     [data-theme='entur'] {
