@@ -13,6 +13,7 @@ import Image from 'next/image'
 import leafs from 'assets/illustrations/leafs.svg'
 import leafsLight from 'assets/illustrations/leafs-light.png'
 import { Paragraph } from '@entur/typography'
+import { Deviation } from './components/Deviation'
 
 function Table({
     departures,
@@ -51,6 +52,7 @@ function Table({
         <div className="flex flex-col">
             <div className="flex shrink-0">
                 <DeparturesContext.Provider value={departures}>
+                    <Deviation />
                     {columns.includes('aimedTime') && <AimedTime />}
                     {columns.includes('arrivalTime') && <ArrivalTime />}
                     {columns.includes('line') && <Line />}

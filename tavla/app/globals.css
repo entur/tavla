@@ -140,18 +140,17 @@
 
     /* Light theme palettes */
     [data-transport-palette='blue-bus'] {
-        --bus-color: var(--standard-train);
+        --bus-color: var(--colors-transport-default-train);
         --bus-color-transparent: var(--standard-train-transparent);
-        --rail-color: var(--standard-bus);
+        --rail-color: var(--colors-transport-default-bus);
         --rail-color-transparent: var(--standard-bus-transparent);
     }
 
     /* Dark theme palettes */
-
     [data-theme='dark'][data-transport-palette='blue-bus'] {
-        --bus-color: var(--contrast-train);
+        --bus-color: var(--colors-transport-contrast-train);
         --bus-color-transparent: var(--contrast-train-transparent);
-        --rail-color: var(--contrast-bus);
+        --rail-color: var(--colors-transport-contrast-bus);
         --rail-color-transparent: var(--contrast-bus-transparent);
     }
 

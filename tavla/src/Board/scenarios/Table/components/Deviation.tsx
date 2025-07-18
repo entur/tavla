@@ -1,25 +1,42 @@
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../contexts'
-import { Situations } from './Situations'
 import { TableColumn } from './TableColumn'
 import { TableRow } from './TableRow'
+import {
+    ValidationErrorFilledIcon,
+    ValidationExclamationCircleFilledIcon,
+} from '@entur/icons'
 
-function Deviation({ situations = true }: { situations?: boolean }) {
+function Deviation() {
     const departures = useNonNullContext(DeparturesContext)
 
     const deviations = departures.map((departure) => ({
         situations: departure.situations ?? [],
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
+        cancelled: departure.cancellation,
     }))
+
     return (
-        <TableColumn title="Avvik" className="grow">
-            {deviations.map((deviation) => (
-                <TableRow key={deviation.key}>
-                    {situations && (
-                        <Situations situations={deviation.situations} />
-                    )}
-                </TableRow>
-            ))}
+        <TableColumn>
+            {deviations.map((deviation) =>
+                deviation.cancelled ? (
+                    <TableRow key={deviation.key}>
+                        <div className="flex w-10 items-center justify-center text-error">
+                            <ValidationErrorFilledIcon />
+                        </div>
+                    </TableRow>
+                ) : (
+                    <TableRow key={deviation.key}>
+                        <div className="flex w-10 items-center justify-center text-warning">
+                            {deviation.situations.length > 0 ? (
+                                <ValidationExclamationCircleFilledIcon />
+                            ) : (
+                                <div />
+                            )}
+                        </div>
+                    </TableRow>
+                ),
+            )}
         </TableColumn>
     )
 }
