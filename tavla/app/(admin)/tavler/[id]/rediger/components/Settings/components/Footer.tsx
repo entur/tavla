@@ -1,9 +1,9 @@
 'use client'
 import { ValidationInfoFilledIcon } from '@entur/icons'
-import { Heading4 } from '@entur/typography'
-import { TFooter } from 'types/settings'
 import { Tooltip } from '@entur/tooltip'
+import { Heading4 } from '@entur/typography'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { TFooter } from 'types/settings'
 
 function Footer({ footer }: { footer?: TFooter }) {
     return (

@@ -1,17 +1,17 @@
-import { TQuayTile } from 'types/tile'
-import { Table } from '../Table'
-import { GetQuayQuery, TSituationFragment } from 'graphql/index'
-import { Tile } from 'components/Tile'
-import { TableHeader } from '../Table/components/TableHeader'
-import { isNotNullOrUndefined } from 'utils/typeguards'
-import { TileLoader } from 'Board/components/TileLoader'
-import { useQuery } from 'hooks/useQuery'
 import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
-import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
+import { TileLoader } from 'Board/components/TileLoader'
+import { Tile } from 'components/Tile'
+import { GetQuayQuery, TSituationFragment } from 'graphql/index'
+import { useQuery } from 'hooks/useQuery'
+import { TQuayTile } from 'types/tile'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 import { combineIdenticalSituations } from '../Board/utils'
+import { Table } from '../Table'
+import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
+import { TableHeader } from '../Table/components/TableHeader'
 
 export function QuayTile({
     placeId,

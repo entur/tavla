@@ -1,6 +1,6 @@
-import { SVGProps } from 'react'
-import { TSituationFragment } from 'graphql/index'
 import { PageNavigationIcon } from '@entur/icons'
+import { TSituationFragment } from 'graphql/index'
+import { SVGProps } from 'react'
 
 function TitleSituation({
     situation,

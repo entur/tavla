@@ -7,18 +7,18 @@ import {
 } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
-import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { TFolderID } from 'types/settings'
+import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { useState } from 'react'
+import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePostHog } from 'posthog-js/react'
+import { useState } from 'react'
+import { TFolderID } from 'types/settings'
 
 function TileSelector({
     action,

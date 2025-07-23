@@ -1,6 +1,8 @@
 'use client'
 import { ExpandablePanel } from '@entur/expand'
+import { ExternalIcon } from '@entur/icons'
 import {
+    Link as EnturLink,
     Heading3,
     ListItem,
     Paragraph,
@@ -8,8 +10,6 @@ import {
     UnorderedList,
 } from '@entur/typography'
 import Link from 'next/link'
-import { Link as EnturLink } from '@entur/typography'
-import { ExternalIcon } from '@entur/icons'
 
 function ExpandableInfo() {
     return (

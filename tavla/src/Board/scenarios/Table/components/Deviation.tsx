@@ -1,11 +1,11 @@
-import { useNonNullContext } from 'hooks/useNonNullContext'
-import { DeparturesContext } from '../contexts'
-import { TableColumn } from './TableColumn'
-import { TableRow } from './TableRow'
 import {
     ValidationErrorFilledIcon,
     ValidationExclamationCircleFilledIcon,
 } from '@entur/icons'
+import { useNonNullContext } from 'hooks/useNonNullContext'
+import { DeparturesContext } from '../contexts'
+import { TableColumn } from './TableColumn'
+import { TableRow } from './TableRow'
 
 function Deviation() {
     const departures = useNonNullContext(DeparturesContext)

@@ -1,5 +1,5 @@
-import { dataColors } from './app/(admin)/oversikt/utils'
 import type { Config } from 'tailwindcss'
+import { dataColors } from './app/(admin)/oversikt/utils'
 
 const transportModes = {
     metro: 'var(--metro-color)',

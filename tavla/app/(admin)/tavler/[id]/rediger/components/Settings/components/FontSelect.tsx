@@ -1,6 +1,6 @@
 'use client'
-import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 import { TFontSize } from 'types/meta'
+import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
 function FontSelect({ font = 'medium' }: { font?: TFontSize }) {
     return (

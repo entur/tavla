@@ -1,6 +1,6 @@
 import { FirebaseError } from 'firebase/app'
-import { getFormFeedbackForError } from '.'
 import { isString } from 'lodash'
+import { getFormFeedbackForError } from '.'
 
 export function handleError(e: unknown) {
     if (e instanceof FirebaseError || isString(e)) {

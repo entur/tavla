@@ -1,15 +1,15 @@
 'use client'
-import { TFolderID } from 'types/settings'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
+import { useToast } from '@entur/alert'
+import { AddIcon } from '@entur/icons'
+import { Heading3 } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
+import { getFormFeedbackForField } from 'app/(admin)/utils'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState, useRef } from 'react'
+import { TFolderID } from 'types/settings'
 import { inviteUserAction } from './actions'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { Heading3 } from '@entur/typography'
-import { AddIcon } from '@entur/icons'
-import { useToast } from '@entur/alert'
 
 function InviteUser({ oid }: { oid?: TFolderID }) {
     const [state, formAction] = useActionState(inviteUserAction, undefined)

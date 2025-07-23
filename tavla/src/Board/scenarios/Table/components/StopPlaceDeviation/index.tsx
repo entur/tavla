@@ -42,4 +42,4 @@ function CombinedTileDeviation({
     )
 }
 
-export { StopPlaceQuayDeviation, CombinedTileDeviation }
+export { CombinedTileDeviation, StopPlaceQuayDeviation }

@@ -1,9 +1,9 @@
-import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
+import { useNonNullContext } from 'hooks/useNonNullContext'
+import { nanoid } from 'nanoid'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import { FormattedTime } from './components/FormattedTime'
-import { nanoid } from 'nanoid'
 
 function AimedTime() {
     const departures = useNonNullContext(DeparturesContext)

@@ -1,12 +1,12 @@
 'use client'
-import { TLogo, TFolderID } from 'types/settings'
+import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
-import { remove } from './actions'
-import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
+import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { useState } from 'react'
-import { useToast } from '@entur/alert'
+import { TFolderID, TLogo } from 'types/settings'
+import { remove } from './actions'
 
 function DeleteLogo({ oid, logo }: { oid?: TFolderID; logo?: TLogo }) {
     const [deleteState, setDeleteState] = useState<TFormFeedback>()

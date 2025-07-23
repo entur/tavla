@@ -2,10 +2,10 @@
 
 import { Button } from '@entur/button'
 import { Heading3 } from '@entur/typography'
+import * as Sentry from '@sentry/nextjs'
+import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import BeaverIllustration from 'assets/illustrations/Beaver.png'
-import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
 
 export default function Error({

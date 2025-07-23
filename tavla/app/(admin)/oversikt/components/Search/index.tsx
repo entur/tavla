@@ -1,8 +1,8 @@
 'use client'
 import { SearchIcon } from '@entur/icons'
-import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
-import { useEffect, useState } from 'react'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { useEffect, useState } from 'react'
+import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 
 function Search() {
     const [value, replace] = useSearchParamReplacer('search')

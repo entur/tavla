@@ -1,12 +1,11 @@
 'use client'
-import { Radio } from '@entur/form'
-import { RadioGroup } from '@entur/form'
-import { TTheme, TTransportPalette } from 'types/settings'
-import { useState } from 'react'
-import { HiddenInput } from 'components/Form/HiddenInput'
+import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
-import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
+import { HiddenInput } from 'components/Form/HiddenInput'
 import { TravelTag } from 'components/TravelTag'
+import { useState } from 'react'
+import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
+import { TTheme, TTransportPalette } from 'types/settings'
 
 const transportPalettes = [
     { label: 'Standard', value: 'default' },

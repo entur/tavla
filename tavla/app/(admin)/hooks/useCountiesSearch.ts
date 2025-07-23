@@ -1,6 +1,6 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { useCallback, useEffect, useState } from 'react'
 import { fetchCounties } from 'app/(admin)/utils/fetch'
+import { useCallback, useEffect, useState } from 'react'
 import { sortCountiesAlphabetically } from '../components/TileSelector/utils'
 
 function useCountiesSearch() {

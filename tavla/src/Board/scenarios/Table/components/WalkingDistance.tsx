@@ -1,6 +1,6 @@
 import { WalkIcon } from '@entur/icons'
-import { TWalkingDistance } from 'types/tile'
 import { formatWalkTime } from 'app/(admin)/utils/time'
+import { TWalkingDistance } from 'types/tile'
 
 function WalkingDistance({
     walkingDistance,

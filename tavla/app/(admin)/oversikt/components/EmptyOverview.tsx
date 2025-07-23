@@ -1,6 +1,6 @@
+import { Heading4 } from '@entur/typography'
 import leafs from 'assets/illustrations/leafs.svg'
 import Image from 'next/image'
-import { Heading4 } from '@entur/typography'
 
 interface EmptyOverviewProps {
     text?: string

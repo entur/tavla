@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 
 function useSearchParamsModal(param: string): [boolean, () => void] {

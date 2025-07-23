@@ -1,10 +1,10 @@
-import { useNonNullContext } from 'hooks/useNonNullContext'
-import { formatDateString, getRelativeTimeString } from 'utils/time'
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
+import { useNonNullContext } from 'hooks/useNonNullContext'
+import { nanoid } from 'nanoid'
+import { formatDateString, getRelativeTimeString } from 'utils/time'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
 import { FormattedTime } from './components/FormattedTime'
-import { nanoid } from 'nanoid'
 
 const TWO_MINUTES = 120
 

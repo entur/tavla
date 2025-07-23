@@ -1,26 +1,26 @@
 'use client'
-import { Heading2, Heading3 } from '@entur/typography'
-import { SubmitButton } from 'components/Form/SubmitButton'
-import { TBoard, TFolder } from 'types/settings'
-import { WalkingDistance } from './components/WalkingDistance'
-import { Footer } from './components/Footer'
-import { ThemeSelect } from './components/ThemeSelect'
-import { Title } from './components/Title'
-import { Folder } from './components/Folder'
-import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { ViewType } from './components/ViewType'
-import { HiddenInput } from 'components/Form/HiddenInput'
 import { useToast } from '@entur/alert'
-import { useState } from 'react'
+import { Heading2, Heading3 } from '@entur/typography'
+import { FormError } from 'app/(admin)/components/FormError'
 import {
     getFormFeedbackForField,
     InputType,
     TFormFeedback,
 } from 'app/(admin)/utils'
+import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { SubmitButton } from 'components/Form/SubmitButton'
+import { useState } from 'react'
+import { TBoard, TFolder } from 'types/settings'
 import { saveSettings } from './actions'
-import { FormError } from 'app/(admin)/components/FormError'
+import { Folder } from './components/Folder'
 import { FontSelect } from './components/FontSelect'
+import { Footer } from './components/Footer'
+import { ThemeSelect } from './components/ThemeSelect'
+import { Title } from './components/Title'
 import { TransportPaletteSelect } from './components/TransportPaletteSelect'
+import { ViewType } from './components/ViewType'
+import { WalkingDistance } from './components/WalkingDistance'
 
 function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
     const { addToast } = useToast()

@@ -1,13 +1,13 @@
 'use client'
-import Image from 'next/image'
-import { TFolder } from 'types/settings'
-import { LogoInput } from './LogoInput'
-import { Paragraph } from '@entur/typography'
-import { DeleteLogo } from './DeleteLogo'
-import { Modal } from '@entur/modal'
-import { useState } from 'react'
 import { Button } from '@entur/button'
 import { ImageIcon } from '@entur/icons'
+import { Modal } from '@entur/modal'
+import { Paragraph } from '@entur/typography'
+import Image from 'next/image'
+import { useState } from 'react'
+import { TFolder } from 'types/settings'
+import { DeleteLogo } from './DeleteLogo'
+import { LogoInput } from './LogoInput'
 
 function UploadLogo({ folder }: { folder: TFolder }) {
     const [isOpen, setIsOpen] = useState(false)

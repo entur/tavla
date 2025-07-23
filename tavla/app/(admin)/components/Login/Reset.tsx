@@ -1,19 +1,19 @@
 'use client'
-import { useActionState } from 'react'
-import Image from 'next/image'
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
-import musk from 'assets/illustrations/Musk.png'
-import { Heading3, Paragraph } from '@entur/typography'
-import { TextField } from '@entur/form'
 import { PrimaryButton } from '@entur/button'
+import { TextField } from '@entur/form'
+import { Heading3, Paragraph } from '@entur/typography'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
+import musk from 'assets/illustrations/Musk.png'
 import { FirebaseError } from 'firebase/app'
-import { FormError } from '../FormError'
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
+import Image from 'next/image'
+import { useActionState } from 'react'
 import { getClientApp } from 'utils/firebase'
+import { FormError } from '../FormError'
 
 function Reset() {
     const submit = async (

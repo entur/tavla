@@ -1,10 +1,10 @@
 'use client'
-import { Modal } from '@entur/modal'
-import { NameAndFolderSelector } from './NameAndFolderSelector'
 import { PrimaryButton } from '@entur/button'
 import { BoardIcon } from '@entur/icons'
-import { TFolder } from 'types/settings'
+import { Modal } from '@entur/modal'
 import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
+import { TFolder } from 'types/settings'
+import { NameAndFolderSelector } from './NameAndFolderSelector'
 
 function CreateBoard({ folder }: { folder?: TFolder }) {
     const { isOpen, open, close } = useModalWithValues({

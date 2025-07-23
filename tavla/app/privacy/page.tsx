@@ -1,8 +1,8 @@
-import { Metadata } from 'next'
 import { Heading1, Heading4, Paragraph } from '@entur/typography'
 import doves from 'assets/illustrations/Doves.png'
 import hedgehog from 'assets/illustrations/Hedgehog.png'
 import squirrel from 'assets/illustrations/Squirrel.png'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import { ExpandableInfo } from './components/ExpandableInfo'
 

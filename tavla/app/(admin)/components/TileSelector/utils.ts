@@ -1,3 +1,5 @@
+import { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
+import * as Sentry from '@sentry/nextjs'
 import {
     QuayCoordinatesQuery,
     StopPlaceCoordinatesQuery,
@@ -8,8 +10,6 @@ import { nanoid } from 'nanoid'
 import { DEFAULT_COLUMNS } from 'types/column'
 import { TCoordinate } from 'types/meta'
 import { TTile } from 'types/tile'
-import * as Sentry from '@sentry/nextjs'
-import { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 
 export function formDataToTile(data: FormData) {
     const quayId = data.get('quay') as string

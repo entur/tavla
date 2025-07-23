@@ -1,9 +1,9 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { useCallback, useEffect, useState } from 'react'
-import { getFoldersForUser } from '../actions'
-import { TFolder } from 'types/settings'
-import { folderToDropdownItem } from '../tavler/[id]/utils'
 import { FolderIcon } from '@entur/icons'
+import { useCallback, useEffect, useState } from 'react'
+import { TFolder } from 'types/settings'
+import { getFoldersForUser } from '../actions'
+import { folderToDropdownItem } from '../tavler/[id]/utils'
 
 const NO_FOLDER = {
     value: {},

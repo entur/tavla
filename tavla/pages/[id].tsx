@@ -1,12 +1,12 @@
-import { Header } from 'components/Header'
-import { TBoard, TFolder } from 'types/settings'
 import { Board } from 'Board/scenarios/Board'
 import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { Footer } from 'components/Footer'
+import { Header } from 'components/Header'
 import { useRefresh } from 'hooks/useRefresh'
-import { getBackendUrl } from 'utils/index'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { TBoard, TFolder } from 'types/settings'
+import { getBackendUrl } from 'utils/index'
 
 export async function getServerSideProps({
     params,

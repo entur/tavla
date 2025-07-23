@@ -1,10 +1,10 @@
-import { useCallback } from 'react'
 import { IconButton } from '@entur/button'
-import { SortableColumns, TTableColumn, TSort } from 'app/(admin)/utils/types'
 import { DownArrowIcon, UnsortedIcon, UpArrowIcon } from '@entur/icons'
+import { SortableColumns, TSort, TTableColumn } from 'app/(admin)/utils/types'
 import { includes } from 'lodash'
-import { getAriaLabel } from './utils'
+import { useCallback } from 'react'
 import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
+import { getAriaLabel } from './utils'
 
 function Sort({ column }: { column: TTableColumn }) {
     const [value, replace] = useSearchParamReplacer('sort')

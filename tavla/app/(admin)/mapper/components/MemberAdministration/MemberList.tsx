@@ -1,5 +1,3 @@
-import { TFolderID, TUser, TUserID } from 'types/settings'
-import { RemoveUserButton } from './RemoveUserButton'
 import {
     DataCell,
     HeaderCell,
@@ -8,6 +6,8 @@ import {
     TableHead,
     TableRow,
 } from '@entur/table'
+import { TFolderID, TUser, TUserID } from 'types/settings'
+import { RemoveUserButton } from './RemoveUserButton'
 
 function MemberList({
     members,

@@ -1,6 +1,6 @@
-import Image from 'next/image'
-import LeafIllustration from 'assets/illustrations/leafs.svg'
 import { Heading3, Paragraph } from '@entur/typography'
+import LeafIllustration from 'assets/illustrations/leafs.svg'
+import Image from 'next/image'
 
 export enum FetchErrorTypes {
     TIMEOUT = 'Request timed out',

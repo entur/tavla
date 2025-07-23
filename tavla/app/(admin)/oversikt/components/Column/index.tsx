@@ -1,8 +1,8 @@
-import { TBoard, TFolder } from 'types/settings'
-import { LastModified } from './LastModified'
 import { TTableColumn } from 'app/(admin)/utils/types'
-import { BoardName, FolderName } from './Name'
+import { TBoard, TFolder } from 'types/settings'
 import { BoardActions, FolderActions } from './Actions'
+import { LastModified } from './LastModified'
+import { BoardName, FolderName } from './Name'
 
 function Column({
     board,

@@ -1,9 +1,9 @@
-import { QuaysSearchQuery } from 'graphql/index'
-import { isNotNullOrUndefined } from 'utils/typeguards'
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'hooks/useQuery'
 import { SmallTravelTag } from 'components/TravelTag'
+import { QuaysSearchQuery } from 'graphql/index'
+import { useQuery } from 'hooks/useQuery'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 
 function getPlatformLabel(
     index: number,

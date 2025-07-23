@@ -1,11 +1,11 @@
+import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
+import { nanoid } from 'nanoid'
+import { isNotNullOrUndefined } from 'utils/typeguards'
 import { DeparturesContext } from '../contexts'
 import { Situations } from './Situations'
 import { TableColumn } from './TableColumn'
 import { TableRow } from './TableRow'
-import { isNotNullOrUndefined } from 'utils/typeguards'
-import { nanoid } from 'nanoid'
-import { TSituationFragment } from 'graphql/index'
 
 function filterIdenticalSituations(
     originSituations?: TSituationFragment[],

@@ -1,26 +1,26 @@
 'use client'
+import { useToast } from '@entur/alert'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
+import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
+import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
-import { TFolder } from 'types/settings'
-import { SubmitButton } from 'components/Form/SubmitButton'
+import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     TFormFeedback,
 } from 'app/(admin)/utils'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import ducks from 'assets/illustrations/Ducks.png'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { SubmitButton } from 'components/Form/SubmitButton'
+import Image from 'next/image'
+import { useActionState, useState } from 'react'
+import { TFolder } from 'types/settings'
 import { FormError } from '../FormError'
 import { deleteFolderAction } from './actions'
-import ducks from 'assets/illustrations/Ducks.png'
-import Image from 'next/image'
-import { Tooltip } from '@entur/tooltip'
-import { useToast } from '@entur/alert'
-import { useActionState, useState } from 'react'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
-import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
-import { CloseIcon } from '@entur/icons'
 
 function DeleteFolder({
     folder,

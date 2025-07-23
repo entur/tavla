@@ -1,18 +1,17 @@
-import React from 'react'
-import { TTile } from 'types/tile'
-import { GetQuayQuery, StopPlaceQuery, TSituationFragment } from 'graphql/index'
-import { Tile } from 'components/Tile'
-import { TileLoader } from 'Board/components/TileLoader'
 import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
-import { Table } from '../Table'
+import { TileLoader } from 'Board/components/TileLoader'
+import { Tile } from 'components/Tile'
+import { GetQuayQuery, StopPlaceQuery, TSituationFragment } from 'graphql/index'
 import { useQueries } from 'hooks/useQuery'
-import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
 import { sortBy } from 'lodash'
-import { CombinedTileDeviation } from '../Table/components/StopPlaceDeviation'
+import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
+import { TTile } from 'types/tile'
 import { combineIdenticalSituations } from '../Board/utils'
+import { Table } from '../Table'
+import { CombinedTileDeviation } from '../Table/components/StopPlaceDeviation'
 
 export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
     const quayQueries = combinedTile

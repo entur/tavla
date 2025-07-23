@@ -1,15 +1,15 @@
-import { TStopPlaceTile } from 'types/tile'
-import { Table } from '../Table'
-import { StopPlaceQuery } from 'graphql/index'
-import { Tile } from 'components/Tile'
-import { TableHeader } from '../Table/components/TableHeader'
-import { TileLoader } from 'Board/components/TileLoader'
-import { useQuery } from 'hooks/useQuery'
 import {
     DataFetchingFailed,
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
+import { TileLoader } from 'Board/components/TileLoader'
+import { Tile } from 'components/Tile'
+import { StopPlaceQuery } from 'graphql/index'
+import { useQuery } from 'hooks/useQuery'
+import { TStopPlaceTile } from 'types/tile'
+import { Table } from '../Table'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
+import { TableHeader } from '../Table/components/TableHeader'
 
 export function StopPlaceTile({
     placeId,

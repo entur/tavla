@@ -1,6 +1,6 @@
 'use client'
 import { Heading1 } from '@entur/typography'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 function WordCarousel() {
     const words = ['resepsjonen', 'biblioteket', 'skolen', 'treningssenteret']
