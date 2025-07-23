@@ -49,7 +49,7 @@ function TransportPaletteSelect({
     theme,
 }: {
     transportPalette?: TTransportPalette
-    theme?: TTheme
+    theme: TTheme
 }) {
     const [selectedValue, setSelectedValue] =
         useState<TTransportPalette>(transportPalette)
