@@ -54,6 +54,7 @@
         "nanoid": "5.0.9",
         "next": "15.2.3",
         "posthog-js": "1.234.7",
+        "prettier-plugin-organize-imports": "4.2.0",
         "prettier-plugin-tailwindcss": "0.6.12",
         "react": "18.3.1",
         "react-dom": "18.3.1",
