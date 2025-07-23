@@ -75,7 +75,7 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                         <ThemeSelect theme={board.theme} />
                         <TransportPaletteSelect
                             transportPalette={board.transportPalette}
-                            theme={board.theme}
+                            theme={board.theme ?? 'dark'}
                         ></TransportPaletteSelect>
                         <FontSelect font={board.meta.fontSize} />
                         <WalkingDistance location={board.meta.location} />
