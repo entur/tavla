@@ -1,9 +1,9 @@
 'use client'
-import Image from 'next/image'
-import TavlaLogo from 'assets/logos/Tavla-white.svg'
-import { Heading3, Link as EnturLink, Paragraph } from '@entur/typography'
-import Link from 'next/link'
 import { ExternalIcon, GithubIcon } from '@entur/icons'
+import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
+import TavlaLogo from 'assets/logos/Tavla-white.svg'
+import Image from 'next/image'
+import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import DeleteAccount from '../DeleteAccount'
 

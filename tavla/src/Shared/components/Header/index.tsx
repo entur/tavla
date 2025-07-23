@@ -1,8 +1,8 @@
-import TavlaLogoWhite from 'assets/logos/Tavla-white.svg'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
+import TavlaLogoWhite from 'assets/logos/Tavla-white.svg'
+import { Clock } from 'components/Clock'
 import Image from 'next/image'
 import { TLogo, TTheme } from 'types/settings'
-import { Clock } from 'components/Clock'
 
 function Header({
     theme,

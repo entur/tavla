@@ -1,12 +1,12 @@
 'use client'
-import Link from 'next/link'
-import Image from 'next/image'
-import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
-import { MobileNavbar } from './MobileNavbar'
-import { Login } from './Login'
 import { TopNavigationItem } from '@entur/menu'
+import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
+import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
+import { Login } from './Login'
+import { MobileNavbar } from './MobileNavbar'
 
 function Navbar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()

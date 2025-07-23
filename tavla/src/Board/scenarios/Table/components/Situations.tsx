@@ -1,7 +1,7 @@
-import { Situation } from './Situation'
 import { TSituationFragment } from 'graphql/index'
-import { useCycler } from '../useCycler'
 import { sortBy } from 'lodash'
+import { useCycler } from '../useCycler'
+import { Situation } from './Situation'
 
 function Situations({ situations }: { situations: TSituationFragment[] }) {
     const index = useCycler(situations)

@@ -1,5 +1,5 @@
-import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 import { SVGProps } from 'react'
+import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 
 function TransportIcon({
     transportMode,

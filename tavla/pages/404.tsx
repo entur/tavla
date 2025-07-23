@@ -1,8 +1,8 @@
 import { Button } from '@entur/button'
 import { Heading3 } from '@entur/typography'
-import Link from 'next/link'
-import Image from 'next/image'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
+import Image from 'next/image'
+import Link from 'next/link'
 
 function Custom404() {
     return (

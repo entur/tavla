@@ -1,10 +1,10 @@
+import { TravelTag } from 'components/TravelTag'
 import { useNonNullContext } from 'hooks/useNonNullContext'
+import { nanoid } from 'nanoid'
+import { getAirPublicCode } from 'utils/publicCode'
 import { DeparturesContext } from '../../contexts'
 import { TableColumn } from '../TableColumn'
 import { TableRow } from '../TableRow'
-import { TravelTag } from 'components/TravelTag'
-import { getAirPublicCode } from 'utils/publicCode'
-import { nanoid } from 'nanoid'
 
 function Line() {
     const departures = useNonNullContext(DeparturesContext)

@@ -1,10 +1,10 @@
+import js from '@eslint/js'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
 import prettier from 'eslint-plugin-prettier'
 import react from 'eslint-plugin-react'
-import tsParser from '@typescript-eslint/parser'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import js from '@eslint/js'
 // Ensure compatibility with older plugins/configs
 import { FlatCompat } from '@eslint/eslintrc'
 

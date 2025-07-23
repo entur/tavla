@@ -48,9 +48,9 @@ export type {
     Coordinates,
     Date,
     DateTime,
+    DoubleFunction,
     Duration,
     LocalTime,
     Long,
     Time,
-    DoubleFunction,
 }

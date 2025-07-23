@@ -1,4 +1,9 @@
 'use server'
+import * as Sentry from '@sentry/nextjs'
+import {
+    isEmptyOrSpaces,
+    isOnlyWhiteSpace,
+} from 'app/(admin)/tavler/[id]/utils'
 import {
     InputType,
     TFormFeedback,
@@ -10,26 +15,21 @@ import {
     userCanEditFolder,
 } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
+import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getBoard } from 'Board/scenarios/Board/firebase'
+import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
+import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
 import { TFontSize, TLocation } from 'types/meta'
 import {
     TBoard,
     TBoardID,
-    TFooter,
     TFolderID,
+    TFooter,
     TTheme,
     TTransportPalette,
 } from 'types/settings'
-import { isRedirectError } from 'next/dist/client/components/redirect-error'
-import {
-    isEmptyOrSpaces,
-    isOnlyWhiteSpace,
-} from 'app/(admin)/tavler/[id]/utils'
-import { firestore } from 'firebase-admin'
-import * as Sentry from '@sentry/nextjs'
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getWalkingDistanceTile } from '../../actions'
 
 initializeAdminApp()

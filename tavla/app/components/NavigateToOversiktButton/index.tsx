@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@entur/button'
-import Link from 'next/link'
 import { ForwardIcon } from '@entur/icons'
+import Link from 'next/link'
 
 export function NavigateToOversiktButton() {
     return (

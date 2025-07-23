@@ -1,17 +1,17 @@
 'use client'
-import { useActionState } from 'react'
 import { Button, ButtonGroup, IconButton, SecondaryButton } from '@entur/button'
 import { CloseIcon, FolderIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
-import { getFormFeedbackForField } from 'app/(admin)/utils'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
-import Image from 'next/image'
-import birds from 'assets/illustrations/Birds.png'
-import { createFolder } from './actions'
-import { SubmitButton } from 'components/Form/SubmitButton'
+import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import birds from 'assets/illustrations/Birds.png'
+import { SubmitButton } from 'components/Form/SubmitButton'
+import Image from 'next/image'
+import { useActionState } from 'react'
+import { createFolder } from './actions'
 
 function CreateFolder() {
     const { isOpen, open, close } = useModalWithValues({

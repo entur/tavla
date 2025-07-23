@@ -1,19 +1,19 @@
 'use client'
+import { BannerAlertBox } from '@entur/alert'
+import { Paragraph } from '@entur/typography'
+import * as Sentry from '@sentry/nextjs'
+import { FirebaseError } from 'firebase/app'
 import {
     GoogleAuthProvider,
+    getAdditionalUserInfo,
     getAuth,
     signInWithPopup,
-    getAdditionalUserInfo,
 } from 'firebase/auth'
-import { getClientApp } from 'utils/firebase'
-import { create, login } from './actions'
-import * as Sentry from '@sentry/nextjs'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
-import { Paragraph } from '@entur/typography'
-import { FirebaseError } from 'firebase/app'
-import { BannerAlertBox } from '@entur/alert'
 import GoogleButton from 'react-google-button'
+import { getClientApp } from 'utils/firebase'
+import { create, login } from './actions'
 
 export default function Google() {
     const [isLoading, setIsLoading] = useState(false)

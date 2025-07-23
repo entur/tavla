@@ -1,4 +1,4 @@
-import { TTableColumn, TSort } from './types'
+import { TSort, TTableColumn } from './types'
 
 export const DEFAULT_BOARD_NAME = 'Tavle uten navn'
 export const DEFAULT_FOLDER_NAME = 'Mappe uten navn'

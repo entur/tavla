@@ -1,6 +1,6 @@
 'use client'
-import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 import { TTheme } from 'types/settings'
+import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
 function ThemeSelect({ theme = 'dark' }: { theme?: TTheme }) {
     return (

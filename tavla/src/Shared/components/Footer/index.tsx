@@ -1,8 +1,8 @@
-import Image from 'next/image'
-import EnturLogoWhite from 'assets/logos/Tavla-white.svg'
 import EnturLogoBlue from 'assets/logos/Tavla-blue.svg'
-import { TBoard, TTheme } from 'types/settings'
+import EnturLogoWhite from 'assets/logos/Tavla-white.svg'
 import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
+import Image from 'next/image'
+import { TBoard, TTheme } from 'types/settings'
 
 function Footer({ board, logo }: { board: TBoard; logo?: boolean }) {
     if (!logo && !board.footer?.footer) return null

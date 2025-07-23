@@ -1,6 +1,6 @@
-import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
-import { TransportIcon } from 'components/TransportIcon'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
+import { TransportIcon } from 'components/TransportIcon'
+import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -90,4 +90,4 @@ function SmallTravelTag({
     )
 }
 
-export { TravelTag, SmallTravelTag }
+export { SmallTravelTag, TravelTag }

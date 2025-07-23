@@ -1,16 +1,15 @@
-import { redirect } from 'next/navigation'
-import { Search } from './components/Search'
-import { BoardTable } from './components/BoardTable'
-import { Metadata } from 'next'
-import React from 'react'
+import { Heading1, Label } from '@entur/typography'
 import { getFoldersForUser, getPrivateBoardsForUser } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { Heading1, Label } from '@entur/typography'
-import { CreateFolder } from '../components/CreateFolder'
+import { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard'
-import { countAllBoards } from './utils/actions'
+import { CreateFolder } from '../components/CreateFolder'
+import { BoardTable } from './components/BoardTable'
 import EmptyOverview from './components/EmptyOverview'
+import { Search } from './components/Search'
+import { countAllBoards } from './utils/actions'
 
 initializeAdminApp()
 

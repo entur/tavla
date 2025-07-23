@@ -1,15 +1,15 @@
 'use client'
-import Link from 'next/link'
-import { Modal } from '@entur/modal'
-import { usePathname, useRouter } from 'next/navigation'
 import { IconButton, SecondarySquareButton } from '@entur/button'
 import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
+import { Modal } from '@entur/modal'
+import { usePageParam } from 'app/(admin)/hooks/usePageParam'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { logout } from './actions'
 import { Create } from './Create'
-import { usePageParam } from 'app/(admin)/hooks/usePageParam'
+import { Email } from './Email'
 import { Reset } from './Reset'
 import { TLoginPage } from './types'
-import { Email } from './Email'
 
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()

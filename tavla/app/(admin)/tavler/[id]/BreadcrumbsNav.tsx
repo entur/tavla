@@ -1,6 +1,6 @@
 'use client'
 
-import { BreadcrumbNavigation, BreadcrumbItem } from '@entur/menu'
+import { BreadcrumbItem, BreadcrumbNavigation } from '@entur/menu'
 import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,

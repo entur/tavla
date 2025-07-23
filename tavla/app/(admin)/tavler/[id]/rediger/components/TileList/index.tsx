@@ -1,11 +1,11 @@
 'use client'
 
-import { TBoard, TBoardID } from 'types/settings'
-import { TileCard } from '../TileCard'
+import { debounce } from 'lodash'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
 import { saveUpdatedTileOrder } from '../../actions'
-import { debounce } from 'lodash'
+import { TileCard } from '../TileCard'
 
 function TileList({
     board,

@@ -1,15 +1,15 @@
-import 'styles/imports.css'
-import 'styles/fonts.css'
-import 'styles/reset.css'
-import './globals.css'
-import { ReactNode, Suspense } from 'react'
 import { Metadata } from 'next'
-import { EnturToastProvider, PHProvider } from './providers'
+import { ReactNode, Suspense } from 'react'
+import 'styles/fonts.css'
+import 'styles/imports.css'
+import 'styles/reset.css'
 import { Footer } from './(admin)/components/Footer'
 import { Navbar } from './(admin)/components/Navbar'
+import { getUserFromSessionCookie } from './(admin)/utils/server'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
-import { getUserFromSessionCookie } from './(admin)/utils/server'
+import './globals.css'
+import { EnturToastProvider, PHProvider } from './providers'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',

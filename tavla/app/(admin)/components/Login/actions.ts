@@ -1,14 +1,14 @@
 'use server'
-import { cookies } from 'next/headers'
-import admin, { auth, firestore } from 'firebase-admin'
-import { TUserID } from 'types/settings'
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+import * as Sentry from '@sentry/nextjs'
 import {
     initializeAdminApp,
     revokeUserTokenOnLogout,
 } from 'app/(admin)/utils/firebase'
-import * as Sentry from '@sentry/nextjs'
+import admin, { auth, firestore } from 'firebase-admin'
+import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { TUserID } from 'types/settings'
 
 initializeAdminApp()
 

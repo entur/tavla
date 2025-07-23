@@ -1,9 +1,9 @@
+import { DeleteFolder } from 'app/(admin)/components/Delete'
+import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
+import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
 import { TBoard, TFolder } from 'types/settings'
 import { ColumnWrapper } from './ColumnWrapper'
 import { Delete } from './Delete'
-import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
-import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
-import { DeleteFolder } from 'app/(admin)/components/Delete'
 import { EditBoard, EditFolder } from './Edit'
 import { Move } from './Move'
 

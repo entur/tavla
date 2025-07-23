@@ -21,7 +21,13 @@ import {
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Heading4, Paragraph, SubParagraph } from '@entur/typography'
-import { ColumnModal } from './ColumnModal'
+import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
+import {
+    TFormFeedback,
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+} from 'app/(admin)/utils'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import Goat from 'assets/illustrations/Goat.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -37,25 +43,19 @@ import {
 } from 'react'
 import {
     Columns,
-    DEFAULT_COMBINED_COLUMNS,
     DEFAULT_COLUMNS,
+    DEFAULT_COMBINED_COLUMNS,
     TColumn,
 } from 'types/column'
 import { TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
+import { OLD_LINE_IDS } from '../../compatibility'
+import { ColumnModal } from './ColumnModal'
 import { TransportModeAndLines } from './TransportModeAndLines'
 import { deleteTile, saveTile } from './actions'
 import { useLines } from './useLines'
 import { sortLineByPublicCode } from './utils'
-import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
-import {
-    TFormFeedback,
-    getFormFeedbackForError,
-    getFormFeedbackForField,
-} from 'app/(admin)/utils'
-import { OLD_LINE_IDS } from '../../compatibility'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 
 function TileCard({
     bid,

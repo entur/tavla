@@ -1,8 +1,8 @@
 'use client'
 import { TableHeader } from 'app/(admin)/oversikt/components/TableHeader'
 import { TableRows } from 'app/(admin)/oversikt/components/TableRows'
-import { TBoard, TFolder } from 'types/settings'
 import { TableColumns } from 'app/(admin)/utils/types'
+import { TBoard, TFolder } from 'types/settings'
 
 function BoardTable({
     folders,

@@ -1,16 +1,16 @@
 import {
-    useSortBoardFunction,
-    useSortFolderFunction,
-} from '../../hooks/useSortBoardFunction'
-import { Column } from '../Column'
-import { Fragment } from 'react'
-import { TBoard, TFolder } from 'types/settings'
-import { useSearchParam } from '../../hooks/useSearchParam'
-import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
 import { DEFAULT_BOARD_COLUMNS, TTableColumn } from 'app/(admin)/utils/types'
+import { Fragment } from 'react'
+import { TBoard, TFolder } from 'types/settings'
+import { useSearchParam } from '../../hooks/useSearchParam'
+import {
+    useSortBoardFunction,
+    useSortFolderFunction,
+} from '../../hooks/useSortBoardFunction'
+import { Column } from '../Column'
 
 function TableRows({
     folders,

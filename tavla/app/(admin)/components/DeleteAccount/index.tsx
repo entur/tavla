@@ -1,25 +1,25 @@
 'use client'
 
-import { ButtonGroup, Button, IconButton } from '@entur/button'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
+import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import {
+    Link as EnturLink,
     Heading3,
     Paragraph,
-    Link as EnturLink,
     SubParagraph,
 } from '@entur/typography'
-import Link from 'next/link'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
-import { deleteAccount } from './actions'
+import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import sheep from 'assets/illustrations/Sheep.png'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePostHog } from 'posthog-js/react'
 import { useActionState } from 'react'
 import { FormError } from '../FormError'
-import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
-import Image from 'next/image'
-import sheep from 'assets/illustrations/Sheep.png'
-import { usePostHog } from 'posthog-js/react'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { CloseIcon } from '@entur/icons'
+import { deleteAccount } from './actions'
 
 function DeleteAccount() {
     const [modalIsOpen, close] = useSearchParamsModal('deleteAccount')

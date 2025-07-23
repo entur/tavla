@@ -1,7 +1,7 @@
 'use client'
-import { useState } from 'react'
-import { Heading4 } from '@entur/typography'
 import { ChoiceChip, ChoiceChipGroup } from '@entur/chip'
+import { Heading4 } from '@entur/typography'
+import { useState } from 'react'
 
 type ChoiceChipProps<T> = {
     label: string

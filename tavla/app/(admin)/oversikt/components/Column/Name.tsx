@@ -1,15 +1,15 @@
+import { BoardIcon, FolderIcon } from '@entur/icons'
+import { SkeletonRectangle } from '@entur/loader'
+import * as Sentry from '@sentry/nextjs'
 import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
-import { ColumnWrapper } from './ColumnWrapper'
-import { BoardIcon, FolderIcon } from '@entur/icons'
-import { TBoard, TFolder } from 'types/settings'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { SkeletonRectangle } from '@entur/loader'
-import * as Sentry from '@sentry/nextjs'
+import { TBoard, TFolder } from 'types/settings'
 import { getNumberOfBoardsInFolder } from '../../utils/actions'
+import { ColumnWrapper } from './ColumnWrapper'
 
 function BoardName({ board }: { board: TBoard }) {
     return (

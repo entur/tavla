@@ -4,10 +4,10 @@ import {
     DEFAULT_SORT_TYPE,
 } from 'app/(admin)/utils/constants'
 
+import { TSort, TTableColumn } from 'app/(admin)/utils/types'
 import { useCallback } from 'react'
 import { TFolder } from 'types/settings'
 import { useSearchParam } from './useSearchParam'
-import { TTableColumn, TSort } from 'app/(admin)/utils/types'
 
 function useSortFolderFunction() {
     const value = useSearchParam('sort')

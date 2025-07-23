@@ -1,14 +1,14 @@
 import {
     EmphasizedText,
+    Link as EnturLink,
     Heading1,
     Heading2,
     Paragraph,
 } from '@entur/typography'
 import HedgehogIllustration from 'assets/illustrations/Hedgehog.png'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import { Questions } from './components/Questions'
-import { Link as EnturLink } from '@entur/typography'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Ofte stilte spørsmål | Entur Tavla',

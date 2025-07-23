@@ -1,11 +1,11 @@
 'use client'
+import { Checkbox } from '@entur/form'
+import { TransportIcon } from 'components/TransportIcon'
+import { useState } from 'react'
 import { TTransportMode } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
-import { TransportIcon } from 'components/TransportIcon'
-import { transportModeNames } from './utils'
-import { Checkbox } from '@entur/form'
 import { TLineFragment } from './types'
-import { useState } from 'react'
+import { transportModeNames } from './utils'
 
 function TransportModeAndLines({
     tile,

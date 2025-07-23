@@ -1,8 +1,8 @@
 'use client'
+import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { TBoard } from 'types/settings'
 import { refreshBoard } from './actions'
-import { useToast } from '@entur/alert'
 
 import { usePostHog } from 'posthog-js/react'
 

@@ -1,11 +1,11 @@
 'use client'
-import { useState, useEffect } from 'react'
-import receptionImage from 'assets/illustrations/Reception_illustration.svg'
 import gymImage from 'assets/illustrations/Gym_illustration.svg'
 import libraryImage from 'assets/illustrations/Library_illustration.svg'
+import receptionImage from 'assets/illustrations/Reception_illustration.svg'
 import schoolImage from 'assets/illustrations/School_illustration.svg'
-import Image from 'next/image'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 type TImage = {
     src: StaticImport | string

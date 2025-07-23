@@ -1,12 +1,12 @@
 'use client'
-import { Paragraph } from '@entur/typography'
-import { MemberList } from './MemberList'
-import { TFolder, TUser, TUserID } from 'types/settings'
-import { InviteUser } from './InviteUser'
-import { Modal } from '@entur/modal'
-import { useState } from 'react'
 import { Button } from '@entur/button'
 import { UsersIcon } from '@entur/icons'
+import { Modal } from '@entur/modal'
+import { Paragraph } from '@entur/typography'
+import { useState } from 'react'
+import { TFolder, TUser, TUserID } from 'types/settings'
+import { InviteUser } from './InviteUser'
+import { MemberList } from './MemberList'
 
 function MemberAdministration({
     folder,

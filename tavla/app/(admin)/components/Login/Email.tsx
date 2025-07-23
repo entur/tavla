@@ -1,33 +1,33 @@
 'use client'
-import { useActionState } from 'react'
+import { Heading3, Paragraph } from '@entur/typography'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import {
     getAuth,
     sendEmailVerification,
     signInWithEmailAndPassword,
 } from 'firebase/auth'
+import { useActionState } from 'react'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
-import { Heading3, Paragraph } from '@entur/typography'
 
 import { Button, ButtonGroup } from '@entur/button'
-import Image from 'next/image'
 import musk from 'assets/illustrations/Musk.png'
+import Image from 'next/image'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from '../../utils'
 
-import { FirebaseError } from 'firebase/app'
-import { FormError } from '../FormError'
-import { TLoginPage } from './types'
-import { SubmitButton } from 'components/Form/SubmitButton'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import Google from './Google'
+import { SubmitButton } from 'components/Form/SubmitButton'
+import { FirebaseError } from 'firebase/app'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
+import { FormError } from '../FormError'
+import Google from './Google'
+import { TLoginPage } from './types'
 
 function Email() {
     const posthog = usePostHog()

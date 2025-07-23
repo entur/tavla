@@ -1,4 +1,3 @@
-import { Metadata } from 'next'
 import {
     Heading1,
     Heading2,
@@ -8,14 +7,15 @@ import {
     Paragraph,
     UnorderedList,
 } from '@entur/typography'
-import { PreviewCarousel } from './components/PreviewCarousel'
+import { Metadata } from 'next'
 import { previewBoards } from '../src/Shared/utils/previewBoards'
+import { getUserFromSessionCookie } from './(admin)/utils/server'
 import { CreateUserButton } from './components/CreateUserButton'
 import { DemoButton } from './components/DemoButtonLanding'
-import { WordCarousel } from './components/WordCarousel/WordCarousel'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
-import { getUserFromSessionCookie } from './(admin)/utils/server'
 import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
+import { PreviewCarousel } from './components/PreviewCarousel'
+import { WordCarousel } from './components/WordCarousel/WordCarousel'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',

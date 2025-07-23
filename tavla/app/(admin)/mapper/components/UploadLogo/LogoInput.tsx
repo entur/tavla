@@ -1,20 +1,20 @@
 'use client'
-import { ChangeEventHandler, useState } from 'react'
+import { Button } from '@entur/button'
 import { ImageIcon, UploadIcon } from '@entur/icons'
+import { Loader } from '@entur/loader'
+import { Label, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { Label, Paragraph } from '@entur/typography'
-import { Button } from '@entur/button'
-import { useFormStatus } from 'react-dom'
 import { HiddenInput } from 'components/Form/HiddenInput'
-import { TFolderID } from 'types/settings'
 import { SubmitButton } from 'components/Form/SubmitButton'
-import { Loader } from '@entur/loader'
 import { useRouter } from 'next/navigation'
+import { ChangeEventHandler, useState } from 'react'
+import { useFormStatus } from 'react-dom'
+import { TFolderID } from 'types/settings'
 
 function LogoInput({ oid }: { oid?: TFolderID }) {
     const [state, setFormError] = useState<TFormFeedback | undefined>()

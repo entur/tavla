@@ -1,5 +1,5 @@
-import { TBoard } from 'types/settings'
 import { useCallback } from 'react'
+import { TBoard } from 'types/settings'
 import { useSearchParam } from './useSearchParam'
 
 import {
@@ -7,8 +7,8 @@ import {
     DEFAULT_SORT_COLUMN,
     DEFAULT_SORT_TYPE,
 } from 'app/(admin)/utils/constants'
+import { TSort, TTableColumn } from 'app/(admin)/utils/types'
 import { useSortFolderFunction } from './useSortFolderFunction'
-import { TTableColumn, TSort } from 'app/(admin)/utils/types'
 
 function useSortBoardFunction() {
     const value = useSearchParam('sort')

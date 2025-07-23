@@ -1,6 +1,6 @@
-import { TableColumns, TTableColumn, TSort } from 'app/(admin)/utils/types'
-import { Sort } from '../Sort'
+import { TableColumns, TSort, TTableColumn } from 'app/(admin)/utils/types'
 import { useSearchParam } from '../../hooks/useSearchParam'
+import { Sort } from '../Sort'
 
 function ColumnHeader({ column }: { column: TTableColumn }) {
     const sortParams = useSearchParam('sort')?.split(':')

@@ -1,20 +1,20 @@
 'use server'
-import {
-    userCanEditBoard,
-    initializeAdminApp,
-} from 'app/(admin)/utils/firebase'
-import { firestore } from 'firebase-admin'
-import { redirect } from 'next/navigation'
-import { TTile } from 'types/tile'
+import * as Sentry from '@sentry/nextjs'
 import {
     getQuayCoordinates,
     getStopPlaceCoordinates,
     getWalkingDistance,
 } from 'app/(admin)/components/TileSelector/utils'
-import { TCoordinate, TLocation } from 'types/meta'
+import {
+    initializeAdminApp,
+    userCanEditBoard,
+} from 'app/(admin)/utils/firebase'
+import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
+import { TCoordinate, TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
-import * as Sentry from '@sentry/nextjs'
+import { TTile } from 'types/tile'
 
 initializeAdminApp()
 

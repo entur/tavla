@@ -1,12 +1,12 @@
 'use server'
+import * as Sentry from '@sentry/nextjs'
 import { firestore } from 'firebase-admin'
-import { TFolderID, TFolder, TBoard, TBoardID, TUserID } from 'types/settings'
-import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
-import { getUserFromSessionCookie } from './utils/server'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
+import { TBoard, TBoardID, TFolder, TFolderID, TUserID } from 'types/settings'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
-import * as Sentry from '@sentry/nextjs'
+import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
+import { getUserFromSessionCookie } from './utils/server'
 
 initializeAdminApp()
 
