@@ -18,7 +18,6 @@
         --warning-color: var(--colors-misc-black);
         --success-color: var(--colors-validation-mint);
 
-        --estimated-time-color: var(--colors-validation-lava);
         --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-greys-grey50);
 
@@ -72,7 +71,6 @@
         --warning-color: var(--colors-validation-canary-contrast);
         --success-color: #75daad;
 
-        --estimated-time-color: var(--colors-brand-coral);
         --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-greys-grey10);
 
@@ -139,7 +137,6 @@
         --warning-color: var(--colors-validation-canary-contrast);
         --success-color: #75daad;
 
-        --estimated-time-color: var(--colors-brand-coral);
         --divider-color: var(--colors-blues-blue20);
         --border-color: var(--colors-blues-blue30);
 
