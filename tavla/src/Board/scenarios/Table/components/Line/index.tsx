@@ -16,6 +16,7 @@ function Line() {
         publicCode: departure.serviceJourney.line.publicCode ?? '',
         key: nanoid(),
         id: departure.serviceJourney.id ?? '',
+        cancelled: departure.cancellation,
     }))
 
     return (
@@ -31,6 +32,7 @@ function Line() {
                                     ? (getAirPublicCode(line.id) ?? '')
                                     : line.publicCode
                             }
+                            cancelled={line.cancelled}
                         />
                     </div>
                 </TableRow>

@@ -17,6 +17,22 @@ const transportModes = {
     water: 'var(--water-color)',
     taxi: 'var(--taxi-color)',
 }
+const transportModesTransparent = {
+    'metro-transparent': 'var(--metro-color-transparent)',
+    'bus-transparent': 'var(--bus-color-transparent)',
+    'tram-transparent': 'var(--tram-color-transparent)',
+    'rail-transparent': 'var(--rail-color-transparent)',
+    'air-transparent': 'var(--air-color-transparent)',
+    'funicular-transparent': 'var(--funicular-color-transparent)',
+    'cableway-transparent': 'var(--cableway-color-transparent)',
+    'coach-transparent': 'var(--coach-color-transparent)',
+    'lift-transparent': 'var(--lift-color-transparent)',
+    'monorail-transparent': 'var(--monorail-color-transparent)',
+    'trolleybus-transparent': 'var(--trolleybus-color-transparent)',
+    'unknown-transparent': 'var(--unknown-color-transparent)',
+    'water-transparent': 'var(--water-color-transparent)',
+    'taxi-transparent': 'var(--taxi-color-transparent)',
+}
 
 module.exports = {
     content: [
@@ -57,6 +73,7 @@ module.exports = {
                 tooltip: 'var(--tooltip-color)',
                 'tooltip-text': 'var(--tooltip-text-color)',
                 ...transportModes,
+                ...transportModesTransparent,
                 ...dataColors,
             },
             borderRadius: {
@@ -106,7 +123,11 @@ module.exports = {
             },
         },
     },
-    safelist: Object.keys(transportModes).map((key) => `bg-${key}`),
+    safelist: [
+        ...Object.keys(transportModes).map((key) => `bg-${key}`),
+        ...Object.keys(transportModesTransparent).map((key) => `bg-${key}`),
+        ...Object.keys(transportModes).map((key) => `text-${key}`),
+    ],
 
     plugins: [],
 } satisfies Config

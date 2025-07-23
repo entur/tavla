@@ -23,24 +23,30 @@ function TravelTag({
     transportMode,
     publicCode,
     transportSubmode,
+    cancelled,
 }: {
     transportMode: TTransportMode
     publicCode: string
     transportSubmode?: TTransportSubmode
+    cancelled?: boolean
 }) {
+    const travelTagBackround = `bg-${transportMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
+    const iconPublicCodeColor =
+        cancelled && transportMode !== 'unknown' ? transportMode : 'background'
+
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
-            className={`flex h-full w-full items-center justify-between rounded-sm pl-2 font-bold text-background bg-${
-                transportMode ?? 'unknown'
-            }`}
+            className={`flex h-full w-full items-center justify-between rounded-sm pl-2 font-bold ${travelTagBackround}`}
         >
             <TransportIcon
-                className="h-em-2 w-em-2 fill-background"
+                className={`h-em-2 w-em-2 fill-${iconPublicCodeColor}`}
                 transportMode={transportMode}
                 transportSubmode={transportSubmode}
             />
-            <div className="flex h-full w-full flex-row items-center justify-center">
+            <div
+                className={`flex h-full w-full flex-row items-center justify-center text-${iconPublicCodeColor}`}
+            >
                 {publicCode}
             </div>
         </div>
