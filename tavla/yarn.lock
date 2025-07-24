@@ -12774,11 +12774,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:0.6.12":
-  version: 0.6.12
-  resolution: "prettier-plugin-tailwindcss@npm:0.6.12"
+"prettier-plugin-tailwindcss@npm:0.6.14":
+  version: 0.6.14
+  resolution: "prettier-plugin-tailwindcss@npm:0.6.14"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
+    "@prettier/plugin-hermes": "*"
+    "@prettier/plugin-oxc": "*"
     "@prettier/plugin-pug": "*"
     "@shopify/prettier-plugin-liquid": "*"
     "@trivago/prettier-plugin-sort-imports": "*"
@@ -12797,6 +12799,10 @@ __metadata:
     prettier-plugin-svelte: "*"
   peerDependenciesMeta:
     "@ianvs/prettier-plugin-sort-imports":
+      optional: true
+    "@prettier/plugin-hermes":
+      optional: true
+    "@prettier/plugin-oxc":
       optional: true
     "@prettier/plugin-pug":
       optional: true
@@ -12828,7 +12834,7 @@ __metadata:
       optional: true
     prettier-plugin-svelte:
       optional: true
-  checksum: e1f42168c8ff029c9e90b2abe04ae0df1b7835b32afc2591676b565b31c01506f7584792eb5ffd0e6b612e6a623bc4ce69391aae86523d7df47e21cebdeb4596
+  checksum: 2196fbebe8a4192fa142aa4ff3d72e6b0c88b79bfce70e3416e67b22a4cbc2c9cf403f0fcc4b3e97a349ff82efa3b0c49547d5fe4ad9ade624fe506e02b51661
   languageName: node
   linkType: hard
 
@@ -14813,7 +14819,7 @@ __metadata:
     posthog-js: 1.234.7
     prettier: 3.3.3
     prettier-plugin-organize-imports: 4.2.0
-    prettier-plugin-tailwindcss: 0.6.12
+    prettier-plugin-tailwindcss: 0.6.14
     react: 18.3.1
     react-dom: 18.3.1
     react-google-button: 0.8.0

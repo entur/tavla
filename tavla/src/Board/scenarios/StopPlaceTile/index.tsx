@@ -7,9 +7,15 @@ import { Tile } from 'components/Tile'
 import { StopPlaceQuery } from 'graphql/index'
 import { useQuery } from 'hooks/useQuery'
 import { TStopPlaceTile } from 'types/tile'
+import {
+    combineIdenticalSituationsWithCancellation,
+    filterIdenticalSituations,
+} from '../Board/utils'
 import { Table } from '../Table'
+import { NewSituations } from '../Table/components/Situations'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
 import { TableHeader } from '../Table/components/TableHeader'
+import { useCycler } from '../Table/useCycler'
 
 export function StopPlaceTile({
     placeId,
@@ -29,6 +35,20 @@ export function StopPlaceTile({
         },
         { poll: true, offset: offset },
     )
+    const situationsPerDeparture = data?.stopPlace?.estimatedCalls
+        .map((departure) => ({
+            situations: filterIdenticalSituations(
+                data.stopPlace?.situations,
+                departure.situations,
+            ),
+            cancellation: departure.cancellation,
+        }))
+        .filter((situation) => situation.situations.length !== 0)
+
+    const uniqueSituations = combineIdenticalSituationsWithCancellation(
+        situationsPerDeparture,
+    )
+    const index = useCycler(uniqueSituations ?? [], 10000)
 
     if (isLoading && !data) {
         return (
@@ -49,16 +69,28 @@ export function StopPlaceTile({
     }
 
     return (
-        <Tile className="flex flex-col max-sm:min-h-[30vh]">
-            <TableHeader
-                heading={displayName ?? data.stopPlace.name}
-                walkingDistance={walkingDistance}
-            />
-            <StopPlaceQuayDeviation situations={data.stopPlace.situations} />
-            <Table
-                departures={data.stopPlace.estimatedCalls}
-                situations={data.stopPlace.situations}
-                columns={columns}
+        <Tile className="flex flex-col justify-between max-sm:min-h-[30vh]">
+            <div className="overflow-hidden">
+                <TableHeader
+                    heading={displayName ?? data.stopPlace.name}
+                    walkingDistance={walkingDistance}
+                />
+                <StopPlaceQuayDeviation
+                    situations={data.stopPlace.situations}
+                />
+                <Table
+                    departures={data.stopPlace.estimatedCalls}
+                    situations={data.stopPlace.situations}
+                    columns={columns}
+                />
+            </div>
+            <NewSituations
+                situation={uniqueSituations?.[index]?.situation}
+                currentSituationNumber={index}
+                numberOfSituations={uniqueSituations?.length}
+                cancelledDeparture={
+                    uniqueSituations?.[index]?.cancellation ?? false
+                }
             />
         </Tile>
     )

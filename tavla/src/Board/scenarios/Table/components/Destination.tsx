@@ -1,3 +1,4 @@
+import { filterIdenticalSituations } from 'Board/scenarios/Board/utils'
 import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { nanoid } from 'nanoid'
@@ -6,29 +7,6 @@ import { DeparturesContext } from '../contexts'
 import { Situations } from './Situations'
 import { TableColumn } from './TableColumn'
 import { TableRow } from './TableRow'
-
-function filterIdenticalSituations(
-    originSituations?: TSituationFragment[],
-    departureSituations?: TSituationFragment[],
-) {
-    if (!originSituations || !departureSituations) {
-        return departureSituations ?? []
-    }
-    const filteredSituations = departureSituations.filter(
-        (departureSituation) => {
-            let shouldKeep = true
-            originSituations.map((originSituation) => {
-                if (departureSituation.id === originSituation.id) {
-                    shouldKeep = false
-                    return
-                }
-            })
-            return shouldKeep
-        },
-    )
-
-    return filteredSituations
-}
 
 function Destination({
     deviations = true,

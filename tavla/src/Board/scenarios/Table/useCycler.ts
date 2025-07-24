@@ -9,7 +9,10 @@ function useCycler<T>(array: T[] | undefined, step = 5000) {
         if (length <= 1) {
             return
         }
-        const interval = setInterval(() => setIndex((i) => i + 1), step)
+        const interval = setInterval(
+            () => setIndex((i) => (i + 1) % length),
+            step,
+        )
         return () => clearInterval(interval)
     }, [length, step])
     return index

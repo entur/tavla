@@ -8,7 +8,7 @@ import { GetQuayQuery, TSituationFragment } from 'graphql/index'
 import { useQuery } from 'hooks/useQuery'
 import { TQuayTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { combineIdenticalSituations } from '../Board/utils'
+import { combineIdenticalSituationsByOrigin } from '../Board/utils'
 import { Table } from '../Table'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
 import { TableHeader } from '../Table/components/TableHeader'
@@ -32,10 +32,12 @@ export function QuayTile({
         { poll: true, offset: offset ?? 0 },
     )
 
-    const situations: TSituationFragment[] = combineIdenticalSituations([
-        ...(data?.quay?.stopPlace.situations ?? []),
-        ...(data?.quay?.situations ?? []),
-    ])
+    const situations: TSituationFragment[] = combineIdenticalSituationsByOrigin(
+        [
+            ...(data?.quay?.stopPlace.situations ?? []),
+            ...(data?.quay?.situations ?? []),
+        ],
+    )
 
     if (isLoading && !data) {
         return (

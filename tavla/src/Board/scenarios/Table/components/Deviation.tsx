@@ -16,20 +16,24 @@ function Deviation() {
         cancelled: departure.cancellation,
     }))
 
+    // burde kolonnen være mindre bred nå som ikonet er mindre??
+
     return (
         <TableColumn>
             {deviations.map((deviation) =>
                 deviation.cancelled ? (
                     <TableRow key={deviation.key}>
                         <div className="flex w-10 items-center justify-center text-error">
-                            <ValidationErrorFilledIcon />
+                            <ValidationErrorFilledIcon size={15} />
                         </div>
                     </TableRow>
                 ) : (
                     <TableRow key={deviation.key}>
                         <div className="flex w-10 items-center justify-center text-warning">
                             {deviation.situations.length > 0 ? (
-                                <ValidationExclamationCircleFilledIcon />
+                                <ValidationExclamationCircleFilledIcon
+                                    size={15}
+                                />
                             ) : (
                                 <div />
                             )}

@@ -9,7 +9,7 @@ import { useQueries } from 'hooks/useQuery'
 import { sortBy } from 'lodash'
 import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
 import { TTile } from 'types/tile'
-import { combineIdenticalSituations } from '../Board/utils'
+import { combineIdenticalSituationsByOrigin } from '../Board/utils'
 import { Table } from '../Table'
 import { CombinedTileDeviation } from '../Table/components/StopPlaceDeviation'
 
@@ -95,7 +95,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
             }))
         }) ?? []),
     ]
-    const combinedSituations = combineIdenticalSituations(situations)
+    const combinedSituations = combineIdenticalSituationsByOrigin(situations)
 
     const sortedEstimatedCalls = sortBy(estimatedCalls, (call) => {
         const time = new Date(call.expectedDepartureTime).getTime()

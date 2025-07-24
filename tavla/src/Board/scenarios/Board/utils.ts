@@ -26,7 +26,9 @@ export function defaultFontSize(board: TBoard) {
     }
 }
 
-export function combineIdenticalSituations(situations: TSituationFragment[]) {
+export function combineIdenticalSituationsByOrigin(
+    situations: TSituationFragment[],
+) {
     const situationById: { [id: string]: TSituationFragment } = {}
 
     situations.map((situation) => {
@@ -44,4 +46,54 @@ export function combineIdenticalSituations(situations: TSituationFragment[]) {
     })
 
     return Object.values(situationById)
+}
+
+export function combineIdenticalSituationsWithCancellation(
+    situationsPerDeparture?: {
+        situations: TSituationFragment[]
+        cancellation: boolean
+    }[],
+) {
+    if (!situationsPerDeparture) return null
+
+    const situationById: {
+        [id: string]: { situation: TSituationFragment; cancellation: boolean }
+    } = {}
+
+    situationsPerDeparture.map((situations) => {
+        situations.situations.map((situation) => {
+            const id = situation.id
+            if (situationById[id] === undefined) {
+                situationById[id] = {
+                    situation: situation,
+                    cancellation: situations.cancellation,
+                }
+            }
+        })
+    })
+
+    return Object.values(situationById)
+}
+
+export function filterIdenticalSituations(
+    originSituations?: TSituationFragment[],
+    departureSituations?: TSituationFragment[],
+) {
+    if (!originSituations || !departureSituations) {
+        return departureSituations ?? []
+    }
+    const filteredSituations = departureSituations.filter(
+        (departureSituation) => {
+            let shouldKeep = true
+            originSituations.map((originSituation) => {
+                if (departureSituation.id === originSituation.id) {
+                    shouldKeep = false
+                    return
+                }
+            })
+            return shouldKeep
+        },
+    )
+
+    return filteredSituations
 }
