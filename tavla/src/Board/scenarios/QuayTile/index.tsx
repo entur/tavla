@@ -8,10 +8,15 @@ import { GetQuayQuery, TSituationFragment } from 'graphql/index'
 import { useQuery } from 'hooks/useQuery'
 import { TQuayTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { combineIdenticalSituations } from '../Board/utils'
+import {
+    combineSituations,
+    getUniqueSituationsFromDepartures,
+} from '../Board/utils'
 import { Table } from '../Table'
+import { Situations } from '../Table/components/Situations'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
 import { TableHeader } from '../Table/components/TableHeader'
+import { useCycler } from '../Table/useCycler'
 
 export function QuayTile({
     placeId,
@@ -32,10 +37,17 @@ export function QuayTile({
         { poll: true, offset: offset ?? 0 },
     )
 
-    const situations: TSituationFragment[] = combineIdenticalSituations([
-        ...(data?.quay?.stopPlace.situations ?? []),
-        ...(data?.quay?.situations ?? []),
-    ])
+    const combinedStopPlaceQuaySituations: TSituationFragment[] =
+        combineSituations([
+            ...(data?.quay?.stopPlace.situations ?? []),
+            ...(data?.quay?.situations ?? []),
+        ])
+
+    const uniqueSituations = getUniqueSituationsFromDepartures(
+        data?.quay?.estimatedCalls,
+        combinedStopPlaceQuaySituations,
+    )
+    const index = useCycler(uniqueSituations ?? [], 10000)
 
     if (isLoading && !data) {
         return (
@@ -60,16 +72,32 @@ export function QuayTile({
         .join(' ')
 
     return (
-        <Tile className="flex flex-col max-sm:min-h-[30vh]">
-            <TableHeader
-                heading={displayName ?? heading}
-                walkingDistance={walkingDistance}
-            />
-            <StopPlaceQuayDeviation situations={situations} />
-            <Table
-                columns={columns}
-                departures={data.quay.estimatedCalls}
-                situations={situations}
+        <Tile className="flex flex-col justify-between max-sm:min-h-[30vh]">
+            <div className="overflow-hidden">
+                <TableHeader
+                    heading={displayName ?? heading}
+                    walkingDistance={walkingDistance}
+                />
+                <StopPlaceQuayDeviation
+                    situations={combinedStopPlaceQuaySituations}
+                />
+                <Table
+                    columns={columns}
+                    departures={data.quay.estimatedCalls}
+                    filterSituations={combinedStopPlaceQuaySituations}
+                    currentVisibleSituationId={
+                        uniqueSituations?.[index]?.situation.id
+                    }
+                    numberOfVisibleSituations={uniqueSituations?.length}
+                />
+            </div>
+            <Situations
+                situation={uniqueSituations?.[index]?.situation}
+                currentSituationNumber={index}
+                numberOfSituations={uniqueSituations?.length}
+                cancelledDeparture={
+                    uniqueSituations?.[index]?.cancellation ?? false
+                }
             />
         </Tile>
     )
