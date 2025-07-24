@@ -7,10 +7,7 @@ import { Tile } from 'components/Tile'
 import { StopPlaceQuery } from 'graphql/index'
 import { useQuery } from 'hooks/useQuery'
 import { TStopPlaceTile } from 'types/tile'
-import {
-    combineIdenticalSituationsWithCancellation,
-    filterIdenticalSituations,
-} from '../Board/utils'
+import { useAnnikaFunction } from '../Board/utils'
 import { Table } from '../Table'
 import { NewSituations } from '../Table/components/Situations'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
@@ -35,18 +32,10 @@ export function StopPlaceTile({
         },
         { poll: true, offset: offset },
     )
-    const situationsPerDeparture = data?.stopPlace?.estimatedCalls
-        .map((departure) => ({
-            situations: filterIdenticalSituations(
-                data.stopPlace?.situations,
-                departure.situations,
-            ),
-            cancellation: departure.cancellation,
-        }))
-        .filter((situation) => situation.situations.length !== 0)
 
-    const uniqueSituations = combineIdenticalSituationsWithCancellation(
-        situationsPerDeparture,
+    const uniqueSituations = useAnnikaFunction(
+        data?.stopPlace?.estimatedCalls,
+        data?.stopPlace?.situations,
     )
     const index = useCycler(uniqueSituations ?? [], 10000)
 
@@ -82,6 +71,9 @@ export function StopPlaceTile({
                     departures={data.stopPlace.estimatedCalls}
                     situations={data.stopPlace.situations}
                     columns={columns}
+                    currentVisibleSituationId={
+                        uniqueSituations?.[index]?.situation.id
+                    }
                 />
             </div>
             <NewSituations

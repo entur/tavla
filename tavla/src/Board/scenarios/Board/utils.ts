@@ -1,4 +1,8 @@
-import { TSituationFragment } from 'graphql/index'
+import {
+    TDepartureFragment,
+    TSituationFragment,
+    TStopPlaceQuery,
+} from 'graphql/index'
 import { TFontSize } from 'types/meta'
 import { TBoard } from 'types/settings'
 export function getFontScale(fontSize: TFontSize | undefined) {
@@ -96,4 +100,31 @@ export function filterIdenticalSituations(
     )
 
     return filteredSituations
+}
+
+export function hei(data: TStopPlaceQuery) {
+    return data
+}
+
+export function useAnnikaFunction(
+    departures?: TDepartureFragment[],
+    situations?: TSituationFragment[],
+) {
+    const situationsPerDeparture =
+        departures &&
+        departures
+            .map((departure) => ({
+                situations: filterIdenticalSituations(
+                    situations,
+                    departure.situations,
+                ),
+                cancellation: departure.cancellation,
+            }))
+            .filter((situation) => situation.situations.length !== 0)
+
+    const uniqueSituations = combineIdenticalSituationsWithCancellation(
+        situationsPerDeparture,
+    )
+
+    return uniqueSituations
 }

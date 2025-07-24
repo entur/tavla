@@ -1,25 +1,15 @@
-import { filterIdenticalSituations } from 'Board/scenarios/Board/utils'
-import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { nanoid } from 'nanoid'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { DeparturesContext } from '../contexts'
-import { Situations } from './Situations'
 import { TableColumn } from './TableColumn'
 import { TableRow } from './TableRow'
 
-function Destination({
-    deviations = true,
-    situations,
-}: {
-    deviations?: boolean
-    situations?: TSituationFragment[]
-}) {
+function Destination() {
     const departures = useNonNullContext(DeparturesContext)
 
     const destinations = departures.map((departure) => ({
         destination: departure.destinationDisplay?.frontText ?? '',
-        situations: filterIdenticalSituations(situations, departure.situations),
         via:
             departure.destinationDisplay?.via
                 ?.filter(isNotNullOrUndefined)
@@ -39,10 +29,6 @@ function Destination({
                                 ? `${destination.destination} via ${destination.via}`
                                 : destination.destination}
                         </div>
-
-                        {deviations && (
-                            <Situations situations={destination.situations} />
-                        )}
                     </TableRow>
                 ))}
             </TableColumn>

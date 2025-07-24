@@ -2,34 +2,48 @@ import {
     ValidationErrorFilledIcon,
     ValidationExclamationCircleFilledIcon,
 } from '@entur/icons'
+import { filterIdenticalSituations } from 'Board/scenarios/Board/utils'
+import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../contexts'
 import { TableColumn } from './TableColumn'
 import { TableRow } from './TableRow'
 
-function Deviation() {
+function Deviation({
+    currentVisibleSituationId,
+    situations,
+}: {
+    currentVisibleSituationId?: string
+    situations?: TSituationFragment[]
+}) {
     const departures = useNonNullContext(DeparturesContext)
 
     const deviations = departures.map((departure) => ({
-        situations: departure.situations ?? [],
+        situations:
+            filterIdenticalSituations(situations, departure.situations) ?? [],
         key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
         cancelled: departure.cancellation,
+        isVisible: departure.situations.some(
+            (situation) => situation.id === currentVisibleSituationId,
+        ),
     }))
-
-    // burde kolonnen være mindre bred nå som ikonet er mindre??
 
     return (
         <TableColumn>
             {deviations.map((deviation) =>
                 deviation.cancelled ? (
                     <TableRow key={deviation.key}>
-                        <div className="flex w-10 items-center justify-center text-error">
+                        <div
+                            className={`flex w-8 items-center justify-center text-error ${deviation.isVisible ? 'bg-pink-500' : ''}`}
+                        >
                             <ValidationErrorFilledIcon size={15} />
                         </div>
                     </TableRow>
                 ) : (
                     <TableRow key={deviation.key}>
-                        <div className="flex w-10 items-center justify-center text-warning">
+                        <div
+                            className={`flex w-8 items-center justify-center text-warning ${deviation.isVisible ? 'bg-pink-500' : ''}`}
+                        >
                             {deviation.situations.length > 0 ? (
                                 <ValidationExclamationCircleFilledIcon
                                     size={15}

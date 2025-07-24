@@ -9,9 +9,14 @@ import { useQueries } from 'hooks/useQuery'
 import { sortBy } from 'lodash'
 import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
 import { TTile } from 'types/tile'
-import { combineIdenticalSituationsByOrigin } from '../Board/utils'
+import {
+    combineIdenticalSituationsByOrigin,
+    useAnnikaFunction,
+} from '../Board/utils'
 import { Table } from '../Table'
+import { NewSituations } from '../Table/components/Situations'
 import { CombinedTileDeviation } from '../Table/components/StopPlaceDeviation'
+import { useCycler } from '../Table/useCycler'
 
 export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
     const quayQueries = combinedTile
@@ -53,23 +58,6 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
     const loading = quayLoading || stopPlaceLoading
     const errors = quayError || stopPlaceError
 
-    if (loading) {
-        return (
-            <Tile>
-                <TileLoader />
-            </Tile>
-        )
-    }
-    if (errors) {
-        return (
-            <Tile>
-                <DataFetchingFailed
-                    timeout={errors?.message === FetchErrorTypes.TIMEOUT}
-                />
-            </Tile>
-        )
-    }
-
     const estimatedCalls = [
         ...(stopPlaceData?.flatMap(
             (data) => data.stopPlace?.estimatedCalls ?? [],
@@ -102,13 +90,49 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
         return isNaN(time) ? Infinity : time
     })
 
+    const uniqueSituations = useAnnikaFunction(
+        sortedEstimatedCalls,
+        combinedSituations,
+    )
+    const index = useCycler(uniqueSituations ?? [], 10000)
+
+    if (loading) {
+        return (
+            <Tile>
+                <TileLoader />
+            </Tile>
+        )
+    }
+    if (errors) {
+        return (
+            <Tile>
+                <DataFetchingFailed
+                    timeout={errors?.message === FetchErrorTypes.TIMEOUT}
+                />
+            </Tile>
+        )
+    }
+
     return (
-        <Tile className="flex flex-col max-sm:min-h-[30vh]">
-            <CombinedTileDeviation situations={combinedSituations} />
-            <Table
-                departures={sortedEstimatedCalls}
-                situations={combinedSituations}
-                columns={DEFAULT_COMBINED_COLUMNS}
+        <Tile className="flex flex-col justify-between max-sm:min-h-[30vh]">
+            <div className="overflow-hidden">
+                <CombinedTileDeviation situations={combinedSituations} />
+                <Table
+                    departures={sortedEstimatedCalls}
+                    situations={combinedSituations}
+                    columns={DEFAULT_COMBINED_COLUMNS}
+                    currentVisibleSituationId={
+                        uniqueSituations?.[index]?.situation.id
+                    }
+                />
+            </div>
+            <NewSituations
+                situation={uniqueSituations?.[index]?.situation}
+                currentSituationNumber={index}
+                numberOfSituations={uniqueSituations?.length}
+                cancelledDeparture={
+                    uniqueSituations?.[index]?.cancellation ?? false
+                }
             />
         </Tile>
     )

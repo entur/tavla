@@ -8,10 +8,15 @@ import { GetQuayQuery, TSituationFragment } from 'graphql/index'
 import { useQuery } from 'hooks/useQuery'
 import { TQuayTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import { combineIdenticalSituationsByOrigin } from '../Board/utils'
+import {
+    combineIdenticalSituationsByOrigin,
+    useAnnikaFunction,
+} from '../Board/utils'
 import { Table } from '../Table'
+import { NewSituations } from '../Table/components/Situations'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
 import { TableHeader } from '../Table/components/TableHeader'
+import { useCycler } from '../Table/useCycler'
 
 export function QuayTile({
     placeId,
@@ -39,6 +44,12 @@ export function QuayTile({
         ],
     )
 
+    const uniqueSituations = useAnnikaFunction(
+        data?.quay?.estimatedCalls,
+        situations,
+    )
+    const index = useCycler(uniqueSituations ?? [], 10000)
+
     if (isLoading && !data) {
         return (
             <Tile>
@@ -62,16 +73,29 @@ export function QuayTile({
         .join(' ')
 
     return (
-        <Tile className="flex flex-col max-sm:min-h-[30vh]">
-            <TableHeader
-                heading={displayName ?? heading}
-                walkingDistance={walkingDistance}
-            />
-            <StopPlaceQuayDeviation situations={situations} />
-            <Table
-                columns={columns}
-                departures={data.quay.estimatedCalls}
-                situations={situations}
+        <Tile className="flex flex-col justify-between max-sm:min-h-[30vh]">
+            <div className="overflow-hidden">
+                <TableHeader
+                    heading={displayName ?? heading}
+                    walkingDistance={walkingDistance}
+                />
+                <StopPlaceQuayDeviation situations={situations} />
+                <Table
+                    columns={columns}
+                    departures={data.quay.estimatedCalls}
+                    situations={situations}
+                    currentVisibleSituationId={
+                        uniqueSituations?.[index]?.situation.id
+                    }
+                />
+            </div>
+            <NewSituations
+                situation={uniqueSituations?.[index]?.situation}
+                currentSituationNumber={index}
+                numberOfSituations={uniqueSituations?.length}
+                cancelledDeparture={
+                    uniqueSituations?.[index]?.cancellation ?? false
+                }
             />
         </Tile>
     )
