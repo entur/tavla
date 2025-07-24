@@ -9,7 +9,7 @@ function Tile({
     return (
         <div
             className={classNames(
-                'h-full w-full overflow-hidden rounded bg-secondary p-em-1 pt-em-0.25 text-primary',
+                'h-content w-full overflow-hidden rounded bg-secondary p-em-1 pt-em-0.25 text-primary',
                 className,
             )}
             {...rest}

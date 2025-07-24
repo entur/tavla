@@ -1,47 +1,15 @@
-import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { nanoid } from 'nanoid'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { DeparturesContext } from '../contexts'
-import { Situations } from './Situations'
 import { TableCell } from './TableCell'
 import { TableColumn } from './TableColumn'
 
-function filterIdenticalSituations(
-    originSituations?: TSituationFragment[],
-    departureSituations?: TSituationFragment[],
-) {
-    if (!originSituations || !departureSituations) {
-        return departureSituations ?? []
-    }
-    const filteredSituations = departureSituations.filter(
-        (departureSituation) => {
-            let shouldKeep = true
-            originSituations.map((originSituation) => {
-                if (departureSituation.id === originSituation.id) {
-                    shouldKeep = false
-                    return
-                }
-            })
-            return shouldKeep
-        },
-    )
-
-    return filteredSituations
-}
-
-function Destination({
-    deviations = true,
-    situations,
-}: {
-    deviations?: boolean
-    situations?: TSituationFragment[]
-}) {
+function Destination() {
     const departures = useNonNullContext(DeparturesContext)
 
     const destinations = departures.map((departure) => ({
         destination: departure.destinationDisplay?.frontText ?? '',
-        situations: filterIdenticalSituations(situations, departure.situations),
         via:
             departure.destinationDisplay?.via
                 ?.filter(isNotNullOrUndefined)
@@ -61,10 +29,6 @@ function Destination({
                                 ? `${destination.destination} via ${destination.via}`
                                 : destination.destination}
                         </div>
-
-                        {deviations && (
-                            <Situations situations={destination.situations} />
-                        )}
                     </TableCell>
                 ))}
             </TableColumn>
