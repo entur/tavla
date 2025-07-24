@@ -24,10 +24,10 @@ function TitleSituation({
             <div className="flex self-start pt-[0.05em] text-[1.8em]">
                 <PageNavigationIcon aria-label="" size="0.5em" />
             </div>
-            <div>
+            <p className="font-normal">
                 {origin && <b>{origin + ': '}</b>}
                 {situationText}
-            </div>
+            </p>
         </div>
     )
 }
