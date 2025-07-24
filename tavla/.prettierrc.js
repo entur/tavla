@@ -10,9 +10,10 @@ const config = {
     semi: false,
     singleQuote: true,
     plugins: [
-        'prettier-plugin-tailwindcss',
         'prettier-plugin-organize-imports',
+        'prettier-plugin-tailwindcss',
     ],
+    tailwindConfig: './tailwind.config.ts',
 }
 
 module.exports = config
