@@ -1,3 +1,4 @@
+@import '@entur/tokens/dist/semantic.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -84,7 +85,7 @@
 
         --error-color: var(--colors-validation-lava-contrast);
         --warning-color: var(--colors-validation-canary-contrast);
-        --success-color: #75daad;
+        --success-color: var(--fill-success-contrast);
 
         --estimated-time-color: var(--colors-brand-coral);
         --divider-color: var(--colors-blues-blue20);
