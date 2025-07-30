@@ -18,7 +18,7 @@ function Expandable({
         <div className="fixed bottom-0 right-3 z-10 w-full min-w-96 max-w-screen-sm drop-shadow-lg md:w-1/3">
             <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex w-full items-center justify-between rounded-t bg-blue80 px-6 py-4"
+                className="flex w-full items-center justify-between rounded-t bg-blue20 px-6 py-4"
             >
                 <Heading5
                     margin="none"
@@ -35,7 +35,7 @@ function Expandable({
                 </IconButton>
             </div>
             {isOpen && (
-                <div className="rounded-b bg-blue90 p-4">{children}</div>
+                <div className="rounded-b bg-blue10 p-4">{children}</div>
             )}
         </div>
     )

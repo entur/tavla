@@ -75,7 +75,7 @@ function TransportPaletteSelect({
                     <div key={palette.value}>
                         <Radio value={palette.value}>{palette.label}</Radio>
                         <div
-                            className={`max-w-max rounded-sm ${theme === 'light' ? 'bg-white' : 'bg-black'} flex flex-col px-2 py-3`}
+                            className="flex max-w-max flex-col rounded-sm bg-background px-2 py-3"
                             data-theme={theme}
                             data-transport-palette={palette.value}
                         >
