@@ -1,8 +1,8 @@
 import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { nanoid } from 'nanoid'
+import { TableCell } from '../TableCell'
 import { TableColumn } from '../TableColumn'
-import { TableRow } from '../TableRow'
 import { FormattedTime } from './components/FormattedTime'
 
 function AimedTime() {
@@ -16,9 +16,9 @@ function AimedTime() {
     return (
         <TableColumn title="Planlagt" className="text-right">
             {time.map((t) => (
-                <TableRow key={t.key}>
+                <TableCell key={t.key}>
                     <FormattedTime time={t.aimedDepartureTime} />
-                </TableRow>
+                </TableCell>
             ))}
         </TableColumn>
     )
