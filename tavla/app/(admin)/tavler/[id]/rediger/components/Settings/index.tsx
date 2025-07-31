@@ -79,7 +79,7 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                         ></TransportPaletteSelect>
                         <FontSelect font={board.meta.fontSize} />
                         <WalkingDistance location={board.meta.location} />
-                        <Footer footer={board.footer} />
+                        <Footer infoMessage={board.footer} />
                         <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
