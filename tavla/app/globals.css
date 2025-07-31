@@ -20,7 +20,7 @@
         --highlight-text-color: var(--coral-40);
 
         --error-color: var(--fill-negative-deep);
-        --warning-color: var(--fill-background-standard-dark);
+        --warning-color: var(--text-accent);
         --success-color: var(--fill-success-deep);
 
         --divider-color: var(--stroke-contrastalt);
