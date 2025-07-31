@@ -2,9 +2,9 @@ export const Columns = {
     aimedTime: 'Planlagt',
     arrivalTime: 'Ankomst',
     line: 'Linje',
-    destination: 'Destinasjon og avvik',
-    platform: 'Plattform',
+    destination: 'Destinasjon',
     name: 'Stoppested',
+    platform: 'Plf.',
     time: 'Forventet',
 } as const
 
