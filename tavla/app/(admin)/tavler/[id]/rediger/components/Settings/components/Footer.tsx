@@ -3,9 +3,18 @@ import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4 } from '@entur/typography'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { HiddenInput } from 'components/Form/HiddenInput'
+import { useState } from 'react'
 import { TFooter } from 'types/settings'
 
-function Footer({ footer }: { footer?: TFooter }) {
+function Footer({ infoMessage }: { infoMessage?: TFooter }) {
+    const [selectedValue, setSelectedValue] = useState<string>(
+        infoMessage?.footer ?? '',
+    )
+    const handleChange = (value: string) => {
+        setSelectedValue(value)
+    }
+
     return (
         <div className="flex flex-col">
             <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
@@ -15,21 +24,25 @@ function Footer({ footer }: { footer?: TFooter }) {
                     <Tooltip
                         content="Skriv en kort tekst som skal vises nederst i tavlen."
                         placement="top"
-                        id="tooltip-footer"
+                        id="tooltip-info-message"
                     >
                         <ValidationInfoFilledIcon
                             size={20}
-                            aria-labelledby="tooltip-footer"
+                            aria-labelledby="tooltip-info-message"
                         />
                     </Tooltip>
                 </div>
             </div>
             <ClientOnlyTextField
+                value={selectedValue}
+                onChange={(f) => handleChange(f.target.value as string)}
                 label="Infomelding"
                 name="footer"
-                defaultValue={footer?.footer ?? ''}
                 className="w-full"
+                clearable
+                onClear={() => setSelectedValue('')}
             />
+            <HiddenInput id="infoMessage" value={selectedValue} />
         </div>
     )
 }
