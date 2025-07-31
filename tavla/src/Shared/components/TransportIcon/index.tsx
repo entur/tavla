@@ -17,8 +17,7 @@ function TransportIcon({
         mode === 'unknown' ? 'Unknown transport mode' : `${mode} transport mode`
     return (
         <Component
-            className={className ?? 'h-full w-full'}
-            fill={`var(--${mode}-color)`}
+            className={className ?? `h-full w-full text-${mode}`}
             aria-label={altText}
         />
     )
@@ -31,32 +30,28 @@ export function getTransportIcon(
     if (transportSubmode?.includes('CarFerry')) return CarferryIcon
 
     switch (transportMode) {
-        case 'metro':
-            return MetroIcon
-        case 'bus':
-            return BusIcon
         case 'air':
             return PlaneIcon
-        case 'tram':
-            return TramIcon
+        case 'coach':
+        case 'trolleybus':
+        case 'bus':
+            return BusIcon
         case 'funicular':
             return FunicularIcon
+        case 'lift':
         case 'cableway':
             return CablewayIcon
+        case 'metro':
+            return MetroIcon
+        case 'monorail':
         case 'rail':
             return RailIcon
-        case 'coach':
-            return BusIcon
-        case 'lift':
-            return CablewayIcon
-        case 'monorail':
-            return RailIcon
-        case 'trolleybus':
-            return BusIcon
-        case 'water':
-            return FerryIcon
+        case 'tram':
+            return TramIcon
         case 'taxi':
             return TaxiIcon
+        case 'water':
+            return FerryIcon
         default:
             return UnknownIcon
     }
@@ -70,6 +65,7 @@ export function MetroIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -90,6 +86,7 @@ export function BusIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <g fillRule="evenodd" clipRule="evenodd">
@@ -109,6 +106,7 @@ export function PlaneIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -128,6 +126,7 @@ export function HelicopterIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -147,6 +146,7 @@ export function TramIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -166,6 +166,7 @@ export function FunicularIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -185,6 +186,7 @@ export function CablewayIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -204,6 +206,7 @@ export function TaxiIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -223,6 +226,7 @@ export function BicycleIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -243,6 +247,7 @@ export function WalkIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <g fillRule="evenodd" clipRule="evenodd">
@@ -261,6 +266,7 @@ export function RailIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path fillRule="evenodd" clipRule="evenodd" d="M1 12h13v1H1z" />
@@ -277,6 +283,7 @@ export function FerryIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path d="M8.737 13c-.824 0-1.253-.226-1.632-.425-.33-.173-.591-.31-1.168-.31s-.838.137-1.168.31c-.38.2-.81.425-1.633.425-1.052 0-1.969-.588-2.007-.613L1 12.316l.447-.894.196.108c.037.023.743.47 1.493.47.577 0 .838-.137 1.168-.31.38-.199.81-.424 1.633-.424s1.254.225 1.633.424c.33.173.59.31 1.167.31s.837-.137 1.167-.31c.379-.199.81-.424 1.632-.424.643 0 1.046.137 1.372.292l-.479.88c-.23-.103-.48-.172-.893-.172-.577 0-.837.136-1.168.31-.378.198-.808.424-1.631.424zM14.75 7.456h-1.432a.053.053 0 0 1-.05-.036l-.907-2.746a.348.348 0 0 0-.33-.242h-.554a.05.05 0 0 1-.047-.034l-.34-.825c-.073-.186-.214-.298-.417-.198l-1.213.706a.45.45 0 0 0-.244.402v.463c0 .04-.026.054-.047.054H5.78a.354.354 0 0 0-.318.198L4.362 7.422a.05.05 0 0 1-.047.034h-.667a.35.35 0 0 0-.314.195l-1.496 3.047c.313.16.658.302 1.275.302 1.4 0 1.4-.733 2.8-.733s1.4.733 2.8.733 1.4-.733 2.8-.733c.9 0 1.45.306 1.845.521l1.611-2.963a.25.25 0 0 0-.22-.37zm-7.353-.2a.2.2 0 0 1-.2.2H5.272c-.125 0-.236-.098-.133-.279l.381-.78a.254.254 0 0 1 .228-.141h1.45c.11 0 .2.09.2.2v.8zm2.204-.004a.204.204 0 0 1-.204.204H8.005a.204.204 0 0 1-.204-.204V6.46c0-.113.091-.204.204-.204h1.392c.113 0 .204.091.204.204v.792zm2.535.204-1.933.001A.202.202 0 0 1 10 7.256v-.799c0-.11.09-.201.202-.201h1.653c.116 0 .217.079.245.191l.193.78c.053.165-.049.229-.158.229z" />
@@ -292,6 +299,7 @@ export function CarferryIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -312,6 +320,7 @@ export function MobilityIcon(props: SVGProps<SVGSVGElement>) {
             height="1em"
             viewBox="0 0 16 16"
             xmlSpace="preserve"
+            fill="currentColor"
             {...props}
         >
             <path
@@ -330,6 +339,7 @@ export function UnknownIcon(props: SVGProps<SVGSVGElement>) {
             width="1em"
             height="1em"
             viewBox="0 0 16 16"
+            fill="currentColor"
             {...props}
         >
             <path d="M8 1C4.15 1 1 4.15 1 8s3.15 7 7 7 7-3.15 7-7-3.15-7-7-7zm0 3c1.405 0 2.61 1.205 2.61 2.61 0 1.134-.786 2.138-1.829 2.482l-.082.023v.74H7.301V8.518c0-.355.262-.647.603-.694L8 7.818c.632 0 1.21-.577 1.21-1.209S8.631 5.4 8 5.4c-.39 0-.833.292-1.086.698l-.07.125-.313.625-1.252-.625.313-.627C6.049 4.682 6.999 4 8 4zm.006 6.88a.875.875 0 110 1.75.875.875 0 010-1.75z"></path>

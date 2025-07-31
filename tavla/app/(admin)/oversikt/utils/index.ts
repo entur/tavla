@@ -28,6 +28,7 @@ export const transportModes = {
     unknown: 'var(--unknown-color)',
     water: 'var(--water-color)',
 }
+
 export const transportModesTransparent = {
     'air-transparent': 'var(--air-color-transparent)',
     'bus-transparent': 'var(--bus-color-transparent)',
