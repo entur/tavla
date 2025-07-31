@@ -4,8 +4,8 @@ import {
 } from '@entur/icons'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../contexts'
+import { TableCell } from './TableCell'
 import { TableColumn } from './TableColumn'
-import { TableRow } from './TableRow'
 
 function Deviation() {
     const departures = useNonNullContext(DeparturesContext)
@@ -20,13 +20,13 @@ function Deviation() {
         <TableColumn>
             {deviations.map((deviation) =>
                 deviation.cancelled ? (
-                    <TableRow key={deviation.key}>
+                    <TableCell key={deviation.key}>
                         <div className="flex w-10 items-center justify-center text-error">
                             <ValidationErrorFilledIcon />
                         </div>
-                    </TableRow>
+                    </TableCell>
                 ) : (
-                    <TableRow key={deviation.key}>
+                    <TableCell key={deviation.key}>
                         <div className="flex w-10 items-center justify-center text-warning">
                             {deviation.situations.length > 0 ? (
                                 <ValidationExclamationCircleFilledIcon />
@@ -34,7 +34,7 @@ function Deviation() {
                                 <div />
                             )}
                         </div>
-                    </TableRow>
+                    </TableCell>
                 ),
             )}
         </TableColumn>

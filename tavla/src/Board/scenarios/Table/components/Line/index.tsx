@@ -3,8 +3,8 @@ import { useNonNullContext } from 'hooks/useNonNullContext'
 import { nanoid } from 'nanoid'
 import { getAirPublicCode } from 'utils/publicCode'
 import { DeparturesContext } from '../../contexts'
+import { TableCell } from '../TableCell'
 import { TableColumn } from '../TableColumn'
-import { TableRow } from '../TableRow'
 
 function Line() {
     const departures = useNonNullContext(DeparturesContext)
@@ -22,7 +22,7 @@ function Line() {
     return (
         <TableColumn title="Linje">
             {lines.map((line) => (
-                <TableRow key={line.key}>
+                <TableCell key={line.key}>
                     <div className="flex w-full items-center justify-start gap-2 pr-2">
                         <TravelTag
                             transportMode={line.transportMode}
@@ -35,7 +35,7 @@ function Line() {
                             cancelled={line.cancelled}
                         />
                     </div>
-                </TableRow>
+                </TableCell>
             ))}
         </TableColumn>
     )

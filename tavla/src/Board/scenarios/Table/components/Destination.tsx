@@ -4,8 +4,8 @@ import { nanoid } from 'nanoid'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import { DeparturesContext } from '../contexts'
 import { Situations } from './Situations'
+import { TableCell } from './TableCell'
 import { TableColumn } from './TableColumn'
-import { TableRow } from './TableRow'
 
 function filterIdenticalSituations(
     originSituations?: TSituationFragment[],
@@ -52,7 +52,7 @@ function Destination({
         <div className="grow overflow-hidden">
             <TableColumn title="Destinasjon">
                 {destinations.map((destination) => (
-                    <TableRow
+                    <TableCell
                         key={destination.key}
                         className="flex align-middle"
                     >
@@ -65,7 +65,7 @@ function Destination({
                         {deviations && (
                             <Situations situations={destination.situations} />
                         )}
-                    </TableRow>
+                    </TableCell>
                 ))}
             </TableColumn>
         </div>
@@ -79,11 +79,11 @@ function Name() {
         <div className="grow overflow-hidden">
             <TableColumn title="Stoppested">
                 {departures.map((departure) => (
-                    <TableRow key={nanoid()}>
+                    <TableCell key={nanoid()}>
                         <div className="line-clamp-2 justify-items-end overflow-ellipsis hyphens-auto text-em-base/em-base">
                             {departure.quay.name}
                         </div>
-                    </TableRow>
+                    </TableCell>
                 ))}
             </TableColumn>
         </div>

@@ -1,4 +1,4 @@
-function TableRow({
+function TableCell({
     className,
     children,
 }: {
@@ -14,4 +14,4 @@ function TableRow({
     )
 }
 
-export { TableRow }
+export { TableCell }

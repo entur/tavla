@@ -2,8 +2,8 @@ import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { nanoid } from 'nanoid'
 import { formatDateString, getRelativeTimeString } from 'utils/time'
+import { TableCell } from '../TableCell'
 import { TableColumn } from '../TableColumn'
-import { TableRow } from '../TableRow'
 import { FormattedTime } from './components/FormattedTime'
 
 const TWO_MINUTES = 120
@@ -21,13 +21,13 @@ function ExpectedTime() {
     return (
         <TableColumn title="Forventet" className="text-right">
             {time.map((t) => (
-                <TableRow key={t.key}>
+                <TableCell key={t.key}>
                     <Time
                         expectedDepartureTime={t.expectedDepartureTime}
                         aimedDepartureTime={t.aimedDepartureTime}
                         cancelled={t.cancelled}
                     />
-                </TableRow>
+                </TableCell>
             ))}
         </TableColumn>
     )
