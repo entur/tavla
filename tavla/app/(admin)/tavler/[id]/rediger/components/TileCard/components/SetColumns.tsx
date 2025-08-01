@@ -3,19 +3,15 @@ import { FilterChip } from '@entur/chip'
 import { QuestionFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4, SubParagraph } from '@entur/typography'
+import { TileContext } from 'Board/scenarios/Table/contexts'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { isArray } from 'lodash'
 import { useState } from 'react'
 import { Columns, DEFAULT_COMBINED_COLUMNS, TColumn } from 'types/column'
-import { TTile } from 'types/tile'
 import { ColumnModal } from '../ColumnModal'
 
-function SetColumns({
-    tile,
-    isCombined,
-}: {
-    tile: TTile
-    isCombined: boolean
-}) {
+function SetColumns({ isCombined }: { isCombined: boolean }) {
+    const tile = useNonNullContext(TileContext)
     const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
 
     return (

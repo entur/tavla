@@ -1,20 +1,20 @@
 import { Heading4 } from '@entur/typography'
+import { TileContext } from 'Board/scenarios/Table/contexts'
 import { HiddenInput } from 'components/Form/HiddenInput'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { TTransportMode } from 'types/graphql-schema'
-import { TTile } from 'types/tile'
 import { TransportModeAndLines } from '../TransportModeAndLines'
 import { TLineFragment } from '../types'
 import { sortLineByPublicCode } from '../utils'
 
 function SetVisibleLines({
-    tile,
     uniqLines,
     transportModes,
 }: {
-    tile: TTile
     uniqLines: TLineFragment[]
     transportModes: (TTransportMode | null)[]
 }) {
+    const tile = useNonNullContext(TileContext)
     const linesByModeSorted = transportModes
         .map((transportMode) => ({
             transportMode,

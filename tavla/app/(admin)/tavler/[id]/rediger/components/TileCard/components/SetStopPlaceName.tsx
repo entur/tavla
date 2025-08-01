@@ -1,19 +1,20 @@
 import { Heading4, SubParagraph } from '@entur/typography'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { TileContext } from 'Board/scenarios/Table/contexts'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { useState } from 'react'
-import { TTile } from 'types/tile'
 
 function SetStopPlaceName({
-    tile,
     state,
     isCombined,
 }: {
-    tile: TTile
     state?: TFormFeedback
     isCombined: boolean
 }) {
+    const tile = useNonNullContext(TileContext)
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
+    const canEditField = !isCombined
 
     return (
         <div className="flex flex-col gap-2">
@@ -38,9 +39,9 @@ function SetStopPlaceName({
                 className="!w-full md:!w-1/2 lg:!w-1/4"
                 name="displayName"
                 value={displayName}
-                readOnly={isCombined}
+                readOnly={!canEditField}
                 maxLength={50}
-                clearable={!isCombined}
+                clearable={canEditField}
                 onClear={() => {
                     setDisplayName('')
                 }}

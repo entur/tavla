@@ -1,29 +1,30 @@
 import { NegativeButton, SecondarySquareButton } from '@entur/button'
 import { CloseIcon, DeleteIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
+import { TileContext } from 'Board/scenarios/Table/contexts'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
 import { deleteTile } from '../actions'
 
 function EditRemoveTile({
-    bid,
-    tile,
-    changed,
-    isOpen,
-    setIsOpen,
+    boardId,
+    isTileOpen,
+    hasTileChanged,
+    setIsTileOpen,
     setConfirmOpen,
     removeTileFromDemoBoard,
     addToast,
 }: {
-    bid: TBoardID
-    tile: TTile
-    changed: boolean
-    isOpen: boolean
-    setIsOpen: (isOpen: boolean) => void
+    boardId: TBoardID
+    isTileOpen: boolean
+    hasTileChanged: boolean
+    setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (isOpen: boolean) => void
     removeTileFromDemoBoard: (tile: TTile) => void
     addToast: (message: string) => void
 }) {
+    const tile = useNonNullContext(TileContext)
     return (
         <div className="flex gap-md">
             <Tooltip
@@ -33,12 +34,12 @@ function EditRemoveTile({
             >
                 <SecondarySquareButton
                     onClick={() => {
-                        if (changed) return setConfirmOpen(true)
-                        setIsOpen(!isOpen)
+                        if (hasTileChanged) return setConfirmOpen(true)
+                        setIsTileOpen(!isTileOpen)
                     }}
                     aria-label="Rediger stoppested"
                 >
-                    {isOpen ? <CloseIcon /> : <EditIcon />}
+                    {isTileOpen ? <CloseIcon /> : <EditIcon />}
                 </SecondarySquareButton>
             </Tooltip>
             <div className="hidden sm:block">
@@ -49,10 +50,10 @@ function EditRemoveTile({
                 >
                     <NegativeButton
                         onClick={async () => {
-                            if (bid === 'demo') {
+                            if (boardId === 'demo') {
                                 removeTileFromDemoBoard(tile)
                             } else {
-                                await deleteTile(bid, tile)
+                                await deleteTile(boardId, tile)
                             }
                             addToast(`${tile.name} fjernet!`)
                         }}

@@ -4,6 +4,7 @@ import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { TileContext } from 'Board/scenarios/Table/contexts'
 import { TransportIcon } from 'components/TransportIcon'
 import { uniqBy } from 'lodash'
 import { Dispatch, SetStateAction, useActionState, useState } from 'react'
@@ -146,7 +147,7 @@ function TileCard({
     }
 
     return (
-        <div>
+        <TileContext.Provider value={tile}>
             <div className="flex flex-row">
                 <div
                     className={`flex w-full items-center justify-between bg-blue80 px-6 py-4 ${
@@ -162,11 +163,10 @@ function TileCard({
                         </div>
                     </div>
                     <EditRemoveTile
-                        bid={bid}
-                        tile={tile}
-                        changed={changed}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
+                        boardId={bid}
+                        hasTileChanged={changed}
+                        isTileOpen={isOpen}
+                        setIsTileOpen={setIsOpen}
                         setConfirmOpen={setConfirmOpen}
                         removeTileFromDemoBoard={removeTileFromDemoBoard}
                         addToast={addToast}
@@ -190,24 +190,21 @@ function TileCard({
                         onInput={() => setChanged(true)}
                     >
                         <SetStopPlaceName
-                            tile={tile}
                             state={state}
                             isCombined={isCombined}
                         />
-                        <SetOffsetDepartureTime tile={tile} address={address} />
-                        <SetColumns tile={tile} isCombined={isCombined} />
+                        <SetOffsetDepartureTime address={address} />
+                        <SetColumns isCombined={isCombined} />
                         <SetVisibleLines
-                            tile={tile}
                             uniqLines={uniqLines}
                             transportModes={transportModes}
                         />
                         <SaveCancelDeleteTileButtonGroup
-                            bid={bid}
-                            tile={tile}
-                            changed={changed}
+                            boardId={bid}
                             confirmOpen={confirmOpen}
-                            reset={reset}
-                            setIsOpen={setIsOpen}
+                            hasTileChanged={changed}
+                            resetTile={reset}
+                            setIsTileOpen={setIsOpen}
                             setConfirmOpen={setConfirmOpen}
                             removeTileFromDemoBoard={removeTileFromDemoBoard}
                             addToast={addToast}
@@ -215,7 +212,7 @@ function TileCard({
                     </form>
                 </div>
             </BaseExpand>
-        </div>
+        </TileContext.Provider>
     )
 }
 export { TileCard }

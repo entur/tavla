@@ -3,33 +3,34 @@ import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import Goat from 'assets/illustrations/Goat.png'
+import { TileContext } from 'Board/scenarios/Table/contexts'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import Image from 'next/image'
 import { TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
 import { deleteTile } from '../actions'
 
 function SaveCancelDeleteTileButtonGroup({
-    bid,
-    tile,
-    changed,
+    boardId,
     confirmOpen,
-    reset,
-    setIsOpen,
+    hasTileChanged,
+    resetTile,
+    setIsTileOpen,
     setConfirmOpen,
     removeTileFromDemoBoard,
     addToast,
 }: {
-    bid: TBoardID
-    tile: TTile
-    changed: boolean
+    boardId: TBoardID
     confirmOpen: boolean
-    reset: () => void
-    setIsOpen: (isOpen: boolean) => void
+    hasTileChanged: boolean
+    resetTile: () => void
+    setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (confirmOpen: boolean) => void
     removeTileFromDemoBoard: (tile: TTile) => void
     addToast: (message: string) => void
 }) {
+    const tile = useNonNullContext(TileContext)
     return (
         <>
             <div className="mt-8 flex flex-col justify-start gap-4 md:flex-row">
@@ -41,8 +42,8 @@ function SaveCancelDeleteTileButtonGroup({
                     aria-label="avbryt"
                     type="button"
                     onClick={() => {
-                        if (changed) return setConfirmOpen(true)
-                        return setIsOpen(false)
+                        if (hasTileChanged) return setConfirmOpen(true)
+                        return setIsTileOpen(false)
                     }}
                 >
                     Avbryt
@@ -50,10 +51,10 @@ function SaveCancelDeleteTileButtonGroup({
                 <div className="sm:hidden">
                     <NegativeButton
                         onClick={async () => {
-                            if (bid === 'demo') {
+                            if (boardId === 'demo') {
                                 removeTileFromDemoBoard(tile)
                             } else {
-                                await deleteTile(bid, tile)
+                                await deleteTile(boardId, tile)
                             }
                             addToast(`${tile.name} fjernet!`)
                         }}
@@ -70,12 +71,12 @@ function SaveCancelDeleteTileButtonGroup({
             <Modal
                 size="small"
                 open={confirmOpen}
-                onDismiss={reset}
+                onDismiss={resetTile}
                 closeLabel="Avbryt endring"
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={reset}
+                    onClick={resetTile}
                     className="absolute right-4 top-4"
                 >
                     <CloseIcon />
@@ -100,7 +101,7 @@ function SaveCancelDeleteTileButtonGroup({
                             type="button"
                             variant="secondary"
                             aria-label="Avbryt sletting"
-                            onClick={reset}
+                            onClick={resetTile}
                         >
                             Avbryt
                         </Button>

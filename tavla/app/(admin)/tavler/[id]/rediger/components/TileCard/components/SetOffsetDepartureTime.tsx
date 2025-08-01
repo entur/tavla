@@ -1,22 +1,20 @@
 import { Checkbox } from '@entur/form'
 import { Heading4, SubParagraph } from '@entur/typography'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { TileContext } from 'Board/scenarios/Table/contexts'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { useEffect, useState } from 'react'
 import { TLocation } from 'types/meta'
-import { TTile } from 'types/tile'
 
-function SetOffsetDepartureTime({
-    tile,
-    address,
-}: {
-    tile: TTile
-    address?: TLocation
-}) {
+function SetOffsetDepartureTime({ address }: { address?: TLocation }) {
+    const tile = useNonNullContext(TileContext)
+
     const walkingDistanceInMinutes = Math.ceil(
         (tile.walkingDistance?.distance ?? 0) / 60,
     )
     const [offsetBasedOnWalkingDistance, setOffsetBasedOnWalkingDistance] =
         useState(walkingDistanceInMinutes === tile.offset)
+
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
 
     useEffect(() => {
