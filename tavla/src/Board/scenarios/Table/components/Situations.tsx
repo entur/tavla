@@ -2,9 +2,15 @@ import {
     ValidationErrorFilledIcon,
     ValidationExclamationCircleFilledIcon,
 } from '@entur/icons'
+import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { TSituationFragment } from 'graphql/index'
+import { TTransportMode } from 'types/graphql-schema'
 
-function getSituationText(situation: TSituationFragment) {
+function getSituationText(
+    situation: TSituationFragment,
+    transportModeList?: TTransportMode[],
+    publicCodeList?: string[],
+) {
     const situationSummary =
         situation?.summary.find((summary) => summary.language === 'no')
             ?.value ??
@@ -16,13 +22,40 @@ function getSituationText(situation: TSituationFragment) {
         situation?.description[0]?.value ??
         null
 
-    if (!situationSummary) return situationDescription
+    let situationText = undefined
+    let transportMode = undefined
+    let publicCodes = undefined
+
+    if (!situationDescription) situationText = situationSummary
+    else if (!situationSummary) situationText = situationDescription
     else {
         if (situationSummary.length <= 25) {
-            return situationSummary + ': ' + situationDescription
+            situationText = situationSummary + ' - ' + situationDescription
         }
-        return situationSummary
+        situationText = situationSummary
     }
+
+    if (transportModeList && publicCodeList) {
+        if (transportModeList.length === 1) {
+            transportMode = transportModeNames(transportModeList[0] ?? null)
+        } else transportMode = 'Linje'
+
+        if (publicCodeList.length === 1) {
+            publicCodes = publicCodeList[0]
+        } else {
+            publicCodes = publicCodeList.join(', ')
+        }
+        return (
+            <>
+                <b>
+                    {transportMode} {publicCodes}
+                    <>: </>
+                </b>
+                {situationText}
+            </>
+        )
+    }
+    return situationText
 }
 
 function Situations({
@@ -30,17 +63,25 @@ function Situations({
     cancelledDeparture,
     currentSituationNumber,
     numberOfSituations,
+    publicCodeList,
+    transportModeList,
 }: {
     situation?: TSituationFragment
     cancelledDeparture: boolean
     currentSituationNumber?: number
     numberOfSituations?: number
+    transportModeList?: TTransportMode[]
+    publicCodeList?: string[]
 }) {
     if (!situation) {
         return null
     }
 
-    const situationText = getSituationText(situation)
+    const situationText = getSituationText(
+        situation,
+        transportModeList,
+        publicCodeList,
+    )
 
     return (
         situationText && (

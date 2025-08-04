@@ -84,6 +84,8 @@ export function StopPlaceTile({
                 cancelledDeparture={
                     uniqueSituations?.[index]?.cancellation ?? false
                 }
+                transportModeList={uniqueSituations?.[index]?.transportModeList}
+                publicCodeList={uniqueSituations?.[index]?.publicCodeList}
             />
         </Tile>
     )

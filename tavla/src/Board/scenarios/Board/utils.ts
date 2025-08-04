@@ -1,4 +1,6 @@
+import { sortPublicCodes } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
+import { TTransportMode } from 'types/graphql-schema'
 import { TFontSize } from 'types/meta'
 import { TBoard } from 'types/settings'
 export function getFontScale(fontSize: TFontSize | undefined) {
@@ -74,12 +76,19 @@ function combineSituationsWithCancellationInfo(
     situationsPerDepartureWithCancellation?: {
         situations: TSituationFragment[]
         cancellation: boolean
+        publicCode: string | null
+        transportMode: TTransportMode
     }[],
 ) {
     if (!situationsPerDepartureWithCancellation) return null
 
     const situationById: {
-        [id: string]: { situation: TSituationFragment; cancellation: boolean }
+        [id: string]: {
+            situation: TSituationFragment
+            cancellation: boolean
+            publicCodeList: string[]
+            transportModeList: TTransportMode[]
+        }
     } = {}
 
     situationsPerDepartureWithCancellation.map((situations) => {
@@ -89,8 +98,32 @@ function combineSituationsWithCancellationInfo(
                 situationById[id] = {
                     situation: situation,
                     cancellation: situations.cancellation,
+                    publicCodeList: situations.publicCode
+                        ? [situations.publicCode]
+                        : [],
+                    transportModeList: [
+                        situations.transportMode as TTransportMode,
+                    ],
+                }
+            } else {
+                if (
+                    situations.publicCode &&
+                    situationById[id].publicCodeList.indexOf(
+                        situations.publicCode,
+                    ) === -1
+                )
+                    situationById[id].publicCodeList.push(situations.publicCode)
+                if (
+                    situationById[id].transportModeList.indexOf(
+                        situations.transportMode as TTransportMode,
+                    ) === -1
+                ) {
+                    situationById[id].transportModeList.push(
+                        situations.transportMode as TTransportMode,
+                    )
                 }
             }
+            situationById[id].publicCodeList.sort(sortPublicCodes)
         })
     })
 
@@ -109,6 +142,9 @@ export function getUniqueSituationsFromDepartures(
                     situations,
                     departure.situations,
                 ),
+                publicCode: departure.serviceJourney.line.publicCode,
+                transportMode:
+                    departure.serviceJourney.transportMode ?? 'unknown',
                 cancellation: departure.cancellation,
             }))
             .filter((situation) => situation.situations.length !== 0)

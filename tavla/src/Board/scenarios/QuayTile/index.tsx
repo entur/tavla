@@ -72,7 +72,7 @@ export function QuayTile({
         .join(' ')
 
     return (
-        <Tile className="flex flex-col justify-between max-sm:min-h-[30vh]">
+        <Tile className="flex flex-col max-sm:min-h-[30vh]">
             <div className="overflow-hidden">
                 <TableHeader
                     heading={displayName ?? heading}
@@ -98,6 +98,8 @@ export function QuayTile({
                 cancelledDeparture={
                     uniqueSituations?.[index]?.cancellation ?? false
                 }
+                transportModeList={uniqueSituations?.[index]?.transportModeList}
+                publicCodeList={uniqueSituations?.[index]?.publicCodeList}
             />
         </Tile>
     )
