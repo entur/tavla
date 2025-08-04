@@ -116,7 +116,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
     }
 
     return (
-        <Tile className="flex flex-col justify-between max-sm:min-h-[30vh]">
+        <Tile className="flex flex-col max-sm:min-h-[30vh]">
             <div className="overflow-hidden">
                 <CombinedTileDeviation situations={combinedSituations} />
                 <Table
@@ -136,6 +136,8 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
                 cancelledDeparture={
                     uniqueSituations?.[index]?.cancellation ?? false
                 }
+                transportModeList={uniqueSituations?.[index]?.transportModeList}
+                publicCodeList={uniqueSituations?.[index]?.publicCodeList}
             />
         </Tile>
     )
