@@ -1,5 +1,5 @@
-import { Button, ButtonGroup, IconButton, NegativeButton } from '@entur/button'
-import { CloseIcon, DeleteIcon } from '@entur/icons'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
+import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import Goat from 'assets/illustrations/Goat.png'
@@ -7,28 +7,24 @@ import { TileContext } from 'Board/scenarios/Table/contexts'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import Image from 'next/image'
-import { TBoardID } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { TTile } from 'types/tile'
-import { deleteTile } from '../actions'
+import { DeleteTileButton } from './DeleteTileButton'
 
 function SaveCancelDeleteTileButtonGroup({
-    boardId,
     confirmOpen,
     hasTileChanged,
     resetTile,
     setIsTileOpen,
     setConfirmOpen,
-    removeTileFromDemoBoard,
-    addToast,
+    deleteTile,
 }: {
-    boardId: TBoardID
     confirmOpen: boolean
     hasTileChanged: boolean
     resetTile: () => void
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (confirmOpen: boolean) => void
-    removeTileFromDemoBoard: (tile: TTile) => void
-    addToast: (message: string) => void
+    deleteTile: (boardId: string, tile: TTile, demoBoard?: TBoard) => void
 }) {
     const tile = useNonNullContext(TileContext)
     return (
@@ -48,24 +44,10 @@ function SaveCancelDeleteTileButtonGroup({
                 >
                     Avbryt
                 </Button>
-                <div className="sm:hidden">
-                    <NegativeButton
-                        onClick={async () => {
-                            if (boardId === 'demo') {
-                                removeTileFromDemoBoard(tile)
-                            } else {
-                                await deleteTile(boardId, tile)
-                            }
-                            addToast(`${tile.name} fjernet!`)
-                        }}
-                        aria-label="Fjern stoppested"
-                        type="button"
-                        width="fluid"
-                    >
-                        <DeleteIcon />
-                        Fjern stoppested
-                    </NegativeButton>
-                </div>
+                <DeleteTileButton
+                    isWideScreen={false}
+                    deleteTile={deleteTile}
+                />
             </div>
 
             <Modal

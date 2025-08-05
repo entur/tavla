@@ -13,14 +13,14 @@ import { TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
 import { OLD_LINE_IDS } from '../../compatibility'
-import { saveTile } from './actions'
-import { EditRemoveTile } from './components/EditRemoveTile'
-import { MoveTileArrows } from './components/MoveTileArrows'
+import { deleteTile, saveTile } from './actions'
+import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
 import { SetColumns } from './components/SetColumns'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
 import { SetVisibleLines } from './components/SetVisibleLines'
+import { TileArrows } from './components/TileArrows'
 import { useLines } from './useLines'
 
 function TileCard({
@@ -138,14 +138,6 @@ function TileCard({
         if (setDemoBoard) setDemoBoard({ ...demoBoard })
     }
 
-    const removeTileFromDemoBoard = (tile: TTile) => {
-        if (!demoBoard) return null
-        const remainingTiles = demoBoard.tiles.filter(
-            (t) => t.uuid !== tile.uuid,
-        )
-        if (setDemoBoard) setDemoBoard({ ...demoBoard, tiles: remainingTiles })
-    }
-
     return (
         <TileContext.Provider value={tile}>
             <div className="flex flex-row">
@@ -162,17 +154,23 @@ function TileCard({
                             {uniqTransportModeIcons}
                         </div>
                     </div>
-                    <EditRemoveTile
-                        boardId={bid}
+                    <EditRemoveTileButtonGroup
                         hasTileChanged={changed}
                         isTileOpen={isOpen}
                         setIsTileOpen={setIsOpen}
                         setConfirmOpen={setConfirmOpen}
-                        removeTileFromDemoBoard={removeTileFromDemoBoard}
-                        addToast={addToast}
+                        deleteTile={() =>
+                            deleteTile(
+                                bid,
+                                tile,
+                                addToast,
+                                demoBoard,
+                                setDemoBoard,
+                            )
+                        }
                     />
                 </div>
-                <MoveTileArrows
+                <TileArrows
                     index={index}
                     totalTiles={totalTiles}
                     moveItem={moveItem}
@@ -200,14 +198,20 @@ function TileCard({
                             transportModes={transportModes}
                         />
                         <SaveCancelDeleteTileButtonGroup
-                            boardId={bid}
                             confirmOpen={confirmOpen}
                             hasTileChanged={changed}
                             resetTile={reset}
                             setIsTileOpen={setIsOpen}
                             setConfirmOpen={setConfirmOpen}
-                            removeTileFromDemoBoard={removeTileFromDemoBoard}
-                            addToast={addToast}
+                            deleteTile={() =>
+                                deleteTile(
+                                    bid,
+                                    tile,
+                                    addToast,
+                                    demoBoard,
+                                    setDemoBoard,
+                                )
+                            }
                         />
                     </form>
                 </div>

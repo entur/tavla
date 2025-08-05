@@ -1,7 +1,7 @@
 import { SecondarySquareButton } from '@entur/button'
 import { DownwardIcon, UpwardIcon } from '@entur/icons'
 
-function MoveTileArrows({
+function TileArrows({
     index,
     totalTiles,
     moveItem,
@@ -49,4 +49,4 @@ function MoveTileArrows({
     )
 }
 
-export { MoveTileArrows }
+export { TileArrows }
