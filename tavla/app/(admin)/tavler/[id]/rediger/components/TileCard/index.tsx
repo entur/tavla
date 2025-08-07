@@ -110,7 +110,7 @@ function TileCard({
 
     if (!lines)
         return (
-            <div className="flex items-center justify-between rounded bg-blue80 p-4">
+            <div className="flex items-center justify-between rounded bg-blue20 p-4">
                 Laster...
             </div>
         )
@@ -142,7 +142,7 @@ function TileCard({
         <TileContext.Provider value={tile}>
             <div className="flex flex-row">
                 <div
-                    className={`flex w-full items-center justify-between bg-blue80 px-6 py-4 ${
+                    className={`flex w-full items-center justify-between bg-blue20 px-6 py-4 ${
                         isOpen ? 'rounded-t' : 'rounded'
                     }`}
                 >
@@ -178,7 +178,7 @@ function TileCard({
             </div>
             <BaseExpand open={isOpen}>
                 <div
-                    className={`mr-14 bg-blue90 px-6 py-4 ${
+                    className={`mr-14 bg-blue10 px-6 py-4 ${
                         totalTiles == 1 && 'w-full'
                     } rounded-b`}
                 >
