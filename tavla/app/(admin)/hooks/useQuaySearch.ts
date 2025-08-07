@@ -30,6 +30,23 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
                 .filter((quay) =>
                     quay.lines.some((line) => line.transportMode !== 'air'),
                 )
+                .sort((q1, q2) => {
+                    if (q1.publicCode && q2.publicCode) {
+                        if (q1.publicCode < q2.publicCode) return -1
+                        else return 1
+                    } else if (q1.publicCode) return -1
+                    else if (q2.publicCode) return 1
+
+                    const q1Value = parseInt(q1.id.split(':')[2] ?? '', 10)
+                    const q2Value = parseInt(q2.id.split(':')[2] ?? '', 10)
+                    if (!q1Value || !q2Value) {
+                        if (q1.id < q2.id) return -1
+                        else return 1
+                    } else {
+                        if (q1Value < q2Value) return -1
+                        else return 1
+                    }
+                })
                 .map((quay, index) => ({
                     value: quay.id,
                     label: getPlatformLabel(
