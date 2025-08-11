@@ -1,7 +1,5 @@
 ## 🥅 Motivasjon
 
-<!--Hvorfor gjør vi denne endringen? Hva løser PRen?-->
-
 ## ✨ Endringer
 
 - [ ] ...
@@ -15,6 +13,6 @@
 ## ✅ Sjekkliste
 
 - [ ] Testet i Chrome, Firefox og Safari
-- [ ] UU-sjekk/gjennomgang
-- [ ] Skrevet eventuell dokumentasjon/tester
+- [ ] Testet i BrowserStack
+- [ ] UU-sjekk: Testet i LightHouse f.eks
 - [ ] ...
