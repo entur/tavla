@@ -161,6 +161,13 @@ export function getFormFeedbackForError(
                 variant: 'negative',
             }
 
+        case 'board/no-lines':
+            return {
+                form_type: 'general',
+                feedback: 'Du må velge noen linjer',
+                variant: 'negative',
+            }
+
         case 'folder/name-mismatch':
             return {
                 form_type: 'name',
