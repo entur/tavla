@@ -17,11 +17,11 @@ cd tavla/tavla
 yarn install
 ```
 
-To access the Firebase database and being able to create a user and log into the application, two service keys are required; `ent-tavla-dev-875a70280651.json` and `ent-tavla-prd-54ef424ea2f0.json`. These files should be placed in `tavla/tavla`.
+To access the Firebase database and being able to create a user and log into the application, two service keys are required; `ent-tavla-dev-875a70280651.json` and `ent-tavla-prd-54ef424ea2f0.json`. These files should be placed in `tavla/tavla`, and can be found in the projects password manager.
 
 ### Node Version Configuration (using `mise`)
 
-The project is currently using node v18.20.5. `mise` can be used to configure the right node version, see https://mise.jdx.dev/.
+The project is currently using node v18.20.5. `nvm` or `mise` can for example be used to configure the right node version. See https://mise.jdx.dev/ for `mise` installation.
 
 Example (here with `brew` and `bash`):
 
@@ -63,6 +63,19 @@ The project integrates with Sentry for error tracking and performance monitoring
 2. Add the content in the team's password manager to your `.env.local` file.
 
 <br />
+
+## Branch and Commit Conventions
+
+The project uses conventional commits and branch naming, and follows these patterns:
+
+-   Commits: &lt;type&gt;(scope): &lt;description&gt;
+-   Branches: &lt;type&gt;/&lt;description&gt;
+
+Most used &lt;type&gt;-values includes: fix, feat and chore. Others are: build, ci, docs, style, refactor and test.
+
+&lt;description&gt; should be clear, concise and descriptive. Should start with the imperative mood.
+
+(scope) should represent which page or area of our solution this change affects. For example "rediger", "oversikt", etc.
 
 ## Running the Migration Script
 

@@ -14,5 +14,5 @@
 
 - [ ] Testet i Chrome, Firefox og Safari
 - [ ] Testet i BrowserStack
-- [ ] UU-sjekk: Testet i LightHouse f.eks
+- [ ] UU-sjekk: Testet i LightHouse
 - [ ] ...
