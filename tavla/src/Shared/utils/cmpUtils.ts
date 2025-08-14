@@ -14,6 +14,7 @@ declare global {
             }) => Promise<void>
             closeCmp: () => Promise<void>
             showFirstLayer: () => Promise<void>
+            getControllerId: () => Promise<string>
         }
         UC_UI: {
             isInitialized: () => boolean
