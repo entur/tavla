@@ -1,17 +1,12 @@
 'use client'
 import { ExternalIcon, GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
+import { showUC_UI } from 'app/components/ConsentHandler'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import DeleteAccount from '../DeleteAccount'
-
-function showUC_UI() {
-    if (typeof window !== 'undefined') {
-        window.UC_UI.showSecondLayer()
-    }
-}
 
 function Footer({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePostHog()
@@ -87,11 +82,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         <EnturLink as={Link} href="/privacy">
                             Personvernerklæring
                         </EnturLink>
-                        <EnturLink
-                            as={Link}
-                            href="javascript:void(0)"
-                            onClick={showUC_UI}
-                        >
+                        <EnturLink as={Link} href="#" onClick={showUC_UI}>
                             Informasjonskapsler
                         </EnturLink>
                         <div className="flex flex-row items-center gap-1">
