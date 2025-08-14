@@ -32,7 +32,9 @@ function TravelTag({
 }) {
     const travelTagBackround = `bg-${transportMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
     const iconPublicCodeColor =
-        cancelled && transportMode !== 'unknown' ? transportMode : 'background'
+        cancelled && transportMode !== 'unknown'
+            ? `text-${transportMode}`
+            : 'text-background'
 
     return (
         <div
@@ -40,12 +42,12 @@ function TravelTag({
             className={`flex h-full w-full items-center justify-between rounded-sm pl-2 font-bold ${travelTagBackround}`}
         >
             <TransportIcon
-                className={`h-em-2 w-em-2 fill-${iconPublicCodeColor}`}
+                className={`h-em-2 w-em-2 ${iconPublicCodeColor}`}
                 transportMode={transportMode}
                 transportSubmode={transportSubmode}
             />
             <div
-                className={`flex h-full w-full flex-row items-center justify-center text-${iconPublicCodeColor}`}
+                className={`flex h-full w-full flex-row items-center justify-center ${iconPublicCodeColor}`}
             >
                 {publicCode}
             </div>
