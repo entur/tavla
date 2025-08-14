@@ -1,17 +1,12 @@
 'use client'
 import { ExternalIcon, GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
+import { showUC_UI } from 'app/components/ConsentHandler'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import DeleteAccount from '../DeleteAccount'
-
-function showUC_UI() {
-    if (typeof window !== 'undefined') {
-        window.UC_UI.showSecondLayer()
-    }
-}
 
 function Footer({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePostHog()
