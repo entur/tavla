@@ -57,14 +57,6 @@ async function RootLayout({ children }: { children: ReactNode }) {
             </head>
             <PHProvider>
                 <body className="min-h-screen">
-                    <Script
-                        strategy="beforeInteractive"
-                        id="usercentrics-cmp"
-                        src="https://web.cmp.usercentrics.eu/ui/loader.js"
-                        data-draft="true"
-                        data-settings-id="4OOPZiVslbVZnE"
-                        async
-                    />
                     <EnturToastProvider>
                         <Navbar loggedIn={loggedIn} />
                         <Suspense>

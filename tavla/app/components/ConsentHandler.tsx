@@ -1,12 +1,12 @@
 'use client'
 import { ToastProvider } from '@entur/alert'
+import * as Sentry from '@sentry/react'
 import posthog, { PostHogConfig } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { ReactNode, useEffect } from 'react'
 import {
     CONSENT_UPDATED_EVENT,
     ConsentDetails,
-    Consents,
     formatConsentEvent,
     waitFor,
 } from '../../src/Shared/utils/cmpUtils'
@@ -19,11 +19,18 @@ declare global {
         Sentry?: {
             setUser: (user: { id: string }) => void
         }
-        firebase?: {
-            analytics: () => {
-                setUserId: (id: string) => void
-            }
-        }
+    }
+}
+
+export function showUC_UI() {
+    if (typeof window !== 'undefined') {
+        window.UC_UI.showFirstLayer()
+    }
+}
+
+export function showUC_UI_second() {
+    if (typeof window !== 'undefined') {
+        window.UC_UI.showSecondLayer()
     }
 }
 
@@ -36,12 +43,24 @@ const basePosthogOptions: Partial<PostHogConfig> = {
 }
 
 const POSTHOG_SERVICE_NAME = 'PostHog.com'
-const SENTRY_SERVICE_NAME = 'Sentry.io'
+const SENTRY_SERVICE_NAME = 'Sentry'
+
+export function initSentry(consent: boolean) {
+    Sentry.close().then(() => {
+        if (process.env.NODE_ENV === 'production') {
+            Sentry.init({
+                dsn: process.env.NEXT_PUBLIC_SENTRY_DSN_URL,
+                beforeSend(event) {
+                    if (!consent) return null
+                    return event
+                },
+            })
+        }
+    })
+}
 
 export default function ConsentHandler() {
     useEffect(() => {
-        let previousConsents: Consents | null = null
-
         async function handleConsentUpdate(
             event: Event & { detail?: ConsentDetails },
         ) {
@@ -51,7 +70,7 @@ export default function ConsentHandler() {
 
             // Handle PostHog consent
             const posthogConsent = consents?.find(
-                (c) => c.name === POSTHOG_SERVICE_NAME,
+                (consent) => consent.name === POSTHOG_SERVICE_NAME,
             )
 
             if (posthogConsent?.consentGiven) {
@@ -70,43 +89,16 @@ export default function ConsentHandler() {
 
             // Handle Sentry consent
             const sentryConsent = consents?.find(
-                (c) => c.name === SENTRY_SERVICE_NAME,
+                (consent) => consent.name === SENTRY_SERVICE_NAME,
             )
 
             if (sentryConsent?.consentGiven) {
-                // console.log(`Sentry consent given`)
+                initSentry(true)
                 await waitFor(() => window.Sentry !== undefined)
                 window.Sentry?.setUser({
                     id: event.detail?.consent.controllerId ?? '',
                 })
             }
-
-            // Handle previous consents for PostHog and Sentry
-            if (previousConsents !== null) {
-                // Handle PostHog
-                const previousPostHogConsent = previousConsents?.find(
-                    (c) => c.name === POSTHOG_SERVICE_NAME,
-                )
-
-                const posthogDeclined =
-                    previousPostHogConsent?.consentGiven === true &&
-                    posthogConsent?.consentGiven === false
-
-                if (posthogDeclined) location.reload()
-
-                // Handle Sentry
-                const previousSentryConsent = previousConsents?.find(
-                    (c) => c.name === SENTRY_SERVICE_NAME,
-                )
-
-                const sentryDeclined =
-                    previousSentryConsent?.consentGiven === true &&
-                    sentryConsent?.consentGiven === false
-
-                if (sentryDeclined) location.reload()
-            }
-
-            previousConsents = consents
         }
 
         window.addEventListener(CONSENT_UPDATED_EVENT, handleConsentUpdate)
