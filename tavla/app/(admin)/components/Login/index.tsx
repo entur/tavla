@@ -23,7 +23,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 onClick={async () => {
                     await logout()
                 }}
-                className="!hidden gap-4 md:!flex"
+                className="shrink-0 gap-2 md:!flex"
             >
                 <LogOutIcon />
                 Logg ut
@@ -36,7 +36,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 as={Link}
                 href="?login"
                 scroll={false}
-                className="gap-4 p-4"
+                className="shrink-0 gap-2"
             >
                 <UserIcon />
                 Logg inn
