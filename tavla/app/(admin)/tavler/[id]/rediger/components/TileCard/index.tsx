@@ -45,7 +45,7 @@ function TileCard({
     setDemoBoard?: Dispatch<SetStateAction<TBoard>>
 }) {
     const [isOpen, setIsOpen] = useState(false)
-    const [changed, setChanged] = useState(false)
+    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
     const { addToast } = useToast()
 
@@ -102,7 +102,7 @@ function TileCard({
 
     const reset = () => {
         setConfirmOpen(false)
-        setChanged(false)
+        setHasUnsavedChanges(false)
         setIsOpen(false)
     }
 
@@ -155,7 +155,7 @@ function TileCard({
                         </div>
                     </div>
                     <EditRemoveTileButtonGroup
-                        hasTileChanged={changed}
+                        hasTileChanged={hasUnsavedChanges}
                         isTileOpen={isOpen}
                         setIsTileOpen={setIsOpen}
                         setConfirmOpen={setConfirmOpen}
@@ -185,7 +185,7 @@ function TileCard({
                     <form
                         id={tile.uuid}
                         action={action}
-                        onInput={() => setChanged(true)}
+                        onInput={() => setHasUnsavedChanges(true)}
                     >
                         <SetStopPlaceName
                             state={state}
@@ -199,7 +199,7 @@ function TileCard({
                         />
                         <SaveCancelDeleteTileButtonGroup
                             confirmOpen={confirmOpen}
-                            hasTileChanged={changed}
+                            hasTileChanged={hasUnsavedChanges}
                             resetTile={reset}
                             setIsTileOpen={setIsOpen}
                             setConfirmOpen={setConfirmOpen}

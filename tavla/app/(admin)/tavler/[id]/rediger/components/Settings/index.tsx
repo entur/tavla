@@ -1,5 +1,4 @@
 'use client'
-import { useToast } from '@entur/alert'
 import { Heading2, Heading3 } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import {
@@ -9,8 +8,7 @@ import {
 } from 'app/(admin)/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { HiddenInput } from 'components/Form/HiddenInput'
-import { SubmitButton } from 'components/Form/SubmitButton'
-import { useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { TBoard, TFolder } from 'types/settings'
 import { saveSettings } from './actions'
 import { Folder } from './components/Folder'
@@ -23,33 +21,28 @@ import { ViewType } from './components/ViewType'
 import { WalkingDistance } from './components/WalkingDistance'
 
 function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
-    const { addToast } = useToast()
-
     const [formErrors, setFormErrors] = useState<
         Partial<Record<InputType, TFormFeedback>>
     >({})
 
-    const submitSettings = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const formRef = useRef<HTMLFormElement | null>(null)
 
-        const data = new FormData(e.currentTarget)
+    const submitSettings = useCallback(async () => {
+        const formData = formRef?.current
+
+        if (!formData) return
+        const data = new FormData(formData)
 
         const resultingErrors = await saveSettings(data)
-
-        if (!resultingErrors) {
-            setFormErrors({})
-            addToast('Innstillinger lagret!')
-        } else {
-            setFormErrors(resultingErrors)
-        }
-    }
+        setFormErrors(resultingErrors ?? {})
+    }, [])
 
     return (
         <div className="flex flex-col gap-4 rounded-md bg-background px-2 py-2 md:px-6 md:py-8">
             <Heading2>Innstillinger</Heading2>
             <form
                 className="grid grid-cols-1 gap-8 lg:grid-cols-2"
-                onSubmit={submitSettings}
+                ref={formRef}
             >
                 <div className="box">
                     <Heading3 margin="bottom"> Generelt </Heading3>
@@ -60,6 +53,7 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                                 'name',
                                 formErrors.name,
                             )}
+                            onBlur={submitSettings}
                         />
                         <Folder folder={folder} />
                     </div>
@@ -71,24 +65,35 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             hasCombinedTiles={
                                 board.combinedTiles ? true : false
                             }
+                            onChange={submitSettings}
                         />
-                        <ThemeSelect theme={board.theme} />
+                        <ThemeSelect
+                            theme={board.theme}
+                            onChange={submitSettings}
+                        />
                         <TransportPaletteSelect
                             transportPalette={board.transportPalette}
                             theme={board.theme ?? 'dark'}
-                        ></TransportPaletteSelect>
-                        <FontSelect font={board.meta.fontSize} />
-                        <WalkingDistance location={board.meta.location} />
-                        <Footer infoMessage={board.footer} />
+                            onChange={submitSettings}
+                        />
+                        <FontSelect
+                            font={board.meta.fontSize}
+                            onChange={submitSettings}
+                        />
+                        <WalkingDistance
+                            location={board.meta.location}
+                            onChange={submitSettings}
+                        />
+                        <Footer
+                            infoMessage={board.footer}
+                            onBlur={submitSettings}
+                        />
                         <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
                 <FormError
                     {...getFormFeedbackForField('general', formErrors.general)}
                 />
-                <div>
-                    <SubmitButton variant="primary">Lagre</SubmitButton>
-                </div>
             </form>
         </div>
     )

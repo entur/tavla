@@ -47,15 +47,18 @@ const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
 function TransportPaletteSelect({
     transportPalette = 'default',
     theme,
+    onChange,
 }: {
     transportPalette?: TTransportPalette
     theme: TTheme
+    onChange: () => void
 }) {
     const [selectedValue, setSelectedValue] =
         useState<TTransportPalette>(transportPalette)
 
     const handleChange = (value: TTransportPalette) => {
         setSelectedValue(value)
+        onChange()
     }
 
     return (
