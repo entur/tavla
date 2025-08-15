@@ -139,68 +139,25 @@ function TileCard({
     }
 
     return (
-        <TileContext.Provider value={tile}>
-            <div className="flex flex-row">
-                <div
-                    className={`flex w-full items-center justify-between bg-blue20 px-6 py-4 ${
-                        isOpen ? 'rounded-t' : 'rounded'
-                    }`}
-                >
-                    <div className="flex flex-row items-center gap-4">
-                        <Heading3 margin="none">
-                            {tile.displayName ?? tile.name}
-                        </Heading3>
-                        <div className="hidden h-8 flex-row gap-4 sm:flex">
-                            {uniqTransportModeIcons}
-                        </div>
-                    </div>
-                    <EditRemoveTileButtonGroup
-                        hasTileChanged={changed}
-                        isTileOpen={isOpen}
-                        setIsTileOpen={setIsOpen}
-                        setConfirmOpen={setConfirmOpen}
-                        deleteTile={() =>
-                            deleteTile(
-                                bid,
-                                tile,
-                                addToast,
-                                demoBoard,
-                                setDemoBoard,
-                            )
-                        }
-                    />
-                </div>
-                <TileArrows
-                    index={index}
-                    totalTiles={totalTiles}
-                    moveItem={moveItem}
-                />
-            </div>
-            <BaseExpand open={isOpen}>
-                <div
-                    className={`mr-14 bg-blue10 px-6 py-4 ${
-                        totalTiles == 1 && 'w-full'
-                    } rounded-b`}
-                >
-                    <form
-                        id={tile.uuid}
-                        action={action}
-                        onInput={() => setChanged(true)}
+        <div>
+            <TileContext.Provider value={tile}>
+                <div className="flex flex-row">
+                    <div
+                        className={`flex w-full items-center justify-between bg-blue20 px-6 py-4 ${
+                            isOpen ? 'rounded-t' : 'rounded'
+                        }`}
                     >
-                        <SetStopPlaceName
-                            state={state}
-                            isCombined={isCombined}
-                        />
-                        <SetOffsetDepartureTime address={address} />
-                        <SetColumns isCombined={isCombined} />
-                        <SetVisibleLines
-                            uniqLines={uniqLines}
-                            transportModes={transportModes}
-                        />
-                        <SaveCancelDeleteTileButtonGroup
-                            confirmOpen={confirmOpen}
+                        <div className="flex flex-row items-center gap-4">
+                            <Heading3 margin="none">
+                                {tile.displayName ?? tile.name}
+                            </Heading3>
+                            <div className="hidden h-8 flex-row gap-4 sm:flex">
+                                {uniqTransportModeIcons}
+                            </div>
+                        </div>
+                        <EditRemoveTileButtonGroup
                             hasTileChanged={changed}
-                            resetTile={reset}
+                            isTileOpen={isOpen}
                             setIsTileOpen={setIsOpen}
                             setConfirmOpen={setConfirmOpen}
                             deleteTile={() =>
@@ -213,10 +170,55 @@ function TileCard({
                                 )
                             }
                         />
-                    </form>
+                    </div>
+                    <TileArrows
+                        index={index}
+                        totalTiles={totalTiles}
+                        moveItem={moveItem}
+                    />
                 </div>
-            </BaseExpand>
-        </TileContext.Provider>
+                <BaseExpand open={isOpen}>
+                    <div
+                        className={`mr-14 bg-blue10 px-6 py-4 ${
+                            totalTiles == 1 && 'w-full'
+                        } rounded-b`}
+                    >
+                        <form
+                            id={tile.uuid}
+                            action={action}
+                            onInput={() => setChanged(true)}
+                        >
+                            <SetStopPlaceName
+                                state={state}
+                                isCombined={isCombined}
+                            />
+                            <SetOffsetDepartureTime address={address} />
+                            <SetColumns isCombined={isCombined} />
+                            <SetVisibleLines
+                                uniqLines={uniqLines}
+                                transportModes={transportModes}
+                            />
+                            <SaveCancelDeleteTileButtonGroup
+                                confirmOpen={confirmOpen}
+                                hasTileChanged={changed}
+                                resetTile={reset}
+                                setIsTileOpen={setIsOpen}
+                                setConfirmOpen={setConfirmOpen}
+                                deleteTile={() =>
+                                    deleteTile(
+                                        bid,
+                                        tile,
+                                        addToast,
+                                        demoBoard,
+                                        setDemoBoard,
+                                    )
+                                }
+                            />
+                        </form>
+                    </div>
+                </BaseExpand>
+            </TileContext.Provider>
+        </div>
     )
 }
 export { TileCard }
