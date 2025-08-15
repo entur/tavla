@@ -5,7 +5,14 @@ import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { TLocation } from 'types/meta'
-function WalkingDistance({ location }: { location?: TLocation }) {
+
+function WalkingDistance({
+    location,
+    onChange,
+}: {
+    location?: TLocation
+    onChange: () => void
+}) {
     const { pointItems, selectedPoint, setSelectedPoint } =
         usePointSearch(location)
 
@@ -20,7 +27,10 @@ function WalkingDistance({ location }: { location?: TLocation }) {
                     label="Hvor befinner tavlen seg?"
                     items={pointItems}
                     selectedItem={selectedPoint}
-                    onChange={setSelectedPoint}
+                    onChange={(selectedItem) => {
+                        onChange()
+                        setSelectedPoint(selectedItem)
+                    }}
                     debounceTimeout={150}
                     clearable
                 />

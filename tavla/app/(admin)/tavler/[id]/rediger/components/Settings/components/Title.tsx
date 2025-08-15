@@ -5,9 +5,11 @@ import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 function Title({
     title,
     feedback,
+    onBlur,
 }: {
     title: string
     feedback?: TFormFeedback
+    onBlur: () => void
 }) {
     return (
         <div>
@@ -18,6 +20,7 @@ function Title({
                 defaultValue={title}
                 label="Navn på tavlen"
                 maxLength={50}
+                onBlur={onBlur}
                 {...feedback}
             />
         </div>

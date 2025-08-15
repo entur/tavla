@@ -5,7 +5,13 @@ import { Heading4, Paragraph } from '@entur/typography'
 import posthog from 'posthog-js'
 import { useState } from 'react'
 
-function ViewType({ hasCombinedTiles }: { hasCombinedTiles: boolean }) {
+function ViewType({
+    hasCombinedTiles,
+    onChange,
+}: {
+    hasCombinedTiles: boolean
+    onChange: () => void
+}) {
     const [value, setValue] = useState(
         hasCombinedTiles ? 'combined' : 'separate',
     )
@@ -22,6 +28,7 @@ function ViewType({ hasCombinedTiles }: { hasCombinedTiles: boolean }) {
                     name="viewType"
                     onChange={(e) => {
                         setValue(e.target.value)
+                        onChange()
                         posthog.capture('SAVE_VIEW_TYPE_BTN', {
                             value: e.target.value as string,
                         })

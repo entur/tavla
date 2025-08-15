@@ -7,7 +7,13 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { useState } from 'react'
 import { TFooter } from 'types/settings'
 
-function Footer({ infoMessage }: { infoMessage?: TFooter }) {
+function Footer({
+    infoMessage,
+    onBlur,
+}: {
+    infoMessage?: TFooter
+    onBlur: () => void
+}) {
     const [selectedValue, setSelectedValue] = useState<string>(
         infoMessage?.footer ?? '',
     )
@@ -36,6 +42,7 @@ function Footer({ infoMessage }: { infoMessage?: TFooter }) {
             <ClientOnlyTextField
                 value={selectedValue}
                 onChange={(f) => handleChange(f.target.value as string)}
+                onBlur={onBlur}
                 label="Infomelding"
                 name="footer"
                 className="w-full"
