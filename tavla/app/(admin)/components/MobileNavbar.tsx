@@ -1,5 +1,5 @@
 'use client'
-import { Button, IconButton } from '@entur/button'
+import { IconButton, PrimaryButton } from '@entur/button'
 import { CloseIcon, LeftArrowIcon, MenuIcon } from '@entur/icons'
 import { SideNavigation, SideNavigationItem } from '@entur/menu'
 import { Modal } from '@entur/modal'
@@ -8,23 +8,23 @@ import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import posthog from 'posthog-js'
 import { useState } from 'react'
-import { logout } from './Login/actions'
 
 function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
     const [isOpen, setIsOpen] = useState(false)
 
-    if (!loggedIn) return null
-
     return (
         <div className="block md:hidden">
-            <IconButton
+            <PrimaryButton
+                size="medium"
                 onClick={() => setIsOpen(!isOpen)}
-                className="!rounded-full !bg-contrast !p-3"
+                width="fluid"
+                className="!min-w-0"
             >
-                <MenuIcon content="Meny" color="background" />
-            </IconButton>
+                <MenuIcon content="Meny" color="background" /> Meny
+            </PrimaryButton>
 
             <Modal
                 open={isOpen}
@@ -51,22 +51,43 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                     </div>
 
                     <div className="bg-secondary">
-                        <SideNavigationItem
-                            href="/oversikt"
-                            active={pathname?.includes('/oversikt')}
-                        >
-                            Mine tavler
-                        </SideNavigationItem>
+                        {loggedIn ? (
+                            <SideNavigationItem
+                                active={pathname?.includes('/oversikt')}
+                                onClick={async () => {
+                                    setIsOpen(false)
+                                }}
+                                as={Link}
+                                href="/oversikt"
+                                className="!text-primary"
+                            >
+                                Mine tavler
+                            </SideNavigationItem>
+                        ) : (
+                            <SideNavigationItem
+                                active={pathname?.includes('/demo')}
+                                as={Link}
+                                href="/demo"
+                                onClick={async () => {
+                                    posthog.capture('DEMO_FROM_NAV_BAR_BTN')
+                                    setIsOpen(false)
+                                }}
+                                className="!text-primary"
+                            >
+                                Test ut Tavla
+                            </SideNavigationItem>
+                        )}
 
                         <SideNavigationItem
-                            as={Button}
-                            className="[&>button]:justify-start [&>button]:bg-secondary [&>button]:px-10 [&>button]:text-primary"
+                            active={pathname?.includes('/help')}
                             onClick={async () => {
                                 setIsOpen(false)
-                                await logout()
                             }}
+                            as={Link}
+                            href="/help"
+                            className="!text-primary"
                         >
-                            Logg ut
+                            Ofte stilte spørsmål
                         </SideNavigationItem>
                     </div>
                 </SideNavigation>
