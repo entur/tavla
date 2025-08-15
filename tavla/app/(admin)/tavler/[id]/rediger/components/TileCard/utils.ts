@@ -16,6 +16,21 @@ export function sortLineByPublicCode(a: TLineFragment, b: TLineFragment) {
     })
 }
 
+export function sortPublicCodes(a: string, b: string) {
+    if (!a || !b) return 1
+
+    const containsLetters = /[a-zæøåA-ZÆØÅ]/
+    const aContainsLetters = containsLetters.test(a)
+    const bContainsLetters = containsLetters.test(b)
+
+    if (aContainsLetters && !bContainsLetters) return 1
+    else if (!aContainsLetters && bContainsLetters) return -1
+
+    return a.localeCompare(b, 'no-NB', {
+        numeric: true,
+    })
+}
+
 export function transportModeNames(transportMode: TTransportMode | null) {
     switch (transportMode) {
         case 'air':
