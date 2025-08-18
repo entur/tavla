@@ -55,7 +55,7 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             )}
                             onBlur={submitSettings}
                         />
-                        <Folder folder={folder} />
+                        <Folder folder={folder} onChange={submitSettings} />
                     </div>
                 </div>
                 <div className="box">
