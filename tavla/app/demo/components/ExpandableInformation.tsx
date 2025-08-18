@@ -10,7 +10,7 @@ function ExpandableInformation() {
     return (
         <div>
             <button
-                className={`flex w-full cursor-pointer flex-row items-center justify-between bg-blue80 px-6 py-4 ${
+                className={`flex w-full cursor-pointer flex-row items-center justify-between bg-blue20 px-6 py-4 ${
                     isOpen ? 'rounded-t' : 'rounded'
                 }`}
                 onClick={() => setIsOpen(!isOpen)}
@@ -20,7 +20,7 @@ function ExpandableInformation() {
                 </Paragraph>
                 {isOpen ? <UpArrowIcon /> : <DownArrowIcon />}
             </button>
-            <BaseExpand open={isOpen} className="rounded-b bg-blue90 px-6 py-4">
+            <BaseExpand open={isOpen} className="rounded-b bg-blue10 px-6 py-4">
                 <UnorderedList className="gap-1 space-y-3 pl-6">
                     <ListItem>
                         Vise stoppestedene hver for seg eller samlet i én liste

@@ -67,8 +67,10 @@ function Move({ board }: { board: TBoard }) {
                 <Heading3 margin="bottom" as="h1">
                     Flytt tavlen &quot;{board.meta.title}&quot;
                 </Heading3>
-                <Paragraph className="mb-8">
-                    Velg hvilken mappe tavlen skal ligge i.
+                <Paragraph className="mb-5">
+                    Velg hvilken mappe du vil flytte tavlen til. Vær oppmerksom
+                    på at når du flytter en tavle vil tilgangene endres basert
+                    på hvem som har tilgang til mappen.
                 </Paragraph>
                 <form action={submit} className="w-full">
                     <Dropdown

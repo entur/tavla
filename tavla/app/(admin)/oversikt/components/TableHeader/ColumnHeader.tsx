@@ -12,7 +12,7 @@ function ColumnHeader({ column }: { column: TTableColumn }) {
     return (
         <div
             key={column}
-            className="flex h-10 items-center gap-1 bg-grey70 pl-2"
+            className="flex h-10 items-center gap-1 bg-grey30 pl-2"
         >
             <div
                 id={TableColumns[column]}

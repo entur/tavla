@@ -57,7 +57,7 @@ function TransportModeAndLines({
             <div className="flex flex-row items-center justify-start gap-4 font-semibold">
                 <TransportIcon
                     transportMode={transportMode}
-                    className="h-8 w-8"
+                    className={`h-8 w-8 text-${transportMode}`}
                 />
                 {transportModeNames(transportMode)}
             </div>

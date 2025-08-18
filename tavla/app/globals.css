@@ -1,209 +1,195 @@
+@import '@entur/tokens/dist/base.css';
+@import '@entur/tokens/dist/primitive.css';
 @import '@entur/tokens/dist/semantic.css';
+@import '@entur/tokens/dist/data.css';
+@import '@entur/tokens/dist/transport.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
     :root {
-        --main-background-color: var(--colors-brand-white);
-        --secondary-background-color: var(--colors-blues-blue90);
-        --tertiary-background-color: var(--colors-blues-blue60);
-        --contrast-background-color: var(--colors-brand-blue);
+        --main-background-color: var(--fill-background-standard-light);
+        --secondary-background-color: var(--fill-background-tint-light);
+        --tertiary-background-color: var(--blue-40);
+        --contrast-background-color: var(--fill-primary-default-light);
 
-        --main-text-color: var(--colors-brand-blue);
-        --secondary-text-color: var(--colors-greys-grey60);
-        --tertiary-text-color: var(--colors-greys-grey50);
-        --highlight-text-color: var(--colors-brand-coral);
+        --main-text-color: var(--text-accent);
+        --secondary-text-color: var(--text-subduedalt);
+        --tertiary-text-color: var(--text-neutralalt2);
+        --highlight-text-color: var(--coral-40);
 
-        --error-color: var(--colors-validation-lava);
-        --warning-color: var(--colors-misc-black);
-        --success-color: var(--colors-validation-mint);
+        --error-color: var(--fill-negative-deep);
+        --warning-color: var(--text-accent);
+        --success-color: var(--fill-success-deep);
 
-        --estimated-time-color: var(--colors-validation-lava);
-        --divider-color: var(--colors-blues-blue20);
-        --border-color: var(--colors-greys-grey50);
+        --divider-color: var(--stroke-contrastalt);
+        --border-color: var(--grey-50);
 
-        --blue80: var(--colors-blues-blue80);
-        --blue90: var(--colors-blues-blue90);
+        --blue20: var(--blue-20);
+        --blue10: var(--blue-10);
 
-        --grey60: var(--colors-greys-grey60);
-        --grey70: var(--colors-greys-grey70);
-        --grey80: var(--colors-greys-grey80);
+        --grey40: var(--grey-40);
+        --grey30: var(--grey-30);
+        --grey10: var(--grey-10);
 
-        --tooltip-color: var(--colors-blues-blue10);
-        --tooltip-text-color: var(--colors-brand-white);
+        --tooltip-color: var(--fill-background-contrast-lightalt-2);
+        --tooltip-text-color: var(--text-light);
 
-        --metro-color: var(--colors-transport-default-metro);
-        --bus-color: var(--colors-transport-default-bus);
-        --tram-color: var(--colors-transport-default-tram);
-        --funicular-color: var(--colors-transport-default-funicular);
-        --cableway-color: var(--colors-transport-default-cableway);
-        --rail-color: var(--colors-transport-default-train);
-        --air-color: var(--colors-transport-default-plane);
-        --coach-color: var(--colors-transport-default-bus);
-        --lift-color: var(--colors-transport-default-cableway);
-        --monorail-color: var(--colors-transport-default-tram);
-        --trolleybus-color: var(--colors-transport-default-bus);
-        --unknown-color: var(--colors-transport-default-walk);
-        --water-color: var(--colors-transport-default-ferry);
-        --taxi-color: var(--colors-transport-default-taxi);
+        --air-color: var(--standard-plane);
+        --bus-color: var(--standard-bus);
+        --cableway-color: var(--standard-cableway);
+        --funicular-color: var(--standard-funicular);
+        --metro-color: var(--standard-metro);
+        --mobility-color: var(--standard-mobility);
+        --rail-color: var(--standard-train);
+        --taxi-color: var(--standard-taxi);
+        --tram-color: var(--standard-tram);
+        --unknown-color: var(--standard-walk);
+        --water-color: var(--standard-ferry);
 
-        --metro-color-transparent: var(--standard-metro-transparent);
-        --bus-color-transparent: var(--standard-bus-transparent);
-        --tram-color-transparent: var(--standard-tram-transparent);
-        --funicular-color-transparent: var(--standard-funicular-transparent);
-        --cableway-color-transparent: var(--standard-cableway-transparent);
-        --rail-color-transparent: var(--standard-train-transparent);
         --air-color-transparent: var(--standard-plane-transparent);
-        --coach-color-transparent: var(--standard-bus-transparent);
-        --lift-color-transparent: var(--standard-cableway-transparent);
-        --monorail-color-transparent: var(--standard-tram-transparent);
-        --trolleybus-color-transparent: var(--standard-bus-transparent);
-        --water-color-transparent: var(--standard-ferry-transparent);
+        --bus-color-transparent: var(--standard-bus-transparent);
+        --cableway-color-transparent: var(--standard-cableway-transparent);
+        --funicular-color-transparent: var(--standard-funicular-transparent);
+        --metro-color-transparent: var(--standard-metro-transparent);
+        --rail-color-transparent: var(--standard-train-transparent);
         --taxi-color-transparent: var(--standard-taxi-transparent);
+        --tram-color-transparent: var(--standard-tram-transparent);
+        --water-color-transparent: var(--standard-ferry-transparent);
 
-        --data-visualization-azure: var(--colors-data-default-azure);
-        --data-visualization-blue: var(--colors-data-default-blue);
-        --data-visualization-coral: var(--colors-data-default-coral);
-        --data-visualization-jungle: var(--colors-data-default-jungle);
-        --data-visualization-lavender: var(--colors-data-default-lavender);
-        --data-visualization-lilac: var(--colors-data-default-lilac);
-        --data-visualization-peach: var(--colors-data-default-peach);
-        --data-visualization-spring: var(--colors-data-default-spring);
+        --data-visualization-azure: var(--standard-azure);
+        --data-visualization-blue: var(--standard-blue);
+        --data-visualization-coral: var(--standard-coral);
+        --data-visualization-jungle: var(--standard-jungle);
+        --data-visualization-lavender: var(--standard-lavender);
+        --data-visualization-lilac: var(--standard-lilac);
+        --data-visualization-peach: var(--standard-peach);
+        --data-visualization-spring: var(--standard-spring);
     }
 
     [data-theme='dark'] {
-        --main-background-color: var(--colors-misc-black);
-        --secondary-background-color: var(--colors-greys-grey);
-        --tertiary-background-color: var(--colors-blues-blue30);
-        --contrast-background-color: var(--colors-brand-white);
+        --main-background-color: var(
+            --colors-misc-black
+        ); /* TODO: Upgrade color */
+        --secondary-background-color: var(--grey-110);
+        --tertiary-background-color: var(--fill-background-contrast-lightalt);
+        --contrast-background-color: var(--fill-background-standard-light);
 
-        --main-text-color: var(--colors-brand-white);
-        --secondary-text-color: var(--colors-brand-lavender);
-        --tertiary-text-color: var(--colors-greys-grey50);
-        --highlight-text-color: var(--colors-brand-coral);
+        --main-text-color: var(--text-light);
+        --secondary-text-color: var(--text-highlight);
+        --tertiary-text-color: var(--text-neutralalt2);
+        --highlight-text-color: var(--coral-40);
 
-        --error-color: var(--colors-validation-lava-contrast);
-        --warning-color: var(--colors-validation-canary-contrast);
+        --error-color: var(--fill-negative-contrast);
+        --warning-color: var(--fill-warning-contrast);
         --success-color: var(--fill-success-contrast);
 
-        --estimated-time-color: var(--colors-brand-coral);
-        --divider-color: var(--colors-blues-blue20);
-        --border-color: var(--colors-greys-grey10);
+        --divider-color: var(--stroke-contrastalt);
+        --border-color: var(--grey-100);
 
-        --tooltip-color: var(--colors-greys-grey30);
+        --tooltip-color: var(--fill-background-subdued-dark);
+        --tooltip-text-color: var(--text-light);
 
-        --blue80: var(--colors-blues-blue80);
-        --blue90: var(--colors-blues-blue90);
+        --air-color: var(--dark-plane);
+        --bus-color: var(--dark-bus);
+        --cableway-color: var(--dark-cableway);
+        --funicular-color: var(--dark-funicular);
+        --metro-color: var(--dark-metro);
+        --mobility-color: var(--dark-mobility);
+        --rail-color: var(--dark-train);
+        --taxi-color: var(--dark-taxi);
+        --tram-color: var(--dark-tram);
+        --unknown-color: var(--dark-walk);
+        --water-color: var(--dark-ferry);
 
-        --grey60: var(--colors-greys-grey60);
-        --grey70: var(--colors-greys-grey70);
-        --grey80: var(--colors-greys-grey80);
+        --air-color-transparent: var(--dark-plane-transparent);
+        --bus-color-transparent: var(--dark-bus-transparent);
+        --cableway-color-transparent: var(--dark-cableway-transparent);
+        --funicular-color-transparent: var(--dark-funicular-transparent);
+        --metro-color-transparent: var(--dark-metro-transparent);
+        --rail-color-transparent: var(--dark-train-transparent);
+        --taxi-color-transparent: var(--dark-taxi-transparent);
+        --tram-color-transparent: var(--dark-tram-transparent);
+        --water-color-transparent: var(--dark-ferry-transparent);
 
-        --metro-color: var(--colors-transport-contrast-metro);
-        --bus-color: var(--colors-transport-contrast-bus);
-        --tram-color: var(--colors-transport-contrast-tram);
-        --funicular-color: var(--colors-transport-contrast-funicular);
-        --cableway-color: var(--colors-transport-contrast-cableway);
-        --rail-color: var(--colors-transport-contrast-train);
-        --air-color: var(--colors-transport-contrast-plane);
-        --coach-color: var(--colors-transport-contrast-bus);
-        --lift-color: var(--colors-transport-contrast-cableway);
-        --monorail-color: var(--colors-transport-contrast-tram);
-        --trolleybus-color: var(--colors-transport-contrast-bus);
-        --unknown-color: var(--colors-transport-contrast-walk);
-        --water-color: var(--colors-transport-contrast-ferry);
-        --taxi-color: var(--colors-transport-contrast-taxi);
-
-        --metro-color-transparent: var(--contrast-metro-transparent);
-        --bus-color-transparent: var(--contrast-bus-transparent);
-        --tram-color-transparent: var(--contrast-tram-transparent);
-        --funicular-color-transparent: var(--contrast-funicular-transparent);
-        --cableway-color-transparent: var(--contrast-cableway-transparent);
-        --rail-color-transparent: var(--contrast-train-transparent);
-        --air-color-transparent: var(--contrast-plane-transparent);
-        --coach-color-transparent: var(--contrast-bus-transparent);
-        --lift-color-transparent: var(--contrast-cableway-transparent);
-        --monorail-color-transparent: var(--contrast-tram-transparent);
-        --trolleybus-color-transparent: var(--contrast-bus-transparent);
-        --water-color-transparent: var(--contrast-ferry-transparent);
-        --taxi-color-transparent: var(--contrast-taxi-transparent);
-
-        --data-visualization-azure: var(--colors-data-contrast-azure);
-        --data-visualization-blue: var(--colors-data-contrast-blue);
-        --data-visualization-coral: var(--colors-data-contrast-coral);
-        --data-visualization-jungle: var(--colors-data-contrast-jungle);
-        --data-visualization-lavender: var(--colors-data-contrast-lavender);
-        --data-visualization-lilac: var(--colors-data-contrast-lilac);
-        --data-visualization-peach: var(--colors-data-contrast-peach);
-        --data-visualization-spring: var(--colors-data-contrast-spring);
+        --data-visualization-azure: var(--contrast-azure);
+        --data-visualization-blue: var(--contrast-blue);
+        --data-visualization-coral: var(--contrast-coral);
+        --data-visualization-jungle: var(--contrast-jungle);
+        --data-visualization-lavender: var(--contrast-lavender);
+        --data-visualization-lilac: var(--contrast-lilac);
+        --data-visualization-peach: var(--contrast-peach);
+        --data-visualization-spring: var(--contrast-spring);
     }
 
     /* Light theme palettes */
     [data-transport-palette='blue-bus'] {
-        --bus-color: var(--colors-transport-default-train);
+        --bus-color: var(--standard-train);
         --bus-color-transparent: var(--standard-train-transparent);
-        --rail-color: var(--colors-transport-default-bus);
+        --rail-color: var(--standard-bus);
         --rail-color-transparent: var(--standard-bus-transparent);
     }
 
     /* Dark theme palettes */
     [data-theme='dark'][data-transport-palette='blue-bus'] {
-        --bus-color: var(--colors-transport-contrast-train);
-        --bus-color-transparent: var(--contrast-train-transparent);
-        --rail-color: var(--colors-transport-contrast-bus);
-        --rail-color-transparent: var(--contrast-bus-transparent);
+        --bus-color: var(--dark-train);
+        --bus-color-transparent: var(--dark-train-transparent);
+        --rail-color: var(--dark-bus);
+        --rail-color-transparent: var(--dark-bus-transparent);
     }
 
     [data-theme='entur'] {
-        --main-background-color: var(--colors-brand-blue);
+        --main-background-color: var(--fill-primary-default-light);
         --secondary-background-color: var(--colors-blues-blue10);
         --tertiary-background-color: var(--colors-blues-blue30);
-        --contrast-background-color: var(--colors-brand-white);
+        --contrast-background-color: var(--fill-background-standard-light);
 
-        --main-text-color: var(--colors-brand-white);
-        --secondary-text-color: var(--colors-brand-lavender);
-        --tertiary-text-color: var(--colors-blues-blue60);
-        --highlight-text-color: var(--colors-brand-coral);
+        --main-text-color: var(--text-light);
+        --secondary-text-color: var(--text-highlight);
+        --tertiary-text-color: var(--blue-40);
+        --highlight-text-color: var(--coral-40);
 
-        --error-color: var(--colors-validation-lava-contrast);
-        --warning-color: var(--colors-validation-canary-contrast);
-        --success-color: #75daad;
+        --error-color: var(--fill-negative-contrast);
+        --warning-color: var(--fill-warning-contrast);
+        --success-color: var(--fill-success-contrast);
 
-        --estimated-time-color: var(--colors-brand-coral);
-        --divider-color: var(--colors-blues-blue20);
-        --border-color: var(--colors-blues-blue30);
+        --divider-color: var(--stroke-contrastalt);
+        --border-color: var(--blue-70);
 
-        --blue80: var(--colors-blues-blue80);
-        --blue90: var(--colors-blues-blue90);
+        --tooltip-color: var(--fill-background-standard-light);
+        --tooltip-text-color: var(--text-accent);
 
-        --grey60: var(--colors-greys-grey60);
-        --grey70: var(--colors-greys-grey70);
-        --grey80: var(--colors-greys-grey80);
+        --air-color: var(--contrast-plane);
+        --bus-color: var(--contrast-bus);
+        --cableway-color: var(--contrast-cableway);
+        --funicular-color: var(--contrast-funicular);
+        --metro-color: var(--contrast-metro);
+        --mobility-color: var(--contrast-mobility);
+        --rail-color: var(--contrast-train);
+        --taxi-color: var(--contrast-taxi);
+        --tram-color: var(--contrast-tram);
+        --unknown-color: var(--contrast-walk);
+        --water-color: var(--contrast-ferry);
 
-        --metro-color: var(--colors-transport-contrast-metro);
-        --bus-color: var(--colors-transport-contrast-bus);
-        --tram-color: var(--colors-transport-contrast-tram);
-        --funicular-color: var(--colors-transport-contrast-funicular);
-        --cableway-color: var(--colors-transport-contrast-cableway);
-        --rail-color: var(--colors-transport-contrast-train);
-        --air-color: var(--colors-transport-contrast-plane);
-        --coach-color: var(--colors-transport-contrast-bus);
-        --lift-color: var(--colors-transport-contrast-cableway);
-        --monorail-color: var(--colors-transport-contrast-tram);
-        --trolleybus-color: var(--colors-transport-contrast-bus);
-        --unknown-color: var(--colors-transport-contrast-walk);
-        --water-color: var(--colors-transport-contrast-ferry);
-        --taxi-color: var(--colors-transport-contrast-taxi);
+        --air-color-transparent: var(--contrast-plane-transparent);
+        --bus-color-transparent: var(--contrast-bus-transparent);
+        --cableway-color-transparent: var(--contrast-cableway-transparent);
+        --funicular-color-transparent: var(--contrast-funicular-transparent);
+        --metro-color-transparent: var(--contrast-metro-transparent);
+        --rail-color-transparent: var(--contrast-train-transparent);
+        --taxi-color-transparent: var(--contrast-taxi-transparent);
+        --tram-color-transparent: var(--contrast-tram-transparent);
+        --water-color-transparent: var(--contrast-ferry-transparent);
 
-        --data-visualization-azure: var(--colors-data-contrast-azure);
-        --data-visualization-blue: var(--colors-data-contrast-blue);
-        --data-visualization-coral: var(--colors-data-contrast-coral);
-        --data-visualization-jungle: var(--colors-data-contrast-jungle);
-        --data-visualization-lavender: var(--colors-data-contrast-lavender);
-        --data-visualization-lilac: var(--colors-data-contrast-lilac);
-        --data-visualization-peach: var(--colors-data-contrast-peach);
-        --data-visualization-spring: var(--colors-data-contrast-spring);
+        --data-visualization-azure: var(--contrast-azure);
+        --data-visualization-blue: var(--contrast-blue);
+        --data-visualization-coral: var(--contrast-coral);
+        --data-visualization-jungle: var(--contrast-jungle);
+        --data-visualization-lavender: var(--contrast-lavender);
+        --data-visualization-lilac: var(--contrast-lilac);
+        --data-visualization-peach: var(--contrast-peach);
+        --data-visualization-spring: var(--contrast-spring);
     }
 
     html {
@@ -284,7 +270,7 @@
         width: 100%;
         border-radius: 0.5em;
         padding: 2em;
-        background: var(--blue90);
+        background: var(--blue10);
     }
 
     .divider {
@@ -309,7 +295,7 @@
         &:nth-child(6n + 1),
         &:nth-child(6n + 2),
         &:nth-child(6n + 3) {
-            @apply bg-grey80;
+            @apply bg-grey10;
         }
     }
 

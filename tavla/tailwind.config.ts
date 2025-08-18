@@ -1,38 +1,9 @@
 import type { Config } from 'tailwindcss'
-import { dataColors } from './app/(admin)/oversikt/utils'
-
-const transportModes = {
-    metro: 'var(--metro-color)',
-    bus: 'var(--bus-color)',
-    tram: 'var(--tram-color)',
-    rail: 'var(--rail-color)',
-    air: 'var(--air-color)',
-    funicular: 'var(--funicular-color)',
-    cableway: 'var(--cableway-color)',
-    coach: 'var(--coach-color)',
-    lift: 'var(--lift-color)',
-    monorail: 'var(--monorail-color)',
-    trolleybus: 'var(--trolleybus-color)',
-    unknown: 'var(--unknown-color)',
-    water: 'var(--water-color)',
-    taxi: 'var(--taxi-color)',
-}
-const transportModesTransparent = {
-    'metro-transparent': 'var(--metro-color-transparent)',
-    'bus-transparent': 'var(--bus-color-transparent)',
-    'tram-transparent': 'var(--tram-color-transparent)',
-    'rail-transparent': 'var(--rail-color-transparent)',
-    'air-transparent': 'var(--air-color-transparent)',
-    'funicular-transparent': 'var(--funicular-color-transparent)',
-    'cableway-transparent': 'var(--cableway-color-transparent)',
-    'coach-transparent': 'var(--coach-color-transparent)',
-    'lift-transparent': 'var(--lift-color-transparent)',
-    'monorail-transparent': 'var(--monorail-color-transparent)',
-    'trolleybus-transparent': 'var(--trolleybus-color-transparent)',
-    'unknown-transparent': 'var(--unknown-color-transparent)',
-    'water-transparent': 'var(--water-color-transparent)',
-    'taxi-transparent': 'var(--taxi-color-transparent)',
-}
+import {
+    dataColors,
+    transportModes,
+    transportModesTransparent,
+} from './app/(admin)/oversikt/utils'
 
 module.exports = {
     content: [
@@ -54,11 +25,11 @@ module.exports = {
                 secondary: 'var(--secondary-background-color)',
                 tertiary: 'var(--tertiary-background-color)',
                 contrast: 'var(--contrast-background-color)',
-                grey60: 'var(--grey60)',
-                grey70: 'var(--grey70)',
-                grey80: 'var(--grey80)',
-                blue80: 'var(--blue80)',
-                blue90: 'var(--blue90)',
+                grey40: 'var(--grey40)',
+                grey30: 'var(--grey30)',
+                grey10: 'var(--grey10)',
+                blue20: 'var(--blue20)',
+                blue10: 'var(--blue10)',
             },
             colors: {
                 background: 'var(--main-background-color)',
@@ -69,7 +40,7 @@ module.exports = {
                 success: 'var(--success-color)',
                 warning: 'var(--warning-color)',
                 highlight: 'var(--highlight-text-color)',
-                'estimated-time': 'var(--estimated-time-color)',
+                'estimated-time': 'var(--error-color)',
                 tooltip: 'var(--tooltip-color)',
                 'tooltip-text': 'var(--tooltip-text-color)',
                 ...transportModes,
