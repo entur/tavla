@@ -39,9 +39,7 @@ function WalkingDistance({
                     label="Hvor befinner tavlen seg?"
                     items={pointItems}
                     selectedItem={selectedPoint}
-                    onChange={(selectedItem) => {
-                        setSelectedPoint(selectedItem)
-                    }}
+                    onChange={setSelectedPoint}
                     debounceTimeout={150}
                     clearable
                 />
