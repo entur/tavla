@@ -40,6 +40,9 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
     return (
         <div className="flex flex-col gap-4 rounded-md bg-background px-2 py-2 md:px-6 md:py-8">
             <Heading2>Innstillinger</Heading2>
+            <FormError
+                {...getFormFeedbackForField('general', formErrors.general)}
+            />
             <form
                 className="grid grid-cols-1 gap-8 lg:grid-cols-2"
                 ref={formRef}
@@ -91,9 +94,6 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                         <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
-                <FormError
-                    {...getFormFeedbackForField('general', formErrors.general)}
-                />
             </form>
         </div>
     )
