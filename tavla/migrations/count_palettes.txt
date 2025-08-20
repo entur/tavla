@@ -1,0 +1,5 @@
+Old default palette: 8
+Old blue bus palette: 28
+-----------------------------------
+New default palette: 52
+New blue palette: 25

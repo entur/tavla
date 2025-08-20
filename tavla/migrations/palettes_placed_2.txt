@@ -1,0 +1,53 @@
+* Molde trafikkterminal
+* Keiser Wilhelms gate 2,  Ålesund
+* Hauaplassen, Ålesund
+* Harstad Byterminal,  Harstad
+* Ørsta-Volda lufthamn 1,  Ørsta
+* Veavågen,  Karmøy
+* Espern 1,  Hamar | Espern 2,  Hamar
+* Molde trafikkterminal, Molde
+* Ørsta rutebilstasjon,  Ørsta
+* Gatestopp Moa 11 Nord,  Ålesund | Gatestopp Moa 13 Nord,  Ålesund
+* Kristiansund trafikkterminal,  Kristiansund
+* Malm skole 1,  Steinkjer | Malm skole 2,  Steinkjer | Malm,  Steinkjer
+* Korsegata,  Ålesund
+* Sjukehuslomma,  Ålesund
+* Hestehagen
+* Hareid kai,  Hareid
+* Forskningsparken,  Lillestrøm | Lillestrøm stasjon,  Lillestrøm
+* Valderøya hurtigbåtkai,  Giske
+* Sjøholt,  Ålesund
+* Åndalsnes stasjon,  Rauma
+* Campus Ålesund,  Ålesund
+* Lærerhøgskolen,  Tromsø | Lanesbukta,  Tromsø
+* Molde trafikkterminal, Molde
+* Oslo lufthavn 11,  Ullensaker | Oslo lufthavn 12,  Ullensaker
+* Ulsteinvik skysstasjon, Ulstein
+* Trondheim S 14 | Trondheim S 11
+* Trondheim S 11,  Trondheim
+* Skei,  Surnadal
+* Korsegata,  Ålesund | Keiser Wilhelms gate,  Ålesund | Ålesund rutebilstasjon hurtigbåtkai,  Ålesund
+* Knausen 2,  Tromsø | Utsikten,  Tromsø
+* Moa trafikkterminal,  Ålesund
+* Jernbanetorget 1 Retning øst,  Oslo | Kvadraturen 2,  Oslo
+* Korsegata,  Ålesund
+* Kristiansund trafikkterminal,  Kristiansund
+* Keiser Wilhelms gate 1,  Ålesund
+* Kristiansund lufthavn,  Kristiansund
+* Gatestopp Moa 12 Sør,  Ålesund | Gatestopp Moa 14 Sør,  Ålesund
+* Bergsøya Krifast,  Gjemnes
+* Hareid bussterminal,  Hareid
+* Sunndalsøra
+* Kristiansund trafikkterminal,  Kristiansund
+* Ytterland,  Giske
+* Volda rutebilstasjon,  Volda
+* Fylkeshusa,  Molde | Aker stadion,  Molde
+* Edøy ferjekai, Smøla
+* Oslo lufthavn,  Ullensaker
+* Kleive kirke 2,  Molde
+* Årøkrysset,  Molde | Årøhagen 2,  Molde
+* Gol Camping,  Gol
+* Sjukehuslomma 1,  Ålesund | Sjukehuslomma 2,  Ålesund
+* SNR Hjelset 1,  Molde
+* Brynseng,  Oslo
+* Skateflukaia 1 

@@ -1,0 +1,53 @@
+Palette: blue-bus, Names: Molde trafikkterminal
+Palette: blue-bus, Names: Keiser Wilhelms gate 2,  Ålesund
+Palette: blue-bus, Names: Hauaplassen, Ålesund
+Palette: blue-bus, Names: Harstad Byterminal,  Harstad
+Palette: blue-bus, Names: Ørsta-Volda lufthamn 1,  Ørsta
+Palette: blue-bus, Names: Veavågen,  Karmøy
+Palette: blue-bus, Names: Espern 1,  Hamar| Espern 2,  Hamar
+Palette: blue-bus, Names: Molde trafikkterminal, Molde
+Palette: blue-bus, Names: Ørsta rutebilstasjon,  Ørsta
+Palette: blue-bus, Names: Gatestopp Moa 11 Nord,  Ålesund| Gatestopp Moa 13 Nord,  Ålesund
+Palette: blue-bus, Names: Kristiansund trafikkterminal,  Kristiansund
+Palette: blue-bus, Names: Malm skole 1,  Steinkjer| Malm skole 2,  Steinkjer| Malm,  Steinkjer
+Palette: blue-bus, Names: Korsegata,  Ålesund
+Palette: blue-bus, Names: Sjukehuslomma,  Ålesund
+Palette: blue-bus, Names: Hestehagen
+Palette: blue-bus, Names: Hareid kai,  Hareid
+Palette: blue-bus, Names: Forskningsparken,  Lillestrøm| Lillestrøm stasjon,  Lillestrøm
+Palette: blue-bus, Names: Valderøya hurtigbåtkai,  Giske
+Palette: blue-bus, Names: Sjøholt,  Ålesund
+Palette: blue-bus, Names: Åndalsnes stasjon,  Rauma
+Palette: blue-bus, Names: Campus Ålesund,  Ålesund
+Palette: blue-bus, Names: Lærerhøgskolen,  Tromsø| Lanesbukta,  Tromsø
+Palette: blue-bus, Names: Molde trafikkterminal, Molde
+Palette: blue-bus, Names: Oslo lufthavn 11,  Ullensaker| Oslo lufthavn 12,  Ullensaker
+Palette: blue-bus, Names: Ulsteinvik skysstasjon, Ulstein
+Palette: blue-bus, Names: Trondheim S 14| Trondheim S 11
+Palette: blue-bus, Names: Trondheim S 11,  Trondheim
+Palette: blue-bus, Names: Skei,  Surnadal
+Palette: blue-bus, Names: Korsegata,  Ålesund| Keiser Wilhelms gate,  Ålesund| Ålesund rutebilstasjon hurtigbåtkai,  Ålesund
+Palette: blue-bus, Names: Knausen 2,  Tromsø| Utsikten,  Tromsø
+Palette: blue-bus, Names: Moa trafikkterminal,  Ålesund
+Palette: blue-bus, Names: Jernbanetorget 1 Retning øst,  Oslo| Kvadraturen 2,  Oslo
+Palette: blue-bus, Names: Korsegata,  Ålesund
+Palette: blue-bus, Names: Kristiansund trafikkterminal,  Kristiansund
+Palette: blue-bus, Names: Keiser Wilhelms gate 1,  Ålesund
+Palette: blue-bus, Names: Kristiansund lufthavn,  Kristiansund
+Palette: blue-bus, Names: Gatestopp Moa 12 Sør,  Ålesund| Gatestopp Moa 14 Sør,  Ålesund
+Palette: blue-bus, Names: Bergsøya Krifast,  Gjemnes
+Palette: blue-bus, Names: Hareid bussterminal,  Hareid
+Palette: blue-bus, Names: Sunndalsøra
+Palette: blue-bus, Names: Kristiansund trafikkterminal,  Kristiansund
+Palette: blue-bus, Names: Ytterland,  Giske
+Palette: blue-bus, Names: Volda rutebilstasjon,  Volda
+Palette: blue-bus, Names: Fylkeshusa,  Molde| Aker stadion,  Molde
+Palette: blue-bus, Names: Edøy ferjekai, Smøla
+Palette: blue-bus, Names: Oslo lufthavn,  Ullensaker
+Palette: blue-bus, Names: Kleive kirke 2,  Molde
+Palette: blue-bus, Names: Årøkrysset,  Molde| Årøhagen 2,  Molde
+Palette: blue-bus, Names: Gol Camping,  Gol
+Palette: blue-bus, Names: Sjukehuslomma 1,  Ålesund| Sjukehuslomma 2,  Ålesund
+Palette: blue-bus, Names: SNR Hjelset 1,  Molde
+Palette: blue-bus, Names: Brynseng,  Oslo
+Palette: blue-bus, Names: Skateflukaia 1 

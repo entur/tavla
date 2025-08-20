@@ -1,0 +1,2 @@
+Default palette: 60
+Blue bus palette: 52
