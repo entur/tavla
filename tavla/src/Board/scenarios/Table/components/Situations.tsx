@@ -85,9 +85,9 @@ function Situations({
 
     return (
         situationText && (
-            <div className="flex h-16 w-full flex-row pt-8">
+            <div className="ml-em-0.25 flex w-full flex-row items-center pt-4 md:pt-6 lg:pt-8">
                 <div
-                    className={`mr-6 flex shrink-0 items-center justify-center text-${cancelledDeparture ? 'error' : 'warning'}`}
+                    className={`flex shrink-0 items-center justify-center text-${cancelledDeparture ? 'error' : 'warning'}`}
                 >
                     {cancelledDeparture ? (
                         <ValidationErrorFilledIcon size="1em" />
@@ -97,7 +97,7 @@ function Situations({
                 </div>
                 <div className="grow self-center">
                     <p
-                        className={`line-clamp-2 overflow-hidden overflow-ellipsis break-words pt-1 text-em-sm/em-base font-normal text-${cancelledDeparture ? 'error' : 'warning'}`}
+                        className={`ml-em-0.75 line-clamp-2 overflow-hidden overflow-ellipsis break-words pt-1 text-em-sm/em-base font-normal text-${cancelledDeparture ? 'error' : 'warning'}`}
                     >
                         {situationText}
                     </p>

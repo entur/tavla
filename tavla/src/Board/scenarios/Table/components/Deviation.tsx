@@ -36,29 +36,36 @@ function Deviation({
 
     return (
         <TableColumn>
-            {deviations.map((deviation) =>
-                deviation.cancelled ? (
+            {deviations.map((deviation) => {
+                const show = deviation.cancelled
+                    ? 'cancelled'
+                    : deviation.situations.length > 0
+                      ? 'situation'
+                      : null
+
+                let icon = null
+                let deviationType = ''
+
+                if (show === 'cancelled') {
+                    icon = <ValidationErrorFilledIcon />
+                    deviationType = 'text-error'
+                } else if (show === 'situation') {
+                    icon = <ValidationExclamationCircleFilledIcon />
+                    deviationType = 'text-warning'
+                }
+
+                return (
                     <TableCell key={deviation.key}>
-                        <div
-                            className={`flex w-7 items-center justify-center text-error ${deviation.isVisible ? '' : 'opacity-50'}`}
-                        >
-                            <ValidationErrorFilledIcon size="0.75em" />
-                        </div>
+                        {icon && (
+                            <div
+                                className={`flex ${deviationType} ${deviation.isVisible ? '' : 'opacity-50'}`}
+                            >
+                                {icon}
+                            </div>
+                        )}
                     </TableCell>
-                ) : (
-                    <TableCell key={deviation.key}>
-                        <div
-                            className={`flex w-7 items-center justify-center text-warning ${deviation.isVisible ? '' : 'opacity-50'}`}
-                        >
-                            {deviation.situations.length > 0 ? (
-                                <ValidationExclamationCircleFilledIcon size="0.75em" />
-                            ) : (
-                                <div />
-                            )}
-                        </div>
-                    </TableCell>
-                ),
-            )}
+                )
+            })}
         </TableColumn>
     )
 }
