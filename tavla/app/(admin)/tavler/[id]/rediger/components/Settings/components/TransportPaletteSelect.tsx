@@ -1,7 +1,6 @@
 'use client'
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
-import { HiddenInput } from 'components/Form/HiddenInput'
 import { TravelTag } from 'components/TravelTag'
 import { useState } from 'react'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
@@ -47,26 +46,32 @@ const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
 function TransportPaletteSelect({
     transportPalette = 'default',
     theme,
+    onChange,
 }: {
     transportPalette?: TTransportPalette
     theme: TTheme
+    onChange: () => void
 }) {
     const [selectedValue, setSelectedValue] =
         useState<TTransportPalette>(transportPalette)
 
     const handleChange = (value: TTransportPalette) => {
         setSelectedValue(value)
+        onChange()
     }
 
     return (
         <>
-            <Heading4 margin="bottom">Farger på transportmidler</Heading4>
+            <Heading4 margin="bottom" id="transport-palette-heading">
+                Farger på transportmidler
+            </Heading4>
             <Paragraph className="!mb-0">
                 Velg hvilke farger transportmidlene i tavlevisningen skal ha.
             </Paragraph>
             <RadioGroup
-                name="Fargepalett"
+                name="transportPalette"
                 value={selectedValue}
+                aria-labelledby="transport-palette-heading"
                 onChange={(e) => {
                     handleChange(e.target.value as TTransportPalette)
                 }}
@@ -112,7 +117,6 @@ function TransportPaletteSelect({
                     </div>
                 ))}
             </RadioGroup>
-            <HiddenInput id="transportPalette" value={selectedValue} />
         </>
     )
 }

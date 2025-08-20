@@ -3,10 +3,28 @@ import { Dropdown } from '@entur/dropdown'
 import { Heading4 } from '@entur/typography'
 import { useFolders } from 'app/(admin)/hooks/useFolders'
 import { HiddenInput } from 'components/Form/HiddenInput'
+import { useEffect, useRef } from 'react'
 import { TFolder } from 'types/settings'
 
-function Folder({ folder }: { folder?: TFolder }) {
+function Folder({
+    folder,
+    onChange,
+}: {
+    folder?: TFolder
+    onChange: () => void
+}) {
     const { folders, selectedFolder, setSelectedFolder } = useFolders(folder)
+
+    const isFirstRender = useRef(true)
+
+    //Wait until selectedPoint is set before calling onChange to ensure the form is updated correctly
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false
+            return
+        }
+        onChange()
+    }, [selectedFolder, onChange])
 
     return (
         <div>

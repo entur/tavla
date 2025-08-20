@@ -9,7 +9,7 @@ type ChoiceChipProps<T> = {
     defaultValue: T
     name: string
     ariaLabel: string
-    onChange?: (value: T) => void
+    onChange: () => void
 }
 
 function ChoiceChipGroupGeneral<T extends string>({
@@ -24,9 +24,7 @@ function ChoiceChipGroupGeneral<T extends string>({
 
     const handleChange = (value: T) => {
         setSelectedValue(value)
-        if (onChange) {
-            onChange(value)
-        }
+        onChange()
     }
 
     return (

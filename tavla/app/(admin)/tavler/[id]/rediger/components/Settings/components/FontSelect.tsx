@@ -2,7 +2,13 @@
 import { TFontSize } from 'types/meta'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
-function FontSelect({ font = 'medium' }: { font?: TFontSize }) {
+function FontSelect({
+    font = 'medium',
+    onChange,
+}: {
+    font?: TFontSize
+    onChange: () => void
+}) {
     return (
         <ChoiceChipGroupGeneral<TFontSize>
             label="Tekststørrelse"
@@ -14,6 +20,7 @@ function FontSelect({ font = 'medium' }: { font?: TFontSize }) {
             defaultValue={font}
             name="font"
             ariaLabel="Tekststørrelse"
+            onChange={onChange}
         />
     )
 }
