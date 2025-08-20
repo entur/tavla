@@ -13,24 +13,21 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePostHog()
 
     return (
-        <nav className="container flex flex-row items-center justify-between py-8">
-            <Link href="/" aria-label="Tilbake til landingssiden">
+        <nav className="container flex flex-row items-center justify-between gap-3 py-8">
+            <Link href="/" aria-label="Tilbake til landingssiden ">
                 <Image src={TavlaLogoBlue} height={32} alt="" />
             </Link>
-            <div className="flex flex-row items-center gap-4">
-                <MobileNavbar loggedIn={loggedIn} />
+            <div className="flex shrink-0 flex-row items-center gap-4">
                 <div className="flex flex-row sm:gap-10">
                     {loggedIn ? (
-                        <div className="hidden flex-row gap-4 md:flex">
-                            <TopNavigationItem
-                                active={pathname?.includes('/oversikt')}
-                                as={Link}
-                                href="/oversikt"
-                                className="!text-primary"
-                            >
-                                Mine tavler
-                            </TopNavigationItem>
-                        </div>
+                        <TopNavigationItem
+                            active={pathname?.includes('/oversikt')}
+                            as={Link}
+                            href="/oversikt"
+                            className="hidden flex-col !text-primary md:flex"
+                        >
+                            Mine tavler
+                        </TopNavigationItem>
                     ) : (
                         <TopNavigationItem
                             active={pathname?.includes('/demo')}
@@ -39,7 +36,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                             onClick={() => {
                                 posthog.capture('DEMO_FROM_NAV_BAR_BTN')
                             }}
-                            className="!text-primary"
+                            className="flex:col hidden !text-primary md:flex"
                         >
                             Test ut Tavla
                         </TopNavigationItem>
@@ -48,12 +45,14 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                         active={pathname?.includes('/help')}
                         as={Link}
                         href="/help"
-                        className="!text-primary"
+                        className="hidden flex-col !text-primary md:flex"
                     >
                         Ofte stilte spørsmål
                     </TopNavigationItem>
+
                     <Login loggedIn={loggedIn} />
                 </div>
+                <MobileNavbar loggedIn={loggedIn} />
             </div>
         </nav>
     )
