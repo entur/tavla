@@ -70,15 +70,17 @@ export async function saveSettings(data: FormData) {
         return errors
     }
 
+    const boardTitle = title ?? board.meta.title //Ugly hack, should re-evaluate the whole structure
+
     try {
-        if (isEmptyOrSpaces(title))
+        if (isEmptyOrSpaces(boardTitle))
             errors['name'] = getFormFeedbackForError('board/tiles-name-missing')
 
         if (Object.keys(errors).length !== 0) {
             return errors
         }
 
-        await saveTitle(bid, title)
+        await saveTitle(bid, boardTitle)
         await moveBoard(bid, newFolder, oldFolder)
         await saveLocation(board, location)
         await saveFont(bid, font)
