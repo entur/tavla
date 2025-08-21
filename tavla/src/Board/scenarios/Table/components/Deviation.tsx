@@ -9,6 +9,21 @@ import { DeparturesContext } from '../contexts'
 import { TableCell } from './TableCell'
 import { TableColumn } from './TableColumn'
 
+type Situation = {
+    type: 'situation'
+    situations: TSituationFragment[]
+    isHighlighted: boolean
+}
+
+type Cancellation = {
+    type: 'cancellation'
+    isHighlighted: boolean
+}
+
+type NoDeviation = { type: 'no-deviation' }
+
+type Deviation = Situation | Cancellation | NoDeviation
+
 function Deviation({
     currentVisibleSituationId,
     situations,
@@ -20,54 +35,64 @@ function Deviation({
 }) {
     const departures = useNonNullContext(DeparturesContext)
 
-    const deviations = departures.map((departure) => ({
-        situations:
-            filterSituationsFromChosenStop(situations, departure.situations) ??
-            [],
-        key: `${departure.serviceJourney.id}_${departure.aimedDepartureTime}`,
-        cancelled: departure.cancellation,
-        isVisible:
+    const deviations: Deviation[] = departures.map((departure) => {
+        const isHighlighted =
             numberOfShownSituations && numberOfShownSituations > 0
                 ? departure.situations.some(
                       (situation) => situation.id === currentVisibleSituationId,
                   )
-                : true,
-    }))
+                : true
+
+        const filteredSituations =
+            filterSituationsFromChosenStop(situations, departure.situations) ??
+            []
+
+        if (departure.cancellation) {
+            return {
+                type: 'cancellation',
+                isHighlighted,
+            }
+        } else if (filteredSituations.length > 0) {
+            return {
+                type: 'situation',
+                situations: filteredSituations,
+                isHighlighted,
+            }
+        } else {
+            return { type: 'no-deviation' }
+        }
+    })
 
     return (
         <TableColumn>
-            {deviations.map((deviation) => {
-                const show = deviation.cancelled
-                    ? 'cancelled'
-                    : deviation.situations.length > 0
-                      ? 'situation'
-                      : null
-
-                let icon = null
-                let deviationType = ''
-
-                if (show === 'cancelled') {
-                    icon = <ValidationErrorFilledIcon />
-                    deviationType = 'text-error'
-                } else if (show === 'situation') {
-                    icon = <ValidationExclamationCircleFilledIcon />
-                    deviationType = 'text-warning'
-                }
-
-                return (
-                    <TableCell key={deviation.key}>
-                        {icon && (
-                            <div
-                                className={`flex ${deviationType} ${deviation.isVisible ? '' : 'opacity-50'}`}
-                            >
-                                {icon}
-                            </div>
-                        )}
-                    </TableCell>
-                )
-            })}
+            {deviations.map((deviation, index) => (
+                <TableCell key={deviation.type + index}>
+                    <DeviationIcon deviation={deviation} />
+                </TableCell>
+            ))}
         </TableColumn>
     )
+}
+
+function DeviationIcon({ deviation }: { deviation: Deviation }) {
+    switch (deviation.type) {
+        case 'cancellation':
+            return (
+                <ValidationErrorFilledIcon
+                    color="var(--error-color)"
+                    className={deviation.isHighlighted ? '' : 'opacity-50'}
+                />
+            )
+        case 'situation':
+            return (
+                <ValidationExclamationCircleFilledIcon
+                    color="var(--warning-color)"
+                    className={deviation.isHighlighted ? '' : 'opacity-50'}
+                />
+            )
+        case 'no-deviation':
+            return null
+    }
 }
 
 export { Deviation }
