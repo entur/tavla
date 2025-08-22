@@ -82,9 +82,10 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         <EnturLink as={Link} href="/privacy">
                             Personvernerklæring
                         </EnturLink>
+                        {/* SILJE */}
                         <EnturLink
                             as={Link}
-                            href="javascript:void(0)"
+                            href="javascript:void(0)" // kan ha # her, men da blir du scrollet til toppen i stedet for å bare bli værende der du er i viewporten
                             onClick={showUC_UI}
                         >
                             Informasjonskapsler

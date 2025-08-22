@@ -23,7 +23,7 @@ const emailBody = (id: string) => {
 }
 
 function ExpandableInfo() {
-    const [controllerId, setControllerId] = useState('UKJENT FEIL')
+    const [controllerId, setControllerId] = useState('UKJENT FEIL') // SILJE --> denne her skal vel kanksje være litt annerledes?
     const params = useSearchParams()
     const open = params?.get('indeks')
 
@@ -86,7 +86,7 @@ function ExpandableInfo() {
                 </UnorderedList>
             </ExpandablePanel>
             <ExpandablePanel
-                title="Informasjonskapsler"
+                title="Informasjonskapsler" // SILJE
                 defaultOpen={open === '2'}
                 id="informasjonskapsler"
             >
@@ -134,7 +134,7 @@ function ExpandableInfo() {
                     >
                         Send forespørsel om å slette analysedata
                     </SecondaryButton>
-                    <CopyableText
+                    <CopyableText // SILJE
                         successHeading="ID kopiert"
                         aria-label="Kopier din sporings-ID"
                         textToCopy={controllerId}
