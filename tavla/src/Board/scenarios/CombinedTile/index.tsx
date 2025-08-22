@@ -81,7 +81,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
         }) ?? []),
         ...(quayData?.flatMap((data) => {
             const origin = data.quay?.name ?? ''
-            const situations = data?.quay?.situations ?? []
+            const situations = data?.quay?.stopPlace?.situations ?? []
             return situations.map((situation) => ({
                 origin,
                 ...situation,
