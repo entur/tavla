@@ -76,11 +76,13 @@ function Situations({
         publicCodeList,
     )
 
+    const textColor = cancelledDeparture ? 'error' : 'warning'
+
     return (
         situationText && (
             <div className="ml-em-0.25 flex w-full flex-row items-center pt-4 md:pt-6 lg:pt-8">
                 <div
-                    className={`flex shrink-0 items-center justify-center text-${cancelledDeparture ? 'error' : 'warning'}`}
+                    className={`flex shrink-0 items-center justify-center text-${textColor}`}
                 >
                     {cancelledDeparture ? (
                         <ValidationErrorFilledIcon size="1em" />
@@ -90,7 +92,7 @@ function Situations({
                 </div>
                 <div className="grow self-center">
                     <p
-                        className={`ml-em-0.75 line-clamp-2 overflow-hidden overflow-ellipsis break-words pt-1 text-em-sm/em-base font-normal text-${cancelledDeparture ? 'error' : 'warning'}`}
+                        className={`ml-em-0.75 line-clamp-2 overflow-hidden overflow-ellipsis break-words pt-1 text-em-sm/em-base font-normal text-${textColor}`}
                     >
                         <>
                             {transportModeWithPublicCode && (
@@ -104,7 +106,7 @@ function Situations({
                     </p>
                 </div>
                 <div
-                    className={`ml-8 shrink-0 justify-center self-center text-center text-em-sm/em-base font-semibold text-${cancelledDeparture ? 'error' : 'warning'}`}
+                    className={`ml-8 shrink-0 justify-center self-center text-center text-em-sm/em-base font-semibold text-${textColor}`}
                 >
                     {currentSituationNumber !== undefined &&
                         numberOfSituations !== undefined &&
