@@ -80,14 +80,16 @@ function DeviationIcon({ deviation }: { deviation: Deviation }) {
             return (
                 <ValidationErrorFilledIcon
                     color="var(--error-color)"
-                    className={deviation.isHighlighted ? '' : 'opacity-50'}
+                    className="text-error"
+                    opacity={deviation.isHighlighted ? 1 : 0.5}
                 />
             )
         case 'situation':
             return (
                 <ValidationExclamationCircleFilledIcon
                     color="var(--warning-color)"
-                    className={deviation.isHighlighted ? '' : 'opacity-50'}
+                    className="text-warning"
+                    opacity={deviation.isHighlighted ? 1 : 0.5}
                 />
             )
         case 'no-deviation':
