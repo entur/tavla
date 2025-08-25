@@ -84,7 +84,7 @@ export function QuayTile({
                 <Table
                     columns={columns}
                     departures={data.quay.estimatedCalls}
-                    filterSituations={combinedStopPlaceQuaySituations}
+                    stopPlaceSituations={combinedStopPlaceQuaySituations}
                     currentVisibleSituationId={
                         uniqueSituations?.[index]?.situation.id
                     }

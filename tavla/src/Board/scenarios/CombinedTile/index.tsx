@@ -121,7 +121,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
                 <CombinedTileDeviation situations={combinedSituations} />
                 <Table
                     departures={sortedEstimatedCalls}
-                    filterSituations={combinedSituations}
+                    stopPlaceSituations={combinedSituations}
                     columns={DEFAULT_COMBINED_COLUMNS}
                     currentVisibleSituationId={
                         uniqueSituations?.[index]?.situation.id
