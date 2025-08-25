@@ -6,56 +6,49 @@ import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/T
 import { TSituationFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
 
-function getSituationText(
-    situation: TSituationFragment,
+const SITUATION_SUMMARY_LENGTH_THRESHOLD = 25
+
+function getSituationText(situation: TSituationFragment) {
+    const norwegianSummary = situation?.summary.find(
+        (summary) => summary.language === 'no',
+    )?.value
+    const summary = norwegianSummary ?? situation?.summary[0]?.value
+
+    const norwegianDescription = situation?.description.find(
+        (description) => description.language === 'no',
+    )?.value
+
+    const description = norwegianDescription ?? situation?.description[0]?.value
+
+    if (description === undefined) {
+        return summary
+    } else if (summary === undefined) {
+        return description
+    } else if (summary.length <= SITUATION_SUMMARY_LENGTH_THRESHOLD) {
+        return summary + ' - ' + description
+    } else {
+        return summary
+    }
+}
+
+function getTransportModeAndPublicCodeText(
     transportModeList?: TTransportMode[],
     publicCodeList?: string[],
-) {
-    const situationSummary =
-        situation?.summary.find((summary) => summary.language === 'no')
-            ?.value ??
-        situation?.summary[0]?.value ??
-        null
-
-    const situationDescription =
-        situation?.description.find((desc) => desc.language === 'no')?.value ??
-        situation?.description[0]?.value ??
-        null
-
-    let situationText = undefined
-    let transportMode = undefined
-    let publicCodes = undefined
-
-    if (!situationDescription) situationText = situationSummary
-    else if (!situationSummary) situationText = situationDescription
-    else {
-        if (situationSummary.length <= 25) {
-            situationText = situationSummary + ' - ' + situationDescription
-        }
-        situationText = situationSummary
-    }
-
+): string | null {
     if (transportModeList && publicCodeList) {
-        if (transportModeList.length === 1) {
-            transportMode = transportModeNames(transportModeList[0] ?? null)
-        } else transportMode = 'Linje'
+        const transportMode =
+            transportModeList.length === 1
+                ? transportModeNames(transportModeList[0])
+                : 'Linje'
+        const publicCodes =
+            publicCodeList.length === 1
+                ? publicCodeList[0]
+                : publicCodeList.join(', ')
 
-        if (publicCodeList.length === 1) {
-            publicCodes = publicCodeList[0]
-        } else {
-            publicCodes = publicCodeList.join(', ')
-        }
-        return (
-            <>
-                <b>
-                    {transportMode} {publicCodes}
-                    <>: </>
-                </b>
-                {situationText}
-            </>
-        )
+        return `${transportMode} ${publicCodes}`
+    } else {
+        return null
     }
-    return situationText
 }
 
 function Situations({
@@ -77,8 +70,8 @@ function Situations({
         return null
     }
 
-    const situationText = getSituationText(
-        situation,
+    const situationText = getSituationText(situation)
+    const transportModeWithPublicCode = getTransportModeAndPublicCodeText(
         transportModeList,
         publicCodeList,
     )
@@ -99,7 +92,15 @@ function Situations({
                     <p
                         className={`ml-em-0.75 line-clamp-2 overflow-hidden overflow-ellipsis break-words pt-1 text-em-sm/em-base font-normal text-${cancelledDeparture ? 'error' : 'warning'}`}
                     >
-                        {situationText}
+                        <>
+                            {transportModeWithPublicCode && (
+                                <b>
+                                    {transportModeWithPublicCode}
+                                    <>: </>
+                                </b>
+                            )}
+                            {situationText}
+                        </>
                     </p>
                 </div>
                 <div
