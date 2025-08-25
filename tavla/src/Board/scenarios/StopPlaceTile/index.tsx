@@ -69,7 +69,7 @@ export function StopPlaceTile({
                 />
                 <Table
                     departures={data.stopPlace.estimatedCalls}
-                    filterSituations={data.stopPlace.situations}
+                    stopPlaceSituations={data.stopPlace.situations}
                     columns={columns}
                     currentVisibleSituationId={
                         uniqueSituations?.[index]?.situation.id

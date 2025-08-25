@@ -17,13 +17,13 @@ import { DeparturesContext } from './contexts'
 function Table({
     departures,
     columns,
-    filterSituations,
+    stopPlaceSituations,
     currentVisibleSituationId,
     numberOfVisibleSituations,
 }: {
     departures: TDepartureFragment[]
     columns?: TColumn[]
-    filterSituations?: TSituationFragment[]
+    stopPlaceSituations?: TSituationFragment[]
     currentVisibleSituationId?: string
     numberOfVisibleSituations?: number
 }) {
@@ -57,7 +57,7 @@ function Table({
                 <DeparturesContext.Provider value={departures}>
                     <Deviation
                         currentVisibleSituationId={currentVisibleSituationId}
-                        situations={filterSituations}
+                        stopPlaceSituations={stopPlaceSituations}
                         numberOfShownSituations={numberOfVisibleSituations}
                     />
                     {columns.includes('aimedTime') && <AimedTime />}
