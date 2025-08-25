@@ -31,7 +31,9 @@ export function sortPublicCodes(a: string, b: string) {
     })
 }
 
-export function transportModeNames(transportMode: TTransportMode | null) {
+export function transportModeNames(
+    transportMode: TTransportMode | null | undefined,
+) {
     switch (transportMode) {
         case 'air':
             return 'Fly'
