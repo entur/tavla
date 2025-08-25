@@ -26,11 +26,11 @@ type Deviation = Situation | Cancellation | NoDeviation
 
 function Deviation({
     currentVisibleSituationId,
-    situations,
+    stopPlaceSituations,
     numberOfShownSituations,
 }: {
     currentVisibleSituationId?: string
-    situations?: TSituationFragment[]
+    stopPlaceSituations?: TSituationFragment[]
     numberOfShownSituations?: number
 }) {
     const departures = useNonNullContext(DeparturesContext)
@@ -44,8 +44,10 @@ function Deviation({
                 : true
 
         const filteredSituations =
-            filterSituationsFromChosenStop(situations, departure.situations) ??
-            []
+            filterSituationsFromChosenStop(
+                stopPlaceSituations,
+                departure.situations,
+            ) ?? []
 
         if (departure.cancellation) {
             return {
