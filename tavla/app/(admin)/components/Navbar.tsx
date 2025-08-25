@@ -36,7 +36,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                             onClick={() => {
                                 posthog.capture('DEMO_FROM_NAV_BAR_BTN')
                             }}
-                            className="flex:col hidden !text-primary md:flex"
+                            className="hidden flex-col !text-primary md:flex"
                         >
                             Test ut Tavla
                         </TopNavigationItem>

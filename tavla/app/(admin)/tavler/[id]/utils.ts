@@ -117,7 +117,7 @@ export function getIcons(layer?: string, category?: TCategory[]) {
 }
 
 export function isEmptyOrSpaces(str?: string) {
-    return str === undefined || str.match(/^ *$/) !== null
+    return str === undefined || str?.match(/^ *$/) !== null
 }
 export function isOnlyWhiteSpace(str: string) {
     if (str === undefined || str === null || str === '') return false
