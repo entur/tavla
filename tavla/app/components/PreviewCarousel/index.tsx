@@ -3,8 +3,8 @@
 import { IconButton } from '@entur/button'
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
 import { Board } from 'Board/scenarios/Board'
-import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
+import { InfoMessage } from 'components/InfoMessage'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import { TBoard } from 'types/settings'
@@ -92,7 +92,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                             <div className="h-72 md:h-96">
                                 <Board board={currentBoard} />
                             </div>
-                            <Footer board={currentBoard} />
+                            <InfoMessage board={currentBoard} />
                         </div>
                     </div>
                 </div>
