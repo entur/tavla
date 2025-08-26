@@ -1,8 +1,8 @@
 'use client'
 
 import { Board } from 'Board/scenarios/Board'
-import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
+import { InfoMessage } from 'components/InfoMessage'
 import { TBoard, TFolder } from 'types/settings'
 
 function Preview({ board, folder }: { board: TBoard; folder?: TFolder }) {
@@ -15,7 +15,7 @@ function Preview({ board, folder }: { board: TBoard; folder?: TFolder }) {
             <div className="h-96 md:h-[50rem]">
                 <Board board={board} />
             </div>
-            <Footer board={board} logo={folder?.logo !== undefined} />
+            <InfoMessage board={board} logo={folder?.logo !== undefined} />
         </div>
     )
 }

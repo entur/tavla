@@ -1,7 +1,7 @@
 import { Board } from 'Board/scenarios/Board'
 import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
-import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
+import { InfoMessage } from 'components/InfoMessage'
 import { useRefresh } from 'hooks/useRefresh'
 import Head from 'next/head'
 import { useEffect } from 'react'
@@ -90,7 +90,7 @@ function BoardPage({
                         folderLogo={folder?.logo}
                     />
                     <Board board={updatedBoard} />
-                    <Footer
+                    <InfoMessage
                         board={updatedBoard}
                         logo={folder?.logo !== undefined}
                     />

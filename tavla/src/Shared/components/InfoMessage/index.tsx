@@ -4,7 +4,7 @@ import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 import Image from 'next/image'
 import { TBoard, TTheme } from 'types/settings'
 
-function Footer({ board, logo }: { board: TBoard; logo?: boolean }) {
+function InfoMessage({ board, logo }: { board: TBoard; logo?: boolean }) {
     if (!logo && !board.footer?.footer) return null
 
     const EnturLogo = getLogo(board?.theme ?? 'dark')
@@ -33,4 +33,4 @@ export function getLogo(theme: TTheme) {
     return EnturLogoWhite
 }
 
-export { Footer }
+export { InfoMessage }
