@@ -30,7 +30,11 @@ function TravelTag({
     transportSubmode?: TTransportSubmode
     cancelled?: boolean
 }) {
-    const travelTagBackround = `bg-${transportMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
+    const colorMode = transportSubmode?.startsWith('airport')
+        ? 'air'
+        : transportMode
+
+    const travelTagBackround = `bg-${colorMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
     const iconPublicCodeColor =
         cancelled && transportMode !== 'unknown'
             ? `text-${transportMode}`
