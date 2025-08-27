@@ -20,7 +20,7 @@ function ColumnModal({
                 Når kjøretøyet ankommer stoppestedet. Viser sanntid, hvis det
                 finnes. Hvis ikke vises rutetid.
             </SubParagraph>
-            <Heading4 as="h2">Plf. </Heading4>
+            <Heading4 as="h2">Plattform </Heading4>
             <SubParagraph>Forkortelse for plattform.</SubParagraph>
             <Heading4 as="h2">Forventet </Heading4>
             <SubParagraph>
