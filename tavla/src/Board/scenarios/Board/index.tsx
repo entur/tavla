@@ -18,7 +18,7 @@ function BoardTile({ tileSpec }: { tileSpec: TTile }) {
 function Board({ board }: { board: TBoard }) {
     if (!board.tiles || !board.tiles.length)
         return (
-            <Tile className="flex items-center justify-center">
+            <Tile className="flex h-full items-center justify-center">
                 <p>Du har ikke lagt til noen stoppesteder ennå.</p>
             </Tile>
         )
