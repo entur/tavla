@@ -96,7 +96,7 @@ async function FolderPage(props: TProps) {
                     <EmptyOverview text="Her var det tomt gitt! Start med å opprette en tavle" />
                 ) : (
                     <div className="flex flex-col">
-                        <Label>Totalt antall tavler: {boardCount}</Label>
+                        <Label>Antall tavler: {boardCount}</Label>
                         <BoardTable
                             boards={boardsInFolder}
                             folderBoardCounts={{

@@ -40,7 +40,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="nb">
             <PHProvider>
-                <body>
+                <body className="min-h-screen">
                     <EnturToastProvider>
                         <Navbar loggedIn={loggedIn} />
                         <Suspense>
