@@ -12,13 +12,13 @@ import {
 } from '../../hooks/useSortBoardFunction'
 import { Column } from '../Column'
 
-function TableRows({
-    folders,
-    boards,
-}: {
+type TableRowsProps = {
     folders: TFolder[]
     boards: TBoard[]
-}) {
+    folderBoardCounts: Record<string, number>
+}
+
+function TableRows({ folders, boards, folderBoardCounts }: TableRowsProps) {
     const search = useSearchParam('search') ?? ''
     const sortBoardFunction = useSortBoardFunction()
     const sortFolderFunction = useSortFolderFunction()
@@ -47,9 +47,15 @@ function TableRows({
         .sort(sortFolderFunction)
     return (
         <>
-            {sortedFolders.map((folder: TFolder) => (
-                <FolderTableRow key={folder.id} folder={folder} />
-            ))}
+            {sortedFolders.map((folder: TFolder) =>
+                folder.id !== undefined ? (
+                    <FolderTableRow
+                        key={folder.id}
+                        folder={folder}
+                        count={folderBoardCounts[String(folder.id)] ?? 0}
+                    />
+                ) : null,
+            )}
             {sortedBoards.map((board: TBoard) => (
                 <BoardTableRow key={board.id} board={board} />
             ))}
@@ -68,12 +74,17 @@ function BoardTableRow({ board }: { board: TBoard }) {
     )
 }
 
-function FolderTableRow({ folder }: { folder: TFolder }) {
+function FolderTableRow({ folder, count }: { folder: TFolder; count: number }) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={folder.id}>
             {columns.map((column: TTableColumn) => (
-                <Column key={column} folder={folder} column={column} />
+                <Column
+                    key={column}
+                    folder={folder}
+                    column={column}
+                    folderBoardCount={count}
+                />
             ))}
         </Fragment>
     )

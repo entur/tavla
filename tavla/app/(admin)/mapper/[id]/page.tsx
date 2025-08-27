@@ -97,7 +97,12 @@ async function FolderPage(props: TProps) {
                 ) : (
                     <div className="flex flex-col">
                         <Label>Totalt antall tavler: {boardCount}</Label>
-                        <BoardTable boards={boardsInFolder} />
+                        <BoardTable
+                            boards={boardsInFolder}
+                            folderBoardCounts={{
+                                [folder.id]: boardsInFolder.length,
+                            }}
+                        />
                     </div>
                 )}
             </div>
