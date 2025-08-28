@@ -3,7 +3,9 @@ import {
     ValidationExclamationCircleFilledIcon,
 } from '@entur/icons'
 import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
+import { CircularCountdown } from 'Board/components/CircularCountdown'
 import { TSituationFragment } from 'graphql/index'
+import { useEffect, useState } from 'react'
 import { TTransportMode } from 'types/graphql-schema'
 
 const SITUATION_SUMMARY_LENGTH_THRESHOLD = 25
@@ -66,6 +68,16 @@ function Situations({
     transportModeList?: TTransportMode[]
     publicCodeList?: string[]
 }) {
+    const [key, setKey] = useState(0)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setKey((prevKey) => prevKey + 1)
+        }, 10000)
+
+        return () => clearInterval(interval)
+    }, [])
+
     if (!situation) {
         return null
     }
@@ -81,13 +93,23 @@ function Situations({
     return (
         situationText && (
             <div className="ml-em-0.25 flex w-full flex-row items-center pt-4 md:pt-6 lg:pt-8">
-                <div
-                    className={`flex shrink-0 items-center justify-center text-${textColor}`}
-                >
+                <div className="relative flex items-center justify-center">
                     {cancelledDeparture ? (
                         <ValidationErrorFilledIcon size="1em" />
                     ) : (
-                        <ValidationExclamationCircleFilledIcon size="1em" />
+                        <>
+                            <CircularCountdown
+                                key={key}
+                                duration={10000}
+                                color="var(--warning-color)"
+                                size={32}
+                                strokeWidth={3}
+                            />
+                            <ValidationExclamationCircleFilledIcon
+                                color={`var(--${textColor}-color)`}
+                                size="1em"
+                            />
+                        </>
                     )}
                 </div>
                 <div className="grow self-center">
