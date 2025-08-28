@@ -55,6 +55,19 @@ export default async function EditPage(props: TProps) {
     const access = await userCanEditBoard(params.id)
     if (!access) return redirect('/')
 
+    async function walkingDistanceAction(data: FormData) {
+        'use server'
+
+        const tile = await getWalkingDistanceTile(
+            formDataToTile(data),
+            board?.meta?.location,
+        )
+        if (!tile.placeId) return
+        await addTile(params.id, tile)
+        if (board?.combinedTiles) await addTileToCombinedList(board, tile.uuid)
+        revalidatePath(`/tavler/${params.id}/rediger`)
+    }
+
     return (
         <div className="bg-gray-50">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
@@ -79,21 +92,7 @@ export default async function EditPage(props: TProps) {
                     className="flex flex-col gap-4 rounded-md bg-background px-6 py-8"
                 >
                     <Heading2>Stoppesteder</Heading2>
-                    <TileSelector
-                        action={async (data: FormData) => {
-                            'use server'
-
-                            const tile = await getWalkingDistanceTile(
-                                formDataToTile(data),
-                                board.meta?.location,
-                            )
-                            if (!tile.placeId) return
-                            await addTile(params.id, tile)
-                            if (board.combinedTiles)
-                                await addTileToCombinedList(board, tile.uuid)
-                            revalidatePath(`/tavler/${params.id}/rediger`)
-                        }}
-                    />
+                    <TileSelector action={walkingDistanceAction} />
 
                     <TileList board={board} />
                     <div
