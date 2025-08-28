@@ -1,4 +1,6 @@
-import { TSituationFragment } from 'graphql/index'
+import { sortPublicCodes } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
+import { TDepartureFragment, TSituationFragment } from 'graphql/index'
+import { TTransportMode } from 'types/graphql-schema'
 import { TFontSize } from 'types/meta'
 import { TBoard } from 'types/settings'
 export function getFontScale(fontSize: TFontSize | undefined) {
@@ -26,7 +28,31 @@ export function defaultFontSize(board: TBoard) {
     }
 }
 
-export function combineIdenticalSituations(situations: TSituationFragment[]) {
+export function filterSituationsFromChosenStop(
+    originSituations?: TSituationFragment[],
+    departureSituations?: TSituationFragment[],
+) {
+    if (!originSituations || !departureSituations) {
+        return departureSituations ?? []
+    }
+
+    const filteredSituations = departureSituations.filter(
+        (departureSituation) => {
+            let shouldKeep = true
+            originSituations.map((originSituation) => {
+                if (departureSituation.id === originSituation.id) {
+                    shouldKeep = false
+                    return
+                }
+            })
+            return shouldKeep
+        },
+    )
+
+    return filteredSituations
+}
+
+export function combineSituations(situations: TSituationFragment[]) {
     const situationById: { [id: string]: TSituationFragment } = {}
 
     situations.map((situation) => {
@@ -44,4 +70,89 @@ export function combineIdenticalSituations(situations: TSituationFragment[]) {
     })
 
     return Object.values(situationById)
+}
+
+function combineSituationsWithCancellationInfo(
+    situationsPerDepartureWithCancellation?: {
+        situations: TSituationFragment[]
+        cancellation: boolean
+        publicCode: string | null
+        transportMode: TTransportMode
+    }[],
+) {
+    if (!situationsPerDepartureWithCancellation) return null
+
+    const situationById: {
+        [id: string]: {
+            situation: TSituationFragment
+            cancellation: boolean
+            publicCodeList: string[]
+            transportModeList: TTransportMode[]
+        }
+    } = {}
+
+    situationsPerDepartureWithCancellation.map((situations) => {
+        situations.situations.map((situation) => {
+            const id = situation.id
+            if (situationById[id] === undefined) {
+                situationById[id] = {
+                    situation: situation,
+                    cancellation: situations.cancellation,
+                    publicCodeList: situations.publicCode
+                        ? [situations.publicCode]
+                        : [],
+                    transportModeList: [
+                        situations.transportMode as TTransportMode,
+                    ],
+                }
+            } else {
+                if (
+                    situations.publicCode &&
+                    situationById[id].publicCodeList.indexOf(
+                        situations.publicCode,
+                    ) === -1
+                )
+                    situationById[id].publicCodeList.push(situations.publicCode)
+                if (
+                    situationById[id].transportModeList.indexOf(
+                        situations.transportMode as TTransportMode,
+                    ) === -1
+                ) {
+                    situationById[id].transportModeList.push(
+                        situations.transportMode as TTransportMode,
+                    )
+                }
+            }
+            situationById[id].publicCodeList.sort(sortPublicCodes)
+        })
+    })
+
+    return Object.values(situationById)
+}
+
+export function getUniqueSituationsFromDepartures(
+    departures?: TDepartureFragment[],
+    situations?: TSituationFragment[],
+) {
+    const situationsPerDepartureWithCancellation =
+        departures &&
+        departures
+            .map((departure) => ({
+                situations: filterSituationsFromChosenStop(
+                    situations,
+                    departure.situations,
+                ),
+                publicCode: departure.serviceJourney.line.publicCode,
+                transportMode:
+                    departure.serviceJourney.transportMode ?? 'unknown',
+                cancellation: departure.cancellation,
+            }))
+            .filter((situation) => situation.situations.length !== 0)
+
+    const combinedSituationsWithCancellations =
+        combineSituationsWithCancellationInfo(
+            situationsPerDepartureWithCancellation,
+        )
+
+    return combinedSituationsWithCancellations
 }
