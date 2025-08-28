@@ -102,8 +102,6 @@ function Situations({
                                 key={key}
                                 duration={10000}
                                 color="var(--warning-color)"
-                                size={32}
-                                strokeWidth={3}
                             />
                             <ValidationExclamationCircleFilledIcon
                                 color={`var(--${textColor}-color)`}
