@@ -1,14 +1,10 @@
 import { BoardIcon, FolderIcon } from '@entur/icons'
-import { SkeletonRectangle } from '@entur/loader'
-import * as Sentry from '@sentry/nextjs'
 import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { TBoard, TFolder } from 'types/settings'
-import { getNumberOfBoardsInFolder } from '../../utils/actions'
 import { ColumnWrapper } from './ColumnWrapper'
 
 function BoardName({ board }: { board: TBoard }) {
@@ -27,31 +23,7 @@ function BoardName({ board }: { board: TBoard }) {
     )
 }
 
-function FolderName({ folder }: { folder: TFolder }) {
-    const [boardsInFolderCount, setBoardsInFolderCount] = useState<
-        number | undefined
-    >()
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        async function fetchNumberOfBoards(id?: string) {
-            try {
-                const boardsInFolderCount = await getNumberOfBoardsInFolder(
-                    id ?? undefined,
-                )
-
-                setBoardsInFolderCount(boardsInFolderCount)
-            } catch (error) {
-                Sentry.captureException(error)
-                setBoardsInFolderCount(undefined)
-            } finally {
-                setIsLoading(false)
-            }
-        }
-
-        fetchNumberOfBoards(folder.id)
-    }, [folder.id])
-
+function FolderName({ folder, count }: { folder: TFolder; count?: number }) {
     return (
         <ColumnWrapper column="name">
             <div className="flex flex-row items-center gap-2">
@@ -59,13 +31,7 @@ function FolderName({ folder }: { folder: TFolder }) {
                 <Link href={`/mapper/${folder.id}`} className="hover:underline">
                     {folder.name ?? DEFAULT_FOLDER_NAME}
                 </Link>
-                {isLoading ? (
-                    <SkeletonRectangle width="1rem" />
-                ) : (
-                    boardsInFolderCount != undefined && (
-                        <>({boardsInFolderCount})</>
-                    )
-                )}
+                {typeof count === 'number' && <>({count})</>}
             </div>
         </ColumnWrapper>
     )

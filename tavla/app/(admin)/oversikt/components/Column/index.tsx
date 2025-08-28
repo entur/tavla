@@ -4,15 +4,14 @@ import { BoardActions, FolderActions } from './Actions'
 import { LastModified } from './LastModified'
 import { BoardName, FolderName } from './Name'
 
-function Column({
-    board,
-    folder,
-    column,
-}: {
+type ColumnProps = {
     board?: TBoard
     folder?: TFolder
     column: TTableColumn
-}) {
+    folderBoardCount?: number
+}
+
+function Column({ board, folder, column, folderBoardCount }: ColumnProps) {
     if (board) {
         switch (column) {
             case 'name':
@@ -25,7 +24,7 @@ function Column({
     } else if (folder) {
         switch (column) {
             case 'name':
-                return <FolderName folder={folder} />
+                return <FolderName folder={folder} count={folderBoardCount} />
             case 'actions':
                 return <FolderActions folder={folder} />
             case 'lastModified':

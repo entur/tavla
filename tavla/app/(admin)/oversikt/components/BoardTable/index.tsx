@@ -4,13 +4,13 @@ import { TableRows } from 'app/(admin)/oversikt/components/TableRows'
 import { TableColumns } from 'app/(admin)/utils/types'
 import { TBoard, TFolder } from 'types/settings'
 
-function BoardTable({
-    folders,
-    boards,
-}: {
+type BoardTableProps = {
     folders?: TFolder[]
     boards: TBoard[]
-}) {
+    folderBoardCounts: Record<string, number>
+}
+
+function BoardTable({ folders, boards, folderBoardCounts }: BoardTableProps) {
     const numOfColumns = Object.keys(TableColumns).length
 
     return (
@@ -21,7 +21,11 @@ function BoardTable({
             }}
         >
             <TableHeader />
-            <TableRows folders={folders ?? []} boards={boards} />
+            <TableRows
+                folders={folders ?? []}
+                boards={boards}
+                folderBoardCounts={folderBoardCounts}
+            />
         </div>
     )
 }
