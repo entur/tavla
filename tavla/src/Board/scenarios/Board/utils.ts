@@ -28,25 +28,20 @@ export function defaultFontSize(board: TBoard) {
     }
 }
 
-export function filterSituationsFromChosenStop(
-    originSituations?: TSituationFragment[],
+export function filterOutStopPlaceSituations(
+    stopPlaceSituations?: TSituationFragment[],
     departureSituations?: TSituationFragment[],
 ) {
-    if (!originSituations || !departureSituations) {
+    if (!stopPlaceSituations || !departureSituations) {
         return departureSituations ?? []
     }
 
     const filteredSituations = departureSituations.filter(
-        (departureSituation) => {
-            let shouldKeep = true
-            originSituations.map((originSituation) => {
-                if (departureSituation.id === originSituation.id) {
-                    shouldKeep = false
-                    return
-                }
-            })
-            return shouldKeep
-        },
+        (departureSituation) =>
+            !stopPlaceSituations.some(
+                (stopPlaceSituation) =>
+                    departureSituation.id === stopPlaceSituation.id,
+            ),
     )
 
     return filteredSituations
@@ -138,7 +133,7 @@ export function getUniqueSituationsFromDepartures(
         departures &&
         departures
             .map((departure) => ({
-                situations: filterSituationsFromChosenStop(
+                situations: filterOutStopPlaceSituations(
                     situations,
                     departure.situations,
                 ),

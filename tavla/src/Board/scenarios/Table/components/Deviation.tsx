@@ -2,7 +2,7 @@ import {
     ValidationErrorFilledIcon,
     ValidationExclamationCircleFilledIcon,
 } from '@entur/icons'
-import { filterSituationsFromChosenStop } from 'Board/scenarios/Board/utils'
+import { filterOutStopPlaceSituations } from 'Board/scenarios/Board/utils'
 import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../contexts'
@@ -44,7 +44,7 @@ function Deviation({
                 : true
 
         const filteredSituations =
-            filterSituationsFromChosenStop(
+            filterOutStopPlaceSituations(
                 stopPlaceSituations,
                 departure.situations,
             ) ?? []
