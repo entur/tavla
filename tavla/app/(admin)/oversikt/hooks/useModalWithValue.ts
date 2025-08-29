@@ -25,7 +25,7 @@ function useModalWithValues(...queryParams: QueryParam[]) {
         for (const queryParam of queryParams) {
             newParams.set(queryParam.key, queryParam.value)
         }
-        router.push(`${pathname}?${newParams.toString()}`)
+        router.replace(`${pathname}?${newParams.toString()}`)
     }, [router, pathname, params, queryParams])
 
     const close = useCallback(() => {
@@ -33,7 +33,7 @@ function useModalWithValues(...queryParams: QueryParam[]) {
         for (const queryParam of queryParams) {
             newParams.delete(queryParam.key)
         }
-        router.push(`${pathname}?${newParams.toString()}`)
+        router.replace(`${pathname}?${newParams.toString()}`)
     }, [router, pathname, params, queryParams])
 
     return { isOpen, open, close }
