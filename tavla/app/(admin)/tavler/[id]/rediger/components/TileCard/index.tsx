@@ -164,10 +164,11 @@ function TileCard({
                                 deleteTile(
                                     bid,
                                     tile,
-                                    addToast,
                                     demoBoard,
                                     setDemoBoard,
-                                )
+                                ).then(() => {
+                                    addToast(`${tile.name} fjernet!`)
+                                })
                             }
                         />
                     </div>
@@ -208,10 +209,11 @@ function TileCard({
                                     deleteTile(
                                         bid,
                                         tile,
-                                        addToast,
                                         demoBoard,
                                         setDemoBoard,
-                                    )
+                                    ).then(() => {
+                                        addToast(`${tile.name} fjernet!`)
+                                    })
                                 }
                             />
                         </form>
