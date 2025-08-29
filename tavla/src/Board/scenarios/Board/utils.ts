@@ -3,6 +3,7 @@ import { TDepartureFragment, TSituationFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
 import { TFontSize } from 'types/meta'
 import { TBoard } from 'types/settings'
+
 export function getFontScale(fontSize: TFontSize | undefined) {
     switch (fontSize) {
         case 'small':
@@ -28,9 +29,15 @@ export function defaultFontSize(board: TBoard) {
     }
 }
 
-export function filterOutStopPlaceSituations(
+/**
+ * Removes situations from the departure that are also present on the tile stop place to remove duplicate situations,
+ * @param stopPlaceSituations - An array of situations representing stop place situations to exclude.
+ * @param departureSituations - An array of situations associated with a specific departure.
+ * @returns A filtered array of situations from the departure, excluding any situations that match those in the stopPlaceSituations.
+ */
+export function removeStopPlaceSituations(
+    departureSituations: TSituationFragment[],
     stopPlaceSituations?: TSituationFragment[],
-    departureSituations?: TSituationFragment[],
 ) {
     if (!stopPlaceSituations || !departureSituations) {
         return departureSituations ?? []
@@ -47,6 +54,14 @@ export function filterOutStopPlaceSituations(
     return filteredSituations
 }
 
+/**
+ * Combines an array of `TSituationFragment` objects by merging those with the same `id`.
+ * If multiple situations share the same `id`, their `origin` fields are concatenated,
+ * separated by commas, and sorted alphabetically.
+ *
+ * @param situations - An array of `TSituationFragment` objects to be combined.
+ * @returns An array of combined `TSituationFragment` objects with unique `id`s.
+ */
 export function combineSituations(situations: TSituationFragment[]) {
     const situationById: { [id: string]: TSituationFragment } = {}
 
@@ -67,75 +82,45 @@ export function combineSituations(situations: TSituationFragment[]) {
     return Object.values(situationById)
 }
 
-function combineSituationsWithCancellationInfo(
-    situationsPerDepartureWithCancellation?: {
-        situations: TSituationFragment[]
+type TileSituationMap = Map<
+    string,
+    {
+        situation: TSituationFragment
         cancellation: boolean
-        publicCode: string | null
-        transportMode: TTransportMode
-    }[],
-) {
-    if (!situationsPerDepartureWithCancellation) return null
+        publicCodeSet: Set<string>
+        transportModeSet: Set<TTransportMode>
+    }
+>
 
-    const situationById: {
-        [id: string]: {
-            situation: TSituationFragment
-            cancellation: boolean
-            publicCodeList: string[]
-            transportModeList: TTransportMode[]
-        }
-    } = {}
-
-    situationsPerDepartureWithCancellation.map((situations) => {
-        situations.situations.map((situation) => {
-            const id = situation.id
-            if (situationById[id] === undefined) {
-                situationById[id] = {
-                    situation: situation,
-                    cancellation: situations.cancellation,
-                    publicCodeList: situations.publicCode
-                        ? [situations.publicCode]
-                        : [],
-                    transportModeList: [
-                        situations.transportMode as TTransportMode,
-                    ],
-                }
-            } else {
-                if (
-                    situations.publicCode &&
-                    situationById[id].publicCodeList.indexOf(
-                        situations.publicCode,
-                    ) === -1
-                )
-                    situationById[id].publicCodeList.push(situations.publicCode)
-                if (
-                    situationById[id].transportModeList.indexOf(
-                        situations.transportMode as TTransportMode,
-                    ) === -1
-                ) {
-                    situationById[id].transportModeList.push(
-                        situations.transportMode as TTransportMode,
-                    )
-                }
-            }
-            situationById[id].publicCodeList.sort(sortPublicCodes)
-        })
-    })
-
-    return Object.values(situationById)
+type TileSituation = {
+    situation: TSituationFragment
+    cancellation: boolean
+    publicCodeList: string[]
+    transportModeList: TTransportMode[]
 }
 
-export function getUniqueSituationsFromDepartures(
+/**
+ * Aggregates and deduplicates situations from a list of departures, excluding stop place situations.
+ *
+ * For each departure, it removes situations that are already present in the stop place situations,
+ * then accumulates all unique situations across departures. Each accumulated situation includes
+ * a list of associated public codes and transport modes, as well as cancellation status.
+ *
+ * @param departures - Optional array of departure fragments to process.
+ * @param stopPlaceSituations - Optional array of stop place situations to exclude from departures.
+ * @returns An array of accumulated tile situations
+ */
+export function getAccumulatedTileSituations(
     departures?: TDepartureFragment[],
-    situations?: TSituationFragment[],
-) {
-    const situationsPerDepartureWithCancellation =
+    stopPlaceSituations?: TSituationFragment[],
+): TileSituation[] {
+    const filteredDepartures =
         departures &&
         departures
             .map((departure) => ({
-                situations: filterOutStopPlaceSituations(
-                    situations,
+                situations: removeStopPlaceSituations(
                     departure.situations,
+                    stopPlaceSituations,
                 ),
                 publicCode: departure.serviceJourney.line.publicCode,
                 transportMode:
@@ -144,10 +129,51 @@ export function getUniqueSituationsFromDepartures(
             }))
             .filter((situation) => situation.situations.length !== 0)
 
-    const combinedSituationsWithCancellations =
-        combineSituationsWithCancellationInfo(
-            situationsPerDepartureWithCancellation,
-        )
+    if (!filteredDepartures || filteredDepartures.length === 0) return []
 
-    return combinedSituationsWithCancellations
+    const accumulatedSituations = filteredDepartures
+        .flatMap((departure) =>
+            departure.situations.map((situation) => ({
+                id: situation.id,
+                situation: situation,
+                cancellation: departure.cancellation,
+                publicCode: departure.publicCode,
+                transportMode: departure.transportMode,
+            })),
+        )
+        .reduce((situationMap, currentSituation) => {
+            const existingSituation = situationMap.get(currentSituation.id)
+            const situationAlreadyExists = existingSituation !== undefined
+            if (situationAlreadyExists) {
+                if (currentSituation.publicCode) {
+                    existingSituation.publicCodeSet.add(
+                        currentSituation.publicCode,
+                    )
+                }
+                existingSituation.transportModeSet.add(
+                    currentSituation.transportMode,
+                )
+            } else {
+                situationMap.set(currentSituation.id, {
+                    situation: currentSituation.situation,
+                    cancellation: currentSituation.cancellation,
+                    publicCodeSet: new Set(
+                        currentSituation.publicCode
+                            ? [currentSituation.publicCode]
+                            : [],
+                    ),
+                    transportModeSet: new Set<TTransportMode>([
+                        currentSituation.transportMode,
+                    ]),
+                })
+            }
+            return situationMap
+        }, new Map() as TileSituationMap)
+
+    return Array.from(accumulatedSituations.values()).map((entry) => ({
+        situation: entry.situation,
+        cancellation: entry.cancellation,
+        publicCodeList: Array.from(entry.publicCodeSet).sort(sortPublicCodes),
+        transportModeList: Array.from(entry.transportModeSet),
+    }))
 }

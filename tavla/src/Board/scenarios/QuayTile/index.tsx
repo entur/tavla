@@ -3,17 +3,14 @@ import {
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
 import { TileLoader } from 'Board/components/TileLoader'
+import { TileSituations } from 'Board/scenarios/Table/components/TileSituations'
 import { Tile } from 'components/Tile'
 import { GetQuayQuery, TSituationFragment } from 'graphql/index'
 import { useQuery } from 'hooks/useQuery'
 import { TQuayTile } from 'types/tile'
 import { isNotNullOrUndefined } from 'utils/typeguards'
-import {
-    combineSituations,
-    getUniqueSituationsFromDepartures,
-} from '../Board/utils'
+import { combineSituations, getAccumulatedTileSituations } from '../Board/utils'
 import { Table } from '../Table'
-import { Situations } from '../Table/components/Situations'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
 import { TableHeader } from '../Table/components/TableHeader'
 import { useCycler } from '../Table/useCycler'
@@ -43,7 +40,7 @@ export function QuayTile({
             ...(data?.quay?.situations ?? []),
         ])
 
-    const uniqueSituations = getUniqueSituationsFromDepartures(
+    const uniqueSituations = getAccumulatedTileSituations(
         data?.quay?.estimatedCalls,
         combinedStopPlaceQuaySituations,
     )
@@ -91,7 +88,7 @@ export function QuayTile({
                     numberOfVisibleSituations={uniqueSituations?.length}
                 />
             </div>
-            <Situations
+            <TileSituations
                 situation={uniqueSituations?.[index]?.situation}
                 currentSituationNumber={index}
                 numberOfSituations={uniqueSituations?.length}

@@ -3,18 +3,15 @@ import {
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
 import { TileLoader } from 'Board/components/TileLoader'
+import { TileSituations } from 'Board/scenarios/Table/components/TileSituations'
 import { Tile } from 'components/Tile'
 import { GetQuayQuery, StopPlaceQuery, TSituationFragment } from 'graphql/index'
 import { useQueries } from 'hooks/useQuery'
 import { sortBy } from 'lodash'
 import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
 import { TTile } from 'types/tile'
-import {
-    combineSituations,
-    getUniqueSituationsFromDepartures,
-} from '../Board/utils'
+import { combineSituations, getAccumulatedTileSituations } from '../Board/utils'
 import { Table } from '../Table'
-import { Situations } from '../Table/components/Situations'
 import { CombinedTileDeviation } from '../Table/components/StopPlaceDeviation'
 import { useCycler } from '../Table/useCycler'
 
@@ -92,7 +89,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
     const combinedSituations: TSituationFragment[] =
         combineSituations(situations)
 
-    const uniqueSituations = getUniqueSituationsFromDepartures(
+    const uniqueSituations = getAccumulatedTileSituations(
         sortedEstimatedCalls,
         combinedSituations,
     )
@@ -129,7 +126,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
                     numberOfVisibleSituations={uniqueSituations?.length}
                 />
             </div>
-            <Situations
+            <TileSituations
                 situation={uniqueSituations?.[index]?.situation}
                 currentSituationNumber={index}
                 numberOfSituations={uniqueSituations?.length}
