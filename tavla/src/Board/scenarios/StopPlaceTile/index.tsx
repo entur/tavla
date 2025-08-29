@@ -3,13 +3,13 @@ import {
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
 import { TileLoader } from 'Board/components/TileLoader'
+import { TileSituations } from 'Board/scenarios/Table/components/TileSituations'
 import { Tile } from 'components/Tile'
 import { StopPlaceQuery } from 'graphql/index'
 import { useQuery } from 'hooks/useQuery'
 import { TStopPlaceTile } from 'types/tile'
-import { getUniqueSituationsFromDepartures } from '../Board/utils'
+import { getAccumulatedTileSituations } from '../Board/utils'
 import { Table } from '../Table'
-import { Situations } from '../Table/components/Situations'
 import { StopPlaceQuayDeviation } from '../Table/components/StopPlaceDeviation'
 import { TableHeader } from '../Table/components/TableHeader'
 import { useCycler } from '../Table/useCycler'
@@ -33,7 +33,7 @@ export function StopPlaceTile({
         { poll: true, offset: offset },
     )
 
-    const uniqueSituations = getUniqueSituationsFromDepartures(
+    const uniqueSituations = getAccumulatedTileSituations(
         data?.stopPlace?.estimatedCalls,
         data?.stopPlace?.situations,
     )
@@ -77,7 +77,7 @@ export function StopPlaceTile({
                     numberOfVisibleSituations={uniqueSituations?.length}
                 />
             </div>
-            <Situations
+            <TileSituations
                 situation={uniqueSituations?.[index]?.situation}
                 currentSituationNumber={index}
                 numberOfSituations={uniqueSituations?.length}

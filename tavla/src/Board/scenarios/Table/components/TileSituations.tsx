@@ -51,7 +51,7 @@ function getTransportModeAndPublicCodeText(
     }
 }
 
-function Situations({
+function TileSituations({
     situation,
     cancelledDeparture,
     currentSituationNumber,
@@ -122,4 +122,4 @@ function Situations({
     )
 }
 
-export { Situations }
+export { TileSituations }
