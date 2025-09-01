@@ -8,7 +8,8 @@ import { TTheme, TTransportPalette } from 'types/settings'
 
 const transportPalettes = [
     { label: 'Standard', value: 'default' },
-    { label: 'Blå buss og rosa tog', value: 'blue-bus' },
+    { label: 'Blå buss', value: 'blue-bus' },
+    { label: 'Grønn buss', value: 'green-bus' },
 ]
 
 const busAndTrainModes: { mode: TTransportMode }[] = [
