@@ -17,7 +17,6 @@ initializeAdminApp()
 export async function deleteTile(
     boardId: string,
     tile: TTile,
-    addToast: (toast: string) => void,
     demoBoard?: TBoard,
     setDemoBoard?: Dispatch<SetStateAction<TBoard>>,
 ) {
@@ -63,7 +62,6 @@ export async function deleteTile(
             })
         }
     }
-    addToast(`${tile.name} fjernet!`)
 }
 
 export async function saveTile(bid: TBoardID, tile: TTile) {
