@@ -17,11 +17,15 @@ import { DeparturesContext } from './contexts'
 function Table({
     departures,
     columns,
-    situations,
+    stopPlaceSituations,
+    currentVisibleSituationId,
+    numberOfVisibleSituations,
 }: {
     departures: TDepartureFragment[]
     columns?: TColumn[]
-    situations?: TSituationFragment[]
+    stopPlaceSituations?: TSituationFragment[]
+    currentVisibleSituationId?: string
+    numberOfVisibleSituations?: number
 }) {
     const theme = document
         .querySelector('[data-theme]')
@@ -51,13 +55,15 @@ function Table({
         <div className="flex flex-col">
             <div className="flex shrink-0">
                 <DeparturesContext.Provider value={departures}>
-                    <Deviation />
+                    <Deviation
+                        currentVisibleSituationId={currentVisibleSituationId}
+                        stopPlaceSituations={stopPlaceSituations}
+                        numberOfShownSituations={numberOfVisibleSituations}
+                    />
                     {columns.includes('aimedTime') && <AimedTime />}
                     {columns.includes('arrivalTime') && <ArrivalTime />}
                     {columns.includes('line') && <Line />}
-                    {columns.includes('destination') && (
-                        <Destination deviations situations={situations} />
-                    )}
+                    {columns.includes('destination') && <Destination />}
                     {columns.includes('name') && <Name />}
                     {columns.includes('platform') && <Platform />}
                     {columns.includes('time') && <ExpectedTime />}
