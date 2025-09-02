@@ -26,12 +26,11 @@ async function FoldersAndBoardsPage() {
     const count = await countAllBoards(folders, privateBoards)
     const elementsListCount = privateBoards.length + folders.length
 
-    const counts: Record<string, number> = {}
-    for (const folder of folders) {
-        if (folder.id) {
-            counts[folder.id] = folder.boards?.length ?? 0
-        }
-    }
+    const counts: Record<string, number> = Object.fromEntries(
+        folders.flatMap((folder) =>
+            folder.id ? [[folder.id, folder.boards?.length ?? 0]] : [],
+        ),
+    )
 
     return (
         <div className="container flex flex-col gap-8 pb-20">
