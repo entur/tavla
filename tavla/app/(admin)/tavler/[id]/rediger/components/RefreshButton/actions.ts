@@ -9,6 +9,8 @@ export async function refreshBoard(board: TBoard) {
     const access = await userCanEditBoard(board.id)
     if (!access) return redirect('/')
 
+    console.log('BACKEND URL: ', getBackendUrl())
+
     const res = await fetch(`${getBackendUrl()}/refresh/${board.id}`, {
         method: 'POST',
         body: JSON.stringify(board),
