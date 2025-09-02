@@ -3,7 +3,7 @@ import { TTile } from './tile'
 
 export type TTheme = 'entur' | 'dark' | 'light'
 
-export type TTransportPalette = 'default' | 'blue-bus'
+export type TTransportPalette = 'default' | 'blue-bus' | 'green-bus'
 
 export type TCombinedTiles = { ids: TBoardID[] }
 

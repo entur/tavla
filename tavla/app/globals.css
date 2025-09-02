@@ -139,6 +139,18 @@
         --rail-color-transparent: var(--dark-bus-transparent);
     }
 
+    /* Light theme palettes */
+    [data-transport-palette='green-bus'] {
+        --bus-color: var(--standard-mobility);
+        --bus-color-transparent: var(--standard-mobility-transparent);
+    }
+
+    /* Dark theme palettes */
+    [data-theme='dark'][data-transport-palette='green-bus'] {
+        --bus-color: var(--dark-mobility);
+        --bus-color-transparent: var(--dark-mobility-transparent);
+    }
+
     [data-theme='entur'] {
         --main-background-color: var(--fill-primary-default-light);
         --secondary-background-color: var(--colors-blues-blue10);
