@@ -138,6 +138,17 @@ function TileCard({
         if (setDemoBoard) setDemoBoard({ ...demoBoard })
     }
 
+    const deleteTileDemoBoard = () => {
+        if (!demoBoard) return null
+
+        const remainingTiles = demoBoard.tiles.filter(
+            (t) => t.uuid !== tile.uuid,
+        )
+        if (setDemoBoard) setDemoBoard({ ...demoBoard, tiles: remainingTiles })
+
+        addToast(`${tile.name} fjernet!`)
+    }
+
     return (
         <div>
             <TileContext.Provider value={tile}>
@@ -161,14 +172,11 @@ function TileCard({
                             setIsTileOpen={setIsOpen}
                             setConfirmOpen={setConfirmOpen}
                             deleteTile={() =>
-                                deleteTile(
-                                    bid,
-                                    tile,
-                                    demoBoard,
-                                    setDemoBoard,
-                                ).then(() => {
-                                    addToast(`${tile.name} fjernet!`)
-                                })
+                                bid === 'demo'
+                                    ? deleteTileDemoBoard()
+                                    : deleteTile(bid, tile).then(() => {
+                                          addToast(`${tile.name} fjernet!`)
+                                      })
                             }
                         />
                     </div>
@@ -206,14 +214,11 @@ function TileCard({
                                 setIsTileOpen={setIsOpen}
                                 setConfirmOpen={setConfirmOpen}
                                 deleteTile={() =>
-                                    deleteTile(
-                                        bid,
-                                        tile,
-                                        demoBoard,
-                                        setDemoBoard,
-                                    ).then(() => {
-                                        addToast(`${tile.name} fjernet!`)
-                                    })
+                                    bid === 'demo'
+                                        ? deleteTileDemoBoard()
+                                        : deleteTile(bid, tile).then(() => {
+                                              addToast(`${tile.name} fjernet!`)
+                                          })
                                 }
                             />
                         </form>
