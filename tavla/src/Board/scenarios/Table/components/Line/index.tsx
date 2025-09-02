@@ -1,8 +1,8 @@
 import { TravelTag } from 'components/TravelTag'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { nanoid } from 'nanoid'
+import { DeparturesContext } from 'src/Board/scenarios/Table/contexts'
 import { getAirPublicCode } from 'utils/publicCode'
-import { DeparturesContext } from '../../contexts'
 import { TableCell } from '../TableCell'
 import { TableColumn } from '../TableColumn'
 

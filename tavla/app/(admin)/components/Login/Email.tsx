@@ -11,17 +11,16 @@ import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
 
 import { Button, ButtonGroup } from '@entur/button'
-import musk from 'assets/illustrations/Musk.png'
-import Image from 'next/image'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
-} from '../../utils'
-
+} from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import musk from 'assets/illustrations/Musk.png'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { FirebaseError } from 'firebase/app'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'

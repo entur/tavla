@@ -1,5 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
+import { getWalkingDistanceTile } from 'app/(admin)/tavler/[id]/rediger/actions'
 import {
     isEmptyOrSpaces,
     isOnlyWhiteSpace,
@@ -30,7 +31,6 @@ import {
     TTheme,
     TTransportPalette,
 } from 'types/settings'
-import { getWalkingDistanceTile } from '../../actions'
 
 initializeAdminApp()
 
