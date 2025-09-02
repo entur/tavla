@@ -8,13 +8,13 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useFolders } from 'app/(admin)/hooks/useFolders'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
+import { moveBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useState } from 'react'
 import { TBoard } from 'types/settings'
-import { useModalWithValues } from '../../hooks/useModalWithValue'
-import { moveBoardAction } from '../../utils/actions'
 
 function Move({ board }: { board: TBoard }) {
     const { addToast } = useToast()

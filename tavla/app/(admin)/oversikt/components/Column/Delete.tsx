@@ -6,6 +6,8 @@ import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
+import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
+import { deleteBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -13,8 +15,6 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import Image from 'next/image'
 import { useActionState } from 'react'
 import { TBoard } from 'types/settings'
-import { useModalWithValues } from '../../hooks/useModalWithValue'
-import { deleteBoardAction } from '../../utils/actions'
 
 function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
     const { addToast } = useToast()
