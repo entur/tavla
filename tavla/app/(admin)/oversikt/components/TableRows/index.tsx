@@ -1,3 +1,8 @@
+import { useSearchParam } from 'app/(admin)/oversikt/hooks/useSearchParam'
+import {
+    useSortBoardFunction,
+    useSortFolderFunction,
+} from 'app/(admin)/oversikt/hooks/useSortBoardFunction'
 import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,
@@ -5,11 +10,6 @@ import {
 import { DEFAULT_BOARD_COLUMNS, TTableColumn } from 'app/(admin)/utils/types'
 import { Fragment } from 'react'
 import { TBoard, TFolder } from 'types/settings'
-import { useSearchParam } from '../../hooks/useSearchParam'
-import {
-    useSortBoardFunction,
-    useSortFolderFunction,
-} from '../../hooks/useSortBoardFunction'
 import { Column } from '../Column'
 
 type TableRowsProps = {

@@ -1,9 +1,9 @@
 import { IconButton } from '@entur/button'
 import { DownArrowIcon, UnsortedIcon, UpArrowIcon } from '@entur/icons'
+import { useSearchParamReplacer } from 'app/(admin)/oversikt/hooks/useSearchParamReplacer'
 import { SortableColumns, TSort, TTableColumn } from 'app/(admin)/utils/types'
 import { includes } from 'lodash'
 import { useCallback } from 'react'
-import { useSearchParamReplacer } from '../../hooks/useSearchParamReplacer'
 import { getAriaLabel } from './utils'
 
 function Sort({ column }: { column: TTableColumn }) {

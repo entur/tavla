@@ -1,5 +1,5 @@
+import { useSearchParam } from 'app/(admin)/oversikt/hooks/useSearchParam'
 import { TableColumns, TSort, TTableColumn } from 'app/(admin)/utils/types'
-import { useSearchParam } from '../../hooks/useSearchParam'
 import { Sort } from '../Sort'
 
 function ColumnHeader({ column }: { column: TTableColumn }) {

@@ -1,10 +1,10 @@
 'use client'
 
+import { saveUpdatedTileOrder } from 'app/(admin)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { TBoard, TBoardID } from 'types/settings'
 import { TTile } from 'types/tile'
-import { saveUpdatedTileOrder } from '../../actions'
 import { TileCard } from '../TileCard'
 
 function TileList({

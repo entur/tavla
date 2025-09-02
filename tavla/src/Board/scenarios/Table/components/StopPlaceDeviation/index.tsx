@@ -1,5 +1,5 @@
 import { TSituationFragment } from 'graphql/index'
-import { useCycler } from '../../useCycler'
+import { useCycler } from 'src/Board/scenarios/Table/useCycler'
 import { TitleSituation } from '../Situation'
 
 const timerInMilliseconds = 10000
