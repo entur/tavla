@@ -145,6 +145,7 @@ async fn active_boards(
     Ok(Response::new(Body::from(active_boards.to_string())))
 }
 
+// Used to refresh Tavla, triggered by "publish" from edit page
 async fn trigger(
     Path(bid): Path<String>,
     AuthBearer(token): AuthBearer,
