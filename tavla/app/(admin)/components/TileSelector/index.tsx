@@ -81,7 +81,13 @@ function TileSelector({
             </div>
             <div className="w-full">
                 <SearchableDropdown
-                    items={stopPlaceItems}
+                    items={(search) =>
+                        stopPlaceItems(
+                            search ||
+                                selectedStopPlace?.label.split(',')[0] ||
+                                '',
+                        )
+                    }
                     label="Stoppested"
                     clearable
                     prepend={<SearchIcon aria-hidden />}
