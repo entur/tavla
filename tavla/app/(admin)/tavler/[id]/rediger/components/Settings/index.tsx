@@ -59,6 +59,14 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             onBlur={submitSettings}
                         />
                         <Folder folder={folder} onChange={submitSettings} />
+                        <WalkingDistance
+                            location={board.meta.location}
+                            onChange={submitSettings}
+                        />
+                        <Footer
+                            infoMessage={board.footer}
+                            onBlur={submitSettings}
+                        />
                     </div>
                 </div>
                 <div className="box">
@@ -70,6 +78,10 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             }
                             onChange={submitSettings}
                         />
+                        <FontSelect
+                            font={board.meta.fontSize}
+                            onChange={submitSettings}
+                        />
                         <ThemeSelect
                             theme={board.theme}
                             onChange={submitSettings}
@@ -79,18 +91,7 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             theme={board.theme ?? 'dark'}
                             onChange={submitSettings}
                         />
-                        <FontSelect
-                            font={board.meta.fontSize}
-                            onChange={submitSettings}
-                        />
-                        <WalkingDistance
-                            location={board.meta.location}
-                            onChange={submitSettings}
-                        />
-                        <Footer
-                            infoMessage={board.footer}
-                            onBlur={submitSettings}
-                        />
+
                         <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
