@@ -48,15 +48,15 @@
         --unknown-color: var(--standard-walk);
         --water-color: var(--standard-ferry);
 
-        --air-color-transparent: var(--standard-plane-transparent);
-        --bus-color-transparent: var(--standard-bus-transparent);
-        --cableway-color-transparent: var(--standard-cableway-transparent);
-        --funicular-color-transparent: var(--standard-funicular-transparent);
-        --metro-color-transparent: var(--standard-metro-transparent);
-        --rail-color-transparent: var(--standard-train-transparent);
-        --taxi-color-transparent: var(--standard-taxi-transparent);
-        --tram-color-transparent: var(--standard-tram-transparent);
-        --water-color-transparent: var(--standard-ferry-transparent);
+        --air-color-transparent: rgba(126, 6, 100, 0.15);
+        --bus-color-transparent: rgba(197, 4, 78, 0.15);
+        --cableway-color-transparent: rgba(120, 70, 154, 0.15);
+        --funicular-color-transparent: rgba(120, 70, 154, 0.15);
+        --metro-color-transparent: rgba(191, 88, 38, 0.15);
+        --rail-color-transparent: rgba(0, 54, 127, 0.15);
+        --taxi-color-transparent: rgba(61, 62, 64, 0.15);
+        --tram-color-transparent: rgba(120, 70, 154, 0.15);
+        --water-color-transparent: rgba(12, 102, 147, 0.15);
 
         --data-visualization-azure: var(--standard-azure);
         --data-visualization-blue: var(--standard-blue);
@@ -103,15 +103,15 @@
         --unknown-color: var(--dark-walk);
         --water-color: var(--dark-ferry);
 
-        --air-color-transparent: var(--dark-plane-transparent);
-        --bus-color-transparent: var(--dark-bus-transparent);
-        --cableway-color-transparent: var(--dark-cableway-transparent);
-        --funicular-color-transparent: var(--dark-funicular-transparent);
-        --metro-color-transparent: var(--dark-metro-transparent);
-        --rail-color-transparent: var(--dark-train-transparent);
-        --taxi-color-transparent: var(--dark-taxi-transparent);
-        --tram-color-transparent: var(--dark-tram-transparent);
-        --water-color-transparent: var(--dark-ferry-transparent);
+        --air-color-transparent: rgba(242, 184, 229, 0.15);
+        --bus-color-transparent: rgba(239, 115, 152, 0.15);
+        --cableway-color-transparent: rgba(184, 152, 229, 0.15);
+        --funicular-color-transparent: rgba(184, 152, 229, 0.15);
+        --metro-color-transparent: rgba(221, 151, 60, 0.15);
+        --rail-color-transparent: rgba(96, 162, 215, 0.15);
+        --taxi-color-transparent: rgba(255, 224, 130, 0.15);
+        --tram-color-transparent: rgba(184, 152, 229, 0.15);
+        --water-color-transparent: rgba(140, 207, 226, 0.15);
 
         --data-visualization-azure: var(--contrast-azure);
         --data-visualization-blue: var(--contrast-blue);
@@ -184,15 +184,15 @@
         --unknown-color: var(--contrast-walk);
         --water-color: var(--contrast-ferry);
 
-        --air-color-transparent: var(--contrast-plane-transparent);
-        --bus-color-transparent: var(--contrast-bus-transparent);
-        --cableway-color-transparent: var(--contrast-cableway-transparent);
-        --funicular-color-transparent: var(--contrast-funicular-transparent);
-        --metro-color-transparent: var(--contrast-metro-transparent);
-        --rail-color-transparent: var(--contrast-train-transparent);
-        --taxi-color-transparent: var(--contrast-taxi-transparent);
-        --tram-color-transparent: var(--contrast-tram-transparent);
-        --water-color-transparent: var(--contrast-ferry-transparent);
+        --air-color-transparent: rgba(251, 175, 234, 0.15);
+        --bus-color-transparent: rgba(255, 99, 146, 0.15);
+        --cableway-color-transparent: rgba(180, 130, 251, 0.15);
+        --funicular-color-transparent: rgba(180, 130, 251, 0.15);
+        --metro-color-transparent: rgba(240, 137, 1, 0.15);
+        --rail-color-transparent: rgba(66, 165, 245, 0.15);
+        --taxi-color-transparent: rgba(255, 224, 130, 0.15);
+        --tram-color-transparent: rgba(180, 130, 251, 0.15);
+        --water-color-transparent: rgba(111, 223, 255, 0.15);
 
         --data-visualization-azure: var(--contrast-azure);
         --data-visualization-blue: var(--contrast-blue);
