@@ -43,11 +43,8 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
             <FormError
                 {...getFormFeedbackForField('general', formErrors.general)}
             />
-            <form
-                className="grid grid-cols-1 gap-8 lg:grid-cols-2"
-                ref={formRef}
-            >
-                <div className="box">
+            <form className="flex flex-col gap-6 lg:flex-row" ref={formRef}>
+                <div className="box shrink">
                     <Heading3 margin="bottom"> Generelt </Heading3>
                     <div className="flex flex-col gap-4">
                         <Title
@@ -69,7 +66,7 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                         />
                     </div>
                 </div>
-                <div className="box">
+                <div className="box md:min-w-[480px]">
                     <Heading3 margin="bottom">Tavlevisning </Heading3>
                     <div className="flex flex-col gap-4">
                         <ViewType
