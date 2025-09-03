@@ -32,7 +32,8 @@ function WalkingDistance({
         <div className="flex flex-col">
             <Heading4 margin="bottom">Gangavstand</Heading4>
             <Paragraph className="mb-2">
-                Vis gangavstand fra tavlens adresse til stoppestedet.
+                Skriv inn hvor tavlen befinner seg for å vise gangavstand til
+                stoppestedet.
             </Paragraph>
             <ClientOnly>
                 <SearchableDropdown
