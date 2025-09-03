@@ -43,11 +43,8 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
             <FormError
                 {...getFormFeedbackForField('general', formErrors.general)}
             />
-            <form
-                className="grid grid-cols-1 gap-8 lg:grid-cols-2"
-                ref={formRef}
-            >
-                <div className="box">
+            <form className="flex flex-col gap-6 lg:flex-row" ref={formRef}>
+                <div className="box shrink">
                     <Heading3 margin="bottom"> Generelt </Heading3>
                     <div className="flex flex-col gap-4">
                         <Title
@@ -59,15 +56,27 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             onBlur={submitSettings}
                         />
                         <Folder folder={folder} onChange={submitSettings} />
+                        <WalkingDistance
+                            location={board.meta.location}
+                            onChange={submitSettings}
+                        />
+                        <Footer
+                            infoMessage={board.footer}
+                            onBlur={submitSettings}
+                        />
                     </div>
                 </div>
-                <div className="box">
+                <div className="box md:min-w-[480px]">
                     <Heading3 margin="bottom">Tavlevisning </Heading3>
                     <div className="flex flex-col gap-4">
                         <ViewType
                             hasCombinedTiles={
                                 board.combinedTiles ? true : false
                             }
+                            onChange={submitSettings}
+                        />
+                        <FontSelect
+                            font={board.meta.fontSize}
                             onChange={submitSettings}
                         />
                         <ThemeSelect
@@ -79,18 +88,7 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             theme={board.theme ?? 'dark'}
                             onChange={submitSettings}
                         />
-                        <FontSelect
-                            font={board.meta.fontSize}
-                            onChange={submitSettings}
-                        />
-                        <WalkingDistance
-                            location={board.meta.location}
-                            onChange={submitSettings}
-                        />
-                        <Footer
-                            infoMessage={board.footer}
-                            onBlur={submitSettings}
-                        />
+
                         <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
