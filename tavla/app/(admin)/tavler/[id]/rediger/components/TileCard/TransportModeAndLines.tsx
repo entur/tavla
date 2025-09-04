@@ -1,25 +1,15 @@
 'use client'
 import { Checkbox } from '@entur/form'
+import { TileContext } from 'Board/scenarios/Table/contexts'
 import { TransportIcon } from 'components/TransportIcon'
+import { useNonNullContext } from 'hooks/useNonNullContext'
 import { useState } from 'react'
 import { TTransportMode } from 'types/graphql-schema'
 import { TTile } from 'types/tile'
 import { TLineFragment } from './types'
 import { transportModeNames } from './utils'
 
-function TransportModeAndLines({
-    tile,
-    transportMode,
-    lines,
-}: {
-    tile: TTile
-    transportMode: TTransportMode | null
-    lines: TLineFragment[]
-}) {
-    const lineElements = document.getElementsByName(
-        `${tile.uuid}-${transportMode}`,
-    )
-
+function getDefaultChecked(tile: TTile, lines: TLineFragment[]) {
     const anyLineInWhitelist = lines.some((l) =>
         tile.whitelistedLines?.includes(l.id),
     )
@@ -36,10 +26,24 @@ function TransportModeAndLines({
             !missingLinesInWhitelist
         )
     }
+    return defaultChecked
+}
+
+function TransportModeAndLines({
+    lines,
+    transportMode,
+}: {
+    lines: TLineFragment[]
+    transportMode: TTransportMode | null
+}) {
+    const tile = useNonNullContext(TileContext)
     const [checked, setChecked] = useState<boolean | 'indeterminate'>(
-        defaultChecked(),
+        getDefaultChecked(tile, lines),
     )
 
+    const lineElements = document.getElementsByName(
+        `${tile.uuid}-${transportMode}`,
+    )
     const determineAllChecked = () => {
         let count = 0
         for (const l of lineElements.values()) {

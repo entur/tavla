@@ -70,8 +70,11 @@ function TileCard({
         for (const line of data.values()) {
             lines.push(line as string)
         }
+        if (lines.length === 0) {
+            return getFormFeedbackForError('board/no-lines')
+        }
         // If the length of lines equals all the lines, we don't want to include any
-        lines = lines.length == count ? [] : lines
+        lines = lines.length === count ? [] : lines
 
         if (isCombined) {
             columns = tile.columns ?? DEFAULT_COLUMNS
@@ -204,6 +207,7 @@ function TileCard({
                             <SetOffsetDepartureTime address={address} />
                             <SetColumns isCombined={isCombined} />
                             <SetVisibleLines
+                                state={state}
                                 uniqLines={uniqLines}
                                 transportModes={transportModes}
                             />
