@@ -8,7 +8,6 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useFolders } from 'app/(admin)/hooks/useFolders'
-import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 import { moveBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -18,11 +17,7 @@ import { TBoard } from 'types/settings'
 
 function Move({ board }: { board: TBoard }) {
     const { addToast } = useToast()
-
-    const { isOpen, open, close } = useModalWithValues({
-        key: 'flytt',
-        value: board.id ?? '',
-    })
+    const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState<TFormFeedback | undefined>(undefined)
 
     const submit = async (data: FormData) => {
@@ -35,7 +30,7 @@ function Move({ board }: { board: TBoard }) {
                 : 'Tavlen er ikke lengre i en mappe!'
             addToast(toastText)
             setError(undefined)
-            close()
+            setIsOpen(false)
         }
     }
 
@@ -50,7 +45,7 @@ function Move({ board }: { board: TBoard }) {
             >
                 <IconButton
                     aria-label="Flytt til en annen mappe"
-                    onClick={open}
+                    onClick={() => setIsOpen(true)}
                 >
                     <ForwardIcon aria-label="Pil-ikon" />
                 </IconButton>
@@ -60,7 +55,7 @@ function Move({ board }: { board: TBoard }) {
                 size="medium"
                 onDismiss={() => {
                     setError(undefined)
-                    close()
+                    setIsOpen(false)
                 }}
                 closeLabel="Avbryt sletting"
             >

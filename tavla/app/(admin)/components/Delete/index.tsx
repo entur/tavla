@@ -6,7 +6,6 @@ import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
-import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
@@ -32,16 +31,7 @@ function DeleteFolder({
     const { addToast } = useToast()
 
     const [state, deleteFolder] = useActionState(deleteFolderAction, undefined)
-    const { isOpen, open, close } = useModalWithValues(
-        {
-            key: 'slett',
-            value: 'mappe',
-        },
-        {
-            key: 'id',
-            value: folder.id ?? '',
-        },
-    )
+    const [isOpen, setIsOpen] = useState(false)
 
     const [nameError, setNameError] = useState<TFormFeedback>()
 
@@ -61,14 +51,18 @@ function DeleteFolder({
                 placement="bottom"
                 id="tooltip-delete-folder"
             >
-                <DeleteButton text="Slett mappe" type={type} onClick={open} />
+                <DeleteButton
+                    text="Slett mappe"
+                    type={type}
+                    onClick={() => setIsOpen(true)}
+                />
             </Tooltip>
 
             <Modal
                 open={isOpen}
                 size="small"
                 onDismiss={() => {
-                    close()
+                    setIsOpen(false)
                     setNameError(undefined)
                 }}
                 closeLabel="Avbryt sletting"
@@ -77,7 +71,7 @@ function DeleteFolder({
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => {
-                        close()
+                        setIsOpen(false)
                         setNameError(undefined)
                     }}
                     className="absolute right-4 top-4"
@@ -122,7 +116,7 @@ function DeleteFolder({
                             variant="secondary"
                             aria-label="Avbryt sletting"
                             onClick={() => {
-                                close()
+                                setIsOpen(false)
                                 setNameError(undefined)
                             }}
                             width="fluid"
