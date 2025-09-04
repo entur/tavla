@@ -4,20 +4,16 @@ import { CloseIcon, FolderIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
-import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import birds from 'assets/illustrations/Birds.png'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import Image from 'next/image'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { createFolder } from './actions'
 
 function CreateFolder() {
-    const { isOpen, open, close } = useModalWithValues({
-        key: 'opprett',
-        value: 'mappe',
-    })
+    const [isOpen, setIsOpen] = useState(false)
     const [state, formAction] = useActionState(createFolder, undefined)
 
     return (
@@ -35,7 +31,7 @@ function CreateFolder() {
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={close}
+                    onClick={() => setIsOpen(false)}
                     className="absolute right-4 top-4"
                 >
                     <CloseIcon />
