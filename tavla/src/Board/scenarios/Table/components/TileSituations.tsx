@@ -5,6 +5,7 @@ import {
 import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { TSituationFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
+import { CircularCountdown } from './Spinner'
 
 const SITUATION_SUMMARY_LENGTH_THRESHOLD = 25
 
@@ -83,7 +84,16 @@ function TileSituations({
             <div className="ml-em-0.25 flex w-full flex-row items-center pt-4 md:pt-6 lg:pt-8">
                 <div
                     className={`flex shrink-0 items-center justify-center text-${textColor}`}
+                    style={{ position: 'relative' }}
                 >
+                    <CircularCountdown
+                        key={situationText}
+                        color={
+                            cancelledDeparture
+                                ? 'var(--error-color)'
+                                : 'var(--warning-color)'
+                        }
+                    />
                     {cancelledDeparture ? (
                         <ValidationErrorFilledIcon size="1em" />
                     ) : (
