@@ -6,7 +6,7 @@ import {
     sendEmailVerification,
     signInWithEmailAndPassword,
 } from 'firebase/auth'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { getClientApp } from 'utils/firebase'
 import { login } from './actions'
 
@@ -30,12 +30,17 @@ import { TLoginPage } from './types'
 
 function Email() {
     const posthog = usePostHog()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const submit = async (
         previousState: TFormFeedback | undefined,
         data: FormData,
     ) => {
         const email = data.get('email') as string
         const password = data.get('password') as string
+
+        setEmail('')
+        setPassword('')
 
         try {
             const app = await getClientApp()
@@ -54,16 +59,23 @@ function Email() {
                 } catch (e: unknown) {
                     // if email verification returns too-many-requests, verification email was sent very recently
                     // user should not be shown the too-many-requests feedback
+
                     if (
                         e instanceof FirebaseError &&
                         e.code != 'auth/too-many-requests'
                     ) {
+                        setEmail(email)
+                        setPassword(password)
                         return getFormFeedbackForError(e)
                     }
                 }
+                setEmail(email)
+                setPassword(password)
                 return getFormFeedbackForError(error, email)
             }
         } catch (e: unknown) {
+            setEmail(email)
+            setPassword(password)
             if (e instanceof FirebaseError) {
                 return getFormFeedbackForError(e)
             }
@@ -91,6 +103,7 @@ function Email() {
                         name="email"
                         label="E-post"
                         type="email"
+                        defaultValue={email}
                         {...getFormFeedbackForField('email', state)}
                     />
                 </div>
@@ -99,6 +112,7 @@ function Email() {
                         name="password"
                         label="Passord"
                         type="password"
+                        defaultValue={password}
                         {...getFormFeedbackForField('password', state)}
                     />
                 </div>
