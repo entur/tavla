@@ -8,7 +8,7 @@ export const DEFAULT_SORT_TYPE: TSort = 'ascending'
 
 export const FIREBASE_DEV_CONFIG = {
     apiKey: 'AIzaSyCjyL7k4AehY4M95cxBVaW4LJTy6JNdTjo',
-    authDomain: 'tavla.dev.entur.no',
+    authDomain: 'ent-tavla-dev.web.app',
     projectId: 'ent-tavla-dev',
     storageBucket: 'ent-tavla-dev.appspot.com',
     messagingSenderId: '992979087014',
