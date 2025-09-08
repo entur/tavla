@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 export const CircularCountdown = ({ color = 'var(--warning-color)' }) => {
     const duration = 10000
     const size = '1.5em'
-    const CENTER_COORDINATE = 15
-    const strokeWidth = 3
+    const CENTER_COORDINATE = 8
+    const strokeWidth = 1.5
     const radius = CENTER_COORDINATE - strokeWidth / 2
     const circumference = 2 * Math.PI * radius
     const [strokeDashoffset, setStrokeDashoffset] = useState(0)
@@ -19,16 +19,17 @@ export const CircularCountdown = ({ color = 'var(--warning-color)' }) => {
         }, 16)
         return () => clearInterval(interval)
     }, [duration, circumference])
+
     return (
         <svg
             width={size}
             height={size}
-            viewBox="0 0 32 32"
+            viewBox="-1 -1 18 18"
             className="absolute left-1/2 top-1/2 z-[4] -translate-x-1/2 -translate-y-1/2 transform"
         >
             <circle
-                cx="16"
-                cy="16"
+                cx="10.1"
+                cy="8.1"
                 r={radius}
                 fill="none"
                 stroke={color}
