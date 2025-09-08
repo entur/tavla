@@ -122,6 +122,20 @@ function ExpandableInfo() {
                     bruker vi også informasjon om din maskintype,
                     programvareversjon, nettleser, IP-adresse og MAC-adresse.
                 </Paragraph>
+                <Heading3>Sletting av analysedata</Heading3>
+                <Paragraph>
+                    Dersom du ønsker å slette analysedataene dine kan du enten
+                    trykke på knappen under, eller sende en melding til{' '}
+                    <EnturLink
+                        as={Link}
+                        href="mailto:tavla@entur.org"
+                        className="gap-1"
+                    >
+                        tavla@entur.org <ExternalIcon />
+                    </EnturLink>{' '}
+                    med sporings-IDen din om at du ønsker at vi sletter dataen
+                    din. Sporings-IDen kan du hente nedenfor.
+                </Paragraph>
 
                 <div className="flex flex-col gap-4">
                     <PrimaryButton onClick={() => showUC_UI_second()}>
