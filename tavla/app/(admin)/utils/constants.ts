@@ -8,7 +8,7 @@ export const DEFAULT_SORT_TYPE: TSort = 'ascending'
 
 export const FIREBASE_DEV_CONFIG = {
     apiKey: 'AIzaSyCjyL7k4AehY4M95cxBVaW4LJTy6JNdTjo',
-    authDomain: 'ent-tavla-dev.firebaseapp.com',
+    authDomain: 'tavla.dev.entur.no',
     projectId: 'ent-tavla-dev',
     storageBucket: 'ent-tavla-dev.appspot.com',
     messagingSenderId: '992979087014',
@@ -17,7 +17,7 @@ export const FIREBASE_DEV_CONFIG = {
 
 export const FIREBASE_PRD_CONFIG = {
     apiKey: 'AIzaSyCYIqxsPo2mJ8dupGENDWAECO6JYXm4iRk',
-    authDomain: 'ent-tavla-prd.firebaseapp.com',
+    authDomain: 'tavla.entur.no',
     projectId: 'ent-tavla-prd',
     storageBucket: 'ent-tavla-prd.appspot.com',
     messagingSenderId: '206753066197',
