@@ -59,7 +59,7 @@ export function StopPlaceTile({
 
     return (
         <Tile className="flex flex-col max-sm:min-h-[30vh]">
-            <div className="overflow-hidden">
+            <div className="flex-grow overflow-hidden">
                 <TableHeader
                     heading={displayName ?? data.stopPlace.name}
                     walkingDistance={walkingDistance}
