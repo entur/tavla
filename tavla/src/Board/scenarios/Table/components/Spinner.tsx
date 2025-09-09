@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 export const CircularCountdown = ({ color = 'var(--warning-color)' }) => {
     const duration = 10000
+    const INTERVAL_MS = 16
     const size = '1.5em'
     const CENTER_COORDINATE = 8
     const strokeWidth = 1.5
@@ -16,7 +17,7 @@ export const CircularCountdown = ({ color = 'var(--warning-color)' }) => {
             const progress = Math.min(elapsedTime / duration, 1)
             setStrokeDashoffset(circumference * progress)
             if (progress === 1) clearInterval(interval)
-        }, 16)
+        }, INTERVAL_MS)
         return () => clearInterval(interval)
     }, [duration, circumference])
 

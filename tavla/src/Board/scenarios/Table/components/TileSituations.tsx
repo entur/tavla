@@ -83,8 +83,7 @@ function TileSituations({
         situationText && (
             <div className="ml-em-0.25 flex w-full flex-row items-center pt-4 md:pt-6 lg:pt-8">
                 <div
-                    className={`flex shrink-0 items-center justify-center text-${textColor}`}
-                    style={{ position: 'relative' }}
+                    className={`relative flex shrink-0 items-center justify-center text-${textColor}`}
                 >
                     <CircularCountdown
                         key={situationText}
