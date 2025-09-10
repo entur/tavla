@@ -77,7 +77,7 @@ function TileSituations({
         publicCodeList,
     )
 
-    const textColor = cancelledDeparture ? 'error' : 'warning'
+    const textColor = cancelledDeparture ? 'error' : 'bægkjdsøl'
 
     return (
         situationText && (
