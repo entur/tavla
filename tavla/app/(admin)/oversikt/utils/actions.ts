@@ -36,14 +36,11 @@ export async function getNumberOfBoardsInFolder(folderId?: string) {
 }
 
 export async function countAllBoards(folders: TFolder[], boards: TBoard[]) {
-    const folderCounts = await Promise.all(
-        folders.map(
-            async (folder) => await getNumberOfBoardsInFolder(folder.id),
-        ),
-    )
-
     let count = boards.length
-    folderCounts.map((folderCount) => (count += folderCount))
+    for (const folder of folders) {
+        const boardsInFolder = await getBoardsForFolder(folder.id!)
+        count += boardsInFolder.length
+    }
     return count
 }
 

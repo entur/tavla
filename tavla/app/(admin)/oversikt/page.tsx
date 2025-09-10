@@ -1,5 +1,9 @@
 import { Heading1, Label } from '@entur/typography'
-import { getFoldersForUser, getPrivateBoardsForUser } from 'app/(admin)/actions'
+import {
+    getBoardsForFolder,
+    getFoldersForUser,
+    getPrivateBoardsForUser,
+} from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
@@ -9,7 +13,6 @@ import { CreateFolder } from '../components/CreateFolder'
 import { BoardTable } from './components/BoardTable'
 import EmptyOverview from './components/EmptyOverview'
 import { Search } from './components/Search'
-import { countAllBoards } from './utils/actions'
 
 initializeAdminApp()
 
@@ -23,7 +26,9 @@ async function FoldersAndBoardsPage() {
 
     const folders = await getFoldersForUser()
     const privateBoards = await getPrivateBoardsForUser()
-    const count = await countAllBoards(folders, privateBoards)
+    const boardCountInFolder = await Promise.all(
+        folders.map((folder) => getBoardsForFolder(folder.id!)),
+    )
     const elementsListCount = privateBoards.length + folders.length
 
     const counts: Record<string, number> = Object.fromEntries(
@@ -49,7 +54,13 @@ async function FoldersAndBoardsPage() {
                     <>
                         <Search />
                         <div className="mt-8 flex flex-col">
-                            <Label>Totalt antall tavler: {count}</Label>
+                            <Label>
+                                Totalt antall tavler:{' '}
+                                {boardCountInFolder.reduce(
+                                    (sum, boards) => sum + boards.length,
+                                    0,
+                                )}
+                            </Label>
                             <BoardTable
                                 folders={folders}
                                 boards={privateBoards}
