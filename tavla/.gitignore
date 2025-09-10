@@ -9,6 +9,7 @@ migrations/scripts/__pycache__
 
 node_modules/
 **/.firebase
+firebase-export-*
 
 .vscode/
 .next/
