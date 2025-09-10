@@ -72,8 +72,14 @@ export function getFormFeedbackForError(
         case 'auth/weak-password':
             return {
                 form_type: 'password',
-                feedback: 'Passordet er for svakt.',
+                feedback: 'Passordet er for kort – det må være minst 6 tegn.',
                 variant: 'warning',
+            }
+        case 'auth/missing-password':
+            return {
+                form_type: 'password',
+                feedback: 'Du må skrive inn et passord.',
+                variant: 'negative',
             }
         case 'auth/unverified':
             return {

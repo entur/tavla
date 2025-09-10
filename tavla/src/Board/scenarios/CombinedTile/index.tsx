@@ -114,7 +114,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
 
     return (
         <Tile className="flex flex-col max-sm:min-h-[30vh]">
-            <div className="overflow-hidden">
+            <div className="flex-grow overflow-hidden">
                 <CombinedTileDeviation situations={combinedSituations} />
                 <Table
                     departures={sortedEstimatedCalls}

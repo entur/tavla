@@ -126,29 +126,29 @@
     /* Light theme palettes */
     [data-transport-palette='blue-bus'] {
         --bus-color: var(--standard-train);
-        --bus-color-transparent: var(--standard-train-transparent);
+        --bus-color-transparent: rgba(0, 54, 127, 0.15);
         --rail-color: var(--standard-bus);
-        --rail-color-transparent: var(--standard-bus-transparent);
+        --rail-color-transparent: rgba(197, 4, 78, 0.15);
     }
 
     /* Dark theme palettes */
     [data-theme='dark'][data-transport-palette='blue-bus'] {
         --bus-color: var(--dark-train);
-        --bus-color-transparent: var(--dark-train-transparent);
+        --bus-color-transparent: rgba(96, 162, 215, 0.15);
         --rail-color: var(--dark-bus);
-        --rail-color-transparent: var(--dark-bus-transparent);
+        --rail-color-transparent: rgba(239, 115, 152, 0.15);
     }
 
     /* Light theme palettes */
     [data-transport-palette='green-bus'] {
         --bus-color: var(--standard-mobility);
-        --bus-color-transparent: var(--standard-mobility-transparent);
+        --bus-color-transparent: rgba(51, 130, 107, 0.15);
     }
 
     /* Dark theme palettes */
     [data-theme='dark'][data-transport-palette='green-bus'] {
-        --bus-color: var(--dark-mobility);
-        --bus-color-transparent: var(--dark-mobility-transparent);
+        --bus-color: var(--contrast-mobility);
+        --bus-color-transparent: rgba(0, 219, 155, 0.15);
     }
 
     [data-theme='entur'] {
