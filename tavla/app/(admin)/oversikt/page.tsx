@@ -32,9 +32,10 @@ async function FoldersAndBoardsPage() {
     const elementsListCount = privateBoards.length + folders.length
 
     const counts: Record<string, number> = Object.fromEntries(
-        folders.flatMap((folder) =>
-            folder.id ? [[folder.id, folder.boards?.length ?? 0]] : [],
-        ),
+        folders.map((folder, idx) => [
+            folder.id!,
+            boardCountInFolder[idx]?.length ?? 0,
+        ]),
     )
 
     return (
