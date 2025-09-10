@@ -7,7 +7,7 @@ import {
     sendEmailVerification,
 } from 'firebase/auth'
 import Image from 'next/image'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { create } from './actions'
 
 import { Button, ButtonGroup } from '@entur/button'
@@ -26,7 +26,11 @@ import { FormError } from '../FormError'
 import Google from './Google'
 
 function Create() {
-    const submit = async (p: TFormFeedback | undefined, data: FormData) => {
+    const [email, setEmail] = useState('')
+    const submit = async (
+        previousState: TFormFeedback | undefined,
+        data: FormData,
+    ) => {
         const email = data.get('email') as string
         const password = data.get('password') as string
         const repeat = data.get('repeat_password') as string
@@ -69,6 +73,8 @@ function Create() {
                         name="email"
                         label="E-post"
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         {...getFormFeedbackForField('email', state)}
                     />
                 </div>

@@ -147,8 +147,8 @@
 
     /* Dark theme palettes */
     [data-theme='dark'][data-transport-palette='green-bus'] {
-        --bus-color: var(--dark-mobility);
-        --bus-color-transparent: rgba(77, 178, 149, 0.15);
+        --bus-color: var(--contrast-mobility);
+        --bus-color-transparent: rgba(0, 219, 155, 0.15);
     }
 
     [data-theme='entur'] {
