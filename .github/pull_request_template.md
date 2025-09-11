@@ -1,18 +1,19 @@
-## 🥅 Motivasjon
+### 🥅 Bakgrunn
 
-## ✨ Endringer
 
-- [ ] ...
+### ✨ Løsning
 
-## 📸 Screenshots
+- 
+
+### 📸 Bilder
 
 | Før   | Etter |
 | ----- | ----- |
 | bilde | bilde |
 
-## ✅ Sjekkliste
+
+### ✅ Sjekkliste
 
 - [ ] Testet i Chrome, Firefox og Safari
-- [ ] Testet i BrowserStack
-- [ ] UU-sjekk: Testet i LightHouse
-- [ ] ...
+- [ ] Testet i BrowserStack (hvis endring på tavlevisning)
+- [ ] Oppdatert dokumentasjon (hvis relevant)
