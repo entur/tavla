@@ -18,7 +18,7 @@ function CreateFolder() {
 
     return (
         <>
-            <SecondaryButton onClick={open}>
+            <SecondaryButton onClick={() => setIsOpen(true)}>
                 Opprett mappe
                 <FolderIcon aria-label="Mappe-ikon" />
             </SecondaryButton>
