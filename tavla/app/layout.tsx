@@ -53,7 +53,9 @@ async function RootLayout({ children }: { children: ReactNode }) {
                     data-settings-id={process.env.USERCENTRICS_DATA_SETTINGS_ID}
                     async
                 />
-                <ConsentHandler />
+                <ConsentHandler
+                    posthogToken={process.env.NEXT_PUBLIC_POSTHOG_TOKEN ?? ''}
+                />
             </head>
             <PHProvider>
                 <body className="min-h-screen">

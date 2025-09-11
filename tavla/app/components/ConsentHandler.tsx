@@ -59,7 +59,11 @@ export function initSentry(consent: boolean) {
     })
 }
 
-export default function ConsentHandler() {
+export default function ConsentHandler({
+    posthogToken,
+}: {
+    posthogToken: string
+}) {
     useEffect(() => {
         async function handleConsentUpdate(
             event: Event & { detail?: ConsentDetails },
@@ -78,13 +82,10 @@ export default function ConsentHandler() {
                     posthog.identify(event.detail?.consent.controllerId)
                     posthog.opt_in_capturing()
                 } else {
-                    posthog.init(
-                        process.env.NEXT_PUBLIC_POSTHOG_TOKEN ?? '',
-                        basePosthogOptions,
-                    )
+                    posthog.init(posthogToken, basePosthogOptions)
                 }
             } else {
-                disablePosthog()
+                disablePosthog(posthogToken)
             }
 
             // Handle Sentry consent
@@ -108,19 +109,19 @@ export default function ConsentHandler() {
                 CONSENT_UPDATED_EVENT,
                 handleConsentUpdate,
             )
-    }, [])
+    }, [posthogToken])
 
     return null
 }
 
-function disablePosthog() {
+function disablePosthog(posthogToken: string) {
     if (posthog.__loaded) {
         posthog.opt_out_capturing()
         posthog.reset()
     }
 
     try {
-        const keyPrefix = `ph_${process.env.NEXT_PUBLIC_POSTHOG_TOKEN}_posthog`
+        const keyPrefix = `ph_${posthogToken}_posthog`
         Object.keys(localStorage).forEach((key) => {
             if (key.startsWith(keyPrefix)) {
                 localStorage.removeItem(key)
