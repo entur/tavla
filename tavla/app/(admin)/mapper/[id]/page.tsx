@@ -41,13 +41,11 @@ async function FolderPage(props: TProps) {
 
     const params = await props.params
     const folder = await getFolder(params.id)
-    const boardCount = folder?.boards?.length
-
     if (!folder || !folder.id) {
         return notFound()
     }
-
     const boardsInFolder = await getBoardsForFolder(folder.id)
+    const boardCount = boardsInFolder.length
 
     const owners = folder.owners ?? []
 
