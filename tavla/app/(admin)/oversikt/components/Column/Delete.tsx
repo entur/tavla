@@ -6,30 +6,20 @@ import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
-import { useModalWithValues } from 'app/(admin)/oversikt/hooks/useModalWithValue'
 import { deleteBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import Image from 'next/image'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { TBoard } from 'types/settings'
 
 function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
     const { addToast } = useToast()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
-    const { isOpen, open, close } = useModalWithValues(
-        {
-            key: 'slett',
-            value: 'tavle',
-        },
-        {
-            key: 'id',
-            value: board.id ?? '',
-        },
-    )
+    const [isOpen, setIsOpen] = useState(false)
 
     const submit = async (data: FormData) => {
         deleteBoard(data)
@@ -38,17 +28,21 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
 
     return (
         <>
-            <DeleteButton text="Slett tavle" type={type} onClick={open} />
+            <DeleteButton
+                text="Slett tavle"
+                type={type}
+                onClick={() => setIsOpen(true)}
+            />
             <Modal
                 open={isOpen}
                 size="small"
-                onDismiss={close}
+                onDismiss={() => setIsOpen(false)}
                 closeLabel="Avbryt sletting"
                 className="flex flex-col items-center justify-start text-center"
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={close}
+                    onClick={() => setIsOpen(false)}
                     className="absolute right-4 top-4"
                 >
                     <CloseIcon />
@@ -65,7 +59,11 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
                     til.
                 </Paragraph>
 
-                <form action={submit} onSubmit={close} className="w-full">
+                <form
+                    action={submit}
+                    onSubmit={() => setIsOpen(false)}
+                    className="w-full"
+                >
                     <HiddenInput id="bid" value={board.id} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <ButtonGroup className="flex flex-row">
@@ -81,7 +79,7 @@ function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
                             type="button"
                             variant="secondary"
                             aria-label="Avbryt sletting"
-                            onClick={close}
+                            onClick={() => setIsOpen(false)}
                             className="w-1/2"
                             width="fluid"
                         >
