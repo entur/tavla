@@ -1,7 +1,7 @@
 'use client'
 import { ExternalIcon, GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
-import { showUC_UI } from 'app/components/ConsentHandler'
+import { showUC_UI as showUserCentricsUI } from 'app/components/ConsentHandler'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -85,7 +85,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         <EnturLink
                             as={Link}
                             href="javascript:void(0)"
-                            onClick={showUC_UI}
+                            onClick={showUserCentricsUI}
                         >
                             Informasjonskapsler
                         </EnturLink>

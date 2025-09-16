@@ -1,14 +1,13 @@
 'use client'
 import { ToastProvider } from '@entur/alert'
 import * as Sentry from '@sentry/react'
-import posthog, { PostHogConfig } from 'posthog-js'
+import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { ReactNode, useEffect } from 'react'
 import {
     CONSENT_UPDATED_EVENT,
     ConsentDetails,
     formatConsentEvent,
-    waitFor,
 } from '../../src/Shared/utils/cmpUtils'
 
 declare global {
@@ -34,13 +33,14 @@ export function showUC_UI_second() {
     }
 }
 
-const basePosthogOptions: Partial<PostHogConfig> = {
-    api_host: 'https://eu.posthog.com',
-    capture_pageview: false,
-    autocapture: false,
-    opt_out_capturing_by_default: true,
-    // debug: true, // Used to test if posthog turns on only with consent
-}
+// TODO: decomment lines to enable PostHog (currently disabled while awaiting new guidelines for tracking)
+// const basePostHogOptions: Partial<PostHogConfig> = {
+//     api_host: 'https://eu.posthog.com',
+//     capture_pageview: false,
+//     autocapture: false,
+//     opt_out_capturing_by_default: true,
+//     // debug: true, // Used to test if PostHog turns on only with consent
+// }
 
 const POSTHOG_SERVICE_NAME = 'PostHog.com'
 const SENTRY_SERVICE_NAME = 'Sentry'
@@ -78,14 +78,15 @@ export default function ConsentHandler({
             )
 
             if (posthogConsent?.consentGiven) {
-                if (posthog.__loaded) {
-                    posthog.identify(event.detail?.consent.controllerId)
-                    posthog.opt_in_capturing()
-                } else {
-                    posthog.init(posthogToken, basePosthogOptions)
-                }
-            } else {
-                disablePosthog(posthogToken)
+                // TODO: decomment lines to enable PostHog (currently disabled while awaiting new guidelines for tracking)
+                //     if (posthog.__loaded) {
+                //         posthog.identify(event.detail?.consent.controllerId)
+                //         posthog.opt_in_capturing()
+                //     } else {
+                //         posthog.init(posthogToken, basePostHogOptions)
+                //     }
+                // } else {
+                //     disablePostHog(posthogToken)
             }
 
             // Handle Sentry consent
@@ -94,11 +95,12 @@ export default function ConsentHandler({
             )
 
             if (sentryConsent?.consentGiven) {
-                initSentry(true)
-                await waitFor(() => window.Sentry !== undefined)
-                window.Sentry?.setUser({
-                    id: event.detail?.consent.controllerId ?? '',
-                })
+                // TODO: decomment lines to enable Sentry (currently disabled while awaiting new guidelines for tracking)
+                // initSentry(true)
+                // await waitFor(() => window.Sentry !== undefined)
+                // window.Sentry?.setUser({
+                //     id: event.detail?.consent.controllerId ?? '',
+                // })
             }
         }
 
@@ -114,23 +116,24 @@ export default function ConsentHandler({
     return null
 }
 
-function disablePosthog(posthogToken: string) {
-    if (posthog.__loaded) {
-        posthog.opt_out_capturing()
-        posthog.reset()
-    }
+// TODO: decomment lines to enable PostHog (currently disabled while awaiting new guidelines for tracking)
+// function disablePostHog(posthogToken: string) {
+//     if (posthog.__loaded) {
+//         posthog.opt_out_capturing()
+//         posthog.reset()
+//     }
 
-    try {
-        const keyPrefix = `ph_${posthogToken}_posthog`
-        Object.keys(localStorage).forEach((key) => {
-            if (key.startsWith(keyPrefix)) {
-                localStorage.removeItem(key)
-            }
-        })
-    } catch {
-        // Ignore mistakes
-    }
-}
+//     try {
+//         const keyPrefix = `ph_${posthogToken}_posthog`
+//         Object.keys(localStorage).forEach((key) => {
+//             if (key.startsWith(keyPrefix)) {
+//                 localStorage.removeItem(key)
+//             }
+//         })
+//     } catch {
+//         // Ignore mistakes
+//     }
+// }
 
 export function PHProvider({ children }: { children: ReactNode }) {
     return <PostHogProvider client={posthog}>{children}</PostHogProvider>
