@@ -1,11 +1,8 @@
-import {
-    ValidationErrorFilledIcon,
-    ValidationExclamationCircleFilledIcon,
-} from '@entur/icons'
 import { removeStopPlaceSituations } from 'Board/scenarios/Board/utils'
 import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../contexts'
+import { AvvikCircle } from './AvvikCircle'
 import { TableCell } from './TableCell'
 import { TableColumn } from './TableColumn'
 
@@ -77,26 +74,22 @@ function Deviation({
 }
 
 function DeviationIcon({ deviation }: { deviation: Deviation }) {
-    switch (deviation.type) {
-        case 'cancellation':
-            return (
-                <ValidationErrorFilledIcon
-                    color="var(--error-color)"
-                    className="text-error"
-                    opacity={deviation.isHighlighted ? 1 : 0.5}
-                />
-            )
-        case 'situation':
-            return (
-                <ValidationExclamationCircleFilledIcon
-                    color="var(--warning-color)"
-                    className="text-warning"
-                    opacity={deviation.isHighlighted ? 1 : 0.5}
-                />
-            )
-        case 'no-deviation':
-            return null
+    if (deviation.type === 'no-deviation') {
+        return null
     }
+
+    return (
+        <div
+            className="flex items-center justify-center"
+            style={{ height: '3em' }}
+        >
+            <AvvikCircle
+                cancelledDeparture={deviation.type === 'cancellation'}
+                isHighlighted={deviation.isHighlighted}
+                opacity={deviation.isHighlighted ? 1 : 0.5}
+            />
+        </div>
+    )
 }
 
 export { Deviation }
