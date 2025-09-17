@@ -22,7 +22,7 @@
         "postinstall": "cd .. && husky install ./.husky"
     },
     "dependencies": {
-        "@entur/alert": "0.16.19",
+        "@entur/alert": "0.17.14",
         "@entur/button": "3.2.34",
         "@entur/chip": "0.7.23",
         "@entur/dropdown": "7.3.6",
