@@ -26,7 +26,7 @@ function CreateFolder() {
                 className="flex flex-col items-center"
                 open={isOpen}
                 size="small"
-                onDismiss={close}
+                onDismiss={() => setIsOpen(false)}
                 closeLabel="Avbryt oppretting"
             >
                 <IconButton
@@ -81,7 +81,7 @@ function CreateFolder() {
                                 width="fluid"
                                 variant="secondary"
                                 aria-label="Avbryt oppretting"
-                                onClick={close}
+                                onClick={() => setIsOpen(false)}
                             >
                                 Avbryt
                             </Button>
