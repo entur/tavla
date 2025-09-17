@@ -25,7 +25,7 @@
         "@entur/alert": "0.16.19",
         "@entur/button": "3.2.34",
         "@entur/chip": "0.7.23",
-        "@entur/dropdown": "6.0.13",
+        "@entur/dropdown": "7.3.6",
         "@entur/expand": "^3.6.0",
         "@entur/form": "8.2.4",
         "@entur/icons": "8.0.0",
