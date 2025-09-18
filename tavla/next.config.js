@@ -15,7 +15,7 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 const cspHeaderCommon = `
-    default-src 'self' apis.google.com http://127.0.0.1:9099 https://ent-tavla-dev.firebaseapp.com/ https://ent-tavla-prd.firebaseapp.com/;
+    default-src 'self' apis.google.com http://127.0.0.1:9099 https://ent-tavla-dev.firebaseapp.com https://ent-tavla-prd.firebaseapp.com;
     style-src 'self' 'unsafe-inline';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu-assets.i.posthog.com https://apis.google.com https://web.cmp.usercentrics.eu;
     object-src 'none';
@@ -24,9 +24,11 @@ const cspHeaderCommon = `
 `
 
 const securityHeaders = `
+    child-src 'self' blob: https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com https://ent-tavla-prd.firebaseapp.com;
     frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com https://ent-tavla-prd.firebaseapp.com;
-    child-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com https://ent-tavla-prd.firebaseapp.com; /* fallback for older browsers */
-    img-src 'self' data: blob: https://*.usercentrics.eu https://firebasestorage.googleapis.com https://storage.googleapis.com;
+    img-src 'self' data: blob: https://*.usercentrics.eu https://firebasestorage.googleapis.com https://storage.googleapis.com https://*.gstatic.com;
+    font-src 'self' data: https://fonts.gstatic.com;
+    media-src 'self';
 `
 
 const cspHeader = `
