@@ -1,7 +1,6 @@
 'use client'
 import { ExternalIcon, GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
-import { showUC_UI as showUserCentricsUI } from 'app/components/ConsentHandler'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -79,16 +78,11 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 <DeleteAccount />
                             </div>
                         )}
-                        <EnturLink as={Link} href="/privacy">
-                            Personvernerklæring
-                        </EnturLink>
-                        <EnturLink
-                            as={Link}
-                            href="javascript:void(0)"
-                            onClick={showUserCentricsUI}
-                        >
-                            Informasjonskapsler
-                        </EnturLink>
+                        <div>
+                            <EnturLink as={Link} href="/privacy">
+                                Personvernerklæring
+                            </EnturLink>
+                        </div>
                         <div className="flex flex-row items-center gap-1">
                             <EnturLink
                                 href="https://github.com/entur/tavla"

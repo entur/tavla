@@ -17,22 +17,16 @@ if (process.env.NODE_ENV == 'development') {
 const cspHeaderCommon = `
     default-src 'self' apis.google.com http://127.0.0.1:9099 https://ent-tavla-dev.firebaseapp.com/ https://ent-tavla-prd.firebaseapp.com/;
     style-src 'self' 'unsafe-inline';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu-assets.i.posthog.com https://apis.google.com https://web.cmp.usercentrics.eu;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu-assets.i.posthog.com https://apis.google.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';
 `
 
-const securityHeaders = `
-        frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/;
-        img-src 'self' data: https://*.usercentrics.eu https://firebasestorage.googleapis.com;
-      `
-
 const cspHeader = `
-    connect-src ${commonConnectSrc.join(' ')} https://ws.geonorge.no https://*.posthog.com https://*.googleapis.com https://www.google.com https://*.usercentrics.eu;
+    connect-src ${commonConnectSrc.join(' ')} https://ws.geonorge.no https://*.posthog.com https://*.googleapis.com https://www.google.com;
     frame-ancestors 'none';
     ${cspHeaderCommon}
-    ${securityHeaders}
 `
 
 const cspHeaderTavlevisning = `

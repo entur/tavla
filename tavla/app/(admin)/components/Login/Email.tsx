@@ -1,7 +1,16 @@
 'use client'
-import { Button, ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
+import {
+    getAuth,
+    sendEmailVerification,
+    signInWithEmailAndPassword,
+} from 'firebase/auth'
+import { useActionState, useState } from 'react'
+import { getClientApp } from 'utils/firebase'
+import { login } from './actions'
+
+import { Button, ButtonGroup } from '@entur/button'
 import {
     TFormFeedback,
     getFormFeedbackForError,
@@ -11,19 +20,11 @@ import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import musk from 'assets/illustrations/Musk.png'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { FirebaseError } from 'firebase/app'
-import {
-    getAuth,
-    sendEmailVerification,
-    signInWithEmailAndPassword,
-} from 'firebase/auth'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
-import { useActionState, useState } from 'react'
-import { getClientApp } from 'utils/firebase'
 import { FormError } from '../FormError'
-import { login } from './actions'
 import Google from './Google'
 import { TLoginPage } from './types'
 
