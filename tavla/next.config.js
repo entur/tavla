@@ -23,11 +23,6 @@ const cspHeaderCommon = `
     form-action 'self';
 `
 
-const securityHeaders = `
-        frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/;
-        img-src 'self' data: https://*.usercentrics.eu https://firebasestorage.googleapis.com;
-      `
-
 const cspHeader = `
     connect-src ${commonConnectSrc.join(' ')} https://ws.geonorge.no https://*.posthog.com https://*.googleapis.com https://www.google.com;
     frame-ancestors 'none';
