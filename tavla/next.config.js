@@ -24,7 +24,7 @@ const cspHeaderCommon = `
 `
 
 const securityHeaders = `
-        frame-src 'self' https://privacy-proxy.usercentrics.eu;
+        frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/;
         img-src 'self' data: https://*.usercentrics.eu https://firebasestorage.googleapis.com;
       `
 
