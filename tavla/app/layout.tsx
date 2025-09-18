@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Script from 'next/script'
 import { ReactNode, Suspense } from 'react'
 import 'styles/fonts.css'
 import 'styles/imports.css'
@@ -45,14 +44,6 @@ async function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="nb">
             <head>
-                <Script
-                    strategy="beforeInteractive"
-                    id="usercentrics-cmp"
-                    src="https://web.cmp.usercentrics.eu/ui/loader.js"
-                    // data-draft="true" // used for testing draft version of banner
-                    data-settings-id={process.env.USERCENTRICS_DATA_SETTINGS_ID}
-                    async
-                />
                 <ConsentHandler
                     posthogToken={process.env.NEXT_PUBLIC_POSTHOG_TOKEN ?? ''}
                 />
