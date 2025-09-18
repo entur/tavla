@@ -22,15 +22,14 @@ declare global {
 }
 
 export function showUC_UI() {
-    if (typeof window !== 'undefined') {
-        window.UC_UI.showFirstLayer()
-    }
+    if (typeof window === 'undefined') return
+    // Gracefully no-op if CMP script not loaded
+    window.UC_UI?.showFirstLayer?.()
 }
 
 export function showUC_UI_second() {
-    if (typeof window !== 'undefined') {
-        window.UC_UI.showSecondLayer()
-    }
+    if (typeof window === 'undefined') return
+    window.UC_UI?.showSecondLayer?.()
 }
 
 // TODO: decomment lines to enable PostHog (currently disabled while awaiting new guidelines for tracking)

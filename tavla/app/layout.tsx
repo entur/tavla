@@ -6,10 +6,7 @@ import 'styles/reset.css'
 import { Footer } from './(admin)/components/Footer'
 import { Navbar } from './(admin)/components/Navbar'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
-import ConsentHandler, {
-    EnturToastProvider,
-    PHProvider,
-} from './components/ConsentHandler'
+import { EnturToastProvider, PHProvider } from './components/ConsentHandler'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
 import './globals.css'
@@ -43,11 +40,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
 
     return (
         <html lang="nb">
-            <head>
-                <ConsentHandler
-                    posthogToken={process.env.NEXT_PUBLIC_POSTHOG_TOKEN ?? ''}
-                />
-            </head>
+            <head></head>
             <PHProvider>
                 <body className="min-h-screen">
                     <EnturToastProvider>
