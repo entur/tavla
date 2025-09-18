@@ -37,7 +37,7 @@ function TravelTag({
     const travelTagBackround = `bg-${colorMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
     const iconPublicCodeColor =
         cancelled && transportMode !== 'unknown'
-            ? `text-${transportMode}`
+            ? `text-${colorMode}`
             : 'text-background'
 
     return (
