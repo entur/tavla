@@ -2,7 +2,7 @@ import { removeStopPlaceSituations } from 'Board/scenarios/Board/utils'
 import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../contexts'
-import { AvvikCircle } from './AvvikCircle'
+import { DeviationIcon } from './DeviationIcon'
 import { TableCell } from './TableCell'
 import { TableColumn } from './TableColumn'
 
@@ -36,7 +36,7 @@ function Deviation({
         const isHighlighted =
             numberOfShownSituations && numberOfShownSituations > 0
                 ? departure.situations.some(
-                      (situation) => situation.id === currentVisibleSituationId,
+                      (s) => s.id === currentVisibleSituationId,
                   )
                 : true
 
@@ -47,33 +47,30 @@ function Deviation({
             ) ?? []
 
         if (departure.cancellation) {
-            return {
-                type: 'cancellation',
-                isHighlighted,
-            }
-        } else if (filteredSituations.length > 0) {
+            return { type: 'cancellation', isHighlighted }
+        }
+        if (filteredSituations.length > 0) {
             return {
                 type: 'situation',
                 situations: filteredSituations,
                 isHighlighted,
             }
-        } else {
-            return { type: 'no-deviation' }
         }
+        return { type: 'no-deviation' }
     })
 
     return (
         <TableColumn>
             {deviations.map((deviation, index) => (
-                <TableCell key={deviation.type + index}>
-                    <DeviationIcon deviation={deviation} />
+                <TableCell key={`${deviation.type}-${index}`}>
+                    <DeviationCell deviation={deviation} />
                 </TableCell>
             ))}
         </TableColumn>
     )
 }
 
-function DeviationIcon({ deviation }: { deviation: Deviation }) {
+function DeviationCell({ deviation }: { deviation: Deviation }) {
     if (deviation.type === 'no-deviation') {
         return null
     }
@@ -83,10 +80,9 @@ function DeviationIcon({ deviation }: { deviation: Deviation }) {
             className="flex items-center justify-center"
             style={{ height: '3em' }}
         >
-            <AvvikCircle
-                cancelledDeparture={deviation.type === 'cancellation'}
+            <DeviationIcon
+                deviationType={deviation.type}
                 isHighlighted={deviation.isHighlighted}
-                opacity={deviation.isHighlighted ? 1 : 0.5}
             />
         </div>
     )

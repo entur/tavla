@@ -1,7 +1,7 @@
 import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { TSituationFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
-import { AvvikCircle } from './AvvikCircle'
+import { DeviationIcon } from './DeviationIcon'
 
 const SITUATION_SUMMARY_LENGTH_THRESHOLD = 25
 
@@ -81,7 +81,11 @@ function TileSituations({
                 <div
                     className={`flex shrink-0 items-center justify-center text-${textColor}`}
                 >
-                    <AvvikCircle cancelledDeparture={cancelledDeparture} />
+                    <DeviationIcon
+                        deviationType={
+                            cancelledDeparture ? 'cancellation' : 'situation'
+                        }
+                    />
                 </div>
                 <div className="grow self-center">
                     <p
