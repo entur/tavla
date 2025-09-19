@@ -1,10 +1,7 @@
-import {
-    ValidationErrorFilledIcon,
-    ValidationExclamationCircleFilledIcon,
-} from '@entur/icons'
 import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { TSituationFragment } from 'graphql/index'
 import { TTransportMode } from 'types/graphql-schema'
+import { DeviationIcon } from './DeviationIcon'
 
 const SITUATION_SUMMARY_LENGTH_THRESHOLD = 25
 
@@ -84,15 +81,15 @@ function TileSituations({
                 <div
                     className={`flex shrink-0 items-center justify-center text-${textColor}`}
                 >
-                    {cancelledDeparture ? (
-                        <ValidationErrorFilledIcon size="1em" />
-                    ) : (
-                        <ValidationExclamationCircleFilledIcon size="1em" />
-                    )}
+                    <DeviationIcon
+                        deviationType={
+                            cancelledDeparture ? 'cancellation' : 'situation'
+                        }
+                    />
                 </div>
                 <div className="grow self-center">
                     <p
-                        className={`ml-em-0.75 line-clamp-2 overflow-hidden overflow-ellipsis break-words pt-1 text-em-sm/em-base font-normal text-${textColor}`}
+                        className={`ml-em-0.75 line-clamp-2 overflow-hidden overflow-ellipsis break-words pt-1 text-em-sm/em-base font-normal ${cancelledDeparture ? 'text-error' : 'text-warning'}`}
                     >
                         <>
                             {transportModeWithPublicCode && (
