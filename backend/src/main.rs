@@ -1,5 +1,6 @@
 use std::time::Duration;
 
+// IMPORTS??
 use axum::{
     body::Body,
     extract::{Path, State},
@@ -8,6 +9,7 @@ use axum::{
     Json, Router,
 };
 
+use ::futures::future;
 use axum_auth::AuthBearer;
 use serde_json::{json, to_string, Value};
 use tokio::{net::TcpListener, time};
@@ -23,8 +25,35 @@ mod utils;
 use tower_http::cors::CorsLayer;
 use types::{AppError, AppState, BoardAction, Message};
 use utils::{graceful_shutdown, setup_redis};
+use uuid::Uuid;
 
 use crate::types::Guard;
+
+// // NEW IMPORT
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize)]
+struct HeartbeatPayload {
+    bid: String,
+    tid: Uuid,
+    browser: String,
+    screen_width: u32,
+    screen_height: u32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ActiveInfo {
+    pub bid: String,
+    pub browser: String,
+    pub screen_width: u32,
+    pub screen_height: u32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ActiveInfoCount {
+    pub count: usize,
+    pub client: ActiveInfo,
+}
 
 #[tokio::main]
 async fn main() {
@@ -65,6 +94,8 @@ async fn main() {
         .route("/alive", get(check_health))
         .route("/reset", post(reset_active))
         .route("/active/bids", get(active_board_ids))
+        .route("/heartbeat", post(heartbeat)) // NEW ROUTE
+        .route("/heartbeat/active", get(active_boards_heartbeat)) // NEW ROUTE
         .with_state(redis_clients)
         .layer(cors);
 
@@ -85,6 +116,71 @@ async fn reset_active(
     time::sleep(Duration::from_secs(5)).await;
     let _: () = state.master.set("active_boards", 0).await?;
     Ok(StatusCode::OK)
+}
+
+// SILJE
+async fn heartbeat(
+    AuthBearer(token): AuthBearer,
+    State(state): State<AppState>,
+    Json(payload): Json<HeartbeatPayload>,
+) -> Result<StatusCode, AppError> {
+    if token != state.key {
+        return Ok(StatusCode::UNAUTHORIZED);
+    }
+
+    let mut connection = state.master.clone();
+
+    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
+
+    let value = serde_json::to_string(&ActiveInfo {
+        bid: payload.bid,
+        browser: payload.browser,
+        screen_width: payload.screen_width,
+        screen_height: payload.screen_height,
+    })?;
+
+    let _: () = connection.set_ex(key, value.to_string(), 60).await?;
+
+    Ok(StatusCode::OK)
+}
+#[derive(Serialize, Deserialize)]
+pub struct HeartbeatResponse {
+    pub count: usize,
+    pub clients: Vec<ActiveInfo>,
+}
+
+// SILJE
+async fn active_boards_heartbeat(
+    AuthBearer(token): AuthBearer,
+    State(state): State<AppState>,
+) -> Result<Json<HeartbeatResponse>, AppError> {
+    if token != state.key {
+        todo!()
+    }
+
+    // let mut connection = state.replicas.clone();
+    let mut connection = state.replicas.get_multiplexed_async_connection().await?;
+
+    let keys: Vec<String> = redis::cmd("KEYS")
+        .arg("heartbeat:*")
+        .query_async(&mut connection)
+        .await?;
+
+    let res = keys
+        .clone()
+        .into_iter()
+        .map(|key| async {
+            let val = connection.clone().get::<_, String>(key).await.unwrap();
+            return serde_json::from_str::<ActiveInfo>(&val).unwrap();
+        })
+        .collect::<Vec<_>>();
+
+    let clients = future::join_all(res).await;
+
+    Ok(Json(HeartbeatResponse {
+        count: clients.len(),
+        clients,
+    }))
 }
 
 async fn check_health(State(mut state): State<AppState>) -> Result<StatusCode, AppError> {
@@ -187,6 +283,7 @@ async fn update_board(
     Ok(StatusCode::OK)
 }
 
+// Brukes i useRefresh,
 async fn subscribe(
     Path(bid): Path<String>,
     State(state): State<AppState>,
