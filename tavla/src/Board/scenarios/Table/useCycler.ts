@@ -36,7 +36,7 @@ export function useCycler<T>(array: T[] | undefined, step = 5000) {
 
     //Reset index if array lenght changes and current index is out of bounds
     useEffect(() => {
-        if (index >= length || (length === 0 && index !== 0)) {
+        if (index >= length) {
             setIndex(0)
         }
     }, [length, index])
