@@ -3,9 +3,10 @@ import { ReactNode, Suspense } from 'react'
 import 'styles/fonts.css'
 import 'styles/imports.css'
 import 'styles/reset.css'
-import { Footer } from './(admin)/components/Footer'
-import { Navbar } from './(admin)/components/Navbar'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
+import { CompactModeProvider } from './components/CompactModeProvider'
+import { ConditionalFooter } from './components/ConditionalFooter'
+import { ConditionalNavbar } from './components/ConditionalNavbar'
 import { ContactForm } from './components/ContactForm'
 import PostHogPageView from './components/PostHogPageView'
 import './globals.css'
@@ -42,13 +43,15 @@ async function RootLayout({ children }: { children: ReactNode }) {
             <PHProvider>
                 <body className="min-h-screen">
                     <EnturToastProvider>
-                        <Navbar loggedIn={loggedIn} />
-                        <Suspense>
-                            <PostHogPageView />
-                        </Suspense>
-                        {children}
-                        <ContactForm />
-                        <Footer loggedIn={loggedIn} />
+                        <CompactModeProvider>
+                            <ConditionalNavbar loggedIn={loggedIn} />
+                            <Suspense>
+                                <PostHogPageView />
+                            </Suspense>
+                            {children}
+                            <ContactForm />
+                            <ConditionalFooter loggedIn={loggedIn} />
+                        </CompactModeProvider>
                     </EnturToastProvider>
                 </body>
             </PHProvider>

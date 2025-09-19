@@ -55,6 +55,20 @@ yarn dev:persist # preffered - persists the local database
 
 This will start the development server at `http://localhost:3000` and the local Firebase database emulator `http://127.0.0.1:4000/`.
 
+## Compact Mode (Embedded Mode)
+
+Tavla supports a compact mode for embedded usage where the header (logo and clock), navigation bar, and footer are hidden. This is useful for embedding Tavla in other websites or displaying on TVs/screens.
+
+To enable compact mode, add the `?compact=true` query parameter to the URL:
+
+- Landing page: `http://localhost:3000/?compact=true`
+- Board page: `http://localhost:3000/[board-id]?compact=true`
+
+In compact mode:
+- The navigation bar and footer are hidden on the landing page
+- The header (logo and clock) is hidden on board pages
+- The main content remains fully functional
+
 ## Environment Configuration
 
 The project integrates with Sentry for error tracking and performance monitoring. However, Sentry is not required for running the application locally or in development mode. If you want to use Sentry, follow these steps:

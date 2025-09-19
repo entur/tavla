@@ -10,8 +10,10 @@ import { getBackendUrl } from 'utils/index'
 
 export async function getServerSideProps({
     params,
+    query,
 }: {
     params: { id: string }
+    query: { [key: string]: string | string[] }
 }) {
     const { id } = params
 
@@ -24,12 +26,14 @@ export async function getServerSideProps({
     }
 
     const folder = await getFolderForBoard(id)
+    const compact = query.compact === 'true'
 
     return {
         props: {
             board,
             folder,
             backend_url: getBackendUrl(),
+            compact,
         },
     }
 }
@@ -38,10 +42,12 @@ function BoardPage({
     board,
     folder,
     backend_url,
+    compact,
 }: {
     board: TBoard
     folder: TFolder | null
     backend_url: string
+    compact: boolean
 }) {
     const updatedBoard = useRefresh(board, backend_url)
 
@@ -85,10 +91,12 @@ function BoardPage({
                     />
                 </Head>
                 <div className="rootContainer">
-                    <Header
-                        theme={updatedBoard.theme}
-                        folderLogo={folder?.logo}
-                    />
+                    {!compact && (
+                        <Header
+                            theme={updatedBoard.theme}
+                            folderLogo={folder?.logo}
+                        />
+                    )}
                     <Board board={updatedBoard} />
                     <InfoMessage
                         board={updatedBoard}
