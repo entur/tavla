@@ -7,11 +7,17 @@ import { TLogo, TTheme } from 'types/settings'
 function Header({
     theme,
     folderLogo,
+    compactMode = false,
 }: {
     theme?: TTheme
     folderLogo?: TLogo | null
+    compactMode?: boolean
 }) {
     const tavlaLogo = theme === 'light' ? TavlaLogoBlue : TavlaLogoWhite
+
+    if (compactMode) {
+        return null
+    }
 
     return (
         <div className="flex flex-row items-center justify-between gap-em-3">

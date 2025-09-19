@@ -5,6 +5,7 @@ import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
 import { Board } from 'Board/scenarios/Board'
 import { Header } from 'components/Header'
 import { InfoMessage } from 'components/InfoMessage'
+import { useCompactMode } from '../CompactModeProvider'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import { TBoard } from 'types/settings'
@@ -44,6 +45,7 @@ const CarouselIndicators = ({
 function PreviewCarousel({ boards }: { boards: TBoard[] }) {
     const [boardIndex, setBoardIndex] = useState(0)
     const posthog = usePostHog()
+    const compactMode = useCompactMode()
 
     const nextSlide = () => {
         posthog.capture('CAROUSEL_ARROW_BTN')
@@ -88,7 +90,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                             className="previewContainer text-xs"
                             data-theme={currentBoard?.theme ?? 'dark'}
                         >
-                            <Header theme={currentBoard.theme} />
+                            <Header theme={currentBoard.theme} compactMode={compactMode} />
                             <div className="h-72 md:h-96">
                                 <Board board={currentBoard} />
                             </div>
