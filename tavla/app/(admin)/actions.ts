@@ -86,7 +86,7 @@ export async function getFoldersForUser() {
             .get()
 
         const queries = await Promise.all([owner])
-        return queries
+        const folders = queries
             .map((q) =>
                 q.docs.map(
                     (d) =>
@@ -94,6 +94,31 @@ export async function getFoldersForUser() {
                 ),
             )
             .flat()
+
+        const folderLastUpdated: { [id: string]: number } = {}
+
+        return await Promise.all(
+            folders.map(async (folder) => {
+                if (folder.id) {
+                    let lastUpdated = 0
+                    const boards = await getBoardsForFolder(folder.id)
+                    boards?.map((board) => {
+                        if (
+                            board.meta.dateModified &&
+                            board.meta.dateModified > lastUpdated
+                        )
+                            lastUpdated = board.meta.dateModified
+                    })
+                    folderLastUpdated[folder.id] = lastUpdated
+                }
+                return {
+                    ...folder,
+                    lastUpdated: folder.id
+                        ? folderLastUpdated[folder.id]
+                        : undefined,
+                }
+            }),
+        )
     } catch (error) {
         Sentry.captureMessage(
             'Error while fetching folders for user with id ' + user.uid,

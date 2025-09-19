@@ -45,6 +45,7 @@ function TableRows({ folders, boards, folderBoardCounts }: TableRowsProps) {
     const sortedFolders = folders
         .filter(filterByFolderName)
         .sort(sortFolderFunction)
+
     return (
         <>
             {sortedFolders.map((folder: TFolder) =>
@@ -53,6 +54,7 @@ function TableRows({ folders, boards, folderBoardCounts }: TableRowsProps) {
                         key={folder.id}
                         folder={folder}
                         count={folderBoardCounts[String(folder.id)] ?? 0}
+                        lastUpdated={folder.lastUpdated}
                     />
                 ) : null,
             )}
@@ -74,7 +76,15 @@ function BoardTableRow({ board }: { board: TBoard }) {
     )
 }
 
-function FolderTableRow({ folder, count }: { folder: TFolder; count: number }) {
+function FolderTableRow({
+    folder,
+    count,
+    lastUpdated,
+}: {
+    folder: TFolder
+    count: number
+    lastUpdated?: number
+}) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={folder.id}>
@@ -84,6 +94,7 @@ function FolderTableRow({ folder, count }: { folder: TFolder; count: number }) {
                     folder={folder}
                     column={column}
                     folderBoardCount={count}
+                    folderLastUpdated={lastUpdated}
                 />
             ))}
         </Fragment>
