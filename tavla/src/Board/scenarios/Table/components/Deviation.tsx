@@ -1,11 +1,8 @@
-import {
-    ValidationErrorFilledIcon,
-    ValidationExclamationCircleFilledIcon,
-} from '@entur/icons'
 import { removeStopPlaceSituations } from 'Board/scenarios/Board/utils'
 import { TSituationFragment } from 'graphql/index'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { DeparturesContext } from '../contexts'
+import { DeviationIcon } from './DeviationIcon'
 import { TableCell } from './TableCell'
 import { TableColumn } from './TableColumn'
 
@@ -39,7 +36,7 @@ function Deviation({
         const isHighlighted =
             numberOfShownSituations && numberOfShownSituations > 0
                 ? departure.situations.some(
-                      (situation) => situation.id === currentVisibleSituationId,
+                      (s) => s.id === currentVisibleSituationId,
                   )
                 : true
 
@@ -50,53 +47,45 @@ function Deviation({
             ) ?? []
 
         if (departure.cancellation) {
-            return {
-                type: 'cancellation',
-                isHighlighted,
-            }
-        } else if (filteredSituations.length > 0) {
+            return { type: 'cancellation', isHighlighted }
+        }
+        if (filteredSituations.length > 0) {
             return {
                 type: 'situation',
                 situations: filteredSituations,
                 isHighlighted,
             }
-        } else {
-            return { type: 'no-deviation' }
         }
+        return { type: 'no-deviation' }
     })
 
     return (
         <TableColumn>
             {deviations.map((deviation, index) => (
-                <TableCell key={deviation.type + index}>
-                    <DeviationIcon deviation={deviation} />
+                <TableCell key={`${deviation.type}-${index}`}>
+                    <DeviationCell deviation={deviation} />
                 </TableCell>
             ))}
         </TableColumn>
     )
 }
 
-function DeviationIcon({ deviation }: { deviation: Deviation }) {
-    switch (deviation.type) {
-        case 'cancellation':
-            return (
-                <ValidationErrorFilledIcon
-                    color="var(--error-color)"
-                    className="text-error"
-                    opacity={deviation.isHighlighted ? 1 : 0.5}
-                />
-            )
-        case 'situation':
-            return (
-                <ValidationExclamationCircleFilledIcon
-                    color="var(--warning-color)"
-                    className="text-warning"
-                    opacity={deviation.isHighlighted ? 1 : 0.5}
-                />
-            )
-        case 'no-deviation':
-            return null
+function DeviationCell({ deviation }: { deviation: Deviation }) {
+    if (deviation.type === 'no-deviation') {
+        return null
     }
+
+    return (
+        <div
+            className="flex items-center justify-center"
+            style={{ height: '3em' }}
+        >
+            <DeviationIcon
+                deviationType={deviation.type}
+                isHighlighted={deviation.isHighlighted}
+            />
+        </div>
+    )
 }
 
 export { Deviation }
