@@ -34,8 +34,15 @@ export function useCycler<T>(array: T[] | undefined, step = 5000) {
         return () => clearInterval(interval)
     }, [length, step])
 
-    //Reset index if array lenght changes and current index is out of bounds
+    // Reset index if array length changes and current index is out of bounds
     useEffect(() => {
+        // Avoid unnecessary state update when length is 0 and index already 0
+        if (length === 0) {
+            if (index !== 0) {
+                setIndex(0)
+            }
+            return
+        }
         if (index >= length) {
             setIndex(0)
         }
