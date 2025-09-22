@@ -5,7 +5,7 @@ Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all off
 ## Hva du kan gjøre
 
 - Lage skreddersydde tavler (velg stopp, rekkefølge, layout)
-- Få sanntidsoppdateringer (Redis pub/sub + WebSocket)
+- Få sanntidsoppdateringer (Redis pub/sub)
 - Se hvor mange tavler som er aktive
 - Autentisering og vedvarende data via Firebase (emulator lokalt)
 - Moderne og tilgjengelig grensesnitt (Entur designsystem)
