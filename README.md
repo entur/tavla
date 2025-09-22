@@ -1,6 +1,6 @@
 # Tavla
 
-Tavla lar deg sette opp og vise sanntids avgangstavler for all kollektivtransport i Norge. Løsningen utvikles av Entur og er gratis å bruke: https://tavla.entur.no/
+Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all offentlig transport i Norge. Løsningen utvikles av Entur, og er helt gratis og tilgjengelig for alle. Logg inn på [tavla.entur.no](https://tavla.entur.no/) for å komme i gang! Abonner på oppdateringer til Tavla ved å klikke på “Watch” i menyen.
 
 ## Hva du kan gjøre
 
@@ -30,7 +30,7 @@ Tavla lar deg sette opp og vise sanntids avgangstavler for all kollektivtranspor
 | Backend  | Rust (Axum), Tokio |
 | Realtid  | Redis pub/sub (én kanal per tavle) |
 | Data/Auth | Firebase (emulator i utvikling) |
-| Verktøy  | Yarn 3, GraphQL Codegen, Sentry (valgfritt) |
+| Verktøy  | Yarn 3, GraphQL Codegen, Sentry |
 
 ## Oversikt: slik kjører du (høytnivå)
 
@@ -67,16 +67,12 @@ Vi ønsker:
 
 Pull requests med kode håndteres i dag kun av kjerneteamet for å sikre konsistens og kvalitet. Opprett et issue først dersom du ønsker å diskutere en endring.
 
-## Sikkerhet
-
-Ikke legg sensitiv informasjon i issues. Sikkerhetshendelser håndteres via interne kanaler i Entur.
 
 ## Lisens og eiendeler
 
 Kode: EUPL-1.2 (se `LICENSE`)
 Fonter: Egen lisens (Nationale – https://playtype.com/typefaces/nationale/)
 Varemerker (logo, illustrasjoner, bilder): Kun for Entur.
-
 
 
 ## Kort kom i gang (huskeliste)
