@@ -27,7 +27,6 @@ interface BaseTileData {
     hasData: boolean
 }
 
-// Hook for single quay
 export function useQuayTileData({
     placeId,
     whitelistedLines,
@@ -74,7 +73,6 @@ export function useQuayTileData({
     }
 }
 
-// Hook for single stop place
 export function useStopPlaceTileData({
     placeId,
     whitelistedLines,
@@ -111,7 +109,6 @@ export function useStopPlaceTileData({
     }
 }
 
-// Hook for combined tiles
 export function useCombinedTileData(combinedTile: TTile[]): BaseTileData {
     const quayQueries = combinedTile
         .filter(({ type }) => type === 'quay')

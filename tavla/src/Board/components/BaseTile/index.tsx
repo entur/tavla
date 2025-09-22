@@ -15,23 +15,19 @@ import { StopPlaceQuayDeviation } from '../../scenarios/Table/components/StopPla
 import { TableHeader } from '../../scenarios/Table/components/TableHeader'
 
 interface BaseTileProps {
-    // Data
     displayName: string
     estimatedCalls: TDepartureFragment[]
     situations: TSituationFragment[]
     uniqueSituations: TileSituation[]
     currentSituationIndex: number
 
-    // State
     isLoading: boolean
     error?: Error
     hasData: boolean
 
-    // Configuration
     columns: TColumn[]
     walkingDistance?: TWalkingDistance
 
-    // Optional customization
     className?: string
     renderCustomHeader?: () => ReactNode
     renderCustomDeviation?: () => ReactNode
@@ -52,7 +48,6 @@ export function BaseTile({
     renderCustomHeader,
     renderCustomDeviation,
 }: BaseTileProps) {
-    // Loading state
     if (isLoading && !hasData) {
         return (
             <Tile>
@@ -61,7 +56,6 @@ export function BaseTile({
         )
     }
 
-    // Error state
     if (error || !hasData) {
         return (
             <Tile>
@@ -72,7 +66,6 @@ export function BaseTile({
         )
     }
 
-    // Empty state
     if (!estimatedCalls || estimatedCalls.length === 0) {
         return (
             <Tile className={className}>
