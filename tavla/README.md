@@ -102,11 +102,3 @@ rydding/refaktor-board-context
 | Ingen WebSocket-oppdatering   | Backend ikke oppe / CORS | Start backend, sjekk nettleserkonsoll       |
 | Data forsvinner               | Ikke brukt persist       | Bruk `yarn dev:persist`                     |
 | Typefeil etter schema-endring | Codegen ikke kjørt       | Kjør `yarn generate`                        |
-
-### Videre forbedringsmuligheter
-
--   Miljøvariabel for backend-URL (unngå manuell util-endring)
--   Storybook / visuelt testsystem
--   Bedre automatisk dokumentasjon av GraphQL-operasjoner
-
-Se root `README.md` for overordnet arkitektur og lisensinformasjon.
