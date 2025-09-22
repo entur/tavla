@@ -1,7 +1,3 @@
-<!--
-	README for Tavla (norsk versjon). Målgruppe: utviklere og interesserte brukere.
--->
-
 # Tavla
 
 Tavla lar deg sette opp og vise sanntids avgangstavler for all kollektivtransport i Norge. Løsningen utvikles av Entur og er gratis å bruke: https://tavla.entur.no/
