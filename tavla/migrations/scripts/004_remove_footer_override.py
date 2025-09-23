@@ -53,36 +53,54 @@ def remove_override_from_footer(transaction, board_ref, log_file):
 # Reads through the database and creates a log-file, runs a transaction if all
 # requirements are met
 def remove_footer_override(db: firestore.Client):
-    board_collection = db.collection(boards).stream()
-
+    # Use pagination to avoid timeout on large collections
+    page_size = 50
+    last_doc = None
+    
     # Open a local file to store the results of the migration
     with open("remove_footer_override_result.txt", "a") as log_file:
         log_file.write(f"--- Starting migration: Remove footer.override ---\n")
         
         total_processed = 0
         
-        for board_doc in board_collection:
-            total_processed += 1
-            board_ref = db.collection(boards).document(board_doc.id)
-
-            try: 
-                transaction = db.transaction()
-                remove_override_from_footer(transaction, board_ref, log_file)
-            except Exception as e: 
-                log_file.write(f"❌ Failed to update board '{board_doc.id}': {e}\n")
+        while True:
+            query = db.collection(boards).limit(page_size)
+            if last_doc:
+                query = query.start_after(last_doc)
             
-            # Add sleep every 100 operations to be gentle on the database
-            if total_processed % 100 == 0:
-                log_file.write(f"💤 Processed {total_processed} boards, sleeping for 1 second...\n")
-                log_file.flush()
-                time.sleep(1)
+            board_docs = list(query.stream())
+            
+            if not board_docs:
+                break
+                
+            for board_doc in board_docs:
+                total_processed += 1
+                board_ref = db.collection(boards).document(board_doc.id)
+
+                try: 
+                    transaction = db.transaction()
+                    remove_override_from_footer(transaction, board_ref, log_file)
+                except Exception as e: 
+                    log_file.write(f"❌ Failed to update board '{board_doc.id}': {e}\n")
+                
+                # Add sleep every 100 operations to be gentle on the database
+                if total_processed % 100 == 0:
+                    log_file.write(f"💤 Processed {total_processed} boards, sleeping for 1 second...\n")
+                    log_file.flush()
+                    time.sleep(1)
+            
+            # Set last_doc for pagination
+            last_doc = board_docs[-1]
+            
+            log_file.write(f"📄 Processed page of {len(board_docs)} boards (total: {total_processed})\n")
+            log_file.flush()
         
         log_file.write(f"--- Migration completed. Total processed: {total_processed} ---\n")
 
 # Inits the database connection and runs the migration script
 def migrate():
-    db = init.local()
-    print(f"db: {db.project}, {db._emulator_host}")
+    db = init.prod()
+    print(f"db: {db.project}")
     remove_footer_override(db)
 
 migrate()
