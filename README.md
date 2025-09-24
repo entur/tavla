@@ -27,8 +27,7 @@ Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all off
 | Lag | Teknologi |
 |-----|-----------|
 | Frontend | Next.js 15, React 18, TypeScript, Tailwind |
-| Backend  | Rust (Axum), Tokio |
-| Realtid  | Redis pub/sub (én kanal per tavle) |
+| Backend  | Rust (Axum), Tokio, Redis pub/sub |
 | Data/Auth | Firebase (emulator i utvikling) |
 | Verktøy  | Yarn 3, GraphQL Codegen, Sentry |
 

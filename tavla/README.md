@@ -7,7 +7,7 @@ Denne mappen inneholder frontend-koden for Tavla (Next.js 15, React 18, TypeScri
 -   Node 18 (bruk gjerne `mise` eller `nvm`)
 -   Yarn 3 (Berry) – allerede satt opp i repoet
 -   Firebase CLI (for emulatorer)
--   To interne service key JSON-filer: `ent-tavla-dev-*.json` og `ent-tavla-prd-*.json` (skal ikke sjekkes inn i git)
+-   To interne service key JSON-filer: `ent-tavla-dev-*.json` og `ent-tavla-prd-*.json` (Disse finner du i teamets passord-manager, de skal ikke sjekkes inn i git)
 
 ### Installere avhengigheter
 
@@ -48,10 +48,10 @@ Sentry-variabler er valgfrie og trengs ikke for lokal kjøring.
 | Oppgave             | Kommando                         |
 | ------------------- | -------------------------------- |
 | Start dev (persist) | `yarn dev:persist`               |
+| Fix (lint + format) | `yarn fix`                       |
 | Lint                | `yarn lint`                      |
 | Type-sjekk          | `yarn typecheck`                 |
 | Format-sjekk        | `yarn prettier`                  |
-| Fix (lint + format) | `yarn fix`                       |
 | Bygg (dev/prod)     | `yarn build` / `yarn build:prod` |
 | GraphQL codegen     | `yarn generate`                  |
 
@@ -89,9 +89,18 @@ rydding/refaktor-board-context
 
 ### Migrasjonsskript (fra rot `migrations/`)
 
+Migreringsscriptet kan ta inn to argumenter - enten `setup` eller `run`:
+
+For å sette opp mijøet for første gang:
+
 ```
 ./migration setup
-./migration run path/til/fil.py
+```
+
+For å kjøre en migreringsfil, putt filen i /scripts mappen og kjør:
+
+```
+./migration run scripts/<filnavn>
 ```
 
 ### Feilsøking
