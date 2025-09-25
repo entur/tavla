@@ -15,7 +15,7 @@ import { StopPlaceQuayDeviation } from '../../scenarios/Table/components/StopPla
 import { TableHeader } from '../../scenarios/Table/components/TableHeader'
 
 interface BaseTileProps {
-    displayName: string
+    displayName?: string
     estimatedCalls: TDepartureFragment[]
     situations: TSituationFragment[]
     uniqueSituations: TileSituation[]
@@ -29,8 +29,8 @@ interface BaseTileProps {
     walkingDistance?: TWalkingDistance
 
     className?: string
-    renderCustomHeader?: () => ReactNode
-    renderCustomDeviation?: () => ReactNode
+    customHeader?: ReactNode
+    customDeviation?: ReactNode
 }
 
 export function BaseTile({
@@ -44,9 +44,8 @@ export function BaseTile({
     hasData,
     columns,
     walkingDistance,
-    className = 'flex flex-col max-sm:min-h-[30vh]',
-    renderCustomHeader,
-    renderCustomDeviation,
+    customHeader,
+    customDeviation,
 }: BaseTileProps) {
     if (isLoading && !hasData) {
         return (
@@ -68,16 +67,15 @@ export function BaseTile({
 
     if (!estimatedCalls || estimatedCalls.length === 0) {
         return (
-            <Tile className={className}>
+            <Tile className="flex flex-col max-sm:min-h-[30vh]">
                 <div className="flex-grow overflow-hidden">
-                    {renderCustomHeader ? (
-                        renderCustomHeader()
-                    ) : (
-                        <TableHeader
-                            heading={displayName}
-                            walkingDistance={walkingDistance}
-                        />
-                    )}
+                    {customHeader ??
+                        (displayName && (
+                            <TableHeader
+                                heading={displayName}
+                                walkingDistance={walkingDistance}
+                            />
+                        ))}
                 </div>
                 <div className="flex h-full w-full items-center justify-center text-center text-tertiary">
                     Ingen avganger i nærmeste fremtid
@@ -87,20 +85,17 @@ export function BaseTile({
     }
 
     return (
-        <Tile className={className}>
+        <Tile className="flex flex-col max-sm:min-h-[30vh]">
             <div className="flex-grow overflow-hidden">
-                {renderCustomHeader ? (
-                    renderCustomHeader()
-                ) : (
-                    <TableHeader
-                        heading={displayName}
-                        walkingDistance={walkingDistance}
-                    />
-                )}
+                {customHeader ??
+                    (displayName && (
+                        <TableHeader
+                            heading={displayName}
+                            walkingDistance={walkingDistance}
+                        />
+                    ))}
 
-                {renderCustomDeviation ? (
-                    renderCustomDeviation()
-                ) : (
+                {customDeviation ?? (
                     <StopPlaceQuayDeviation situations={situations} />
                 )}
 

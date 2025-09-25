@@ -17,7 +17,7 @@ import { useCycler } from '../scenarios/Table/useCycler'
 export type TileType = 'quay' | 'stopPlace' | 'combined'
 
 interface BaseTileData {
-    displayName: string
+    displayName?: string
     estimatedCalls: TDepartureFragment[]
     situations: TSituationFragment[]
     uniqueSituations: TileSituation[]
@@ -87,7 +87,7 @@ export function useStopPlaceTileData({
             whitelistedTransportModes,
             whitelistedLines,
         },
-        { poll: true, offset: offset },
+        { poll: true, offset: offset ?? 0 },
     )
 
     const uniqueSituations = getAccumulatedTileSituations(
@@ -194,7 +194,7 @@ export function useCombinedTileData(combinedTile: TTile[]): BaseTileData {
     const currentSituationIndex = useCycler(uniqueSituations ?? [], 10000)
 
     return {
-        displayName: 'Kombinert', // Could be made configurable
+        displayName: undefined,
         estimatedCalls: sortedEstimatedCalls,
         situations: combinedSituations,
         uniqueSituations: uniqueSituations ?? [],

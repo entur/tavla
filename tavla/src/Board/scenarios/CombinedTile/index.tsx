@@ -11,9 +11,9 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
         <BaseTile
             {...tileData}
             columns={DEFAULT_COMBINED_COLUMNS}
-            renderCustomDeviation={() => (
+            customDeviation={
                 <CombinedTileDeviation situations={tileData.situations} />
-            )}
+            }
         />
     )
 }
