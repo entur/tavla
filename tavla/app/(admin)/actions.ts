@@ -95,30 +95,42 @@ export async function getFoldersForUser() {
             )
             .flat()
 
-        const folderLastUpdated: { [id: string]: number } = {}
+        // Get all boards-IDS for all folders
+        const allBoardIds = folders
+            .flatMap((folder) => folder.boards || [])
+            .filter(Boolean)
 
-        return await Promise.all(
-            folders.map(async (folder) => {
-                if (folder.id) {
-                    let lastUpdated = 0
-                    const boards = await getBoardsForFolder(folder.id)
-                    boards?.map((board) => {
-                        if (
-                            board.meta.dateModified &&
-                            board.meta.dateModified > lastUpdated
-                        )
-                            lastUpdated = board.meta.dateModified
-                    })
-                    folderLastUpdated[folder.id] = lastUpdated
-                }
-                return {
-                    ...folder,
-                    lastUpdated: folder.id
-                        ? folderLastUpdated[folder.id]
-                        : undefined,
-                }
-            }),
-        )
+        if (allBoardIds.length === 0) {
+            return folders.map((folder) => ({
+                ...folder,
+                lastUpdated: undefined,
+            }))
+        }
+
+        const allBoards = await getBoards(allBoardIds)
+
+        // Calcualte lastUpdated for each folder
+        return folders.map((folder) => {
+            if (!folder.id || !folder.boards?.length) {
+                return { ...folder, lastUpdated: undefined }
+            }
+
+            const folderBoards = allBoards.filter(
+                (board) => board.id && folder.boards?.includes(board.id),
+            )
+
+            const lastUpdated = Math.max(
+                0,
+                ...folderBoards
+                    .map((board) => board.meta?.dateModified || 0)
+                    .filter(Boolean),
+            )
+
+            return {
+                ...folder,
+                lastUpdated: lastUpdated > 0 ? lastUpdated : undefined,
+            }
+        })
     } catch (error) {
         Sentry.captureMessage(
             'Error while fetching folders for user with id ' + user.uid,
