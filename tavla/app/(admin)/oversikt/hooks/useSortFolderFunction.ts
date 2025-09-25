@@ -30,7 +30,12 @@ function useSortFolderFunction() {
 
             switch (sortColumn) {
                 case 'lastModified':
-                    return 0
+                    sortFunc = () => {
+                        const modifiedA = folderA.lastUpdated ?? 0
+                        const modifiedB = folderB.lastUpdated ?? 0
+                        return modifiedB - modifiedA
+                    }
+                    break
                 default:
                     sortFunc = () => {
                         return compareTitle()
