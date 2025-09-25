@@ -1,116 +1,121 @@
-# Run instructions
+# Backend – lokal kjøring og arkitektur
 
-## Install Rust
+Kort: Denne backend-tjenesten eksponerer enkle endepunkter for å trigge og distribuere oppdateringer (refresh/update) til tavler via Redis pub/sub og long-polling (/subscribe). Ingen persistens utover Redis, og minimal logikk (tynt mellomlag).
 
-The recommended way to install and manage Rust is with the rustup tool:
+---
 
-```sh
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
+## Hurtigstart
 
-## Install Redis
+For deg som bare vil kjøre lokalt raskt (for utvikling mot frontend):
 
-The code depends on Redis. Download Redis here:
-[Redis](https://redis.io/docs/latest/get-started/)
+1. Installer Rust (anbefaler installering og administrering gjennom rustup) og Redis (Last ned Redis her: [Redis – kom i gang](https://redis.io/docs/latest/get-started/))
+2. Start to Redis-instanser (master på 6379, replica på 6380) med passord
+3. Eksporter miljøvariabler (se tabell)
+4. `cargo run` i `backend/`
+5. Test: `curl localhost:3001/alive` og `curl localhost:3001/active -H "Authorization: Bearer super_secret_key"`
+6. Endre frontend `getBackendUrl()` midlertidig til `http://127.0.0.1:3001` og sett `.env.local` med `BACKEND_API_KEY`
 
-## Start Redis
+Detaljer under dersom noe feiler.
 
-Since we run our stack on Kubernetes we need to mock a master/replica structure locally (You could run the stack in its entirity on a local Kubernetes cluster, like Minikube. Do this on your own discretion)
+---
 
-First, start the master instance. Executing the `redis-server` command with `-` as an input will put us in a state where we are reading configurations directly from stdin. We need to set the password for both the master and the replicas.
+## Detaljert oppsett av Redis (master/replica lokalt)
+Siden vi kjører stacken på Kubernetes i produksjon trenger vi lokalt å simulere en master/replica-struktur. (Du kan også kjøre alt i et lokalt Kubernetes-kluster som Minikube hvis du ønsker.)
 
-```sh
-redis-server -
-```
+Vi simulerer produksjonsmiljøets master/replica:
 
-Your terminal should look like this:
+1. Start master-instansen. Når du kjører `redis-server` med `-` som input leses konfigurasjon fra stdin. Vi må sette passord for både master og replica.
+    ```sh
+    redis-server -
+    ```
 
+    
+
+
+    Du skal se noe ala:
+    ```sh
+    ~ > redis-server -
+    82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
+    ```
+    Skriv inn konfigurasjonen:
+    ```sh
+    masterauth super_secret_redis_pw
+    requirepass super_secret_redis_pw
+    ```
+
+Terminalen ser da slik ut:
 ```sh
 ~ > redis-server -
 82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
-
-```
-
-You can now type in the required configuration:
-
-```sh
 masterauth super_secret_redis_pw
 requirepass super_secret_redis_pw
 ```
+Avslutt konfigurering av første instans med `CTRL-D`.
+2. Start replica i ny terminal:
+    ```sh
+    redis-server -
+    ```
 
-Your terminal should now look like this:
+    Du skal se:
+    ```sh
+    ~ > redis-server -
+    82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
+    ```
 
+Skriv inn konfigurasjonen:
 ```sh
-~ > redis-server -
-82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
-masterauth super_secret_redis_pw
-requirepass super_secret_redis_pw
-```
-
-Finish configuring the first instance with `CTRL-D`
-
-Start the second instance in a new window/terminal
-
-```sh
-redis-server -
-```
-
-Your terminal should look like this:
-
-```sh
-~ > redis-server -
-82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
-
-```
-
-You can now type in the required configuration:
-
-```sh
-masterauth super_secret_redis_pw
-requirepass super_secret_redis_pw
-port 6380
-replicaof 127.0.0.1 6379
-```
-
-Your terminal should now look like this:
-
-```sh
-~ > redis-server -
-82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
 masterauth super_secret_redis_pw
 requirepass super_secret_redis_pw
 port 6380
 replicaof 127.0.0.1 6379
 ```
 
-Finish configuring the second instance with `CTRL-D`
+Terminalen ser da slik ut:
+```sh
+~ > redis-server -
+82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
+masterauth super_secret_redis_pw
+requirepass super_secret_redis_pw
+port 6380
+replicaof 127.0.0.1 6379
+```
 
-## Verify Redis
+Avslutt med `CTRL-D`.
+3. Verifiser Redis / sett teller:
+Koble til Redis i en ny terminal:
 
-You should now be able to connect directly to Redis. Open a new terminal and run the following:
+Koble til Redis i en ny terminal:
 
 ```sh
 redis-cli
 ```
 
-Authenticate yourself
-
+Autentiser deg:
 ```sh
 auth super_secret_redis_pw
 ```
 
-Set active_boards (A counter that keeps tracks of currently active boards) to 0
-
+Sett `active_boards` (teller for aktive tavler) til 0:
 ```sh
 set active_boards 0
 ```
 
-Quit Redis with `CTRL-C`
+Avslutt `redis-cli` med `CTRL-C`.
 
-## Environment variables
+## Miljøvariabler
 
-You need to set some environment variables. Paste them directly into your terminal.
+| Variabel | Påkrevd | Default | Beskrivelse |
+|----------|---------|---------|-------------|
+| HOST | Nei | 127.0.0.1 | Adresse server binder til |
+| PORT | Nei | 3001 | HTTP-port |
+| BACKEND_API_KEY | Ja | – | Bearer-token for beskyttede endepunkt |
+| REDIS_PASSWORD | Ja | – | Passord for både master og replica |
+| REDIS_MASTER_SERVICE_HOST | Ja | – | Host til master (127.0.0.1 lokalt) |
+| REDIS_MASTER_SERVICE_PORT | Ja | 6379 | Port til master |
+| REDIS_REPLICAS_SERVICE_HOST | Ja | – | Host til replica |
+| REDIS_REPLICAS_SERVICE_PORT | Ja | 6380 | Port til replica |
 
+Eksempel (kan limes rett inn):
 ```sh
 export HOST="127.0.0.1"
 export PORT="3001"
@@ -122,40 +127,143 @@ export REDIS_REPLICAS_SERVICE_HOST="127.0.0.1"
 export REDIS_REPLICAS_SERVICE_PORT="6380"
 ```
 
-## Run
+---
 
-Finally, you can run the code. Make sure you are in the backend-folder when doing so.
+## Kjør
 
+Kjør fra `backend`-mappen:
 ```sh
 cargo run
 ```
 
-## Verify
+## Verifiser
 
-You should now be able to send requests to the server
-
+Test at serveren svarer:
 ```sh
 curl localhost:3001/active -H "Authorization: Bearer super_secret_key"
 ```
+Dette skal returnere `0` (siden du nettopp satte telleren til 0).
 
-This should return 0 (since you just set the active_boards-counter to 0).
+## Koble mot frontend
 
-## Connect to frontend
+For at frontend skal bruke din lokale backend må backend-URL midlertidig endres. **Ikke commit denne endringen.**
 
-To connect your local backend to the frontend, you need to (TEMPORARILY) change the backendurl to point to your local backend. Do NOT commit this change.
-
-Go to `tavla/src/Shared/utils/index.ts` and change the `getBackendUrl`-function to the following:
-
-```
+Gå til `tavla/src/Shared/utils/index.ts` og endre funksjonen `getBackendUrl` til:
+```ts
 export function getBackendUrl() {
     return 'http://127.0.0.1:3001'
 }
 ```
 
-For your frontend to access your local backend, make sure you have a file named `.env.local` at the root of tavla/tavla that contains the following:
-
+Frontend trenger også en `.env.local` i `tavla/tavla` med:
 ```
 BACKEND_API_KEY="super_secret_key"
 ```
 
-Do not add this file to git. You should now be able to press "Oppdater tavle" successfully on localhost.
+Ikke legg denne filen i git. Du skal nå kunne trykke «Oppdater tavle» lokalt.
+
+---
+
+## Arkitektur og flyt
+
+Backend fungerer som et tynt lag mellom frontend og Redis pub/sub:
+
+1. Frontend kaller REST-endepunkt (for eksempel `/refresh/:bid`).
+2. Backend publiserer en melding til Redis-kanalen for den aktuelle tavlen (eller til felleskanalen `update`).
+3. Frontend holder et long-poll-liknende kall mot `/subscribe/:bid` som returnerer første relevante hendelse (eller timeout etter ~55 sekunder).
+4. Antall aktive tavler spores i Redis-nøkkelen `active_boards` (inkrement/dekrement via Guard-mekanisme i koden).
+
+Kanaler i Redis:
+- `update` – brukes for generelle oppdateringer som gjelder alle tavler
+- `<board-id>` – spesifikk kanal for én tavle
+
+Timeout-mønsteret gjør at klienten må fornye abonnement med jevne intervaller (unngår hengende forbindelser).
+
+## Endepunkter (oversikt)
+
+| Metode | Path | Auth | Beskrivelse |
+|--------|------|------|-------------|
+| GET | `/alive` | Nei | Health check (kobling til Redis) |
+| GET | `/active` | Ja (Bearer) | Returnerer antall aktive tavler (`active_boards`) |
+| GET | `/active/bids` | Ja (Bearer) | Liste over aktive tavlekanaler og teller |
+| GET | `/subscribe/:bid` | (Ingen i dag) | Long-poll: venter på hendelse / timeout |
+| POST | `/refresh/:bid` | Ja (Bearer) | Publiserer refresh-hendelse med payload |
+| POST | `/update/:bid` | Ja (Bearer) | Publiserer update for én tavle |
+| POST | `/update` | Ja (Bearer) | Publiserer update til alle |
+| POST | `/reset` | Ja (Bearer) | Nullstiller `active_boards` etter å ha trigget update |
+
+> Merk: `/subscribe/:bid` har per nå ingen autentisering – vurder om dette bør endres.
+
+## Endepunkter (detaljert)
+
+### GET /alive
+Returnerer 200 hvis Redis er tilgjengelig (master + replica). Ellers 500.
+
+### GET /active
+Krever bearer-token. Returnerer et heltall (plain text) med antall aktive tavler.
+
+### GET /active/bids
+Krever bearer-token. Returnerer JSON:
+```json
+{
+    "channels": ["board_123", "board_456"],
+    "count": 2
+}
+```
+
+### GET /subscribe/:bid
+Abonnerer på tavle-ID `:bid` + felleskanalen `update`. Returnerer første hendelse eller timeout (ca. 55s):
+```json
+{ "type": "refresh", "payload": { /* valgfri JSON */ } }
+{ "type": "update" }
+{ "type": "timeout" }
+```
+
+### POST /refresh/:bid
+Publiserer en refresh med egendefinert payload.
+Body: vilkårlig JSON. Eksempel:
+```json
+{ "reason": "manual", "ts": 1737623891 }
+```
+Respons: 200.
+
+### POST /update/:bid
+Publiserer en generell `update` for én tavle. Ingen payload nødvendig.
+
+### POST /update
+Publiserer et `update`-signal som gjelder alle tavler.
+
+### POST /reset
+Publiserer først en `update` til alle, venter noen sekunder og setter deretter `active_boards = 0`.
+
+## Meldingsmodeller
+
+Publisering til Redis (internt):
+- `BoardAction::Refresh { payload }`
+- `BoardAction::Update`
+
+Respons fra `/subscribe/:bid`:
+- `{ "type": "refresh", "payload": { ... } }`
+- `{ "type": "update" }`
+- `{ "type": "timeout" }`
+
+## Feilhåndtering og statuskoder
+
+| Status | Situasjon | Body |
+|--------|-----------|------|
+| 200 | Suksess | Varierende (tekst eller JSON) |
+| 401 | Feil / manglende bearer | Tom body |
+| 500 | Intern feil (Redis, serialisering, osv.) | Tom body |
+
+`AppError` konverterer alle feil til en generisk 500 uten detaljlekkasje.
+
+## Typiske feilsituasjoner 
+
+| Problem | Årsak | Løsning |
+|---------|-------|--------|
+| 401 Unauthorized | Feil token | Sjekk verdien i frontend `.env.local` vs backend eksport |
+| `/subscribe` gir kun timeout | Ingen publisering skjer | Test med `POST /refresh/:bid` og se om klient får svar |
+| `active_boards` blir ikke 0 | Klienter forsvinner uten opprydding | Kall `/reset` eller sett nøkkelen manuelt |
+| 500 på /alive | Redis utilgjengelig | Sjekk at begge instanser kjører og passord stemmer |
+| Ingen endring i UI | Feil tavle-ID brukt | Verifiser `:bid` i både subscribe og refresh-kall |
+
