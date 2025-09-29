@@ -1,5 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
+import { Folder } from 'app/(admin)/utils/types'
 import { firestore } from 'firebase-admin'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
@@ -75,7 +76,7 @@ export async function getFolderIfUserHasAccess(oid?: TFolderID) {
     return folder
 }
 
-export async function getFoldersForUser() {
+export async function getFoldersForUser(): Promise<Folder[]> {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
@@ -104,6 +105,7 @@ export async function getFoldersForUser() {
             return folders.map((folder) => ({
                 ...folder,
                 lastUpdated: undefined,
+                boardCount: folder.boards?.length || 0,
             }))
         }
 
@@ -112,7 +114,7 @@ export async function getFoldersForUser() {
         // Calcualte lastUpdated for each folder
         return folders.map((folder) => {
             if (!folder.id || !folder.boards?.length) {
-                return { ...folder, lastUpdated: undefined }
+                return { ...folder, lastUpdated: undefined, boardCount: 0 }
             }
 
             const folderBoards = allBoards.filter(
@@ -121,14 +123,13 @@ export async function getFoldersForUser() {
 
             const lastUpdated = Math.max(
                 0,
-                ...folderBoards
-                    .map((board) => board.meta?.dateModified || 0)
-                    .filter(Boolean),
+                ...folderBoards.map((board) => board.meta?.dateModified || 0),
             )
 
             return {
                 ...folder,
                 lastUpdated: lastUpdated > 0 ? lastUpdated : undefined,
+                boardCount: folderBoards.length || 0,
             }
         })
     } catch (error) {

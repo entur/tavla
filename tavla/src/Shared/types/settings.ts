@@ -34,7 +34,6 @@ export type TFolder = {
     owners?: TUserID[]
     boards?: TBoardID[]
     logo?: TLogo
-    lastUpdated?: number
 }
 
 export type TInvite = {
