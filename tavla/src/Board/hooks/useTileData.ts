@@ -14,8 +14,6 @@ import {
 } from '../scenarios/Board/utils'
 import { useCycler } from '../scenarios/Table/useCycler'
 
-export type TileType = 'quay' | 'stopPlace' | 'combined'
-
 interface BaseTileData {
     displayName?: string
     estimatedCalls: TDepartureFragment[]
