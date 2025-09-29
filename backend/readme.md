@@ -1,6 +1,28 @@
 # Run instructions
 
-## Install Rust
+## Quick Start (Recommended)
+
+For the fastest setup on macOS:
+
+```sh
+# Start Redis master/replica
+./start-redis.sh
+
+# Run the backend
+./run-local.sh
+
+# Test the API
+curl localhost:3001/active -H "Authorization: Bearer super_secret_key"
+```
+
+To stop everything:
+```sh
+./stop-redis.sh
+```
+
+## Manual Setup
+
+### Install Rust
 
 The recommended way to install and manage Rust is with the rustup tool:
 
@@ -8,12 +30,12 @@ The recommended way to install and manage Rust is with the rustup tool:
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-## Install Redis
+### Install Redis
 
 The code depends on Redis. Download Redis here:
 [Redis](https://redis.io/docs/latest/get-started/)
 
-## Start Redis
+### Start Redis
 
 Since we run our stack on Kubernetes we need to mock a master/replica structure locally (You could run the stack in its entirity on a local Kubernetes cluster, like Minikube. Do this on your own discretion)
 
