@@ -10,6 +10,39 @@ import { getUserFromSessionCookie } from './utils/server'
 
 initializeAdminApp()
 
+// Convert Firestore Timestamp objects to milliseconds for serialization
+function convertTimestamps<T>(obj: T): T {
+    if (!obj || typeof obj !== 'object') return obj
+
+    // Handle Firestore Timestamp format
+    if (
+        typeof obj === 'object' &&
+        obj !== null &&
+        '_seconds' in obj &&
+        '_nanoseconds' in obj
+    ) {
+        const timestamp = obj as { _seconds: number; _nanoseconds: number }
+        return (timestamp._seconds * 1000 +
+            Math.floor(timestamp._nanoseconds / 1000000)) as T
+    }
+
+    // Handle arrays
+    if (Array.isArray(obj)) {
+        return obj.map((item) => convertTimestamps(item)) as T
+    }
+
+    // Handle regular objects
+    if (obj.constructor === Object) {
+        const converted: Record<string, unknown> = {}
+        for (const [key, value] of Object.entries(obj)) {
+            converted[key] = convertTimestamps(value)
+        }
+        return converted as T
+    }
+
+    return obj
+}
+
 export async function getFirebaseClientConfig() {
     const env = process.env.GOOGLE_PROJECT_ID
     if (env === 'ent-tavla-prd') return FIREBASE_PRD_CONFIG
@@ -35,7 +68,7 @@ export async function getFolderIfUserHasAccess(oid?: TFolderID) {
         throw error
     }
 
-    const folder = { ...doc.data(), id: doc.id } as TFolder
+    const folder = convertTimestamps({ ...doc.data(), id: doc.id }) as TFolder
     const user = await getUserFromSessionCookie()
 
     if (!userInFolder(user?.uid, folder)) return redirect('/')
@@ -55,7 +88,10 @@ export async function getFoldersForUser() {
         const queries = await Promise.all([owner])
         return queries
             .map((q) =>
-                q.docs.map((d) => ({ ...d.data(), id: d.id }) as TFolder),
+                q.docs.map(
+                    (d) =>
+                        convertTimestamps({ ...d.data(), id: d.id }) as TFolder,
+                ),
             )
             .flat()
     } catch (error) {
@@ -88,7 +124,11 @@ export async function getBoardsForFolder(oid: TFolderID) {
         return boardRefs
             .map((ref) =>
                 ref.docs.map(
-                    (doc) => ({ id: doc.id, ...doc.data() }) as TBoard,
+                    (doc) =>
+                        convertTimestamps({
+                            id: doc.id,
+                            ...doc.data(),
+                        }) as TBoard,
                 ),
             )
             .flat()
@@ -116,7 +156,11 @@ export async function getBoards(ids?: TBoardID[]) {
         return refs
             .map((ref) =>
                 ref.docs.map(
-                    (doc) => ({ id: doc.id, ...doc.data() }) as TBoard,
+                    (doc) =>
+                        convertTimestamps({
+                            id: doc.id,
+                            ...doc.data(),
+                        }) as TBoard,
                 ),
             )
             .flat()

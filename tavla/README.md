@@ -1,98 +1,113 @@
-# Getting Started
+## Frontend (Next.js) – Utviklerguide
 
-## Prerequisites
+Denne mappen inneholder frontend-koden for Tavla (Next.js 15, React 18, TypeScript, Tailwind, Firebase-emulator i utvikling).
 
-To run the project locally, you need to have the following installed:
+### Forutsetninger
 
--   [node.js](https://nodejs.org/)
--   [yarn](https://yarnpkg.com/)
+-   Node 18 (bruk gjerne `mise` eller `nvm`)
+-   Yarn 3 (Berry) – allerede satt opp i repoet
+-   Firebase CLI (for emulatorer)
+-   To interne service key JSON-filer: `ent-tavla-dev-*.json` og `ent-tavla-prd-*.json` (Disse finner du i teamets passord-manager, de skal ikke sjekkes inn i git)
 
-## Installation
+### Installere avhengigheter
 
-Clone the repository and install the dependencies:
-
-```bash
-git clone https://github.com/entur/tavla.git
+```
 cd tavla/tavla
 yarn install
 ```
 
-To access the Firebase database and being able to create a user and log into the application, two service keys are required; `ent-tavla-dev-875a70280651.json` and `ent-tavla-prd-54ef424ea2f0.json`. These files should be placed in `tavla/tavla`, and can be found in the projects password manager.
+### Node-versjon (eksempel med mise)
 
-### Node Version Configuration (using `mise`)
-
-The project is currently using node v18.20.5. `nvm` or `mise` can for example be used to configure the right node version. See https://mise.jdx.dev/ for `mise` installation.
-
-Example (here with `brew` and `bash`):
-
-1. Install mise
-
-    ```bash
-    brew install mise
-    ```
-
-2. Activate mise - https://mise.jdx.dev/getting-started.html#activate-mise
-
-    ```bash
-    echo 'eval "$(mise activate bash)"' >> ~/.bashrc
-    ```
-
-3. Check current node version
-    ```bash
-    node -v
-    # v18.20.5
-    ```
-
-## Running the Application
-
-To start the application in development mode, use:
-
-```bash
-yarn dev
-# or
-yarn dev:persist # preffered - persists the local database
+```
+brew install mise
+echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+exec $SHELL
+node -v
+# Skal vise v18.x
 ```
 
-This will start the development server at `http://localhost:3000` and the local Firebase database emulator `http://127.0.0.1:4000/`.
+### Kjøre i utvikling
 
-## Environment Configuration
+```
+yarn dev          # uten persistering av lokal database
+yarn dev:persist  # anbefalt – lagrer emulator state (.db)
+```
 
-The project integrates with Sentry for error tracking and performance monitoring. However, Sentry is not required for running the application locally or in development mode. If you want to use Sentry, follow these steps:
+Tilgang:
 
-1. Create a `.env.local` file in the root of the project (if it does not already exist).
-2. Add the content in the team's password manager to your `.env.local` file.
+-   App: http://localhost:3000
+-   Firebase Emulator UI: http://127.0.0.1:4000/
 
-<br />
+### Miljøvariabler (lokalt minimum)
 
-## Branch and Commit Conventions
+Lag `.env.local`og kopier innnholdet fra teamets passord-manager.
+Sentry-variabler er valgfrie og trengs ikke for lokal kjøring.
 
-The project uses conventional commits and branch naming, and follows these patterns:
+### Vanlige kommandoer
 
--   Commits: &lt;type&gt;(scope): &lt;description&gt;
--   Branches: &lt;type&gt;/&lt;description&gt;
+| Oppgave             | Kommando                         |
+| ------------------- | -------------------------------- |
+| Start dev (persist) | `yarn dev:persist`               |
+| Fix (lint + format) | `yarn fix`                       |
+| Lint                | `yarn lint`                      |
+| Type-sjekk          | `yarn typecheck`                 |
+| Format-sjekk        | `yarn prettier`                  |
+| Bygg (dev/prod)     | `yarn build` / `yarn build:prod` |
+| GraphQL codegen     | `yarn generate`                  |
 
-Most used &lt;type&gt;-values includes: fix, feat and chore. Others are: build, ci, docs, style, refactor and test.
+`yarn generate` bruker oppsett i `codegen.ts` og `graphql.config.json` for å generere typer fra skjema.
 
-&lt;description&gt; should be clear, concise and descriptive. Should start with the imperative mood.
+### Backend-integrasjon
 
-(scope) should represent which page or area of our solution this change affects. For example "rediger", "oversikt", etc.
+Frontend kaller Rust-backenden med bearer-token (`BACKEND_API_KEY`). Sørg for at nøkkel samsvarer med verdien backend prosessen forventer. Midlertidig endring av backend-URL kan gjøres i util-funksjon (ikke committ endringen).
 
-## Running the Migration Script
+### Git-konvensjoner (gitmoji-subsett)
 
-The `migration` script in the "migrations"-folder can take in two arguments - either 'setup' or 'run'. Usage of these as follows:
+Vi bruker et avgrenset sett gitmoji i starten av commit-meldinger for å gjøre historikken mer skumbar. Start commitmelding med imperativ form ("legg til", "oppdater", "fjern").
 
-1. Setting up the environment for the first time:
+Emojis / kategorier:
+| Emoji | Kategori | Når brukes |
+|-------|----------|-----------|
+| ✨ | Feature | Ny funksjonalitet / større tillegg |
+| 🐛 | Bug | Fikser en konkret feil |
+| 📝 | Dokumentasjon | Endrer / legger til dokumentasjon |
+| 💄 | Styling | Visuelle endringer (CSS, layout, ikke funksjonell endring) |
+| 🧹 | Rydding | Refaktor, fjerner død kode, strukturelle forbedringer |
+| 🚸 | Bedre UX | Forbedrer brukeropplevelse / tilgjengelighet |
+| 📦 | Pakker | Legger til / oppdaterer avhengigheter |
+| 👷 | CI/CD & bygg | Pipelines, byggskript, tooling-infrastruktur |
+| 🔒 | Sikkerhet | Sikkerhets- eller personvernrelaterte endringer |
+| 📈 | Målinger | Telemetri, logging, målepunkter |
 
-    From the root of the migrations-folder run:
+Branches kan valgfritt bruke en kort kategori + beskrivelse, f.eks:
 
-    ```bash
-    ./migration setup
-    ```
+```
+feature/filtrering-av-linjer
+bugfix/feil-i-refresh-endpoint
+rydding/refaktor-board-context
+```
 
-2. Running a migration file through the script:
+### Migrasjonsskript (fra rot `migrations/`)
 
-    From the root of the migrations-folder run:
+Migreringsscriptet kan ta inn to argumenter - enten `setup` eller `run`:
 
-    ```bash
-    ./migration run path/to/filename.py
-    ```
+For å sette opp mijøet for første gang:
+
+```
+./migration setup
+```
+
+For å kjøre en migreringsfil, putt filen i /scripts mappen og kjør:
+
+```
+./migration run scripts/<filnavn>
+```
+
+### Feilsøking
+
+| Symptom                       | Mulig årsak              | Tiltak                                      |
+| ----------------------------- | ------------------------ | ------------------------------------------- |
+| 401 mot backend               | Ulik API-key             | Sjekk `.env.local` og backend miljøvariabel |
+| Ingen WebSocket-oppdatering   | Backend ikke oppe / CORS | Start backend, sjekk nettleserkonsoll       |
+| Data forsvinner               | Ikke brukt persist       | Bruk `yarn dev:persist`                     |
+| Typefeil etter schema-endring | Codegen ikke kjørt       | Kjør `yarn generate`                        |
