@@ -4895,6 +4895,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:11.0.0":
+  version: 11.0.0
+  resolution: "@types/uuid@npm:11.0.0"
+  dependencies:
+    uuid: "*"
+  checksum: 9f94bd34e5d220c53cc58ea9f48a0061d3bc343e29bc33a17edc705f5e21fedda21553318151f2bc227c2b2b03727bbb536da2b82a61f84d2e1ca38abc5e5c3f
+  languageName: node
+  linkType: hard
+
 "@types/ws@npm:^8.0.0":
   version: 8.18.1
   resolution: "@types/ws@npm:8.18.1"
@@ -14612,6 +14621,7 @@ __metadata:
     "@types/react": 19.0.12
     "@types/react-dom": 19.0.4
     "@types/semver": 7.5.8
+    "@types/uuid": 11.0.0
     "@typescript-eslint/eslint-plugin": 8.12.2
     "@typescript-eslint/parser": 8.12.2
     abortcontroller-polyfill: 1.7.6
@@ -15405,7 +15415,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:13.0.0":
+"uuid@npm:*, uuid@npm:13.0.0":
   version: 13.0.0
   resolution: "uuid@npm:13.0.0"
   bin:
