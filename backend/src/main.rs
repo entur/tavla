@@ -3,7 +3,7 @@ use std::time::Duration;
 use axum::{
     body::Body,
     extract::{Path, State},
-    http::{HeaderValue, Method, Response, StatusCode},
+    http::{HeaderName, HeaderValue, Method, Response, StatusCode},
     routing::{get, post},
     Json, Router,
 };
@@ -77,6 +77,10 @@ async fn main() {
     let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
         .allow_credentials(true)
+        .allow_headers([
+            HeaderName::from_static("content-type"),
+            HeaderName::from_static("authorization"),
+        ])
         .allow_origin([
             "http://localhost:3000".parse::<HeaderValue>().unwrap(),
             "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
