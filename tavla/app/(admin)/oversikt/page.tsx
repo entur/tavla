@@ -1,9 +1,5 @@
 import { Heading1, Label } from '@entur/typography'
-import {
-    getBoardsForFolder,
-    getFoldersForUser,
-    getPrivateBoardsForUser,
-} from 'app/(admin)/actions'
+import { getFoldersForUser, getPrivateBoardsForUser } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
@@ -26,17 +22,13 @@ async function FoldersAndBoardsPage() {
 
     const folders = await getFoldersForUser()
     const privateBoards = await getPrivateBoardsForUser()
-    const boardCountInFolder = await Promise.all(
-        folders.map((folder) => getBoardsForFolder(folder.id!)),
-    )
+    const boardCountInFolder = folders.map((folder) => folder.boardCount)
+
     const elementsListCount = privateBoards.length + folders.length
 
-    const counts: Record<string, number> = Object.fromEntries(
-        folders.map((folder, idx) => [
-            folder.id!,
-            boardCountInFolder[idx]?.length ?? 0,
-        ]),
-    )
+    const totalBoards =
+        boardCountInFolder.reduce((sum, count) => sum + count, 0) +
+        privateBoards.length
 
     return (
         <div className="container flex flex-col gap-8 pb-20">
@@ -55,17 +47,10 @@ async function FoldersAndBoardsPage() {
                     <>
                         <Search />
                         <div className="mt-8 flex flex-col">
-                            <Label>
-                                Totalt antall tavler:{' '}
-                                {boardCountInFolder.reduce(
-                                    (sum, boards) => sum + boards.length,
-                                    0,
-                                )}
-                            </Label>
+                            <Label>Totalt antall tavler: {totalBoards}</Label>
                             <BoardTable
                                 folders={folders}
                                 boards={privateBoards}
-                                folderBoardCounts={counts}
                             />
                         </div>
                     </>

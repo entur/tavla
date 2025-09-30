@@ -1,16 +1,15 @@
 'use client'
 import { TableHeader } from 'app/(admin)/oversikt/components/TableHeader'
 import { TableRows } from 'app/(admin)/oversikt/components/TableRows'
-import { TableColumns } from 'app/(admin)/utils/types'
-import { TBoard, TFolder } from 'types/settings'
+import { Folder, TableColumns } from 'app/(admin)/utils/types'
+import { TBoard } from 'types/settings'
 
 type BoardTableProps = {
-    folders?: TFolder[]
+    folders?: Folder[]
     boards: TBoard[]
-    folderBoardCounts: Record<string, number>
 }
 
-function BoardTable({ folders, boards, folderBoardCounts }: BoardTableProps) {
+function BoardTable({ folders, boards }: BoardTableProps) {
     const numOfColumns = Object.keys(TableColumns).length
 
     return (
@@ -21,11 +20,7 @@ function BoardTable({ folders, boards, folderBoardCounts }: BoardTableProps) {
             }}
         >
             <TableHeader />
-            <TableRows
-                folders={folders ?? []}
-                boards={boards}
-                folderBoardCounts={folderBoardCounts}
-            />
+            <TableRows folders={folders ?? []} boards={boards} />
         </div>
     )
 }

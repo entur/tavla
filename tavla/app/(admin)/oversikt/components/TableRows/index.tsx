@@ -7,18 +7,21 @@ import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
-import { DEFAULT_BOARD_COLUMNS, TTableColumn } from 'app/(admin)/utils/types'
+import {
+    DEFAULT_BOARD_COLUMNS,
+    Folder,
+    TTableColumn,
+} from 'app/(admin)/utils/types'
 import { Fragment } from 'react'
 import { TBoard, TFolder } from 'types/settings'
 import { Column } from '../Column'
 
 type TableRowsProps = {
-    folders: TFolder[]
+    folders: Folder[]
     boards: TBoard[]
-    folderBoardCounts: Record<string, number>
 }
 
-function TableRows({ folders, boards, folderBoardCounts }: TableRowsProps) {
+function TableRows({ folders, boards }: TableRowsProps) {
     const search = useSearchParam('search') ?? ''
     const sortBoardFunction = useSortBoardFunction()
     const sortFolderFunction = useSortFolderFunction()
@@ -33,7 +36,7 @@ function TableRows({ folders, boards, folderBoardCounts }: TableRowsProps) {
             )
             .every((e) => e === true)
 
-    const filterByFolderName = (folder: TFolder) =>
+    const filterByFolderName = (folder: Folder) =>
         searchFilters
             .map((filter) => filter.test(folder.name ?? DEFAULT_FOLDER_NAME))
             .every((e) => e === true)
@@ -45,14 +48,16 @@ function TableRows({ folders, boards, folderBoardCounts }: TableRowsProps) {
     const sortedFolders = folders
         .filter(filterByFolderName)
         .sort(sortFolderFunction)
+
     return (
         <>
-            {sortedFolders.map((folder: TFolder) =>
+            {sortedFolders.map((folder: Folder) =>
                 folder.id !== undefined ? (
                     <FolderTableRow
                         key={folder.id}
                         folder={folder}
-                        count={folderBoardCounts[String(folder.id)] ?? 0}
+                        count={folder.boardCount}
+                        lastUpdated={folder.lastUpdated}
                     />
                 ) : null,
             )}
@@ -74,7 +79,15 @@ function BoardTableRow({ board }: { board: TBoard }) {
     )
 }
 
-function FolderTableRow({ folder, count }: { folder: TFolder; count: number }) {
+function FolderTableRow({
+    folder,
+    count,
+    lastUpdated,
+}: {
+    folder: TFolder
+    count: number
+    lastUpdated?: number
+}) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={folder.id}>
@@ -84,6 +97,7 @@ function FolderTableRow({ folder, count }: { folder: TFolder; count: number }) {
                     folder={folder}
                     column={column}
                     folderBoardCount={count}
+                    folderLastUpdated={lastUpdated}
                 />
             ))}
         </Fragment>
