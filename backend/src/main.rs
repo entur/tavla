@@ -10,6 +10,7 @@ use axum::{
 
 use ::futures::future;
 use axum_auth::AuthBearer;
+use prometheus::{Encoder, Gauge, Registry, TextEncoder};
 use serde_json::{json, to_string, Value};
 use tokio::{net::TcpListener, time};
 
@@ -29,6 +30,13 @@ use uuid::Uuid;
 use crate::types::Guard;
 
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
+
+#[derive(Clone)]
+pub struct Metrics {
+    pub registry: Registry,
+    pub active_boards: Gauge,
+}
 
 #[derive(Serialize, Deserialize)]
 struct HeartbeatPayload {
@@ -59,6 +67,18 @@ async fn main() {
     let port = std::env::var("PORT").unwrap_or("3000".to_string());
     let key = std::env::var("BACKEND_API_KEY").expect("Expected to find api key");
 
+    // Setup Prometheus metrics
+    let registry = Registry::new();
+    let active_boards_gauge = Gauge::new("tavla_active_sessions_current", "Number of currently active tavla sessions/tabs with heartbeats")
+        .expect("Failed to create active_sessions metric");
+    
+    registry.register(Box::new(active_boards_gauge.clone())).unwrap();
+    
+    let metrics = Arc::new(Metrics {
+        registry,
+        active_boards: active_boards_gauge,
+    });
+
     let listener = TcpListener::bind(format!("{}:{}", host, port))
         .await
         .unwrap();
@@ -68,10 +88,33 @@ async fn main() {
     let runtime_status = CancellationToken::new();
     let task_tracker = TaskTracker::new();
 
+    // Start background task to update metrics regularly
+    let metrics_updater = metrics.clone();
+    let redis_for_metrics = replicas.clone();
+    task_tracker.spawn(async move {
+        let mut interval = tokio::time::interval(Duration::from_secs(30));
+        loop {
+            interval.tick().await;
+            
+            // Update active boards count
+            if let Ok(mut connection) = redis_for_metrics.get_multiplexed_async_connection().await {
+                let keys: Vec<String> = redis::cmd("KEYS")
+                    .arg("heartbeat:*")
+                    .query_async(&mut connection)
+                    .await
+                    .unwrap_or_default();
+                
+                // Count total active tabs/sessions (not unique board IDs)
+                metrics_updater.active_boards.set(keys.len() as f64);
+            }
+        }
+    });
+
     let redis_clients = AppState {
         master,
         replicas,
         key,
+        metrics: metrics.clone(),
     };
 
     let cors = CorsLayer::new()
@@ -97,6 +140,7 @@ async fn main() {
         .route("/reset", post(reset_active))
         .route("/active/bids", get(active_board_ids))
         .route("/heartbeat", post(heartbeat))
+        .route("/metrics", get(metrics_handler))
         .route("/heartbeat/active", get(active_boards_heartbeat))
         .with_state(redis_clients)
         .layer(cors);
@@ -118,6 +162,26 @@ async fn reset_active(
     time::sleep(Duration::from_secs(5)).await;
     let _: () = state.master.set("active_boards", 0).await?;
     Ok(StatusCode::OK)
+}
+
+async fn metrics_handler(
+    AuthBearer(token): AuthBearer,
+    State(state): State<AppState>
+) -> Result<Response<Body>, StatusCode> {
+    // Beskytt metrics med samme API-nøkkel
+    if token != state.key {
+        return Err(StatusCode::UNAUTHORIZED);
+    }
+
+    let encoder = TextEncoder::new();
+    let metric_families = state.metrics.registry.gather();
+    let mut buffer = Vec::new();
+    encoder.encode(&metric_families, &mut buffer).unwrap();
+    
+    Ok(Response::builder()
+        .header("Content-Type", encoder.format_type())
+        .body(Body::from(buffer))
+        .unwrap())
 }
 
 async fn heartbeat(
@@ -142,6 +206,7 @@ async fn heartbeat(
 
     let _: () = connection.set_ex(key, value.to_string(), 60).await?;
 
+    // Metrics will be updated by background task every 30 seconds
     Ok(StatusCode::OK)
 }
 #[derive(Serialize, Deserialize)]

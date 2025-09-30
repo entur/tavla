@@ -60,36 +60,29 @@ export function useHeartbeat(board: TBoard) {
             process.env.BACKEND_API_KEY
 
         if (!apiKey) {
-            // Silently disable heartbeat
             return
         }
 
         const sendHeartbeat = async () => {
-            try {
-                const screen = getScreenDimensions()
-                const browser = getBrowserInfo()
+            const screen = getScreenDimensions()
+            const browser = getBrowserInfo()
 
-                const response = await fetch(`${backendUrl}/heartbeat`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${apiKey}`,
-                    },
-                    body: JSON.stringify({
-                        bid: board.id,
-                        tid: tabIdRef.current,
-                        browser,
-                        screen_width: screen.width,
-                        screen_height: screen.height,
-                    }),
-                })
-
-                if (!response.ok) {
-                    throw new Error(`Heartbeat failed: ${response.status}`)
-                }
-            } catch (error) {
-                throw new Error('Heartbeat failed', { cause: error })
-            }
+            fetch(`${backendUrl}/heartbeat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${apiKey}`,
+                },
+                body: JSON.stringify({
+                    bid: board.id,
+                    tid: tabIdRef.current,
+                    browser,
+                    screen_width: screen.width,
+                    screen_height: screen.height,
+                }),
+            }).catch(() => {
+                // Silently ignore all heartbeat errors
+            })
         }
 
         sendHeartbeat()
