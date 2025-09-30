@@ -92,7 +92,7 @@ type TileSituationMap = Map<
     }
 >
 
-type TileSituation = {
+export type TileSituation = {
     situation: TSituationFragment
     cancellation: boolean
     publicCodeList: string[]

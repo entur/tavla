@@ -9,9 +9,16 @@ type ColumnProps = {
     folder?: TFolder
     column: TTableColumn
     folderBoardCount?: number
+    folderLastUpdated?: number
 }
 
-function Column({ board, folder, column, folderBoardCount }: ColumnProps) {
+function Column({
+    board,
+    folder,
+    column,
+    folderBoardCount,
+    folderLastUpdated,
+}: ColumnProps) {
     if (board) {
         switch (column) {
             case 'name':
@@ -28,7 +35,13 @@ function Column({ board, folder, column, folderBoardCount }: ColumnProps) {
             case 'actions':
                 return <FolderActions folder={folder} />
             case 'lastModified':
-                return <LastModified />
+                return (
+                    <LastModified
+                        timestamp={
+                            folderLastUpdated ? folderLastUpdated : undefined
+                        }
+                    />
+                )
         }
     }
 }

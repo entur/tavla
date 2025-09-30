@@ -38,7 +38,7 @@ export function formatTimestamp(millis?: number, asTimestamp = false) {
     if (timeAgo > HOUR) return getTimeSince(timeAgo, HOUR)
     if (timeAgo > MINUTE) return getTimeSince(timeAgo, MINUTE)
     if (timeAgo > 10 * SECOND) return getTimeSince(timeAgo, SECOND)
-    return 'nettopp'
+    return 'Nå'
 }
 
 function getTimeSince(timeAgo: number, divisor: number) {
