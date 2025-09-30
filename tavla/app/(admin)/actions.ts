@@ -1,5 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
+import { Folder } from 'app/(admin)/utils/types'
 import { firestore } from 'firebase-admin'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
@@ -75,7 +76,7 @@ export async function getFolderIfUserHasAccess(oid?: TFolderID) {
     return folder
 }
 
-export async function getFoldersForUser() {
+export async function getFoldersForUser(): Promise<Folder[]> {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
@@ -86,7 +87,7 @@ export async function getFoldersForUser() {
             .get()
 
         const queries = await Promise.all([owner])
-        return queries
+        const folders = queries
             .map((q) =>
                 q.docs.map(
                     (d) =>
@@ -94,6 +95,43 @@ export async function getFoldersForUser() {
                 ),
             )
             .flat()
+
+        // Get all boards-IDS for all folders
+        const allBoardIds = folders
+            .flatMap((folder) => folder.boards || [])
+            .filter(Boolean)
+
+        if (allBoardIds.length === 0) {
+            return folders.map((folder) => ({
+                ...folder,
+                lastUpdated: undefined,
+                boardCount: folder.boards?.length || 0,
+            }))
+        }
+
+        const allBoards = await getBoards(allBoardIds)
+
+        // Calcualte lastUpdated for each folder
+        return folders.map((folder) => {
+            if (!folder.id || !folder.boards?.length) {
+                return { ...folder, lastUpdated: undefined, boardCount: 0 }
+            }
+
+            const folderBoards = allBoards.filter(
+                (board) => board.id && folder.boards?.includes(board.id),
+            )
+
+            const lastUpdated = Math.max(
+                0,
+                ...folderBoards.map((board) => board.meta?.dateModified || 0),
+            )
+
+            return {
+                ...folder,
+                lastUpdated: lastUpdated > 0 ? lastUpdated : undefined,
+                boardCount: folderBoards.length || 0,
+            }
+        })
     } catch (error) {
         Sentry.captureMessage(
             'Error while fetching folders for user with id ' + user.uid,
