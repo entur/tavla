@@ -38,9 +38,7 @@ function Column({
                 return (
                     <LastModified
                         timestamp={
-                            folderLastUpdated && folderLastUpdated !== 0
-                                ? folderLastUpdated
-                                : undefined
+                            folderLastUpdated ? folderLastUpdated : undefined
                         }
                     />
                 )
