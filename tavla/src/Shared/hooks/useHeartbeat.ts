@@ -3,7 +3,7 @@ import { TBoard } from 'types/settings'
 import { getBackendUrl } from 'utils/index'
 import { v4 as uuidv4 } from 'uuid'
 
-export function useHeartbeat(board: TBoard) {
+export function useHeartbeat(board: TBoard, apiKey: string) {
     const tabIdRef = useRef<string | null>(null)
 
     useEffect(() => {
@@ -55,9 +55,6 @@ export function useHeartbeat(board: TBoard) {
         }
 
         const backendUrl = getBackendUrl()
-        const apiKey =
-            process.env.NEXT_PUBLIC_BACKEND_API_KEY ||
-            process.env.BACKEND_API_KEY
 
         if (!apiKey) {
             return
@@ -90,5 +87,5 @@ export function useHeartbeat(board: TBoard) {
         const interval = setInterval(sendHeartbeat, 30_000)
 
         return () => clearInterval(interval)
-    }, [board])
+    }, [board, apiKey])
 }
