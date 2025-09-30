@@ -24,9 +24,9 @@ const cspHeaderCommon = `
 `
 
 const securityHeaders = `
-        frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/;
-        img-src 'self' data: https://*.usercentrics.eu https://firebasestorage.googleapis.com;
-      `
+                frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/ https://auth.tavla.dev.entur.no/;
+                img-src 'self' data: https://*.usercentrics.eu https://firebasestorage.googleapis.com;
+            `
 
 const cspHeader = `
     connect-src ${commonConnectSrc.join(' ')} https://ws.geonorge.no https://*.posthog.com https://*.googleapis.com https://www.google.com https://*.usercentrics.eu;
