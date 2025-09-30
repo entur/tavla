@@ -38,3 +38,7 @@ common:
           periodSeconds: 5
           successThreshold: 1
           timeoutSeconds: 1
+    prometheus:
+      enabled: true
+      path: /metrics
+      port: 3000
