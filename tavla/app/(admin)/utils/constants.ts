@@ -17,7 +17,7 @@ export const FIREBASE_DEV_CONFIG = {
 
 export const FIREBASE_PRD_CONFIG = {
     apiKey: 'AIzaSyCYIqxsPo2mJ8dupGENDWAECO6JYXm4iRk',
-    authDomain: 'ent-tavla-prd.firebaseapp.com',
+    authDomain: 'auth.tavla.entur.no',
     projectId: 'ent-tavla-prd',
     storageBucket: 'ent-tavla-prd.appspot.com',
     messagingSenderId: '206753066197',
