@@ -21,12 +21,14 @@ const cspHeaderCommon = `
     object-src 'none';
     base-uri 'self';
     form-action 'self';
+    frame-src 'self' https://ent-tavla-dev.firebaseapp.com/ https://auth.tavla.dev.entur.no/ https://ent-tavla-prd.firebaseapp.com/ https://auth.tavla.entur.no/;
+
 `
 
 const cspHeader = `
     connect-src ${commonConnectSrc.join(' ')} https://ws.geonorge.no https://*.posthog.com https://*.googleapis.com https://www.google.com;
     frame-ancestors 'none';
-    ${cspHeaderCommon}
+    ${cspHeaderCommon} 
 `
 
 const cspHeaderTavlevisning = `
