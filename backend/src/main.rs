@@ -3,7 +3,7 @@ use std::time::Duration;
 use axum::{
     body::Body,
     extract::{Path, State},
-    http::{HeaderName, HeaderValue, Method, Response, StatusCode},
+    http::{Response, StatusCode},
     routing::{get, post},
     Json, Router,
 };
@@ -22,7 +22,7 @@ use tokio_util::{sync::CancellationToken, task::TaskTracker};
 mod types;
 
 mod utils;
-use tower_http::cors::CorsLayer;
+use tower_http::cors::{Any, CorsLayer};
 use types::{AppError, AppState, BoardAction, Message};
 use utils::{graceful_shutdown, setup_redis};
 use uuid::Uuid;
@@ -118,17 +118,9 @@ async fn main() {
     };
 
     let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST])
-        .allow_credentials(true)
-        .allow_headers([
-            HeaderName::from_static("content-type"),
-            HeaderName::from_static("authorization"),
-        ])
-        .allow_origin([
-            "http://localhost:3000".parse::<HeaderValue>().unwrap(),
-            "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
-            "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
-        ]);
+        .allow_origin(Any)
+        .allow_methods(Any)
+        .allow_headers(Any);
 
     let app = Router::new()
         .route("/active", get(active_boards))
@@ -142,6 +134,8 @@ async fn main() {
         .route("/heartbeat", post(heartbeat))
         .route("/metrics", get(metrics_handler))
         .route("/heartbeat/active", get(active_boards_heartbeat))
+
+
         .with_state(redis_clients)
         .layer(cors);
 
@@ -184,31 +178,7 @@ async fn metrics_handler(
         .unwrap())
 }
 
-async fn heartbeat(
-    AuthBearer(token): AuthBearer,
-    State(state): State<AppState>,
-    Json(payload): Json<HeartbeatPayload>,
-) -> Result<StatusCode, AppError> {
-    if token != state.key {
-        return Ok(StatusCode::UNAUTHORIZED);
-    }
 
-    let mut connection = state.master.clone();
-
-    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
-
-    let value = serde_json::to_string(&ActiveInfo {
-        bid: payload.bid,
-        browser: payload.browser,
-        screen_width: payload.screen_width,
-        screen_height: payload.screen_height,
-    })?;
-
-    let _: () = connection.set_ex(key, value.to_string(), 60).await?;
-
-    // Metrics will be updated by background task every 30 seconds
-    Ok(StatusCode::OK)
-}
 #[derive(Serialize, Deserialize)]
 pub struct HeartbeatResponse {
     pub count: usize,
@@ -381,3 +351,28 @@ async fn subscribe(
 
     Ok(res)
 }
+
+
+
+async fn heartbeat(
+    State(state): State<AppState>,
+    body: String,
+) -> Result<StatusCode, AppError> {
+    let payload: HeartbeatPayload = serde_json::from_str(&body)?;
+
+    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
+    let value = serde_json::to_string(&ActiveInfo {
+        bid: payload.bid,
+        browser: payload.browser,
+        screen_width: payload.screen_width,
+        screen_height: payload.screen_height,
+    })?;
+
+    let mut connection = state.master.clone();
+    let _: () = connection.set_ex(key, value, 60).await?;
+    Ok(StatusCode::OK)
+}
+
+
+
+

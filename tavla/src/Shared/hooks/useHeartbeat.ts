@@ -2,27 +2,98 @@ import { useEffect, useRef } from 'react'
 import { TBoard } from 'types/settings'
 import { getBackendUrl } from 'utils/index'
 
-const safeUuidV4 = () => {
+declare global {
+    interface Window {
+        __tabId?: string
+    }
+}
+
+// Try to use crypto.randomUUID, fallback to manual v4 UUID
+function safeUuidV4(): string {
     try {
-        if (window?.crypto?.randomUUID) {
+        if (
+            typeof window !== 'undefined' &&
+            window.crypto &&
+            typeof window.crypto.randomUUID === 'function'
+        ) {
             return window.crypto.randomUUID()
         }
     } catch {}
 
-    return `tab-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+    const hex = '0123456789abcdef'
+    let uuid = ''
+    for (let i = 0; i < 36; i++) {
+        if (i === 8 || i === 13 || i === 18 || i === 23) {
+            uuid += '-'
+        } else if (i === 14) {
+            uuid += '4'
+        } else if (i === 19) {
+            uuid += hex[((Math.random() * 4) | 0) + 8]
+        } else {
+            uuid += hex[(Math.random() * 16) | 0]
+        }
+    }
+    return uuid
 }
 
-export function useHeartbeat(board: TBoard, apiKey: string) {
+interface FetchOptions {
+    method?: string
+    headers?: Record<string, string>
+    body?: string
+}
+
+type SafeResponse = { ok: boolean; status: number; text: string }
+
+function safeFetch(url: string, options: FetchOptions): Promise<SafeResponse> {
+    if (typeof fetch !== 'undefined') {
+        return fetch(url, options).then(async (r) => ({
+            ok:
+                typeof r.ok === 'boolean'
+                    ? r.ok
+                    : r.status >= 200 && r.status < 300,
+            status: r.status,
+            text: await r.text(),
+        }))
+    }
+
+    return new Promise((resolve, reject) => {
+        try {
+            const xhr = new XMLHttpRequest()
+            xhr.open(options.method || 'GET', url, true)
+
+            const headers = options.headers || {}
+            for (const k in headers) {
+                if (Object.prototype.hasOwnProperty.call(headers, k)) {
+                    xhr.setRequestHeader(k, headers[k]!)
+                }
+            }
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    resolve({
+                        ok: xhr.status >= 200 && xhr.status < 300,
+                        status: xhr.status,
+                        text: xhr.responseText || '',
+                    })
+                }
+            }
+            xhr.onerror = () => reject(new Error('Network error'))
+            xhr.send(options.body || null)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+export function useHeartbeat(board: TBoard) {
     const tabIdRef = useRef<string | null>(null)
 
     useEffect(() => {
-        if (typeof window === 'undefined') {
-            return
-        }
+        if (typeof window === 'undefined') return
 
         try {
             if (tabIdRef.current === null) {
-                let existingId = null
+                let existingId: string | null = null
                 try {
                     existingId = sessionStorage.getItem('tabId')
                 } catch {}
@@ -31,17 +102,22 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
                     existingId = safeUuidV4()
                     try {
                         sessionStorage.setItem('tabId', existingId)
-                    } catch {}
+                    } catch {
+                        window.__tabId = existingId
+                    }
                 }
+
+                if (!existingId && window.__tabId) {
+                    existingId = window.__tabId
+                }
+
                 tabIdRef.current = existingId
             }
         } catch {}
     }, [])
 
     useEffect(() => {
-        if (!apiKey || !board) {
-            return
-        }
+        if (!board) return
 
         if (typeof window !== 'undefined') {
             const pathname = window.location.pathname
@@ -54,35 +130,38 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
             }
         }
 
-        let interval: NodeJS.Timeout | undefined = undefined
+        let interval: NodeJS.Timeout | undefined
 
-        const sendHeartbeat = () => {
+        function sendHeartbeat() {
             if (!tabIdRef.current) {
                 if (interval) clearInterval(interval)
                 return
             }
 
             try {
-                const screen = {
-                    width: window?.screen?.width ?? 0,
-                    height: window?.screen?.height ?? 0,
+                const screenInfo = {
+                    width:
+                        (window && window.screen && window.screen.width) || 0,
+                    height:
+                        (window && window.screen && window.screen.height) || 0,
                 }
-                const userAgent = window?.navigator?.userAgent ?? 'Unknown'
+                const userAgent =
+                    (window &&
+                        window.navigator &&
+                        window.navigator.userAgent) ||
+                    'Unknown'
 
-                fetch(`${getBackendUrl()}/heartbeat`, {
+                safeFetch(getBackendUrl() + '/heartbeat', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${apiKey}`,
-                    },
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify({
                         bid: board.id,
                         tid: tabIdRef.current,
                         browser: userAgent,
-                        screen_width: screen.width,
-                        screen_height: screen.height,
+                        screen_width: screenInfo.width,
+                        screen_height: screenInfo.height,
                     }),
-                }).catch(() => {})
+                })
             } catch {
                 if (interval) clearInterval(interval)
             }
@@ -90,11 +169,11 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
 
         if (tabIdRef.current) {
             sendHeartbeat()
-            interval = setInterval(sendHeartbeat, 30_000)
+            interval = setInterval(sendHeartbeat, 30000)
         }
 
         return () => {
             if (interval) clearInterval(interval)
         }
-    }, [board, apiKey])
+    }, [board])
 }
