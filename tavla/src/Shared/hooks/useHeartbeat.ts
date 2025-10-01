@@ -1,91 +1,100 @@
 import { useEffect, useRef } from 'react'
 import { TBoard } from 'types/settings'
 import { getBackendUrl } from 'utils/index'
-import { v4 as uuidv4 } from 'uuid'
+
+const safeUuidV4 = () => {
+    try {
+        if (window?.crypto?.randomUUID) {
+            return window.crypto.randomUUID()
+        }
+    } catch {}
+
+    return `tab-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+}
 
 export function useHeartbeat(board: TBoard, apiKey: string) {
     const tabIdRef = useRef<string | null>(null)
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && tabIdRef.current === null) {
-            let existing = sessionStorage.getItem('tabId')
-            if (!existing) {
-                existing = uuidv4()
-                sessionStorage.setItem('tabId', existing as string)
-            }
-            tabIdRef.current = existing
+        if (typeof window === 'undefined') {
+            return
         }
+
+        try {
+            if (tabIdRef.current === null) {
+                let existingId = null
+                try {
+                    existingId = sessionStorage.getItem('tabId')
+                } catch {}
+
+                if (!existingId) {
+                    existingId = safeUuidV4()
+                    try {
+                        sessionStorage.setItem('tabId', existingId)
+                    } catch {}
+                }
+                tabIdRef.current = existingId
+            }
+        } catch {}
     }, [])
 
-    const getBrowserInfo = () => {
-        if (typeof window === 'undefined') return 'Unknown'
-        const userAgent = window.navigator.userAgent
-        if (userAgent.includes('Chrome')) return 'Chrome'
-        if (userAgent.includes('Firefox')) return 'Firefox'
-        if (userAgent.includes('Safari')) return 'Safari'
-        if (userAgent.includes('Edge')) return 'Edge'
-        return 'Other'
-    }
-
-    // Get screen dimensions
-    const getScreenDimensions = () => {
-        if (typeof window === 'undefined') return { width: 1920, height: 1080 }
-        return {
-            width: window.screen.width,
-            height: window.screen.height,
-        }
-    }
-
     useEffect(() => {
-        if (!board) return
-        if (!tabIdRef.current) return
+        if (!apiKey || !board) {
+            return
+        }
 
         if (typeof window !== 'undefined') {
             const pathname = window.location.pathname
             if (
                 pathname.includes('/admin/') ||
                 pathname.includes('/rediger') ||
-                pathname.includes('/demo') ||
-                pathname.includes('/auth') ||
-                pathname.includes('/help') ||
-                pathname.includes('/privacy')
+                pathname.includes('/demo')
             ) {
                 return
             }
         }
 
-        const backendUrl = getBackendUrl()
+        let interval: NodeJS.Timeout | undefined = undefined
 
-        if (!apiKey) {
-            return
+        const sendHeartbeat = () => {
+            if (!tabIdRef.current) {
+                if (interval) clearInterval(interval)
+                return
+            }
+
+            try {
+                const screen = {
+                    width: window?.screen?.width ?? 0,
+                    height: window?.screen?.height ?? 0,
+                }
+                const userAgent = window?.navigator?.userAgent ?? 'Unknown'
+
+                fetch(`${getBackendUrl()}/heartbeat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${apiKey}`,
+                    },
+                    body: JSON.stringify({
+                        bid: board.id,
+                        tid: tabIdRef.current,
+                        browser: userAgent,
+                        screen_width: screen.width,
+                        screen_height: screen.height,
+                    }),
+                }).catch(() => {})
+            } catch {
+                if (interval) clearInterval(interval)
+            }
         }
 
-        const sendHeartbeat = async () => {
-            const screen = getScreenDimensions()
-            const browser = getBrowserInfo()
-
-            fetch(`${backendUrl}/heartbeat`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${apiKey}`,
-                },
-                body: JSON.stringify({
-                    bid: board.id,
-                    tid: tabIdRef.current,
-                    browser,
-                    screen_width: screen.width,
-                    screen_height: screen.height,
-                }),
-            }).catch(() => {
-                // Silently ignore all heartbeat errors
-            })
+        if (tabIdRef.current) {
+            sendHeartbeat()
+            interval = setInterval(sendHeartbeat, 30_000)
         }
 
-        sendHeartbeat()
-
-        const interval = setInterval(sendHeartbeat, 30_000)
-
-        return () => clearInterval(interval)
+        return () => {
+            if (interval) clearInterval(interval)
+        }
     }, [board, apiKey])
 }
