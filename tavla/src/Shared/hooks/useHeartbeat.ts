@@ -2,22 +2,31 @@ import { useEffect, useRef } from 'react'
 import { TBoard } from 'types/settings'
 import { getBackendUrl } from 'utils/index'
 
-const safeUuidV4 = () => {
+declare global {
+    interface Window {
+        __tabId?: string
+    }
+}
+
+// Try to use crypto.randomUUID, fallback to manual v4 UUID
+function safeUuidV4(): string {
     try {
-        if (window && window.crypto && window.crypto.randomUUID) {
+        if (
+            typeof window !== 'undefined' &&
+            window.crypto &&
+            typeof window.crypto.randomUUID === 'function'
+        ) {
             return window.crypto.randomUUID()
         }
     } catch {}
 
-    // Generate a UUID-like string that backend can parse
-    // Format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
     const hex = '0123456789abcdef'
     let uuid = ''
     for (let i = 0; i < 36; i++) {
         if (i === 8 || i === 13 || i === 18 || i === 23) {
             uuid += '-'
         } else if (i === 14) {
-            uuid += '4' // Version 4
+            uuid += '4'
         } else if (i === 19) {
             uuid += hex[((Math.random() * 4) | 0) + 8] // 8, 9, A, or B
         } else {
@@ -25,6 +34,50 @@ const safeUuidV4 = () => {
         }
     }
     return uuid
+}
+
+interface FetchOptions {
+    method?: string
+    headers?: Record<string, string>
+    body?: string
+}
+
+function safeFetch(url: string, options: FetchOptions): Promise<Response> {
+    if (typeof fetch !== 'undefined') {
+        return fetch(url, options)
+    }
+
+    return new Promise((resolve, reject) => {
+        try {
+            const xhr = new XMLHttpRequest()
+            xhr.open(options.method || 'GET', url, true)
+
+            if (options.headers) {
+                for (const key in options.headers) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            options.headers,
+                            key,
+                        )
+                    ) {
+                        const headerValue = options.headers[key]
+                        if (typeof headerValue === 'string') {
+                            xhr.setRequestHeader(key, headerValue)
+                        }
+                    }
+                }
+            }
+
+            xhr.onload = function () {
+                resolve(new Response(xhr.responseText, { status: xhr.status }))
+            }
+
+            xhr.onerror = () => reject(new Error('Network error'))
+            xhr.send(options.body || null)
+        } catch (err) {
+            reject(err)
+        }
+    })
 }
 
 export function useHeartbeat(board: TBoard, apiKey: string) {
@@ -37,7 +90,7 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
 
         try {
             if (tabIdRef.current === null) {
-                let existingId = null
+                let existingId: string | null = null
                 try {
                     existingId = sessionStorage.getItem('tabId')
                 } catch {}
@@ -46,8 +99,15 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
                     existingId = safeUuidV4()
                     try {
                         sessionStorage.setItem('tabId', existingId)
-                    } catch {}
+                    } catch {
+                        window.__tabId = existingId
+                    }
                 }
+
+                if (!existingId && window.__tabId) {
+                    existingId = window.__tabId
+                }
+
                 tabIdRef.current = existingId
             }
         } catch {}
@@ -69,17 +129,16 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
             }
         }
 
-        let interval: NodeJS.Timeout | undefined = undefined
+        let interval: NodeJS.Timeout | undefined
 
-        const sendHeartbeat = () => {
+        function sendHeartbeat() {
             if (!tabIdRef.current) {
                 if (interval) clearInterval(interval)
                 return
             }
 
             try {
-                // Use old-school syntax for TV compatibility (no optional chaining or nullish coalescing)
-                const screen = {
+                const screenInfo = {
                     width:
                         (window && window.screen && window.screen.width) || 0,
                     height:
@@ -91,18 +150,18 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
                         window.navigator.userAgent) ||
                     'Unknown'
 
-                fetch(`${getBackendUrl()}/heartbeat`, {
+                safeFetch(getBackendUrl() + '/heartbeat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${apiKey}`,
+                        Authorization: 'Bearer ' + apiKey,
                     },
                     body: JSON.stringify({
                         bid: board.id,
                         tid: tabIdRef.current,
                         browser: userAgent,
-                        screen_width: screen.width,
-                        screen_height: screen.height,
+                        screen_width: screenInfo.width,
+                        screen_height: screenInfo.height,
                     }),
                 }).catch(() => {})
             } catch {
@@ -112,7 +171,7 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
 
         if (tabIdRef.current) {
             sendHeartbeat()
-            interval = setInterval(sendHeartbeat, 30_000)
+            interval = setInterval(sendHeartbeat, 30000)
         }
 
         return () => {
