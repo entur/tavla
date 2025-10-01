@@ -4,12 +4,27 @@ import { getBackendUrl } from 'utils/index'
 
 const safeUuidV4 = () => {
     try {
-        if (window?.crypto?.randomUUID) {
+        if (window && window.crypto && window.crypto.randomUUID) {
             return window.crypto.randomUUID()
         }
     } catch {}
 
-    return `tab-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+    // Generate a UUID-like string that backend can parse
+    // Format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+    const hex = '0123456789abcdef'
+    let uuid = ''
+    for (let i = 0; i < 36; i++) {
+        if (i === 8 || i === 13 || i === 18 || i === 23) {
+            uuid += '-'
+        } else if (i === 14) {
+            uuid += '4' // Version 4
+        } else if (i === 19) {
+            uuid += hex[((Math.random() * 4) | 0) + 8] // 8, 9, A, or B
+        } else {
+            uuid += hex[(Math.random() * 16) | 0]
+        }
+    }
+    return uuid
 }
 
 export function useHeartbeat(board: TBoard, apiKey: string) {
