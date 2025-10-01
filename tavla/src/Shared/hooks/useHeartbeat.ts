@@ -63,11 +63,18 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
             }
 
             try {
+                // Use old-school syntax for TV compatibility (no optional chaining or nullish coalescing)
                 const screen = {
-                    width: window?.screen?.width ?? 0,
-                    height: window?.screen?.height ?? 0,
+                    width:
+                        (window && window.screen && window.screen.width) || 0,
+                    height:
+                        (window && window.screen && window.screen.height) || 0,
                 }
-                const userAgent = window?.navigator?.userAgent ?? 'Unknown'
+                const userAgent =
+                    (window &&
+                        window.navigator &&
+                        window.navigator.userAgent) ||
+                    'Unknown'
 
                 fetch(`${getBackendUrl()}/heartbeat`, {
                     method: 'POST',
