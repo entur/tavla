@@ -1,9 +1,10 @@
 use std::time::Duration;
 
 use axum::{
-    body::Body,
-    extract::{Path, State},
+    body::{Body, Bytes},
+    extract::{Path, Query, State},
     http::{HeaderName, HeaderValue, Method, Response, StatusCode},
+    response::IntoResponse,
     routing::{get, post},
     Json, Router,
 };
@@ -136,6 +137,10 @@ async fn main() {
         .route("/heartbeat/active", get(active_boards_heartbeat))
         .route("/tvtest", get(tvtest_get))
         .route("/tvtest-simple", post(tvtest_post_simple))
+        .route("/heartbeat-simple", post(heartbeat_simple))
+        .route("/pixel.gif", get(pixel_gif))
+
+
         .with_state(redis_clients)
         .layer(cors);
 
@@ -381,3 +386,71 @@ async fn tvtest_post_simple() -> Result<StatusCode, AppError> {
     println!("SUCCESS: POST /tvtest-simple received");
     Ok(StatusCode::OK)
 }
+
+async fn heartbeat_simple(
+    State(state): State<AppState>,
+    bytes: Bytes, // rå body (Content-Type: text/plain)
+) -> Result<StatusCode, AppError> {
+    // body er JSON-serialisert i frontenden, men sendt som text/plain (simple request)
+    let payload: HeartbeatPayload = serde_json::from_slice(&bytes)?;
+
+    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
+    let value = serde_json::to_string(&ActiveInfo {
+        bid: payload.bid,
+        browser: payload.browser,
+        screen_width: payload.screen_width,
+        screen_height: payload.screen_height,
+    })?;
+
+    let mut connection = state.master.clone();
+    let _: () = connection.set_ex(key, value, 60).await?;
+    Ok(StatusCode::OK)
+}
+
+
+#[derive(Deserialize)]
+struct PixelQ {
+    bid: String,
+    tid: String,
+    #[serde(default)]
+    w: Option<u32>,
+    #[serde(default)]
+    h: Option<u32>,
+    #[serde(default)]
+    ua: Option<String>,
+    #[serde(default)]
+    #[allow(dead_code)]
+    ts: Option<u64>,
+}
+
+async fn pixel_gif(
+    State(state): State<AppState>,
+    Query(q): Query<PixelQ>,
+) -> impl IntoResponse {
+
+    let value = serde_json::to_string(&ActiveInfo {
+        bid: q.bid.clone(),
+        browser: q.ua.unwrap_or_else(|| "unknown".to_string()),
+        screen_width: q.w.unwrap_or(0),
+        screen_height: q.h.unwrap_or(0),
+    }).unwrap_or_else(|_| "{\"bid\":\"err\",\"browser\":\"err\",\"screen_width\":0,\"screen_height\":0}".to_string());
+
+    let key = format!("heartbeat:{}:{}", q.bid, q.tid);
+    let mut connection = state.master.clone();
+    let _: () = connection.set_ex(key, value, 60).await.unwrap_or(());
+
+    const PIXEL: &[u8] = b"GIF89a\
+\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff!\
+\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\
+\x01\x00\x00\x02\x02D\x01\x00;";
+
+    let resp = Response::builder()
+        .status(StatusCode::OK)
+        .header("Content-Type", "image/gif")
+        .header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        .body(Body::from(PIXEL))
+        .unwrap();
+
+    resp
+}
+

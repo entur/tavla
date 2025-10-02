@@ -42,9 +42,18 @@ interface FetchOptions {
     body?: string
 }
 
-function safeFetch(url: string, options: FetchOptions): Promise<Response> {
+type SafeResponse = { ok: boolean; status: number; text: string }
+
+function safeFetch(url: string, options: FetchOptions): Promise<SafeResponse> {
     if (typeof fetch !== 'undefined') {
-        return fetch(url, options)
+        return fetch(url, options).then(async (r) => ({
+            ok:
+                typeof r.ok === 'boolean'
+                    ? r.ok
+                    : r.status >= 200 && r.status < 300,
+            status: r.status,
+            text: await r.text(),
+        }))
     }
 
     return new Promise((resolve, reject) => {
@@ -52,41 +61,55 @@ function safeFetch(url: string, options: FetchOptions): Promise<Response> {
             const xhr = new XMLHttpRequest()
             xhr.open(options.method || 'GET', url, true)
 
-            if (options.headers) {
-                for (const key in options.headers) {
-                    if (
-                        Object.prototype.hasOwnProperty.call(
-                            options.headers,
-                            key,
-                        )
-                    ) {
-                        const headerValue = options.headers[key]
-                        if (typeof headerValue === 'string') {
-                            xhr.setRequestHeader(key, headerValue)
-                        }
-                    }
+            const headers = options.headers || {}
+            for (const k in headers) {
+                if (Object.prototype.hasOwnProperty.call(headers, k)) {
+                    xhr.setRequestHeader(k, headers[k]!)
                 }
             }
 
-            xhr.onload = function () {
-                resolve(new Response(xhr.responseText, { status: xhr.status }))
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    resolve({
+                        ok: xhr.status >= 200 && xhr.status < 300,
+                        status: xhr.status,
+                        text: xhr.responseText || '',
+                    })
+                }
             }
-
             xhr.onerror = () => reject(new Error('Network error'))
             xhr.send(options.body || null)
-        } catch (err) {
-            reject(err)
+        } catch (e) {
+            reject(e)
         }
     })
+}
+
+function pixelPing(bid: string, tid: string, w: number, h: number, ua: string) {
+    try {
+        const img = new Image()
+        const qs =
+            'bid=' +
+            encodeURIComponent(bid) +
+            '&tid=' +
+            encodeURIComponent(tid) +
+            '&w=' +
+            w +
+            '&h=' +
+            h +
+            '&ua=' +
+            encodeURIComponent(ua) +
+            '&ts=' +
+            Date.now()
+        img.src = getBackendUrl() + '/pixel.gif?' + qs
+    } catch {}
 }
 
 export function useHeartbeat(board: TBoard) {
     const tabIdRef = useRef<string | null>(null)
 
     useEffect(() => {
-        if (typeof window === 'undefined') {
-            return
-        }
+        if (typeof window === 'undefined') return
 
         try {
             if (tabIdRef.current === null) {
@@ -114,9 +137,7 @@ export function useHeartbeat(board: TBoard) {
     }, [])
 
     useEffect(() => {
-        if (!board) {
-            return
-        }
+        if (!board) return
 
         if (typeof window !== 'undefined') {
             const pathname = window.location.pathname
@@ -150,11 +171,9 @@ export function useHeartbeat(board: TBoard) {
                         window.navigator.userAgent) ||
                     'Unknown'
 
-                safeFetch(getBackendUrl() + '/heartbeat', {
+                safeFetch(getBackendUrl() + '/heartbeat-simple', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify({
                         bid: board.id,
                         tid: tabIdRef.current,
@@ -162,7 +181,27 @@ export function useHeartbeat(board: TBoard) {
                         screen_width: screenInfo.width,
                         screen_height: screenInfo.height,
                     }),
-                }).catch(() => {})
+                })
+                    .then((res) => {
+                        if (!res.ok) {
+                            pixelPing(
+                                board.id ?? '',
+                                tabIdRef.current as string,
+                                screenInfo.width,
+                                screenInfo.height,
+                                userAgent,
+                            )
+                        }
+                    })
+                    .catch(() => {
+                        pixelPing(
+                            board.id ?? '',
+                            tabIdRef.current as string,
+                            screenInfo.width,
+                            screenInfo.height,
+                            userAgent,
+                        )
+                    })
             } catch {
                 if (interval) clearInterval(interval)
             }
