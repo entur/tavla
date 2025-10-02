@@ -22,7 +22,7 @@ use tokio_util::{sync::CancellationToken, task::TaskTracker};
 mod types;
 
 mod utils;
-use tower_http::cors::CorsLayer;
+use tower_http::cors::{Any, CorsLayer};
 use types::{AppError, AppState, BoardAction, Message};
 use utils::{graceful_shutdown, setup_redis};
 use uuid::Uuid;
@@ -118,17 +118,9 @@ async fn main() {
     };
 
     let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST])
-        .allow_credentials(true)
-        .allow_headers([
-            HeaderName::from_static("content-type"),
-            HeaderName::from_static("authorization"),
-        ])
-        .allow_origin([
-            "http://localhost:3000".parse::<HeaderValue>().unwrap(),
-            "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
-            "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
-        ]);
+        .allow_origin(Any)
+        .allow_methods(Any)
+        .allow_headers(Any);
 
     let app = Router::new()
         .route("/active", get(active_boards))
@@ -142,6 +134,8 @@ async fn main() {
         .route("/heartbeat", post(heartbeat))
         .route("/metrics", get(metrics_handler))
         .route("/heartbeat/active", get(active_boards_heartbeat))
+        .route("/tvtest", get(tvtest_get))
+        .route("/tvtest-simple", post(tvtest_post_simple))
         .with_state(redis_clients)
         .layer(cors);
 
@@ -185,13 +179,9 @@ async fn metrics_handler(
 }
 
 async fn heartbeat(
-    AuthBearer(token): AuthBearer,
     State(state): State<AppState>,
     Json(payload): Json<HeartbeatPayload>,
 ) -> Result<StatusCode, AppError> {
-    if token != state.key {
-        return Ok(StatusCode::UNAUTHORIZED);
-    }
 
     let mut connection = state.master.clone();
 
@@ -380,4 +370,14 @@ async fn subscribe(
     };
 
     Ok(res)
+}
+
+async fn tvtest_get() -> Result<StatusCode, AppError> {
+    println!("SUCCESS: GET /tvtest received");
+    Ok(StatusCode::OK)
+}
+
+async fn tvtest_post_simple() -> Result<StatusCode, AppError> {
+    println!("SUCCESS: POST /tvtest-simple received");
+    Ok(StatusCode::OK)
 }

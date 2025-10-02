@@ -31,7 +31,6 @@ export async function getServerSideProps({
             board,
             folder,
             backend_url: getBackendUrl(),
-            backend_api_key: process.env.BACKEND_API_KEY || '',
         },
     }
 }
@@ -40,7 +39,6 @@ function BoardPage({
     board,
     folder,
     backend_url,
-    backend_api_key,
 }: {
     board: TBoard
     folder: TFolder | null
@@ -49,7 +47,7 @@ function BoardPage({
 }) {
     const updatedBoard = useRefresh(board, backend_url)
 
-    useHeartbeat(board, backend_api_key)
+    useHeartbeat(board)
 
     const title = updatedBoard.meta?.title
         ? updatedBoard.meta.title + ' | Entur tavla'

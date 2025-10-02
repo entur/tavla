@@ -80,7 +80,7 @@ function safeFetch(url: string, options: FetchOptions): Promise<Response> {
     })
 }
 
-export function useHeartbeat(board: TBoard, apiKey: string) {
+export function useHeartbeat(board: TBoard) {
     const tabIdRef = useRef<string | null>(null)
 
     useEffect(() => {
@@ -114,7 +114,7 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
     }, [])
 
     useEffect(() => {
-        if (!apiKey || !board) {
+        if (!board) {
             return
         }
 
@@ -154,7 +154,6 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + apiKey,
                     },
                     body: JSON.stringify({
                         bid: board.id,
@@ -177,5 +176,5 @@ export function useHeartbeat(board: TBoard, apiKey: string) {
         return () => {
             if (interval) clearInterval(interval)
         }
-    }, [board, apiKey])
+    }, [board])
 }
