@@ -2,6 +2,7 @@ import { Board } from 'Board/scenarios/Board'
 import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { Header } from 'components/Header'
 import { InfoMessage } from 'components/InfoMessage'
+import { useHeartbeat } from 'hooks/useHeartbeat'
 import { useRefresh } from 'hooks/useRefresh'
 import Head from 'next/head'
 import { useEffect } from 'react'
@@ -42,8 +43,11 @@ function BoardPage({
     board: TBoard
     folder: TFolder | null
     backend_url: string
+    backend_api_key: string
 }) {
     const updatedBoard = useRefresh(board, backend_url)
+
+    useHeartbeat(board)
 
     const title = updatedBoard.meta?.title
         ? updatedBoard.meta.title + ' | Entur tavla'

@@ -1,14 +1,17 @@
 use std::time::Duration;
 
 use axum::{
-    body::Body,
-    extract::{Path, State},
-    http::{HeaderValue, Method, Response, StatusCode},
+    body::{Body, Bytes},
+    extract::{Path, Query, State},
+    http::{HeaderName, HeaderValue, Method, Response, StatusCode},
+    response::IntoResponse,
     routing::{get, post},
     Json, Router,
 };
 
+use ::futures::future;
 use axum_auth::AuthBearer;
+use prometheus::{Encoder, Gauge, Registry, TextEncoder};
 use serde_json::{json, to_string, Value};
 use tokio::{net::TcpListener, time};
 
@@ -20,17 +23,62 @@ use tokio_util::{sync::CancellationToken, task::TaskTracker};
 mod types;
 
 mod utils;
-use tower_http::cors::CorsLayer;
+use tower_http::cors::{Any, CorsLayer};
 use types::{AppError, AppState, BoardAction, Message};
 use utils::{graceful_shutdown, setup_redis};
+use uuid::Uuid;
 
 use crate::types::Guard;
+
+use serde::{Deserialize, Serialize};
+use std::sync::Arc;
+
+#[derive(Clone)]
+pub struct Metrics {
+    pub registry: Registry,
+    pub active_boards: Gauge,
+}
+
+#[derive(Serialize, Deserialize)]
+struct HeartbeatPayload {
+    bid: String,
+    tid: Uuid,
+    browser: String,
+    screen_width: u32,
+    screen_height: u32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ActiveInfo {
+    pub bid: String,
+    pub browser: String,
+    pub screen_width: u32,
+    pub screen_height: u32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ActiveInfoCount {
+    pub count: usize,
+    pub client: ActiveInfo,
+}
 
 #[tokio::main]
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
     let port = std::env::var("PORT").unwrap_or("3000".to_string());
     let key = std::env::var("BACKEND_API_KEY").expect("Expected to find api key");
+
+    // Setup Prometheus metrics
+    let registry = Registry::new();
+    let active_boards_gauge = Gauge::new("tavla_active_sessions_current", "Number of currently active tavla sessions/tabs with heartbeats")
+        .expect("Failed to create active_sessions metric");
+    
+    registry.register(Box::new(active_boards_gauge.clone())).unwrap();
+    
+    let metrics = Arc::new(Metrics {
+        registry,
+        active_boards: active_boards_gauge,
+    });
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
         .await
@@ -41,20 +89,39 @@ async fn main() {
     let runtime_status = CancellationToken::new();
     let task_tracker = TaskTracker::new();
 
+    // Start background task to update metrics regularly
+    let metrics_updater = metrics.clone();
+    let redis_for_metrics = replicas.clone();
+    task_tracker.spawn(async move {
+        let mut interval = tokio::time::interval(Duration::from_secs(30));
+        loop {
+            interval.tick().await;
+            
+            // Update active boards count
+            if let Ok(mut connection) = redis_for_metrics.get_multiplexed_async_connection().await {
+                let keys: Vec<String> = redis::cmd("KEYS")
+                    .arg("heartbeat:*")
+                    .query_async(&mut connection)
+                    .await
+                    .unwrap_or_default();
+                
+                // Count total active tabs/sessions (not unique board IDs)
+                metrics_updater.active_boards.set(keys.len() as f64);
+            }
+        }
+    });
+
     let redis_clients = AppState {
         master,
         replicas,
         key,
+        metrics: metrics.clone(),
     };
 
     let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST])
-        .allow_credentials(true)
-        .allow_origin([
-            "http://localhost:3000".parse::<HeaderValue>().unwrap(),
-            "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
-            "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
-        ]);
+        .allow_origin(Any)
+        .allow_methods(Any)
+        .allow_headers(Any);
 
     let app = Router::new()
         .route("/active", get(active_boards))
@@ -65,6 +132,15 @@ async fn main() {
         .route("/alive", get(check_health))
         .route("/reset", post(reset_active))
         .route("/active/bids", get(active_board_ids))
+        .route("/heartbeat", post(heartbeat))
+        .route("/metrics", get(metrics_handler))
+        .route("/heartbeat/active", get(active_boards_heartbeat))
+        .route("/tvtest", get(tvtest_get))
+        .route("/tvtest-simple", post(tvtest_post_simple))
+        .route("/heartbeat-simple", post(heartbeat_simple))
+        .route("/pixel.gif", get(pixel_gif))
+
+
         .with_state(redis_clients)
         .layer(cors);
 
@@ -85,6 +161,86 @@ async fn reset_active(
     time::sleep(Duration::from_secs(5)).await;
     let _: () = state.master.set("active_boards", 0).await?;
     Ok(StatusCode::OK)
+}
+
+async fn metrics_handler(
+    AuthBearer(token): AuthBearer,
+    State(state): State<AppState>
+) -> Result<Response<Body>, StatusCode> {
+    // Beskytt metrics med samme API-nøkkel
+    if token != state.key {
+        return Err(StatusCode::UNAUTHORIZED);
+    }
+
+    let encoder = TextEncoder::new();
+    let metric_families = state.metrics.registry.gather();
+    let mut buffer = Vec::new();
+    encoder.encode(&metric_families, &mut buffer).unwrap();
+    
+    Ok(Response::builder()
+        .header("Content-Type", encoder.format_type())
+        .body(Body::from(buffer))
+        .unwrap())
+}
+
+async fn heartbeat(
+    State(state): State<AppState>,
+    Json(payload): Json<HeartbeatPayload>,
+) -> Result<StatusCode, AppError> {
+
+    let mut connection = state.master.clone();
+
+    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
+
+    let value = serde_json::to_string(&ActiveInfo {
+        bid: payload.bid,
+        browser: payload.browser,
+        screen_width: payload.screen_width,
+        screen_height: payload.screen_height,
+    })?;
+
+    let _: () = connection.set_ex(key, value.to_string(), 60).await?;
+
+    // Metrics will be updated by background task every 30 seconds
+    Ok(StatusCode::OK)
+}
+#[derive(Serialize, Deserialize)]
+pub struct HeartbeatResponse {
+    pub count: usize,
+    pub clients: Vec<ActiveInfo>,
+}
+
+async fn active_boards_heartbeat(
+    AuthBearer(token): AuthBearer,
+    State(state): State<AppState>,
+) -> Result<Json<HeartbeatResponse>, AppError> {
+    if token != state.key {
+        // TODO: This should be handled better
+        todo!()
+    }
+
+    let mut connection = state.replicas.get_multiplexed_async_connection().await?;
+
+    let keys: Vec<String> = redis::cmd("KEYS")
+        .arg("heartbeat:*")
+        .query_async(&mut connection)
+        .await?;
+
+    let res = keys
+        .clone()
+        .into_iter()
+        .map(|key| async {
+            let val = connection.clone().get::<_, String>(key).await.unwrap();
+            return serde_json::from_str::<ActiveInfo>(&val).unwrap();
+        })
+        .collect::<Vec<_>>();
+
+    let clients = future::join_all(res).await;
+
+    Ok(Json(HeartbeatResponse {
+        count: clients.len(),
+        clients,
+    }))
 }
 
 async fn check_health(State(mut state): State<AppState>) -> Result<StatusCode, AppError> {
@@ -187,6 +343,7 @@ async fn update_board(
     Ok(StatusCode::OK)
 }
 
+// Brukes i useRefresh,
 async fn subscribe(
     Path(bid): Path<String>,
     State(state): State<AppState>,
@@ -219,3 +376,81 @@ async fn subscribe(
 
     Ok(res)
 }
+
+async fn tvtest_get() -> Result<StatusCode, AppError> {
+    println!("SUCCESS: GET /tvtest received");
+    Ok(StatusCode::OK)
+}
+
+async fn tvtest_post_simple() -> Result<StatusCode, AppError> {
+    println!("SUCCESS: POST /tvtest-simple received");
+    Ok(StatusCode::OK)
+}
+
+async fn heartbeat_simple(
+    State(state): State<AppState>,
+    bytes: Bytes, // rå body (Content-Type: text/plain)
+) -> Result<StatusCode, AppError> {
+    // body er JSON-serialisert i frontenden, men sendt som text/plain (simple request)
+    let payload: HeartbeatPayload = serde_json::from_slice(&bytes)?;
+
+    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
+    let value = serde_json::to_string(&ActiveInfo {
+        bid: payload.bid,
+        browser: payload.browser,
+        screen_width: payload.screen_width,
+        screen_height: payload.screen_height,
+    })?;
+
+    let mut connection = state.master.clone();
+    let _: () = connection.set_ex(key, value, 60).await?;
+    Ok(StatusCode::OK)
+}
+
+
+#[derive(Deserialize)]
+struct PixelQ {
+    bid: String,
+    tid: String,
+    #[serde(default)]
+    w: Option<u32>,
+    #[serde(default)]
+    h: Option<u32>,
+    #[serde(default)]
+    ua: Option<String>,
+    #[serde(default)]
+    #[allow(dead_code)]
+    ts: Option<u64>,
+}
+
+async fn pixel_gif(
+    State(state): State<AppState>,
+    Query(q): Query<PixelQ>,
+) -> impl IntoResponse {
+
+    let value = serde_json::to_string(&ActiveInfo {
+        bid: q.bid.clone(),
+        browser: q.ua.unwrap_or_else(|| "unknown".to_string()),
+        screen_width: q.w.unwrap_or(0),
+        screen_height: q.h.unwrap_or(0),
+    }).unwrap_or_else(|_| "{\"bid\":\"err\",\"browser\":\"err\",\"screen_width\":0,\"screen_height\":0}".to_string());
+
+    let key = format!("heartbeat:{}:{}", q.bid, q.tid);
+    let mut connection = state.master.clone();
+    let _: () = connection.set_ex(key, value, 60).await.unwrap_or(());
+
+    const PIXEL: &[u8] = b"GIF89a\
+\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff!\
+\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\
+\x01\x00\x00\x02\x02D\x01\x00;";
+
+    let resp = Response::builder()
+        .status(StatusCode::OK)
+        .header("Content-Type", "image/gif")
+        .header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        .body(Body::from(PIXEL))
+        .unwrap();
+
+    resp
+}
+
