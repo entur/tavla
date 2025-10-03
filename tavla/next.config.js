@@ -54,6 +54,9 @@ const nextConfig = {
         '@sentry/core',
         '@sentry/utils',
         '@sentry-internal',
+        '@entur/typography',
+        '@entur/loader',
+        '@entur/utils',
     ],
     i18n: {
         locales: ['nb'],
