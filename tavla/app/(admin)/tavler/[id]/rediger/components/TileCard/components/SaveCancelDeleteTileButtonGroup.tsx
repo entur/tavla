@@ -3,6 +3,7 @@ import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
+import { TFormFeedback } from 'app/(admin)/utils'
 import Goat from 'assets/illustrations/Goat.png'
 import { TileContext } from 'Board/scenarios/Table/contexts'
 import { SubmitButton } from 'components/Form/SubmitButton'
@@ -19,7 +20,7 @@ function SaveCancelDeleteTileButtonGroup({
     setIsTileOpen,
     setConfirmOpen,
     deleteTile,
-    showValidationError = false,
+    validation,
 }: {
     confirmOpen: boolean
     hasTileChanged: boolean
@@ -27,11 +28,16 @@ function SaveCancelDeleteTileButtonGroup({
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (confirmOpen: boolean) => void
     deleteTile: (boardId: string, tile: TTile, demoBoard?: TBoard) => void
-    showValidationError?: boolean
+    validation?: TFormFeedback
 }) {
     const tile = useNonNullContext(TileContext)
     return (
         <>
+            {validation?.feedback && (
+                <SmallAlertBox variant="warning" className="mt-8 w-fit">
+                    {validation.feedback}
+                </SmallAlertBox>
+            )}
             <div className="mt-8 flex flex-col justify-start gap-4 md:flex-row">
                 <SubmitButton variant="primary" aria-label="lagre valg">
                     Lagre valg
@@ -51,11 +57,6 @@ function SaveCancelDeleteTileButtonGroup({
                     isWideScreen={false}
                     deleteTile={deleteTile}
                 />
-                {showValidationError && (
-                    <SmallAlertBox variant="warning">
-                        Du må velge en eller flere linjer for å lagre
-                    </SmallAlertBox>
-                )}
             </div>
 
             <Modal

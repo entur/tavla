@@ -167,6 +167,13 @@ export function getFormFeedbackForError(
                 variant: 'negative',
             }
 
+        case 'board/tiles-no-lines-selected':
+            return {
+                form_type: 'general',
+                feedback: 'Du må velge en eller flere linjer for å lagre',
+                variant: 'warning',
+            }
+
         case 'folder/name-mismatch':
             return {
                 form_type: 'name',
