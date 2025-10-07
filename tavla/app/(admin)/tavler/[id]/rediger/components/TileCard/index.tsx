@@ -77,12 +77,12 @@ function TileCard({
             lines.push(line as string)
         }
 
-        // If the length of lines equals all the lines, we don't want to include any
-        lines = lines.length == count ? [] : lines
-
         if (lines.length === 0 && count !== null && count > 0) {
             return getFormFeedbackForError('board/tiles-no-lines-selected')
         }
+
+        // If the length of lines equals all the lines, we don't want to include any
+        lines = lines.length == count ? [] : lines
 
         if (isCombined) {
             columns = tile.columns ?? DEFAULT_COLUMNS
