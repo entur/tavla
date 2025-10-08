@@ -13,9 +13,8 @@ import {
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useCallback, useRef, useState } from 'react'
-import { TBoard, TFolder } from 'types/settings'
+import { TBoard } from 'types/settings'
 import { saveSettings } from './actions'
-import { Folder } from './components/Folder'
 import { FontSelect } from './components/FontSelect'
 import { Footer } from './components/Footer'
 import { ThemeSelect } from './components/ThemeSelect'
@@ -31,7 +30,7 @@ const getSelectedElements = (board: TBoard): Elements[] => {
     return elements
 }
 
-function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
+function Settings({ board }: { board: TBoard }) {
     const [formErrors, setFormErrors] = useState<
         Partial<Record<InputType, TFormFeedback>>
     >({})
@@ -93,7 +92,6 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             )}
                             onBlur={submitSettings}
                         />
-                        <Folder folder={folder} onChange={submitSettings} />
                         <WalkingDistance
                             location={board.meta.location}
                             onChange={submitSettings}

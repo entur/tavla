@@ -103,7 +103,7 @@ export default async function EditPage(props: TProps) {
                         <Preview board={board} folder={folder} />
                     </div>
                 </div>
-                <Settings board={board} folder={folder} />
+                <Settings board={board} />
             </div>
         </div>
     )
