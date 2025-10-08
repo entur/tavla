@@ -8,7 +8,6 @@ declare global {
     }
 }
 
-// Try to use crypto.randomUUID, fallback to manual v4 UUID
 function safeUuidV4(): string {
     try {
         if (
@@ -44,7 +43,10 @@ interface FetchOptions {
 
 type SafeResponse = { ok: boolean; status: number; text: string }
 
-function safeFetch(url: string, options: FetchOptions): Promise<SafeResponse> {
+async function safeFetch(
+    url: string,
+    options: FetchOptions,
+): Promise<SafeResponse> {
     if (typeof fetch !== 'undefined') {
         return fetch(url, options).then(async (r) => ({
             ok:

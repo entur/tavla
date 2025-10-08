@@ -8,7 +8,6 @@ use axum::{
     Json, Router,
 };
 
-use ::futures::future;
 use axum_auth::AuthBearer;
 use prometheus::{Encoder, Gauge, Registry, TextEncoder};
 use serde_json::{json, to_string, Value};
@@ -69,11 +68,16 @@ async fn main() {
 
     // Setup Prometheus metrics
     let registry = Registry::new();
-    let active_boards_gauge = Gauge::new("tavla_active_sessions_current", "Number of currently active tavla sessions/tabs with heartbeats")
-        .expect("Failed to create active_sessions metric");
-    
-    registry.register(Box::new(active_boards_gauge.clone())).unwrap();
-    
+    let active_boards_gauge = Gauge::new(
+        "tavla_active_sessions_current",
+        "Number of currently active tavla sessions/tabs with heartbeats",
+    )
+    .expect("Failed to create active_sessions metric");
+
+    registry
+        .register(Box::new(active_boards_gauge.clone()))
+        .unwrap();
+
     let metrics = Arc::new(Metrics {
         registry,
         active_boards: active_boards_gauge,
@@ -95,7 +99,7 @@ async fn main() {
         let mut interval = tokio::time::interval(Duration::from_secs(30));
         loop {
             interval.tick().await;
-            
+
             // Update active boards count
             if let Ok(mut connection) = redis_for_metrics.get_multiplexed_async_connection().await {
                 let keys: Vec<String> = redis::cmd("KEYS")
@@ -103,8 +107,7 @@ async fn main() {
                     .query_async(&mut connection)
                     .await
                     .unwrap_or_default();
-                
-                // Count total active tabs/sessions (not unique board IDs)
+
                 metrics_updater.active_boards.set(keys.len() as f64);
             }
         }
@@ -134,8 +137,6 @@ async fn main() {
         .route("/heartbeat", post(heartbeat))
         .route("/metrics", get(metrics_handler))
         .route("/heartbeat/active", get(active_boards_heartbeat))
-
-
         .with_state(redis_clients)
         .layer(cors);
 
@@ -160,9 +161,8 @@ async fn reset_active(
 
 async fn metrics_handler(
     AuthBearer(token): AuthBearer,
-    State(state): State<AppState>
+    State(state): State<AppState>,
 ) -> Result<Response<Body>, StatusCode> {
-    // Beskytt metrics med samme API-nøkkel
     if token != state.key {
         return Err(StatusCode::UNAUTHORIZED);
     }
@@ -171,13 +171,12 @@ async fn metrics_handler(
     let metric_families = state.metrics.registry.gather();
     let mut buffer = Vec::new();
     encoder.encode(&metric_families, &mut buffer).unwrap();
-    
+
     Ok(Response::builder()
         .header("Content-Type", encoder.format_type())
         .body(Body::from(buffer))
         .unwrap())
 }
-
 
 #[derive(Serialize, Deserialize)]
 pub struct HeartbeatResponse {
@@ -188,29 +187,29 @@ pub struct HeartbeatResponse {
 async fn active_boards_heartbeat(
     AuthBearer(token): AuthBearer,
     State(state): State<AppState>,
-) -> Result<Json<HeartbeatResponse>, AppError> {
+) -> Result<Json<HeartbeatResponse>, StatusCode> {
     if token != state.key {
-        // TODO: This should be handled better
-        todo!()
+        return Err(StatusCode::UNAUTHORIZED);
     }
 
-    let mut connection = state.replicas.get_multiplexed_async_connection().await?;
+    let mut connection = state.replicas.get_multiplexed_async_connection().await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
     let keys: Vec<String> = redis::cmd("KEYS")
         .arg("heartbeat:*")
         .query_async(&mut connection)
-        .await?;
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
-    let res = keys
-        .clone()
-        .into_iter()
-        .map(|key| async {
-            let val = connection.clone().get::<_, String>(key).await.unwrap();
-            return serde_json::from_str::<ActiveInfo>(&val).unwrap();
-        })
-        .collect::<Vec<_>>();
-
-    let clients = future::join_all(res).await;
+    let mut clients = Vec::new();
+    
+    for key in keys {
+        if let Ok(val) = connection.clone().get::<_, String>(&key).await {
+            if let Ok(client_info) = serde_json::from_str::<ActiveInfo>(&val) {
+                clients.push(client_info);
+            }
+        }
+    }
 
     Ok(Json(HeartbeatResponse {
         count: clients.len(),
@@ -318,7 +317,6 @@ async fn update_board(
     Ok(StatusCode::OK)
 }
 
-// Brukes i useRefresh,
 async fn subscribe(
     Path(bid): Path<String>,
     State(state): State<AppState>,
@@ -352,12 +350,7 @@ async fn subscribe(
     Ok(res)
 }
 
-
-
-async fn heartbeat(
-    State(state): State<AppState>,
-    body: String,
-) -> Result<StatusCode, AppError> {
+async fn heartbeat(State(state): State<AppState>, body: String) -> Result<StatusCode, AppError> {
     let payload: HeartbeatPayload = serde_json::from_str(&body)?;
 
     let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
@@ -372,7 +365,3 @@ async fn heartbeat(
     let _: () = connection.set_ex(key, value, 60).await?;
     Ok(StatusCode::OK)
 }
-
-
-
-
