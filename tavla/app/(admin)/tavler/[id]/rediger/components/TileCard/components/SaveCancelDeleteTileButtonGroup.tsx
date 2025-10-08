@@ -57,11 +57,6 @@ function SaveCancelDeleteTileButtonGroup({
                     isWideScreen={false}
                     deleteTile={deleteTile}
                 />
-                {showValidationError && (
-                    <SmallAlertBox variant="warning">
-                        Du må velge en eller flere linjer for å lagre
-                    </SmallAlertBox>
-                )}
             </div>
 
             <Modal

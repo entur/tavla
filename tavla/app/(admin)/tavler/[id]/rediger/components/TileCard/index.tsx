@@ -53,7 +53,6 @@ function TileCard({
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
-    const [showValidationError, setShowValidationError] = useState(false)
     const { addToast } = useToast()
 
     const submit = async (
@@ -84,13 +83,6 @@ function TileCard({
 
         // If the length of lines equals all the lines, we don't want to include any
         lines = lines.length == count ? [] : lines
-
-        if (lines.length === 0 && count !== null && count > 0) {
-            setShowValidationError(true)
-            return getFormFeedbackForError('board/tiles-no-lines-selected')
-        }
-
-        setShowValidationError(false)
 
         if (isCombined) {
             columns = tile.columns ?? DEFAULT_COLUMNS
@@ -127,7 +119,6 @@ function TileCard({
         setConfirmOpen(false)
         setHasUnsavedChanges(false)
         setIsOpen(false)
-        setShowValidationError(false)
     }
 
     let lines = useLines(tile)
