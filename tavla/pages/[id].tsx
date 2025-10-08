@@ -88,6 +88,8 @@ function BoardPage({
                     <Header
                         theme={updatedBoard.theme}
                         folderLogo={folder?.logo}
+                        hideClock={updatedBoard?.hideClock}
+                        hideLogo={updatedBoard?.hideLogo}
                     />
                     <Board board={updatedBoard} />
                     <InfoMessage
