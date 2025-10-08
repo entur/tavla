@@ -130,33 +130,27 @@ async function safeFetch(
  *
  * @returns A unique tab ID string, or null if initialization fails
  */
-function initializeTabId(): string | null {
+function initializeTabId(): string {
+    if (typeof window === 'undefined') {
+        return safeUuidV4()
+    }
+
     try {
-        let existingId: string | null = null
-
-        // Try to get existing ID from sessionStorage
-        try {
-            existingId = sessionStorage.getItem('tabId')
-        } catch {}
-
-        if (!existingId) {
-            existingId = safeUuidV4()
-            try {
-                sessionStorage.setItem('tabId', existingId)
-            } catch {
-                // Fallback to window property if sessionStorage fails
-                window.__tabId = existingId
-            }
+        const id = sessionStorage.getItem('tabId')
+        if (id) {
+            return id
         }
+    } catch {}
 
-        // Additional fallback check
-        if (!existingId && window.__tabId) {
-            existingId = window.__tabId
-        }
+    const newId = safeUuidV4()
 
-        return existingId
+    try {
+        sessionStorage.setItem('tabId', newId)
+        return newId
     } catch {
-        return null
+        // Fallback til window.__tabId hvis sessionStorage ikke er tilgjengelig
+        window.__tabId = newId
+        return newId
     }
 }
 
@@ -177,19 +171,28 @@ function shouldSkipHeartbeat(): boolean {
     )
 }
 
-/**
- * Collects browser and screen information for heartbeat payload.
- *
- * @returns Object containing screen dimensions and user agent
- */
-function collectBrowserInfo() {
-    return {
-        screenInfo: {
-            width: window?.screen?.width || 0,
-            height: window?.screen?.height || 0,
-        },
-        userAgent: window?.navigator?.userAgent || 'Unknown',
-    }
+function sendHeartbeat(boardId: string, tabId: string) {
+    try {
+        const screenInfo = {
+            width: (window && window.screen && window.screen.width) || 0,
+            height: (window && window.screen && window.screen.height) || 0,
+        }
+        const userAgent =
+            (window && window.navigator && window.navigator.userAgent) ||
+            'Unknown'
+
+        safeFetch(getBackendUrl() + '/heartbeat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+                bid: boardId,
+                tid: tabId,
+                browser: userAgent,
+                screen_width: screenInfo.width,
+                screen_height: screenInfo.height,
+            }),
+        })
+    } catch {}
 }
 
 /**
@@ -201,10 +204,8 @@ function collectBrowserInfo() {
 export function useHeartbeat(board: TBoard) {
     const tabIdRef = useRef<string | null>(null)
 
-    // Initialize tab ID on mount
     useEffect(() => {
         if (typeof window === 'undefined') return
-
         if (tabIdRef.current === null) {
             tabIdRef.current = initializeTabId()
         }
@@ -212,42 +213,19 @@ export function useHeartbeat(board: TBoard) {
 
     // Set up heartbeat interval for active board tracking
     useEffect(() => {
-        if (!board || shouldSkipHeartbeat()) return
+        if (!board || !board.id || shouldSkipHeartbeat() || !tabIdRef.current)
+            return
 
-        let interval: NodeJS.Timeout | undefined
+        sendHeartbeat(board.id, tabIdRef.current)
 
-        function sendHeartbeat() {
-            if (!tabIdRef.current) {
-                if (interval) clearInterval(interval)
-                return
-            }
-
-            try {
-                const { screenInfo, userAgent } = collectBrowserInfo()
-
-                safeFetch(getBackendUrl() + '/heartbeat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({
-                        bid: board.id,
-                        tid: tabIdRef.current,
-                        browser: userAgent,
-                        screen_width: screenInfo.width,
-                        screen_height: screenInfo.height,
-                    }),
-                })
-            } catch {
-                if (interval) clearInterval(interval)
-            }
-        }
-
-        if (tabIdRef.current) {
-            sendHeartbeat()
-            interval = setInterval(sendHeartbeat, 30000)
-        }
+        // Set up interval for subsequent heartbeats
+        const intervalId = setInterval(() => {
+            if (!board || !board.id || !tabIdRef.current) return
+            sendHeartbeat(board.id, tabIdRef.current)
+        }, 30000)
 
         return () => {
-            if (interval) clearInterval(interval)
+            clearInterval(intervalId)
         }
     }, [board])
 }
