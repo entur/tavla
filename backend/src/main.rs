@@ -3,7 +3,7 @@ use std::time::Duration;
 use axum::{
     body::Body,
     extract::{Path, State},
-    http::{Response, StatusCode},
+    http::{HeaderValue, Method, Response, StatusCode},
     routing::{get, post},
     Json, Router,
 };
@@ -122,10 +122,14 @@ async fn main() {
         metrics: metrics.clone(),
     };
 
-    let cors = CorsLayer::new()
-        .allow_origin(Any)
-        .allow_methods(Any)
-        .allow_headers(Any);
+     let cors = CorsLayer::new()
+        .allow_methods([Method::GET, Method::POST])
+        .allow_credentials(true)
+        .allow_origin([
+            "http://localhost:3000".parse::<HeaderValue>().unwrap(),
+            "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
+            "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
+        ]);
 
     let app = Router::new()
         .route("/active", get(active_boards))
