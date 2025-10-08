@@ -2,6 +2,10 @@
 import { Heading2, Heading3 } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import {
+    Elements,
+    ElementSelect,
+} from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/ElementsSelect'
+import {
     getFormFeedbackForField,
     InputType,
     TFormFeedback,
@@ -19,6 +23,13 @@ import { Title } from './components/Title'
 import { TransportPaletteSelect } from './components/TransportPaletteSelect'
 import { ViewType } from './components/ViewType'
 import { WalkingDistance } from './components/WalkingDistance'
+
+const getSelectedElements = (board: TBoard): Elements[] => {
+    const elements: Elements[] = []
+    if (!board.hideClock) elements.push('clock')
+    if (!board.hideLogo) elements.push('logo')
+    return elements
+}
 
 function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
     const [formErrors, setFormErrors] = useState<
@@ -45,7 +56,34 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
             />
             <form className="flex flex-col gap-6 lg:flex-row" ref={formRef}>
                 <div className="box shrink">
-                    <Heading3 margin="bottom"> Generelt </Heading3>
+                    <Heading3 margin="bottom">Tavlevisning </Heading3>
+                    <div className="flex flex-col gap-4">
+                        <ViewType
+                            hasCombinedTiles={
+                                board.combinedTiles ? true : false
+                            }
+                            onChange={submitSettings}
+                        />
+                        <ThemeSelect
+                            theme={board.theme}
+                            onChange={submitSettings}
+                        />
+                        <FontSelect
+                            font={board.meta.fontSize}
+                            onChange={submitSettings}
+                        />
+
+                        <TransportPaletteSelect
+                            transportPalette={board.transportPalette}
+                            theme={board.theme ?? 'dark'}
+                            onChange={submitSettings}
+                        />
+
+                        <HiddenInput id="bid" value={board.id} />
+                    </div>
+                </div>
+                <div className="box md:min-w-[480px]">
+                    <Heading3 margin="bottom"> Tilleggsinformasjon </Heading3>
                     <div className="flex flex-col gap-4">
                         <Title
                             title={board.meta?.title ?? DEFAULT_BOARD_NAME}
@@ -64,32 +102,10 @@ function Settings({ board, folder }: { board: TBoard; folder?: TFolder }) {
                             infoMessage={board.footer}
                             onBlur={submitSettings}
                         />
-                    </div>
-                </div>
-                <div className="box md:min-w-[480px]">
-                    <Heading3 margin="bottom">Tavlevisning </Heading3>
-                    <div className="flex flex-col gap-4">
-                        <ViewType
-                            hasCombinedTiles={
-                                board.combinedTiles ? true : false
-                            }
+                        <ElementSelect
+                            selectedElements={getSelectedElements(board)}
                             onChange={submitSettings}
                         />
-                        <FontSelect
-                            font={board.meta.fontSize}
-                            onChange={submitSettings}
-                        />
-                        <ThemeSelect
-                            theme={board.theme}
-                            onChange={submitSettings}
-                        />
-                        <TransportPaletteSelect
-                            transportPalette={board.transportPalette}
-                            theme={board.theme ?? 'dark'}
-                            onChange={submitSettings}
-                        />
-
-                        <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
             </form>
