@@ -21,7 +21,7 @@ use tokio_util::{sync::CancellationToken, task::TaskTracker};
 mod types;
 
 mod utils;
-use tower_http::cors::{Any, CorsLayer};
+use tower_http::cors::CorsLayer;
 use types::{AppError, AppState, BoardAction, Message};
 use utils::{graceful_shutdown, setup_redis};
 use uuid::Uuid;
@@ -122,7 +122,7 @@ async fn main() {
         metrics: metrics.clone(),
     };
 
-     let cors = CorsLayer::new()
+    let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
         .allow_credentials(true)
         .allow_origin([

@@ -59,28 +59,23 @@ function safeUuidV4(): string {
 }
 
 interface FetchOptions {
-    method?: string
+    method: string
     headers?: Record<string, string>
-    body?: string
+    body: string
 }
 
 type SafeResponse = { ok: boolean; status: number; text: string }
 
-async function safeFetch(
-    url: string,
-    options: FetchOptions,
-): Promise<SafeResponse> {
-    if (typeof fetch !== 'undefined') {
-        return fetch(url, options).then(async (r) => ({
-            ok:
-                typeof r.ok === 'boolean'
-                    ? r.ok
-                    : r.status >= 200 && r.status < 300,
-            status: r.status,
-            text: await r.text(),
-        }))
-    }
-
+/**
+ * Performs an HTTP request using XMLHttpRequest as a fallback when fetch is not available.
+ * This function provides a Promise-based interface similar to fetch() but uses the older XHR API.
+ *
+ * @param url - The URL to send the request to
+ * @param options - Request options including method, headers, and body
+ * @returns A Promise that resolves to a SafeResponse object containing ok status, status code, and response text
+ * @throws Will reject the promise if a network error occurs or if an exception is thrown during the request
+ */
+function xhrFetch(url: string, options: FetchOptions): Promise<SafeResponse> {
     return new Promise((resolve, reject) => {
         try {
             const xhr = new XMLHttpRequest()
@@ -110,50 +105,114 @@ async function safeFetch(
     })
 }
 
+async function safeFetch(
+    url: string,
+    options: FetchOptions,
+): Promise<SafeResponse> {
+    if (typeof fetch !== 'undefined') {
+        return fetch(url, options).then(async (r) => ({
+            ok:
+                typeof r.ok === 'boolean'
+                    ? r.ok
+                    : r.status >= 200 && r.status < 300,
+            status: r.status,
+            text: await r.text(),
+        }))
+    }
+
+    return xhrFetch(url, options)
+}
+
+/**
+ * Initializes and retrieves a unique tab ID for the current browser tab.
+ * Tries to get existing ID from sessionStorage first, then creates a new one if needed.
+ * Falls back to window.__tabId if sessionStorage is not available.
+ *
+ * @returns A unique tab ID string, or null if initialization fails
+ */
+function initializeTabId(): string | null {
+    try {
+        let existingId: string | null = null
+
+        // Try to get existing ID from sessionStorage
+        try {
+            existingId = sessionStorage.getItem('tabId')
+        } catch {}
+
+        if (!existingId) {
+            existingId = safeUuidV4()
+            try {
+                sessionStorage.setItem('tabId', existingId)
+            } catch {
+                // Fallback to window property if sessionStorage fails
+                window.__tabId = existingId
+            }
+        }
+
+        // Additional fallback check
+        if (!existingId && window.__tabId) {
+            existingId = window.__tabId
+        }
+
+        return existingId
+    } catch {
+        return null
+    }
+}
+
+/**
+ * Checks if the current pathname should be excluded from heartbeat tracking.
+ * Admin pages, edit pages, and demo pages are excluded.
+ *
+ * @returns true if heartbeat should be skipped for current path
+ */
+function shouldSkipHeartbeat(): boolean {
+    if (typeof window === 'undefined') return false
+
+    const pathname = window.location.pathname
+    return (
+        pathname.includes('/admin/') ||
+        pathname.includes('/rediger') ||
+        pathname.includes('/demo')
+    )
+}
+
+/**
+ * Collects browser and screen information for heartbeat payload.
+ *
+ * @returns Object containing screen dimensions and user agent
+ */
+function collectBrowserInfo() {
+    return {
+        screenInfo: {
+            width: window?.screen?.width || 0,
+            height: window?.screen?.height || 0,
+        },
+        userAgent: window?.navigator?.userAgent || 'Unknown',
+    }
+}
+
+/**
+ * Custom hook that sends periodic heartbeat signals to track active board viewers.
+ * Automatically handles tab ID generation, excludes admin/edit pages, and manages cleanup.
+ *
+ * @param board - The board object containing the board ID to track
+ */
 export function useHeartbeat(board: TBoard) {
     const tabIdRef = useRef<string | null>(null)
 
+    // Initialize tab ID on mount
     useEffect(() => {
         if (typeof window === 'undefined') return
 
-        try {
-            if (tabIdRef.current === null) {
-                let existingId: string | null = null
-                try {
-                    existingId = sessionStorage.getItem('tabId')
-                } catch {}
-
-                if (!existingId) {
-                    existingId = safeUuidV4()
-                    try {
-                        sessionStorage.setItem('tabId', existingId)
-                    } catch {
-                        window.__tabId = existingId
-                    }
-                }
-
-                if (!existingId && window.__tabId) {
-                    existingId = window.__tabId
-                }
-
-                tabIdRef.current = existingId
-            }
-        } catch {}
+        if (tabIdRef.current === null) {
+            tabIdRef.current = initializeTabId()
+        }
     }, [])
 
+    // Set up heartbeat interval for active board tracking
     useEffect(() => {
-        if (!board) return
-
-        if (typeof window !== 'undefined') {
-            const pathname = window.location.pathname
-            if (
-                pathname.includes('/admin/') ||
-                pathname.includes('/rediger') ||
-                pathname.includes('/demo')
-            ) {
-                return
-            }
-        }
+        if (!board || shouldSkipHeartbeat()) return
 
         let interval: NodeJS.Timeout | undefined
 
@@ -164,17 +223,7 @@ export function useHeartbeat(board: TBoard) {
             }
 
             try {
-                const screenInfo = {
-                    width:
-                        (window && window.screen && window.screen.width) || 0,
-                    height:
-                        (window && window.screen && window.screen.height) || 0,
-                }
-                const userAgent =
-                    (window &&
-                        window.navigator &&
-                        window.navigator.userAgent) ||
-                    'Unknown'
+                const { screenInfo, userAgent } = collectBrowserInfo()
 
                 safeFetch(getBackendUrl() + '/heartbeat', {
                     method: 'POST',
