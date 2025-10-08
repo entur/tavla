@@ -43,7 +43,6 @@ function BoardPage({
     board: TBoard
     folder: TFolder | null
     backend_url: string
-    backend_api_key: string
 }) {
     const updatedBoard = useRefresh(board, backend_url)
 
