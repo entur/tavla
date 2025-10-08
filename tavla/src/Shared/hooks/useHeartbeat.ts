@@ -10,27 +10,50 @@ declare global {
 
 function safeUuidV4(): string {
     try {
-        if (
-            typeof window !== 'undefined' &&
-            window.crypto &&
-            typeof window.crypto.randomUUID === 'function'
-        ) {
-            return window.crypto.randomUUID()
+        if (typeof window !== 'undefined' && window.crypto) {
+            if (typeof window.crypto.randomUUID === 'function') {
+                return window.crypto.randomUUID()
+            }
+
+            if (typeof window.crypto.getRandomValues === 'function') {
+                const bytes = new Uint8Array(16)
+                window.crypto.getRandomValues(bytes)
+                // Format bytes as UUIDv4
+                if (
+                    bytes &&
+                    typeof bytes[6] !== 'undefined' &&
+                    typeof bytes[8] !== 'undefined' &&
+                    bytes.length >= 16
+                ) {
+                    bytes[6] = (bytes[6] & 0x0f) | 0x40
+                    bytes[8] = (bytes[8] & 0x3f) | 0x80
+                    const hex = Array.from(bytes, (b) =>
+                        b.toString(16).padStart(2, '0'),
+                    )
+                    return (
+                        hex.slice(0, 4).join('') +
+                        '-' +
+                        hex.slice(4, 6).join('') +
+                        '-' +
+                        hex.slice(6, 8).join('') +
+                        '-' +
+                        hex.slice(8, 10).join('') +
+                        '-' +
+                        hex.slice(10, 16).join('')
+                    )
+                }
+            }
         }
     } catch {}
 
+    //Fallback for old screens
     const hex = '0123456789abcdef'
     let uuid = ''
     for (let i = 0; i < 36; i++) {
-        if (i === 8 || i === 13 || i === 18 || i === 23) {
-            uuid += '-'
-        } else if (i === 14) {
-            uuid += '4'
-        } else if (i === 19) {
-            uuid += hex[((Math.random() * 4) | 0) + 8]
-        } else {
-            uuid += hex[(Math.random() * 16) | 0]
-        }
+        if (i === 8 || i === 13 || i === 18 || i === 23) uuid += '-'
+        else if (i === 14) uuid += '4'
+        else if (i === 19) uuid += hex[((Math.random() * 4) | 0) + 8]
+        else uuid += hex[(Math.random() * 16) | 0]
     }
     return uuid
 }

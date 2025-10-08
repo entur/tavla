@@ -54,12 +54,6 @@ pub struct ActiveInfo {
     pub screen_height: u32,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct ActiveInfoCount {
-    pub count: usize,
-    pub client: ActiveInfo,
-}
-
 #[tokio::main]
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
@@ -76,7 +70,7 @@ async fn main() {
 
     registry
         .register(Box::new(active_boards_gauge.clone()))
-        .unwrap();
+        .expect("Failed to register metrics");
 
     let metrics = Arc::new(Metrics {
         registry,
@@ -85,7 +79,7 @@ async fn main() {
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
         .await
-        .unwrap();
+        .expect("Failed to bind to address");
 
     let (master, replicas) = setup_redis().await;
 
@@ -102,13 +96,21 @@ async fn main() {
 
             // Update active boards count
             if let Ok(mut connection) = redis_for_metrics.get_multiplexed_async_connection().await {
-                let keys: Vec<String> = redis::cmd("KEYS")
+                match redis::cmd("KEYS")
                     .arg("heartbeat:*")
                     .query_async(&mut connection)
                     .await
-                    .unwrap_or_default();
-
-                metrics_updater.active_boards.set(keys.len() as f64);
+                {
+                    Ok(keys) => {
+                        let keys: Vec<String> = keys;
+                        metrics_updater.active_boards.set(keys.len() as f64);
+                    }
+                    Err(_) => {
+                        eprintln!("Warning: Failed to update metrics from Redis");
+                    }
+                }
+            } else {
+                eprintln!("Warning: Failed to connect to Redis for metrics update");
             }
         }
     });
@@ -143,7 +145,7 @@ async fn main() {
     axum::serve(listener, app)
         .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
         .await
-        .unwrap()
+        .expect("Failed to start server")
 }
 
 async fn reset_active(
@@ -170,12 +172,15 @@ async fn metrics_handler(
     let encoder = TextEncoder::new();
     let metric_families = state.metrics.registry.gather();
     let mut buffer = Vec::new();
-    encoder.encode(&metric_families, &mut buffer).unwrap();
 
-    Ok(Response::builder()
+    if encoder.encode(&metric_families, &mut buffer).is_err() {
+        return Err(StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
+    Response::builder()
         .header("Content-Type", encoder.format_type())
         .body(Body::from(buffer))
-        .unwrap())
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)
 }
 
 #[derive(Serialize, Deserialize)]
@@ -192,7 +197,10 @@ async fn active_boards_heartbeat(
         return Err(StatusCode::UNAUTHORIZED);
     }
 
-    let mut connection = state.replicas.get_multiplexed_async_connection().await
+    let mut connection = state
+        .replicas
+        .get_multiplexed_async_connection()
+        .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
     let keys: Vec<String> = redis::cmd("KEYS")
@@ -202,7 +210,7 @@ async fn active_boards_heartbeat(
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
     let mut clients = Vec::new();
-    
+
     for key in keys {
         if let Ok(val) = connection.clone().get::<_, String>(&key).await {
             if let Ok(client_info) = serde_json::from_str::<ActiveInfo>(&val) {
@@ -230,10 +238,10 @@ async fn active_board_ids(
     State(state): State<AppState>,
 ) -> Result<Response<Body>, AppError> {
     if token != state.key {
-        return Ok(Response::builder()
+        return Response::builder()
             .status(StatusCode::UNAUTHORIZED)
             .body(Body::from(vec![]))
-            .unwrap());
+            .map_err(|_| AppError::from(anyhow::anyhow!("Failed to build response")));
     }
 
     let mut connection = state.replicas.get_multiplexed_async_connection().await?;
@@ -266,10 +274,10 @@ async fn active_boards(
     State(mut state): State<AppState>,
 ) -> Result<Response<Body>, AppError> {
     if token != state.key {
-        return Ok(Response::builder()
+        return Response::builder()
             .status(StatusCode::UNAUTHORIZED)
             .body(Body::from(0.to_string()))
-            .unwrap());
+            .map_err(|_| AppError::from(anyhow::anyhow!("Failed to build response")));
     }
     let active_boards = state.master.get::<&str, i32>("active_boards").await?;
     Ok(Response::new(Body::from(active_boards.to_string())))
