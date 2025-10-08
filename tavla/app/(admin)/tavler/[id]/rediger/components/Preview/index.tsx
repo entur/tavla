@@ -20,7 +20,10 @@ function Preview({ board, folder }: { board: TBoard; folder?: TFolder }) {
             <div className="h-96 md:h-[50rem]">
                 <Board board={board} />
             </div>
-            <InfoMessage board={board} logo={folder?.logo !== undefined} />
+            <InfoMessage
+                board={board}
+                showEnturLogo={folder?.logo !== undefined || board?.hideLogo}
+            />
         </div>
     )
 }

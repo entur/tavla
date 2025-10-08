@@ -4,12 +4,18 @@ import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 import Image from 'next/image'
 import { TBoard, TTheme } from 'types/settings'
 
-function InfoMessage({ board, logo }: { board: TBoard; logo?: boolean }) {
-    if (!logo && !board.footer?.footer) return null
+function InfoMessage({
+    board,
+    showEnturLogo: showEnturLogo,
+}: {
+    board: TBoard
+    showEnturLogo?: boolean
+}) {
+    if (!showEnturLogo && !board.footer?.footer) return null
 
     const EnturLogo = getLogo(board?.theme ?? 'dark')
     return (
-        <footer className="flex min-h-[4vh] flex-row items-center justify-between gap-em-2">
+        <footer className="flex flex-row items-center justify-between gap-em-2">
             <div
                 className={`truncate leading-em-base text-primary ${
                     getFontScale(board.meta?.fontSize) || defaultFontSize(board)
@@ -17,7 +23,7 @@ function InfoMessage({ board, logo }: { board: TBoard; logo?: boolean }) {
             >
                 {board.footer?.footer}
             </div>
-            {logo && (
+            {showEnturLogo && (
                 <Image
                     src={EnturLogo}
                     alt="Entur logo"
