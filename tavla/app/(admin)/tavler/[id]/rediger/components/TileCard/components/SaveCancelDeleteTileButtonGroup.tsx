@@ -1,3 +1,4 @@
+import { SmallAlertBox } from '@entur/alert'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
@@ -18,6 +19,7 @@ function SaveCancelDeleteTileButtonGroup({
     setIsTileOpen,
     setConfirmOpen,
     deleteTile,
+    showValidationError = false,
 }: {
     confirmOpen: boolean
     hasTileChanged: boolean
@@ -25,6 +27,7 @@ function SaveCancelDeleteTileButtonGroup({
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (confirmOpen: boolean) => void
     deleteTile: (boardId: string, tile: TTile, demoBoard?: TBoard) => void
+    showValidationError?: boolean
 }) {
     const tile = useNonNullContext(TileContext)
     return (
@@ -48,6 +51,11 @@ function SaveCancelDeleteTileButtonGroup({
                     isWideScreen={false}
                     deleteTile={deleteTile}
                 />
+                {showValidationError && (
+                    <SmallAlertBox variant="warning">
+                        Du må velge en eller flere linjer for å lagre
+                    </SmallAlertBox>
+                )}
             </div>
 
             <Modal

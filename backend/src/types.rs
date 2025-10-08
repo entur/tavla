@@ -15,6 +15,7 @@ pub struct AppState {
     pub master: MultiplexedConnection,
     pub replicas: Client,
     pub key: String,
+    pub metrics: std::sync::Arc<crate::Metrics>,
 }
 
 #[derive(Serialize)]

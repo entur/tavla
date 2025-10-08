@@ -22,7 +22,7 @@
         "postinstall": "cd .. && husky install ./.husky"
     },
     "dependencies": {
-        "@entur/alert": "0.16.19",
+        "@entur/alert": "0.17.14",
         "@entur/button": "3.2.34",
         "@entur/chip": "0.7.23",
         "@entur/dropdown": "7.3.6",
@@ -60,7 +60,8 @@
         "react-dom": "18.3.1",
         "react-google-button": "0.8.0",
         "sharp": "0.33.5",
-        "swr": "2.2.5"
+        "swr": "2.2.5",
+        "uuid": "13.0.0"
     },
     "devDependencies": {
         "@eslint/eslintrc": "3.2.0",
@@ -75,6 +76,7 @@
         "@types/react": "19.0.12",
         "@types/react-dom": "19.0.4",
         "@types/semver": "7.5.8",
+        "@types/uuid": "11.0.0",
         "@typescript-eslint/eslint-plugin": "8.12.2",
         "@typescript-eslint/parser": "8.12.2",
         "autoprefixer": "10.4.20",

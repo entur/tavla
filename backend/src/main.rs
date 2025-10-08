@@ -3,12 +3,13 @@ use std::time::Duration;
 use axum::{
     body::Body,
     extract::{Path, State},
-    http::{HeaderValue, Method, Response, StatusCode},
+    http::{Response, StatusCode},
     routing::{get, post},
     Json, Router,
 };
 
 use axum_auth::AuthBearer;
+use prometheus::{Encoder, Gauge, Registry, TextEncoder};
 use serde_json::{json, to_string, Value};
 use tokio::{net::TcpListener, time};
 
@@ -20,11 +21,38 @@ use tokio_util::{sync::CancellationToken, task::TaskTracker};
 mod types;
 
 mod utils;
-use tower_http::cors::CorsLayer;
+use tower_http::cors::{Any, CorsLayer};
 use types::{AppError, AppState, BoardAction, Message};
 use utils::{graceful_shutdown, setup_redis};
+use uuid::Uuid;
 
 use crate::types::Guard;
+
+use serde::{Deserialize, Serialize};
+use std::sync::Arc;
+
+#[derive(Clone)]
+pub struct Metrics {
+    pub registry: Registry,
+    pub active_boards: Gauge,
+}
+
+#[derive(Serialize, Deserialize)]
+struct HeartbeatPayload {
+    bid: String,
+    tid: Uuid,
+    browser: String,
+    screen_width: u32,
+    screen_height: u32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ActiveInfo {
+    pub bid: String,
+    pub browser: String,
+    pub screen_width: u32,
+    pub screen_height: u32,
+}
 
 #[tokio::main]
 async fn main() {
@@ -32,29 +60,72 @@ async fn main() {
     let port = std::env::var("PORT").unwrap_or("3000".to_string());
     let key = std::env::var("BACKEND_API_KEY").expect("Expected to find api key");
 
+    // Setup Prometheus metrics
+    let registry = Registry::new();
+    let active_boards_gauge = Gauge::new(
+        "tavla_active_sessions_current",
+        "Number of currently active tavla sessions/tabs with heartbeats",
+    )
+    .expect("Failed to create active_sessions metric");
+
+    registry
+        .register(Box::new(active_boards_gauge.clone()))
+        .expect("Failed to register metrics");
+
+    let metrics = Arc::new(Metrics {
+        registry,
+        active_boards: active_boards_gauge,
+    });
+
     let listener = TcpListener::bind(format!("{}:{}", host, port))
         .await
-        .unwrap();
+        .expect("Failed to bind to address");
 
     let (master, replicas) = setup_redis().await;
 
     let runtime_status = CancellationToken::new();
     let task_tracker = TaskTracker::new();
 
+    // Start background task to update metrics regularly
+    let metrics_updater = metrics.clone();
+    let redis_for_metrics = replicas.clone();
+    task_tracker.spawn(async move {
+        let mut interval = tokio::time::interval(Duration::from_secs(30));
+        loop {
+            interval.tick().await;
+
+            // Update active boards count
+            if let Ok(mut connection) = redis_for_metrics.get_multiplexed_async_connection().await {
+                match redis::cmd("KEYS")
+                    .arg("heartbeat:*")
+                    .query_async(&mut connection)
+                    .await
+                {
+                    Ok(keys) => {
+                        let keys: Vec<String> = keys;
+                        metrics_updater.active_boards.set(keys.len() as f64);
+                    }
+                    Err(_) => {
+                        eprintln!("Warning: Failed to update metrics from Redis");
+                    }
+                }
+            } else {
+                eprintln!("Warning: Failed to connect to Redis for metrics update");
+            }
+        }
+    });
+
     let redis_clients = AppState {
         master,
         replicas,
         key,
+        metrics: metrics.clone(),
     };
 
     let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST])
-        .allow_credentials(true)
-        .allow_origin([
-            "http://localhost:3000".parse::<HeaderValue>().unwrap(),
-            "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
-            "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
-        ]);
+        .allow_origin(Any)
+        .allow_methods(Any)
+        .allow_headers(Any);
 
     let app = Router::new()
         .route("/active", get(active_boards))
@@ -65,13 +136,16 @@ async fn main() {
         .route("/alive", get(check_health))
         .route("/reset", post(reset_active))
         .route("/active/bids", get(active_board_ids))
+        .route("/heartbeat", post(heartbeat))
+        .route("/metrics", get(metrics_handler))
+        .route("/heartbeat/active", get(active_boards_heartbeat))
         .with_state(redis_clients)
         .layer(cors);
 
     axum::serve(listener, app)
         .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
         .await
-        .unwrap()
+        .expect("Failed to start server")
 }
 
 async fn reset_active(
@@ -87,6 +161,70 @@ async fn reset_active(
     Ok(StatusCode::OK)
 }
 
+async fn metrics_handler(
+    AuthBearer(token): AuthBearer,
+    State(state): State<AppState>,
+) -> Result<Response<Body>, StatusCode> {
+    if token != state.key {
+        return Err(StatusCode::UNAUTHORIZED);
+    }
+
+    let encoder = TextEncoder::new();
+    let metric_families = state.metrics.registry.gather();
+    let mut buffer = Vec::new();
+
+    if encoder.encode(&metric_families, &mut buffer).is_err() {
+        return Err(StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
+    Response::builder()
+        .header("Content-Type", encoder.format_type())
+        .body(Body::from(buffer))
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct HeartbeatResponse {
+    pub count: usize,
+    pub clients: Vec<ActiveInfo>,
+}
+
+async fn active_boards_heartbeat(
+    AuthBearer(token): AuthBearer,
+    State(state): State<AppState>,
+) -> Result<Json<HeartbeatResponse>, StatusCode> {
+    if token != state.key {
+        return Err(StatusCode::UNAUTHORIZED);
+    }
+
+    let mut connection = state
+        .replicas
+        .get_multiplexed_async_connection()
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    let keys: Vec<String> = redis::cmd("KEYS")
+        .arg("heartbeat:*")
+        .query_async(&mut connection)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    let mut clients = Vec::new();
+
+    for key in keys {
+        if let Ok(val) = connection.clone().get::<_, String>(&key).await {
+            if let Ok(client_info) = serde_json::from_str::<ActiveInfo>(&val) {
+                clients.push(client_info);
+            }
+        }
+    }
+
+    Ok(Json(HeartbeatResponse {
+        count: clients.len(),
+        clients,
+    }))
+}
+
 async fn check_health(State(mut state): State<AppState>) -> Result<StatusCode, AppError> {
     if !state.replicas.check_connection() {
         return Ok(StatusCode::INTERNAL_SERVER_ERROR);
@@ -100,10 +238,10 @@ async fn active_board_ids(
     State(state): State<AppState>,
 ) -> Result<Response<Body>, AppError> {
     if token != state.key {
-        return Ok(Response::builder()
+        return Response::builder()
             .status(StatusCode::UNAUTHORIZED)
             .body(Body::from(vec![]))
-            .unwrap());
+            .map_err(|_| AppError::from(anyhow::anyhow!("Failed to build response")));
     }
 
     let mut connection = state.replicas.get_multiplexed_async_connection().await?;
@@ -136,10 +274,10 @@ async fn active_boards(
     State(mut state): State<AppState>,
 ) -> Result<Response<Body>, AppError> {
     if token != state.key {
-        return Ok(Response::builder()
+        return Response::builder()
             .status(StatusCode::UNAUTHORIZED)
             .body(Body::from(0.to_string()))
-            .unwrap());
+            .map_err(|_| AppError::from(anyhow::anyhow!("Failed to build response")));
     }
     let active_boards = state.master.get::<&str, i32>("active_boards").await?;
     Ok(Response::new(Body::from(active_boards.to_string())))
@@ -218,4 +356,20 @@ async fn subscribe(
     };
 
     Ok(res)
+}
+
+async fn heartbeat(State(state): State<AppState>, body: String) -> Result<StatusCode, AppError> {
+    let payload: HeartbeatPayload = serde_json::from_str(&body)?;
+
+    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
+    let value = serde_json::to_string(&ActiveInfo {
+        bid: payload.bid,
+        browser: payload.browser,
+        screen_width: payload.screen_width,
+        screen_height: payload.screen_height,
+    })?;
+
+    let mut connection = state.master.clone();
+    let _: () = connection.set_ex(key, value, 60).await?;
+    Ok(StatusCode::OK)
 }
