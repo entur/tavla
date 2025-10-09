@@ -1,33 +1,49 @@
-# Backend – lokal kjøring og arkitektur
+# Run instructions
 
-Kort: Denne backend-tjenesten eksponerer enkle endepunkter for å trigge og distribuere oppdateringer (refresh/update) til tavler via Redis pub/sub og long-polling (/subscribe). Ingen persistens utover Redis, og minimal logikk (tynt mellomlag).
+## Quick Start (Recommended)
 
----
+For the fastest setup on macOS:
 
-## Hurtigstart
+```sh
+# Start Redis master/replica
+./start-redis.sh
 
-For deg som bare vil kjøre lokalt raskt (for utvikling mot frontend):
+# Run the backend
+./run-local.sh
 
-1. Installer Rust (anbefaler installering og administrering gjennom rustup) og Redis (Last ned Redis her: [Redis – kom i gang](https://redis.io/docs/latest/get-started/))
-2. Start to Redis-instanser (master på 6379, replica på 6380) med passord
-3. Eksporter miljøvariabler (se tabell)
-4. `cargo run` i `backend/`
-5. Test: `curl localhost:3001/alive` og `curl localhost:3001/active -H "Authorization: Bearer super_secret_key"`
-6. Endre frontend `getBackendUrl()` midlertidig til `http://127.0.0.1:3001` og sett `.env.local` med `BACKEND_API_KEY`
+# Test the API
+curl localhost:3001/active -H "Authorization: Bearer super_secret_key"
+```
 
-Detaljer under dersom noe feiler.
+To stop everything:
+```sh
+./stop-redis.sh
+```
 
----
+## Manual Setup
 
-## Detaljert oppsett av Redis (master/replica lokalt)
-Siden vi kjører stacken på Kubernetes i produksjon trenger vi lokalt å simulere en master/replica-struktur. (Du kan også kjøre alt i et lokalt Kubernetes-kluster som Minikube hvis du ønsker.)
+### Install Rust
 
-Vi simulerer produksjonsmiljøets master/replica:
+The recommended way to install and manage Rust is with the rustup tool:
 
-1. Start master-instansen. Når du kjører `redis-server` med `-` som input leses konfigurasjon fra stdin. Vi må sette passord for både master og replica.
-    ```sh
-    redis-server -
-    ```
+```sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+### Install Redis
+
+The code depends on Redis. Download Redis here:
+[Redis](https://redis.io/docs/latest/get-started/)
+
+### Start Redis
+
+Since we run our stack on Kubernetes we need to mock a master/replica structure locally (You could run the stack in its entirity on a local Kubernetes cluster, like Minikube. Do this on your own discretion)
+
+First, start the master instance. Executing the `redis-server` command with `-` as an input will put us in a state where we are reading configurations directly from stdin. We need to set the password for both the master and the replicas.
+
+```sh
+redis-server -
+```
 
     
 

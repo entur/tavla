@@ -9,7 +9,9 @@ edition = "2021"
 anyhow = "1.0.86"
 axum = {version = "0.7.4", features = ["ws", "macros"]}
 axum-auth = { version = "0.7.0", default-features= false, features = ["auth-bearer"] }
+futures = "0.3.31"
 futures-util = "0.3.30"
+prometheus = "0.13"
 redis = {version = "0.26.1", features = ["tokio-comp", "aio", "json"]}
 serde = {version = "1.0.199", features = ["derive"]}
 serde_json = "1.0.116"
@@ -17,3 +19,4 @@ tokio = { version = "1.36.0", features = ["macros", "rt","rt-multi-thread", "sig
 tokio-stream = "0.1.15"
 tokio-util = {version = "0.7.11", features = ["rt"]}
 tower-http = { version = "0.5.2", features = ["cors"] }
+uuid = { version = "1.18.1", features = ["serde"] }
