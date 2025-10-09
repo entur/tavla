@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { TBoard } from 'types/settings'
-import { getBackendUrl } from 'utils/index'
 
 declare global {
     interface Window {
@@ -171,7 +170,7 @@ function shouldSkipHeartbeat(): boolean {
     )
 }
 
-function sendHeartbeat(boardId: string, tabId: string) {
+function sendHeartbeat(boardId: string, tabId: string, backend_url: string) {
     try {
         const screenInfo = {
             width: (window && window.screen && window.screen.width) || 0,
@@ -181,7 +180,7 @@ function sendHeartbeat(boardId: string, tabId: string) {
             (window && window.navigator && window.navigator.userAgent) ||
             'Unknown'
 
-        safeFetch(getBackendUrl() + '/heartbeat', {
+        safeFetch(backend_url + '/heartbeat', {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain' },
             body: JSON.stringify({
@@ -201,7 +200,7 @@ function sendHeartbeat(boardId: string, tabId: string) {
  *
  * @param board - The board object containing the board ID to track
  */
-export function useHeartbeat(board: TBoard) {
+export function useHeartbeat(board: TBoard, backend_url: string) {
     const tabIdRef = useRef<string | null>(null)
 
     useEffect(() => {
@@ -216,16 +215,16 @@ export function useHeartbeat(board: TBoard) {
         if (!board || !board.id || shouldSkipHeartbeat() || !tabIdRef.current)
             return
 
-        sendHeartbeat(board.id, tabIdRef.current)
+        sendHeartbeat(board.id, tabIdRef.current, backend_url)
 
         // Set up interval for subsequent heartbeats
         const intervalId = setInterval(() => {
             if (!board || !board.id || !tabIdRef.current) return
-            sendHeartbeat(board.id, tabIdRef.current)
+            sendHeartbeat(board.id, tabIdRef.current, backend_url)
         }, 30000)
 
         return () => {
             clearInterval(intervalId)
         }
-    }, [board])
+    }, [board, backend_url])
 }

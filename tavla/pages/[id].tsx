@@ -46,7 +46,7 @@ function BoardPage({
 }) {
     const updatedBoard = useRefresh(board, backend_url)
 
-    useHeartbeat(board)
+    useHeartbeat(board, backend_url)
 
     const title = updatedBoard.meta?.title
         ? updatedBoard.meta.title + ' | Entur tavla'
