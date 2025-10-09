@@ -22,7 +22,7 @@ function Header({
     if (hideClock && hideLogo) return null
 
     return (
-        <div className="flex flex-row items-center justify-between gap-em-3">
+        <div className="mb-em-0.25 flex flex-row items-center justify-between gap-em-3">
             <div className="relative h-full w-full">
                 {!hideLogo && (
                     <Image

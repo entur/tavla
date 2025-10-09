@@ -319,7 +319,6 @@
         min-height: 100vh;
         box-sizing: inherit;
         font-size: 3vmin;
-        padding: 0 1em;
         background-color: var(--main-background-color);
     }
 
@@ -328,9 +327,8 @@
         flex-direction: column;
         height: 100vh;
         width: 100%;
-        gap: 0.75em;
         overflow: hidden;
-        padding: 1em 0;
+        padding: 1em;
     }
 
     @supports not (gap: 0.75em) {

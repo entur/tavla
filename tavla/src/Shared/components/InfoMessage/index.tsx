@@ -27,7 +27,7 @@ function InfoMessage({
                 <Image
                     src={EnturLogo}
                     alt="Entur logo"
-                    className="ml-4 h-[20px] w-[70px] object-contain md:h-[40px] md:w-[200px]"
+                    className="ml-4 mt-4 h-[20px] w-[70px] object-contain md:h-[25px] md:w-[200px]"
                 />
             )}
         </footer>
