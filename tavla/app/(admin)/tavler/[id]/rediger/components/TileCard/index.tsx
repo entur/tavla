@@ -8,7 +8,13 @@ import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { TileContext } from 'Board/scenarios/Table/contexts'
 import { TransportIcon } from 'components/TransportIcon'
 import { uniqBy } from 'lodash'
-import { Dispatch, SetStateAction, useActionState, useState } from 'react'
+import {
+    Dispatch,
+    SetStateAction,
+    startTransition,
+    useActionState,
+    useState,
+} from 'react'
 import { DEFAULT_COLUMNS, TColumn } from 'types/column'
 import { TLocation } from 'types/meta'
 import { TBoard, TBoardID } from 'types/settings'
@@ -70,6 +76,11 @@ function TileCard({
         for (const line of data.values()) {
             lines.push(line as string)
         }
+
+        if (lines.length === 0 && count !== null && count > 0) {
+            return getFormFeedbackForError('board/tiles-no-lines-selected')
+        }
+
         // If the length of lines equals all the lines, we don't want to include any
         lines = lines.length == count ? [] : lines
 
@@ -79,7 +90,7 @@ function TileCard({
 
         const newTile = {
             ...tile,
-            columns: columns,
+            columns,
             whitelistedLines: lines,
             ...(address && {
                 walkingDistance: {
@@ -90,15 +101,19 @@ function TileCard({
             displayName: displayName.substring(0, 50) || undefined,
         } as TTile
 
-        if (bid === 'demo') {
-            saveTileToDemoBoard(newTile)
-        } else {
-            saveTile(bid, newTile)
+        try {
+            if (bid === 'demo') {
+                saveTileToDemoBoard(newTile)
+            } else {
+                await saveTile(bid, newTile)
+            }
+            reset()
+        } catch {
+            return getFormFeedbackForError('board/tiles-save-failed')
         }
-
-        reset()
     }
-    const [state, action] = useActionState(submit, undefined)
+
+    const [state, runAction] = useActionState(submit, undefined)
 
     const reset = () => {
         setConfirmOpen(false)
@@ -186,6 +201,7 @@ function TileCard({
                         moveItem={moveItem}
                     />
                 </div>
+
                 <BaseExpand open={isOpen}>
                     <div
                         className={`mr-14 bg-blue10 px-6 py-4 ${
@@ -194,7 +210,13 @@ function TileCard({
                     >
                         <form
                             id={tile.uuid}
-                            action={action}
+                            onSubmit={(e) => {
+                                e.preventDefault()
+                                const fd = new FormData(e.currentTarget)
+                                startTransition(() => {
+                                    runAction(fd)
+                                })
+                            }}
                             onInput={() => setHasUnsavedChanges(true)}
                         >
                             <SetStopPlaceName
@@ -213,6 +235,7 @@ function TileCard({
                                 resetTile={reset}
                                 setIsTileOpen={setIsOpen}
                                 setConfirmOpen={setConfirmOpen}
+                                validation={state}
                                 deleteTile={() =>
                                     bid === 'demo'
                                         ? deleteTileDemoBoard()
@@ -228,4 +251,5 @@ function TileCard({
         </div>
     )
 }
+
 export { TileCard }
