@@ -166,13 +166,8 @@ async fn reset_active(
 }
 
 async fn metrics_handler(
-    AuthBearer(token): AuthBearer,
     State(state): State<AppState>,
 ) -> Result<Response<Body>, StatusCode> {
-    if token != state.key {
-        return Err(StatusCode::UNAUTHORIZED);
-    }
-
     let encoder = TextEncoder::new();
     let metric_families = state.metrics.registry.gather();
     let mut buffer = Vec::new();
