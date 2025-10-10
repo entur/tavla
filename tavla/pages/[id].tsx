@@ -91,11 +91,15 @@ function BoardPage({
                     <Header
                         theme={updatedBoard.theme}
                         folderLogo={folder?.logo}
+                        hideClock={updatedBoard?.hideClock}
+                        hideLogo={updatedBoard?.hideLogo}
                     />
                     <Board board={updatedBoard} />
                     <InfoMessage
                         board={updatedBoard}
-                        logo={folder?.logo !== undefined}
+                        showEnturLogo={
+                            folder?.logo !== undefined || updatedBoard?.hideLogo
+                        }
                     />
                 </div>
             </div>
