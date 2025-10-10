@@ -50,6 +50,9 @@ export async function saveSettings(data: FormData) {
     const newFolder = data.get('newOid') as TFolderID | undefined
     const oldFolder = data.get('oldOid') as TFolderID | undefined
 
+    const hideClock = data.get('clock') === null
+    const hideLogo = data.get('logo') === null
+
     let location: TLocation | undefined | string = data.get(
         'newLocation',
     ) as string
@@ -88,6 +91,7 @@ export async function saveSettings(data: FormData) {
         await setViewType(board, viewType)
         await setFooter(bid, { footer })
         await setTransportPalette(bid, transportPalette)
+        await setElements(bid, hideClock, hideLogo)
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
@@ -331,6 +335,34 @@ async function setTransportPalette(
                 message: 'Error while updating transport palette',
                 boardID: bid,
                 newTransportPalette: transportPalette,
+            },
+        })
+        return handleError(error)
+    }
+}
+
+async function setElements(
+    bid: TBoardID,
+    hideClock: boolean,
+    hideLogo: boolean,
+) {
+    userHasAccessToEditBoard(bid)
+
+    try {
+        await firestore().collection('boards').doc(bid).update({
+            hideClock: hideClock,
+            hideLogo: hideLogo,
+            'meta.dateModified': Date.now(),
+        })
+
+        revalidatePath(`/tavler/${bid}/rediger`)
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while updating visible elements',
+                boardID: bid,
+                hideClock: hideClock,
+                hideLogo: hideLogo,
             },
         })
         return handleError(error)
