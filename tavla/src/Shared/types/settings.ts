@@ -15,6 +15,8 @@ export type TBoard = {
     theme?: TTheme
     footer?: TFooter
     transportPalette?: TTransportPalette
+    hideLogo?: boolean
+    hideClock?: boolean
 }
 
 export type TBoardWithFolder = {
