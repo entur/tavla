@@ -60,7 +60,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             </EnturLink>
                         </div>
                         <div>
-                            <EnturLink href="/help" as={Link}>
+                            <EnturLink href="/hjelp" as={Link}>
                                 Ofte stilte spørsmål
                             </EnturLink>
                         </div>
@@ -79,7 +79,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 <DeleteAccount />
                             </div>
                         )}
-                        <EnturLink as={Link} href="/privacy">
+                        <EnturLink as={Link} href="/personvern">
                             Personvernerklæring
                         </EnturLink>
                         <EnturLink onClick={showUserCentricsUI}>
