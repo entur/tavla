@@ -30,7 +30,7 @@ function Board({ board }: { board: TBoard }) {
         <div
             data-transport-palette={board.transportPalette}
             data-theme={board.theme}
-            className={`grid h-full grid-cols-auto-fit-minmax gap-2.5 overflow-hidden supports-[not(display:grid)]:flex supports-[not(display:grid)]:*:m-2.5 max-sm:overflow-y-scroll ${getFontScale(
+            className={`flex h-full flex-col gap-2.5 overflow-hidden max-sm:overflow-y-scroll xl:flex-row ${getFontScale(
                 board.meta?.fontSize || defaultFontSize(board),
             )} `}
         >
