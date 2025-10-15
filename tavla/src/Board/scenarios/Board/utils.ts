@@ -7,7 +7,7 @@ import { TBoard } from 'types/settings'
 export function getFontScale(fontSize: TFontSize | undefined) {
     switch (fontSize) {
         case 'small':
-            return 'text-em-sm'
+            return 'text-em-xs'
         case 'medium':
             return 'text-em-base'
         case 'large':
