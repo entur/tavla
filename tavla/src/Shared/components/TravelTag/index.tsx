@@ -43,7 +43,7 @@ function TravelTag({
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
-            className={`flex h-full w-full items-center justify-between rounded-sm pl-2 font-bold ${travelTagBackround}`}
+            className={`flex h-full w-full items-center justify-between rounded-sm pl-2 ${travelTagBackround}`}
         >
             <TransportIcon
                 className={`h-em-2 w-em-2 ${iconPublicCodeColor}`}
