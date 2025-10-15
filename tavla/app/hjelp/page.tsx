@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: 'Ofte stilte spørsmål | Entur Tavla',
 }
 
-function Help() {
+function Hjelp() {
     return (
         <main>
             <div className="bg-secondary">
@@ -79,4 +79,4 @@ function Help() {
     )
 }
 
-export default Help
+export default Hjelp

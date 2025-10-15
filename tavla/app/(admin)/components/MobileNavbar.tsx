@@ -79,12 +79,12 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                         )}
 
                         <SideNavigationItem
-                            active={pathname?.includes('/help')}
+                            active={pathname?.includes('/hjelp')}
                             onClick={async () => {
                                 setIsOpen(false)
                             }}
                             as={Link}
-                            href="/help"
+                            href="/hjelp"
                             className="!text-primary"
                         >
                             Ofte stilte spørsmål

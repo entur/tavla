@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: 'Personvern | Entur Tavla',
 }
 
-function Privacy() {
+function Personvern() {
     return (
         <>
             <main className="container pb-10">
@@ -58,4 +58,4 @@ function Privacy() {
     )
 }
 
-export default Privacy
+export default Personvern
