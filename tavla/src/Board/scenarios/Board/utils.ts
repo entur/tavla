@@ -9,7 +9,7 @@ export function getFontScale(fontSize: TFontSize | undefined) {
         case 'small':
             return 'text-em-xs'
         case 'medium':
-            return 'text-em-base'
+            return 'text-em-sm'
         case 'large':
             return 'text-em-lg'
         default:
