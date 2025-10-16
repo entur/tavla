@@ -38,7 +38,7 @@ function SetOffsetDepartureTime({ address }: { address?: TLocation }) {
                     type="number"
                     min={0}
                     className="!w-full md:!w-1/2 lg:!w-1/4"
-                    clearable
+                    clearable={!offsetBasedOnWalkingDistance}
                     onClear={() => {
                         setOffset('')
                     }}
