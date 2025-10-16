@@ -59,7 +59,8 @@ function Hjelp() {
                             src="https://www.kakadu.no/entur/slik-logger-du-inn-og-oppretter-en-tavle/embed"
                             loading="lazy"
                             width="100%"
-                            height="660px"
+                            height="690px"
+                            className="overflow-hidden"
                         ></iframe>
                     </div>
                 </div>
