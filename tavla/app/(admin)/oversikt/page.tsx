@@ -21,7 +21,7 @@ async function FoldersAndBoardsPage() {
     if (!user) redirect('/')
 
     const folders = await getFoldersForUser()
-    const privateBoards = await getPrivateBoardsForUser()
+    const privateBoards = await getPrivateBoardsForUser(folders)
     const boardCountInFolder = folders.map((folder) => folder.boardCount)
 
     const elementsListCount = privateBoards.length + folders.length
