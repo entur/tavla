@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { TBoard } from 'types/settings'
 
+const HEARTBEAT_INTERVAL_MS = 60000 // 1 minute - how often to send heartbeat
+
 declare global {
     interface Window {
         __tabId?: string
@@ -221,7 +223,7 @@ export function useHeartbeat(board: TBoard, backend_url: string) {
         const intervalId = setInterval(() => {
             if (!board || !board.id || !tabIdRef.current) return
             sendHeartbeat(board.id, tabIdRef.current, backend_url)
-        }, 30000)
+        }, HEARTBEAT_INTERVAL_MS)
 
         return () => {
             clearInterval(intervalId)
