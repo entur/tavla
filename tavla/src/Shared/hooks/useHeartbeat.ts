@@ -221,7 +221,7 @@ export function useHeartbeat(board: TBoard, backend_url: string) {
         const intervalId = setInterval(() => {
             if (!board || !board.id || !tabIdRef.current) return
             sendHeartbeat(board.id, tabIdRef.current, backend_url)
-        }, 30000)
+        }, 60000) // 1 minute
 
         return () => {
             clearInterval(intervalId)

@@ -90,7 +90,7 @@ async fn main() {
     let metrics_updater = metrics.clone();
     let redis_for_metrics = replicas.clone();
     task_tracker.spawn(async move {
-        let mut interval = tokio::time::interval(Duration::from_secs(30));
+        let mut interval = tokio::time::interval(Duration::from_secs(600)); // 10 minutes 
         loop {
             interval.tick().await;
 
@@ -349,7 +349,7 @@ async fn subscribe(
                 }
             }
         }
-        () = time::sleep(Duration::from_secs(55)) => {
+        () = time::sleep(Duration::from_secs(90)) => {
             Message::Timeout
         }
     };
@@ -369,6 +369,6 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
     })?;
 
     let mut connection = state.master.clone();
-    let _: () = connection.set_ex(key, value, 60).await?;
+    let _: () = connection.set_ex(key, value, 120).await?;
     Ok(StatusCode::OK)
 }
