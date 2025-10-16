@@ -42,9 +42,9 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                         </TopNavigationItem>
                     )}
                     <TopNavigationItem
-                        active={pathname?.includes('/help')}
+                        active={pathname?.includes('/hjelp')}
                         as={Link}
-                        href="/help"
+                        href="/hjelp"
                         className="hidden flex-col !text-primary md:flex"
                     >
                         Ofte stilte spørsmål
