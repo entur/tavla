@@ -54,8 +54,6 @@
         "nanoid": "5.0.9",
         "next": "15.2.3",
         "posthog-js": "1.234.7",
-        "prettier-plugin-organize-imports": "4.2.0",
-        "prettier-plugin-tailwindcss": "0.6.12",
         "react": "18.3.1",
         "react-dom": "18.3.1",
         "react-google-button": "0.8.0",
@@ -88,6 +86,8 @@
         "husky": "9.1.6",
         "postcss": "8.4.47",
         "prettier": "3.3.3",
+        "prettier-plugin-organize-imports": "4.2.0",
+        "prettier-plugin-tailwindcss": "0.7.0",
         "tailwindcss": "3.4.14",
         "typescript": "5.6.3"
     },
