@@ -57,6 +57,7 @@ function Move({ board }: { board: TBoard }) {
                     setError(undefined)
                     setIsOpen(false)
                 }}
+                style={{ overflow: 'visible' }}
                 closeLabel="Avbryt sletting"
             >
                 <Heading3 margin="bottom" as="h1">
