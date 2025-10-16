@@ -24,7 +24,7 @@ function Destination() {
                         key={destination.key}
                         className="flex align-middle"
                     >
-                        <div className="line-clamp-2 overflow-ellipsis hyphens-auto text-em-xl2 leading-em-base">
+                        <div className="line-clamp-1 overflow-ellipsis hyphens-auto text-em-xl2 leading-em-base">
                             {destination.via
                                 ? `${destination.destination} via ${destination.via}`
                                 : destination.destination}
