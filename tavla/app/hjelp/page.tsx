@@ -55,12 +55,12 @@ function Hjelp() {
                         avgangstavle.
                     </Paragraph>
                     <div className="flex flex-col">
-                        <EnturLink
-                            external
-                            href="https://www.kakadu.no/entur/slik-logger-du-inn-og-oppretter-en-tavle"
-                        >
-                            Guide: Lag en avgangstavle
-                        </EnturLink>
+                        <iframe
+                            src="https://www.kakadu.no/entur/slik-logger-du-inn-og-oppretter-en-tavle/embed"
+                            loading="lazy"
+                            width="100%"
+                            height="580px"
+                        ></iframe>
                     </div>
                 </div>
                 <div>
