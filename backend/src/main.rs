@@ -8,6 +8,11 @@ use axum::{
     Json, Router,
 };
 
+// Timing constants
+const METRICS_UPDATE_INTERVAL_SECS: u64 = 600; // 10 minutes - how often to update Prometheus metrics
+const SUBSCRIBE_TIMEOUT_SECS: u64 = 90; // 1.5 minutes - max wait time for subscribe connections
+const HEARTBEAT_TTL_SECS: u64 = 120; // 2 minutes - how long heartbeats are stored in Redis
+
 use axum_auth::AuthBearer;
 use prometheus::{Encoder, Gauge, Registry, TextEncoder};
 use serde_json::{json, to_string, Value};
@@ -90,7 +95,7 @@ async fn main() {
     let metrics_updater = metrics.clone();
     let redis_for_metrics = replicas.clone();
     task_tracker.spawn(async move {
-        let mut interval = tokio::time::interval(Duration::from_secs(30));
+        let mut interval = tokio::time::interval(Duration::from_secs(METRICS_UPDATE_INTERVAL_SECS));
         loop {
             interval.tick().await;
 
@@ -165,14 +170,7 @@ async fn reset_active(
     Ok(StatusCode::OK)
 }
 
-async fn metrics_handler(
-    AuthBearer(token): AuthBearer,
-    State(state): State<AppState>,
-) -> Result<Response<Body>, StatusCode> {
-    if token != state.key {
-        return Err(StatusCode::UNAUTHORIZED);
-    }
-
+async fn metrics_handler(State(state): State<AppState>) -> Result<Response<Body>, StatusCode> {
     let encoder = TextEncoder::new();
     let metric_families = state.metrics.registry.gather();
     let mut buffer = Vec::new();
@@ -354,7 +352,7 @@ async fn subscribe(
                 }
             }
         }
-        () = time::sleep(Duration::from_secs(55)) => {
+        () = time::sleep(Duration::from_secs(SUBSCRIBE_TIMEOUT_SECS)) => {
             Message::Timeout
         }
     };
@@ -374,6 +372,6 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
     })?;
 
     let mut connection = state.master.clone();
-    let _: () = connection.set_ex(key, value, 60).await?;
+    let _: () = connection.set_ex(key, value, HEARTBEAT_TTL_SECS).await?;
     Ok(StatusCode::OK)
 }
