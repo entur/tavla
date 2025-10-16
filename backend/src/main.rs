@@ -90,7 +90,7 @@ async fn main() {
     let metrics_updater = metrics.clone();
     let redis_for_metrics = replicas.clone();
     task_tracker.spawn(async move {
-        let mut interval = tokio::time::interval(Duration::from_secs(600)); // 10 minutes 
+        let mut interval = tokio::time::interval(Duration::from_secs(600)); // 10 minutes
         loop {
             interval.tick().await;
 
@@ -165,9 +165,7 @@ async fn reset_active(
     Ok(StatusCode::OK)
 }
 
-async fn metrics_handler(
-    State(state): State<AppState>,
-) -> Result<Response<Body>, StatusCode> {
+async fn metrics_handler(State(state): State<AppState>) -> Result<Response<Body>, StatusCode> {
     let encoder = TextEncoder::new();
     let metric_families = state.metrics.registry.gather();
     let mut buffer = Vec::new();
