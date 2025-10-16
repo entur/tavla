@@ -208,22 +208,16 @@ export async function getBoards(ids?: TBoardID[]) {
     }
 }
 
-export async function getPrivateBoardsForUser() {
+export async function getPrivateBoardsForUser(folders: TFolder[]) {
     const userWithBoards = await getUserWithBoardIds()
     if (!userWithBoards?.uid) return []
 
     const ownedBoardIds = (userWithBoards.owner ?? []) as TBoardID[]
     if (ownedBoardIds.length === 0) return []
 
-    const foldersWithAccess = await firestore()
-        .collection('folders')
-        .where('owners', 'array-contains', userWithBoards.uid)
-        .get()
-
     const boardIdsInFolders = new Set<TBoardID>()
-    foldersWithAccess.forEach((doc) => {
-        const data = doc.data() as TFolder
-        data?.boards?.forEach((bid) => {
+    folders.forEach((folder) => {
+        folder?.boards?.forEach((bid) => {
             if (bid) boardIdsInFolders.add(bid)
         })
     })
