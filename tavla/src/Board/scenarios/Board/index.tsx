@@ -39,7 +39,16 @@ function Board({ board }: { board: TBoard }) {
     const colsStyle = {
         '--cols': String(totalTiles),
     } as React.CSSProperties
-    const gridClassName = `grid h-full gap-2.5 overflow-hidden supports-[not(display:grid)]:flex supports-[not(display:grid)]:*:m-2.5 max-sm:overflow-y-scroll xs:grid-cols-1 sm:grid-cols-[repeat(auto-fit,_minmax(33%,_1fr))] 3xl:[grid-template-columns:repeat(var(--cols),minmax(0,1fr))] ${fontScaleClass}`
+
+    const baseGridClass = 'grid h-full gap-2.5 overflow-hidden'
+    const fallbackFlexClass =
+        'supports-[not(display:grid)]:flex supports-[not(display:grid)]:*:m-2.5'
+    const responsiveGridClass =
+        'max-sm:overflow-y-scroll xs:grid-cols-1 sm:grid-cols-[repeat(auto-fit,_minmax(33%,_1fr))]'
+    const largeScreenGridClass =
+        '3xl:[grid-template-columns:repeat(var(--cols),minmax(0,1fr))]'
+
+    const gridClassName = `${baseGridClass} ${fallbackFlexClass} ${responsiveGridClass} ${largeScreenGridClass} ${fontScaleClass}`
 
     const hasOddTileCount = totalTiles % 2 === 1
 
