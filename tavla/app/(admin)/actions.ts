@@ -208,9 +208,27 @@ export async function getBoards(ids?: TBoardID[]) {
     }
 }
 
-export async function getPrivateBoardsForUser() {
+export async function getPrivateBoardsForUser(folders: TFolder[]) {
     const userWithBoards = await getUserWithBoardIds()
-    const privateBoards = await getBoards(userWithBoards?.owner as TBoardID[])
+    if (!userWithBoards?.uid) return []
+
+    const ownedBoardIds = (userWithBoards.owner ?? []) as TBoardID[]
+    if (ownedBoardIds.length === 0) return []
+
+    const boardIdsInFolders = new Set<TBoardID>()
+    folders.forEach((folder) => {
+        folder?.boards?.forEach((bid) => {
+            if (bid) boardIdsInFolders.add(bid)
+        })
+    })
+
+    const filteredOwnedBoardIds = ownedBoardIds.filter(
+        (bid) => !boardIdsInFolders.has(bid),
+    )
+
+    if (filteredOwnedBoardIds.length === 0) return []
+
+    const privateBoards = await getBoards(filteredOwnedBoardIds)
 
     return privateBoards
 }
