@@ -3,7 +3,7 @@ import { useQuayTileData } from 'Board/hooks/useTileData'
 import { DEFAULT_COLUMNS } from 'types/column'
 import { TQuayTile } from 'types/tile'
 
-export function QuayTile(props: TQuayTile) {
+export function QuayTile(props: TQuayTile & { className?: string }) {
     const tileData = useQuayTileData(props)
 
     return (
@@ -11,6 +11,7 @@ export function QuayTile(props: TQuayTile) {
             {...tileData}
             columns={props.columns ?? DEFAULT_COLUMNS}
             walkingDistance={props.walkingDistance}
+            className={props.className}
         />
     )
 }

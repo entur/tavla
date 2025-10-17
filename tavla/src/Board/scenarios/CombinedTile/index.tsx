@@ -4,7 +4,13 @@ import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
 import { TTile } from 'types/tile'
 import { CombinedTileDeviation } from '../Table/components/StopPlaceDeviation'
 
-export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
+export function CombinedTile({
+    combinedTile,
+    className,
+}: {
+    combinedTile: TTile[]
+    className?: string
+}) {
     const tileData = useCombinedTileData(combinedTile)
 
     return (
@@ -14,6 +20,7 @@ export function CombinedTile({ combinedTile }: { combinedTile: TTile[] }) {
             customDeviation={
                 <CombinedTileDeviation situations={tileData.situations} />
             }
+            className={className}
         />
     )
 }
