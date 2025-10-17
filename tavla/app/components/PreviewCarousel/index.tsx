@@ -80,10 +80,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                     className="mx-auto w-full"
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
-                    <div
-                        className="flex"
-                        aria-label="Eksempel på avgangstavler"
-                    >
+                    <div aria-label="Eksempel på avgangstavler">
                         <div
                             className="previewContainer sm:text-md text-xs"
                             data-theme={currentBoard?.theme ?? 'dark'}
