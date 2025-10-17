@@ -18,8 +18,15 @@ module.exports = {
                 DEFAULT: '2rem',
                 md: '0.5rem',
             },
+            screens: {
+                '2xl': '1536px',
+            },
         },
+
         extend: {
+            screens: {
+                '3xl': '1920px',
+            },
             backgroundColor: {
                 primary: 'var(--main-background-color)',
                 secondary: 'var(--secondary-background-color)',

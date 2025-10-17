@@ -1,17 +1,24 @@
 import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 import { Tile } from 'components/Tile'
+import React from 'react'
 import { TBoard } from 'types/settings'
 import { TTile } from 'types/tile'
 import { CombinedTile } from '../CombinedTile'
 import { QuayTile } from '../QuayTile'
 import { StopPlaceTile } from '../StopPlaceTile'
 
-function BoardTile({ tileSpec }: { tileSpec: TTile }) {
+function BoardTile({
+    tileSpec,
+    className,
+}: {
+    tileSpec: TTile
+    className?: string
+}) {
     switch (tileSpec.type) {
         case 'stop_place':
-            return <StopPlaceTile {...tileSpec} />
+            return <StopPlaceTile {...tileSpec} className={className} />
         case 'quay':
-            return <QuayTile {...tileSpec} />
+            return <QuayTile {...tileSpec} className={className} />
     }
 }
 
@@ -25,21 +32,50 @@ function Board({ board }: { board: TBoard }) {
 
     const combinedTiles = getCombinedTiles(board)
     const separateTiles = getSeparateTiles(board)
+    const totalTiles = separateTiles.length + combinedTiles.length
+    const fontScaleClass = getFontScale(
+        board.meta?.fontSize || defaultFontSize(board),
+    )
+    const colsStyle = {
+        '--cols': String(totalTiles),
+    } as React.CSSProperties
+
+    const baseGridClass = 'grid h-full gap-2.5 overflow-hidden'
+    const fallbackFlexClass =
+        'supports-[not(display:grid)]:flex supports-[not(display:grid)]:*:m-2.5'
+    const responsiveGridClass =
+        'max-sm:overflow-y-scroll xs:grid-cols-1 sm:grid-cols-[repeat(auto-fit,_minmax(33%,_1fr))]'
+    const largeScreenGridClass =
+        '3xl:[grid-template-columns:repeat(var(--cols),minmax(0,1fr))]'
+
+    const gridClassName = `${baseGridClass} ${fallbackFlexClass} ${responsiveGridClass} ${largeScreenGridClass} ${fontScaleClass}`
+
+    const hasOddTileCount = totalTiles % 2 === 1
+
+    const getRowSpanClass = (tileIndex: number) => {
+        if (!hasOddTileCount || tileIndex !== 0) return undefined
+        return 'sm:max-3xl:row-span-2'
+    }
 
     return (
         <div
             data-transport-palette={board.transportPalette}
             data-theme={board.theme}
-            className={`grid h-full grid-cols-auto-fit-minmax gap-2.5 overflow-hidden supports-[not(display:grid)]:flex supports-[not(display:grid)]:*:m-2.5 max-sm:overflow-y-scroll ${getFontScale(
-                board.meta?.fontSize || defaultFontSize(board),
-            )} `}
+            style={colsStyle}
+            className={gridClassName}
         >
             {separateTiles.map((tile, index) => {
-                return <BoardTile key={index} tileSpec={tile} />
+                return (
+                    <BoardTile
+                        key={index}
+                        tileSpec={tile}
+                        className={getRowSpanClass(index)}
+                    />
+                )
             })}
-            {combinedTiles.map((combinedTile, index) => {
-                return <CombinedTile key={index} combinedTile={combinedTile} />
-            })}
+            {combinedTiles.map((combinedTile, index) => (
+                <CombinedTile key={index} combinedTile={combinedTile} />
+            ))}
         </div>
     )
 }
@@ -47,24 +83,15 @@ function Board({ board }: { board: TBoard }) {
 export { Board }
 
 function getCombinedTiles(board: TBoard) {
-    const combinedTileIds =
-        board.combinedTiles?.map((combineTile) => combineTile.ids) ?? []
-
-    const combinedTiles =
-        combinedTileIds?.map((tileIds) =>
-            board.tiles.filter((tile) => tileIds.includes(tile.uuid)),
+    const combinedTileIds = board.combinedTiles?.map((c) => c.ids) ?? []
+    return (
+        combinedTileIds?.map((ids) =>
+            board.tiles.filter((t) => ids.includes(t.uuid)),
         ) || []
-
-    return combinedTiles
+    )
 }
 
 function getSeparateTiles(board: TBoard) {
-    const combinedTileIds =
-        board.combinedTiles?.map((combineTile) => combineTile.ids) ?? []
-
-    const separateTiles = board.tiles.filter(
-        (tile) => !combinedTileIds?.flat().includes(tile.uuid),
-    )
-
-    return separateTiles
+    const combinedTileIds = board.combinedTiles?.map((c) => c.ids) ?? []
+    return board.tiles.filter((t) => !combinedTileIds?.flat().includes(t.uuid))
 }

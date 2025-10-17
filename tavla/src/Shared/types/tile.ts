@@ -23,6 +23,7 @@ export type TQuayTile = {
 
 export type TStopPlaceTile = {
     type: 'stop_place'
+    className?: string
 } & TSharedTile &
     TColumnTile
 

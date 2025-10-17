@@ -46,10 +46,11 @@ export function BaseTile({
     walkingDistance,
     customHeader,
     customDeviation,
+    className,
 }: BaseTileProps) {
     if (isLoading && !hasData) {
         return (
-            <Tile>
+            <Tile className={className}>
                 <TileLoader />
             </Tile>
         )
@@ -57,7 +58,7 @@ export function BaseTile({
 
     if (error || !hasData) {
         return (
-            <Tile>
+            <Tile className={className}>
                 <DataFetchingFailed
                     timeout={error?.message === FetchErrorTypes.TIMEOUT}
                 />
@@ -67,7 +68,7 @@ export function BaseTile({
 
     if (!estimatedCalls || estimatedCalls.length === 0) {
         return (
-            <Tile className="flex flex-col max-sm:min-h-[30vh]">
+            <Tile className={`flex flex-col ${className || ''}`}>
                 <div className="flex-grow overflow-hidden">
                     {customHeader ??
                         (displayName && (
@@ -85,7 +86,7 @@ export function BaseTile({
     }
 
     return (
-        <Tile className="flex flex-col max-sm:min-h-[30vh]">
+        <Tile className={`flex flex-col ${className || ''}`}>
             <div className="flex-grow overflow-hidden">
                 {customHeader ??
                     (displayName && (
