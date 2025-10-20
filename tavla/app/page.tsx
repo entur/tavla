@@ -52,7 +52,7 @@ async function Landing() {
                 </div>
             </div>
 
-            <div className="container mx-auto flex w-full flex-col justify-start gap-4 overflow-hidden py-14 xl:w-[1200px]">
+            <div className="container mx-auto flex flex-col justify-start gap-4 overflow-hidden py-14 xl:w-[1200px]">
                 <PreviewCarousel boards={previewBoards} />
 
                 <div className="md:px-12">
