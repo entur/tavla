@@ -1,5 +1,5 @@
 """
-Purpose: Quick test of Firestore backup from init.py
+Purpose: Script to back up Firestore database for different environments (dev, prod, local). 
 
 Usage:
     python test_backup.py dev
