@@ -1,18 +1,20 @@
 """
-Purpose: Script to back up Firestore database for different environments (dev, prod, local). 
+Purpose: Script to back up Firestore database for different environments (dev, prod, local).
 
 Usage:
-    python test_backup.py dev
-    python test_backup.py prod
-    python test_backup.py local
+    python backup_firebase.py dev
+    python backup_firebase.py prod
+    python backup_firebase.py local
 """
 
 import sys
+
 import init
+
 
 def main():
     if len(sys.argv) < 2:
-        print("❌ Usage: python test_backup.py [dev|prod|local]")
+        print("❌ Usage: python backup_firebase.py [dev|prod|local]")
         sys.exit(1)
 
     env = sys.argv[1].lower()
@@ -35,6 +37,7 @@ def main():
         print(f"\n✅ Backup complete! Path:\n{result}")
     else:
         print("\n⚠️  No backup created (probably using local emulator).")
+
 
 if __name__ == "__main__":
     main()
