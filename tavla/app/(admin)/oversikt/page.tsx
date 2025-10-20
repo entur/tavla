@@ -1,5 +1,9 @@
 import { Heading1, Label } from '@entur/typography'
-import { getFoldersForUser, getPrivateBoardsForUser } from 'app/(admin)/actions'
+import {
+    getBoards,
+    getFoldersForUser,
+    getPrivateBoardsForUser,
+} from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
@@ -22,6 +26,15 @@ async function FoldersAndBoardsPage() {
 
     const folders = await getFoldersForUser()
     const privateBoards = await getPrivateBoardsForUser(folders)
+
+    // Get all boards from folders efficiently
+    const allFolderBoardIds = folders
+        .flatMap((folder) => folder.boards || [])
+        .filter(Boolean)
+    const folderBoards =
+        allFolderBoardIds.length > 0 ? await getBoards(allFolderBoardIds) : []
+    const allBoards = [...privateBoards, ...folderBoards]
+
     const boardCountInFolder = folders.map((folder) => folder.boardCount)
 
     const elementsListCount = privateBoards.length + folders.length
@@ -51,6 +64,7 @@ async function FoldersAndBoardsPage() {
                             <BoardTable
                                 folders={folders}
                                 boards={privateBoards}
+                                allBoards={allBoards}
                             />
                         </div>
                     </>

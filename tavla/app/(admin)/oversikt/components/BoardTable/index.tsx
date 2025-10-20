@@ -7,9 +7,10 @@ import { TBoard } from 'types/settings'
 type BoardTableProps = {
     folders?: Folder[]
     boards: TBoard[]
+    allBoards?: TBoard[]
 }
 
-function BoardTable({ folders, boards }: BoardTableProps) {
+function BoardTable({ folders, boards, allBoards }: BoardTableProps) {
     const numOfColumns = Object.keys(TableColumns).length
 
     return (
@@ -20,7 +21,11 @@ function BoardTable({ folders, boards }: BoardTableProps) {
             }}
         >
             <TableHeader />
-            <TableRows folders={folders ?? []} boards={boards} />
+            <TableRows
+                folders={folders ?? []}
+                boards={boards}
+                allBoards={allBoards}
+            />
         </div>
     )
 }
