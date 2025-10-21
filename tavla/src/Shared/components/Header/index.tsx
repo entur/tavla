@@ -23,12 +23,12 @@ function Header({
 
     return (
         <div className="mb-em-0.25 flex flex-row items-center justify-between gap-em-3">
-            <div className="relative h-full w-full">
+            <div className="relative h-[1.25em] w-full">
                 {!hideLogo && (
                     <Image
                         src={folderLogo ?? tavlaLogo}
                         alt="Logo til tavlen"
-                        className="h-[27px] w-[104px] object-contain object-left md:h-[55px] md:w-[208px]"
+                        className="h-full w-auto object-contain object-left"
                         width="100"
                         height="100"
                     />

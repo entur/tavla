@@ -67,7 +67,7 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
     if (!currentBoard) return null
     return (
         <>
-            <div className="flex flex-row">
+            <div className="flex w-full flex-row justify-between gap-2">
                 <div className="my-auto ml-2 hidden md:block">
                     <IconButton
                         onClick={prevSlide}
@@ -80,16 +80,13 @@ function PreviewCarousel({ boards }: { boards: TBoard[] }) {
                     className="mx-auto w-full"
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
-                    <div
-                        className="flex"
-                        aria-label="Eksempel på avgangstavler"
-                    >
+                    <div aria-label="Eksempel på avgangstavler">
                         <div
-                            className="previewContainer text-xs"
+                            className="previewContainer sm:text-md text-xs"
                             data-theme={currentBoard?.theme ?? 'dark'}
                         >
                             <Header theme={currentBoard.theme} />
-                            <div className="h-72 md:h-96">
+                            <div className="h-[400px] md:h-[500px] xl:w-[1000px]">
                                 <Board board={currentBoard} />
                             </div>
                             <InfoMessage board={currentBoard} />
