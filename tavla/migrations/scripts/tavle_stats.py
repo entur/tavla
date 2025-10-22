@@ -298,7 +298,7 @@ def active_boards_per_county(boards: Dict[str, Dict], active_ids: Set[str], look
             for county in counties:
                 county_counter[county] += 1
             if len(counties) > 1:
-                logger.info("Tavle %s tilhører %s fylker: %s", bid, len(counties), ", ".join(counties))
+                logger.info("Tavle %s tilhører %s fylker", bid, len(counties))
         else:
             unresolved.add(bid)
             logger.warning("Fant ikke fylke for tavle %s", bid)
