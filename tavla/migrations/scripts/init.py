@@ -19,10 +19,20 @@ import os
 import sys
 import subprocess
 import datetime
+from pathlib import Path
 import firebase_admin
 from firebase_admin import credentials
 import firebase_admin.firestore
 from google.cloud import firestore
+
+APP_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _certificate_path(filename: str) -> str:
+    path = APP_ROOT / filename
+    if not path.exists():
+        raise FileNotFoundError(f"Fant ikke sertifikatfilen: {path}")
+    return str(path)
 
 
 # Track current Firestore project globally
@@ -56,7 +66,7 @@ def dev() -> firestore.Client:
     global _current_project
     _current_project = "ent-tavla-dev"
 
-    cred = credentials.Certificate("../ent-tavla-dev-875a70280651.json")
+    cred = credentials.Certificate(_certificate_path("ent-tavla-dev-875a70280651.json"))
     options = {"projectId": _current_project}
 
     app = firebase_admin.initialize_app(cred, options, name=_current_project)
@@ -74,7 +84,7 @@ def prod() -> firestore.Client:
         print("❌ Aborted connection to PROD.")
         sys.exit(1)
 
-    cred = credentials.Certificate("../ent-tavla-prd-54ef424ea2f0.json")
+    cred = credentials.Certificate(_certificate_path("ent-tavla-prd-54ef424ea2f0.json")) 
     options = {"projectId": _current_project}
 
     app = firebase_admin.initialize_app(cred, options, name=_current_project)
