@@ -25,7 +25,6 @@ async function FoldersAndBoardsPage() {
     const folders = await getFoldersForUser()
     const privateBoards = await getPrivateBoardsForUser(folders)
 
-    // Get all boards from folders efficiently
     const allFolderBoardIds = folders
         .flatMap((folder) => folder.boards || [])
         .filter(Boolean)

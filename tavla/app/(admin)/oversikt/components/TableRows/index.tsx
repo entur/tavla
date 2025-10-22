@@ -12,10 +12,6 @@ type TableRowsProps = {
     boards: TBoard[]
 }
 
-/**
- * Pure rendering component for table rows.
- * Expects pre-filtered and pre-sorted data from parent components.
- */
 function TableRows({ folders, boards }: TableRowsProps) {
     return (
         <>
