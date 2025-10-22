@@ -84,7 +84,7 @@ def prod() -> firestore.Client:
         print("❌ Aborted connection to PROD.")
         sys.exit(1)
 
-    cred = credentials.Certificate(_certificate_path("ent-tavla-prd-54ef424ea2f0.json")) 
+    cred = credentials.Certificate(_certificate_path("ent-tavla-prd-54ef424ea2f0.json"))
     options = {"projectId": _current_project}
 
     app = firebase_admin.initialize_app(cred, options, name=_current_project)

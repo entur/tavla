@@ -118,16 +118,16 @@ class EnturLookup:
         if ref in self._topo_cache:
             return self._topo_cache[ref]
         try:
-            logger.debug("Henter topografisk sted %s", ref)
+            logger.debug("Henter topografisk sted")
             resp = requests.get(
                 TOPOGRAPHIC_PLACE_URL + ref, headers=CLIENT_HEADER, timeout=REQUEST_TIMEOUT
             )
         except requests.RequestException as exc:
-            logger.warning("Feil ved oppslag av topografisk sted %s: %s", ref, exc)
+            logger.warning("Feil ved oppslag av topografisk sted: %s", exc)
             self._topo_cache[ref] = None
             return None
         if resp.status_code != 200:
-            logger.warning("Oppslag topografisk sted %s ga status %s", ref, resp.status_code)
+            logger.warning("Oppslag topografisk sted ga status %s", resp.status_code)
             self._topo_cache[ref] = None
             return None
         data = resp.json()
@@ -140,21 +140,20 @@ class EnturLookup:
             return self._geocode_cache[key]
         params = {"point.lat": lat, "point.lon": lon}
         try:
-            logger.debug("Reverse geocode for (%s, %s)", lat, lon)
             resp = requests.get(GEOCODER_URL, headers=CLIENT_HEADER, params=params, timeout=REQUEST_TIMEOUT)
         except requests.RequestException as exc:
-            logger.warning("Feil ved reverse geocode for (%s, %s): %s", lat, lon, exc)
+            logger.warning("Feil ved reverse geocode: %s", exc)
             self._geocode_cache[key] = None
             return None
         if resp.status_code != 200:
-            logger.warning("Reverse geocode for (%s, %s) ga status %s", lat, lon, resp.status_code)
+            logger.warning("Reverse geocode ga status %s", resp.status_code)
             self._geocode_cache[key] = None
             return None
         try:
             data = resp.json()
             features = data.get("features", [])
         except json.JSONDecodeError:
-            logger.warning("Ugyldig JSON fra reverse geocode for (%s, %s)", lat, lon)
+            logger.warning("Ugyldig JSON fra reverse geocode")
             self._geocode_cache[key] = None
             return None
         county = None
@@ -299,7 +298,7 @@ def active_boards_per_county(boards: Dict[str, Dict], active_ids: Set[str], look
             for county in counties:
                 county_counter[county] += 1
             if len(counties) > 1:
-                logger.info("Tavle %s tilhører %s fylker: %s", bid,len(counties), ", ".join(counties))
+                logger.info("Tavle %s tilhører %s fylker: %s", bid, len(counties), ", ".join(counties))
         else:
             unresolved.add(bid)
             logger.warning("Fant ikke fylke for tavle %s", bid)
