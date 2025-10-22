@@ -12667,11 +12667,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:0.6.12":
-  version: 0.6.12
-  resolution: "prettier-plugin-tailwindcss@npm:0.6.12"
+"prettier-plugin-tailwindcss@npm:0.7.0":
+  version: 0.7.0
+  resolution: "prettier-plugin-tailwindcss@npm:0.7.0"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
+    "@prettier/plugin-hermes": "*"
+    "@prettier/plugin-oxc": "*"
     "@prettier/plugin-pug": "*"
     "@shopify/prettier-plugin-liquid": "*"
     "@trivago/prettier-plugin-sort-imports": "*"
@@ -12679,17 +12681,19 @@ __metadata:
     prettier: ^3.0
     prettier-plugin-astro: "*"
     prettier-plugin-css-order: "*"
-    prettier-plugin-import-sort: "*"
     prettier-plugin-jsdoc: "*"
     prettier-plugin-marko: "*"
     prettier-plugin-multiline-arrays: "*"
     prettier-plugin-organize-attributes: "*"
     prettier-plugin-organize-imports: "*"
     prettier-plugin-sort-imports: "*"
-    prettier-plugin-style-order: "*"
     prettier-plugin-svelte: "*"
   peerDependenciesMeta:
     "@ianvs/prettier-plugin-sort-imports":
+      optional: true
+    "@prettier/plugin-hermes":
+      optional: true
+    "@prettier/plugin-oxc":
       optional: true
     "@prettier/plugin-pug":
       optional: true
@@ -12703,8 +12707,6 @@ __metadata:
       optional: true
     prettier-plugin-css-order:
       optional: true
-    prettier-plugin-import-sort:
-      optional: true
     prettier-plugin-jsdoc:
       optional: true
     prettier-plugin-marko:
@@ -12717,11 +12719,9 @@ __metadata:
       optional: true
     prettier-plugin-sort-imports:
       optional: true
-    prettier-plugin-style-order:
-      optional: true
     prettier-plugin-svelte:
       optional: true
-  checksum: 10/6ad2fe0d69276663b56000083c63fb126ee7a5993abc52e2146c994c776dc06fd437865c723146b2c1cad3b5dbd537b063d179143ff65a39a13ff3d8df6ace8b
+  checksum: 10/8e48f97fdd9af13a8e6ad70d08088d504efe9b4e32227ae9d184387890aa9fd871ff340c26a3f7b3be73408f3f4369fae59073444e9df00f4ac8eb5017b6cd69
   languageName: node
   linkType: hard
 
@@ -14665,7 +14665,7 @@ __metadata:
     posthog-js: "npm:1.234.7"
     prettier: "npm:3.3.3"
     prettier-plugin-organize-imports: "npm:4.2.0"
-    prettier-plugin-tailwindcss: "npm:0.6.12"
+    prettier-plugin-tailwindcss: "npm:0.7.0"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     react-google-button: "npm:0.8.0"
