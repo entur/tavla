@@ -1,4 +1,4 @@
-import { Heading1, Label } from '@entur/typography'
+import { Heading1 } from '@entur/typography'
 import {
     getBoards,
     getFoldersForUser,
@@ -10,9 +10,7 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard'
 import { CreateFolder } from '../components/CreateFolder'
-import { BoardTable } from './components/BoardTable'
-import EmptyOverview from './components/EmptyOverview'
-import { Search } from './components/Search'
+import { FoldersAndBoardsContent } from './components/FoldersAndBoardsContent'
 
 initializeAdminApp()
 
@@ -54,21 +52,13 @@ async function FoldersAndBoardsPage() {
             </div>
 
             <div className="gap-4">
-                {elementsListCount === 0 ? (
-                    <EmptyOverview text="Her var det tomt gitt! Start med å opprette en mappe eller en tavle" />
-                ) : (
-                    <>
-                        <Search />
-                        <div className="mt-8 flex flex-col">
-                            <Label>Totalt antall tavler: {totalBoards}</Label>
-                            <BoardTable
-                                folders={folders}
-                                boards={privateBoards}
-                                allBoards={allBoards}
-                            />
-                        </div>
-                    </>
-                )}
+                <FoldersAndBoardsContent
+                    folders={folders}
+                    privateBoards={privateBoards}
+                    allBoards={allBoards}
+                    totalBoards={totalBoards}
+                    elementsListCount={elementsListCount}
+                />
             </div>
         </div>
     )
