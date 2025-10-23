@@ -1,14 +1,16 @@
-import { Heading1, Label } from '@entur/typography'
-import { getFoldersForUser, getPrivateBoardsForUser } from 'app/(admin)/actions'
+import { Heading1 } from '@entur/typography'
+import {
+    getBoards,
+    getFoldersForUser,
+    getPrivateBoardsForUser,
+} from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard'
 import { CreateFolder } from '../components/CreateFolder'
-import { BoardTable } from './components/BoardTable'
-import EmptyOverview from './components/EmptyOverview'
-import { Search } from './components/Search'
+import { FoldersAndBoardsContent } from './components/FoldersAndBoardsContent'
 
 initializeAdminApp()
 
@@ -22,13 +24,13 @@ async function FoldersAndBoardsPage() {
 
     const folders = await getFoldersForUser()
     const privateBoards = await getPrivateBoardsForUser(folders)
-    const boardCountInFolder = folders.map((folder) => folder.boardCount)
 
-    const elementsListCount = privateBoards.length + folders.length
-
-    const totalBoards =
-        boardCountInFolder.reduce((sum, count) => sum + count, 0) +
-        privateBoards.length
+    const allFolderBoardIds = folders
+        .flatMap((folder) => folder.boards || [])
+        .filter(Boolean)
+    const folderBoards =
+        allFolderBoardIds.length > 0 ? await getBoards(allFolderBoardIds) : []
+    const allBoards = [...privateBoards, ...folderBoards]
 
     return (
         <div className="container flex flex-col gap-8 pb-20">
@@ -41,20 +43,11 @@ async function FoldersAndBoardsPage() {
             </div>
 
             <div className="gap-4">
-                {elementsListCount === 0 ? (
-                    <EmptyOverview text="Her var det tomt gitt! Start med å opprette en mappe eller en tavle" />
-                ) : (
-                    <>
-                        <Search />
-                        <div className="mt-8 flex flex-col">
-                            <Label>Totalt antall tavler: {totalBoards}</Label>
-                            <BoardTable
-                                folders={folders}
-                                boards={privateBoards}
-                            />
-                        </div>
-                    </>
-                )}
+                <FoldersAndBoardsContent
+                    folders={folders}
+                    privateBoards={privateBoards}
+                    allBoards={allBoards}
+                />
             </div>
         </div>
     )
