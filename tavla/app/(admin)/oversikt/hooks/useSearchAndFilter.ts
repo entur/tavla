@@ -93,17 +93,9 @@ export function useSearchAndFilter({
             }
         }
 
-        const filteredBoards = privateBoards
-            .filter((board) =>
-                matchesSearch(board, searchFilters, DEFAULT_BOARD_NAME),
-            )
-            .sort(sortBoardFunction)
+        const filteredBoards = [...privateBoards].sort(sortBoardFunction)
 
-        const filteredFolders = folders
-            .filter((folder) =>
-                matchesSearch(folder, searchFilters, DEFAULT_FOLDER_NAME),
-            )
-            .sort(sortFolderFunction)
+        const filteredFolders = [...folders].sort(sortFolderFunction)
 
         return {
             folders: filteredFolders,

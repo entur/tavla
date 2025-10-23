@@ -18,9 +18,6 @@ export function FoldersAndBoardsContent({
     privateBoards,
     allBoards,
 }: FoldersAndBoardsContentProps) {
-    const totalBoards =
-        folders.reduce((sum, folder) => sum + (folder.boardCount ?? 0), 0) +
-        privateBoards.length
     const elementsListCount = privateBoards.length + folders.length
 
     const { folders: filteredFolders, boards: filteredBoards } =
@@ -40,8 +37,15 @@ export function FoldersAndBoardsContent({
         <>
             <Search />
             <div className="mt-8 flex flex-col">
-                <Label>Totalt antall tavler: {totalBoards}</Label>
-                <BoardTable folders={filteredFolders} boards={filteredBoards} />
+                <Label>Totalt antall tavler: {allBoards.length}</Label>
+                {filteredFolders.length === 0 && filteredBoards.length === 0 ? (
+                    <EmptyOverview text="Ingen resultater funnet for ditt søk." />
+                ) : (
+                    <BoardTable
+                        folders={filteredFolders}
+                        boards={filteredBoards}
+                    />
+                )}
             </div>
         </>
     )
