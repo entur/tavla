@@ -1,16 +1,16 @@
 'use client'
-import { TFontSize } from 'types/meta'
+import { BoardFontSizeDB } from 'types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
 function FontSelect({
     font = 'medium',
     onChange,
 }: {
-    font?: TFontSize
+    font?: BoardFontSizeDB
     onChange: () => void
 }) {
     return (
-        <ChoiceChipGroupGeneral<TFontSize>
+        <ChoiceChipGroupGeneral<BoardFontSizeDB>
             label="Tekststørrelse"
             options={[
                 { value: 'small', label: 'Liten' },

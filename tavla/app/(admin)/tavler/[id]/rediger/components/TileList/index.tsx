@@ -3,8 +3,8 @@
 import { saveUpdatedTileOrder } from 'app/(admin)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { TBoard, TBoardID } from 'types/settings'
-import { TTile } from 'types/tile'
+
+import { BoardDB, BoardIdDB, BoardTileDB } from 'types/db-types/boards'
 import { TileCard } from '../TileCard'
 
 function TileList({
@@ -12,11 +12,11 @@ function TileList({
     setDemoBoard,
     bid,
 }: {
-    board: TBoard
-    bid?: TBoardID
-    setDemoBoard?: Dispatch<SetStateAction<TBoard>>
+    board: BoardDB
+    bid?: BoardIdDB
+    setDemoBoard?: Dispatch<SetStateAction<BoardDB>>
 }) {
-    const [tileArray, setTileArray] = useState<TTile[]>(board.tiles)
+    const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)
 
     useEffect(() => {
         setTileArray(board.tiles)
@@ -28,16 +28,16 @@ function TileList({
             return
         }
 
-        const newArray: TTile[] = [...board.tiles]
+        const newArray: BoardTileDB[] = [...board.tiles]
 
         const oldElement = newArray[newIndex]
 
-        newArray[newIndex] = newArray[index] as TTile
-        newArray[index] = oldElement as TTile
+        newArray[newIndex] = newArray[index] as BoardTileDB
+        newArray[index] = oldElement as BoardTileDB
 
         setTileArray(newArray)
         if (bid === 'demo' && setDemoBoard) {
-            const newBoard: TBoard = { ...board, tiles: newArray }
+            const newBoard: BoardDB = { ...board, tiles: newArray }
             setDemoBoard(newBoard ?? board)
         } else {
             saveUpdatedTileOrder(board.id ?? '', newArray)

@@ -3,9 +3,10 @@
 import { Board } from 'Board/scenarios/Board'
 import { Header } from 'components/Header'
 import { InfoMessage } from 'components/InfoMessage'
-import { TBoard, TFolder } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 
-function Preview({ board, folder }: { board: TBoard; folder?: TFolder }) {
+function Preview({ board, folder }: { board: BoardDB; folder?: FolderDB }) {
     return (
         <div
             className="previewContainer md:text-2xl"

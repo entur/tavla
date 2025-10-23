@@ -1,8 +1,8 @@
 import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 import { Tile } from 'components/Tile'
 import React from 'react'
-import { TBoard } from 'types/settings'
-import { TTile } from 'types/tile'
+
+import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { CombinedTile } from '../CombinedTile'
 import { QuayTile } from '../QuayTile'
 import { StopPlaceTile } from '../StopPlaceTile'
@@ -11,7 +11,7 @@ function BoardTile({
     tileSpec,
     className,
 }: {
-    tileSpec: TTile
+    tileSpec: BoardTileDB
     className?: string
 }) {
     switch (tileSpec.type) {
@@ -22,7 +22,7 @@ function BoardTile({
     }
 }
 
-function Board({ board }: { board: TBoard }) {
+function Board({ board }: { board: BoardDB }) {
     if (!board.tiles || !board.tiles.length)
         return (
             <Tile className="flex h-full items-center justify-center">
@@ -82,7 +82,7 @@ function Board({ board }: { board: TBoard }) {
 
 export { Board }
 
-function getCombinedTiles(board: TBoard) {
+function getCombinedTiles(board: BoardDB) {
     const combinedTileIds = board.combinedTiles?.map((c) => c.ids) ?? []
     return (
         combinedTileIds?.map((ids) =>
@@ -91,7 +91,7 @@ function getCombinedTiles(board: TBoard) {
     )
 }
 
-function getSeparateTiles(board: TBoard) {
+function getSeparateTiles(board: BoardDB) {
     const combinedTileIds = board.combinedTiles?.map((c) => c.ids) ?? []
     return board.tiles.filter((t) => !combinedTileIds?.flat().includes(t.uuid))
 }

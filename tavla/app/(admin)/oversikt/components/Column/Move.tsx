@@ -13,9 +13,9 @@ import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useState } from 'react'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 
-function Move({ board }: { board: TBoard }) {
+function Move({ board }: { board: BoardDB }) {
     const { addToast } = useToast()
     const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState<TFormFeedback | undefined>(undefined)

@@ -1,15 +1,18 @@
 import { NegativeButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { TBoard } from 'types/settings'
-import { TTile } from 'types/tile'
+import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 
 function DeleteTileButton({
     isWideScreen,
     deleteTile,
 }: {
     isWideScreen: boolean
-    deleteTile: (boardId: string, tile: TTile, demoBoard?: TBoard) => void
+    deleteTile: (
+        boardId: string,
+        tile: BoardTileDB,
+        demoBoard?: BoardDB,
+    ) => void
 }) {
     const StyledNegativeButton = (
         <NegativeButton

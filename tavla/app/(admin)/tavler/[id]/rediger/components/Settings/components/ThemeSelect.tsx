@@ -1,16 +1,16 @@
 'use client'
-import { TTheme } from 'types/settings'
+import { BoardThemeDB } from 'types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
 function ThemeSelect({
     theme = 'dark',
     onChange,
 }: {
-    theme?: TTheme
+    theme?: BoardThemeDB
     onChange: () => void
 }) {
     return (
-        <ChoiceChipGroupGeneral<TTheme>
+        <ChoiceChipGroupGeneral<BoardThemeDB>
             label="Fargetema"
             options={[
                 { value: 'light', label: 'Lys' },

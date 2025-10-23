@@ -1,7 +1,7 @@
 'use client'
 import { Label } from '@entur/typography'
 import { Folder } from 'app/(admin)/utils/types'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 import { useSearchAndFilter } from '../hooks/useSearchAndFilter'
 import { BoardTable } from './BoardTable'
 import EmptyOverview from './EmptyOverview'
@@ -9,8 +9,8 @@ import { Search } from './Search'
 
 interface FoldersAndBoardsContentProps {
     folders: Folder[]
-    privateBoards: TBoard[]
-    allBoards: TBoard[]
+    privateBoards: BoardDB[]
+    allBoards: BoardDB[]
 }
 
 export function FoldersAndBoardsContent({

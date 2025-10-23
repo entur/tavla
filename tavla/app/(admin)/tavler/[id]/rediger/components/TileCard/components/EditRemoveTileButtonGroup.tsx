@@ -1,8 +1,7 @@
 import { SecondarySquareButton } from '@entur/button'
 import { CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { TBoard } from 'types/settings'
-import { TTile } from 'types/tile'
+import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { DeleteTileButton } from './DeleteTileButton'
 
 function EditRemoveTileButtonGroup({
@@ -16,7 +15,11 @@ function EditRemoveTileButtonGroup({
     hasTileChanged: boolean
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (isOpen: boolean) => void
-    deleteTile: (boardId: string, tile: TTile, demoBoard?: TBoard) => void
+    deleteTile: (
+        boardId: string,
+        tile: BoardTileDB,
+        demoBoard?: BoardDB,
+    ) => void
 }) {
     return (
         <div className="flex gap-md">

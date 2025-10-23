@@ -1,10 +1,17 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
-import { TBoard, TFolderID } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderIdDB } from 'types/db-types/folders'
 import { duplicateBoard } from './actions'
 
-function DuplicateBoard({ board, oid }: { board: TBoard; oid?: TFolderID }) {
+function DuplicateBoard({
+    board,
+    folderid,
+}: {
+    board: BoardDB
+    folderid?: FolderIdDB
+}) {
     const { addToast } = useToast()
     const handleSelect = async () => {
         delete board.id
@@ -16,7 +23,7 @@ function DuplicateBoard({ board, oid }: { board: TBoard; oid?: TFolderID }) {
                     title: board.meta.title + ' - duplikat',
                 },
             },
-            oid,
+            folderid,
         )
         addToast('Tavle duplisert!')
     }

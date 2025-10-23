@@ -2,9 +2,10 @@ import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
-import { TBoardID, TFolderID } from 'types/settings'
+import { BoardIdDB } from 'types/db-types/boards'
+import { FolderIdDB } from 'types/db-types/folders'
 
-function EditBoard({ bid }: { bid?: TBoardID }) {
+function EditBoard({ bid }: { bid?: BoardIdDB }) {
     return (
         <Tooltip
             content="Rediger tavle"
@@ -22,7 +23,7 @@ function EditBoard({ bid }: { bid?: TBoardID }) {
     )
 }
 
-function EditFolder({ fid }: { fid?: TFolderID }) {
+function EditFolder({ fid }: { fid?: FolderIdDB }) {
     return (
         <Tooltip
             content="Rediger mappe"

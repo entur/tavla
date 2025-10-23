@@ -1,12 +1,12 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useState } from 'react'
-import { TLocation } from 'types/meta'
+import { LocationDB } from 'types/db-types/boards'
 import { locationToDropdownItem } from '../tavler/[id]/utils'
 import { fetchPoints } from '../utils/fetch'
 
-function usePointSearch(location?: TLocation) {
+function usePointSearch(location?: LocationDB) {
     const [selectedPoint, setSelectedPoint] =
-        useState<NormalizedDropdownItemType<TLocation> | null>(
+        useState<NormalizedDropdownItemType<LocationDB> | null>(
             location ? locationToDropdownItem(location) : null,
         )
 

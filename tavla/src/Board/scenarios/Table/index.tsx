@@ -4,7 +4,7 @@ import leafs from 'assets/illustrations/leafs.svg'
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
 import { isArray } from 'lodash'
 import Image from 'next/image'
-import { TColumn } from 'types/column'
+import { TileColumnDB } from 'types/db-types/boards'
 import { Destination, Name } from './components/Destination'
 import { Deviation } from './components/Deviation'
 import { Line } from './components/Line'
@@ -22,7 +22,7 @@ function Table({
     numberOfVisibleSituations,
 }: {
     departures: TDepartureFragment[]
-    columns?: TColumn[]
+    columns?: TileColumnDB[]
     stopPlaceSituations?: TSituationFragment[]
     currentVisibleSituationId?: string
     numberOfVisibleSituations?: number

@@ -10,16 +10,16 @@ import { BreadcrumbsNav } from 'app/(admin)/tavler/[id]/BreadcrumbsNav'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getFolder } from 'Board/scenarios/Board/firebase'
 import { auth } from 'firebase-admin'
-import { UidIdentifier } from 'firebase-admin/lib/auth/identifier'
+import { UserIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-import { TFolderID, TUser } from 'types/settings'
-
+import { FolderIdDB } from 'types/db-types/folders'
+import { UserIdDB } from 'types/db-types/users'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { UploadLogo } from '../components/UploadLogo'
 
 export type TProps = {
-    params: Promise<{ id: TFolderID }>
+    params: Promise<{ id: FolderIdDB }>
 }
 
 export async function generateMetadata(props: TProps): Promise<Metadata> {
@@ -35,6 +35,24 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
     }
 }
 
+export type AuthenticatedUser = {
+    uid: UserIdDB
+    email?: string
+}
+
+async function getAuthenticatedUsers(
+    uids: UserIdDB[],
+): Promise<AuthenticatedUser[]> {
+    const userIdentifiers: UserIdentifier[] = uids.map((uid) => ({ uid }))
+    const userRecords = await auth().getUsers(userIdentifiers)
+
+    const members: AuthenticatedUser[] = userRecords.users.map((user) => ({
+        uid: user.uid,
+        email: user.email,
+    }))
+    return members
+}
+
 async function FolderPage(props: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user || !user.uid) return redirect('/')
@@ -47,24 +65,9 @@ async function FolderPage(props: TProps) {
     const boardsInFolder = await getBoardsForFolder(folder.id)
     const boardCount = boardsInFolder.length
 
-    const owners = folder.owners ?? []
+    const owners: UserIdDB[] = folder.owners ?? []
 
-    const userRecords = await auth().getUsers(
-        owners.map(
-            (uid) =>
-                ({
-                    uid,
-                }) as UidIdentifier,
-        ),
-    )
-
-    const members = userRecords.users.map(
-        (user) =>
-            ({
-                uid: user.uid,
-                email: user.email,
-            }) as TUser,
-    )
+    const members: AuthenticatedUser[] = await getAuthenticatedUsers(owners)
 
     return (
         <div className="container flex flex-col gap-4 pb-20">

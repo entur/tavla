@@ -1,6 +1,6 @@
 import { BoardIdDB } from 'types/db-types/boards'
 
-export type TUser = {
+export type UserDB = {
     uid?: UserIdDB
     owner?: BoardIdDB[]
 }

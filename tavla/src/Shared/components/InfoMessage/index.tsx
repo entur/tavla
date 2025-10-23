@@ -2,13 +2,13 @@ import EnturLogoBlue from 'assets/logos/Tavla-blue.svg'
 import EnturLogoWhite from 'assets/logos/Tavla-white.svg'
 import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 import Image from 'next/image'
-import { TBoard, TTheme } from 'types/settings'
+import { BoardDB, BoardThemeDB } from 'types/db-types/boards'
 
 function InfoMessage({
     board,
     showEnturLogo: showEnturLogo,
 }: {
-    board: TBoard
+    board: BoardDB
     showEnturLogo?: boolean
 }) {
     if (!showEnturLogo && !board.footer?.footer) return null
@@ -34,7 +34,7 @@ function InfoMessage({
     )
 }
 
-export function getLogo(theme: TTheme) {
+export function getLogo(theme: BoardThemeDB) {
     if (theme === 'light') return EnturLogoBlue
     return EnturLogoWhite
 }

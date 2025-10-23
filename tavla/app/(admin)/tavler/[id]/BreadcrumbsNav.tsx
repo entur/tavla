@@ -6,9 +6,10 @@ import {
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
 import Link from 'next/link'
-import { TBoard, TFolder } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 
-function FolderBreadcrumbs({ folder }: { folder: TFolder }) {
+function FolderBreadcrumbs({ folder }: { folder: FolderDB }) {
     return (
         <BreadcrumbNavigation>
             <BreadcrumbItem as={Link} href="/oversikt">
@@ -21,7 +22,7 @@ function FolderBreadcrumbs({ folder }: { folder: TFolder }) {
     )
 }
 
-function BoardBreadcrumbs({ board }: { board: TBoard }) {
+function BoardBreadcrumbs({ board }: { board: BoardDB }) {
     return (
         <BreadcrumbNavigation>
             <BreadcrumbItem as={Link} href="/oversikt">
@@ -38,8 +39,8 @@ function BoardInFolderBreadcrumbs({
     folder,
     board,
 }: {
-    folder?: TFolder
-    board?: TBoard
+    folder?: FolderDB
+    board?: BoardDB
 }) {
     return (
         <BreadcrumbNavigation>
@@ -60,8 +61,8 @@ function BreadcrumbsNav({
     folder,
     board,
 }: {
-    folder?: TFolder
-    board?: TBoard
+    folder?: FolderDB
+    board?: BoardDB
 }) {
     if (board && folder) {
         return <BoardInFolderBreadcrumbs folder={folder} board={board} />

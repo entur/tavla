@@ -1,9 +1,9 @@
+import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { BaseTile } from 'Board/components/BaseTile'
 import { useStopPlaceTileData } from 'Board/hooks/useTileData'
-import { DEFAULT_COLUMNS } from 'types/column'
-import { TStopPlaceTile } from 'types/tile'
+import { StopPlaceTileDB } from 'types/db-types/boards'
 
-export function StopPlaceTile(props: TStopPlaceTile & { className?: string }) {
+export function StopPlaceTile(props: StopPlaceTileDB & { className?: string }) {
     const tileData = useStopPlaceTileData(props)
 
     return (

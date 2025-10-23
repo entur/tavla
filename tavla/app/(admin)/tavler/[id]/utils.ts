@@ -2,9 +2,9 @@ import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { HomeIcon, MapPinIcon } from '@entur/icons'
 import { SmallTravelTag } from 'components/TravelTag'
 import { uniq } from 'lodash'
+import { BoardThemeDB, LocationDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 import { TTransportMode } from 'types/graphql-schema'
-import { TLocation } from 'types/meta'
-import { TFolder, TTheme } from 'types/settings'
 
 export type TCategory =
     | 'onstreetBus'
@@ -24,8 +24,8 @@ export type TCategory =
     | 'vegadresse'
 
 export function locationToDropdownItem(
-    location: TLocation,
-): NormalizedDropdownItemType<TLocation> {
+    location: LocationDB,
+): NormalizedDropdownItemType<LocationDB> {
     return {
         label: location.name ?? '',
         value: location,
@@ -33,22 +33,22 @@ export function locationToDropdownItem(
 }
 
 export function folderToDropdownItem(
-    folder: TFolder,
-): NormalizedDropdownItemType<TFolder> {
+    folder: FolderDB,
+): NormalizedDropdownItemType<FolderDB> {
     return {
         label: folder.name ?? '',
         value: folder ?? undefined,
     }
 }
 
-export const themes: NormalizedDropdownItemType<TTheme>[] = [
+export const themes: NormalizedDropdownItemType<BoardThemeDB>[] = [
     { label: 'Mørk', value: 'dark' },
     { label: 'Lys', value: 'light' },
 ]
 
 export function themeToDropdownItem(
-    theme: TTheme,
-): NormalizedDropdownItemType<TTheme> {
+    theme: BoardThemeDB,
+): NormalizedDropdownItemType<BoardThemeDB> {
     return (
         themes.find((item) => item.value === theme) ?? {
             label: 'Mørk',

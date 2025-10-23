@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 
 const HEARTBEAT_INTERVAL_MS = 60000 // 1 minute - how often to send heartbeat
 
@@ -202,7 +202,7 @@ function sendHeartbeat(boardId: string, tabId: string, backend_url: string) {
  *
  * @param board - The board object containing the board ID to track
  */
-export function useHeartbeat(board: TBoard, backend_url: string) {
+export function useHeartbeat(board: BoardDB, backend_url: string) {
     const tabIdRef = useRef<string | null>(null)
 
     useEffect(() => {

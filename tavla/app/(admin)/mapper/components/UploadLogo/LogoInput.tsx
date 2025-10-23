@@ -14,9 +14,9 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { useRouter } from 'next/navigation'
 import { ChangeEventHandler, useState } from 'react'
 import { useFormStatus } from 'react-dom'
-import { TFolderID } from 'types/settings'
+import { FolderIdDB } from 'types/db-types/folders'
 
-function LogoInput({ oid }: { oid?: TFolderID }) {
+function LogoInput({ folderid }: { folderid?: FolderIdDB }) {
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     const [file, setFile] = useState<File | null>(null)
     const [fileName, setFileName] = useState<string>()
@@ -74,7 +74,7 @@ function LogoInput({ oid }: { oid?: TFolderID }) {
 
     return (
         <form action={submit} className="relative flex flex-col">
-            <HiddenInput id="oid" value={oid} />
+            <HiddenInput id="folderid" value={folderid} />
             <Label
                 htmlFor="logo"
                 className="flex w-full flex-col items-center justify-center rounded border-2 border-dashed border-primary p-4 hover:bg-tertiary"

@@ -1,11 +1,11 @@
 import { WalkIcon } from '@entur/icons'
 import { formatWalkTime } from 'app/(admin)/utils/time'
-import { TWalkingDistance } from 'types/tile'
+import { BoardWalkingDistanceDB } from 'types/db-types/boards'
 
 function WalkingDistance({
     walkingDistance,
 }: {
-    walkingDistance?: TWalkingDistance
+    walkingDistance?: BoardWalkingDistanceDB
 }) {
     if (!walkingDistance || walkingDistance.visible == false) return null
 

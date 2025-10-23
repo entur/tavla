@@ -1,12 +1,12 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
-import { TBoard } from 'types/settings'
 import { refreshBoard } from './actions'
 
 import { usePostHog } from 'posthog-js/react'
+import { BoardDB } from 'types/db-types/boards'
 
-function RefreshButton({ board }: { board: TBoard }) {
+function RefreshButton({ board }: { board: BoardDB }) {
     const toast = useToast()
     const posthog = usePostHog()
     const refresh = async () => {

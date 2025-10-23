@@ -5,7 +5,7 @@ import {
     TSituationFragment,
 } from 'graphql/index'
 import { useQueries, useQuery } from 'hooks/useQuery'
-import { TQuayTile, TStopPlaceTile, TTile } from 'types/tile'
+import { BoardTileDB, QuayTileDB, StopPlaceTileDB } from 'types/db-types/boards'
 import { isNotNullOrUndefined } from 'utils/typeguards'
 import {
     combineSituations,
@@ -31,7 +31,7 @@ export function useQuayTileData({
     whitelistedTransportModes,
     offset,
     displayName,
-}: TQuayTile): BaseTileData {
+}: QuayTileDB): BaseTileData {
     const { data, isLoading, error } = useQuery(
         GetQuayQuery,
         {
@@ -77,7 +77,7 @@ export function useStopPlaceTileData({
     whitelistedTransportModes,
     offset,
     displayName,
-}: TStopPlaceTile): BaseTileData {
+}: StopPlaceTileDB): BaseTileData {
     const { data, isLoading, error } = useQuery(
         StopPlaceQuery,
         {
@@ -107,7 +107,7 @@ export function useStopPlaceTileData({
     }
 }
 
-export function useCombinedTileData(combinedTile: TTile[]): BaseTileData {
+export function useCombinedTileData(combinedTile: BoardTileDB[]): BaseTileData {
     const quayQueries = combinedTile
         .filter(({ type }) => type === 'quay')
         .map((tile) => ({

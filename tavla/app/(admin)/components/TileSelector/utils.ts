@@ -7,11 +7,19 @@ import {
 } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 import { nanoid } from 'nanoid'
-import { DEFAULT_COLUMNS } from 'types/column'
-import { TCoordinate } from 'types/meta'
-import { TTile } from 'types/tile'
+import { BoardTileDB, CoordinateDB, TileColumnDB } from 'types/db-types/boards'
 
-export function formDataToTile(data: FormData) {
+export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
+
+export const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
+    'line',
+    'destination',
+    'name',
+    'platform',
+    'time',
+]
+
+export function formDataToTile(data: FormData): BoardTileDB {
     const quayId = data.get('quay') as string
     const stopPlaceId = data.get('stop_place') as string
     const stopPlaceName = (data.get('stop_place_name') as string).split(',')
@@ -28,10 +36,10 @@ export function formDataToTile(data: FormData) {
         uuid: nanoid(),
         placeId,
         columns: DEFAULT_COLUMNS,
-    } as TTile
+    }
 }
 
-export async function getWalkingDistance(from: TCoordinate, to: TCoordinate) {
+export async function getWalkingDistance(from: CoordinateDB, to: CoordinateDB) {
     if (!from || !to) return undefined
     try {
         const response = await fetchQuery(WalkDistanceQuery, {
@@ -56,7 +64,9 @@ export async function getWalkingDistance(from: TCoordinate, to: TCoordinate) {
     }
 }
 
-export async function getStopPlaceCoordinates(stopPlaceId: string) {
+export async function getStopPlaceCoordinates(
+    stopPlaceId: string,
+): Promise<CoordinateDB> {
     try {
         const response = await fetchQuery(StopPlaceCoordinatesQuery, {
             id: stopPlaceId,
@@ -64,7 +74,7 @@ export async function getStopPlaceCoordinates(stopPlaceId: string) {
         return {
             lat: response.stopPlace?.latitude ?? 0,
             lng: response.stopPlace?.longitude ?? 0,
-        } as TCoordinate
+        }
     } catch (error) {
         Sentry.captureMessage(
             'getStopPlaceCoordinates failed for stopPlaceId ' + stopPlaceId,
@@ -73,7 +83,9 @@ export async function getStopPlaceCoordinates(stopPlaceId: string) {
     }
 }
 
-export async function getQuayCoordinates(quayId: string) {
+export async function getQuayCoordinates(
+    quayId: string,
+): Promise<CoordinateDB> {
     try {
         const response = await fetchQuery(QuayCoordinatesQuery, {
             id: quayId,
@@ -81,7 +93,7 @@ export async function getQuayCoordinates(quayId: string) {
         return {
             lat: response.quay?.latitude ?? 0,
             lng: response.quay?.longitude ?? 0,
-        } as TCoordinate
+        }
     } catch (error) {
         Sentry.captureMessage('getQuayCoordinates failed for quayId' + quayId)
         throw error

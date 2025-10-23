@@ -9,7 +9,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
-import { TBoardID } from 'types/settings'
+import { BoardIdDB } from 'types/db-types/boards'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,
@@ -26,7 +26,7 @@ import { getFolderForBoard } from './components/TileCard/actions'
 import { TileList } from './components/TileList'
 
 export type TProps = {
-    params: Promise<{ id: TBoardID }>
+    params: Promise<{ id: BoardIdDB }>
 }
 
 export async function generateMetadata(props: TProps): Promise<Metadata> {
@@ -80,7 +80,7 @@ export default async function EditPage(props: TProps) {
                         <Open bid={board.id} type="button" />
                         <RefreshButton board={board} />
                         <Delete board={board} type="button" />
-                        <ActionsMenu board={board} oid={folder?.id} />
+                        <ActionsMenu board={board} folderid={folder?.id} />
                     </div>
                 </div>
                 <div className="md:w-fit">

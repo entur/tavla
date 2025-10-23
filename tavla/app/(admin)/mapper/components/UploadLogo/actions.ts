@@ -11,20 +11,20 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore, storage } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TFolderID, TLogo } from 'types/settings'
+import { FolderIdDB, FolderLogoDB } from 'types/db-types/folders'
 import { getFilename } from './utils'
 
 initializeAdminApp()
 
-export async function remove(oid?: TFolderID, logo?: TLogo) {
-    if (!oid || !logo)
+export async function remove(folderid?: FolderIdDB, logo?: FolderLogoDB) {
+    if (!folderid || !logo)
         return getFormFeedbackForError('auth/operation-not-allowed')
 
     const file = getFilename(logo)
 
     if (!file) return getFormFeedbackForError()
 
-    const access = userCanEditFolder(oid)
+    const access = userCanEditFolder(folderid)
     if (!access) return redirect('/')
 
     try {
@@ -33,7 +33,7 @@ export async function remove(oid?: TFolderID, logo?: TLogo) {
 
         await logoFile.delete()
 
-        await firestore().collection('folders').doc(oid).update({
+        await firestore().collection('folders').doc(folderid).update({
             logo: firestore.FieldValue.delete(),
         })
 
@@ -42,7 +42,7 @@ export async function remove(oid?: TFolderID, logo?: TLogo) {
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while removing logo from folder',
-                folderID: oid,
+                folderID: folderid,
                 fileName: file,
             },
         })

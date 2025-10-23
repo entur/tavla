@@ -15,7 +15,7 @@ export async function removeUserAction(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
-    const folderId = data.get('oid')?.toString() ?? ''
+    const folderId = data.get('folderid')?.toString() ?? ''
     const uid = data.get('uid')?.toString() ?? ''
 
     const access = await userCanEditFolder(folderId)
@@ -40,12 +40,12 @@ export async function inviteUserAction(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
-    const oid = data.get('oid')?.toString() ?? ''
+    const folderid = data.get('folderid')?.toString() ?? ''
 
     const email = data.get('email')?.toString()
     if (!email) return getFormFeedbackForError('auth/invalid-email')
 
-    const access = await userCanEditFolder(oid)
+    const access = await userCanEditFolder(folderid)
     if (!access) return redirect('/')
 
     const invitee = await auth()
@@ -54,7 +54,7 @@ export async function inviteUserAction(
 
     if (!invitee) return getFormFeedbackForError('auth/user-not-found')
 
-    const folder = await getFolderIfUserHasAccess(oid)
+    const folder = await getFolderIfUserHasAccess(folderid)
 
     if (!folder) return getFormFeedbackForError('folder/not-found')
 
@@ -64,7 +64,7 @@ export async function inviteUserAction(
     try {
         await firestore()
             .collection('folders')
-            .doc(oid)
+            .doc(folderid)
             .update({
                 owners: admin.firestore.FieldValue.arrayUnion(invitee.uid),
             })
@@ -73,7 +73,7 @@ export async function inviteUserAction(
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while inviting user to folder',
-                folderID: oid,
+                folderID: folderid,
                 inviteeID: invitee.uid,
             },
         })

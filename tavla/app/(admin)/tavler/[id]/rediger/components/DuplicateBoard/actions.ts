@@ -5,11 +5,12 @@ import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { TBoard, TFolderID } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderIdDB } from 'types/db-types/folders'
 
 initializeAdminApp()
 
-export async function duplicateBoard(board: TBoard, oid?: TFolderID) {
+export async function duplicateBoard(board: BoardDB, folderid?: FolderIdDB) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
@@ -32,10 +33,10 @@ export async function duplicateBoard(board: TBoard, oid?: TFolderID) {
             throw Error('failed to create board')
 
         firestore()
-            .collection(oid ? 'folders' : 'users')
-            .doc(oid ? String(oid) : String(user.uid))
+            .collection(folderid ? 'folders' : 'users')
+            .doc(folderid ? String(folderid) : String(user.uid))
             .update({
-                [oid ? 'boards' : 'owner']:
+                [folderid ? 'boards' : 'owner']:
                     admin.firestore.FieldValue.arrayUnion(createdBoard.id),
             })
     } catch (error) {

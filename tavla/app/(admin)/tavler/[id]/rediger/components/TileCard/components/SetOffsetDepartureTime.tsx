@@ -4,9 +4,9 @@ import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { TileContext } from 'Board/scenarios/Table/contexts'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { useEffect, useState } from 'react'
-import { TLocation } from 'types/meta'
+import { LocationDB } from 'types/db-types/boards'
 
-function SetOffsetDepartureTime({ address }: { address?: TLocation }) {
+function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
     const tile = useNonNullContext(TileContext)
 
     const walkingDistanceInMinutes = Math.ceil(

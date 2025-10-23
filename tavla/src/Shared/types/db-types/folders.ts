@@ -2,7 +2,7 @@ import { BoardIdDB } from 'types/db-types/boards'
 import { UserIdDB } from 'types/db-types/users'
 
 export type FolderDB = {
-    id?: FolderIDDB
+    id?: FolderIdDB
     name?: string
     owners?: UserIdDB[]
     boards?: BoardIdDB[]
@@ -10,4 +10,4 @@ export type FolderDB = {
 }
 
 export type FolderLogoDB = string
-export type FolderIDDB = string
+export type FolderIdDB = string

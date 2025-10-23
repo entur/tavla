@@ -7,11 +7,11 @@ import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState } from 'react'
-import { TFolder } from 'types/settings'
+import { FolderDB } from 'types/db-types/folders'
 import { FormError } from '../FormError'
 import { createBoard } from './actions'
 
-function NameAndFolderSelector({ folder }: { folder?: TFolder }) {
+function NameAndFolderSelector({ folder }: { folder?: FolderDB }) {
     const [state, action] = useActionState(createBoard, undefined)
 
     const { folders, selectedFolder, setSelectedFolder } = useFolders(folder)
@@ -45,7 +45,7 @@ function NameAndFolderSelector({ folder }: { folder?: TFolder }) {
                     aria-required="true"
                     className="mb-4"
                 />
-                <HiddenInput id="oid" value={selectedFolder?.value.id} />
+                <HiddenInput id="folderid" value={selectedFolder?.value.id} />
             </div>
             <div className="mt-4">
                 <FormError {...getFormFeedbackForField('general', state)} />

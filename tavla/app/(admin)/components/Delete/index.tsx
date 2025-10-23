@@ -17,7 +17,7 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
-import { TFolder } from 'types/settings'
+import { FolderDB } from 'types/db-types/folders'
 import { FormError } from '../FormError'
 import { deleteFolderAction } from './actions'
 
@@ -25,7 +25,7 @@ function DeleteFolder({
     folder,
     type,
 }: {
-    folder: TFolder
+    folder: FolderDB
     type: 'icon' | 'button'
 }) {
     const { addToast } = useToast()
@@ -91,7 +91,7 @@ function DeleteFolder({
                 </SubParagraph>
                 <form action={submit} aria-live="polite" aria-relevant="all">
                     <HiddenInput id="oname" value={folder.name} />
-                    <HiddenInput id="oid" value={folder.id} />
+                    <HiddenInput id="folderid" value={folder.id} />
 
                     <ClientOnlyTextField
                         name="name"

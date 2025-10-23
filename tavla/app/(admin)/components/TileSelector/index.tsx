@@ -18,13 +18,13 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
-import { TFolderID } from 'types/settings'
+import { FolderIdDB } from 'types/db-types/folders'
 
 function TileSelector({
     action,
 }: {
     action: (data: FormData) => void
-    oid?: TFolderID
+    folderid?: FolderIdDB
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch()

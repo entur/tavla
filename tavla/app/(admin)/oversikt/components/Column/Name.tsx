@@ -4,10 +4,11 @@ import {
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
 import Link from 'next/link'
-import { TBoard, TFolder } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 import { ColumnWrapper } from './ColumnWrapper'
 
-function BoardName({ board }: { board: TBoard }) {
+function BoardName({ board }: { board: BoardDB }) {
     return (
         <ColumnWrapper column="name">
             <div className="flex flex-row items-center gap-2">
@@ -23,7 +24,7 @@ function BoardName({ board }: { board: TBoard }) {
     )
 }
 
-function FolderName({ folder, count }: { folder: TFolder; count?: number }) {
+function FolderName({ folder, count }: { folder: FolderDB; count?: number }) {
     return (
         <ColumnWrapper column="name">
             <div className="flex flex-row items-center gap-2">

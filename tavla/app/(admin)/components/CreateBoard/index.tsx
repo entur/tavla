@@ -3,10 +3,10 @@ import { PrimaryButton } from '@entur/button'
 import { BoardIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { useState } from 'react'
-import { TFolder } from 'types/settings'
+import { FolderDB } from 'types/db-types/folders'
 import { NameAndFolderSelector } from './NameAndFolderSelector'
 
-function CreateBoard({ folder }: { folder?: TFolder }) {
+function CreateBoard({ folder }: { folder?: FolderDB }) {
     const [isOpen, setIsOpen] = useState(false)
 
     return (

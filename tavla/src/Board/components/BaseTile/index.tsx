@@ -7,8 +7,7 @@ import { TileSituations } from 'Board/scenarios/Table/components/TileSituations'
 import { Tile } from 'components/Tile'
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
 import { ReactNode } from 'react'
-import { TColumn } from 'types/column'
-import { TWalkingDistance } from 'types/tile'
+import { BoardWalkingDistanceDB, TileColumnDB } from 'types/db-types/boards'
 import { TileSituation } from '../../scenarios/Board/utils'
 import { Table } from '../../scenarios/Table'
 import { StopPlaceQuayDeviation } from '../../scenarios/Table/components/StopPlaceDeviation'
@@ -25,8 +24,8 @@ interface BaseTileProps {
     error?: Error
     hasData: boolean
 
-    columns: TColumn[]
-    walkingDistance?: TWalkingDistance
+    columns: TileColumnDB[]
+    walkingDistance?: BoardWalkingDistanceDB
 
     className?: string
     customHeader?: ReactNode

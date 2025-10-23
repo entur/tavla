@@ -5,11 +5,11 @@ import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
 import Image from 'next/image'
 import { useState } from 'react'
-import { TFolder } from 'types/settings'
+import { FolderDB } from 'types/db-types/folders'
 import { DeleteLogo } from './DeleteLogo'
 import { LogoInput } from './LogoInput'
 
-function UploadLogo({ folder }: { folder: TFolder }) {
+function UploadLogo({ folder }: { folder: FolderDB }) {
     const [isOpen, setIsOpen] = useState(false)
     return (
         <>
@@ -37,9 +37,9 @@ function UploadLogo({ folder }: { folder: TFolder }) {
                     </div>
                 )}
                 {folder.logo && (
-                    <DeleteLogo oid={folder.id} logo={folder.logo} />
+                    <DeleteLogo folderid={folder.id} logo={folder.logo} />
                 )}
-                {!folder.logo && <LogoInput oid={folder.id} />}
+                {!folder.logo && <LogoInput folderid={folder.id} />}
             </Modal>
         </>
     )

@@ -8,18 +8,18 @@ import { firestore } from 'firebase-admin'
 import { isEmpty } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TBoard, TBoardID, TFolder } from 'types/settings'
-import { TTile } from 'types/tile'
+import { BoardDB, BoardIdDB, BoardTileDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 
 initializeAdminApp()
 
-export async function deleteTile(boardId: string, tile: TTile) {
+export async function deleteTile(boardId: string, tile: BoardTileDB) {
     const access = await userCanEditBoard(boardId)
     if (!access) return redirect('/')
 
     try {
         const boardRef = firestore().collection('boards').doc(boardId)
-        const board = (await boardRef.get()).data() as TBoard
+        const board = (await boardRef.get()).data() as BoardDB
         const tileToDelete = board.tiles.find((t) => t.uuid === tile.uuid)
 
         const updatedCombinedTiles = board.combinedTiles?.map((t) => {
@@ -50,13 +50,13 @@ export async function deleteTile(boardId: string, tile: TTile) {
     }
 }
 
-export async function saveTile(bid: TBoardID, tile: TTile) {
+export async function saveTile(bid: BoardIdDB, tile: BoardTileDB) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {
         const boardRef = firestore().collection('boards').doc(bid)
-        const board = (await boardRef.get()).data() as TBoard
+        const board = (await boardRef.get()).data() as BoardDB
         const existingTile = board.tiles.find((t) => t.uuid === tile.uuid)
         if (!existingTile)
             return boardRef.update({
@@ -80,7 +80,7 @@ export async function saveTile(bid: TBoardID, tile: TTile) {
     }
 }
 
-export async function getFolderForBoard(bid: TBoardID) {
+export async function getFolderForBoard(bid: BoardIdDB) {
     try {
         const ref = await firestore()
             .collection('folders')
@@ -88,7 +88,7 @@ export async function getFolderForBoard(bid: TBoardID) {
             .get()
 
         return ref.docs.map(
-            (doc) => ({ id: doc.id, ...doc.data() }) as TFolder,
+            (doc) => ({ id: doc.id, ...doc.data() }) as FolderDB,
         )[0]
     } catch (error) {
         Sentry.captureMessage('Error while fetching folder for board: ' + bid)

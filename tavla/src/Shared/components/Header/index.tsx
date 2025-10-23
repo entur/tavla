@@ -2,11 +2,12 @@ import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import TavlaLogoWhite from 'assets/logos/Tavla-white.svg'
 import { Clock } from 'components/Clock'
 import Image from 'next/image'
-import { TLogo, TTheme } from 'types/settings'
+import { BoardThemeDB } from 'types/db-types/boards'
+import { FolderLogoDB } from 'types/db-types/folders'
 
 type Props = {
-    theme?: TTheme
-    folderLogo?: TLogo | null
+    theme?: BoardThemeDB
+    folderLogo?: FolderLogoDB | null
     hideClock?: boolean
     hideLogo?: boolean
 }

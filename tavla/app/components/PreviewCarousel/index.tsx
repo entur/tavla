@@ -7,14 +7,14 @@ import { Header } from 'components/Header'
 import { InfoMessage } from 'components/InfoMessage'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 
 const CarouselIndicators = ({
     boards,
     activeIndex,
     onClick,
 }: {
-    boards: TBoard[]
+    boards: BoardDB[]
     activeIndex: number
     onClick: (index: number) => void
 }) => {
@@ -41,7 +41,7 @@ const CarouselIndicators = ({
     )
 }
 
-function PreviewCarousel({ boards }: { boards: TBoard[] }) {
+function PreviewCarousel({ boards }: { boards: BoardDB[] }) {
     const [boardIndex, setBoardIndex] = useState(0)
     const posthog = usePostHog()
 

@@ -4,12 +4,13 @@ import {
     TTableColumn,
 } from 'app/(admin)/utils/types'
 import { Fragment } from 'react'
-import { TBoard, TFolder } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 import { Column } from '../Column'
 
 type TableRowsProps = {
     folders: Folder[]
-    boards: TBoard[]
+    boards: BoardDB[]
 }
 
 function TableRows({ folders, boards }: TableRowsProps) {
@@ -25,14 +26,14 @@ function TableRows({ folders, boards }: TableRowsProps) {
                     />
                 ) : null,
             )}
-            {boards.map((board: TBoard) => (
+            {boards.map((board: BoardDB) => (
                 <BoardTableRow key={board.id} board={board} />
             ))}
         </>
     )
 }
 
-function BoardTableRow({ board }: { board: TBoard }) {
+function BoardTableRow({ board }: { board: BoardDB }) {
     const columns = DEFAULT_BOARD_COLUMNS
     return (
         <Fragment key={board.id}>
@@ -48,7 +49,7 @@ function FolderTableRow({
     count,
     lastUpdated,
 }: {
-    folder: TFolder
+    folder: FolderDB
     count: number
     lastUpdated?: number
 }) {

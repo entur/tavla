@@ -2,8 +2,8 @@
 import { Checkbox } from '@entur/form'
 import { TransportIcon } from 'components/TransportIcon'
 import { useState } from 'react'
+import { BoardTileDB } from 'types/db-types/boards'
 import { TTransportMode } from 'types/graphql-schema'
-import { TTile } from 'types/tile'
 import { TLineFragment } from './types'
 import { transportModeNames } from './utils'
 
@@ -12,7 +12,7 @@ function TransportModeAndLines({
     transportMode,
     lines,
 }: {
-    tile: TTile
+    tile: BoardTileDB
     transportMode: TTransportMode | null
     lines: TLineFragment[]
 }) {

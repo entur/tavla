@@ -1,12 +1,13 @@
 import { TTableColumn } from 'app/(admin)/utils/types'
-import { TBoard, TFolder } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 import { BoardActions, FolderActions } from './Actions'
 import { LastModified } from './LastModified'
 import { BoardName, FolderName } from './Name'
 
 type ColumnProps = {
-    board?: TBoard
-    folder?: TFolder
+    board?: BoardDB
+    folder?: FolderDB
     column: TTableColumn
     folderBoardCount?: number
     folderLastUpdated?: number

@@ -13,7 +13,7 @@ import { JSDOM } from 'jsdom'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
 import { NextRequest } from 'next/server'
-import { TFolderID } from 'types/settings'
+import { FolderIdDB } from 'types/db-types/folders'
 import rateLimit from 'utils/rateLimit'
 
 initializeAdminApp()
@@ -43,18 +43,18 @@ export async function POST(request: NextRequest) {
         })
     }
     const data = await request.formData()
-    const oid = data.get('oid') as TFolderID
+    const folderid = data.get('folderid') as FolderIdDB
 
     const logo = data.get('logo') as File
 
-    if (!logo || !oid)
+    if (!logo || !folderid)
         return new Response(JSON.stringify({ error: 'Missing values' }), {
             headers: response.headers,
             status: 400,
         })
 
     try {
-        await userCanEditFolder(oid)
+        await userCanEditFolder(folderid)
     } catch {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
             headers: response.headers,
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     }
 
     const bucket = storage().bucket((await getConfig()).bucket)
-    const file = bucket.file(`logo/${oid}-${nanoid()}`)
+    const file = bucket.file(`logo/${folderid}-${nanoid()}`)
     await file.save(processedFile)
 
     const logoUrl = await getDownloadURL(file)
@@ -111,10 +111,10 @@ export async function POST(request: NextRequest) {
             },
         )
 
-    await firestore().collection('folders').doc(oid).update({
+    await firestore().collection('folders').doc(folderid).update({
         logo: logoUrl,
     })
-    revalidatePath(`/mapper/${oid}`)
+    revalidatePath(`/mapper/${folderid}`)
     return new Response(
         JSON.stringify({ message: 'Logo uploaded successfully' }),
         {

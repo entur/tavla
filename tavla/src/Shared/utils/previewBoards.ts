@@ -1,6 +1,6 @@
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 
-export const previewBoards: TBoard[] = [
+export const previewBoards: BoardDB[] = [
     {
         id: 'aLr7VN03RDThtjYYfd9v',
         meta: {
