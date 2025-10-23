@@ -11,17 +11,18 @@ interface FoldersAndBoardsContentProps {
     folders: Folder[]
     privateBoards: TBoard[]
     allBoards: TBoard[]
-    totalBoards: number
-    elementsListCount: number
 }
 
 export function FoldersAndBoardsContent({
     folders,
     privateBoards,
     allBoards,
-    totalBoards,
-    elementsListCount,
 }: FoldersAndBoardsContentProps) {
+    const totalBoards =
+        folders.reduce((sum, folder) => sum + (folder.boardCount ?? 0), 0) +
+        privateBoards.length
+    const elementsListCount = privateBoards.length + folders.length
+
     const { folders: filteredFolders, boards: filteredBoards } =
         useSearchAndFilter({
             folders,

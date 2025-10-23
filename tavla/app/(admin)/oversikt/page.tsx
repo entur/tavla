@@ -32,14 +32,6 @@ async function FoldersAndBoardsPage() {
         allFolderBoardIds.length > 0 ? await getBoards(allFolderBoardIds) : []
     const allBoards = [...privateBoards, ...folderBoards]
 
-    const boardCountInFolder = folders.map((folder) => folder.boardCount)
-
-    const elementsListCount = privateBoards.length + folders.length
-
-    const totalBoards =
-        boardCountInFolder.reduce((sum, count) => sum + count, 0) +
-        privateBoards.length
-
     return (
         <div className="container flex flex-col gap-8 pb-20">
             <div className="flex flex-row justify-between max-sm:flex-col">
@@ -55,8 +47,6 @@ async function FoldersAndBoardsPage() {
                     folders={folders}
                     privateBoards={privateBoards}
                     allBoards={allBoards}
-                    totalBoards={totalBoards}
-                    elementsListCount={elementsListCount}
                 />
             </div>
         </div>

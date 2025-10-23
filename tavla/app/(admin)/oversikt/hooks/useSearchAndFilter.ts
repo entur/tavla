@@ -74,7 +74,6 @@ export function useSearchAndFilter({
 
     const filteredData = useMemo(() => {
         if (isSearching) {
-            // Search through all boards and folders
             const matchingBoards = allBoards
                 .filter((board) =>
                     matchesSearch(board, searchFilters, DEFAULT_BOARD_NAME),
@@ -94,7 +93,6 @@ export function useSearchAndFilter({
             }
         }
 
-        // Default view: show only private boards and folders
         const filteredBoards = privateBoards
             .filter((board) =>
                 matchesSearch(board, searchFilters, DEFAULT_BOARD_NAME),
