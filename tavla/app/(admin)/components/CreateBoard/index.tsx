@@ -20,6 +20,7 @@ function CreateBoard({ folder }: { folder?: TFolder }) {
                 size="medium"
                 onDismiss={() => setIsOpen(false)}
                 closeLabel="Avbryt opprettelse av tavle"
+                style={{ overflow: 'visible' }}
             >
                 <NameAndFolderSelector folder={folder} />
             </Modal>
