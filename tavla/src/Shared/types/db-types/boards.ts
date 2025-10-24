@@ -20,7 +20,7 @@ export type BoardFooter = {
 
 export type CombinedTilesDB = { ids: BoardId[] }
 
-export type BoardTheme = 'entur' | 'dark' | 'light'
+export type BoardTheme = 'dark' | 'light'
 export type TransportPalette = 'default' | 'blue-bus' | 'green-bus'
 
 export type BoardMetaDB = {
