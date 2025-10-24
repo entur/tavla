@@ -45,7 +45,7 @@ export type BaseTileDB = {
     name: string
     uuid: string
     whitelistedLines?: string[]
-    whitelistedTransportModes?: TTransportMode[] //Denne brukes ikke?
+    whitelistedTransportModes?: TTransportMode[]
     walkingDistance?: BoardWalkingDistanceDB
     offset?: number
     displayName?: string
