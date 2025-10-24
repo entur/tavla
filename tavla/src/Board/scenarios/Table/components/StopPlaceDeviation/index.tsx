@@ -12,6 +12,7 @@ function StopPlaceQuayDeviation({
     const index = useCycler(situations, timerInMilliseconds)
     const numberOfSituations = situations?.length ?? 0
 
+    if (!situations || numberOfSituations === 0) return null
     return (
         <div className="mt-[-1em] min-h-[1.5em]">
             {situations && numberOfSituations > 0 && (
