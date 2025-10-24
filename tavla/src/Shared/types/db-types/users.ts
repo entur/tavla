@@ -1,8 +1,8 @@
-import { BoardIdDB } from 'types/db-types/boards'
+import { BoardId } from 'types/db-types/boards'
 
 export type UserDB = {
-    uid?: UserIdDB
-    owner?: BoardIdDB[]
+    uid?: UserId
+    owner?: BoardId[]
 }
 
-export type UserIdDB = string
+export type UserId = string

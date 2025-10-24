@@ -4,9 +4,9 @@ import { Folder } from 'app/(admin)/utils/types'
 import { firestore } from 'firebase-admin'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
-import { BoardDB, BoardIdDB } from 'types/db-types/boards'
-import { FolderDB, FolderIdDB } from 'types/db-types/folders'
-import { UserIdDB } from 'types/db-types/users'
+import { BoardDB, BoardId } from 'types/db-types/boards'
+import { FolderDB, FolderId } from 'types/db-types/folders'
+import { UserId } from 'types/db-types/users'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
@@ -19,11 +19,11 @@ export async function getFirebaseClientConfig() {
     return FIREBASE_DEV_CONFIG
 }
 
-function userInFolder(uid?: UserIdDB, folder?: FolderDB) {
+function userInFolder(uid?: UserId, folder?: FolderDB) {
     return uid && folder && folder.owners?.includes(uid)
 }
 
-export async function getFolderIfUserHasAccess(folderid?: FolderIdDB) {
+export async function getFolderIfUserHasAccess(folderid?: FolderId) {
     if (!folderid) return undefined
 
     let doc = null
@@ -107,7 +107,7 @@ export async function getFoldersForUser(): Promise<Folder[]> {
     }
 }
 
-export async function getBoardsForFolder(folderid: FolderIdDB) {
+export async function getBoardsForFolder(folderid: FolderId) {
     const folder = await getFolderIfUserHasAccess(folderid)
     if (!folder) return redirect('/')
 
@@ -141,7 +141,7 @@ export async function getBoardsForFolder(folderid: FolderIdDB) {
     }
 }
 
-export async function getBoards(ids?: BoardIdDB[]) {
+export async function getBoards(ids?: BoardId[]) {
     if (!ids) return []
 
     const batches = chunk(ids, 20)
@@ -171,10 +171,10 @@ export async function getPrivateBoardsForUser(folders: FolderDB[]) {
     const userWithBoards = await getUserWithBoardIds()
     if (!userWithBoards?.uid) return []
 
-    const ownedBoardIds = (userWithBoards.owner ?? []) as BoardIdDB[]
+    const ownedBoardIds = (userWithBoards.owner ?? []) as BoardId[]
     if (ownedBoardIds.length === 0) return []
 
-    const boardIdsInFolders = new Set<BoardIdDB>()
+    const boardIdsInFolders = new Set<BoardId>()
     folders.forEach((folder) => {
         folder?.boards?.forEach((bid) => {
             if (bid) boardIdsInFolders.add(bid)

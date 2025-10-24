@@ -7,7 +7,7 @@ import {
 } from 'graphql/index'
 import { fetchQuery } from 'graphql/utils'
 import { nanoid } from 'nanoid'
-import { BoardTileDB, CoordinateDB, TileColumnDB } from 'types/db-types/boards'
+import { BoardTileDB, Coordinate, TileColumnDB } from 'types/db-types/boards'
 
 export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
 
@@ -39,7 +39,7 @@ export function formDataToTile(data: FormData): BoardTileDB {
     }
 }
 
-export async function getWalkingDistance(from: CoordinateDB, to: CoordinateDB) {
+export async function getWalkingDistance(from: Coordinate, to: Coordinate) {
     if (!from || !to) return undefined
     try {
         const response = await fetchQuery(WalkDistanceQuery, {
@@ -66,7 +66,7 @@ export async function getWalkingDistance(from: CoordinateDB, to: CoordinateDB) {
 
 export async function getStopPlaceCoordinates(
     stopPlaceId: string,
-): Promise<CoordinateDB> {
+): Promise<Coordinate> {
     try {
         const response = await fetchQuery(StopPlaceCoordinatesQuery, {
             id: stopPlaceId,
@@ -83,9 +83,7 @@ export async function getStopPlaceCoordinates(
     }
 }
 
-export async function getQuayCoordinates(
-    quayId: string,
-): Promise<CoordinateDB> {
+export async function getQuayCoordinates(quayId: string): Promise<Coordinate> {
     try {
         const response = await fetchQuery(QuayCoordinatesQuery, {
             id: quayId,

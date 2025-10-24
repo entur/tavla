@@ -3,7 +3,7 @@ import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
 import { TravelTag } from 'components/TravelTag'
 import { useState } from 'react'
-import { BoardThemeDB, TransportPaletteDB } from 'types/db-types/boards'
+import { BoardTheme, TransportPalette } from 'types/db-types/boards'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 
 const transportPalettes = [
@@ -49,14 +49,14 @@ function TransportPaletteSelect({
     theme,
     onChange,
 }: {
-    transportPalette?: TransportPaletteDB
-    theme: BoardThemeDB
+    transportPalette?: TransportPalette
+    theme: BoardTheme
     onChange: () => void
 }) {
     const [selectedValue, setSelectedValue] =
-        useState<TransportPaletteDB>(transportPalette)
+        useState<TransportPalette>(transportPalette)
 
-    const handleChange = (value: TransportPaletteDB) => {
+    const handleChange = (value: TransportPalette) => {
         setSelectedValue(value)
         onChange()
     }
@@ -75,7 +75,7 @@ function TransportPaletteSelect({
                     value={selectedValue}
                     aria-labelledby="transport-palette-heading"
                     onChange={(e) => {
-                        handleChange(e.target.value as TransportPaletteDB)
+                        handleChange(e.target.value as TransportPalette)
                     }}
                 >
                     {transportPalettes.map((palette) => (

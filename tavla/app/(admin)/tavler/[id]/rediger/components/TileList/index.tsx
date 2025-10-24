@@ -4,7 +4,7 @@ import { saveUpdatedTileOrder } from 'app/(admin)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
-import { BoardDB, BoardIdDB, BoardTileDB } from 'types/db-types/boards'
+import { BoardDB, BoardId, BoardTileDB } from 'types/db-types/boards'
 import { TileCard } from '../TileCard'
 
 function TileList({
@@ -13,7 +13,7 @@ function TileList({
     bid,
 }: {
     board: BoardDB
-    bid?: BoardIdDB
+    bid?: BoardId
     setDemoBoard?: Dispatch<SetStateAction<BoardDB>>
 }) {
     const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)

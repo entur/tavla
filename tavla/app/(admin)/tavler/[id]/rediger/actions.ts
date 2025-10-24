@@ -14,15 +14,15 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import {
     BoardDB,
-    BoardIdDB,
+    BoardId,
     BoardTileDB,
-    CoordinateDB,
+    Coordinate,
     LocationDB,
 } from 'types/db-types/boards'
 
 initializeAdminApp()
 
-export async function addTile(bid: BoardIdDB, tile: BoardTileDB) {
+export async function addTile(bid: BoardId, tile: BoardTileDB) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -76,7 +76,7 @@ export async function getWalkingDistanceTile(
             return getStopPlaceCoordinates(tile.placeId)
         }
     })()
-    const toCoordinates: CoordinateDB = {
+    const toCoordinates: Coordinate = {
         lat: 0,
         lng: 0,
         ...(location?.coordinate || {}),
@@ -97,10 +97,7 @@ export async function getWalkingDistanceTile(
         },
     }
 }
-export async function saveUpdatedTileOrder(
-    bid: BoardIdDB,
-    tiles: BoardTileDB[],
-) {
+export async function saveUpdatedTileOrder(bid: BoardId, tiles: BoardTileDB[]) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 

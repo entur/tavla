@@ -8,7 +8,7 @@ import { firestore } from 'firebase-admin'
 import { isEmpty } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { BoardDB, BoardIdDB, BoardTileDB } from 'types/db-types/boards'
+import { BoardDB, BoardId, BoardTileDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
 
 initializeAdminApp()
@@ -50,7 +50,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
     }
 }
 
-export async function saveTile(bid: BoardIdDB, tile: BoardTileDB) {
+export async function saveTile(bid: BoardId, tile: BoardTileDB) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -80,7 +80,7 @@ export async function saveTile(bid: BoardIdDB, tile: BoardTileDB) {
     }
 }
 
-export async function getFolderForBoard(bid: BoardIdDB) {
+export async function getFolderForBoard(bid: BoardId) {
     try {
         const ref = await firestore()
             .collection('folders')

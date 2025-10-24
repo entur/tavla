@@ -1,13 +1,13 @@
-import { BoardIdDB } from 'types/db-types/boards'
-import { UserIdDB } from 'types/db-types/users'
+import { BoardId } from 'types/db-types/boards'
+import { UserId } from 'types/db-types/users'
 
 export type FolderDB = {
-    id?: FolderIdDB
+    id?: FolderId
     name?: string
-    owners?: UserIdDB[]
-    boards?: BoardIdDB[]
-    logo?: FolderLogoDB
+    owners?: UserId[]
+    boards?: BoardId[]
+    logo?: FolderLogo
 }
 
-export type FolderLogoDB = string
-export type FolderIdDB = string
+export type FolderLogo = string
+export type FolderId = string

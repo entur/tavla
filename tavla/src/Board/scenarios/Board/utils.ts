@@ -1,9 +1,9 @@
 import { sortPublicCodes } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
-import { BoardDB, BoardFontSizeDB } from 'types/db-types/boards'
+import { BoardDB, BoardFontSize } from 'types/db-types/boards'
 import { TTransportMode } from 'types/graphql-schema'
 
-export function getFontScale(fontSize: BoardFontSizeDB | undefined) {
+export function getFontScale(fontSize: BoardFontSize | undefined) {
     switch (fontSize) {
         case 'small':
             return 'text-em-sm'

@@ -6,7 +6,7 @@ import { Paragraph } from '@entur/typography'
 import { AuthenticatedUser } from 'app/(admin)/mapper/[id]/page'
 import { useState } from 'react'
 import { FolderDB } from 'types/db-types/folders'
-import { UserIdDB } from 'types/db-types/users'
+import { UserId } from 'types/db-types/users'
 import { InviteUser } from './InviteUser'
 import { MemberList } from './MemberList'
 
@@ -16,7 +16,7 @@ function MemberAdministration({
     members,
 }: {
     folder: FolderDB
-    uid: UserIdDB
+    uid: UserId
     members: AuthenticatedUser[]
 }) {
     const [isOpen, setIsOpen] = useState(false)

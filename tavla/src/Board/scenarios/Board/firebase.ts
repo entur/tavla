@@ -1,8 +1,8 @@
 import * as Sentry from '@sentry/nextjs'
 import { makeBoardCompatible } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import admin, { firestore } from 'firebase-admin'
-import { BoardDB, BoardIdDB } from 'types/db-types/boards'
-import { FolderDB, FolderIdDB } from 'types/db-types/folders'
+import { BoardDB, BoardId } from 'types/db-types/boards'
+import { FolderDB, FolderId } from 'types/db-types/folders'
 
 initializeAdminApp()
 
@@ -15,7 +15,7 @@ async function initializeAdminApp() {
     }
 }
 
-export async function getBoard(bid: BoardIdDB) {
+export async function getBoard(bid: BoardId) {
     try {
         const board = await firestore().collection('boards').doc(bid).get()
         if (!board.exists) {
@@ -28,7 +28,7 @@ export async function getBoard(bid: BoardIdDB) {
     }
 }
 
-export async function getFolder(folderid: FolderIdDB) {
+export async function getFolder(folderid: FolderId) {
     try {
         const folder = await firestore()
             .collection('folders')
@@ -44,7 +44,7 @@ export async function getFolder(folderid: FolderIdDB) {
     }
 }
 
-export async function getFolderForBoard(bid: BoardIdDB) {
+export async function getFolderForBoard(bid: BoardId) {
     try {
         const ref = await firestore()
             .collection('folders')

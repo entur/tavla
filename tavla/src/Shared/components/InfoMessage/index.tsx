@@ -2,7 +2,7 @@ import EnturLogoBlue from 'assets/logos/Tavla-blue.svg'
 import EnturLogoWhite from 'assets/logos/Tavla-white.svg'
 import { defaultFontSize, getFontScale } from 'Board/scenarios/Board/utils'
 import Image from 'next/image'
-import { BoardDB, BoardThemeDB } from 'types/db-types/boards'
+import { BoardDB, BoardTheme } from 'types/db-types/boards'
 
 function InfoMessage({
     board,
@@ -34,7 +34,7 @@ function InfoMessage({
     )
 }
 
-export function getLogo(theme: BoardThemeDB) {
+export function getLogo(theme: BoardTheme) {
     if (theme === 'light') return EnturLogoBlue
     return EnturLogoWhite
 }

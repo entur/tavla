@@ -7,8 +7,8 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { BoardDB, BoardIdDB } from 'types/db-types/boards'
-import { FolderDB, FolderIdDB } from 'types/db-types/folders'
+import { BoardDB, BoardId } from 'types/db-types/boards'
+import { FolderDB, FolderId } from 'types/db-types/folders'
 
 initializeAdminApp()
 
@@ -16,7 +16,7 @@ export async function deleteBoardAction(
     prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
-    const bid = data.get('bid') as BoardIdDB
+    const bid = data.get('bid') as BoardId
     const folder = await getFolderForBoard(bid)
 
     try {
@@ -49,8 +49,8 @@ export async function countAllBoards(folders: FolderDB[], boards: BoardDB[]) {
 }
 
 export async function moveBoardAction(data: FormData) {
-    const bid = data.get('bid') as BoardIdDB
-    const newFolderID = data.get('newOid') as FolderIdDB | undefined
+    const bid = data.get('bid') as BoardId
+    const newFolderID = data.get('newOid') as FolderId | undefined
     const oldFolder = await getFolderForBoard(bid)
     try {
         await moveBoard(bid, newFolderID, oldFolder?.id)

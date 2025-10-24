@@ -1,44 +1,43 @@
 import { TTransportMode } from 'types/graphql-schema'
 
 export type BoardDB = {
-    id?: BoardIdDB
+    id?: BoardId
     meta: BoardMetaDB
     tiles: BoardTileDB[]
     combinedTiles?: CombinedTilesDB[]
-    theme?: BoardThemeDB
-    footer?: BoardFooterDB
-    transportPalette?: TransportPaletteDB
+    theme?: BoardTheme
+    footer?: BoardFooter
+    transportPalette?: TransportPalette
     hideLogo?: boolean
     hideClock?: boolean
-    version?: number //Finnes ikke i dag - slette?
 }
 
-export type BoardIdDB = string
+export type BoardId = string
 
-export type BoardFooterDB = {
+export type BoardFooter = {
     footer?: string
 }
 
-export type CombinedTilesDB = { ids: string[] }
+export type CombinedTilesDB = { ids: BoardId[] }
 
-export type BoardThemeDB = 'entur' | 'dark' | 'light'
-export type TransportPaletteDB = 'default' | 'blue-bus' | 'green-bus'
+export type BoardTheme = 'entur' | 'dark' | 'light'
+export type TransportPalette = 'default' | 'blue-bus' | 'green-bus'
 
 export type BoardMetaDB = {
     title?: string
     created?: number
     lastActive?: number
     dateModified?: number
-    fontSize?: BoardFontSizeDB
+    fontSize?: BoardFontSize
     location?: LocationDB
 }
 
-export type BoardFontSizeDB = 'small' | 'medium' | 'large'
+export type BoardFontSize = 'small' | 'medium' | 'large'
 
-export type CoordinateDB = { lat: number; lng: number }
+export type Coordinate = { lat: number; lng: number }
 export type LocationDB = {
     name?: string
-    coordinate?: CoordinateDB
+    coordinate?: Coordinate
 }
 
 export type BaseTileDB = {

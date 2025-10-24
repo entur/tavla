@@ -6,7 +6,7 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { FolderIdDB } from 'types/db-types/folders'
+import { FolderId } from 'types/db-types/folders'
 
 export async function deleteFolderAction(
     prevState: TFormFeedback | undefined,
@@ -16,7 +16,7 @@ export async function deleteFolderAction(
 
     if (!user) redirect('/')
 
-    const folderid = data.get('folderid') as FolderIdDB
+    const folderid = data.get('folderid') as FolderId
     if (!folderid) return getFormFeedbackForError('general')
 
     const folderName = data.get('oname') as string
