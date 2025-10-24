@@ -65,7 +65,7 @@ function Time({
                 <div className="text-right text-em-xl leading-em-base text-estimated-time">
                     {getRelativeTimeString(expectedDepartureTime)}
                 </div>
-                <div className="lineThrough text-right text-em-sm">
+                <div className="lineThrough text-right text-em-sm/em-xs">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>

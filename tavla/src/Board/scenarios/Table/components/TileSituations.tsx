@@ -89,7 +89,7 @@ function TileSituations({
                 </div>
                 <div className="grow self-center">
                     <p
-                        className={`ml-em-0.75 overflow-hidden overflow-ellipsis break-words pt-1 text-em-sm/em-base font-normal ${cancelledDeparture ? 'text-error' : 'text-warning'}`}
+                        className={`ml-em-0.75 overflow-hidden overflow-ellipsis break-words text-em-sm/em-base font-normal ${cancelledDeparture ? 'text-error' : 'text-warning'}`}
                     >
                         <>
                             {transportModeWithPublicCode && (
