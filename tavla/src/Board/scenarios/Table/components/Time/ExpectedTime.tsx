@@ -45,10 +45,10 @@ function Time({
     if (cancelled)
         return (
             <>
-                <div className="text-right text-em-lg font-semibold text-estimated-time">
+                <div className="text-right text-em-lg/em-lg font-semibold text-estimated-time">
                     Innstilt
                 </div>
-                <div className="lineThrough text-right text-em-sm">
+                <div className="lineThrough text-right text-em-sm/em-sm">
                     {formatDateString(aimedDepartureTime)}
                 </div>
             </>
