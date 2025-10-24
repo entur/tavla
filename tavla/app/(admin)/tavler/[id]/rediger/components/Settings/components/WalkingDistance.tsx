@@ -5,13 +5,13 @@ import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useEffect, useRef } from 'react'
-import { TLocation } from 'types/meta'
+import { LocationDB } from 'types/db-types/boards'
 
 function WalkingDistance({
     location,
     onChange,
 }: {
-    location?: TLocation
+    location?: LocationDB
     onChange: () => void
 }) {
     const { pointItems, selectedPoint, setSelectedPoint } =

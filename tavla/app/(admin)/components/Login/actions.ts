@@ -8,7 +8,7 @@ import admin, { auth, firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { TUserID } from 'types/settings'
+import { UserId } from 'types/db-types/users'
 
 initializeAdminApp()
 
@@ -39,7 +39,7 @@ export async function login(token: string) {
     redirect('/oversikt')
 }
 
-export async function create(uid: TUserID) {
+export async function create(uid: UserId) {
     try {
         await firestore().collection('users').doc(uid).create({})
     } catch (error) {

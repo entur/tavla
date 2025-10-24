@@ -4,7 +4,7 @@ import {
 } from 'app/(admin)/utils/constants'
 import { Folder } from 'app/(admin)/utils/types'
 import { useMemo } from 'react'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 import { useSearchParam } from './useSearchParam'
 import {
     useSortBoardFunction,
@@ -13,13 +13,13 @@ import {
 
 interface UseSearchAndFilterProps {
     folders: Folder[]
-    privateBoards: TBoard[]
-    allBoards: TBoard[]
+    privateBoards: BoardDB[]
+    allBoards: BoardDB[]
 }
 
 interface FilteredData {
     folders: Folder[]
-    boards: TBoard[]
+    boards: BoardDB[]
     isSearching: boolean
 }
 

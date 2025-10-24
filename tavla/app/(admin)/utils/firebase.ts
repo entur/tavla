@@ -2,7 +2,9 @@
 import * as Sentry from '@sentry/nextjs'
 import { getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import admin, { auth, firestore } from 'firebase-admin'
-import { TBoardID, TFolderID, TUser } from 'types/settings'
+import { BoardId } from 'types/db-types/boards'
+import { FolderId } from 'types/db-types/folders'
+import { UserDB } from 'types/db-types/users'
 import { getBoardsForFolder, getFolderIfUserHasAccess } from '../actions'
 import { getUserFromSessionCookie } from './server'
 
@@ -47,10 +49,10 @@ export async function getUserWithBoardIds() {
     const user = await getUserFromSessionCookie()
     if (!user) return null
     const userDoc = await firestore().collection('users').doc(user.uid).get()
-    return { ...userDoc.data(), uid: userDoc.id } as TUser
+    return { ...userDoc.data(), uid: userDoc.id } as UserDB
 }
 
-export async function userCanEditBoard(bid?: TBoardID) {
+export async function userCanEditBoard(bid?: BoardId) {
     if (!bid) return false
 
     const user = await getUserWithBoardIds()
@@ -63,7 +65,7 @@ export async function userCanEditBoard(bid?: TBoardID) {
     return userEditorAccess
 }
 
-export async function deleteBoard(bid: TBoardID) {
+export async function deleteBoard(bid: BoardId) {
     const user = await getUserFromSessionCookie()
     const access = await userCanEditBoard(bid)
 
@@ -95,56 +97,56 @@ export async function deleteBoard(bid: TBoardID) {
     }
 }
 
-export async function deleteFolder(oid: TFolderID) {
-    const access = await userCanEditFolder(oid)
+export async function deleteFolder(folderid: FolderId) {
+    const access = await userCanEditFolder(folderid)
     if (!access) throw 'auth/operation-not-allowed'
-    await deleteFolderBoards(oid)
-    await firestore().collection('folders').doc(oid).delete()
+    await deleteFolderBoards(folderid)
+    await firestore().collection('folders').doc(folderid).delete()
 }
 
-export async function userCanEditFolder(oid: TFolderID) {
+export async function userCanEditFolder(folderid: FolderId) {
     const user = await getUserFromSessionCookie()
     if (!user) return false
 
-    const folder = await getFolderIfUserHasAccess(oid)
+    const folder = await getFolderIfUserHasAccess(folderid)
     if (!folder) return false
     return true
 }
 
-export async function deleteFolderBoards(oid: TFolderID) {
-    const boards = await getBoardsForFolder(oid)
+export async function deleteFolderBoards(folderid: FolderId) {
+    const boards = await getBoardsForFolder(folderid)
 
     return Promise.all(
         boards
             .filter((board) => board !== undefined)
-            .map((board) => board?.id && deleteFolderBoard(oid, board.id)),
+            .map((board) => board?.id && deleteFolderBoard(folderid, board.id)),
     )
 }
 
-export async function deleteFolderBoard(oid: TFolderID, bid: TBoardID) {
-    const access = await userCanEditFolder(oid)
+export async function deleteFolderBoard(folderid: FolderId, bid: BoardId) {
+    const access = await userCanEditFolder(folderid)
     if (!access) throw 'auth/operation-not-allowed'
     try {
         return firestore().collection('boards').doc(bid).delete()
     } catch (error) {
         Sentry.captureMessage(
-            'Erorr while deleting board ' + bid + ' in folder ' + oid,
+            'Erorr while deleting board ' + bid + ' in folder ' + folderid,
         )
         throw error
     }
 }
 
-export async function removeUserFromFolder(oid: string, uid: string) {
+export async function removeUserFromFolder(folderid: string, uid: string) {
     try {
         await firestore()
             .collection('folders')
-            .doc(oid)
+            .doc(folderid)
             .update({
                 owners: admin.firestore.FieldValue.arrayRemove(uid),
             })
     } catch (error) {
         Sentry.captureMessage(
-            'Error while removing user ' + uid + ' from folder ' + oid,
+            'Error while removing user ' + uid + ' from folder ' + folderid,
         )
         throw error
     }

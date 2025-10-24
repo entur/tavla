@@ -1,10 +1,9 @@
 import { sortPublicCodes } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
+import { BoardDB, BoardFontSize } from 'types/db-types/boards'
 import { TTransportMode } from 'types/graphql-schema'
-import { TFontSize } from 'types/meta'
-import { TBoard } from 'types/settings'
 
-export function getFontScale(fontSize: TFontSize | undefined) {
+export function getFontScale(fontSize: BoardFontSize | undefined) {
     switch (fontSize) {
         case 'small':
             return 'text-em-xs'
@@ -16,7 +15,7 @@ export function getFontScale(fontSize: TFontSize | undefined) {
             return 'text-em-base'
     }
 }
-export function defaultFontSize(board: TBoard) {
+export function defaultFontSize(board: BoardDB) {
     if (!board.tiles || board.tiles.length === 0) return 'medium'
 
     switch (board.tiles.length) {

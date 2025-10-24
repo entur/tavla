@@ -1,13 +1,14 @@
 import { DeleteFolder } from 'app/(admin)/components/Delete'
 import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
 import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
-import { TBoard, TFolder } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 import { ColumnWrapper } from './ColumnWrapper'
 import { Delete } from './Delete'
 import { EditBoard, EditFolder } from './Edit'
 import { Move } from './Move'
 
-function BoardActions({ board }: { board: TBoard }) {
+function BoardActions({ board }: { board: BoardDB }) {
     return (
         <ColumnWrapper column="actions">
             <div className="flex flex-row gap-1">
@@ -21,7 +22,7 @@ function BoardActions({ board }: { board: TBoard }) {
     )
 }
 
-function FolderActions({ folder }: { folder: TFolder }) {
+function FolderActions({ folder }: { folder: FolderDB }) {
     return (
         <ColumnWrapper column="actions">
             <div className="flex flex-row gap-1">

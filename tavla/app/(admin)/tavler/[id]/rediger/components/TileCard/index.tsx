@@ -2,6 +2,7 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
+import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { OLD_LINE_IDS } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
@@ -15,10 +16,13 @@ import {
     useActionState,
     useState,
 } from 'react'
-import { DEFAULT_COLUMNS, TColumn } from 'types/column'
-import { TLocation } from 'types/meta'
-import { TBoard, TBoardID } from 'types/settings'
-import { TTile } from 'types/tile'
+import {
+    BoardDB,
+    BoardId,
+    BoardTileDB,
+    LocationDB,
+    TileColumnDB,
+} from 'types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
 import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
@@ -40,15 +44,15 @@ function TileCard({
     moveItem,
     setDemoBoard,
 }: {
-    bid: TBoardID
-    tile: TTile
+    bid: BoardId
+    tile: BoardTileDB
     index: number
-    address?: TLocation
-    demoBoard?: TBoard
+    address?: LocationDB
+    demoBoard?: BoardDB
     totalTiles: number
     isCombined: boolean
     moveItem: (index: number, direction: string) => void
-    setDemoBoard?: Dispatch<SetStateAction<TBoard>>
+    setDemoBoard?: Dispatch<SetStateAction<BoardDB>>
 }) {
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
@@ -59,7 +63,7 @@ function TileCard({
         prevState: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        let columns = data.getAll('columns') as TColumn[]
+        let columns = data.getAll('columns') as TileColumnDB[]
         data.delete('columns')
         const count = data.get('count') as number | null
         data.delete('count')
@@ -88,7 +92,7 @@ function TileCard({
             columns = tile.columns ?? DEFAULT_COLUMNS
         }
 
-        const newTile = {
+        const newTile: BoardTileDB = {
             ...tile,
             columns,
             whitelistedLines: lines,
@@ -99,7 +103,7 @@ function TileCard({
             }),
             offset: Number(offset) || undefined,
             displayName: displayName.substring(0, 50) || undefined,
-        } as TTile
+        }
 
         try {
             if (bid === 'demo') {
@@ -143,7 +147,7 @@ function TileCard({
         .filter((tm) => !(tm === 'coach' && transportModes.includes('bus')))
         .map((tm) => <TransportIcon transportMode={tm} key={tm} />)
 
-    const saveTileToDemoBoard = (newTile: TTile) => {
+    const saveTileToDemoBoard = (newTile: BoardTileDB) => {
         if (!demoBoard) return null
         const oldTileIndex = demoBoard.tiles.findIndex(
             (tile) => tile.uuid == newTile.uuid,

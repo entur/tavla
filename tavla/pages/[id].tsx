@@ -6,7 +6,8 @@ import { useHeartbeat } from 'hooks/useHeartbeat'
 import { useRefresh } from 'hooks/useRefresh'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { TBoard, TFolder } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
 import { getBackendUrl } from 'utils/index'
 
 export async function getServerSideProps({
@@ -16,7 +17,7 @@ export async function getServerSideProps({
 }) {
     const { id } = params
 
-    const board: TBoard | undefined = await getBoard(id)
+    const board: BoardDB | undefined = await getBoard(id)
 
     if (!board) {
         return {
@@ -40,8 +41,8 @@ function BoardPage({
     folder,
     backend_url,
 }: {
-    board: TBoard
-    folder: TFolder | null
+    board: BoardDB
+    folder: FolderDB | null
     backend_url: string
 }) {
     const updatedBoard = useRefresh(board, backend_url)

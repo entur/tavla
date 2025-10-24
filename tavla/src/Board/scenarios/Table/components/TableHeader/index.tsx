@@ -1,4 +1,4 @@
-import { TWalkingDistance } from 'types/tile'
+import { BoardWalkingDistanceDB } from 'types/db-types/boards'
 import { WalkingDistance } from '../WalkingDistance'
 
 function TableHeader({
@@ -6,7 +6,7 @@ function TableHeader({
     walkingDistance,
 }: {
     heading: string
-    walkingDistance?: TWalkingDistance
+    walkingDistance?: BoardWalkingDistanceDB
 }) {
     return (
         <div className="mb-2 flex min-h-[2.5em] flex-row items-center justify-between">

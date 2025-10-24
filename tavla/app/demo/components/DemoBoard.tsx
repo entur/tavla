@@ -6,7 +6,7 @@ import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { Preview } from 'app/(admin)/tavler/[id]/rediger/components/Preview'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { usePostHog } from 'posthog-js/react'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 
 const emptyDemoBoard = {
     id: 'demo',
@@ -15,7 +15,7 @@ const emptyDemoBoard = {
 }
 
 function DemoBoard() {
-    const [board, setBoard] = useLocalStorage<TBoard>('board', emptyDemoBoard)
+    const [board, setBoard] = useLocalStorage<BoardDB>('board', emptyDemoBoard)
 
     const posthog = usePostHog()
 

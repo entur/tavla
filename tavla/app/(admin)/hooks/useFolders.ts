@@ -1,7 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { FolderIcon } from '@entur/icons'
 import { useCallback, useEffect, useState } from 'react'
-import { TFolder } from 'types/settings'
+import { FolderDB } from 'types/db-types/folders'
 import { getFoldersForUser } from '../actions'
 import { folderToDropdownItem } from '../tavler/[id]/utils'
 
@@ -10,13 +10,13 @@ const NO_FOLDER = {
     label: 'Ingen mappe',
 }
 
-function useFolders(folder?: TFolder) {
+function useFolders(folder?: FolderDB) {
     const [folderList, setFolderList] = useState<
-        NormalizedDropdownItemType<TFolder>[]
+        NormalizedDropdownItemType<FolderDB>[]
     >([])
 
     const [selectedFolder, setSelectedFolder] =
-        useState<NormalizedDropdownItemType<TFolder> | null>(
+        useState<NormalizedDropdownItemType<FolderDB> | null>(
             folder ? folderToDropdownItem(folder) : NO_FOLDER,
         )
 

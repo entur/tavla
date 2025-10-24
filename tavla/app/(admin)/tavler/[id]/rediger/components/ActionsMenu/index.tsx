@@ -1,37 +1,50 @@
 'use client'
 import { OverflowMenu } from '@entur/menu'
-import { TBoard, TFolderID } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderId } from 'types/db-types/folders'
 import { DuplicateBoard } from '../DuplicateBoard'
 
-function ActionsMenu({ board, oid }: { board: TBoard; oid?: TFolderID }) {
+function ActionsMenu({
+    board,
+    folderid,
+}: {
+    board: BoardDB
+    folderid?: FolderId
+}) {
     return (
         <>
-            <OverflowActionsMenu board={board} oid={oid} />
-            <ButtonsMenu board={board} oid={oid} />
+            <OverflowActionsMenu board={board} folderid={folderid} />
+            <ButtonsMenu board={board} folderid={folderid} />
         </>
     )
 }
 
 function OverflowActionsMenu({
     board,
-    oid,
+    folderid,
 }: {
-    board: TBoard
-    oid?: TFolderID
+    board: BoardDB
+    folderid?: FolderId
 }) {
     return (
         <div className="hidden md:flex">
             <OverflowMenu placement="bottom-left">
-                <DuplicateBoard board={board} oid={oid} />
+                <DuplicateBoard board={board} folderid={folderid} />
             </OverflowMenu>
         </div>
     )
 }
 
-function ButtonsMenu({ board, oid }: { board: TBoard; oid?: TFolderID }) {
+function ButtonsMenu({
+    board,
+    folderid,
+}: {
+    board: BoardDB
+    folderid?: FolderId
+}) {
     return (
         <div className="flex flex-col gap-4 md:hidden md:flex-row md:items-center">
-            <DuplicateBoard board={board} oid={oid} />
+            <DuplicateBoard board={board} folderid={folderid} />
         </div>
     )
 }

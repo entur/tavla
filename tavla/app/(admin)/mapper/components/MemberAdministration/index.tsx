@@ -3,8 +3,10 @@ import { Button } from '@entur/button'
 import { UsersIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
+import { AuthenticatedUser } from 'app/(admin)/mapper/[id]/page'
 import { useState } from 'react'
-import { TFolder, TUser, TUserID } from 'types/settings'
+import { FolderDB } from 'types/db-types/folders'
+import { UserId } from 'types/db-types/users'
 import { InviteUser } from './InviteUser'
 import { MemberList } from './MemberList'
 
@@ -13,9 +15,9 @@ function MemberAdministration({
     uid,
     members,
 }: {
-    folder: TFolder
-    uid: TUserID
-    members: TUser[]
+    folder: FolderDB
+    uid: UserId
+    members: AuthenticatedUser[]
 }) {
     const [isOpen, setIsOpen] = useState(false)
 
@@ -37,8 +39,12 @@ function MemberAdministration({
                     bruker på Tavla.
                 </Paragraph>
                 <div className="flex flex-col gap-6">
-                    <MemberList oid={folder.id} uid={uid} members={members} />
-                    <InviteUser oid={folder.id} />
+                    <MemberList
+                        folderid={folder.id}
+                        uid={uid}
+                        members={members}
+                    />
+                    <InviteUser folderid={folder.id} />
                 </div>
             </Modal>
         </>

@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { TBoard } from 'types/settings'
 import { useSearchParam } from './useSearchParam'
 
 import {
@@ -8,6 +7,7 @@ import {
     DEFAULT_SORT_TYPE,
 } from 'app/(admin)/utils/constants'
 import { TSort, TTableColumn } from 'app/(admin)/utils/types'
+import { BoardDB } from 'types/db-types/boards'
 import { useSortFolderFunction } from './useSortFolderFunction'
 
 function useSortBoardFunction() {
@@ -19,7 +19,7 @@ function useSortBoardFunction() {
     const sortType: TSort = (sortParams?.[1] as TSort) || DEFAULT_SORT_TYPE
 
     const sortBoards = useCallback(
-        (boardA: TBoard, boardB: TBoard) => {
+        (boardA: BoardDB, boardB: BoardDB) => {
             let sortFunc: () => number
             const compareTitle = () => {
                 const titleA =

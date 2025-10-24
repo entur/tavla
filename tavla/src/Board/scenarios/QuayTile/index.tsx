@@ -1,9 +1,9 @@
+import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { BaseTile } from 'Board/components/BaseTile'
 import { useQuayTileData } from 'Board/hooks/useTileData'
-import { DEFAULT_COLUMNS } from 'types/column'
-import { TQuayTile } from 'types/tile'
+import { QuayTileDB } from 'types/db-types/boards'
 
-export function QuayTile(props: TQuayTile & { className?: string }) {
+export function QuayTile(props: QuayTileDB & { className?: string }) {
     const tileData = useQuayTileData(props)
 
     return (

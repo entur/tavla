@@ -4,13 +4,13 @@ import { Heading4 } from '@entur/typography'
 import { useFolders } from 'app/(admin)/hooks/useFolders'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useEffect, useRef } from 'react'
-import { TFolder } from 'types/settings'
+import { FolderDB } from 'types/db-types/folders'
 
 function Folder({
     folder,
     onChange,
 }: {
-    folder?: TFolder
+    folder?: FolderDB
     onChange: () => void
 }) {
     const { folders, selectedFolder, setSelectedFolder } = useFolders(folder)

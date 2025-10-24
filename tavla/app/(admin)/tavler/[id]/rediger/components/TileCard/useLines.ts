@@ -1,11 +1,11 @@
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'assets/env'
 import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
 import { useEffect, useState } from 'react'
+import { BoardTileDB } from 'types/db-types/boards'
 import { TQuay } from 'types/graphql-schema'
-import { TTile } from 'types/tile'
 import { TLineFragment } from './types'
 
-function useLines(tile: TTile): TLineFragment[] | null {
+function useLines(tile: BoardTileDB): TLineFragment[] | null {
     const [lines, setLines] = useState(null)
 
     useEffect(() => {

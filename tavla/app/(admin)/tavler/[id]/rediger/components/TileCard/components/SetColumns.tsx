@@ -3,11 +3,12 @@ import { FilterChip } from '@entur/chip'
 import { QuestionFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4, SubParagraph } from '@entur/typography'
+import { DEFAULT_COMBINED_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { TileContext } from 'Board/scenarios/Table/contexts'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { isArray } from 'lodash'
 import { useState } from 'react'
-import { Columns, DEFAULT_COMBINED_COLUMNS, TColumn } from 'types/column'
+import { TileColumnDB, TileColumns } from 'types/db-types/boards'
 import { ColumnModal } from '../ColumnModal'
 
 function SetColumns({ isCombined }: { isCombined: boolean }) {
@@ -49,7 +50,7 @@ function SetColumns({ isCombined }: { isCombined: boolean }) {
                 setIsOpen={setIsColumnModalOpen}
             />
             <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
-                {Object.entries(Columns).map(([key, value]) => {
+                {Object.entries(TileColumns).map(([key, value]) => {
                     const columns = isCombined
                         ? DEFAULT_COMBINED_COLUMNS
                         : tile.columns
@@ -61,7 +62,7 @@ function SetColumns({ isCombined }: { isCombined: boolean }) {
                             disabled={isCombined}
                             defaultChecked={
                                 isArray(columns) &&
-                                columns.includes(key as TColumn)
+                                columns.includes(key as TileColumnDB)
                             }
                         >
                             {value}

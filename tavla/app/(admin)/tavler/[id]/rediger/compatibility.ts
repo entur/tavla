@@ -1,16 +1,17 @@
 // TODO: remove 15. december when new lines are active
 // Remember to do a migration script in Firestore beforehand
 
-import { TBoard } from 'types/settings'
-import { TTile } from 'types/tile'
+import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 
-export function makeBoardCompatible(board: TBoard): TBoard {
-    const updatedTiles = board.tiles.map(({ whitelistedLines, ...tile }) => ({
-        ...tile,
-        ...(whitelistedLines && {
-            whitelistedLines: whitelistedLines.flatMap(oldLineIdsToNew),
+export function makeBoardCompatible(board: BoardDB): BoardDB {
+    const updatedTiles: BoardTileDB[] = board.tiles.map(
+        ({ whitelistedLines, ...tile }) => ({
+            ...tile,
+            ...(whitelistedLines && {
+                whitelistedLines: whitelistedLines.flatMap(oldLineIdsToNew),
+            }),
         }),
-    })) as TTile[]
+    )
     return { ...board, tiles: updatedTiles }
 }
 

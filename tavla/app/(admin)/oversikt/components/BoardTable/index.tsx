@@ -2,11 +2,11 @@
 import { TableHeader } from 'app/(admin)/oversikt/components/TableHeader'
 import { TableRows } from 'app/(admin)/oversikt/components/TableRows'
 import { Folder, TableColumns } from 'app/(admin)/utils/types'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 
 type BoardTableProps = {
     folders?: Folder[]
-    boards: TBoard[]
+    boards: BoardDB[]
 }
 
 function BoardTable({ folders, boards }: BoardTableProps) {

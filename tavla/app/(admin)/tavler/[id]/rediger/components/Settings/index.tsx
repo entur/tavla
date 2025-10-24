@@ -13,7 +13,7 @@ import {
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useCallback, useRef, useState } from 'react'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 import { saveSettings } from './actions'
 import { FontSelect } from './components/FontSelect'
 import { Footer } from './components/Footer'
@@ -23,14 +23,14 @@ import { TransportPaletteSelect } from './components/TransportPaletteSelect'
 import { ViewType } from './components/ViewType'
 import { WalkingDistance } from './components/WalkingDistance'
 
-const getSelectedElements = (board: TBoard): Elements[] => {
+const getSelectedElements = (board: BoardDB): Elements[] => {
     const elements: Elements[] = []
     if (!board.hideClock) elements.push('clock')
     if (!board.hideLogo) elements.push('logo')
     return elements
 }
 
-function Settings({ board }: { board: TBoard }) {
+function Settings({ board }: { board: BoardDB }) {
     const [formErrors, setFormErrors] = useState<
         Partial<Record<InputType, TFormFeedback>>
     >({})

@@ -6,7 +6,8 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { TBoard, TFolderID } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderId } from 'types/db-types/folders'
 
 initializeAdminApp()
 
@@ -17,7 +18,7 @@ export async function createBoard(
     const name = data.get('name') as string
     if (!name) return getFormFeedbackForError('board/name-missing')
 
-    const oid = data.get('oid') as TFolderID
+    const folderid = data.get('folderid') as FolderId
 
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
@@ -35,15 +36,15 @@ export async function createBoard(
                     created: Date.now(),
                     dateModified: Date.now(),
                 },
-            } as TBoard)
+            } as BoardDB)
 
         if (!createdBoard) return getFormFeedbackForError('firebase/general')
 
         await firestore()
-            .collection(oid ? 'folders' : 'users')
-            .doc(oid ? oid : user.uid)
+            .collection(folderid ? 'folders' : 'users')
+            .doc(folderid ? folderid : user.uid)
             .update({
-                [oid ? 'boards' : 'owner']:
+                [folderid ? 'boards' : 'owner']:
                     admin.firestore.FieldValue.arrayUnion(createdBoard.id),
             })
     } catch (error) {
@@ -52,7 +53,7 @@ export async function createBoard(
                 message:
                     'Error while adding newly created board to either user or folder',
                 userID: user.uid,
-                folderID: oid,
+                folderID: folderid,
             },
         })
         return handleError(error)

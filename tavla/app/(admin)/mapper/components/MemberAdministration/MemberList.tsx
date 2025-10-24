@@ -6,17 +6,19 @@ import {
     TableHead,
     TableRow,
 } from '@entur/table'
-import { TFolderID, TUser, TUserID } from 'types/settings'
+import { AuthenticatedUser } from 'app/(admin)/mapper/[id]/page'
+import { FolderId } from 'types/db-types/folders'
+import { UserId } from 'types/db-types/users'
 import { RemoveUserButton } from './RemoveUserButton'
 
 function MemberList({
     members,
     uid: currentUserId,
-    oid,
+    folderid,
 }: {
-    members: TUser[]
-    uid: TUserID
-    oid?: TFolderID
+    members: AuthenticatedUser[]
+    uid: UserId
+    folderid?: FolderId
 }) {
     return (
         <Table>
@@ -32,7 +34,10 @@ function MemberList({
                         <DataCell>{member.email}</DataCell>
                         <DataCell>
                             {member.uid !== currentUserId && (
-                                <RemoveUserButton user={member} oid={oid} />
+                                <RemoveUserButton
+                                    user={member}
+                                    folderid={folderid}
+                                />
                             )}
                         </DataCell>
                     </TableRow>

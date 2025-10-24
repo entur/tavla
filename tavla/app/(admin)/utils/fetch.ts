@@ -1,7 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
 import { uniq } from 'lodash'
-import { TLocation } from 'types/meta'
+import { LocationDB } from 'types/db-types/boards'
 import { TCategory, getIcons } from '../tavler/[id]/utils'
 
 type TPartialGeoResponse = {
@@ -78,7 +78,7 @@ export async function fetchStopPlaces(
 
 export async function fetchPoints(
     text: string,
-): Promise<NormalizedDropdownItemType<TLocation>[]> {
+): Promise<NormalizedDropdownItemType<LocationDB>[]> {
     if (!text || text.length < 3) return []
 
     const searchParams = new URLSearchParams({

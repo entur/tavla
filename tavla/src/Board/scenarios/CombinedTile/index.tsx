@@ -1,14 +1,14 @@
+import { DEFAULT_COMBINED_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { BaseTile } from 'Board/components/BaseTile'
 import { useCombinedTileData } from 'Board/hooks/useTileData'
-import { DEFAULT_COMBINED_COLUMNS } from 'types/column'
-import { TTile } from 'types/tile'
+import { BoardTileDB } from 'types/db-types/boards'
 import { CombinedTileDeviation } from '../Table/components/StopPlaceDeviation'
 
 export function CombinedTile({
     combinedTile,
     className,
 }: {
-    combinedTile: TTile[]
+    combinedTile: BoardTileDB[]
     className?: string
 }) {
     const tileData = useCombinedTileData(combinedTile)

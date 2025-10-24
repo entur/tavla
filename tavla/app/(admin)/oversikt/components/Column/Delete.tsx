@@ -13,9 +13,9 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
-import { TBoard } from 'types/settings'
+import { BoardDB } from 'types/db-types/boards'
 
-function Delete({ board, type }: { board: TBoard; type?: 'icon' | 'button' }) {
+function Delete({ board, type }: { board: BoardDB; type?: 'icon' | 'button' }) {
     const { addToast } = useToast()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)

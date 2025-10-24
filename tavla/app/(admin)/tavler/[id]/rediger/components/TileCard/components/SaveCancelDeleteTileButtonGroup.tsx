@@ -9,8 +9,8 @@ import { TileContext } from 'Board/scenarios/Table/contexts'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import Image from 'next/image'
-import { TBoard } from 'types/settings'
-import { TTile } from 'types/tile'
+
+import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { DeleteTileButton } from './DeleteTileButton'
 
 function SaveCancelDeleteTileButtonGroup({
@@ -27,7 +27,11 @@ function SaveCancelDeleteTileButtonGroup({
     resetTile: () => void
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (confirmOpen: boolean) => void
-    deleteTile: (boardId: string, tile: TTile, demoBoard?: TBoard) => void
+    deleteTile: (
+        boardId: string,
+        tile: BoardTileDB,
+        demoBoard?: BoardDB,
+    ) => void
     validation?: TFormFeedback
 }) {
     const tile = useNonNullContext(TileContext)

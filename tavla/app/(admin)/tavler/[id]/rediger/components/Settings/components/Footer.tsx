@@ -5,13 +5,13 @@ import { Heading4 } from '@entur/typography'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useState } from 'react'
-import { TFooter } from 'types/settings'
+import { BoardFooter } from 'types/db-types/boards'
 
 function Footer({
     infoMessage,
     onBlur,
 }: {
-    infoMessage?: TFooter
+    infoMessage?: BoardFooter
     onBlur: () => void
 }) {
     const [selectedValue, setSelectedValue] = useState<string>(

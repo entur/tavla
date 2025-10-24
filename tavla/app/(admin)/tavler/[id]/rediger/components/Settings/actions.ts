@@ -22,15 +22,16 @@ import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
-import { TFontSize, TLocation } from 'types/meta'
 import {
-    TBoard,
-    TBoardID,
-    TFolderID,
-    TFooter,
-    TTheme,
-    TTransportPalette,
-} from 'types/settings'
+    BoardDB,
+    BoardFontSize,
+    BoardFooter,
+    BoardId,
+    BoardTheme,
+    LocationDB,
+    TransportPalette,
+} from 'types/db-types/boards'
+import { FolderId } from 'types/db-types/folders'
 
 initializeAdminApp()
 
@@ -41,24 +42,24 @@ async function userHasAccessToEditBoard(bid: string) {
 
 export async function saveSettings(data: FormData) {
     const title = data.get('title') as string
-    const bid = data.get('bid') as TBoardID
+    const bid = data.get('bid') as BoardId
     const viewType = data.get('viewType') as string
-    const theme = data.get('theme') as TTheme
-    const font = data.get('font') as TFontSize
-    const transportPalette = data.get('transportPalette') as TTransportPalette
+    const theme = data.get('theme') as BoardTheme
+    const font = data.get('font') as BoardFontSize
+    const transportPalette = data.get('transportPalette') as TransportPalette
 
-    const newFolder = data.get('newOid') as TFolderID | undefined
-    const oldFolder = data.get('oldOid') as TFolderID | undefined
+    const newFolder = data.get('newOid') as FolderId | undefined
+    const oldFolder = data.get('oldOid') as FolderId | undefined
 
     const hideClock = data.get('clock') === null
     const hideLogo = data.get('logo') === null
 
-    let location: TLocation | undefined | string = data.get(
+    let location: LocationDB | undefined | string = data.get(
         'newLocation',
     ) as string
 
     if (location) {
-        location = JSON.parse(location) as TLocation
+        location = JSON.parse(location) as LocationDB
     } else {
         location = undefined
     }
@@ -104,7 +105,7 @@ export async function saveSettings(data: FormData) {
     }
 }
 
-async function setFooter(bid: TBoardID, { footer }: TFooter) {
+async function setFooter(bid: BoardId, { footer }: BoardFooter) {
     userHasAccessToEditBoard(bid)
 
     let newFooter = {}
@@ -135,7 +136,7 @@ async function setFooter(bid: TBoardID, { footer }: TFooter) {
     }
 }
 
-async function setTheme(bid: TBoardID, theme?: TTheme) {
+async function setTheme(bid: BoardId, theme?: BoardTheme) {
     userHasAccessToEditBoard(bid)
 
     try {
@@ -160,7 +161,7 @@ async function setTheme(bid: TBoardID, theme?: TTheme) {
     }
 }
 
-async function setViewType(board: TBoard, viewType: string) {
+async function setViewType(board: BoardDB, viewType: string) {
     userHasAccessToEditBoard(board.id ?? '')
 
     const shouldDeleteCombinedTiles = viewType === 'separate'
@@ -182,7 +183,7 @@ async function setViewType(board: TBoard, viewType: string) {
     }
 }
 
-async function saveTitle(bid: TBoardID, title: string) {
+async function saveTitle(bid: BoardId, title: string) {
     userHasAccessToEditBoard(bid)
 
     try {
@@ -205,7 +206,7 @@ async function saveTitle(bid: TBoardID, title: string) {
     }
 }
 
-async function saveFont(bid: TBoardID, font: TFontSize) {
+async function saveFont(bid: BoardId, font: BoardFontSize) {
     userHasAccessToEditBoard(bid)
 
     try {
@@ -225,7 +226,7 @@ async function saveFont(bid: TBoardID, font: TFontSize) {
     }
 }
 
-async function saveLocation(board: TBoard, location?: TLocation) {
+async function saveLocation(board: BoardDB, location?: LocationDB) {
     userHasAccessToEditBoard(board.id ?? '')
 
     try {
@@ -250,7 +251,7 @@ async function saveLocation(board: TBoard, location?: TLocation) {
     }
 }
 
-async function getTilesWithDistance(board: TBoard, location?: TLocation) {
+async function getTilesWithDistance(board: BoardDB, location?: LocationDB) {
     return await Promise.all(
         board.tiles.map(async (tile) => {
             return await getWalkingDistanceTile(tile, location)
@@ -259,9 +260,9 @@ async function getTilesWithDistance(board: TBoard, location?: TLocation) {
 }
 
 export async function moveBoard(
-    bid: TBoardID,
-    toFolder?: TFolderID,
-    fromFolder?: TFolderID,
+    bid: BoardId,
+    toFolder?: FolderId,
+    fromFolder?: FolderId,
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
@@ -314,8 +315,8 @@ export async function moveBoard(
 }
 
 async function setTransportPalette(
-    bid: TBoardID,
-    transportPalette?: TTransportPalette,
+    bid: BoardId,
+    transportPalette?: TransportPalette,
 ) {
     userHasAccessToEditBoard(bid)
 
@@ -342,7 +343,7 @@ async function setTransportPalette(
 }
 
 async function setElements(
-    bid: TBoardID,
+    bid: BoardId,
     hideClock: boolean,
     hideLogo: boolean,
 ) {

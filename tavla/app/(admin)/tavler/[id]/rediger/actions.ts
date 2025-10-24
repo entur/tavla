@@ -12,13 +12,17 @@ import {
 import { firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { TCoordinate, TLocation } from 'types/meta'
-import { TBoard, TBoardID } from 'types/settings'
-import { TTile } from 'types/tile'
+import {
+    BoardDB,
+    BoardId,
+    BoardTileDB,
+    Coordinate,
+    LocationDB,
+} from 'types/db-types/boards'
 
 initializeAdminApp()
 
-export async function addTile(bid: TBoardID, tile: TTile) {
+export async function addTile(bid: BoardId, tile: BoardTileDB) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -38,7 +42,7 @@ export async function addTile(bid: TBoardID, tile: TTile) {
     }
 }
 
-export async function addTileToCombinedList(board: TBoard, tileId: string) {
+export async function addTileToCombinedList(board: BoardDB, tileId: string) {
     const access = await userCanEditBoard(board.id)
     if (!access) return redirect('/')
 
@@ -62,8 +66,8 @@ export async function addTileToCombinedList(board: TBoard, tileId: string) {
 }
 
 export async function getWalkingDistanceTile(
-    tile: TTile,
-    location?: TLocation,
+    tile: BoardTileDB,
+    location?: LocationDB,
 ) {
     const fromCoordinates = await (() => {
         if (tile.type === 'quay') {
@@ -72,7 +76,7 @@ export async function getWalkingDistanceTile(
             return getStopPlaceCoordinates(tile.placeId)
         }
     })()
-    const toCoordinates: TCoordinate = {
+    const toCoordinates: Coordinate = {
         lat: 0,
         lng: 0,
         ...(location?.coordinate || {}),
@@ -93,7 +97,7 @@ export async function getWalkingDistanceTile(
         },
     }
 }
-export async function saveUpdatedTileOrder(bid: TBoardID, tiles: TTile[]) {
+export async function saveUpdatedTileOrder(bid: BoardId, tiles: BoardTileDB[]) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
