@@ -3,11 +3,11 @@ import { getDate, getRelativeTimeString, isDateStringToday } from 'utils/time'
 function FormattedTime({ time }: { time: string }) {
     return (
         <>
-            <div className="text-right font-semibold leading-em-base">
+            <div className="text-nowrap text-right text-em-xl leading-em-base">
                 {getRelativeTimeString(time)}
             </div>
             {!isDateStringToday(time) && (
-                <div className="text-right text-em-xs/em-xs">
+                <div className="text-right text-em-sm/em-sm">
                     {getDate(time)}
                 </div>
             )}

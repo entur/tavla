@@ -6,11 +6,11 @@ import { TTransportMode } from 'types/graphql-schema'
 export function getFontScale(fontSize: BoardFontSize | undefined) {
     switch (fontSize) {
         case 'small':
-            return 'text-em-sm'
+            return 'text-em-xs'
         case 'medium':
             return 'text-em-base'
         case 'large':
-            return 'text-em-lg'
+            return 'text-em-xl'
         default:
             return 'text-em-base'
     }
