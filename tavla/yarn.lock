@@ -3901,10 +3901,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@posthog/core@npm:1.3.0"
-  checksum: 10/1f95175905342e009017ea0d968730f19d1aef3382703b006f2c9787f2ef989d8b186d8084ad03a156fe1ce4ec47ef1ddbc778bc8ffd8bead2eff68e9914aeaf
+"@posthog/core@npm:1.3.1":
+  version: 1.3.1
+  resolution: "@posthog/core@npm:1.3.1"
+  checksum: 10/9cb6ef6d0467a87e114f0cf201cba5eec38cf8884395fc5895dc09769c2e034131a87356cac157beced99f31cac57d8e5dafb487bda973c3b72bddcfd684546c
   languageName: node
   linkType: hard
 
@@ -12468,24 +12468,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.278.0":
-  version: 1.278.0
-  resolution: "posthog-js@npm:1.278.0"
+"posthog-js@npm:1.279.2":
+  version: 1.279.2
+  resolution: "posthog-js@npm:1.279.2"
   dependencies:
-    "@posthog/core": "npm:1.3.0"
+    "@posthog/core": "npm:1.3.1"
     core-js: "npm:^3.38.1"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
     web-vitals: "npm:^4.2.4"
-  peerDependencies:
-    "@rrweb/types": 2.0.0-alpha.17
-    rrweb-snapshot: 2.0.0-alpha.17
-  peerDependenciesMeta:
-    "@rrweb/types":
-      optional: true
-    rrweb-snapshot:
-      optional: true
-  checksum: 10/b9ae9f24d9a5a35b7dd3e91c32720aafbac0264e761449b51f00c027757bdaf385f95556367587c0dba0bd75207c1f82a03d55dfe0380db977c5391184203651
+  checksum: 10/1a414b4c5cd9c0641224f92172a3d0964de45c227bf0335916a2227797d793bfb76f950d16b5ff960320a1675716822ec5ed2294a3e6d529e37191db23d6e200
   languageName: node
   linkType: hard
 
@@ -14536,7 +14528,7 @@ __metadata:
     nanoid: "npm:5.1.6"
     next: "npm:15.5.6"
     postcss: "npm:8.5.6"
-    posthog-js: "npm:1.278.0"
+    posthog-js: "npm:1.279.2"
     prettier: "npm:3.6.2"
     prettier-plugin-organize-imports: "npm:4.3.0"
     prettier-plugin-tailwindcss: "npm:0.7.1"
