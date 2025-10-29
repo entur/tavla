@@ -19,7 +19,16 @@
         "prettier": "prettier . --check",
         "fix": "next lint --fix && prettier . --write",
         "build-start": "next build && next start",
-        "postinstall": "cd .. && husky install ./.husky"
+        "postinstall": "cd .. && husky install ./.husky",
+        "prepare": "husky"
+    },
+    "lint-staged": {
+        "**/*.{ts,tsx,js,jsx}": [
+            "yarn eslint --max-warnings=0 --fix"
+        ],
+        "**/*.{json,css,scss,md,yaml,yml}": [
+            "yarn prettier --write"
+        ]
     },
     "dependencies": {
         "@entur/alert": "0.17.18",
@@ -82,6 +91,7 @@
         "eslint-plugin-react": "7.37.5",
         "firebase-tools": "13.27.0",
         "husky": "9.1.7",
+        "lint-staged": "15.2.2",
         "postcss": "8.5.6",
         "prettier": "3.6.2",
         "prettier-plugin-organize-imports": "4.3.0",
