@@ -33,7 +33,7 @@ Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all off
 
 ## Oversikt: slik kjører du (høytnivå)
 
-1. Start Redis (master + replica) – se `backend/readme.md` for detaljer.
+1. Start Redis (master + replica) – se `backend/readme.md` for detaljer
 2. Start backend (`cargo run`)
 3. Start frontend (`yarn dev` eller `yarn dev:persist`)
 4. Sett `BACKEND_API_KEY` i frontend (`.env.local`)
