@@ -1,25 +1,4 @@
 #!/bin/bash
 set -e
-
-# Finn staged filer under tavla/
-STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM -- 'tavla/*')
-
-if [ -z "$STAGED_FILES" ]; then
-  exit 0
-fi
-
-echo "🗂  Staged files in tavla:"
-echo "$STAGED_FILES"
-
-STAGED_JS_TS=$(echo "$STAGED_FILES" | grep -E '\.(js|jsx|ts|tsx)$' || true)
-
-if [ -n "$STAGED_JS_TS" ]; then
-  echo "🧹 Running ESLint..."
-  yarn --cwd tavla next lint --file $(echo "$STAGED_JS_TS" | sed 's|^tavla/||')
-fi
-
-echo "🧠 Running typecheck..."
-yarn --cwd tavla typecheck
-
-echo "🎨 Checking formatting..."
-yarn --cwd tavla prettier --check $(echo "$STAGED_FILES" | sed 's|^tavla/||')
+cd "$(dirname "$0")/../tavla"
+npx lint-staged
