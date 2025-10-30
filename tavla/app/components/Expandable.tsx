@@ -15,11 +15,13 @@ function Expandable({
 }) {
     return (
         <div className="fixed bottom-0 right-3 z-10 drop-shadow-lg">
-            <div
+            <button
+                type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className={`flex w-full cursor-pointer items-center justify-between gap-2 rounded-t bg-blue20 px-6 py-2 ${!isOpen ? 'transition-all duration-150 ease-in-out hover:py-3' : ''}`}
+                className={`flex w-full items-center justify-between gap-2 rounded-t bg-blue20 px-6 py-2 ${!isOpen ? 'transition-all duration-150 ease-in-out hover:py-3' : ''}`}
                 aria-label={isOpen ? 'Åpne skjema' : 'Lukk skjema'}
             >
+                {' '}
                 <Heading5
                     margin="none"
                     className="!text-lg sm:text-base"
@@ -28,7 +30,7 @@ function Expandable({
                     {title}
                 </Heading5>
                 {isOpen ? <DownArrowIcon /> : <UpArrowIcon />}
-            </div>
+            </button>
             {isOpen && (
                 <div className="w-full rounded-b bg-blue10 p-4 md:w-96 lg:w-[500px]">
                     {children}
