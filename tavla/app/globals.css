@@ -151,6 +151,80 @@
         --bus-color-transparent: rgba(0, 219, 155, 0.15);
     }
 
+    /*atb brand*/
+    [data-transport-palette='atb'] {
+        --bus-color: #608000;
+        --coach-color: #008099;
+        --rail-color: #943894;
+        --water-color: #00404d;
+        --air-color: #576b75;
+        --cableway-color: #608000;
+        --funicular-color: #608000;
+        --metro-color: #943894;
+        --taxi-color: #4c1a4c;
+        --tram-color: #608000;
+    }
+
+    /* atb dark theme */
+    [data-theme='dark'][data-transport-palette='atb'] {
+        --bus-color: #a9d22d;
+        --coach-color: #0095b2;
+        --rail-color: #cd98cd;
+        --water-color: #99d9e5;
+        --air-color: #8f9ca3;
+        --cableway-color: #a9d22d;
+        --funicular-color: #a9d22d;
+        --metro-color: #cd98cd;
+        --taxi-color: #ac53ac;
+        --tram-color: #a9d22d;
+    }
+
+    /*fram brand*/
+    [data-transport-palette='fram'] {
+        --bus-color: #025587;
+        --coach-color: #82b863;
+        --rail-color: #551125;
+        --water-color: #007ab5;
+        --air-color: #676767;
+        --cableway-color: #676767;
+        --funicular-color: #676767;
+        --metro-color: #676767;
+        --taxi-color: #956b77;
+        --tram-color: #676767;
+    }
+
+    /*fram dark theme */
+    [data-theme='dark'][data-transport-palette='fram'] {
+        --bus-color: #56a0db;
+        --coach-color: #82b863;
+        --rail-color: #ce758f;
+        --water-color: #45b2c8;
+        --air-color: #b3bec4;
+        --cableway-color: #b3bec4;
+        --funicular-color: #b3bec4;
+        --metro-color: #b3bec4;
+        --taxi-color: #a98891;
+        --tram-color: #b3bec4;
+    }
+
+    /*svipper brand*/
+    [data-transport-palette='svipper'] {
+        --bus-color: #334dce;
+        --coach-color: #507341;
+        --rail-color: #bd3685;
+        --water-color: #418083;
+        --air-color: #37424a;
+    }
+
+    /*svipper dark theme */
+    [data-theme='dark'][data-transport-palette='svipper'] {
+        --bus-color: #8e9dea;
+        --coach-color: #8db67c;
+        --rail-color: #cf83af;
+        --water-color: #57a7ab;
+        --air-color: #c7cacc;
+    }
+
     [data-theme='entur'] {
         --main-background-color: var(--fill-primary-default-light);
         --secondary-background-color: var(--colors-blues-blue10);
