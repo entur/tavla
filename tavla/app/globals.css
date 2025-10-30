@@ -36,6 +36,7 @@
         --tooltip-color: var(--fill-background-contrast-lightalt-2);
         --tooltip-text-color: var(--text-light);
 
+        --coach-color: var(--standard-mobility);
         --air-color: var(--standard-plane);
         --bus-color: var(--standard-bus);
         --cableway-color: var(--standard-cableway);
@@ -91,6 +92,7 @@
         --tooltip-color: var(--fill-background-subdued-dark);
         --tooltip-text-color: var(--text-light);
 
+        --coach-color: var(--dark-mobility);
         --air-color: var(--dark-plane);
         --bus-color: var(--dark-bus);
         --cableway-color: var(--dark-cableway);
@@ -181,8 +183,8 @@
 
     /*fram brand*/
     [data-transport-palette='fram'] {
-        --bus-color: #025587;
-        --coach-color: #82b863;
+        --bus-color: #014165;
+        --coach-color: #55823a;
         --rail-color: #551125;
         --water-color: #007ab5;
         --air-color: #676767;
@@ -198,7 +200,7 @@
         --bus-color: #56a0db;
         --coach-color: #82b863;
         --rail-color: #ce758f;
-        --water-color: #45b2c8;
+        --water-color: #9ad9e6;
         --air-color: #b3bec4;
         --cableway-color: #b3bec4;
         --funicular-color: #b3bec4;
