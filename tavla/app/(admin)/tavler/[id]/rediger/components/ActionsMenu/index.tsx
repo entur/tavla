@@ -58,7 +58,7 @@ function ActionsMenuPhone({
                 <Open bid={board.id} type="button" />
                 <RefreshButton board={board} />
             </div>
-            <OverflowMenu className="flex flex-col">
+            <OverflowMenu>
                 <DuplicateBoard
                     board={board}
                     folderid={folderid}
