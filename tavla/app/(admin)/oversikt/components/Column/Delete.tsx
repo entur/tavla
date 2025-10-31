@@ -2,6 +2,7 @@
 import { useToast } from '@entur/alert'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { CloseIcon, DeleteIcon } from '@entur/icons'
+import { OverflowMenuItem } from '@entur/menu'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
@@ -15,7 +16,13 @@ import Image from 'next/image'
 import { useActionState, useState } from 'react'
 import { BoardDB } from 'types/db-types/boards'
 
-function Delete({ board, type }: { board: BoardDB; type?: 'icon' | 'button' }) {
+function Delete({
+    board,
+    type,
+}: {
+    board: BoardDB
+    type?: 'icon' | 'button' | 'menuitem'
+}) {
     const { addToast } = useToast()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
@@ -98,7 +105,7 @@ function DeleteButton({
     onClick,
 }: {
     text: string
-    type?: 'button' | 'icon'
+    type?: 'button' | 'icon' | 'menuitem'
     onClick: () => void
 }) {
     if (type === 'button') {
@@ -108,6 +115,8 @@ function DeleteButton({
                 <DeleteIcon aria-label="Slette-ikon" />
             </Button>
         )
+    } else if (type === 'menuitem') {
+        return <OverflowMenuItem onClick={onClick}>{text}</OverflowMenuItem>
     }
     return (
         <Tooltip content={text} placement="bottom" id="tooltip-delete-board">
