@@ -18,7 +18,8 @@ function DuplicateBoard({
 }: DuplicateBoardProps) {
     const { addToast } = useToast()
 
-    async function onClick() {
+    const handleSelect = async () => {
+        delete board.id
         await duplicateBoard(
             {
                 ...board,
@@ -37,14 +38,14 @@ function DuplicateBoard({
             <Button
                 variant="secondary"
                 aria-label="Dupliser tavle"
-                onClick={onClick}
+                onClick={handleSelect}
             >
                 Dupliser tavle
             </Button>
         )
     } else {
         return (
-            <OverflowMenuItem onClick={onClick}>
+            <OverflowMenuItem onClick={handleSelect}>
                 Dupliser tavle
             </OverflowMenuItem>
         )
