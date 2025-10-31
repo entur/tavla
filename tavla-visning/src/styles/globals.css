@@ -1,11 +1,12 @@
-@import "tailwindcss";
 @import "@entur/tokens/dist/base.css";
 @import "@entur/tokens/dist/primitive.css";
 @import "@entur/tokens/dist/semantic.css";
 @import "@entur/tokens/dist/data.css";
 @import "@entur/tokens/dist/transport.css";
-@import "./colors.css";
-@import "./utilities.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   :root {
@@ -66,16 +67,6 @@
     --data-visualization-lilac: var(--standard-lilac);
     --data-visualization-peach: var(--standard-peach);
     --data-visualization-spring: var(--standard-spring);
-  }
-
-  /* Normalize heading spacing */
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 0;
-    padding: 0;
   }
 
   [data-theme="dark"] {
@@ -218,19 +209,9 @@
 
   body {
     color: var(--main-text-color);
-    font-family:
-      Nationale,
-      Arial,
-      Gotham Rounded,
-      -apple-system,
-      BlinkMacSystemFont,
-      Segoe UI,
-      Roboto,
-      Oxygen-Sans,
-      Ubuntu,
-      Cantarell,
-      Helvetica Neue,
-      sans-serif;
+    font-family: Nationale, Arial, Gotham Rounded, -apple-system,
+      BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+      Helvetica Neue, sans-serif;
     display: flex;
     flex-direction: column;
   }
@@ -260,20 +241,86 @@
 }
 
 @layer components {
+  .primaryButton {
+    background-color: var(--main-background-color);
+  }
+
+  .primaryButton:hover {
+    background-color: var(--secondary-background-color);
+  }
+
+  .secondaryButton {
+    background-color: var(--secondary-background-color);
+  }
+
+  .secondaryButton:hover {
+    background-color: var(--tertiary-background-color);
+  }
+
+  .visuallyHidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .box {
+    width: 100%;
+    border-radius: 0.5em;
+    padding: 2em;
+    background: var(--blue10);
+  }
+
+  .divider {
+    @apply my-2 border-b-2 border-b-secondary;
+  }
+
   .publicCode {
     background-color: var(--tertiary-background-color);
     padding: 0.35em 0.5em;
     border-radius: 0.5em;
   }
 
+  .pulse {
+    @apply bottom-[calc(50%-((h-3)/2))] left-[calc(50%-((0.75em)/2))] inline-flex h-3 w-3 rounded-full bg-success;
+  }
+
+  .previewContainer {
+    @apply rounded border border-secondary bg-primary p-4;
+  }
+
+  .table-custom-nth-child {
+    &:nth-child(6n + 1),
+    &:nth-child(6n + 2),
+    &:nth-child(6n + 3) {
+      @apply bg-grey10;
+    }
+  }
+
   /* For Tavla using pages */
+
+  .root {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    box-sizing: inherit;
+    font-size: 3vmin;
+    background-color: var(--main-background-color);
+  }
+
+  .rootContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    padding: 0.5em;
+  }
 
   .lineThrough {
     text-decoration: line-through;
-  }
-}
-@layer base {
-  h1 {
-    font-weight: revert !important;
   }
 }

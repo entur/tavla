@@ -1,0 +1,46 @@
+export const dataColors = {
+  azure: "var(--data-visualization-azure)",
+  blue: "var(--data-visualization-blue)",
+  coral: "var(--data-visualization-coral)",
+  jungle: "var(--data-visualization-jungle)",
+  lavender: "var(--data-visualization-lavender)",
+  lilac: "var(--data-visualization-lilac)",
+  peach: "var(--data-visualization-peach)",
+  spring: "var(--data-visualization-spring)",
+};
+
+export const transportModes = {
+  air: "var(--air-color)",
+  bicycle: "var(--mobility-color)",
+  bus: "var(--bus-color)",
+  cableway: "var(--cableway-color)",
+  citybike: "var(--mobility-color)",
+  coach: "var(--bus-color)",
+  funicular: "var(--funicular-color)",
+  lift: "var(--cableway-color)",
+  metro: "var(--metro-color)",
+  mobility: "var(--mobility-color)",
+  monorail: "var(--tram-color)",
+  rail: "var(--rail-color)",
+  taxi: "var(--taxi-color)",
+  tram: "var(--tram-color)",
+  trolleybus: "var(--bus-color)",
+  unknown: "var(--unknown-color)",
+  water: "var(--water-color)",
+};
+
+export const transportModesTransparent = {
+  "air-transparent": "var(--air-color-transparent)",
+  "bus-transparent": "var(--bus-color-transparent)",
+  "cableway-transparent": "var(--cableway-color-transparent)",
+  "coach-transparent": "var(--bus-color-transparent)",
+  "funicular-transparent": "var(--funicular-color-transparent)",
+  "lift-transparent": "var(--cableway-color-transparent)",
+  "metro-transparent": "var(--metro-color-transparent)",
+  "monorail-transparent": "var(--tram-color-transparent)",
+  "rail-transparent": "var(--rail-color-transparent)",
+  "taxi-transparent": "var(--taxi-color-transparent)",
+  "tram-transparent": "var(--tram-color-transparent)",
+  "trolleybus-transparent": "var(--bus-color-transparent)",
+  "water-transparent": "var(--water-color-transparent)",
+};

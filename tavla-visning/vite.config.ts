@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import legacy from "@vitejs/plugin-legacy";
-import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [
@@ -12,7 +11,6 @@ export default defineConfig({
       renderLegacyChunks: true,
       modernPolyfills: true,
     }),
-    tailwindcss(),
   ],
 
   build: {
