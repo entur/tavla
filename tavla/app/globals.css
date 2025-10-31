@@ -165,6 +165,16 @@
         --metro-color: #943894;
         --taxi-color: #4c1a4c;
         --tram-color: #608000;
+        --bus-color-transparent: rgba(96, 128, 0, 0.15);
+        --coach-color-transparent: rgba(0, 128, 153, 0.15);
+        --rail-color-transparent: rgba(148, 56, 148, 0.15);
+        --water-color-transparent: rgba(0, 64, 77, 0.15);
+        --air-color-transparent: rgba(87, 107, 116, 0.15);
+        --cableway-color-transparent: rgba(96, 128, 0, 0.15);
+        --funicular-color-transparent: rgba(96, 128, 0, 0.15);
+        --tram-color-transparent: rgba(96, 128, 0, 0.15);
+        --metro-color-transparent: rgba(148, 56, 148, 0.15);
+        --taxi-color-transparent: rgba(76, 26, 76, 0.15);
     }
 
     /* atb dark theme */
@@ -179,6 +189,16 @@
         --metro-color: #cd98cd;
         --taxi-color: #ac53ac;
         --tram-color: #a9d22d;
+        --bus-color-transparent: rgba(169, 210, 45, 0.15);
+        --coach-color-transparent: rgba(0, 149, 178, 0.15);
+        --rail-color-transparent: rgba(205, 152, 205, 0.15);
+        --water-color-transparent: rgba(153, 217, 229, 0.15);
+        --air-color-transparent: rgba(143, 156, 163, 0.15);
+        --cableway-color-transparent: rgba(169, 210, 45, 0.15);
+        --funicular-color-transparent: rgba(169, 210, 45, 0.15);
+        --tram-color-transparent: rgba(169, 210, 45, 0.15);
+        --metro-color-transparent: rgba(205, 152, 205, 0.15);
+        --taxi-color-transparent: rgba(172, 83, 172, 0.15);
     }
 
     /*fram brand*/
@@ -193,6 +213,16 @@
         --metro-color: #676767;
         --taxi-color: #956b77;
         --tram-color: #676767;
+        --bus-color-transparent: rgba(1, 65, 101, 0.15);
+        --coach-color-transparent: rgba(85, 130, 58, 0.15);
+        --rail-color-transparent: rgba(85, 17, 37, 0.15);
+        --water-color-transparent: rgba(0, 122, 181, 0.15);
+        --air-color-transparent: rgba(103, 103, 103, 0.15);
+        --cableway-color-transparent: rgba(103, 103, 103, 0.15);
+        --funicular-color-transparent: rgba(103, 103, 103, 0.15);
+        --tram-color-transparent: rgba(103, 103, 103, 0.15);
+        --metro-color-transparent: rgba(103, 103, 103, 0.15);
+        --taxi-color-transparent: rgba(149, 107, 119, 0.15);
     }
 
     /*fram dark theme */
@@ -207,6 +237,16 @@
         --metro-color: #b3bec4;
         --taxi-color: #a98891;
         --tram-color: #b3bec4;
+        --bus-color-transparent: rgba(96, 162, 215, 0.15);
+        --coach-color-transparent: rgba(130, 184, 99, 0.15);
+        --rail-color-transparent: rgba(206, 117, 143, 0.15);
+        --water-color-transparent: rgba(154, 217, 230, 0.15);
+        --air-color-transparent: rgba(179, 190, 196, 0.15);
+        --cableway-color-transparent: rgba(179, 190, 196, 0.15);
+        --funicular-color-transparent: rgba(179, 190, 196, 0.15);
+        --tram-color-transparent: rgba(179, 190, 196, 0.15);
+        --metro-color-transparent: rgba(179, 190, 196, 0.15);
+        --taxi-color-transparent: rgba(169, 136, 145, 0.15);
     }
 
     /*svipper brand*/
@@ -216,6 +256,11 @@
         --rail-color: #bd3685;
         --water-color: #418083;
         --air-color: #37424a;
+        --bus-color-transparent: rgba(51, 77, 206, 0.15);
+        --coach-color-transparent: rgba(80, 115, 65, 0.15);
+        --rail-color-transparent: rgba(189, 54, 133, 0.15);
+        --water-color-transparent: rgba(65, 128, 131, 0.15);
+        --air-color-transparent: rgba(55, 66, 74, 0.15);
     }
 
     /*svipper dark theme */
@@ -225,6 +270,11 @@
         --rail-color: #cf83af;
         --water-color: #57a7ab;
         --air-color: #c7cacc;
+        --bus-color-transparent: rgba(142, 157, 234, 0.15);
+        --coach-color-transparent: rgba(141, 182, 124, 0.15);
+        --rail-color-transparent: rgba(207, 131, 175, 0.15);
+        --water-color-transparent: rgba(87, 167, 171, 0.15);
+        --air-color-transparent: rgba(199, 202, 204, 0.15);
     }
 
     [data-theme='entur'] {
