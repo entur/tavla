@@ -1,0 +1,555 @@
+@layer utilities {
+  .text-primary {
+    color: var(--main-text-color) !important;
+  }
+  .text-secondary {
+    color: var(--secondary-text-color);
+  }
+  .text-tertiary {
+    color: var(--tertiary-text-color);
+  }
+  .text-highlight {
+    color: var(--highlight-text-color);
+  }
+  .text-tooltip {
+    color: var(--tooltip-text-color);
+  }
+
+  .bg-primary {
+    background-color: var(--main-background-color);
+  }
+  .bg-secondary {
+    background-color: var(--secondary-background-color) !important;
+  }
+  .bg-tertiary {
+    background-color: var(--tertiary-background-color);
+  }
+  .bg-contrast {
+    background-color: var(--contrast-background-color);
+  }
+  .bg-grey10 {
+    background-color: var(--grey10);
+  }
+  .bg-grey30 {
+    background-color: var(--grey30);
+  }
+  .bg-grey40 {
+    background-color: var(--grey40);
+  }
+  .bg-blue10 {
+    background-color: var(--blue10);
+  }
+  .bg-blue20 {
+    background-color: var(--blue20);
+  }
+  .bg-tooltip {
+    background-color: var(--tooltip-color);
+  }
+
+  .border-primary {
+    border-color: var(--divider-color);
+  }
+  .border-secondary {
+    border-color: var(--border-color);
+  }
+  .border-t-secondary {
+    border-top-color: var(--border-color) !important;
+  }
+
+  /* Status text/background helpers */
+  .text-warning {
+    color: var(--warning-color);
+  }
+  .text-success {
+    color: var(--success-color);
+  }
+  .text-error {
+    color: var(--error-color);
+  }
+  .text-estimated-time {
+    color: var(--error-color);
+  }
+  .text-background {
+    color: var(--main-background-color);
+  }
+
+  .bg-warning {
+    background-color: var(--warning-color);
+  }
+  .bg-success {
+    background-color: var(--success-color);
+  }
+  .bg-error {
+    background-color: var(--error-color);
+  }
+
+  /* Transport background helpers */
+  .bg-air {
+    background-color: var(--air-color);
+  }
+  .bg-bus {
+    background-color: var(--bus-color);
+  }
+  .bg-cableway {
+    background-color: var(--cableway-color);
+  }
+  .bg-coach {
+    background-color: var(--bus-color);
+  }
+  .bg-funicular {
+    background-color: var(--funicular-color);
+  }
+  .bg-lift {
+    background-color: var(--cableway-color);
+  }
+  .bg-metro {
+    background-color: var(--metro-color);
+  }
+  .bg-mobility {
+    background-color: var(--mobility-color);
+  }
+  .bg-monorail {
+    background-color: var(--tram-color);
+  }
+  .bg-rail {
+    background-color: var(--rail-color);
+  }
+  .bg-taxi {
+    background-color: var(--taxi-color);
+  }
+  .bg-tram {
+    background-color: var(--tram-color);
+  }
+  .bg-trolleybus {
+    background-color: var(--bus-color);
+  }
+  .bg-water {
+    background-color: var(--water-color);
+  }
+  .bg-unknown {
+    background-color: var(--unknown-color);
+  }
+  /* transparent backgrounds */
+  .bg-air-transparent {
+    background-color: var(--air-color-transparent);
+  }
+  .bg-bus-transparent {
+    background-color: var(--bus-color-transparent);
+  }
+  .bg-cableway-transparent {
+    background-color: var(--cableway-color-transparent);
+  }
+  .bg-coach-transparent {
+    background-color: var(--bus-color-transparent);
+  }
+  .bg-funicular-transparent {
+    background-color: var(--funicular-color-transparent);
+  }
+  .bg-lift-transparent {
+    background-color: var(--cableway-color-transparent);
+  }
+  .bg-metro-transparent {
+    background-color: var(--metro-color-transparent);
+  }
+  .bg-monorail-transparent {
+    background-color: var(--tram-color-transparent);
+  }
+  .bg-rail-transparent {
+    background-color: var(--rail-color-transparent);
+  }
+  .bg-taxi-transparent {
+    background-color: var(--taxi-color-transparent);
+  }
+  .bg-tram-transparent {
+    background-color: var(--tram-color-transparent);
+  }
+  .bg-trolleybus-transparent {
+    background-color: var(--bus-color-transparent);
+  }
+  .bg-water-transparent {
+    background-color: var(--water-color-transparent);
+  }
+
+  .text-air {
+    color: var(--air-color);
+  }
+  .text-bus {
+    color: var(--bus-color);
+  }
+  .text-cableway {
+    color: var(--cableway-color);
+  }
+  .text-coach {
+    color: var(--bus-color);
+  }
+  .text-funicular {
+    color: var(--funicular-color);
+  }
+  .text-lift {
+    color: var(--cableway-color);
+  }
+  .text-metro {
+    color: var(--metro-color);
+  }
+  .text-mobility {
+    color: var(--mobility-color);
+  }
+  .text-monorail {
+    color: var(--tram-color);
+  }
+  .text-rail {
+    color: var(--rail-color);
+  }
+  .text-taxi {
+    color: var(--taxi-color);
+  }
+  .text-tram {
+    color: var(--tram-color);
+  }
+  .text-water {
+    color: var(--water-color);
+  }
+  .text-unknown {
+    color: var(--unknown-color);
+  }
+  /* transparent variants used sometimes */
+  .text-air-transparent {
+    color: var(--air-color-transparent);
+  }
+  .text-bus-transparent {
+    color: var(--bus-color-transparent);
+  }
+  .text-cableway-transparent {
+    color: var(--cableway-color-transparent);
+  }
+  .text-coach-transparent {
+    color: var(--bus-color-transparent);
+  }
+  .text-funicular-transparent {
+    color: var(--funicular-color-transparent);
+  }
+  .text-lift-transparent {
+    color: var(--cableway-color-transparent);
+  }
+  .text-metro-transparent {
+    color: var(--metro-color-transparent);
+  }
+  .text-monorail-transparent {
+    color: var(--tram-color-transparent);
+  }
+  .text-rail-transparent {
+    color: var(--rail-color-transparent);
+  }
+  .text-taxi-transparent {
+    color: var(--taxi-color-transparent);
+  }
+  .text-tram-transparent {
+    color: var(--tram-color-transparent);
+  }
+  .text-trolleybus-transparent {
+    color: var(--bus-color-transparent);
+  }
+  .text-water-transparent {
+    color: var(--water-color-transparent);
+  }
+
+  .fill-background {
+    fill: var(--main-background-color);
+  }
+  .fill-primary {
+    fill: var(--main-text-color);
+  }
+  .fill-air {
+    fill: var(--air-color);
+  }
+  .fill-bus {
+    fill: var(--bus-color);
+  }
+  .fill-cableway {
+    fill: var(--cableway-color);
+  }
+  .fill-coach {
+    fill: var(--bus-color);
+  }
+  .fill-funicular {
+    fill: var(--funicular-color);
+  }
+  .fill-lift {
+    fill: var(--cableway-color);
+  }
+  .fill-metro {
+    fill: var(--metro-color);
+  }
+  .fill-mobility {
+    fill: var(--mobility-color);
+  }
+  .fill-monorail {
+    fill: var(--tram-color);
+  }
+  .fill-rail {
+    fill: var(--rail-color);
+  }
+  .fill-taxi {
+    fill: var(--taxi-color);
+  }
+  .fill-tram {
+    fill: var(--tram-color);
+  }
+  .fill-water {
+    fill: var(--water-color);
+  }
+  .fill-unknown {
+    fill: var(--unknown-color);
+  }
+  /* transparent fill variants */
+  .fill-air-transparent {
+    fill: var(--air-color-transparent);
+  }
+  .fill-bus-transparent {
+    fill: var(--bus-color-transparent);
+  }
+  .fill-cableway-transparent {
+    fill: var(--cableway-color-transparent);
+  }
+  .fill-coach-transparent {
+    fill: var(--bus-color-transparent);
+  }
+  .fill-funicular-transparent {
+    fill: var(--funicular-color-transparent);
+  }
+  .fill-lift-transparent {
+    fill: var(--cableway-color-transparent);
+  }
+  .fill-metro-transparent {
+    fill: var(--metro-color-transparent);
+  }
+  .fill-monorail-transparent {
+    fill: var(--tram-color-transparent);
+  }
+  .fill-rail-transparent {
+    fill: var(--rail-color-transparent);
+  }
+  .fill-taxi-transparent {
+    fill: var(--taxi-color-transparent);
+  }
+  .fill-tram-transparent {
+    fill: var(--tram-color-transparent);
+  }
+  .fill-trolleybus-transparent {
+    fill: var(--bus-color-transparent);
+  }
+  .fill-water-transparent {
+    fill: var(--water-color-transparent);
+  }
+
+  .stroke-background {
+    stroke: var(--main-background-color);
+  }
+  .stroke-primary {
+    stroke: var(--main-text-color);
+  }
+  .stroke-air {
+    stroke: var(--air-color);
+  }
+  .stroke-bus {
+    stroke: var(--bus-color);
+  }
+  .stroke-cableway {
+    stroke: var(--cableway-color);
+  }
+  .stroke-coach {
+    stroke: var(--bus-color);
+  }
+  .stroke-funicular {
+    stroke: var(--funicular-color);
+  }
+  .stroke-lift {
+    stroke: var(--cableway-color);
+  }
+  .stroke-metro {
+    stroke: var(--metro-color);
+  }
+  .stroke-mobility {
+    stroke: var(--mobility-color);
+  }
+  .stroke-monorail {
+    stroke: var(--tram-color);
+  }
+  .stroke-rail {
+    stroke: var(--rail-color);
+  }
+  .stroke-taxi {
+    stroke: var(--taxi-color);
+  }
+  .stroke-tram {
+    stroke: var(--tram-color);
+  }
+  .stroke-water {
+    stroke: var(--water-color);
+  }
+  .stroke-unknown {
+    stroke: var(--unknown-color);
+  }
+  /* transparent stroke variants */
+  .stroke-air-transparent {
+    stroke: var(--air-color-transparent);
+  }
+  .stroke-bus-transparent {
+    stroke: var(--bus-color-transparent);
+  }
+  .stroke-cableway-transparent {
+    stroke: var(--cableway-color-transparent);
+  }
+  .stroke-coach-transparent {
+    stroke: var(--bus-color-transparent);
+  }
+  .stroke-funicular-transparent {
+    stroke: var(--funicular-color-transparent);
+  }
+  .stroke-lift-transparent {
+    stroke: var(--cableway-color-transparent);
+  }
+  .stroke-metro-transparent {
+    stroke: var(--metro-color-transparent);
+  }
+  .stroke-monorail-transparent {
+    stroke: var(--tram-color-transparent);
+  }
+  .stroke-rail-transparent {
+    stroke: var(--rail-color-transparent);
+  }
+  .stroke-taxi-transparent {
+    stroke: var(--taxi-color-transparent);
+  }
+  .stroke-tram-transparent {
+    stroke: var(--tram-color-transparent);
+  }
+  .stroke-trolleybus-transparent {
+    stroke: var(--bus-color-transparent);
+  }
+  .stroke-water-transparent {
+    stroke: var(--water-color-transparent);
+  }
+
+  /* EM-based spacing utilities used in code */
+  .pt-em-0\.25 {
+    padding-top: var(--spacing-em-0\.25) !important;
+  }
+  .p-em-1 {
+    padding: var(--spacing-em-1) !important;
+  }
+  .mb-em-0\.25 {
+    margin-bottom: var(--spacing-em-0\.25);
+  }
+  .ml-em-0\.25 {
+    margin-left: var(--spacing-em-0\.25);
+  }
+  .ml-em-0\.75 {
+    margin-left: var(--spacing-em-0\.75);
+  }
+  .mx-em-0\.25 {
+    margin-left: var(--spacing-em-0\.25);
+    margin-right: var(--spacing-em-0\.25);
+  }
+  .gap-em-2 {
+    gap: var(--spacing-em-2);
+  }
+
+  /* Misc utilities used in code */
+  .h-content {
+    height: fit-content;
+  }
+  .overflow-ellipsis {
+    text-overflow: ellipsis;
+  }
+  .hyphens-auto {
+    hyphens: auto;
+  }
+  .h-em-2 {
+    height: 2em;
+  }
+  .w-em-2 {
+    width: 2em;
+  }
+
+  /* Font-size/line-height token utilities (including slash-combos used in code) */
+  .text-em-xs {
+    font-size: var(--text-em-xs);
+  }
+  .text-em-sm {
+    font-size: var(--text-em-sm);
+  }
+  .text-em-base {
+    font-size: var(--text-em-base);
+  }
+  .text-em-lg {
+    font-size: var(--text-em-lg);
+  }
+  .text-em-xl {
+    font-size: var(--text-em-xl);
+  }
+  .text-em-xl2 {
+    font-size: var(--text-em-xl2);
+  }
+  .text-em-xl3 {
+    font-size: var(--text-em-xl3);
+  }
+  .text-em-xl4 {
+    font-size: var(--text-em-xl4);
+  }
+  .text-em-xl5 {
+    font-size: var(--text-em-xl5);
+  }
+  .text-em-situation {
+    font-size: var(--text-em-situation);
+  }
+
+  .leading-em-xs {
+    line-height: var(--leading-em-xs);
+  }
+  .leading-em-sm {
+    line-height: var(--leading-em-sm);
+  }
+  .leading-em-base {
+    line-height: var(--leading-em-base);
+  }
+  .leading-em-lg {
+    line-height: var(--leading-em-lg);
+  }
+  .leading-em-xl {
+    line-height: var(--leading-em-xl);
+  }
+  .leading-em-situation {
+    line-height: var(--leading-em-situation);
+  }
+
+  /* Combined classnames as used in code (Tailwind text-... and leading-... style) */
+  .text-em-sm\/em-base {
+    font-size: var(--text-em-sm);
+    line-height: var(--leading-em-base);
+  }
+  .text-em-sm\/em-sm {
+    font-size: var(--text-em-sm);
+    line-height: var(--leading-em-sm);
+  }
+  .text-em-sm\/em-xs {
+    font-size: var(--text-em-sm);
+    line-height: var(--leading-em-xs);
+  }
+  .text-em-lg\/em-lg {
+    font-size: var(--text-em-lg);
+    line-height: var(--leading-em-lg);
+  }
+  .text-em-xl\/em-base {
+    font-size: var(--text-em-xl);
+    line-height: var(--leading-em-base);
+  }
+  .text-em-xl2\/em-base {
+    font-size: var(--text-em-xl2);
+    line-height: var(--leading-em-base);
+  }
+  .text-em-situation\/em-situation {
+    font-size: var(--text-em-situation);
+    line-height: var(--leading-em-situation);
+  }
+}

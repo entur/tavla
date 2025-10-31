@@ -1,0 +1,326 @@
+@import "@entur/tokens/dist/base.css";
+@import "@entur/tokens/dist/primitive.css";
+@import "@entur/tokens/dist/semantic.css";
+@import "@entur/tokens/dist/data.css";
+@import "@entur/tokens/dist/transport.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --main-background-color: var(--fill-background-standard-light);
+    --secondary-background-color: var(--fill-background-tint-light);
+    --tertiary-background-color: var(--blue-40);
+    --contrast-background-color: var(--fill-primary-default-light);
+
+    --main-text-color: var(--text-accent);
+    --secondary-text-color: var(--text-subduedalt);
+    --tertiary-text-color: var(--text-neutralalt2);
+    --highlight-text-color: var(--coral-40);
+
+    --error-color: var(--fill-negative-deep);
+    --warning-color: var(--text-accent);
+    --success-color: var(--fill-success-deep);
+
+    --divider-color: var(--stroke-contrastalt);
+    --border-color: var(--grey-50);
+
+    --blue20: var(--blue-20);
+    --blue10: var(--blue-10);
+
+    --grey40: var(--grey-40);
+    --grey30: var(--grey-30);
+    --grey10: var(--grey-10);
+
+    --tooltip-color: var(--fill-background-contrast-lightalt-2);
+    --tooltip-text-color: var(--text-light);
+
+    --air-color: var(--standard-plane);
+    --bus-color: var(--standard-bus);
+    --cableway-color: var(--standard-cableway);
+    --funicular-color: var(--standard-funicular);
+    --metro-color: var(--standard-metro);
+    --mobility-color: var(--standard-mobility);
+    --rail-color: var(--standard-train);
+    --taxi-color: var(--standard-taxi);
+    --tram-color: var(--standard-tram);
+    --unknown-color: var(--standard-walk);
+    --water-color: var(--standard-ferry);
+
+    --air-color-transparent: rgba(126, 6, 100, 0.15);
+    --bus-color-transparent: rgba(197, 4, 78, 0.15);
+    --cableway-color-transparent: rgba(120, 70, 154, 0.15);
+    --funicular-color-transparent: rgba(120, 70, 154, 0.15);
+    --metro-color-transparent: rgba(191, 88, 38, 0.15);
+    --rail-color-transparent: rgba(0, 54, 127, 0.15);
+    --taxi-color-transparent: rgba(61, 62, 64, 0.15);
+    --tram-color-transparent: rgba(120, 70, 154, 0.15);
+    --water-color-transparent: rgba(12, 102, 147, 0.15);
+
+    --data-visualization-azure: var(--standard-azure);
+    --data-visualization-blue: var(--standard-blue);
+    --data-visualization-coral: var(--standard-coral);
+    --data-visualization-jungle: var(--standard-jungle);
+    --data-visualization-lavender: var(--standard-lavender);
+    --data-visualization-lilac: var(--standard-lilac);
+    --data-visualization-peach: var(--standard-peach);
+    --data-visualization-spring: var(--standard-spring);
+  }
+
+  [data-theme="dark"] {
+    --main-background-color: var(--colors-misc-black); /* TODO: Upgrade color */
+    --secondary-background-color: var(--grey-110);
+    --tertiary-background-color: var(--fill-background-contrast-lightalt);
+    --contrast-background-color: var(--fill-background-standard-light);
+
+    --main-text-color: var(--text-light);
+    --secondary-text-color: var(--text-highlight);
+    --tertiary-text-color: var(--text-neutralalt2);
+    --highlight-text-color: var(--coral-40);
+
+    --error-color: var(--fill-negative-contrast);
+    --warning-color: var(--fill-warning-contrast);
+    --success-color: var(--fill-success-contrast);
+
+    --divider-color: var(--stroke-contrastalt);
+    --border-color: var(--grey-100);
+
+    --tooltip-color: var(--fill-background-subdued-dark);
+    --tooltip-text-color: var(--text-light);
+
+    --air-color: var(--dark-plane);
+    --bus-color: var(--dark-bus);
+    --cableway-color: var(--dark-cableway);
+    --funicular-color: var(--dark-funicular);
+    --metro-color: var(--dark-metro);
+    --mobility-color: var(--dark-mobility);
+    --rail-color: var(--dark-train);
+    --taxi-color: var(--dark-taxi);
+    --tram-color: var(--dark-tram);
+    --unknown-color: var(--dark-walk);
+    --water-color: var(--dark-ferry);
+
+    --air-color-transparent: rgba(242, 184, 229, 0.15);
+    --bus-color-transparent: rgba(239, 115, 152, 0.15);
+    --cableway-color-transparent: rgba(184, 152, 229, 0.15);
+    --funicular-color-transparent: rgba(184, 152, 229, 0.15);
+    --metro-color-transparent: rgba(221, 151, 60, 0.15);
+    --rail-color-transparent: rgba(96, 162, 215, 0.15);
+    --taxi-color-transparent: rgba(255, 224, 130, 0.15);
+    --tram-color-transparent: rgba(184, 152, 229, 0.15);
+    --water-color-transparent: rgba(140, 207, 226, 0.15);
+
+    --data-visualization-azure: var(--contrast-azure);
+    --data-visualization-blue: var(--contrast-blue);
+    --data-visualization-coral: var(--contrast-coral);
+    --data-visualization-jungle: var(--contrast-jungle);
+    --data-visualization-lavender: var(--contrast-lavender);
+    --data-visualization-lilac: var(--contrast-lilac);
+    --data-visualization-peach: var(--contrast-peach);
+    --data-visualization-spring: var(--contrast-spring);
+  }
+
+  /* Light theme palettes */
+  [data-transport-palette="blue-bus"] {
+    --bus-color: var(--standard-train);
+    --bus-color-transparent: rgba(0, 54, 127, 0.15);
+    --rail-color: var(--standard-bus);
+    --rail-color-transparent: rgba(197, 4, 78, 0.15);
+  }
+
+  /* Dark theme palettes */
+  [data-theme="dark"][data-transport-palette="blue-bus"] {
+    --bus-color: var(--dark-train);
+    --bus-color-transparent: rgba(96, 162, 215, 0.15);
+    --rail-color: var(--dark-bus);
+    --rail-color-transparent: rgba(239, 115, 152, 0.15);
+  }
+
+  /* Light theme palettes */
+  [data-transport-palette="green-bus"] {
+    --bus-color: var(--standard-mobility);
+    --bus-color-transparent: rgba(51, 130, 107, 0.15);
+  }
+
+  /* Dark theme palettes */
+  [data-theme="dark"][data-transport-palette="green-bus"] {
+    --bus-color: var(--contrast-mobility);
+    --bus-color-transparent: rgba(0, 219, 155, 0.15);
+  }
+
+  [data-theme="entur"] {
+    --main-background-color: var(--fill-primary-default-light);
+    --secondary-background-color: var(--colors-blues-blue10);
+    --tertiary-background-color: var(--colors-blues-blue30);
+    --contrast-background-color: var(--fill-background-standard-light);
+
+    --main-text-color: var(--text-light);
+    --secondary-text-color: var(--text-highlight);
+    --tertiary-text-color: var(--blue-40);
+    --highlight-text-color: var(--coral-40);
+
+    --error-color: var(--fill-negative-contrast);
+    --warning-color: var(--fill-warning-contrast);
+    --success-color: var(--fill-success-contrast);
+
+    --divider-color: var(--stroke-contrastalt);
+    --border-color: var(--blue-70);
+
+    --tooltip-color: var(--fill-background-standard-light);
+    --tooltip-text-color: var(--text-accent);
+
+    --air-color: var(--contrast-plane);
+    --bus-color: var(--contrast-bus);
+    --cableway-color: var(--contrast-cableway);
+    --funicular-color: var(--contrast-funicular);
+    --metro-color: var(--contrast-metro);
+    --mobility-color: var(--contrast-mobility);
+    --rail-color: var(--contrast-train);
+    --taxi-color: var(--contrast-taxi);
+    --tram-color: var(--contrast-tram);
+    --unknown-color: var(--contrast-walk);
+    --water-color: var(--contrast-ferry);
+
+    --air-color-transparent: rgba(251, 175, 234, 0.15);
+    --bus-color-transparent: rgba(255, 99, 146, 0.15);
+    --cableway-color-transparent: rgba(180, 130, 251, 0.15);
+    --funicular-color-transparent: rgba(180, 130, 251, 0.15);
+    --metro-color-transparent: rgba(240, 137, 1, 0.15);
+    --rail-color-transparent: rgba(66, 165, 245, 0.15);
+    --taxi-color-transparent: rgba(255, 224, 130, 0.15);
+    --tram-color-transparent: rgba(180, 130, 251, 0.15);
+    --water-color-transparent: rgba(111, 223, 255, 0.15);
+
+    --data-visualization-azure: var(--contrast-azure);
+    --data-visualization-blue: var(--contrast-blue);
+    --data-visualization-coral: var(--contrast-coral);
+    --data-visualization-jungle: var(--contrast-jungle);
+    --data-visualization-lavender: var(--contrast-lavender);
+    --data-visualization-lilac: var(--contrast-lilac);
+    --data-visualization-peach: var(--contrast-peach);
+    --data-visualization-spring: var(--contrast-spring);
+  }
+
+  html {
+    background-color: var(--main-background-color);
+  }
+
+  body {
+    color: var(--main-text-color);
+    font-family: Nationale, Arial, Gotham Rounded, -apple-system,
+      BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+      Helvetica Neue, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex-grow: 1;
+  }
+
+  h3 {
+    font-weight: 500;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@layer components {
+  .primaryButton {
+    background-color: var(--main-background-color);
+  }
+
+  .primaryButton:hover {
+    background-color: var(--secondary-background-color);
+  }
+
+  .secondaryButton {
+    background-color: var(--secondary-background-color);
+  }
+
+  .secondaryButton:hover {
+    background-color: var(--tertiary-background-color);
+  }
+
+  .visuallyHidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .box {
+    width: 100%;
+    border-radius: 0.5em;
+    padding: 2em;
+    background: var(--blue10);
+  }
+
+  .divider {
+    @apply my-2 border-b-2 border-b-secondary;
+  }
+
+  .publicCode {
+    background-color: var(--tertiary-background-color);
+    padding: 0.35em 0.5em;
+    border-radius: 0.5em;
+  }
+
+  .pulse {
+    @apply bottom-[calc(50%-((h-3)/2))] left-[calc(50%-((0.75em)/2))] inline-flex h-3 w-3 rounded-full bg-success;
+  }
+
+  .previewContainer {
+    @apply rounded border border-secondary bg-primary p-4;
+  }
+
+  .table-custom-nth-child {
+    &:nth-child(6n + 1),
+    &:nth-child(6n + 2),
+    &:nth-child(6n + 3) {
+      @apply bg-grey10;
+    }
+  }
+
+  /* For Tavla using pages */
+
+  .root {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    box-sizing: inherit;
+    font-size: 3vmin;
+    background-color: var(--main-background-color);
+  }
+
+  .rootContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    padding: 0.5em;
+  }
+
+  .lineThrough {
+    text-decoration: line-through;
+  }
+}

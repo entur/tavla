@@ -1,0 +1,8 @@
+fragment lines on Quay {
+    lines {
+        id
+        publicCode
+        name
+        transportMode
+    }
+}

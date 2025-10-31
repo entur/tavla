@@ -1,0 +1,40 @@
+.loader {
+    height: 0.3125rem;
+    max-width: 20rem;
+    margin: 0 auto;
+}
+
+.loaderBar {
+    height: 100%;
+    animation: 1s back-and-forth alternate infinite ease-in-out;
+    will-change: transform;
+}
+
+.loaderBar::after {
+    content: '';
+    display: block;
+    width: 3rem;
+    background-color: var(--highlight-text-color);
+    height: 100%;
+    animation: 1s grow alternate infinite ease-in-out;
+}
+
+@keyframes back-and-forth {
+    0% {
+        transform: none;
+    }
+    100% {
+        transform: translateX(calc(100% - 3rem));
+    }
+}
+
+@keyframes grow {
+    0%,
+    100% {
+        transform: none;
+    }
+
+    50% {
+        transform: scaleX(2);
+    }
+}

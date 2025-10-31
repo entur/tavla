@@ -1,0 +1,11 @@
+fragment situation on PtSituationElement {
+    id
+    description {
+        value
+        language
+    }
+    summary {
+        value
+        language
+    }
+}
