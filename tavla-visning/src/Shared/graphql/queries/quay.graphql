@@ -1,0 +1,26 @@
+query getQuay(
+    $quayId: String!
+    $whitelistedTransportModes: [TransportMode]
+    $whitelistedLines: [ID!]
+    $numberOfDepartures: Int = 20
+    $startTime: DateTime
+) {
+    quay(id: $quayId) {
+        name
+        description
+        publicCode
+        ...lines
+        estimatedCalls(
+            numberOfDepartures: $numberOfDepartures
+            whiteListedModes: $whitelistedTransportModes
+            whiteListed: { lines: $whitelistedLines }
+            includeCancelledTrips: true
+            startTime: $startTime
+        ) {
+            ...departure
+        }
+        situations {
+            ...situation
+        }
+    }
+}

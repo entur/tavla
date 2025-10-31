@@ -1,0 +1,102 @@
+:root {
+  /* Colors mapped to existing CSS variables */
+  --color-background: var(--main-background-color);
+  --color-primary: var(--main-text-color);
+  --color-secondary: var(--secondary-text-color);
+  --color-tertiary: var(--tertiary-text-color);
+  --color-contrast: var(--contrast-background-color);
+  --color-grey10: var(--grey10);
+  --color-grey30: var(--grey30);
+  --color-grey40: var(--grey40);
+  --color-blue10: var(--blue10);
+  --color-blue20: var(--blue20);
+  --color-error: var(--error-color);
+  --color-success: var(--success-color);
+  --color-warning: var(--warning-color);
+  --color-tooltip: var(--tooltip-color);
+  --color-tooltip-text: var(--tooltip-text-color);
+
+  /* Transport mode colors */
+  --color-air: var(--air-color);
+  --color-bicycle: var(--mobility-color);
+  --color-bus: var(--bus-color);
+  --color-cableway: var(--cableway-color);
+  --color-citybike: var(--mobility-color);
+  --color-coach: var(--bus-color);
+  --color-funicular: var(--funicular-color);
+  --color-lift: var(--cableway-color);
+  --color-metro: var(--metro-color);
+  --color-mobility: var(--mobility-color);
+  --color-monorail: var(--tram-color);
+  --color-rail: var(--rail-color);
+  --color-taxi: var(--taxi-color);
+  --color-tram: var(--tram-color);
+  --color-trolleybus: var(--bus-color);
+  --color-unknown: var(--unknown-color);
+  --color-water: var(--water-color);
+
+  /* Transparent transport colors */
+  --color-air-transparent: var(--air-color-transparent);
+  --color-bus-transparent: var(--bus-color-transparent);
+  --color-cableway-transparent: var(--cableway-color-transparent);
+  --color-coach-transparent: var(--bus-color-transparent);
+  --color-funicular-transparent: var(--funicular-color-transparent);
+  --color-lift-transparent: var(--cableway-color-transparent);
+  --color-metro-transparent: var(--metro-color-transparent);
+  --color-monorail-transparent: var(--tram-color-transparent);
+  --color-rail-transparent: var(--rail-color-transparent);
+  --color-taxi-transparent: var(--taxi-color-transparent);
+  --color-tram-transparent: var(--tram-color-transparent);
+  --color-trolleybus-transparent: var(--bus-color-transparent);
+  --color-water-transparent: var(--water-color-transparent);
+
+  /* Data colors */
+  --color-azure: var(--data-visualization-azure);
+  --color-blue: var(--data-visualization-blue);
+  --color-coral: var(--data-visualization-coral);
+  --color-jungle: var(--data-visualization-jungle);
+  --color-lavender: var(--data-visualization-lavender);
+  --color-lilac: var(--data-visualization-lilac);
+  --color-peach: var(--data-visualization-peach);
+  --color-spring: var(--data-visualization-spring);
+
+  /* Borders */
+  --color-primary-foreground: var(
+    --divider-color
+  ); /* used via border-primary */
+  --color-secondary-foreground: var(
+    --border-color
+  ); /* used via border-secondary */
+
+  /* Font sizes and line heights referenced in classes like text-em-sm/em-base */
+  --text-em-xs: 0.625em;
+  --text-em-sm: 0.75em;
+  --text-em-base: 0.875em;
+  --text-em-lg: 1em;
+  --text-em-xl: 1.25em;
+  --text-em-xl2: 1.5em;
+  --text-em-xl3: 1.75em;
+  --text-em-xl4: 2em;
+  --text-em-xl5: 2.5em;
+  --text-em-situationext-em-situation: 0.65em;
+
+  --leading-em-xs: 0.5625em;
+  --leading-em-sm: 0.7em;
+  --leading-em-base: 1.1em;
+  --leading-em-lg: 1.3em;
+  --leading-em-xl: 1.5em;
+  --leading-em-situation: 1.1em;
+
+  /* Spacing tokens like gap-em-2, p-em-1, etc. */
+  --spacing-em-0\.25: 0.25em;
+  --spacing-em-0\.5: 0.5em;
+  --spacing-em-0\.75: 0.75em;
+  --spacing-em-1: 1em;
+  --spacing-em-2: 2em;
+  --spacing-em-3: 3em;
+  --spacing-md: 16px;
+
+  /* Radius tokens to match rounded and rounded-sm */
+  --radius-sm: 0.2em;
+  --radius: 0.5em;
+}

@@ -4,10 +4,10 @@ Denne mappen inneholder frontend-koden for Tavla (Next.js 15, React 18, TypeScri
 
 ### Forutsetninger
 
--   Node 18 (bruk gjerne `mise` eller `nvm`)
--   Yarn 3 (Berry) – allerede satt opp i repoet
--   Firebase CLI (for emulatorer)
--   To interne service key JSON-filer: `ent-tavla-dev-*.json` og `ent-tavla-prd-*.json` (Disse finner du i teamets passord-manager, de skal ikke sjekkes inn i git)
+- Node 18 (bruk gjerne `mise` eller `nvm`)
+- Yarn 3 (Berry) – allerede satt opp i repoet
+- Firebase CLI (for emulatorer)
+- To interne service key JSON-filer: `ent-tavla-dev-*.json` og `ent-tavla-prd-*.json` (Disse finner du i teamets passord-manager, de skal ikke sjekkes inn i git)
 
 ### Installere avhengigheter
 
@@ -35,8 +35,8 @@ yarn dev:persist  # anbefalt – lagrer emulator state (.db)
 
 Tilgang:
 
--   App: http://localhost:3000
--   Firebase Emulator UI: http://127.0.0.1:4000/
+- App: http://localhost:3000
+- Firebase Emulator UI: http://127.0.0.1:4000/
 
 ### Miljøvariabler (lokalt minimum)
 

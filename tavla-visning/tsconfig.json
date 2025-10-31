@@ -1,0 +1,22 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "Admin/*": ["./src/Admin/*"],
+      "Board/*": ["./src/Board/*"],
+      "components/*": ["./src/Shared/components/*"],
+      "utils/*": ["./src/Shared/utils/*"],
+      "types/*": ["./src/Shared/types/*"],
+      "styles/*": ["./src/Shared/styles/*"],
+      "assets/*": ["./src/Shared/assets/*"],
+      "graphql/*": ["./src/Shared/graphql/*"],
+      "hooks/*": ["./src)/Shared/hooks/*"],
+      "src/*": ["./src/*"]
+    }
+  }
+}

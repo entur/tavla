@@ -1,0 +1,14 @@
+query quaysSearch($stopPlaceId: String!) {
+    stopPlace(id: $stopPlaceId) {
+        quays(filterByInUse: true) {
+            id
+            publicCode
+            description
+            stopPlace {
+                transportMode
+            }
+
+            ...lines
+        }
+    }
+}

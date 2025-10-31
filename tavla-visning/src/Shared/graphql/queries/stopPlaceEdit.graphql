@@ -1,0 +1,8 @@
+query stopPlaceEdit($placeId: String!) {
+    stopPlace(id: $placeId) {
+        name
+        quays(filterByInUse: true) {
+            ...lines
+        }
+    }
+}

@@ -1,0 +1,22 @@
+query walkDistance($from: InputCoordinates!, $to: InputCoordinates!) {
+    trip(
+        from: { coordinates: $from }
+        to: { coordinates: $to }
+        modes: { directMode: foot, transportModes: [] }
+    ) {
+        tripPatterns {
+            duration
+            streetDistance
+            legs {
+                expectedStartTime
+                expectedEndTime
+                mode
+                distance
+                line {
+                    id
+                    publicCode
+                }
+            }
+        }
+    }
+}
