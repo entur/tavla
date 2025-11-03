@@ -2,6 +2,8 @@ version: 2
 updates:
     - package-ecosystem: "npm"
       directory: "/tavla"
+      cooldown:
+          default-days: 5
       schedule:
           interval: "weekly"
           day: "monday"
