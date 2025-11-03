@@ -42,13 +42,25 @@ function Name() {
     return (
         <div className="grow overflow-hidden">
             <TableColumn title="Stoppested">
-                {departures.map((departure) => (
-                    <TableCell key={nanoid()}>
-                        <div className="line-clamp-2 justify-items-end overflow-ellipsis hyphens-auto text-em-base/em-base">
-                            {departure.quay.name}
-                        </div>
-                    </TableCell>
-                ))}
+                {departures.map((departure) => {
+                    // Check if this departure has tile info with custom display name
+                    const tileInfo =
+                        'tileInfo' in departure ? departure.tileInfo : undefined
+                    const shouldUseCustomName =
+                        tileInfo?.useDisplayNameInCombined &&
+                        tileInfo?.displayName
+                    const displayName = shouldUseCustomName
+                        ? tileInfo.displayName
+                        : departure.quay.name
+
+                    return (
+                        <TableCell key={nanoid()}>
+                            <div className="line-clamp-2 justify-items-end overflow-ellipsis hyphens-auto text-em-base/em-base">
+                                {displayName}
+                            </div>
+                        </TableCell>
+                    )
+                })}
             </TableColumn>
         </div>
     )

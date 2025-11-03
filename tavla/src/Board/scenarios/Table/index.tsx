@@ -5,6 +5,7 @@ import { TDepartureFragment, TSituationFragment } from 'graphql/index'
 import { isArray } from 'lodash'
 import Image from 'next/image'
 import { TileColumnDB } from 'types/db-types/boards'
+import { TDepartureWithTile } from '../Board/utils'
 import { Destination, Name } from './components/Destination'
 import { Deviation } from './components/Deviation'
 import { Line } from './components/Line'
@@ -21,7 +22,7 @@ function Table({
     currentVisibleSituationId,
     numberOfVisibleSituations,
 }: {
-    departures: TDepartureFragment[]
+    departures: TDepartureFragment[] | TDepartureWithTile[]
     columns?: TileColumnDB[]
     stopPlaceSituations?: TSituationFragment[]
     currentVisibleSituationId?: string

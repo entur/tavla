@@ -3,6 +3,15 @@ import { TDepartureFragment, TSituationFragment } from 'graphql/index'
 import { BoardDB, BoardFontSize } from 'types/db-types/boards'
 import { TTransportMode } from 'types/graphql-schema'
 
+// Type for departure with tile info
+export interface TDepartureWithTile extends TDepartureFragment {
+    tileInfo?: {
+        displayName?: string
+        useDisplayNameInCombined?: boolean
+        placeId: string
+    }
+}
+
 export function getFontScale(fontSize: BoardFontSize | undefined) {
     switch (fontSize) {
         case 'small':
@@ -110,7 +119,7 @@ export type TileSituation = {
  * @returns An array of accumulated tile situations
  */
 export function getAccumulatedTileSituations(
-    departures?: TDepartureFragment[],
+    departures?: TDepartureFragment[] | TDepartureWithTile[],
     stopPlaceSituations?: TSituationFragment[],
 ): TileSituation[] {
     const filteredDepartures =

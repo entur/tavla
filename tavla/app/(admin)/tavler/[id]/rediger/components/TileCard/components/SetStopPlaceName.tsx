@@ -30,7 +30,9 @@ function SetStopPlaceName({
                 {isCombined && (
                     <SubParagraph className="!text-error">
                         Har du samlet stoppestedene i én liste vil du ikke ha
-                        mulighet til å sette navn på stoppested.
+                        mulighet til å sette navn på stoppested. Du kan aktivere
+                        egendefinerte navn under Innstillinger {'>'}{' '}
+                        Visningstype.
                     </SubParagraph>
                 )}
             </div>

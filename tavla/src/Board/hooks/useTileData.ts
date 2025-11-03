@@ -10,13 +10,14 @@ import { isNotNullOrUndefined } from 'utils/typeguards'
 import {
     combineSituations,
     getAccumulatedTileSituations,
+    TDepartureWithTile,
     TileSituation,
 } from '../scenarios/Board/utils'
 import { useCycler } from '../scenarios/Table/useCycler'
 
 interface BaseTileData {
     displayName?: string
-    estimatedCalls: TDepartureFragment[]
+    estimatedCalls: TDepartureFragment[] | TDepartureWithTile[]
     situations: TSituationFragment[]
     uniqueSituations: TileSituation[]
     currentSituationIndex: number
@@ -145,11 +146,33 @@ export function useCombinedTileData(combinedTile: BoardTileDB[]): BaseTileData {
     } = useQueries(stopPlaceQueries)
 
     // Combine all estimated calls and sort them
-    const estimatedCalls = [
-        ...(stopPlaceData?.flatMap(
-            (data) => data.stopPlace?.estimatedCalls ?? [],
-        ) ?? []),
-        ...(quayData?.flatMap((data) => data.quay?.estimatedCalls ?? []) ?? []),
+    const estimatedCalls: TDepartureWithTile[] = [
+        ...(stopPlaceData?.flatMap((data, index) => {
+            const tile = combinedTile.filter(
+                ({ type }) => type === 'stop_place',
+            )[index]
+            return (data.stopPlace?.estimatedCalls ?? []).map((call) => ({
+                ...call,
+                tileInfo: {
+                    displayName: tile?.displayName,
+                    useDisplayNameInCombined: tile?.useDisplayNameInCombined,
+                    placeId: tile?.placeId ?? '',
+                },
+            }))
+        }) ?? []),
+        ...(quayData?.flatMap((data, index) => {
+            const tile = combinedTile.filter(({ type }) => type === 'quay')[
+                index
+            ]
+            return (data.quay?.estimatedCalls ?? []).map((call) => ({
+                ...call,
+                tileInfo: {
+                    displayName: tile?.displayName,
+                    useDisplayNameInCombined: tile?.useDisplayNameInCombined,
+                    placeId: tile?.placeId ?? '',
+                },
+            }))
+        }) ?? []),
     ]
 
     const sortedEstimatedCalls = estimatedCalls.sort((a, b) => {

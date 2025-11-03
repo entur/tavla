@@ -49,6 +49,7 @@ export type BaseTileDB = {
     walkingDistance?: BoardWalkingDistanceDB
     offset?: number
     displayName?: string
+    useDisplayNameInCombined?: boolean
     columns?: TileColumnDB[]
 }
 

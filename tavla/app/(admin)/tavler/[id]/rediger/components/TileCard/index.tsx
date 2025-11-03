@@ -71,6 +71,9 @@ function TileCard({
         data.delete('offset')
         const displayName = data.get('displayName') as string
         data.delete('displayName')
+        const useDisplayNameInCombined =
+            data.get('useDisplayNameInCombined') === 'on'
+        data.delete('useDisplayNameInCombined')
 
         if (isOnlyWhiteSpace(displayName)) {
             return getFormFeedbackForError('board/tiles-name-missing')
@@ -103,6 +106,7 @@ function TileCard({
             }),
             offset: Number(offset) || undefined,
             displayName: displayName.substring(0, 50) || undefined,
+            useDisplayNameInCombined,
         }
 
         try {
