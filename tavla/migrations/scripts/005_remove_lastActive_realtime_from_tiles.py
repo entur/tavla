@@ -17,16 +17,15 @@ Author: Erlend
 
 from google.cloud import firestore
 import time
-import copy 
-import init 
+import copy
+import init
 
-
-collection_name = "boards" 
+collection_name = "boards"
 
 
 def remove_realtime_from_tiles(data: dict, log_file) -> dict:
     if not data:
-        return data 
+        return data
 
     changed = False
 
@@ -45,12 +44,14 @@ def remove_realtime_from_tiles(data: dict, log_file) -> dict:
                 new_columns = [c for c in columns if c != "realtime"]
                 tile["columns"] = new_columns
                 changed = True
-                log_file.write(f"🧹 Removed 'realtime' from columns: {old_columns} -> {new_columns}\n")
+                log_file.write(
+                    f"🧹 Removed 'realtime' from columns: {old_columns} -> {new_columns}\n"
+                )
             updated_tiles.append(tile)
         if changed:
             data["tiles"] = updated_tiles
 
-    ## Remove old 'lastActive' field from meta if it exists
+    # Remove old 'lastActive' field from meta if it exists
     if "meta" in data and isinstance(data["meta"], dict):
         if "lastActive" in data["meta"]:
             old_value = data["meta"]["lastActive"]
@@ -61,15 +62,35 @@ def remove_realtime_from_tiles(data: dict, log_file) -> dict:
     return data
 
 
+def stream_documents_in_batches(collection_ref, batch_size=500):
+    """Generator that yields all documents in batches to avoid Firestore timeouts."""
+    last_doc = None
+    while True:
+        query = collection_ref.order_by("__name__").limit(batch_size)
+        if last_doc:
+            query = query.start_after(last_doc)
+
+        docs = list(query.stream())
+        if not docs:
+            break
+
+        for d in docs:
+            yield d
+
+        last_doc = docs[-1]
+        print(f"📦 Processed batch up to document: {last_doc.id}")
+        time.sleep(1)  # Optional small pause between batches
+
+
 def update_documents(db: firestore.Client):
-    docs = db.collection(collection_name).stream()
+    collection_ref = db.collection(collection_name)
 
     success_count = 0
     fail_count = 0
     total_count = 0
 
     with open("remove_realtime_log.txt", "a", encoding="utf-8") as log_file:
-        for i, doc_snap in enumerate(docs):
+        for i, doc_snap in enumerate(stream_documents_in_batches(collection_ref, batch_size=500)):
             total_count += 1
             doc_id = doc_snap.id
             log_file.write(f"\n-----> 🏁 Checking document: {doc_id}\n")
@@ -81,11 +102,10 @@ def update_documents(db: firestore.Client):
                     continue
 
                 original_data = copy.deepcopy(data)
-
                 new_data = remove_realtime_from_tiles(data, log_file)
 
                 if new_data != original_data:
-                    db.collection(collection_name).document(doc_id).set(new_data)
+                    db.collection(collection_name).document(doc_id).set(new_data, merge=True)
                     success_count += 1
                     log_file.write(f"✅ Updated document {doc_id}\n")
                     log_file.write(f"📝 Old tiles: {original_data.get('tiles')}\n")
@@ -108,7 +128,7 @@ def update_documents(db: firestore.Client):
 
 
 def run():
-    db = init.local()
+    db = init.prod()
     print(f"Connected to project: {db.project}, host: {getattr(db, '_emulator_host', None)}")
     update_documents(db)
 
