@@ -8,24 +8,25 @@ import { useLink } from 'hooks/useLink'
 function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
     const { addToast } = useToast()
     const link = useLink(bid)
+
+    if (!link) return null
+
     const copy = () => {
-        navigator.clipboard.writeText(link ?? '')
+        navigator.clipboard.writeText(link)
         addToast('Lenken til tavlen ble kopiert!')
     }
 
     if (type === 'button') {
-        if (link) {
-            return (
-                <CopyableText
-                    successHeading=""
-                    successMessage="Lenken til tavlen ble kopiert!"
-                    aria-label="Kopier lenken til tavlen"
-                >
-                    {link.toString()}
-                </CopyableText>
-            )
-        }
-        return
+        return (
+            <CopyableText
+                successHeading=""
+                successMessage="Lenken til tavlen ble kopiert!"
+                aria-label="Kopier lenken til tavlen"
+                onClick={copy}
+            >
+                {link}
+            </CopyableText>
+        )
     }
     return (
         <Tooltip
