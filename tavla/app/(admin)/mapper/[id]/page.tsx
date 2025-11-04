@@ -13,13 +13,13 @@ import { auth } from 'firebase-admin'
 import { UserIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-import { FolderId } from 'types/db-types/folders'
+import { FolderDB } from 'types/db-types/folders'
 import { UserId } from 'types/db-types/users'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { UploadLogo } from '../components/UploadLogo'
 
 export type TProps = {
-    params: Promise<{ id: FolderId }>
+    params: Promise<{ id: FolderDB['id'] }>
 }
 
 export async function generateMetadata(props: TProps): Promise<Metadata> {

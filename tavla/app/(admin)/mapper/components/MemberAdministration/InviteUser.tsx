@@ -8,10 +8,10 @@ import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState, useRef } from 'react'
-import { FolderId } from 'types/db-types/folders'
+import { FolderDB } from 'types/db-types/folders'
 import { inviteUserAction } from './actions'
 
-function InviteUser({ folderid }: { folderid?: FolderId }) {
+function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
     const [state, formAction] = useActionState(inviteUserAction, undefined)
     const { addToast } = useToast()
 
