@@ -6,7 +6,7 @@ import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
 import { BoardDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
-import { UserId } from 'types/db-types/users'
+import { UserDB } from 'types/db-types/users'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
@@ -19,7 +19,7 @@ export async function getFirebaseClientConfig() {
     return FIREBASE_DEV_CONFIG
 }
 
-function userInFolder(uid?: UserId, folder?: FolderDB) {
+function userInFolder(uid?: UserDB['uid'], folder?: FolderDB) {
     return uid && folder && folder.owners?.includes(uid)
 }
 
