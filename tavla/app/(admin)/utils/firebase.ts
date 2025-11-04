@@ -4,7 +4,7 @@ import { getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import admin, { auth, firestore } from 'firebase-admin'
 import { BoardDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
-import { UserDB } from 'types/db-types/users'
+import { UserDB, UserDBSchema } from 'types/db-types/users'
 import { getBoardsForFolder, getFolderIfUserHasAccess } from '../actions'
 import { getUserFromSessionCookie } from './server'
 
@@ -45,11 +45,28 @@ export async function revokeUserTokenOnLogout() {
     }
 }
 
-export async function getUserWithBoardIds() {
+export async function getUserWithBoardIds(): Promise<UserDB | null> {
     const user = await getUserFromSessionCookie()
     if (!user) return null
     const userDoc = await firestore().collection('users').doc(user.uid).get()
-    return { ...userDoc.data(), uid: userDoc.id } as UserDB
+    const userData = {
+        uid: userDoc.id,
+        ...userDoc.data(),
+    }
+    const parsedUser = UserDBSchema.safeParse(userData)
+    if (!parsedUser.success) {
+        Sentry.captureMessage(
+            'User data validation failed for user:' + userDoc.id,
+            {
+                level: 'warning',
+                extra: {
+                    error: parsedUser.error,
+                },
+            },
+        )
+        return null
+    }
+    return parsedUser.data
 }
 
 export async function userCanEditBoard(bid?: BoardDB['id']) {

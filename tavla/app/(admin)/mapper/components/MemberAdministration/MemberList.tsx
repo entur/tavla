@@ -8,7 +8,7 @@ import {
 } from '@entur/table'
 import { AuthenticatedUser } from 'app/(admin)/mapper/[id]/page'
 import { FolderDB } from 'types/db-types/folders'
-import { UserId } from 'types/db-types/users'
+import { UserDB } from 'types/db-types/users'
 import { RemoveUserButton } from './RemoveUserButton'
 
 function MemberList({
@@ -17,7 +17,7 @@ function MemberList({
     folderid,
 }: {
     members: AuthenticatedUser[]
-    uid: UserId
+    uid: UserDB['uid']
     folderid?: FolderDB['id']
 }) {
     return (
