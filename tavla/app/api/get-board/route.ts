@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({
             board: boardData,
-            ...(folderLogo && { folderLogo }),
+            folderLogo: folderLogo ?? null,
         })
     } catch (error) {
         Sentry.captureException(error, {
