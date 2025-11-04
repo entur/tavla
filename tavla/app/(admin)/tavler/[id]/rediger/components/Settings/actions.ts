@@ -26,12 +26,11 @@ import {
     BoardDB,
     BoardFontSize,
     BoardFooter,
-    BoardId,
     BoardTheme,
     LocationDB,
     TransportPalette,
 } from 'types/db-types/boards'
-import { FolderId } from 'types/db-types/folders'
+import { FolderDB } from 'types/db-types/folders'
 
 initializeAdminApp()
 
@@ -42,14 +41,14 @@ async function userHasAccessToEditBoard(bid: string) {
 
 export async function saveSettings(data: FormData) {
     const title = data.get('title') as string
-    const bid = data.get('bid') as BoardId
+    const bid = data.get('bid') as BoardDB['id']
     const viewType = data.get('viewType') as string
     const theme = data.get('theme') as BoardTheme
     const font = data.get('font') as BoardFontSize
     const transportPalette = data.get('transportPalette') as TransportPalette
 
-    const newFolder = data.get('newOid') as FolderId | undefined
-    const oldFolder = data.get('oldOid') as FolderId | undefined
+    const newFolder = data.get('newOid') as FolderDB['id'] | undefined
+    const oldFolder = data.get('oldOid') as FolderDB['id'] | undefined
 
     const hideClock = data.get('clock') === null
     const hideLogo = data.get('logo') === null
@@ -105,7 +104,7 @@ export async function saveSettings(data: FormData) {
     }
 }
 
-async function setFooter(bid: BoardId, { footer }: BoardFooter) {
+async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
     userHasAccessToEditBoard(bid)
 
     let newFooter = {}
@@ -136,7 +135,7 @@ async function setFooter(bid: BoardId, { footer }: BoardFooter) {
     }
 }
 
-async function setTheme(bid: BoardId, theme?: BoardTheme) {
+async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
     userHasAccessToEditBoard(bid)
 
     try {
@@ -183,7 +182,7 @@ async function setViewType(board: BoardDB, viewType: string) {
     }
 }
 
-async function saveTitle(bid: BoardId, title: string) {
+async function saveTitle(bid: BoardDB['id'], title: string) {
     userHasAccessToEditBoard(bid)
 
     try {
@@ -206,7 +205,7 @@ async function saveTitle(bid: BoardId, title: string) {
     }
 }
 
-async function saveFont(bid: BoardId, font: BoardFontSize) {
+async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
     userHasAccessToEditBoard(bid)
 
     try {
@@ -260,9 +259,9 @@ async function getTilesWithDistance(board: BoardDB, location?: LocationDB) {
 }
 
 export async function moveBoard(
-    bid: BoardId,
-    toFolder?: FolderId,
-    fromFolder?: FolderId,
+    bid: BoardDB['id'],
+    toFolder?: FolderDB['id'],
+    fromFolder?: FolderDB['id'],
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
@@ -315,7 +314,7 @@ export async function moveBoard(
 }
 
 async function setTransportPalette(
-    bid: BoardId,
+    bid: BoardDB['id'],
     transportPalette?: TransportPalette,
 ) {
     userHasAccessToEditBoard(bid)
@@ -343,7 +342,7 @@ async function setTransportPalette(
 }
 
 async function setElements(
-    bid: BoardId,
+    bid: BoardDB['id'],
     hideClock: boolean,
     hideLogo: boolean,
 ) {
