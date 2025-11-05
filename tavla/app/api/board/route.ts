@@ -7,6 +7,17 @@ import { FolderDB } from 'types/db-types/folders'
 
 initializeAdminApp()
 
+const corsHeaders = {
+    'Access-Control-Allow-Origin':
+        process.env.NODE_ENV === 'development' ? '*' : 'null',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+export async function OPTIONS() {
+    return NextResponse.json({}, { headers: corsHeaders })
+}
+
 async function fetchBoardById(boardId: BoardDB['id']): Promise<BoardDB | null> {
     const boardDoc = await firestore().collection('boards').doc(boardId).get()
 
@@ -32,7 +43,10 @@ async function fetchFolderLogo(boardId: BoardDB['id']): Promise<string | null> {
 }
 
 function createErrorResponse(message: string, status: number) {
-    return NextResponse.json({ error: message }, { status })
+    return NextResponse.json(
+        { error: message },
+        { status, headers: corsHeaders },
+    )
 }
 
 export async function GET(request: NextRequest) {
@@ -53,7 +67,14 @@ export async function GET(request: NextRequest) {
 
         const folderLogo = await fetchFolderLogo(boardId)
 
-        return NextResponse.json({ board: boardData, folderLogo })
+        return NextResponse.json(
+            {
+                board: boardData,
+                folderLogo,
+                process: { env: process.env.NODE_ENV },
+            },
+            { headers: corsHeaders },
+        )
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
