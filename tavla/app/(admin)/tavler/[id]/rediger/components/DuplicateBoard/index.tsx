@@ -2,7 +2,7 @@
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId } from 'types/db-types/folders'
 import { duplicateBoard } from './actions'
 
 function DuplicateBoard({
@@ -10,18 +10,17 @@ function DuplicateBoard({
     folderid,
 }: {
     board: BoardDB
-    folderid?: FolderDB['id']
+    folderid?: FolderId
 }) {
     const { addToast } = useToast()
     const handleSelect = async () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, ...duplicationPayload } = board
+        delete board.id
         await duplicateBoard(
             {
-                ...duplicationPayload,
+                ...board,
                 meta: {
-                    ...duplicationPayload.meta,
-                    title: duplicationPayload.meta.title + ' - duplikat',
+                    ...board.meta,
+                    title: board.meta.title + ' - duplikat',
                 },
             },
             folderid,

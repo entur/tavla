@@ -1,8 +1,8 @@
-import { z } from 'zod'
+import { BoardId } from 'types/db-types/boards'
 
-export const UserDBSchema = z.object({
-    uid: z.string(),
-    owner: z.array(z.string()).optional(),
-})
+export type UserDB = {
+    uid?: UserId
+    owner?: BoardId[]
+}
 
-export type UserDB = z.infer<typeof UserDBSchema>
+export type UserId = string
