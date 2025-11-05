@@ -7,7 +7,7 @@ import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
-import { useFolders } from 'app/(admin)/hooks/useFolders'
+import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
 import { moveBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -25,16 +25,18 @@ function Move({ board }: { board: BoardDB }) {
         if (resultingError) {
             setError(resultingError)
         } else {
-            const toastText = selectedFolder?.value.id
-                ? `Tavlen er flyttet til "${selectedFolder?.value.name}"!`
-                : 'Tavlen er ikke lengre i en mappe!'
+            const toastText =
+                selectedFolder?.value && selectedFolder?.value.id
+                    ? `Tavlen er flyttet til "${selectedFolder?.value.name}"!`
+                    : 'Tavlen er ikke lengre i en mappe!'
             addToast(toastText)
             setError(undefined)
             setIsOpen(false)
         }
     }
 
-    const { folders, selectedFolder, setSelectedFolder } = useFolders()
+    const { folderDropdownList, selectedFolder, handleFolderChange } =
+        useFolderDropdown()
 
     return (
         <>
@@ -70,15 +72,18 @@ function Move({ board }: { board: BoardDB }) {
                 </Paragraph>
                 <form action={submit} className="w-full">
                     <Dropdown
-                        items={folders}
+                        items={folderDropdownList}
                         label="Dine mapper"
                         selectedItem={selectedFolder}
-                        onChange={setSelectedFolder}
+                        onChange={handleFolderChange}
                         aria-required="true"
                         className="mb-4"
                     />
                     <HiddenInput id="bid" value={board.id} />
-                    <HiddenInput id="newOid" value={selectedFolder?.value.id} />
+                    <HiddenInput
+                        id="newOid"
+                        value={selectedFolder?.value?.id}
+                    />
                     <FormError {...getFormFeedbackForField('general', error)} />
 
                     <div className="mt-8 flex flex-row justify-start">
