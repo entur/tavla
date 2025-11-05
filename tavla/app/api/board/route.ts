@@ -71,7 +71,6 @@ export async function GET(request: NextRequest) {
             {
                 board: boardData,
                 folderLogo,
-                process: { env: process.env.NODE_ENV },
             },
             { headers: corsHeaders },
         )
