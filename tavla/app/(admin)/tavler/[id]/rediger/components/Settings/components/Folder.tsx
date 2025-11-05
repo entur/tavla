@@ -1,7 +1,7 @@
 'use client'
 import { Dropdown } from '@entur/dropdown'
 import { Heading4 } from '@entur/typography'
-import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
+import { useFolders } from 'app/(admin)/hooks/useFolders'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useEffect, useRef } from 'react'
 import { FolderDB } from 'types/db-types/folders'
@@ -13,8 +13,7 @@ function Folder({
     folder?: FolderDB
     onChange: () => void
 }) {
-    const { folderDropdownList, selectedFolder, handleFolderChange } =
-        useFolderDropdown(folder)
+    const { folders, selectedFolder, setSelectedFolder } = useFolders(folder)
 
     const isFirstRender = useRef(true)
 
@@ -31,15 +30,15 @@ function Folder({
         <div>
             <Heading4 margin="bottom">Mappe</Heading4>
             <Dropdown
-                items={folderDropdownList}
+                items={folders}
                 label="Dine mapper"
                 selectedItem={selectedFolder}
-                onChange={handleFolderChange}
+                onChange={setSelectedFolder}
                 aria-required="true"
                 className="mb-4"
             />
             <HiddenInput id="oldOid" value={folder?.id} />
-            <HiddenInput id="newOid" value={selectedFolder?.value?.id} />
+            <HiddenInput id="newOid" value={selectedFolder?.value.id} />
         </div>
     )
 }

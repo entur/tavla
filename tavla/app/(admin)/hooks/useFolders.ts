@@ -3,47 +3,37 @@ import { FolderIcon } from '@entur/icons'
 import { useCallback, useEffect, useState } from 'react'
 import { FolderDB } from 'types/db-types/folders'
 import { getFoldersForUser } from '../actions'
+import { folderToDropdownItem } from '../tavler/[id]/utils'
 
-type FolderDropdownItem = NormalizedDropdownItemType<FolderDB | null>
-
-const NO_FOLDER_OPTION: FolderDropdownItem = {
-    value: null,
+const NO_FOLDER = {
+    value: {},
     label: 'Ingen mappe',
 }
 
-const toDropdownItem = (folder: FolderDB): FolderDropdownItem => ({
-    value: folder,
-    label: folder.name ?? '',
-    icons: [FolderIcon],
-})
+function useFolders(folder?: FolderDB) {
+    const [folderList, setFolderList] = useState<
+        NormalizedDropdownItemType<FolderDB>[]
+    >([])
 
-function useFolderDropdown(folder?: FolderDB) {
-    const [folderDropdownList, setFolderList] = useState<FolderDropdownItem[]>([
-        NO_FOLDER_OPTION,
-    ])
-    const [selectedFolder, setSelectedFolder] = useState<FolderDropdownItem>(
-        folder ? toDropdownItem(folder) : NO_FOLDER_OPTION,
-    )
+    const [selectedFolder, setSelectedFolder] =
+        useState<NormalizedDropdownItemType<FolderDB> | null>(
+            folder ? folderToDropdownItem(folder) : NO_FOLDER,
+        )
 
     useEffect(() => {
         getFoldersForUser().then((res) => {
-            const dropdownFolderItems = res?.map(toDropdownItem) ?? []
-            setFolderList([NO_FOLDER_OPTION, ...dropdownFolderItems])
+            const folders = res?.map((folder) => ({
+                value: folder ?? undefined,
+                label: folder.name ?? '',
+                icons: [FolderIcon],
+            }))
+            setFolderList([...folders, NO_FOLDER])
         })
     }, [])
 
-    const handleFolderChange = useCallback(
-        (item?: FolderDropdownItem | null) => {
-            setSelectedFolder(item ?? NO_FOLDER_OPTION)
-        },
-        [],
-    )
+    const folders = useCallback(() => folderList, [folderList])
 
-    return {
-        folderDropdownList,
-        selectedFolder,
-        handleFolderChange,
-    }
+    return { folders, selectedFolder, setSelectedFolder }
 }
 
-export { useFolderDropdown }
+export { useFolders }

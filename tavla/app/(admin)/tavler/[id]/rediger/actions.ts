@@ -14,6 +14,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import {
     BoardDB,
+    BoardId,
     BoardTileDB,
     Coordinate,
     LocationDB,
@@ -21,7 +22,7 @@ import {
 
 initializeAdminApp()
 
-export async function addTile(bid: BoardDB['id'], tile: BoardTileDB) {
+export async function addTile(bid: BoardId, tile: BoardTileDB) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -96,10 +97,7 @@ export async function getWalkingDistanceTile(
         },
     }
 }
-export async function saveUpdatedTileOrder(
-    bid: BoardDB['id'],
-    tiles: BoardTileDB[],
-) {
+export async function saveUpdatedTileOrder(bid: BoardId, tiles: BoardTileDB[]) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 

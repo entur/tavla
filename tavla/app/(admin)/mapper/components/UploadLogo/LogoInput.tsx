@@ -14,9 +14,9 @@ import { SubmitButton } from 'components/Form/SubmitButton'
 import { useRouter } from 'next/navigation'
 import { ChangeEventHandler, useState } from 'react'
 import { useFormStatus } from 'react-dom'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId } from 'types/db-types/folders'
 
-function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
+function LogoInput({ folderid }: { folderid?: FolderId }) {
     const [state, setFormError] = useState<TFormFeedback | undefined>()
     const [file, setFile] = useState<File | null>(null)
     const [fileName, setFileName] = useState<string>()

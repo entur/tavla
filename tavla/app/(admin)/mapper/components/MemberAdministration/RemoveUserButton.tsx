@@ -4,7 +4,7 @@ import { IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useActionState } from 'react'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId } from 'types/db-types/folders'
 import { UserDB } from 'types/db-types/users'
 import { removeUserAction } from './actions'
 
@@ -13,7 +13,7 @@ function RemoveUserButton({
     folderid,
 }: {
     user?: UserDB
-    folderid?: FolderDB['id']
+    folderid?: FolderId
 }) {
     const [, deleteUser] = useActionState(removeUserAction, undefined)
     const { addToast } = useToast()

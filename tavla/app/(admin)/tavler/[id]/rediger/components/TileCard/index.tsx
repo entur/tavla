@@ -18,6 +18,7 @@ import {
 } from 'react'
 import {
     BoardDB,
+    BoardId,
     BoardTileDB,
     LocationDB,
     TileColumnDB,
@@ -43,7 +44,7 @@ function TileCard({
     moveItem,
     setDemoBoard,
 }: {
-    bid: BoardDB['id']
+    bid: BoardId
     tile: BoardTileDB
     index: number
     address?: LocationDB

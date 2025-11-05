@@ -3,11 +3,11 @@ import TavlaLogoWhite from 'assets/logos/Tavla-white.svg'
 import { Clock } from 'components/Clock'
 import Image from 'next/image'
 import { BoardTheme } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderLogo } from 'types/db-types/folders'
 
 type Props = {
     theme?: BoardTheme
-    folderLogo?: FolderDB['logo'] | null
+    folderLogo?: FolderLogo | null
     hideClock?: boolean
     hideLogo?: boolean
 }
