@@ -2,7 +2,6 @@ import { Heading1, Heading2 } from '@entur/typography'
 import { getBoard } from 'Board/scenarios/Board/firebase'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
-import { Delete } from 'app/(admin)/oversikt/components/Column/Delete'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -18,9 +17,7 @@ import {
 } from './actions'
 import { ActionsMenu } from './components/ActionsMenu'
 import { Copy } from './components/Buttons/Copy'
-import { Open } from './components/Buttons/Open'
 import { Preview } from './components/Preview'
-import { RefreshButton } from './components/RefreshButton'
 import { Settings } from './components/Settings'
 import { getFolderForBoard } from './components/TileCard/actions'
 import { TileList } from './components/TileList'
@@ -77,9 +74,6 @@ export default async function EditPage(props: TProps) {
                         Rediger {board.meta?.title}
                     </Heading1>
                     <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                        <Open bid={board.id} type="button" />
-                        <RefreshButton board={board} />
-                        <Delete board={board} type="button" />
                         <ActionsMenu board={board} folderid={folder?.id} />
                     </div>
                 </div>
