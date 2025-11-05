@@ -1,13 +1,11 @@
-import { BoardId } from 'types/db-types/boards'
-import { UserId } from 'types/db-types/users'
+import { z } from 'zod'
 
-export type FolderDB = {
-    id?: FolderId
-    name?: string
-    owners?: UserId[]
-    boards?: BoardId[]
-    logo?: FolderLogo
-}
+export const FolderDBSchema = z.object({
+    id: z.string(),
+    name: z.string().optional(),
+    owners: z.array(z.string()).optional(),
+    boards: z.array(z.string()).optional(),
+    logo: z.string().optional(),
+})
 
-export type FolderLogo = string
-export type FolderId = string
+export type FolderDB = z.infer<typeof FolderDBSchema>

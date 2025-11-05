@@ -1,7 +1,7 @@
 'use client'
 import { OverflowMenu } from '@entur/menu'
 import { BoardDB } from 'types/db-types/boards'
-import { FolderId } from 'types/db-types/folders'
+import { FolderDB } from 'types/db-types/folders'
 import { DuplicateBoard } from '../DuplicateBoard'
 
 function ActionsMenu({
@@ -9,7 +9,7 @@ function ActionsMenu({
     folderid,
 }: {
     board: BoardDB
-    folderid?: FolderId
+    folderid?: FolderDB['id']
 }) {
     return (
         <>
@@ -24,7 +24,7 @@ function OverflowActionsMenu({
     folderid,
 }: {
     board: BoardDB
-    folderid?: FolderId
+    folderid?: FolderDB['id']
 }) {
     return (
         <div className="hidden md:flex">
@@ -40,7 +40,7 @@ function ButtonsMenu({
     folderid,
 }: {
     board: BoardDB
-    folderid?: FolderId
+    folderid?: FolderDB['id']
 }) {
     return (
         <div className="flex flex-col gap-4 md:hidden md:flex-row md:items-center">
