@@ -8,7 +8,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
-import { BoardId } from 'types/db-types/boards'
+import { BoardDB } from 'types/db-types/boards'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,
@@ -23,7 +23,7 @@ import { getFolderForBoard } from './components/TileCard/actions'
 import { TileList } from './components/TileList'
 
 export type TProps = {
-    params: Promise<{ id: BoardId }>
+    params: Promise<{ id: BoardDB['id'] }>
 }
 
 export async function generateMetadata(props: TProps): Promise<Metadata> {

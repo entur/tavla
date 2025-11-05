@@ -2,9 +2,9 @@
 import * as Sentry from '@sentry/nextjs'
 import { getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import admin, { auth, firestore } from 'firebase-admin'
-import { BoardId } from 'types/db-types/boards'
-import { FolderId } from 'types/db-types/folders'
-import { UserDB } from 'types/db-types/users'
+import { BoardDB } from 'types/db-types/boards'
+import { FolderDB } from 'types/db-types/folders'
+import { UserDB, UserDBSchema } from 'types/db-types/users'
 import { getBoardsForFolder, getFolderIfUserHasAccess } from '../actions'
 import { getUserFromSessionCookie } from './server'
 
@@ -45,14 +45,31 @@ export async function revokeUserTokenOnLogout() {
     }
 }
 
-export async function getUserWithBoardIds() {
+export async function getUserWithBoardIds(): Promise<UserDB | null> {
     const user = await getUserFromSessionCookie()
     if (!user) return null
     const userDoc = await firestore().collection('users').doc(user.uid).get()
-    return { ...userDoc.data(), uid: userDoc.id } as UserDB
+    const userData = {
+        uid: userDoc.id,
+        ...userDoc.data(),
+    }
+    const parsedUser = UserDBSchema.safeParse(userData)
+    if (!parsedUser.success) {
+        Sentry.captureMessage(
+            'User data validation failed for user:' + userDoc.id,
+            {
+                level: 'warning',
+                extra: {
+                    error: parsedUser.error,
+                },
+            },
+        )
+        return null
+    }
+    return parsedUser.data
 }
 
-export async function userCanEditBoard(bid?: BoardId) {
+export async function userCanEditBoard(bid?: BoardDB['id']) {
     if (!bid) return false
 
     const user = await getUserWithBoardIds()
@@ -65,7 +82,7 @@ export async function userCanEditBoard(bid?: BoardId) {
     return userEditorAccess
 }
 
-export async function deleteBoard(bid: BoardId) {
+export async function deleteBoard(bid: BoardDB['id']) {
     const user = await getUserFromSessionCookie()
     const access = await userCanEditBoard(bid)
 
@@ -97,14 +114,14 @@ export async function deleteBoard(bid: BoardId) {
     }
 }
 
-export async function deleteFolder(folderid: FolderId) {
+export async function deleteFolder(folderid: FolderDB['id']) {
     const access = await userCanEditFolder(folderid)
     if (!access) throw 'auth/operation-not-allowed'
     await deleteFolderBoards(folderid)
     await firestore().collection('folders').doc(folderid).delete()
 }
 
-export async function userCanEditFolder(folderid: FolderId) {
+export async function userCanEditFolder(folderid: FolderDB['id']) {
     const user = await getUserFromSessionCookie()
     if (!user) return false
 
@@ -113,7 +130,7 @@ export async function userCanEditFolder(folderid: FolderId) {
     return true
 }
 
-export async function deleteFolderBoards(folderid: FolderId) {
+export async function deleteFolderBoards(folderid: FolderDB['id']) {
     const boards = await getBoardsForFolder(folderid)
 
     return Promise.all(
@@ -123,7 +140,10 @@ export async function deleteFolderBoards(folderid: FolderId) {
     )
 }
 
-export async function deleteFolderBoard(folderid: FolderId, bid: BoardId) {
+export async function deleteFolderBoard(
+    folderid: FolderDB['id'],
+    bid: BoardDB['id'],
+) {
     const access = await userCanEditFolder(folderid)
     if (!access) throw 'auth/operation-not-allowed'
     try {

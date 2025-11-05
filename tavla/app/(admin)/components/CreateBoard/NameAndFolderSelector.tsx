@@ -1,7 +1,7 @@
 'use client'
 import { Dropdown } from '@entur/dropdown'
 import { Heading2, Label, Paragraph } from '@entur/typography'
-import { useFolders } from 'app/(admin)/hooks/useFolders'
+import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { HiddenInput } from 'components/Form/HiddenInput'
@@ -14,7 +14,8 @@ import { createBoard } from './actions'
 function NameAndFolderSelector({ folder }: { folder?: FolderDB }) {
     const [state, action] = useActionState(createBoard, undefined)
 
-    const { folders, selectedFolder, setSelectedFolder } = useFolders(folder)
+    const { folderDropdownList, selectedFolder, handleFolderChange } =
+        useFolderDropdown(folder)
 
     return (
         <form action={action} className="md:px-10">
@@ -38,14 +39,14 @@ function NameAndFolderSelector({ folder }: { folder?: FolderDB }) {
             <div className="mt-4">
                 <Label>Legg til i en mappe</Label>
                 <Dropdown
-                    items={folders}
+                    items={folderDropdownList}
                     label="Dine mapper"
                     selectedItem={selectedFolder}
-                    onChange={setSelectedFolder}
+                    onChange={handleFolderChange}
                     aria-required="true"
                     className="mb-4"
                 />
-                <HiddenInput id="folderid" value={selectedFolder?.value.id} />
+                <HiddenInput id="folderid" value={selectedFolder?.value?.id} />
             </div>
             <div className="mt-4">
                 <FormError {...getFormFeedbackForField('general', state)} />

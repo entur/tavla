@@ -13,13 +13,13 @@ import { auth } from 'firebase-admin'
 import { UserIdentifier } from 'firebase-admin/lib/auth/identifier'
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-import { FolderId } from 'types/db-types/folders'
-import { UserId } from 'types/db-types/users'
+import { FolderDB } from 'types/db-types/folders'
+import { UserDB } from 'types/db-types/users'
 import { MemberAdministration } from '../components/MemberAdministration'
 import { UploadLogo } from '../components/UploadLogo'
 
 export type TProps = {
-    params: Promise<{ id: FolderId }>
+    params: Promise<{ id: FolderDB['id'] }>
 }
 
 export async function generateMetadata(props: TProps): Promise<Metadata> {
@@ -36,12 +36,12 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
 }
 
 export type AuthenticatedUser = {
-    uid: UserId
+    uid: UserDB['uid']
     email?: string
 }
 
 async function getAuthenticatedUsers(
-    uids: UserId[],
+    uids: UserDB['uid'][],
 ): Promise<AuthenticatedUser[]> {
     const userIdentifiers: UserIdentifier[] = uids.map((uid) => ({ uid }))
     const userRecords = await auth().getUsers(userIdentifiers)
@@ -65,7 +65,7 @@ async function FolderPage(props: TProps) {
     const boardsInFolder = await getBoardsForFolder(folder.id)
     const boardCount = boardsInFolder.length
 
-    const owners: UserId[] = folder.owners ?? []
+    const owners: UserDB['uid'][] = folder.owners ?? []
 
     const members: AuthenticatedUser[] = await getAuthenticatedUsers(owners)
 
