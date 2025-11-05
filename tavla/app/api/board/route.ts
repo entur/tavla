@@ -2,12 +2,12 @@ import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { firestore } from 'firebase-admin'
 import { NextRequest, NextResponse } from 'next/server'
-import { BoardDB, BoardId } from 'types/db-types/boards'
+import { BoardDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
 
 initializeAdminApp()
 
-async function fetchBoardById(boardId: BoardId): Promise<BoardDB | null> {
+async function fetchBoardById(boardId: BoardDB['id']): Promise<BoardDB | null> {
     const boardDoc = await firestore().collection('boards').doc(boardId).get()
 
     if (!boardDoc.exists) {
@@ -17,7 +17,7 @@ async function fetchBoardById(boardId: BoardId): Promise<BoardDB | null> {
     return { id: boardId, ...boardDoc.data() } as BoardDB
 }
 
-async function fetchFolderLogo(boardId: BoardId): Promise<string | null> {
+async function fetchFolderLogo(boardId: BoardDB['id']): Promise<string | null> {
     const foldersSnapshot = await firestore()
         .collection('folders')
         .where('boards', 'array-contains', boardId)
@@ -37,11 +37,13 @@ function createErrorResponse(message: string, status: number) {
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
-    const boardId = searchParams.get('id') as BoardId
+    const boardIdParam = searchParams.get('id')
 
-    if (!boardId) {
+    if (!boardIdParam) {
         return createErrorResponse('Board ID is required', 400)
     }
+
+    const boardId = boardIdParam satisfies BoardDB['id']
 
     try {
         const boardData = await fetchBoardById(boardId)
