@@ -7,9 +7,11 @@ import { BoardTheme, TransportPalette } from 'types/db-types/boards'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 
 const transportPalettes = [
-    { label: 'Standard', value: 'default' },
+    { label: 'Nasjonal', value: 'default' },
     { label: 'Blå buss', value: 'blue-bus' },
     { label: 'Grønn buss', value: 'green-bus' },
+    { label: 'Lokal', value: 'atb' },
+    { label: 'Lokal', value: 'fram' },
 ]
 
 const busAndTrainModes: { mode: TTransportMode }[] = [
@@ -47,14 +49,24 @@ const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
 function TransportPaletteSelect({
     transportPalette = 'default',
     theme,
+    allowedPalettes,
     onChange,
 }: {
     transportPalette?: TransportPalette
     theme: BoardTheme
+    allowedPalettes?: TransportPalette[]
     onChange: () => void
 }) {
     const [selectedValue, setSelectedValue] =
         useState<TransportPalette>(transportPalette)
+
+    const availablePalettes = allowedPalettes
+        ? transportPalettes.filter(
+              (palette) =>
+                  palette.value === 'default' ||
+                  allowedPalettes.includes(palette.value as TransportPalette),
+          )
+        : transportPalettes
 
     const handleChange = (value: TransportPalette) => {
         setSelectedValue(value)
@@ -78,7 +90,7 @@ function TransportPaletteSelect({
                         handleChange(e.target.value as TransportPalette)
                     }}
                 >
-                    {transportPalettes.map((palette) => (
+                    {availablePalettes.map((palette) => (
                         <div key={palette.value}>
                             <Radio value={palette.value}>{palette.label}</Radio>
                             <div

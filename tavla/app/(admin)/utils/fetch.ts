@@ -11,8 +11,13 @@ type TPartialGeoResponse = {
             label?: string
             layer?: string
             category?: [TCategory]
+            county?: string
         }
     }>
+}
+
+export type StopPlaceDropdownItem = NormalizedDropdownItemType & {
+    county?: string
 }
 
 type TPointGeoresponse = {
@@ -48,7 +53,7 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
 export async function fetchStopPlaces(
     text: string,
     countyIds?: string[],
-): Promise<NormalizedDropdownItemType[]> {
+): Promise<StopPlaceDropdownItem[]> {
     if (!text || text.length < 3) return []
 
     const searchParams = new URLSearchParams({
@@ -72,6 +77,7 @@ export async function fetchStopPlaces(
                 value: properties.id ?? '',
                 label: properties.label || '',
                 icons: uniq(getIcons(properties.layer, properties.category)),
+                county: properties.county,
             }))
         })
 }

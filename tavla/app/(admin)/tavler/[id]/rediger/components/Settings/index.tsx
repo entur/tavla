@@ -15,6 +15,7 @@ import { HiddenInput } from 'components/Form/HiddenInput'
 import { useCallback, useRef, useState } from 'react'
 import { BoardDB } from 'types/db-types/boards'
 import { saveSettings } from './actions'
+import { useAllowedPalettes } from './colorPalettes'
 import { FontSelect } from './components/FontSelect'
 import { Footer } from './components/Footer'
 import { ThemeSelect } from './components/ThemeSelect'
@@ -75,6 +76,7 @@ function Settings({ board }: { board: BoardDB }) {
                         <TransportPaletteSelect
                             transportPalette={board.transportPalette}
                             theme={board.theme ?? 'dark'}
+                            allowedPalettes={useAllowedPalettes(board)}
                             onChange={submitSettings}
                         />
 
