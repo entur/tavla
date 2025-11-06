@@ -6,14 +6,11 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
 import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId } from 'types/db-types/folders'
 
 initializeAdminApp()
 
-export async function duplicateBoard(
-    board: Omit<BoardDB, 'id'>,
-    folderid?: FolderDB['id'],
-) {
+export async function duplicateBoard(board: BoardDB, folderid?: FolderId) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 

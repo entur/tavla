@@ -2,7 +2,7 @@
 import { OverflowMenu } from '@entur/menu'
 import { Delete } from 'app/(admin)/oversikt/components/Column/Delete'
 import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId } from 'types/db-types/folders'
 import { Open } from '../Buttons/Open'
 import { DuplicateBoard } from '../DuplicateBoard'
 import { RefreshButton } from '../RefreshButton'
@@ -12,7 +12,7 @@ function ActionsMenu({
     folderid,
 }: {
     board: BoardDB
-    folderid?: FolderDB['id']
+    folderid?: FolderId
 }) {
     return (
         <>
@@ -27,7 +27,7 @@ function ActionsMenuDesktop({
     folderid,
 }: {
     board: BoardDB
-    folderid?: FolderDB['id']
+    folderid?: FolderId
 }) {
     return (
         <div className="hidden flex-row gap-4 sm:flex md:items-center">
@@ -50,7 +50,7 @@ function ActionsMenuPhone({
     folderid,
 }: {
     board: BoardDB
-    folderid?: FolderDB['id']
+    folderid?: FolderId
 }) {
     return (
         <div className="hidden flex-row max-sm:flex md:hidden">

@@ -11,15 +11,12 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore, storage } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId, FolderLogo } from 'types/db-types/folders'
 import { getFilename } from './utils'
 
 initializeAdminApp()
 
-export async function remove(
-    folderid?: FolderDB['id'],
-    logo?: FolderDB['logo'],
-) {
+export async function remove(folderid?: FolderId, logo?: FolderLogo) {
     if (!folderid || !logo)
         return getFormFeedbackForError('auth/operation-not-allowed')
 

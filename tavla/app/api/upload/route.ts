@@ -13,7 +13,7 @@ import { JSDOM } from 'jsdom'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
 import { NextRequest } from 'next/server'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId } from 'types/db-types/folders'
 import rateLimit from 'utils/rateLimit'
 
 initializeAdminApp()
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
         })
     }
     const data = await request.formData()
-    const folderid = data.get('folderid') as FolderDB['id']
+    const folderid = data.get('folderid') as FolderId
 
     const logo = data.get('logo') as File
 

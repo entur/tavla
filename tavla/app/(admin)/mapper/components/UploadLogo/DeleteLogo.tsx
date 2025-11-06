@@ -5,15 +5,15 @@ import { DeleteIcon } from '@entur/icons'
 import { FormError } from 'app/(admin)/components/FormError'
 import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { useState } from 'react'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId, FolderLogo } from 'types/db-types/folders'
 import { remove } from './actions'
 
 function DeleteLogo({
     folderid,
     logo,
 }: {
-    folderid?: FolderDB['id']
-    logo?: FolderDB['logo']
+    folderid?: FolderId
+    logo?: FolderLogo
 }) {
     const [deleteState, setDeleteState] = useState<TFormFeedback>()
     const { addToast } = useToast()

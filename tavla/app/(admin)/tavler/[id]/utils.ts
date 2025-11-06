@@ -37,7 +37,7 @@ export function folderToDropdownItem(
 ): NormalizedDropdownItemType<FolderDB> {
     return {
         label: folder.name ?? '',
-        value: folder ?? null,
+        value: folder ?? undefined,
     }
 }
 

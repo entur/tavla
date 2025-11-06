@@ -7,7 +7,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
 import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderId } from 'types/db-types/folders'
 
 initializeAdminApp()
 
@@ -18,7 +18,7 @@ export async function createBoard(
     const name = data.get('name') as string
     if (!name) return getFormFeedbackForError('board/name-missing')
 
-    const folderid = data.get('folderid') as FolderDB['id']
+    const folderid = data.get('folderid') as FolderId
 
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
@@ -36,7 +36,7 @@ export async function createBoard(
                     created: Date.now(),
                     dateModified: Date.now(),
                 },
-            } as Omit<BoardDB, 'id'>)
+            } as BoardDB)
 
         if (!createdBoard) return getFormFeedbackForError('firebase/general')
 
