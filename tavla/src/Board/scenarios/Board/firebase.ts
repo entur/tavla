@@ -1,8 +1,8 @@
 import * as Sentry from '@sentry/nextjs'
 import { makeBoardCompatible } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import admin, { firestore } from 'firebase-admin'
-import { BoardDB, BoardId } from 'types/db-types/boards'
-import { FolderDB, FolderId } from 'types/db-types/folders'
+import { BoardDB, BoardDBSchema } from 'types/db-types/boards'
+import { FolderDB, FolderDBSchema } from 'types/db-types/folders'
 
 initializeAdminApp()
 
@@ -15,20 +15,37 @@ async function initializeAdminApp() {
     }
 }
 
-export async function getBoard(bid: BoardId) {
+export async function getBoard(bid: BoardDB['id']) {
     try {
         const board = await firestore().collection('boards').doc(bid).get()
         if (!board.exists) {
             return undefined
         }
-        return makeBoardCompatible({ id: board.id, ...board.data() } as BoardDB)
+        const boardData = {
+            id: board.id,
+            ...board.data(),
+        }
+        const parsedBoard = BoardDBSchema.safeParse(boardData)
+        if (!parsedBoard.success) {
+            Sentry.captureMessage(
+                'Board data validation failed for board ' + bid,
+                {
+                    level: 'warning',
+                    extra: {
+                        error: parsedBoard.error,
+                    },
+                },
+            )
+            return undefined
+        }
+        return makeBoardCompatible(parsedBoard.data)
     } catch (error) {
         Sentry.captureMessage('Failed to fetch board with bid ' + bid)
         throw error
     }
 }
 
-export async function getFolder(folderid: FolderId) {
+export async function getFolder(folderid: FolderDB['id']) {
     try {
         const folder = await firestore()
             .collection('folders')
@@ -37,23 +54,57 @@ export async function getFolder(folderid: FolderId) {
         if (!folder.exists) {
             return undefined
         }
-        return { id: folder.id, ...folder.data() } as FolderDB
+        const folderData = {
+            id: folder.id,
+            ...folder.data(),
+        }
+        const parsedFolder = FolderDBSchema.safeParse(folderData)
+        if (!parsedFolder.success) {
+            Sentry.captureMessage(
+                'Folder data validation failed for OID ' + folderid,
+                {
+                    level: 'warning',
+                    extra: {
+                        error: parsedFolder.error.flatten(),
+                    },
+                },
+            )
+            return undefined
+        }
+        return parsedFolder.data
     } catch (error) {
         Sentry.captureMessage('Failed to fetch folder with OID ' + folderid)
         throw error
     }
 }
 
-export async function getFolderForBoard(bid: BoardId) {
+export async function getFolderForBoard(bid: BoardDB['id']) {
     try {
         const ref = await firestore()
             .collection('folders')
             .where('boards', 'array-contains', bid)
             .get()
-        const folder = ref.docs.map(
-            (doc) => ({ id: doc.id, ...doc.data() }) as FolderDB,
-        )
-        return folder[0] ?? null
+        const folders = ref.docs.map((doc) => {
+            const folderData = {
+                id: doc.id,
+                ...doc.data(),
+            }
+            const parsedFolder = FolderDBSchema.safeParse(folderData)
+            if (parsedFolder.success) {
+                return parsedFolder.data
+            }
+            Sentry.captureMessage(
+                'Folder data validation failed for board ' + bid,
+                {
+                    level: 'warning',
+                    extra: {
+                        error: parsedFolder.error,
+                        folderId: doc.id,
+                    },
+                },
+            )
+        })
+        return folders[0] ?? null
     } catch (error) {
         Sentry.captureMessage('Failed to fetch folder with board ' + bid)
         throw error

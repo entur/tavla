@@ -1,41 +1,56 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
+import { OverflowMenuItem } from '@entur/menu'
 import { BoardDB } from 'types/db-types/boards'
-import { FolderId } from 'types/db-types/folders'
+import { FolderDB } from 'types/db-types/folders'
 import { duplicateBoard } from './actions'
 
+interface DuplicateBoardProps {
+    board: BoardDB
+    folderid?: FolderDB['id']
+    type?: 'button' | 'menuitem'
+}
 function DuplicateBoard({
     board,
     folderid,
-}: {
-    board: BoardDB
-    folderid?: FolderId
-}) {
+    type = 'button',
+}: DuplicateBoardProps) {
     const { addToast } = useToast()
+
     const handleSelect = async () => {
-        delete board.id
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...duplicationPayload } = board
         await duplicateBoard(
             {
-                ...board,
+                ...duplicationPayload,
                 meta: {
-                    ...board.meta,
-                    title: board.meta.title + ' - duplikat',
+                    ...duplicationPayload.meta,
+                    title: duplicationPayload.meta.title + ' - duplikat',
                 },
             },
             folderid,
         )
         addToast('Tavle duplisert!')
     }
-    return (
-        <Button
-            variant="secondary"
-            aria-label="Dupliser tavle"
-            onClick={handleSelect}
-        >
-            Dupliser tavle
-        </Button>
-    )
+
+    if (type === 'button') {
+        return (
+            <Button
+                variant="secondary"
+                aria-label="Dupliser tavle"
+                onClick={handleSelect}
+            >
+                Dupliser tavle
+            </Button>
+        )
+    } else {
+        return (
+            <OverflowMenuItem onClick={handleSelect}>
+                Dupliser tavle
+            </OverflowMenuItem>
+        )
+    }
 }
 
 export { DuplicateBoard }
