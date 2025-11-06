@@ -31,7 +31,7 @@ const locationSchema = z.object({
 })
 
 const boardWalkingDistanceSchema = z.object({
-    distance: z.union([z.number(), z.nan()]).optional(),
+    distance: z.number().optional(),
     visible: z.boolean().optional(),
 })
 
