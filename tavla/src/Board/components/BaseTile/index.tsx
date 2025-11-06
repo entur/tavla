@@ -3,6 +3,7 @@ import {
     FetchErrorTypes,
 } from 'Board/components/DataFetchingFailed'
 import { TileLoader } from 'Board/components/TileLoader'
+import { CustomName } from 'Board/hooks/useTileData'
 import { TileSituations } from 'Board/scenarios/Table/components/TileSituations'
 import { Tile } from 'components/Tile'
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
@@ -19,14 +20,12 @@ interface BaseTileProps {
     situations: TSituationFragment[]
     uniqueSituations: TileSituation[]
     currentSituationIndex: number
-
+    customNames?: CustomName[]
     isLoading: boolean
     error?: Error
     hasData: boolean
-
     columns: TileColumnDB[]
     walkingDistance?: BoardWalkingDistanceDB
-
     className?: string
     customHeader?: ReactNode
     customDeviation?: ReactNode
@@ -38,6 +37,7 @@ export function BaseTile({
     situations,
     uniqueSituations,
     currentSituationIndex,
+    customNames,
     isLoading,
     error,
     hasData,
@@ -107,6 +107,7 @@ export function BaseTile({
                         uniqueSituations?.[currentSituationIndex]?.situation.id
                     }
                     numberOfVisibleSituations={uniqueSituations?.length}
+                    customNames={customNames}
                 />
             </div>
 

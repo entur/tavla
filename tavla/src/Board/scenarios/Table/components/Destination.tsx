@@ -1,3 +1,4 @@
+import { CustomName } from 'Board/hooks/useTileData'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { nanoid } from 'nanoid'
 import { isNotNullOrUndefined } from 'utils/typeguards'
@@ -36,19 +37,27 @@ function Destination() {
     )
 }
 
-function Name() {
+function Name({ customNames }: { customNames?: CustomName[] }) {
     const departures = useNonNullContext(DeparturesContext)
 
     return (
         <div className="grow overflow-hidden">
             <TableColumn title="Stoppested">
-                {departures.map((departure) => (
-                    <TableCell key={nanoid()}>
-                        <div className="line-clamp-2 justify-items-end overflow-ellipsis hyphens-auto text-em-base/em-base">
-                            {departure.quay.name}
-                        </div>
-                    </TableCell>
-                ))}
+                {departures.map((departure) => {
+                    const tileUuid =
+                        'tileUuid' in departure ? departure.tileUuid : undefined
+                    const customName = customNames?.find(
+                        (cn) => cn.uuid === tileUuid,
+                    )?.customName
+
+                    return (
+                        <TableCell key={nanoid()}>
+                            <div className="line-clamp-2 justify-items-end overflow-ellipsis hyphens-auto text-em-base/em-base">
+                                {customName ?? departure.quay.name}
+                            </div>
+                        </TableCell>
+                    )
+                })}
             </TableColumn>
         </div>
     )

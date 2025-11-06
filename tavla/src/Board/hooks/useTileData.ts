@@ -14,6 +14,13 @@ import {
 } from '../scenarios/Board/utils'
 import { useCycler } from '../scenarios/Table/useCycler'
 
+export type TDepartureWithTileUuid = TDepartureFragment & { tileUuid?: string }
+
+export type CustomName = {
+    uuid: string
+    customName: string
+}
+
 interface BaseTileData {
     displayName?: string
     estimatedCalls: TDepartureFragment[]
@@ -23,6 +30,11 @@ interface BaseTileData {
     isLoading: boolean
     error?: Error
     hasData: boolean
+}
+
+interface CombinedTileData extends Omit<BaseTileData, 'estimatedCalls'> {
+    estimatedCalls: TDepartureWithTileUuid[]
+    customNames?: CustomName[]
 }
 
 export function useQuayTileData({
@@ -107,7 +119,9 @@ export function useStopPlaceTileData({
     }
 }
 
-export function useCombinedTileData(combinedTile: BoardTileDB[]): BaseTileData {
+export function useCombinedTileData(
+    combinedTile: BoardTileDB[],
+): CombinedTileData {
     const quayQueries = combinedTile
         .filter(({ type }) => type === 'quay')
         .map((tile) => ({
@@ -144,12 +158,23 @@ export function useCombinedTileData(combinedTile: BoardTileDB[]): BaseTileData {
         isLoading: stopPlaceLoading,
     } = useQueries(stopPlaceQueries)
 
-    // Combine all estimated calls and sort them
     const estimatedCalls = [
-        ...(stopPlaceData?.flatMap(
-            (data) => data.stopPlace?.estimatedCalls ?? [],
-        ) ?? []),
-        ...(quayData?.flatMap((data) => data.quay?.estimatedCalls ?? []) ?? []),
+        ...(stopPlaceData?.flatMap((data, index) => {
+            const tile = combinedTile.filter((t) => t.type === 'stop_place')[
+                index
+            ]
+            return (data.stopPlace?.estimatedCalls ?? []).map((call) => ({
+                ...call,
+                tileUuid: tile?.uuid,
+            }))
+        }) ?? []),
+        ...(quayData?.flatMap((data, index) => {
+            const tile = combinedTile.filter((t) => t.type === 'quay')[index]
+            return (data.quay?.estimatedCalls ?? []).map((call) => ({
+                ...call,
+                tileUuid: tile?.uuid,
+            }))
+        }) ?? []),
     ]
 
     const sortedEstimatedCalls = estimatedCalls.sort((a, b) => {
@@ -191,6 +216,14 @@ export function useCombinedTileData(combinedTile: BoardTileDB[]): BaseTileData {
 
     const currentSituationIndex = useCycler(uniqueSituations ?? [], 10000)
 
+    const customNames: CustomName[] = combinedTile
+        .map((tile) =>
+            tile.displayName
+                ? { uuid: tile.uuid, customName: tile.displayName }
+                : null,
+        )
+        .filter(isNotNullOrUndefined)
+
     return {
         displayName: undefined,
         estimatedCalls: sortedEstimatedCalls,
@@ -200,5 +233,6 @@ export function useCombinedTileData(combinedTile: BoardTileDB[]): BaseTileData {
         isLoading: quayLoading || stopPlaceLoading,
         error: quayError || stopPlaceError,
         hasData: !!(quayData?.length || stopPlaceData?.length),
+        customNames,
     }
 }
