@@ -2,17 +2,10 @@
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
 import { TravelTag } from 'components/TravelTag'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BoardTheme, TransportPalette } from 'types/db-types/boards'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
-
-const transportPalettes = [
-    { label: 'Nasjonal', value: 'default' },
-    { label: 'Blå buss', value: 'blue-bus' },
-    { label: 'Grønn buss', value: 'green-bus' },
-    { label: 'Lokal', value: 'atb' },
-    { label: 'Lokal', value: 'fram' },
-]
+import { generateTransportPalettes } from '../colorPalettes'
 
 const busAndTrainModes: { mode: TTransportMode }[] = [
     {
@@ -60,13 +53,11 @@ function TransportPaletteSelect({
     const [selectedValue, setSelectedValue] =
         useState<TransportPalette>(transportPalette)
 
-    const availablePalettes = allowedPalettes
-        ? transportPalettes.filter(
-              (palette) =>
-                  palette.value === 'default' ||
-                  allowedPalettes.includes(palette.value as TransportPalette),
-          )
-        : transportPalettes
+    useEffect(() => {
+        setSelectedValue(transportPalette)
+    }, [transportPalette])
+
+    const availablePalettes = generateTransportPalettes(allowedPalettes || [])
 
     const handleChange = (value: TransportPalette) => {
         setSelectedValue(value)

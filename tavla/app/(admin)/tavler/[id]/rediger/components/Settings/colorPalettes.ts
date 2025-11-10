@@ -1,6 +1,14 @@
 import { useMemo } from 'react'
 import { BoardDB, TransportPalette } from 'types/db-types/boards'
 
+const baseTransportPalettes = [
+    { label: 'Nasjonal', value: 'default' },
+    { label: 'Blå buss', value: 'blue-bus' },
+    { label: 'Grønn buss', value: 'green-bus' },
+    { label: 'Lokal', value: 'atb' },
+    { label: 'Lokal', value: 'fram' },
+]
+
 export const COUNTY_THEME_MAP = {
     Trøndelag: 'atb' as const,
     'Møre og Romsdal': 'fram' as const,
@@ -41,3 +49,34 @@ export const useAllowedPalettes = (board: BoardDB) =>
 
         return Array.from(themes)
     }, [board.tiles])
+
+export const generateTransportPalettes = (
+    allowedPalettes: TransportPalette[],
+) => {
+    const filteredPalettes = allowedPalettes
+        ? baseTransportPalettes.filter(
+              (palette) =>
+                  palette.value === 'default' ||
+                  allowedPalettes.includes(palette.value as TransportPalette),
+          )
+        : baseTransportPalettes
+
+    const localPalettes = filteredPalettes.filter(
+        (palette) => palette.value === 'atb' || palette.value === 'fram',
+    )
+
+    if (localPalettes.length > 1) {
+        let localCounter = 1
+        return filteredPalettes.map((palette) => {
+            if (palette.value === 'atb' || palette.value === 'fram') {
+                return {
+                    ...palette,
+                    label: `Lokal ${localCounter++}`,
+                }
+            }
+            return palette
+        })
+    }
+
+    return filteredPalettes
+}
