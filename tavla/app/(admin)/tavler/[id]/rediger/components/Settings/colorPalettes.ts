@@ -66,12 +66,16 @@ export const generateTransportPalettes = (
     )
 
     if (localPalettes.length > 1) {
-        let localCounter = 1
         return filteredPalettes.map((palette) => {
-            if (palette.value === 'atb' || palette.value === 'fram') {
+            if (palette.value === 'atb') {
                 return {
                     ...palette,
-                    label: `Lokal ${localCounter++}`,
+                    label: 'Lokal (Trøndelag)',
+                }
+            } else if (palette.value === 'fram') {
+                return {
+                    ...palette,
+                    label: 'Lokal (Møre og Romsdal)',
                 }
             }
             return palette
