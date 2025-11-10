@@ -59,6 +59,14 @@ function TransportPaletteSelect({
 
     const availablePalettes = generateTransportPalettes(allowedPalettes || [])
 
+    useEffect(() => {
+        const availablePaletteValues = availablePalettes.map((p) => p.value)
+        if (selectedValue && !availablePaletteValues.includes(selectedValue)) {
+            setSelectedValue('default')
+            onChange()
+        }
+    }, [allowedPalettes, selectedValue, availablePalettes, onChange])
+
     const handleChange = (value: TransportPalette) => {
         setSelectedValue(value)
         onChange()
