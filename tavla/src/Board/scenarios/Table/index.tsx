@@ -1,4 +1,5 @@
 import { Paragraph } from '@entur/typography'
+import { CustomName } from 'Board/hooks/useTileData'
 import leafsLight from 'assets/illustrations/leafs-light.png'
 import leafs from 'assets/illustrations/leafs.svg'
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
@@ -20,12 +21,14 @@ function Table({
     stopPlaceSituations,
     currentVisibleSituationId,
     numberOfVisibleSituations,
+    customNames,
 }: {
     departures: TDepartureFragment[]
     columns?: TileColumnDB[]
     stopPlaceSituations?: TSituationFragment[]
     currentVisibleSituationId?: string
     numberOfVisibleSituations?: number
+    customNames?: CustomName[]
 }) {
     const theme = document
         .querySelector('[data-theme]')
@@ -64,7 +67,9 @@ function Table({
                     {columns.includes('arrivalTime') && <ArrivalTime />}
                     {columns.includes('line') && <Line />}
                     {columns.includes('destination') && <Destination />}
-                    {columns.includes('name') && <Name />}
+                    {columns.includes('name') && (
+                        <Name customNames={customNames} />
+                    )}
                     {columns.includes('platform') && <Platform />}
                     {columns.includes('time') && <ExpectedTime />}
                 </DeparturesContext.Provider>
