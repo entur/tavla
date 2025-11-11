@@ -58,7 +58,7 @@ const baseTileSchema = z.object({
     offset: z.number().optional(),
     displayName: z.string().optional(),
     columns: z.array(tileColumnSchema).optional(),
-    county: z.string().optional(), // Fylke for å bestemme transport palette
+    county: z.string().optional(),
 })
 
 const stopPlaceTileSchema = baseTileSchema.extend({

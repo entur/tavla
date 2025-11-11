@@ -16,7 +16,8 @@ type TPartialGeoResponse = {
     }>
 }
 
-export type StopPlaceDropdownItem = NormalizedDropdownItemType & {
+type stopPlace = {
+    id: string
     county?: string
 }
 
@@ -53,7 +54,7 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
 export async function fetchStopPlaces(
     text: string,
     countyIds?: string[],
-): Promise<StopPlaceDropdownItem[]> {
+): Promise<NormalizedDropdownItemType<stopPlace>[]> {
     if (!text || text.length < 3) return []
 
     const searchParams = new URLSearchParams({
@@ -74,7 +75,10 @@ export async function fetchStopPlaces(
         .then((res) => res.json())
         .then((data: TPartialGeoResponse) => {
             return data.features.map(({ properties }) => ({
-                value: properties.id ?? '',
+                value: {
+                    id: properties.id ?? '',
+                    county: properties.county,
+                },
                 label: properties.label || '',
                 icons: uniq(getIcons(properties.layer, properties.category)),
                 county: properties.county,
