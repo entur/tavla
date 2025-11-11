@@ -16,7 +16,7 @@ type TPartialGeoResponse = {
     }>
 }
 
-type stopPlace = {
+export type stopPlace = {
     id: string
     county?: string
 }

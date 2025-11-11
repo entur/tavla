@@ -1,10 +1,5 @@
 'use client'
-import {
-    Dropdown,
-    MultiSelect,
-    NormalizedDropdownItemType,
-    SearchableDropdown,
-} from '@entur/dropdown'
+import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
@@ -33,7 +28,7 @@ function TileSelector({
         useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
     const { quays, selectedQuay, setSelectedQuay } = useQuaySearch(
-        selectedStopPlace?.value ?? '',
+        selectedStopPlace?.value.id ?? '',
     )
 
     const posthog = usePostHog()
@@ -104,24 +99,26 @@ function TileSelector({
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={
                         selectedQuay ??
-                        ({
-                            value: selectedStopPlace?.value,
-                            label: 'Vis alle',
-                        } as NormalizedDropdownItemType)
+                        (selectedStopPlace
+                            ? {
+                                  value: selectedStopPlace.value.id,
+                                  label: 'Vis alle',
+                              }
+                            : null)
                     }
                     onChange={setSelectedQuay}
                     disabled={!selectedStopPlace}
                     {...getFormFeedbackForField('quay', state)}
                 />
             </div>
-            <HiddenInput id="stop_place" value={selectedStopPlace?.value} />
+            <HiddenInput id="stop_place" value={selectedStopPlace?.value.id} />
             <HiddenInput
                 id="stop_place_name"
                 value={selectedStopPlace?.label}
             />
             <HiddenInput id="quay_name" value={selectedQuay?.label} />
             <HiddenInput id="quay" value={selectedQuay?.value} />
-            <HiddenInput id="county" value={selectedStopPlace?.county} />
+            <HiddenInput id="county" value={selectedStopPlace?.value.county} />
 
             <SubmitButton variant="secondary">Legg til</SubmitButton>
         </form>
