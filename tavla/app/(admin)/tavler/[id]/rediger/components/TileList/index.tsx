@@ -30,10 +30,10 @@ function TileList({
 
         const newArray: BoardTileDB[] = [...board.tiles]
 
-        const oldElement = newArray[newIndex]
+        const oldElement = newArray[newIndex]!
 
-        newArray[newIndex] = newArray[index] as BoardTileDB
-        newArray[index] = oldElement as BoardTileDB
+        newArray[newIndex] = newArray[index]!
+        newArray[index] = oldElement
 
         setTileArray(newArray)
         if (bid === 'demo' && setDemoBoard) {

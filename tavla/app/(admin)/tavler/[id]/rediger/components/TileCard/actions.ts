@@ -8,8 +8,8 @@ import { firestore } from 'firebase-admin'
 import { isEmpty } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { BoardDB, BoardTileDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB, BoardDBSchema, BoardTileDB } from 'types/db-types/boards'
+import { FolderDB, FolderDBSchema } from 'types/db-types/folders'
 import { COUNTY_THEME_MAP } from '../Settings/colorPalettes'
 
 initializeAdminApp()
@@ -20,7 +20,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
 
     try {
         const boardRef = firestore().collection('boards').doc(boardId)
-        const board = (await boardRef.get()).data() as BoardDB
+        const board = BoardDBSchema.parse((await boardRef.get()).data())
         const tileToDelete = board.tiles.find((t) => t.uuid === tile.uuid)
 
         const updatedCombinedTiles = board.combinedTiles?.map((t) => {
@@ -86,7 +86,7 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
 
     try {
         const boardRef = firestore().collection('boards').doc(bid)
-        const board = (await boardRef.get()).data() as BoardDB
+        const board = BoardDBSchema.parse((await boardRef.get()).data())
         const existingTile = board.tiles.find((t) => t.uuid === tile.uuid)
         if (!existingTile)
             return boardRef.update({
@@ -117,9 +117,33 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
             .where('boards', 'array-contains', bid)
             .get()
 
-        return ref.docs.map(
-            (doc) => ({ id: doc.id, ...doc.data() }) as FolderDB,
-        )[0]
+        // Sjekk om vi faktisk fant noen folders
+        if (ref.docs.length === 0) {
+            return null // Returnerer null hvis ingen folder funnet
+        }
+
+        const folderData = ref.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }))[0]
+        const parsedFolder = FolderDBSchema.safeParse(folderData)
+
+        if (!parsedFolder.success) {
+            Sentry.captureMessage(
+                'Folder data validation failed in getFolderForBoard',
+                {
+                    level: 'warning',
+                    extra: {
+                        error: parsedFolder.error.flatten(),
+                        boardId: bid,
+                        folderId: folderData?.id,
+                    },
+                },
+            )
+            return folderData as FolderDB
+        }
+
+        return parsedFolder.data
     } catch (error) {
         Sentry.captureMessage('Error while fetching folder for board: ' + bid)
         throw error

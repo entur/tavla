@@ -4,8 +4,8 @@ import { Folder } from 'app/(admin)/utils/types'
 import { firestore } from 'firebase-admin'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB, BoardDBSchema } from 'types/db-types/boards'
+import { FolderDB, FolderDBSchema } from 'types/db-types/folders'
 import { UserDB } from 'types/db-types/users'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
@@ -39,7 +39,27 @@ export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
         throw error
     }
 
-    const folder = { ...doc.data(), id: doc.id } as FolderDB
+    const folderData = { ...doc.data(), id: doc.id }
+    const parsedFolder = FolderDBSchema.safeParse(folderData)
+
+    if (!parsedFolder.success) {
+        Sentry.captureMessage(
+            'Folder data validation failed for folder ID: ' + folderid,
+            {
+                level: 'warning',
+                extra: {
+                    error: parsedFolder.error.flatten(),
+                    folderId: folderid,
+                },
+            },
+        )
+        const folder = folderData as FolderDB
+        const user = await getUserFromSessionCookie()
+        if (!userInFolder(user?.uid, folder)) return redirect('/')
+        return folder
+    }
+
+    const folder = parsedFolder.data
     const user = await getUserFromSessionCookie()
 
     if (!userInFolder(user?.uid, folder)) return redirect('/')
@@ -59,7 +79,26 @@ export async function getFoldersForUser(): Promise<Folder[]> {
         const queries = await Promise.all([owner])
         const folders = queries
             .map((q) =>
-                q.docs.map((d) => ({ ...d.data(), id: d.id }) as FolderDB),
+                q.docs.map((d) => {
+                    const folderData = { ...d.data(), id: d.id }
+                    const parsedFolder = FolderDBSchema.safeParse(folderData)
+
+                    if (!parsedFolder.success) {
+                        Sentry.captureMessage(
+                            'Folder data validation failed in getFoldersForUser',
+                            {
+                                level: 'warning',
+                                extra: {
+                                    error: parsedFolder.error.flatten(),
+                                    folderId: d.id,
+                                },
+                            },
+                        )
+                        return folderData as FolderDB
+                    }
+
+                    return parsedFolder.data
+                }),
             )
             .flat()
 
@@ -128,9 +167,27 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
 
         return boardRefs
             .map((ref) =>
-                ref.docs.map(
-                    (doc) => ({ id: doc.id, ...doc.data() }) as BoardDB,
-                ),
+                ref.docs.map((doc) => {
+                    const boardData = { id: doc.id, ...doc.data() }
+                    const parsedBoard = BoardDBSchema.safeParse(boardData)
+
+                    if (!parsedBoard.success) {
+                        Sentry.captureMessage(
+                            'Board data validation failed in getBoardsForFolder',
+                            {
+                                level: 'warning',
+                                extra: {
+                                    error: parsedBoard.error.flatten(),
+                                    boardId: doc.id,
+                                    folderID: folderid,
+                                },
+                            },
+                        )
+                        return boardData as BoardDB
+                    }
+
+                    return parsedBoard.data
+                }),
             )
             .flat()
     } catch (error) {
@@ -156,9 +213,26 @@ export async function getBoards(ids?: BoardDB['id'][]) {
         const refs = await Promise.all(queries)
         return refs
             .map((ref) =>
-                ref.docs.map(
-                    (doc) => ({ id: doc.id, ...doc.data() }) as BoardDB,
-                ),
+                ref.docs.map((doc) => {
+                    const boardData = { id: doc.id, ...doc.data() }
+                    const parsedBoard = BoardDBSchema.safeParse(boardData)
+
+                    if (!parsedBoard.success) {
+                        Sentry.captureMessage(
+                            'Board data validation failed in getBoards',
+                            {
+                                level: 'warning',
+                                extra: {
+                                    error: parsedBoard.error.flatten(),
+                                    boardId: doc.id,
+                                },
+                            },
+                        )
+                        return boardData as BoardDB
+                    }
+
+                    return parsedBoard.data
+                }),
             )
             .flat()
     } catch (error) {
@@ -171,7 +245,26 @@ export async function getPrivateBoardsForUser(folders: FolderDB[]) {
     const userWithBoards = await getUserWithBoardIds()
     if (!userWithBoards?.uid) return []
 
-    const ownedBoardIds = (userWithBoards.owner ?? []) as BoardDB['id'][]
+    const rawOwner = userWithBoards.owner ?? []
+
+    if (!Array.isArray(rawOwner)) {
+        Sentry.captureMessage(
+            'Invalid owner field type in getPrivateBoardsForUser',
+            {
+                level: 'warning',
+                extra: {
+                    userId: userWithBoards.uid,
+                    ownerType: typeof rawOwner,
+                },
+            },
+        )
+        return []
+    }
+
+    const ownedBoardIds = rawOwner.filter(
+        (id): id is string => typeof id === 'string',
+    )
+
     if (ownedBoardIds.length === 0) return []
 
     const boardIdsInFolders = new Set<BoardDB['id']>()

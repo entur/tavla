@@ -68,7 +68,7 @@ export default async function EditPage(props: TProps) {
     return (
         <div className="bg-gray-50">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
-                <BreadcrumbsNav folder={folder} board={board} />
+                <BreadcrumbsNav folder={folder ?? undefined} board={board} />
                 <div className="flex flex-col justify-between pb-2 md:flex-row">
                     <Heading1 margin="top">
                         Rediger {board.meta?.title}
@@ -94,7 +94,7 @@ export default async function EditPage(props: TProps) {
                         className="pt-8"
                         aria-label="Forhåndsvisning av Tavla"
                     >
-                        <Preview board={board} folder={folder} />
+                        <Preview board={board} folder={folder ?? undefined} />
                     </div>
                 </div>
                 <Settings board={board} />

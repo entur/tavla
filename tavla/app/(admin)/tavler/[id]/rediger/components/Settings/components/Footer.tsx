@@ -41,7 +41,7 @@ function Footer({
             </div>
             <ClientOnlyTextField
                 value={selectedValue}
-                onChange={(f) => handleChange(f.target.value as string)}
+                onChange={(f) => handleChange(f.target.value)}
                 onBlur={onBlur}
                 label="Infomelding"
                 name="footer"
