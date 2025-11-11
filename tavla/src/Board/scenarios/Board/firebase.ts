@@ -36,12 +36,20 @@ export async function getBoard(bid: BoardDB['id']) {
                     },
                 },
             )
-            return undefined
+            return makeBoardCompatible(boardData as BoardDB)
         }
         return makeBoardCompatible(parsedBoard.data)
     } catch (error) {
-        Sentry.captureMessage('Failed to fetch board with bid ' + bid)
-        throw error
+        Sentry.captureException(error, {
+            level: 'error',
+            extra: {
+                boardId: bid,
+                operation: 'getBoard',
+            },
+        })
+        throw new Error(
+            `Failed to fetch board ${bid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        )
     }
 }
 
@@ -69,12 +77,20 @@ export async function getFolder(folderid: FolderDB['id']) {
                     },
                 },
             )
-            return undefined
+            return folderData as FolderDB
         }
         return parsedFolder.data
     } catch (error) {
-        Sentry.captureMessage('Failed to fetch folder with OID ' + folderid)
-        throw error
+        Sentry.captureException(error, {
+            level: 'error',
+            extra: {
+                folderId: folderid,
+                operation: 'getFolder',
+            },
+        })
+        throw new Error(
+            `Failed to fetch folder ${folderid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        )
     }
 }
 
@@ -92,21 +108,31 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
             const parsedFolder = FolderDBSchema.safeParse(folderData)
             if (parsedFolder.success) {
                 return parsedFolder.data
-            }
-            Sentry.captureMessage(
-                'Folder data validation failed for board ' + bid,
-                {
-                    level: 'warning',
-                    extra: {
-                        error: parsedFolder.error,
-                        folderId: doc.id,
+            } else {
+                Sentry.captureMessage(
+                    'Folder data validation failed for board ' + bid,
+                    {
+                        level: 'warning',
+                        extra: {
+                            error: parsedFolder.error,
+                            folderId: doc.id,
+                        },
                     },
-                },
-            )
+                )
+                return folderData as FolderDB
+            }
         })
         return folders[0] ?? null
     } catch (error) {
-        Sentry.captureMessage('Failed to fetch folder with board ' + bid)
-        throw error
+        Sentry.captureException(error, {
+            level: 'error',
+            extra: {
+                boardId: bid,
+                operation: 'getFolderForBoard',
+            },
+        })
+        throw new Error(
+            `Failed to fetch folder for board ${bid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        )
     }
 }
