@@ -8,7 +8,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,
@@ -55,13 +55,21 @@ export default async function EditPage(props: TProps) {
     async function walkingDistanceAction(data: FormData) {
         'use server'
 
-        const tile = await getWalkingDistanceTile(
-            formDataToTile(data),
-            board?.meta?.location,
-        )
+        const tile = formDataToTile(data)
         if (!tile.placeId) return
-        await addTile(params.id, tile)
-        if (board?.combinedTiles) await addTileToCombinedList(board, tile.uuid)
+
+        const addOrRemoveWalkingDistance = async (tile: BoardTileDB) => {
+            if (board?.meta.location) {
+                return await getWalkingDistanceTile(tile, board.meta.location)
+            }
+            delete tile.walkingDistance
+            return tile
+        }
+        const tileWithDistance = await addOrRemoveWalkingDistance(tile)
+
+        await addTile(params.id, tileWithDistance)
+        if (board?.combinedTiles)
+            await addTileToCombinedList(board, tileWithDistance.uuid)
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
