@@ -10,6 +10,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
+import { COUNTY_THEME_MAP } from '../Settings/colorPalettes'
 
 initializeAdminApp()
 
@@ -28,16 +29,45 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
             }
         })
 
+        const remainingTiles = board.tiles.filter((t) => t.uuid !== tile.uuid)
+        const remainingCounties = new Set<string>()
+
+        remainingTiles.forEach((t) => {
+            if (t.county) {
+                remainingCounties.add(t.county)
+            }
+        })
+
+        const hasCountyThemes = Array.from(remainingCounties).some(
+            (county) =>
+                COUNTY_THEME_MAP[county as keyof typeof COUNTY_THEME_MAP],
+        )
+
+        const currentPalette = board.transportPalette
+        const countyThemeValues = Object.values(COUNTY_THEME_MAP)
+        const shouldResetPalette =
+            !hasCountyThemes &&
+            currentPalette &&
+            countyThemeValues.includes(
+                currentPalette as (typeof countyThemeValues)[number],
+            )
+
+        const updatePayload: Record<string, unknown> = {
+            combinedTiles: isEmpty(updatedCombinedTiles)
+                ? firestore.FieldValue.delete()
+                : updatedCombinedTiles,
+            tiles: firestore.FieldValue.arrayRemove(tileToDelete),
+            'meta.dateModified': Date.now(),
+        }
+
+        if (shouldResetPalette) {
+            updatePayload.transportPalette = 'default'
+        }
+
         await firestore()
             .collection('boards')
             .doc(boardId)
-            .update({
-                combinedTiles: isEmpty(updatedCombinedTiles)
-                    ? firestore.FieldValue.delete()
-                    : updatedCombinedTiles,
-                tiles: firestore.FieldValue.arrayRemove(tileToDelete),
-                'meta.dateModified': Date.now(),
-            })
+            .update(updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger`)
     } catch (error) {
         Sentry.captureException(error, {

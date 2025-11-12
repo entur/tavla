@@ -1,3 +1,33 @@
+[data-transport-palette='default'] {
+    --bus-color: var(--standard-bus);
+    --coach-color: var(--standard-mobility);
+    --air-color: var(--standard-plane);
+    --cableway-color: var(--standard-cableway);
+    --funicular-color: var(--standard-funicular);
+    --metro-color: var(--standard-metro);
+    --mobility-color: var(--standard-mobility);
+    --rail-color: var(--standard-train);
+    --taxi-color: var(--standard-taxi);
+    --tram-color: var(--standard-tram);
+    --unknown-color: var(--standard-walk);
+    --water-color: var(--standard-ferry);
+}
+
+[data-theme='dark'][data-transport-palette='default'] {
+    --bus-color: var(--dark-bus);
+    --coach-color: var(--dark-mobility);
+    --air-color: var(--dark-plane);
+    --cableway-color: var(--dark-cableway);
+    --funicular-color: var(--dark-funicular);
+    --metro-color: var(--dark-metro);
+    --mobility-color: var(--dark-mobility);
+    --rail-color: var(--dark-train);
+    --taxi-color: var(--dark-taxi);
+    --tram-color: var(--dark-tram);
+    --unknown-color: var(--dark-walk);
+    --water-color: var(--dark-ferry);
+}
+
 /* Blue bus palette: trains are blue, buses are red */
 [data-transport-palette='blue-bus'] {
     --bus-color: var(--standard-train);
