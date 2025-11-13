@@ -1,6 +1,7 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import { Folder } from 'app/(admin)/utils/types'
+import { getFolder } from 'Board/scenarios/Board/firebase'
 import { firestore } from 'firebase-admin'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
@@ -26,43 +27,16 @@ function userInFolder(uid?: UserDB['uid'], folder?: FolderDB) {
 export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
     if (!folderid) return undefined
 
-    let doc = null
+    const folder = await getFolder(folderid)
 
-    try {
-        doc = await firestore().collection('folders').doc(folderid).get()
-        if (!doc) throw Error('Fetch folders returned null or undefined')
-    } catch (error) {
-        Sentry.captureMessage(
-            'Error while fetching folders from firestore, folderID: ' +
-                folderid,
-        )
-        throw error
-    }
+    if (!folder) return redirect('/')
 
-    const folderData = { ...doc.data(), id: doc.id }
-    const parsedFolder = FolderDBSchema.safeParse(folderData)
-
-    if (!parsedFolder.success) {
-        Sentry.captureMessage(
-            'Folder data validation failed for folder ID: ' + folderid,
-            {
-                level: 'warning',
-                extra: {
-                    error: parsedFolder.error.flatten(),
-                    folderId: folderid,
-                },
-            },
-        )
-        const folder = folderData as FolderDB
-        const user = await getUserFromSessionCookie()
-        if (!userInFolder(user?.uid, folder)) return redirect('/')
-        return folder
-    }
-
-    const folder = parsedFolder.data
     const user = await getUserFromSessionCookie()
 
-    if (!userInFolder(user?.uid, folder)) return redirect('/')
+    if (!userInFolder(user?.uid, folder)) {
+        return redirect('/')
+    }
+
     return folder
 }
 
@@ -78,29 +52,31 @@ export async function getFoldersForUser(): Promise<Folder[]> {
 
         const queries = await Promise.all([owner])
         const folders = queries
-            .map((q) =>
-                q.docs.map((d) => {
-                    const folderData = { ...d.data(), id: d.id }
-                    const parsedFolder = FolderDBSchema.safeParse(folderData)
-
-                    if (!parsedFolder.success) {
-                        Sentry.captureMessage(
-                            'Folder data validation failed in getFoldersForUser',
-                            {
-                                level: 'warning',
-                                extra: {
-                                    error: parsedFolder.error.flatten(),
-                                    folderId: d.id,
-                                },
-                            },
-                        )
-                        return folderData as FolderDB
-                    }
-
-                    return parsedFolder.data
-                }),
-            )
+            .map((query) => query.docs)
             .flat()
+            .map((folderDocument) => {
+                const folderData = {
+                    ...folderDocument.data(),
+                    id: folderDocument.id,
+                }
+                const parsedFolder = FolderDBSchema.safeParse(folderData)
+
+                if (!parsedFolder.success) {
+                    Sentry.captureMessage(
+                        'Folder data validation failed in getFoldersForUser',
+                        {
+                            level: 'warning',
+                            extra: {
+                                error: parsedFolder.error.flatten(),
+                                folderId: folderDocument.id,
+                            },
+                        },
+                    )
+                    return folderData as FolderDB
+                }
+
+                return parsedFolder.data
+            })
 
         // Get all boards-IDS for all folders
         const allBoardIds = folders

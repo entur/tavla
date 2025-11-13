@@ -1,5 +1,5 @@
 import { Heading1, Heading2 } from '@entur/typography'
-import { getBoard } from 'Board/scenarios/Board/firebase'
+import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
@@ -19,7 +19,6 @@ import { ActionsMenu } from './components/ActionsMenu'
 import { Copy } from './components/Buttons/Copy'
 import { Preview } from './components/Preview'
 import { Settings } from './components/Settings'
-import { getFolderForBoard } from './components/TileCard/actions'
 import { TileList } from './components/TileList'
 
 export type TProps = {
