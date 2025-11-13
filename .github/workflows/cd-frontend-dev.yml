@@ -10,14 +10,14 @@ on:
 
 jobs:
   docker-push:
-    uses: entur/gha-docker/.github/workflows/push.yml@v1.2.3
+    uses: entur/gha-docker/.github/workflows/push.yml@v1.10.1
     with:
       context: tavla
       image_name: tavla/frontend
 
   helm-deploy-dev:
     needs: [docker-push]
-    uses: entur/gha-helm/.github/workflows/deploy.yml@v1.0.4
+    uses: entur/gha-helm/.github/workflows/deploy.yml@v1.2.2
     with:
       environment: dev
       chart: tavla/helm/tavla
