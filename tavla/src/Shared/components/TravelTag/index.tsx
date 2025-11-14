@@ -74,6 +74,7 @@ function SmallTravelTag({
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
             className={`mx-[2px] flex h-5 items-center justify-between rounded-sm p-1 font-bold text-background bg-${transportMode}`}
             key={`${transportMode}${publicCode}`}
+            data-transport-palette="default"
         >
             {icons && (
                 <TransportIcon
