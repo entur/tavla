@@ -40,10 +40,15 @@ function TravelTag({
             ? `text-${colorMode}`
             : 'text-background'
 
+    const theme = document
+        .querySelector('[data-theme]')
+        ?.getAttribute('data-theme')
+
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
             className={`flex h-full w-full items-center justify-between rounded-sm pl-2 ${travelTagBackround}`}
+            data-theme={theme ?? 'dark'}
         >
             <TransportIcon
                 className={`h-em-2 w-em-2 ${iconPublicCodeColor}`}
