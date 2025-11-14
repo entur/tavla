@@ -15,7 +15,6 @@ import { redirect } from 'next/navigation'
 import {
     BoardDB,
     BoardTileDB,
-    Coordinate,
     LocationDB,
     TransportPalette,
 } from 'types/db-types/boards'
@@ -77,8 +76,8 @@ export async function addTileToCombinedList(board: BoardDB, tileId: string) {
 
 export async function getWalkingDistanceTile(
     tile: BoardTileDB,
-    location?: LocationDB,
-) {
+    location: LocationDB,
+): Promise<BoardTileDB> {
     const fromCoordinates = await (() => {
         if (tile.type === 'quay') {
             return getQuayCoordinates(tile.placeId)
@@ -86,24 +85,22 @@ export async function getWalkingDistanceTile(
             return getStopPlaceCoordinates(tile.placeId)
         }
     })()
-    const toCoordinates: Coordinate = {
-        lat: 0,
-        lng: 0,
-        ...(location?.coordinate || {}),
-    }
+    const toCoordinates = location.coordinate
+
     const walkingDistance = await getWalkingDistance(
         fromCoordinates,
         toCoordinates,
     )
 
-    if (!walkingDistance && !location) {
+    if (!walkingDistance) {
         delete tile.walkingDistance
         return tile
     }
+
     return {
         ...tile,
         walkingDistance: {
-            distance: Number(walkingDistance),
+            distance: walkingDistance,
         },
     }
 }

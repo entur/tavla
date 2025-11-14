@@ -41,7 +41,10 @@ export function formDataToTile(data: FormData): BoardTileDB {
     }
 }
 
-export async function getWalkingDistance(from: Coordinate, to: Coordinate) {
+export async function getWalkingDistance(
+    from?: Coordinate,
+    to?: Coordinate,
+): Promise<number | undefined> {
     if (!from || !to) return undefined
     try {
         const response = await fetchQuery(WalkDistanceQuery, {
@@ -54,7 +57,7 @@ export async function getWalkingDistance(from: Coordinate, to: Coordinate) {
                 latitude: to.lat,
             },
         })
-        return response.trip.tripPatterns[0]?.duration
+        return response.trip.tripPatterns[0]?.duration ?? undefined
     } catch (error) {
         Sentry.captureMessage(
             'getWalkingDistance failed with from-coordinates ' +
