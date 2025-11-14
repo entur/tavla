@@ -30,7 +30,7 @@ function ViewType({
                         setValue(e.target.value)
                         onChange()
                         posthog.capture('SAVE_VIEW_TYPE_BTN', {
-                            value: e.target.value as string,
+                            value: e.target.value,
                         })
                     }}
                     value={value}

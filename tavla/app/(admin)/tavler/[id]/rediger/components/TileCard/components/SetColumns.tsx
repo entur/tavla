@@ -8,7 +8,8 @@ import { TileContext } from 'Board/scenarios/Table/contexts'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { isArray } from 'lodash'
 import { useState } from 'react'
-import { TileColumnDB, TileColumns } from 'types/db-types/boards'
+import { TileColumns } from 'types/db-types/boards'
+import { typedEntries } from 'utils/typeguards'
 import { ColumnModal } from '../ColumnModal'
 
 function SetColumns({ isCombined }: { isCombined: boolean }) {
@@ -50,7 +51,7 @@ function SetColumns({ isCombined }: { isCombined: boolean }) {
                 setIsOpen={setIsColumnModalOpen}
             />
             <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
-                {Object.entries(TileColumns).map(([key, value]) => {
+                {typedEntries(TileColumns).map(([key, value]) => {
                     const columns = isCombined
                         ? DEFAULT_COMBINED_COLUMNS
                         : tile.columns
@@ -61,8 +62,7 @@ function SetColumns({ isCombined }: { isCombined: boolean }) {
                             value={key}
                             disabled={isCombined}
                             defaultChecked={
-                                isArray(columns) &&
-                                columns.includes(key as TileColumnDB)
+                                isArray(columns) && columns.includes(key)
                             }
                         >
                             {value}
