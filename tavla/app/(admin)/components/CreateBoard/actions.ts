@@ -30,6 +30,7 @@ export async function createBoard(
             .collection('boards')
             .add({
                 tiles: [],
+                theme: 'dark',
                 meta: {
                     title: name.substring(0, 50),
                     fontSize: 'medium',
