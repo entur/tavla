@@ -65,7 +65,9 @@ function Table({
                     />
                     {columns.includes('aimedTime') && <AimedTime />}
                     {columns.includes('arrivalTime') && <ArrivalTime />}
-                    {columns.includes('line') && <Line />}
+                    {columns.includes('line') && (
+                        <Line data-theme={theme ?? 'dark'} />
+                    )}
                     {columns.includes('destination') && <Destination />}
                     {columns.includes('name') && (
                         <Name customNames={customNames} />
