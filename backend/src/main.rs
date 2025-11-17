@@ -11,7 +11,7 @@ use axum::{
 // Timing constants
 const METRICS_UPDATE_INTERVAL_SECS: u64 = 600; // 10 minutes - how often to update Prometheus metrics
 const SUBSCRIBE_TIMEOUT_SECS: u64 = 90; // 1.5 minutes - max wait time for subscribe connections
-const HEARTBEAT_TTL_SECS: u64 = 86400; // 24 hours - how long heartbeats are stored in Redis
+const HEARTBEAT_TTL_SECS: u64 = 120; // 2 minutes - how long heartbeats are stored in Redis
 
 use axum_auth::AuthBearer;
 use prometheus::{Encoder, Gauge, Registry, TextEncoder};
