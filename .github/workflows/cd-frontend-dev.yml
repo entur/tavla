@@ -2,11 +2,6 @@ name: cd/frontend/dev
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "tavla/**"
 
 jobs:
   docker-push:
