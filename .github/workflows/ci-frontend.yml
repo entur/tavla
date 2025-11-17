@@ -38,7 +38,7 @@ jobs:
       - name: install
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         working-directory: tavla
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: lint and typecheck
         working-directory: tavla
         run: |
