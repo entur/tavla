@@ -1,11 +1,12 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import { Folder } from 'app/(admin)/utils/types'
+import { getFolder } from 'Board/scenarios/Board/firebase'
 import { firestore } from 'firebase-admin'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB, BoardDBSchema } from 'types/db-types/boards'
+import { FolderDB, FolderDBSchema } from 'types/db-types/folders'
 import { UserDB } from 'types/db-types/users'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
@@ -26,23 +27,16 @@ function userInFolder(uid?: UserDB['uid'], folder?: FolderDB) {
 export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
     if (!folderid) return undefined
 
-    let doc = null
+    const folder = await getFolder(folderid)
 
-    try {
-        doc = await firestore().collection('folders').doc(folderid).get()
-        if (!doc) throw Error('Fetch folders returned null or undefined')
-    } catch (error) {
-        Sentry.captureMessage(
-            'Error while fetching folders from firestore, folderID: ' +
-                folderid,
-        )
-        throw error
-    }
+    if (!folder) return redirect('/')
 
-    const folder = { ...doc.data(), id: doc.id } as FolderDB
     const user = await getUserFromSessionCookie()
 
-    if (!userInFolder(user?.uid, folder)) return redirect('/')
+    if (!userInFolder(user?.uid, folder)) {
+        return redirect('/')
+    }
+
     return folder
 }
 
@@ -58,10 +52,31 @@ export async function getFoldersForUser(): Promise<Folder[]> {
 
         const queries = await Promise.all([owner])
         const folders = queries
-            .map((q) =>
-                q.docs.map((d) => ({ ...d.data(), id: d.id }) as FolderDB),
-            )
+            .map((query) => query.docs)
             .flat()
+            .map((folderDocument) => {
+                const folderData = {
+                    ...folderDocument.data(),
+                    id: folderDocument.id,
+                }
+                const parsedFolder = FolderDBSchema.safeParse(folderData)
+
+                if (!parsedFolder.success) {
+                    Sentry.captureMessage(
+                        'Folder data validation failed in getFoldersForUser',
+                        {
+                            level: 'warning',
+                            extra: {
+                                error: parsedFolder.error.flatten(),
+                                folderId: folderDocument.id,
+                            },
+                        },
+                    )
+                    return folderData as FolderDB
+                }
+
+                return parsedFolder.data
+            })
 
         // Get all boards-IDS for all folders
         const allBoardIds = folders
@@ -128,9 +143,27 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
 
         return boardRefs
             .map((ref) =>
-                ref.docs.map(
-                    (doc) => ({ id: doc.id, ...doc.data() }) as BoardDB,
-                ),
+                ref.docs.map((doc) => {
+                    const boardData = { id: doc.id, ...doc.data() }
+                    const parsedBoard = BoardDBSchema.safeParse(boardData)
+
+                    if (!parsedBoard.success) {
+                        Sentry.captureMessage(
+                            'Board data validation failed in getBoardsForFolder',
+                            {
+                                level: 'warning',
+                                extra: {
+                                    error: parsedBoard.error.flatten(),
+                                    boardId: doc.id,
+                                    folderID: folderid,
+                                },
+                            },
+                        )
+                        return boardData as BoardDB
+                    }
+
+                    return parsedBoard.data
+                }),
             )
             .flat()
     } catch (error) {
@@ -156,9 +189,26 @@ export async function getBoards(ids?: BoardDB['id'][]) {
         const refs = await Promise.all(queries)
         return refs
             .map((ref) =>
-                ref.docs.map(
-                    (doc) => ({ id: doc.id, ...doc.data() }) as BoardDB,
-                ),
+                ref.docs.map((doc) => {
+                    const boardData = { id: doc.id, ...doc.data() }
+                    const parsedBoard = BoardDBSchema.safeParse(boardData)
+
+                    if (!parsedBoard.success) {
+                        Sentry.captureMessage(
+                            'Board data validation failed in getBoards',
+                            {
+                                level: 'warning',
+                                extra: {
+                                    error: parsedBoard.error.flatten(),
+                                    boardId: doc.id,
+                                },
+                            },
+                        )
+                        return boardData as BoardDB
+                    }
+
+                    return parsedBoard.data
+                }),
             )
             .flat()
     } catch (error) {
@@ -171,7 +221,26 @@ export async function getPrivateBoardsForUser(folders: FolderDB[]) {
     const userWithBoards = await getUserWithBoardIds()
     if (!userWithBoards?.uid) return []
 
-    const ownedBoardIds = (userWithBoards.owner ?? []) as BoardDB['id'][]
+    const rawOwner = userWithBoards.owner ?? []
+
+    if (!Array.isArray(rawOwner)) {
+        Sentry.captureMessage(
+            'Invalid owner field type in getPrivateBoardsForUser',
+            {
+                level: 'warning',
+                extra: {
+                    userId: userWithBoards.uid,
+                    ownerType: typeof rawOwner,
+                },
+            },
+        )
+        return []
+    }
+
+    const ownedBoardIds = rawOwner.filter(
+        (id): id is string => typeof id === 'string',
+    )
+
     if (ownedBoardIds.length === 0) return []
 
     const boardIdsInFolders = new Set<BoardDB['id']>()

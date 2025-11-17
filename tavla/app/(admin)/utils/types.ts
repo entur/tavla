@@ -1,4 +1,5 @@
 import { FolderDB } from 'types/db-types/folders'
+import { typedKeys } from 'utils/typeguards'
 
 export type TSort = 'none' | 'ascending' | 'descending'
 
@@ -8,7 +9,7 @@ export const TableColumns = {
     actions: 'Handlinger',
 } as const
 
-export const DEFAULT_BOARD_COLUMNS = Object.keys(TableColumns) as TTableColumn[]
+export const DEFAULT_BOARD_COLUMNS = typedKeys(TableColumns)
 
 export const SortableColumns = ['name', 'lastModified'] as const
 

@@ -1,5 +1,5 @@
 import { Heading1, Heading2 } from '@entur/typography'
-import { getBoard } from 'Board/scenarios/Board/firebase'
+import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
@@ -8,7 +8,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,
@@ -19,7 +19,6 @@ import { ActionsMenu } from './components/ActionsMenu'
 import { Copy } from './components/Buttons/Copy'
 import { Preview } from './components/Preview'
 import { Settings } from './components/Settings'
-import { getFolderForBoard } from './components/TileCard/actions'
 import { TileList } from './components/TileList'
 
 export type TProps = {
@@ -55,20 +54,28 @@ export default async function EditPage(props: TProps) {
     async function walkingDistanceAction(data: FormData) {
         'use server'
 
-        const tile = await getWalkingDistanceTile(
-            formDataToTile(data),
-            board?.meta?.location,
-        )
+        const tile = formDataToTile(data)
         if (!tile.placeId) return
-        await addTile(params.id, tile)
-        if (board?.combinedTiles) await addTileToCombinedList(board, tile.uuid)
+
+        const addOrRemoveWalkingDistance = async (tile: BoardTileDB) => {
+            if (board?.meta.location) {
+                return await getWalkingDistanceTile(tile, board.meta.location)
+            }
+            delete tile.walkingDistance
+            return tile
+        }
+        const tileWithDistance = await addOrRemoveWalkingDistance(tile)
+
+        await addTile(params.id, tileWithDistance)
+        if (board?.combinedTiles)
+            await addTileToCombinedList(board, tileWithDistance.uuid)
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
     return (
         <div className="bg-gray-50">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
-                <BreadcrumbsNav folder={folder} board={board} />
+                <BreadcrumbsNav folder={folder ?? undefined} board={board} />
                 <div className="flex flex-col justify-between pb-2 md:flex-row">
                     <Heading1 margin="top">
                         Rediger {board.meta?.title}
@@ -94,7 +101,7 @@ export default async function EditPage(props: TProps) {
                         className="pt-8"
                         aria-label="Forhåndsvisning av Tavla"
                     >
-                        <Preview board={board} folder={folder} />
+                        <Preview board={board} folder={folder ?? undefined} />
                     </div>
                 </div>
                 <Settings board={board} />
