@@ -15,8 +15,8 @@ import { redirect } from 'next/navigation'
 import {
     BoardDB,
     BoardTileDB,
-    Coordinate,
     LocationDB,
+    TransportPalette,
 } from 'types/db-types/boards'
 
 initializeAdminApp()
@@ -26,13 +26,23 @@ export async function addTile(bid: BoardDB['id'], tile: BoardTileDB) {
     if (!access) return redirect('/')
 
     try {
-        await firestore()
-            .collection('boards')
-            .doc(bid)
-            .update({
-                tiles: firestore.FieldValue.arrayUnion(tile),
-                'meta.dateModified': Date.now(),
-            })
+        const boardDoc = await firestore().collection('boards').doc(bid).get()
+        const currentBoard = boardDoc.data() as BoardDB | undefined
+
+        const updateData: {
+            tiles: firestore.FieldValue
+            'meta.dateModified': number
+            transportPalette?: TransportPalette
+        } = {
+            tiles: firestore.FieldValue.arrayUnion(tile),
+            'meta.dateModified': Date.now(),
+        }
+
+        if (!currentBoard?.tiles || currentBoard.tiles.length === 0) {
+            updateData.transportPalette = 'default'
+        }
+
+        await firestore().collection('boards').doc(bid).update(updateData)
     } catch (error) {
         Sentry.captureMessage(
             'Failed to save tile to board in firestore. BoardID: ' + bid,
@@ -66,8 +76,8 @@ export async function addTileToCombinedList(board: BoardDB, tileId: string) {
 
 export async function getWalkingDistanceTile(
     tile: BoardTileDB,
-    location?: LocationDB,
-) {
+    location: LocationDB,
+): Promise<BoardTileDB> {
     const fromCoordinates = await (() => {
         if (tile.type === 'quay') {
             return getQuayCoordinates(tile.placeId)
@@ -75,24 +85,22 @@ export async function getWalkingDistanceTile(
             return getStopPlaceCoordinates(tile.placeId)
         }
     })()
-    const toCoordinates: Coordinate = {
-        lat: 0,
-        lng: 0,
-        ...(location?.coordinate || {}),
-    }
+    const toCoordinates = location.coordinate
+
     const walkingDistance = await getWalkingDistance(
         fromCoordinates,
         toCoordinates,
     )
 
-    if (!walkingDistance && !location) {
+    if (!walkingDistance) {
         delete tile.walkingDistance
         return tile
     }
+
     return {
         ...tile,
         walkingDistance: {
-            distance: Number(walkingDistance),
+            distance: walkingDistance,
         },
     }
 }

@@ -43,7 +43,6 @@ const tileColumnValues = [
     'name',
     'platform',
     'time',
-    'deviations',
 ] as const
 
 const tileColumnSchema = z.enum(tileColumnValues)
@@ -58,6 +57,7 @@ const baseTileSchema = z.object({
     offset: z.number().optional(),
     displayName: z.string().optional(),
     columns: z.array(tileColumnSchema).optional(),
+    county: z.string().optional(),
 })
 
 const stopPlaceTileSchema = baseTileSchema.extend({
@@ -90,7 +90,13 @@ const boardFooterSchema = z.object({
     footer: z.string().optional(),
 })
 
-const transportPaletteSchema = z.enum(['default', 'blue-bus', 'green-bus'])
+const transportPaletteSchema = z.enum([
+    'default',
+    'blue-bus',
+    'green-bus',
+    'atb',
+    'fram',
+])
 
 export const BoardDBSchema = z.object({
     id: z.string(),
@@ -134,7 +140,6 @@ export const TileColumns: Record<TileColumnDB, string> = {
     name: 'Stoppested',
     platform: 'Plattform',
     time: 'Forventet',
-    deviations: 'Avvik',
 } as const
 
 export type QuayTileDB = z.infer<typeof quayTileShcema>

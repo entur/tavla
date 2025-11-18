@@ -24,6 +24,7 @@ export function formDataToTile(data: FormData): BoardTileDB {
     const stopPlaceId = data.get('stop_place') as string
     const stopPlaceName = (data.get('stop_place_name') as string).split(',')
     const quayName = data.get('quay_name') as string
+    const county = data.get('county') as string
 
     const placeId = quayId ? quayId : stopPlaceId
     return {
@@ -36,10 +37,14 @@ export function formDataToTile(data: FormData): BoardTileDB {
         uuid: nanoid(),
         placeId,
         columns: DEFAULT_COLUMNS,
+        county: county || undefined,
     }
 }
 
-export async function getWalkingDistance(from: Coordinate, to: Coordinate) {
+export async function getWalkingDistance(
+    from?: Coordinate,
+    to?: Coordinate,
+): Promise<number | undefined> {
     if (!from || !to) return undefined
     try {
         const response = await fetchQuery(WalkDistanceQuery, {
@@ -52,7 +57,7 @@ export async function getWalkingDistance(from: Coordinate, to: Coordinate) {
                 latitude: to.lat,
             },
         })
-        return response.trip.tripPatterns[0]?.duration
+        return response.trip.tripPatterns[0]?.duration ?? undefined
     } catch (error) {
         Sentry.captureMessage(
             'getWalkingDistance failed with from-coordinates ' +

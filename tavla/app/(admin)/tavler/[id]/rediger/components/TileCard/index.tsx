@@ -222,10 +222,7 @@ function TileCard({
                             }}
                             onInput={() => setHasUnsavedChanges(true)}
                         >
-                            <SetStopPlaceName
-                                state={state}
-                                isCombined={isCombined}
-                            />
+                            <SetStopPlaceName state={state} />
                             <SetOffsetDepartureTime address={address} />
                             <SetColumns isCombined={isCombined} />
                             <SetVisibleLines

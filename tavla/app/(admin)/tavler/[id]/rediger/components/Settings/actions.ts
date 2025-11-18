@@ -253,7 +253,12 @@ async function saveLocation(board: BoardDB, location?: LocationDB) {
 async function getTilesWithDistance(board: BoardDB, location?: LocationDB) {
     return await Promise.all(
         board.tiles.map(async (tile) => {
-            return await getWalkingDistanceTile(tile, location)
+            if (location === undefined) {
+                delete tile.walkingDistance
+                return tile
+            } else {
+                return await getWalkingDistanceTile(tile, location)
+            }
         }),
     )
 }
