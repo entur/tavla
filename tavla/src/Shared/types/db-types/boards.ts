@@ -43,7 +43,6 @@ const tileColumnValues = [
     'name',
     'platform',
     'time',
-    'deviations',
 ] as const
 
 const tileColumnSchema = z.enum(tileColumnValues)
@@ -141,7 +140,6 @@ export const TileColumns: Record<TileColumnDB, string> = {
     name: 'Stoppested',
     platform: 'Plattform',
     time: 'Forventet',
-    deviations: 'Avvik',
 } as const
 
 export type QuayTileDB = z.infer<typeof quayTileShcema>
