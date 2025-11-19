@@ -9,7 +9,7 @@ import {
     initializeAdminApp,
     userCanEditBoard,
 } from 'app/(admin)/utils/firebase'
-import { firestore } from 'firebase-admin'
+import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import {
@@ -21,20 +21,22 @@ import {
 
 initializeAdminApp()
 
+const db = getFirestore()
+
 export async function addTile(bid: BoardDB['id'], tile: BoardTileDB) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {
-        const boardDoc = await firestore().collection('boards').doc(bid).get()
+        const boardDoc = await db.collection('boards').doc(bid).get()
         const currentBoard = boardDoc.data() as BoardDB | undefined
 
         const updateData: {
-            tiles: firestore.FieldValue
+            tiles: FieldValue
             'meta.dateModified': number
             transportPalette?: TransportPalette
         } = {
-            tiles: firestore.FieldValue.arrayUnion(tile),
+            tiles: FieldValue.arrayUnion(tile),
             'meta.dateModified': Date.now(),
         }
 
@@ -42,7 +44,7 @@ export async function addTile(bid: BoardDB['id'], tile: BoardTileDB) {
             updateData.transportPalette = 'default'
         }
 
-        await firestore().collection('boards').doc(bid).update(updateData)
+        await db.collection('boards').doc(bid).update(updateData)
     } catch (error) {
         Sentry.captureMessage(
             'Failed to save tile to board in firestore. BoardID: ' + bid,
@@ -59,7 +61,7 @@ export async function addTileToCombinedList(board: BoardDB, tileId: string) {
         const updatedCombinedTiles = board.combinedTiles?.map((tile) => {
             return { ids: [...tile.ids, tileId] }
         })
-        await firestore()
+        await db
             .collection('boards')
             .doc(board.id ?? '')
             .update({
@@ -112,7 +114,7 @@ export async function saveUpdatedTileOrder(
     if (!access) return redirect('/')
 
     try {
-        await firestore().collection('boards').doc(bid).update({
+        await db.collection('boards').doc(bid).update({
             tiles: tiles,
             'meta.dateModified': Date.now(),
         })

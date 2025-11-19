@@ -5,10 +5,12 @@ import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { firestore } from 'firebase-admin'
+import { getFirestore } from 'firebase-admin/firestore'
 import { redirect } from 'next/navigation'
 
 initializeAdminApp()
+
+const db = getFirestore()
 
 export async function createFolder(
     prevState: TFormFeedback | undefined,
@@ -26,13 +28,11 @@ export async function createFolder(
     let folder = null
 
     try {
-        folder = await firestore()
-            .collection('folders')
-            .add({
-                name: name.substring(0, 50),
-                owners: [user.uid],
-                boards: [],
-            })
+        folder = await db.collection('folders').add({
+            name: name.substring(0, 50),
+            owners: [user.uid],
+            boards: [],
+        })
         if (!folder || !folder.id) return getFormFeedbackForError()
     } catch (error) {
         Sentry.captureException(error, {

@@ -53,7 +53,7 @@
         "abortcontroller-polyfill": "1.7.8",
         "classnames": "2.5.1",
         "dompurify": "3.3.0",
-        "firebase": "11.0.1",
+        "firebase": "12.6.0",
         "firebase-admin": "13.5.0",
         "graphql": "16.11.0",
         "jsdom": "26.1.0",
