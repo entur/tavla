@@ -13837,7 +13837,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sharp@npm:0.34.4, sharp@npm:^0.34.3":
+"sharp@npm:^0.34.3":
   version: 0.34.4
   resolution: "sharp@npm:0.34.4"
   dependencies:
@@ -14797,7 +14797,6 @@ __metadata:
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     react-google-button: "npm:0.8.0"
-    sharp: "npm:0.34.4"
     swr: "npm:2.3.6"
     tailwindcss: "npm:3.4.14"
     typescript: "npm:5.9.3"
