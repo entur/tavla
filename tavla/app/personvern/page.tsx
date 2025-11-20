@@ -22,7 +22,7 @@ function Personvern() {
                             <Image
                                 className="h-40 w-auto"
                                 src={squirrel}
-                                alt=""
+                                alt="Illustrasjon av et ekorn som holder en nøtt"
                             />
                             <Heading4>Personopplysninger</Heading4>
                             <Paragraph>
@@ -31,7 +31,11 @@ function Personvern() {
                             </Paragraph>
                         </div>
                         <div className="flex flex-col items-center justify-center">
-                            <Image className="h-40 w-auto" src={doves} alt="" />
+                            <Image
+                                className="h-40 w-auto"
+                                src={doves}
+                                alt="Illustrasjon av to duer som sitter mot hverandre"
+                            />
                             <Heading4>Informasjonskapsler</Heading4>
                             <Paragraph>
                                 Vi lagrer informasjonskapsler for å huske at du
@@ -42,7 +46,7 @@ function Personvern() {
                             <Image
                                 className="h-40 w-auto"
                                 src={hedgehog}
-                                alt=""
+                                alt="Illustrasjon av et pinnsvin som sitter på bakken med et blad"
                             />
                             <Heading4>Analyseverktøy</Heading4>
                             <Paragraph>
