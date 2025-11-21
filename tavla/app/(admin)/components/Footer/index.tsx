@@ -47,7 +47,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         </Paragraph>
                     </div>
                     <div className="flex flex-col gap-4">
-                        <Heading3>Informasjon</Heading3>
+                        <Heading3 as="h2">Informasjon</Heading3>
                         <div>
                             <EnturLink
                                 href="/demo"
