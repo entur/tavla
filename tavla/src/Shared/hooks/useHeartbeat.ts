@@ -126,8 +126,8 @@ async function safeFetch(
 
 /**
  * Initializes and retrieves a unique tab ID for the current browser tab.
- * Tries to get existing ID from sessionStorage first, then creates a new one if needed.
- * Falls back to window.__tabId if sessionStorage is not available.
+ * Tries to get existing ID from localStorage first, then creates a new one if needed.
+ * Falls back to window.__tabId if localStorage is not available.
  *
  * @returns A unique tab ID string, or null if initialization fails
  */
@@ -137,7 +137,7 @@ function initializeTabId(): string {
     }
 
     try {
-        const id = sessionStorage.getItem('tabId')
+        const id = localStorage.getItem('tabId')
         if (id) {
             return id
         }
@@ -146,10 +146,10 @@ function initializeTabId(): string {
     const newId = safeUuidV4()
 
     try {
-        sessionStorage.setItem('tabId', newId)
+        localStorage.setItem('tabId', newId)
         return newId
     } catch {
-        // Fallback til window.__tabId hvis sessionStorage ikke er tilgjengelig
+        // Fallback til window.__tabId hvis localStorage ikke er tilgjengelig
         window.__tabId = newId
         return newId
     }
