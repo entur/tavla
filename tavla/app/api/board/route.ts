@@ -7,15 +7,28 @@ import { FolderDB } from 'types/db-types/folders'
 
 initializeAdminApp()
 
-const corsHeaders = {
-    'Access-Control-Allow-Origin':
-        process.env.NODE_ENV === 'development' ? '*' : 'null',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+const allowedOrigins = [
+    'https://tavla-visning.dev.entur.no',
+    'https://tavla-visning.entur.no',
+]
+
+function getCorsHeaders(request: NextRequest) {
+    const origin = request.headers.get('origin')
+    const allowOrigin =
+        origin && allowedOrigins.includes(origin)
+            ? origin
+            : 'https://tavla-visning.entur.no'
+
+    return {
+        'Access-Control-Allow-Origin':
+            process.env.NODE_ENV === 'development' ? '*' : allowOrigin,
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    }
 }
 
-export async function OPTIONS() {
-    return NextResponse.json({}, { headers: corsHeaders })
+export async function OPTIONS(request: NextRequest) {
+    return NextResponse.json({}, { headers: getCorsHeaders(request) })
 }
 
 async function fetchBoardById(boardId: BoardDB['id']): Promise<BoardDB | null> {
@@ -42,10 +55,14 @@ async function fetchFolderLogo(boardId: BoardDB['id']): Promise<string | null> {
     return folderData.logo ?? null
 }
 
-function createErrorResponse(message: string, status: number) {
+function createErrorResponse(
+    request: NextRequest,
+    message: string,
+    status: number,
+) {
     return NextResponse.json(
         { error: message },
-        { status, headers: corsHeaders },
+        { status, headers: getCorsHeaders(request) },
     )
 }
 
@@ -54,7 +71,7 @@ export async function GET(request: NextRequest) {
     const boardIdParam = searchParams.get('id')
 
     if (!boardIdParam) {
-        return createErrorResponse('Board ID is required', 400)
+        return createErrorResponse(request, 'Board ID is required', 400)
     }
 
     const boardId = boardIdParam satisfies BoardDB['id']
@@ -62,7 +79,7 @@ export async function GET(request: NextRequest) {
     try {
         const boardData = await fetchBoardById(boardId)
         if (!boardData) {
-            return createErrorResponse('Board not found', 404)
+            return createErrorResponse(request, 'Board not found', 404)
         }
 
         const folderLogo = await fetchFolderLogo(boardId)
@@ -72,7 +89,7 @@ export async function GET(request: NextRequest) {
                 board: boardData,
                 folderLogo,
             },
-            { headers: corsHeaders },
+            { headers: getCorsHeaders(request) },
         )
     } catch (error) {
         Sentry.captureException(error, {
@@ -81,6 +98,6 @@ export async function GET(request: NextRequest) {
                 boardId: boardId,
             },
         })
-        return createErrorResponse('Internal server error', 500)
+        return createErrorResponse(request, 'Internal server error', 500)
     }
 }
