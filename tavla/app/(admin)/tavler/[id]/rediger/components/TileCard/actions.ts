@@ -5,7 +5,7 @@ import {
     userCanEditBoard,
 } from 'app/(admin)/utils/firebase'
 import { getBoard } from 'Board/scenarios/Board/firebase'
-import { firestore } from 'firebase-admin'
+import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { isEmpty } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -13,6 +13,8 @@ import { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { COUNTY_THEME_MAP } from '../Settings/colorPalettes'
 
 initializeAdminApp()
+
+const db = getFirestore()
 
 export async function deleteTile(boardId: string, tile: BoardTileDB) {
     const access = await userCanEditBoard(boardId)
@@ -53,9 +55,9 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
 
         const updatePayload: Record<string, unknown> = {
             combinedTiles: isEmpty(updatedCombinedTiles)
-                ? firestore.FieldValue.delete()
+                ? FieldValue.delete()
                 : updatedCombinedTiles,
-            tiles: firestore.FieldValue.arrayRemove(tileToDelete),
+            tiles: FieldValue.arrayRemove(tileToDelete),
             'meta.dateModified': Date.now(),
         }
 
@@ -63,10 +65,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
             updatePayload.transportPalette = 'default'
         }
 
-        await firestore()
-            .collection('boards')
-            .doc(boardId)
-            .update(updatePayload)
+        await db.collection('boards').doc(boardId).update(updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger`)
     } catch (error) {
         Sentry.captureException(error, {
@@ -84,12 +83,12 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
     if (!access) return redirect('/')
 
     try {
-        const boardRef = firestore().collection('boards').doc(bid)
+        const boardRef = db.collection('boards').doc(bid)
         const board = await getBoard(bid)
         const existingTile = board?.tiles.find((t) => t.uuid === tile.uuid)
         if (!existingTile)
             return boardRef.update({
-                tiles: firestore.FieldValue.arrayUnion(tile),
+                tiles: FieldValue.arrayUnion(tile),
                 'meta.dateModified': Date.now(),
             })
         const indexExistingTile = board?.tiles.indexOf(existingTile)
