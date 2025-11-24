@@ -1,6 +1,6 @@
 [data-transport-palette='default'] {
     --bus-color: var(--standard-bus);
-    --coach-color: var(--standard-mobility);
+    --coach-color: #427500;
     --air-color: var(--standard-plane);
     --cableway-color: var(--standard-cableway);
     --funicular-color: var(--standard-funicular);
@@ -15,7 +15,7 @@
 
 [data-theme='dark'][data-transport-palette='default'] {
     --bus-color: var(--dark-bus);
-    --coach-color: var(--dark-mobility);
+    --coach-color: #a4bf4d;
     --air-color: var(--dark-plane);
     --cableway-color: var(--dark-cableway);
     --funicular-color: var(--dark-funicular);

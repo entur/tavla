@@ -15,7 +15,7 @@ export const transportModes = {
     bus: 'var(--bus-color)',
     cableway: 'var(--cableway-color)',
     citybike: 'var(--mobility-color)',
-    coach: 'var(--bus-color)',
+    coach: 'var(--coach-color)',
     funicular: 'var(--funicular-color)',
     lift: 'var(--cableway-color)',
     metro: 'var(--metro-color)',
