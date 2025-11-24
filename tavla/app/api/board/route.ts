@@ -12,6 +12,9 @@ const db = getFirestore()
 const allowedOrigins = [
     'https://tavla-visning.dev.entur.no',
     'https://tavla-visning.entur.no',
+    'http://tavla-visning.dev.entur.no',
+    'http://tavla-visning.entur.no',
+    'http://34.49.196.7',
 ]
 
 function getCorsHeaders(request: NextRequest) {
