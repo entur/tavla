@@ -2,7 +2,7 @@
 import * as Sentry from '@sentry/nextjs'
 import { Folder } from 'app/(admin)/utils/types'
 import { getFolder } from 'Board/scenarios/Board/firebase'
-import { firestore } from 'firebase-admin'
+import { FieldPath, getFirestore } from 'firebase-admin/firestore'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
 import { BoardDB, BoardDBSchema } from 'types/db-types/boards'
@@ -13,6 +13,8 @@ import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
 
 initializeAdminApp()
+
+const db = getFirestore()
 
 export async function getFirebaseClientConfig() {
     const env = process.env.GOOGLE_PROJECT_ID
@@ -45,7 +47,7 @@ export async function getFoldersForUser(): Promise<Folder[]> {
     if (!user) return redirect('/')
 
     try {
-        const owner = firestore()
+        const owner = db
             .collection('folders')
             .where('owners', 'array-contains', user.uid)
             .get()
@@ -133,9 +135,9 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
 
     try {
         const boardQueries = batchedBoardIDs.map((batch) =>
-            firestore()
+            db
                 .collection('boards')
-                .where(firestore.FieldPath.documentId(), 'in', batch)
+                .where(FieldPath.documentId(), 'in', batch)
                 .get(),
         )
 
@@ -180,9 +182,9 @@ export async function getBoards(ids?: BoardDB['id'][]) {
     const batches = chunk(ids, 20)
     try {
         const queries = batches.map((batch) =>
-            firestore()
+            db
                 .collection('boards')
-                .where(firestore.FieldPath.documentId(), 'in', batch)
+                .where(FieldPath.documentId(), 'in', batch)
                 .get(),
         )
 
