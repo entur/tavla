@@ -1,8 +1,12 @@
 import { BoardDB } from 'types/db-types/boards'
 
-export const previewBoards: BoardDB[] = [
+export type PreviewBoard = BoardDB & { altText: string }
+
+export const previewBoards: PreviewBoard[] = [
     {
         id: 'aLr7VN03RDThtjYYfd9v',
+        altText:
+            'Eksempel på avgangstavle for Lysaker stasjon, med avganger for tog og buss.',
         meta: {
             fontSize: 'medium',
         },
@@ -61,6 +65,8 @@ export const previewBoards: BoardDB[] = [
     },
     {
         id: 'aLr7VN03RDThtjYYfd9v',
+        altText:
+            'Eksempel på avgangstavle for Horten ferjekai, med avganger for ferje.',
         meta: {
             fontSize: 'large',
         },
@@ -79,6 +85,7 @@ export const previewBoards: BoardDB[] = [
 
     {
         id: 'aLr7VN03RDThtjYYfd9v',
+        altText: 'Eksempel på avgangstavle for Alta sentrum og Alta lufthavn.',
         meta: {
             fontSize: 'medium',
         },

@@ -7,14 +7,14 @@ import { Header } from 'components/Header'
 import { InfoMessage } from 'components/InfoMessage'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
-import { BoardDB } from 'types/db-types/boards'
+import { PreviewBoard } from 'utils/previewBoards'
 
 const CarouselIndicators = ({
     boards,
     activeIndex,
     onClick,
 }: {
-    boards: BoardDB[]
+    boards: PreviewBoard[]
     activeIndex: number
     onClick: (index: number) => void
 }) => {
@@ -41,7 +41,7 @@ const CarouselIndicators = ({
     )
 }
 
-function PreviewCarousel({ boards }: { boards: BoardDB[] }) {
+function PreviewCarousel({ boards }: { boards: PreviewBoard[] }) {
     const [boardIndex, setBoardIndex] = useState(0)
     const posthog = usePostHog()
 
@@ -80,7 +80,7 @@ function PreviewCarousel({ boards }: { boards: BoardDB[] }) {
                     className="mx-auto w-full"
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
-                    <div aria-label="Eksempel på avgangstavler">
+                    <div aria-label={currentBoard.altText}>
                         <div
                             className="previewContainer sm:text-md text-xs"
                             data-theme={currentBoard?.theme ?? 'dark'}
