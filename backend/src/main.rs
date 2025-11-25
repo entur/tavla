@@ -54,6 +54,7 @@ struct HeartbeatPayload {
 #[derive(Serialize, Deserialize)]
 pub struct ActiveInfo {
     pub bid: String,
+    pub tid: Uuid,
     pub browser: String,
     pub screen_width: u32,
     pub screen_height: u32,
@@ -366,6 +367,7 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
     let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
     let value = serde_json::to_string(&ActiveInfo {
         bid: payload.bid,
+        tid: payload.tid,
         browser: payload.browser,
         screen_width: payload.screen_width,
         screen_height: payload.screen_height,
