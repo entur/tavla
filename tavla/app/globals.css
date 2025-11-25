@@ -37,7 +37,7 @@
         --tooltip-color: var(--fill-background-contrast-lightalt-2);
         --tooltip-text-color: var(--text-light);
 
-        --coach-color: var(--standard-mobility);
+        --coach-color: #427500;
         --air-color: var(--standard-plane);
         --bus-color: var(--standard-bus);
         --cableway-color: var(--standard-cableway);
@@ -93,7 +93,7 @@
         --tooltip-color: var(--fill-background-subdued-dark);
         --tooltip-text-color: var(--text-light);
 
-        --coach-color: var(--dark-mobility);
+        --coach-color: #a4bf4d;
         --air-color: var(--dark-plane);
         --bus-color: var(--dark-bus);
         --cableway-color: var(--dark-cableway);

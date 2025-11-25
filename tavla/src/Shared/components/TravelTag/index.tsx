@@ -19,6 +19,19 @@ const transportModeNames: Record<TTransportMode, string> = {
     unknown: 'Ukjent',
 }
 
+function getColorFromMode(
+    transportMode: TTransportMode,
+    transportSubmode?: TTransportSubmode,
+) {
+    if (transportSubmode?.startsWith('airport')) {
+        return 'air'
+    } else if (transportSubmode?.toLowerCase().includes('coach')) {
+        return 'coach'
+    } else {
+        return transportMode
+    }
+}
+
 function TravelTag({
     transportMode,
     publicCode,
@@ -30,9 +43,7 @@ function TravelTag({
     transportSubmode?: TTransportSubmode
     cancelled?: boolean
 }) {
-    const colorMode = transportSubmode?.startsWith('airport')
-        ? 'air'
-        : transportMode
+    const colorMode = getColorFromMode(transportMode, transportSubmode)
 
     const travelTagBackround = `bg-${colorMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
     const iconPublicCodeColor =
