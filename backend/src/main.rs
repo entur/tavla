@@ -11,7 +11,7 @@ use axum::{
 // Timing constants
 const METRICS_UPDATE_INTERVAL_SECS: u64 = 600; // 10 minutes - how often to update Prometheus metrics
 const SUBSCRIBE_TIMEOUT_SECS: u64 = 90; // 1.5 minutes - max wait time for subscribe connections
-const HEARTBEAT_TTL_SECS: u64 = 600; // 10 minutes - how long heartbeats are stored in Redis
+const HEARTBEAT_TTL_SECS: u64 = 7200; // 2 hours - how long heartbeats are stored in Redis
 
 use axum_auth::AuthBearer;
 use prometheus::{Encoder, Gauge, Registry, TextEncoder};
@@ -364,7 +364,7 @@ async fn subscribe(
 async fn heartbeat(State(state): State<AppState>, body: String) -> Result<StatusCode, AppError> {
     let payload: HeartbeatPayload = serde_json::from_str(&body)?;
 
-    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
+    let key = format!("heartbeat:{}", payload.bid);
     let value = serde_json::to_string(&ActiveInfo {
         bid: payload.bid,
         tid: payload.tid,
