@@ -364,7 +364,7 @@ async fn subscribe(
 async fn heartbeat(State(state): State<AppState>, body: String) -> Result<StatusCode, AppError> {
     let payload: HeartbeatPayload = serde_json::from_str(&body)?;
 
-    let key = format!("heartbeat:{}:{}", payload.bid, payload.tid);
+    let key = format!("heartbeat:{}", payload.bid);
     let value = serde_json::to_string(&ActiveInfo {
         bid: payload.bid,
         tid: payload.tid,
