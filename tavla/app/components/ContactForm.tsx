@@ -52,16 +52,14 @@ function ContactForm() {
         setDisabledEmail(false)
     }
     return (
-        <div
-            className="flex w-full items-center justify-center xl:w-1/6"
-            onClick={() =>
-                isOpen ? posthog.capture('CONTACT_FORM_OPENED') : resetForm()
-            }
-        >
+        <div className="flex w-full items-center justify-center xl:w-1/6">
             <Expandable
                 title="Send oss en melding"
                 isOpen={isOpen}
-                setIsOpen={setIsOpen}
+                setIsOpen={(open) => {
+                    setIsOpen(open)
+                    if (open) posthog.capture('CONTACT_FORM_OPENED')
+                }}
             >
                 <form
                     action={submit}
