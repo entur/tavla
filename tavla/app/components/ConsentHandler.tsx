@@ -44,7 +44,7 @@ const basePostHogOptions: Partial<PostHogConfig> = {
     capture_pageview: false,
     autocapture: false,
     opt_out_capturing_by_default: true,
-    // debug: true, // slå på ved feilsøking
+    // debug: true, // Used to test if PostHog turns on only with consent
 }
 
 function isPosthogService(name?: string) {
@@ -143,7 +143,7 @@ function disablePostHog(posthogToken: string) {
         posthog.opt_out_capturing()
         posthog.reset()
     } catch {
-        // Ignorer feil hvis posthog ikke er initialisert
+        // Ignore mistakes
     }
 
     try {
