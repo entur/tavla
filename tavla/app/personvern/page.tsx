@@ -1,4 +1,4 @@
-import { Heading1, Heading4, Paragraph } from '@entur/typography'
+import { Heading1, Heading2, Paragraph } from '@entur/typography'
 import doves from 'assets/illustrations/Doves.png'
 import hedgehog from 'assets/illustrations/Hedgehog.png'
 import squirrel from 'assets/illustrations/Squirrel.png'
@@ -22,17 +22,23 @@ function Personvern() {
                             <Image
                                 className="h-40 w-auto"
                                 src={squirrel}
-                                alt=""
+                                alt="Illustrasjon av et ekorn som holder en nøtt"
+                                aria-hidden
                             />
-                            <Heading4>Personopplysninger</Heading4>
+                            <Heading2>Personopplysninger</Heading2>
                             <Paragraph>
                                 Vi lagrer e-postadressen du oppretter din profil
                                 med.
                             </Paragraph>
                         </div>
                         <div className="flex flex-col items-center justify-center">
-                            <Image className="h-40 w-auto" src={doves} alt="" />
-                            <Heading4>Informasjonskapsler</Heading4>
+                            <Image
+                                className="h-40 w-auto"
+                                src={doves}
+                                alt="Illustrasjon av to duer som sitter mot hverandre"
+                                aria-hidden
+                            />
+                            <Heading2>Informasjonskapsler</Heading2>
                             <Paragraph>
                                 Vi lagrer informasjonskapsler for å huske at du
                                 er logget inn.
@@ -42,9 +48,10 @@ function Personvern() {
                             <Image
                                 className="h-40 w-auto"
                                 src={hedgehog}
-                                alt=""
+                                alt="Illustrasjon av et pinnsvin som sitter på bakken med et blad"
+                                aria-hidden
                             />
-                            <Heading4>Analyseverktøy</Heading4>
+                            <Heading2>Analyseverktøy</Heading2>
                             <Paragraph>
                                 Vi lagrer anonyme data om din bruk av våre
                                 tjenester for å forbedre disse.
