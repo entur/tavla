@@ -19,17 +19,22 @@ declare global {
         Sentry?: {
             setUser: (user: { id: string }) => void
         }
+        UC_UI: {
+            isInitialized: () => boolean
+            showFirstLayer: () => void
+            showSecondLayer: () => void
+        }
     }
 }
 
 export function showUC_UI() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && window.UC_UI) {
         window.UC_UI.showFirstLayer()
     }
 }
 
 export function showUC_UI_second() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && window.UC_UI) {
         window.UC_UI.showSecondLayer()
     }
 }
@@ -39,11 +44,16 @@ const basePostHogOptions: Partial<PostHogConfig> = {
     capture_pageview: false,
     autocapture: false,
     opt_out_capturing_by_default: true,
-    // debug: true, // Used to test if PostHog turns on only with consent
+    // debug: true, // slå på ved feilsøking
 }
 
-const POSTHOG_SERVICE_NAME = 'PostHog.com'
-const SENTRY_SERVICE_NAME = 'Sentry'
+function isPosthogService(name?: string) {
+    return !!name && name.toLowerCase().includes('posthog')
+}
+
+function isSentryService(name?: string) {
+    return !!name && name.toLowerCase().includes('sentry')
+}
 
 export function initSentry(consent: boolean) {
     Sentry.close().then(() => {
@@ -65,6 +75,8 @@ export default function ConsentHandler({
     posthogToken: string
 }) {
     useEffect(() => {
+        if (typeof window === 'undefined') return
+
         async function handleConsentUpdate(
             event: Event & { detail?: ConsentDetails },
         ) {
@@ -72,52 +84,66 @@ export default function ConsentHandler({
 
             const consents = formatConsentEvent(event)
 
-            // Handle PostHog consent
-            const posthogConsent = consents?.find(
-                (consent) => consent.name === POSTHOG_SERVICE_NAME,
+            // --- PostHog consent ---
+            const posthogConsent = consents?.find((consent) =>
+                isPosthogService(consent.name),
             )
 
             if (posthogConsent?.consentGiven) {
-                if (posthog.__loaded) {
-                    posthog.identify(event.detail?.consent.controllerId)
-                    posthog.opt_in_capturing()
-                } else {
-                    posthog.init(posthogToken, basePostHogOptions)
+                const controllerId = event.detail?.consent.controllerId
+
+                posthog.init(posthogToken, basePostHogOptions)
+                posthog.opt_in_capturing()
+                if (controllerId) {
+                    posthog.identify(controllerId)
                 }
             } else {
                 disablePostHog(posthogToken)
             }
 
-            // Handle Sentry consent
-            const sentryConsent = consents?.find(
-                (consent) => consent.name === SENTRY_SERVICE_NAME,
+            // --- Sentry consent ---
+            const sentryConsent = consents?.find((consent) =>
+                isSentryService(consent.name),
             )
 
             if (sentryConsent?.consentGiven) {
                 initSentry(true)
-                await waitFor(() => window.Sentry !== undefined)
+                await waitFor(
+                    () =>
+                        typeof window !== 'undefined' &&
+                        window.Sentry !== undefined,
+                )
                 window.Sentry?.setUser({
                     id: event.detail?.consent.controllerId ?? '',
                 })
+            } else {
+                initSentry(false)
             }
         }
 
-        window.addEventListener(CONSENT_UPDATED_EVENT, handleConsentUpdate)
+        window.addEventListener(
+            CONSENT_UPDATED_EVENT,
+            handleConsentUpdate as EventListener,
+        )
 
-        return () =>
+        return () => {
             window.removeEventListener(
                 CONSENT_UPDATED_EVENT,
-                handleConsentUpdate,
+                handleConsentUpdate as EventListener,
             )
+        }
     }, [posthogToken])
 
     return null
 }
 
 function disablePostHog(posthogToken: string) {
-    if (posthog.__loaded) {
+    // opt-out og reset
+    try {
         posthog.opt_out_capturing()
         posthog.reset()
+    } catch {
+        // Ignorer feil hvis posthog ikke er initialisert
     }
 
     try {
@@ -133,6 +159,10 @@ function disablePostHog(posthogToken: string) {
 }
 
 export function PHProvider({ children }: { children: ReactNode }) {
+    if (typeof window !== 'undefined') {
+        window.posthog = posthog
+    }
+
     return <PostHogProvider client={posthog}>{children}</PostHogProvider>
 }
 
