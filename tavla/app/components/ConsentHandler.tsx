@@ -35,7 +35,7 @@ export function showUC_UI_second() {
 }
 
 const basePostHogOptions: Partial<PostHogConfig> = {
-    api_host: 'https://eu.posthog.com',
+    api_host: 'https://eu.i.posthog.com',
     capture_pageview: false,
     autocapture: false,
     opt_out_capturing_by_default: true,
