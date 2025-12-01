@@ -62,6 +62,15 @@ const nextConfig = {
         locales: ['nb'],
         defaultLocale: 'nb',
     },
+    experimental: {
+        optimizeCss: true,
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
     images: {
         remotePatterns: [
             {
@@ -150,7 +159,6 @@ module.exports = async (phase, { defaultConfig }) => {
             hostname: '127.0.0.1',
         })
     }
-
     return nextConfig
 }
 

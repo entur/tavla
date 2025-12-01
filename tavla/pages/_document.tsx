@@ -28,6 +28,9 @@ class TavlaDocument extends Document {
                         href="/favicon-16x16.png"
                     />
                     <link rel="manifest" href="/tavlevisning.webmanifest" />
+                    <noscript>
+                        <style>{`body { display: block !important; }`}</style>
+                    </noscript>
                 </Head>
                 <body>
                     <Main />
