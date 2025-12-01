@@ -1,5 +1,5 @@
 import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
-import { TravelTag } from 'components/TravelTag'
+import TravelTag from 'src/components/legacy/TravelTag_Legacy'
 import { BoardDB, StopPlaceTileDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
 import { getBackendUrl } from 'utils/index'
