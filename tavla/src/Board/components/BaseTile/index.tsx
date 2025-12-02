@@ -29,6 +29,9 @@ interface BaseTileProps {
     className?: string
     customHeader?: ReactNode
     customDeviation?: ReactNode
+    theme?: string | null
+    palette?: string | null
+    TableComponent?: React.ComponentType<any>
 }
 
 export function BaseTile({
@@ -46,6 +49,9 @@ export function BaseTile({
     customHeader,
     customDeviation,
     className,
+    theme,
+    palette,
+    TableComponent = Table,
 }: BaseTileProps) {
     if (isLoading && !hasData) {
         return (
@@ -99,7 +105,7 @@ export function BaseTile({
                     <StopPlaceQuayDeviation situations={situations} />
                 )}
 
-                <Table
+                <TableComponent
                     columns={columns}
                     departures={estimatedCalls}
                     stopPlaceSituations={situations}
@@ -108,6 +114,8 @@ export function BaseTile({
                     }
                     numberOfVisibleSituations={uniqueSituations?.length}
                     customNames={customNames}
+                    theme={theme}
+                    palette={palette}
                 />
             </div>
 

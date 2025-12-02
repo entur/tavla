@@ -1,4 +1,3 @@
-'use server'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { TransportIcon } from 'components/TransportIcon'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'

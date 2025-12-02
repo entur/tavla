@@ -37,6 +37,28 @@ const transportColorsTransparent: Record<string, string> = {
     unknown: 'rgba(102, 102, 102, 0.15)',
 }
 
+const blueBusColors = {
+    ...transportColors,
+    bus: transportColors.rail,
+    rail: transportColors.bus,
+}
+
+const blueBusColorsTransparent = {
+    ...transportColorsTransparent,
+    bus: transportColorsTransparent.rail,
+    rail: transportColorsTransparent.bus,
+}
+
+const greenBusColors = {
+    ...transportColors,
+    bus: transportColors.coach,
+}
+
+const greenBusColorsTransparent = {
+    ...transportColorsTransparent,
+    bus: transportColorsTransparent.coach,
+}
+
 const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
     bus: 'Buss',
@@ -59,20 +81,32 @@ export default function TravelTag({
     publicCode,
     transportSubmode,
     cancelled,
+    palette,
 }: {
     transportMode: TTransportMode
     publicCode: string
     transportSubmode?: TTransportSubmode
     cancelled?: boolean
+    palette?: string | null
 }) {
     const colorMode = transportSubmode?.startsWith('airport')
         ? 'air'
         : transportMode
 
-    const solidColor = transportColors[colorMode] || transportColors.unknown
+    let colors = transportColors
+    let transparentColors = transportColorsTransparent
+
+    if (palette === 'blue-bus') {
+        colors = blueBusColors
+        transparentColors = blueBusColorsTransparent
+    } else if (palette === 'green-bus') {
+        colors = greenBusColors
+        transparentColors = greenBusColorsTransparent
+    }
+
+    const solidColor = colors[colorMode] || colors.unknown
     const transparentColor =
-        transportColorsTransparent[colorMode] ||
-        transportColorsTransparent.unknown
+        transparentColors[colorMode] || transparentColors.unknown
 
     const isTransparent = cancelled && transportMode !== 'unknown'
     const backgroundColor = isTransparent ? transparentColor : solidColor

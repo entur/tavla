@@ -1,6 +1,12 @@
+'use server'
 import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
-import TravelTag from 'src/components/legacy/TravelTag_Legacy'
-import { BoardDB, StopPlaceTileDB } from 'types/db-types/boards'
+import { Board_Legacy } from 'src/components/legacy/Board_Legacy'
+import {
+    BoardDB,
+    BoardTileDB,
+    QuayTileDB,
+    StopPlaceTileDB,
+} from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
 import { getBackendUrl } from 'utils/index'
 import '../../app/globals.css'
@@ -74,6 +80,95 @@ query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMod
 }
 `
 
+const QUAY_QUERY = `
+query getQuay($quayId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20, $startTime: DateTime) {
+  quay(
+    id: $quayId
+  ) {
+    name
+    description
+    publicCode
+    lines {
+        id
+        publicCode
+        name
+        transportMode
+    }
+    estimatedCalls(
+      numberOfDepartures: $numberOfDepartures,
+      whiteListedModes: $whitelistedTransportModes,
+      whiteListed: {
+        lines: $whitelistedLines
+      },
+      includeCancelledTrips: true,
+      startTime: $startTime
+    ) {
+      quay {
+        publicCode
+        name
+      }
+      destinationDisplay {
+        frontText
+        via
+      }
+      aimedDepartureTime
+      expectedDepartureTime
+      expectedArrivalTime
+      serviceJourney {
+        id
+        transportMode
+        transportSubmode
+        line {
+          id
+          publicCode
+          presentation {
+            textColour
+            colour
+          }
+        }
+      }
+      cancellation
+      realtime
+      situations {
+        id
+        description {
+          value
+          language
+        }
+        summary {
+          value
+          language
+        }
+      }
+    }
+    situations {
+      id
+      description {
+        value
+        language
+      }
+      summary {
+        value
+        language
+      }
+    }
+    stopPlace {
+      situations {
+        id
+        description {
+          value
+          language
+        }
+        summary {
+          value
+          language
+        }
+      }
+    }
+  }
+}
+`
+
 async function localFetcher(query: string, variables: any) {
     const url = 'https://api.entur.io/journey-planner/v3/graphql'
     console.log('Fetching from:', url)
@@ -124,8 +219,8 @@ export async function getServerSideProps({
     const folder = await getFolderForBoard(id)
 
     // Hent data for alle tiles
-    const tilesData = await Promise.all(
-        board.tiles?.map(async (tile) => {
+    const tilesDataArray = await Promise.all(
+        board.tiles?.map(async (tile: BoardTileDB) => {
             if (tile.type === 'stop_place') {
                 const stopPlaceTile = tile as StopPlaceTileDB
                 try {
@@ -141,25 +236,53 @@ export async function getServerSideProps({
                         numberOfDepartures: 20,
                         startTime: new Date().toISOString(),
                     })
-                    console.log(
-                        'Data received:',
-                        JSON.stringify(res.data, null, 2),
-                    )
                     return {
-                        tile,
+                        uuid: tile.uuid,
                         data: res.data,
                     }
                 } catch (error) {
                     console.error('Failed to fetch tile data:', error)
                     return {
-                        tile,
+                        uuid: tile.uuid,
+                        data: null,
+                        error: true,
+                    }
+                }
+            } else if (tile.type === 'quay') {
+                const quayTile = tile as QuayTileDB
+                try {
+                    console.log('Fetching data for quay:', quayTile.placeId)
+                    const res = await localFetcher(QUAY_QUERY, {
+                        quayId: quayTile.placeId,
+                        whitelistedTransportModes:
+                            quayTile.whitelistedTransportModes,
+                        whitelistedLines: quayTile.whitelistedLines,
+                        numberOfDepartures: 20,
+                        startTime: new Date().toISOString(),
+                    })
+                    return {
+                        uuid: tile.uuid,
+                        data: res.data,
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch tile data:', error)
+                    return {
+                        uuid: tile.uuid,
                         data: null,
                         error: true,
                     }
                 }
             }
-            return { tile, data: null }
+            return { uuid: (tile as any).uuid, data: null }
         }) ?? [],
+    )
+
+    const tilesData = tilesDataArray.reduce(
+        (acc, curr) => {
+            acc[curr.uuid] = curr.data
+            return acc
+        },
+        {} as Record<string, any>,
     )
 
     return {
@@ -181,7 +304,7 @@ export default function LegacyPage({
     board: BoardDB
     folder: FolderDB | null
     backend_url: string
-    tilesData: any[]
+    tilesData: Record<string, any>
 }) {
     return (
         <>
@@ -190,54 +313,7 @@ export default function LegacyPage({
                 <p className="text-orange-300">
                     Board: {board.meta?.title ?? board.id}
                 </p>
-                <TravelTag publicCode="00" transportMode="bus" />
-                <div>
-                    {tilesData.map((tileData, index) => (
-                        <div key={index} style={{ margin: '20px 0' }}>
-                            <h2 style={{ fontSize: '24px' }}>
-                                {tileData.tile.type === 'stop_place'
-                                    ? (tileData.data?.stopPlace?.name ??
-                                      'Unknown')
-                                    : 'Other tile type'}
-                            </h2>
-                            <p style={{ fontSize: '12px', color: '#666' }}>
-                                ID: {tileData.tile.placeId}
-                            </p>
-                            {tileData.error && (
-                                <p style={{ color: 'red' }}>
-                                    Failed to fetch data
-                                </p>
-                            )}
-                            {/* Debug info */}
-                            <pre
-                                style={{
-                                    fontSize: '10px',
-                                    overflow: 'auto',
-                                    maxHeight: '100px',
-                                    background: '#f0f0f0',
-                                }}
-                            >
-                                {JSON.stringify(tileData.data, null, 2)}
-                            </pre>
-                            {tileData.data?.stopPlace?.estimatedCalls && (
-                                <ul>
-                                    {tileData.data.stopPlace.estimatedCalls
-                                        .slice(0, 5)
-                                        .map((call: any, i: number) => (
-                                            <li key={i}>
-                                                {call.destinationDisplay
-                                                    ?.frontText ??
-                                                    'Unknown'}{' '}
-                                                -{' '}
-                                                {call.expectedDepartureTime ??
-                                                    'N/A'}
-                                            </li>
-                                        ))}
-                                </ul>
-                            )}
-                        </div>
-                    ))}
-                </div>
+                <Board_Legacy board={board} tilesData={tilesData} />
             </div>
         </>
     )

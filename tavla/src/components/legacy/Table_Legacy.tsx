@@ -1,21 +1,21 @@
 import { Paragraph } from '@entur/typography'
 import { CustomName } from 'Board/hooks/useTileData'
+import { Destination, Name } from 'Board/scenarios/Table/components/Destination'
+import { Platform } from 'Board/scenarios/Table/components/Platform'
+import { AimedTime } from 'Board/scenarios/Table/components/Time/AimedTime'
+import { ArrivalTime } from 'Board/scenarios/Table/components/Time/ArrivalTime'
+import { ExpectedTime } from 'Board/scenarios/Table/components/Time/ExpectedTime'
+import { DeparturesContext } from 'Board/scenarios/Table/contexts'
 import leafsLight from 'assets/illustrations/leafs-light.png'
 import leafs from 'assets/illustrations/leafs.svg'
 import { TDepartureFragment, TSituationFragment } from 'graphql/index'
 import { isArray } from 'lodash'
 import Image from 'next/image'
 import { TileColumnDB } from 'types/db-types/boards'
-import { Destination, Name } from './components/Destination'
-import { Deviation } from './components/Deviation'
-import { Line } from './components/Line'
-import { Platform } from './components/Platform'
-import { AimedTime } from './components/Time/AimedTime'
-import { ArrivalTime } from './components/Time/ArrivalTime'
-import { ExpectedTime } from './components/Time/ExpectedTime'
-import { DeparturesContext } from './contexts'
+import { Deviation_Legacy } from './Deviation_Legacy'
+import { Line_Legacy } from './Line_Legacy'
 
-function Table({
+function Table_Legacy({
     departures,
     columns,
     stopPlaceSituations,
@@ -23,6 +23,7 @@ function Table({
     numberOfVisibleSituations,
     customNames,
     theme,
+    palette,
 }: {
     departures: TDepartureFragment[]
     columns?: TileColumnDB[]
@@ -31,6 +32,7 @@ function Table({
     numberOfVisibleSituations?: number
     customNames?: CustomName[]
     theme?: string | null
+    palette?: string | null
 }) {
     const currentTheme =
         theme ??
@@ -62,14 +64,16 @@ function Table({
         <div className="flex flex-col">
             <div className="flex shrink-0">
                 <DeparturesContext.Provider value={departures}>
-                    <Deviation
+                    <Deviation_Legacy
                         currentVisibleSituationId={currentVisibleSituationId}
                         stopPlaceSituations={stopPlaceSituations}
                         numberOfShownSituations={numberOfVisibleSituations}
                     />
                     {columns.includes('aimedTime') && <AimedTime />}
                     {columns.includes('arrivalTime') && <ArrivalTime />}
-                    {columns.includes('line') && <Line />}
+                    {columns.includes('line') && (
+                        <Line_Legacy palette={palette} />
+                    )}
                     {columns.includes('destination') && <Destination />}
                     {columns.includes('name') && (
                         <Name customNames={customNames} />
@@ -82,4 +86,4 @@ function Table({
     )
 }
 
-export { Table }
+export { Table_Legacy }

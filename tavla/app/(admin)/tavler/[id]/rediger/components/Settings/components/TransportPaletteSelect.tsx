@@ -100,6 +100,7 @@ function TransportPaletteSelect({
                                 <div className="grid grid-cols-2 gap-2">
                                     {busAndTrainModes.map((mode) => (
                                         <div
+                                            aria-label={`transportmodus: ${mode.mode}`}
                                             className="max-w-min"
                                             key={theme + mode.mode}
                                         >
@@ -111,6 +112,7 @@ function TransportPaletteSelect({
                                     ))}
                                     {transportModes.map((mode) => (
                                         <div
+                                            aria-hidden="true"
                                             key={
                                                 theme +
                                                 (mode.submode ?? mode.mode)
