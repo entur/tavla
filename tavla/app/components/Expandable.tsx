@@ -32,7 +32,7 @@ function Expandable({
                 {isOpen ? <DownArrowIcon /> : <UpArrowIcon />}
             </button>
             {isOpen && (
-                <div className="w-full rounded-b bg-blue10 p-4 md:w-96 lg:w-[500px]">
+                <div className="max-h-[80vh] w-full overflow-y-auto rounded-b bg-blue10 p-4 md:w-96 lg:w-[500px]">
                     {children}
                 </div>
             )}
