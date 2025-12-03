@@ -84,3 +84,73 @@ export const generateTransportPalettes = (
 
     return filteredPalettes
 }
+
+export const PALETTE_COLOR_DESCRIPTIONS: Record<
+    string,
+    Record<string, string>
+> = {
+    default: {
+        bus: 'rød',
+        rail: 'blå',
+        tram: 'blå',
+        metro: 'oransje',
+        water: 'blå',
+        air: 'oransje',
+        taxi: 'gul',
+        coach: 'grønn',
+        cableway: 'grå',
+        funicular: 'grå',
+    },
+    'blue-bus': {
+        bus: 'blå',
+        rail: 'rød',
+    },
+    'green-bus': {
+        bus: 'grønn',
+    },
+    atb: {
+        bus: 'grønn',
+        tram: 'grønn',
+        rail: 'lilla',
+        metro: 'lilla',
+        water: 'mørk blå',
+        air: 'grå',
+        taxi: 'lilla',
+        coach: 'blå',
+    },
+    fram: {
+        bus: 'mørk blå',
+        coach: 'grønn',
+        rail: 'mørk rød',
+        water: 'blå',
+        air: 'grå',
+        metro: 'grå',
+        tram: 'grå',
+        taxi: 'rosa',
+    },
+    svipper: {
+        bus: 'blå',
+        coach: 'grønn',
+        rail: 'rosa',
+        water: 'turkis',
+        air: 'mørk grå',
+    },
+}
+
+export const getTransportColorDescription = (
+    palette: string,
+    mode: string,
+): string => {
+    const paletteColors = PALETTE_COLOR_DESCRIPTIONS[palette]
+    const defaultColors = PALETTE_COLOR_DESCRIPTIONS['default']
+
+    if (paletteColors && paletteColors[mode]) {
+        return paletteColors[mode]
+    }
+
+    if (defaultColors && defaultColors[mode]) {
+        return defaultColors[mode]
+    }
+
+    return ''
+}
