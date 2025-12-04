@@ -18,7 +18,7 @@ import {
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getBoard } from 'Board/scenarios/Board/firebase'
-import { firestore } from 'firebase-admin'
+import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
@@ -33,6 +33,8 @@ import {
 import { FolderDB } from 'types/db-types/folders'
 
 initializeAdminApp()
+
+const db = getFirestore()
 
 async function userHasAccessToEditBoard(bid: string) {
     const access = await userCanEditBoard(bid)
@@ -115,11 +117,11 @@ async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
     if (footerContainsText) {
         newFooter = { footer: footer }
     } else {
-        newFooter = firestore.FieldValue.delete()
+        newFooter = FieldValue.delete()
     }
 
     try {
-        await firestore().collection('boards').doc(bid).update({
+        await db.collection('boards').doc(bid).update({
             footer: newFooter,
             'meta.dateModified': Date.now(),
         })
@@ -139,7 +141,7 @@ async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
     userHasAccessToEditBoard(bid)
 
     try {
-        await firestore()
+        await db
             .collection('boards')
             .doc(bid)
             .update({
@@ -166,12 +168,12 @@ async function setViewType(board: BoardDB, viewType: string) {
     const shouldDeleteCombinedTiles = viewType === 'separate'
 
     try {
-        await firestore()
+        await db
             .collection('boards')
             .doc(board.id ?? '')
             .update({
                 combinedTiles: shouldDeleteCombinedTiles
-                    ? firestore.FieldValue.delete()
+                    ? FieldValue.delete()
                     : [{ ids: board.tiles.map((tile) => tile.uuid) }],
                 'meta.dateModified': Date.now(),
             })
@@ -186,7 +188,7 @@ async function saveTitle(bid: BoardDB['id'], title: string) {
     userHasAccessToEditBoard(bid)
 
     try {
-        await firestore()
+        await db
             .collection('boards')
             .doc(bid)
             .update({
@@ -209,7 +211,7 @@ async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
     userHasAccessToEditBoard(bid)
 
     try {
-        await firestore()
+        await db
             .collection('boards')
             .doc(bid)
             .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
@@ -229,12 +231,12 @@ async function saveLocation(board: BoardDB, location?: LocationDB) {
     userHasAccessToEditBoard(board.id ?? '')
 
     try {
-        await firestore()
+        await db
             .collection('boards')
             .doc(board.id ?? '')
             .update({
                 tiles: await getTilesWithDistance(board, location),
-                'meta.location': location ?? firestore.FieldValue.delete(),
+                'meta.location': location ?? FieldValue.delete(),
                 'meta.dateModified': Date.now(),
             })
         revalidatePath(`/tavler/${board.id}/rediger`)
@@ -285,26 +287,26 @@ export async function moveBoard(
 
     try {
         if (fromFolder)
-            await firestore()
+            await db
                 .collection('folders')
                 .doc(fromFolder)
-                .update({ boards: firestore.FieldValue.arrayRemove(bid) })
+                .update({ boards: FieldValue.arrayRemove(bid) })
         else
-            await firestore()
+            await db
                 .collection('users')
                 .doc(user.uid)
-                .update({ owner: firestore.FieldValue.arrayRemove(bid) })
+                .update({ owner: FieldValue.arrayRemove(bid) })
 
         if (toFolder)
-            await firestore()
+            await db
                 .collection('folders')
                 .doc(toFolder)
-                .update({ boards: firestore.FieldValue.arrayUnion(bid) })
+                .update({ boards: FieldValue.arrayUnion(bid) })
         else
-            await firestore()
+            await db
                 .collection('users')
                 .doc(user.uid)
-                .update({ owner: firestore.FieldValue.arrayUnion(bid) })
+                .update({ owner: FieldValue.arrayUnion(bid) })
     } catch (error) {
         Sentry.captureException(error, {
             extra: {
@@ -325,7 +327,7 @@ async function setTransportPalette(
     userHasAccessToEditBoard(bid)
 
     try {
-        await firestore()
+        await db
             .collection('boards')
             .doc(bid)
             .update({
@@ -354,7 +356,7 @@ async function setElements(
     userHasAccessToEditBoard(bid)
 
     try {
-        await firestore().collection('boards').doc(bid).update({
+        await db.collection('boards').doc(bid).update({
             hideClock: hideClock,
             hideLogo: hideLogo,
             'meta.dateModified': Date.now(),

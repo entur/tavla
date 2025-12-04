@@ -7,8 +7,8 @@ import {
 } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import createDOMPurify from 'dompurify'
-import { firestore, storage } from 'firebase-admin'
-import { getDownloadURL } from 'firebase-admin/storage'
+import { getFirestore } from 'firebase-admin/firestore'
+import { getDownloadURL, getStorage } from 'firebase-admin/storage'
 import { JSDOM } from 'jsdom'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
@@ -17,6 +17,8 @@ import { FolderDB } from 'types/db-types/folders'
 import rateLimit from 'utils/rateLimit'
 
 initializeAdminApp()
+
+const db = getFirestore()
 
 const rateLimiter = rateLimit({
     maxUniqueTokens: 100,
@@ -95,8 +97,8 @@ export async function POST(request: NextRequest) {
     } else {
         processedFile = Buffer.from(await logo.arrayBuffer())
     }
+    const bucket = getStorage().bucket((await getConfig()).bucket)
 
-    const bucket = storage().bucket((await getConfig()).bucket)
     const file = bucket.file(`logo/${folderid}-${nanoid()}`)
     await file.save(processedFile)
 
@@ -111,7 +113,7 @@ export async function POST(request: NextRequest) {
             },
         )
 
-    await firestore().collection('folders').doc(folderid).update({
+    await db.collection('folders').doc(folderid).update({
         logo: logoUrl,
     })
     revalidatePath(`/mapper/${folderid}`)

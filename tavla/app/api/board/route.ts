@@ -1,15 +1,20 @@
 import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
-import { firestore } from 'firebase-admin'
+import { getFirestore } from 'firebase-admin/firestore'
 import { NextRequest, NextResponse } from 'next/server'
 import { BoardDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
 
 initializeAdminApp()
 
+const db = getFirestore()
+
 const allowedOrigins = [
     'https://tavla-visning.dev.entur.no',
     'https://tavla-visning.entur.no',
+    'http://tavla-visning.dev.entur.no',
+    'http://tavla-visning.entur.no',
+    'http://34.49.196.7',
 ]
 
 function getCorsHeaders(request: NextRequest) {
@@ -32,7 +37,7 @@ export async function OPTIONS(request: NextRequest) {
 }
 
 async function fetchBoardById(boardId: BoardDB['id']): Promise<BoardDB | null> {
-    const boardDoc = await firestore().collection('boards').doc(boardId).get()
+    const boardDoc = await db.collection('boards').doc(boardId).get()
 
     if (!boardDoc.exists) {
         return null
@@ -42,7 +47,7 @@ async function fetchBoardById(boardId: BoardDB['id']): Promise<BoardDB | null> {
 }
 
 async function fetchFolderLogo(boardId: BoardDB['id']): Promise<string | null> {
-    const foldersSnapshot = await firestore()
+    const foldersSnapshot = await db
         .collection('folders')
         .where('boards', 'array-contains', boardId)
         .get()

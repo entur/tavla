@@ -52,16 +52,14 @@ function ContactForm() {
         setDisabledEmail(false)
     }
     return (
-        <div
-            className="flex w-full items-center justify-center xl:w-1/6"
-            onClick={() =>
-                isOpen ? posthog.capture('CONTACT_FORM_OPENED') : resetForm()
-            }
-        >
+        <div className="flex w-full items-center justify-center xl:w-1/6">
             <Expandable
                 title="Send oss en melding"
                 isOpen={isOpen}
-                setIsOpen={setIsOpen}
+                setIsOpen={(open) => {
+                    setIsOpen(open)
+                    if (open) posthog.capture('CONTACT_FORM_OPENED')
+                }}
             >
                 <form
                     action={submit}
@@ -99,31 +97,35 @@ function ContactForm() {
                         <Label htmlFor="email" className="font-bold">
                             E-post
                         </Label>
-                        <ClientOnlyTextField
-                            label="E-postadresse"
-                            name="email"
-                            id="email"
-                            aria-label="E-postadresse"
-                            disabled={disabledEmail}
-                            {...getFormFeedbackForField('email', formState)}
-                        />
+
+                        <div>
+                            <Checkbox
+                                className="!items-start"
+                                name="disabledEmail"
+                                onChange={(e) =>
+                                    setDisabledEmail(e.target.checked)
+                                }
+                            >
+                                Jeg ønsker ikke å oppgi e-postadresse og vil
+                                ikke få svar på henvendelsen.
+                            </Checkbox>
+                            {disabledEmail && (
+                                <SmallAlertBox variant="info">
+                                    Vi kan bare svare på meldingen hvis vi har
+                                    e-postadressen din.
+                                </SmallAlertBox>
+                            )}
+                        </div>
                     </div>
-                    <div>
-                        <Checkbox
-                            className="!items-start"
-                            name="disabledEmail"
-                            onChange={(e) => setDisabledEmail(e.target.checked)}
-                        >
-                            Jeg ønsker ikke å oppgi e-postadresse og vil ikke få
-                            svar på henvendelsen.
-                        </Checkbox>
-                        {disabledEmail && (
-                            <SmallAlertBox variant="info">
-                                Vi kan bare svare på meldingen hvis vi har
-                                e-postadressen din.
-                            </SmallAlertBox>
-                        )}
-                    </div>
+                    <ClientOnlyTextField
+                        label="E-postadresse"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        aria-label="E-postadresse"
+                        disabled={disabledEmail}
+                        {...getFormFeedbackForField('email', formState)}
+                    />
 
                     <FormError
                         {...getFormFeedbackForField('general', formState)}
