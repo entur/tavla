@@ -64,7 +64,7 @@
         --tooltip-color: var(--fill-background-contrast-lightalt-2);
         --tooltip-text-color: var(--text-light);
 
-        --coach-color: var(--temp-coach-color);
+        --coach-color: var(--temp-coach-color-standard);
         --air-color: var(--standard-plane);
         --bus-color: var(--standard-bus);
         --cableway-color: var(--standard-cableway);
