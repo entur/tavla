@@ -1,6 +1,6 @@
 [data-transport-palette='default'] {
     --bus-color: var(--standard-bus);
-    --coach-color: #427500;
+    --coach-color: var(--temp-coach-color-standard);
     --air-color: var(--standard-plane);
     --cableway-color: var(--standard-cableway);
     --funicular-color: var(--standard-funicular);
@@ -15,7 +15,7 @@
 
 [data-theme='dark'][data-transport-palette='default'] {
     --bus-color: var(--dark-bus);
-    --coach-color: #a4bf4d;
+    --coach-color: var(--temp-coach-color-dar);
     --air-color: var(--dark-plane);
     --cableway-color: var(--dark-cableway);
     --funicular-color: var(--dark-funicular);
@@ -31,27 +31,31 @@
 /* Blue bus palette: trains are blue, buses are red */
 [data-transport-palette='blue-bus'] {
     --bus-color: var(--standard-train);
-    --bus-color-transparent: rgba(0, 54, 127, 0.15);
+    --bus-color-transparent: var(--rgba-rail-color-transparent);
     --rail-color: var(--standard-bus);
-    --rail-color-transparent: rgba(197, 4, 78, 0.15);
+    --rail-color-transparent: var(--rgba-bus-color-transparent);
 }
 
 [data-theme='dark'][data-transport-palette='blue-bus'] {
     --bus-color: var(--dark-train);
-    --bus-color-transparent: rgba(96, 162, 215, 0.15);
+    --bus-color-transparent: var(--rgba-rail-color-transparent-dark);
     --rail-color: var(--dark-bus);
-    --rail-color-transparent: rgba(239, 115, 152, 0.15);
+    --rail-color-transparent: var(--rgba-bus-color-transparent-dark);
 }
 
 /* Green bus palette */
 [data-transport-palette='green-bus'] {
-    --bus-color: var(--standard-mobility);
-    --bus-color-transparent: rgba(51, 130, 107, 0.15);
+    --bus-color: var(--temp-coach-color-standard);
+    --bus-color-transparent: var(--rgba-coach-color-transparent);
+    --coach-color: var(--standard-bus);
+    --coach-color-transparent: var(--rgba-bus-color-transparent);
 }
 
 [data-theme='dark'][data-transport-palette='green-bus'] {
-    --bus-color: var(--contrast-mobility);
-    --bus-color-transparent: rgba(0, 219, 155, 0.15);
+    --bus-color: var(--temp-coach-color-dark);
+    --bus-color-transparent: var(--coach-color-transparent-dark);
+    --coach-color: var(--dark-bus);
+    --coach-color-transparent: var(--rgba-bus-color-transparent-dark);
 }
 
 /* ATB palette */

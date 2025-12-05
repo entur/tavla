@@ -10,6 +10,34 @@
 
 @layer base {
     :root {
+        /*RGBA-farger for transparent, fordi gamle skjermer ikke støtter transparent HEX */
+        --rgba-air-color-transparent: rgba(126, 6, 100, 0.15);
+        --rgba-bus-color-transparent: rgba(197, 4, 78, 0.15);
+        --rgba-coach-color-transparent: rgba(56, 99, 0, 0.15);
+        --rgba-cableway-color-transparent: rgba(120, 70, 154, 0.15);
+        --rgba-funicular-color-transparent: rgba(120, 70, 154, 0.15);
+        --rgba-metro-color-transparent: rgba(191, 88, 38, 0.15);
+        --rgba-rail-color-transparent: rgba(0, 54, 127, 0.15);
+        --rgba-taxi-color-transparent: rgba(61, 62, 64, 0.15);
+        --rgba-tram-color-transparent: rgba(120, 70, 154, 0.15);
+        --rgba-water-color-transparent: rgba(12, 102, 147, 0.15);
+
+        /*RGBA-farger for transparent, fordi gamle skjermer ikke støtter transparent HEX */
+        --rgba-air-color-transparent-dark: rgba(242, 184, 229, 0.15);
+        --rgba-bus-color-transparent-dark: rgba(239, 115, 152, 0.15);
+        --rgba-coach-color-transparent-dark: rgba(150, 180, 53, 0.15);
+        --rgba-cableway-color-transparent-dark: rgba(184, 152, 229, 0.15);
+        --rgba-funicular-color-transparent-dark: rgba(184, 152, 229, 0.15);
+        --rgba-metro-color-transparent-dark: rgba(221, 151, 60, 0.15);
+        --rgba-rail-color-transparent-dark: rgba(96, 162, 215, 0.15);
+        --rgba-taxi-color-transparent-dark: rgba(255, 224, 130, 0.15);
+        --rgba-tram-color-transparent-dark: rgba(184, 152, 229, 0.15);
+        --rgba-water-color-transparent-dark: rgba(140, 207, 226, 0.15);
+
+        /*Midlertidig variabler for coach-farge frem til den tilbys av Linje*/
+        --temp-coach-color-standard: #427500;
+        --temp-coach-color-dark: #a4bf4d;
+
         --main-background-color: var(--fill-background-standard-light);
         --secondary-background-color: var(--fill-background-tint-light);
         --tertiary-background-color: var(--blue-40);
@@ -37,7 +65,7 @@
         --tooltip-color: var(--fill-background-contrast-lightalt-2);
         --tooltip-text-color: var(--text-light);
 
-        --coach-color: #427500;
+        --coach-color: var(--temp-coach-color);
         --air-color: var(--standard-plane);
         --bus-color: var(--standard-bus);
         --cableway-color: var(--standard-cableway);
@@ -50,15 +78,16 @@
         --unknown-color: var(--standard-walk);
         --water-color: var(--standard-ferry);
 
-        --air-color-transparent: rgba(126, 6, 100, 0.15);
-        --bus-color-transparent: rgba(197, 4, 78, 0.15);
-        --cableway-color-transparent: rgba(120, 70, 154, 0.15);
-        --funicular-color-transparent: rgba(120, 70, 154, 0.15);
-        --metro-color-transparent: rgba(191, 88, 38, 0.15);
-        --rail-color-transparent: rgba(0, 54, 127, 0.15);
-        --taxi-color-transparent: rgba(61, 62, 64, 0.15);
-        --tram-color-transparent: rgba(120, 70, 154, 0.15);
-        --water-color-transparent: rgba(12, 102, 147, 0.15);
+        --air-color-transparent: var(--rgba-air-color-transparent);
+        --bus-color-transparent: var(--rgba-bus-color-transparent);
+        --coach-color-transparent: var(--rgba-coach-color-transparent);
+        --cableway-color-transparent: var(--rgba-cableway-color-transparent);
+        --funicular-color-transparent: var(--rgba-funicular-color-transparent);
+        --metro-color-transparent: var(--rgba-metro-color-transparent);
+        --rail-color-transparent: var(--rgba-rail-color-transparent);
+        --taxi-color-transparent: var(--rgba-taxi-color-transparent);
+        --tram-color-transparent: var(--rgba-tram-color-transparent);
+        --water-color-transparent: var(--rgba-water-color-transparent);
 
         --data-visualization-azure: var(--standard-azure);
         --data-visualization-blue: var(--standard-blue);
@@ -71,9 +100,7 @@
     }
 
     [data-theme='dark'] {
-        --main-background-color: var(
-            --colors-misc-black
-        ); /* TODO: Upgrade color */
+        --main-background-color: var(--colors-misc-black);
         --secondary-background-color: var(--grey-110);
         --tertiary-background-color: var(--fill-background-contrast-lightalt);
         --contrast-background-color: var(--fill-background-standard-light);
@@ -106,15 +133,20 @@
         --unknown-color: var(--dark-walk);
         --water-color: var(--dark-ferry);
 
-        --air-color-transparent: rgba(242, 184, 229, 0.15);
-        --bus-color-transparent: rgba(239, 115, 152, 0.15);
-        --cableway-color-transparent: rgba(184, 152, 229, 0.15);
-        --funicular-color-transparent: rgba(184, 152, 229, 0.15);
-        --metro-color-transparent: rgba(221, 151, 60, 0.15);
-        --rail-color-transparent: rgba(96, 162, 215, 0.15);
-        --taxi-color-transparent: rgba(255, 224, 130, 0.15);
-        --tram-color-transparent: rgba(184, 152, 229, 0.15);
-        --water-color-transparent: rgba(140, 207, 226, 0.15);
+        --air-color-transparent: var(--rgba-air-color-transparent-dark);
+        --bus-color-transparent: var(--rgba-bus-color-transparent-dark);
+        --coach-color-transparent: var(--rgba-coach-color-transparent-dark);
+        --cableway-color-transparent: var(
+            --rgba-cableway-color-transparent-dark
+        );
+        --funicular-color-transparent: var(
+            --rgba-funicular-color-transparent-dark
+        );
+        --metro-color-transparent: var(--rgba-metro-color-transparent-dark);
+        --rail-color-transparent: var(--rgba-rail-color-transparent-dark);
+        --taxi-color-transparent: var(--rgba-taxi-color-transparent-dark);
+        --tram-color-transparent: var(--rgba-tram-color-transparent-dark);
+        --water-color-transparent: var(--rgba-water-color-transparent-dark);
 
         --data-visualization-azure: var(--contrast-azure);
         --data-visualization-blue: var(--contrast-blue);
@@ -125,8 +157,6 @@
         --data-visualization-peach: var(--contrast-peach);
         --data-visualization-spring: var(--contrast-spring);
     }
-
-    /* Transport palette rules moved to transport-palettes.css */
 
     html {
         background-color: var(--main-background-color);
