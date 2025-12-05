@@ -288,3 +288,7 @@
         text-decoration: line-through;
     }
 }
+
+.firebase-emulator-warning {
+    display: none;
+}
