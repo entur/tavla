@@ -53,7 +53,7 @@
 
 [data-theme='dark'][data-transport-palette='green-bus'] {
     --bus-color: var(--temp-coach-color-dark);
-    --bus-color-transparent: var(--coach-color-transparent-dark);
+    --bus-color-transparent: var(--rgba-coach-color-transparent-dark);
     --coach-color: var(--dark-bus);
     --coach-color-transparent: var(--rgba-bus-color-transparent-dark);
 }
