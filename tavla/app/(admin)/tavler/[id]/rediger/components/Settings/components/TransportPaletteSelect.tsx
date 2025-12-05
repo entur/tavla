@@ -5,7 +5,11 @@ import { TravelTag } from 'components/TravelTag'
 import { useEffect, useState } from 'react'
 import { BoardTheme, TransportPalette } from 'types/db-types/boards'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
-import { generateTransportPalettes } from '../colorPalettes'
+import { transportModeNames } from '../../TileCard/utils'
+import {
+    generateTransportPalettes,
+    getTransportColorDescription,
+} from '../colorPalettes'
 
 const busAndTrainModes: { mode: TTransportMode }[] = [
     {
@@ -98,31 +102,52 @@ function TransportPaletteSelect({
                                 data-transport-palette={palette.value}
                             >
                                 <div className="grid grid-cols-2 gap-2">
-                                    {busAndTrainModes.map((mode) => (
-                                        <div
-                                            className="max-w-min"
-                                            key={theme + mode.mode}
-                                        >
-                                            {TravelTag({
-                                                transportMode: mode.mode,
-                                                publicCode: '00',
-                                            })}
-                                        </div>
-                                    ))}
-                                    {transportModes.map((mode) => (
-                                        <div
-                                            key={
-                                                theme +
-                                                (mode.submode ?? mode.mode)
-                                            }
-                                        >
-                                            {TravelTag({
-                                                transportMode: mode.mode,
-                                                publicCode: '00',
-                                                transportSubmode: mode.submode,
-                                            })}
-                                        </div>
-                                    ))}
+                                    {busAndTrainModes.map((mode) => {
+                                        const colorDescription =
+                                            getTransportColorDescription(
+                                                palette.value,
+                                                mode.mode,
+                                            )
+                                        return (
+                                            <div
+                                                className="max-w-min"
+                                                key={theme + mode.mode}
+                                                aria-label={`${transportModeNames(mode.mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
+                                                role="img"
+                                            >
+                                                {TravelTag({
+                                                    transportMode: mode.mode,
+                                                    publicCode: '00',
+                                                    'aria-hidden': true,
+                                                })}
+                                            </div>
+                                        )
+                                    })}
+                                    {transportModes.map((mode) => {
+                                        const colorDescription =
+                                            getTransportColorDescription(
+                                                palette.value,
+                                                mode.mode,
+                                            )
+                                        return (
+                                            <div
+                                                key={
+                                                    theme +
+                                                    (mode.submode ?? mode.mode)
+                                                }
+                                                role="img"
+                                                aria-label={`${transportModeNames(mode.mode ?? mode.mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
+                                            >
+                                                {TravelTag({
+                                                    transportMode: mode.mode,
+                                                    publicCode: '00',
+                                                    transportSubmode:
+                                                        mode.submode,
+                                                    'aria-hidden': true,
+                                                })}
+                                            </div>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>

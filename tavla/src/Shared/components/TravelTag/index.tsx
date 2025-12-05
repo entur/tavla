@@ -2,7 +2,7 @@ import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { TransportIcon } from 'components/TransportIcon'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 
-const transportModeNames: Record<TTransportMode, string> = {
+export const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
     bus: 'Buss',
     cableway: 'Taubane',
@@ -24,11 +24,13 @@ function TravelTag({
     publicCode,
     transportSubmode,
     cancelled,
+    'aria-hidden': ariaHidden,
 }: {
     transportMode: TTransportMode
     publicCode: string
     transportSubmode?: TTransportSubmode
     cancelled?: boolean
+    'aria-hidden'?: boolean | 'true' | 'false'
 }) {
     const colorMode = transportSubmode?.startsWith('airport')
         ? 'air'
@@ -43,6 +45,7 @@ function TravelTag({
     return (
         <div
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
+            aria-hidden={ariaHidden}
             className={`flex h-full w-full items-center justify-between rounded-sm pl-2 ${travelTagBackround}`}
         >
             <TransportIcon
@@ -51,6 +54,7 @@ function TravelTag({
                 transportSubmode={transportSubmode}
             />
             <div
+                aria-hidden="true"
                 className={`flex h-full w-full flex-row items-center justify-center font-semibold ${iconPublicCodeColor}`}
             >
                 {publicCode}
