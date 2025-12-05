@@ -119,7 +119,7 @@
         --tooltip-color: var(--fill-background-subdued-dark);
         --tooltip-text-color: var(--text-light);
 
-        --coach-color: #a4bf4d;
+        --coach-color: var(--temp-coach-color-dark);
         --air-color: var(--dark-plane);
         --bus-color: var(--dark-bus);
         --cableway-color: var(--dark-cableway);

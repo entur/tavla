@@ -33,7 +33,7 @@ export const transportModesTransparent = {
     'air-transparent': 'var(--air-color-transparent)',
     'bus-transparent': 'var(--bus-color-transparent)',
     'cableway-transparent': 'var(--cableway-color-transparent)',
-    'coach-transparent': 'var(--bus-color-transparent)',
+    'coach-transparent': 'var(--coach-color-transparent)',
     'funicular-transparent': 'var(--funicular-color-transparent)',
     'lift-transparent': 'var(--cableway-color-transparent)',
     'metro-transparent': 'var(--metro-color-transparent)',
