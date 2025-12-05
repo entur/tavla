@@ -22,7 +22,6 @@
         --rgba-tram-color-transparent: rgba(120, 70, 154, 0.15);
         --rgba-water-color-transparent: rgba(12, 102, 147, 0.15);
 
-        /*RGBA-farger for transparent, fordi gamle skjermer ikke støtter transparent HEX */
         --rgba-air-color-transparent-dark: rgba(242, 184, 229, 0.15);
         --rgba-bus-color-transparent-dark: rgba(239, 115, 152, 0.15);
         --rgba-coach-color-transparent-dark: rgba(150, 180, 53, 0.15);
