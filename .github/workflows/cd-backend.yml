@@ -10,7 +10,7 @@ on:
 
 jobs:
   docker-push:
-    uses: entur/gha-docker/.github/workflows/push.yml@v1
+    uses: entur/gha-docker/.github/workflows/push.yml@v1.2.3
     with:
       environment: prd
       context: backend
