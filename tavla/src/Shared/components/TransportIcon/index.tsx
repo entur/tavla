@@ -1,3 +1,4 @@
+import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { SVGProps } from 'react'
 import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 
@@ -14,7 +15,9 @@ function TransportIcon({
 
     const Component = getTransportIcon(mode, transportSubmode)
     const altText =
-        mode === 'unknown' ? 'Unknown transport mode' : `${mode} transport mode`
+        mode === 'unknown'
+            ? 'Unknown transport mode'
+            : `${transportModeNames(mode)}`
     return (
         <Component
             aria-hidden="true"
