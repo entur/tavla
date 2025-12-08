@@ -9,12 +9,12 @@ on:
 
 jobs:
   docker-lint:
-    uses: entur/gha-docker/.github/workflows/lint.yml@v1.2.3
+    uses: entur/gha-docker/.github/workflows/lint.yml@v1
     with:
       dockerfile: backend/Dockerfile
 
   helm-lint:
-    uses: entur/gha-helm/.github/workflows/lint.yml@v1.0.6
+    uses: entur/gha-helm/.github/workflows/lint.yml@v1
     with:
       environment: prd
       chart: backend/helm/backend
