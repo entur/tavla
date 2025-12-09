@@ -33,7 +33,8 @@ export const useAllowedPalettes = (board: BoardDB) =>
         )
 
         const themes = new Set<TransportPalette>(['default'])
-
+        themes.add('blue-bus')
+        themes.add('green-bus')
         if (hasCountyThemes) {
             counties.forEach((county) => {
                 const theme =
@@ -43,8 +44,6 @@ export const useAllowedPalettes = (board: BoardDB) =>
                 }
             })
         } else {
-            themes.add('blue-bus')
-            themes.add('green-bus')
         }
 
         return Array.from(themes)
