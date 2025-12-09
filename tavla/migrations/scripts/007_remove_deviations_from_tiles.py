@@ -38,7 +38,6 @@ def remove_deviations_from_tiles(data: dict, log_file) -> dict:
                 continue
 
             columns = tile.get("columns")
-            print(tiles)
             if isinstance(columns, list) and "deviations" in columns:
                 old_columns = list(columns)
                 new_columns = [c for c in columns if c != "deviations"]
@@ -121,7 +120,7 @@ def update_documents(db: firestore.Client):
 
 
 def run():
-    db = init.local()
+    db = init.prod()
     print(f"Connected to project: {db.project}, host: {getattr(db, '_emulator_host', None)}")
     update_documents(db)
 
