@@ -38,8 +38,7 @@ export function FoldersAndBoardsContent({
             <Search />
             <div className="mt-8 flex flex-col">
                 <Label>Totalt antall tavler: {allBoards.length}</Label>
-                {filteredFolders?.length === 0 &&
-                filteredBoards.length === 0 ? (
+                {filteredFolders.length === 0 && filteredBoards.length === 0 ? (
                     <EmptyOverview text="Ingen resultater funnet for ditt søk." />
                 ) : (
                     <BoardTable
