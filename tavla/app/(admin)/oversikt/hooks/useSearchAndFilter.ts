@@ -12,14 +12,13 @@ import {
 } from './useSortBoardFunction'
 
 interface UseSearchAndFilterProps {
-    folders?: Folder[]
-    privateBoards?: BoardDB[]
+    folders: Folder[]
+    privateBoards: BoardDB[]
     allBoards: BoardDB[]
-    useAllBoardsForDefault?: boolean
 }
 
 interface FilteredData {
-    folders?: Folder[]
+    folders: Folder[]
     boards: BoardDB[]
     isSearching: boolean
 }
@@ -61,7 +60,6 @@ export function useSearchAndFilter({
     folders,
     privateBoards,
     allBoards,
-    useAllBoardsForDefault = false,
 }: UseSearchAndFilterProps): FilteredData {
     const searchTerm = useSearchParam('search') ?? ''
     const sortBoardFunction = useSortBoardFunction()
@@ -83,7 +81,7 @@ export function useSearchAndFilter({
                 .sort(sortBoardFunction)
 
             const matchingFolders = folders
-                ?.filter((folder) =>
+                .filter((folder) =>
                     matchesSearch(folder, searchFilters, DEFAULT_FOLDER_NAME),
                 )
                 .sort(sortFolderFunction)
@@ -95,12 +93,9 @@ export function useSearchAndFilter({
             }
         }
 
-        const boardsToShow = useAllBoardsForDefault
-            ? allBoards
-            : (privateBoards ?? [])
-        const filteredBoards = [...boardsToShow].sort(sortBoardFunction)
+        const filteredBoards = [...privateBoards].sort(sortBoardFunction)
 
-        const filteredFolders = [...(folders ?? [])].sort(sortFolderFunction)
+        const filteredFolders = [...folders].sort(sortFolderFunction)
 
         return {
             folders: filteredFolders,
@@ -115,7 +110,6 @@ export function useSearchAndFilter({
         privateBoards,
         sortBoardFunction,
         sortFolderFunction,
-        useAllBoardsForDefault,
     ])
 
     return filteredData
