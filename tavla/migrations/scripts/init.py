@@ -52,7 +52,8 @@ def local(name="ent-tavla-local") -> firestore.Client:
     os.environ["FIRESTORE_EMULATOR_HOST"] = "127.0.0.1:8080"
 
     options = {
-        "databaseURL": "http://localhost:8080"
+        "databaseURL": "http://localhost:8080",
+        "projectId": "ent-tavla-dev"  
     }
 
     app = firebase_admin.initialize_app(cred, options, name=name)
