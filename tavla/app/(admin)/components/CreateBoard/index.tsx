@@ -13,7 +13,7 @@ function CreateBoard({ folder }: { folder?: FolderDB }) {
         <>
             <PrimaryButton onClick={() => setIsOpen(true)}>
                 Opprett tavle
-                <BoardIcon aria-label="Tavle-ikon" />
+                <BoardIcon />
             </PrimaryButton>
             <Modal
                 open={isOpen}
