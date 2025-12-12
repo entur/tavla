@@ -6,10 +6,6 @@ import { Folder } from 'app/(admin)/utils/types'
 import { useMemo } from 'react'
 import { BoardDB } from 'types/db-types/boards'
 import { useSearchParam } from './useSearchParam'
-import {
-    useSortBoardFunction,
-    useSortFolderFunction,
-} from './useSortBoardFunction'
 
 interface UseSearchAndFilterProps {
     folders: Folder[]
@@ -54,7 +50,7 @@ function matchesSearch(
 }
 
 /**
- * Custom hook that handles search, filtering, and sorting logic for folders and boards.
+ * Custom hook that handles search logic for folders and boards.
  */
 export function useSearchAndFilter({
     folders,
@@ -62,8 +58,6 @@ export function useSearchAndFilter({
     allBoards,
 }: UseSearchAndFilterProps): FilteredData {
     const searchTerm = useSearchParam('search') ?? ''
-    const sortBoardFunction = useSortBoardFunction()
-    const sortFolderFunction = useSortFolderFunction()
 
     const searchFilters = useMemo(
         () => createSearchFilters(searchTerm),
@@ -74,17 +68,13 @@ export function useSearchAndFilter({
 
     const filteredData = useMemo(() => {
         if (isSearching) {
-            const matchingBoards = allBoards
-                .filter((board) =>
-                    matchesSearch(board, searchFilters, DEFAULT_BOARD_NAME),
-                )
-                .sort(sortBoardFunction)
+            const matchingBoards = allBoards.filter((board) =>
+                matchesSearch(board, searchFilters, DEFAULT_BOARD_NAME),
+            )
 
-            const matchingFolders = folders
-                .filter((folder) =>
-                    matchesSearch(folder, searchFilters, DEFAULT_FOLDER_NAME),
-                )
-                .sort(sortFolderFunction)
+            const matchingFolders = folders.filter((folder) =>
+                matchesSearch(folder, searchFilters, DEFAULT_FOLDER_NAME),
+            )
 
             return {
                 folders: matchingFolders,
@@ -93,24 +83,12 @@ export function useSearchAndFilter({
             }
         }
 
-        const filteredBoards = [...privateBoards].sort(sortBoardFunction)
-
-        const filteredFolders = [...folders].sort(sortFolderFunction)
-
         return {
-            folders: filteredFolders,
-            boards: filteredBoards,
+            folders: folders,
+            boards: privateBoards,
             isSearching: false,
         }
-    }, [
-        searchFilters,
-        isSearching,
-        allBoards,
-        folders,
-        privateBoards,
-        sortBoardFunction,
-        sortFolderFunction,
-    ])
+    }, [searchFilters, isSearching, allBoards, folders, privateBoards])
 
     return filteredData
 }
