@@ -89,7 +89,7 @@ function TileSituations({
                 </div>
                 <div className="grow self-center">
                     <p
-                        className={`ml-em-0.75 break-words text-em-sm/em-base ${cancelledDeparture ? 'text-error' : 'text-warning'}`}
+                        className={`ml-em-0.75 break-words text-em-lg/em-lg ${cancelledDeparture ? 'text-error' : 'text-warning'}`}
                     >
                         <>
                             {transportModeWithPublicCode && (
@@ -103,7 +103,7 @@ function TileSituations({
                     </p>
                 </div>
                 <div
-                    className={`ml-8 shrink-0 justify-center text-center text-em-sm/em-base font-semibold text-${textColor}`}
+                    className={`ml-8 shrink-0 justify-center text-center text-em-lg/em-lg font-semibold text-${textColor}`}
                 >
                     {currentSituationNumber !== undefined &&
                         numberOfSituations !== undefined &&
