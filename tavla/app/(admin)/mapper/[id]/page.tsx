@@ -4,7 +4,7 @@ import { Heading1, Label, Paragraph } from '@entur/typography'
 import { getBoardsForFolder } from 'app/(admin)/actions'
 import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { DeleteFolder } from 'app/(admin)/components/Delete'
-import { BoardTable } from 'app/(admin)/oversikt/components/BoardTable'
+import { BoardsInFolderContent } from 'app/(admin)/oversikt/components/BoardsInFolderContent'
 import EmptyOverview from 'app/(admin)/oversikt/components/EmptyOverview'
 import { BreadcrumbsNav } from 'app/(admin)/tavler/[id]/BreadcrumbsNav'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -99,7 +99,7 @@ async function FolderPage(props: TProps) {
                 ) : (
                     <div className="flex flex-col">
                         <Label>Antall tavler: {boardCount}</Label>
-                        <BoardTable boards={boardsInFolder} />
+                        <BoardsInFolderContent allBoards={boardsInFolder} />
                     </div>
                 )}
             </div>
