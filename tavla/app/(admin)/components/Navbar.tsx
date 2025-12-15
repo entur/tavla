@@ -14,8 +14,12 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
 
     return (
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
-            <Link href="/" aria-label="Tilbake til landingssiden ">
-                <Image src={TavlaLogoBlue} height={32} alt="" />
+            <Link href="/">
+                <Image
+                    src={TavlaLogoBlue}
+                    height={32}
+                    alt="Gå tilbake til landingssiden"
+                />
             </Link>
             <div className="flex shrink-0 flex-row items-center gap-4">
                 <div className="flex flex-row sm:gap-10">
