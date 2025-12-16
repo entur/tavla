@@ -7,11 +7,13 @@ const baseTransportPalettes = [
     { label: 'Grønn buss', value: 'green-bus' },
     { label: 'Lokal', value: 'atb' },
     { label: 'Lokal', value: 'fram' },
+    { label: 'Lokal', value: 'reis' },
 ]
 
 export const COUNTY_THEME_MAP = {
     Trøndelag: 'atb' as const,
     'Møre og Romsdal': 'fram' as const,
+    Nordland: 'reis' as const,
 } as const
 
 export type CountyThemeKey = keyof typeof COUNTY_THEME_MAP
@@ -133,6 +135,16 @@ export const PALETTE_COLOR_DESCRIPTIONS: Record<
         rail: 'rosa',
         water: 'turkis',
         air: 'mørk grå',
+    },
+    reis: {
+        bus: 'mørk blå',
+        tram: 'mørk blå',
+        rail: 'lilla',
+        metro: 'lilla',
+        water: 'lys blå',
+        air: 'sjøgrønn',
+        taxi: 'grå',
+        coach: 'grønn',
     },
 }
 
