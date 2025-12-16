@@ -84,6 +84,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                         Navn
                     </HeaderCell>
                     <HeaderCell
+                        className="text-nowrap"
                         {...getSortableHeaderProps({ name: 'lastModified' })}
                     >
                         Sist endret
