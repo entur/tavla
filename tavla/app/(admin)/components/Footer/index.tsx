@@ -25,40 +25,27 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     Postboks 1554, 0117 Oslo
                                 </address>
                             </li>
-                            <li>
+                            <li className="items-center">
                                 <Paragraph className="items-center">
                                     Organisasjonsnummer:
                                     <br aria-hidden />
                                     917 422 575
                                 </Paragraph>
                             </li>
-                            <li>
-                                <Paragraph
-                                    className="flex flex-row items-center gap-1"
-                                    margin="none"
-                                >
-                                    <EnturLink href="https://www.entur.org/kontakt-oss/">
-                                        Kontakt kundesenteret
-                                    </EnturLink>
-                                    <ExternalIcon
-                                        aria-hidden
-                                        className="!top-0"
-                                    />
-                                </Paragraph>
+                            <li className="m-0 flex flex-row items-center gap-1">
+                                <EnturLink href="https://www.entur.org/kontakt-oss/">
+                                    Kontakt kundesenteret
+                                </EnturLink>
+                                <ExternalIcon aria-hidden className="!top-0" />
                             </li>
-                            <li>
-                                <Paragraph className="flex flex-row items-center gap-1">
-                                    <EnturLink
-                                        href="mailto:tavla@entur.org"
-                                        target="_blank"
-                                    >
-                                        Kontakt Tavla
-                                    </EnturLink>
-                                    <ExternalIcon
-                                        aria-hidden
-                                        className="!top-0"
-                                    />
-                                </Paragraph>
+                            <li className="flex flex-row items-center gap-1">
+                                <EnturLink
+                                    href="mailto:tavla@entur.org"
+                                    target="_blank"
+                                >
+                                    Kontakt Tavla
+                                </EnturLink>
+                                <ExternalIcon aria-hidden className="!top-0" />
                             </li>
                         </ul>
                     </address>
