@@ -78,6 +78,11 @@ export const generateTransportPalettes = (
                     ...palette,
                     label: 'Lokal (Møre og Romsdal)',
                 }
+            } else if (palette.value === 'reis') {
+                return {
+                    ...palette,
+                    label: 'Lokal (Nordland)',
+                }
             }
             return palette
         })
