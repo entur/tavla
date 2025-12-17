@@ -37,6 +37,19 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
     }
 }
 
+function getBoardLink(bid: BoardDB['id']) {
+    const env = process.env.NEXT_PUBLIC_ENV
+    const nodeEnv = process.env.NODE_ENV
+
+    if (nodeEnv === 'development') {
+        return `http://localhost:5173/${bid}`
+    } else if (env === 'prod') {
+        return `https://vis-tavla.entur.no/${bid}`
+    } else {
+        return `https://vis-tavla.dev.entur.no/${bid}`
+    }
+}
+
 export default async function EditPage(props: TProps) {
     const params = await props.params
     const user = await getUserFromSessionCookie()
@@ -72,6 +85,8 @@ export default async function EditPage(props: TProps) {
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
+    const boardLink = getBoardLink(board.id)
+
     return (
         <div className="bg-gray-50">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
@@ -101,7 +116,7 @@ export default async function EditPage(props: TProps) {
                         className="pt-8"
                         aria-label="Forhåndsvisning av Tavla"
                     >
-                        <Preview board={board} folder={folder ?? undefined} />
+                        <Preview boardLink={boardLink} />
                     </div>
                 </div>
                 <Settings board={board} />
