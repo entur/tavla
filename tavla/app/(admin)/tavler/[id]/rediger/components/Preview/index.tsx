@@ -2,11 +2,13 @@
 
 function Preview({ boardLink }: { boardLink: string }) {
     return (
-        <iframe
-            className="h-[80vh] w-full border-0"
-            title="Tavle preview"
-            src={boardLink}
-        />
+        <div className="previewContainer md:text-2xl">
+            <iframe
+                className="h-[80vh] w-full border-0"
+                title="Tavle preview"
+                src={boardLink}
+            />
+        </div>
     )
 }
 
