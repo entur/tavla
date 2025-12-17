@@ -185,7 +185,7 @@
     --coach-color: #6b7d2e;
     --rail-color: #8a61c2;
     --water-color: #2b71b3;
-    --air-color: #308282;
+    --air-color: #707070;
     --cableway-color: #707070;
     --funicular-color: #707070;
     --metro-color: #8a61c2;
@@ -195,7 +195,7 @@
     --coach-color-transparent: rgba(107, 125, 46, 0.15);
     --rail-color-transparent: rgba(138, 97, 194, 0.15);
     --water-color-transparent: rgba(43, 113, 179, 0.15);
-    --air-color-transparent: rgba(48, 130, 130, 0.15);
+    --air-color-transparent: rgba(112, 112, 112, 0.15);
     --cableway-color-transparent: rgba(112, 112, 112, 0.15);
     --funicular-color-transparent: rgba(112, 112, 112, 0.15);
     --tram-color-transparent: rgba(0, 77, 97, 0.15);
@@ -207,7 +207,7 @@
     --coach-color: #809537;
     --rail-color: #a281ce;
     --water-color: #5ca1e3;
-    --air-color: #3ba0a0;
+    --air-color: #b3bec4;
     --cableway-color: #b3bec4;
     --funicular-color: #b3bec4;
     --metro-color: #a281ce;
@@ -217,7 +217,7 @@
     --coach-color-transparent: rgba(128, 149, 55, 0.15);
     --rail-color-transparent: rgba(162, 129, 206, 0.15);
     --water-color-transparent: rgba(92, 161, 227, 0.15);
-    --air-color-transparent: rgba(59, 160, 160, 0.15);
+    --air-color-transparent: rgba(179, 190, 196, 0.15);
     --cableway-color-transparent: rgba(179, 190, 196, 0.15);
     --funicular-color-transparent: rgba(179, 190, 196, 0.15);
     --tram-color-transparent: rgba(56, 164, 191, 0.15);
