@@ -1,5 +1,5 @@
 'use client'
-import { ExternalIcon, GithubIcon } from '@entur/icons'
+import { GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
 import { showUC_UI as showUserCentricsUI } from 'app/components/ConsentHandler'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
@@ -33,10 +33,12 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 </Paragraph>
                             </li>
                             <li className="m-0 flex flex-row items-center gap-1">
-                                <EnturLink href="https://www.entur.org/kontakt-oss/">
+                                <EnturLink
+                                    external
+                                    href="https://www.entur.org/kontakt-oss/"
+                                >
                                     Kontakt kundesenteret
                                 </EnturLink>
-                                <ExternalIcon aria-hidden className="!top-0" />
                             </li>
                             <li className="flex flex-row items-center gap-1">
                                 <EnturLink
@@ -45,7 +47,6 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 >
                                     Kontakt Tavla
                                 </EnturLink>
-                                <ExternalIcon aria-hidden className="!top-0" />
                             </li>
                         </ul>
                     </address>
@@ -71,12 +72,12 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             <li className="flex flex-row items-center gap-1">
                                 <EnturLink
                                     as={Link}
+                                    external
                                     href="https://uustatus.no/nb/erklaringer/publisert/ffb3d21b-fbb4-48ed-9043-bb2a904f3143"
                                     target="_blank"
                                 >
                                     Tilgjengelighetserklæring
                                 </EnturLink>
-                                <ExternalIcon aria-hidden />
                             </li>
                             {loggedIn && (
                                 <li className="flex flex-row items-center gap-1">
@@ -99,12 +100,12 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             </li>
                             <li className="flex flex-row items-center gap-1">
                                 <EnturLink
+                                    external
                                     href="https://github.com/entur/tavla"
                                     target="_blank"
                                 >
                                     GitHub
                                 </EnturLink>
-                                <ExternalIcon aria-hidden />
                                 <GithubIcon size={25} aria-hidden />
                             </li>
                         </ul>
