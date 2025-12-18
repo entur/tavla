@@ -287,6 +287,12 @@
     .lineThrough {
         text-decoration: line-through;
     }
+
+    /* Fix for @entur/table sortable headers - ensure icon appears next to text */
+    th button svg {
+        position: relative !important;
+        display: inline !important;
+    }
 }
 
 .firebase-emulator-warning {

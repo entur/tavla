@@ -4,7 +4,7 @@ import { Heading1, Label, Paragraph } from '@entur/typography'
 import { getBoardsForFolder } from 'app/(admin)/actions'
 import { CreateBoard } from 'app/(admin)/components/CreateBoard'
 import { DeleteFolder } from 'app/(admin)/components/Delete'
-import { BoardsInFolderContent } from 'app/(admin)/oversikt/components/BoardsInFolderContent'
+import { BoardTable } from 'app/(admin)/oversikt/components/BoardTable'
 import EmptyOverview from 'app/(admin)/oversikt/components/EmptyOverview'
 import { BreadcrumbsNav } from 'app/(admin)/tavler/[id]/BreadcrumbsNav'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -63,7 +63,6 @@ async function FolderPage(props: TProps) {
         return notFound()
     }
     const boardsInFolder = await getBoardsForFolder(folder.id)
-    const boardCount = boardsInFolder.length
 
     const owners: UserDB['uid'][] = folder.owners ?? []
 
@@ -94,12 +93,12 @@ async function FolderPage(props: TProps) {
                 alle tavlene.
             </Paragraph>
             <div className="gap-4">
-                {boardCount === 0 ? (
+                {boardsInFolder.length === 0 ? (
                     <EmptyOverview text="Her var det tomt gitt! Start med å opprette en tavle" />
                 ) : (
                     <div className="flex flex-col">
-                        <Label>Antall tavler: {boardCount}</Label>
-                        <BoardsInFolderContent allBoards={boardsInFolder} />
+                        <Label>Antall tavler: {boardsInFolder.length}</Label>
+                        <BoardTable boards={boardsInFolder} />
                     </div>
                 )}
             </div>

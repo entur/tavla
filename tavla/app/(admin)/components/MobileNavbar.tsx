@@ -31,18 +31,18 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                 onDismiss={() => setIsOpen(false)}
                 size="small"
                 closeLabel="Lukk meny"
-                className="!fixed !left-0 !top-0 !h-full !max-h-full !w-9/12 overflow-visible !rounded-none !p-0"
+                className="!fixed !left-0 !top-0 !h-full !max-h-full !w-9/12 !overflow-y-auto !rounded-none !p-0"
             >
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => {
                         setIsOpen(false)
                     }}
-                    className="absolute right-4 top-4"
+                    className="absolute right-4 top-4 z-10"
                 >
                     <CloseIcon />
                 </IconButton>
-                <SideNavigation className="!bg-primary !pt-10">
+                <SideNavigation className="!bg-primary !pb-24 !pt-10">
                     <div className="pl-10">
                         <Link href="/" aria-label="Tilbake til landingssiden">
                             <Image src={TavlaLogoBlue} height={22} alt="" />
@@ -91,12 +91,14 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                         </SideNavigationItem>
                     </div>
                 </SideNavigation>
-                <IconButton
-                    onClick={() => setIsOpen(false)}
-                    className="!absolute !bottom-[10%] !right-5 !rounded-full !bg-contrast !p-3"
-                >
-                    <LeftArrowIcon color="background" />
-                </IconButton>
+                <div className="pointer-events-none sticky bottom-[10%] flex justify-end pb-4 pr-5">
+                    <IconButton
+                        onClick={() => setIsOpen(false)}
+                        className="pointer-events-auto !rounded-full !bg-contrast !p-3"
+                    >
+                        <LeftArrowIcon color="background" />
+                    </IconButton>
+                </div>
             </Modal>
         </div>
     )
