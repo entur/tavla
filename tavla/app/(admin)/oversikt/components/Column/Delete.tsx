@@ -33,10 +33,15 @@ function Delete({
         addToast('Tavle slettet!')
     }
 
+    const ariaLabel = board?.meta?.title
+        ? `Slett tavle ${board.meta.title}`
+        : 'Slett tavle'
+
     return (
         <>
             <DeleteButton
-                text="Slett tavle"
+                tooltipText="Slett tavle"
+                ariaLabel={ariaLabel}
                 type={type}
                 onClick={() => setIsOpen(true)}
             />
@@ -100,27 +105,41 @@ function Delete({
 }
 
 function DeleteButton({
-    text,
+    tooltipText,
+    ariaLabel,
     type,
     onClick,
 }: {
-    text: string
+    tooltipText?: string
+    ariaLabel: string
     type?: 'button' | 'icon' | 'menuitem'
     onClick: () => void
 }) {
     if (type === 'button') {
         return (
-            <Button variant="secondary" aria-label={text} onClick={onClick}>
-                {text}
+            <Button
+                variant="secondary"
+                aria-label={ariaLabel}
+                onClick={onClick}
+            >
+                {tooltipText || ariaLabel}
                 <DeleteIcon aria-label="Slette-ikon" />
             </Button>
         )
     } else if (type === 'menuitem') {
-        return <OverflowMenuItem onClick={onClick}>{text}</OverflowMenuItem>
+        return (
+            <OverflowMenuItem onClick={onClick}>
+                {tooltipText || ariaLabel}
+            </OverflowMenuItem>
+        )
     }
     return (
-        <Tooltip content={text} placement="bottom" id="tooltip-delete-board">
-            <IconButton aria-label={text} onClick={onClick}>
+        <Tooltip
+            content={tooltipText || ariaLabel}
+            placement="bottom"
+            id="tooltip-delete-board"
+        >
+            <IconButton aria-label={ariaLabel} onClick={onClick}>
                 <DeleteIcon aria-label="Slette-ikon" />
             </IconButton>
         </Tooltip>
