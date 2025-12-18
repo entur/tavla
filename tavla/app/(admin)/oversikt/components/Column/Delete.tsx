@@ -40,7 +40,7 @@ function Delete({
     return (
         <>
             <DeleteButton
-                tooltipText="Slett tavle"
+                text="Slett tavle"
                 ariaLabel={ariaLabel}
                 type={type}
                 onClick={() => setIsOpen(true)}
@@ -105,12 +105,12 @@ function Delete({
 }
 
 function DeleteButton({
-    tooltipText,
+    text,
     ariaLabel,
     type,
     onClick,
 }: {
-    tooltipText?: string
+    text: string
     ariaLabel: string
     type?: 'button' | 'icon' | 'menuitem'
     onClick: () => void
@@ -122,20 +122,20 @@ function DeleteButton({
                 aria-label={ariaLabel}
                 onClick={onClick}
             >
-                {tooltipText || ariaLabel}
+                {text || ariaLabel}
                 <DeleteIcon aria-label="Slette-ikon" />
             </Button>
         )
     } else if (type === 'menuitem') {
         return (
             <OverflowMenuItem onClick={onClick}>
-                {tooltipText || ariaLabel}
+                {text || ariaLabel}
             </OverflowMenuItem>
         )
     }
     return (
         <Tooltip
-            content={tooltipText || ariaLabel}
+            content={text || ariaLabel}
             placement="bottom"
             id="tooltip-delete-board"
         >

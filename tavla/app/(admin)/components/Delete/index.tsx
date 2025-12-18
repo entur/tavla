@@ -54,7 +54,7 @@ function DeleteFolder({
                 id="tooltip-delete-folder"
             >
                 <DeleteButton
-                    tooltipText="Slett mappe"
+                    text="Slett mappe"
                     ariaLabel={ariaLabel}
                     type={type}
                     onClick={() => setIsOpen(true)}
