@@ -42,7 +42,7 @@
         "@entur/loader": "0.5.35",
         "@entur/menu": "5.2.6",
         "@entur/modal": "1.7.78",
-        "@entur/table": "4.9.20",
+        "@entur/table": "4.10.0",
         "@entur/tokens": "3.20.0",
         "@entur/tooltip": "5.2.17",
         "@entur/typography": "2.0.3",

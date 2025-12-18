@@ -1,19 +1,4 @@
 import { FolderDB } from 'types/db-types/folders'
-import { typedKeys } from 'utils/typeguards'
-
-export type TSort = 'none' | 'ascending' | 'descending'
-
-export const TableColumns = {
-    name: 'Navn',
-    lastModified: 'Sist oppdatert',
-    actions: 'Handlinger',
-} as const
-
-export const DEFAULT_BOARD_COLUMNS = typedKeys(TableColumns)
-
-export const SortableColumns = ['name', 'lastModified'] as const
-
-export type TTableColumn = keyof typeof TableColumns
 
 /**
  * Represents a folder with additional metadata.
