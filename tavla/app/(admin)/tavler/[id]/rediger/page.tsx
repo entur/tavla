@@ -9,6 +9,7 @@ import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { BoardDB, BoardTileDB } from 'types/db-types/boards'
+import { getBoardLink } from 'utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,
@@ -35,20 +36,6 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
     return {
         title: `${board.meta?.title ?? DEFAULT_BOARD_NAME} | Entur Tavla`,
     }
-}
-
-function getBoardLink(bid: BoardDB['id']) {
-    const env = process.env.NEXT_PUBLIC_ENV
-    const nodeEnv = process.env.NODE_ENV
-
-    const baseUrl =
-        nodeEnv === 'development'
-            ? `http://localhost:5173/${bid}`
-            : env === 'prod'
-              ? `https://vis-tavla.entur.no/${bid}`
-              : `https://vis-tavla.dev.entur.no/${bid}`
-
-    return `${baseUrl}?v=${Date.now()}`
 }
 
 export default async function EditPage(props: TProps) {
