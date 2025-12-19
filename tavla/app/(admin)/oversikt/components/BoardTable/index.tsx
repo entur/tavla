@@ -28,7 +28,7 @@ type BaseTableItem = {
     id: string
     name: string
     link: string
-    lastModified: string
+    lastModified?: number
 }
 
 type BoardTableItem = BaseTableItem & {
@@ -49,9 +49,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
         id: folder.id,
         name: `${folder?.name ?? DEFAULT_FOLDER_NAME} (${folder.boardCount})`,
         link: `/mapper/${folder.id}`,
-        lastModified: folder.lastUpdated
-            ? formatTimestamp(folder.lastUpdated)
-            : '-',
+        lastModified: folder.lastUpdated,
         folder: folder,
     }))
 
@@ -60,9 +58,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
         id: board.id,
         name: board.meta.title ?? DEFAULT_BOARD_NAME,
         link: `/tavler/${board.id}/rediger`,
-        lastModified: board.meta.dateModified
-            ? formatTimestamp(board.meta.dateModified)
-            : '-',
+        lastModified: board.meta.dateModified,
         board: board,
     }))
 
@@ -111,7 +107,11 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                                 {data.name}
                             </Link>
                         </DataCell>
-                        <DataCell>{data.lastModified}</DataCell>
+                        <DataCell>
+                            {data?.lastModified
+                                ? formatTimestamp(data.lastModified)
+                                : '-'}
+                        </DataCell>
                         <DataCell className="flex flex-row gap-1">
                             <TableActions data={data} />
                         </DataCell>
