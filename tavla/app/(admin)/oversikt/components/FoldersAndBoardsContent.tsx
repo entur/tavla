@@ -1,11 +1,16 @@
 'use client'
 import { Label } from '@entur/typography'
 import { Folder } from 'app/(admin)/utils/types'
+import dynamic from 'next/dynamic'
 import { BoardDB } from 'types/db-types/boards'
 import { useSearchAndFilter } from '../hooks/useSearchAndFilter'
-import { BoardTable } from './BoardTable'
 import EmptyOverview from './EmptyOverview'
 import { Search } from './Search'
+
+const BoardTable = dynamic(
+    () => import('./BoardTable').then((mod) => ({ default: mod.BoardTable })),
+    { ssr: false },
+)
 
 interface FoldersAndBoardsContentProps {
     folders: Folder[]
