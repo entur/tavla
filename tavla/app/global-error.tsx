@@ -18,7 +18,7 @@ export default function Error({
     }, [error])
 
     return (
-        <html>
+        <html lang="no">
             <body>
                 <main className="container flex flex-col items-center pb-10">
                     <Heading3>Au da! Noe gikk galt!</Heading3>
