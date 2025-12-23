@@ -4724,7 +4724,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint-plugin-jsx-a11y@npm:^6":
+"@types/eslint-plugin-jsx-a11y@npm:6":
   version: 6.10.1
   resolution: "@types/eslint-plugin-jsx-a11y@npm:6.10.1"
   dependencies:
@@ -15220,7 +15220,7 @@ __metadata:
     "@graphql-codegen/typescript": "npm:4.1.0"
     "@graphql-codegen/typescript-operations": "npm:4.3.0"
     "@sentry/nextjs": "npm:8"
-    "@types/eslint-plugin-jsx-a11y": "npm:^6"
+    "@types/eslint-plugin-jsx-a11y": "npm:6"
     "@types/jsdom": "npm:21.1.7"
     "@types/lodash": "npm:4.17.20"
     "@types/node": "npm:22.8.4"
