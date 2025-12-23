@@ -314,6 +314,18 @@ def format_counter(counter: Counter) -> str:
         lines.append("- (ingen data)")
     return "\n".join(lines)
 
+def format_palette_counter(counter: Counter) -> str:
+    """Format palette distribution, normalizing '(ikke-valgt)' and 'default' to 'standard'."""
+    normalized = Counter()
+    for key, value in counter.items():
+        norm_key = "standard" if key in ("(ikke-valgt)", "default", None) else key
+        normalized[norm_key] = normalized.get(norm_key, 0) + value
+
+    lines = []
+    for key, value in normalized.most_common():
+        lines.append(f"- {key}: {value}")
+    return "\n".join(lines)
+
 def _location_records_for_place(place_id: str, details: Dict) -> Iterable[Dict[str, Optional[str]]]:
     """Returner lokasjonsoppslag for en NSR-id."""
     raw = details.get("raw") or {}
@@ -506,10 +518,11 @@ def main(argv: Optional[Iterable[str]] = None) -> None:
         f"👥 Antall brukere i databasen: {user_count}",
         f"📁 Antall mapper i databasen: {folder_count}",
         "",
-        "🎨 Fordeling av transportpaletter (alle tavler, aktive tavler):",
-        format_counter(palette_all),
+        "🎨 Transportpalett Aktive tavler",
+        format_palette_counter(palette_active),
         "",
-        format_counter(palette_active),
+        "🎨 Transportpalett Alle tavler",
+        format_palette_counter(palette_all),
         "",
         "🗺️ Aktive tavler per fylke:",
         format_counter(county_counts),
