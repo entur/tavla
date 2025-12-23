@@ -44,6 +44,8 @@ function DeleteFolder({
         addToast('Mappe slettet!')
     }
 
+    const ariaLabel = folder.name ? `Slett mappe ${folder.name}` : 'Slett mappe'
+
     return (
         <>
             <Tooltip
@@ -53,6 +55,7 @@ function DeleteFolder({
             >
                 <DeleteButton
                     text="Slett mappe"
+                    ariaLabel={ariaLabel}
                     type={type}
                     onClick={() => setIsOpen(true)}
                 />

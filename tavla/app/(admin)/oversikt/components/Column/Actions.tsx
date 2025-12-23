@@ -11,9 +11,9 @@ function TableActions({ data }: { data: TableItem }) {
         case 'board':
             return (
                 <div className="flex flex-row gap-1">
-                    <EditBoard bid={data.board.id} />
-                    <Copy bid={data.board.id} />
-                    <Open bid={data.board.id} />
+                    <EditBoard board={data.board} />
+                    <Copy board={data.board} bid={data.board.id} />
+                    <Open board={data.board} bid={data.board.id} />
                     <Move board={data.board} />
                     <Delete board={data.board} />
                 </div>
@@ -21,7 +21,7 @@ function TableActions({ data }: { data: TableItem }) {
         case 'folder':
             return (
                 <div className="flex flex-row gap-1">
-                    <EditFolder fid={data.folder.id} />
+                    <EditFolder fid={data.folder.id} name={data.folder.name} />
                     <DeleteFolder folder={data.folder} type="icon" />
                 </div>
             )

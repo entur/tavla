@@ -5,16 +5,28 @@ import { Tooltip } from '@entur/tooltip'
 import { useLink } from 'hooks/useLink'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
+import { BoardDB } from 'types/db-types/boards'
 
-function Open({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
+function Open({
+    type,
+    bid,
+    board,
+}: {
+    type?: 'button' | 'icon'
+    bid?: string
+    board?: BoardDB
+}) {
     const link = useLink(bid)
     const posthog = usePostHog()
+    const ariaLabel = board?.meta?.title
+        ? `Åpne tavle ${board.meta.title}`
+        : 'Åpne tavle'
     if (type === 'button') {
         return (
             <Button
                 variant="primary"
                 as={Link}
-                aria-label="Åpne tavle"
+                aria-label={ariaLabel}
                 href={link ?? '/'}
                 target="_blank"
                 onClick={() => posthog.capture('OPEN_BOARD_BTN')}
@@ -33,7 +45,7 @@ function Open({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
         >
             <IconButton
                 as={Link}
-                aria-label="Åpne tavle"
+                aria-label={ariaLabel}
                 href={link ?? '/'}
                 target="_blank"
                 onClick={() => posthog.capture('OPEN_BOARD_BTN')}

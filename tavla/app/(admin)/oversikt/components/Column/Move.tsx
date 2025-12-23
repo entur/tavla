@@ -38,6 +38,10 @@ function Move({ board }: { board: BoardDB }) {
     const { folderDropdownList, selectedFolder, handleFolderChange } =
         useFolderDropdown()
 
+    const ariaLabel = board?.meta?.title
+        ? `Flytt tavle ${board.meta.title} til en annen mappe`
+        : 'Flytt til en annen mappe'
+
     return (
         <>
             <Tooltip
@@ -46,7 +50,7 @@ function Move({ board }: { board: BoardDB }) {
                 id="tooltip-move-board"
             >
                 <IconButton
-                    aria-label="Flytt til en annen mappe"
+                    aria-label={ariaLabel}
                     onClick={() => setIsOpen(true)}
                 >
                     <ForwardIcon aria-label="Pil-ikon" />

@@ -4,8 +4,17 @@ import { IconButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { useLink } from 'hooks/useLink'
+import { BoardDB } from 'types/db-types/boards'
 
-function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
+function Copy({
+    type,
+    bid,
+    board,
+}: {
+    type?: 'button' | 'icon'
+    bid?: string
+    board?: BoardDB
+}) {
     const { addToast } = useToast()
     const link = useLink(bid)
 
@@ -16,12 +25,16 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
         addToast('Lenken til tavlen ble kopiert!')
     }
 
+    const ariaLabel = board?.meta?.title
+        ? `Kopier lenken til tavle ${board.meta.title}`
+        : 'Kopier lenken til tavlen'
+
     if (type === 'button') {
         return (
             <CopyableText
                 successHeading=""
                 successMessage="Lenken til tavlen ble kopiert!"
-                aria-label="Kopier lenken til tavlen"
+                aria-label={ariaLabel}
                 onClick={copy}
             >
                 {link}
@@ -34,7 +47,7 @@ function Copy({ type, bid }: { type?: 'button' | 'icon'; bid?: string }) {
             placement="bottom"
             id="tooltip-copy-link-board"
         >
-            <IconButton aria-label="Kopier lenken til tavlen" onClick={copy}>
+            <IconButton aria-label={ariaLabel} onClick={copy}>
                 <CopyIcon />
             </IconButton>
         </Tooltip>
