@@ -3,8 +3,8 @@ import { Heading2, Heading3 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
-import { Preview } from 'app/(admin)/tavler/[id]/rediger/components/Preview'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
+import { DemoPreview } from 'app/demo/components/DemoPreview'
 import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'types/db-types/boards'
 
@@ -36,7 +36,7 @@ function DemoBoard() {
             </div>
             <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
-                <Preview board={board} />
+                <DemoPreview board={board} />
             </div>
         </>
     )
