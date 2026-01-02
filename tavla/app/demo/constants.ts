@@ -8,7 +8,11 @@ export function getTavlaVisningOrigin(hostname: string): string {
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
         return TAVLA_VISNING_ORIGINS.local
     }
-    if (hostname.includes('dev.entur.no')) {
+    if (
+        hostname === 'dev.entur.no' ||
+        hostname === 'tavla.dev.entur.no' ||
+        hostname.endsWith('.dev.entur.no')
+    ) {
         return TAVLA_VISNING_ORIGINS.development
     }
     return TAVLA_VISNING_ORIGINS.production

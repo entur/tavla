@@ -8,7 +8,7 @@ const commonConnectSrc = [
     'https://tavla-api.dev.entur.no',
 ]
 
-if (process.env.NODE_ENV == 'development') {
+if (process.env.NODE_ENV === 'development') {
     commonConnectSrc.push(
         'http://*.identitytoolkit.googleapis.com http://127.0.0.1:9099 ws://localhost:3000 http://127.0.0.1:3001',
     )
