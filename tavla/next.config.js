@@ -22,7 +22,7 @@ const cspHeaderCommon = `
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/ https://auth.tavla.dev.entur.no/ https://ent-tavla-prd.firebaseapp.com/ https://auth.tavla.entur.no/ https://www.kakadu.no/ https://vis-tavla.entur.no https://vis-tavla.dev.entur.no http://localhost:5173;
+    frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/ https://auth.tavla.dev.entur.no/ https://ent-tavla-prd.firebaseapp.com/ https://auth.tavla.entur.no/ https://www.kakadu.no/ https://vis-tavla.entur.no/ https://vis-tavla.dev.entur.no/ http://localhost:5173/;
 `
 
 const securityHeaders = `
