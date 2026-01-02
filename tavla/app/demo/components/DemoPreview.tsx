@@ -1,15 +1,11 @@
 'use client'
 
+import {
+    getTavlaVisningOrigin,
+    isValidTavlaVisningOrigin,
+} from 'app/demo/constants'
 import React, { useEffect, useRef } from 'react'
 import { BoardDB } from 'types/db-types/boards'
-
-function getTavlaVisningOrigin(hostname: string): string {
-    return hostname.includes('localhost')
-        ? 'http://localhost:5173'
-        : hostname.includes('dev.entur.no')
-          ? 'https://vis-tavla.dev.entur.no'
-          : 'https://vis-tavla.entur.no'
-}
 
 function getCurrentOrigin(): string {
     const hostname =
@@ -25,7 +21,7 @@ function sendDemoBoardMessage(
     iframe?.contentWindow?.postMessage(
         {
             type: 'DEMO_BOARD',
-            board: board,
+            board,
         },
         targetOrigin,
     )
@@ -40,37 +36,26 @@ function DemoPreview({ board }: { board: BoardDB }) {
         setIframeSrc(`${getCurrentOrigin()}/demo`)
     }, [])
 
-    // Setup message listeners and iframe load handler
+    // Setup message listener for READY_FOR_DEMO_BOARD handshake
     useEffect(() => {
         if (!iframeRef.current) return
 
         const handleMessage = (event: MessageEvent) => {
-            const isValidOrigin =
-                event.origin === 'https://vis-tavla.entur.no' ||
-                event.origin === 'https://vis-tavla.dev.entur.no' ||
-                event.origin.includes('localhost')
-
-            if (isValidOrigin && event.data?.type === 'READY_FOR_DEMO_BOARD') {
-                isIframeLoadedRef.current = true
-                sendDemoBoardMessage(iframeRef.current, board, event.origin)
+            if (
+                !isValidTavlaVisningOrigin(event.origin) ||
+                event.data?.type !== 'READY_FOR_DEMO_BOARD'
+            ) {
+                return
             }
+
+            isIframeLoadedRef.current = true
+            sendDemoBoardMessage(iframeRef.current, board, event.origin)
         }
 
         window.addEventListener('message', handleMessage)
 
-        const iframe = iframeRef.current
-        const handleLoad = () => {
-            isIframeLoadedRef.current = true
-            setTimeout(() => {
-                sendDemoBoardMessage(iframe, board, getCurrentOrigin())
-            }, 100)
-        }
-
-        iframe?.addEventListener('load', handleLoad)
-
         return () => {
             window.removeEventListener('message', handleMessage)
-            iframe?.removeEventListener('load', handleLoad)
         }
     }, [board])
 
