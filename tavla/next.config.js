@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { withSentryConfig } = require('@sentry/nextjs')
 
 const commonConnectSrc = [
@@ -8,7 +9,7 @@ const commonConnectSrc = [
     'https://tavla-api.dev.entur.no',
 ]
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV == 'development') {
     commonConnectSrc.push(
         'http://*.identitytoolkit.googleapis.com http://127.0.0.1:9099 ws://localhost:3000 http://127.0.0.1:3001',
     )
@@ -139,17 +140,20 @@ const nextConfig = {
     },
 }
 
-if (process.env.NODE_ENV === 'development') {
-    nextConfig.images.remotePatterns.push(
-        {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+module.exports = async (phase, { defaultConfig }) => {
+    if (phase === PHASE_DEVELOPMENT_SERVER) {
+        nextConfig.images.remotePatterns.push({
             protocol: 'http',
             hostname: 'localhost',
-        },
-        {
+        })
+        nextConfig.images.remotePatterns.push({
             protocol: 'http',
             hostname: '127.0.0.1',
-        },
-    )
+        })
+    }
+
+    return nextConfig
 }
 
 module.exports = withSentryConfig(nextConfig, {
