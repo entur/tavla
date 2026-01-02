@@ -85,6 +85,7 @@ export default async function EditPage(props: TProps) {
                     </div>
                 </div>
                 <div className="md:w-fit">
+                    <p>Lenke til tavla:</p>
                     <Copy bid={board.id} type="button" />
                 </div>
 
