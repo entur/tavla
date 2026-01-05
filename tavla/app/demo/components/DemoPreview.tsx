@@ -30,8 +30,8 @@ function sendDemoBoardMessage(
 function DemoPreview({ board }: { board: BoardDB }) {
     const iframeRef = useRef<HTMLIFrameElement>(null)
     const [iframeSrc, setIframeSrc] = React.useState<string>('')
-    const isIframeLoadedRef = useRef(false)
     const boardRef = useRef<BoardDB>(board)
+    const iframeOriginRef = useRef<string | null>(null)
 
     useEffect(
         function syncBoardRef() {
@@ -46,21 +46,26 @@ function DemoPreview({ board }: { board: BoardDB }) {
 
     useEffect(
         function resetIframeLoadedFlagOnSrcChange() {
-            isIframeLoadedRef.current = false
+            iframeOriginRef.current = null
         },
         [iframeSrc],
     )
 
     useEffect(function setupMessageListenerForHandshake() {
         const handleMessage = (event: MessageEvent) => {
+            const isCorrectIframe =
+                iframeRef.current?.contentWindow &&
+                event.source === iframeRef.current.contentWindow
+
             if (
+                !isCorrectIframe ||
                 !isValidTavlaVisningOrigin(event.origin) ||
                 event.data?.type !== 'READY_FOR_DEMO_BOARD'
             ) {
                 return
             }
 
-            isIframeLoadedRef.current = true
+            iframeOriginRef.current = event.origin
             sendDemoBoardMessage(
                 iframeRef.current,
                 boardRef.current,
@@ -72,14 +77,20 @@ function DemoPreview({ board }: { board: BoardDB }) {
 
         return () => {
             window.removeEventListener('message', handleMessage)
-            isIframeLoadedRef.current = false
+            iframeOriginRef.current = null
         }
     }, [])
 
     useEffect(
         function sendBoardUpdatesToIframe() {
-            if (!isIframeLoadedRef.current || !iframeRef.current) return
-            sendDemoBoardMessage(iframeRef.current, board, getCurrentOrigin())
+            if (!iframeOriginRef.current || !iframeRef.current) {
+                return
+            }
+            sendDemoBoardMessage(
+                iframeRef.current,
+                board,
+                iframeOriginRef.current,
+            )
         },
         [board],
     )
@@ -96,6 +107,8 @@ function DemoPreview({ board }: { board: BoardDB }) {
                         src={iframeSrc}
                         className="h-96 w-full border-0 md:h-[50rem]"
                         title="Demo Board Preview"
+                        sandbox="allow-scripts allow-same-origin"
+                        referrerPolicy="no-referrer"
                     />
                 )}
             </div>
