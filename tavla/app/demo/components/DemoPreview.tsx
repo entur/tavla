@@ -72,6 +72,7 @@ function DemoPreview({ board }: { board: BoardDB }) {
 
         return () => {
             window.removeEventListener('message', handleMessage)
+            isIframeLoadedRef.current = false
         }
     }, [])
 
