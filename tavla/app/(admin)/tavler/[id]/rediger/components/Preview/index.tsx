@@ -7,6 +7,8 @@ function Preview({ boardLink }: { boardLink: string }) {
                 className="h-[80vh] w-full border-0"
                 title="Tavle preview"
                 src={boardLink}
+                sandbox="allow-scripts allow-same-origin"
+                referrerPolicy="no-referrer"
             />
         </div>
     )

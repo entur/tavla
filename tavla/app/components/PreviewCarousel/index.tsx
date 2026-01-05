@@ -119,6 +119,8 @@ function PreviewCarousel() {
                             title="Tavle preview"
                             src={boardLink}
                             key={boardLink}
+                            sandbox="allow-scripts allow-same-origin"
+                            referrerPolicy="no-referrer"
                         />
                     )}
                 </div>
