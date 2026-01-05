@@ -4,9 +4,7 @@ import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
-import { Board } from 'Board/scenarios/Board'
-import { Header } from 'components/Header'
-import { InfoMessage } from 'components/InfoMessage'
+import { DemoPreview } from 'app/demo/components/DemoPreview'
 import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'types/db-types/boards'
 
@@ -38,20 +36,7 @@ function DemoBoard() {
             </div>
             <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
-                <div
-                    className="previewContainer md:text-2xl"
-                    data-theme={board?.theme ?? 'dark'}
-                >
-                    <Header
-                        theme={board.theme}
-                        hideClock={board.hideClock}
-                        hideLogo={board.hideLogo}
-                    />
-                    <div className="h-96 md:h-[50rem]">
-                        <Board board={board} />
-                    </div>
-                    <InfoMessage board={board} />
-                </div>
+                <DemoPreview board={board} />
             </div>
         </>
     )
