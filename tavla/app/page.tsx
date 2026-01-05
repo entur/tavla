@@ -8,7 +8,6 @@ import {
     UnorderedList,
 } from '@entur/typography'
 import { Metadata } from 'next'
-import { previewBoards } from '../src/Shared/utils/previewBoards'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
 import { CreateUserButton } from './components/CreateUserButton'
 import { DemoButton } from './components/DemoButtonLanding'
@@ -53,7 +52,7 @@ async function Landing() {
             </div>
 
             <div className="container mx-auto flex flex-col justify-start gap-4 overflow-hidden py-14 xl:w-[1200px]">
-                <PreviewCarousel boards={previewBoards} />
+                <PreviewCarousel />
 
                 <div className="md:px-12">
                     <Heading2>Kort om Tavla</Heading2>
