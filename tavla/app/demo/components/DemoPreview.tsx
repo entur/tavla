@@ -31,15 +31,27 @@ function DemoPreview({ board }: { board: BoardDB }) {
     const iframeRef = useRef<HTMLIFrameElement>(null)
     const [iframeSrc, setIframeSrc] = React.useState<string>('')
     const isIframeLoadedRef = useRef(false)
+    const boardRef = useRef<BoardDB>(board)
 
-    useEffect(() => {
+    useEffect(
+        function syncBoardRef() {
+            boardRef.current = board
+        },
+        [board],
+    )
+
+    useEffect(function setInitialIframeSrc() {
         setIframeSrc(`${getCurrentOrigin()}/demo`)
     }, [])
 
-    // Setup message listener for READY_FOR_DEMO_BOARD handshake
-    useEffect(() => {
-        if (!iframeRef.current) return
+    useEffect(
+        function resetIframeLoadedFlagOnSrcChange() {
+            isIframeLoadedRef.current = false
+        },
+        [iframeSrc],
+    )
 
+    useEffect(function setupMessageListenerForHandshake() {
         const handleMessage = (event: MessageEvent) => {
             if (
                 !isValidTavlaVisningOrigin(event.origin) ||
@@ -49,7 +61,11 @@ function DemoPreview({ board }: { board: BoardDB }) {
             }
 
             isIframeLoadedRef.current = true
-            sendDemoBoardMessage(iframeRef.current, board, event.origin)
+            sendDemoBoardMessage(
+                iframeRef.current,
+                boardRef.current,
+                event.origin,
+            )
         }
 
         window.addEventListener('message', handleMessage)
@@ -57,14 +73,15 @@ function DemoPreview({ board }: { board: BoardDB }) {
         return () => {
             window.removeEventListener('message', handleMessage)
         }
-    }, [board])
+    }, [])
 
-    // Send board updates when board/folder changes
-    useEffect(() => {
-        if (!isIframeLoadedRef.current || !iframeRef.current) return
-
-        sendDemoBoardMessage(iframeRef.current, board, getCurrentOrigin())
-    }, [board])
+    useEffect(
+        function sendBoardUpdatesToIframe() {
+            if (!isIframeLoadedRef.current || !iframeRef.current) return
+            sendDemoBoardMessage(iframeRef.current, board, getCurrentOrigin())
+        },
+        [board],
+    )
 
     return (
         <div
