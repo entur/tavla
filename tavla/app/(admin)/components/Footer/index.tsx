@@ -17,9 +17,9 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                 <div className="flex flex-col justify-between sm:flex-row">
                     <address className="not-italic">
                         <Heading3 as="h2">Entur AS</Heading3>
-                        <ul className="flex flex-col gap-0">
+                        <ul className="flex flex-col gap-4">
                             <li>
-                                <address className="items-center">
+                                <address className="items-center not-italic">
                                     Rådhusgata 5, 0151 Oslo
                                     <br aria-hidden />
                                     Postboks 1554, 0117 Oslo
@@ -32,7 +32,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     917 422 575
                                 </Paragraph>
                             </li>
-                            <li className="m-0 flex flex-row items-center gap-1">
+                            <li>
                                 <EnturLink
                                     external
                                     href="https://www.entur.org/kontakt-oss/"
@@ -40,7 +40,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     Kontakt kundesenteret
                                 </EnturLink>
                             </li>
-                            <li className="flex flex-row items-center gap-1">
+                            <li>
                                 <EnturLink
                                     href="mailto:tavla@entur.org"
                                     target="_blank"
