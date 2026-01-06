@@ -33,7 +33,7 @@ async function FoldersAndBoardsPage() {
     const allBoards = [...privateBoards, ...folderBoards]
 
     return (
-        <div className="container flex flex-col gap-8 pb-20">
+        <main id="main-content" className="container flex flex-col gap-8 pb-20">
             <div className="flex flex-row justify-between max-sm:flex-col">
                 <Heading1>Mine tavler</Heading1>
                 <div className="flex flex-row gap-4">
@@ -49,7 +49,7 @@ async function FoldersAndBoardsPage() {
                     allBoards={allBoards}
                 />
             </div>
-        </div>
+        </main>
     )
 }
 

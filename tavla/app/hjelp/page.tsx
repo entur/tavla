@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 function Hjelp() {
     return (
-        <main>
+        <main id="main-content">
             <div className="bg-secondary">
                 <div className="flex-start container flex flex-row justify-between gap-10 pb-4 pt-12 lg:w-3/4 xl:w-1/2">
                     <div className="align-center">

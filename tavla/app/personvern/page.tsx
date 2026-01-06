@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 function Personvern() {
     return (
         <>
-            <main className="container pb-10">
+            <main id="main-content" className="container pb-10">
                 <div className="mb-8 flex flex-col justify-center">
                     <Heading1>Personvern</Heading1>
 
