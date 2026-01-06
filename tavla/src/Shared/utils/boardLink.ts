@@ -1,14 +1,14 @@
 import { BoardDB } from 'types/db-types/boards'
 
 export function getBoardLink(bid: BoardDB['id']) {
-    const nodeEnv = process.env.NODE_ENV
+    const isLocalDevelopment = process.env.NODE_ENV === 'development'
+    const isProductionEnvironment = process.env.COMMON_ENV === 'prd'
 
-    const baseUrl =
-        nodeEnv === 'development'
-            ? `http://localhost:5173/${bid}`
-            : nodeEnv === 'production'
-              ? `https://vis-tavla.entur.no/${bid}`
-              : `https://vis-tavla.dev.entur.no/${bid}`
+    const baseUrl = isLocalDevelopment
+        ? `http://localhost:5173/${bid}`
+        : isProductionEnvironment
+          ? `https://vis-tavla.entur.no/${bid}`
+          : `https://vis-tavla.dev.entur.no/${bid}`
 
     return `${baseUrl}?v=${Date.now()}`
 }
