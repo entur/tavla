@@ -9,7 +9,10 @@ async function Demo() {
     const loggedIn = (await getUserFromSessionCookie()) !== null
 
     return (
-        <main className="container flex flex-col gap-6 pb-20 pt-8">
+        <main
+            id="main-content"
+            className="container flex flex-col gap-6 pb-20 pt-8"
+        >
             <div className="flex h-full items-center justify-between align-middle">
                 <Heading1 className="!mb-0">Test ut Tavla</Heading1>
                 {!loggedIn ? (

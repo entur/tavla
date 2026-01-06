@@ -1,3 +1,4 @@
+import { SkipToContent } from '@entur/a11y'
 import { Metadata } from 'next'
 import Script from 'next/script'
 import { ReactNode, Suspense } from 'react'
@@ -60,6 +61,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
             <PHProvider>
                 <body className="min-h-screen">
                     <EnturToastProvider>
+                        <SkipToContent>Gå til hovedinnhold</SkipToContent>
                         <Navbar loggedIn={loggedIn} />
                         <Suspense>
                             <PostHogPageView />

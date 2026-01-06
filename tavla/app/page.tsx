@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 async function Landing() {
     const loggedIn = (await getUserFromSessionCookie()) !== null
     return (
-        <main>
+        <main id="main-content">
             <div className="bg-secondary">
                 <div className="container flex flex-col justify-center gap-10 py-12 lg:flex-row">
                     <div className="flex flex-col lg:w-3/4 xl:w-1/2">

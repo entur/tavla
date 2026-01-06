@@ -69,7 +69,7 @@ async function FolderPage(props: TProps) {
     const members: AuthenticatedUser[] = await getAuthenticatedUsers(owners)
 
     return (
-        <div className="container flex flex-col gap-4 pb-20">
+        <main id="main-content" className="container flex flex-col gap-4 pb-20">
             <BreadcrumbsNav folder={folder} />
             <div className="flex flex-col justify-between lg:flex-row">
                 <Heading1 className="flex flex-row items-center gap-4">
@@ -102,7 +102,7 @@ async function FolderPage(props: TProps) {
                     </div>
                 )}
             </div>
-        </div>
+        </main>
     )
 }
 
