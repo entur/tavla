@@ -7,10 +7,7 @@ import Link from 'next/link'
 function Custom404() {
     return (
         <main className="container flex flex-col items-center pb-10">
-            <Heading3>
-                Ai ai ai, denne tavla finnes ikke! Prøv å laste inn siden på
-                nytt eller gå tilbake til forsiden.
-            </Heading3>
+            <Heading3>Ups, denne siden finnes ikke!</Heading3>
             <Image
                 src={BeaverIllustration}
                 className="w-1/2 lg:w-1/4"
@@ -18,7 +15,7 @@ function Custom404() {
             />
 
             <Button as={Link} href="/" variant="primary">
-                Tilbake til forsiden
+                Gå tilbake til forsiden
             </Button>
         </main>
     )
