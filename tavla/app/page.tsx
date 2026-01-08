@@ -8,6 +8,8 @@ import {
     UnorderedList,
 } from '@entur/typography'
 import { Metadata } from 'next'
+import { BoardDB } from 'types/db-types/boards'
+import { getBoardLinkForIframe } from 'utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
 import { CreateUserButton } from './components/CreateUserButton'
 import { DemoButton } from './components/DemoButtonLanding'
@@ -20,8 +22,40 @@ export const metadata: Metadata = {
     title: 'Forside | Entur Tavla',
 }
 
+export type PreviewBoard = {
+    id: string
+    altText: string
+    theme: BoardDB['theme']
+}
+
+export const PREVIEW_BOARDS: PreviewBoard[] = [
+    {
+        id: 'preview-1',
+        altText:
+            'Eksempel på avgangstavle for Lysaker stasjon, med avganger for tog og buss.',
+        theme: 'dark',
+    },
+    {
+        id: 'preview-2',
+        altText:
+            'Eksempel på avgangstavle for Horten ferjekai, med avganger for ferje.',
+        theme: 'light',
+    },
+    {
+        id: 'preview-3',
+        altText: 'Eksempel på avgangstavle for Alta sentrum og Alta lufthavn.',
+        theme: 'dark',
+    },
+]
+
 async function Landing() {
     const loggedIn = (await getUserFromSessionCookie()) !== null
+
+    const previewBoardsWithLinks = PREVIEW_BOARDS.map((board) => ({
+        ...board,
+        link: getBoardLinkForIframe(board.id),
+    }))
+
     return (
         <main id="main-content">
             <div className="bg-secondary">
@@ -52,7 +86,7 @@ async function Landing() {
             </div>
 
             <div className="container mx-auto flex flex-col justify-start gap-4 overflow-hidden py-14 xl:w-[1200px]">
-                <PreviewCarousel />
+                <PreviewCarousel previewBoards={previewBoardsWithLinks} />
 
                 <div className="md:px-12">
                     <Heading2>Kort om Tavla</Heading2>
