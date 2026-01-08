@@ -1,6 +1,6 @@
 import { BoardDB } from 'types/db-types/boards'
 
-export function getBoardLink(bid: BoardDB['id']) {
+export function getBoardLinkForIframe(bid: BoardDB['id']) {
     const isLocalDevelopment = process.env.NODE_ENV === 'development'
     const isProductionEnvironment = process.env.COMMON_ENV === 'prd'
 

@@ -2,35 +2,9 @@
 
 import { IconButton } from '@entur/button'
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
+import { PreviewBoard } from 'app/page'
 import { usePostHog } from 'posthog-js/react'
-import { useEffect, useState } from 'react'
-import { BoardDB } from 'types/db-types/boards'
-import { getBoardLink } from 'utils/boardLink'
-
-type PreviewBoard = {
-    id: string
-    altText: string
-    theme: BoardDB['theme']
-}
-export const PREVIEW_BOARDS: PreviewBoard[] = [
-    {
-        id: 'preview-1',
-        altText:
-            'Eksempel på avgangstavle for Lysaker stasjon, med avganger for tog og buss.',
-        theme: 'dark',
-    },
-    {
-        id: 'preview-2',
-        altText:
-            'Eksempel på avgangstavle for Horten ferjekai, med avganger for ferje.',
-        theme: 'light',
-    },
-    {
-        id: 'preview-3',
-        altText: 'Eksempel på avgangstavle for Alta sentrum og Alta lufthavn.',
-        theme: 'dark',
-    },
-]
+import { useState } from 'react'
 
 const CarouselIndicators = ({
     previewBoards,
@@ -64,25 +38,24 @@ const CarouselIndicators = ({
     )
 }
 
-function PreviewCarousel() {
+function PreviewCarousel({
+    previewBoards,
+}: {
+    previewBoards: (PreviewBoard & { link: string })[]
+}) {
     const [boardIndex, setBoardIndex] = useState(0)
-    const [isMounted, setIsMounted] = useState(false)
     const posthog = usePostHog()
-
-    useEffect(() => {
-        setIsMounted(true)
-    }, [])
 
     const nextSlide = () => {
         posthog.capture('CAROUSEL_ARROW_BTN')
         setBoardIndex((prevIndex) =>
-            prevIndex === PREVIEW_BOARDS.length - 1 ? 0 : prevIndex + 1,
+            prevIndex === previewBoards.length - 1 ? 0 : prevIndex + 1,
         )
     }
     const prevSlide = () => {
         posthog.capture('CAROUSEL_ARROW_BTN')
         setBoardIndex((prevIndex) =>
-            prevIndex === 0 ? PREVIEW_BOARDS.length - 1 : prevIndex - 1,
+            prevIndex === 0 ? previewBoards.length - 1 : prevIndex - 1,
         )
     }
 
@@ -91,11 +64,9 @@ function PreviewCarousel() {
         setBoardIndex(index)
     }
 
-    const currentBoard = PREVIEW_BOARDS[boardIndex] ?? undefined
+    const currentBoard = previewBoards[boardIndex] ?? undefined
 
     if (!currentBoard) return null
-
-    const boardLink = isMounted ? getBoardLink(currentBoard.id) : undefined
 
     return (
         <div className="flex w-full flex-col">
@@ -113,16 +84,14 @@ function PreviewCarousel() {
                     aria-label={currentBoard.altText}
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
-                    {boardLink && (
-                        <iframe
-                            className="h-full w-full"
-                            title="Tavle preview"
-                            src={boardLink}
-                            key={boardLink}
-                            sandbox="allow-scripts allow-same-origin"
-                            referrerPolicy="no-referrer"
-                        />
-                    )}
+                    <iframe
+                        className="h-full w-full"
+                        title="Tavle preview"
+                        src={currentBoard.link}
+                        key={currentBoard.link}
+                        sandbox="allow-scripts allow-same-origin"
+                        referrerPolicy="no-referrer"
+                    />
                 </div>
                 <div className="my-auto mr-2 hidden md:block">
                     <IconButton
@@ -135,7 +104,7 @@ function PreviewCarousel() {
             </div>
 
             <CarouselIndicators
-                previewBoards={PREVIEW_BOARDS}
+                previewBoards={previewBoards}
                 activeIndex={boardIndex}
                 onClick={goToSlide}
             />
