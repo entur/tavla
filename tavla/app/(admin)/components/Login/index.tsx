@@ -1,6 +1,6 @@
 'use client'
-import { IconButton, SecondarySquareButton } from '@entur/button'
-import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
+import { IconButton } from '@entur/button'
+import { CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import Link from 'next/link'
@@ -15,7 +15,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
     const pathname = usePathname()
 
-    const { open, hasPage, pageParam } = usePageParam('login')
+    const { open, pageParam } = usePageParam('login')
 
     if (loggedIn)
         return (
@@ -55,14 +55,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 >
                     <CloseIcon />
                 </IconButton>
-                {hasPage && (
-                    <SecondarySquareButton
-                        onClick={() => router.back()}
-                        aria-label="Tilbake til logg inn"
-                    >
-                        <BackArrowIcon />
-                    </SecondarySquareButton>
-                )}
+
                 <Page page={pageParam as TLoginPage} />
             </Modal>
         </>
