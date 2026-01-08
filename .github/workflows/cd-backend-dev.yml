@@ -1,4 +1,4 @@
-name: cd/backend
+name: cd/backend-dev
 
 on:
   workflow_dispatch:
@@ -25,12 +25,3 @@ jobs:
       image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}
       release_name: backend
 
-
-  helm-deploy-prd:
-    needs: [docker-push]
-    uses: entur/gha-helm/.github/workflows/deploy.yml@v1
-    with:
-      environment: prd
-      chart: backend/helm/backend
-      image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}
-      release_name: backend
