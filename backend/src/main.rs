@@ -2,11 +2,10 @@ use std::time::Duration;
 
 use axum::{
     body::Body,
-    extract::{ Path, State },
-    http::{ HeaderValue, Method, Response, StatusCode },
-    routing::{ get, post },
-    Json,
-    Router,
+    extract::{Path, State},
+    http::{HeaderValue, Method, Response, StatusCode},
+    routing::{get, post},
+    Json, Router,
 };
 
 // Timing constants
@@ -15,26 +14,26 @@ const SUBSCRIBE_TIMEOUT_SECS: u64 = 90; // 1.5 minutes - max wait time for subsc
 const HEARTBEAT_TTL_SECS: u64 = 86400; // 24 hours - how long heartbeats are stored in Redis
 
 use axum_auth::AuthBearer;
-use prometheus::{ Encoder, Gauge, Registry, TextEncoder };
-use serde_json::{ json, to_string, Value };
-use tokio::{ net::TcpListener, time };
+use prometheus::{Encoder, Gauge, Registry, TextEncoder};
+use serde_json::{json, to_string, Value};
+use tokio::{net::TcpListener, time};
 
-use redis::{ AsyncCommands, ConnectionLike };
+use redis::{AsyncCommands, ConnectionLike};
 
 use tokio_stream::StreamExt;
-use tokio_util::{ sync::CancellationToken, task::TaskTracker };
+use tokio_util::{sync::CancellationToken, task::TaskTracker};
 
 mod types;
 
 mod utils;
 use tower_http::cors::CorsLayer;
-use types::{ AppError, AppState, BoardAction, Message };
-use utils::{ graceful_shutdown, setup_redis };
+use types::{AppError, AppState, BoardAction, Message};
+use utils::{graceful_shutdown, setup_redis};
 use uuid::Uuid;
 
 use crate::types::Guard;
 
-use serde::{ Deserialize, Serialize };
+use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
 #[derive(Clone)]
@@ -64,6 +63,7 @@ pub struct ActiveInfo {
 #[tokio::main]
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
+
     let port = std::env::var("PORT").unwrap_or("3000".to_string());
     let key = std::env::var("BACKEND_API_KEY").expect("Expected to find api key");
 
@@ -71,19 +71,22 @@ async fn main() {
     let registry = Registry::new();
     let active_boards_gauge = Gauge::new(
         "tavla_active_sessions_current",
-        "Number of currently active tavla sessions/tabs with heartbeats"
-    ).expect("Failed to create active_sessions metric");
+        "Number of currently active tavla sessions/tabs with heartbeats",
+    )
+    .expect("Failed to create active_sessions metric");
 
-    registry.register(Box::new(active_boards_gauge.clone())).expect("Failed to register metrics");
+    registry
+        .register(Box::new(active_boards_gauge.clone()))
+        .expect("Failed to register metrics");
 
     let metrics = Arc::new(Metrics {
         registry,
         active_boards: active_boards_gauge,
     });
 
-    let listener = TcpListener::bind(format!("{}:{}", host, port)).await.expect(
-        "Failed to bind to address"
-    );
+    let listener = TcpListener::bind(format!("{}:{}", host, port))
+        .await
+        .expect("Failed to bind to address");
 
     let (master, replicas) = setup_redis().await;
 
@@ -100,7 +103,11 @@ async fn main() {
 
             // Update active boards count
             if let Ok(mut connection) = redis_for_metrics.get_multiplexed_async_connection().await {
-                match redis::cmd("KEYS").arg("heartbeat:*").query_async(&mut connection).await {
+                match redis::cmd("KEYS")
+                    .arg("heartbeat:*")
+                    .query_async(&mut connection)
+                    .await
+                {
                     Ok(keys) => {
                         let keys: Vec<String> = keys;
                         metrics_updater.active_boards.set(keys.len() as f64);
@@ -130,7 +137,9 @@ async fn main() {
             "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
             "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
             "https://vis-tavla.entur.no".parse::<HeaderValue>().unwrap(),
-            "https://vis-tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
+            "https://vis-tavla.dev.entur.no"
+                .parse::<HeaderValue>()
+                .unwrap(),
         ]);
 
     let app = Router::new()
@@ -149,13 +158,14 @@ async fn main() {
         .layer(cors);
 
     axum::serve(listener, app)
-        .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker)).await
+        .with_graceful_shutdown(graceful_shutdown(runtime_status, task_tracker))
+        .await
         .expect("Failed to start server")
 }
 
 async fn reset_active(
     AuthBearer(token): AuthBearer,
-    State(mut state): State<AppState>
+    State(mut state): State<AppState>,
 ) -> Result<StatusCode, AppError> {
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
@@ -189,20 +199,22 @@ pub struct HeartbeatResponse {
 
 async fn active_boards_heartbeat(
     AuthBearer(token): AuthBearer,
-    State(state): State<AppState>
+    State(state): State<AppState>,
 ) -> Result<Json<HeartbeatResponse>, StatusCode> {
     if token != state.key {
         return Err(StatusCode::UNAUTHORIZED);
     }
 
-    let mut connection = state.replicas
-        .get_multiplexed_async_connection().await
+    let mut connection = state
+        .replicas
+        .get_multiplexed_async_connection()
+        .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
-    let keys: Vec<String> = redis
-        ::cmd("KEYS")
+    let keys: Vec<String> = redis::cmd("KEYS")
         .arg("heartbeat:*")
-        .query_async(&mut connection).await
+        .query_async(&mut connection)
+        .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
     let mut clients = Vec::new();
@@ -215,12 +227,10 @@ async fn active_boards_heartbeat(
         }
     }
 
-    Ok(
-        Json(HeartbeatResponse {
-            count: clients.len(),
-            clients,
-        })
-    )
+    Ok(Json(HeartbeatResponse {
+        count: clients.len(),
+        clients,
+    }))
 }
 
 async fn check_health(State(mut state): State<AppState>) -> Result<StatusCode, AppError> {
@@ -233,7 +243,7 @@ async fn check_health(State(mut state): State<AppState>) -> Result<StatusCode, A
 
 async fn active_board_ids(
     AuthBearer(token): AuthBearer,
-    State(state): State<AppState>
+    State(state): State<AppState>,
 ) -> Result<Response<Body>, AppError> {
     if token != state.key {
         return Response::builder()
@@ -244,10 +254,10 @@ async fn active_board_ids(
 
     let mut connection = state.replicas.get_multiplexed_async_connection().await?;
 
-    let channels: Vec<String> = redis
-        ::cmd("PUBSUB")
+    let channels: Vec<String> = redis::cmd("PUBSUB")
         .arg("CHANNELS")
-        .query_async(&mut connection).await?;
+        .query_async(&mut connection)
+        .await?;
 
     let filtered_channels: Vec<String> = channels
         .into_iter()
@@ -256,8 +266,7 @@ async fn active_board_ids(
 
     let count = filtered_channels.len();
 
-    let response =
-        json!(
+    let response = json!(
         {
             "channels": filtered_channels,
             "count": count
@@ -270,7 +279,7 @@ async fn active_board_ids(
 
 async fn active_boards(
     AuthBearer(token): AuthBearer,
-    State(mut state): State<AppState>
+    State(mut state): State<AppState>,
 ) -> Result<Response<Body>, AppError> {
     if token != state.key {
         return Response::builder()
@@ -286,18 +295,21 @@ async fn trigger(
     Path(bid): Path<String>,
     AuthBearer(token): AuthBearer,
     State(mut state): State<AppState>,
-    Json(payload): Json<Value>
+    Json(payload): Json<Value>,
 ) -> Result<StatusCode, AppError> {
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
     }
-    let _: () = state.master.publish(bid, BoardAction::Refresh { payload }).await?;
+    let _: () = state
+        .master
+        .publish(bid, BoardAction::Refresh { payload })
+        .await?;
     Ok(StatusCode::OK)
 }
 
 async fn update(
     AuthBearer(token): AuthBearer,
-    State(mut state): State<AppState>
+    State(mut state): State<AppState>,
 ) -> Result<StatusCode, AppError> {
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
@@ -309,18 +321,21 @@ async fn update(
 async fn update_board(
     AuthBearer(token): AuthBearer,
     State(mut state): State<AppState>,
-    Path(bid): Path<String>
+    Path(bid): Path<String>,
 ) -> Result<StatusCode, AppError> {
     if token != state.key {
         return Ok(StatusCode::UNAUTHORIZED);
     }
-    let _: () = state.master.publish(bid, to_string(&BoardAction::Update)?).await?;
+    let _: () = state
+        .master
+        .publish(bid, to_string(&BoardAction::Update)?)
+        .await?;
     Ok(StatusCode::OK)
 }
 
 async fn subscribe(
     Path(bid): Path<String>,
-    State(state): State<AppState>
+    State(state): State<AppState>,
 ) -> Result<Message, AppError> {
     let mut pubsub = state.replicas.get_async_pubsub().await?;
     pubsub.subscribe(bid).await?;
@@ -329,8 +344,7 @@ async fn subscribe(
     let _guard = Guard::new(state.master.clone());
 
     let mut msg_stream = pubsub.on_message();
-    let res =
-        tokio::select! {
+    let res = tokio::select! {
             Some(msg) = msg_stream.next() => {
                 let channel = msg.get_channel_name();
                 if channel == "update" {
@@ -363,7 +377,7 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
             browser: payload.browser,
             screen_width: payload.screen_width,
             screen_height: payload.screen_height,
-        })
+        }),
     )?;
 
     let mut connection = state.master.clone();
