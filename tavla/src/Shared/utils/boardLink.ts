@@ -6,7 +6,7 @@ export function getBoardLinkForIframe(bid: BoardDB['id']) {
 
     const baseUrl = isLocalDevelopment
         ? `http://localhost:5173/${bid}`
-        : isProductionEnvironment || process.env.COMMON_ENV === undefined
+        : isProductionEnvironment
           ? `https://vis-tavla.entur.no/${bid}`
           : `https://vis-tavla.dev.entur.no/${bid}`
 
