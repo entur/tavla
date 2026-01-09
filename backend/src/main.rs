@@ -136,6 +136,7 @@ async fn main() {
             "http://localhost:3000".parse::<HeaderValue>().unwrap(),
             "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
             "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
+            "http://localhost:5173".parse::<HeaderValue>().unwrap(),
             "https://vis-tavla.entur.no".parse::<HeaderValue>().unwrap(),
             "https://vis-tavla.dev.entur.no"
                 .parse::<HeaderValue>()
