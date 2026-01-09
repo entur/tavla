@@ -16,11 +16,10 @@ function TransportIcon({
     const Component = getTransportIcon(mode, transportSubmode)
     const altText =
         mode === 'unknown'
-            ? 'Unknown transport mode'
+            ? 'Ukjent transportmiddel'
             : `${transportModeNames(mode)}`
     return (
         <Component
-            aria-hidden="true"
             className={className ?? `h-full w-full text-${mode}`}
             aria-label={altText}
         />
