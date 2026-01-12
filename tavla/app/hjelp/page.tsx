@@ -62,12 +62,13 @@ function Hjelp() {
                 <div>
                     <Heading2>GitHub</Heading2>
                     <Paragraph>
-                        Tavla sin kildekode er tilgjengelig for alle på{' '}
+                        Tavla sin kildekode er tilgjengelig for alle,{' '}
                         <EnturLink
                             href="https://github.com/entur/tavla"
                             external
+                            target="_blank"
                         >
-                            GitHub
+                            sjekk ut koden på GitHub
                         </EnturLink>
                         . Dette gjør at du kan følge utviklingen av produktet
                         direkte og foreslå forbedringer selv.

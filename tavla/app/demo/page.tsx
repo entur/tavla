@@ -2,8 +2,13 @@ import { Heading1, LeadParagraph } from '@entur/typography'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import { NavigateToOversiktButton } from 'app/components/NavigateToOversiktButton'
+import { Metadata } from 'next'
 import { DemoBoard } from './components/DemoBoard'
 import { ExpandableInformation } from './components/ExpandableInformation'
+
+export const metadata: Metadata = {
+    title: 'Test ut Tavla | Entur Tavla',
+}
 
 async function Demo() {
     const loggedIn = (await getUserFromSessionCookie()) !== null

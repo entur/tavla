@@ -180,7 +180,10 @@ function TileCard({
                             <Heading3 margin="none">
                                 {tile.displayName ?? tile.name}
                             </Heading3>
-                            <div className="hidden h-8 flex-row gap-4 sm:flex">
+                            <div
+                                className="hidden h-8 flex-row gap-4 sm:flex"
+                                aria-label="Transportmidler fra dette stoppestedet: "
+                            >
                                 {uniqTransportModeIcons}
                             </div>
                         </div>
