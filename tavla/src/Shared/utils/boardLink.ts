@@ -10,5 +10,10 @@ export function getBoardLinkForIframe(bid: BoardDB['id']) {
           ? `https://vis-tavla.entur.no/${bid}`
           : `https://vis-tavla.dev.entur.no/${bid}`
 
-    return `${baseUrl}?v=${Date.now()}`
+    const queryParams = new URLSearchParams({
+        v: Date.now().toString(),
+        isPreview: 'true',
+    })
+
+    return `${baseUrl}?${queryParams.toString()}`
 }
