@@ -1,17 +1,9 @@
 'use client'
 
-import {
-    getTavlaVisningOrigin,
-    isValidTavlaVisningOrigin,
-} from 'app/demo/constants'
+import { isValidTavlaVisningOrigin } from 'app/demo/constants'
 import React, { useEffect, useRef } from 'react'
 import { BoardDB } from 'types/db-types/boards'
-
-function getCurrentOrigin(): string {
-    const hostname =
-        typeof window !== 'undefined' ? window.location.hostname : ''
-    return getTavlaVisningOrigin(hostname)
-}
+import { getBoardLinkForIframe } from 'utils/boardLink'
 
 function sendDemoBoardMessage(
     iframe: HTMLIFrameElement | null,
@@ -40,9 +32,12 @@ function DemoPreview({ board }: { board: BoardDB }) {
         [board],
     )
 
-    useEffect(function setInitialIframeSrc() {
-        setIframeSrc(`${getCurrentOrigin()}/demo`)
-    }, [])
+    useEffect(
+        function setInitialIframeSrc() {
+            setIframeSrc(getBoardLinkForIframe(board.id))
+        },
+        [board.id],
+    )
 
     useEffect(
         function resetIframeLoadedFlagOnSrcChange() {
