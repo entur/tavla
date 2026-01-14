@@ -2,10 +2,10 @@
 import { Button, IconButton } from '@entur/button'
 import { ExternalIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { useLink } from 'hooks/useLink'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'types/db-types/boards'
+import { getBoardLink } from 'utils/boardLink'
 
 type Props = {
     type?: 'button' | 'icon'
@@ -15,8 +15,12 @@ type Props = {
 }
 
 function Open({ type, bid, board, trackingEvent }: Props) {
-    const link = useLink(bid)
     const posthog = usePostHog()
+
+    if (!bid) {
+        return null
+    }
+    const link = getBoardLink(bid)
 
     const ariaLabel = board?.meta?.title
         ? `Åpne tavle ${board.meta.title}`
