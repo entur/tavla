@@ -103,7 +103,7 @@
     },
     "packageManager": "yarn@4.10.3",
     "engines": {
-        "node": "18"
+        "node": "20.20.0"
     },
     "resolutions": {
         "ip": ">=2.0.1",
