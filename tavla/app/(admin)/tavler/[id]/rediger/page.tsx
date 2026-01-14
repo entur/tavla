@@ -9,7 +9,7 @@ import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { BoardDB, BoardTileDB } from 'types/db-types/boards'
-import { getBoardLinkForIframe } from 'utils/boardLink'
+import { getBoardLink } from 'utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,
@@ -73,7 +73,7 @@ export default async function EditPage(props: TProps) {
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
-    const boardLink = getBoardLinkForIframe(board.id)
+    const boardLink = getBoardLink(board.id)
 
     return (
         <main id="main-content" className="bg-gray-50">

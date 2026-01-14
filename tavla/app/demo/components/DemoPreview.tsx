@@ -3,7 +3,7 @@
 import { isValidTavlaVisningOrigin } from 'app/demo/constants'
 import React, { useEffect, useRef } from 'react'
 import { BoardDB } from 'types/db-types/boards'
-import { getBoardLinkForIframe } from 'utils/boardLink'
+import { getBoardLink } from 'utils/boardLink'
 
 function sendDemoBoardMessage(
     iframe: HTMLIFrameElement | null,
@@ -34,7 +34,7 @@ function DemoPreview({ board }: { board: BoardDB }) {
 
     useEffect(
         function setInitialIframeSrc() {
-            setIframeSrc(getBoardLinkForIframe(board.id))
+            setIframeSrc(getBoardLink(board.id))
         },
         [board.id],
     )
