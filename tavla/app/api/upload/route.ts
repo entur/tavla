@@ -100,7 +100,11 @@ export async function POST(request: NextRequest) {
     const bucket = getStorage().bucket((await getConfig()).bucket)
 
     const file = bucket.file(`logo/${folderid}-${nanoid()}`)
-    await file.save(processedFile)
+    await file.save(processedFile, {
+        metadata: {
+            contentType: logo.type,
+        },
+    })
 
     const logoUrl = await getDownloadURL(file)
 
