@@ -42,7 +42,7 @@ export function showUC_UI_second() {
 const basePostHogOptions: Partial<PostHogConfig> = {
     api_host: 'https://eu.i.posthog.com',
     capture_pageview: false,
-    autocapture: false,
+    autocapture: true,
     opt_out_capturing_by_default: true,
     // debug: true, // Used to test if PostHog turns on only with consent
 }
