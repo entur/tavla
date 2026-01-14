@@ -5,7 +5,7 @@ function Preview({ boardLink }: { boardLink: string }) {
         <div className="previewContainer md:text-2xl">
             <iframe
                 className="h-[80vh] w-full border-0"
-                title="Tavle preview"
+                title="Forhåndsvisning av tavle"
                 src={boardLink}
                 sandbox="allow-scripts allow-same-origin"
                 referrerPolicy="no-referrer"
