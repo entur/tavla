@@ -1,7 +1,7 @@
 import { BoardDB } from 'types/db-types/boards'
 
-export function getBoardLink(bid: BoardDB['id']) {
-    const host = window.location.host
+export function getBoardLinkClient(bid: BoardDB['id']) {
+    const host = window?.location?.host
     if (!host) {
         return `https://vis-tavla.entur.no/${bid}`
     }
@@ -14,4 +14,25 @@ export function getBoardLink(bid: BoardDB['id']) {
         default:
             return `https://vis-tavla.entur.no/${bid}`
     }
+}
+
+export function getBoardLinkServer(bid: BoardDB['id'], isPreview = false) {
+    const isLocalDevelopment = process.env.NODE_ENV === 'development'
+    const isDevEnvironment = process.env.COMMON_ENV === 'dev'
+
+    const baseUrl = isLocalDevelopment
+        ? `http://localhost:5173/${bid}`
+        : isDevEnvironment
+          ? `https://vis-tavla.dev.entur.no/${bid}`
+          : `https://vis-tavla.entur.no/${bid}`
+
+    const queryParams = new URLSearchParams({
+        v: Date.now().toString(),
+        isPreview: 'true',
+    })
+
+    if (isPreview) {
+        return `${baseUrl}?${queryParams.toString()}`
+    }
+    return baseUrl
 }

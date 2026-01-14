@@ -5,7 +5,7 @@ import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'types/db-types/boards'
-import { getBoardLink } from 'utils/boardLink'
+import { getBoardLinkClient } from 'utils/boardLink'
 
 type Props = {
     type?: 'button' | 'icon'
@@ -20,7 +20,7 @@ function Open({ type, bid, board, trackingEvent }: Props) {
     if (!bid) {
         return null
     }
-    const link = getBoardLink(bid)
+    const link = getBoardLinkClient(bid)
 
     const ariaLabel = board?.meta?.title
         ? `Åpne tavle ${board.meta.title}`

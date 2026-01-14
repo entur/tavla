@@ -9,7 +9,7 @@ import {
 } from '@entur/typography'
 import { Metadata } from 'next'
 import { BoardDB } from 'types/db-types/boards'
-import { getBoardLink } from 'utils/boardLink'
+import { getBoardLinkServer } from 'utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
 import { CreateUserButton } from './components/CreateUserButton'
 import { DemoButton } from './components/DemoButtonLanding'
@@ -53,7 +53,7 @@ async function Landing() {
 
     const previewBoardsWithLinks = PREVIEW_BOARDS.map((board) => ({
         ...board,
-        link: getBoardLink(board.id),
+        link: getBoardLinkServer(board.id, true),
     }))
 
     return (

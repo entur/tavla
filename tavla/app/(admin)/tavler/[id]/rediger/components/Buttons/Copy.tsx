@@ -5,7 +5,7 @@ import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'types/db-types/boards'
-import { getBoardLink } from 'utils/boardLink'
+import { getBoardLinkClient } from 'utils/boardLink'
 
 type Props = {
     type?: 'button' | 'icon'
@@ -20,7 +20,7 @@ function Copy({ type, bid, board, trackingEvent }: Props) {
 
     if (!bid) return null
 
-    const boardLink = getBoardLink(bid)
+    const boardLink = getBoardLinkClient(bid)
 
     const copy = () => {
         navigator.clipboard.writeText(boardLink)
