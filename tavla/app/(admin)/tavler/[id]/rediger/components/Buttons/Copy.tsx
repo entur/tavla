@@ -3,9 +3,9 @@ import { CopyableText, useToast } from '@entur/alert'
 import { IconButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
+import { useLink } from 'hooks/useLink'
 import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'types/db-types/boards'
-import { getBoardLink } from 'utils/boardLink'
 
 type Props = {
     type?: 'button' | 'icon'
@@ -16,14 +16,13 @@ type Props = {
 
 function Copy({ type, bid, board, trackingEvent }: Props) {
     const { addToast } = useToast()
+    const link = useLink(bid)
     const posthog = usePostHog()
 
-    if (!bid) return null
-
-    const boardLink = getBoardLink(bid)
+    if (!link) return null
 
     const copy = () => {
-        navigator.clipboard.writeText(boardLink)
+        navigator.clipboard.writeText(link)
         addToast('Lenken til tavlen ble kopiert!')
         posthog.capture(trackingEvent)
     }
@@ -40,7 +39,7 @@ function Copy({ type, bid, board, trackingEvent }: Props) {
                 aria-label={ariaLabel}
                 onClick={copy}
             >
-                {boardLink}
+                {link}
             </CopyableText>
         )
     }
