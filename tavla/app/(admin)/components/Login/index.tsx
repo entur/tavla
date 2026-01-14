@@ -1,10 +1,11 @@
 'use client'
-import { IconButton, SecondarySquareButton } from '@entur/button'
-import { BackArrowIcon, CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
+import { IconButton } from '@entur/button'
+import { CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { usePostHog } from 'posthog-js/react'
 import { logout } from './actions'
 import { Create } from './Create'
 import { Email } from './Email'
@@ -14,8 +15,9 @@ import { TLoginPage } from './types'
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
     const pathname = usePathname()
+    const posthog = usePostHog()
 
-    const { open, hasPage, pageParam } = usePageParam('login')
+    const { open, pageParam } = usePageParam('login')
 
     if (loggedIn)
         return (
@@ -37,6 +39,9 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 href="?login"
                 scroll={false}
                 className="shrink-0 gap-2"
+                onClick={() => {
+                    posthog.capture('LOG_IN_BTN')
+                }}
             >
                 <UserIcon />
                 Logg inn
@@ -55,14 +60,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 >
                     <CloseIcon />
                 </IconButton>
-                {hasPage && (
-                    <SecondarySquareButton
-                        onClick={() => router.back()}
-                        aria-label="Tilbake til logg inn"
-                    >
-                        <BackArrowIcon />
-                    </SecondarySquareButton>
-                )}
+
                 <Page page={pageParam as TLoginPage} />
             </Modal>
         </>

@@ -21,11 +21,13 @@ import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { SubmitButton } from 'components/Form/SubmitButton'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { usePostHog } from 'posthog-js/react'
 import { getClientApp } from 'utils/firebase'
 import { FormError } from '../FormError'
 import Google from './Google'
 
 function Create() {
+    const posthog = usePostHog()
     const [email, setEmail] = useState('')
     const submit = async (
         previousState: TFormFeedback | undefined,
@@ -102,8 +104,11 @@ function Create() {
                             variant="primary"
                             width="fluid"
                             aria-label="Opprett bruker"
+                            onClick={() => {
+                                posthog.capture('CREATE_USER_WITH_EMAIL_BTN')
+                            }}
                         >
-                            Opprett
+                            Opprett bruker
                         </SubmitButton>
                     </div>
 
@@ -114,7 +119,10 @@ function Create() {
                             href={pathname ?? '/'}
                             width="fluid"
                             variant="secondary"
-                            aria-label="Avbryt"
+                            aria-label="Avbryt å opprette bruker"
+                            onClick={() => {
+                                posthog.capture('CANCEL_CREATE_USER_BTN')
+                            }}
                         >
                             Avbryt
                         </Button>
@@ -122,7 +130,7 @@ function Create() {
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google />
+            <Google trackingEvent="CREATE_USER_WITH_GOOGLE_BTN" />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du allerede en bruker?{' '}
                 <Link className="underline" href="?login=email">

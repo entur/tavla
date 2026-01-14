@@ -31,7 +31,11 @@ function ActionsMenuDesktop({
 }) {
     return (
         <div className="hidden flex-row gap-4 sm:flex md:items-center">
-            <Open bid={board.id} type="button" />
+            <Open
+                bid={board.id}
+                type="button"
+                trackingEvent="OPEN_BOARD_FROM_EDIT_BOARD"
+            />
             <RefreshButton board={board} />
             <Delete board={board} type="button" />
             <OverflowMenu placement="bottom-left">
@@ -55,7 +59,11 @@ function ActionsMenuPhone({
     return (
         <div className="hidden flex-row max-sm:flex md:hidden">
             <div className="flex flex-row gap-1">
-                <Open bid={board.id} type="button" />
+                <Open
+                    bid={board.id}
+                    type="button"
+                    trackingEvent="OPEN_BOARD_FROM_EDIT_BOARD"
+                />
                 <RefreshButton board={board} />
             </div>
             <OverflowMenu>

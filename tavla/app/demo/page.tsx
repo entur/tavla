@@ -21,7 +21,7 @@ async function Demo() {
             <div className="flex h-full items-center justify-between align-middle">
                 <Heading1 className="!mb-0">Test ut Tavla</Heading1>
                 {!loggedIn ? (
-                    <CreateUserButton trackingEvent="LOGIN_BTN_DEMO_PAGE" />
+                    <CreateUserButton trackingEvent="CREATE_USER_BTN_DEMO_PAGE" />
                 ) : (
                     <NavigateToOversiktButton />
                 )}
