@@ -12,8 +12,16 @@ function TableActions({ data }: { data: TableItem }) {
             return (
                 <div className="flex flex-row gap-1">
                     <EditBoard board={data.board} />
-                    <Copy board={data.board} bid={data.board.id} />
-                    <Open board={data.board} bid={data.board.id} />
+                    <Copy
+                        board={data.board}
+                        bid={data.board.id}
+                        trackingEvent="COPY_BOARD_ICON_FROM_OVERSIKT"
+                    />
+                    <Open
+                        board={data.board}
+                        bid={data.board.id}
+                        trackingEvent="OPEN_BOARD_ICON_FROM_OVERSIKT"
+                    />
                     <Move board={data.board} />
                     <Delete board={data.board} />
                 </div>

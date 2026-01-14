@@ -15,7 +15,7 @@ import GoogleButton from 'react-google-button'
 import { getClientApp } from 'utils/firebase'
 import { create, login } from './actions'
 
-export default function Google() {
+export default function Google({ trackingEvent }: { trackingEvent: string }) {
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(['', ''])
     const posthog = usePostHog()
@@ -71,7 +71,7 @@ export default function Google() {
                     type="light"
                     label="Logg inn med Google"
                     onClick={() => {
-                        posthog.capture('LOG_IN_WITH_GOOGLE_BTN_CLICK')
+                        posthog.capture(trackingEvent)
                         googleAction()
                     }}
                 />

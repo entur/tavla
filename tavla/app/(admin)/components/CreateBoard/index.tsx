@@ -2,16 +2,28 @@
 import { PrimaryButton } from '@entur/button'
 import { BoardIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
+import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import { FolderDB } from 'types/db-types/folders'
 import { NameAndFolderSelector } from './NameAndFolderSelector'
 
-function CreateBoard({ folder }: { folder?: FolderDB }) {
+type CreateBoardProps = {
+    trackingEvent: string
+    folder?: FolderDB
+}
+
+function CreateBoard({ folder, trackingEvent }: CreateBoardProps) {
     const [isOpen, setIsOpen] = useState(false)
+    const posthog = usePostHog()
 
     return (
         <>
-            <PrimaryButton onClick={() => setIsOpen(true)}>
+            <PrimaryButton
+                onClick={() => {
+                    posthog.capture(trackingEvent)
+                    setIsOpen(true)
+                }}
+            >
                 Opprett tavle
                 <BoardIcon />
             </PrimaryButton>

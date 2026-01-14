@@ -121,9 +121,7 @@ function Email() {
                             width="fluid"
                             aria-label="Logg inn"
                             onClick={() => {
-                                posthog.capture(
-                                    'LOG_IN_WITH_PASSWORD_BTN_CLICK',
-                                )
+                                posthog.capture('LOG_IN_WITH_EMAIL_BTN')
                             }}
                         >
                             Logg inn
@@ -145,7 +143,7 @@ function Email() {
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google />
+            <Google trackingEvent="LOG_IN_WITH_GOOGLE_BTN" />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du ikke en bruker?{' '}
                 <Link className="underline" href={getPathWithParams('create')}>
