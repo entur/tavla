@@ -5,7 +5,10 @@ import Link from 'next/link'
 import { BoardDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
 
-function EditBoard({ bid }: { bid?: BoardDB['id'] }) {
+function EditBoard({ board }: { board?: BoardDB }) {
+    const ariaLabel = board?.meta?.title
+        ? `Rediger tavle ${board.meta.title}`
+        : 'Rediger tavle'
     return (
         <Tooltip
             content="Rediger tavle"
@@ -14,8 +17,8 @@ function EditBoard({ bid }: { bid?: BoardDB['id'] }) {
         >
             <IconButton
                 as={Link}
-                aria-label="Rediger tavle"
-                href={`/tavler/${bid}/rediger`}
+                aria-label={ariaLabel}
+                href={`/tavler/${board?.id}/rediger`}
             >
                 <EditIcon aria-label="Rediger-ikon" />
             </IconButton>
@@ -23,7 +26,8 @@ function EditBoard({ bid }: { bid?: BoardDB['id'] }) {
     )
 }
 
-function EditFolder({ fid }: { fid?: FolderDB['id'] }) {
+function EditFolder({ fid, name }: { fid?: FolderDB['id']; name?: string }) {
+    const ariaLabel = name ? `Rediger mappe ${name}` : 'Rediger mappe'
     return (
         <Tooltip
             content="Rediger mappe"
@@ -32,7 +36,7 @@ function EditFolder({ fid }: { fid?: FolderDB['id'] }) {
         >
             <IconButton
                 as={Link}
-                aria-label="Rediger mappe"
+                aria-label={ariaLabel}
                 href={`/mapper/${fid}`}
             >
                 <EditIcon aria-label="Rediger-ikon" />

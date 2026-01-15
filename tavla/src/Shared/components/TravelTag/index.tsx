@@ -55,7 +55,7 @@ function TravelTag({
             />
             <div
                 aria-hidden="true"
-                className={`flex h-full w-full flex-row items-center justify-center font-semibold ${iconPublicCodeColor}`}
+                className={`flex h-full w-full flex-row items-center justify-center whitespace-nowrap font-semibold ${iconPublicCodeColor}`}
             >
                 {publicCode}
             </div>

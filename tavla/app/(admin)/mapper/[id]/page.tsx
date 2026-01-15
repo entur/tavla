@@ -63,14 +63,13 @@ async function FolderPage(props: TProps) {
         return notFound()
     }
     const boardsInFolder = await getBoardsForFolder(folder.id)
-    const boardCount = boardsInFolder.length
 
     const owners: UserDB['uid'][] = folder.owners ?? []
 
     const members: AuthenticatedUser[] = await getAuthenticatedUsers(owners)
 
     return (
-        <div className="container flex flex-col gap-4 pb-20">
+        <main id="main-content" className="container flex flex-col gap-4 pb-20">
             <BreadcrumbsNav folder={folder} />
             <div className="flex flex-col justify-between lg:flex-row">
                 <Heading1 className="flex flex-row items-center gap-4">
@@ -78,7 +77,10 @@ async function FolderPage(props: TProps) {
                     {folder.name}
                 </Heading1>
                 <ButtonGroup>
-                    <CreateBoard folder={folder} />
+                    <CreateBoard
+                        folder={folder}
+                        trackingEvent="CREATE_BOARD_BTN_FROM_FOLDER"
+                    />
                     <UploadLogo folder={folder} />
                     <MemberAdministration
                         folder={folder}
@@ -94,16 +96,16 @@ async function FolderPage(props: TProps) {
                 alle tavlene.
             </Paragraph>
             <div className="gap-4">
-                {boardCount === 0 ? (
+                {boardsInFolder.length === 0 ? (
                     <EmptyOverview text="Her var det tomt gitt! Start med å opprette en tavle" />
                 ) : (
                     <div className="flex flex-col">
-                        <Label>Antall tavler: {boardCount}</Label>
+                        <Label>Antall tavler: {boardsInFolder.length}</Label>
                         <BoardTable boards={boardsInFolder} />
                     </div>
                 )}
             </div>
-        </div>
+        </main>
     )
 }
 

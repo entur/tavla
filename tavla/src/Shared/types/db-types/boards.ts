@@ -96,6 +96,7 @@ const transportPaletteSchema = z.enum([
     'green-bus',
     'atb',
     'fram',
+    'reis',
 ])
 
 export const BoardDBSchema = z.object({

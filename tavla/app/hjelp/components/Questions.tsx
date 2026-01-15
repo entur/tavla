@@ -7,13 +7,12 @@ function Questions() {
     return (
         <div className="w-full">
             <ExpandablePanel title="Må jeg opprette en bruker?">
-                For å kunne lage en tavle må du opprette en bruker. Om du vil se
-                hvordan tavlen din blir, kan du først teste den i demoløsningen
-                vår{' '}
+                For å kunne lage en tavle må du opprette en bruker. Du kan også{' '}
                 <Link href="/demo" className="underline">
-                    her
-                </Link>
-                .
+                    teste ut demoløsningen
+                </Link>{' '}
+                for å se hvordan tavlene ser ut og fungerer før du registrerer
+                deg.
             </ExpandablePanel>
             <ExpandablePanel title="Er Tavla gratis å bruke?">
                 Ja, Tavla er helt gratis å bruke uavhengig av hvor mange tavler
@@ -56,13 +55,13 @@ function Questions() {
                 Det kan hende det tar litt tid å få en e-post fra oss om
                 verifisering. Dette skal normalt ikke ta mer enn 10 minutter.
                 Hvis du ikke får den innen da, så prøv gjerne igjen. Hvis
-                problemet vedvarer, så send oss en e-post på{' '}
+                problemet vedvarer, så{' '}
                 <a
                     href="mailto:tavla@entur.org"
                     target="_blank"
                     className="underline"
                 >
-                    tavla@entur.org
+                    send oss en e-post på tavla@entur.org
                 </a>
                 .
             </ExpandablePanel>

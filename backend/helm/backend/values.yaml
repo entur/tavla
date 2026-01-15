@@ -12,6 +12,8 @@ common:
       - BACKEND_API_KEY
     redis:
       - REDIS_PASSWORD
+      - REDIS_HOST
+      - REDIS_PORT
   container:
     image: <+artifacts.primary.image>
     cpu: 0.3

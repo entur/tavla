@@ -9,6 +9,7 @@ import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { BoardDB, BoardTileDB } from 'types/db-types/boards'
+import { getBoardLinkServer } from 'utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,
@@ -72,8 +73,10 @@ export default async function EditPage(props: TProps) {
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
+    const boardLink = getBoardLinkServer(board.id, true)
+
     return (
-        <div className="bg-gray-50">
+        <main id="main-content" className="bg-gray-50">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
                 <BreadcrumbsNav folder={folder ?? undefined} board={board} />
                 <div className="flex flex-col justify-between pb-2 md:flex-row">
@@ -85,7 +88,12 @@ export default async function EditPage(props: TProps) {
                     </div>
                 </div>
                 <div className="md:w-fit">
-                    <Copy bid={board.id} type="button" />
+                    <p>Lenke til tavla:</p>
+                    <Copy
+                        bid={board.id}
+                        type="button"
+                        trackingEvent="COPY_BOARD_FROM_EDIT_BOARD"
+                    />
                 </div>
 
                 <div
@@ -101,11 +109,11 @@ export default async function EditPage(props: TProps) {
                         className="pt-8"
                         aria-label="Forhåndsvisning av Tavla"
                     >
-                        <Preview board={board} folder={folder ?? undefined} />
+                        <Preview boardLink={boardLink} />
                     </div>
                 </div>
                 <Settings board={board} />
             </div>
-        </div>
+        </main>
     )
 }

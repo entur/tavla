@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { withSentryConfig } = require('@sentry/nextjs')
 
@@ -21,7 +22,7 @@ const cspHeaderCommon = `
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/ https://auth.tavla.dev.entur.no/ https://ent-tavla-prd.firebaseapp.com/ https://auth.tavla.entur.no/ https://www.kakadu.no/;
+    frame-src 'self' https://privacy-proxy.usercentrics.eu https://ent-tavla-dev.firebaseapp.com/ https://auth.tavla.dev.entur.no/ https://ent-tavla-prd.firebaseapp.com/ https://auth.tavla.entur.no/ https://www.kakadu.no/ https://vis-tavla.entur.no/ https://vis-tavla.dev.entur.no/ http://localhost:5173/;
 `
 
 const securityHeaders = `
@@ -72,6 +73,18 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'firebasestorage.googleapis.com',
             },
+            ...(process.env.NODE_ENV !== 'production'
+                ? [
+                      {
+                          protocol: 'http',
+                          hostname: 'localhost',
+                      },
+                      {
+                          protocol: 'http',
+                          hostname: '127.0.0.1',
+                      },
+                  ]
+                : []),
         ],
         dangerouslyAllowSVG: true,
         contentDispositionType: 'attachment',
@@ -139,6 +152,7 @@ const nextConfig = {
     },
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = async (phase, { defaultConfig }) => {
     if (phase === PHASE_DEVELOPMENT_SERVER) {
         nextConfig.images.remotePatterns.push({

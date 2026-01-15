@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
 import react from 'eslint-plugin-react'
 import path from 'node:path'
@@ -20,10 +21,12 @@ export default [
     {
         ignores: ['src/types/graphql/*', 'migrations/*', 'firebaseFunctions/*'],
     },
+
     ...compat.extends(
         'next/core-web-vitals',
         'next/typescript',
         'plugin:@typescript-eslint/recommended',
+        'plugin:jsx-a11y/recommended',
         'prettier',
     ),
     {
@@ -31,6 +34,7 @@ export default [
             '@typescript-eslint': typescriptEslint,
             prettier,
             react,
+            'jsx-a11y': jsxA11y,
         },
 
         languageOptions: {

@@ -3,7 +3,7 @@ import { Heading1 } from '@entur/typography'
 import { useEffect, useState } from 'react'
 
 function WordCarousel() {
-    const words = ['resepsjonen', 'biblioteket', 'skolen', 'treningssenteret']
+    const words = ['resepsjonen', 'skolen', 'biblioteket', 'treningssenteret']
     const [currentWordIndex, setCurrentWordIndex] = useState(0)
     const [fade, setFade] = useState(true)
 

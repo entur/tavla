@@ -46,13 +46,8 @@ function ExpandableInfo() {
                     personopplysninger (Behandlingsansvarlig).
                 </Paragraph>
                 <Paragraph>
-                    Enturs personvernombud kan kontaktes på e-post{' '}
-                    <EnturLink
-                        as={Link}
-                        href="mailto:personvern@entur.org"
-                        className="gap-1"
-                    >
-                        personvern@entur.org <ExternalIcon />
+                    <EnturLink as={Link} href="mailto:personvern@entur.org">
+                        Kontakt Enturs personvernombud på personvern@entur.org
                     </EnturLink>
                     . Opplysningene blir behandlet i samsvar med kravene i
                     gjeldende personvernlovgivning.

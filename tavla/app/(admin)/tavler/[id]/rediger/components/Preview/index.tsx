@@ -1,29 +1,14 @@
 'use client'
 
-import { Board } from 'Board/scenarios/Board'
-import { Header } from 'components/Header'
-import { InfoMessage } from 'components/InfoMessage'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
-
-function Preview({ board, folder }: { board: BoardDB; folder?: FolderDB }) {
+function Preview({ boardLink }: { boardLink: string }) {
     return (
-        <div
-            className="previewContainer md:text-2xl"
-            data-theme={board?.theme ?? 'dark'}
-        >
-            <Header
-                theme={board.theme}
-                folderLogo={folder?.logo}
-                hideClock={board.hideClock}
-                hideLogo={board.hideLogo}
-            />
-            <div className="h-96 md:h-[50rem]">
-                <Board board={board} />
-            </div>
-            <InfoMessage
-                board={board}
-                showEnturLogo={folder?.logo !== undefined || board?.hideLogo}
+        <div className="previewContainer md:text-2xl">
+            <iframe
+                className="h-[80vh] w-full border-0"
+                title="Forhåndsvisning av tavle"
+                src={boardLink}
+                sandbox="allow-scripts allow-same-origin"
+                referrerPolicy="no-referrer"
             />
         </div>
     )

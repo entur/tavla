@@ -9,7 +9,7 @@ on:
 
 jobs:
   docker-lint:
-    uses: entur/gha-docker/.github/workflows/lint.yml@v1
+    uses: entur/gha-docker/.github/workflows/lint.yml@v1.2.3
     with:
       dockerfile: tavla/Dockerfile
       ignore: DL3018,DL3019

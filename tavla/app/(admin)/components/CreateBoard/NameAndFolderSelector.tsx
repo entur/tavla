@@ -6,6 +6,7 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { SubmitButton } from 'components/Form/SubmitButton'
+import { usePostHog } from 'posthog-js/react'
 import { useActionState } from 'react'
 import { FolderDB } from 'types/db-types/folders'
 import { FormError } from '../FormError'
@@ -13,6 +14,7 @@ import { createBoard } from './actions'
 
 function NameAndFolderSelector({ folder }: { folder?: FolderDB }) {
     const [state, action] = useActionState(createBoard, undefined)
+    const posthog = usePostHog()
 
     const { folderDropdownList, selectedFolder, handleFolderChange } =
         useFolderDropdown(folder)
@@ -53,7 +55,13 @@ function NameAndFolderSelector({ folder }: { folder?: FolderDB }) {
             </div>
 
             <div className="mt-8 flex flex-row justify-start">
-                <SubmitButton variant="primary" className="max-sm:w-full">
+                <SubmitButton
+                    variant="primary"
+                    className="max-sm:w-full"
+                    onClick={() => {
+                        posthog.capture('CREATE_BOARD_BTN')
+                    }}
+                >
                     Opprett tavle
                 </SubmitButton>
             </div>

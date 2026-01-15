@@ -2,19 +2,16 @@
 
 import { IconButton } from '@entur/button'
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
-import { Board } from 'Board/scenarios/Board'
-import { Header } from 'components/Header'
-import { InfoMessage } from 'components/InfoMessage'
+import { PreviewBoard } from 'app/page'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
-import { PreviewBoard } from 'utils/previewBoards'
 
 const CarouselIndicators = ({
-    boards,
+    previewBoards,
     activeIndex,
     onClick,
 }: {
-    boards: PreviewBoard[]
+    previewBoards: PreviewBoard[]
     activeIndex: number
     onClick: (index: number) => void
 }) => {
@@ -23,7 +20,7 @@ const CarouselIndicators = ({
             className="mt-4 flex flex-row justify-center space-x-5 md:space-x-3"
             aria-label="Knapper for å bytte mellom avgangstavler"
         >
-            {boards.map((_, index) => (
+            {previewBoards.map((_, index) => (
                 <button
                     key={index}
                     className={`bottom-5 h-6 w-6 rounded-full md:h-5 md:w-5 ${
@@ -41,20 +38,24 @@ const CarouselIndicators = ({
     )
 }
 
-function PreviewCarousel({ boards }: { boards: PreviewBoard[] }) {
+function PreviewCarousel({
+    previewBoards,
+}: {
+    previewBoards: (PreviewBoard & { link: string })[]
+}) {
     const [boardIndex, setBoardIndex] = useState(0)
     const posthog = usePostHog()
 
     const nextSlide = () => {
         posthog.capture('CAROUSEL_ARROW_BTN')
         setBoardIndex((prevIndex) =>
-            prevIndex === boards.length - 1 ? 0 : prevIndex + 1,
+            prevIndex === previewBoards.length - 1 ? 0 : prevIndex + 1,
         )
     }
     const prevSlide = () => {
         posthog.capture('CAROUSEL_ARROW_BTN')
         setBoardIndex((prevIndex) =>
-            prevIndex === 0 ? boards.length - 1 : prevIndex - 1,
+            prevIndex === 0 ? previewBoards.length - 1 : prevIndex - 1,
         )
     }
 
@@ -63,10 +64,12 @@ function PreviewCarousel({ boards }: { boards: PreviewBoard[] }) {
         setBoardIndex(index)
     }
 
-    const currentBoard = boards[boardIndex] ?? undefined
+    const currentBoard = previewBoards[boardIndex] ?? undefined
+
     if (!currentBoard) return null
+
     return (
-        <>
+        <div className="flex w-full flex-col">
             <div className="flex w-full flex-row justify-between gap-2">
                 <div className="my-auto ml-2 hidden md:block">
                     <IconButton
@@ -77,21 +80,18 @@ function PreviewCarousel({ boards }: { boards: PreviewBoard[] }) {
                     </IconButton>
                 </div>
                 <div
-                    className="mx-auto w-full"
+                    className="sm:text-md mx-auto h-[400px] w-full overflow-hidden rounded-md border-2 border-solid text-xs md:h-[500px] xl:w-[1000px]"
+                    aria-label={currentBoard.altText}
                     data-theme={currentBoard.theme ?? 'dark'}
                 >
-                    <div aria-label={currentBoard.altText}>
-                        <div
-                            className="previewContainer sm:text-md text-xs"
-                            data-theme={currentBoard?.theme ?? 'dark'}
-                        >
-                            <Header theme={currentBoard.theme} />
-                            <div className="h-[400px] md:h-[500px] xl:w-[1000px]">
-                                <Board board={currentBoard} />
-                            </div>
-                            <InfoMessage board={currentBoard} />
-                        </div>
-                    </div>
+                    <iframe
+                        className="h-full w-full"
+                        title="Tavle preview"
+                        src={currentBoard.link}
+                        key={currentBoard.link}
+                        sandbox="allow-scripts allow-same-origin"
+                        referrerPolicy="no-referrer"
+                    />
                 </div>
                 <div className="my-auto mr-2 hidden md:block">
                     <IconButton
@@ -104,11 +104,11 @@ function PreviewCarousel({ boards }: { boards: PreviewBoard[] }) {
             </div>
 
             <CarouselIndicators
-                boards={boards}
+                previewBoards={previewBoards}
                 activeIndex={boardIndex}
                 onClick={goToSlide}
             />
-        </>
+        </div>
     )
 }
 export { PreviewCarousel }

@@ -10,11 +10,9 @@ initializeAdminApp()
 const db = getFirestore()
 
 const allowedOrigins = [
-    'https://tavla-visning.dev.entur.no',
-    'https://tavla-visning.entur.no',
-    'http://tavla-visning.dev.entur.no',
-    'http://tavla-visning.entur.no',
-    'http://34.49.196.7',
+    'https://vis-tavla.dev.entur.no',
+    'https://vis-tavla.entur.no',
+    'http://localhost:5173',
 ]
 
 function getCorsHeaders(request: NextRequest) {
@@ -22,7 +20,7 @@ function getCorsHeaders(request: NextRequest) {
     const allowOrigin =
         origin && allowedOrigins.includes(origin)
             ? origin
-            : 'https://tavla-visning.entur.no'
+            : 'https://vis-tavla.entur.no'
 
     return {
         'Access-Control-Allow-Origin':

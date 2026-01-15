@@ -49,6 +49,7 @@ struct HeartbeatPayload {
     browser: String,
     screen_width: u32,
     screen_height: u32,
+    app: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -58,11 +59,13 @@ pub struct ActiveInfo {
     pub browser: String,
     pub screen_width: u32,
     pub screen_height: u32,
+    pub app: Option<String>,
 }
 
 #[tokio::main]
 async fn main() {
     let host = std::env::var("HOST").unwrap_or("0.0.0.0".to_string());
+
     let port = std::env::var("PORT").unwrap_or("3000".to_string());
     let key = std::env::var("BACKEND_API_KEY").expect("Expected to find api key");
 
@@ -135,6 +138,11 @@ async fn main() {
             "http://localhost:3000".parse::<HeaderValue>().unwrap(),
             "https://tavla.dev.entur.no".parse::<HeaderValue>().unwrap(),
             "https://tavla.entur.no".parse::<HeaderValue>().unwrap(),
+            "http://localhost:5173".parse::<HeaderValue>().unwrap(),
+            "https://vis-tavla.entur.no".parse::<HeaderValue>().unwrap(),
+            "https://vis-tavla.dev.entur.no"
+                .parse::<HeaderValue>()
+                .unwrap(),
         ]);
 
     let app = Router::new()
@@ -279,7 +287,7 @@ async fn active_boards(
     if token != state.key {
         return Response::builder()
             .status(StatusCode::UNAUTHORIZED)
-            .body(Body::from(0.to_string()))
+            .body(Body::from((0).to_string()))
             .map_err(|_| AppError::from(anyhow::anyhow!("Failed to build response")));
     }
     let active_boards = state.master.get::<&str, i32>("active_boards").await?;
@@ -365,13 +373,16 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
     let payload: HeartbeatPayload = serde_json::from_str(&body)?;
 
     let key = format!("heartbeat:{}", payload.bid);
-    let value = serde_json::to_string(&ActiveInfo {
-        bid: payload.bid,
-        tid: payload.tid,
-        browser: payload.browser,
-        screen_width: payload.screen_width,
-        screen_height: payload.screen_height,
-    })?;
+    let value = serde_json::to_string(
+        &(ActiveInfo {
+            bid: payload.bid,
+            tid: payload.tid,
+            browser: payload.browser,
+            screen_width: payload.screen_width,
+            screen_height: payload.screen_height,
+            app: payload.app,
+        }),
+    )?;
 
     let mut connection = state.master.clone();
     let _: () = connection.set_ex(key, value, HEARTBEAT_TTL_SECS).await?;

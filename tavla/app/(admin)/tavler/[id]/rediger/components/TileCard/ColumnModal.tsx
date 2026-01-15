@@ -1,3 +1,4 @@
+import { Button } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading2, Heading4, SubParagraph } from '@entur/typography'
 
@@ -28,6 +29,13 @@ function ColumnModal({
                 finnes. Hvis ikke vises rutetid (det samme tidspunktet som vises
                 under “Planlagt”).
             </SubParagraph>
+            <Button
+                onClick={() => setIsOpen(false)}
+                variant="primary"
+                className="mt-4"
+            >
+                Lukk
+            </Button>
         </Modal>
     )
 }

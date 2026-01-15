@@ -1,36 +1,39 @@
 import { DeleteFolder } from 'app/(admin)/components/Delete'
+import { TableItem } from 'app/(admin)/oversikt/components/BoardTable'
 import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
 import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
-import { ColumnWrapper } from './ColumnWrapper'
 import { Delete } from './Delete'
 import { EditBoard, EditFolder } from './Edit'
 import { Move } from './Move'
 
-function BoardActions({ board }: { board: BoardDB }) {
-    return (
-        <ColumnWrapper column="actions">
-            <div className="flex flex-row gap-1">
-                <EditBoard bid={board.id} />
-                <Copy bid={board.id} />
-                <Open bid={board.id} />
-                <Move board={board} />
-                <Delete board={board} />
-            </div>
-        </ColumnWrapper>
-    )
+function TableActions({ data }: { data: TableItem }) {
+    switch (data.type) {
+        case 'board':
+            return (
+                <div className="flex flex-row gap-1">
+                    <EditBoard board={data.board} />
+                    <Copy
+                        board={data.board}
+                        bid={data.board.id}
+                        trackingEvent="COPY_BOARD_ICON_FROM_OVERSIKT"
+                    />
+                    <Open
+                        board={data.board}
+                        bid={data.board.id}
+                        trackingEvent="OPEN_BOARD_ICON_FROM_OVERSIKT"
+                    />
+                    <Move board={data.board} />
+                    <Delete board={data.board} />
+                </div>
+            )
+        case 'folder':
+            return (
+                <div className="flex flex-row gap-1">
+                    <EditFolder fid={data.folder.id} name={data.folder.name} />
+                    <DeleteFolder folder={data.folder} type="icon" />
+                </div>
+            )
+    }
 }
 
-function FolderActions({ folder }: { folder: FolderDB }) {
-    return (
-        <ColumnWrapper column="actions">
-            <div className="flex flex-row gap-1">
-                <EditFolder fid={folder.id} />
-                <DeleteFolder folder={folder} type="icon" />
-            </div>
-        </ColumnWrapper>
-    )
-}
-
-export { BoardActions, FolderActions }
+export { TableActions }

@@ -1,5 +1,4 @@
 import {
-    EmphasizedText,
     Link as EnturLink,
     Heading1,
     Heading2,
@@ -16,22 +15,17 @@ export const metadata: Metadata = {
 
 function Hjelp() {
     return (
-        <main>
+        <main id="main-content">
             <div className="bg-secondary">
                 <div className="flex-start container flex flex-row justify-between gap-10 pb-4 pt-12 lg:w-3/4 xl:w-1/2">
                     <div className="align-center">
                         <Heading1>Ofte stilte spørsmål</Heading1>
                         <Paragraph>
                             Nedenfor kan du finne svar på ofte stilte spørsmål.
-                            Finner du ikke svaret du leter etter, ber vi deg ta
-                            kontakt med oss på{' '}
-                            <a
-                                href="mailto:tavla@entur.org"
-                                target="_blank"
-                                className="underline"
-                            >
-                                tavla@entur.org
-                            </a>{' '}
+                            Finner du ikke svaret du leter etter, ber vi deg{' '}
+                            <EnturLink href="mailto:tavla@entur.org">
+                                ta kontakt med oss på tavla@entur.org
+                            </EnturLink>{' '}
                             eller send oss en melding ved å bruke skjemaet som
                             du finner nederst i høyre hjørne.
                         </Paragraph>
@@ -61,19 +55,24 @@ function Hjelp() {
                             width="100%"
                             height="690px"
                             className="overflow-hidden"
+                            title="Instruksjoner som viser hvordan du logger inn og oppretter en tavle"
                         ></iframe>
                     </div>
                 </div>
                 <div>
                     <Heading2>GitHub</Heading2>
-                    <EmphasizedText className="italic">
-                        Tavla sin kildekode er tilgjengelig for alle på{' '}
-                        <EnturLink href="https://github.com/entur/tavla">
-                            GitHub
+                    <Paragraph>
+                        Tavla sin kildekode er tilgjengelig for alle,{' '}
+                        <EnturLink
+                            href="https://github.com/entur/tavla"
+                            external
+                            target="_blank"
+                        >
+                            sjekk ut koden på GitHub
                         </EnturLink>
                         . Dette gjør at du kan følge utviklingen av produktet
                         direkte og foreslå forbedringer selv.
-                    </EmphasizedText>
+                    </Paragraph>
                 </div>
             </div>
         </main>
