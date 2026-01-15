@@ -2,6 +2,9 @@
     "name": "tavla",
     "version": "0.1.0",
     "private": true,
+    "workspaces": [
+        "firebaseFunctions"
+    ],
     "browserslist": [
         "chrome > 47"
     ],
@@ -15,7 +18,7 @@
         "depcheck": "depcruise src",
         "start": "next start",
         "generate": "graphql-codegen",
-        "lint": "next lint --max-warnings 0",
+        "lint": "next lint --max-warnings 0 --no-warn-ignore",
         "prettier": "prettier . --check",
         "fix": "next lint --fix && prettier . --write",
         "build-start": "next build && next start",
@@ -55,6 +58,7 @@
         "dompurify": "3.3.0",
         "firebase": "12.6.0",
         "firebase-admin": "13.6.0",
+        "firebase-functions": "7.0.1",
         "graphql": "16.12.0",
         "jsdom": "26.1.0",
         "lodash": "4.17.21",
