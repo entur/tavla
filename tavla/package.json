@@ -18,7 +18,7 @@
         "depcheck": "depcruise src",
         "start": "next start",
         "generate": "graphql-codegen",
-        "lint": "next lint --max-warnings 0 --no-warn-ignore",
+        "lint": "next lint --max-warnings 0",
         "prettier": "prettier . --check",
         "fix": "next lint --fix && prettier . --write",
         "build-start": "next build && next start",
@@ -27,7 +27,7 @@
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,jsx}": [
-            "yarn eslint --max-warnings=0 --fix"
+            "yarn eslint --max-warnings=0 --fix --no-warn-ignored"
         ],
         "**/*.{json,css,scss,md,yaml,yml}": [
             "yarn prettier --write"
