@@ -76,6 +76,7 @@ const boardMetaSchema = z.object({
     created: z.number().optional(),
     lastActive: z.number().optional(),
     dateModified: z.number().optional(),
+    lastActiveTimestamp: z.number().optional(),
     fontSize: boardFontSizeSchema.optional(),
     location: locationSchema.optional(),
 })
