@@ -10,6 +10,7 @@ const getDefaultOptions = () => {
         region: 'europe-west1' as const,
         secrets: secretParams.map((secret) => secret.name),
         serviceAccount: `tavla-functions@${process.env.GCLOUD_PROJECT}.iam.gserviceaccount.com`,
+        timeZone: 'Europe/Oslo' as const,
     }
 }
 
