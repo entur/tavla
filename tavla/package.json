@@ -9,9 +9,9 @@
         "chrome > 47"
     ],
     "scripts": {
-        "dev": "next dev --turbopack & firebase emulators:start --project=ent-tavla-dev",
+        "dev": "next dev --turbopack & firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev",
         "dev:persist": "next dev & yarn emulators",
-        "emulators": "firebase emulators:start --project=ent-tavla-dev --import=./.db --export-on-exit",
+        "emulators": "firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev --import=./.db --export-on-exit",
         "build": "next build",
         "build:prod": "NEXT_PUBLIC_ENV=prod next build",
         "typecheck": "tsc --noEmit --incremental false",
