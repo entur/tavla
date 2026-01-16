@@ -1,32 +1,56 @@
 import { BoardDB } from 'types/db-types/boards'
 
+export const VIS_TAVLA_HOST_TARGETS: Record<string, string> = {
+    'localhost:3000': 'http://localhost:5173',
+    'tavla.dev.entur.no': 'https://vis-tavla.dev.entur.no',
+    'tavla.entur.no': 'https://vis-tavla.entur.no',
+}
+
+export const DEFAULT_VIS_TAVLA_TARGET = VIS_TAVLA_HOST_TARGETS['tavla.entur.no']
+
+type ResolveVisTavlaOptions = {
+    host?: string | null
+    nodeEnv?: string | undefined
+    commonEnv?: string | undefined
+}
+
+export function resolveVisTavlaBaseUrl(options: ResolveVisTavlaOptions = {}) {
+    const {
+        host,
+        nodeEnv = process.env.NODE_ENV,
+        commonEnv = process.env.COMMON_ENV,
+    } = options
+
+    if (host) {
+        const normalizedHost = host.toLowerCase()
+        const baseForHost = VIS_TAVLA_HOST_TARGETS[normalizedHost]
+        if (baseForHost) {
+            return baseForHost
+        }
+    }
+
+    if (nodeEnv === 'development') {
+        return VIS_TAVLA_HOST_TARGETS['localhost:3000']
+    }
+
+    if (commonEnv === 'dev') {
+        return VIS_TAVLA_HOST_TARGETS['tavla.dev.entur.no']
+    }
+
+    return DEFAULT_VIS_TAVLA_TARGET
+}
+
 export function getBoardLinkClient(bid: BoardDB['id']) {
     if (typeof window === 'undefined') {
         return getBoardLinkServer(bid)
     }
 
-    const host = window.location.host
-
-    switch (host) {
-        case 'localhost:3000':
-            return `http://localhost:5173/${bid}`
-        case 'tavla.dev.entur.no':
-            return `https://vis-tavla.dev.entur.no/${bid}`
-        case 'tavla.entur.no':
-        default:
-            return `https://vis-tavla.entur.no/${bid}`
-    }
+    const baseUrl = resolveVisTavlaBaseUrl({ host: window.location.host })
+    return `${baseUrl}/${bid}`
 }
 
 export function getBoardLinkServer(bid: BoardDB['id'], isPreview = false) {
-    const isLocalDevelopment = process.env.NODE_ENV === 'development'
-    const isDevEnvironment = process.env.COMMON_ENV === 'dev'
-
-    const baseUrl = isLocalDevelopment
-        ? `http://localhost:5173/${bid}`
-        : isDevEnvironment
-          ? `https://vis-tavla.dev.entur.no/${bid}`
-          : `https://vis-tavla.entur.no/${bid}`
+    const baseUrl = resolveVisTavlaBaseUrl()
 
     const queryParams = new URLSearchParams({
         v: Date.now().toString(),
@@ -34,7 +58,8 @@ export function getBoardLinkServer(bid: BoardDB['id'], isPreview = false) {
     })
 
     if (isPreview) {
-        return `${baseUrl}?${queryParams.toString()}`
+        return `${baseUrl}/${bid}?${queryParams.toString()}`
     }
-    return baseUrl
+
+    return `${baseUrl}/${bid}`
 }

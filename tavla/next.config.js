@@ -144,6 +144,45 @@ const nextConfig = {
     async redirects() {
         return [
             {
+                source: '/:id(\\w{20})',
+                has: [
+                    {
+                        type: 'header',
+                        key: 'host',
+                        value: 'localhost:3000',
+                    },
+                ],
+                destination: 'http://localhost:5173/:id',
+                permanent: false, //Change to true when we are sure all is working
+                statusCode: 302, //Change to 301 when we are sure all is working
+            },
+            {
+                source: '/:id(\\w{20})',
+                has: [
+                    {
+                        type: 'header',
+                        key: 'host',
+                        value: 'tavla.dev.entur.no',
+                    },
+                ],
+                destination: 'https://vis-tavla.dev.entur.no/:id',
+                permanent: false, //Change to true when we are sure all is working
+                statusCode: 302, //Change to 301 when we are sure all is working
+            },
+            {
+                source: '/:id(\\w{20})',
+                has: [
+                    {
+                        type: 'header',
+                        key: 'host',
+                        value: 'tavla.entur.no',
+                    },
+                ],
+                destination: 'https://vis-tavla.entur.no/:id',
+                permanent: false, //Change to true when we are sure all is working
+                statusCode: 302, //Change to 301 when we are sure all is working
+            },
+            {
                 source: '/boards',
                 destination: '/oversikt',
                 permanent: true,
