@@ -12,10 +12,7 @@ export const LastActiveInfobutton = () => {
                 etter 15. januar 2026."
                 placement="top"
             >
-                <ValidationInfoFilledIcon
-                    size={fontSizes.extraLarge}
-                    className="cursor-pointer"
-                />
+                <ValidationInfoFilledIcon size={fontSizes.extraLarge} />
             </Tooltip>
         </>
     )
