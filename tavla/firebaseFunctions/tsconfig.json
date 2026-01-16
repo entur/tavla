@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "lib": ["es2021"],
+        "noImplicitReturns": true,
+        "outDir": "dist",
+        "sourceMap": true,
+        "strict": true,
+        "target": "es2021",
+        "skipLibCheck": true
+    },
+    "compileOnSave": true,
+    "include": ["src"]
+}

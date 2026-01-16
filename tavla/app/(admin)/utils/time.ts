@@ -77,3 +77,25 @@ export function formatWalkTime(duration?: number) {
         return `${remainingMinutes} min`
     }
 }
+
+export function lastActiveToStatus(lastActiveMillis?: number) {
+    if (!lastActiveMillis) return '-'
+
+    const timeAgo = Date.now() - lastActiveMillis
+
+    if (timeAgo < 7 * DAY) return 'Siste 7 dager'
+
+    const units = [
+        { divisor: YEAR, singular: 'år', plural: 'år' },
+        { divisor: MONTH, singular: 'måned', plural: 'måneder' },
+        { divisor: 7 * DAY, singular: 'uke', plural: 'uker' },
+    ]
+
+    for (const { divisor, singular, plural } of units) {
+        if (timeAgo >= divisor) {
+            const count = Math.floor(timeAgo / divisor)
+            const unit = count === 1 ? singular : plural
+            return `${count} ${unit} siden`
+        }
+    }
+}
