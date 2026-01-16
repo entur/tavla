@@ -1,10 +1,12 @@
 import { BoardDB } from 'types/db-types/boards'
 
 export function getBoardLinkClient(bid: BoardDB['id']) {
-    const host = window?.location?.host
-    if (!host) {
-        return `https://vis-tavla.entur.no/${bid}`
+    if (typeof window === 'undefined') {
+        return getBoardLinkServer(bid)
     }
+
+    const host = window.location.host
+
     switch (host) {
         case 'localhost:3000':
             return `http://localhost:5173/${bid}`
