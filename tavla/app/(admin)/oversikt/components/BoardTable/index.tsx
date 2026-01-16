@@ -16,6 +16,7 @@ import {
 } from 'app/(admin)/utils/constants'
 import { formatTimestamp, lastActiveToStatus } from 'app/(admin)/utils/time'
 import { Folder } from 'app/(admin)/utils/types'
+import { LastActiveInfobutton } from 'app/components/LastActiveInfobutton'
 import Link from 'next/link'
 import { BoardDB } from 'types/db-types/boards'
 
@@ -79,7 +80,10 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                     <HeaderCell {...getSortableHeaderProps({ name: 'name' })}>
                         Navn
                     </HeaderCell>
-                    <HeaderCell>Sist aktiv</HeaderCell>
+                    <HeaderCell className="flex items-center gap-1">
+                        Sist aktiv
+                        <LastActiveInfobutton />
+                    </HeaderCell>
                     <HeaderCell
                         className="text-nowrap"
                         {...getSortableHeaderProps({ name: 'lastModified' })}

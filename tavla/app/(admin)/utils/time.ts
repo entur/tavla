@@ -79,7 +79,7 @@ export function formatWalkTime(duration?: number) {
 }
 
 export function lastActiveToStatus(lastActiveMillis?: number) {
-    if (!lastActiveMillis) return ''
+    if (!lastActiveMillis) return '-'
 
     const timeAgo = Date.now() - lastActiveMillis
 
