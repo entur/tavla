@@ -13,7 +13,7 @@ export async function getServerSideProps(
     }
 
     const host = context.req?.headers.host ?? ''
-    const targetBase = resolveVisTavlaBaseUrl({ host })
+    const targetBase = resolveVisTavlaBaseUrl(host)
     const destination = new URL(context.resolvedUrl, targetBase).toString()
 
     return {

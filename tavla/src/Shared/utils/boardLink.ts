@@ -8,18 +8,9 @@ export const VIS_TAVLA_HOST_TARGETS: Record<string, string> = {
 
 export const DEFAULT_VIS_TAVLA_TARGET = VIS_TAVLA_HOST_TARGETS['tavla.entur.no']
 
-type ResolveVisTavlaOptions = {
-    host?: string | null
-    nodeEnv?: string | undefined
-    commonEnv?: string | undefined
-}
-
-export function resolveVisTavlaBaseUrl(options: ResolveVisTavlaOptions = {}) {
-    const {
-        host,
-        nodeEnv = process.env.NODE_ENV,
-        commonEnv = process.env.COMMON_ENV,
-    } = options
+export function resolveVisTavlaBaseUrl(host?: string) {
+    const nodeEnv = process.env.NODE_ENV
+    const commonEnv = process.env.COMMON_ENV
 
     if (host) {
         const normalizedHost = host.toLowerCase()
@@ -45,7 +36,7 @@ export function getBoardLinkClient(bid: BoardDB['id']) {
         return getBoardLinkServer(bid)
     }
 
-    const baseUrl = resolveVisTavlaBaseUrl({ host: window.location.host })
+    const baseUrl = resolveVisTavlaBaseUrl(window.location.host)
     return `${baseUrl}/${bid}`
 }
 
