@@ -49,6 +49,7 @@ struct HeartbeatPayload {
     browser: String,
     screen_width: u32,
     screen_height: u32,
+    app: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -58,6 +59,7 @@ pub struct ActiveInfo {
     pub browser: String,
     pub screen_width: u32,
     pub screen_height: u32,
+    pub app: Option<String>,
 }
 
 #[tokio::main]
@@ -378,6 +380,7 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
             browser: payload.browser,
             screen_width: payload.screen_width,
             screen_height: payload.screen_height,
+            app: payload.app,
         }),
     )?;
 

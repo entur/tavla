@@ -73,6 +73,18 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'firebasestorage.googleapis.com',
             },
+            ...(process.env.NODE_ENV !== 'production'
+                ? [
+                      {
+                          protocol: 'http',
+                          hostname: 'localhost',
+                      },
+                      {
+                          protocol: 'http',
+                          hostname: '127.0.0.1',
+                      },
+                  ]
+                : []),
         ],
         dangerouslyAllowSVG: true,
         contentDispositionType: 'attachment',

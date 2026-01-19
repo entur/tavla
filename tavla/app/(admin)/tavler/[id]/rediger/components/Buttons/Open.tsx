@@ -2,22 +2,26 @@
 import { Button, IconButton } from '@entur/button'
 import { ExternalIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { useLink } from 'hooks/useLink'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'types/db-types/boards'
+import { getBoardLinkClient } from 'utils/boardLink'
 
-function Open({
-    type,
-    bid,
-    board,
-}: {
+type Props = {
     type?: 'button' | 'icon'
     bid?: string
     board?: BoardDB
-}) {
-    const link = useLink(bid)
+    trackingEvent: string
+}
+
+function Open({ type, bid, board, trackingEvent }: Props) {
     const posthog = usePostHog()
+
+    if (!bid) {
+        return null
+    }
+    const link = getBoardLinkClient(bid)
+
     const ariaLabel = board?.meta?.title
         ? `Åpne tavle ${board.meta.title}`
         : 'Åpne tavle'
@@ -29,7 +33,7 @@ function Open({
                 aria-label={ariaLabel}
                 href={link ?? '/'}
                 target="_blank"
-                onClick={() => posthog.capture('OPEN_BOARD_BTN')}
+                onClick={() => posthog.capture(trackingEvent)}
             >
                 Åpne tavle
                 <ExternalIcon className="!top-[-2px]" />
@@ -48,7 +52,7 @@ function Open({
                 aria-label={ariaLabel}
                 href={link ?? '/'}
                 target="_blank"
-                onClick={() => posthog.capture('OPEN_BOARD_BTN')}
+                onClick={() => posthog.capture(trackingEvent)}
             >
                 <ExternalIcon />
             </IconButton>

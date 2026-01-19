@@ -9,7 +9,7 @@ import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { BoardDB, BoardTileDB } from 'types/db-types/boards'
-import { getBoardLinkForIframe } from 'utils/boardLink'
+import { getBoardLinkServer } from 'utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,
@@ -73,7 +73,7 @@ export default async function EditPage(props: TProps) {
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
-    const boardLink = getBoardLinkForIframe(board.id)
+    const boardLink = getBoardLinkServer(board.id, true)
 
     return (
         <main id="main-content" className="bg-gray-50">
@@ -89,7 +89,11 @@ export default async function EditPage(props: TProps) {
                 </div>
                 <div className="md:w-fit">
                     <p>Lenke til tavla:</p>
-                    <Copy bid={board.id} type="button" />
+                    <Copy
+                        bid={board.id}
+                        type="button"
+                        trackingEvent="COPY_BOARD_FROM_EDIT_BOARD"
+                    />
                 </div>
 
                 <div

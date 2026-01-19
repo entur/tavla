@@ -12,6 +12,7 @@ const db = getFirestore()
 const allowedOrigins = [
     'https://vis-tavla.dev.entur.no',
     'https://vis-tavla.entur.no',
+    'http://localhost:5173',
 ]
 
 function getCorsHeaders(request: NextRequest) {
