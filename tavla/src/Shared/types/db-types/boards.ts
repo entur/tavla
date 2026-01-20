@@ -74,7 +74,6 @@ const boardFontSizeSchema = z.enum(['small', 'medium', 'large'])
 const boardMetaSchema = z.object({
     title: z.string().optional(),
     created: z.number().optional(),
-    lastActive: z.number().optional(),
     dateModified: z.number().optional(),
     lastActiveTimestamp: z.number().optional(),
     fontSize: boardFontSizeSchema.optional(),
