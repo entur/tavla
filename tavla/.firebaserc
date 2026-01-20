@@ -1,5 +1,7 @@
 {
-  "projects": {
-    "default": "ent-tavla-dev"
-  }
+    "projects": {
+        "default": "ent-tavla-dev",
+        "dev": "ent-tavla-dev",
+        "prd": "ent-tavla-prd"
+    }
 }

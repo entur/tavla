@@ -19,7 +19,7 @@ const compat = new FlatCompat({
 
 export default [
     {
-        ignores: ['src/types/graphql/*', 'migrations/*'],
+        ignores: ['src/types/graphql/*', 'migrations/*', 'firebaseFunctions/*'],
     },
 
     ...compat.extends(
