@@ -95,15 +95,19 @@ function DemoPreview({ board }: { board: BoardDB }) {
             className="previewContainer md:text-2xl"
             data-theme={board?.theme ?? 'dark'}
         >
-            <div className="h-96 md:h-[50rem]">
+            <div
+                className="h-96 md:h-[50rem]"
+                aria-label="Forhåndsvisning av tavle"
+            >
                 {iframeSrc && (
                     <iframe
                         ref={iframeRef}
                         src={iframeSrc}
                         className="h-96 w-full border-0 md:h-[50rem]"
-                        title="Demo Board Preview"
+                        title="Forhåndsvisning av tavle"
                         sandbox="allow-scripts allow-same-origin"
                         referrerPolicy="no-referrer"
+                        tabIndex={-1}
                     />
                 )}
             </div>
