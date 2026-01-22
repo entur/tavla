@@ -60,6 +60,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
         name: board.meta.title ?? DEFAULT_BOARD_NAME,
         link: `/tavler/${board.id}/rediger`,
         lastModified: board.meta.dateModified,
+        lastActiveTimestamp: board.meta.lastActiveTimestamp,
         board: board,
     }))
 
@@ -83,7 +84,12 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                         >
                             Navn
                         </HeaderCell>
-                        <HeaderCell className="flex items-center gap-1">
+                        <HeaderCell
+                            className="flex items-center gap-1"
+                            {...getSortableHeaderProps({
+                                name: 'lastActiveTimestamp',
+                            })}
+                        >
                             Sist aktiv
                             <LastActiveInfobutton />
                         </HeaderCell>
