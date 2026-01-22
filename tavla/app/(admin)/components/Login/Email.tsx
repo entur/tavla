@@ -91,6 +91,7 @@ function Email() {
                         name="email"
                         label="E-post"
                         type="email"
+                        autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         feedback={
@@ -114,6 +115,7 @@ function Email() {
                             getFormFeedbackForField('password', state)?.variant
                         }
                         ariaAlertOnFeedback={true}
+                        autoComplete="current-password"
                     />
                 </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
