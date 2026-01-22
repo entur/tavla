@@ -75,6 +75,7 @@ function Create() {
                         name="email"
                         label="E-post"
                         type="email"
+                        autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         {...getFormFeedbackForField('email', state)}
@@ -85,6 +86,7 @@ function Create() {
                         name="password"
                         label="Passord"
                         type="password"
+                        autoComplete="new-password"
                         {...getFormFeedbackForField('password', state)}
                     />
                 </div>
@@ -93,6 +95,7 @@ function Create() {
                         name="repeat_password"
                         label="Gjenta passord"
                         type="password"
+                        autoComplete="new-password"
                         {...getFormFeedbackForField('repeat_password', state)}
                     />
                 </div>

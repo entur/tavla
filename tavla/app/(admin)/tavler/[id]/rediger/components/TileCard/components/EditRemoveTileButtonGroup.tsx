@@ -25,7 +25,7 @@ function EditRemoveTileButtonGroup({
         <div className="flex gap-md">
             <Tooltip
                 placement="bottom"
-                content="Rediger stoppested"
+                content={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
                 id="tooltip-edit-tile"
             >
                 <SecondarySquareButton
@@ -33,7 +33,7 @@ function EditRemoveTileButtonGroup({
                         if (hasTileChanged) return setConfirmOpen(true)
                         setIsTileOpen(!isTileOpen)
                     }}
-                    aria-label="Rediger stoppested"
+                    aria-label={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
                 >
                     {isTileOpen ? <CloseIcon /> : <EditIcon />}
                 </SecondarySquareButton>

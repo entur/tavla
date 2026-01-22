@@ -66,12 +66,12 @@ function SaveCancelDeleteTileButtonGroup({
             <Modal
                 size="small"
                 open={confirmOpen}
-                onDismiss={resetTile}
+                onDismiss={() => setConfirmOpen(false)}
                 closeLabel="Avbryt endring"
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={resetTile}
+                    onClick={() => setConfirmOpen(false)}
                     className="absolute right-4 top-4"
                 >
                     <CloseIcon />
@@ -95,10 +95,10 @@ function SaveCancelDeleteTileButtonGroup({
                         <Button
                             type="button"
                             variant="secondary"
-                            aria-label="Avbryt sletting"
+                            aria-label="Forkast endringer"
                             onClick={resetTile}
                         >
-                            Avbryt
+                            Forkast
                         </Button>
                     </ButtonGroup>
                 </div>

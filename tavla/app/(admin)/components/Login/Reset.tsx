@@ -55,6 +55,7 @@ function Reset() {
                         label="E-post"
                         aria-label="E-post"
                         type="email"
+                        autoComplete="email"
                         {...getFormFeedbackForField('email', state)}
                     />
                 </div>
