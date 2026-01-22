@@ -1,7 +1,7 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import admin, { auth, firestore } from 'firebase-admin'
+import { getFolderForBoard } from 'src/firebase'
 import { BoardDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
 import { UserDB, UserDBSchema } from 'types/db-types/users'

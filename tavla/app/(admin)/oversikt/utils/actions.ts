@@ -4,9 +4,9 @@ import { moveBoard } from 'app/(admin)/tavler/[id]/rediger/components/Settings/a
 import { TFormFeedback } from 'app/(admin)/utils'
 import { deleteBoard, initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
-import { getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { getFolderForBoard } from 'src/firebase'
 import { BoardDB } from 'types/db-types/boards'
 import { FolderDB } from 'types/db-types/folders'
 
