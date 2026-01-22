@@ -84,6 +84,7 @@ function DeleteAccount() {
                             name="confirmEmail"
                             label="E-post"
                             type="email"
+                            autoComplete="email"
                             required
                             aria-required
                             {...getFormFeedbackForField('email', formError)}

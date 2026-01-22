@@ -44,12 +44,14 @@ function ResetForm({ oob }: { oob: string }) {
                 name="password"
                 label="Nytt passord"
                 type="password"
+                autoComplete="new-password"
                 {...getFormFeedbackForField('password', state)}
             />
             <ClientOnlyTextField
                 name="repeat_password"
                 label="Gjenta passord"
                 type="password"
+                autoComplete="new-password"
                 {...getFormFeedbackForField('repeat_password', state)}
             />
             <SubmitButton variant="primary">Tilbakestill passord</SubmitButton>

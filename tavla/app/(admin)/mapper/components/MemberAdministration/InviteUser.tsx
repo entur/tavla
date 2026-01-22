@@ -33,6 +33,7 @@ function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
                         id="email"
                         label="E-post"
                         type="email"
+                        autoComplete="email"
                         {...getFormFeedbackForField('email', state)}
                     />
                 </div>
