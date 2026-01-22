@@ -64,7 +64,7 @@ function TileSelector({
         >
             <div className="w-full">
                 <MultiSelect
-                    label="Fylker (valgfritt)"
+                    label="Fylker"
                     items={counties}
                     selectedItems={selectedCounties}
                     onChange={handleCountyChange}
@@ -83,12 +83,13 @@ function TileSelector({
                                 '',
                         )
                     }
-                    label="Stoppested"
+                    label="Stoppested*"
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
                     onChange={setSelectedStopPlace}
                     debounceTimeout={150}
+                    aria-required
                     {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
@@ -107,7 +108,6 @@ function TileSelector({
                             : null)
                     }
                     onChange={setSelectedQuay}
-                    disabled={!selectedStopPlace}
                     {...getFormFeedbackForField('quay', state)}
                 />
             </div>

@@ -1,5 +1,5 @@
 'use client'
-import { Heading2, Heading3 } from '@entur/typography'
+import { Heading2, Heading3, SubParagraph } from '@entur/typography'
 import { FormError } from 'app/(admin)/components/FormError'
 import {
     Elements,
@@ -84,7 +84,10 @@ function Settings({ board }: { board: BoardDB }) {
                     </div>
                 </div>
                 <div className="box md:min-w-[480px]">
-                    <Heading3 margin="bottom"> Tilleggsinformasjon </Heading3>
+                    <Heading3 margin="none"> Tilleggsinformasjon </Heading3>
+                    <SubParagraph className="mt-0">
+                        Felter markert med * er påkrevd.
+                    </SubParagraph>
                     <div className="flex flex-col gap-4">
                         <Title
                             title={board.meta?.title ?? DEFAULT_BOARD_NAME}

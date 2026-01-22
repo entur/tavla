@@ -1,4 +1,4 @@
-import { Heading1, Heading2 } from '@entur/typography'
+import { Heading1, Heading2, SubParagraph } from '@entur/typography'
 import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
@@ -100,13 +100,17 @@ export default async function EditPage(props: TProps) {
                     data-transport-palette={board.transportPalette}
                     className="flex flex-col gap-4 rounded-md bg-background px-6 py-8"
                 >
-                    <Heading2>Stoppesteder</Heading2>
-                    <TileSelector action={walkingDistanceAction} />
+                    <div>
+                        <Heading2>Stoppesteder</Heading2>
+                        <SubParagraph className="mt-0">
+                            Felter markert med * er påkrevd.
+                        </SubParagraph>
+                    </div>
 
+                    <TileSelector action={walkingDistanceAction} />
                     <TileList board={board} />
                     <div
                         data-theme={board.theme ?? 'dark'}
-                        className="pt-8"
                         aria-label="Forhåndsvisning av Tavla"
                     >
                         <Preview boardLink={boardLink} />

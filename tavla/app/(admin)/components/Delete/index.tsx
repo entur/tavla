@@ -90,7 +90,8 @@ function DeleteFolder({
                     "${folder.name}"? Alle tavlene i mappen vil også bli slettet.`}
                 </Paragraph>
                 <SubParagraph className="text-left font-medium">
-                    Bekreft ved å skrive inn navnet på mappen
+                    Bekreft ved å skrive inn navnet på mappen. Feltet er
+                    påkrevd.
                 </SubParagraph>
                 <form action={submit} aria-live="polite" aria-relevant="all">
                     <HiddenInput id="oname" value={folder.name} />

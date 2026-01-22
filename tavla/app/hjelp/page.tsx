@@ -25,9 +25,8 @@ function Hjelp() {
                             Finner du ikke svaret du leter etter, ber vi deg{' '}
                             <EnturLink href="mailto:tavla@entur.org">
                                 ta kontakt med oss på tavla@entur.org
-                            </EnturLink>{' '}
-                            eller send oss en melding ved å bruke skjemaet som
-                            du finner nederst i høyre hjørne.
+                            </EnturLink>
+                            .
                         </Paragraph>
                     </div>
                     <Image

@@ -1,6 +1,6 @@
 'use client'
 import { useToast } from '@entur/alert'
-import { IconButton } from '@entur/button'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { Dropdown } from '@entur/dropdown'
 import { ForwardIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
@@ -58,18 +58,19 @@ function Move({ board }: { board: BoardDB }) {
             </Tooltip>
             <Modal
                 open={isOpen}
-                size="medium"
+                size="small"
                 onDismiss={() => {
                     setError(undefined)
                     setIsOpen(false)
                 }}
                 style={{ overflow: 'visible' }}
                 closeLabel="Avbryt sletting"
+                className="flex flex-col items-center"
             >
                 <Heading3 margin="bottom" as="h1">
                     Flytt tavlen &quot;{board.meta.title}&quot;
                 </Heading3>
-                <Paragraph className="mb-5">
+                <Paragraph className="mb-5 text-center">
                     Velg hvilken mappe du vil flytte tavlen til. Vær oppmerksom
                     på at når du flytter en tavle vil tilgangene endres basert
                     på hvem som har tilgang til mappen.
@@ -90,14 +91,25 @@ function Move({ board }: { board: BoardDB }) {
                     />
                     <FormError {...getFormFeedbackForField('general', error)} />
 
-                    <div className="mt-8 flex flex-row justify-start">
+                    <ButtonGroup className="mt-8 flex w-full flex-row gap-4">
                         <SubmitButton
                             variant="primary"
-                            className="max-sm:w-full"
+                            width="fluid"
+                            className="!mr-0"
                         >
                             Flytt tavlen
                         </SubmitButton>
-                    </div>
+                        <Button
+                            type="button"
+                            width="fluid"
+                            variant="secondary"
+                            aria-label="Avbryt flytt tavle"
+                            onClick={() => setIsOpen(false)}
+                            className="!mr-0"
+                        >
+                            Avbryt
+                        </Button>
+                    </ButtonGroup>
                 </form>
             </Modal>
         </>

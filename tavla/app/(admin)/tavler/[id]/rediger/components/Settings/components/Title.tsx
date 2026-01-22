@@ -2,6 +2,7 @@
 import { Heading4 } from '@entur/typography'
 import { TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+
 function Title({
     title,
     feedback,
@@ -21,6 +22,9 @@ function Title({
                 label="Navn på tavlen"
                 maxLength={50}
                 onBlur={onBlur}
+                required
+                aria-required
+                autoComplete="off"
                 {...feedback}
             />
         </div>

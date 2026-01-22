@@ -72,18 +72,15 @@ function ContactForm() {
                     </Paragraph>
 
                     <div>
-                        <Label
-                            htmlFor="message"
-                            className="font-bold"
-                            aria-required
-                        >
-                            Melding *
+                        <Label htmlFor="message" className="font-bold">
+                            Melding (påkrevd)
                         </Label>
                         <TextArea
                             name="message"
                             id="message"
                             label="Melding"
                             aria-required
+                            required
                             {...getFormFeedbackForField('user', formState)}
                             className="mb-2"
                         />
@@ -116,15 +113,16 @@ function ContactForm() {
                             )}
                         </div>
                     </div>
-                    <ClientOnlyTextField
-                        label="E-postadresse"
-                        name="email"
-                        type="email"
-                        autoComplete="email"
-                        aria-label="E-postadresse"
-                        disabled={disabledEmail}
-                        {...getFormFeedbackForField('email', formState)}
-                    />
+                    {!disabledEmail && (
+                        <ClientOnlyTextField
+                            label="E-postadresse"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            aria-label="E-postadresse"
+                            {...getFormFeedbackForField('email', formState)}
+                        />
+                    )}
 
                     <FormError
                         {...getFormFeedbackForField('general', formState)}
