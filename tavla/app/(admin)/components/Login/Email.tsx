@@ -91,6 +91,7 @@ function Email() {
                         name="email"
                         label="E-post"
                         type="email"
+                        autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         {...getFormFeedbackForField('email', state)}
@@ -101,6 +102,7 @@ function Email() {
                         name="password"
                         label="Passord"
                         type="password"
+                        autoComplete="current-password"
                         {...getFormFeedbackForField('password', state)}
                     />
                 </div>
