@@ -1,9 +1,12 @@
 import * as Sentry from '@sentry/nextjs'
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS, TEndpointNames } from 'assets/env'
-import { FetchErrorTypes } from 'Board/components/DataFetchingFailed'
 import { addMinutesToDate, formatDateToISO } from 'utils/time'
 import { TypedDocumentString } from './index'
+
+export enum FetchErrorTypes {
+    TIMEOUT = 'Request timed out',
+}
 
 async function fetchWithTimeout(
     url: RequestInfo | URL,
