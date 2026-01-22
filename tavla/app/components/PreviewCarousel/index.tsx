@@ -91,6 +91,7 @@ function PreviewCarousel({
                         key={currentBoard.link}
                         sandbox="allow-scripts allow-same-origin"
                         referrerPolicy="no-referrer"
+                        tabIndex={-1}
                     />
                 </div>
                 <div className="my-auto mr-2 hidden md:block">
