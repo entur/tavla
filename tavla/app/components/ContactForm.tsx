@@ -83,7 +83,6 @@ function ContactForm() {
                             name="message"
                             id="message"
                             label="Melding"
-                            aria-label="Skriv her"
                             aria-required
                             {...getFormFeedbackForField('user', formState)}
                             className="mb-2"
