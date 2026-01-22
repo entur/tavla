@@ -1,5 +1,5 @@
 import { Heading4 } from '@entur/typography'
-import { TileContext } from 'Board/scenarios/Table/contexts'
+import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { HiddenInput } from 'components/Form/HiddenInput'
 import { useNonNullContext } from 'hooks/useNonNullContext'
 import { TTransportMode } from 'types/graphql-schema'
