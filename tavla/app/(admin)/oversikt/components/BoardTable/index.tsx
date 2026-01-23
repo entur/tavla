@@ -83,7 +83,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                         >
                             Navn
                         </HeaderCell>
-                        <HeaderCell className="flex items-center gap-1">
+                        <HeaderCell className="flex items-center">
                             Sist aktiv
                             <LastActiveInfobutton />
                         </HeaderCell>
