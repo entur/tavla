@@ -15,7 +15,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
             <div className="container pb-20 pt-16">
                 <Image src={TavlaLogo} alt="Entur Tavla logo" />
                 <div className="flex flex-col justify-between sm:flex-row">
-                    <address className="not-italic">
+                    <div className="not-italic">
                         <Heading3 as="h2">Entur AS</Heading3>
                         <ul className="flex flex-col gap-4">
                             <li>
@@ -49,7 +49,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 </EnturLink>
                             </li>
                         </ul>
-                    </address>
+                    </div>
                     <div className="flex flex-col gap-4">
                         <Heading3 as="h2">Informasjon</Heading3>
                         <ul className="flex flex-col gap-4">
