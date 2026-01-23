@@ -2,8 +2,8 @@ import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getFirestore } from 'firebase-admin/firestore'
 import { NextRequest, NextResponse } from 'next/server'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB } from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
 
 initializeAdminApp()
 

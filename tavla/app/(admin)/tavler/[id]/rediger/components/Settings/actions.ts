@@ -17,11 +17,11 @@ import {
 } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { getBoard } from 'Board/scenarios/Board/firebase'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
+import { getBoard } from 'src/firebase'
 import {
     BoardDB,
     BoardFontSize,
@@ -29,8 +29,8 @@ import {
     BoardTheme,
     LocationDB,
     TransportPalette,
-} from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+} from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
 
 initializeAdminApp()
 

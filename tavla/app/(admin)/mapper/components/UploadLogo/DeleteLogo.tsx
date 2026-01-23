@@ -5,7 +5,7 @@ import { DeleteIcon } from '@entur/icons'
 import { FormError } from 'app/(admin)/components/FormError'
 import { TFormFeedback, getFormFeedbackForField } from 'app/(admin)/utils'
 import { useState } from 'react'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 import { remove } from './actions'
 
 function DeleteLogo({

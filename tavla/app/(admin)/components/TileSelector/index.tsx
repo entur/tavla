@@ -1,6 +1,8 @@
 'use client'
 import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
@@ -9,11 +11,9 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 
 function TileSelector({
     action,

@@ -17,7 +17,7 @@ import {
     BoardTileDB,
     LocationDB,
     TransportPalette,
-} from 'types/db-types/boards'
+} from 'src/types/db-types/boards'
 
 initializeAdminApp()
 

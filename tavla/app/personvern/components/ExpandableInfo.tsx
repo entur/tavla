@@ -15,7 +15,7 @@ import { showUC_UI_second } from 'app/components/ConsentHandler'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { waitFor } from 'utils/cmpUtils'
+import { waitFor } from 'src/utils/cmpUtils'
 
 const emailSubject = 'Forespørsel om å slette analysedata'
 const emailBody = (id: string) => {

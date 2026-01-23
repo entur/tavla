@@ -1,11 +1,11 @@
 'use client'
 import { SearchableDropdown } from '@entur/dropdown'
 import { Heading4, Paragraph } from '@entur/typography'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
-import { HiddenInput } from 'components/Form/HiddenInput'
 import { useEffect, useRef } from 'react'
-import { LocationDB } from 'types/db-types/boards'
+import { LocationDB } from 'src/types/db-types/boards'
 
 function WalkingDistance({
     location,
