@@ -6,8 +6,8 @@ import {
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
 import Link from 'next/link'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB } from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
 
 function FolderBreadcrumbs({ folder }: { folder: FolderDB }) {
     return (

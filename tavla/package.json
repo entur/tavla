@@ -2,13 +2,16 @@
     "name": "tavla",
     "version": "0.1.0",
     "private": true,
+    "workspaces": [
+        "firebaseFunctions"
+    ],
     "browserslist": [
         "chrome > 47"
     ],
     "scripts": {
-        "dev": "next dev --turbopack & firebase emulators:start --project=ent-tavla-dev",
+        "dev": "next dev --turbopack & firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev",
         "dev:persist": "next dev & yarn emulators",
-        "emulators": "firebase emulators:start --project=ent-tavla-dev --import=./.db --export-on-exit",
+        "emulators": "firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev --import=./.db --export-on-exit",
         "build": "next build",
         "build:prod": "NEXT_PUBLIC_ENV=prod next build",
         "typecheck": "tsc --noEmit --incremental false",
@@ -24,7 +27,7 @@
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,jsx}": [
-            "yarn eslint --max-warnings=0 --fix"
+            "yarn eslint --max-warnings=0 --fix --no-warn-ignored"
         ],
         "**/*.{json,css,scss,md,yaml,yml}": [
             "yarn prettier --write"
@@ -55,6 +58,7 @@
         "dompurify": "3.3.0",
         "firebase": "12.6.0",
         "firebase-admin": "13.6.0",
+        "firebase-functions": "7.0.1",
         "graphql": "16.12.0",
         "jsdom": "26.1.0",
         "lodash": "4.17.21",

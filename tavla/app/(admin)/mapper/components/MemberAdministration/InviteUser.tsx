@@ -2,13 +2,13 @@
 import { useToast } from '@entur/alert'
 import { AddIcon } from '@entur/icons'
 import { Heading3 } from '@entur/typography'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { useActionState, useRef } from 'react'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 import { inviteUserAction } from './actions'
 
 function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
@@ -33,6 +33,7 @@ function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
                         id="email"
                         label="E-post"
                         type="email"
+                        autoComplete="email"
                         {...getFormFeedbackForField('email', state)}
                     />
                 </div>

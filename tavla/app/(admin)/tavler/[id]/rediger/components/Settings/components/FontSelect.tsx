@@ -1,5 +1,5 @@
 'use client'
-import { BoardFontSize } from 'types/db-types/boards'
+import { BoardFontSize } from 'src/types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
 function FontSelect({

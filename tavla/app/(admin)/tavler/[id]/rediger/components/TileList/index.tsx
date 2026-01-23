@@ -4,7 +4,7 @@ import { saveUpdatedTileOrder } from 'app/(admin)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
-import { BoardDB, BoardTileDB } from 'types/db-types/boards'
+import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { TileCard } from '../TileCard'
 
 function TileList({

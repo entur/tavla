@@ -14,10 +14,11 @@ import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
-import { formatTimestamp } from 'app/(admin)/utils/time'
+import { formatTimestamp, lastActiveToStatus } from 'app/(admin)/utils/time'
 import { Folder } from 'app/(admin)/utils/types'
+import { LastActiveInfobutton } from 'app/components/LastActiveInfobutton'
 import Link from 'next/link'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 
 type BoardTableProps = {
     folders?: Folder[]
@@ -73,52 +74,69 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
     const sortedTableItems: TableItem[] = [...sortedFolders, ...sortedBoards]
 
     return (
-        <Table {...getSortableTableProps()}>
-            <TableHead>
-                <TableRow className="bg-secondary">
-                    <HeaderCell {...getSortableHeaderProps({ name: 'name' })}>
-                        Navn
-                    </HeaderCell>
-                    <HeaderCell
-                        className="text-nowrap"
-                        {...getSortableHeaderProps({ name: 'lastModified' })}
-                    >
-                        Sist endret
-                    </HeaderCell>
-                    <HeaderCell>Handlinger</HeaderCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {sortedTableItems?.map((data: TableItem) => (
-                    <TableRow
-                        key={data.id}
-                        className="odd:bg-primary even:bg-secondary"
-                    >
-                        <DataCell>
-                            <Link
-                                href={data.link}
-                                className="flex flex-row items-center gap-2 hover:underline"
-                            >
-                                {data.type === 'folder' ? (
-                                    <FolderIcon aria-label="Mappe-ikon" />
-                                ) : (
-                                    <BoardIcon aria-label="Tavle-ikon" />
-                                )}
-                                {data.name}
-                            </Link>
-                        </DataCell>
-                        <DataCell>
-                            {data?.lastModified
-                                ? formatTimestamp(data.lastModified)
-                                : '-'}
-                        </DataCell>
-                        <DataCell className="flex flex-row gap-1">
-                            <TableActions data={data} />
-                        </DataCell>
+        <div className="overflow-x-auto">
+            <Table {...getSortableTableProps()}>
+                <TableHead>
+                    <TableRow className="bg-secondary">
+                        <HeaderCell
+                            {...getSortableHeaderProps({ name: 'name' })}
+                        >
+                            Navn
+                        </HeaderCell>
+                        <HeaderCell className="flex items-center">
+                            Sist aktiv
+                            <LastActiveInfobutton />
+                        </HeaderCell>
+                        <HeaderCell
+                            className="text-nowrap"
+                            {...getSortableHeaderProps({
+                                name: 'lastModified',
+                            })}
+                        >
+                            Sist endret
+                        </HeaderCell>
+                        <HeaderCell>Handlinger</HeaderCell>
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHead>
+                <TableBody>
+                    {sortedTableItems?.map((data: TableItem) => (
+                        <TableRow
+                            key={data.id}
+                            className="odd:bg-primary even:bg-secondary"
+                        >
+                            <DataCell>
+                                <Link
+                                    href={data.link}
+                                    className="flex flex-row items-center gap-2 hover:underline"
+                                >
+                                    {data.type === 'folder' ? (
+                                        <FolderIcon aria-label="Mappe-ikon" />
+                                    ) : (
+                                        <BoardIcon aria-label="Tavle-ikon" />
+                                    )}
+                                    {data.name}
+                                </Link>
+                            </DataCell>
+                            <DataCell>
+                                {lastActiveToStatus(
+                                    data.type === 'board'
+                                        ? data.board.meta.lastActiveTimestamp
+                                        : undefined,
+                                )}
+                            </DataCell>
+                            <DataCell>
+                                {data?.lastModified
+                                    ? formatTimestamp(data.lastModified)
+                                    : '-'}
+                            </DataCell>
+                            <DataCell className="flex flex-row gap-1">
+                                <TableActions data={data} />
+                            </DataCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     )
 }
 

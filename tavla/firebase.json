@@ -20,5 +20,12 @@
     "firestore": {
         "rules": "firestore.rules",
         "indexes": "firestore.indexes.json"
+    },
+    "functions": {
+        "source": "firebaseFunctions",
+        "runtime": "nodejs22",
+        "predeploy": "yarn workspace @utils/firebase-functions build",
+        "region": "europe-west1",
+        "isolate": true
     }
 }

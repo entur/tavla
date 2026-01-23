@@ -1,10 +1,10 @@
 'use client'
 import { Dropdown } from '@entur/dropdown'
 import { Heading4 } from '@entur/typography'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
-import { HiddenInput } from 'components/Form/HiddenInput'
 import { useEffect, useRef } from 'react'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 
 function Folder({
     folder,
