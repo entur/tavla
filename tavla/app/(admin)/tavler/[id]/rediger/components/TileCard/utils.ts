@@ -1,4 +1,4 @@
-import { TTransportMode } from 'types/graphql-schema'
+import { TTransportMode } from 'src/types/graphql-schema'
 import { TLineFragment } from './types'
 
 export function sortLineByPublicCode(a: TLineFragment, b: TLineFragment) {

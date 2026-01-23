@@ -8,8 +8,8 @@ import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
-import { BoardDB, BoardTileDB } from 'types/db-types/boards'
-import { getBoardLinkServer } from 'utils/boardLink'
+import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import { getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,

@@ -29,8 +29,8 @@ import {
     BoardTheme,
     LocationDB,
     TransportPalette,
-} from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+} from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
 
 initializeAdminApp()
 

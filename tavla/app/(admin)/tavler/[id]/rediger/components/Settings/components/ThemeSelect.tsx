@@ -1,5 +1,5 @@
 'use client'
-import { BoardTheme } from 'types/db-types/boards'
+import { BoardTheme } from 'src/types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
 function ThemeSelect({

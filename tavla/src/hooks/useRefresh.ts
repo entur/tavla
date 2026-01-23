@@ -1,6 +1,6 @@
 import { delay } from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 
 type Message =
     | { type: 'refresh'; payload: BoardDB }

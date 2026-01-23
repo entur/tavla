@@ -3,7 +3,7 @@ import { Paragraph } from '@entur/typography'
 import { FirebaseError } from 'firebase/app'
 import { applyActionCode, getAuth } from 'firebase/auth'
 import Link from 'next/link'
-import { getClientApp } from 'utils/firebase'
+import { getClientApp } from 'src/utils/firebase'
 
 async function Verify(props: { params: Promise<{ oob: string }> }) {
     const params = await props.params

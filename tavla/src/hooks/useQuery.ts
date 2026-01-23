@@ -1,6 +1,6 @@
-import { TEndpointNames } from 'assets/env'
 import { TypedDocumentString } from 'graphql/index'
-import { fetcher } from 'graphql/utils'
+import { TEndpointNames } from 'src/assets/env'
+import { fetcher } from 'src/graphql/utils'
 import useSWR from 'swr'
 
 export type TUseQueryOptions = {

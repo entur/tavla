@@ -9,7 +9,7 @@ import { isEmpty } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getBoard } from 'src/firebase'
-import { BoardDB, BoardTileDB } from 'types/db-types/boards'
+import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { COUNTY_THEME_MAP } from '../Settings/colorPalettes'
 
 initializeAdminApp()

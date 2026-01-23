@@ -2,8 +2,8 @@
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { OverflowMenuItem } from '@entur/menu'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB } from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
 import { duplicateBoard } from './actions'
 
 interface DuplicateBoardProps {

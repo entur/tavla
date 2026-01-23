@@ -1,6 +1,6 @@
+import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
-import { TransportIcon } from 'components/TransportIcon'
-import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
+import { TTransportMode, TTransportSubmode } from 'src/types/graphql-schema'
 
 export const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',

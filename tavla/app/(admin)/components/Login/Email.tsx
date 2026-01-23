@@ -1,6 +1,7 @@
 'use client'
 import { Button, ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import {
     TFormFeedback,
@@ -9,7 +10,6 @@ import {
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import musk from 'assets/illustrations/Musk.png'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { FirebaseError } from 'firebase/app'
 import {
     getAuth,
@@ -21,7 +21,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
 import { useActionState, useState } from 'react'
-import { getClientApp } from 'utils/firebase'
+import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
 import { login } from './actions'
 import Google from './Google'

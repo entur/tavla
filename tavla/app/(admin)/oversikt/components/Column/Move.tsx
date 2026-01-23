@@ -6,14 +6,14 @@ import { ForwardIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
 import { moveBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { useState } from 'react'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 
 function Move({ board }: { board: BoardDB }) {
     const { addToast } = useToast()

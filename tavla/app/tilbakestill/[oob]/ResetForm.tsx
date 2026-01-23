@@ -1,16 +1,16 @@
 'use client'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { FirebaseError } from 'firebase/app'
 import { confirmPasswordReset, getAuth } from 'firebase/auth'
 import { redirect } from 'next/navigation'
 import { useActionState } from 'react'
-import { getClientApp } from 'utils/firebase'
+import { getClientApp } from 'src/utils/firebase'
 
 function ResetForm({ oob }: { oob: string }) {
     const submit = async (

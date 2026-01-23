@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type * as Types from 'types/graphql-schema'
+import type * as Types from 'src/types/graphql-schema'
 
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
 export type TDepartureFragment = {

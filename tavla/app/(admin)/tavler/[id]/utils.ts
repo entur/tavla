@@ -1,10 +1,10 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { HomeIcon, MapPinIcon } from '@entur/icons'
-import { SmallTravelTag } from 'components/TravelTag'
+import { SmallTravelTag } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TravelTag'
 import { uniq } from 'lodash'
-import { BoardTheme, LocationDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
-import { TTransportMode } from 'types/graphql-schema'
+import { BoardTheme, LocationDB } from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
+import { TTransportMode } from 'src/types/graphql-schema'
 
 export type TCategory =
     | 'onstreetBus'

@@ -2,8 +2,8 @@ import { Heading4, SubParagraph } from '@entur/typography'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { useNonNullContext } from 'hooks/useNonNullContext'
 import { useState } from 'react'
+import { useNonNullContext } from 'src/hooks/useNonNullContext'
 
 function SetStopPlaceName({ state }: { state?: TFormFeedback }) {
     const tile = useNonNullContext(TileContext)

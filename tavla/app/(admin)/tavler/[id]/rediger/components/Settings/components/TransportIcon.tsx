@@ -1,6 +1,6 @@
 import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import { SVGProps } from 'react'
-import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
+import { TTransportMode, TTransportSubmode } from 'src/types/graphql-schema'
 
 function TransportIcon({
     transportMode,

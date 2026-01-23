@@ -2,9 +2,9 @@
 import * as Sentry from '@sentry/nextjs'
 import admin, { auth, firestore } from 'firebase-admin'
 import { getFolderForBoard } from 'src/firebase'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
-import { UserDB, UserDBSchema } from 'types/db-types/users'
+import { BoardDB } from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
+import { UserDB, UserDBSchema } from 'src/types/db-types/users'
 import { getBoardsForFolder, getFolderIfUserHasAccess } from '../actions'
 import { getUserFromSessionCookie } from './server'
 

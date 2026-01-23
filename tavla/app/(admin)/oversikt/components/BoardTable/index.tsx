@@ -18,7 +18,7 @@ import { formatTimestamp, lastActiveToStatus } from 'app/(admin)/utils/time'
 import { Folder } from 'app/(admin)/utils/types'
 import { LastActiveInfobutton } from 'app/components/LastActiveInfobutton'
 import Link from 'next/link'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 
 type BoardTableProps = {
     folders?: Folder[]

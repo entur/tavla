@@ -12,7 +12,7 @@ import {
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import GoogleButton from 'react-google-button'
-import { getClientApp } from 'utils/firebase'
+import { getClientApp } from 'src/utils/firebase'
 import { create, login } from './actions'
 
 export default function Google({ trackingEvent }: { trackingEvent: string }) {

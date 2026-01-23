@@ -5,8 +5,8 @@ import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB } from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
 
 initializeAdminApp()
 

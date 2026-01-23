@@ -4,10 +4,10 @@ import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
 import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { OLD_LINE_IDS } from 'app/(admin)/tavler/[id]/rediger/compatibility'
+import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
-import { TransportIcon } from 'components/TransportIcon'
 import { uniqBy } from 'lodash'
 import {
     Dispatch,
@@ -21,7 +21,7 @@ import {
     BoardTileDB,
     LocationDB,
     TileColumnDB,
-} from 'types/db-types/boards'
+} from 'src/types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
 import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'

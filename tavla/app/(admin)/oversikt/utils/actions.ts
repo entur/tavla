@@ -7,8 +7,8 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getFolderForBoard } from 'src/firebase'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB } from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
 
 initializeAdminApp()
 

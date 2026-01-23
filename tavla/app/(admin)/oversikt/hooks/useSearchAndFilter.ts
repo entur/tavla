@@ -4,7 +4,7 @@ import {
 } from 'app/(admin)/utils/constants'
 import { Folder } from 'app/(admin)/utils/types'
 import { useMemo } from 'react'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 import { useSearchParam } from './useSearchParam'
 
 interface UseSearchAndFilterProps {
