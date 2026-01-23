@@ -2,8 +2,8 @@ import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
-import { BoardDB } from 'types/db-types/boards'
-import { FolderDB } from 'types/db-types/folders'
+import { BoardDB } from 'src/types/db-types/boards'
+import { FolderDB } from 'src/types/db-types/folders'
 
 function EditBoard({ board }: { board?: BoardDB }) {
     const ariaLabel = board?.meta?.title

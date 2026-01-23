@@ -1,7 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { FolderIcon } from '@entur/icons'
 import { useCallback, useEffect, useState } from 'react'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 import { getFoldersForUser } from '../actions'
 
 type FolderDropdownItem = NormalizedDropdownItemType<FolderDB | null>

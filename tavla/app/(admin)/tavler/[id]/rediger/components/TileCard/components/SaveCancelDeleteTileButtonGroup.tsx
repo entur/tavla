@@ -3,14 +3,13 @@ import { Button, ButtonGroup, IconButton } from '@entur/button'
 import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
+import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { TFormFeedback } from 'app/(admin)/utils'
 import Goat from 'assets/illustrations/Goat.png'
-import { TileContext } from 'Board/scenarios/Table/contexts'
-import { SubmitButton } from 'components/Form/SubmitButton'
-import { useNonNullContext } from 'hooks/useNonNullContext'
 import Image from 'next/image'
-
-import { BoardDB, BoardTileDB } from 'types/db-types/boards'
+import { useNonNullContext } from 'src/hooks/useNonNullContext'
+import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { DeleteTileButton } from './DeleteTileButton'
 
 function SaveCancelDeleteTileButtonGroup({

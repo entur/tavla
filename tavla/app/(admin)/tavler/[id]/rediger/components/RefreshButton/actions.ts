@@ -2,8 +2,8 @@
 
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
-import { BoardDB } from 'types/db-types/boards'
-import { getBackendUrl } from 'utils/index'
+import { BoardDB } from 'src/types/db-types/boards'
+import { getBackendUrl } from 'src/utils/index'
 
 export async function refreshBoard(board: BoardDB) {
     const access = await userCanEditBoard(board.id)

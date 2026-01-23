@@ -6,7 +6,7 @@ import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
 import { usePostHog } from 'posthog-js/react'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 
 const emptyDemoBoard = {
     id: 'demo',

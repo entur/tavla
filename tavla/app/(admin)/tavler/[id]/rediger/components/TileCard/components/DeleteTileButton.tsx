@@ -1,7 +1,7 @@
 import { NegativeButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { BoardDB, BoardTileDB } from 'types/db-types/boards'
+import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 
 function DeleteTileButton({
     isWideScreen,

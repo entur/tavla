@@ -11,7 +11,7 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import { firestore, storage } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 import { getFilename } from './utils'
 
 initializeAdminApp()

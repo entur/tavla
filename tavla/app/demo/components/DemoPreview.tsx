@@ -2,8 +2,8 @@
 
 import { isValidTavlaVisningOrigin } from 'app/demo/constants'
 import React, { useEffect, useRef } from 'react'
-import { BoardDB } from 'types/db-types/boards'
-import { getBoardLinkClient } from 'utils/boardLink'
+import { BoardDB } from 'src/types/db-types/boards'
+import { getBoardLinkClient } from 'src/utils/boardLink'
 
 function sendDemoBoardMessage(
     iframe: HTMLIFrameElement | null,

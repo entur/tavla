@@ -1,4 +1,4 @@
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 
 /**
  * Represents a folder with additional metadata.

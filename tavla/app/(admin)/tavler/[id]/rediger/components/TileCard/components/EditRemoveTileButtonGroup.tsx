@@ -1,7 +1,7 @@
 import { SecondarySquareButton } from '@entur/button'
 import { CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { BoardDB, BoardTileDB } from 'types/db-types/boards'
+import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { DeleteTileButton } from './DeleteTileButton'
 
 function EditRemoveTileButtonGroup({

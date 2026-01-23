@@ -6,15 +6,15 @@ import { OverflowMenuItem } from '@entur/menu'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { deleteBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import sheep from 'assets/illustrations/Sheep.png'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 
 function Delete({
     board,

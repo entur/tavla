@@ -1,7 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
-import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'assets/env'
 import { uniq } from 'lodash'
-import { LocationDB } from 'types/db-types/boards'
+import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'src/assets/env'
+import { LocationDB } from 'src/types/db-types/boards'
 import { TCategory, getIcons } from '../tavler/[id]/utils'
 
 type TPartialGeoResponse = {

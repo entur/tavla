@@ -1,10 +1,10 @@
 import { Checkbox } from '@entur/form'
 import { Heading4, SubParagraph } from '@entur/typography'
+import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { TileContext } from 'Board/scenarios/Table/contexts'
-import { useNonNullContext } from 'hooks/useNonNullContext'
 import { useEffect, useState } from 'react'
-import { LocationDB } from 'types/db-types/boards'
+import { useNonNullContext } from 'src/hooks/useNonNullContext'
+import { LocationDB } from 'src/types/db-types/boards'
 
 function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
     const tile = useNonNullContext(TileContext)

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { BoardDB, TransportPalette } from 'types/db-types/boards'
+import { BoardDB, TransportPalette } from 'src/types/db-types/boards'
 
 const baseTransportPalettes = [
     { label: 'Nasjonal', value: 'default' },
