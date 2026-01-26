@@ -13,7 +13,7 @@ export function NavigateToOversiktButton() {
             as={Link}
             href="/oversikt"
             onClick={() => {
-                posthog.capture('to_oversikt_clicked', {
+                posthog.capture('admin_page_opened', {
                     location: 'landing_page',
                 })
             }}
