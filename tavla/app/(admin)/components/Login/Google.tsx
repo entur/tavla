@@ -17,10 +17,12 @@ import { getClientApp } from 'src/utils/firebase'
 import { create, login } from './actions'
 
 type Props = {
-    trackingContext: EventProps<'user_login_method_selected'>['context']
+    userTrackingContext: EventProps<'user_login_method_selected'>['context']
 }
 
-export default function Google({ trackingContext }: Props) {
+export default function Google({
+    userTrackingContext: trackingContext,
+}: Props) {
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(['', ''])
     const posthog = usePosthogTracking()

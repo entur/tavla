@@ -139,7 +139,7 @@ function Create() {
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google trackingContext="create" />
+            <Google userTrackingContext="create" />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du allerede en bruker?{' '}
                 <Link

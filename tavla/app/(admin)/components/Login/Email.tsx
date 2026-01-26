@@ -171,7 +171,7 @@ function Email() {
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google trackingContext="email" />
+            <Google userTrackingContext="email" />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du ikke en bruker?{' '}
                 <Link
