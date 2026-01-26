@@ -2,6 +2,7 @@
 import { SmallAlertBox, useToast } from '@entur/alert'
 import { Checkbox, TextArea } from '@entur/form'
 import { Label, Paragraph, SubParagraph } from '@entur/typography'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/utils'
 import {
@@ -9,10 +10,9 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
-import { validEmail } from 'utils/email'
+import { validEmail } from 'src/utils/email'
 import { postForm } from './actions'
 import { Expandable } from './Expandable'
 import ClientOnlyTextField from './NoSSR/TextField'
@@ -83,7 +83,6 @@ function ContactForm() {
                             name="message"
                             id="message"
                             label="Melding"
-                            aria-label="Skriv her"
                             aria-required
                             {...getFormFeedbackForField('user', formState)}
                             className="mb-2"

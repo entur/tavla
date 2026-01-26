@@ -9,7 +9,7 @@ import {
     ConsentDetails,
     formatConsentEvent,
     waitFor,
-} from '../../src/Shared/utils/cmpUtils'
+} from '../../src/utils/cmpUtils'
 
 declare global {
     interface Window {

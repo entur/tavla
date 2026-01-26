@@ -9,11 +9,11 @@ import {
     Paragraph,
     SubParagraph,
 } from '@entur/typography'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import sheep from 'assets/illustrations/Sheep.png'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
@@ -84,6 +84,7 @@ function DeleteAccount() {
                             name="confirmEmail"
                             label="E-post"
                             type="email"
+                            autoComplete="email"
                             required
                             aria-required
                             {...getFormFeedbackForField('email', formError)}

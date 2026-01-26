@@ -4,8 +4,8 @@ import { ExternalIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
-import { BoardDB } from 'types/db-types/boards'
-import { getBoardLinkClient } from 'utils/boardLink'
+import { BoardDB } from 'src/types/db-types/boards'
+import { getBoardLinkClient } from 'src/utils/boardLink'
 
 type Props = {
     type?: 'button' | 'icon'

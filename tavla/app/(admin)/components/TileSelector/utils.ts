@@ -5,9 +5,13 @@ import {
     StopPlaceCoordinatesQuery,
     WalkDistanceQuery,
 } from 'graphql/index'
-import { fetchQuery } from 'graphql/utils'
 import { nanoid } from 'nanoid'
-import { BoardTileDB, Coordinate, TileColumnDB } from 'types/db-types/boards'
+import { fetchQuery } from 'src/graphql/utils'
+import {
+    BoardTileDB,
+    Coordinate,
+    TileColumnDB,
+} from 'src/types/db-types/boards'
 
 export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
 

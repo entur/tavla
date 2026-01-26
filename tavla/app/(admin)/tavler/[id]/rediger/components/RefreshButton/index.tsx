@@ -4,7 +4,7 @@ import { Button } from '@entur/button'
 import { refreshBoard } from './actions'
 
 import { usePostHog } from 'posthog-js/react'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 
 function RefreshButton({ board }: { board: BoardDB }) {
     const toast = useToast()

@@ -13,8 +13,8 @@ import { JSDOM } from 'jsdom'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
 import { NextRequest } from 'next/server'
-import { FolderDB } from 'types/db-types/folders'
-import rateLimit from 'utils/rateLimit'
+import { FolderDB } from 'src/types/db-types/folders'
+import rateLimit from 'src/utils/rateLimit'
 
 initializeAdminApp()
 

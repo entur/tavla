@@ -2,10 +2,10 @@
 import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4 } from '@entur/typography'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { HiddenInput } from 'components/Form/HiddenInput'
 import { useState } from 'react'
-import { BoardFooter } from 'types/db-types/boards'
+import { BoardFooter } from 'src/types/db-types/boards'
 
 function Footer({
     infoMessage,

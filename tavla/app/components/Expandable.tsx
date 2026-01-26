@@ -19,7 +19,11 @@ function Expandable({
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 className={`flex w-full items-center justify-between gap-2 rounded-t bg-blue20 px-6 py-2 ${!isOpen ? 'transition-all duration-150 ease-in-out hover:py-3' : ''}`}
-                aria-label={isOpen ? 'Åpne skjema' : 'Lukk skjema'}
+                aria-label={
+                    isOpen
+                        ? 'Lukk skjema'
+                        : 'Åpne skjema for å sende oss en melding'
+                }
             >
                 {' '}
                 <Heading5

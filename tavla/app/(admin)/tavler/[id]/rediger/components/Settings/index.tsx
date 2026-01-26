@@ -1,5 +1,6 @@
 'use client'
 import { Heading2, Heading3 } from '@entur/typography'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { FormError } from 'app/(admin)/components/FormError'
 import {
     Elements,
@@ -11,9 +12,8 @@ import {
     TFormFeedback,
 } from 'app/(admin)/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { HiddenInput } from 'components/Form/HiddenInput'
 import { useCallback, useRef, useState } from 'react'
-import { BoardDB } from 'types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 import { saveSettings } from './actions'
 import { useAllowedPalettes } from './colorPalettes'
 import { FontSelect } from './components/FontSelect'
