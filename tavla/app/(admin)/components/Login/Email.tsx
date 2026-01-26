@@ -140,7 +140,7 @@ function Email() {
                             width="fluid"
                             aria-label="Logg inn"
                             onClick={() => {
-                                posthog.capture('login_method_selected', {
+                                posthog.capture('user_login_method_selected', {
                                     method: 'email',
                                     location: 'user_modal',
                                     context: 'email',
@@ -157,7 +157,7 @@ function Email() {
                             as={Link}
                             href={pathname ?? '/'}
                             onClick={() =>
-                                posthog.capture('login_aborted', {
+                                posthog.capture('user_login_aborted', {
                                     location: 'user_modal',
                                 })
                             }

@@ -145,7 +145,7 @@ function Create() {
                     className="underline"
                     href="?login=email"
                     onClick={() =>
-                        posthog.capture('login_started', {
+                        posthog.capture('user_login_started', {
                             location: 'user_modal',
                             context: 'create',
                         })

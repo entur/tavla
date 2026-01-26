@@ -17,7 +17,7 @@ import { getClientApp } from 'src/utils/firebase'
 import { create, login } from './actions'
 
 type Props = {
-    trackingContext: EventProps<'login_method_selected'>['context']
+    trackingContext: EventProps<'user_login_method_selected'>['context']
 }
 
 export default function Google({ trackingContext }: Props) {
@@ -77,7 +77,7 @@ export default function Google({ trackingContext }: Props) {
                     type="light"
                     label="Logg inn med Google"
                     onClick={() => {
-                        posthog.capture('login_method_selected', {
+                        posthog.capture('user_login_method_selected', {
                             location: 'user_modal',
                             method: 'google',
                             context: trackingContext,

@@ -26,7 +26,7 @@ export type EventMap = {
 
     user_create_cancelled: WithLocation<typeof LOCATIONS.UserModal>
 
-    login_started:
+    user_login_started:
         | WithLocation<
               | typeof LOCATIONS.DemoPage
               | typeof LOCATIONS.NavBar
@@ -36,12 +36,12 @@ export type EventMap = {
               context?: TLoginPage
           })
 
-    login_method_selected: WithLocation<typeof LOCATIONS.UserModal> & {
+    user_login_method_selected: WithLocation<typeof LOCATIONS.UserModal> & {
         method: 'email' | 'google'
         context: TLoginPage
     }
 
-    login_aborted: WithLocation<typeof LOCATIONS.UserModal>
+    user_login_aborted: WithLocation<typeof LOCATIONS.UserModal>
 
     user_modal_closed: WithLocation<typeof LOCATIONS.UserModal> & {
         context: TLoginPage
@@ -49,7 +49,7 @@ export type EventMap = {
 
     user_forgot_password: WithLocation<typeof LOCATIONS.UserModal>
 
-    log_out_started: WithLocation<typeof LOCATIONS.NavBar>
+    user_log_out_started: WithLocation<typeof LOCATIONS.NavBar>
 
     /* Demo */
     demo_started: WithLocation<
@@ -72,6 +72,10 @@ export type EventMap = {
     /* Other */
     admin_page_opened: WithLocation<Location>
     go_to_home_page: WithLocation<typeof LOCATIONS.NavBar>
+    contact_customer_service: WithLocation<typeof LOCATIONS.Footer>
+    contact_tavla: WithLocation<typeof LOCATIONS.Footer>
+    cookie_settings_opened: WithLocation<typeof LOCATIONS.Footer>
+    github_link_clicked: WithLocation<typeof LOCATIONS.Footer>
 }
 
 export type TrackingEvent = keyof EventMap

@@ -15,31 +15,20 @@ export function usePosthogTracking() {
     const capture = useCallback(
         <E extends TrackingEvent>(event: E, properties: EventProps<E>) => {
             if (!posthog) {
-                // eslint-disable-next-line no-console
-                console.log(
-                    'Not capturing event, PostHog not initialized:',
-                    event,
-                    properties,
-                )
                 return
             }
-            const res = posthog.capture(event, properties)
-            if (res === undefined) {
+
+            const isLocalDevelopment =
+                window !== undefined && window.location.hostname === 'localhost'
+
+            if (isLocalDevelopment) {
                 // eslint-disable-next-line no-console
-                console.log(
-                    'Not capturing event, capture was unsuccesful:',
-                    event,
-                    properties,
-                )
+                console.log('PostHog event:', event, properties)
             }
+            posthog.capture(event, properties)
         },
         [posthog],
     )
 
-    const reset = useCallback(() => {
-        if (!posthog) return
-        posthog.reset()
-    }, [posthog])
-
-    return { capture, reset }
+    return { capture }
 }

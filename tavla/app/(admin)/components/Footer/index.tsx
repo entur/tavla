@@ -2,14 +2,14 @@
 import { GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
 import { showUC_UI as showUserCentricsUI } from 'app/components/ConsentHandler'
+import { usePosthogTracking } from 'app/posthog/useTracking'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePostHog } from 'posthog-js/react'
 import DeleteAccount from '../DeleteAccount'
 
 function Footer({ loggedIn }: { loggedIn: boolean }) {
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
     return (
         <footer className="eds-contrast">
             <div className="container pb-20 pt-16">
@@ -36,6 +36,13 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 <EnturLink
                                     external
                                     href="https://www.entur.org/kontakt-oss/"
+                                    onClick={() =>
+                                        posthog.capture(
+                                            'contact_customer_service',
+                                            { location: 'footer' },
+                                        )
+                                    }
+                                    target="_blank"
                                 >
                                     Kontakt kundesenteret
                                 </EnturLink>
@@ -44,6 +51,11 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 <EnturLink
                                     href="mailto:tavla@entur.org"
                                     target="_blank"
+                                    onClick={() =>
+                                        posthog.capture('contact_tavla', {
+                                            location: 'footer',
+                                        })
+                                    }
                                 >
                                     Kontakt Tavla
                                 </EnturLink>
@@ -58,14 +70,24 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     href="/demo"
                                     as={Link}
                                     onClick={() =>
-                                        posthog.capture('DEMO_FROM_FOOTER')
+                                        posthog.capture('demo_started', {
+                                            location: 'footer',
+                                        })
                                     }
                                 >
                                     Test ut Tavla
                                 </EnturLink>
                             </li>
                             <li>
-                                <EnturLink href="/hjelp" as={Link}>
+                                <EnturLink
+                                    href="/hjelp"
+                                    as={Link}
+                                    onClick={() =>
+                                        posthog.capture('faq_link_clicked', {
+                                            location: 'footer',
+                                        })
+                                    }
+                                >
                                     Ofte stilte spørsmål
                                 </EnturLink>
                             </li>
@@ -92,7 +114,15 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                             <li>
                                 <EnturLink
                                     as="button"
-                                    onClick={showUserCentricsUI}
+                                    onClick={() => {
+                                        posthog.capture(
+                                            'cookie_settings_opened',
+                                            {
+                                                location: 'footer',
+                                            },
+                                        )
+                                        showUserCentricsUI()
+                                    }}
                                     className="self-start"
                                 >
                                     Informasjonskapsler
@@ -103,6 +133,11 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     external
                                     href="https://github.com/entur/tavla"
                                     target="_blank"
+                                    onClick={() =>
+                                        posthog.capture('github_link_clicked', {
+                                            location: 'footer',
+                                        })
+                                    }
                                 >
                                     GitHub
                                 </EnturLink>

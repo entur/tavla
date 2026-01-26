@@ -23,7 +23,9 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
         return (
             <IconButton
                 onClick={async () => {
-                    posthog.capture('log_out_started', { location: 'nav_bar' })
+                    posthog.capture('user_log_out_started', {
+                        location: 'nav_bar',
+                    })
                     await logout()
                 }}
                 className="shrink-0 gap-2 md:!flex"
@@ -41,7 +43,9 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 scroll={false}
                 className="shrink-0 gap-2"
                 onClick={() => {
-                    posthog.capture('login_started', { location: 'nav_bar' })
+                    posthog.capture('user_login_started', {
+                        location: 'nav_bar',
+                    })
                 }}
             >
                 <UserIcon />
