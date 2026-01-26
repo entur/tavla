@@ -129,6 +129,7 @@ function Create() {
                             onClick={() => {
                                 posthog.capture('user_create_cancelled', {
                                     location: 'user_modal',
+                                    method: 'cancel_button',
                                 })
                             }}
                         >
