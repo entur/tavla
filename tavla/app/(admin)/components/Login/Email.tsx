@@ -9,7 +9,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { usePosthogTracking } from 'app/posthog/useTracking'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import musk from 'assets/illustrations/Musk.png'
 import { FirebaseError } from 'firebase/app'
 import {

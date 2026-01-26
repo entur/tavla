@@ -3,7 +3,7 @@ import { BannerAlertBox } from '@entur/alert'
 import { Paragraph } from '@entur/typography'
 import * as Sentry from '@sentry/nextjs'
 import { EventProps } from 'app/posthog/events'
-import { usePosthogTracking } from 'app/posthog/useTracking'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { FirebaseError } from 'firebase/app'
 import {
     GoogleAuthProvider,

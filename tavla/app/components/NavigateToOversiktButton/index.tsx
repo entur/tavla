@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@entur/button'
 import { ForwardIcon } from '@entur/icons'
-import { usePosthogTracking } from 'app/posthog/useTracking'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
 
 export function NavigateToOversiktButton() {

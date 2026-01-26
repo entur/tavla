@@ -19,7 +19,7 @@ import {
 } from 'app/(admin)/utils'
 import { handleError } from 'app/(admin)/utils/handleError'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { usePosthogTracking } from 'app/posthog/useTracking'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { getClientApp } from 'src/utils/firebase'

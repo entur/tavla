@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@entur/button'
-import { usePosthogTracking } from 'app/posthog/useTracking'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
 
 function DemoButton() {

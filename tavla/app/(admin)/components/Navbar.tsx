@@ -1,6 +1,6 @@
 'use client'
 import { TopNavigationItem } from '@entur/menu'
-import { usePosthogTracking } from 'app/posthog/useTracking'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import Link from 'next/link'
