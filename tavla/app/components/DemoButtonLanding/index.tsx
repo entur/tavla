@@ -1,10 +1,10 @@
 'use client'
 import { Button } from '@entur/button'
+import { usePosthogTracking } from 'app/posthog/useTracking'
 import Link from 'next/link'
-import { usePostHog } from 'posthog-js/react'
 
 function DemoButton() {
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
     return (
         <Button
             variant="secondary"
@@ -12,7 +12,9 @@ function DemoButton() {
             as={Link}
             href="demo"
             onClick={() => {
-                posthog.capture('DEMO_BTN_FROM_LANDING')
+                posthog.capture('demo_started', {
+                    location: 'landing_page',
+                })
             }}
         >
             Test ut Tavla

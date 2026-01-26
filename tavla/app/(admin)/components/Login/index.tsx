@@ -3,9 +3,9 @@ import { IconButton } from '@entur/button'
 import { CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
+import { usePosthogTracking } from 'app/posthog/useTracking'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { usePostHog } from 'posthog-js/react'
 import { logout } from './actions'
 import { Create } from './Create'
 import { Email } from './Email'
@@ -15,7 +15,7 @@ import { TLoginPage } from './types'
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
     const pathname = usePathname()
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
 
     const { open, pageParam } = usePageParam('login')
 
@@ -23,6 +23,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
         return (
             <IconButton
                 onClick={async () => {
+                    posthog.capture('log_out_started', { location: 'nav_bar' })
                     await logout()
                 }}
                 className="shrink-0 gap-2 md:!flex"
@@ -40,7 +41,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 scroll={false}
                 className="shrink-0 gap-2"
                 onClick={() => {
-                    posthog.capture('LOG_IN_BTN')
+                    posthog.capture('login_started', { location: 'nav_bar' })
                 }}
             >
                 <UserIcon />
@@ -55,7 +56,13 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
             >
                 <IconButton
                     aria-label="Lukk"
-                    onClick={() => router.push(pathname ?? '/')}
+                    onClick={() => {
+                        posthog.capture('user_modal_closed', {
+                            context: pageParam as TLoginPage,
+                            location: 'user_modal',
+                        })
+                        router.push(pathname ?? '/')
+                    }}
                     className="absolute right-4 top-4"
                 >
                     <CloseIcon />

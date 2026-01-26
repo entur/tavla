@@ -19,15 +19,15 @@ import {
 } from 'app/(admin)/utils'
 import { handleError } from 'app/(admin)/utils/handleError'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { usePosthogTracking } from 'app/posthog/useTracking'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { usePostHog } from 'posthog-js/react'
 import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
 import Google from './Google'
 
 function Create() {
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
     const [email, setEmail] = useState('')
     const submit = async (
         previousState: TFormFeedback | undefined,
@@ -108,7 +108,10 @@ function Create() {
                             width="fluid"
                             aria-label="Opprett bruker"
                             onClick={() => {
-                                posthog.capture('CREATE_USER_WITH_EMAIL_BTN')
+                                posthog.capture('user_create_method_selected', {
+                                    location: 'user_modal',
+                                    method: 'email',
+                                })
                             }}
                         >
                             Opprett bruker
@@ -124,7 +127,9 @@ function Create() {
                             variant="secondary"
                             aria-label="Avbryt å opprette bruker"
                             onClick={() => {
-                                posthog.capture('CANCEL_CREATE_USER_BTN')
+                                posthog.capture('user_create_cancelled', {
+                                    location: 'user_modal',
+                                })
                             }}
                         >
                             Avbryt
@@ -133,10 +138,19 @@ function Create() {
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google trackingEvent="CREATE_USER_WITH_GOOGLE_BTN" />
+            <Google trackingContext="create" />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du allerede en bruker?{' '}
-                <Link className="underline" href="?login=email">
+                <Link
+                    className="underline"
+                    href="?login=email"
+                    onClick={() =>
+                        posthog.capture('login_started', {
+                            location: 'user_modal',
+                            context: 'create',
+                        })
+                    }
+                >
                     Logg inn
                 </Link>
             </Paragraph>

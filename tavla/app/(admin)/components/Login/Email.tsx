@@ -9,6 +9,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { usePosthogTracking } from 'app/posthog/useTracking'
 import musk from 'assets/illustrations/Musk.png'
 import { FirebaseError } from 'firebase/app'
 import {
@@ -19,7 +20,6 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { usePostHog } from 'posthog-js/react'
 import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
@@ -28,7 +28,7 @@ import Google from './Google'
 import { TLoginPage } from './types'
 
 function Email() {
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
     const [email, setEmail] = useState('')
     const submit = async (
         previousState: TFormFeedback | undefined,
@@ -112,6 +112,11 @@ function Email() {
                     <Link
                         className="underline"
                         href={getPathWithParams('reset')}
+                        onClick={() =>
+                            posthog.capture('user_forgot_password', {
+                                location: 'user_modal',
+                            })
+                        }
                     >
                         Glemt passord?
                     </Link>
@@ -123,7 +128,11 @@ function Email() {
                             width="fluid"
                             aria-label="Logg inn"
                             onClick={() => {
-                                posthog.capture('LOG_IN_WITH_EMAIL_BTN')
+                                posthog.capture('login_method_selected', {
+                                    method: 'email',
+                                    location: 'user_modal',
+                                    context: 'email',
+                                })
                             }}
                         >
                             Logg inn
@@ -135,6 +144,11 @@ function Email() {
                             type="button"
                             as={Link}
                             href={pathname ?? '/'}
+                            onClick={() =>
+                                posthog.capture('login_aborted', {
+                                    location: 'user_modal',
+                                })
+                            }
                             width="fluid"
                             variant="secondary"
                             aria-label="Avbryt"
@@ -145,10 +159,18 @@ function Email() {
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google trackingEvent="LOG_IN_WITH_GOOGLE_BTN" />
+            <Google trackingContext="email" />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du ikke en bruker?{' '}
-                <Link className="underline" href={getPathWithParams('create')}>
+                <Link
+                    className="underline"
+                    href={getPathWithParams('create')}
+                    onClick={() =>
+                        posthog.capture('user_create_started', {
+                            location: 'user_modal',
+                        })
+                    }
+                >
                     Opprett bruker
                 </Link>
             </Paragraph>

@@ -1,20 +1,25 @@
 'use client'
 import { TopNavigationItem } from '@entur/menu'
+import { usePosthogTracking } from 'app/posthog/useTracking'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { usePostHog } from 'posthog-js/react'
 import { Login } from './Login'
 import { MobileNavbar } from './MobileNavbar'
 
 function Navbar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
 
     return (
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
-            <Link href="/">
+            <Link
+                href="/"
+                onClick={() =>
+                    posthog.capture('go_to_home_page', { location: 'nav_bar' })
+                }
+            >
                 <Image
                     src={TavlaLogoBlue}
                     height={32}
@@ -29,6 +34,11 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                             as={Link}
                             href="/oversikt"
                             className="hidden flex-col !text-primary md:flex"
+                            onClick={() => {
+                                posthog.capture('admin_page_opened', {
+                                    location: 'nav_bar',
+                                })
+                            }}
                         >
                             Mine tavler
                         </TopNavigationItem>
@@ -38,7 +48,9 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                             as={Link}
                             href="/demo"
                             onClick={() => {
-                                posthog.capture('DEMO_FROM_NAV_BAR_BTN')
+                                posthog.capture('demo_started', {
+                                    location: 'nav_bar',
+                                })
                             }}
                             className="hidden flex-col !text-primary md:flex"
                         >
@@ -50,6 +62,11 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                         as={Link}
                         href="/hjelp"
                         className="hidden flex-col !text-primary md:flex"
+                        onClick={() => {
+                            posthog.capture('faq_link_clicked', {
+                                location: 'nav_bar',
+                            })
+                        }}
                     >
                         Ofte stilte spørsmål
                     </TopNavigationItem>
