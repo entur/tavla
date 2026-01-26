@@ -8,9 +8,9 @@ async function Auth(props: {
 
     switch (mode) {
         case 'resetPassword':
-            return redirect(`/reset/${oobCode}`)
+            return redirect(`/tilbakestill/${oobCode}`)
         case 'verifyEmail':
-            return redirect(`/verify/${oobCode}`)
+            return redirect(`/verifiser/${oobCode}`)
         default:
             return redirect('/')
     }
