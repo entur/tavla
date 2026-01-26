@@ -43,9 +43,7 @@ export type EventMap = {
         context: TLoginPage
     }
 
-    user_login_aborted: WithLocation<typeof LOCATIONS.UserModal>
-
-    user_modal_closed: WithLocation<typeof LOCATIONS.UserModal> & {
+    user_modal_closed: {
         context: TLoginPage
     }
 

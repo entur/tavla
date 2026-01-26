@@ -56,14 +56,18 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 size="small"
                 closeLabel='"Avbryt"'
                 className="w-11/12 lg:w-full"
-                onDismiss={() => router.push(pathname ?? '/')}
+                onDismiss={() => {
+                    router.push(pathname ?? '/')
+                    posthog.capture('user_modal_closed', {
+                        context: pageParam as TLoginPage,
+                    })
+                }}
             >
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => {
                         posthog.capture('user_modal_closed', {
                             context: pageParam as TLoginPage,
-                            location: 'user_modal',
                         })
                         router.push(pathname ?? '/')
                     }}
