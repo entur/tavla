@@ -94,7 +94,13 @@ function Email() {
                         autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        {...getFormFeedbackForField('email', state)}
+                        feedback={
+                            getFormFeedbackForField('email', state)?.feedback
+                        }
+                        variant={
+                            getFormFeedbackForField('email', state)?.variant
+                        }
+                        ariaAlertOnFeedback={true}
                     />
                 </div>
                 <div>
@@ -102,8 +108,14 @@ function Email() {
                         name="password"
                         label="Passord"
                         type="password"
+                        feedback={
+                            getFormFeedbackForField('password', state)?.feedback
+                        }
+                        variant={
+                            getFormFeedbackForField('password', state)?.variant
+                        }
+                        ariaAlertOnFeedback={true}
                         autoComplete="current-password"
-                        {...getFormFeedbackForField('password', state)}
                     />
                 </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
