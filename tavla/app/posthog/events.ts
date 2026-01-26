@@ -68,7 +68,7 @@ export type EventMap = {
     /* Contact form */
     contact_form_opened: void
     contact_form_closed: void
-    contact_form_hide_email: void
+    contact_form_email_disabled: { disabled: boolean }
     contact_form_submitted: void
 
     /* Other */
