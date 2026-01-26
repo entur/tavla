@@ -62,19 +62,24 @@ export default function Google({ trackingEvent }: { trackingEvent: string }) {
     }
 
     return (
-        <div className="mb-4 flex w-full flex-col items-center justify-center [&>div]:!w-full">
+        <div className="mb-4 flex w-full flex-col items-center justify-center [&>button>div]:!w-full">
             {isLoading ? (
                 <Paragraph className="text-center">Vent litt...</Paragraph>
             ) : (
-                <GoogleButton
-                    className="mb-4 w-full"
-                    type="light"
-                    label="Logg inn med Google"
+                <button
+                    type="button"
                     onClick={() => {
                         posthog.capture(trackingEvent)
                         googleAction()
                     }}
-                />
+                    className="w-full border-0 bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-offset-[0.125rem] focus-visible:outline-[#181c56]"
+                >
+                    <GoogleButton
+                        type="light"
+                        label="Logg inn med Google"
+                        tabIndex={-1}
+                    />
+                </button>
             )}
 
             {errorMessage[0] && (
