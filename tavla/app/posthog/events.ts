@@ -24,7 +24,9 @@ export type EventMap = {
         method: 'email' | 'google'
     }
 
-    user_create_cancelled: WithLocation<typeof LOCATIONS.UserModal>
+    user_create_cancelled: WithLocation<typeof LOCATIONS.UserModal> & {
+        method: 'cancel_button' | 'close_icon'
+    }
 
     user_login_started:
         | WithLocation<
@@ -64,10 +66,10 @@ export type EventMap = {
     >
 
     /* Contact form */
-    contact_form_opened: WithLocation<Location>
-    contact_form_closed: WithLocation<Location>
-    contact_form_hide_email: WithLocation<Location>
-    contact_form_submitted: WithLocation<Location>
+    contact_form_opened: void
+    contact_form_closed: void
+    contact_form_hide_email: void
+    contact_form_submitted: void
 
     /* Other */
     admin_page_opened: WithLocation<Location>
@@ -77,6 +79,10 @@ export type EventMap = {
     cookie_settings_opened: WithLocation<typeof LOCATIONS.Footer>
     github_link_clicked: WithLocation<typeof LOCATIONS.Footer>
 }
+export type NoProps = void
 
 export type TrackingEvent = keyof EventMap
 export type EventProps<E extends TrackingEvent> = EventMap[E]
+
+export type CaptureArgs<E extends TrackingEvent> =
+    EventProps<E> extends NoProps ? [] : [properties: EventProps<E>]

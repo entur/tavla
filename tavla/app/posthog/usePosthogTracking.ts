@@ -2,7 +2,7 @@
 
 import { usePostHog } from 'posthog-js/react'
 import { useCallback } from 'react'
-import type { EventProps, TrackingEvent } from './events'
+import type { CaptureArgs, TrackingEvent } from './events'
 
 /**
  * Single entrypoint for tracking in React components.
@@ -13,13 +13,14 @@ export function usePosthogTracking() {
     const posthog = usePostHog()
 
     const capture = useCallback(
-        <E extends TrackingEvent>(event: E, properties: EventProps<E>) => {
+        <E extends TrackingEvent>(event: E, ...args: CaptureArgs<E>) => {
             if (!posthog) {
                 return
             }
 
             const isLocalDevelopment =
                 window !== undefined && window.location.hostname === 'localhost'
+            const properties = args[0] ?? undefined
 
             if (isLocalDevelopment) {
                 // eslint-disable-next-line no-console
