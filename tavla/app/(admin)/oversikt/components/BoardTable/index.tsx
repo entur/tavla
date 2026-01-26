@@ -1,5 +1,5 @@
 'use client'
-import { BoardIcon, FolderIcon } from '@entur/icons'
+import { BoardIcon, FolderIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import {
     DataCell,
     HeaderCell,
@@ -9,6 +9,7 @@ import {
     TableRow,
     useSortableData,
 } from '@entur/table'
+import { Tooltip } from '@entur/tooltip'
 import { TableActions } from 'app/(admin)/oversikt/components/Column/Actions'
 import {
     DEFAULT_BOARD_NAME,
@@ -16,7 +17,6 @@ import {
 } from 'app/(admin)/utils/constants'
 import { formatTimestamp, lastActiveToStatus } from 'app/(admin)/utils/time'
 import { Folder } from 'app/(admin)/utils/types'
-import { LastActiveInfobutton } from 'app/components/LastActiveInfobutton'
 import Link from 'next/link'
 import { BoardDB } from 'src/types/db-types/boards'
 
@@ -60,6 +60,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
         name: board.meta.title ?? DEFAULT_BOARD_NAME,
         link: `/tavler/${board.id}/rediger`,
         lastModified: board.meta.dateModified,
+        lastActiveTimestamp: board.meta.lastActiveTimestamp,
         board: board,
     }))
 
@@ -83,9 +84,30 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                         >
                             Navn
                         </HeaderCell>
-                        <HeaderCell className="flex items-center">
+                        <HeaderCell
+                            className="flex items-center"
+                            aria-describedby="last-active-description"
+                            {...getSortableHeaderProps({
+                                name: 'lastActiveTimestamp',
+                            })}
+                        >
+                            <span
+                                id="last-active-description"
+                                className="sr-only"
+                            >
+                                Viser når tavlen sist var i bruk. Dette gjelder
+                                kun aktivitet etter 15. januar 2026.
+                            </span>
                             Sist aktiv
-                            <LastActiveInfobutton />
+                            <Tooltip
+                                content="Viser når tavlen sist var i bruk. Dette gjelder kun aktivitet etter 15. januar 2026."
+                                placement="top"
+                            >
+                                <ValidationInfoFilledIcon
+                                    className="ml-1"
+                                    style={{ cursor: 'help' }}
+                                />
+                            </Tooltip>
                         </HeaderCell>
                         <HeaderCell
                             className="text-nowrap"
