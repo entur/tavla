@@ -39,6 +39,6 @@
 - `tavla/README.md`: Frontend setup, commands, conventions
 - `tavla/src/Shared/utils/index.ts`: Backend URL override for local dev
 - `tavla/codegen.ts`, `graphql.config.json`: GraphQL codegen config
-- `migrations/`, `scripts/`: Migration scripts
+- `tavla/migrations/`, `tavla/migrations/scripts/`: Migration tooling and scripts
 
 > For any workflow or integration not covered here, check the respective README files for up-to-date details.
