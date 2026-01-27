@@ -29,7 +29,7 @@
 
 ## Troubleshooting
 - 401 errors: Check API key in both frontend and backend
-- No WebSocket updates: Backend not running or CORS issue
+- No subscribe/long-poll updates (e.g., `/subscribe/:bid`): Backend not running or CORS issue
 - Data loss: Use `yarn dev:persist` for frontend
 - Type errors after schema change: Run `yarn generate`
 - See troubleshooting tables in both `backend/README.md` and `tavla/README.md`
