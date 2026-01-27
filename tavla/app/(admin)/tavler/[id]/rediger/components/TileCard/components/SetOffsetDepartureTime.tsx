@@ -2,11 +2,22 @@ import { Checkbox } from '@entur/form'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { LocationDB } from 'src/types/db-types/boards'
 
-function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
+function SetOffsetDepartureTime({
+    address,
+    trackingLocation,
+    board_id,
+}: {
+    address?: LocationDB
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    board_id: string
+}) {
+    const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
 
     const walkingDistanceInMinutes = Math.ceil(
@@ -44,6 +55,13 @@ function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
                     }}
                     value={offset}
                     onChange={(e) => {
+                        posthog.capture('stop_place_edit_interaction', {
+                            location: trackingLocation,
+                            board_id: board_id,
+                            field: 'offset',
+                            action: 'changed',
+                            column_value: 'none',
+                        })
                         setOffset(e.target.valueAsNumber || '')
                     }}
                     readOnly={offsetBasedOnWalkingDistance}
@@ -59,6 +77,16 @@ function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
                             setOffsetBasedOnWalkingDistance(
                                 !offsetBasedOnWalkingDistance,
                             )
+
+                            posthog.capture('stop_place_edit_interaction', {
+                                location: trackingLocation,
+                                board_id: board_id,
+                                field: 'offset_walking_dist',
+                                action: !offsetBasedOnWalkingDistance
+                                    ? 'toggled_on'
+                                    : 'toggled_off',
+                                column_value: 'none',
+                            })
                         }}
                     >
                         Forskyv basert på gangavstand

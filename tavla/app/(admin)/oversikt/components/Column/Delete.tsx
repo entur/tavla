@@ -11,6 +11,8 @@ import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { deleteBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
@@ -19,11 +21,14 @@ import { BoardDB } from 'src/types/db-types/boards'
 function Delete({
     board,
     type,
+    trackingLocation,
 }: {
     board: BoardDB
     type?: 'icon' | 'button' | 'menuitem'
+    trackingLocation: EventProps<'board_deleted'>['location']
 }) {
     const { addToast } = useToast()
+    const posthog = usePosthogTracking()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
     const [isOpen, setIsOpen] = useState(false)
@@ -43,7 +48,13 @@ function Delete({
                 text="Slett tavle"
                 ariaLabel={ariaLabel}
                 type={type}
-                onClick={() => setIsOpen(true)}
+                onClick={() => {
+                    posthog.capture('board_deleted', {
+                        location: trackingLocation,
+                        board_id: board.id,
+                    })
+                    setIsOpen(true)
+                }}
             />
             <Modal
                 open={isOpen}

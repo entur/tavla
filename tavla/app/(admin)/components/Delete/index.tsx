@@ -14,6 +14,7 @@ import {
     TFormFeedback,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
@@ -29,6 +30,7 @@ function DeleteFolder({
     type: 'icon' | 'button'
 }) {
     const { addToast } = useToast()
+    const posthog = usePosthogTracking()
 
     const [state, deleteFolder] = useActionState(deleteFolderAction, undefined)
     const [isOpen, setIsOpen] = useState(false)
@@ -57,7 +59,13 @@ function DeleteFolder({
                     text="Slett mappe"
                     ariaLabel={ariaLabel}
                     type={type}
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => {
+                        posthog.capture('folder_delete_started', {
+                            location: 'folder',
+                            folder_id: folder.id,
+                        })
+                        setIsOpen(true)
+                    }}
                 />
             </Tooltip>
 
@@ -65,6 +73,12 @@ function DeleteFolder({
                 open={isOpen}
                 size="small"
                 onDismiss={() => {
+                    posthog.capture('folder_delete_cancelled', {
+                        location: 'folder',
+                        folder_id: folder.id,
+                        method: 'dismissed',
+                    })
+
                     setIsOpen(false)
                     setNameError(undefined)
                 }}
@@ -74,6 +88,11 @@ function DeleteFolder({
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => {
+                        posthog.capture('folder_delete_cancelled', {
+                            location: 'folder',
+                            folder_id: folder.id,
+                            method: 'close_icon',
+                        })
                         setIsOpen(false)
                         setNameError(undefined)
                     }}
@@ -112,6 +131,12 @@ function DeleteFolder({
                             aria-label="Ja, slett"
                             className="w-1/2"
                             width="fluid"
+                            onClick={() => {
+                                posthog.capture('folder_deleted', {
+                                    location: 'folder',
+                                    folder_id: folder.id,
+                                })
+                            }}
                         >
                             Ja, slett
                         </SubmitButton>
@@ -120,6 +145,11 @@ function DeleteFolder({
                             variant="secondary"
                             aria-label="Avbryt sletting"
                             onClick={() => {
+                                posthog.capture('folder_delete_cancelled', {
+                                    location: 'folder',
+                                    folder_id: folder.id,
+                                    method: 'cancelled',
+                                })
                                 setIsOpen(false)
                                 setNameError(undefined)
                             }}

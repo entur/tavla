@@ -92,7 +92,7 @@ export default async function EditPage(props: TProps) {
                     <Copy
                         bid={board.id}
                         type="button"
-                        trackingEvent="COPY_BOARD_FROM_EDIT_BOARD"
+                        trackingLocation="board_page"
                     />
                 </div>
 
