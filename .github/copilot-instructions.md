@@ -16,7 +16,7 @@
 - API endpoints: documented in `backend/README.md` (auth, payloads, error handling)
 
 ### Frontend (Next.js)
-- Install deps: `yarn install --frozen-lockfile` (from `tavla/tavla/`)
+- Install deps: `yarn install --frozen-lockfile` (from `tavla/`)
 - Start dev: `yarn dev:persist` (recommended, persists local DB)
 - Env: `.env.local` required, get secrets from team password manager
 - Codegen: `yarn generate` (uses `codegen.ts` and `graphql.config.json`)
@@ -24,26 +24,21 @@
 - Backend URL: for local dev, update `getBackendUrl` in `tavla/src/Shared/utils/index.ts` (do NOT commit)
 
 ## Patterns & Conventions
-- **API key**: Frontend and backend must use matching `BACKEND_API_KEY` (see `.env.local` and backend env)
-- **Gitmoji**: Use a restricted set of emojis in commit messages (see table in `tavla/tavla/README.md`)
-- **Branch naming**: Optional, but use `feature/`, `bugfix/`, `rydding/` prefixes
-- **Migrations**: Use `./migration setup` and `./migration run scripts/<file>` from repo root
-- **Error handling**: Backend returns generic 500s, no internal details leaked
-- **Redis channels**: `update` (all boards), `<board-id>` (single board)
-- **Frontend-backend integration**: Auth via bearer token, long-poll subscribe pattern
+
+**Accessibility (WCAG)**: All UI/UX changes must be reviewed for accessibility impact. Follow WCAG guidelines for semantic HTML, ARIA, color contrast, and keyboard navigation in the frontend.
 
 ## Troubleshooting
 - 401 errors: Check API key in both frontend and backend
 - No WebSocket updates: Backend not running or CORS issue
 - Data loss: Use `yarn dev:persist` for frontend
 - Type errors after schema change: Run `yarn generate`
-- See troubleshooting tables in both `backend/README.md` and `tavla/tavla/README.md`
+- See troubleshooting tables in both `backend/README.md` and `tavla/README.md`
 
 ## Key Files & Directories
 - `backend/README.md`: Backend setup, API, architecture
-- `tavla/tavla/README.md`: Frontend setup, commands, conventions
+- `tavla/README.md`: Frontend setup, commands, conventions
 - `tavla/src/Shared/utils/index.ts`: Backend URL override for local dev
-- `tavla/tavla/codegen.ts`, `graphql.config.json`: GraphQL codegen config
+- `tavla/codegen.ts`, `graphql.config.json`: GraphQL codegen config
 - `migrations/`, `scripts/`: Migration scripts
 
 > For any workflow or integration not covered here, check the respective README files for up-to-date details.
