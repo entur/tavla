@@ -1,14 +1,15 @@
 'use client'
 import { Button } from '@entur/button'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
-import { usePostHog } from 'posthog-js/react'
 
 interface CreateUserButtonProps {
-    trackingEvent: string
+    trackingLocation: EventProps<'user_create_started'>['location']
 }
 
-function CreateUserButton({ trackingEvent }: CreateUserButtonProps) {
-    const posthog = usePostHog()
+function CreateUserButton({ trackingLocation }: CreateUserButtonProps) {
+    const posthog = usePosthogTracking()
     return (
         <Button
             variant="primary"
@@ -16,7 +17,9 @@ function CreateUserButton({ trackingEvent }: CreateUserButtonProps) {
             as={Link}
             href="?login=create"
             onClick={() => {
-                posthog.capture(trackingEvent)
+                posthog.capture('user_create_started', {
+                    location: trackingLocation,
+                })
             }}
         >
             Opprett bruker

@@ -1,5 +1,5 @@
 'use client'
-import { Button, ButtonGroup } from '@entur/button'
+import { ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
@@ -9,6 +9,7 @@ import {
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import musk from 'assets/illustrations/Musk.png'
 import { FirebaseError } from 'firebase/app'
 import {
@@ -18,8 +19,6 @@ import {
 } from 'firebase/auth'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { usePostHog } from 'posthog-js/react'
 import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
@@ -28,7 +27,7 @@ import Google from './Google'
 import { TLoginPage } from './types'
 
 function Email() {
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
     const [email, setEmail] = useState('')
     const submit = async (
         previousState: TFormFeedback | undefined,
@@ -72,7 +71,6 @@ function Email() {
 
     const [state, action] = useActionState(submit, undefined)
     const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
-    const pathname = usePathname()
 
     return (
         <div className="flex flex-col items-center">
@@ -124,43 +122,45 @@ function Email() {
                     <Link
                         className="underline"
                         href={getPathWithParams('reset')}
+                        onClick={() =>
+                            posthog.capture('user_forgot_password', {
+                                location: 'user_modal',
+                            })
+                        }
                     >
                         Glemt passord?
                     </Link>
                 </p>
                 <ButtonGroup className="flex flex-col gap-4 pb-4 sm:flex-row">
-                    <div className="w-full sm:w-1/2">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            aria-label="Logg inn"
-                            onClick={() => {
-                                posthog.capture('LOG_IN_WITH_EMAIL_BTN')
-                            }}
-                        >
-                            Logg inn
-                        </SubmitButton>
-                    </div>
-
-                    <div className="w-full sm:w-1/2">
-                        <Button
-                            type="button"
-                            as={Link}
-                            href={pathname ?? '/'}
-                            width="fluid"
-                            variant="secondary"
-                            aria-label="Avbryt"
-                        >
-                            Avbryt
-                        </Button>
-                    </div>
+                    <SubmitButton
+                        variant="primary"
+                        width="fluid"
+                        aria-label="Logg inn"
+                        onClick={() => {
+                            posthog.capture('user_login_method_selected', {
+                                method: 'email',
+                                location: 'user_modal',
+                                context: 'email',
+                            })
+                        }}
+                    >
+                        Logg inn
+                    </SubmitButton>
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google trackingEvent="LOG_IN_WITH_GOOGLE_BTN" />
+            <Google userTrackingContext="email" />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du ikke en bruker?{' '}
-                <Link className="underline" href={getPathWithParams('create')}>
+                <Link
+                    className="underline"
+                    href={getPathWithParams('create')}
+                    onClick={() =>
+                        posthog.capture('user_create_started', {
+                            location: 'user_modal',
+                        })
+                    }
+                >
                     Opprett bruker
                 </Link>
             </Paragraph>

@@ -61,7 +61,11 @@ function Reset() {
                 </div>
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
-                <PrimaryButton type="submit" aria-label="Tilbakestill passord">
+                <PrimaryButton
+                    type="submit"
+                    aria-label="Tilbakestill passord"
+                    width="fluid"
+                >
                     Tilbakestill passord
                 </PrimaryButton>
             </form>

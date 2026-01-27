@@ -10,7 +10,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { usePostHog } from 'posthog-js/react'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { validEmail } from 'src/utils/email'
 import { postForm } from './actions'
@@ -18,7 +18,7 @@ import { Expandable } from './Expandable'
 import ClientOnlyTextField from './NoSSR/TextField'
 
 function ContactForm() {
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
 
     const { addToast } = useToast()
     const [isOpen, setIsOpen] = useState(false)
@@ -58,7 +58,11 @@ function ContactForm() {
                 isOpen={isOpen}
                 setIsOpen={(open) => {
                     setIsOpen(open)
-                    if (open) posthog.capture('CONTACT_FORM_OPENED')
+                    if (open) {
+                        posthog.capture('contact_form_opened')
+                    } else {
+                        posthog.capture('contact_form_closed')
+                    }
                 }}
             >
                 <form
@@ -98,9 +102,15 @@ function ContactForm() {
                             <Checkbox
                                 className="!items-start"
                                 name="disabledEmail"
-                                onChange={(e) =>
+                                onChange={(e) => {
                                     setDisabledEmail(e.target.checked)
-                                }
+                                    posthog.capture(
+                                        'contact_form_email_disabled',
+                                        {
+                                            disabled: e.target.checked,
+                                        },
+                                    )
+                                }}
                             >
                                 Jeg ønsker ikke å oppgi e-postadresse og vil
                                 ikke få svar på henvendelsen.
@@ -131,6 +141,9 @@ function ContactForm() {
                         variant="primary"
                         width="fluid"
                         aria-label="Send"
+                        onClick={() =>
+                            posthog.capture('contact_form_submitted')
+                        }
                     >
                         Send
                     </SubmitButton>

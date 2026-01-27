@@ -73,7 +73,7 @@ async function Landing() {
                         <div className="mt-5 flex w-full flex-col gap-4 md:flex-row">
                             {!loggedIn ? (
                                 <div className="flex w-full flex-col gap-4 md:flex-row">
-                                    <CreateUserButton trackingEvent="CREATE_USER_BTN_FROM_LANDING" />
+                                    <CreateUserButton trackingLocation="landing_page" />
                                     <DemoButton />
                                 </div>
                             ) : (

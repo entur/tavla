@@ -2,6 +2,8 @@
 import { BannerAlertBox } from '@entur/alert'
 import { Paragraph } from '@entur/typography'
 import * as Sentry from '@sentry/nextjs'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { FirebaseError } from 'firebase/app'
 import {
     GoogleAuthProvider,
@@ -9,16 +11,22 @@ import {
     getAuth,
     signInWithPopup,
 } from 'firebase/auth'
-import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 import GoogleButton from 'react-google-button'
 import { getClientApp } from 'src/utils/firebase'
 import { create, login } from './actions'
 
-export default function Google({ trackingEvent }: { trackingEvent: string }) {
+type Props = {
+    userTrackingContext: EventProps<'user_login_method_selected'>['context']
+}
+
+export default function Google({
+    userTrackingContext: trackingContext,
+}: Props) {
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(['', ''])
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
+
     const googleAction = async () => {
         setIsLoading(true)
         setErrorMessage(['', ''])
@@ -69,7 +77,11 @@ export default function Google({ trackingEvent }: { trackingEvent: string }) {
                 <button
                     type="button"
                     onClick={() => {
-                        posthog.capture(trackingEvent)
+                        posthog.capture('user_login_method_selected', {
+                            location: 'user_modal',
+                            method: 'google',
+                            context: trackingContext,
+                        })
                         googleAction()
                     }}
                     className="w-full border-0 bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-offset-[0.125rem] focus-visible:outline-[#181c56]"
