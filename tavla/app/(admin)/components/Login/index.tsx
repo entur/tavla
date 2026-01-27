@@ -2,6 +2,7 @@
 import { IconButton } from '@entur/button'
 import { CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
+import { Label } from '@entur/typography'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
@@ -71,9 +72,10 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                         })
                         router.push(pathname ?? '/')
                     }}
-                    className="absolute right-4 top-4"
+                    className="absolute right-4 top-4 flex flex-row gap-2"
                 >
                     <CloseIcon />
+                    <Label>Lukk</Label>
                 </IconButton>
 
                 <Page page={pageParam as TLoginPage} />

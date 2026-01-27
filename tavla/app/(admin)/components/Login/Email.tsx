@@ -1,5 +1,5 @@
 'use client'
-import { Button, ButtonGroup } from '@entur/button'
+import { ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
@@ -19,7 +19,6 @@ import {
 } from 'firebase/auth'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
@@ -72,7 +71,6 @@ function Email() {
 
     const [state, action] = useActionState(submit, undefined)
     const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
-    const pathname = usePathname()
 
     return (
         <div className="flex flex-col items-center">
@@ -134,40 +132,20 @@ function Email() {
                     </Link>
                 </p>
                 <ButtonGroup className="flex flex-col gap-4 pb-4 sm:flex-row">
-                    <div className="w-full sm:w-1/2">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            aria-label="Logg inn"
-                            onClick={() => {
-                                posthog.capture('user_login_method_selected', {
-                                    method: 'email',
-                                    location: 'user_modal',
-                                    context: 'email',
-                                })
-                            }}
-                        >
-                            Logg inn
-                        </SubmitButton>
-                    </div>
-
-                    <div className="w-full sm:w-1/2">
-                        <Button
-                            type="button"
-                            as={Link}
-                            href={pathname ?? '/'}
-                            onClick={() =>
-                                posthog.capture('user_login_aborted', {
-                                    location: 'user_modal',
-                                })
-                            }
-                            width="fluid"
-                            variant="secondary"
-                            aria-label="Avbryt"
-                        >
-                            Avbryt
-                        </Button>
-                    </div>
+                    <SubmitButton
+                        variant="primary"
+                        width="fluid"
+                        aria-label="Logg inn"
+                        onClick={() => {
+                            posthog.capture('user_login_method_selected', {
+                                method: 'email',
+                                location: 'user_modal',
+                                context: 'email',
+                            })
+                        }}
+                    >
+                        Logg inn
+                    </SubmitButton>
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>

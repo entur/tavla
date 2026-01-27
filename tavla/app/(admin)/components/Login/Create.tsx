@@ -10,7 +10,7 @@ import Image from 'next/image'
 import { useActionState, useState } from 'react'
 import { create } from './actions'
 
-import { Button, ButtonGroup } from '@entur/button'
+import { ButtonGroup } from '@entur/button'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import {
     TFormFeedback,
@@ -21,7 +21,6 @@ import { handleError } from 'app/(admin)/utils/handleError'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
 import Google from './Google'
@@ -55,7 +54,6 @@ function Create() {
         }
     }
     const [state, action] = useActionState(submit, undefined)
-    const pathname = usePathname()
 
     return (
         <div className="flex flex-col items-center">
@@ -102,40 +100,19 @@ function Create() {
                 <FormError {...getFormFeedbackForField('user', state)} />
                 <FormError {...getFormFeedbackForField('general', state)} />
                 <ButtonGroup className="flex flex-row gap-4 pb-4">
-                    <div className="w-1/2">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            aria-label="Opprett bruker"
-                            onClick={() => {
-                                posthog.capture('user_create_method_selected', {
-                                    location: 'user_modal',
-                                    method: 'email',
-                                })
-                            }}
-                        >
-                            Opprett bruker
-                        </SubmitButton>
-                    </div>
-
-                    <div className="w-1/2">
-                        <Button
-                            type="button"
-                            as={Link}
-                            href={pathname ?? '/'}
-                            width="fluid"
-                            variant="secondary"
-                            aria-label="Avbryt å opprette bruker"
-                            onClick={() => {
-                                posthog.capture('user_create_cancelled', {
-                                    location: 'user_modal',
-                                    method: 'cancel_button',
-                                })
-                            }}
-                        >
-                            Avbryt
-                        </Button>
-                    </div>
+                    <SubmitButton
+                        variant="primary"
+                        width="fluid"
+                        aria-label="Opprett bruker"
+                        onClick={() => {
+                            posthog.capture('user_create_method_selected', {
+                                location: 'user_modal',
+                                method: 'email',
+                            })
+                        }}
+                    >
+                        Opprett bruker
+                    </SubmitButton>
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
