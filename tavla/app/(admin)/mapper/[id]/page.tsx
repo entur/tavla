@@ -77,10 +77,7 @@ async function FolderPage(props: TProps) {
                     {folder.name}
                 </Heading1>
                 <ButtonGroup>
-                    <CreateBoard
-                        folder={folder}
-                        trackingEvent="CREATE_BOARD_BTN_FROM_FOLDER"
-                    />
+                    <CreateBoard folder={folder} trackingLocation="folder" />
                     <UploadLogo folder={folder} />
                     <MemberAdministration
                         folder={folder}

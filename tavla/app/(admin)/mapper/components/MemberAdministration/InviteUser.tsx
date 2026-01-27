@@ -7,6 +7,7 @@ import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState, useRef } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
 import { inviteUserAction } from './actions'
@@ -14,6 +15,8 @@ import { inviteUserAction } from './actions'
 function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
     const [state, formAction] = useActionState(inviteUserAction, undefined)
     const { addToast } = useToast()
+
+    const posthog = usePosthogTracking()
 
     const formRef = useRef<HTMLFormElement>(null)
 
@@ -42,6 +45,13 @@ function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
                     variant="primary"
                     width="fluid"
                     className="mb-4 w-full sm:max-w-48"
+                    onClick={() => {
+                        posthog.capture('folder_members_managed', {
+                            location: 'folder',
+                            folder_id: folderid ?? '',
+                            method: 'invited',
+                        })
+                    }}
                 >
                     <AddIcon />
                     Legg til

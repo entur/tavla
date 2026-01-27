@@ -8,6 +8,7 @@ import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settin
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
 import {
     Dispatch,
@@ -53,6 +54,8 @@ function TileCard({
     moveItem: (index: number, direction: string) => void
     setDemoBoard?: Dispatch<SetStateAction<BoardDB>>
 }) {
+    const posthog = usePosthogTracking()
+
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
@@ -167,6 +170,35 @@ function TileCard({
         addToast(`${tile.name} fjernet!`)
     }
 
+    const handleSetIsTileOpen = (open: boolean) => {
+        posthog.capture(
+            open ? 'stop_place_edit_started' : 'stop_place_edit_cancelled',
+            {
+                location: bid === 'demo' ? 'demo_page' : 'board_page',
+                board_id: bid,
+            },
+        )
+
+        setIsOpen(open)
+    }
+
+    const handleDeleteTile = () => {
+        posthog.capture('stop_place_deleted', {
+            location: bid === 'demo' ? 'demo_page' : 'board_page',
+            board_id: bid,
+        })
+
+        if (bid === 'demo') {
+            deleteTileDemoBoard()
+        } else {
+            deleteTile(bid, tile).then(() => {
+                addToast(`${tile.name} fjernet!`)
+            })
+        }
+    }
+
+    const trackingLocation = bid === 'demo' ? 'demo_page' : 'board_page'
+
     return (
         <div>
             <TileContext.Provider value={tile}>
@@ -190,15 +222,9 @@ function TileCard({
                         <EditRemoveTileButtonGroup
                             hasTileChanged={hasUnsavedChanges}
                             isTileOpen={isOpen}
-                            setIsTileOpen={setIsOpen}
+                            setIsTileOpen={handleSetIsTileOpen}
                             setConfirmOpen={setConfirmOpen}
-                            deleteTile={() =>
-                                bid === 'demo'
-                                    ? deleteTileDemoBoard()
-                                    : deleteTile(bid, tile).then(() => {
-                                          addToast(`${tile.name} fjernet!`)
-                                      })
-                            }
+                            deleteTile={handleDeleteTile}
                         />
                     </div>
                     <TileArrows
@@ -225,27 +251,37 @@ function TileCard({
                             }}
                             onInput={() => setHasUnsavedChanges(true)}
                         >
-                            <SetStopPlaceName state={state} />
-                            <SetOffsetDepartureTime address={address} />
-                            <SetColumns isCombined={isCombined} />
+                            <SetStopPlaceName
+                                state={state}
+                                board_id={bid}
+                                trackingLocation={trackingLocation}
+                            />
+                            <SetOffsetDepartureTime
+                                address={address}
+                                board_id={bid}
+                                trackingLocation={trackingLocation}
+                            />
+                            <SetColumns
+                                isCombined={isCombined}
+                                board_id={bid}
+                                trackingLocation={trackingLocation}
+                            />
                             <SetVisibleLines
                                 uniqLines={uniqLines}
                                 transportModes={transportModes}
+                                board_id={bid}
+                                trackingLocation={trackingLocation}
                             />
                             <SaveCancelDeleteTileButtonGroup
                                 confirmOpen={confirmOpen}
                                 hasTileChanged={hasUnsavedChanges}
                                 resetTile={reset}
-                                setIsTileOpen={setIsOpen}
+                                setIsTileOpen={handleSetIsTileOpen}
                                 setConfirmOpen={setConfirmOpen}
                                 validation={state}
-                                deleteTile={() =>
-                                    bid === 'demo'
-                                        ? deleteTileDemoBoard()
-                                        : deleteTile(bid, tile).then(() => {
-                                              addToast(`${tile.name} fjernet!`)
-                                          })
-                                }
+                                deleteTile={handleDeleteTile}
+                                board_id={bid}
+                                trackingLocation={trackingLocation}
                             />
                         </form>
                     </div>

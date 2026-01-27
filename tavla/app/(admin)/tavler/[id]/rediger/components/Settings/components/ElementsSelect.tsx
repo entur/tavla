@@ -2,6 +2,7 @@
 
 import { FilterChip } from '@entur/chip'
 import { Heading4, Paragraph } from '@entur/typography'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 
 export type Elements = 'clock' | 'logo'
 
@@ -12,6 +13,8 @@ function ElementSelect({
     selectedElements?: Elements[]
     onChange: () => void
 }) {
+    const posthog = usePosthogTracking()
+
     return (
         <div className="flex flex-col gap-1">
             <Heading4 margin="bottom">Vis elementer</Heading4>
@@ -22,7 +25,13 @@ function ElementSelect({
                 <FilterChip
                     name="clock"
                     value="clock"
-                    onChange={onChange}
+                    onChange={() => {
+                        posthog.capture('board_settings_changed', {
+                            setting: 'element_select',
+                            value: 'clock',
+                        })
+                        onChange()
+                    }}
                     defaultChecked={selectedElements.includes('clock')}
                 >
                     Klokke
@@ -30,7 +39,13 @@ function ElementSelect({
                 <FilterChip
                     name="logo"
                     value="logo"
-                    onChange={onChange}
+                    onChange={() => {
+                        posthog.capture('board_settings_changed', {
+                            setting: 'element_select',
+                            value: 'logo',
+                        })
+                        onChange()
+                    }}
                     defaultChecked={selectedElements.includes('logo')}
                 >
                     Logo

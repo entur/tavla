@@ -11,6 +11,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useRouter } from 'next/navigation'
 import { ChangeEventHandler, useState } from 'react'
 import { useFormStatus } from 'react-dom'
@@ -22,7 +23,14 @@ function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
     const [fileName, setFileName] = useState<string>()
     const router = useRouter()
 
+    const posthog = usePosthogTracking()
+
     const clearLogo = () => {
+        posthog.capture('folder_logo_upload_cancelled', {
+            location: 'folder',
+            folder_id: folderid ?? '',
+            method: 'cancel_button',
+        })
         setFile(null)
         setFileName(undefined)
         setFormError(undefined)
@@ -107,6 +115,12 @@ function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
                         variant="primary"
                         aria-label="Last opp logo"
                         className="w-full justify-center"
+                        onClick={() => {
+                            posthog.capture('folder_logo_uploaded', {
+                                location: 'folder',
+                                folder_id: folderid ?? '',
+                            })
+                        }}
                     >
                         Last opp logo
                     </SubmitButton>

@@ -15,15 +15,15 @@ function TableActions({ data }: { data: TableItem }) {
                     <Copy
                         board={data.board}
                         bid={data.board.id}
-                        trackingEvent="COPY_BOARD_ICON_FROM_OVERSIKT"
+                        trackingLocation="admin_table"
                     />
                     <Open
                         board={data.board}
                         bid={data.board.id}
-                        trackingEvent="OPEN_BOARD_ICON_FROM_OVERSIKT"
+                        trackingLocation="admin_table"
                     />
                     <Move board={data.board} />
-                    <Delete board={data.board} />
+                    <Delete board={data.board} trackingLocation="admin_table" />
                 </div>
             )
         case 'folder':

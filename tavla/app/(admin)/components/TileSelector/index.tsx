@@ -11,15 +11,18 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { usePostHog } from 'posthog-js/react'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
 
 function TileSelector({
     action,
+    trackingLocation,
 }: {
     action: (data: FormData) => void
     folderid?: FolderDB['id']
+    trackingLocation: EventProps<'stop_place_add_interaction'>['location']
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch()
@@ -31,7 +34,7 @@ function TileSelector({
         selectedStopPlace?.value.id ?? '',
     )
 
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
@@ -56,7 +59,14 @@ function TileSelector({
                         ),
                     )
                 }
-                posthog.capture('ADD_TILE_TO_BOARD')
+
+                posthog.capture('stop_place_added', {
+                    location: trackingLocation,
+                    county_selected: selectedCounties.length > 0,
+                    county_count: selectedCounties.length,
+                    platform_selected: !!selectedQuay,
+                })
+
                 setFormError(undefined)
                 setSelectedQuay(null)
                 setSelectedStopPlace(null)
@@ -67,7 +77,17 @@ function TileSelector({
                     label="Fylker"
                     items={counties}
                     selectedItems={selectedCounties}
-                    onChange={handleCountyChange}
+                    onChange={(e) => {
+                        posthog.capture('stop_place_add_interaction', {
+                            location: trackingLocation,
+                            field: 'county',
+                            action:
+                                e.length > selectedCounties.length
+                                    ? 'selected'
+                                    : 'cleared',
+                        })
+                        handleCountyChange(e)
+                    }}
                     clearInputOnSelect={true}
                     prepend={<SearchIcon aria-hidden />}
                     maxChips={2}
@@ -87,7 +107,14 @@ function TileSelector({
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
-                    onChange={setSelectedStopPlace}
+                    onChange={(e) => {
+                        posthog.capture('stop_place_add_interaction', {
+                            location: trackingLocation,
+                            field: 'stop_place',
+                            action: e?.value ? 'selected' : 'cleared',
+                        })
+                        setSelectedStopPlace(e)
+                    }}
                     debounceTimeout={150}
                     aria-required
                     {...getFormFeedbackForField('stop_place', state)}
@@ -107,7 +134,14 @@ function TileSelector({
                               }
                             : null)
                     }
-                    onChange={setSelectedQuay}
+                    onChange={(e) => {
+                        posthog.capture('stop_place_add_interaction', {
+                            location: trackingLocation,
+                            field: 'platform',
+                            action: e?.value ? 'selected' : 'cleared',
+                        })
+                        setSelectedQuay(e)
+                    }}
                     {...getFormFeedbackForField('quay', state)}
                 />
             </div>

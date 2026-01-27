@@ -3,6 +3,7 @@ import { Button } from '@entur/button'
 import { ImageIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Image from 'next/image'
 import { useState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
@@ -11,14 +12,33 @@ import { LogoInput } from './LogoInput'
 
 function UploadLogo({ folder }: { folder: FolderDB }) {
     const [isOpen, setIsOpen] = useState(false)
+
+    const posthog = usePosthogTracking()
+
     return (
         <>
-            <Button variant="secondary" onClick={() => setIsOpen(true)}>
+            <Button
+                variant="secondary"
+                onClick={() => {
+                    posthog.capture('folder_logo_upload_started', {
+                        location: 'folder',
+                        folder_id: folder.id,
+                    })
+                    setIsOpen(true)
+                }}
+            >
                 Last opp logo <ImageIcon />
             </Button>
             <Modal
                 open={isOpen}
-                onDismiss={() => setIsOpen(false)}
+                onDismiss={() => {
+                    posthog.capture('folder_logo_upload_cancelled', {
+                        location: 'folder',
+                        folder_id: folder.id,
+                        method: 'dismissed',
+                    })
+                    setIsOpen(false)
+                }}
                 title="Last opp logo"
                 size="medium"
             >

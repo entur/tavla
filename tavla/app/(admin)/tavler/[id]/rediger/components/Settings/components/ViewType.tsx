@@ -2,7 +2,7 @@
 
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
-import posthog from 'posthog-js'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 
 function ViewType({
@@ -12,9 +12,11 @@ function ViewType({
     hasCombinedTiles: boolean
     onChange: () => void
 }) {
+    const posthog = usePosthogTracking()
     const [value, setValue] = useState(
         hasCombinedTiles ? 'combined' : 'separate',
     )
+
     return (
         <div>
             <Heading4 margin="bottom">Visningstype</Heading4>
@@ -27,11 +29,12 @@ function ViewType({
                 <RadioGroup
                     name="viewType"
                     onChange={(e) => {
+                        posthog.capture('board_settings_changed', {
+                            setting: 'view_type',
+                            value: e.target.value as 'combined' | 'separate',
+                        })
                         setValue(e.target.value)
                         onChange()
-                        posthog.capture('SAVE_VIEW_TYPE_BTN', {
-                            value: e.target.value,
-                        })
                     }}
                     value={value}
                 >
