@@ -2,7 +2,7 @@
 import { Button, ButtonGroup, IconButton, SecondaryButton } from '@entur/button'
 import { CloseIcon, FolderIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
+import { Heading2, Label, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
@@ -36,9 +36,14 @@ function CreateFolder() {
                 >
                     <CloseIcon />
                 </IconButton>
-                <Image src={birds} alt="" className="h-1/2 w-1/2" />
-                <Heading3 as="h1">Opprett mappe</Heading3>
-                <Paragraph className="mt-8 text-center">
+                <Image
+                    src={birds}
+                    alt="Illustrasjon av to fugler"
+                    className="h-1/2 w-1/2"
+                />
+
+                <Heading2 as="h1">Opprett mappe</Heading2>
+                <Paragraph className="mb-4 mt-4 text-center">
                     Mappen gir deg mulighet til å samarbeide om tavler med
                     andre. Tavlene vil også organiseres etter mappe i
                     tavleoversikten.
@@ -49,9 +54,7 @@ function CreateFolder() {
                     aria-live="polite"
                     aria-relevant="all"
                 >
-                    <SubParagraph className="font-medium">
-                        Sett navn på mappen
-                    </SubParagraph>
+                    <Label>Sett navn på mappen. Feltet er påkrevd.</Label>
                     <ClientOnlyTextField
                         size="medium"
                         label="Mappenavn"
@@ -65,27 +68,25 @@ function CreateFolder() {
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <ButtonGroup className="mt-8 flex flex-row gap-4">
-                        <div className="w-1/2">
-                            <SubmitButton
-                                variant="primary"
-                                width="fluid"
-                                aria-label="Opprett mappe"
-                            >
-                                Opprett
-                            </SubmitButton>
-                        </div>
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            aria-label="Opprett mappe"
+                            className="!mr-0"
+                        >
+                            Opprett
+                        </SubmitButton>
 
-                        <div className="w-1/2">
-                            <Button
-                                type="button"
-                                width="fluid"
-                                variant="secondary"
-                                aria-label="Avbryt oppretting"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                Avbryt
-                            </Button>
-                        </div>
+                        <Button
+                            type="button"
+                            width="fluid"
+                            variant="secondary"
+                            aria-label="Avbryt opprett mappe"
+                            onClick={() => setIsOpen(false)}
+                            className="!mr-0"
+                        >
+                            Avbryt
+                        </Button>
                     </ButtonGroup>
                 </form>
             </Modal>

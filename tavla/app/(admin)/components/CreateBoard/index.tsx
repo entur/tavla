@@ -1,6 +1,6 @@
 'use client'
-import { PrimaryButton } from '@entur/button'
-import { BoardIcon } from '@entur/icons'
+import { IconButton, PrimaryButton } from '@entur/button'
+import { BoardIcon, CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
@@ -29,12 +29,22 @@ function CreateBoard({ folder, trackingEvent }: CreateBoardProps) {
             </PrimaryButton>
             <Modal
                 open={isOpen}
-                size="medium"
+                size="small"
                 onDismiss={() => setIsOpen(false)}
                 closeLabel="Avbryt opprettelse av tavle"
                 style={{ overflow: 'visible' }}
             >
-                <NameAndFolderSelector folder={folder} />
+                <IconButton
+                    aria-label="Avbryt opprettelse av tavle"
+                    onClick={() => setIsOpen(false)}
+                    className="absolute right-4 top-4"
+                >
+                    <CloseIcon />
+                </IconButton>
+                <NameAndFolderSelector
+                    folder={folder}
+                    onClose={() => setIsOpen(false)}
+                />
             </Modal>
         </>
     )
