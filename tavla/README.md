@@ -39,10 +39,12 @@ Tilgang:
 - App: http://localhost:3000
 - Firebase Emulator UI: http://127.0.0.1:4000/
 
+For forhåndsvisning av tavler må du også kjøre `tavla-visning`: https://github.com/entur/tavla-visning
+
 ### Miljøvariabler (lokalt minimum)
 
 Lag `.env.local`og kopier innnholdet fra teamets passord-manager.
-Sentry-variabler er valgfrie og trengs ikke for lokal kjøring.
+Sentry- og PostHog-variabler er valgfrie og trengs ikke for lokal kjøring.
 
 ### Vanlige kommandoer
 
