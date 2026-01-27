@@ -1,10 +1,10 @@
 'use client'
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
-import { TravelTag } from 'components/TravelTag'
+import { TravelTag } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TravelTag'
 import { useEffect, useState } from 'react'
-import { BoardTheme, TransportPalette } from 'types/db-types/boards'
-import { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
+import { BoardTheme, TransportPalette } from 'src/types/db-types/boards'
+import { TTransportMode, TTransportSubmode } from 'src/types/graphql-schema'
 import { transportModeNames } from '../../TileCard/utils'
 import {
     generateTransportPalettes,

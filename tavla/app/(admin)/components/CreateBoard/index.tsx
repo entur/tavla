@@ -4,7 +4,7 @@ import { BoardIcon, CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 import { NameAndFolderSelector } from './NameAndFolderSelector'
 
 type CreateBoardProps = {

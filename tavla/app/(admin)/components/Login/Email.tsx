@@ -1,6 +1,7 @@
 'use client'
 import { Button, ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import {
     TFormFeedback,
@@ -9,7 +10,6 @@ import {
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import musk from 'assets/illustrations/Musk.png'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { FirebaseError } from 'firebase/app'
 import {
     getAuth,
@@ -21,7 +21,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
 import { useActionState, useState } from 'react'
-import { getClientApp } from 'utils/firebase'
+import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
 import { login } from './actions'
 import Google from './Google'
@@ -94,7 +94,13 @@ function Email() {
                         autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        {...getFormFeedbackForField('email', state)}
+                        feedback={
+                            getFormFeedbackForField('email', state)?.feedback
+                        }
+                        variant={
+                            getFormFeedbackForField('email', state)?.variant
+                        }
+                        ariaAlertOnFeedback={true}
                     />
                 </div>
                 <div>
@@ -102,8 +108,14 @@ function Email() {
                         name="password"
                         label="Passord"
                         type="password"
+                        feedback={
+                            getFormFeedbackForField('password', state)?.feedback
+                        }
+                        variant={
+                            getFormFeedbackForField('password', state)?.variant
+                        }
+                        ariaAlertOnFeedback={true}
                         autoComplete="current-password"
-                        {...getFormFeedbackForField('password', state)}
                     />
                 </div>
                 <FormError {...getFormFeedbackForField('user', state)} />

@@ -3,18 +3,18 @@ import { Button } from '@entur/button'
 import { ImageIcon, UploadIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Label, Paragraph } from '@entur/typography'
+import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { HiddenInput } from 'components/Form/HiddenInput'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import { useRouter } from 'next/navigation'
 import { ChangeEventHandler, useState } from 'react'
 import { useFormStatus } from 'react-dom'
-import { FolderDB } from 'types/db-types/folders'
+import { FolderDB } from 'src/types/db-types/folders'
 
 function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
     const [state, setFormError] = useState<TFormFeedback | undefined>()

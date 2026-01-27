@@ -1,9 +1,9 @@
 'use client'
 import { Checkbox } from '@entur/form'
-import { TransportIcon } from 'components/TransportIcon'
+import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { useState } from 'react'
-import { BoardTileDB } from 'types/db-types/boards'
-import { TTransportMode } from 'types/graphql-schema'
+import { BoardTileDB } from 'src/types/db-types/boards'
+import { TTransportMode } from 'src/types/graphql-schema'
 import { TLineFragment } from './types'
 import { transportModeNames } from './utils'
 

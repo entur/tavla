@@ -12,7 +12,7 @@ import { FirebaseError } from 'firebase/app'
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 import Image from 'next/image'
 import { useActionState } from 'react'
-import { getClientApp } from 'utils/firebase'
+import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
 
 function Reset() {

@@ -1,5 +1,4 @@
 import { Heading1, Heading2, SubParagraph } from '@entur/typography'
-import { getBoard, getFolderForBoard } from 'Board/scenarios/Board/firebase'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
@@ -8,8 +7,9 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
-import { BoardDB, BoardTileDB } from 'types/db-types/boards'
-import { getBoardLinkServer } from 'utils/boardLink'
+import { getBoard, getFolderForBoard } from 'src/firebase'
+import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import { getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
     addTile,

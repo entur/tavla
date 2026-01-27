@@ -11,6 +11,7 @@ import { useActionState, useState } from 'react'
 import { create } from './actions'
 
 import { Button, ButtonGroup } from '@entur/button'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import {
     TFormFeedback,
     getFormFeedbackForError,
@@ -18,11 +19,10 @@ import {
 } from 'app/(admin)/utils'
 import { handleError } from 'app/(admin)/utils/handleError'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { SubmitButton } from 'components/Form/SubmitButton'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
-import { getClientApp } from 'utils/firebase'
+import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
 import Google from './Google'
 

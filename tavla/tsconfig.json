@@ -25,12 +25,12 @@
             "Admin/*": ["./src/Admin/*"],
             "Board/*": ["./src/Board/*"],
             "components/*": ["./src/Shared/components/*"],
-            "utils/*": ["./src/Shared/utils/*"],
-            "types/*": ["./src/Shared/types/*"],
+            "utils/*": ["src/utils/*"],
+            "types/*": ["src/types/*"],
             "styles/*": ["./src/Shared/styles/*"],
-            "assets/*": ["./src/Shared/assets/*"],
-            "graphql/*": ["./src/Shared/graphql/*"],
-            "hooks/*": ["./src/Shared/hooks/*"],
+            "assets/*": ["src/assets/*"],
+            "graphql/*": ["src/graphql/*"],
+            "hooks/*": ["src/hooks/*"],
             "src/*": ["./src/*"]
         }
     },
