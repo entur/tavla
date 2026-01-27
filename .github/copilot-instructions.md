@@ -3,7 +3,7 @@
 ## Project Overview
 - **Monorepo** with two main components:
   - `backend/`: Rust API server, acts as a thin layer between frontend and Redis (pub/sub, state tracking)
-  - `tavla/tavla/`: Next.js 15 frontend (React 18, TypeScript, Tailwind, Firebase emulator for local dev)
+  - `tavla/`: Next.js 15 frontend (React 18, TypeScript, Tailwind, Firebase emulator for local dev)
 - Data flow: Frontend calls backend REST endpoints, backend publishes/consumes Redis messages, frontend subscribes for updates (long-poll pattern).
 
 ## Key Workflows
