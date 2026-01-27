@@ -13,6 +13,7 @@ import ConsentHandler, {
     PHProvider,
 } from './components/ConsentHandler'
 import { ContactForm } from './components/ContactForm'
+import { FocusManager } from './components/FocusManager'
 import PostHogPageView from './components/PostHogPageView'
 import './globals.css'
 
@@ -62,6 +63,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
                 <body className="min-h-screen">
                     <EnturToastProvider>
                         <SkipToContent>Gå til hovedinnhold</SkipToContent>
+                        <FocusManager />
                         <Navbar loggedIn={loggedIn} />
                         <Suspense>
                             <PostHogPageView />
