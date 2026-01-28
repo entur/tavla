@@ -802,6 +802,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/a11y@npm:^0.2.105":
+  version: 0.2.105
+  resolution: "@entur/a11y@npm:0.2.105"
+  dependencies:
+    "@entur/tokens": "npm:^3.22.0"
+    "@entur/utils": "npm:^0.13.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/6828877e60063ffd79178b3a267aa57a288406d019b9a2fb770c91709c534120ec587b1c916076fa285dfb6da802c11e80ee72f82298f52b3cea116891608614
+  languageName: node
+  linkType: hard
+
 "@entur/alert@npm:0.17.18":
   version: 0.17.18
   resolution: "@entur/alert@npm:0.17.18"
@@ -849,6 +862,21 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 10/a9d30820d1e2d1d43b32b4985ea2e17eb627eece917d2961204e57b63d8d71915b0036e9edbd8ba97f67a360f453efcf19ac9e77b029ce1707f0efc900148c9b
+  languageName: node
+  linkType: hard
+
+"@entur/button@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@entur/button@npm:4.0.1"
+  dependencies:
+    "@entur/loader": "npm:^0.6.2"
+    "@entur/tokens": "npm:^3.22.0"
+    "@entur/utils": "npm:^0.13.1"
+    classnames: "npm:^2.5.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/f96f1c59c2da5f708fe9592a67dd60908ec56b625078f46fa54abf8600b29084b9d28fbc196a92d6c96dce6ab120d082c710c6430115d0ee71ea4cd1038d0e42
   languageName: node
   linkType: hard
 
@@ -1001,6 +1029,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/icons@npm:^8.4.1":
+  version: 8.4.1
+  resolution: "@entur/icons@npm:8.4.1"
+  dependencies:
+    "@entur/tokens": "npm:^3.22.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 10/1f248d0980c235257020934ab63323be8b5e9b201644fa242aaa02deed192fb2031148f275dbc790eb51294cc916d7dce102e3d2c50a72c68817f84f63b4466c
+  languageName: node
+  linkType: hard
+
 "@entur/layout@npm:3.2.2":
   version: 3.2.2
   resolution: "@entur/layout@npm:3.2.2"
@@ -1030,6 +1069,22 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 10/c160c568dfb4a6bf017cbcf2acad74ecb5429befab3bcfbc75e765d183b4996d78cdeeb1dd6dae3b13ace535c1422db20a8b4e8ae1311343f901dd6256de3efc
+  languageName: node
+  linkType: hard
+
+"@entur/layout@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "@entur/layout@npm:3.3.2"
+  dependencies:
+    "@entur/icons": "npm:^8.4.1"
+    "@entur/tokens": "npm:^3.22.0"
+    "@entur/typography": "npm:^2.1.2"
+    "@entur/utils": "npm:^0.13.1"
+    classnames: "npm:^2.5.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/f366a206e6f7120a06ef21e5bf84aaeae97ac148449450d957c1cb6ec8ee0593291f96f94a2d3ad0570f77e14f42e355bd15f85424de1c34a9ca55ed100990a2
   languageName: node
   linkType: hard
 
@@ -1078,6 +1133,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@entur/loader@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "@entur/loader@npm:0.6.2"
+  dependencies:
+    "@entur/tokens": "npm:^3.22.0"
+    "@entur/typography": "npm:^2.1.2"
+    "@entur/utils": "npm:^0.13.1"
+    classnames: "npm:^2.5.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/d715382dec0346271a5979bdac3cf21daf1c2ed1e74745efb89d922f0052e642d737cb70c89506d2c8ef871c3cd536a69f47fc9f3638236f2da66e4a23c2a276
+  languageName: node
+  linkType: hard
+
 "@entur/menu@npm:5.2.6":
   version: 5.2.6
   resolution: "@entur/menu@npm:5.2.6"
@@ -1100,24 +1170,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/modal@npm:1.7.78":
-  version: 1.7.78
-  resolution: "@entur/modal@npm:1.7.78"
+"@entur/modal@npm:1.8.3":
+  version: 1.8.3
+  resolution: "@entur/modal@npm:1.8.3"
   dependencies:
-    "@entur/a11y": "npm:^0.2.102"
-    "@entur/button": "npm:^3.3.18"
-    "@entur/icons": "npm:^8.2.0"
-    "@entur/layout": "npm:^3.2.2"
-    "@entur/tokens": "npm:^3.20.0"
-    "@entur/typography": "npm:^2.0.3"
-    "@entur/utils": "npm:^0.12.5"
+    "@entur/a11y": "npm:^0.2.105"
+    "@entur/button": "npm:^4.0.1"
+    "@entur/icons": "npm:^8.4.1"
+    "@entur/layout": "npm:^3.3.2"
+    "@entur/tokens": "npm:^3.22.0"
+    "@entur/typography": "npm:^2.1.2"
+    "@entur/utils": "npm:^0.13.1"
     "@reach/dialog": "npm:^0.16.2"
     classnames: "npm:^2.5.1"
     react-focus-lock: "npm:^2.13.6"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 10/543b39eaea2e85ba818d5daa7b1190ffc23b9fc239b5cd7d841b74c25327cef66e0610e32232f10854ec27e880e3abd33d97df5051dfbff81b7aba3354c82c9e
+  checksum: 10/9e1aa8155e73fc1e1bda0ed11609bd1f4550c3a76f3789aede341f6f7f3e348680db9a28f474b28b930ac91a84c908fe097647f846c2b3d72152a975b77cc19a
   languageName: node
   linkType: hard
 
@@ -1161,6 +1231,16 @@ __metadata:
     flat: "npm:^5.0.2"
     hex-rgb: "npm:^4.3.0"
   checksum: 10/d0d47c239c132af2853a7e21aa8146d2a024e78545519566a438f3bfb9c2d3899e73cfe6eb3becf14426e9b47d6c0f5cc24c8a8a2611bc0d8ea9fae6b23a210f
+  languageName: node
+  linkType: hard
+
+"@entur/tokens@npm:^3.22.0":
+  version: 3.22.0
+  resolution: "@entur/tokens@npm:3.22.0"
+  dependencies:
+    flat: "npm:^5.0.2"
+    hex-rgb: "npm:^4.3.0"
+  checksum: 10/405e97437a26db75a4cb50e24d4073f92a15a570b87286d22753557b6a20fcc8295f04a0b7a5ace320dc7c7e84fb44b8a027d23ad68dccd5e66cfd687870dd7e
   languageName: node
   linkType: hard
 
@@ -1241,6 +1321,26 @@ __metadata:
     glob:
       optional: true
   checksum: 10/ad44f248c4ef58163df40716d1118fea51ca2e85d27f77a264c08b2c76c8753975c79dea06ab1054b1f0a5a56e34c2b1662f790ee7f62d0a0af359fe6a22ff4e
+  languageName: node
+  linkType: hard
+
+"@entur/typography@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@entur/typography@npm:2.1.2"
+  dependencies:
+    "@entur/icons": "npm:^8.4.1"
+    "@entur/tokens": "npm:^3.22.0"
+    "@entur/utils": "npm:^0.13.1"
+    classnames: "npm:^2.5.1"
+    glob: "npm:^11.0.3"
+    modern-normalize: "npm:^3.0.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  dependenciesMeta:
+    glob:
+      optional: true
+  checksum: 10/691d28bf8f8d993fcf970fd8db2d1c3e4da0fddc7a60021ce5a0a6a474a51845987458d8a599f31f36d2a4c4dea9927b7baed45836537b0de05c88c2caa42c54
   languageName: node
   linkType: hard
 
@@ -15081,7 +15181,7 @@ __metadata:
     "@entur/layout": "npm:3.2.2"
     "@entur/loader": "npm:0.5.35"
     "@entur/menu": "npm:5.2.6"
-    "@entur/modal": "npm:1.7.78"
+    "@entur/modal": "npm:1.8.3"
     "@entur/table": "npm:4.10.0"
     "@entur/tokens": "npm:3.20.0"
     "@entur/tooltip": "npm:5.2.17"
