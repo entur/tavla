@@ -64,7 +64,7 @@
         "lodash": "4.17.21",
         "nanoid": "5.1.6",
         "next": "16.1.4",
-        "posthog-js": "1.292.0",
+        "posthog-js": "1.335.2",
         "react": "19.2.3",
         "react-dom": "19.2.3",
         "react-google-button": "0.8.0",
