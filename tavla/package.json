@@ -51,7 +51,7 @@
         "@entur/typography": "2.0.3",
         "@firebase/database-types": "1.0.16",
         "@floating-ui/react": "0.27.16",
-        "@sentry/nextjs": "8",
+        "@sentry/nextjs": "10.34.0",
         "@types/jsdom": "21.1.7",
         "abortcontroller-polyfill": "1.7.8",
         "classnames": "2.5.1",
