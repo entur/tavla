@@ -62,7 +62,7 @@ function TileSelector({
                 setSelectedStopPlace(null)
                 setTimeout(() => {
                     posthog.capture('survey_set_up_board')
-                }, 10000)
+                }, 5000)
             }}
         >
             <div className="w-full">
