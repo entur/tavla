@@ -60,6 +60,9 @@ function TileSelector({
                 setFormError(undefined)
                 setSelectedQuay(null)
                 setSelectedStopPlace(null)
+                setTimeout(() => {
+                    posthog.capture('survey_set_up_board')
+                }, 10000)
             }}
         >
             <div className="w-full">
