@@ -9,7 +9,7 @@
         "chrome > 47"
     ],
     "scripts": {
-        "dev": "next dev --turbopack & firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev",
+        "dev": "next dev & firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev",
         "dev:persist": "next dev & yarn emulators",
         "emulators": "firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev --import=./.db --export-on-exit",
         "build": "next build",
@@ -44,7 +44,7 @@
         "@entur/layout": "3.2.2",
         "@entur/loader": "0.5.35",
         "@entur/menu": "5.2.6",
-        "@entur/modal": "1.7.78",
+        "@entur/modal": "1.8.3",
         "@entur/table": "4.10.0",
         "@entur/tokens": "3.20.0",
         "@entur/tooltip": "5.2.17",
@@ -63,10 +63,10 @@
         "jsdom": "26.1.0",
         "lodash": "4.17.23",
         "nanoid": "5.1.6",
-        "next": "15.5.9",
+        "next": "16.1.4",
         "posthog-js": "1.292.0",
-        "react": "18.3.1",
-        "react-dom": "18.3.1",
+        "react": "19.2.3",
+        "react-dom": "19.2.3",
         "react-google-button": "0.8.0",
         "swr": "2.3.6",
         "zod": "4.1.12"
@@ -82,7 +82,7 @@
         "@types/eslint-plugin-jsx-a11y": "6",
         "@types/lodash": "4.17.20",
         "@types/node": "22.8.4",
-        "@types/react": "19.0.12",
+        "@types/react": "19.1.9",
         "@types/react-dom": "19.0.4",
         "@types/semver": "7.7.1",
         "@typescript-eslint/eslint-plugin": "8.46.4",
@@ -111,7 +111,7 @@
     },
     "resolutions": {
         "ip": ">=2.0.1",
-        "@types/react": "19.0.12",
+        "@types/react": "19.1.9",
         "@types/react-dom": "19.0.4"
     }
 }

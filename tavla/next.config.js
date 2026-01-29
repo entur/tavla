@@ -210,7 +210,11 @@ module.exports = async (phase, { defaultConfig }) => {
 module.exports = withSentryConfig(nextConfig, {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
-
+    webpack: {
+        treeshake: {
+            removeDebugLogging: true,
+        }
+    },
     org: 'entur',
     project: 'tavla',
     authToken: process.env.SENTRY_AUTH_TOKEN,
@@ -219,5 +223,4 @@ module.exports = withSentryConfig(nextConfig, {
     // For all available options, see:
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
     hideSourceMaps: true,
-    disableLogger: true,
 })
