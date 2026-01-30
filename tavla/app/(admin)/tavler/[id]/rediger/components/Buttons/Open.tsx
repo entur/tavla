@@ -2,8 +2,9 @@
 import { Button, IconButton } from '@entur/button'
 import { ExternalIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
-import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkClient } from 'src/utils/boardLink'
 
@@ -11,11 +12,11 @@ type Props = {
     type?: 'button' | 'icon'
     bid?: string
     board?: BoardDB
-    trackingEvent: string
+    trackingLocation: EventProps<'board_opened'>['location']
 }
 
-function Open({ type, bid, board, trackingEvent }: Props) {
-    const posthog = usePostHog()
+function Open({ type, bid, board, trackingLocation }: Props) {
+    const posthog = usePosthogTracking()
 
     if (!bid) {
         return null
@@ -33,7 +34,11 @@ function Open({ type, bid, board, trackingEvent }: Props) {
                 aria-label={ariaLabel}
                 href={link ?? '/'}
                 target="_blank"
-                onClick={() => posthog.capture(trackingEvent)}
+                onClick={() => {
+                    posthog.capture('board_opened', {
+                        location: trackingLocation,
+                    })
+                }}
             >
                 Åpne tavle
                 <ExternalIcon className="!top-[-2px]" />
@@ -52,7 +57,11 @@ function Open({ type, bid, board, trackingEvent }: Props) {
                 aria-label={ariaLabel}
                 href={link ?? '/'}
                 target="_blank"
-                onClick={() => posthog.capture(trackingEvent)}
+                onClick={() =>
+                    posthog.capture('board_opened', {
+                        location: trackingLocation,
+                    })
+                }
             >
                 <ExternalIcon />
             </IconButton>

@@ -1,6 +1,8 @@
 'use client'
 import { Checkbox } from '@entur/form'
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TTransportMode } from 'src/types/graphql-schema'
@@ -11,11 +13,15 @@ function TransportModeAndLines({
     tile,
     transportMode,
     lines,
+    trackingLocation,
 }: {
     tile: BoardTileDB
     transportMode: TTransportMode | null
     lines: TLineFragment[]
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
 }) {
+    const posthog = usePosthogTracking()
+
     const lineElements = document.getElementsByName(
         `${tile.uuid}-${transportMode}`,
     )
@@ -66,6 +72,12 @@ function TransportModeAndLines({
                 <Checkbox
                     checked={checked}
                     onChange={(e) => {
+                        posthog.capture('stop_place_edit_interaction', {
+                            location: trackingLocation,
+                            field: 'lines',
+                            column_value: 'none',
+                            action: e.target.checked ? 'select_all' : 'cleared',
+                        })
                         setChecked(e.currentTarget.checked)
                         lineElements.forEach((input) => {
                             if (input instanceof HTMLInputElement)
@@ -87,7 +99,15 @@ function TransportModeAndLines({
                     key={line.id}
                     value={line.id}
                     className="pl-6"
-                    onChange={determineAllChecked}
+                    onChange={() => {
+                        posthog.capture('stop_place_edit_interaction', {
+                            location: trackingLocation,
+                            field: 'lines',
+                            column_value: 'none',
+                            action: 'changed',
+                        })
+                        determineAllChecked()
+                    }}
                 >
                     <div className="flex flex-row items-center gap-1">
                         {line.publicCode && (

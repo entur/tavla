@@ -2,11 +2,23 @@ import { Checkbox } from '@entur/form'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { useEffect, useState } from 'react'
+import { EventProps } from 'app/posthog/events'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from 'app/posthog/usePosthogTracking'
+import { useEffect, useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { LocationDB } from 'src/types/db-types/boards'
 
-function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
+function SetOffsetDepartureTime({
+    address,
+    trackingLocation,
+}: {
+    address?: LocationDB
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+}) {
+    const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
 
     const walkingDistanceInMinutes = Math.ceil(
@@ -16,6 +28,7 @@ function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
         useState(walkingDistanceInMinutes === tile.offset)
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     useEffect(() => {
         if (!address) {
@@ -45,6 +58,19 @@ function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
                     value={offset}
                     onChange={(e) => {
                         setOffset(e.target.valueAsNumber || '')
+
+                        if (debounceTimerRef.current) {
+                            clearTimeout(debounceTimerRef.current)
+                        }
+
+                        debounceTimerRef.current = setTimeout(() => {
+                            posthog.capture('stop_place_edit_interaction', {
+                                location: trackingLocation,
+                                field: 'offset',
+                                action: 'changed',
+                                column_value: 'none',
+                            })
+                        }, TRACKING_DEBOUNCE_TIME)
                     }}
                     readOnly={offsetBasedOnWalkingDistance}
                 />
@@ -59,6 +85,15 @@ function SetOffsetDepartureTime({ address }: { address?: LocationDB }) {
                             setOffsetBasedOnWalkingDistance(
                                 !offsetBasedOnWalkingDistance,
                             )
+
+                            posthog.capture('stop_place_edit_interaction', {
+                                location: trackingLocation,
+                                field: 'offset_walking_dist',
+                                action: !offsetBasedOnWalkingDistance
+                                    ? 'toggled_on'
+                                    : 'toggled_off',
+                                column_value: 'none',
+                            })
                         }}
                     >
                         Forskyv basert på gangavstand

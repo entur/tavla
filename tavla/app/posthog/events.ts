@@ -6,6 +6,10 @@ export const LOCATIONS = {
     DemoPage: 'demo_page',
     Footer: 'footer',
     UserModal: 'user_modal',
+    Admin: 'admin',
+    Folder: 'folder',
+    BoardPage: 'board_page',
+    AdminTable: 'admin_table',
 } as const
 
 type Location = (typeof LOCATIONS)[keyof typeof LOCATIONS]
@@ -50,6 +54,174 @@ export type EventMap = {
     user_forgot_password: WithLocation<typeof LOCATIONS.UserModal>
 
     user_log_out_started: WithLocation<typeof LOCATIONS.NavBar>
+
+    /* Oversikt */
+    board_create_started: WithLocation<
+        typeof LOCATIONS.Admin | typeof LOCATIONS.Folder
+    >
+
+    board_created: {
+        folder_selected: boolean
+    }
+
+    board_create_cancelled: {
+        method: 'dismissed' | 'close_icon' | 'cancel_button'
+    }
+
+    folder_create_started: void
+
+    folder_created: void
+
+    folder_create_cancelled: {
+        method: 'dismissed' | 'close_icon' | 'cancel_button'
+    }
+
+    /* Mapper */
+
+    folder_logo_upload_started: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+    }
+
+    folder_logo_upload_cancelled: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+        method: 'dismissed' | 'cancel_button'
+    }
+
+    folder_logo_uploaded: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+    }
+
+    folder_members_manage_started: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+    }
+
+    folder_members_manage_cancelled: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+        method: 'dismissed'
+    }
+
+    folder_members_managed: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+        method: 'removed' | 'invited'
+    }
+
+    folder_delete_started: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+    }
+
+    folder_delete_cancelled: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+        method: 'cancelled' | 'dismissed' | 'close_icon'
+    }
+
+    folder_deleted: WithLocation<typeof LOCATIONS.Folder> & {
+        folder_id: string
+    }
+
+    /* Tavler */
+
+    board_opened: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+    >
+
+    board_copied: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+    >
+
+    board_deleted: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+    >
+
+    board_published: WithLocation<typeof LOCATIONS.BoardPage>
+
+    stop_place_deleted: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    >
+
+    stop_place_edit_started: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    >
+
+    stop_place_edit_cancelled: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    > & {
+        unsavedChanges: boolean
+    }
+
+    stop_place_edit_discard: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    >
+
+    stop_place_edit_interaction: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    > & {
+        field: 'name' | 'offset' | 'offset_walking_dist' | 'columns' | 'lines'
+        action:
+            | 'changed'
+            | 'toggled_on'
+            | 'toggled_off'
+            | 'select_all'
+            | 'cleared'
+            | 'opened'
+            | 'closed'
+        column_value:
+            | 'eta'
+            | 'arrival'
+            | 'line'
+            | 'destination'
+            | 'stop_place'
+            | 'platform'
+            | 'expected'
+            | 'none'
+    }
+
+    stop_place_edit_saved: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    >
+
+    stop_place_add_interaction: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    > & {
+        field: 'county' | 'stop_place' | 'platform'
+        action: 'selected' | 'cleared'
+    }
+
+    stop_place_added: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    > & {
+        county_selected: boolean
+        county_count: number
+        platform_selected: boolean
+    }
+
+    board_settings_changed: {
+        setting:
+            | 'view_type'
+            | 'theme'
+            | 'font'
+            | 'transport_palette'
+            | 'title'
+            | 'board_location'
+            | 'info_message'
+            | 'element_select'
+        value:
+            | 'combined'
+            | 'separate'
+            | 'light'
+            | 'dark'
+            | 'small'
+            | 'medium'
+            | 'large'
+            | 'default'
+            | 'blue-bus'
+            | 'green-bus'
+            | 'atb'
+            | 'fram'
+            | 'reis'
+            | 'changed'
+            | 'clock'
+            | 'logo'
+    }
 
     /* Demo */
     demo_started: WithLocation<

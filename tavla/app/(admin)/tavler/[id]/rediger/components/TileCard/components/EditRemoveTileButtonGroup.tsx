@@ -1,6 +1,8 @@
 import { SecondarySquareButton } from '@entur/button'
 import { CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { DeleteTileButton } from './DeleteTileButton'
 
@@ -10,6 +12,7 @@ function EditRemoveTileButtonGroup({
     setIsTileOpen,
     setConfirmOpen,
     deleteTile,
+    trackingLocation,
 }: {
     isTileOpen: boolean
     hasTileChanged: boolean
@@ -20,7 +23,10 @@ function EditRemoveTileButtonGroup({
         tile: BoardTileDB,
         demoBoard?: BoardDB,
     ) => void
+    trackingLocation: EventProps<'stop_place_edit_cancelled'>['location']
 }) {
+    const posthog = usePosthogTracking()
+
     return (
         <div className="flex gap-md">
             <Tooltip
@@ -30,6 +36,17 @@ function EditRemoveTileButtonGroup({
             >
                 <SecondarySquareButton
                     onClick={() => {
+                        if (!isTileOpen) {
+                            posthog.capture('stop_place_edit_started', {
+                                location: trackingLocation,
+                            })
+                        } else {
+                            posthog.capture('stop_place_edit_cancelled', {
+                                location: trackingLocation,
+                                unsavedChanges: hasTileChanged,
+                            })
+                        }
+
                         if (hasTileChanged) return setConfirmOpen(true)
                         setIsTileOpen(!isTileOpen)
                     }}

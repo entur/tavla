@@ -2,6 +2,7 @@
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
 import { TravelTag } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TravelTag'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
 import { BoardTheme, TransportPalette } from 'src/types/db-types/boards'
 import { TTransportMode, TTransportSubmode } from 'src/types/graphql-schema'
@@ -54,6 +55,8 @@ function TransportPaletteSelect({
     allowedPalettes?: TransportPalette[]
     onChange: () => void
 }) {
+    const posthog = usePosthogTracking()
+
     const [selectedValue, setSelectedValue] =
         useState<TransportPalette>(transportPalette)
 
@@ -90,7 +93,13 @@ function TransportPaletteSelect({
                     value={selectedValue}
                     aria-labelledby="transport-palette-heading"
                     onChange={(e) => {
-                        handleChange(e.target.value as TransportPalette)
+                        const newValue = e.target.value as TransportPalette
+                        handleChange(newValue)
+
+                        posthog.capture('board_settings_changed', {
+                            setting: 'transport_palette',
+                            value: newValue,
+                        })
                     }}
                 >
                     {availablePalettes.map((palette) => (

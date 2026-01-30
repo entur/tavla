@@ -4,7 +4,11 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading4 } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { useState } from 'react'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from 'app/posthog/usePosthogTracking'
+import { useRef, useState } from 'react'
 import { BoardFooter } from 'src/types/db-types/boards'
 
 function Footer({
@@ -14,12 +18,15 @@ function Footer({
     infoMessage?: BoardFooter
     onBlur: () => void
 }) {
+    const posthog = usePosthogTracking()
     const [selectedValue, setSelectedValue] = useState<string>(
         infoMessage?.footer ?? '',
     )
     const handleChange = (value: string) => {
         setSelectedValue(value)
     }
+
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     return (
         <div className="flex flex-col">
@@ -41,7 +48,20 @@ function Footer({
             </div>
             <ClientOnlyTextField
                 value={selectedValue}
-                onChange={(f) => handleChange(f.target.value)}
+                onChange={(f) => {
+                    if (debounceTimerRef.current) {
+                        clearTimeout(debounceTimerRef.current)
+                    }
+
+                    debounceTimerRef.current = setTimeout(() => {
+                        posthog.capture('board_settings_changed', {
+                            setting: 'info_message',
+                            value: 'changed',
+                        })
+                    }, TRACKING_DEBOUNCE_TIME)
+
+                    handleChange(f.target.value)
+                }}
                 onBlur={onBlur}
                 label="Infomelding"
                 name="footer"

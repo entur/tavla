@@ -31,13 +31,9 @@ function ActionsMenuDesktop({
 }) {
     return (
         <div className="hidden flex-row gap-4 sm:flex md:items-center">
-            <Open
-                bid={board.id}
-                type="button"
-                trackingEvent="OPEN_BOARD_FROM_EDIT_BOARD"
-            />
+            <Open bid={board.id} type="button" trackingLocation="board_page" />
             <RefreshButton board={board} />
-            <Delete board={board} type="button" />
+            <Delete board={board} type="button" trackingLocation="board_page" />
             <OverflowMenu placement="bottom-left">
                 <DuplicateBoard
                     board={board}
@@ -62,7 +58,7 @@ function ActionsMenuPhone({
                 <Open
                     bid={board.id}
                     type="button"
-                    trackingEvent="OPEN_BOARD_FROM_EDIT_BOARD"
+                    trackingLocation="board_page"
                 />
                 <RefreshButton board={board} />
             </div>
@@ -72,7 +68,11 @@ function ActionsMenuPhone({
                     folderid={folderid}
                     type="menuitem"
                 />
-                <Delete board={board} type="menuitem" />
+                <Delete
+                    board={board}
+                    type="menuitem"
+                    trackingLocation="board_page"
+                />
             </OverflowMenu>
         </div>
     )

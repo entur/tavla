@@ -1,6 +1,7 @@
 import { Heading4 } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
+import { EventProps } from 'app/posthog/events'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { TTransportMode } from 'src/types/graphql-schema'
 import { TransportModeAndLines } from '../TransportModeAndLines'
@@ -10,9 +11,11 @@ import { sortLineByPublicCode } from '../utils'
 function SetVisibleLines({
     uniqLines,
     transportModes,
+    trackingLocation,
 }: {
     uniqLines: TLineFragment[]
     transportModes: (TTransportMode | null)[]
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
 }) {
     const tile = useNonNullContext(TileContext)
     const linesByModeSorted = transportModes
@@ -34,6 +37,7 @@ function SetVisibleLines({
                         tile={tile}
                         transportMode={transportMode}
                         lines={lines}
+                        trackingLocation={trackingLocation}
                     />
                 ))}
             </div>
