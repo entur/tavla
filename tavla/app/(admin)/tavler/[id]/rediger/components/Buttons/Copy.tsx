@@ -29,7 +29,6 @@ function Copy({ type, bid, board, trackingLocation }: Props) {
 
         posthog.capture('board_copied', {
             location: trackingLocation,
-            board_id: bid,
         })
     }
 

@@ -2,7 +2,10 @@
 import { Heading4 } from '@entur/typography'
 import { TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from 'app/posthog/usePosthogTracking'
 import { useRef } from 'react'
 
 function Title({
@@ -40,7 +43,7 @@ function Title({
                             setting: 'title',
                             value: 'changed',
                         })
-                    }, 500)
+                    }, TRACKING_DEBOUNCE_TIME)
                 }}
                 {...feedback}
             />

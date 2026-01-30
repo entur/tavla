@@ -3,7 +3,10 @@ import { Heading4, SubParagraph } from '@entur/typography'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { EventProps } from 'app/posthog/events'
-import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from 'app/posthog/usePosthogTracking'
 import { useEffect, useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { LocationDB } from 'src/types/db-types/boards'
@@ -11,11 +14,9 @@ import { LocationDB } from 'src/types/db-types/boards'
 function SetOffsetDepartureTime({
     address,
     trackingLocation,
-    board_id,
 }: {
     address?: LocationDB
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    board_id: string
 }) {
     const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
@@ -65,12 +66,11 @@ function SetOffsetDepartureTime({
                         debounceTimerRef.current = setTimeout(() => {
                             posthog.capture('stop_place_edit_interaction', {
                                 location: trackingLocation,
-                                board_id: board_id,
                                 field: 'offset',
                                 action: 'changed',
                                 column_value: 'none',
                             })
-                        }, 500)
+                        }, TRACKING_DEBOUNCE_TIME)
                     }}
                     readOnly={offsetBasedOnWalkingDistance}
                 />
@@ -88,7 +88,6 @@ function SetOffsetDepartureTime({
 
                             posthog.capture('stop_place_edit_interaction', {
                                 location: trackingLocation,
-                                board_id: board_id,
                                 field: 'offset_walking_dist',
                                 action: !offsetBasedOnWalkingDistance
                                     ? 'toggled_on'

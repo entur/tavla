@@ -23,7 +23,6 @@ function SaveCancelDeleteTileButtonGroup({
     deleteTile,
     validation,
     trackingLocation,
-    board_id,
 }: {
     confirmOpen: boolean
     hasTileChanged: boolean
@@ -37,7 +36,6 @@ function SaveCancelDeleteTileButtonGroup({
     ) => void
     validation?: TFormFeedback
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    board_id: string
 }) {
     const tile = useNonNullContext(TileContext)
     const posthog = usePosthogTracking()
@@ -56,7 +54,6 @@ function SaveCancelDeleteTileButtonGroup({
                     onClick={() => {
                         posthog.capture('stop_place_edit_saved', {
                             location: trackingLocation,
-                            board_id: board_id,
                         })
                     }}
                 >
@@ -67,6 +64,11 @@ function SaveCancelDeleteTileButtonGroup({
                     aria-label="avbryt"
                     type="button"
                     onClick={() => {
+                        posthog.capture('stop_place_edit_cancelled', {
+                            location: trackingLocation,
+                            unsavedChanges: hasTileChanged,
+                        })
+
                         if (hasTileChanged) return setConfirmOpen(true)
                         return setIsTileOpen(false)
                     }}
@@ -108,7 +110,6 @@ function SaveCancelDeleteTileButtonGroup({
                             onClick={() => {
                                 posthog.capture('stop_place_edit_saved', {
                                     location: trackingLocation,
-                                    board_id: board_id,
                                 })
                             }}
                         >
@@ -119,9 +120,8 @@ function SaveCancelDeleteTileButtonGroup({
                             variant="secondary"
                             aria-label="Forkast endringer"
                             onClick={() => {
-                                posthog.capture('stop_place_edit_cancelled', {
+                                posthog.capture('stop_place_edit_discard', {
                                     location: trackingLocation,
-                                    board_id: board_id,
                                 })
                                 resetTile()
                             }}

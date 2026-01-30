@@ -12,12 +12,10 @@ function SetVisibleLines({
     uniqLines,
     transportModes,
     trackingLocation,
-    board_id,
 }: {
     uniqLines: TLineFragment[]
     transportModes: (TTransportMode | null)[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    board_id: string
 }) {
     const tile = useNonNullContext(TileContext)
     const linesByModeSorted = transportModes
@@ -39,7 +37,6 @@ function SetVisibleLines({
                         tile={tile}
                         transportMode={transportMode}
                         lines={lines}
-                        board_id={board_id}
                         trackingLocation={trackingLocation}
                     />
                 ))}

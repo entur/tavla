@@ -14,13 +14,11 @@ function TransportModeAndLines({
     transportMode,
     lines,
     trackingLocation,
-    board_id,
 }: {
     tile: BoardTileDB
     transportMode: TTransportMode | null
     lines: TLineFragment[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    board_id: string
 }) {
     const posthog = usePosthogTracking()
 
@@ -76,7 +74,6 @@ function TransportModeAndLines({
                     onChange={(e) => {
                         posthog.capture('stop_place_edit_interaction', {
                             location: trackingLocation,
-                            board_id: board_id,
                             field: 'lines',
                             column_value: 'none',
                             action: e.target.checked ? 'select_all' : 'cleared',
@@ -105,7 +102,6 @@ function TransportModeAndLines({
                     onChange={() => {
                         posthog.capture('stop_place_edit_interaction', {
                             location: trackingLocation,
-                            board_id: board_id,
                             field: 'lines',
                             column_value: 'none',
                             action: 'changed',

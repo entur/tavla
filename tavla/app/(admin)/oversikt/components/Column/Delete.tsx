@@ -51,7 +51,6 @@ function Delete({
                 onClick={() => {
                     posthog.capture('board_deleted', {
                         location: trackingLocation,
-                        board_id: board.id,
                     })
                     setIsOpen(true)
                 }}

@@ -171,21 +171,12 @@ function TileCard({
     }
 
     const handleSetIsTileOpen = (open: boolean) => {
-        posthog.capture(
-            open ? 'stop_place_edit_started' : 'stop_place_edit_cancelled',
-            {
-                location: bid === 'demo' ? 'demo_page' : 'board_page',
-                board_id: bid,
-            },
-        )
-
         setIsOpen(open)
     }
 
     const handleDeleteTile = () => {
         posthog.capture('stop_place_deleted', {
             location: bid === 'demo' ? 'demo_page' : 'board_page',
-            board_id: bid,
         })
 
         if (bid === 'demo') {
@@ -225,6 +216,9 @@ function TileCard({
                             setIsTileOpen={handleSetIsTileOpen}
                             setConfirmOpen={setConfirmOpen}
                             deleteTile={handleDeleteTile}
+                            trackingLocation={
+                                bid === 'demo' ? 'demo_page' : 'board_page'
+                            }
                         />
                     </div>
                     <TileArrows
@@ -253,23 +247,19 @@ function TileCard({
                         >
                             <SetStopPlaceName
                                 state={state}
-                                board_id={bid}
                                 trackingLocation={trackingLocation}
                             />
                             <SetOffsetDepartureTime
                                 address={address}
-                                board_id={bid}
                                 trackingLocation={trackingLocation}
                             />
                             <SetColumns
                                 isCombined={isCombined}
-                                board_id={bid}
                                 trackingLocation={trackingLocation}
                             />
                             <SetVisibleLines
                                 uniqLines={uniqLines}
                                 transportModes={transportModes}
-                                board_id={bid}
                                 trackingLocation={trackingLocation}
                             />
                             <SaveCancelDeleteTileButtonGroup
@@ -280,7 +270,6 @@ function TileCard({
                                 setConfirmOpen={setConfirmOpen}
                                 validation={state}
                                 deleteTile={handleDeleteTile}
-                                board_id={bid}
                                 trackingLocation={trackingLocation}
                             />
                         </form>

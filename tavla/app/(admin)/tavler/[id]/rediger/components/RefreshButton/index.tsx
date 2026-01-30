@@ -12,7 +12,6 @@ function RefreshButton({ board }: { board: BoardDB }) {
     const refresh = async () => {
         posthog.capture('board_published', {
             location: 'board_page',
-            board_id: board.id,
         })
         const status = await refreshBoard(board)
         if (status)

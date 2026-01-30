@@ -3,18 +3,19 @@ import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { EventProps } from 'app/posthog/events'
-import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from 'app/posthog/usePosthogTracking'
 import { useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 
 function SetStopPlaceName({
     state,
     trackingLocation,
-    board_id,
 }: {
     state?: TFormFeedback
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    board_id: string
 }) {
     const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
@@ -53,12 +54,11 @@ function SetStopPlaceName({
                     debounceTimerRef.current = setTimeout(() => {
                         posthog.capture('stop_place_edit_interaction', {
                             location: trackingLocation,
-                            board_id: board_id,
                             field: 'name',
                             action: 'changed',
                             column_value: 'none',
                         })
-                    }, 500)
+                    }, TRACKING_DEBOUNCE_TIME)
                 }}
                 {...getFormFeedbackForField('name', state)}
             />

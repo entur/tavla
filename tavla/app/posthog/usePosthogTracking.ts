@@ -5,6 +5,11 @@ import { useCallback } from 'react'
 import type { CaptureArgs, TrackingEvent } from './events'
 
 /**
+ * Debounce timing used when capturing input that changes rapidly.
+ */
+export const TRACKING_DEBOUNCE_TIME = 500
+
+/**
  * Single entrypoint for tracking in React components.
  * - Typed event -> typed props (from EventMap)
  * - No-op if PostHog isn't available (e.g. consent not given / not initialized)

@@ -122,48 +122,39 @@ export type EventMap = {
 
     board_opened: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
-    > & {
-        board_id: string
-    }
+    >
 
     board_copied: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
-    > & {
-        board_id: string
-    }
+    >
 
     board_deleted: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
-    > & {
-        board_id: string
-    }
+    >
 
-    board_published: WithLocation<typeof LOCATIONS.BoardPage> & {
-        board_id: string
-    }
+    board_published: WithLocation<typeof LOCATIONS.BoardPage>
 
     stop_place_deleted: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
-    > & {
-        board_id: string
-    }
+    >
 
     stop_place_edit_started: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
-    > & {
-        board_id: string
-    }
+    >
 
     stop_place_edit_cancelled: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
     > & {
-        board_id: string
+        unsavedChanges: boolean
     }
+
+    stop_place_edit_discard: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+    >
 
     stop_place_edit_interaction: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
     > & {
-        board_id: string
         field: 'name' | 'offset' | 'offset_walking_dist' | 'columns' | 'lines'
         action:
             | 'changed'
@@ -186,9 +177,7 @@ export type EventMap = {
 
     stop_place_edit_saved: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
-    > & {
-        board_id: string
-    }
+    >
 
     stop_place_add_interaction: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage

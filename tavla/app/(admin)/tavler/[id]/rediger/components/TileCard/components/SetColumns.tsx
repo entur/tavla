@@ -17,11 +17,9 @@ import { ColumnModal } from '../ColumnModal'
 function SetColumns({
     isCombined,
     trackingLocation,
-    board_id,
 }: {
     isCombined: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    board_id: string
 }) {
     const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
@@ -92,7 +90,6 @@ function SetColumns({
                             onChange={(e) => {
                                 posthog.capture('stop_place_edit_interaction', {
                                     location: trackingLocation,
-                                    board_id: board_id,
                                     field: 'columns',
                                     column_value: columnValue[key]!,
                                     action: e.target.checked

@@ -4,7 +4,10 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading4 } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from 'app/posthog/usePosthogTracking'
 import { useRef, useState } from 'react'
 import { BoardFooter } from 'src/types/db-types/boards'
 
@@ -55,7 +58,7 @@ function Footer({
                             setting: 'info_message',
                             value: 'changed',
                         })
-                    }, 500)
+                    }, TRACKING_DEBOUNCE_TIME)
 
                     handleChange(f.target.value)
                 }}

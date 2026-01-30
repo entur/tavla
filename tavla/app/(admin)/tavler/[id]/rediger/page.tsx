@@ -106,7 +106,6 @@ export default async function EditPage(props: TProps) {
                             Felter markert med * er påkrevd.
                         </SubParagraph>
                     </div>
-
                     <TileSelector
                         action={walkingDistanceAction}
                         trackingLocation={

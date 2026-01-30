@@ -37,7 +37,6 @@ function Open({ type, bid, board, trackingLocation }: Props) {
                 onClick={() => {
                     posthog.capture('board_opened', {
                         location: trackingLocation,
-                        board_id: bid ?? '',
                     })
                 }}
             >
@@ -61,7 +60,6 @@ function Open({ type, bid, board, trackingLocation }: Props) {
                 onClick={() =>
                     posthog.capture('board_opened', {
                         location: trackingLocation,
-                        board_id: bid ?? '',
                     })
                 }
             >
