@@ -6,6 +6,8 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { TFormFeedback } from 'app/(admin)/utils'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Goat from 'assets/illustrations/Goat.png'
 import Image from 'next/image'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
@@ -20,6 +22,7 @@ function SaveCancelDeleteTileButtonGroup({
     setConfirmOpen,
     deleteTile,
     validation,
+    trackingLocation,
 }: {
     confirmOpen: boolean
     hasTileChanged: boolean
@@ -32,8 +35,11 @@ function SaveCancelDeleteTileButtonGroup({
         demoBoard?: BoardDB,
     ) => void
     validation?: TFormFeedback
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
 }) {
     const tile = useNonNullContext(TileContext)
+    const posthog = usePosthogTracking()
+
     return (
         <>
             {validation?.feedback && (
@@ -42,7 +48,15 @@ function SaveCancelDeleteTileButtonGroup({
                 </SmallAlertBox>
             )}
             <div className="mt-8 flex flex-col justify-start gap-4 md:flex-row">
-                <SubmitButton variant="primary" aria-label="lagre valg">
+                <SubmitButton
+                    variant="primary"
+                    aria-label="lagre valg"
+                    onClick={() => {
+                        posthog.capture('stop_place_edit_saved', {
+                            location: trackingLocation,
+                        })
+                    }}
+                >
                     Lagre valg
                 </SubmitButton>
                 <Button
@@ -50,6 +64,11 @@ function SaveCancelDeleteTileButtonGroup({
                     aria-label="avbryt"
                     type="button"
                     onClick={() => {
+                        posthog.capture('stop_place_edit_cancelled', {
+                            location: trackingLocation,
+                            unsavedChanges: hasTileChanged,
+                        })
+
                         if (hasTileChanged) return setConfirmOpen(true)
                         return setIsTileOpen(false)
                     }}
@@ -88,6 +107,11 @@ function SaveCancelDeleteTileButtonGroup({
                             width="fluid"
                             form={tile.uuid}
                             aria-label="Lagre endringer"
+                            onClick={() => {
+                                posthog.capture('stop_place_edit_saved', {
+                                    location: trackingLocation,
+                                })
+                            }}
                         >
                             Lagre
                         </SubmitButton>
@@ -95,7 +119,12 @@ function SaveCancelDeleteTileButtonGroup({
                             type="button"
                             variant="secondary"
                             aria-label="Forkast endringer"
-                            onClick={resetTile}
+                            onClick={() => {
+                                posthog.capture('stop_place_edit_discard', {
+                                    location: trackingLocation,
+                                })
+                                resetTile()
+                            }}
                         >
                             Forkast
                         </Button>

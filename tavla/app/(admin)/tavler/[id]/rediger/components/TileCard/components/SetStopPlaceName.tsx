@@ -2,12 +2,25 @@ import { Heading4, SubParagraph } from '@entur/typography'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { useState } from 'react'
+import { EventProps } from 'app/posthog/events'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from 'app/posthog/usePosthogTracking'
+import { useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 
-function SetStopPlaceName({ state }: { state?: TFormFeedback }) {
+function SetStopPlaceName({
+    state,
+    trackingLocation,
+}: {
+    state?: TFormFeedback
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+}) {
+    const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     return (
         <div className="flex flex-col gap-2">
@@ -31,7 +44,22 @@ function SetStopPlaceName({ state }: { state?: TFormFeedback }) {
                 onClear={() => {
                     setDisplayName('')
                 }}
-                onChange={(e) => setDisplayName(e.target.value)}
+                onChange={(e) => {
+                    setDisplayName(e.target.value)
+
+                    if (debounceTimerRef.current) {
+                        clearTimeout(debounceTimerRef.current)
+                    }
+
+                    debounceTimerRef.current = setTimeout(() => {
+                        posthog.capture('stop_place_edit_interaction', {
+                            location: trackingLocation,
+                            field: 'name',
+                            action: 'changed',
+                            column_value: 'none',
+                        })
+                    }, TRACKING_DEBOUNCE_TIME)
+                }}
                 {...getFormFeedbackForField('name', state)}
             />
         </div>

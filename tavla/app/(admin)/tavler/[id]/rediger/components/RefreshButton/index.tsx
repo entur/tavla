@@ -3,14 +3,16 @@ import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { refreshBoard } from './actions'
 
-import { usePostHog } from 'posthog-js/react'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { BoardDB } from 'src/types/db-types/boards'
 
 function RefreshButton({ board }: { board: BoardDB }) {
     const toast = useToast()
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
     const refresh = async () => {
-        posthog.capture('PUBLISH_BOARD_BTN')
+        posthog.capture('board_published', {
+            location: 'board_page',
+        })
         const status = await refreshBoard(board)
         if (status)
             toast.addToast({

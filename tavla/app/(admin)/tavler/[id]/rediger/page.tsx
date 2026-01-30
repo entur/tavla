@@ -92,7 +92,7 @@ export default async function EditPage(props: TProps) {
                     <Copy
                         bid={board.id}
                         type="button"
-                        trackingEvent="COPY_BOARD_FROM_EDIT_BOARD"
+                        trackingLocation="board_page"
                     />
                 </div>
 
@@ -106,8 +106,12 @@ export default async function EditPage(props: TProps) {
                             Felter markert med * er påkrevd.
                         </SubParagraph>
                     </div>
-
-                    <TileSelector action={walkingDistanceAction} />
+                    <TileSelector
+                        action={walkingDistanceAction}
+                        trackingLocation={
+                            board.id === 'demo' ? 'demo_page' : 'board_page'
+                        }
+                    />
                     <TileList board={board} />
                     <div
                         data-theme={board.theme ?? 'dark'}

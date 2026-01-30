@@ -3,6 +3,7 @@ import { useToast } from '@entur/alert'
 import { IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
 import { UserDB } from 'src/types/db-types/users'
@@ -18,6 +19,8 @@ function RemoveUserButton({
     const [, deleteUser] = useActionState(removeUserAction, undefined)
     const { addToast } = useToast()
 
+    const posthog = usePosthogTracking()
+
     const action = async (data: FormData) => {
         deleteUser(data)
         addToast('Medlem fjernet fra mappen')
@@ -28,7 +31,17 @@ function RemoveUserButton({
             <form action={action} aria-live="polite" aria-relevant="all">
                 <HiddenInput id="uid" value={user?.uid} />
                 <HiddenInput id="folderid" value={folderid} />
-                <IconButton type="submit" className="gap-2">
+                <IconButton
+                    type="submit"
+                    className="gap-2"
+                    onClick={() => {
+                        posthog.capture('folder_members_managed', {
+                            location: 'folder',
+                            folder_id: folderid ?? '',
+                            method: 'removed',
+                        })
+                    }}
+                >
                     <DeleteIcon />
                     Fjern fra mappe
                 </IconButton>

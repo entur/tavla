@@ -1,4 +1,5 @@
 'use client'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { BoardTheme } from 'src/types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
@@ -9,6 +10,8 @@ function ThemeSelect({
     theme?: BoardTheme
     onChange: () => void
 }) {
+    const posthog = usePosthogTracking()
+
     return (
         <ChoiceChipGroupGeneral<BoardTheme>
             label="Fargetema"
@@ -17,7 +20,14 @@ function ThemeSelect({
                 { value: 'dark', label: 'Mørk' },
             ]}
             defaultValue={theme}
-            onChange={onChange}
+            onChange={(value) => {
+                posthog.capture('board_settings_changed', {
+                    setting: 'theme',
+                    value: value as 'light' | 'dark',
+                })
+
+                onChange()
+            }}
             name="theme"
             ariaLabel="Fargetema"
         />

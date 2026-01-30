@@ -5,6 +5,8 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { DEFAULT_COMBINED_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { isArray } from 'lodash'
 import { useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
@@ -12,7 +14,14 @@ import { TileColumns } from 'src/types/db-types/boards'
 import { typedEntries } from 'src/utils/typeguards'
 import { ColumnModal } from '../ColumnModal'
 
-function SetColumns({ isCombined }: { isCombined: boolean }) {
+function SetColumns({
+    isCombined,
+    trackingLocation,
+}: {
+    isCombined: boolean
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+}) {
+    const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
     const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
 
@@ -55,6 +64,20 @@ function SetColumns({ isCombined }: { isCombined: boolean }) {
                     const columns = isCombined
                         ? DEFAULT_COMBINED_COLUMNS
                         : tile.columns
+
+                    const columnValue: Record<
+                        string,
+                        EventProps<'stop_place_edit_interaction'>['column_value']
+                    > = {
+                        aimedTime: 'eta',
+                        arrivalTime: 'arrival',
+                        line: 'line',
+                        destination: 'destination',
+                        name: 'stop_place',
+                        platform: 'platform',
+                        time: 'expected',
+                    }
+
                     return (
                         <FilterChip
                             name="columns"
@@ -64,6 +87,16 @@ function SetColumns({ isCombined }: { isCombined: boolean }) {
                             defaultChecked={
                                 isArray(columns) && columns.includes(key)
                             }
+                            onChange={(e) => {
+                                posthog.capture('stop_place_edit_interaction', {
+                                    location: trackingLocation,
+                                    field: 'columns',
+                                    column_value: columnValue[key]!,
+                                    action: e.target.checked
+                                        ? 'toggled_on'
+                                        : 'toggled_off',
+                                })
+                            }}
                         >
                             {value}
                         </FilterChip>

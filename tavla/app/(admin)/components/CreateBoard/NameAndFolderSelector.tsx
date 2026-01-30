@@ -7,22 +7,26 @@ import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import rabbits from 'assets/illustrations/Rabbits.png'
+import { isNull } from 'lodash'
 import Image from 'next/image'
-import { usePostHog } from 'posthog-js/react'
 import { useActionState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
 import { FormError } from '../FormError'
 import { createBoard } from './actions'
 
-type Props = {
+type NameAndFolderSelectorProps = {
     folder?: FolderDB
     onClose: () => void
 }
 
-function NameAndFolderSelector({ folder, onClose }: Props) {
+function NameAndFolderSelector({
+    folder,
+    onClose,
+}: NameAndFolderSelectorProps) {
     const [state, action] = useActionState(createBoard, undefined)
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
 
     const { folderDropdownList, selectedFolder, handleFolderChange } =
         useFolderDropdown(folder)
@@ -81,7 +85,9 @@ function NameAndFolderSelector({ folder, onClose }: Props) {
                     variant="primary"
                     width="fluid"
                     onClick={() => {
-                        posthog.capture('CREATE_BOARD_BTN')
+                        posthog.capture('board_created', {
+                            folder_selected: !isNull(selectedFolder.value),
+                        })
                     }}
                     aria-label="Opprett tavle"
                     className="!mr-0"

@@ -2,25 +2,28 @@
 import { IconButton, PrimaryButton } from '@entur/button'
 import { BoardIcon, CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { usePostHog } from 'posthog-js/react'
+import { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
 import { NameAndFolderSelector } from './NameAndFolderSelector'
 
 type CreateBoardProps = {
-    trackingEvent: string
+    trackingLocation: EventProps<'board_create_started'>['location']
     folder?: FolderDB
 }
 
-function CreateBoard({ folder, trackingEvent }: CreateBoardProps) {
+function CreateBoard({ folder, trackingLocation }: CreateBoardProps) {
     const [isOpen, setIsOpen] = useState(false)
-    const posthog = usePostHog()
+    const posthog = usePosthogTracking()
 
     return (
         <>
             <PrimaryButton
                 onClick={() => {
-                    posthog.capture(trackingEvent)
+                    posthog.capture('board_create_started', {
+                        location: trackingLocation,
+                    })
                     setIsOpen(true)
                 }}
             >
@@ -30,20 +33,35 @@ function CreateBoard({ folder, trackingEvent }: CreateBoardProps) {
             <Modal
                 open={isOpen}
                 size="small"
-                onDismiss={() => setIsOpen(false)}
+                onDismiss={() => {
+                    posthog.capture('board_create_cancelled', {
+                        method: 'dismissed',
+                    })
+                    setIsOpen(false)
+                }}
                 closeLabel="Avbryt opprettelse av tavle"
                 style={{ overflow: 'visible' }}
             >
                 <IconButton
                     aria-label="Avbryt opprettelse av tavle"
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                        posthog.capture('board_create_cancelled', {
+                            method: 'close_icon',
+                        })
+                        setIsOpen(false)
+                    }}
                     className="absolute right-4 top-4"
                 >
                     <CloseIcon />
                 </IconButton>
                 <NameAndFolderSelector
                     folder={folder}
-                    onClose={() => setIsOpen(false)}
+                    onClose={() => {
+                        posthog.capture('board_create_cancelled', {
+                            method: 'cancel_button',
+                        })
+                        setIsOpen(false)
+                    }}
                 />
             </Modal>
         </>

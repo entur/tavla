@@ -4,6 +4,7 @@ import { Heading4, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useRef } from 'react'
 import { LocationDB } from 'src/types/db-types/boards'
 
@@ -14,6 +15,8 @@ function WalkingDistance({
     location?: LocationDB
     onChange: () => void
 }) {
+    const posthog = usePosthogTracking()
+
     const { pointItems, selectedPoint, setSelectedPoint } =
         usePointSearch(location)
 
@@ -40,7 +43,13 @@ function WalkingDistance({
                     label="Hvor befinner tavlen seg?"
                     items={pointItems}
                     selectedItem={selectedPoint}
-                    onChange={setSelectedPoint}
+                    onChange={(e) => {
+                        posthog.capture('board_settings_changed', {
+                            setting: 'board_location',
+                            value: 'changed',
+                        })
+                        setSelectedPoint(e)
+                    }}
                     debounceTimeout={150}
                     clearable
                 />

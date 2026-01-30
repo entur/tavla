@@ -5,7 +5,6 @@ import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
-import { usePostHog } from 'posthog-js/react'
 import { BoardDB } from 'src/types/db-types/boards'
 
 const emptyDemoBoard = {
@@ -17,8 +16,6 @@ const emptyDemoBoard = {
 function DemoBoard() {
     const [board, setBoard] = useLocalStorage<BoardDB>('board', emptyDemoBoard)
 
-    const posthog = usePostHog()
-
     return (
         <>
             <div className="flex flex-col gap-4">
@@ -29,8 +26,8 @@ function DemoBoard() {
                     action={async (data: FormData) => {
                         const tile = formDataToTile(data)
                         setBoard({ ...board, tiles: [...board.tiles, tile] })
-                        posthog.capture('ADD_STOP_PLACE_DEMO_PAGE')
                     }}
+                    trackingLocation="demo_page"
                 />
                 <TileList board={board} setDemoBoard={setBoard} bid="demo" />
             </div>
