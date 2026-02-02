@@ -29,7 +29,6 @@
             "types/*": ["src/types/*"],
             "styles/*": ["./src/Shared/styles/*"],
             "assets/*": ["src/assets/*"],
-            "graphql/*": ["src/graphql/*"],
             "hooks/*": ["src/hooks/*"],
             "src/*": ["./src/*"]
         }
