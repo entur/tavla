@@ -28,13 +28,13 @@ const config: CodegenConfig = {
         },
     },
     generates: {
-        'src/Shared/types/graphql-schema.ts': {
+        'src/types/graphql-schema.ts': {
             plugins: [
                 'typescript',
                 { add: { content: '/* eslint-disable */' } },
             ],
         },
-        'src/Shared/graphql/index.ts': {
+        'src/graphql/index.ts': {
             preset: 'import-types',
             presetConfig: {
                 typesPath: 'types/graphql-schema',

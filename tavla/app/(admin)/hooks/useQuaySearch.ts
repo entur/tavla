@@ -1,7 +1,7 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { SmallTravelTag } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TravelTag'
-import { QuaysSearchQuery } from 'graphql/index'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { QuaysSearchQuery } from 'src/graphql/index'
 import { useQuery } from 'src/hooks/useQuery'
 import { isNotNullOrUndefined } from 'src/utils/typeguards'
 
