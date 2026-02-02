@@ -1,6 +1,6 @@
-import { QuayEditQuery, StopPlaceEditQuery } from 'graphql/index'
 import { useEffect, useState } from 'react'
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'src/assets/env'
+import { QuayEditQuery, StopPlaceEditQuery } from 'src/graphql/index'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TQuay } from 'src/types/graphql-schema'
 import { TLineFragment } from './types'

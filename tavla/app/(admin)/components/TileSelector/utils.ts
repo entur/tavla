@@ -1,11 +1,11 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 import * as Sentry from '@sentry/nextjs'
+import { nanoid } from 'nanoid'
 import {
     QuayCoordinatesQuery,
     StopPlaceCoordinatesQuery,
     WalkDistanceQuery,
-} from 'graphql/index'
-import { nanoid } from 'nanoid'
+} from 'src/graphql/index'
 import { fetchQuery } from 'src/graphql/utils'
 import {
     BoardTileDB,
