@@ -248,6 +248,7 @@ export type EventMap = {
     contact_tavla: WithLocation<typeof LOCATIONS.Footer>
     cookie_settings_opened: WithLocation<typeof LOCATIONS.Footer>
     github_link_clicked: WithLocation<typeof LOCATIONS.Footer>
+    survey_set_up_board: void
 }
 export type NoProps = void
 
