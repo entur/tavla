@@ -369,6 +369,37 @@ export type TStopPlaceNameQuery = {
     stopPlace: { __typename?: 'StopPlace'; name: string; id: string } | null
 }
 
+export type TStopPlacesByBboxQueryVariables = Types.Exact<{
+    minLat: Types.Scalars['Float']['input']
+    minLng: Types.Scalars['Float']['input']
+    maxLat: Types.Scalars['Float']['input']
+    maxLng: Types.Scalars['Float']['input']
+}>
+
+export type TStopPlacesByBboxQuery = {
+    __typename?: 'QueryType'
+    stopPlacesByBbox: Array<{
+        __typename?: 'StopPlace'
+        id: string
+        name: string
+        latitude: number | null
+        longitude: number | null
+        quays: Array<{
+            __typename?: 'Quay'
+            id: string
+            publicCode: string | null
+            description: string | null
+            lines: Array<{
+                __typename?: 'Line'
+                id: string
+                publicCode: string | null
+                name: string | null
+                transportMode: Types.TTransportMode | null
+            }>
+        } | null> | null
+    } | null>
+}
+
 export type TWalkDistanceQueryVariables = Types.Exact<{
     from: Types.TInputCoordinates
     to: Types.TInputCoordinates
@@ -728,6 +759,36 @@ export const StopPlaceNameQuery = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<
     TStopPlaceNameQuery,
     TStopPlaceNameQueryVariables
+>
+export const StopPlacesByBboxQuery = new TypedDocumentString(`
+    query stopPlacesByBbox($minLat: Float!, $minLng: Float!, $maxLat: Float!, $maxLng: Float!) {
+  stopPlacesByBbox(
+    minimumLatitude: $minLat
+    minimumLongitude: $minLng
+    maximumLatitude: $maxLat
+    maximumLongitude: $maxLng
+    filterByInUse: true
+  ) {
+    id
+    name
+    latitude
+    longitude
+    quays(filterByInUse: true) {
+      id
+      publicCode
+      description
+      lines {
+        id
+        publicCode
+        name
+        transportMode
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+    TStopPlacesByBboxQuery,
+    TStopPlacesByBboxQueryVariables
 >
 export const WalkDistanceQuery = new TypedDocumentString(`
     query walkDistance($from: InputCoordinates!, $to: InputCoordinates!) {

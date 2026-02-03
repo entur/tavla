@@ -1,0 +1,30 @@
+query stopPlacesByBbox(
+    $minLat: Float!
+    $minLng: Float!
+    $maxLat: Float!
+    $maxLng: Float!
+) {
+    stopPlacesByBbox(
+        minimumLatitude: $minLat
+        minimumLongitude: $minLng
+        maximumLatitude: $maxLat
+        maximumLongitude: $maxLng
+        filterByInUse: true
+    ) {
+        id
+        name
+        latitude
+        longitude
+        quays(filterByInUse: true) {
+            id
+            publicCode
+            description
+            lines {
+                id
+                publicCode
+                name
+                transportMode
+            }
+        }
+    }
+}
