@@ -73,7 +73,7 @@
         "@eslint/js": "9.39.1",
         "@graphql-codegen/cli": "6.1.1",
         "@graphql-codegen/import-types-preset": "3.0.1",
-        "@graphql-codegen/typed-document-node": "5.0.10",
+        "@graphql-codegen/typed-document-node": "6.1.5",
         "@graphql-codegen/typescript": "4.1.0",
         "@graphql-codegen/typescript-operations": "4.3.0",
         "@types/eslint-plugin-jsx-a11y": "6",
