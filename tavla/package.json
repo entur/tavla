@@ -6,14 +6,14 @@
         "firebaseFunctions"
     ],
     "browserslist": [
-        "chrome > 47"
+        "defaults"
     ],
     "scripts": {
-        "dev": "next dev --turbopack & firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev",
-        "dev:persist": "next dev & yarn emulators",
+        "dev": "yarn tailwind:build && (yarn tailwind:watch & next dev --turbopack & firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev)",
+        "dev:persist": "yarn tailwind:build && (yarn tailwind:watch & next dev & yarn emulators)",
         "emulators": "firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev --import=./.db --export-on-exit",
-        "build": "next build",
-        "build:prod": "NEXT_PUBLIC_ENV=prod next build",
+        "build": "yarn tailwind:build && next build",
+        "build:prod": "yarn tailwind:build && NEXT_PUBLIC_ENV=prod next build",
         "typecheck": "tsc --noEmit --incremental false",
         "depcheck": "depcruise src",
         "start": "next start",
@@ -21,7 +21,9 @@
         "lint": "next lint --max-warnings 0",
         "prettier": "prettier . --check",
         "fix": "next lint --fix && prettier . --write",
-        "build-start": "next build && next start",
+        "build-start": "yarn tailwind:build && next build && next start",
+        "tailwind:build": "tailwindcss -i app/globals.css -o app/globals.generated.css -c tailwind.config.ts",
+        "tailwind:watch": "tailwindcss -i app/globals.css -o app/globals.generated.css -c tailwind.config.ts --watch",
         "postinstall": "cd .. && husky install ./.husky",
         "prepare": "husky"
     },
@@ -50,11 +52,8 @@
         "@entur/tooltip": "5.2.17",
         "@entur/typography": "2.0.3",
         "@firebase/database-types": "1.0.16",
-        "@floating-ui/react": "0.27.16",
         "@sentry/nextjs": "10.34.0",
         "@types/jsdom": "21.1.7",
-        "abortcontroller-polyfill": "1.7.8",
-        "classnames": "2.5.1",
         "dompurify": "3.3.0",
         "firebase": "12.6.0",
         "firebase-admin": "13.6.0",
@@ -87,7 +86,6 @@
         "@types/semver": "7.7.1",
         "@typescript-eslint/eslint-plugin": "8.46.4",
         "@typescript-eslint/parser": "8.46.4",
-        "autoprefixer": "10.4.22",
         "dependency-cruiser": "16.5.0",
         "eslint": "9.39.1",
         "eslint-config-next": "15.5.6",
@@ -98,7 +96,6 @@
         "firebase-tools": "13.27.0",
         "husky": "9.1.7",
         "lint-staged": "15.2.2",
-        "postcss": "8.5.6",
         "prettier": "3.6.2",
         "prettier-plugin-organize-imports": "4.3.0",
         "prettier-plugin-tailwindcss": "0.7.1",

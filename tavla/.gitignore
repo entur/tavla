@@ -33,3 +33,5 @@ firestore-debug.log
 ui-debug.log
 
 .db
+
+app/globals.generated.css

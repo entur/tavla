@@ -16,6 +16,7 @@ import { ContactForm } from './components/ContactForm'
 import { FocusManager } from './components/FocusManager'
 import PostHogPageView from './components/PostHogPageView'
 import './globals.css'
+import './globals.generated.css'
 
 export const metadata: Metadata = {
     title: 'Entur Tavla',
