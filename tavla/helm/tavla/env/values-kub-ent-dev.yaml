@@ -5,3 +5,5 @@ common:
     configmap:
         data:
             GOOGLE_PROJECT_ID: ent-tavla-dev
+            NODE_ENV: development
+            NEXT_PUBLIC_POSTHOG_TOKEN: 'phc_nUrbtV6i5kD39V6hxZ1j6eLtaphJY38sklcUuIDEby4'

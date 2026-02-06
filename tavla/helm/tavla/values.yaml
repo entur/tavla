@@ -46,6 +46,4 @@ common:
     configmap:
         enabled: true
         data:
-            NODE_ENV: production
             USERCENTRICS_DATA_SETTINGS_ID: '4OOPZiVslbVZnE'
-            NEXT_PUBLIC_POSTHOG_TOKEN: 'phc_Iu3qLYA1btPuImlxyuQajuvQUoxp6ShId7wwvaMZGJb'
