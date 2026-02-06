@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/nextjs'
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS, TEndpointNames } from 'src/assets/env'
 import { addMinutesToDate, formatDateToISO } from 'src/utils/time'
 import { TypedDocumentString } from './index'

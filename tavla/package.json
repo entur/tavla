@@ -6,7 +6,7 @@
         "firebaseFunctions"
     ],
     "browserslist": [
-        "chrome > 47"
+        "defaults"
     ],
     "scripts": {
         "dev": "next dev --turbopack & firebase emulators:start --only auth,firestore,storage --project=ent-tavla-dev",
@@ -50,11 +50,8 @@
         "@entur/tooltip": "5.2.17",
         "@entur/typography": "2.0.3",
         "@firebase/database-types": "1.0.16",
-        "@floating-ui/react": "0.27.16",
         "@sentry/nextjs": "10.34.0",
         "@types/jsdom": "21.1.7",
-        "abortcontroller-polyfill": "1.7.8",
-        "classnames": "2.5.1",
         "dompurify": "3.3.0",
         "firebase": "12.6.0",
         "firebase-admin": "13.6.0",
