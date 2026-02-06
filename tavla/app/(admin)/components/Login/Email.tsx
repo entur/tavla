@@ -149,7 +149,7 @@ function Email() {
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google userTrackingContext="email" />
+            <Google userTrackingContext="email" trackingLocation="user_modal" />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du ikke en bruker?{' '}
                 <Link
@@ -158,10 +158,11 @@ function Email() {
                     onClick={() =>
                         posthog.capture('user_create_started', {
                             location: 'user_modal',
+                            context: 'email',
                         })
                     }
                 >
-                    Opprett bruker
+                    Registrer deg
                 </Link>
             </Paragraph>
         </div>

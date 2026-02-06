@@ -1,25 +1,26 @@
 'use client'
 import { Button } from '@entur/button'
+import { ForwardIcon } from '@entur/icons'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
 
-function CreateUserButton() {
+function CreateBoardButton() {
     const posthog = usePosthogTracking()
     return (
         <Button
             variant="primary"
             size="medium"
             as={Link}
-            href="?login=create"
+            href="?login=entry"
             onClick={() => {
-                posthog.capture('user_create_started', {
-                    location: 'demo_page',
+                posthog.capture('board_create_entry', {
+                    location: 'landing_page',
                 })
             }}
         >
-            Opprett bruker
+            Lag en tavle <ForwardIcon aria-hidden />
         </Button>
     )
 }
 
-export { CreateUserButton }
+export { CreateBoardButton }

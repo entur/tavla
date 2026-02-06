@@ -7,12 +7,11 @@ import {
     Paragraph,
     UnorderedList,
 } from '@entur/typography'
+import { CreateBoardButton } from 'app/components/CreateBoardButton'
 import { Metadata } from 'next'
 import { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
-import { CreateUserButton } from './components/CreateUserButton'
-import { DemoButton } from './components/DemoButtonLanding'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
 import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
 import { PreviewCarousel } from './components/PreviewCarousel'
@@ -73,8 +72,7 @@ async function Landing() {
                         <div className="mt-5 flex w-full flex-col gap-4 md:flex-row">
                             {!loggedIn ? (
                                 <div className="flex w-full flex-col gap-4 md:flex-row">
-                                    <CreateUserButton trackingLocation="landing_page" />
-                                    <DemoButton />
+                                    <CreateBoardButton />
                                 </div>
                             ) : (
                                 <NavigateToOversiktButton />

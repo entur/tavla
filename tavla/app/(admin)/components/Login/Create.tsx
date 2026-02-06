@@ -60,7 +60,7 @@ function Create() {
             <Image
                 src={musk}
                 aria-hidden="true"
-                alt=""
+                alt="Illustrasjon av en moskus"
                 className="h-1/2 w-1/2"
             />
 
@@ -116,7 +116,10 @@ function Create() {
                 </ButtonGroup>
             </form>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
-            <Google userTrackingContext="create" />
+            <Google
+                userTrackingContext="create"
+                trackingLocation="user_modal"
+            />
             <Paragraph className="mt-10 text-center" margin="none">
                 Har du allerede en bruker?{' '}
                 <Link
