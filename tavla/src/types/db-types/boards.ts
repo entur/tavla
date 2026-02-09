@@ -60,6 +60,25 @@ const baseTileSchema = z.object({
     county: z.string().optional(),
 })
 
+//eslint-disable-next-line @typescript-eslint/no-unused-vars
+const newTileSchema = z.object({
+    uuid: z.string(),
+    stopPlaceId: z.string(),
+    quays: z
+        .array(
+            z.object({
+                id: z.string(),
+                whitelistedLines: z.array(z.string()).optional(),
+            }),
+        )
+        .optional(),
+    walkingDistance: boardWalkingDistanceSchema.optional(),
+    offset: z.number().optional(),
+    displayName: z.string().optional(),
+    columns: z.array(tileColumnSchema).optional(),
+    county: z.string().optional(),
+})
+
 const stopPlaceTileSchema = baseTileSchema.extend({
     type: z.literal('stop_place'),
 })
@@ -130,6 +149,8 @@ export type Coordinate = z.infer<typeof coordinateSchema>
 export type LocationDB = z.infer<typeof locationSchema>
 
 export type BaseTileDB = z.infer<typeof baseTileSchema>
+
+export type NewTileDB = z.infer<typeof newTileSchema>
 
 export type TileColumnDB = z.infer<typeof tileColumnSchema>
 
