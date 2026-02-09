@@ -2205,3 +2205,397 @@ export type TQuayAtDistanceEdge = {
     /** The item at the end of the edge */
     node: Maybe<TQuayAtDistance>
 }
+
+export type TDepartureFragment = {
+    __typename?: 'EstimatedCall'
+    aimedDepartureTime: DateTime
+    expectedDepartureTime: DateTime
+    expectedArrivalTime: DateTime
+    cancellation: boolean
+    realtime: boolean
+    quay: { __typename?: 'Quay'; publicCode: string | null; name: string }
+    destinationDisplay: {
+        __typename?: 'DestinationDisplay'
+        frontText: string | null
+        via: Array<string | null> | null
+    } | null
+    serviceJourney: {
+        __typename?: 'ServiceJourney'
+        id: string
+        transportMode: TTransportMode | null
+        transportSubmode: TTransportSubmode | null
+        line: {
+            __typename?: 'Line'
+            id: string
+            publicCode: string | null
+            presentation: {
+                __typename?: 'Presentation'
+                textColour: string | null
+                colour: string | null
+            } | null
+        }
+    }
+    situations: Array<{
+        __typename?: 'PtSituationElement'
+        id: string
+        description: Array<{
+            __typename?: 'MultilingualString'
+            value: string
+            language: string | null
+        }>
+        summary: Array<{
+            __typename?: 'MultilingualString'
+            value: string
+            language: string | null
+        }>
+    }>
+}
+
+export type TLinesFragment = {
+    __typename?: 'Quay'
+    lines: Array<{
+        __typename?: 'Line'
+        id: string
+        publicCode: string | null
+        name: string | null
+        transportMode: TTransportMode | null
+    }>
+}
+
+export type TSituationFragment = {
+    __typename?: 'PtSituationElement'
+    id: string
+    description: Array<{
+        __typename?: 'MultilingualString'
+        value: string
+        language: string | null
+    }>
+    summary: Array<{
+        __typename?: 'MultilingualString'
+        value: string
+        language: string | null
+    }>
+}
+
+export type TGetQuayQueryVariables = Exact<{
+    quayId: Scalars['String']['input']
+    whitelistedTransportModes?: InputMaybe<
+        Array<InputMaybe<TTransportMode>> | InputMaybe<TTransportMode>
+    >
+    whitelistedLines?: InputMaybe<
+        Array<Scalars['ID']['input']> | Scalars['ID']['input']
+    >
+    numberOfDepartures?: InputMaybe<Scalars['Int']['input']>
+    startTime?: InputMaybe<Scalars['DateTime']['input']>
+}>
+
+export type TGetQuayQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        name: string
+        description: string | null
+        publicCode: string | null
+        estimatedCalls: Array<{
+            __typename?: 'EstimatedCall'
+            aimedDepartureTime: DateTime
+            expectedDepartureTime: DateTime
+            expectedArrivalTime: DateTime
+            cancellation: boolean
+            realtime: boolean
+            quay: {
+                __typename?: 'Quay'
+                publicCode: string | null
+                name: string
+            }
+            destinationDisplay: {
+                __typename?: 'DestinationDisplay'
+                frontText: string | null
+                via: Array<string | null> | null
+            } | null
+            serviceJourney: {
+                __typename?: 'ServiceJourney'
+                id: string
+                transportMode: TTransportMode | null
+                transportSubmode: TTransportSubmode | null
+                line: {
+                    __typename?: 'Line'
+                    id: string
+                    publicCode: string | null
+                    presentation: {
+                        __typename?: 'Presentation'
+                        textColour: string | null
+                        colour: string | null
+                    } | null
+                }
+            }
+            situations: Array<{
+                __typename?: 'PtSituationElement'
+                id: string
+                description: Array<{
+                    __typename?: 'MultilingualString'
+                    value: string
+                    language: string | null
+                }>
+                summary: Array<{
+                    __typename?: 'MultilingualString'
+                    value: string
+                    language: string | null
+                }>
+            }>
+        }>
+        situations: Array<{
+            __typename?: 'PtSituationElement'
+            id: string
+            description: Array<{
+                __typename?: 'MultilingualString'
+                value: string
+                language: string | null
+            }>
+            summary: Array<{
+                __typename?: 'MultilingualString'
+                value: string
+                language: string | null
+            }>
+        }>
+        lines: Array<{
+            __typename?: 'Line'
+            id: string
+            publicCode: string | null
+            name: string | null
+            transportMode: TTransportMode | null
+        }>
+    } | null
+}
+
+export type TQuayCoordinatesQueryVariables = Exact<{
+    id: Scalars['String']['input']
+}>
+
+export type TQuayCoordinatesQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        id: string
+        longitude: number | null
+        latitude: number | null
+    } | null
+}
+
+export type TQuayEditQueryVariables = Exact<{
+    placeId: Scalars['String']['input']
+}>
+
+export type TQuayEditQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        lines: Array<{
+            __typename?: 'Line'
+            id: string
+            publicCode: string | null
+            name: string | null
+            transportMode: TTransportMode | null
+        }>
+    } | null
+}
+
+export type TQuayNameQueryVariables = Exact<{
+    id: Scalars['String']['input']
+}>
+
+export type TQuayNameQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        name: string
+        description: string | null
+        publicCode: string | null
+        id: string
+    } | null
+}
+
+export type TQuaysSearchQueryVariables = Exact<{
+    stopPlaceId: Scalars['String']['input']
+}>
+
+export type TQuaysSearchQuery = {
+    __typename?: 'QueryType'
+    stopPlace: {
+        __typename?: 'StopPlace'
+        quays: Array<{
+            __typename?: 'Quay'
+            id: string
+            publicCode: string | null
+            description: string | null
+            stopPlace: {
+                __typename?: 'StopPlace'
+                transportMode: Array<TTransportMode | null> | null
+            } | null
+            lines: Array<{
+                __typename?: 'Line'
+                id: string
+                publicCode: string | null
+                name: string | null
+                transportMode: TTransportMode | null
+            }>
+        } | null> | null
+    } | null
+}
+
+export type TStopPlaceQueryVariables = Exact<{
+    stopPlaceId: Scalars['String']['input']
+    whitelistedTransportModes?: InputMaybe<
+        Array<InputMaybe<TTransportMode>> | InputMaybe<TTransportMode>
+    >
+    whitelistedLines?: InputMaybe<
+        Array<Scalars['ID']['input']> | Scalars['ID']['input']
+    >
+    numberOfDepartures?: InputMaybe<Scalars['Int']['input']>
+    startTime?: InputMaybe<Scalars['DateTime']['input']>
+}>
+
+export type TStopPlaceQuery = {
+    __typename?: 'QueryType'
+    stopPlace: {
+        __typename?: 'StopPlace'
+        name: string
+        transportMode: Array<TTransportMode | null> | null
+        estimatedCalls: Array<{
+            __typename?: 'EstimatedCall'
+            aimedDepartureTime: DateTime
+            expectedDepartureTime: DateTime
+            expectedArrivalTime: DateTime
+            cancellation: boolean
+            realtime: boolean
+            quay: {
+                __typename?: 'Quay'
+                publicCode: string | null
+                name: string
+            }
+            destinationDisplay: {
+                __typename?: 'DestinationDisplay'
+                frontText: string | null
+                via: Array<string | null> | null
+            } | null
+            serviceJourney: {
+                __typename?: 'ServiceJourney'
+                id: string
+                transportMode: TTransportMode | null
+                transportSubmode: TTransportSubmode | null
+                line: {
+                    __typename?: 'Line'
+                    id: string
+                    publicCode: string | null
+                    presentation: {
+                        __typename?: 'Presentation'
+                        textColour: string | null
+                        colour: string | null
+                    } | null
+                }
+            }
+            situations: Array<{
+                __typename?: 'PtSituationElement'
+                id: string
+                description: Array<{
+                    __typename?: 'MultilingualString'
+                    value: string
+                    language: string | null
+                }>
+                summary: Array<{
+                    __typename?: 'MultilingualString'
+                    value: string
+                    language: string | null
+                }>
+            }>
+        }>
+        situations: Array<{
+            __typename?: 'PtSituationElement'
+            id: string
+            description: Array<{
+                __typename?: 'MultilingualString'
+                value: string
+                language: string | null
+            }>
+            summary: Array<{
+                __typename?: 'MultilingualString'
+                value: string
+                language: string | null
+            }>
+        }>
+    } | null
+}
+
+export type TStopPlaceCoordinatesQueryVariables = Exact<{
+    id: Scalars['String']['input']
+}>
+
+export type TStopPlaceCoordinatesQuery = {
+    __typename?: 'QueryType'
+    stopPlace: {
+        __typename?: 'StopPlace'
+        id: string
+        longitude: number | null
+        latitude: number | null
+    } | null
+}
+
+export type TStopPlaceEditQueryVariables = Exact<{
+    placeId: Scalars['String']['input']
+}>
+
+export type TStopPlaceEditQuery = {
+    __typename?: 'QueryType'
+    stopPlace: {
+        __typename?: 'StopPlace'
+        name: string
+        quays: Array<{
+            __typename?: 'Quay'
+            lines: Array<{
+                __typename?: 'Line'
+                id: string
+                publicCode: string | null
+                name: string | null
+                transportMode: TTransportMode | null
+            }>
+        } | null> | null
+    } | null
+}
+
+export type TStopPlaceNameQueryVariables = Exact<{
+    id: Scalars['String']['input']
+}>
+
+export type TStopPlaceNameQuery = {
+    __typename?: 'QueryType'
+    stopPlace: { __typename?: 'StopPlace'; name: string; id: string } | null
+}
+
+export type TWalkDistanceQueryVariables = Exact<{
+    from: TInputCoordinates
+    to: TInputCoordinates
+}>
+
+export type TWalkDistanceQuery = {
+    __typename?: 'QueryType'
+    trip: {
+        __typename?: 'Trip'
+        tripPatterns: Array<{
+            __typename?: 'TripPattern'
+            duration: Long | null
+            streetDistance: number | null
+            legs: Array<{
+                __typename?: 'Leg'
+                expectedStartTime: DateTime
+                expectedEndTime: DateTime
+                mode: TMode
+                distance: number
+                line: {
+                    __typename?: 'Line'
+                    id: string
+                    publicCode: string | null
+                } | null
+            }>
+        }>
+    }
+}
