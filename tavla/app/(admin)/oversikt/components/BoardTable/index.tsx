@@ -85,7 +85,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                             Navn
                         </HeaderCell>
                         <HeaderCell
-                            className="flex items-center"
+                            className="flex min-w-[175px] items-center"
                             aria-describedby="last-active-description"
                             {...getSortableHeaderProps({
                                 name: 'lastActiveTimestamp',
