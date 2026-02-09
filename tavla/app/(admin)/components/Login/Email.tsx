@@ -162,7 +162,7 @@ function Email() {
                         })
                     }
                 >
-                    Registrer deg
+                    Opprett bruker
                 </Link>
             </Paragraph>
         </div>

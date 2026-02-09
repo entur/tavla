@@ -21,15 +21,14 @@ function WithoutUserFakeDoor() {
 
             <Heading3 as="h1">Wops! Dette er ikke mulig..</Heading3>
             <Paragraph>
-                Vi er nysgjerrige på om det er nyttig å kunne lage tavler uten å
-                opprette bruker. Du kan fortsatt lage tavler ved å registrere
-                deg.
+                Vi tester om det er interessant å kunne lage tavler uten bruker.
+                Du kan fortsatt lage tavler ved å opprette en bruker.
             </Paragraph>
 
             <ButtonGroup className="flex w-full flex-col pb-4">
                 <PrimaryButton
                     width="fluid"
-                    aria-label="Registrer deg"
+                    aria-label="Opprett bruker"
                     as={Link}
                     href="?login=create"
                     onClick={() => {
@@ -39,7 +38,7 @@ function WithoutUserFakeDoor() {
                         })
                     }}
                 >
-                    Registrer deg
+                    Opprett bruker
                 </PrimaryButton>
                 <SecondaryButton
                     width="fluid"

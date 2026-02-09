@@ -64,7 +64,7 @@ function Entry() {
 
                 <SecondaryButton
                     width="fluid"
-                    aria-label="Registrer deg"
+                    aria-label="Opprett bruker"
                     as={Link}
                     href="?login=create"
                     onClick={() => {
@@ -74,7 +74,7 @@ function Entry() {
                         })
                     }}
                 >
-                    Registrer deg
+                    Opprett bruker
                 </SecondaryButton>
             </ButtonGroup>
         </div>
