@@ -1,9 +1,11 @@
 'use client'
 import { BannerAlertBox } from '@entur/alert'
+import { SecondaryButton } from '@entur/button'
 import { Paragraph } from '@entur/typography'
 import * as Sentry from '@sentry/nextjs'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import GoogleLogo from 'assets/logos/google/GoogleLogo.svg'
 import { FirebaseError } from 'firebase/app'
 import {
     GoogleAuthProvider,
@@ -11,17 +13,19 @@ import {
     getAuth,
     signInWithPopup,
 } from 'firebase/auth'
+import Image from 'next/image'
 import { useState } from 'react'
-import GoogleButton from 'react-google-button'
 import { getClientApp } from 'src/utils/firebase'
 import { create, login } from './actions'
 
 type Props = {
     userTrackingContext: EventProps<'user_login_method_selected'>['context']
+    trackingLocation: EventProps<'user_login_method_selected'>['location']
 }
 
 export default function Google({
     userTrackingContext: trackingContext,
+    trackingLocation,
 }: Props) {
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(['', ''])
@@ -70,28 +74,30 @@ export default function Google({
     }
 
     return (
-        <div className="mb-4 flex w-full flex-col items-center justify-center [&>button>div]:!w-full">
+        <div className="mb-4 flex w-full flex-col items-center">
             {isLoading ? (
-                <Paragraph className="text-center">Vent litt...</Paragraph>
+                <Paragraph className="mt-2" margin="none">
+                    Vent litt...
+                </Paragraph>
             ) : (
-                <button
-                    type="button"
+                <SecondaryButton
                     onClick={() => {
                         posthog.capture('user_login_method_selected', {
-                            location: 'user_modal',
+                            location: trackingLocation,
                             method: 'google',
                             context: trackingContext,
                         })
                         googleAction()
                     }}
-                    className="w-full border-0 bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-offset-[0.125rem] focus-visible:outline-[#181c56]"
+                    width="fluid"
                 >
-                    <GoogleButton
-                        type="light"
-                        label="Logg inn med Google"
-                        tabIndex={-1}
+                    <Image
+                        src={GoogleLogo}
+                        alt="Google logo"
+                        className="mr-1"
                     />
-                </button>
+                    Logg inn med Google
+                </SecondaryButton>
             )}
 
             {errorMessage[0] && (

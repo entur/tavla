@@ -17,12 +17,11 @@ type WithLocation<L extends Location> = { location: L }
 
 export type EventMap = {
     /* User: create and login */
-    user_create_started: WithLocation<
-        | typeof LOCATIONS.DemoPage
-        | typeof LOCATIONS.NavBar
-        | typeof LOCATIONS.LandingPage
-        | typeof LOCATIONS.UserModal
-    >
+    user_create_started:
+        | WithLocation<typeof LOCATIONS.DemoPage>
+        | (WithLocation<typeof LOCATIONS.UserModal> & {
+              context: TLoginPage
+          })
 
     user_create_method_selected: WithLocation<typeof LOCATIONS.UserModal> & {
         method: 'email' | 'google'
@@ -39,7 +38,7 @@ export type EventMap = {
               | typeof LOCATIONS.LandingPage
           >
         | (WithLocation<typeof LOCATIONS.UserModal> & {
-              context?: TLoginPage
+              context: TLoginPage
           })
 
     user_login_method_selected: WithLocation<typeof LOCATIONS.UserModal> & {
@@ -119,6 +118,10 @@ export type EventMap = {
     }
 
     /* Tavler */
+    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage>
+    board_create_without_user: WithLocation<typeof LOCATIONS.UserModal> & {
+        context: TLoginPage
+    }
 
     board_opened: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
@@ -224,11 +227,15 @@ export type EventMap = {
     }
 
     /* Demo */
-    demo_started: WithLocation<
-        | typeof LOCATIONS.NavBar
-        | typeof LOCATIONS.LandingPage
-        | typeof LOCATIONS.Footer
-    >
+    demo_started:
+        | WithLocation<
+              | typeof LOCATIONS.NavBar
+              | typeof LOCATIONS.LandingPage
+              | typeof LOCATIONS.Footer
+          >
+        | (WithLocation<typeof LOCATIONS.UserModal> & {
+              context: TLoginPage
+          })
 
     /* FAQ */
     faq_link_clicked: WithLocation<
