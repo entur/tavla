@@ -37,7 +37,7 @@ async function FoldersAndBoardsPage() {
             <div className="flex flex-row justify-between max-sm:flex-col">
                 <Heading1>Mine tavler</Heading1>
                 <div className="flex flex-row gap-4">
-                    <CreateBoard trackingLocation="admin" />
+                    <CreateBoard folders={folders} trackingLocation="admin" />
                     <CreateFolder />
                 </div>
             </div>

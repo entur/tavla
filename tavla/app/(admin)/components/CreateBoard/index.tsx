@@ -2,6 +2,7 @@
 import { IconButton, PrimaryButton } from '@entur/button'
 import { BoardIcon, CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
+import { Folder } from 'app/(admin)/utils/types'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
@@ -11,9 +12,10 @@ import { NameAndFolderSelector } from './NameAndFolderSelector'
 type CreateBoardProps = {
     trackingLocation: EventProps<'board_create_started'>['location']
     folder?: FolderDB
+    folders?: Folder[]
 }
 
-function CreateBoard({ folder, trackingLocation }: CreateBoardProps) {
+function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
     const [isOpen, setIsOpen] = useState(false)
     const posthog = usePosthogTracking()
 
@@ -55,6 +57,7 @@ function CreateBoard({ folder, trackingLocation }: CreateBoardProps) {
                     <CloseIcon />
                 </IconButton>
                 <NameAndFolderSelector
+                    folders={folders}
                     folder={folder}
                     onClose={() => {
                         posthog.capture('board_create_cancelled', {
