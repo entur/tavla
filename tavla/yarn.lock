@@ -13495,17 +13495,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-google-button@npm:0.8.0":
-  version: 0.8.0
-  resolution: "react-google-button@npm:0.8.0"
-  dependencies:
-    prop-types: "npm:^15.8.1"
-  peerDependencies:
-    react: ">= 16.8.0"
-  checksum: 10/5f14952895cfe84bfdcc891bca3b21a090b4c776b97d778ba159fdce846c9034008985fe9ba9b64fde77342b5b951c3bc73116cbdbfb3d7dac0016aff85727e6
-  languageName: node
-  linkType: hard
-
 "react-is@npm:18.2.0":
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
@@ -15250,7 +15239,6 @@ __metadata:
     prettier-plugin-tailwindcss: "npm:0.7.1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
-    react-google-button: "npm:0.8.0"
     swr: "npm:2.3.6"
     tailwindcss: "npm:3.4.14"
     typescript: "npm:5.9.3"
