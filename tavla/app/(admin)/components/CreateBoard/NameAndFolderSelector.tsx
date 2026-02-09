@@ -6,6 +6,7 @@ import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
+import { Folder } from 'app/(admin)/utils/types'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import rabbits from 'assets/illustrations/Rabbits.png'
@@ -18,18 +19,20 @@ import { createBoard } from './actions'
 
 type NameAndFolderSelectorProps = {
     folder?: FolderDB
+    folders?: Folder[]
     onClose: () => void
 }
 
 function NameAndFolderSelector({
     folder,
+    folders,
     onClose,
 }: NameAndFolderSelectorProps) {
     const [state, action] = useActionState(createBoard, undefined)
     const posthog = usePosthogTracking()
 
     const { folderDropdownList, selectedFolder, handleFolderChange } =
-        useFolderDropdown(folder)
+        useFolderDropdown(folder, folders)
 
     return (
         <form action={action}>
