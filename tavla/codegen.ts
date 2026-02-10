@@ -46,6 +46,7 @@ const config: CodegenConfig = {
                 'typed-document-node',
                 { add: { content: '/* eslint-disable */' } },
             ],
+            config: { withHooks: true },
         },
     },
 }
