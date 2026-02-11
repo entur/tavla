@@ -1,9 +1,9 @@
 CacheControl==0.14.2
 cachetools==5.5.2
 certifi==2025.1.31
-cffi==1.17.1
+cffi==2.0.0
 charset-normalizer==3.4.1
-cryptography==44.0.2
+cryptography==46.0.5
 firebase-admin==6.7.0
 google-api-core==2.24.2
 google-api-python-client==2.166.0
@@ -15,8 +15,8 @@ google-cloud-storage==3.1.0
 google-crc32c==1.7.1
 google-resumable-media==2.7.2
 googleapis-common-protos==1.69.2
-grpcio==1.71.0
-grpcio-status==1.71.0
+grpcio==1.78.0
+grpcio-status==1.71.2
 httplib2==0.22.0
 idna==3.10
 msgpack==1.1.0
