@@ -55,7 +55,7 @@ export async function fetchStopPlaces(
     text: string,
     countyIds?: string[],
 ): Promise<NormalizedDropdownItemType<stopPlace>[]> {
-    if (!text || text.length < 3) return []
+    if (!text) return []
 
     const searchParams = new URLSearchParams({
         lang: 'no',
