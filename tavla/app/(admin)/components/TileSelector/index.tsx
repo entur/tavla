@@ -99,6 +99,7 @@ function TileSelector({
             </div>
             <div className="w-full">
                 <SearchableDropdown
+                    noMatchesText="Ingen stoppesteder funnet"
                     items={(search) =>
                         stopPlaceItems(
                             search ||
