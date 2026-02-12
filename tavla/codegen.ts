@@ -4,7 +4,9 @@ const config: CodegenConfig = {
     overwrite: true,
     schema: './graphql-tools/schema.json',
     documents: 'src/**/*.graphql',
-    hooks: { afterAllFileWrite: ['prettier --write'] },
+    hooks: {
+        afterAllFileWrite: ['prettier --write'],
+    },
     config: {
         typesPrefix: 'T',
         documentMode: 'string',
@@ -31,6 +33,7 @@ const config: CodegenConfig = {
         'src/types/graphql-schema.ts': {
             plugins: [
                 'typescript',
+                'typescript-operations',
                 { add: { content: '/* eslint-disable */' } },
             ],
         },
@@ -40,7 +43,6 @@ const config: CodegenConfig = {
                 typesPath: 'types/graphql-schema',
             },
             plugins: [
-                'typescript-operations',
                 'typed-document-node',
                 { add: { content: '/* eslint-disable */' } },
             ],
