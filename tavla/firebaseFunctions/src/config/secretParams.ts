@@ -14,3 +14,4 @@ function createSecret(name: string): SecretParam {
 }
 
 export const BACKEND_KEY = createSecret('BACKEND_API_KEY')
+export const SLACK_WEBHOOK_TAVLETALL = createSecret('SLACK_WEBHOOK_TAVLETALL')
