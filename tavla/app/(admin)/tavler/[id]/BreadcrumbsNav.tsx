@@ -39,8 +39,8 @@ function BoardInFolderBreadcrumbs({
     folder,
     board,
 }: {
-    folder?: FolderDB
-    board?: BoardDB
+    folder: FolderDB
+    board: BoardDB
 }) {
     return (
         <BreadcrumbNavigation>
@@ -57,22 +57,26 @@ function BoardInFolderBreadcrumbs({
     )
 }
 
-function BreadcrumbsNav({
-    folder,
-    board,
-}: {
-    folder?: FolderDB
-    board?: BoardDB
-}) {
-    if (board && folder) {
-        return <BoardInFolderBreadcrumbs folder={folder} board={board} />
-    }
-    if (folder) {
-        return <FolderBreadcrumbs folder={folder} />
-    }
-    if (board) {
-        return <BoardBreadcrumbs board={board} />
-    }
+type BreadcrumbsNavProps =
+    | { type: 'folder'; folder: FolderDB }
+    | { type: 'board'; board: BoardDB }
+    | { type: 'boardInFolder'; folder: FolderDB; board: BoardDB }
+
+function BreadcrumbsNav(props: BreadcrumbsNavProps) {
+    return (
+        <div className="flex w-full flex-col justify-center">
+            {props.type === 'folder' && (
+                <FolderBreadcrumbs folder={props.folder} />
+            )}
+            {props.type === 'board' && <BoardBreadcrumbs board={props.board} />}
+            {props.type === 'boardInFolder' && (
+                <BoardInFolderBreadcrumbs
+                    folder={props.folder}
+                    board={props.board}
+                />
+            )}
+        </div>
+    )
 }
 
 export { BreadcrumbsNav }

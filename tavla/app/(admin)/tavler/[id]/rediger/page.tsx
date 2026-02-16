@@ -78,7 +78,16 @@ export default async function EditPage(props: TProps) {
     return (
         <main id="main-content" className="bg-gray-50">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
-                <BreadcrumbsNav folder={folder ?? undefined} board={board} />
+                {folder ? (
+                    <BreadcrumbsNav
+                        type="boardInFolder"
+                        folder={folder}
+                        board={board}
+                    />
+                ) : (
+                    <BreadcrumbsNav type="board" board={board} />
+                )}
+
                 <div className="flex flex-col justify-between pb-2 md:flex-row">
                     <Heading1 margin="top">
                         Rediger {board.meta?.title}
