@@ -47,31 +47,19 @@ const tileColumnValues = [
 
 const tileColumnSchema = z.enum(tileColumnValues)
 
-const baseTileSchema = z.object({
-    placeId: z.string(),
-    name: z.string(),
-    uuid: z.string(),
-    whitelistedLines: z.array(z.string()).optional(),
-    whitelistedTransportModes: z.array(transportModeSchema).optional(),
-    walkingDistance: boardWalkingDistanceSchema.optional(),
-    offset: z.number().optional(),
-    displayName: z.string().optional(),
-    columns: z.array(tileColumnSchema).optional(),
-    county: z.string().optional(),
+const quaySchema = z.object({
+    id: z.string(),
+    whitelistedLines: z.array(z.string()),
 })
 
-//eslint-disable-next-line @typescript-eslint/no-unused-vars
-const newTileSchema = z.object({
+const baseTileSchema = z.object({
     uuid: z.string(),
-    stopPlaceId: z.string(),
-    quays: z
-        .array(
-            z.object({
-                id: z.string(),
-                whitelistedLines: z.array(z.string()).optional(),
-            }),
-        )
-        .optional(),
+    name: z.string(),
+    placeId: z.string().optional(),
+    stopPlaceId: z.string().optional(),
+    quays: z.array(quaySchema).optional(),
+    whitelistedLines: z.array(z.string()).optional(),
+    whitelistedTransportModes: z.array(transportModeSchema).optional(),
     walkingDistance: boardWalkingDistanceSchema.optional(),
     offset: z.number().optional(),
     displayName: z.string().optional(),
@@ -149,8 +137,6 @@ export type Coordinate = z.infer<typeof coordinateSchema>
 export type LocationDB = z.infer<typeof locationSchema>
 
 export type BaseTileDB = z.infer<typeof baseTileSchema>
-
-export type NewTileDB = z.infer<typeof newTileSchema>
 
 export type TileColumnDB = z.infer<typeof tileColumnSchema>
 

@@ -98,6 +98,10 @@ function TileCard({
             ...tile,
             columns,
             whitelistedLines: lines,
+            quays:
+                tile.type === 'quay'
+                    ? [{ id: tile.placeId ?? '', whitelistedLines: lines }]
+                    : [],
             ...(address && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
