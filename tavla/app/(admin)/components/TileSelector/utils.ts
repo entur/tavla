@@ -10,6 +10,7 @@ import { fetchQuery } from 'src/graphql/utils'
 import {
     BoardTileDB,
     Coordinate,
+    NewTileDB,
     TileColumnDB,
 } from 'src/types/db-types/boards'
 
@@ -40,6 +41,22 @@ export function formDataToTile(data: FormData): BoardTileDB {
         }, ${stopPlaceName[1]}`,
         uuid: nanoid(),
         placeId,
+        columns: DEFAULT_COLUMNS,
+        county: county || undefined,
+    }
+}
+
+export function newFormDataToTile(data: FormData): NewTileDB {
+    const quayId = data.get('quay') as string
+    const stopPlaceId = data.get('stop_place') as string
+    const county = data.get('county') as string
+    const stopPlaceName = (data.get('stop_place_name') as string).split(',')
+
+    return {
+        name: `${stopPlaceName[0]}, ${stopPlaceName[1]}`,
+        uuid: nanoid(),
+        stopPlaceId,
+        quays: [{ id: quayId }],
         columns: DEFAULT_COLUMNS,
         county: county || undefined,
     }

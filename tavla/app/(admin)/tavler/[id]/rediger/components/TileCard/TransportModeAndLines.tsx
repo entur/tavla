@@ -26,19 +26,24 @@ function TransportModeAndLines({
         `${tile.uuid}-${transportMode}`,
     )
 
-    const anyLineInWhitelist = lines.some((l) =>
-        tile.whitelistedLines?.includes(l.id),
+    const anyLineInWhitelist = lines.some(
+        (l) =>
+            'whitelistedLines' in tile && tile.whitelistedLines?.includes(l.id),
     )
     const missingLinesInWhitelist = lines.some(
-        (l) => !tile.whitelistedLines?.includes(l.id),
+        (l) =>
+            !(
+                'whitelistedLines' in tile &&
+                tile.whitelistedLines?.includes(l.id)
+            ),
     )
 
     const defaultChecked = () => {
         if (missingLinesInWhitelist && anyLineInWhitelist)
             return 'indeterminate'
         return (
-            !tile.whitelistedLines ||
-            tile.whitelistedLines.length === 0 ||
+            !('whitelistedLines' in tile) ||
+            tile.whitelistedLines?.length === 0 ||
             !missingLinesInWhitelist
         )
     }
@@ -92,9 +97,9 @@ function TransportModeAndLines({
                 <Checkbox
                     name={`${tile.uuid}-${transportMode}`}
                     defaultChecked={
-                        !tile.whitelistedLines ||
-                        tile.whitelistedLines.length === 0 ||
-                        tile.whitelistedLines.includes(line.id)
+                        !('whitelistedLines' in tile) ||
+                        tile.whitelistedLines?.length === 0 ||
+                        tile.whitelistedLines?.includes(line.id)
                     }
                     key={line.id}
                     value={line.id}

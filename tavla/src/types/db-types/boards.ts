@@ -60,8 +60,8 @@ const baseTileSchema = z.object({
     county: z.string().optional(),
 })
 
-//eslint-disable-next-line @typescript-eslint/no-unused-vars
 const newTileSchema = z.object({
+    name: z.string(),
     uuid: z.string(),
     stopPlaceId: z.string(),
     quays: z
@@ -82,10 +82,12 @@ const newTileSchema = z.object({
 const stopPlaceTileSchema = baseTileSchema.extend({
     type: z.literal('stop_place'),
 })
-const quayTileShcema = baseTileSchema.extend({ type: z.literal('quay') })
+
+const quayTileSchema = baseTileSchema.extend({ type: z.literal('quay') })
+
 const boardTileSchema = z.discriminatedUnion('type', [
     stopPlaceTileSchema,
-    quayTileShcema,
+    quayTileSchema,
 ])
 
 const boardFontSizeSchema = z.enum(['small', 'medium', 'large'])
@@ -121,7 +123,7 @@ const transportPaletteSchema = z.enum([
 export const BoardDBSchema = z.object({
     id: z.string(),
     meta: boardMetaSchema,
-    tiles: z.array(boardTileSchema),
+    tiles: z.array(z.union([boardTileSchema, newTileSchema])),
     combinedTiles: z.array(combinedTilesSchema).optional(),
     theme: boardThemeSchema.optional(),
     footer: boardFooterSchema.optional(),
@@ -164,8 +166,10 @@ export const TileColumns: Record<TileColumnDB, string> = {
     time: 'Forventet',
 } as const
 
-export type QuayTileDB = z.infer<typeof quayTileShcema>
+export type QuayTileDB = z.infer<typeof quayTileSchema>
 export type StopPlaceTileDB = z.infer<typeof stopPlaceTileSchema>
-export type BoardTileDB = z.infer<typeof boardTileSchema>
+export type BoardTileDB =
+    | z.infer<typeof boardTileSchema>
+    | z.infer<typeof newTileSchema>
 
 export type BoardWalkingDistanceDB = z.infer<typeof boardWalkingDistanceSchema>

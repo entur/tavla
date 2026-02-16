@@ -1,7 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import {
-    getQuayCoordinates,
     getStopPlaceCoordinates,
     getWalkingDistance,
 } from 'app/(admin)/components/TileSelector/utils'
@@ -16,6 +15,7 @@ import {
     BoardDB,
     BoardTileDB,
     LocationDB,
+    NewTileDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
 
@@ -23,7 +23,7 @@ initializeAdminApp()
 
 const db = getFirestore()
 
-export async function addTile(bid: BoardDB['id'], tile: BoardTileDB) {
+export async function addTile(bid: BoardDB['id'], tile: NewTileDB) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -77,15 +77,11 @@ export async function addTileToCombinedList(board: BoardDB, tileId: string) {
 }
 
 export async function getWalkingDistanceTile(
-    tile: BoardTileDB,
+    tile: NewTileDB,
     location: LocationDB,
-): Promise<BoardTileDB> {
+): Promise<NewTileDB> {
     const fromCoordinates = await (() => {
-        if (tile.type === 'quay') {
-            return getQuayCoordinates(tile.placeId)
-        } else {
-            return getStopPlaceCoordinates(tile.placeId)
-        }
+        return getStopPlaceCoordinates(tile.stopPlaceId)
     })()
     const toCoordinates = location.coordinate
 

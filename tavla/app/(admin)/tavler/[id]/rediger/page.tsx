@@ -1,6 +1,6 @@
 import { Heading1, Heading2, SubParagraph } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
-import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
+import { newFormDataToTile } from 'app/(admin)/components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -8,7 +8,7 @@ import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
-import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import { BoardDB, NewTileDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
@@ -55,10 +55,10 @@ export default async function EditPage(props: TProps) {
     async function walkingDistanceAction(data: FormData) {
         'use server'
 
-        const tile = formDataToTile(data)
-        if (!tile.placeId) return
+        const tile = newFormDataToTile(data)
+        if (!tile.stopPlaceId) return
 
-        const addOrRemoveWalkingDistance = async (tile: BoardTileDB) => {
+        const addOrRemoveWalkingDistance = async (tile: NewTileDB) => {
             if (board?.meta.location) {
                 return await getWalkingDistanceTile(tile, board.meta.location)
             }

@@ -4,14 +4,16 @@
 import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 
 export function makeBoardCompatible(board: BoardDB): BoardDB {
-    const updatedTiles: BoardTileDB[] = board.tiles.map(
-        ({ whitelistedLines, ...tile }) => ({
-            ...tile,
-            ...(whitelistedLines && {
-                whitelistedLines: whitelistedLines.flatMap(oldLineIdsToNew),
-            }),
-        }),
-    )
+    const updatedTiles: BoardTileDB[] = board.tiles.map((tile) => {
+        if ('whitelistedLines' in tile && tile.whitelistedLines) {
+            return {
+                ...tile,
+                whitelistedLines:
+                    tile.whitelistedLines.flatMap(oldLineIdsToNew),
+            }
+        }
+        return tile
+    })
     return { ...board, tiles: updatedTiles }
 }
 
