@@ -1,4 +1,4 @@
-import { updateLastActiveOnSchedule } from './updateLastActiveOnSchedule'
 import { postUsageMetrics } from './postUsageMetrics'
+import { updateLastActiveOnSchedule } from './updateLastActiveOnSchedule'
 
-export { updateLastActiveOnSchedule, postUsageMetrics }
+export { postUsageMetrics, updateLastActiveOnSchedule }
