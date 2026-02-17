@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
-import { scheduledFunction } from './functions'
 import { getActiveBoardsFromRedis } from './backendUtils'
+import { scheduledFunction } from './functions'
 
 admin.initializeApp()
 

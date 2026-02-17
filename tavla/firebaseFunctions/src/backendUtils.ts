@@ -1,5 +1,5 @@
-import { getRuntimeConfig } from "./config"
-import { BACKEND_KEY } from "./config/secretParams"
+import { getRuntimeConfig } from './config'
+import { BACKEND_KEY } from './config/secretParams'
 
 type SingleActiveBoardFromRedis = {
     bid: string
