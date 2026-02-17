@@ -1,58 +1,46 @@
+import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
-import typescriptEslint from '@typescript-eslint/eslint-plugin'
-import tsParser from '@typescript-eslint/parser'
-import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
-import nextTypescript from 'eslint-config-next/typescript'
-import jsxA11y from 'eslint-plugin-jsx-a11y'
-import prettier from 'eslint-plugin-prettier'
-import react from 'eslint-plugin-react'
+import prettierConfig from 'eslint-config-prettier/flat'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-// Ensure compatibility with older plugins/configs
-import { FlatCompat } from '@eslint/eslintrc'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
 const compat = new FlatCompat({
     baseDirectory: __dirname,
     recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all,
 })
 
-export default [
+const config = [
     {
         ignores: [
+            '.next/*',
             'src/types/graphql/*',
             'migrations/*',
             'firebaseFunctions/*',
+            'graphql-tools/*',
+            'public/*',
+            'python-venv/*',
             'next-env.d.ts',
         ],
     },
-    ...nextCoreWebVitals,
-    ...nextTypescript,
-    ...compat.extends('plugin:@typescript-eslint/recommended'),
-    ...compat.extends('plugin:jsx-a11y/recommended'),
-    ...compat.extends('prettier'),
+
+    /* 
+    Next.js presets via FlatCompat (includes react, react-hooks, import,typescript-eslint/recommended, and @next/next rules).
+    jsx-a11y/recommended extends the 6 rules in next/core-web-vitals to thel ~30-rule recommended set.
+    */
+    ...compat.extends(
+        'next/core-web-vitals',
+        'next/typescript',
+        'plugin:jsx-a11y/recommended',
+    ),
+
+    // Disables rules that conflict with Prettier (must be last preset)
+    prettierConfig,
+
+    // Project-specific overrides
     {
-        plugins: {
-            '@typescript-eslint': typescriptEslint,
-            prettier,
-            react,
-            'jsx-a11y': jsxA11y,
-        },
-
-        languageOptions: {
-            parser: tsParser,
-            ecmaVersion: 'latest',
-            sourceType: 'module',
-
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true,
-                },
-            },
-        },
-
         rules: {
             'no-unused-vars': 'off',
             'no-console': 'warn',
@@ -66,7 +54,8 @@ export default [
             ],
 
             '@typescript-eslint/no-unused-vars': 'warn',
-            'prettier/prettier': 'warn',
         },
     },
 ]
+
+export default config
