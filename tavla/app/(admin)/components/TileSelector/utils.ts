@@ -31,8 +31,12 @@ export function formDataToTile(data: FormData): BoardTileDB {
     const county = data.get('county') as string
 
     const placeId = quayId ? quayId : stopPlaceId
+    const type = placeId !== stopPlaceId ? 'quay' : 'stop_place'
+
     return {
-        type: placeId !== stopPlaceId ? 'quay' : 'stop_place',
+        type: type,
+        stopPlaceId: stopPlaceId,
+        quays: type === 'quay' ? [{ id: quayId, whitelistedLines: [] }] : [],
         name: `${stopPlaceName[0]}${
             quayName === 'Vis alle' || quayName === ''
                 ? ''
@@ -74,11 +78,11 @@ export async function getWalkingDistance(
 }
 
 export async function getStopPlaceCoordinates(
-    stopPlaceId: string,
+    stopPlaceId?: string,
 ): Promise<Coordinate> {
     try {
         const response = await fetchQuery(StopPlaceCoordinatesQuery, {
-            id: stopPlaceId,
+            id: stopPlaceId ?? '',
         })
         return {
             lat: response.stopPlace?.latitude ?? 0,
@@ -92,10 +96,10 @@ export async function getStopPlaceCoordinates(
     }
 }
 
-export async function getQuayCoordinates(quayId: string): Promise<Coordinate> {
+export async function getQuayCoordinates(quayId?: string): Promise<Coordinate> {
     try {
         const response = await fetchQuery(QuayCoordinatesQuery, {
-            id: quayId,
+            id: quayId ?? '',
         })
         return {
             lat: response.quay?.latitude ?? 0,
