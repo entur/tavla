@@ -106,6 +106,16 @@ For å kjøre en migreringsfil, putt filen i /scripts mappen og kjør:
 ./migration run scripts/<filnavn>
 ```
 
+#### Teste lokalt
+
+Du kan teste migreringsskriptene ved å kjøre de lokalt. Trenger du å skaffe deg litt ekte data, kan du "rollbacke" din lokale Firebase med data fra dev 🔥 Dette gjøres slik:
+
+1. Avslutt emulatoren (kill typ `yarn dev:persist`)
+2. Kjør `python3 scripts/rollback_firestore local`
+3. Start emulatoren: `yarn dev:persist`
+
+Nå kan du kjøre migrasjonsskriptet ditt som om det var mot dev. Dette korter ned litt på utviklingstiden for migrasjonsskripter.
+
 ### Feilsøking
 
 | Symptom                       | Mulig årsak              | Tiltak                                      |
