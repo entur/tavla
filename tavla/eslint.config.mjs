@@ -1,6 +1,8 @@
 import js from '@eslint/js'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
+import nextTypescript from 'eslint-config-next/typescript'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
 import react from 'eslint-plugin-react'
@@ -26,14 +28,11 @@ export default [
             'next-env.d.ts',
         ],
     },
-
-    ...compat.extends(
-        'next/core-web-vitals',
-        'next/typescript',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:jsx-a11y/recommended',
-        'prettier',
-    ),
+    ...nextCoreWebVitals,
+    ...nextTypescript,
+    ...compat.extends('plugin:@typescript-eslint/recommended'),
+    ...compat.extends('plugin:jsx-a11y/recommended'),
+    ...compat.extends('prettier'),
     {
         plugins: {
             '@typescript-eslint': typescriptEslint,
