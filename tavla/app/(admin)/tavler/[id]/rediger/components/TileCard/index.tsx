@@ -131,19 +131,37 @@ function TileCard({
         setIsOpen(false)
     }
 
-    let lines = useLines(tile)
+    const quays = useLines(tile)
 
-    if (!lines)
+    if (!quays)
         return (
             <div className="flex items-center justify-between rounded p-4">
                 Laster...
             </div>
         )
 
-    // TODO: remove when old lines no longer return any data (2025)
-    lines = lines.filter((line) => !OLD_LINE_IDS.includes(line.id))
+    // Filter lines: remove OLD_LINE_IDS
+    const quaysWithFilteredLines = quays
+        .map((q) => ({
+            ...q,
+            lines: q.lines.filter((line) => !OLD_LINE_IDS.includes(line.id)),
+        }))
+        .filter((q) => q.lines.length > 0)
 
-    const uniqLines = uniqBy(lines, 'id')
+    // Flatten lines for other components if needed, or update components to use Quays
+    const allLines = quaysWithFilteredLines.flatMap((q) =>
+        q.lines.map((l) => ({
+            ...l,
+            quayName: q.name,
+            quayPublicCode: q.publicCode,
+        })),
+    )
+
+    // uniqLines logic might be needed for SetVisibleLines' count,
+    // but SetVisibleLines now needs Quays.
+    // Let's pass Quays to SetVisibleLines instead of uniqLines.
+
+    const uniqLines = uniqBy(allLines, 'id')
 
     const transportModes = uniqBy(uniqLines, 'transportMode')
         .map((l) => l.transportMode)
@@ -200,7 +218,7 @@ function TileCard({
                 <div className="flex flex-row">
                     <div
                         className={`flex w-full items-center justify-between bg-white px-6 py-4 ${
-                            isOpen ? 'rounded-t border-b-2' : 'rounded'
+                            isOpen ? 'rounded-t' : 'rounded'
                         }`}
                     >
                         <div className="flex flex-row items-center gap-4">
@@ -234,7 +252,7 @@ function TileCard({
 
                 <BaseExpand open={isOpen}>
                     <div
-                        className={`mr-14 bg-white px-6 py-4 ${
+                        className={`mr-14 border-t-2 bg-white px-6 py-4 ${
                             totalTiles == 1 && 'w-full'
                         } rounded-b`}
                     >
@@ -262,8 +280,8 @@ function TileCard({
                                 trackingLocation={trackingLocation}
                             />
                             <SetVisibleLines
-                                uniqLines={uniqLines}
-                                transportModes={transportModes}
+                                quays={quaysWithFilteredLines}
+                                allLines={uniqLines}
                                 trackingLocation={trackingLocation}
                             />
                             <SaveCancelDeleteTileButtonGroup
