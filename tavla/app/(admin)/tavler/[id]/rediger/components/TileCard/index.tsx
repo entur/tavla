@@ -3,7 +3,6 @@ import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
 import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
-import { OLD_LINE_IDS } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
@@ -78,17 +77,39 @@ function TileCard({
             return getFormFeedbackForError('board/tiles-name-missing')
         }
 
-        let lines: string[] = []
-        for (const line of data.values()) {
-            lines.push(line as string)
+        const quayLineKeys: string[] = []
+        for (const value of data.values()) {
+            quayLineKeys.push(value as string)
         }
 
-        if (lines.length === 0 && count !== null && count > 0) {
+        if (quayLineKeys.length === 0 && count !== null && count > 0) {
             return getFormFeedbackForError('board/tiles-no-lines-selected')
         }
 
-        // If the length of lines equals all the lines, we don't want to include any
-        lines = lines.length == count ? [] : lines
+        const allSelected = quayLineKeys.length == count
+
+        const newQuays = allSelected
+            ? []
+            : quaysWithFilteredLines
+                  .map((q) => ({
+                      id: q.id,
+                      whitelistedLines: q.lines
+                          .filter((l) =>
+                              quayLineKeys.includes(`${q.id}||${l.id}`),
+                          )
+                          .map((l) => l.id),
+                  }))
+                  .filter((q) => q.whitelistedLines.length > 0)
+
+        const lines = allSelected
+            ? []
+            : Array.from(
+                  new Set(
+                      quayLineKeys
+                          .map((key) => key.split('||')[1])
+                          .filter((key) => key !== undefined),
+                  ),
+              )
 
         if (isCombined) {
             columns = tile.columns ?? DEFAULT_COLUMNS
@@ -98,10 +119,7 @@ function TileCard({
             ...tile,
             columns,
             whitelistedLines: lines,
-            quays:
-                tile.type === 'quay'
-                    ? [{ id: tile.placeId ?? '', whitelistedLines: lines }]
-                    : [],
+            quays: newQuays,
             ...(address && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
@@ -140,11 +158,9 @@ function TileCard({
             </div>
         )
 
-    // Filter lines: remove OLD_LINE_IDS
     const quaysWithFilteredLines = quays
         .map((q) => ({
             ...q,
-            lines: q.lines.filter((line) => !OLD_LINE_IDS.includes(line.id)),
         }))
         .filter((q) => q.lines.length > 0)
 
@@ -156,10 +172,6 @@ function TileCard({
             quayPublicCode: q.publicCode,
         })),
     )
-
-    // uniqLines logic might be needed for SetVisibleLines' count,
-    // but SetVisibleLines now needs Quays.
-    // Let's pass Quays to SetVisibleLines instead of uniqLines.
 
     const uniqLines = uniqBy(allLines, 'id')
 
