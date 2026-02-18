@@ -27,7 +27,8 @@
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,jsx}": [
-            "yarn eslint --max-warnings=0 --fix --no-warn-ignored"
+            "yarn eslint --max-warnings=0 --fix --no-warn-ignored",
+            "yarn prettier --write"
         ],
         "**/*.{json,css,scss,md,yaml,yml}": [
             "yarn prettier --write"
@@ -89,7 +90,6 @@
         "eslint-config-next": "15.5.6",
         "eslint-config-prettier": "9.1.0",
         "eslint-plugin-jsx-a11y": "6.10.2",
-        "eslint-plugin-prettier": "5.5.4",
         "eslint-plugin-react": "7.37.5",
         "firebase-tools": "15.5.1",
         "husky": "9.1.7",

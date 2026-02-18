@@ -2,7 +2,6 @@ import js from '@eslint/js'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
-import prettier from 'eslint-plugin-prettier'
 import react from 'eslint-plugin-react'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -17,7 +16,7 @@ const compat = new FlatCompat({
     allConfig: js.configs.all,
 })
 
-export default [
+const config = [
     {
         ignores: [
             'src/types/graphql/*',
@@ -37,7 +36,6 @@ export default [
     {
         plugins: {
             '@typescript-eslint': typescriptEslint,
-            prettier,
             react,
             'jsx-a11y': jsxA11y,
         },
@@ -67,7 +65,8 @@ export default [
             ],
 
             '@typescript-eslint/no-unused-vars': 'warn',
-            'prettier/prettier': 'warn',
         },
     },
 ]
+
+export default config
