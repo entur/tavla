@@ -1,9 +1,8 @@
-import { SecondarySquareButton } from '@entur/button'
+import { FloatingButton } from '@entur/button'
 import { CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { DeleteTileButton } from './DeleteTileButton'
 
 function EditRemoveTileButtonGroup({
@@ -18,11 +17,7 @@ function EditRemoveTileButtonGroup({
     hasTileChanged: boolean
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (isOpen: boolean) => void
-    deleteTile: (
-        boardId: string,
-        tile: BoardTileDB,
-        demoBoard?: BoardDB,
-    ) => void
+    deleteTile: () => void
     trackingLocation: EventProps<'stop_place_edit_cancelled'>['location']
 }) {
     const posthog = usePosthogTracking()
@@ -34,7 +29,8 @@ function EditRemoveTileButtonGroup({
                 content={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
                 id="tooltip-edit-tile"
             >
-                <SecondarySquareButton
+                <FloatingButton
+                    size="small"
                     onClick={() => {
                         if (!isTileOpen) {
                             posthog.capture('stop_place_edit_started', {
@@ -53,7 +49,7 @@ function EditRemoveTileButtonGroup({
                     aria-label={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
                 >
                     {isTileOpen ? <CloseIcon /> : <EditIcon />}
-                </SecondarySquareButton>
+                </FloatingButton>
             </Tooltip>
             <DeleteTileButton isWideScreen={true} deleteTile={deleteTile} />
         </div>
