@@ -2390,6 +2390,9 @@ export type TQuayEditQuery = {
     __typename?: 'QueryType'
     quay: {
         __typename?: 'Quay'
+        id: string
+        publicCode: string | null
+        name: string
         lines: Array<{
             __typename?: 'Line'
             id: string
@@ -2551,6 +2554,14 @@ export type TStopPlaceEditQuery = {
         name: string
         quays: Array<{
             __typename?: 'Quay'
+            id: string
+            publicCode: string | null
+            name: string
+            description: string | null
+            stopPlace: {
+                __typename?: 'StopPlace'
+                transportMode: Array<TTransportMode | null> | null
+            } | null
             lines: Array<{
                 __typename?: 'Line'
                 id: string

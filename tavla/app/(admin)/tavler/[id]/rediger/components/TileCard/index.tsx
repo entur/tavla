@@ -3,7 +3,6 @@ import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
 import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
-import { OLD_LINE_IDS } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
@@ -78,17 +77,39 @@ function TileCard({
             return getFormFeedbackForError('board/tiles-name-missing')
         }
 
-        let lines: string[] = []
-        for (const line of data.values()) {
-            lines.push(line as string)
+        const quayLineKeys: string[] = []
+        for (const value of data.values()) {
+            quayLineKeys.push(value as string)
         }
 
-        if (lines.length === 0 && count !== null && count > 0) {
+        if (quayLineKeys.length === 0 && count !== null && count > 0) {
             return getFormFeedbackForError('board/tiles-no-lines-selected')
         }
 
-        // If the length of lines equals all the lines, we don't want to include any
-        lines = lines.length == count ? [] : lines
+        const allSelected = quayLineKeys.length == count
+
+        const newQuays = allSelected
+            ? []
+            : quaysWithFilteredLines
+                  .map((q) => ({
+                      id: q.id,
+                      whitelistedLines: q.lines
+                          .filter((l) =>
+                              quayLineKeys.includes(`${q.id}||${l.id}`),
+                          )
+                          .map((l) => l.id),
+                  }))
+                  .filter((q) => q.whitelistedLines.length > 0)
+
+        const lines = allSelected
+            ? []
+            : Array.from(
+                  new Set(
+                      quayLineKeys
+                          .map((key) => key.split('||')[1])
+                          .filter((key) => key !== undefined),
+                  ),
+              )
 
         if (isCombined) {
             columns = tile.columns ?? DEFAULT_COLUMNS
@@ -98,10 +119,7 @@ function TileCard({
             ...tile,
             columns,
             whitelistedLines: lines,
-            quays:
-                tile.type === 'quay'
-                    ? [{ id: tile.placeId ?? '', whitelistedLines: lines }]
-                    : [],
+            quays: newQuays,
             ...(address && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
@@ -131,19 +149,31 @@ function TileCard({
         setIsOpen(false)
     }
 
-    let lines = useLines(tile)
+    const quays = useLines(tile)
 
-    if (!lines)
+    if (!quays)
         return (
-            <div className="flex items-center justify-between rounded bg-blue20 p-4">
+            <div className="flex items-center justify-between rounded p-4">
                 Laster...
             </div>
         )
 
-    // TODO: remove when old lines no longer return any data (2025)
-    lines = lines.filter((line) => !OLD_LINE_IDS.includes(line.id))
+    const quaysWithFilteredLines = quays
+        .map((q) => ({
+            ...q,
+        }))
+        .filter((q) => q.lines.length > 0)
 
-    const uniqLines = uniqBy(lines, 'id')
+    // Flatten lines for other components if needed, or update components to use Quays
+    const allLines = quaysWithFilteredLines.flatMap((q) =>
+        q.lines.map((l) => ({
+            ...l,
+            quayName: q.name,
+            quayPublicCode: q.publicCode,
+        })),
+    )
+
+    const uniqLines = uniqBy(allLines, 'id')
 
     const transportModes = uniqBy(uniqLines, 'transportMode')
         .map((l) => l.transportMode)
@@ -199,7 +229,7 @@ function TileCard({
             <TileContext.Provider value={tile}>
                 <div className="flex flex-row">
                     <div
-                        className={`flex w-full items-center justify-between bg-blue20 px-6 py-4 ${
+                        className={`flex w-full items-center justify-between bg-white px-6 py-4 ${
                             isOpen ? 'rounded-t' : 'rounded'
                         }`}
                     >
@@ -234,7 +264,7 @@ function TileCard({
 
                 <BaseExpand open={isOpen}>
                     <div
-                        className={`mr-14 bg-blue10 px-6 py-4 ${
+                        className={`mr-14 border-t-2 bg-white px-6 py-4 ${
                             totalTiles == 1 && 'w-full'
                         } rounded-b`}
                     >
@@ -262,8 +292,8 @@ function TileCard({
                                 trackingLocation={trackingLocation}
                             />
                             <SetVisibleLines
-                                uniqLines={uniqLines}
-                                transportModes={transportModes}
+                                quays={quaysWithFilteredLines}
+                                allLines={uniqLines}
                                 trackingLocation={trackingLocation}
                             />
                             <SaveCancelDeleteTileButtonGroup

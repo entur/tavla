@@ -186,6 +186,9 @@ export const QuayCoordinatesQuery = new TypedDocumentString(`
 export const QuayEditQuery = new TypedDocumentString(`
     query quayEdit($placeId: String!) {
   quay(id: $placeId) {
+    id
+    publicCode
+    name
     ...lines
   }
 }
@@ -318,7 +321,14 @@ export const StopPlaceEditQuery = new TypedDocumentString(`
     query stopPlaceEdit($placeId: String!) {
   stopPlace(id: $placeId) {
     name
-    quays(filterByInUse: true) {
+    quays {
+      id
+      publicCode
+      name
+      description
+      stopPlace {
+        transportMode
+      }
       ...lines
     }
   }

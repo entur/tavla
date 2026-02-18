@@ -77,7 +77,7 @@ export default async function EditPage(props: TProps) {
     const boardLink = getBoardLinkServer(board.id, true)
 
     return (
-        <main id="main-content" className="bg-gray-50">
+        <main id="main-content">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
                 {folder ? (
                     <BreadcrumbsNav
@@ -108,7 +108,7 @@ export default async function EditPage(props: TProps) {
 
                 <div
                     data-transport-palette={board.transportPalette}
-                    className="flex flex-col gap-4 rounded-md bg-background px-6 py-8"
+                    className="flex flex-col gap-4 rounded-md bg-[#f6f6f9] px-6 py-8"
                 >
                     <div>
                         <Heading2>Stoppesteder</Heading2>

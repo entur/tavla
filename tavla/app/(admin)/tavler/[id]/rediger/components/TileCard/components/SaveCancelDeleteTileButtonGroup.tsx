@@ -11,7 +11,6 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Goat from 'assets/illustrations/Goat.png'
 import Image from 'next/image'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { DeleteTileButton } from './DeleteTileButton'
 
 function SaveCancelDeleteTileButtonGroup({
@@ -29,11 +28,7 @@ function SaveCancelDeleteTileButtonGroup({
     resetTile: () => void
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (confirmOpen: boolean) => void
-    deleteTile: (
-        boardId: string,
-        tile: BoardTileDB,
-        demoBoard?: BoardDB,
-    ) => void
+    deleteTile: () => void
     validation?: TFormFeedback
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
 }) {
