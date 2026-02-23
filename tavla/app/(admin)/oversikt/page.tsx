@@ -16,6 +16,7 @@ initializeAdminApp()
 
 export const metadata: Metadata = {
     title: `Mapper og tavler | Entur Tavla`,
+    description: `Se og administrer alle dine tavler og mapper på ett sted. Opprett nye tavler, organiser dem i mapper og inviter andre til å samarbeide.`,
 }
 
 async function FoldersAndBoardsPage() {

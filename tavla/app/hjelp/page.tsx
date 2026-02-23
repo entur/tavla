@@ -11,6 +11,7 @@ import { Questions } from './components/Questions'
 
 export const metadata: Metadata = {
     title: 'Ofte stilte spørsmål | Entur Tavla',
+    description: 'Finn svar på ofte stilte spørsmål om Tavla',
 }
 
 function Hjelp() {

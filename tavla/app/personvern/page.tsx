@@ -8,6 +8,8 @@ import { ExpandableInfo } from './components/ExpandableInfo'
 
 export const metadata: Metadata = {
     title: 'Personvern | Entur Tavla',
+    description:
+        'Les om hvordan Entur Tavla håndterer personopplysninger, informasjonskapsler og analyseverktøy for å beskytte ditt personvern.',
 }
 
 function Personvern() {

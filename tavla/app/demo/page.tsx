@@ -8,6 +8,8 @@ import { ExpandableInformation } from './components/ExpandableInformation'
 
 export const metadata: Metadata = {
     title: 'Test ut Tavla | Entur Tavla',
+    description:
+        'Opprett din egen demo-tavle for å teste ut funksjonaliteten i Tavla.',
 }
 
 async function Demo() {
