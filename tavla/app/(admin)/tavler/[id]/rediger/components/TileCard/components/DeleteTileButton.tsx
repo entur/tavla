@@ -3,7 +3,6 @@ import { DeleteIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
 function DeleteTileButton({
-    isWideScreen,
     deleteTile,
 }: {
     isWideScreen: boolean
@@ -11,7 +10,7 @@ function DeleteTileButton({
 }) {
     return (
         <>
-            <div className={isWideScreen ? 'hidden sm:block' : 'sm:hidden'}>
+            <div className="sm:block">
                 <Tooltip
                     placement="bottom"
                     content="Fjern stoppested"
@@ -19,6 +18,7 @@ function DeleteTileButton({
                 >
                     <FloatingButton
                         size="small"
+                        className="bg-[#d31b1b] hover:bg-[#ff5959]"
                         onClick={deleteTile}
                         aria-label="Fjern stoppested"
                         type="button"

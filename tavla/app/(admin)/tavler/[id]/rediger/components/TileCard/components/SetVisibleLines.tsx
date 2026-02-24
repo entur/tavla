@@ -198,12 +198,12 @@ function SetVisibleLines({
         | { type: 'mode_group'; data: (typeof quaysByTransportMode)[0] }
         | { type: 'quay'; mode: TTransportMode; data: TQuay }
 
-    const columns: ColumnItem[][] = [[], [], []]
-    const columnHeights = [0, 0, 0]
+    const columns: ColumnItem[][] = [[], []]
+    const columnHeights = [0, 0]
 
     const itemsToDistribute: ColumnItem[] = []
 
-    if (quaysByTransportMode.length < 3) {
+    if (quaysByTransportMode.length < 2) {
         quaysByTransportMode.forEach((group) => {
             const sortedQuays = [...group.quays].sort((a, b) =>
                 (a.publicCode || '').localeCompare(
@@ -253,7 +253,7 @@ function SetVisibleLines({
         <>
             <Heading4>Plattformer og linjer</Heading4>
 
-            <div className="mb-4 mt-2 flex flex-row flex-wrap gap-2">
+            <div className="my-4 flex flex-row flex-wrap gap-1">
                 {allModes.map((mode) => {
                     const isSelected = isModeSelected(mode)
                     const label = transportModeNames(mode) || 'Ukjent'
@@ -301,19 +301,19 @@ function SetVisibleLines({
                 })}
             </div>
 
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+            <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
                 {columns.map((colItems, index) => {
                     if (colItems.length === 0) return null
 
                     return (
-                        <div key={index} className="flex flex-1 flex-col gap-4">
+                        <div key={index} className="flex flex-1 flex-col gap-2">
                             {colItems.map((item) => {
                                 if (item.type === 'mode_group') {
                                     const { mode, quays } = item.data
                                     return (
                                         <div
                                             key={mode}
-                                            className="flex flex-col gap-4"
+                                            className="flex flex-col gap-2"
                                         >
                                             {quays
                                                 .sort((a, b) =>

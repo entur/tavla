@@ -11,7 +11,6 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Goat from 'assets/illustrations/Goat.png'
 import Image from 'next/image'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import { DeleteTileButton } from './DeleteTileButton'
 
 function SaveCancelDeleteTileButtonGroup({
     confirmOpen,
@@ -19,7 +18,6 @@ function SaveCancelDeleteTileButtonGroup({
     resetTile,
     setIsTileOpen,
     setConfirmOpen,
-    deleteTile,
     validation,
     trackingLocation,
 }: {
@@ -70,10 +68,6 @@ function SaveCancelDeleteTileButtonGroup({
                 >
                     Avbryt
                 </Button>
-                <DeleteTileButton
-                    isWideScreen={false}
-                    deleteTile={deleteTile}
-                />
             </div>
 
             <Modal
