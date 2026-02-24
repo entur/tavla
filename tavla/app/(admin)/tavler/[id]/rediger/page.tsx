@@ -34,7 +34,7 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
         return notFound()
     }
     return {
-        title: `${board.meta?.title ?? DEFAULT_BOARD_NAME} | Entur Tavla`,
+        title: `${board.meta?.title ?? DEFAULT_BOARD_NAME} | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport`,
         description: `Rediger tavla ${board.meta?.title ?? DEFAULT_BOARD_NAME}. Legg til og fjern stoppesteder, tilpass utseendet og mer.`,
     }
 }

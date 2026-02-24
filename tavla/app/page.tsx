@@ -18,7 +18,7 @@ import { PreviewCarousel } from './components/PreviewCarousel'
 import { WordCarousel } from './components/WordCarousel/WordCarousel'
 
 export const metadata: Metadata = {
-    title: 'Forside | Entur Tavla',
+    title: 'Forside | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
     description:
         'Lag en gratis avgangstavle for offentlig transport i hele Norge. Tavla er enkel å bruke, tilpasse og viser sanntidsinformasjon om avganger fra stoppesteder i nærheten.',
 }

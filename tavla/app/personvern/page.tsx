@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { ExpandableInfo } from './components/ExpandableInfo'
 
 export const metadata: Metadata = {
-    title: 'Personvern | Entur Tavla',
+    title: 'Personvern | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
     description:
         'Les om hvordan Entur Tavla håndterer personopplysninger, informasjonskapsler og analyseverktøy for å beskytte ditt personvern.',
 }
