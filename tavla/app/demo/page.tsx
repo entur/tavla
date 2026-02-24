@@ -7,7 +7,9 @@ import { DemoBoard } from './components/DemoBoard'
 import { ExpandableInformation } from './components/ExpandableInformation'
 
 export const metadata: Metadata = {
-    title: 'Test ut Tavla | Entur Tavla',
+    title: 'Test ut Tavla | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
+    description:
+        'Opprett din egen demo-tavle for å teste ut funksjonaliteten i Tavla.',
 }
 
 async function Demo() {

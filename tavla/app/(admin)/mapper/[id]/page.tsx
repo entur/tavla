@@ -31,7 +31,8 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
         return notFound()
     }
     return {
-        title: `${folder.name ?? 'Mappe'} | Entur Tavla`,
+        title: `${folder.name ?? 'Mappe'} | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig kollektivtransport`,
+        description: `Se og administrer tavler i mappen ${folder.name ?? 'Mappe'}. Inviter andre til å samarbeide, last opp en logo og mer.`,
     }
 }
 

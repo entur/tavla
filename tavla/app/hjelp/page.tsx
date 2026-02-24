@@ -10,7 +10,8 @@ import Image from 'next/image'
 import { Questions } from './components/Questions'
 
 export const metadata: Metadata = {
-    title: 'Ofte stilte spørsmål | Entur Tavla',
+    title: 'Ofte stilte spørsmål | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
+    description: 'Finn svar på ofte stilte spørsmål om Tavla',
 }
 
 function Hjelp() {
