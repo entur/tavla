@@ -15,7 +15,8 @@ import { FoldersAndBoardsContent } from './components/FoldersAndBoardsContent'
 initializeAdminApp()
 
 export const metadata: Metadata = {
-    title: `Mapper og tavler | Entur Tavla`,
+    title: `Mapper og tavler | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport`,
+    description: `Se og administrer alle dine tavler og mapper på ett sted. Opprett nye tavler, organiser dem i mapper og inviter andre til å samarbeide.`,
 }
 
 async function FoldersAndBoardsPage() {
