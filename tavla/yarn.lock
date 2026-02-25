@@ -10260,10 +10260,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:^4.11.4":
-  version: 4.12.0
-  resolution: "hono@npm:4.12.0"
-  checksum: 10/8a4de1ac4394816cbdbc87ef813ce3fb767953dff4cd88fa519bec66df8d7d801dcfddea815677440c5b0fbed636ee7fbdab834f589154550d83ea4de713e769
+"hono@npm:4.11.10":
+  version: 4.11.10
+  resolution: "hono@npm:4.11.10"
+  checksum: 10/9b96432805eeaf59e783eb0a44e7be0957ddff28bb03f0f0a720792e9ad3563c8a036ed1e652bdb439f5f30546d3d6b71643be5187ff09603b4e6d877029c1de
   languageName: node
   linkType: hard
 
@@ -15528,16 +15528,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^7.5.4":
-  version: 7.5.7
-  resolution: "tar@npm:7.5.7"
+"tar@npm:7.5.9":
+  version: 7.5.9
+  resolution: "tar@npm:7.5.9"
   dependencies:
     "@isaacs/fs-minipass": "npm:^4.0.0"
     chownr: "npm:^3.0.0"
     minipass: "npm:^7.1.2"
     minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
-  checksum: 10/0d6938dd32fe5c0f17c8098d92bd9889ee0ed9d11f12381b8146b6e8c87bb5aa49feec7abc42463f0597503d8e89e4c4c0b42bff1a5a38444e918b4878b7fd21
+  checksum: 10/1213cdde9c22d6acf8809ba5d2a025212ce3517bc99c4a4c6981b7dc0489bf3b164db9c826c9517680889194c9ba57448c8ff0da35eca9a60bb7689bf0b3897d
   languageName: node
   linkType: hard
 

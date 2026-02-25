@@ -107,6 +107,8 @@
     },
     "resolutions": {
         "ip": ">=2.0.1",
+        "hono": "4.11.10",
+        "tar": "7.5.9",
         "@types/react": "19.0.12",
         "@types/react-dom": "19.0.4"
     }
