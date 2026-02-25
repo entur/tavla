@@ -45,6 +45,7 @@ const cspHeaderTavlevisning = `
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
+    serverExternalPackages: [],
     transpilePackages: [
         'swr',
         'tailwindcss',
