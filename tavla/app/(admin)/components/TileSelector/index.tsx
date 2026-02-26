@@ -71,7 +71,9 @@ function TileSelector({
                 setSelectedQuay(null)
                 setSelectedStopPlace(null)
                 setTimeout(() => {
-                    posthog.capture('survey_set_up_board')
+                    if (trackingLocation !== 'demo_page') {
+                        posthog.capture('survey_set_up_board')
+                    }
                 }, 5000)
             }}
         >
