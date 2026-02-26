@@ -108,7 +108,7 @@ export default async function EditPage(props: TProps) {
 
                 <div
                     data-transport-palette={board.transportPalette}
-                    className="flex flex-col gap-4 rounded-md bg-[#f6f6f9] px-6 py-8"
+                    className="flex flex-col gap-4 rounded-md bg-tintLight px-6 py-8"
                 >
                     <div>
                         <Heading2>Stoppesteder</Heading2>

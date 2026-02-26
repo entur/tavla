@@ -18,7 +18,7 @@ function DeleteTileButton({
                 >
                     <FloatingButton
                         size="small"
-                        className="bg-[#d31b1b] hover:bg-[#ff5959]"
+                        className="bg-negativeDeep hover:bg-negativeContrast"
                         onClick={deleteTile}
                         aria-label="Fjern stoppested"
                         type="button"

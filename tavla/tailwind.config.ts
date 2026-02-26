@@ -79,6 +79,9 @@ module.exports = {
                 grey10: 'var(--grey10)',
                 blue20: 'var(--blue20)',
                 blue10: 'var(--blue10)',
+                negativeDeep: 'var(--fill-negative-deep)',
+                negativeContrast: 'var(--fill-negative-contrast)',
+                tintLight: 'var(--fill-background-tint-light)',
             },
             colors: {
                 background: 'var(--main-background-color)',

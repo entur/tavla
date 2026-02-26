@@ -1,15 +1,43 @@
 import { Heading4 } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
-import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
+import { TransportModeChip } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/components/TransportModeChip'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
+import { BoardTileDB } from 'src/types/db-types/boards'
 import { TQuay, TTransportMode } from 'src/types/graphql-schema'
 import { PlatformAndLines } from '../PlatformAndLines'
 import { TLineFragment } from '../types'
 import { transportModeNames } from '../utils'
+
+function getInitialCheckedLineIds(
+    tile: BoardTileDB,
+    quays: TQuay[],
+): Set<string> {
+    const set = new Set<string>()
+    const hasQuayFilter = tile.quays && tile.quays.length > 0
+
+    quays.forEach((quay) => {
+        const savedQuay = tile.quays?.find((q) => q.id === quay.id)
+        if (savedQuay) {
+            savedQuay.whitelistedLines.forEach((lineId) =>
+                set.add(`${quay.id}||${lineId}`),
+            )
+        } else if (hasQuayFilter) {
+            // Per-quay filter exists but this quay has no entry: nothing selected
+        } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
+            quay.lines
+                .filter((l) => tile.whitelistedLines!.includes(l.id))
+                .forEach((l) => set.add(`${quay.id}||${l.id}`))
+        } else {
+            quay.lines.forEach((l) => set.add(`${quay.id}||${l.id}`))
+        }
+    })
+
+    return set
+}
 
 function SetVisibleLines({
     quays,
@@ -23,46 +51,11 @@ function SetVisibleLines({
     const tile = useNonNullContext(TileContext)
     const quayModesMap = new Map<string, TTransportMode[]>()
 
-    const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() => {
-        const set = new Set<string>()
-        const hasQuayFilter = tile.quays && tile.quays.length > 0
-
-        quays.forEach((quay) => {
-            const savedQuay = tile.quays?.find((q) => q.id === quay.id)
-            if (savedQuay) {
-                savedQuay.whitelistedLines.forEach((lineId) =>
-                    set.add(`${quay.id}||${lineId}`),
-                )
-            } else if (hasQuayFilter) {
-                // Per-quay filter exists but this quay has no entry: nothing selected
-            } else if (
-                tile.whitelistedLines &&
-                tile.whitelistedLines.length > 0
-            ) {
-                quay.lines
-                    .filter((l) => tile.whitelistedLines!.includes(l.id))
-                    .forEach((l) => set.add(`${quay.id}||${l.id}`))
-            } else {
-                quay.lines.forEach((l) => set.add(`${quay.id}||${l.id}`))
-            }
-        })
-        return set
-    })
+    const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() =>
+        getInitialCheckedLineIds(tile, quays),
+    )
 
     const totalQuayLinePairs = quays.reduce((sum, q) => sum + q.lines.length, 0)
-
-    // Update outputs based on checked lines
-    useEffect(() => {
-        const activeQuayIds = new Set<string>()
-        quays.forEach((q) => {
-            const hasSelectedLines = q.lines.some((l) =>
-                checkedLineIds.has(`${q.id}||${l.id}`),
-            )
-            if (hasSelectedLines) {
-                activeQuayIds.add(q.id)
-            }
-        })
-    }, [checkedLineIds, quays])
 
     quays.forEach((quay) => {
         const modes = Array.from(
@@ -227,7 +220,7 @@ function SetVisibleLines({
     }
 
     itemsToDistribute.forEach((item) => {
-        let height = 0
+        let height
         if (item.type === 'mode_group') {
             height =
                 2 +
@@ -256,12 +249,12 @@ function SetVisibleLines({
             <div className="my-4 flex flex-row flex-wrap gap-1">
                 {allModes.map((mode) => {
                     const isSelected = isModeSelected(mode)
-                    const label = transportModeNames(mode) || 'Ukjent'
 
                     return (
-                        <button
-                            type="button"
+                        <TransportModeChip
                             key={mode}
+                            mode={mode}
+                            isSelected={isSelected}
                             onClick={() => {
                                 posthog.capture('stop_place_edit_interaction', {
                                     location: trackingLocation,
@@ -271,32 +264,7 @@ function SetVisibleLines({
                                 })
                                 toggleMode(mode)
                             }}
-                            className={`flex flex-row items-center gap-2 rounded-full border px-3 py-1 transition-colors ${
-                                isSelected
-                                    ? `bg-${mode} text-white border-${mode}`
-                                    : 'border-slate-300 bg-white text-slate-700'
-                            }`}
-                        >
-                            {isSelected && (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    className="h-4 w-4"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            )}
-                            {label}
-                            <TransportIcon
-                                transportMode={mode}
-                                className={`h-4 w-4 ${isSelected ? 'text-white' : `text-${mode}`}`}
-                            />
-                        </button>
+                        />
                     )
                 })}
             </div>
