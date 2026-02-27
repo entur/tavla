@@ -142,19 +142,19 @@ function initializeTabId(): string {
             return id
         }
     } catch {
-        // localStorage unavailable
+        return safeUuidV4()
     }
 
     const newId = safeUuidV4()
 
     try {
         localStorage.setItem('tabId', newId)
-        return newId
     } catch {
         // Fallback til window.__tabId hvis localStorage ikke er tilgjengelig
         window.__tabId = newId
-        return newId
     }
+
+    return newId
 }
 
 /**
