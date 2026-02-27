@@ -25,7 +25,7 @@ export async function createFolder(
 
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    let folder = null
+    let folder
 
     try {
         folder = await db.collection('folders').add({

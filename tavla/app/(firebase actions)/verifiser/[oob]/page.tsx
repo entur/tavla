@@ -19,12 +19,15 @@ async function Verify(props: { params: Promise<{ oob: string }> }) {
                 case 'auth/expired-action-code':
                     message =
                         'Lenken du brukte for å verifisere kontoen din er utgått.'
+                    break
                 case 'auth/invalid-action-code':
                     message =
                         'Lenken du brukte for å verifisere kontoen din er ugyldig.'
+                    break
                 case 'auth/user-disabled':
                     message =
                         'Kontoen din er deaktivert og kunne ikke verifiseres.'
+                    break
                 case 'auth/user-not-found':
                     message =
                         'Det kan hende at e-posten din ikke ble verifisert. Prøv å logge inn. Hvis dette funker, er alt som det skal. Hvis ikke, sender vi en ny e-post for verifisering.'

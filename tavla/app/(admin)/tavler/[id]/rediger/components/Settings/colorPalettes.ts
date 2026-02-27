@@ -46,6 +46,7 @@ export const useAllowedPalettes = (board: BoardDB) =>
                 }
             })
         } else {
+            // No county themes available
         }
 
         return Array.from(themes)

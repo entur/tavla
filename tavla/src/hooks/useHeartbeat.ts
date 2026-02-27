@@ -45,9 +45,9 @@ function safeUuidV4(): string {
                 }
             }
         }
-    } catch {}
-
-    //Fallback for old screens
+    } catch {
+        // crypto API unavailable, fall through to manual UUID generation
+    }
     const hex = '0123456789abcdef'
     let uuid = ''
     for (let i = 0; i < 36; i++) {
@@ -141,7 +141,9 @@ function initializeTabId(): string {
         if (id) {
             return id
         }
-    } catch {}
+    } catch {
+        // localStorage unavailable
+    }
 
     const newId = safeUuidV4()
 
@@ -193,7 +195,9 @@ function sendHeartbeat(boardId: string, tabId: string, backend_url: string) {
                 screen_height: screenInfo.height,
             }),
         })
-    } catch {}
+    } catch {
+        // Heartbeat send failed silently
+    }
 }
 
 /**

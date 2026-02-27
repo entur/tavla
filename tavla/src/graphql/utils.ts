@@ -30,7 +30,7 @@ async function fetchWithTimeout(
                     fetchOptions: options,
                 },
             })
-            throw new Error(FetchErrorTypes.TIMEOUT)
+            throw new Error(FetchErrorTypes.TIMEOUT, { cause: error })
         }
         Sentry.captureException(error, {
             extra: {

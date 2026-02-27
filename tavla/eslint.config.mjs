@@ -1,19 +1,23 @@
 import js from '@eslint/js'
+import nextPlugin from '@next/eslint-plugin-next'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
+import prettierConfig from 'eslint-config-prettier'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
-import prettierConfig from 'eslint-config-prettier'
 import react from 'eslint-plugin-react'
-import nextPlugin from '@next/eslint-plugin-next'
+import globals from 'globals'
 
 export default [
     {
         ignores: [
+            '.next/**',
             'src/types/graphql/*',
             'migrations/*',
             'firebaseFunctions/*',
             'next-env.d.ts',
+            'public/**',
+            'graphql-tools/**',
         ],
     },
 
@@ -45,6 +49,10 @@ export default [
             parser: tsParser,
             ecmaVersion: 'latest',
             sourceType: 'module',
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+            },
 
             parserOptions: {
                 ecmaFeatures: {

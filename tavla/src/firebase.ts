@@ -49,6 +49,7 @@ export async function getBoard(bid: BoardDB['id']) {
         })
         throw new Error(
             `Failed to fetch board ${bid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            { cause: error },
         )
     }
 }
@@ -90,6 +91,7 @@ export async function getFolder(folderid: FolderDB['id']) {
         })
         throw new Error(
             `Failed to fetch folder ${folderid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            { cause: error },
         )
     }
 }
@@ -133,6 +135,7 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
         })
         throw new Error(
             `Failed to fetch folder for board ${bid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            { cause: error },
         )
     }
 }
