@@ -3,19 +3,9 @@ import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
+import prettierConfig from 'eslint-config-prettier'
 import react from 'eslint-plugin-react'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-// Ensure compatibility with older plugins/configs
-import { FlatCompat } from '@eslint/eslintrc'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all,
-})
+import nextPlugin from '@next/eslint-plugin-next'
 
 export default [
     {
@@ -27,19 +17,28 @@ export default [
         ],
     },
 
-    ...compat.extends(
-        'next/core-web-vitals',
-        'next/typescript',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:jsx-a11y/recommended',
-        'prettier',
-    ),
+    js.configs.recommended,
+
+    ...typescriptEslint.configs['flat/recommended'],
+
     {
         plugins: {
-            '@typescript-eslint': typescriptEslint,
+            '@next/next': nextPlugin,
+        },
+        rules: {
+            ...nextPlugin.configs.recommended.rules,
+            ...nextPlugin.configs['core-web-vitals'].rules,
+        },
+    },
+
+    jsxA11y.flatConfigs.recommended,
+
+    prettierConfig,
+
+    {
+        plugins: {
             prettier,
             react,
-            'jsx-a11y': jsxA11y,
         },
 
         languageOptions: {
