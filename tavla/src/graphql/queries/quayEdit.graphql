@@ -1,5 +1,8 @@
 query quayEdit($placeId: String!) {
     quay(id: $placeId) {
+        id
+        publicCode
+        name
         ...lines
     }
 }
