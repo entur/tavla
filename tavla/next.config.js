@@ -60,10 +60,6 @@ const nextConfig = {
         '@entur/loader',
         '@entur/utils',
     ],
-    i18n: {
-        locales: ['nb'],
-        defaultLocale: 'nb',
-    },
     images: {
         remotePatterns: [
             {
