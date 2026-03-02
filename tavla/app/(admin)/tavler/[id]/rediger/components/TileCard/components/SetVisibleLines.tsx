@@ -43,23 +43,18 @@ function getInitialCheckedLineIds(
     return set
 }
 
-function SetVisibleLines({
-    quays,
-    trackingLocation,
-}: {
+type QuaysByTransportMode = {
+    mode: TTransportMode
+    label: string
     quays: TQuay[]
-    allLines: TLineFragment[]
-    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-}) {
-    const posthog = usePosthogTracking()
-    const tile = useNonNullContext(TileContext)
-    const quayModesMap = new Map<string, TTransportMode[]>()
+}
 
-    const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() =>
-        getInitialCheckedLineIds(tile, quays),
-    )
+type ColumnItem =
+    | { type: 'mode_group'; data: QuaysByTransportMode }
+    | { type: 'quay'; mode: TTransportMode; data: TQuay }
 
-    const totalQuayLinePairs = quays.reduce((sum, q) => sum + q.lines.length, 0)
+function generateQuayModesMap(quays: TQuay[]): Map<string, TTransportMode[]> {
+    const map = new Map<string, TTransportMode[]>()
 
     quays.forEach((quay) => {
         const modeCounts = new Map<TTransportMode, number>()
@@ -90,8 +85,21 @@ function SetVisibleLines({
         }
 
         const uniqueModes = Array.from(new Set(modes))
-        quayModesMap.set(quay.id, uniqueModes)
+        map.set(quay.id, uniqueModes)
     })
+
+    return map
+}
+
+function sortAndDistrubuteColumnItems(quays: TQuay[]): {
+    modes: TTransportMode[]
+    quayModesMap: Map<string, TTransportMode[]>
+    columns: ColumnItem[][]
+} {
+    const columns: ColumnItem[][] = [[], []]
+    const columnHeights = [0, 0]
+    const itemsToDistribute: ColumnItem[] = []
+    const quayModesMap = generateQuayModesMap(quays)
 
     const quaysByTransportMode = Object.values(
         quays.reduce(
@@ -119,15 +127,85 @@ function SetVisibleLines({
         ),
     ).sort((a, b) => a.label.localeCompare(b.label, 'nb-NO'))
 
-    const allModes = Array.from(
-        new Set(Array.from(quayModesMap.values()).flat()),
-    )
+    if (quaysByTransportMode.length < 2) {
+        quaysByTransportMode.forEach((group) => {
+            const sortedQuays = [...group.quays].sort((a, b) => {
+                const cmp = (a.publicCode || '').localeCompare(
+                    b.publicCode || '',
+                    'nb-NO',
+                    { numeric: true },
+                )
+                if (cmp === 0) {
+                    return b.lines.length - a.lines.length
+                }
+                return cmp
+            })
+            sortedQuays.forEach((quay) => {
+                itemsToDistribute.push({
+                    type: 'quay',
+                    mode: group.mode,
+                    data: quay,
+                })
+            })
+        })
+    } else {
+        quaysByTransportMode.forEach((group) => {
+            itemsToDistribute.push({ type: 'mode_group', data: group })
+        })
+    }
+
+    itemsToDistribute.forEach((item) => {
+        let height
+        if (item.type === 'mode_group') {
+            height =
+                2 +
+                item.data.quays.reduce(
+                    (acc, q) => acc + 1 + q.lines.length,
+                    0,
+                ) +
+                item.data.quays.length * 2
+        } else {
+            height = 1 + item.data.lines.length + 2
+        }
+
+        const minHeight = Math.min(...columnHeights)
+        const colIndex = columnHeights.indexOf(minHeight)
+
+        if (columns[colIndex] && typeof columnHeights[colIndex] === 'number') {
+            columns[colIndex].push(item)
+            columnHeights[colIndex] += height
+        }
+    })
+
+    const modes = Array.from(new Set(Array.from(quayModesMap.values()).flat()))
         .filter((m): m is TTransportMode => !!m && m !== 'unknown')
         .sort((a, b) => {
             const labelA = transportModeNames(a) || ''
             const labelB = transportModeNames(b) || ''
             return labelA.localeCompare(labelB, 'nb-NO')
         })
+
+    return { modes, quayModesMap, columns }
+}
+
+function SetVisibleLines({
+    quays,
+    trackingLocation,
+}: {
+    quays: TQuay[]
+    allLines: TLineFragment[]
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+}) {
+    const posthog = usePosthogTracking()
+    const tile = useNonNullContext(TileContext)
+
+    const { modes, quayModesMap, columns } = sortAndDistrubuteColumnItems(quays)
+
+    const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() =>
+        getInitialCheckedLineIds(tile, quays),
+    )
+
+    const totalQuayLinePairs = quays.reduce((sum, q) => sum + q.lines.length, 0)
 
     const handleToggleLine = (lineId: string) => {
         const newSet = new Set(checkedLineIds)
@@ -198,71 +276,12 @@ function SetVisibleLines({
         return keysInMode.some((key) => checkedLineIds.has(key))
     }
 
-    type ColumnItem =
-        | { type: 'mode_group'; data: (typeof quaysByTransportMode)[0] }
-        | { type: 'quay'; mode: TTransportMode; data: TQuay }
-
-    const columns: ColumnItem[][] = [[], []]
-    const columnHeights = [0, 0]
-
-    const itemsToDistribute: ColumnItem[] = []
-
-    if (quaysByTransportMode.length < 2) {
-        quaysByTransportMode.forEach((group) => {
-            const sortedQuays = [...group.quays].sort((a, b) => {
-                const cmp = (a.publicCode || '').localeCompare(
-                    b.publicCode || '',
-                    'nb-NO',
-                    { numeric: true },
-                )
-                if (cmp === 0) {
-                    return b.lines.length - a.lines.length
-                }
-                return cmp
-            })
-            sortedQuays.forEach((quay) => {
-                itemsToDistribute.push({
-                    type: 'quay',
-                    mode: group.mode,
-                    data: quay,
-                })
-            })
-        })
-    } else {
-        quaysByTransportMode.forEach((group) => {
-            itemsToDistribute.push({ type: 'mode_group', data: group })
-        })
-    }
-
-    itemsToDistribute.forEach((item) => {
-        let height
-        if (item.type === 'mode_group') {
-            height =
-                2 +
-                item.data.quays.reduce(
-                    (acc, q) => acc + 1 + q.lines.length,
-                    0,
-                ) +
-                item.data.quays.length * 2
-        } else {
-            height = 1 + item.data.lines.length + 2
-        }
-
-        const minHeight = Math.min(...columnHeights)
-        const colIndex = columnHeights.indexOf(minHeight)
-
-        if (columns[colIndex] && typeof columnHeights[colIndex] === 'number') {
-            columns[colIndex].push(item)
-            columnHeights[colIndex] += height
-        }
-    })
-
     return (
         <>
             <Heading4>Plattformer og linjer</Heading4>
 
             <div className="my-4 flex flex-row flex-wrap gap-1">
-                {allModes.map((mode) => {
+                {modes.map((mode) => {
                     const isSelected = isModeSelected(mode)
 
                     return (
@@ -365,7 +384,6 @@ function SetVisibleLines({
                                         </div>
                                     )
                                 } else {
-                                    // Render individual quay
                                     const quay = item.data
                                     const modes =
                                         quayModesMap.get(quay.id) || []
