@@ -85,7 +85,7 @@
         "@typescript-eslint/eslint-plugin": "8.56.0",
         "@typescript-eslint/parser": "8.56.0",
         "autoprefixer": "10.4.22",
-        "dependency-cruiser": "16.5.0",
+        "dependency-cruiser": "17.3.8",
         "eslint": "10.0.1",
         "eslint-config-next": "16.1.6",
         "eslint-config-prettier": "10.1.8",
@@ -99,7 +99,7 @@
         "prettier": "3.6.2",
         "prettier-plugin-organize-imports": "4.3.0",
         "prettier-plugin-tailwindcss": "0.7.1",
-        "tailwindcss": "3.4.14",
+        "tailwindcss": "4.2.1",
         "typescript": "5.9.3"
     },
     "packageManager": "yarn@4.10.3",
