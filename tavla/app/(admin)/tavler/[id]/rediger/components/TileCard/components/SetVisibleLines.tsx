@@ -22,9 +22,13 @@ function getInitialCheckedLineIds(
     quays.forEach((quay) => {
         const savedQuay = tile.quays?.find((q) => q.id === quay.id)
         if (savedQuay) {
-            savedQuay.whitelistedLines.forEach((lineId) =>
-                set.add(`${quay.id}||${lineId}`),
-            )
+            if (savedQuay.whitelistedLines.length === 0) {
+                quay.lines.forEach((l) => set.add(`${quay.id}||${l.id}`))
+            } else {
+                savedQuay.whitelistedLines.forEach((lineId) =>
+                    set.add(`${quay.id}||${lineId}`),
+                )
+            }
         } else if (hasQuayFilter) {
             // Per-quay filter exists but this quay has no entry: nothing selected
         } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
