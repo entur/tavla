@@ -62,13 +62,20 @@ function SetVisibleLines({
     const totalQuayLinePairs = quays.reduce((sum, q) => sum + q.lines.length, 0)
 
     quays.forEach((quay) => {
-        const modes = Array.from(
-            new Set(
-                quay.lines
-                    .map((l) => l.transportMode as TTransportMode)
-                    .filter((m) => !!m && m !== 'unknown'),
-            ),
-        )
+        const modeCounts = new Map<TTransportMode, number>()
+        quay.lines.forEach((l) => {
+            const m = l.transportMode as TTransportMode
+            if (m && m !== 'unknown') {
+                modeCounts.set(m, (modeCounts.get(m) || 0) + 1)
+            }
+        })
+
+        const modes = Array.from(modeCounts.entries())
+            .sort((a, b) => {
+                if (b[1] !== a[1]) return b[1] - a[1]
+                return a[0].localeCompare(b[0])
+            })
+            .map(([mode]) => mode)
 
         if (
             modes.length === 0 &&
@@ -110,7 +117,7 @@ function SetVisibleLines({
                 { mode: TTransportMode; label: string; quays: TQuay[] }
             >,
         ),
-    ).sort((a, b) => a.label.localeCompare(b.label))
+    ).sort((a, b) => a.label.localeCompare(b.label, 'nb-NO'))
 
     const allModes = Array.from(
         new Set(Array.from(quayModesMap.values()).flat()),
@@ -202,13 +209,17 @@ function SetVisibleLines({
 
     if (quaysByTransportMode.length < 2) {
         quaysByTransportMode.forEach((group) => {
-            const sortedQuays = [...group.quays].sort((a, b) =>
-                (a.publicCode || '').localeCompare(
+            const sortedQuays = [...group.quays].sort((a, b) => {
+                const cmp = (a.publicCode || '').localeCompare(
                     b.publicCode || '',
                     'nb-NO',
                     { numeric: true },
-                ),
-            )
+                )
+                if (cmp === 0) {
+                    return b.lines.length - a.lines.length
+                }
+                return cmp
+            })
             sortedQuays.forEach((quay) => {
                 itemsToDistribute.push({
                     type: 'quay',
@@ -288,15 +299,22 @@ function SetVisibleLines({
                                             className="flex flex-col gap-2"
                                         >
                                             {quays
-                                                .sort((a, b) =>
-                                                    (
+                                                .sort((a, b) => {
+                                                    const cmp = (
                                                         a.publicCode || ''
                                                     ).localeCompare(
                                                         b.publicCode || '',
                                                         'nb-NO',
                                                         { numeric: true },
-                                                    ),
-                                                )
+                                                    )
+                                                    if (cmp === 0) {
+                                                        return (
+                                                            b.lines.length -
+                                                            a.lines.length
+                                                        )
+                                                    }
+                                                    return cmp
+                                                })
                                                 .map((quay) => {
                                                     const modes =
                                                         quayModesMap.get(
@@ -305,7 +323,7 @@ function SetVisibleLines({
                                                     const title =
                                                         quay.name &&
                                                         quay.publicCode
-                                                            ? `${modes.includes('metro') || modes.includes('rail') ? 'Spor' : 'Plattform'} ${quay.publicCode}`
+                                                            ? `${modes[0] === 'metro' || modes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
                                                             : quay.name ||
                                                               'Ukjent'
 
@@ -353,7 +371,7 @@ function SetVisibleLines({
                                         quayModesMap.get(quay.id) || []
                                     const title =
                                         quay.name && quay.publicCode
-                                            ? `${modes.includes('metro') || modes.includes('rail') ? 'Spor' : 'Plattform'} ${quay.publicCode}`
+                                            ? `${modes[0] === 'metro' || modes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
                                             : quay.name || 'Ukjent'
 
                                     return (
