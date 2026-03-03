@@ -1,20 +1,28 @@
 'use client'
-import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
+import {
+    MultiSelect,
+    NormalizedDropdownItemType,
+    SearchableDropdown,
+} from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
+import { useClosestStopPlaceSearch } from 'app/(admin)/hooks/useClosestStopPlaceSearch'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
-import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
+import { stopPlace } from 'app/(admin)/utils/fetch'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
+import { formatDistance, haversineDistance } from './utils'
+
+const NUMBER_OF_CLOSEST_STOP_PLACES = 5
 
 function TileSelector({
     action,
@@ -30,9 +38,58 @@ function TileSelector({
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
-    const { quays, selectedQuay, setSelectedQuay } = useQuaySearch(
-        selectedStopPlace?.value.id ?? '',
+    const [mainStopPlaceItem, setMainStopPlaceItem] =
+        useState<NormalizedDropdownItemType<stopPlace> | null>(null)
+
+    const {
+        closestStopPlaceItems,
+        selectedClosestStopPlaces,
+        setSelectedClosestStopPlaces,
+    } = useClosestStopPlaceSearch(
+        selectedStopPlace?.value.coordinates
+            ? [
+                  selectedStopPlace.value.coordinates[1],
+                  selectedStopPlace.value.coordinates[0],
+              ]
+            : [0, 0],
+        NUMBER_OF_CLOSEST_STOP_PLACES,
     )
+
+    useEffect(() => {
+        if (!mainStopPlaceItem) return
+        const matchingItem = closestStopPlaceItems.find(
+            (item) => item.value.id === mainStopPlaceItem.value.id,
+        )
+        if (matchingItem) {
+            setMainStopPlaceItem(matchingItem)
+            setSelectedClosestStopPlaces((prev) => {
+                if (!prev) return [matchingItem]
+                return prev.map((p) =>
+                    p.value.id === matchingItem.value.id ? matchingItem : p,
+                )
+            })
+        }
+    }, [closestStopPlaceItems, mainStopPlaceItem, setSelectedClosestStopPlaces])
+
+    const allClosestItems = useMemo(() => {
+        const mainCoords = selectedStopPlace?.value.coordinates
+        const itemsWithDistance = closestStopPlaceItems.map((item) => {
+            if (!mainCoords || !item.value.coordinates) return item
+            const dist = haversineDistance(mainCoords, item.value.coordinates)
+            return {
+                ...item,
+                label: `${item.label} (${formatDistance(dist)})`,
+            }
+        })
+
+        if (!mainStopPlaceItem) return itemsWithDistance
+        const alreadyIncluded = itemsWithDistance.some(
+            (item) => item.value.id === mainStopPlaceItem.value.id,
+        )
+        return alreadyIncluded
+            ? itemsWithDistance
+            : [mainStopPlaceItem, ...itemsWithDistance]
+    }, [mainStopPlaceItem, closestStopPlaceItems, selectedStopPlace])
 
     const posthog = usePosthogTracking()
 
@@ -48,28 +105,19 @@ function TileSelector({
         <form
             className="mr-6 flex w-full flex-col gap-4 lg:flex-row"
             action={action}
-            onSubmit={(event) => {
-                if (!selectedStopPlace) {
-                    event.preventDefault()
+            onSubmit={() => {
+                if (
+                    !selectedClosestStopPlaces ||
+                    selectedClosestStopPlaces.length === 0
+                ) {
                     return setFormError(
-                        getFormFeedbackForError(
-                            !selectedStopPlace
-                                ? 'create/stop_place-missing'
-                                : 'create/quay-missing',
-                        ),
+                        getFormFeedbackForError('create/stop_place-missing'),
                     )
                 }
 
-                posthog.capture('stop_place_added', {
-                    location: trackingLocation,
-                    county_selected: selectedCounties.length > 0,
-                    county_count: selectedCounties.length,
-                    platform_selected: !!selectedQuay,
-                })
-
                 setFormError(undefined)
-                setSelectedQuay(null)
-                setSelectedStopPlace(null)
+                setSelectedClosestStopPlaces(null)
+                setMainStopPlaceItem(null)
                 setTimeout(() => {
                     posthog.capture('survey_set_up_board')
                 }, 5000)
@@ -107,7 +155,7 @@ function TileSelector({
                                 '',
                         )
                     }
-                    label="Stoppested*"
+                    label="Stoppested, adresse eller sted*"
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
@@ -118,45 +166,60 @@ function TileSelector({
                             action: e?.value ? 'selected' : 'cleared',
                         })
                         setSelectedStopPlace(e)
+                        if (e) {
+                            const isStopPlace = e.value.layer === 'venue'
+                            const item = {
+                                value: {
+                                    id: e.value.id,
+                                    county: e.value.county,
+                                },
+                                label: e.label,
+                            }
+                            if (isStopPlace) {
+                                setMainStopPlaceItem(item)
+                                setSelectedClosestStopPlaces([item])
+                            } else {
+                                setMainStopPlaceItem(null)
+                                setSelectedClosestStopPlaces(null)
+                            }
+                        } else {
+                            setMainStopPlaceItem(null)
+                            setSelectedClosestStopPlaces(null)
+                        }
                     }}
-                    debounceTimeout={150}
+                    debounceTimeout={200}
                     aria-required
                     {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
             <div className="w-full">
-                <Dropdown
-                    items={quays}
-                    label="Plattform/retning"
+                <MultiSelect
+                    hideSelectAll={true}
+                    items={allClosestItems}
+                    label="Stoppesteder i nærheten"
                     prepend={<SearchIcon aria-hidden />}
-                    selectedItem={
-                        selectedQuay ??
-                        (selectedStopPlace
-                            ? {
-                                  value: selectedStopPlace.value.id,
-                                  label: 'Vis alle',
-                              }
-                            : null)
-                    }
+                    selectedItems={selectedClosestStopPlaces ?? []}
                     onChange={(e) => {
                         posthog.capture('stop_place_add_interaction', {
                             location: trackingLocation,
                             field: 'platform',
-                            action: e?.value ? 'selected' : 'cleared',
+                            action: e.length > 0 ? 'selected' : 'cleared',
                         })
-                        setSelectedQuay(e)
+                        setSelectedClosestStopPlaces(e)
                     }}
                     {...getFormFeedbackForField('quay', state)}
                 />
             </div>
-            <HiddenInput id="stop_place" value={selectedStopPlace?.value.id} />
             <HiddenInput
-                id="stop_place_name"
-                value={selectedStopPlace?.label}
+                id="closest_stop_places"
+                value={JSON.stringify(
+                    (selectedClosestStopPlaces ?? []).map((sp) => ({
+                        id: sp.value.id,
+                        name: sp.label,
+                        county: sp.value.county,
+                    })),
+                )}
             />
-            <HiddenInput id="quay_name" value={selectedQuay?.label} />
-            <HiddenInput id="quay" value={selectedQuay?.value} />
-            <HiddenInput id="county" value={selectedStopPlace?.value.county} />
 
             <SubmitButton variant="secondary">Legg til</SubmitButton>
         </form>
