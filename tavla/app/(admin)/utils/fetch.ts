@@ -13,12 +13,18 @@ type TPartialGeoResponse = {
             category?: [TCategory]
             county?: string
         }
+        geometry: {
+            coordinates: [number, number]
+        }
     }>
 }
 
 export type stopPlace = {
     id: string
     county?: string
+    category?: [TCategory]
+    coordinates?: [number, number]
+    layer?: string
 }
 
 type TPointGeoresponse = {
@@ -60,7 +66,7 @@ export async function fetchStopPlaces(
     const searchParams = new URLSearchParams({
         lang: 'no',
         size: '5',
-        layers: 'venue',
+        layers: 'venue,address',
         text,
     })
 
@@ -74,10 +80,41 @@ export async function fetchStopPlaces(
     })
         .then((res) => res.json())
         .then((data: TPartialGeoResponse) => {
-            return data.features.map(({ properties }) => ({
+            return data.features.map(({ properties, geometry }) => ({
                 value: {
                     id: properties.id ?? '',
                     county: properties.county,
+                    category: properties.category,
+                    coordinates: geometry.coordinates,
+                    layer: properties.layer,
+                },
+                label: properties.label || '',
+                icons: uniq(getIcons(properties.layer, properties.category)),
+                county: properties.county,
+                itemKey: properties.id ?? properties.label ?? '',
+            }))
+        })
+}
+
+export async function fetchClosestStopPlaces(
+    coordines: [number, number],
+    numberOfStopPlaces: number,
+): Promise<NormalizedDropdownItemType<stopPlace>[]> {
+    return fetch(
+        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordines[0]}&point.lon=${coordines[1]}&layers=venue&size=${numberOfStopPlaces}`,
+        {
+            headers: {
+                'ET-Client-Name': CLIENT_NAME,
+            },
+        },
+    )
+        .then((res) => res.json())
+        .then((data: TPartialGeoResponse) => {
+            return data.features.map(({ properties, geometry }) => ({
+                value: {
+                    id: properties.id ?? '',
+                    county: properties.county,
+                    coordinates: geometry.coordinates,
                 },
                 label: properties.label || '',
                 icons: uniq(getIcons(properties.layer, properties.category)),
