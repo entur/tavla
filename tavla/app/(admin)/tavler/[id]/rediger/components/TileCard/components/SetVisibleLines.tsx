@@ -280,7 +280,7 @@ function SetVisibleLines({
         <>
             <Heading4>Plattformer og linjer</Heading4>
 
-            <div className="my-4 flex flex-row flex-wrap gap-1">
+            <div className="my-4 flex flex-row flex-wrap gap-4">
                 {modes.map((mode) => {
                     const isSelected = isModeSelected(mode)
 

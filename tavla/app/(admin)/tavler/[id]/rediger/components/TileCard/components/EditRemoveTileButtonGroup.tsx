@@ -1,4 +1,4 @@
-import { FloatingButton } from '@entur/button'
+import { SecondarySquareButton } from '@entur/button'
 import { CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { EventProps } from 'app/posthog/events'
@@ -23,13 +23,13 @@ function EditRemoveTileButtonGroup({
     const posthog = usePosthogTracking()
 
     return (
-        <div className="flex gap-md">
+        <div className="flex gap-4">
             <Tooltip
                 placement="bottom"
                 content={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
                 id="tooltip-edit-tile"
             >
-                <FloatingButton
+                <SecondarySquareButton
                     size="small"
                     onClick={() => {
                         if (!isTileOpen) {
@@ -49,7 +49,7 @@ function EditRemoveTileButtonGroup({
                     aria-label={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
                 >
                     {isTileOpen ? <CloseIcon /> : <EditIcon />}
-                </FloatingButton>
+                </SecondarySquareButton>
             </Tooltip>
             <DeleteTileButton isWideScreen={true} deleteTile={deleteTile} />
         </div>

@@ -95,6 +95,8 @@ module.exports = {
                 'estimated-time': 'var(--error-color)',
                 tooltip: 'var(--tooltip-color)',
                 'tooltip-text': 'var(--tooltip-text-color)',
+                chipUnselected:
+                    'var(--components-chip-standard-text-unselected)',
                 ...transportModes,
                 ...transportModesTransparent,
                 ...dataColors,
@@ -106,6 +108,7 @@ module.exports = {
             borderColor: {
                 primary: 'var(--divider-color)',
                 secondary: 'var(--border-color)',
+                chip: 'var(--components-chip-standard-border)',
             },
             fontSize: {
                 'em-xs': '0.625em',

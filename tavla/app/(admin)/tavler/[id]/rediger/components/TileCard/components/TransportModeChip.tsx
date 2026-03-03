@@ -18,10 +18,10 @@ function TransportModeChip({
         <button
             type="button"
             onClick={onClick}
-            className={`flex flex-row items-center gap-2 rounded-full border px-3 py-1 transition-colors ${
+            className={`flex h-8 flex-row items-center gap-1 rounded-full border px-3 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-black ${
                 isSelected
                     ? `bg-${mode} text-white border-${mode}`
-                    : 'border-slate-300 bg-white text-slate-700'
+                    : 'border-chip bg-white text-chipUnselected'
             }`}
         >
             {isSelected && (
@@ -41,7 +41,7 @@ function TransportModeChip({
             {label}
             <TransportIcon
                 transportMode={mode}
-                className={`h-4 w-4 ${isSelected ? 'text-white' : `text-${mode}`}`}
+                className={`h-4 w-4 ${isSelected ? 'text-white' : ``}`}
             />
         </button>
     )

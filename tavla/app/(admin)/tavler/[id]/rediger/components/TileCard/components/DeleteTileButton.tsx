@@ -1,4 +1,4 @@
-import { FloatingButton } from '@entur/button'
+import { NegativeButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 
@@ -8,23 +8,27 @@ function DeleteTileButton({
     isWideScreen: boolean
     deleteTile: () => void
 }) {
+    const StyledNegativeButton = (
+        <NegativeButton
+            onClick={deleteTile}
+            aria-label="Fjern stoppested"
+            type="button"
+            size="medium"
+            className="!min-w-0"
+        >
+            <DeleteIcon />
+        </NegativeButton>
+    )
+
     return (
         <>
-            <div className="sm:block">
+            <div>
                 <Tooltip
                     placement="bottom"
                     content="Fjern stoppested"
                     id="tooltip-remove-tile"
                 >
-                    <FloatingButton
-                        size="small"
-                        className="bg-negativeDeep hover:bg-negativeContrast"
-                        onClick={deleteTile}
-                        aria-label="Fjern stoppested"
-                        type="button"
-                    >
-                        <DeleteIcon />
-                    </FloatingButton>
+                    {StyledNegativeButton}
                 </Tooltip>
             </div>
         </>

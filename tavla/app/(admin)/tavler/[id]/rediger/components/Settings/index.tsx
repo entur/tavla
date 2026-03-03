@@ -49,13 +49,13 @@ function Settings({ board }: { board: BoardDB }) {
     }, [])
 
     return (
-        <div className="flex flex-col gap-4 rounded-md bg-background px-2 py-2 md:px-6 md:py-8">
+        <div className="flex flex-col gap-4 rounded-md bg-tintLight px-2 py-2 md:px-6 md:py-8">
             <Heading2>Innstillinger</Heading2>
             <FormError
                 {...getFormFeedbackForField('general', formErrors.general)}
             />
             <form className="flex flex-col gap-6 lg:flex-row" ref={formRef}>
-                <div className="box shrink">
+                <div className="box shrink bg-white">
                     <Heading3 margin="bottom">Tavlevisning </Heading3>
                     <div className="flex flex-col gap-4">
                         <ViewType
@@ -83,7 +83,7 @@ function Settings({ board }: { board: BoardDB }) {
                         <HiddenInput id="bid" value={board.id} />
                     </div>
                 </div>
-                <div className="box md:min-w-[480px]">
+                <div className="box bg-white md:min-w-[480px]">
                     <Heading3 margin="none"> Tilleggsinformasjon </Heading3>
                     <SubParagraph className="mt-0">
                         Felter markert med * er påkrevd.
