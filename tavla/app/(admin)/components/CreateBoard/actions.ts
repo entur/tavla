@@ -23,7 +23,7 @@ export async function createBoard(
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    let createdBoard = null
+    let createdBoard
 
     try {
         createdBoard = await firestore()

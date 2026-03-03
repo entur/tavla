@@ -109,7 +109,7 @@ export async function saveSettings(data: FormData) {
 async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
     userHasAccessToEditBoard(bid)
 
-    let newFooter = {}
+    let newFooter
 
     const footerContainsText =
         footer && !isOnlyWhiteSpace(footer) && footer.trim() !== ''

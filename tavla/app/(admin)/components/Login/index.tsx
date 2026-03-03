@@ -4,7 +4,6 @@ import { CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Label } from '@entur/typography'
 import { Entry } from 'app/(admin)/components/Login/Entry'
-import { WithoutUserFakeDoor } from 'app/(admin)/components/Login/WithoutUserFakeDoor'
 import { usePageParam } from 'app/(admin)/hooks/usePageParam'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
@@ -96,8 +95,6 @@ function Page({ page }: { page: TLoginPage }) {
             return <Reset />
         case 'entry':
             return <Entry />
-        case 'without-user':
-            return <WithoutUserFakeDoor />
         default:
             return <Email />
     }

@@ -28,20 +28,6 @@ function Entry() {
             <ButtonGroup className="flex w-full flex-col pb-4">
                 <SecondaryButton
                     width="fluid"
-                    aria-label="Fortsett uten bruker"
-                    as={Link}
-                    href="?login=without-user"
-                    onClick={() => {
-                        posthog.capture('board_create_without_user', {
-                            location: 'user_modal',
-                            context: 'entry',
-                        })
-                    }}
-                >
-                    Fortsett uten bruker
-                </SecondaryButton>
-                <SecondaryButton
-                    width="fluid"
                     aria-label="Logg inn med mail"
                     as={Link}
                     href="?login=email"

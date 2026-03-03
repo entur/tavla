@@ -119,9 +119,6 @@ export type EventMap = {
 
     /* Tavler */
     board_create_entry: WithLocation<typeof LOCATIONS.LandingPage>
-    board_create_without_user: WithLocation<typeof LOCATIONS.UserModal> & {
-        context: TLoginPage
-    }
 
     board_opened: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable

@@ -45,6 +45,7 @@ const cspHeaderTavlevisning = `
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
+    serverExternalPackages: [],
     transpilePackages: [
         'swr',
         'tailwindcss',
@@ -59,10 +60,6 @@ const nextConfig = {
         '@entur/loader',
         '@entur/utils',
     ],
-    i18n: {
-        locales: ['nb'],
-        defaultLocale: 'nb',
-    },
     images: {
         remotePatterns: [
             {
