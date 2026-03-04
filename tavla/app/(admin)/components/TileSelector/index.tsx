@@ -1,26 +1,21 @@
 'use client'
-import {
-    MultiSelect,
-    NormalizedDropdownItemType,
-    SearchableDropdown,
-} from '@entur/dropdown'
+import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useClosestStopPlaceSearch } from 'app/(admin)/hooks/useClosestStopPlaceSearch'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
+import { useMainStopPlaceItem } from 'app/(admin)/hooks/useMainStopPlaceItem'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import {
     TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
-import { stopPlace } from 'app/(admin)/utils/fetch'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
-import { formatDistance, haversineDistance } from './utils'
 
 const NUMBER_OF_CLOSEST_STOP_PLACES = 5
 
@@ -38,9 +33,6 @@ function TileSelector({
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
-    const [mainStopPlaceItem, setMainStopPlaceItem] =
-        useState<NormalizedDropdownItemType<stopPlace> | null>(null)
-
     const {
         closestStopPlaceItems,
         selectedClosestStopPlaces,
@@ -55,51 +47,15 @@ function TileSelector({
         NUMBER_OF_CLOSEST_STOP_PLACES,
     )
 
-    useEffect(() => {
-        if (!mainStopPlaceItem) return
-        const matchingItem = closestStopPlaceItems.find(
-            (item) => item.value.id === mainStopPlaceItem.value.id,
-        )
-        if (matchingItem) {
-            setMainStopPlaceItem(matchingItem)
-            setSelectedClosestStopPlaces((prev) => {
-                if (!prev) return [matchingItem]
-                return prev.map((p) =>
-                    p.value.id === matchingItem.value.id ? matchingItem : p,
-                )
-            })
-        }
-    }, [closestStopPlaceItems, mainStopPlaceItem, setSelectedClosestStopPlaces])
-
-    const allClosestItems = useMemo(() => {
-        const mainCoords = selectedStopPlace?.value.coordinates
-        const itemsWithDistance = closestStopPlaceItems.map((item) => {
-            if (!mainCoords || !item.value.coordinates) return item
-            const dist = haversineDistance(mainCoords, item.value.coordinates)
-            return {
-                ...item,
-                label: `${item.label} (${formatDistance(dist)})`,
-            }
-        })
-
-        if (!mainStopPlaceItem) return itemsWithDistance
-        const alreadyIncluded = itemsWithDistance.some(
-            (item) => item.value.id === mainStopPlaceItem.value.id,
-        )
-        return alreadyIncluded
-            ? itemsWithDistance
-            : [mainStopPlaceItem, ...itemsWithDistance]
-    }, [mainStopPlaceItem, closestStopPlaceItems, selectedStopPlace])
+    const { setMainStopPlaceItem, allClosestItems } = useMainStopPlaceItem(
+        closestStopPlaceItems,
+        selectedStopPlace?.value.coordinates,
+        setSelectedClosestStopPlaces,
+    )
 
     const posthog = usePosthogTracking()
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
-
-    const handleCountyChange = (
-        newSelectedCounties: typeof selectedCounties,
-    ) => {
-        setSelectedCounties(newSelectedCounties)
-    }
 
     return (
         <form
@@ -139,7 +95,7 @@ function TileSelector({
                                     ? 'selected'
                                     : 'cleared',
                         })
-                        handleCountyChange(e)
+                        setSelectedCounties(e)
                     }}
                     clearInputOnSelect={true}
                     prepend={<SearchIcon aria-hidden />}
