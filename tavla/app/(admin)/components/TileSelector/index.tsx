@@ -1,5 +1,5 @@
 'use client'
-import { Dropdown, MultiSelect, SearchableDropdown } from '@entur/dropdown'
+import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
@@ -30,7 +30,7 @@ function TileSelector({
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
-    const { quays, selectedQuay, setSelectedQuay } = useQuaySearch(
+    const { selectedQuay, setSelectedQuay } = useQuaySearch(
         selectedStopPlace?.value.id ?? '',
     )
 
@@ -124,31 +124,6 @@ function TileSelector({
                     debounceTimeout={150}
                     aria-required
                     {...getFormFeedbackForField('stop_place', state)}
-                />
-            </div>
-            <div className="w-full">
-                <Dropdown
-                    items={quays}
-                    label="Plattform/retning"
-                    prepend={<SearchIcon aria-hidden />}
-                    selectedItem={
-                        selectedQuay ??
-                        (selectedStopPlace
-                            ? {
-                                  value: selectedStopPlace.value.id,
-                                  label: 'Vis alle',
-                              }
-                            : null)
-                    }
-                    onChange={(e) => {
-                        posthog.capture('stop_place_add_interaction', {
-                            location: trackingLocation,
-                            field: 'platform',
-                            action: e?.value ? 'selected' : 'cleared',
-                        })
-                        setSelectedQuay(e)
-                    }}
-                    {...getFormFeedbackForField('quay', state)}
                 />
             </div>
             <HiddenInput id="stop_place" value={selectedStopPlace?.value.id} />

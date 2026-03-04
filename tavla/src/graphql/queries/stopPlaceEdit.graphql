@@ -1,7 +1,14 @@
 query stopPlaceEdit($placeId: String!) {
     stopPlace(id: $placeId) {
         name
-        quays(filterByInUse: true) {
+        quays {
+            id
+            publicCode
+            name
+            description
+            stopPlace {
+                transportMode
+            }
             ...lines
         }
     }

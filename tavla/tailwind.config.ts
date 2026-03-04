@@ -79,6 +79,9 @@ module.exports = {
                 grey10: 'var(--grey10)',
                 blue20: 'var(--blue20)',
                 blue10: 'var(--blue10)',
+                negativeDeep: 'var(--fill-negative-deep)',
+                negativeContrast: 'var(--fill-negative-contrast)',
+                tintLight: 'var(--fill-background-tint-light)',
             },
             colors: {
                 background: 'var(--main-background-color)',
@@ -92,6 +95,8 @@ module.exports = {
                 'estimated-time': 'var(--error-color)',
                 tooltip: 'var(--tooltip-color)',
                 'tooltip-text': 'var(--tooltip-text-color)',
+                chipUnselected:
+                    'var(--components-chip-standard-text-unselected)',
                 ...transportModes,
                 ...transportModesTransparent,
                 ...dataColors,
@@ -103,6 +108,7 @@ module.exports = {
             borderColor: {
                 primary: 'var(--divider-color)',
                 secondary: 'var(--border-color)',
+                chip: 'var(--components-chip-standard-border)',
             },
             fontSize: {
                 'em-xs': '0.625em',
