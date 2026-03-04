@@ -155,7 +155,13 @@ export type EventMap = {
     stop_place_edit_interaction: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
     > & {
-        field: 'name' | 'offset' | 'offset_walking_dist' | 'columns' | 'lines'
+        field:
+            | 'name'
+            | 'offset'
+            | 'offset_walking_dist'
+            | 'columns'
+            | 'lines'
+            | 'transport_mode_filter'
         action:
             | 'changed'
             | 'toggled_on'

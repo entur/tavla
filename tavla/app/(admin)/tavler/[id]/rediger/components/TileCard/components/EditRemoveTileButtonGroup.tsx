@@ -3,7 +3,6 @@ import { CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { DeleteTileButton } from './DeleteTileButton'
 
 function EditRemoveTileButtonGroup({
@@ -18,23 +17,20 @@ function EditRemoveTileButtonGroup({
     hasTileChanged: boolean
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (isOpen: boolean) => void
-    deleteTile: (
-        boardId: string,
-        tile: BoardTileDB,
-        demoBoard?: BoardDB,
-    ) => void
+    deleteTile: () => void
     trackingLocation: EventProps<'stop_place_edit_cancelled'>['location']
 }) {
     const posthog = usePosthogTracking()
 
     return (
-        <div className="flex gap-md">
+        <div className="flex gap-4">
             <Tooltip
                 placement="bottom"
                 content={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
                 id="tooltip-edit-tile"
             >
                 <SecondarySquareButton
+                    size="small"
                     onClick={() => {
                         if (!isTileOpen) {
                             posthog.capture('stop_place_edit_started', {

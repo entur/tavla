@@ -6,4 +6,6 @@ export type TLineFragment = {
     publicCode: string | null
     name: string | null
     transportMode: TTransportMode | null
+    quayName?: string | null
+    quayPublicCode?: string | null
 }

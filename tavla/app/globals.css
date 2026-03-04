@@ -96,6 +96,8 @@
         --data-visualization-lilac: var(--standard-lilac);
         --data-visualization-peach: var(--standard-peach);
         --data-visualization-spring: var(--standard-spring);
+
+        --negative-deep: var(--negative-deep);
     }
 
     [data-theme='dark'] {
