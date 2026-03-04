@@ -183,7 +183,7 @@ function TileSelector({
                 value={JSON.stringify(
                     (selectedClosestStopPlaces ?? []).map((sp) => ({
                         id: sp.value.id,
-                        name: sp.label,
+                        name: sp.value.name,
                         county: sp.value.county,
                     })),
                 )}

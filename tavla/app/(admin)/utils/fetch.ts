@@ -12,6 +12,7 @@ type TPartialGeoResponse = {
             layer?: string
             category?: [TCategory]
             county?: string
+            name?: string
         }
         geometry: {
             coordinates: [number, number]
@@ -25,6 +26,7 @@ export type stopPlace = {
     category?: [TCategory]
     coordinates?: [number, number]
     layer?: string
+    name?: string
 }
 
 type TPointGeoresponse = {
@@ -115,6 +117,7 @@ export async function fetchClosestStopPlaces(
                     id: properties.id ?? '',
                     county: properties.county,
                     coordinates: geometry.coordinates,
+                    name: properties.name,
                 },
                 label: properties.label || '',
                 icons: uniq(getIcons(properties.layer, properties.category)),
