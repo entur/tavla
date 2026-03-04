@@ -46,12 +46,16 @@ function useMainStopPlaceItem(
         })
 
         if (!mainStopPlaceItem) return itemsWithDistance
-        const alreadyIncluded = itemsWithDistance.some(
+
+        const index = itemsWithDistance.findIndex(
             (item) => item.value.id === mainStopPlaceItem.value.id,
         )
-        return alreadyIncluded
-            ? itemsWithDistance
-            : [mainStopPlaceItem, ...itemsWithDistance]
+        if (index !== -1) {
+            const result = [...itemsWithDistance]
+            result[index] = mainStopPlaceItem
+            return result
+        }
+        return [mainStopPlaceItem, ...itemsWithDistance]
     }, [mainStopPlaceItem, closestStopPlaceItems, mainCoordinates])
 
     return {
