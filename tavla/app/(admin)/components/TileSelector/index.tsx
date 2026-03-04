@@ -118,10 +118,19 @@ function TileSelector({
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
                     onChange={(e) => {
+                        const typeOfPlace = (() => {
+                            if (e?.value.layer === 'venue') {
+                                if (e.value.category?.includes('vegadresse'))
+                                    return 'address'
+                                return 'stop_place'
+                            }
+                            return 'other'
+                        })()
                         posthog.capture('stop_place_add_interaction', {
                             location: trackingLocation,
                             field: 'stop_place',
                             action: e?.value ? 'selected' : 'cleared',
+                            typeOfPlace,
                         })
                         setSelectedStopPlace(e)
                         if (e) {
@@ -160,8 +169,9 @@ function TileSelector({
                     onChange={(e) => {
                         posthog.capture('stop_place_add_interaction', {
                             location: trackingLocation,
-                            field: 'platform',
+                            field: 'closest_stop_places',
                             action: e.length > 0 ? 'selected' : 'cleared',
+                            typeOfPlace: 'stop_place',
                         })
                         setSelectedClosestStopPlaces(e)
                     }}
