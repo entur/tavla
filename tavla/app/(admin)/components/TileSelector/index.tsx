@@ -62,12 +62,20 @@ function TileSelector({
             className="mr-6 flex w-full flex-col gap-4 lg:flex-row"
             action={action}
             onSubmit={() => {
+                if (!selectedStopPlace) {
+                    return setFormError(
+                        getFormFeedbackForError('create/stop_place-missing'),
+                    )
+                }
+
                 if (
                     !selectedClosestStopPlaces ||
                     selectedClosestStopPlaces.length === 0
                 ) {
                     return setFormError(
-                        getFormFeedbackForError('create/stop_place-missing'),
+                        getFormFeedbackForError(
+                            'create/closest_stop_places-missing',
+                        ),
                     )
                 }
 
@@ -175,7 +183,7 @@ function TileSelector({
                         })
                         setSelectedClosestStopPlaces(e)
                     }}
-                    {...getFormFeedbackForField('quay', state)}
+                    {...getFormFeedbackForField('closest_stop_places', state)}
                 />
             </div>
             <HiddenInput
