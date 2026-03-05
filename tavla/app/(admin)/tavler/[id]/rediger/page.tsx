@@ -8,7 +8,7 @@ import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
-import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
@@ -59,25 +59,27 @@ export default async function EditPage(props: TProps) {
         const tiles = formDataToTiles(data)
         if (tiles.length === 0) return
 
-        for (const tile of tiles) {
-            if (!tile.placeId) continue
-
-            const addOrRemoveWalkingDistance = async (tile: BoardTileDB) => {
-                if (board?.meta.location) {
-                    return await getWalkingDistanceTile(
-                        tile,
-                        board.meta.location,
-                    )
-                }
-                delete tile.walkingDistance
-                return tile
-            }
-            const tileWithDistance = await addOrRemoveWalkingDistance(tile)
-
-            await addTile(params.id, tileWithDistance)
-            if (board?.combinedTiles)
-                await addTileToCombinedList(board, tileWithDistance.uuid)
-        }
+        await Promise.all(
+            tiles
+                .filter((tile) => tile.placeId)
+                .map(async (tile) => {
+                    const tileWithDistance = board?.meta.location
+                        ? await getWalkingDistanceTile(
+                              tile,
+                              board.meta.location,
+                          )
+                        : (() => {
+                              delete tile.walkingDistance
+                              return tile
+                          })()
+                    await addTile(params.id, tileWithDistance)
+                    if (board?.combinedTiles)
+                        await addTileToCombinedList(
+                            board,
+                            tileWithDistance.uuid,
+                        )
+                }),
+        )
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
