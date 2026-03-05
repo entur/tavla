@@ -8188,19 +8188,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:3.3.0":
-  version: 3.3.0
-  resolution: "dompurify@npm:3.3.0"
-  dependencies:
-    "@types/trusted-types": "npm:^2.0.7"
-  dependenciesMeta:
-    "@types/trusted-types":
-      optional: true
-  checksum: 10/d8782b10a0454344476936c91038d06c9450b3e3ada2ceb8f722525e6b54e64d847939b9f35bf385facd4139f0a2eaf7f5553efce351f8e9295620570875f002
-  languageName: node
-  linkType: hard
-
-"dompurify@npm:^3.3.1":
+"dompurify@npm:3.3.1, dompurify@npm:^3.3.1":
   version: 3.3.1
   resolution: "dompurify@npm:3.3.1"
   dependencies:
@@ -15822,7 +15810,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:8.56.0"
     autoprefixer: "npm:10.4.22"
     dependency-cruiser: "npm:16.5.0"
-    dompurify: "npm:3.3.0"
+    dompurify: "npm:3.3.1"
     eslint: "npm:10.0.1"
     eslint-config-next: "npm:16.1.6"
     eslint-config-prettier: "npm:10.1.8"
