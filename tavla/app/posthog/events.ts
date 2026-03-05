@@ -194,9 +194,15 @@ export type EventMap = {
                   action: 'selected' | 'cleared'
               }
             | {
-                  field: 'stop_place' | 'closest_stop_places'
+                  field: 'stop_place'
                   action: 'selected' | 'cleared'
                   typeOfPlace: 'stop_place' | 'address' | 'other'
+              }
+            | {
+                  field: 'closest_stop_places'
+                  action: 'selected' | 'cleared'
+                  typeOfPlace: 'stop_place' | 'address' | 'other'
+                  selectedIndexes?: number[]
               }
         )
 

@@ -182,6 +182,11 @@ function TileSelector({
                             field: 'closest_stop_places',
                             action: e.length > 0 ? 'selected' : 'cleared',
                             typeOfPlace: 'stop_place',
+                            selectedIndexes: e.map((item) =>
+                                closestStopPlaceItems.findIndex(
+                                    (i) => i.value.id === item.value.id,
+                                ),
+                            ),
                         })
                         setSelectedClosestStopPlaces(e)
                     }}
