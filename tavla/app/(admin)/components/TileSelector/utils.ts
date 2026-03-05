@@ -12,6 +12,7 @@ import {
     Coordinate,
     TileColumnDB,
 } from 'src/types/db-types/boards'
+import { GeoCoordinate } from '../../utils/fetch'
 
 export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
 
@@ -113,19 +114,16 @@ export function sortCountiesAlphabetically(
     return counties.sort((a, b) => a.label.localeCompare(b.label, 'nb'))
 }
 
-export function haversineDistance(
-    a: [number, number],
-    b: [number, number],
-): number {
+export function haversineDistance(a: GeoCoordinate, b: GeoCoordinate): number {
     const R = 6371000 // Earth radius in meters
     const toRad = (deg: number) => (deg * Math.PI) / 180
-    const dLat = toRad(b[1] - a[1])
-    const dLon = toRad(b[0] - a[0])
+    const dLat = toRad(b.lat - a.lat)
+    const dLon = toRad(b.lon - a.lon)
     const sinLat = Math.sin(dLat / 2)
     const sinLon = Math.sin(dLon / 2)
     const h =
         sinLat * sinLat +
-        Math.cos(toRad(a[1])) * Math.cos(toRad(b[1])) * sinLon * sinLon
+        Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * sinLon * sinLon
     return 2 * R * Math.asin(Math.sqrt(h))
 }
 

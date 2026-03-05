@@ -4,6 +4,11 @@ import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'src/assets/env'
 import { LocationDB } from 'src/types/db-types/boards'
 import { TCategory, getIcons } from '../tavler/[id]/utils'
 
+export type GeoCoordinate = {
+    lat: number
+    lon: number
+}
+
 type TPartialGeoResponse = {
     features: Array<{
         properties: {
@@ -20,11 +25,15 @@ type TPartialGeoResponse = {
     }>
 }
 
+function toGeoCoordinate(coordinates: [number, number]): GeoCoordinate {
+    return { lon: coordinates[0], lat: coordinates[1] }
+}
+
 export type stopPlace = {
     id: string
     county?: string
     category?: [TCategory]
-    coordinates?: [number, number]
+    coordinates?: GeoCoordinate
     layer?: string
     name?: string
 }
@@ -87,7 +96,7 @@ export async function fetchStopPlaces(
                     id: properties.id ?? '',
                     county: properties.county,
                     category: properties.category,
-                    coordinates: geometry.coordinates,
+                    coordinates: toGeoCoordinate(geometry.coordinates),
                     layer: properties.layer,
                 },
                 label: properties.label || '',
@@ -99,12 +108,12 @@ export async function fetchStopPlaces(
 }
 
 export async function fetchClosestStopPlaces(
-    coordines: [number, number],
+    coordinates: GeoCoordinate,
     numberOfStopPlaces: number,
     areaRadiusInKm: number = 1,
 ): Promise<NormalizedDropdownItemType<stopPlace>[]> {
     return fetch(
-        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordines[0]}&point.lon=${coordines[1]}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${numberOfStopPlaces}`,
+        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordinates.lat}&point.lon=${coordinates.lon}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${numberOfStopPlaces}`,
         {
             headers: {
                 'ET-Client-Name': CLIENT_NAME,
@@ -117,7 +126,7 @@ export async function fetchClosestStopPlaces(
                 value: {
                     id: properties.id ?? '',
                     county: properties.county,
-                    coordinates: geometry.coordinates,
+                    coordinates: toGeoCoordinate(geometry.coordinates),
                     name: properties.name,
                 },
                 label: properties.label || '',

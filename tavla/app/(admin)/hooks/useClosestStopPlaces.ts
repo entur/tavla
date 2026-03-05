@@ -4,10 +4,14 @@ import {
     formatDistance,
     haversineDistance,
 } from '../components/TileSelector/utils'
-import { fetchClosestStopPlaces, stopPlace } from '../utils/fetch'
+import {
+    GeoCoordinate,
+    fetchClosestStopPlaces,
+    stopPlace,
+} from '../utils/fetch'
 
 function useClosestStopPlaces(
-    coordinates: [number, number] | undefined,
+    coordinates: GeoCoordinate | undefined,
     numberOfStopPlaces: number,
     areaRadiusInKm: number,
 ) {
@@ -20,8 +24,7 @@ function useClosestStopPlaces(
     const [mainStopPlaceItem, setMainStopPlaceItem] =
         useState<NormalizedDropdownItemType<stopPlace> | null>(null)
 
-    const lon = coordinates?.[0] ?? 0
-    const lat = coordinates?.[1] ?? 0
+    const { lat, lon } = coordinates ?? { lat: 0, lon: 0 }
 
     useEffect(() => {
         if (lat === 0 && lon === 0) {
@@ -31,7 +34,7 @@ function useClosestStopPlaces(
 
         let cancelled = false
         fetchClosestStopPlaces(
-            [lat, lon],
+            { lat, lon },
             numberOfStopPlaces,
             areaRadiusInKm,
         ).then((items) => {
