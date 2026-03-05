@@ -4,17 +4,45 @@ import {
     formatDistance,
     haversineDistance,
 } from '../components/TileSelector/utils'
-import { stopPlace } from '../utils/fetch'
+import { fetchClosestStopPlaces, stopPlace } from '../utils/fetch'
 
-function useMainStopPlaceItem(
-    closestStopPlaceItems: NormalizedDropdownItemType<stopPlace>[],
-    mainCoordinates: [number, number] | undefined,
-    setSelectedClosestStopPlaces: React.Dispatch<
-        React.SetStateAction<NormalizedDropdownItemType<stopPlace>[] | null>
-    >,
+function useClosestStopPlaces(
+    coordinates: [number, number] | undefined,
+    numberOfStopPlaces: number,
+    areaRadiusInKm: number,
 ) {
+    const [closestStopPlaceItems, setClosestStopPlaceItems] = useState<
+        NormalizedDropdownItemType<stopPlace>[]
+    >([])
+    const [selectedClosestStopPlaces, setSelectedClosestStopPlaces] = useState<
+        NormalizedDropdownItemType<stopPlace>[] | null
+    >(null)
     const [mainStopPlaceItem, setMainStopPlaceItem] =
         useState<NormalizedDropdownItemType<stopPlace> | null>(null)
+
+    const lon = coordinates?.[0] ?? 0
+    const lat = coordinates?.[1] ?? 0
+
+    useEffect(() => {
+        if (lat === 0 && lon === 0) {
+            setClosestStopPlaceItems([])
+            return
+        }
+
+        let cancelled = false
+        fetchClosestStopPlaces(
+            [lat, lon],
+            numberOfStopPlaces,
+            areaRadiusInKm,
+        ).then((items) => {
+            if (!cancelled) {
+                setClosestStopPlaceItems(items)
+            }
+        })
+        return () => {
+            cancelled = true
+        }
+    }, [lat, lon, numberOfStopPlaces, areaRadiusInKm])
 
     useEffect(() => {
         if (!mainStopPlaceItem) return
@@ -30,15 +58,12 @@ function useMainStopPlaceItem(
                 )
             })
         }
-    }, [closestStopPlaceItems, mainStopPlaceItem, setSelectedClosestStopPlaces])
+    }, [closestStopPlaceItems, mainStopPlaceItem])
 
     const allClosestItems = useMemo(() => {
         const itemsWithDistance = closestStopPlaceItems.map((item) => {
-            if (!mainCoordinates || !item.value.coordinates) return item
-            const dist = haversineDistance(
-                mainCoordinates,
-                item.value.coordinates,
-            )
+            if (!coordinates || !item.value.coordinates) return item
+            const dist = haversineDistance(coordinates, item.value.coordinates)
             return {
                 ...item,
                 label: `${item.label} (${formatDistance(dist)})`,
@@ -56,13 +81,15 @@ function useMainStopPlaceItem(
             return result
         }
         return [mainStopPlaceItem, ...itemsWithDistance]
-    }, [mainStopPlaceItem, closestStopPlaceItems, mainCoordinates])
+    }, [mainStopPlaceItem, closestStopPlaceItems, coordinates])
 
     return {
-        mainStopPlaceItem,
-        setMainStopPlaceItem,
+        closestStopPlaceItems,
         allClosestItems,
+        selectedClosestStopPlaces,
+        setSelectedClosestStopPlaces,
+        setMainStopPlaceItem,
     }
 }
 
-export { useMainStopPlaceItem }
+export { useClosestStopPlaces }

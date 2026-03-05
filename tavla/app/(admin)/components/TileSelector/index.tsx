@@ -3,9 +3,8 @@ import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
-import { useClosestStopPlaceSearch } from 'app/(admin)/hooks/useClosestStopPlaceSearch'
+import { useClosestStopPlaces } from 'app/(admin)/hooks/useClosestStopPlaces'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
-import { useMainStopPlaceItem } from 'app/(admin)/hooks/useMainStopPlaceItem'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import {
     TFormFeedback,
@@ -36,23 +35,14 @@ function TileSelector({
 
     const {
         closestStopPlaceItems,
+        allClosestItems,
         selectedClosestStopPlaces,
         setSelectedClosestStopPlaces,
-    } = useClosestStopPlaceSearch(
-        selectedStopPlace?.value.coordinates
-            ? [
-                  selectedStopPlace.value.coordinates[1],
-                  selectedStopPlace.value.coordinates[0],
-              ]
-            : [0, 0],
+        setMainStopPlaceItem,
+    } = useClosestStopPlaces(
+        selectedStopPlace?.value.coordinates,
         NUMBER_OF_CLOSEST_STOP_PLACES,
         AREA_RADIUS_IN_KM,
-    )
-
-    const { setMainStopPlaceItem, allClosestItems } = useMainStopPlaceItem(
-        closestStopPlaceItems,
-        selectedStopPlace?.value.coordinates,
-        setSelectedClosestStopPlaces,
     )
 
     const posthog = usePosthogTracking()
