@@ -17,7 +17,8 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
 
-const NUMBER_OF_CLOSEST_STOP_PLACES = 5
+const NUMBER_OF_CLOSEST_STOP_PLACES = 10
+const AREA_RADIUS_IN_KM = 20
 
 function TileSelector({
     action,
@@ -45,6 +46,7 @@ function TileSelector({
               ]
             : [0, 0],
         NUMBER_OF_CLOSEST_STOP_PLACES,
+        AREA_RADIUS_IN_KM,
     )
 
     const { setMainStopPlaceItem, allClosestItems } = useMainStopPlaceItem(

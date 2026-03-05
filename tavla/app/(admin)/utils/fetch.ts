@@ -101,9 +101,10 @@ export async function fetchStopPlaces(
 export async function fetchClosestStopPlaces(
     coordines: [number, number],
     numberOfStopPlaces: number,
+    areaRadiusInKm: number = 1,
 ): Promise<NormalizedDropdownItemType<stopPlace>[]> {
     return fetch(
-        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordines[0]}&point.lon=${coordines[1]}&layers=venue&size=${numberOfStopPlaces}`,
+        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordines[0]}&point.lon=${coordines[1]}&boundary.circle.radius=${areaRadiusInKm * 1000}&layers=venue&size=${numberOfStopPlaces}`,
         {
             headers: {
                 'ET-Client-Name': CLIENT_NAME,

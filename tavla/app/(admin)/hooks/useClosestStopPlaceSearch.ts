@@ -5,6 +5,7 @@ import { fetchClosestStopPlaces, stopPlace } from '../utils/fetch'
 function useClosestStopPlaceSearch(
     coordinates: [number, number],
     numberOfStopPlaces: number,
+    areaRadiusInKm: number,
 ) {
     const [selectedClosestStopPlaces, setSelectedClosestStopPlaces] = useState<
         NormalizedDropdownItemType<stopPlace>[] | null
@@ -23,7 +24,11 @@ function useClosestStopPlaceSearch(
         }
 
         let cancelled = false
-        fetchClosestStopPlaces([lat, lon], numberOfStopPlaces).then((items) => {
+        fetchClosestStopPlaces(
+            [lat, lon],
+            numberOfStopPlaces,
+            areaRadiusInKm,
+        ).then((items) => {
             if (!cancelled) {
                 setClosestStopPlaceItems(items)
             }
@@ -31,7 +36,7 @@ function useClosestStopPlaceSearch(
         return () => {
             cancelled = true
         }
-    }, [lat, lon, numberOfStopPlaces])
+    }, [lat, lon, numberOfStopPlaces, areaRadiusInKm])
 
     return {
         closestStopPlaceItems,
