@@ -109,7 +109,7 @@
     "resolutions": {
         "ip": ">=2.0.1",
         "basic-ftp": "5.2.0",
-        "hono": "4.11.10",
+        "minimatch": "9.0.7",
         "tar": "7.5.9"
     }
 }
