@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/nextjs'
-import { makeBoardCompatible } from 'app/(admin)/tavler/[id]/rediger/compatibility'
 import admin, { firestore } from 'firebase-admin'
 import { BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
 import { FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
@@ -36,9 +35,9 @@ export async function getBoard(bid: BoardDB['id']) {
                     },
                 },
             )
-            return makeBoardCompatible(boardData as BoardDB)
+            return boardData as BoardDB
         }
-        return makeBoardCompatible(parsedBoard.data)
+        return parsedBoard.data
     } catch (error) {
         Sentry.captureException(error, {
             level: 'error',
