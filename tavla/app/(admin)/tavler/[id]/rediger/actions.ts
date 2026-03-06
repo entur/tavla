@@ -1,7 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import {
-    getQuayCoordinates,
     getStopPlaceCoordinates,
     getWalkingDistance,
 } from 'app/(admin)/components/TileSelector/utils'
@@ -80,13 +79,7 @@ export async function getWalkingDistanceTile(
     tile: BoardTileDB,
     location: LocationDB,
 ): Promise<BoardTileDB> {
-    const fromCoordinates = await (() => {
-        if (tile.type === 'quay') {
-            return getQuayCoordinates(tile.placeId)
-        } else {
-            return getStopPlaceCoordinates(tile.placeId)
-        }
-    })()
+    const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate
 
     const walkingDistance = await getWalkingDistance(

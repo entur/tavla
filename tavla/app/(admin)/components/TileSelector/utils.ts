@@ -35,12 +35,10 @@ export function formDataToTiles(data: FormData): BoardTileDB[] {
     }> = JSON.parse(closestStopPlacesJson)
 
     return closestStopPlaces.map((sp) => ({
-        type: 'stop_place' as const,
         stopPlaceId: sp.id,
         quays: [],
         name: sp.name,
         uuid: nanoid(),
-        placeId: sp.id,
         columns: DEFAULT_COLUMNS,
         county: sp.county || undefined,
     }))

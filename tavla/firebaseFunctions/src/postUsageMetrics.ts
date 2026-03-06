@@ -32,7 +32,7 @@ export const postUsageMetrics = scheduledFunction(
         for (const client of activeBoards.clients) {
             const board = await boardCollection.doc(client.bid).get()
 
-            const placeId: string = board.data()?.tiles[0]?.placeId
+            const placeId: string = board.data()?.tiles[0]?.stopPlaceId
             const palette: string = board.data()?.transportPalette ?? 'default'
 
             if (placeId == undefined) {
