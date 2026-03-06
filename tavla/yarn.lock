@@ -5537,14 +5537,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsdom@npm:21.1.7":
-  version: 21.1.7
-  resolution: "@types/jsdom@npm:21.1.7"
+"@types/jsdom@npm:28.0.0":
+  version: 28.0.0
+  resolution: "@types/jsdom@npm:28.0.0"
   dependencies:
     "@types/node": "npm:*"
     "@types/tough-cookie": "npm:*"
     parse5: "npm:^7.0.0"
-  checksum: 10/a5ee54aec813ac928ef783f69828213af4d81325f584e1fe7573a9ae139924c40768d1d5249237e62d51b9a34ed06bde059c86c6b0248d627457ec5e5d532dfa
+    undici-types: "npm:^7.21.0"
+  checksum: 10/2df6a4fd9912a472557186ac840ee9fde617849593e425d04726499964cdd09730e736b2cddff8448315ed242048d57f73cff367b5961afa63b899a5be6e671d
   languageName: node
   linkType: hard
 
@@ -8070,19 +8071,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:3.3.0":
-  version: 3.3.0
-  resolution: "dompurify@npm:3.3.0"
-  dependencies:
-    "@types/trusted-types": "npm:^2.0.7"
-  dependenciesMeta:
-    "@types/trusted-types":
-      optional: true
-  checksum: 10/d8782b10a0454344476936c91038d06c9450b3e3ada2ceb8f722525e6b54e64d847939b9f35bf385facd4139f0a2eaf7f5553efce351f8e9295620570875f002
-  languageName: node
-  linkType: hard
-
-"dompurify@npm:^3.3.1":
+"dompurify@npm:3.3.1, dompurify@npm:^3.3.1":
   version: 3.3.1
   resolution: "dompurify@npm:3.3.1"
   dependencies:
@@ -15547,7 +15536,7 @@ __metadata:
     "@next/eslint-plugin-next": "npm:16.1.6"
     "@sentry/nextjs": "npm:10.34.0"
     "@types/eslint-plugin-jsx-a11y": "npm:6"
-    "@types/jsdom": "npm:21.1.7"
+    "@types/jsdom": "npm:28.0.0"
     "@types/lodash": "npm:4.17.20"
     "@types/node": "npm:25.2.3"
     "@types/react": "npm:19.2.14"
@@ -15556,7 +15545,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:8.56.0"
     "@typescript-eslint/parser": "npm:8.56.0"
     autoprefixer: "npm:10.4.22"
-    dompurify: "npm:3.3.0"
+    dompurify: "npm:3.3.1"
     eslint: "npm:10.0.1"
     eslint-config-next: "npm:16.1.6"
     eslint-config-prettier: "npm:10.1.8"
@@ -16049,6 +16038,13 @@ __metadata:
   version: 0.1.2
   resolution: "unc-path-regex@npm:0.1.2"
   checksum: 10/a05fa2006bf4606051c10fc7968f08ce7b28fa646befafa282813aeb1ac1a56f65cb1b577ca7851af2726198d59475bb49b11776036257b843eaacee2860a4ec
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:^7.21.0":
+  version: 7.22.0
+  resolution: "undici-types@npm:7.22.0"
+  checksum: 10/692a9ee08327f34e2945647acbec330090a43a381bfc2d723f0ef5bfe3709390d9fa7a3b929384471a72a4494686079851daf1750c26c990ed5f5accbaf2ce0b
   languageName: node
   linkType: hard
 
