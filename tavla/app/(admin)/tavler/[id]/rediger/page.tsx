@@ -61,7 +61,7 @@ export default async function EditPage(props: TProps) {
 
         await Promise.all(
             tiles
-                .filter((tile) => tile.placeId)
+                .filter((tile) => tile.stopPlaceId)
                 .map(async (tile) => {
                     const tileWithDistance = board?.meta.location
                         ? await getWalkingDistanceTile(

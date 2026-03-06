@@ -52,13 +52,21 @@ const quaySchema = z.object({
     whitelistedLines: z.array(z.string()),
 })
 
-const baseTileSchema = z.object({
+const boardTileSchema = z.object({
     uuid: z.string(),
     name: z.string(),
+    stopPlaceId: z.string(),
+    quays: z.array(quaySchema),
+
+    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     placeId: z.string().optional(),
-    stopPlaceId: z.string().optional(),
-    quays: z.array(quaySchema).optional(),
+
+    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
+    type: z.enum(['stop_place', 'quay']).optional(),
+
+    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     whitelistedLines: z.array(z.string()).optional(),
+
     whitelistedTransportModes: z.array(transportModeSchema).optional(),
     walkingDistance: boardWalkingDistanceSchema.optional(),
     offset: z.number().optional(),
@@ -66,15 +74,6 @@ const baseTileSchema = z.object({
     columns: z.array(tileColumnSchema).optional(),
     county: z.string().optional(),
 })
-
-const stopPlaceTileSchema = baseTileSchema.extend({
-    type: z.literal('stop_place'),
-})
-const quayTileShcema = baseTileSchema.extend({ type: z.literal('quay') })
-const boardTileSchema = z.discriminatedUnion('type', [
-    stopPlaceTileSchema,
-    quayTileShcema,
-])
 
 const boardFontSizeSchema = z.enum(['small', 'medium', 'large'])
 
@@ -136,7 +135,7 @@ export type Coordinate = z.infer<typeof coordinateSchema>
 
 export type LocationDB = z.infer<typeof locationSchema>
 
-export type BaseTileDB = z.infer<typeof baseTileSchema>
+export type BaseTileDB = z.infer<typeof boardTileSchema>
 
 export type TileColumnDB = z.infer<typeof tileColumnSchema>
 
@@ -150,8 +149,6 @@ export const TileColumns: Record<TileColumnDB, string> = {
     time: 'Forventet',
 } as const
 
-export type QuayTileDB = z.infer<typeof quayTileShcema>
-export type StopPlaceTileDB = z.infer<typeof stopPlaceTileSchema>
 export type BoardTileDB = z.infer<typeof boardTileSchema>
 
 export type BoardWalkingDistanceDB = z.infer<typeof boardWalkingDistanceSchema>

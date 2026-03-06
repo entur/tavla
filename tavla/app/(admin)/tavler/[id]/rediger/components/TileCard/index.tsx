@@ -101,16 +101,6 @@ function TileCard({
                   }))
                   .filter((q) => q.whitelistedLines.length > 0)
 
-        const lines = allSelected
-            ? []
-            : Array.from(
-                  new Set(
-                      quayLineKeys
-                          .map((key) => key.split('||')[1])
-                          .filter((key) => key !== undefined),
-                  ),
-              )
-
         if (isCombined) {
             columns = tile.columns ?? DEFAULT_COLUMNS
         }
@@ -118,7 +108,6 @@ function TileCard({
         const newTile: BoardTileDB = {
             ...tile,
             columns,
-            whitelistedLines: lines,
             quays: newQuays,
             ...(address && {
                 walkingDistance: {
