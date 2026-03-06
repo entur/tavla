@@ -15,7 +15,7 @@ function CreateBoardButton() {
 
     if (isCreateBoardWithoutUserEnabled) {
         return (
-            <Button variant="primary" size="medium" as={Link} href="demo">
+            <Button variant="primary" size="medium" as={Link} href="lag-tavle">
                 Lag en tavle <ForwardIcon aria-hidden />
             </Button>
         )
