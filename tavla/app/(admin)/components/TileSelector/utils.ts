@@ -12,6 +12,7 @@ import {
     Coordinate,
     TileColumnDB,
 } from 'src/types/db-types/boards'
+import { GeoCoordinate } from '../../utils/fetch'
 
 export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
 
@@ -23,30 +24,26 @@ export const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
     'time',
 ]
 
-export function formDataToTile(data: FormData): BoardTileDB {
-    const quayId = data.get('quay') as string
-    const stopPlaceId = data.get('stop_place') as string
-    const stopPlaceName = (data.get('stop_place_name') as string).split(',')
-    const quayName = data.get('quay_name') as string
-    const county = data.get('county') as string
+export function formDataToTiles(data: FormData): BoardTileDB[] {
+    const closestStopPlacesJson = data.get('closest_stop_places') as string
+    if (!closestStopPlacesJson) return []
 
-    const placeId = quayId ? quayId : stopPlaceId
-    const type = placeId !== stopPlaceId ? 'quay' : 'stop_place'
+    const closestStopPlaces: Array<{
+        id: string
+        name: string
+        county?: string
+    }> = JSON.parse(closestStopPlacesJson)
 
-    return {
-        type: type,
-        stopPlaceId: stopPlaceId,
-        quays: type === 'quay' ? [{ id: quayId, whitelistedLines: [] }] : [],
-        name: `${stopPlaceName[0]}${
-            quayName === 'Vis alle' || quayName === ''
-                ? ''
-                : ' ' + quayName.trim()
-        }, ${stopPlaceName[1]}`,
+    return closestStopPlaces.map((sp) => ({
+        type: 'stop_place' as const,
+        stopPlaceId: sp.id,
+        quays: [],
+        name: sp.name,
         uuid: nanoid(),
-        placeId,
+        placeId: sp.id,
         columns: DEFAULT_COLUMNS,
-        county: county || undefined,
-    }
+        county: sp.county || undefined,
+    }))
 }
 
 export async function getWalkingDistance(
@@ -115,4 +112,22 @@ export function sortCountiesAlphabetically(
     counties: NormalizedDropdownItemType[],
 ): NormalizedDropdownItemType[] {
     return counties.sort((a, b) => a.label.localeCompare(b.label, 'nb'))
+}
+
+export function haversineDistance(a: GeoCoordinate, b: GeoCoordinate): number {
+    const R = 6371000 // Earth radius in meters
+    const toRad = (deg: number) => (deg * Math.PI) / 180
+    const dLat = toRad(b.lat - a.lat)
+    const dLon = toRad(b.lon - a.lon)
+    const sinLat = Math.sin(dLat / 2)
+    const sinLon = Math.sin(dLon / 2)
+    const h =
+        sinLat * sinLat +
+        Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * sinLon * sinLon
+    return 2 * R * Math.asin(Math.sqrt(h))
+}
+
+export function formatDistance(meters: number): string {
+    if (meters < 1000) return `${Math.round(meters)} m`
+    return `${(meters / 1000).toFixed(1)} km`
 }

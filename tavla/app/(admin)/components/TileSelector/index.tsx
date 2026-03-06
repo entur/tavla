@@ -3,8 +3,8 @@ import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
+import { useClosestStopPlaces } from 'app/(admin)/hooks/useClosestStopPlaces'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
-import { useQuaySearch } from 'app/(admin)/hooks/useQuaySearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import {
     TFormFeedback,
@@ -15,6 +15,9 @@ import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
+
+const NUMBER_OF_CLOSEST_STOP_PLACES = 10
+const AREA_RADIUS_IN_KM = 20
 
 function TileSelector({
     action,
@@ -30,46 +33,47 @@ function TileSelector({
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(selectedCounties.map((county) => county.value))
 
-    const { selectedQuay, setSelectedQuay } = useQuaySearch(
-        selectedStopPlace?.value.id ?? '',
+    const {
+        closestStopPlaceItems,
+        allClosestItems,
+        selectedClosestStopPlaces,
+        setSelectedClosestStopPlaces,
+        setMainStopPlaceItem,
+    } = useClosestStopPlaces(
+        selectedStopPlace?.value.coordinates,
+        NUMBER_OF_CLOSEST_STOP_PLACES,
+        AREA_RADIUS_IN_KM,
     )
 
     const posthog = usePosthogTracking()
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
-    const handleCountyChange = (
-        newSelectedCounties: typeof selectedCounties,
-    ) => {
-        setSelectedCounties(newSelectedCounties)
-    }
-
     return (
         <form
             className="mr-6 flex w-full flex-col gap-4 lg:flex-row"
             action={action}
-            onSubmit={(event) => {
+            onSubmit={() => {
                 if (!selectedStopPlace) {
-                    event.preventDefault()
+                    return setFormError(
+                        getFormFeedbackForError('create/stop_place-missing'),
+                    )
+                }
+
+                if (
+                    !selectedClosestStopPlaces ||
+                    selectedClosestStopPlaces.length === 0
+                ) {
                     return setFormError(
                         getFormFeedbackForError(
-                            !selectedStopPlace
-                                ? 'create/stop_place-missing'
-                                : 'create/quay-missing',
+                            'create/closest_stop_places-missing',
                         ),
                     )
                 }
 
-                posthog.capture('stop_place_added', {
-                    location: trackingLocation,
-                    county_selected: selectedCounties.length > 0,
-                    county_count: selectedCounties.length,
-                    platform_selected: !!selectedQuay,
-                })
-
                 setFormError(undefined)
-                setSelectedQuay(null)
-                setSelectedStopPlace(null)
+                setSelectedClosestStopPlaces(null)
+                setMainStopPlaceItem(null)
                 setTimeout(() => {
                     if (trackingLocation !== 'demo_page') {
                         posthog.capture('survey_set_up_board')
@@ -91,7 +95,7 @@ function TileSelector({
                                     ? 'selected'
                                     : 'cleared',
                         })
-                        handleCountyChange(e)
+                        setSelectedCounties(e)
                     }}
                     clearInputOnSelect={true}
                     prepend={<SearchIcon aria-hidden />}
@@ -109,31 +113,86 @@ function TileSelector({
                                 '',
                         )
                     }
-                    label="Stoppested*"
+                    label="Stoppested, adresse eller sted*"
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
                     onChange={(e) => {
+                        const typeOfPlace = (() => {
+                            if (e?.value.layer === 'venue') {
+                                if (e.value.category?.includes('vegadresse'))
+                                    return 'address'
+                                return 'stop_place'
+                            }
+                            return 'other'
+                        })()
                         posthog.capture('stop_place_add_interaction', {
                             location: trackingLocation,
                             field: 'stop_place',
                             action: e?.value ? 'selected' : 'cleared',
+                            typeOfPlace,
                         })
                         setSelectedStopPlace(e)
+                        if (e) {
+                            const isStopPlace = e.value.layer === 'venue'
+                            const item = {
+                                value: {
+                                    id: e.value.id,
+                                    county: e.value.county,
+                                },
+                                label: e.label,
+                            }
+                            if (isStopPlace) {
+                                setMainStopPlaceItem(item)
+                                setSelectedClosestStopPlaces([item])
+                            } else {
+                                setMainStopPlaceItem(null)
+                                setSelectedClosestStopPlaces(null)
+                            }
+                        } else {
+                            setMainStopPlaceItem(null)
+                            setSelectedClosestStopPlaces(null)
+                        }
                     }}
-                    debounceTimeout={150}
+                    debounceTimeout={200}
                     aria-required
                     {...getFormFeedbackForField('stop_place', state)}
                 />
             </div>
-            <HiddenInput id="stop_place" value={selectedStopPlace?.value.id} />
+            <div className="w-full">
+                <MultiSelect
+                    hideSelectAll={true}
+                    items={allClosestItems}
+                    label="Stoppesteder i nærheten"
+                    prepend={<SearchIcon aria-hidden />}
+                    selectedItems={selectedClosestStopPlaces ?? []}
+                    onChange={(e) => {
+                        posthog.capture('stop_place_add_interaction', {
+                            location: trackingLocation,
+                            field: 'closest_stop_places',
+                            action: e.length > 0 ? 'selected' : 'cleared',
+                            typeOfPlace: 'stop_place',
+                            selectedIndexes: e.map((item) =>
+                                closestStopPlaceItems.findIndex(
+                                    (i) => i.value.id === item.value.id,
+                                ),
+                            ),
+                        })
+                        setSelectedClosestStopPlaces(e)
+                    }}
+                    {...getFormFeedbackForField('closest_stop_places', state)}
+                />
+            </div>
             <HiddenInput
-                id="stop_place_name"
-                value={selectedStopPlace?.label}
+                id="closest_stop_places"
+                value={JSON.stringify(
+                    (selectedClosestStopPlaces ?? []).map((sp) => ({
+                        id: sp.value.id,
+                        name: sp.value.name,
+                        county: sp.value.county,
+                    })),
+                )}
             />
-            <HiddenInput id="quay_name" value={selectedQuay?.label} />
-            <HiddenInput id="quay" value={selectedQuay?.value} />
-            <HiddenInput id="county" value={selectedStopPlace?.value.county} />
 
             <SubmitButton variant="secondary">Legg til</SubmitButton>
         </form>
