@@ -127,7 +127,7 @@ export async function fetchClosestStopPlaces(
                     id: properties.id ?? '',
                     county: properties.county,
                     coordinates: toGeoCoordinate(geometry.coordinates),
-                    name: properties.name,
+                    name: properties.name ?? '',
                 },
                 label: properties.label || '',
                 icons: uniq(getIcons(properties.layer, properties.category)),
