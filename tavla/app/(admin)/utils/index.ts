@@ -11,7 +11,7 @@ export type InputType =
     | 'file'
     | 'column'
     | 'folder'
-    | 'quay'
+    | 'closest_stop_places'
     | 'stop_place'
 
 export type TFormFeedback = {
@@ -200,10 +200,10 @@ export function getFormFeedbackForError(
                 variant: 'negative',
             }
         }
-        case 'create/quay-missing': {
+        case 'create/closest_stop_places-missing': {
             return {
-                form_type: 'quay',
-                feedback: 'Du har ikke valgt retning enda',
+                form_type: 'closest_stop_places',
+                feedback: 'Du må velge et eller flere nærliggende stoppesteder',
                 variant: 'negative',
             }
         }

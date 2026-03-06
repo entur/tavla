@@ -1,7 +1,7 @@
 'use client'
 import { Heading2, Heading3 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
-import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
+import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
@@ -24,8 +24,11 @@ function DemoBoard() {
                 </Heading3>
                 <TileSelector
                     action={async (data: FormData) => {
-                        const tile = formDataToTile(data)
-                        setBoard({ ...board, tiles: [...board.tiles, tile] })
+                        const tiles = formDataToTiles(data)
+                        setBoard({
+                            ...board,
+                            tiles: [...board.tiles, ...tiles],
+                        })
                     }}
                     trackingLocation="demo_page"
                 />

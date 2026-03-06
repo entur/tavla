@@ -187,10 +187,24 @@ export type EventMap = {
 
     stop_place_add_interaction: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
-    > & {
-        field: 'county' | 'stop_place' | 'platform'
-        action: 'selected' | 'cleared'
-    }
+    > &
+        (
+            | {
+                  field: 'county'
+                  action: 'selected' | 'cleared'
+              }
+            | {
+                  field: 'stop_place'
+                  action: 'selected' | 'cleared'
+                  typeOfPlace: 'stop_place' | 'address' | 'other'
+              }
+            | {
+                  field: 'closest_stop_places'
+                  action: 'selected' | 'cleared'
+                  typeOfPlace: 'stop_place' | 'address' | 'other'
+                  selectedIndexes?: number[]
+              }
+        )
 
     stop_place_added: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage

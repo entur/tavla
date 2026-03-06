@@ -4,6 +4,11 @@ import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'src/assets/env'
 import { LocationDB } from 'src/types/db-types/boards'
 import { TCategory, getIcons } from '../tavler/[id]/utils'
 
+export type GeoCoordinate = {
+    lat: number
+    lon: number
+}
+
 type TPartialGeoResponse = {
     features: Array<{
         properties: {
@@ -12,13 +17,25 @@ type TPartialGeoResponse = {
             layer?: string
             category?: [TCategory]
             county?: string
+            name?: string
+        }
+        geometry: {
+            coordinates: [number, number]
         }
     }>
+}
+
+function toGeoCoordinate(coordinates: [number, number]): GeoCoordinate {
+    return { lon: coordinates[0], lat: coordinates[1] }
 }
 
 export type stopPlace = {
     id: string
     county?: string
+    category?: [TCategory]
+    coordinates?: GeoCoordinate
+    layer?: string
+    name?: string
 }
 
 type TPointGeoresponse = {
@@ -60,7 +77,7 @@ export async function fetchStopPlaces(
     const searchParams = new URLSearchParams({
         lang: 'no',
         size: '5',
-        layers: 'venue',
+        layers: 'venue,address',
         text,
     })
 
@@ -74,10 +91,43 @@ export async function fetchStopPlaces(
     })
         .then((res) => res.json())
         .then((data: TPartialGeoResponse) => {
-            return data.features.map(({ properties }) => ({
+            return data.features.map(({ properties, geometry }) => ({
                 value: {
                     id: properties.id ?? '',
                     county: properties.county,
+                    category: properties.category,
+                    coordinates: toGeoCoordinate(geometry.coordinates),
+                    layer: properties.layer,
+                },
+                label: properties.label || '',
+                icons: uniq(getIcons(properties.layer, properties.category)),
+                county: properties.county,
+                itemKey: properties.id ?? properties.label ?? '',
+            }))
+        })
+}
+
+export async function fetchClosestStopPlaces(
+    coordinates: GeoCoordinate,
+    numberOfStopPlaces: number,
+    areaRadiusInKm: number = 1,
+): Promise<NormalizedDropdownItemType<stopPlace>[]> {
+    return fetch(
+        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordinates.lat}&point.lon=${coordinates.lon}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${numberOfStopPlaces}`,
+        {
+            headers: {
+                'ET-Client-Name': CLIENT_NAME,
+            },
+        },
+    )
+        .then((res) => res.json())
+        .then((data: TPartialGeoResponse) => {
+            return data.features.map(({ properties, geometry }) => ({
+                value: {
+                    id: properties.id ?? '',
+                    county: properties.county,
+                    coordinates: toGeoCoordinate(geometry.coordinates),
+                    name: properties.name ?? '',
                 },
                 label: properties.label || '',
                 icons: uniq(getIcons(properties.layer, properties.category)),

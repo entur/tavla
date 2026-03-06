@@ -1,6 +1,6 @@
 import { Heading1, Heading2, SubParagraph } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
-import { formDataToTile } from 'app/(admin)/components/TileSelector/utils'
+import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -8,7 +8,7 @@ import { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
-import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import {
@@ -56,21 +56,30 @@ export default async function EditPage(props: TProps) {
     async function walkingDistanceAction(data: FormData) {
         'use server'
 
-        const tile = formDataToTile(data)
-        if (!tile.placeId) return
+        const tiles = formDataToTiles(data)
+        if (tiles.length === 0) return
 
-        const addOrRemoveWalkingDistance = async (tile: BoardTileDB) => {
-            if (board?.meta.location) {
-                return await getWalkingDistanceTile(tile, board.meta.location)
-            }
-            delete tile.walkingDistance
-            return tile
-        }
-        const tileWithDistance = await addOrRemoveWalkingDistance(tile)
-
-        await addTile(params.id, tileWithDistance)
-        if (board?.combinedTiles)
-            await addTileToCombinedList(board, tileWithDistance.uuid)
+        await Promise.all(
+            tiles
+                .filter((tile) => tile.placeId)
+                .map(async (tile) => {
+                    const tileWithDistance = board?.meta.location
+                        ? await getWalkingDistanceTile(
+                              tile,
+                              board.meta.location,
+                          )
+                        : (() => {
+                              delete tile.walkingDistance
+                              return tile
+                          })()
+                    await addTile(params.id, tileWithDistance)
+                    if (board?.combinedTiles)
+                        await addTileToCombinedList(
+                            board,
+                            tileWithDistance.uuid,
+                        )
+                }),
+        )
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
