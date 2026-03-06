@@ -2,7 +2,10 @@ import { Heading1, LeadParagraph } from '@entur/typography'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import { NavigateToOversiktButton } from 'app/components/NavigateToOversiktButton'
+import { FeatureFlags } from 'app/posthog/featureFlags'
+import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { CreateBoardLocally } from './components/CreateBoardLocally'
 
 export const metadata: Metadata = {
@@ -11,6 +14,11 @@ export const metadata: Metadata = {
 }
 
 async function LagTavlePage() {
+    const flagEnabled = await isFeatureEnabled(
+        FeatureFlags.CreateBoardWithoutUser,
+    )
+    if (!flagEnabled) notFound()
+
     const loggedIn = (await getUserFromSessionCookie()) !== null
 
     return (
