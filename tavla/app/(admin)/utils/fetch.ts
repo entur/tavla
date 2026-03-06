@@ -8,6 +8,7 @@ type TPartialGeoResponse = {
     features: Array<{
         properties: {
             id?: string
+            name?: string
             label?: string
             layer?: string
             category?: [TCategory]
@@ -18,6 +19,7 @@ type TPartialGeoResponse = {
 
 export type stopPlace = {
     id: string
+    name: string
     county?: string
 }
 
@@ -77,6 +79,7 @@ export async function fetchStopPlaces(
             return data.features.map(({ properties }) => ({
                 value: {
                     id: properties.id ?? '',
+                    name: properties.name ?? '',
                     county: properties.county,
                 },
                 label: properties.label || '',

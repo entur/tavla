@@ -26,8 +26,7 @@ export const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
 export function formDataToTile(data: FormData): BoardTileDB {
     const quayId = data.get('quay') as string
     const stopPlaceId = data.get('stop_place') as string
-    const stopPlaceName = (data.get('stop_place_name') as string).split(',')
-    const quayName = data.get('quay_name') as string
+    const stopPlaceName = data.get('stop_place_name') as string
     const county = data.get('county') as string
 
     const placeId = quayId ? quayId : stopPlaceId
@@ -37,11 +36,7 @@ export function formDataToTile(data: FormData): BoardTileDB {
         type: type,
         stopPlaceId: stopPlaceId,
         quays: type === 'quay' ? [{ id: quayId, whitelistedLines: [] }] : [],
-        name: `${stopPlaceName[0]}${
-            quayName === 'Vis alle' || quayName === ''
-                ? ''
-                : ' ' + quayName.trim()
-        }, ${stopPlaceName[1]}`,
+        name: stopPlaceName,
         uuid: nanoid(),
         placeId,
         columns: DEFAULT_COLUMNS,

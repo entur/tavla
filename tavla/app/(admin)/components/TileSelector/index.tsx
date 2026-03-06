@@ -129,10 +129,8 @@ function TileSelector({
             <HiddenInput id="stop_place" value={selectedStopPlace?.value.id} />
             <HiddenInput
                 id="stop_place_name"
-                value={selectedStopPlace?.label}
+                value={selectedStopPlace?.value.name}
             />
-            <HiddenInput id="quay_name" value={selectedQuay?.label} />
-            <HiddenInput id="quay" value={selectedQuay?.value} />
             <HiddenInput id="county" value={selectedStopPlace?.value.county} />
 
             <SubmitButton variant="secondary">Legg til</SubmitButton>
