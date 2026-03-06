@@ -92,7 +92,7 @@
         "eslint-plugin-jsx-a11y": "6.10.2",
         "eslint-plugin-prettier": "5.5.4",
         "eslint-plugin-react": "7.37.5",
-        "firebase-tools": "15.5.1",
+        "firebase-tools": "15.8.0",
         "husky": "9.1.7",
         "lint-staged": "16.2.7",
         "postcss": "8.5.6",
@@ -108,9 +108,8 @@
     },
     "resolutions": {
         "ip": ">=2.0.1",
+        "basic-ftp": "5.2.0",
         "hono": "4.11.10",
-        "tar": "7.5.9",
-        "@types/react": "19.2.14",
-        "@types/react-dom": "19.2.3"
+        "tar": "7.5.9"
     }
 }
