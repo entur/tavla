@@ -12,17 +12,10 @@ function CreateBoardButton() {
     const isCreateBoardWithoutUserEnabled = useFeatureFlagEnabled(
         'create_board_without_user',
     )
-    if (isCreateBoardWithoutUserEnabled === undefined) {
-        return <p>Flag is undefined</p>
-    }
 
     if (isCreateBoardWithoutUserEnabled) {
         return (
-            <Button
-                variant="primary"
-                size="medium"
-                onClick={() => alert('Heihei')}
-            >
+            <Button variant="primary" size="medium" as={Link} href="demo">
                 Lag en tavle <ForwardIcon aria-hidden />
             </Button>
         )
