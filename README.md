@@ -24,12 +24,12 @@ Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all off
 
 ## Teknologistack
 
-| Lag | Teknologi |
-|-----|-----------|
-| Frontend | Next.js 15, React 18, TypeScript, Tailwind |
-| Backend  | Rust (Axum), Tokio, Redis pub/sub |
-| Data/Auth | Firebase (emulator i utvikling) |
-| Verktøy  | Yarn 3, GraphQL Codegen, Sentry |
+| Lag | Teknologi                                  |
+|-----|--------------------------------------------|
+| Frontend | Next.js 16, React 19, TypeScript, Tailwind |
+| Backend  | Rust (Axum), Tokio, Redis pub/sub          |
+| Data/Auth | Firebase (emulator i utvikling)            |
+| Verktøy  | Yarn 3, GraphQL Codegen, Sentry            |
 
 ## Oversikt: slik kjører du (høytnivå)
 
