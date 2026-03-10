@@ -200,7 +200,26 @@ function TileSelector({
                 )}
             />
 
-            <SubmitButton variant="secondary">Legg til</SubmitButton>
+            <SubmitButton
+                variant="secondary"
+                onClick={() =>
+                    posthog.capture('stop_place_added', {
+                        location: trackingLocation,
+                        county_count: selectedCounties.length,
+                        typeOfPlace: getTypeOfPlace(selectedStopPlace),
+                        selectedIndexes:
+                            selectedClosestStopPlaces?.map((selected) =>
+                                closestStopPlaceItems.findIndex(
+                                    (closestItem) =>
+                                        closestItem.value.id ===
+                                        selected.value.id,
+                                ),
+                            ) ?? [],
+                    })
+                }
+            >
+                Legg til
+            </SubmitButton>
         </form>
     )
 }
