@@ -1,118 +1,45 @@
 'use client'
-import { Heading2, Heading3, SubParagraph } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { FormError } from 'app/(admin)/components/FormError'
-import {
-    Elements,
-    ElementSelect,
-} from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/ElementsSelect'
 import {
     getFormFeedbackForField,
     InputType,
     TFormFeedback,
 } from 'app/(admin)/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { BoardDB } from 'src/types/db-types/boards'
 import { saveSettings } from './actions'
-import { useAllowedPalettes } from './colorPalettes'
-import { FontSelect } from './components/FontSelect'
-import { Footer } from './components/Footer'
-import { ThemeSelect } from './components/ThemeSelect'
-import { Title } from './components/Title'
-import { TransportPaletteSelect } from './components/TransportPaletteSelect'
-import { ViewType } from './components/ViewType'
-import { WalkingDistance } from './components/WalkingDistance'
-
-const getSelectedElements = (board: BoardDB): Elements[] => {
-    const elements: Elements[] = []
-    if (!board.hideClock) elements.push('clock')
-    if (!board.hideLogo) elements.push('logo')
-    return elements
-}
+import { SettingsForm } from './components/SettingsForm'
 
 function Settings({ board }: { board: BoardDB }) {
     const [formErrors, setFormErrors] = useState<
         Partial<Record<InputType, TFormFeedback>>
     >({})
 
-    const formRef = useRef<HTMLFormElement | null>(null)
-
-    const submitSettings = useCallback(async () => {
-        const formData = formRef?.current
-
-        if (!formData) return
-        const data = new FormData(formData)
-
+    const onSubmit = useCallback(async (data: FormData) => {
         const resultingErrors = await saveSettings(data)
         setFormErrors(resultingErrors ?? {})
     }, [])
 
     return (
-        <div className="flex flex-col gap-4 rounded-md bg-tintLight px-2 py-2 md:px-6 md:py-8">
-            <Heading2>Innstillinger</Heading2>
-            <FormError
-                {...getFormFeedbackForField('general', formErrors.general)}
-            />
-            <form className="flex flex-col gap-6 lg:flex-row" ref={formRef}>
-                <div className="box shrink bg-white">
-                    <Heading3 margin="bottom">Tavlevisning </Heading3>
-                    <div className="flex flex-col gap-4">
-                        <ViewType
-                            hasCombinedTiles={
-                                board.combinedTiles ? true : false
-                            }
-                            onChange={submitSettings}
-                        />
-                        <ThemeSelect
-                            theme={board.theme}
-                            onChange={submitSettings}
-                        />
-                        <FontSelect
-                            font={board.meta.fontSize}
-                            onChange={submitSettings}
-                        />
-
-                        <TransportPaletteSelect
-                            transportPalette={board.transportPalette}
-                            theme={board.theme ?? 'dark'}
-                            allowedPalettes={useAllowedPalettes(board)}
-                            onChange={submitSettings}
-                        />
-
-                        <HiddenInput id="bid" value={board.id} />
-                    </div>
-                </div>
-                <div className="box bg-white md:min-w-[480px]">
-                    <Heading3 margin="none"> Tilleggsinformasjon </Heading3>
-                    <SubParagraph className="mt-0">
-                        Felter markert med * er påkrevd.
-                    </SubParagraph>
-                    <div className="flex flex-col gap-4">
-                        <Title
-                            title={board.meta?.title ?? DEFAULT_BOARD_NAME}
-                            feedback={getFormFeedbackForField(
-                                'name',
-                                formErrors.name,
-                            )}
-                            onBlur={submitSettings}
-                        />
-                        <WalkingDistance
-                            location={board.meta.location}
-                            onChange={submitSettings}
-                        />
-                        <Footer
-                            infoMessage={board.footer}
-                            onBlur={submitSettings}
-                        />
-                        <ElementSelect
-                            selectedElements={getSelectedElements(board)}
-                            onChange={submitSettings}
-                        />
-                    </div>
-                </div>
-            </form>
-        </div>
+        <SettingsForm
+            board={{
+                ...board,
+                meta: {
+                    ...board.meta,
+                    title: board.meta?.title ?? DEFAULT_BOARD_NAME,
+                },
+            }}
+            onSubmit={onSubmit}
+            formError={
+                <FormError
+                    {...getFormFeedbackForField('general', formErrors.general)}
+                />
+            }
+            titleFeedback={getFormFeedbackForField('name', formErrors.name)}
+            additionalInputs={<HiddenInput id="bid" value={board.id} />}
+        />
     )
 }
 
