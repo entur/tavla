@@ -70,30 +70,3 @@ function oldLineIdsToNew(lineId: string): string | string[] {
             return lineId
     }
 }
-
-export const OLD_LINE_IDS = [
-    'VYG:Line:41',
-    'VYG:Line:45',
-    'VYG:Line:43',
-    'FLB:Line:42',
-    'VYG:Line:70',
-    'NSB:Line:R20',
-    'NSB:Line:RX20',
-    'NSB:Line:L21',
-    'NSB:Line:L22',
-    'NSB:Line:R23',
-    'NSB:Line:R23x',
-    'NSB:Line:L2',
-    'NSB:Line:L2x',
-    'GJB:Line:R30',
-    'GJB:Line:L3',
-    'NSB:Line:R10',
-    'NSB:Line:R11',
-    'NSB:Line:RX11',
-    'NSB:Line:L12',
-    'NSB:Line:L13',
-    'NSB:Line:R13x',
-    'NSB:Line:L14',
-    'NSB:Line:52',
-    'NSB:Line:L1',
-]

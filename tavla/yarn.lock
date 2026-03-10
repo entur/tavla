@@ -4737,6 +4737,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@posthog/core@npm:1.23.1":
+  version: 1.23.1
+  resolution: "@posthog/core@npm:1.23.1"
+  dependencies:
+    cross-spawn: "npm:^7.0.6"
+  checksum: 10/bc17aa004523faa1281d8d81c38ed10aea4ff69ae135a1573c1fa45fb35d6ac0eead071e9b3552943dde44648945a16e27e437d5dba5bc968f91652e5aa7673f
+  languageName: node
+  linkType: hard
+
 "@posthog/types@npm:1.335.2":
   version: 1.335.2
   resolution: "@posthog/types@npm:1.335.2"
@@ -13569,6 +13578,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"posthog-node@npm:5.26.1":
+  version: 5.26.1
+  resolution: "posthog-node@npm:5.26.1"
+  dependencies:
+    "@posthog/core": "npm:1.23.1"
+  checksum: 10/dcefe193e16079ae0a0389318a7ae3efb0714b69fd83a6b1cf9ac85b82047bdd565d018294497958888a0fd1cc07bcbe519f32a2af1d12915a0154a764aeb830
+  languageName: node
+  linkType: hard
+
 "preact@npm:^10.28.0":
   version: 10.28.3
   resolution: "preact@npm:10.28.3"
@@ -15622,6 +15640,7 @@ __metadata:
     next: "npm:16.1.6"
     postcss: "npm:8.5.6"
     posthog-js: "npm:1.335.2"
+    posthog-node: "npm:5.26.1"
     prettier: "npm:3.6.2"
     prettier-plugin-organize-imports: "npm:4.3.0"
     prettier-plugin-tailwindcss: "npm:0.7.1"

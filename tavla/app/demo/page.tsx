@@ -41,7 +41,7 @@ async function Demo() {
                     <ExpandableInformation />
                 </>
             )}
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-4 rounded-md bg-tintLight px-6 py-8">
                 <DemoBoard />
             </div>
         </main>
