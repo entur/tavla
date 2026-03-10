@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import { PostHog } from 'posthog-node'
 
 function nodePosthogClient() {
@@ -11,8 +12,6 @@ function nodePosthogClient() {
     )
     return posthogClient
 }
-
-import { cookies } from 'next/headers'
 
 export enum FeatureFlags {
     CreateBoardWithoutUser = 'create_board_without_user',
