@@ -1,6 +1,6 @@
 'use client'
 import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
-import { SearchIcon } from '@entur/icons'
+import { PositionIcon, SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useClosestStopPlaces } from 'app/(admin)/hooks/useClosestStopPlaces'
@@ -48,6 +48,15 @@ function TileSelector({
     const posthog = usePosthogTracking()
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
+
+    const positionDropDownItem = {
+        value: {
+            id: 'current_position',
+            layer: 'position',
+        },
+        label: 'Bruk nåværende posisjon',
+        icons: [PositionIcon],
+    }
 
     return (
         <form
@@ -106,13 +115,14 @@ function TileSelector({
             <div className="w-full">
                 <SearchableDropdown
                     noMatchesText="Ingen stoppesteder funnet"
-                    items={(search) =>
-                        stopPlaceItems(
+                    items={async (search) => {
+                        const stopPlaces = await stopPlaceItems(
                             search ||
                                 selectedStopPlace?.label.split(',')[0] ||
                                 '',
                         )
-                    }
+                        return [positionDropDownItem, ...stopPlaces]
+                    }}
                     label="Stoppested, adresse eller sted*"
                     clearable
                     prepend={<SearchIcon aria-hidden />}
