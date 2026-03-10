@@ -103,10 +103,6 @@ export default function ConsentHandler({
         ) {
             if (typeof window === 'undefined') return
 
-            if (event.detail?.consent.status === 'ALL_DENIED') {
-                localStorage.setItem(DECLINED_AT_KEY, String(Date.now()))
-            }
-
             const consents = formatConsentEvent(event)
 
             // --- PostHog consent ---
@@ -143,6 +139,10 @@ export default function ConsentHandler({
                 })
             } else {
                 initSentry(false)
+            }
+            if (!posthogConsent?.consentGiven && !sentryConsent?.consentGiven) {
+                // If the user has declined all consents, show the consent banner again after 7 days
+                localStorage.setItem(DECLINED_AT_KEY, String(Date.now()))
             }
         }
 
