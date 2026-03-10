@@ -103,7 +103,7 @@ export default function ConsentHandler({
         ) {
             if (typeof window === 'undefined') return
 
-            if (event.detail?.consent.updatedBy === 'onDenyAllServices') {
+            if (event.detail?.consent.status === 'ALL_DENIED') {
                 localStorage.setItem(DECLINED_AT_KEY, String(Date.now()))
             }
 
