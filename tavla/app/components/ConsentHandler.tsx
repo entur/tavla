@@ -101,6 +101,8 @@ export default function ConsentHandler({
         async function handleConsentUpdate(
             event: Event & { detail?: ConsentDetails },
         ) {
+            // eslint-disable-next-line no-console
+            console.log('Consent updated:', event.detail, event) // Log the consent details for debugging
             if (typeof window === 'undefined') return
 
             const consents = formatConsentEvent(event)
