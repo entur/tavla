@@ -5,9 +5,9 @@ import {
     haversineDistance,
 } from '../components/TileSelector/utils'
 import {
-    GeoCoordinate,
     fetchClosestStopPlaces,
-    stopPlace,
+    GeoCoordinate,
+    StopPlace,
 } from '../utils/fetch'
 
 function useClosestStopPlaces(
@@ -16,13 +16,13 @@ function useClosestStopPlaces(
     areaRadiusInKm: number,
 ) {
     const [closestStopPlaceItems, setClosestStopPlaceItems] = useState<
-        NormalizedDropdownItemType<stopPlace>[]
+        NormalizedDropdownItemType<StopPlace>[]
     >([])
     const [selectedClosestStopPlaces, setSelectedClosestStopPlaces] = useState<
-        NormalizedDropdownItemType<stopPlace>[] | null
+        NormalizedDropdownItemType<StopPlace>[] | null
     >(null)
     const [mainStopPlaceItem, setMainStopPlaceItem] =
-        useState<NormalizedDropdownItemType<stopPlace> | null>(null)
+        useState<NormalizedDropdownItemType<StopPlace> | null>(null)
 
     const { lat, lon } = coordinates ?? { lat: 0, lon: 0 }
 
@@ -91,6 +91,7 @@ function useClosestStopPlaces(
         allClosestItems,
         selectedClosestStopPlaces,
         setSelectedClosestStopPlaces,
+        mainStopPlaceItem,
         setMainStopPlaceItem,
     }
 }
