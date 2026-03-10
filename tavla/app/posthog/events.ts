@@ -200,7 +200,7 @@ export type EventMap = {
               }
             | {
                   field: 'closest_stop_places'
-                  action: 'selected' | 'cleared'
+                  action: 'added' | 'removed'
                   typeOfPlace: 'stop_place' | 'address' | 'other'
                   selectedIndexes?: number[]
               }

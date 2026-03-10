@@ -1,5 +1,9 @@
 'use client'
-import { MultiSelect, SearchableDropdown } from '@entur/dropdown'
+import {
+    MultiSelect,
+    NormalizedDropdownItemType,
+    SearchableDropdown,
+} from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
@@ -11,6 +15,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
 } from 'app/(admin)/utils'
+import { StopPlace } from 'app/(admin)/utils/fetch'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
@@ -117,38 +122,34 @@ function TileSelector({
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
-                    onChange={(e) => {
-                        const typeOfPlace = (() => {
-                            if (e?.value.layer === 'venue') {
-                                if (e.value.category?.includes('vegadresse'))
-                                    return 'address'
-                                return 'stop_place'
-                            }
-                            return 'other'
-                        })()
+                    onChange={(selectedItem) => {
+                        const typeOfPlace = getTypeOfPlace(selectedItem)
                         posthog.capture('stop_place_add_interaction', {
                             location: trackingLocation,
                             field: 'stop_place',
-                            action: e?.value ? 'selected' : 'cleared',
+                            action: selectedItem?.value
+                                ? 'selected'
+                                : 'cleared',
                             typeOfPlace,
                         })
-                        setSelectedStopPlace(e)
-                        if (e) {
-                            const isStopPlace = e.value.layer === 'venue'
-                            const item = {
-                                value: {
-                                    id: e.value.id,
-                                    county: e.value.county,
-                                },
-                                label: e.label,
-                            }
-                            if (isStopPlace) {
-                                setMainStopPlaceItem(item)
-                                setSelectedClosestStopPlaces([item])
-                            } else {
-                                setMainStopPlaceItem(null)
-                                setSelectedClosestStopPlaces(null)
-                            }
+                        setSelectedStopPlace(selectedItem)
+
+                        if (!selectedItem) {
+                            setMainStopPlaceItem(null)
+                            setSelectedClosestStopPlaces(null)
+                            return
+                        }
+
+                        const item = {
+                            value: {
+                                id: selectedItem.value.id,
+                                county: selectedItem.value.county,
+                            },
+                            label: selectedItem.label,
+                        }
+                        if (typeOfPlace === 'stop_place') {
+                            setMainStopPlaceItem(item)
+                            setSelectedClosestStopPlaces([item])
                         } else {
                             setMainStopPlaceItem(null)
                             setSelectedClosestStopPlaces(null)
@@ -166,19 +167,24 @@ function TileSelector({
                     label="Stoppesteder i nærheten"
                     prepend={<SearchIcon aria-hidden />}
                     selectedItems={selectedClosestStopPlaces ?? []}
-                    onChange={(e) => {
+                    onChange={(selectedItems) => {
+                        const addedStopPlace =
+                            selectedItems.length >
+                            (selectedClosestStopPlaces?.length ?? 0)
                         posthog.capture('stop_place_add_interaction', {
                             location: trackingLocation,
                             field: 'closest_stop_places',
-                            action: e.length > 0 ? 'selected' : 'cleared',
-                            typeOfPlace: 'stop_place',
-                            selectedIndexes: e.map((item) =>
+                            action: addedStopPlace ? 'added' : 'removed',
+                            typeOfPlace: getTypeOfPlace(selectedStopPlace),
+                            selectedIndexes: selectedItems.map((selectedItem) =>
                                 closestStopPlaceItems.findIndex(
-                                    (i) => i.value.id === item.value.id,
+                                    (closestItem) =>
+                                        closestItem.value.id ===
+                                        selectedItem.value.id,
                                 ),
                             ),
                         })
-                        setSelectedClosestStopPlaces(e)
+                        setSelectedClosestStopPlaces(selectedItems)
                     }}
                     {...getFormFeedbackForField('closest_stop_places', state)}
                 />
@@ -197,6 +203,17 @@ function TileSelector({
             <SubmitButton variant="secondary">Legg til</SubmitButton>
         </form>
     )
+}
+
+function getTypeOfPlace(
+    placeItem: NormalizedDropdownItemType<StopPlace> | null,
+): 'stop_place' | 'address' | 'other' {
+    if (placeItem?.value.layer === 'venue') {
+        return 'stop_place'
+    } else if (placeItem?.value.category?.includes('vegadresse')) {
+        return 'address'
+    }
+    return 'other'
 }
 
 export { TileSelector }

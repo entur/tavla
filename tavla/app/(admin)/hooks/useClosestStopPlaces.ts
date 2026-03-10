@@ -91,7 +91,6 @@ function useClosestStopPlaces(
         allClosestItems,
         selectedClosestStopPlaces,
         setSelectedClosestStopPlaces,
-        mainStopPlaceItem,
         setMainStopPlaceItem,
     }
 }
