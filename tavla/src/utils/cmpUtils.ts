@@ -100,6 +100,8 @@ export const CMP_INITIALIZE_EVENT = 'UC_UI_INITIALIZED'
 
 export const CONSENT_UPDATED_EVENT = 'UC_CONSENT'
 
+export const CMP_EVENT = 'UC_UI_CMP_EVENT'
+
 export type Consents =
     | {
           id: string

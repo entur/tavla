@@ -5,6 +5,7 @@ import posthog, { PostHogConfig } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { ReactNode, useEffect } from 'react'
 import {
+    CMP_INITIALIZE_EVENT,
     CONSENT_UPDATED_EVENT,
     ConsentDetails,
     formatConsentEvent,
@@ -69,6 +70,9 @@ export function initSentry(consent: boolean) {
     })
 }
 
+const DECLINED_AT_KEY = 'uc_consent_declined_at'
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000
+
 export default function ConsentHandler({
     posthogToken,
 }: {
@@ -77,10 +81,31 @@ export default function ConsentHandler({
     useEffect(() => {
         if (typeof window === 'undefined') return
 
+        function handleUCInitialized() {
+            const declinedAt = localStorage.getItem(DECLINED_AT_KEY)
+            if (!declinedAt) {
+                return
+            }
+
+            const isMoreThanSevenDaysAgo =
+                Date.now() - Number(declinedAt) > SEVEN_DAYS_MS
+
+            if (isMoreThanSevenDaysAgo) {
+                localStorage.removeItem(DECLINED_AT_KEY)
+                window.UC_UI?.showFirstLayer()
+            }
+        }
+
+        window.addEventListener(CMP_INITIALIZE_EVENT, handleUCInitialized)
+
         async function handleConsentUpdate(
             event: Event & { detail?: ConsentDetails },
         ) {
             if (typeof window === 'undefined') return
+
+            if (event.detail?.consent.updatedBy === 'onDenyAllServices') {
+                localStorage.setItem(DECLINED_AT_KEY, String(Date.now()))
+            }
 
             const consents = formatConsentEvent(event)
 
@@ -130,6 +155,10 @@ export default function ConsentHandler({
             window.removeEventListener(
                 CONSENT_UPDATED_EVENT,
                 handleConsentUpdate as EventListener,
+            )
+            window.removeEventListener(
+                CMP_INITIALIZE_EVENT,
+                handleUCInitialized,
             )
         }
     }, [posthogToken])
