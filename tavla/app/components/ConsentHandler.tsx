@@ -143,6 +143,8 @@ export default function ConsentHandler({
             if (!posthogConsent?.consentGiven && !sentryConsent?.consentGiven) {
                 // If the user has declined all consents, show the consent banner again after 7 days
                 localStorage.setItem(DECLINED_AT_KEY, String(Date.now()))
+            } else {
+                localStorage.removeItem(DECLINED_AT_KEY)
             }
         }
 
