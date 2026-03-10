@@ -200,7 +200,7 @@ export type EventMap = {
               }
             | {
                   field: 'closest_stop_places'
-                  action: 'selected' | 'cleared'
+                  action: 'added' | 'removed'
                   typeOfPlace: 'stop_place' | 'address' | 'other'
                   selectedIndexes?: number[]
               }
@@ -209,9 +209,9 @@ export type EventMap = {
     stop_place_added: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
     > & {
-        county_selected: boolean
         county_count: number
-        platform_selected: boolean
+        typeOfPlace: 'stop_place' | 'address' | 'other'
+        selectedIndexes: number[]
     }
 
     board_settings_changed: {

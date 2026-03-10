@@ -29,7 +29,7 @@ function toGeoCoordinate(coordinates: [number, number]): GeoCoordinate {
     return { lon: coordinates[0], lat: coordinates[1] }
 }
 
-export type stopPlace = {
+export type StopPlace = {
     id: string
     county?: string
     category?: [TCategory]
@@ -71,7 +71,7 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
 export async function fetchStopPlaces(
     text: string,
     countyIds?: string[],
-): Promise<NormalizedDropdownItemType<stopPlace>[]> {
+): Promise<NormalizedDropdownItemType<StopPlace>[]> {
     if (!text) return []
 
     const searchParams = new URLSearchParams({
@@ -111,7 +111,7 @@ export async function fetchClosestStopPlaces(
     coordinates: GeoCoordinate,
     numberOfStopPlaces: number,
     areaRadiusInKm: number = 1,
-): Promise<NormalizedDropdownItemType<stopPlace>[]> {
+): Promise<NormalizedDropdownItemType<StopPlace>[]> {
     return fetch(
         `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordinates.lat}&point.lon=${coordinates.lon}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${numberOfStopPlaces}`,
         {
