@@ -10592,17 +10592,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immutable@npm:^5.1.5":
-  version: 5.1.5
-  resolution: "immutable@npm:5.1.5"
-  checksum: 10/7aec2740239772ec8e92e793c991bd809203a97694f4ff3a18e50e28f9a6b02393ad033d87b458037bdf8c0ea37d4446d640e825f6171df3405cf6cf300ce028
-  languageName: node
-  linkType: hard
-
-"immutable@npm:~3.7.6":
-  version: 3.7.6
-  resolution: "immutable@npm:3.7.6"
-  checksum: 10/4f2cc2e0b6839befa2ea9d3ca478971a88ca78cb66c2b077416e5d5203f8e168bffb78284dd45fe1b427a4a8ac37194dfa3cd3e50b39529a00cca387bd6ac955
+"immutable@npm:3.8.3":
+  version: 3.8.3
+  resolution: "immutable@npm:3.8.3"
+  checksum: 10/29db366d4dff83b0b296150c351b08db24837005909a71c123d860c1d2a40605f19a3ecd56d1e96be9799e947ddf7906897a28fa2e81f0b8c63c652b6bfe5550
   languageName: node
   linkType: hard
 
