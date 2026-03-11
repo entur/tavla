@@ -1,4 +1,6 @@
 'use client'
+import { CopyableText, useToast } from '@entur/alert'
+import { PrimaryButton } from '@entur/button'
 import { Heading2, Heading3 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
@@ -6,7 +8,7 @@ import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { SettingsForm } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/SettingsForm'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
     BoardDB,
     BoardFontSize,
@@ -14,7 +16,8 @@ import {
     LocationDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
-import { getTilesWithWalkingDistance } from '../actions'
+import { getBoardLinkClient } from 'src/utils/boardLink'
+import { getTilesWithWalkingDistance, publishBoard } from '../actions'
 
 const emptyBoard: BoardDB = {
     id: 'demo',
@@ -24,6 +27,31 @@ const emptyBoard: BoardDB = {
 
 function CreateBoardLocally() {
     const { board, setBoard, onSubmit } = useBoardInLocalStorage()
+    const [publishedBoardId, setPublishedBoardId] = useState<string | null>(
+        null,
+    )
+    const [isPublishing, setIsPublishing] = useState(false)
+    const { addToast } = useToast()
+
+    const handleSettingsSubmit = useCallback(
+        async (data: FormData) => {
+            await onSubmit(data)
+            setPublishedBoardId(null)
+        },
+        [onSubmit],
+    )
+
+    const handlePublish = async () => {
+        setIsPublishing(true)
+        try {
+            const boardId = await publishBoard(board)
+            setPublishedBoardId(boardId)
+        } catch {
+            addToast('Noe gikk galt. Prøv igjen.')
+        } finally {
+            setIsPublishing(false)
+        }
+    }
 
     return (
         <>
@@ -41,6 +69,7 @@ function CreateBoardLocally() {
                             ...board,
                             tiles: [...board.tiles, ...tiles],
                         })
+                        setPublishedBoardId(null)
                     }}
                     trackingLocation="demo_page"
                 />
@@ -53,7 +82,24 @@ function CreateBoardLocally() {
                     <DemoPreview board={board} />
                 </div>
             </div>
-            <SettingsForm board={board} onSubmit={onSubmit} />
+            <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
+            <div className="flex flex-col gap-4">
+                <PrimaryButton
+                    onClick={handlePublish}
+                    loading={isPublishing}
+                    width="auto"
+                >
+                    Del tavlen
+                </PrimaryButton>
+                {publishedBoardId && (
+                    <CopyableText
+                        successHeading=""
+                        successMessage="Lenken til tavlen ble kopiert!"
+                    >
+                        {getBoardLinkClient(publishedBoardId)}
+                    </CopyableText>
+                )}
+            </div>
         </>
     )
 }
