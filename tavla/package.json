@@ -107,6 +107,7 @@
     "resolutions": {
         "basic-ftp": "5.2.0",
         "minimatch": "9.0.7",
-        "tar": "7.5.10"
+        "tar": "7.5.10",
+        "immutable": "3.8.3"
     }
 }
