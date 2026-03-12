@@ -82,13 +82,15 @@ function CreateBoardLocally() {
             </div>
             <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
             <div className="flex flex-col gap-4">
-                <PrimaryButton
-                    onClick={handlePublish}
-                    loading={publishState.type === 'publishing'}
-                    width="auto"
-                >
-                    Del tavlen
-                </PrimaryButton>
+                {publishState.type !== 'published' && (
+                    <PrimaryButton
+                        onClick={handlePublish}
+                        loading={publishState.type === 'publishing'}
+                        width="auto"
+                    >
+                        Del tavlen
+                    </PrimaryButton>
+                )}
                 {publishState.type === 'published' && (
                     <CopyableText
                         successHeading=""
