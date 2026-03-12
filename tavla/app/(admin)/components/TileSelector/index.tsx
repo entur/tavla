@@ -9,6 +9,7 @@ import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useClosestStopPlaces } from 'app/(admin)/hooks/useClosestStopPlaces'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
+import useCurrentPosition from 'app/(admin)/hooks/useCurrentPosition'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import {
     getFormFeedbackForError,
@@ -16,10 +17,7 @@ import {
     TFormFeedback,
 } from 'app/(admin)/utils'
 import { StopPlace } from 'app/(admin)/utils/fetch'
-import {
-    getCurrentPosition,
-    positionDropDownItem,
-} from 'app/(admin)/utils/position'
+import { positionDropDownItem } from 'app/(admin)/utils/position'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
@@ -53,6 +51,8 @@ function TileSelector({
         NUMBER_OF_CLOSEST_STOP_PLACES,
         AREA_RADIUS_IN_KM,
     )
+
+    const { fetchPosition, error } = useCurrentPosition()
 
     const posthog = usePosthogTracking()
 
@@ -88,12 +88,19 @@ function TileSelector({
         selectedItem: NormalizedDropdownItemType<StopPlace> | null,
     ) {
         if (selectedItem?.value.id === 'current_position') {
-            getCurrentPosition().then((position) => {
-                const coords = {
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
+            fetchPosition().then((pos) => {
+                if (pos) {
+                    const coords = {
+                        lat: pos.coords.latitude,
+                        lon: pos.coords.longitude,
+                    }
+                    setSelectedStopPlace(positionDropDownItem(coords))
+                } else if (error) {
+                    setSelectedStopPlace(null)
+                    setFormError(
+                        getFormFeedbackForError('create/position-failed'),
+                    )
                 }
-                setSelectedStopPlace(positionDropDownItem(coords))
             })
             return
         }
