@@ -1,57 +1,34 @@
 'use client'
-import { CopyableText, useToast } from '@entur/alert'
+import { CopyableText } from '@entur/alert'
 import { PrimaryButton } from '@entur/button'
 import { Heading2, Heading3 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
-import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
+import { usePublishAnonymousBoard } from 'app/(admin)/hooks/usePublishAnonymousBoard'
+import { useSaveDemoBoardInLocalStorage } from 'app/(admin)/hooks/useSaveDemoBoardInLocalStorage'
 import { SettingsForm } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/SettingsForm'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import {
-    BoardDB,
-    BoardFontSize,
-    BoardTheme,
-    LocationDB,
-    TransportPalette,
-} from 'src/types/db-types/boards'
+import { useCallback } from 'react'
 import { getBoardLinkClient } from 'src/utils/boardLink'
-import { getTilesWithWalkingDistance, publishBoard } from '../actions'
-
-const emptyBoard: BoardDB = {
-    id: 'demo',
-    meta: { title: 'Min tavle' },
-    tiles: [],
-}
 
 function CreateBoardLocally() {
-    const { board, setTiles, onSubmit } = useSaveBoardInLocalStorage()
-    const [publishedBoardId, setPublishedBoardId] = useState<string | null>(
-        null,
-    )
-    const [isPublishing, setIsPublishing] = useState(false)
-    const { addToast } = useToast()
+    const { board, setTiles, onSubmit } = useSaveDemoBoardInLocalStorage()
+
+    const {
+        publishedBoardId,
+        isPublishing,
+        handlePublish,
+        resetPublishedBoard,
+    } = usePublishAnonymousBoard()
 
     const handleSettingsSubmit = useCallback(
         async (data: FormData) => {
             await onSubmit(data)
-            setPublishedBoardId(null)
+            resetPublishedBoard()
         },
         [onSubmit],
     )
-
-    const handlePublish = async () => {
-        setIsPublishing(true)
-        try {
-            const boardId = await publishBoard(board)
-            setPublishedBoardId(boardId)
-        } catch {
-            addToast('Noe gikk galt. Prøv igjen.')
-        } finally {
-            setIsPublishing(false)
-        }
-    }
 
     return (
         <>
@@ -66,7 +43,7 @@ function CreateBoardLocally() {
                     action={async (data: FormData) => {
                         const tiles = formDataToTiles(data)
                         setTiles([...board.tiles, ...tiles])
-                        setPublishedBoardId(null)
+                        resetPublishedBoard()
                     }}
                     trackingLocation="demo_page"
                 />
@@ -103,80 +80,6 @@ function CreateBoardLocally() {
             </div>
         </>
     )
-}
-
-function useSaveBoardInLocalStorage(): {
-    board: BoardDB
-    setTiles: (newTiles: BoardDB['tiles']) => void
-    onSubmit: (data: FormData) => Promise<void>
-} {
-    const [board, setBoard] = useLocalStorage<BoardDB>(
-        'lag-tavle-board',
-        emptyBoard,
-    )
-
-    const setTiles = (newTiles: BoardDB['tiles']) => {
-        setBoard((prev) => ({
-            ...prev,
-            tiles: newTiles,
-        }))
-    }
-
-    const boardTilesRef = useRef(board.tiles)
-    useEffect(() => {
-        boardTilesRef.current = board.tiles
-    })
-
-    const onSubmit = useCallback(
-        async (data: FormData) => {
-            const title = (data.get('title') as string)?.trim()
-            const viewType = data.get('viewType') as string
-            const theme = data.get('theme') as BoardTheme
-            const font = data.get('font') as BoardFontSize
-            const transportPalette = data.get(
-                'transportPalette',
-            ) as TransportPalette
-            const hideClock = data.get('clock') === null
-            const hideLogo = data.get('logo') === null
-            const footer = data.get('footer') as string
-
-            let location: LocationDB | undefined
-            const rawLocation = data.get('newLocation') as string
-            if (rawLocation) {
-                location = JSON.parse(rawLocation) as LocationDB
-            }
-
-            const footerHasText = footer && footer.trim() !== ''
-
-            const updatedTiles = await getTilesWithWalkingDistance(
-                boardTilesRef.current,
-                location,
-            )
-
-            setBoard((prev) => ({
-                ...prev,
-                meta: {
-                    ...prev.meta,
-                    title: title || prev.meta.title,
-                    fontSize: font,
-                    location: location,
-                },
-                theme: theme ?? 'dark',
-                transportPalette: transportPalette ?? 'default',
-                hideClock,
-                hideLogo,
-                footer: footerHasText ? { footer } : undefined,
-                combinedTiles:
-                    viewType === 'separate'
-                        ? undefined
-                        : [{ ids: prev.tiles.map((tile) => tile.uuid) }],
-                tiles: updatedTiles,
-            }))
-        },
-        [setBoard],
-    )
-
-    return { board, setTiles, onSubmit }
 }
 
 export { CreateBoardLocally }
