@@ -1,23 +1,25 @@
 'use client'
-
 import {
     MultiSelect,
     NormalizedDropdownItemType,
     SearchableDropdown,
 } from '@entur/dropdown'
-import { PositionIcon, SearchIcon } from '@entur/icons'
-
+import { SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useClosestStopPlaces } from 'app/(admin)/hooks/useClosestStopPlaces'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import {
-    TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
+    TFormFeedback,
 } from 'app/(admin)/utils'
 import { StopPlace } from 'app/(admin)/utils/fetch'
+import {
+    getCurrentPosition,
+    positionDropDownItem,
+} from 'app/(admin)/utils/position'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
@@ -56,13 +58,73 @@ function TileSelector({
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
-    const positionDropDownItem = {
-        value: {
-            id: 'current_position',
-            layer: 'position',
-        },
-        label: 'Bruk nåværende posisjon',
-        icons: [PositionIcon],
+    type TypeOfPlace = 'stop_place' | 'address' | 'other'
+
+    function getTypeOfPlace(
+        placeItem: NormalizedDropdownItemType<StopPlace> | null,
+    ): TypeOfPlace {
+        if (placeItem?.value.layer === 'venue') {
+            return 'stop_place'
+        } else if (placeItem?.value.category?.includes('vegadresse')) {
+            return 'address'
+        }
+        return 'other'
+    }
+
+    async function searchStopPlaces(search: string) {
+        const stopPlaces = await stopPlaceItems(
+            search || selectedStopPlace?.label.split(',')[0] || '',
+        )
+        return [
+            search == '' ? positionDropDownItem() : null,
+            ...stopPlaces,
+        ].filter(Boolean) as NormalizedDropdownItemType<StopPlace>[]
+    }
+
+    function handleStopPlaceChange(
+        selectedItem: NormalizedDropdownItemType<StopPlace> | null,
+    ) {
+        if (selectedItem?.value.id === 'current_position') {
+            getCurrentPosition().then((position) => {
+                const coords = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                }
+                setSelectedStopPlace(positionDropDownItem(coords))
+            })
+            return
+        }
+
+        const typeOfPlace = getTypeOfPlace(selectedItem)
+
+        posthog.capture('stop_place_add_interaction', {
+            location: trackingLocation,
+            field: 'stop_place',
+            action: selectedItem?.value ? 'selected' : 'cleared',
+            typeOfPlace,
+        })
+        setSelectedStopPlace(selectedItem)
+
+        if (!selectedItem) {
+            setMainStopPlaceItem(null)
+            setSelectedClosestStopPlaces(null)
+            return
+        }
+
+        const item = {
+            value: {
+                id: selectedItem.value.id,
+                county: selectedItem.value.county,
+            },
+            label: selectedItem.label,
+        }
+        if (typeOfPlace === 'stop_place') {
+            setMainStopPlaceItem(item)
+            setSelectedClosestStopPlaces([item])
+        } else {
+            setMainStopPlaceItem(null)
+            setSelectedClosestStopPlaces(null)
+        }
     }
 
     return (
@@ -122,51 +184,12 @@ function TileSelector({
             <div className="w-full">
                 <SearchableDropdown
                     noMatchesText="Ingen stoppesteder funnet"
-                    items={async (search) => {
-                        const stopPlaces = await stopPlaceItems(
-                            search ||
-                                selectedStopPlace?.label.split(',')[0] ||
-                                '',
-                        )
-                        return [positionDropDownItem, ...stopPlaces]
-                    }}
+                    items={searchStopPlaces}
                     label="Stoppested, adresse eller sted*"
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
-                    onChange={(selectedItem) => {
-                        const typeOfPlace = getTypeOfPlace(selectedItem)
-                        posthog.capture('stop_place_add_interaction', {
-                            location: trackingLocation,
-                            field: 'stop_place',
-                            action: selectedItem?.value
-                                ? 'selected'
-                                : 'cleared',
-                            typeOfPlace,
-                        })
-                        setSelectedStopPlace(selectedItem)
-
-                        if (!selectedItem) {
-                            setMainStopPlaceItem(null)
-                            setSelectedClosestStopPlaces(null)
-                            return
-                        }
-
-                        const item = {
-                            value: {
-                                id: selectedItem.value.id,
-                                county: selectedItem.value.county,
-                            },
-                            label: selectedItem.label,
-                        }
-                        if (typeOfPlace === 'stop_place') {
-                            setMainStopPlaceItem(item)
-                            setSelectedClosestStopPlaces([item])
-                        } else {
-                            setMainStopPlaceItem(null)
-                            setSelectedClosestStopPlaces(null)
-                        }
-                    }}
+                    onChange={handleStopPlaceChange}
                     debounceTimeout={200}
                     aria-required
                     {...getFormFeedbackForField('stop_place', state)}
@@ -234,17 +257,6 @@ function TileSelector({
             </SubmitButton>
         </form>
     )
-}
-
-function getTypeOfPlace(
-    placeItem: NormalizedDropdownItemType<StopPlace> | null,
-): 'stop_place' | 'address' | 'other' {
-    if (placeItem?.value.layer === 'venue') {
-        return 'stop_place'
-    } else if (placeItem?.value.category?.includes('vegadresse')) {
-        return 'address'
-    }
-    return 'other'
 }
 
 export { TileSelector }
