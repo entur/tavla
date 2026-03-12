@@ -2,19 +2,19 @@
 
 import { saveUpdatedTileOrder } from 'app/(admin)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { TileCard } from '../TileCard'
 
 function TileList({
     board,
-    setDemoBoard,
+    setTilesDemoBoard,
     bid,
 }: {
     board: BoardDB
     bid?: BoardDB['id']
-    setDemoBoard?: Dispatch<SetStateAction<BoardDB>>
+    setTilesDemoBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)
 
@@ -36,9 +36,8 @@ function TileList({
         newArray[index] = oldElement
 
         setTileArray(newArray)
-        if (bid === 'demo' && setDemoBoard) {
-            const newBoard: BoardDB = { ...board, tiles: newArray }
-            setDemoBoard(newBoard ?? board)
+        if (bid === 'demo' && setTilesDemoBoard) {
+            setTilesDemoBoard(newArray)
         } else {
             saveUpdatedTileOrder(board.id ?? '', newArray)
         }
@@ -56,7 +55,7 @@ function TileList({
                     moveItem={debouncedSave}
                     index={index}
                     totalTiles={board.tiles.length}
-                    setDemoBoard={setDemoBoard}
+                    setTilesDemoBoard={setTilesDemoBoard}
                     isCombined={board.combinedTiles ? true : false}
                 />
             ))}

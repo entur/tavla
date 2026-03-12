@@ -26,7 +26,7 @@ const emptyBoard: BoardDB = {
 }
 
 function CreateBoardLocally() {
-    const { board, setBoard, onSubmit } = useBoardInLocalStorage()
+    const { board, setTiles, onSubmit } = useSaveBoardInLocalStorage()
     const [publishedBoardId, setPublishedBoardId] = useState<string | null>(
         null,
     )
@@ -65,15 +65,16 @@ function CreateBoardLocally() {
                 <TileSelector
                     action={async (data: FormData) => {
                         const tiles = formDataToTiles(data)
-                        setBoard({
-                            ...board,
-                            tiles: [...board.tiles, ...tiles],
-                        })
+                        setTiles([...board.tiles, ...tiles])
                         setPublishedBoardId(null)
                     }}
                     trackingLocation="demo_page"
                 />
-                <TileList board={board} setDemoBoard={setBoard} bid="demo" />
+                <TileList
+                    board={board}
+                    setTilesDemoBoard={setTiles}
+                    bid="demo"
+                />
                 <div
                     data-theme={board.theme ?? 'dark'}
                     aria-label="Forhåndsvisning av Tavla"
@@ -104,11 +105,22 @@ function CreateBoardLocally() {
     )
 }
 
-function useBoardInLocalStorage() {
+function useSaveBoardInLocalStorage(): {
+    board: BoardDB
+    setTiles: (newTiles: BoardDB['tiles']) => void
+    onSubmit: (data: FormData) => Promise<void>
+} {
     const [board, setBoard] = useLocalStorage<BoardDB>(
         'lag-tavle-board',
         emptyBoard,
     )
+
+    const setTiles = (newTiles: BoardDB['tiles']) => {
+        setBoard((prev) => ({
+            ...prev,
+            tiles: newTiles,
+        }))
+    }
 
     const boardTilesRef = useRef(board.tiles)
     useEffect(() => {
@@ -164,7 +176,7 @@ function useBoardInLocalStorage() {
         [setBoard],
     )
 
-    return { board, setBoard, onSubmit }
+    return { board, setTiles, onSubmit }
 }
 
 export { CreateBoardLocally }
