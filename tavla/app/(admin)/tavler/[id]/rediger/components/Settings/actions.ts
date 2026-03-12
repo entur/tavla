@@ -65,7 +65,7 @@ export async function saveSettings(data: FormData) {
         location = undefined
     }
 
-    const footer = data.get('footer') as string
+    const infoMessage = data.get('infoMessage') as string
 
     const board = await getBoard(bid)
     const errors = {} as Record<InputType, TFormFeedback>
@@ -91,7 +91,7 @@ export async function saveSettings(data: FormData) {
         await saveFont(bid, font)
         await setTheme(bid, theme)
         await setViewType(board, viewType)
-        await setFooter(bid, { footer })
+        await setFooter(bid, { footer: infoMessage })
         await setTransportPalette(bid, transportPalette)
         await setElements(bid, hideClock, hideLogo)
 
@@ -109,16 +109,12 @@ export async function saveSettings(data: FormData) {
 async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
     userHasAccessToEditBoard(bid)
 
-    let newFooter
-
     const footerContainsText =
         footer && !isOnlyWhiteSpace(footer) && footer.trim() !== ''
 
-    if (footerContainsText) {
-        newFooter = { footer: footer }
-    } else {
-        newFooter = FieldValue.delete()
-    }
+    const newFooter = footerContainsText
+        ? { footer: footer }
+        : FieldValue.delete()
 
     try {
         await db.collection('boards').doc(bid).update({
