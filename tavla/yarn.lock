@@ -4728,15 +4728,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:1.14.0":
-  version: 1.14.0
-  resolution: "@posthog/core@npm:1.14.0"
-  dependencies:
-    cross-spawn: "npm:^7.0.6"
-  checksum: 10/00d6d9662b506a46cde80287380bba2b570bc046958f0d0bc6cb8ab7e164d1cb0f3bc4d3976418c5cb714b0f2406850481d23b5bb0c59c08858b945067dcaa27
-  languageName: node
-  linkType: hard
-
 "@posthog/core@npm:1.23.1":
   version: 1.23.1
   resolution: "@posthog/core@npm:1.23.1"
@@ -4746,10 +4737,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/types@npm:1.335.2":
-  version: 1.335.2
-  resolution: "@posthog/types@npm:1.335.2"
-  checksum: 10/4827170f1958dd237a5d80d1889a85f23c6b74b6ee5f3fc2272faa27b4176c224e0365f8a90b3d5fa921c507a3c27ff827ac180994a664313f13b2ee4a94094a
+"@posthog/core@npm:1.23.2":
+  version: 1.23.2
+  resolution: "@posthog/core@npm:1.23.2"
+  dependencies:
+    cross-spawn: "npm:^7.0.6"
+  checksum: 10/0a2fabc9bfbea2533e4bd97c6fe9adf1a2f231baeb641b2fd2e094525ef7533dea12809132c37ab10f5df88a4cef4604c8711977b9951f5e03e1800768683efb
+  languageName: node
+  linkType: hard
+
+"@posthog/types@npm:1.359.1":
+  version: 1.359.1
+  resolution: "@posthog/types@npm:1.359.1"
+  checksum: 10/5f28c5714e0440d5bd979e741de5b178c37e27a38e02b3bf5a276c5733ed57cc0833367962d2a557f92774d8aee23d5c41d6e782267d0bc932e623d455dbdecf
   languageName: node
   linkType: hard
 
@@ -8146,15 +8146,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:3.3.1, dompurify@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "dompurify@npm:3.3.1"
+"dompurify@npm:3.3.2, dompurify@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "dompurify@npm:3.3.2"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10/f71cca489e628591165d16e8cf4fa4f0d3e2ee48db4d73e9d2c5bedc6f915c92f9e9f101f8c4ba790bec0cdffe7f4e1747f5e31c69dc53ce7ae20a81ff6b0022
+  checksum: 10/3ca02559677ce6d9583a500f21ffbb6b9e88f1af99f69fa0d0d9442cddbac98810588c869f8b435addb5115492d6e49870024bca322169b941bafedb99c7f281
   languageName: node
   linkType: hard
 
@@ -9224,14 +9224,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-xml-builder@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "fast-xml-builder@npm:1.0.0"
+  checksum: 10/06c04d80545e5c9f4d1d6cca00567b5cc09953a92c6328fa48cfb4d7f42630313b8c2bb62e9cb81accee7bb5e1c5312fcae06c3d20dbe52d969a5938233316da
+  languageName: node
+  linkType: hard
+
 "fast-xml-parser@npm:^5.3.4":
-  version: 5.3.6
-  resolution: "fast-xml-parser@npm:5.3.6"
+  version: 5.4.2
+  resolution: "fast-xml-parser@npm:5.4.2"
   dependencies:
+    fast-xml-builder: "npm:^1.0.0"
     strnum: "npm:^2.1.2"
   bin:
     fxparser: src/cli/cli.js
-  checksum: 10/03527ab0bdf49d960fdc8f6088cd0715c052e06b68b39459da87b1a1fbb3439a855b2d83cbf3c400e983b8e668b396296b072a4dd5c63403cf1e618c9326b6df
+  checksum: 10/12585d5dd77113411d01cf41818cfecbbaf8f3d9e8448b1c35f50a7eb51205408bc8db27af5733173a77f96f72d7e121d9e675674f71334569157c77845aba39
   languageName: node
   linkType: hard
 
@@ -13557,24 +13565,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.335.2":
-  version: 1.335.2
-  resolution: "posthog-js@npm:1.335.2"
+"posthog-js@npm:1.359.1":
+  version: 1.359.1
+  resolution: "posthog-js@npm:1.359.1"
   dependencies:
     "@opentelemetry/api": "npm:^1.9.0"
     "@opentelemetry/api-logs": "npm:^0.208.0"
     "@opentelemetry/exporter-logs-otlp-http": "npm:^0.208.0"
     "@opentelemetry/resources": "npm:^2.2.0"
     "@opentelemetry/sdk-logs": "npm:^0.208.0"
-    "@posthog/core": "npm:1.14.0"
-    "@posthog/types": "npm:1.335.2"
+    "@posthog/core": "npm:1.23.2"
+    "@posthog/types": "npm:1.359.1"
     core-js: "npm:^3.38.1"
-    dompurify: "npm:^3.3.1"
+    dompurify: "npm:^3.3.2"
     fflate: "npm:^0.4.8"
-    preact: "npm:^10.28.0"
+    preact: "npm:^10.28.2"
     query-selector-shadow-dom: "npm:^1.0.1"
     web-vitals: "npm:^5.1.0"
-  checksum: 10/c22e0b6cb8421b60480029c6b46f22dae8aa1ed2abff4cc58727e1436ed600d7a8ac84c3cf23b325feea0e16cec701a4ba48069e6b52bf4608c10d7781d038db
+  checksum: 10/860594f961ff7c3424fc14647cedfe98eca616d97cd8f37b278fb2afb9736609c30dbc06d2649878da91fa5344ba0becc3b0df4aeeb775727d6da02a20725fd8
   languageName: node
   linkType: hard
 
@@ -13587,10 +13595,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preact@npm:^10.28.0":
-  version: 10.28.3
-  resolution: "preact@npm:10.28.3"
-  checksum: 10/b89c328f7ea13976dc2849962141fb4268afbbb364fa2f0a235788c2dba2a32786db43531fec5b64960917a078e4b78bd88967f13120df350573a619c8286f86
+"preact@npm:^10.28.2":
+  version: 10.28.4
+  resolution: "preact@npm:10.28.4"
+  checksum: 10/7deb25d04e811ca165a92a8a9d0be4c8038f4b8b4fa8cc941ac37fb4f5425440e24d73e53802bf822753a6acda3d4be4dd8ee9c75071fbbc89ca39c2fae80349
   languageName: node
   linkType: hard
 
@@ -15620,7 +15628,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:8.56.0"
     "@typescript-eslint/parser": "npm:8.56.0"
     autoprefixer: "npm:10.4.22"
-    dompurify: "npm:3.3.1"
+    dompurify: "npm:3.3.2"
     eslint: "npm:10.0.1"
     eslint-config-next: "npm:16.1.6"
     eslint-config-prettier: "npm:10.1.8"
@@ -15639,7 +15647,7 @@ __metadata:
     nanoid: "npm:5.1.6"
     next: "npm:16.1.6"
     postcss: "npm:8.5.6"
-    posthog-js: "npm:1.335.2"
+    posthog-js: "npm:1.359.1"
     posthog-node: "npm:5.26.1"
     prettier: "npm:3.6.2"
     prettier-plugin-organize-imports: "npm:4.3.0"
