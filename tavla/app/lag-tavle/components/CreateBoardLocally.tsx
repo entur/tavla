@@ -4,23 +4,43 @@ import { PrimaryButton } from '@entur/button'
 import { Heading2, Heading3 } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
-import { usePublishAnonymousBoard } from 'app/(admin)/hooks/usePublishAnonymousBoard'
 import { useSaveDemoBoardInLocalStorage } from 'app/(admin)/hooks/useSaveDemoBoardInLocalStorage'
 import { SettingsForm } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/SettingsForm'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
-import { useCallback } from 'react'
+import { publishBoard } from 'app/lag-tavle/actions'
+import { useCallback, useState } from 'react'
 import { getBoardLinkClient } from 'src/utils/boardLink'
+
+type PublishBoardState =
+    | { type: 'not-published' }
+    | { type: 'publishing' }
+    | { type: 'published'; boardId: string }
+    | { type: 'error'; message: string }
 
 function CreateBoardLocally() {
     const { board, setTiles, onSubmit } = useSaveDemoBoardInLocalStorage()
 
-    const {
-        publishedBoardId,
-        isPublishing,
-        handlePublish,
-        resetPublishedBoard,
-    } = usePublishAnonymousBoard()
+    const [publishState, setPublishState] = useState<PublishBoardState>({
+        type: 'not-published',
+    })
+
+    const handlePublish = async () => {
+        setPublishState({ type: 'publishing' })
+        try {
+            const boardId = await publishBoard(board)
+            setPublishState({ type: 'published', boardId })
+        } catch {
+            setPublishState({
+                type: 'error',
+                message: 'Noe gikk galt. Prøv igjen.',
+            })
+        }
+    }
+
+    const resetPublishedBoard = () => {
+        setPublishState({ type: 'not-published' })
+    }
 
     const handleSettingsSubmit = useCallback(
         async (data: FormData) => {
@@ -64,18 +84,21 @@ function CreateBoardLocally() {
             <div className="flex flex-col gap-4">
                 <PrimaryButton
                     onClick={handlePublish}
-                    loading={isPublishing}
+                    loading={publishState.type === 'publishing'}
                     width="auto"
                 >
                     Del tavlen
                 </PrimaryButton>
-                {publishedBoardId && (
+                {publishState.type === 'published' && (
                     <CopyableText
                         successHeading=""
                         successMessage="Lenken til tavlen ble kopiert!"
                     >
-                        {getBoardLinkClient(publishedBoardId)}
+                        {getBoardLinkClient(publishState.boardId)}
                     </CopyableText>
+                )}
+                {publishState.type === 'error' && (
+                    <div className="text-error">{publishState.message}</div>
                 )}
             </div>
         </>
