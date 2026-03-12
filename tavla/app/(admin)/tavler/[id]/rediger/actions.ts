@@ -22,7 +22,7 @@ initializeAdminApp()
 
 const db = getFirestore()
 
-export async function addTile(bid: BoardDB['id'], tiles: BoardTileDB[]) {
+export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 

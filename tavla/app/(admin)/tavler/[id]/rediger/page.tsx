@@ -11,7 +11,7 @@ import { getBoard, getFolderForBoard } from 'src/firebase'
 import { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
-import { addTile, getWalkingDistanceTile } from './actions'
+import { addTiles, getWalkingDistanceTile } from './actions'
 import { ActionsMenu } from './components/ActionsMenu'
 import { Copy } from './components/Buttons/Copy'
 import { Preview } from './components/Preview'
@@ -71,7 +71,7 @@ export default async function EditPage(props: TProps) {
                     return tileWithDistance
                 }),
         )
-        await addTile(params.id, tilesWithDistance)
+        await addTiles(params.id, tilesWithDistance)
 
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
