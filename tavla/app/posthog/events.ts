@@ -196,12 +196,20 @@ export type EventMap = {
             | {
                   field: 'stop_place'
                   action: 'selected' | 'cleared'
-                  typeOfPlace: 'stop_place' | 'address' | 'other'
+                  typeOfPlace:
+                      | 'stop_place'
+                      | 'address'
+                      | 'other'
+                      | 'current_position'
               }
             | {
                   field: 'closest_stop_places'
                   action: 'added' | 'removed'
-                  typeOfPlace: 'stop_place' | 'address' | 'other'
+                  typeOfPlace:
+                      | 'stop_place'
+                      | 'address'
+                      | 'other'
+                      | 'current_position'
                   selectedIndexes?: number[]
               }
         )
@@ -210,7 +218,7 @@ export type EventMap = {
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
     > & {
         county_count: number
-        typeOfPlace: 'stop_place' | 'address' | 'other'
+        typeOfPlace: 'stop_place' | 'address' | 'other' | 'current_position'
         selectedIndexes: number[]
     }
 

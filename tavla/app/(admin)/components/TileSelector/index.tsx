@@ -58,11 +58,14 @@ function TileSelector({
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
-    type TypeOfPlace = 'stop_place' | 'address' | 'other'
+    type TypeOfPlace = 'stop_place' | 'address' | 'other' | 'current_position'
 
     function getTypeOfPlace(
         placeItem: NormalizedDropdownItemType<StopPlace> | null,
     ): TypeOfPlace {
+        if (placeItem?.value.id === 'current_position') {
+            return 'current_position'
+        }
         if (placeItem?.value.layer === 'venue') {
             return 'stop_place'
         } else if (placeItem?.value.category?.includes('vegadresse')) {
