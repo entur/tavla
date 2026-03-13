@@ -1,5 +1,6 @@
+import { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 import { PositionIcon } from '@entur/icons'
-import { GeoCoordinate } from './fetch'
+import { GeoCoordinate, StopPlace } from './fetch'
 
 export async function getCurrentPosition(
     options?: PositionOptions,
@@ -19,7 +20,9 @@ export async function getCurrentPosition(
     })
 }
 
-export const positionDropDownItem = (coordinates?: GeoCoordinate) => ({
+export const coordinatesToStopPlaceDropdownItem = (
+    coordinates?: GeoCoordinate,
+): NormalizedDropdownItemType<StopPlace> => ({
     value: {
         id: 'current_position',
         layer: 'position',

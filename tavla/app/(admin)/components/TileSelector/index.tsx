@@ -17,11 +17,12 @@ import {
     TFormFeedback,
 } from 'app/(admin)/utils'
 import { StopPlace } from 'app/(admin)/utils/fetch'
-import { positionDropDownItem } from 'app/(admin)/utils/position'
+import { coordinatesToStopPlaceDropdownItem } from 'app/(admin)/utils/position'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { FolderDB } from 'src/types/db-types/folders'
+import { getTypeOfPlace } from './utils'
 
 const NUMBER_OF_CLOSEST_STOP_PLACES = 10
 const AREA_RADIUS_IN_KM = 20
@@ -52,34 +53,18 @@ function TileSelector({
         AREA_RADIUS_IN_KM,
     )
 
-    const { fetchPosition, error } = useCurrentPosition()
+    const { fetchPosition, currentPositionState } = useCurrentPosition()
 
     const posthog = usePosthogTracking()
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
-
-    type TypeOfPlace = 'stop_place' | 'address' | 'other' | 'current_position'
-
-    function getTypeOfPlace(
-        placeItem: NormalizedDropdownItemType<StopPlace> | null,
-    ): TypeOfPlace {
-        if (placeItem?.value.id === 'current_position') {
-            return 'current_position'
-        }
-        if (placeItem?.value.layer === 'venue') {
-            return 'stop_place'
-        } else if (placeItem?.value.category?.includes('vegadresse')) {
-            return 'address'
-        }
-        return 'other'
-    }
 
     async function searchStopPlaces(search: string) {
         const stopPlaces = await stopPlaceItems(
             search || selectedStopPlace?.label.split(',')[0] || '',
         )
         return [
-            search == '' ? positionDropDownItem() : null,
+            search == '' ? coordinatesToStopPlaceDropdownItem() : null,
             ...stopPlaces,
         ].filter(Boolean) as NormalizedDropdownItemType<StopPlace>[]
     }
@@ -94,8 +79,10 @@ function TileSelector({
                         lat: pos.coords.latitude,
                         lon: pos.coords.longitude,
                     }
-                    setSelectedStopPlace(positionDropDownItem(coords))
-                } else if (error) {
+                    setSelectedStopPlace(
+                        coordinatesToStopPlaceDropdownItem(coords),
+                    )
+                } else if (currentPositionState?.type === 'error') {
                     setSelectedStopPlace(null)
                     setFormError(
                         getFormFeedbackForError('create/position-failed'),

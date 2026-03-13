@@ -1,27 +1,34 @@
 import { useCallback, useState } from 'react'
 import { getCurrentPosition } from '../utils/position'
 
-function useCurrentPosition(options?: PositionOptions) {
-    const [position, setPosition] = useState<GeolocationPosition | null>(null)
-    const [error, setError] = useState<GeolocationPositionError | null>(null)
-    const [loading, setLoading] = useState(false)
+type CurrentPositionState =
+    | { type: 'loading' }
+    | { type: 'error'; error: GeolocationPositionError }
+    | { type: 'success'; position: GeolocationPosition }
+
+function useCurrentPosition(options?: PositionOptions): {
+    currentPositionState: CurrentPositionState | null
+    fetchPosition: () => Promise<GeolocationPosition | null>
+} {
+    const [currentPositionState, setCurrentPositionState] =
+        useState<CurrentPositionState | null>(null)
 
     const fetchPosition = useCallback(async () => {
-        setLoading(true)
-        setError(null)
+        setCurrentPositionState({ type: 'loading' })
         try {
             const pos = await getCurrentPosition(options)
-            setPosition(pos)
+            setCurrentPositionState({ type: 'success', position: pos })
             return pos
         } catch (e) {
-            setError(e as GeolocationPositionError)
+            setCurrentPositionState({
+                type: 'error',
+                error: e as GeolocationPositionError,
+            })
             return null
-        } finally {
-            setLoading(false)
         }
     }, [options])
 
-    return { position, error, loading, fetchPosition }
+    return { currentPositionState, fetchPosition }
 }
 
 export default useCurrentPosition
