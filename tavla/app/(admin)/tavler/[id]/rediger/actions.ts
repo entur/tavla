@@ -34,7 +34,7 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
             tiles: FieldValue
             'meta.dateModified': number
             transportPalette?: TransportPalette
-            combinedTiles?: BoardDB['combinedTiles']
+            combinedTiles?: BoardDB['combinedTiles'] | FieldValue
         } = {
             tiles: FieldValue.arrayUnion(...tiles),
             'meta.dateModified': Date.now(),
@@ -51,7 +51,7 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
                               ],
                           },
                       ]
-                    : undefined,
+                    : FieldValue.delete(),
         }
 
         if (!currentBoard?.tiles || currentBoard.tiles.length === 0) {
