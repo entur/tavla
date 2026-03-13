@@ -22,7 +22,7 @@ initializeAdminApp()
 
 const db = getFirestore()
 
-export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
+export async function addTile(bid: BoardDB['id'], tile: BoardTileDB) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -34,24 +34,9 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
             tiles: FieldValue
             'meta.dateModified': number
             transportPalette?: TransportPalette
-            combinedTiles?: BoardDB['combinedTiles']
         } = {
-            tiles: FieldValue.arrayUnion(...tiles),
+            tiles: FieldValue.arrayUnion(tile),
             'meta.dateModified': Date.now(),
-            combinedTiles:
-                currentBoard?.combinedTiles &&
-                currentBoard.combinedTiles.length > 0
-                    ? [
-                          {
-                              ids: [
-                                  ...tiles.map((tile) => tile.uuid),
-                                  ...currentBoard.combinedTiles.flatMap(
-                                      (ct) => ct.ids,
-                                  ),
-                              ],
-                          },
-                      ]
-                    : undefined,
         }
 
         if (!currentBoard?.tiles || currentBoard.tiles.length === 0) {
@@ -62,6 +47,29 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
     } catch (error) {
         Sentry.captureMessage(
             'Failed to save tile to board in firestore. BoardID: ' + bid,
+        )
+        throw error
+    }
+}
+
+export async function addTileToCombinedList(board: BoardDB, tileId: string) {
+    const access = await userCanEditBoard(board.id)
+    if (!access) return redirect('/')
+
+    try {
+        const updatedCombinedTiles = board.combinedTiles?.map((tile) => {
+            return { ids: [...tile.ids, tileId] }
+        })
+        await db
+            .collection('boards')
+            .doc(board.id ?? '')
+            .update({
+                combinedTiles: updatedCombinedTiles,
+                'meta.dateModified': Date.now(),
+            })
+    } catch (error) {
+        Sentry.captureMessage(
+            'Failed to save tile to board in firestore. BoardID: ' + board.id,
         )
         throw error
     }
