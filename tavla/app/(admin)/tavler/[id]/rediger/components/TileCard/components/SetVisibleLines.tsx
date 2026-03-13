@@ -7,14 +7,15 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { BoardTileDB } from 'src/types/db-types/boards'
-import { TQuay, TTransportMode } from 'src/types/graphql-schema'
+import { TTransportMode } from 'src/types/graphql-schema'
 import { PlatformAndLines } from '../PlatformAndLines'
 import { TLineFragment } from '../types'
+import { QuayWithFrontTexts } from '../useLines'
 import { transportModeNames } from '../utils'
 
 function getInitialCheckedLineIds(
     tile: BoardTileDB,
-    quays: TQuay[],
+    quays: QuayWithFrontTexts[],
 ): Set<string> {
     const set = new Set<string>()
     const hasQuayFilter = tile.quays && tile.quays.length > 0
@@ -46,14 +47,16 @@ function getInitialCheckedLineIds(
 type QuaysByTransportMode = {
     mode: TTransportMode
     label: string
-    quays: TQuay[]
+    quays: QuayWithFrontTexts[]
 }
 
 type ColumnItem =
     | { type: 'mode_group'; data: QuaysByTransportMode }
-    | { type: 'quay'; mode: TTransportMode; data: TQuay }
+    | { type: 'quay'; mode: TTransportMode; data: QuayWithFrontTexts }
 
-function generateQuayModesMap(quays: TQuay[]): Map<string, TTransportMode[]> {
+function generateQuayModesMap(
+    quays: QuayWithFrontTexts[],
+): Map<string, TTransportMode[]> {
     const map = new Map<string, TTransportMode[]>()
 
     quays.forEach((quay) => {
@@ -91,7 +94,7 @@ function generateQuayModesMap(quays: TQuay[]): Map<string, TTransportMode[]> {
     return map
 }
 
-function sortAndDistrubuteColumnItems(quays: TQuay[]): {
+function sortAndDistrubuteColumnItems(quays: QuayWithFrontTexts[]): {
     modes: TTransportMode[]
     quayModesMap: Map<string, TTransportMode[]>
     columns: ColumnItem[][]
@@ -122,7 +125,11 @@ function sortAndDistrubuteColumnItems(quays: TQuay[]): {
             },
             {} as Record<
                 string,
-                { mode: TTransportMode; label: string; quays: TQuay[] }
+                {
+                    mode: TTransportMode
+                    label: string
+                    quays: QuayWithFrontTexts[]
+                }
             >,
         ),
     ).sort((a, b) => a.label.localeCompare(b.label, 'nb-NO'))
@@ -192,7 +199,7 @@ function SetVisibleLines({
     quays,
     trackingLocation,
 }: {
-    quays: TQuay[]
+    quays: QuayWithFrontTexts[]
     allLines: TLineFragment[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
 }) {
