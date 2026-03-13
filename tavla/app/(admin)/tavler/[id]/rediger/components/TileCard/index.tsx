@@ -9,13 +9,7 @@ import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
-import {
-    Dispatch,
-    SetStateAction,
-    startTransition,
-    useActionState,
-    useState,
-} from 'react'
+import { startTransition, useActionState, useState } from 'react'
 import {
     BoardDB,
     BoardTileDB,
@@ -41,7 +35,7 @@ function TileCard({
     totalTiles,
     isCombined,
     moveItem,
-    setDemoBoard,
+    setTilesDemoBoard,
 }: {
     bid: BoardDB['id']
     tile: BoardTileDB
@@ -51,7 +45,7 @@ function TileCard({
     totalTiles: number
     isCombined: boolean
     moveItem: (index: number, direction: string) => void
-    setDemoBoard?: Dispatch<SetStateAction<BoardDB>>
+    setTilesDemoBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const posthog = usePosthogTracking()
 
@@ -178,8 +172,12 @@ function TileCard({
             (tile) => tile.uuid == newTile.uuid,
         )
         if (oldTileIndex === -1) return null
-        demoBoard.tiles[oldTileIndex] = newTile
-        if (setDemoBoard) setDemoBoard({ ...demoBoard })
+
+        const updatedTiles = demoBoard.tiles.map((existingTile) =>
+            existingTile.uuid === newTile.uuid ? newTile : existingTile,
+        )
+
+        if (setTilesDemoBoard) setTilesDemoBoard(updatedTiles)
     }
 
     const deleteTileDemoBoard = () => {
@@ -188,7 +186,7 @@ function TileCard({
         const remainingTiles = demoBoard.tiles.filter(
             (t) => t.uuid !== tile.uuid,
         )
-        if (setDemoBoard) setDemoBoard({ ...demoBoard, tiles: remainingTiles })
+        if (setTilesDemoBoard) setTilesDemoBoard(remainingTiles)
 
         addToast(`${tile.name} fjernet!`)
     }

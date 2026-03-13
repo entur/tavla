@@ -1,6 +1,27 @@
 'use server'
 import { getWalkingDistanceTile } from 'app/(admin)/tavler/[id]/rediger/actions'
-import { BoardTileDB, LocationDB } from 'src/types/db-types/boards'
+import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import { firestore } from 'firebase-admin'
+import { BoardDB, BoardTileDB, LocationDB } from 'src/types/db-types/boards'
+
+initializeAdminApp()
+
+export async function publishBoard(board: BoardDB): Promise<string> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, ...boardData } = board
+    const now = Date.now()
+    const doc = await firestore()
+        .collection('boards')
+        .add({
+            ...boardData,
+            meta: {
+                ...boardData.meta,
+                created: now,
+                dateModified: now,
+            },
+        })
+    return doc.id
+}
 
 export async function getTilesWithWalkingDistance(
     tiles: BoardTileDB[],

@@ -16,6 +16,13 @@ const emptyDemoBoard = {
 function DemoBoard() {
     const [board, setBoard] = useLocalStorage<BoardDB>('board', emptyDemoBoard)
 
+    function setTilesDemoBoard(tiles: BoardDB['tiles']) {
+        setBoard({
+            ...board,
+            tiles,
+        })
+    }
+
     return (
         <>
             <div className="flex flex-col gap-4">
@@ -32,7 +39,11 @@ function DemoBoard() {
                     }}
                     trackingLocation="demo_page"
                 />
-                <TileList board={board} setDemoBoard={setBoard} bid="demo" />
+                <TileList
+                    board={board}
+                    setTilesDemoBoard={setTilesDemoBoard}
+                    bid="demo"
+                />
             </div>
             <div className="flex flex-col gap-4">
                 <Heading2>Forhåndsvisning</Heading2>
