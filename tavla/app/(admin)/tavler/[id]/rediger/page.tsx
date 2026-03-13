@@ -11,7 +11,11 @@ import { getBoard, getFolderForBoard } from 'src/firebase'
 import { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
-import { addTiles, getWalkingDistanceTile } from './actions'
+import {
+    addTile,
+    addTileToCombinedList,
+    getWalkingDistanceTile,
+} from './actions'
 import { ActionsMenu } from './components/ActionsMenu'
 import { Copy } from './components/Buttons/Copy'
 import { Preview } from './components/Preview'
@@ -49,13 +53,13 @@ export default async function EditPage(props: TProps) {
     const access = await userCanEditBoard(params.id)
     if (!access) return redirect('/')
 
-    async function addTilesAction(data: FormData) {
+    async function walkingDistanceAction(data: FormData) {
         'use server'
 
         const tiles = formDataToTiles(data)
         if (tiles.length === 0) return
 
-        const tilesWithDistance = await Promise.all(
+        await Promise.all(
             tiles
                 .filter((tile) => tile.stopPlaceId)
                 .map(async (tile) => {
@@ -68,11 +72,14 @@ export default async function EditPage(props: TProps) {
                               delete tile.walkingDistance
                               return tile
                           })()
-                    return tileWithDistance
+                    await addTile(params.id, tileWithDistance)
+                    if (board?.combinedTiles)
+                        await addTileToCombinedList(
+                            board,
+                            tileWithDistance.uuid,
+                        )
                 }),
         )
-        await addTiles(params.id, tilesWithDistance)
-
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
@@ -119,7 +126,7 @@ export default async function EditPage(props: TProps) {
                         </SubParagraph>
                     </div>
                     <TileSelector
-                        action={addTilesAction}
+                        action={walkingDistanceAction}
                         trackingLocation={
                             board.id === 'demo' ? 'demo_page' : 'board_page'
                         }
