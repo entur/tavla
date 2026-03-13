@@ -1,11 +1,13 @@
 'use client'
+import { SearchIcon } from '@entur/icons'
 import { Label } from '@entur/typography'
 import { Folder } from 'app/(admin)/utils/types'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import dynamic from 'next/dynamic'
+import { useState } from 'react'
 import { BoardDB } from 'src/types/db-types/boards'
 import { useSearchAndFilter } from '../hooks/useSearchAndFilter'
 import EmptyOverview from './EmptyOverview'
-import { Search } from './Search'
 
 const BoardTable = dynamic(
     () => import('./BoardTable').then((mod) => ({ default: mod.BoardTable })),
@@ -24,13 +26,10 @@ export function FoldersAndBoardsContent({
     allBoards,
 }: FoldersAndBoardsContentProps) {
     const elementsListCount = privateBoards.length + folders.length
+    const [search, setSearch] = useState('')
 
     const { folders: filteredFolders, boards: filteredBoards } =
-        useSearchAndFilter({
-            folders,
-            privateBoards,
-            allBoards,
-        })
+        useSearchAndFilter(search, folders, privateBoards, allBoards)
 
     if (elementsListCount === 0) {
         return (
@@ -40,7 +39,19 @@ export function FoldersAndBoardsContent({
 
     return (
         <>
-            <Search />
+            <ClientOnlyTextField
+                label="Søk på navn på tavle eller mappe"
+                prepend={<SearchIcon aria-hidden="true" />}
+                value={search}
+                onChange={(e) => {
+                    setSearch(e.target.value)
+                }}
+                id="search"
+                clearable
+                onClear={() => {
+                    setSearch('')
+                }}
+            />
             <div className="mt-8 flex flex-col">
                 <Label>Totalt antall tavler: {allBoards.length}</Label>
                 {filteredFolders.length === 0 && filteredBoards.length === 0 ? (
