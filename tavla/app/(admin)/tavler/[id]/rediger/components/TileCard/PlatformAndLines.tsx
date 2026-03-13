@@ -1,10 +1,13 @@
 'use client'
 import { Checkbox } from '@entur/form'
+import { SkeletonRectangle } from '@entur/loader'
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { useFeatureFlagEnabled } from 'posthog-js/react'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TTransportMode } from 'src/types/graphql-schema'
+import { FeatureFlags } from '../../../../../../posthog/featureFlags'
 import { TLineFragment } from './types'
 
 function PlatformAndLines({
@@ -34,6 +37,10 @@ function PlatformAndLines({
 }) {
     const posthog = usePosthogTracking()
 
+    const isShowLinesByFrontTextEnabled = useFeatureFlagEnabled(
+        FeatureFlags.ShowLinesByFrontText,
+    )
+
     const selectedLinesInGroup = lines.filter((l) =>
         selectedLineIds.has(`${quayId}||${l.id}`),
     )
@@ -42,6 +49,46 @@ function PlatformAndLines({
     const isNoneSelected = selectedLinesInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
     const showLines = !isNoneSelected
+
+    const publicCode = (line: TLineFragment) => {
+        if (line.publicCode) {
+            return (
+                <div
+                    className={`publicCode bg-${line.transportMode} text-white`}
+                >
+                    {line.publicCode}
+                </div>
+            )
+        }
+    }
+
+    const displayName = (line: TLineFragment) => {
+        if (isShowLinesByFrontTextEnabled) {
+            if (line.frontTexts) {
+                return line.frontTexts.join(' / ')
+            } else {
+                return <SkeletonRectangle width="6rem" height="1rem" />
+            }
+        } else {
+            return line.name ?? ''
+        }
+    }
+
+    const compareLineFragment = (a: TLineFragment, b: TLineFragment) => {
+        const modeA = a.transportMode || ''
+        const modeB = b.transportMode || ''
+
+        if (modeA !== modeB) {
+            return modeA.localeCompare(modeB)
+        }
+
+        const codeA = a.publicCode || ''
+        const codeB = b.publicCode || ''
+
+        return codeA.localeCompare(codeB, undefined, {
+            numeric: true,
+        })
+    }
 
     return (
         <div className="rounded-lg border-2 p-4">
@@ -84,18 +131,10 @@ function PlatformAndLines({
                 />
             </div>
             {[...lines]
-                .sort((a, b) => {
-                    const modeA = a.transportMode || ''
-                    const modeB = b.transportMode || ''
-                    if (modeA !== modeB) {
-                        return modeA.localeCompare(modeB)
-                    }
-                    const codeA = a.publicCode || ''
-                    const codeB = b.publicCode || ''
-                    return codeA.localeCompare(codeB, undefined, {
-                        numeric: true,
-                    })
-                })
+                .sort(compareLineFragment)
+                .filter(
+                    (line) => !line.frontTexts || line.frontTexts.length > 0,
+                )
                 .map((line) => (
                     <Checkbox
                         key={line.id}
@@ -115,14 +154,8 @@ function PlatformAndLines({
                         }}
                     >
                         <div className="flex flex-row items-center gap-2">
-                            {line.publicCode && (
-                                <div
-                                    className={`publicCode bg-${line.transportMode} text-white`}
-                                >
-                                    {line.publicCode}
-                                </div>
-                            )}
-                            {line.name}
+                            {publicCode(line)}
+                            {displayName(line)}
                         </div>
                     </Checkbox>
                 ))}
