@@ -9,7 +9,6 @@ import { BoardDB } from 'src/types/db-types/boards'
 interface FilteredData {
     folders: Folder[]
     boards: BoardDB[]
-    isSearching: boolean
 }
 
 // Utility functions
@@ -71,16 +70,14 @@ export function useSearchAndFilter(
             return {
                 folders: matchingFolders,
                 boards: matchingBoards,
-                isSearching: true,
             }
         }
 
         return {
             folders: folders,
             boards: privateBoards,
-            isSearching: false,
         }
-    }, [searchFilters, isSearching, allBoards, folders, privateBoards])
+    }, [searchFilters, allBoards, folders, privateBoards])
 
     return filteredData
 }
