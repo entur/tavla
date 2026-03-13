@@ -1,6 +1,7 @@
 'use client'
 import { BannerAlertBox } from '@entur/alert'
 import { SecondaryButton } from '@entur/button'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
@@ -12,6 +13,7 @@ export function DemoBoardBanner() {
     const [board, setBoard] = useState<BoardDB | null>(null)
     const [loading, setLoading] = useState(false)
     const router = useRouter()
+    const posthog = usePosthogTracking()
 
     useEffect(() => {
         const localStorageValue = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -29,6 +31,10 @@ export function DemoBoardBanner() {
         try {
             const boardId = await saveBoardToFirebaseForUser(board)
             localStorage.removeItem(LOCAL_STORAGE_KEY)
+            posthog.capture('board_create_started', {
+                location: 'admin',
+                type: 'from_local_storage',
+            })
             router.push(`/tavler/${boardId}/rediger`)
         } catch {
             setLoading(false)
@@ -37,6 +43,7 @@ export function DemoBoardBanner() {
 
     const handleDiscard = () => {
         localStorage.removeItem(LOCAL_STORAGE_KEY)
+        posthog.capture('board_dismiss_from_local_storage')
         setBoard(null)
     }
 

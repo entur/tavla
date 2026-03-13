@@ -25,6 +25,7 @@ function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
                 onClick={() => {
                     posthog.capture('board_create_started', {
                         location: trackingLocation,
+                        type: 'new',
                     })
                     setIsOpen(true)
                 }}
