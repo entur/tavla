@@ -10,6 +10,7 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard'
 import { CreateFolder } from '../components/CreateFolder'
+import { DemoBoardBanner } from './components/DemoBoardBanner'
 import { FoldersAndBoardsContent } from './components/FoldersAndBoardsContent'
 
 initializeAdminApp()
@@ -42,6 +43,7 @@ async function FoldersAndBoardsPage() {
                     <CreateFolder />
                 </div>
             </div>
+            <DemoBoardBanner />
 
             <div className="gap-4">
                 <FoldersAndBoardsContent
