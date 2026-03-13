@@ -5,18 +5,10 @@ import {
 import { Folder } from 'app/(admin)/utils/types'
 import { useMemo } from 'react'
 import { BoardDB } from 'src/types/db-types/boards'
-import { useSearchParam } from './useSearchParam'
-
-interface UseSearchAndFilterProps {
-    folders: Folder[]
-    privateBoards: BoardDB[]
-    allBoards: BoardDB[]
-}
 
 interface FilteredData {
     folders: Folder[]
     boards: BoardDB[]
-    isSearching: boolean
 }
 
 // Utility functions
@@ -52,13 +44,12 @@ function matchesSearch(
 /**
  * Custom hook that handles search logic for folders and boards.
  */
-export function useSearchAndFilter({
-    folders,
-    privateBoards,
-    allBoards,
-}: UseSearchAndFilterProps): FilteredData {
-    const searchTerm = useSearchParam('search') ?? ''
-
+export function useSearchAndFilter(
+    searchTerm: string,
+    folders: Folder[],
+    privateBoards: BoardDB[],
+    allBoards: BoardDB[],
+): FilteredData {
     const searchFilters = useMemo(
         () => createSearchFilters(searchTerm),
         [searchTerm],
@@ -79,16 +70,14 @@ export function useSearchAndFilter({
             return {
                 folders: matchingFolders,
                 boards: matchingBoards,
-                isSearching: true,
             }
         }
 
         return {
             folders: folders,
             boards: privateBoards,
-            isSearching: false,
         }
-    }, [searchFilters, isSearching, allBoards, folders, privateBoards])
+    }, [searchFilters, allBoards, folders, privateBoards])
 
     return filteredData
 }
