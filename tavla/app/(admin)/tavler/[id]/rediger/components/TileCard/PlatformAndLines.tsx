@@ -1,5 +1,6 @@
 'use client'
 import { Checkbox } from '@entur/form'
+import { SkeletonRectangle } from '@entur/loader'
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
@@ -96,6 +97,9 @@ function PlatformAndLines({
                         numeric: true,
                     })
                 })
+                .filter(
+                    (line) => !line.frontTexts || line.frontTexts.length > 0,
+                )
                 .map((line) => (
                     <Checkbox
                         key={line.id}
@@ -122,7 +126,11 @@ function PlatformAndLines({
                                     {line.publicCode}
                                 </div>
                             )}
-                            {line.name}
+                            {line.frontTexts ? (
+                                line.frontTexts.join(' / ')
+                            ) : (
+                                <SkeletonRectangle width="6rem" height="1rem" />
+                            )}
                         </div>
                     </Checkbox>
                 ))}

@@ -8,4 +8,5 @@ export type TLineFragment = {
     transportMode: TTransportMode | null
     quayName?: string | null
     quayPublicCode?: string | null
+    frontTexts?: string[]
 }
