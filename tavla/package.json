@@ -70,7 +70,7 @@
         "@eslint/eslintrc": "3.3.1",
         "@eslint/js": "10.0.1",
         "@graphql-codegen/cli": "6.1.1",
-        "@graphql-codegen/import-types-preset": "3.0.1",
+        "@graphql-codegen/import-types-preset": "4.0.0",
         "@graphql-codegen/typed-document-node": "6.1.5",
         "@graphql-codegen/typescript": "5.0.7",
         "@graphql-codegen/typescript-operations": "5.0.7",
