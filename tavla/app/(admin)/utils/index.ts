@@ -214,6 +214,13 @@ export function getFormFeedbackForError(
                 variant: 'negative',
             }
         }
+        case 'create/position-failed': {
+            return {
+                form_type: 'stop_place',
+                feedback: 'Kunne ikke hente posisjonen din',
+                variant: 'negative',
+            }
+        }
         case 'reset/email-sent': {
             return {
                 form_type: 'email',

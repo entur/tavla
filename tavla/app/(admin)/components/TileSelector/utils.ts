@@ -12,9 +12,15 @@ import {
     Coordinate,
     TileColumnDB,
 } from 'src/types/db-types/boards'
-import { GeoCoordinate } from '../../utils/fetch'
+import { GeoCoordinate, StopPlace } from '../../utils/fetch'
 
 export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
+
+export type TypeOfPlace =
+    | 'stop_place'
+    | 'address'
+    | 'other'
+    | 'current_position'
 
 export const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
     'line',
@@ -128,4 +134,18 @@ export function haversineDistance(a: GeoCoordinate, b: GeoCoordinate): number {
 export function formatDistance(meters: number): string {
     if (meters < 1000) return `${Math.round(meters)} m`
     return `${(meters / 1000).toFixed(1)} km`
+}
+
+export function getTypeOfPlace(
+    placeItem: NormalizedDropdownItemType<StopPlace> | null,
+): TypeOfPlace {
+    if (placeItem?.value.id === 'current_position') {
+        return 'current_position'
+    }
+    if (placeItem?.value.layer === 'venue') {
+        return 'stop_place'
+    } else if (placeItem?.value.category?.includes('vegadresse')) {
+        return 'address'
+    }
+    return 'other'
 }
