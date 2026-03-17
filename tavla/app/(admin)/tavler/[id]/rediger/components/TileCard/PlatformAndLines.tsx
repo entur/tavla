@@ -90,6 +90,14 @@ function PlatformAndLines({
         })
     }
 
+    const filterLineFragment = (line: TLineFragment) => {
+        if (isShowLinesByFrontTextEnabled) {
+            return !line.frontTexts || line.frontTexts.length > 0
+        } else {
+            return true
+        }
+    }
+
     return (
         <div className="rounded-lg border-2 p-4">
             <div className="flex flex-row justify-between">
@@ -132,9 +140,7 @@ function PlatformAndLines({
             </div>
             {[...lines]
                 .sort(compareLineFragment)
-                .filter(
-                    (line) => !line.frontTexts || line.frontTexts.length > 0,
-                )
+                .filter(filterLineFragment)
                 .map((line) => (
                     <Checkbox
                         key={line.id}

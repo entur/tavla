@@ -1,4 +1,4 @@
-import { TTransportMode } from 'src/types/graphql-schema'
+import { TQuay, TTransportMode } from 'src/types/graphql-schema'
 
 export type TLineFragment = {
     __typename?: 'Line'
@@ -10,3 +10,5 @@ export type TLineFragment = {
     quayPublicCode?: string | null
     frontTexts?: string[]
 }
+
+export type TQuayFrontText = Omit<TQuay, 'lines'> & { lines: TLineFragment[] }

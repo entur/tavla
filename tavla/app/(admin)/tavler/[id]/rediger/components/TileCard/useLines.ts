@@ -3,11 +3,7 @@ import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'src/assets/env'
 import { QuayEstimatedCallsQuery, StopPlaceEditQuery } from 'src/graphql'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TQuay } from 'src/types/graphql-schema'
-import { TLineFragment } from './types'
-
-export type QuayWithFrontTexts = {
-    [K in keyof TQuay]: K extends 'lines' ? TLineFragment[] : TQuay[K]
-}
+import { TLineFragment, TQuayFrontText } from './types'
 
 async function getFrontTextsForQuay(
     quayId: string,
@@ -36,16 +32,12 @@ async function getFrontTextsForQuay(
 
             if (!lineId || !frontText) continue
 
-            //TODO Maybe remove buss for tog prefix
-
             const line = linesToFrontTexts.get(lineId) ?? []
 
             if (!line.includes(frontText)) {
                 line.push(frontText)
                 linesToFrontTexts.set(lineId, line)
             }
-
-            //TODO sort alphabetically
         }
     } catch {
         // return nothing
@@ -67,8 +59,8 @@ function addFrontTextToQuay(
         .filter((line): line is TLineFragment => line !== null)
 }
 
-function useLines(tile: BoardTileDB): QuayWithFrontTexts[] | null {
-    const [quays, setQuays] = useState<QuayWithFrontTexts[] | null>(null)
+function useLines(tile: BoardTileDB): TQuayFrontText[] | null {
+    const [quays, setQuays] = useState<TQuayFrontText[] | null>(null)
 
     useEffect(() => {
         let cancelled = false

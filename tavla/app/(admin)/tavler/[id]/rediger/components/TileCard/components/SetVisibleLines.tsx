@@ -9,13 +9,12 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TTransportMode } from 'src/types/graphql-schema'
 import { PlatformAndLines } from '../PlatformAndLines'
-import { TLineFragment } from '../types'
-import { QuayWithFrontTexts } from '../useLines'
+import { TLineFragment, TQuayFrontText } from '../types'
 import { transportModeNames } from '../utils'
 
 function getInitialCheckedLineIds(
     tile: BoardTileDB,
-    quays: QuayWithFrontTexts[],
+    quays: TQuayFrontText[],
 ): Set<string> {
     const set = new Set<string>()
     const hasQuayFilter = tile.quays && tile.quays.length > 0
@@ -47,15 +46,15 @@ function getInitialCheckedLineIds(
 type QuaysByTransportMode = {
     mode: TTransportMode
     label: string
-    quays: QuayWithFrontTexts[]
+    quays: TQuayFrontText[]
 }
 
 type ColumnItem =
     | { type: 'mode_group'; data: QuaysByTransportMode }
-    | { type: 'quay'; mode: TTransportMode; data: QuayWithFrontTexts }
+    | { type: 'quay'; mode: TTransportMode; data: TQuayFrontText }
 
 function generateQuayModesMap(
-    quays: QuayWithFrontTexts[],
+    quays: TQuayFrontText[],
 ): Map<string, TTransportMode[]> {
     const map = new Map<string, TTransportMode[]>()
 
@@ -94,7 +93,7 @@ function generateQuayModesMap(
     return map
 }
 
-function sortAndDistrubuteColumnItems(quays: QuayWithFrontTexts[]): {
+function sortAndDistributeColumnItems(quays: TQuayFrontText[]): {
     modes: TTransportMode[]
     quayModesMap: Map<string, TTransportMode[]>
     columns: ColumnItem[][]
@@ -128,7 +127,7 @@ function sortAndDistrubuteColumnItems(quays: QuayWithFrontTexts[]): {
                 {
                     mode: TTransportMode
                     label: string
-                    quays: QuayWithFrontTexts[]
+                    quays: TQuayFrontText[]
                 }
             >,
         ),
@@ -199,14 +198,14 @@ function SetVisibleLines({
     quays,
     trackingLocation,
 }: {
-    quays: QuayWithFrontTexts[]
+    quays: TQuayFrontText[]
     allLines: TLineFragment[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
 }) {
     const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
 
-    const { modes, quayModesMap, columns } = sortAndDistrubuteColumnItems(quays)
+    const { modes, quayModesMap, columns } = sortAndDistributeColumnItems(quays)
 
     const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() =>
         getInitialCheckedLineIds(tile, quays),
