@@ -8,7 +8,7 @@ initializeAdminApp()
 
 export async function publishBoard(board: BoardDB): Promise<string> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, ...boardData } = board
+    const { id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
     const now = Date.now()
     const doc = await firestore()
         .collection('boards')
