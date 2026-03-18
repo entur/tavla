@@ -2,7 +2,6 @@
 import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4 } from '@entur/typography'
-import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import {
     TRACKING_DEBOUNCE_TIME,
@@ -11,7 +10,7 @@ import {
 import { useRef, useState } from 'react'
 import { BoardFooter } from 'src/types/db-types/boards'
 
-function Footer({
+function InfoMessage({
     infoMessage,
     onBlur,
 }: {
@@ -64,14 +63,11 @@ function Footer({
                 }}
                 onBlur={onBlur}
                 label="Infomelding"
-                name="footer"
+                name="infoMessage"
                 className="w-full"
-                clearable
-                onClear={() => setSelectedValue('')}
             />
-            <HiddenInput id="infoMessage" value={selectedValue} />
         </div>
     )
 }
 
-export { Footer }
+export { InfoMessage }

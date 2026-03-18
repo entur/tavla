@@ -6,7 +6,7 @@ import { BoardDB } from 'src/types/db-types/boards'
 import { useAllowedPalettes } from '../colorPalettes'
 import { Elements, ElementSelect } from './ElementsSelect'
 import { FontSelect } from './FontSelect'
-import { Footer } from './Footer'
+import { InfoMessage } from './InfoMessage'
 import { ThemeSelect } from './ThemeSelect'
 import { Title } from './Title'
 import { TransportPaletteSelect } from './TransportPaletteSelect'
@@ -87,7 +87,7 @@ function SettingsForm({
                             location={board.meta.location}
                             onChange={handleChange}
                         />
-                        <Footer
+                        <InfoMessage
                             infoMessage={board.footer}
                             onBlur={handleChange}
                         />
