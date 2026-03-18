@@ -58,11 +58,15 @@ export type EventMap = {
     /* Oversikt */
     board_create_started: WithLocation<
         typeof LOCATIONS.Admin | typeof LOCATIONS.Folder
-    >
+    > & {
+        type: 'new' | 'from_local_storage'
+    }
 
     board_created: {
         folder_selected: boolean
     }
+
+    board_dismiss_from_local_storage: void
 
     board_create_cancelled: {
         method: 'dismissed' | 'close_icon' | 'cancel_button'
