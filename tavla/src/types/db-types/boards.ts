@@ -89,7 +89,6 @@ const boardMetaSchema = z.object({
 
 const combinedTilesSchema = z.object({
     ids: z.array(z.string()),
-    isCombinedTiles: z.boolean().optional(),
 })
 
 const boardThemeSchema = z.enum(['dark', 'light'])
@@ -112,6 +111,7 @@ export const BoardDBSchema = z.object({
     meta: boardMetaSchema,
     tiles: z.array(boardTileSchema),
     combinedTiles: z.array(combinedTilesSchema).optional(),
+    isCombinedTiles: z.boolean().optional(),
     theme: boardThemeSchema.optional(),
     footer: boardFooterSchema.optional(),
     transportPalette: transportPaletteSchema.optional(),
