@@ -1,4 +1,5 @@
 import { TLoginPage } from 'app/(admin)/components/Login/types'
+import { TypeOfPlace } from 'app/(admin)/components/TileSelector/utils'
 
 export const LOCATIONS = {
     LandingPage: 'landing_page',
@@ -200,12 +201,12 @@ export type EventMap = {
             | {
                   field: 'stop_place'
                   action: 'selected' | 'cleared'
-                  typeOfPlace: 'stop_place' | 'address' | 'other'
+                  typeOfPlace: TypeOfPlace
               }
             | {
                   field: 'closest_stop_places'
                   action: 'added' | 'removed'
-                  typeOfPlace: 'stop_place' | 'address' | 'other'
+                  typeOfPlace: TypeOfPlace
                   selectedIndexes?: number[]
               }
         )
@@ -214,7 +215,7 @@ export type EventMap = {
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
     > & {
         county_count: number
-        typeOfPlace: 'stop_place' | 'address' | 'other'
+        typeOfPlace: TypeOfPlace
         selectedIndexes: number[]
     }
 
