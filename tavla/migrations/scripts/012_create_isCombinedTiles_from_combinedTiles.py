@@ -16,6 +16,7 @@ Author: Ola
 
 from google.cloud import firestore
 import time
+from enum import Enum
 import init
 
 boards = "boards"
@@ -26,24 +27,34 @@ def compute_is_combined_tiles(data: dict) -> bool:
     return isinstance(combined_tiles, list) and len(combined_tiles) > 0
 
 
-def update_board(doc_snap, log_file) -> bool:
+class MigrationResult(Enum):
+    UPDATED = "updated"
+    SKIPPED = "skipped"
+    FAILED = "failed"
+
+
+def update_board(doc_snap, log_file) -> MigrationResult:
+    doc_id = doc_snap.id
+
     if not doc_snap.exists:
-        log_file.write(f"❌ Document doesn't exist\n")
-        return False
+        log_file.write(f"❌ Document doesn't exist (id={doc_id})\n")
+        return MigrationResult.FAILED
 
     data = doc_snap.to_dict()
     if not data:
-        log_file.write(f"❌ No data\n")
-        return False
+        log_file.write(f"❌ No data for document (id={doc_id})\n")
+        return MigrationResult.FAILED
 
     if "isCombinedTiles" in data:
-        log_file.write(f"ℹ️ 'isCombinedTiles' already exists ({data['isCombinedTiles']}), skipping\n")
-        return False
+        log_file.write(
+            f"ℹ️ 'isCombinedTiles' already exists ({data['isCombinedTiles']}), skipping document (id={doc_id})\n"
+        )
+        return MigrationResult.SKIPPED
 
     is_combined = compute_is_combined_tiles(data)
     doc_snap.reference.update({"isCombinedTiles": is_combined})
-    log_file.write(f"✅ Set 'isCombinedTiles' = {is_combined}\n")
-    return True
+    log_file.write(f"✅ Set 'isCombinedTiles' = {is_combined} for document (id={doc_id})\n")
+    return MigrationResult.UPDATED
 
 
 def stream_documents_in_batches(collection_ref, batch_size=500):
@@ -85,13 +96,15 @@ def migrate_field(db: firestore.Client):
             log_file.write(f"\n-----> 🏁 Checking document: {doc_id}\n")
 
             try:
-                was_updated = update_board(doc_snap, log_file)
+                result = update_board(doc_snap, log_file)
 
-                if was_updated:
+                if result == MigrationResult.UPDATED:
                     success_count += 1
                     log_file.write(f"✅ Updated document {doc_id}\n")
-                else:
+                elif result == MigrationResult.SKIPPED:
                     skip_count += 1
+                elif result == MigrationResult.FAILED:
+                    fail_count += 1
 
             except Exception as e:
                 fail_count += 1
