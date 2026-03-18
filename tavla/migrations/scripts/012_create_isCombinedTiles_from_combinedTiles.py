@@ -26,9 +26,7 @@ def compute_is_combined_tiles(data: dict) -> bool:
     return isinstance(combined_tiles, list) and len(combined_tiles) > 0
 
 
-def update_board(doc_ref, log_file) -> bool:
-    doc_snap = doc_ref.get()
-
+def update_board(doc_snap, log_file) -> bool:
     if not doc_snap.exists:
         log_file.write(f"❌ Document doesn't exist\n")
         return False
@@ -43,7 +41,7 @@ def update_board(doc_ref, log_file) -> bool:
         return False
 
     is_combined = compute_is_combined_tiles(data)
-    doc_ref.update({"isCombinedTiles": is_combined})
+    doc_snap.reference.update({"isCombinedTiles": is_combined})
     log_file.write(f"✅ Set 'isCombinedTiles' = {is_combined}\n")
     return True
 
@@ -87,8 +85,7 @@ def migrate_field(db: firestore.Client):
             log_file.write(f"\n-----> 🏁 Checking document: {doc_id}\n")
 
             try:
-                doc_ref = db.collection(boards).document(doc_id)
-                was_updated = update_board(doc_ref, log_file)
+                was_updated = update_board(doc_snap, log_file)
 
                 if was_updated:
                     success_count += 1
