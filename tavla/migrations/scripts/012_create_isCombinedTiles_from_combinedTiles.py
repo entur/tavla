@@ -102,6 +102,7 @@ def migrate_field(db: firestore.Client):
 
             if i % 100 == 0 and i != 0:
                 log_file.write(f"😴 Taking a nap after {i} documents...\n")
+                log_file.flush()
                 time.sleep(1)
 
         log_file.write(
