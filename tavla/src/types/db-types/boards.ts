@@ -57,6 +57,11 @@ const boardTileSchema = z.object({
     name: z.string(),
     stopPlaceId: z.string(),
     quays: z.array(quaySchema),
+    walkingDistance: boardWalkingDistanceSchema.optional(),
+    offset: z.number().optional(),
+    displayName: z.string().optional(),
+    columns: z.array(tileColumnSchema).optional(),
+    county: z.string().optional(),
 
     /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     placeId: z.string().optional(),
@@ -67,12 +72,8 @@ const boardTileSchema = z.object({
     /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     whitelistedLines: z.array(z.string()).optional(),
 
+    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     whitelistedTransportModes: z.array(transportModeSchema).optional(),
-    walkingDistance: boardWalkingDistanceSchema.optional(),
-    offset: z.number().optional(),
-    displayName: z.string().optional(),
-    columns: z.array(tileColumnSchema).optional(),
-    county: z.string().optional(),
 })
 
 const boardFontSizeSchema = z.enum(['small', 'medium', 'large'])
@@ -88,6 +89,7 @@ const boardMetaSchema = z.object({
 
 const combinedTilesSchema = z.object({
     ids: z.array(z.string()),
+    isCombinedTiles: z.boolean().optional(),
 })
 
 const boardThemeSchema = z.enum(['dark', 'light'])
