@@ -1,11 +1,40 @@
 'use client'
 import { Checkbox } from '@entur/form'
+import { SkeletonRectangle } from '@entur/loader'
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { useFeatureFlagEnabled } from 'posthog-js/react'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TTransportMode } from 'src/types/graphql-schema'
-import { TLineFragment } from './types'
+import { FeatureFlags } from '../../../../../../posthog/featureFlags'
+import { LineWithFrontText } from './types'
+
+function PublicCode({ line }: { line: LineWithFrontText }) {
+    if (!line.publicCode) return null
+
+    return (
+        <div className={`publicCode bg-${line.transportMode} text-white`}>
+            {line.publicCode}
+        </div>
+    )
+}
+
+function DisplayName({
+    line,
+    showByFrontText,
+}: {
+    line: LineWithFrontText
+    showByFrontText: boolean | undefined
+}) {
+    if (showByFrontText) {
+        if (line.frontTexts) {
+            return <>{line.frontTexts.join(' / ')}</>
+        }
+        return <SkeletonRectangle width="6rem" height="1rem" />
+    }
+    return <>{line.name ?? ''}</>
+}
 
 function PlatformAndLines({
     tile,
@@ -25,7 +54,7 @@ function PlatformAndLines({
     groupKey: string
     title: string
     description: string | null
-    lines: TLineFragment[]
+    lines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     transportModes: TTransportMode[]
     selectedLineIds: Set<string>
@@ -33,6 +62,10 @@ function PlatformAndLines({
     onToggleGroup: (compositeKeys: string[], checked: boolean) => void
 }) {
     const posthog = usePosthogTracking()
+
+    const isShowLinesByFrontTextEnabled = useFeatureFlagEnabled(
+        FeatureFlags.ShowLinesByFrontText,
+    )
 
     const selectedLinesInGroup = lines.filter((l) =>
         selectedLineIds.has(`${quayId}||${l.id}`),
@@ -42,6 +75,33 @@ function PlatformAndLines({
     const isNoneSelected = selectedLinesInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
     const showLines = !isNoneSelected
+
+    const compareLineFragment = (
+        a: LineWithFrontText,
+        b: LineWithFrontText,
+    ) => {
+        const modeA = a.transportMode || ''
+        const modeB = b.transportMode || ''
+
+        if (modeA !== modeB) {
+            return modeA.localeCompare(modeB)
+        }
+
+        const codeA = a.publicCode || ''
+        const codeB = b.publicCode || ''
+
+        return codeA.localeCompare(codeB, undefined, {
+            numeric: true,
+        })
+    }
+
+    const filterLineFragment = (line: LineWithFrontText) => {
+        if (isShowLinesByFrontTextEnabled) {
+            return !line.frontTexts || line.frontTexts.length > 0
+        } else {
+            return true
+        }
+    }
 
     return (
         <div className="rounded-lg border-2 p-4">
@@ -84,18 +144,8 @@ function PlatformAndLines({
                 />
             </div>
             {[...lines]
-                .sort((a, b) => {
-                    const modeA = a.transportMode || ''
-                    const modeB = b.transportMode || ''
-                    if (modeA !== modeB) {
-                        return modeA.localeCompare(modeB)
-                    }
-                    const codeA = a.publicCode || ''
-                    const codeB = b.publicCode || ''
-                    return codeA.localeCompare(codeB, undefined, {
-                        numeric: true,
-                    })
-                })
+                .sort(compareLineFragment)
+                .filter(filterLineFragment)
                 .map((line) => (
                     <Checkbox
                         key={line.id}
@@ -115,14 +165,11 @@ function PlatformAndLines({
                         }}
                     >
                         <div className="flex flex-row items-center gap-2">
-                            {line.publicCode && (
-                                <div
-                                    className={`publicCode bg-${line.transportMode} text-white`}
-                                >
-                                    {line.publicCode}
-                                </div>
-                            )}
-                            {line.name}
+                            <PublicCode line={line} />
+                            <DisplayName
+                                line={line}
+                                showByFrontText={isShowLinesByFrontTextEnabled}
+                            />
                         </div>
                     </Checkbox>
                 ))}

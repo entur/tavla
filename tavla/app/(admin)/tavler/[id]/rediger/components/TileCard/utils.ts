@@ -1,7 +1,10 @@
 import { TTransportMode } from 'src/types/graphql-schema'
-import { TLineFragment } from './types'
+import { LineWithFrontText } from './types'
 
-export function sortLineByPublicCode(a: TLineFragment, b: TLineFragment) {
+export function sortLineByPublicCode(
+    a: LineWithFrontText,
+    b: LineWithFrontText,
+) {
     if (!a || !a.publicCode || !b || !b.publicCode) return 1
 
     const containsLetters = /[a-zæøåA-ZÆØÅ]/

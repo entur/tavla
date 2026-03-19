@@ -1,0 +1,19 @@
+query QuayEstimatedCalls($quayId: String!, $numberOfDepartures: Int = 200) {
+    quay(id: $quayId) {
+        estimatedCalls(
+            numberOfDepartures: $numberOfDepartures
+            numberOfDeparturesPerLineAndDestinationDisplay: 1
+            timeRange: 604800
+            includeCancelledTrips: true
+        ) {
+            destinationDisplay {
+                frontText
+            }
+            serviceJourney {
+                line {
+                    id
+                }
+            }
+        }
+    }
+}

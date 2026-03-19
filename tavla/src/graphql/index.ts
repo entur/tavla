@@ -203,6 +203,30 @@ export const QuayEditQuery = new TypedDocumentString(`
     Types.TQuayEditQuery,
     Types.TQuayEditQueryVariables
 >
+export const QuayEstimatedCallsQuery = new TypedDocumentString(`
+    query QuayEstimatedCalls($quayId: String!, $numberOfDepartures: Int = 200) {
+  quay(id: $quayId) {
+    estimatedCalls(
+      numberOfDepartures: $numberOfDepartures
+      numberOfDeparturesPerLineAndDestinationDisplay: 1
+      timeRange: 604800
+      includeCancelledTrips: true
+    ) {
+      destinationDisplay {
+        frontText
+      }
+      serviceJourney {
+        line {
+          id
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+    Types.TQuayEstimatedCallsQuery,
+    Types.TQuayEstimatedCallsQueryVariables
+>
 export const QuayNameQuery = new TypedDocumentString(`
     query QuayName($id: String!) {
   quay(id: $id) {

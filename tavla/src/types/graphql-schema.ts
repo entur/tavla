@@ -2403,6 +2403,29 @@ export type TQuayEditQuery = {
     } | null
 }
 
+export type TQuayEstimatedCallsQueryVariables = Exact<{
+    quayId: Scalars['String']['input']
+    numberOfDepartures?: InputMaybe<Scalars['Int']['input']>
+}>
+
+export type TQuayEstimatedCallsQuery = {
+    __typename?: 'QueryType'
+    quay: {
+        __typename?: 'Quay'
+        estimatedCalls: Array<{
+            __typename?: 'EstimatedCall'
+            destinationDisplay: {
+                __typename?: 'DestinationDisplay'
+                frontText: string | null
+            } | null
+            serviceJourney: {
+                __typename?: 'ServiceJourney'
+                line: { __typename?: 'Line'; id: string }
+            }
+        }>
+    } | null
+}
+
 export type TQuayNameQueryVariables = Exact<{
     id: Scalars['String']['input']
 }>
