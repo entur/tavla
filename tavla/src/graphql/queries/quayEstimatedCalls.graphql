@@ -4,7 +4,7 @@ query QuayEstimatedCalls($quayId: String!, $numberOfDepartures: Int = 200) {
             numberOfDepartures: $numberOfDepartures
             numberOfDeparturesPerLineAndDestinationDisplay: 1
             timeRange: 604800
-            includeCancelledTrips: false
+            includeCancelledTrips: true
         ) {
             destinationDisplay {
                 frontText
