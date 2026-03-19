@@ -10,6 +10,32 @@ import { TTransportMode } from 'src/types/graphql-schema'
 import { FeatureFlags } from '../../../../../../posthog/featureFlags'
 import { LineWithFrontText } from './types'
 
+function PublicCode({ line }: { line: LineWithFrontText }) {
+    if (!line.publicCode) return null
+
+    return (
+        <div className={`publicCode bg-${line.transportMode} text-white`}>
+            {line.publicCode}
+        </div>
+    )
+}
+
+function DisplayName({
+    line,
+    showByFrontText,
+}: {
+    line: LineWithFrontText
+    showByFrontText: boolean | undefined
+}) {
+    if (showByFrontText) {
+        if (line.frontTexts) {
+            return <>{line.frontTexts.join(' / ')}</>
+        }
+        return <SkeletonRectangle width="6rem" height="1rem" />
+    }
+    return <>{line.name ?? ''}</>
+}
+
 function PlatformAndLines({
     tile,
     quayId,
@@ -49,30 +75,6 @@ function PlatformAndLines({
     const isNoneSelected = selectedLinesInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
     const showLines = !isNoneSelected
-
-    const publicCode = (line: LineWithFrontText) => {
-        if (line.publicCode) {
-            return (
-                <div
-                    className={`publicCode bg-${line.transportMode} text-white`}
-                >
-                    {line.publicCode}
-                </div>
-            )
-        }
-    }
-
-    const displayName = (line: LineWithFrontText) => {
-        if (isShowLinesByFrontTextEnabled) {
-            if (line.frontTexts) {
-                return line.frontTexts.join(' / ')
-            } else {
-                return <SkeletonRectangle width="6rem" height="1rem" />
-            }
-        } else {
-            return line.name ?? ''
-        }
-    }
 
     const compareLineFragment = (
         a: LineWithFrontText,
@@ -163,8 +165,11 @@ function PlatformAndLines({
                         }}
                     >
                         <div className="flex flex-row items-center gap-2">
-                            {publicCode(line)}
-                            {displayName(line)}
+                            <PublicCode line={line} />
+                            <DisplayName
+                                line={line}
+                                showByFrontText={isShowLinesByFrontTextEnabled}
+                            />
                         </div>
                     </Checkbox>
                 ))}

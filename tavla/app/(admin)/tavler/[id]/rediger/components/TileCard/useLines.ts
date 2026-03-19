@@ -54,17 +54,15 @@ function addFrontTextToQuay(
         .map((line) => {
             const lineFrontTexts = frontTexts.get(line.id)
             if (!lineFrontTexts || lineFrontTexts.length === 0) return null
-            return { ...line, frontTexts: lineFrontTexts } as LineWithFrontText
+            return { ...line, frontTexts: lineFrontTexts }
         })
-        .filter((line): line is LineWithFrontText => line !== null)
+        .filter((line) => line !== null)
 }
 
 function useLines(tile: BoardTileDB): QuayWithFrontText[] | null {
     const [quays, setQuays] = useState<QuayWithFrontText[] | null>(null)
 
     useEffect(() => {
-        let cancelled = false
-
         async function fetchData() {
             await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
                 headers: {
@@ -79,8 +77,6 @@ function useLines(tile: BoardTileDB): QuayWithFrontText[] | null {
             }).then(async (res) => {
                 const json = await res.json()
                 const quays: TQuay[] = json.data?.stopPlace?.quays ?? []
-
-                if (cancelled) return
 
                 setQuays(
                     quays.map((q) => ({
@@ -115,9 +111,7 @@ function useLines(tile: BoardTileDB): QuayWithFrontText[] | null {
 
         fetchData().catch(() => setQuays([]))
 
-        return () => {
-            cancelled = true
-        }
+        return
     }, [])
 
     return quays
