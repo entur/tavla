@@ -9,12 +9,12 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TTransportMode } from 'src/types/graphql-schema'
 import { PlatformAndLines } from '../PlatformAndLines'
-import { TLineFragment, TQuayFrontText } from '../types'
+import { LineWithFrontText, QuayWithFrontText } from '../types'
 import { transportModeNames } from '../utils'
 
 function getInitialCheckedLineIds(
     tile: BoardTileDB,
-    quays: TQuayFrontText[],
+    quays: QuayWithFrontText[],
 ): Set<string> {
     const set = new Set<string>()
     const hasQuayFilter = tile.quays && tile.quays.length > 0
@@ -46,15 +46,15 @@ function getInitialCheckedLineIds(
 type QuaysByTransportMode = {
     mode: TTransportMode
     label: string
-    quays: TQuayFrontText[]
+    quays: QuayWithFrontText[]
 }
 
 type ColumnItem =
     | { type: 'mode_group'; data: QuaysByTransportMode }
-    | { type: 'quay'; mode: TTransportMode; data: TQuayFrontText }
+    | { type: 'quay'; mode: TTransportMode; data: QuayWithFrontText }
 
 function generateQuayModesMap(
-    quays: TQuayFrontText[],
+    quays: QuayWithFrontText[],
 ): Map<string, TTransportMode[]> {
     const map = new Map<string, TTransportMode[]>()
 
@@ -93,7 +93,7 @@ function generateQuayModesMap(
     return map
 }
 
-function sortAndDistributeColumnItems(quays: TQuayFrontText[]): {
+function sortAndDistributeColumnItems(quays: QuayWithFrontText[]): {
     modes: TTransportMode[]
     quayModesMap: Map<string, TTransportMode[]>
     columns: ColumnItem[][]
@@ -127,7 +127,7 @@ function sortAndDistributeColumnItems(quays: TQuayFrontText[]): {
                 {
                     mode: TTransportMode
                     label: string
-                    quays: TQuayFrontText[]
+                    quays: QuayWithFrontText[]
                 }
             >,
         ),
@@ -198,8 +198,8 @@ function SetVisibleLines({
     quays,
     trackingLocation,
 }: {
-    quays: TQuayFrontText[]
-    allLines: TLineFragment[]
+    quays: QuayWithFrontText[]
+    allLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
 }) {
     const posthog = usePosthogTracking()

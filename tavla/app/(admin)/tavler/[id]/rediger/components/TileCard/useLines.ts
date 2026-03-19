@@ -3,7 +3,7 @@ import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'src/assets/env'
 import { QuayEstimatedCallsQuery, StopPlaceEditQuery } from 'src/graphql'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TQuay } from 'src/types/graphql-schema'
-import { TLineFragment, TQuayFrontText } from './types'
+import { LineWithFrontText, QuayWithFrontText } from './types'
 
 async function getFrontTextsForQuay(
     quayId: string,
@@ -49,18 +49,18 @@ async function getFrontTextsForQuay(
 function addFrontTextToQuay(
     quay: TQuay,
     frontTexts: Map<string, string[]>,
-): TLineFragment[] {
+): LineWithFrontText[] {
     return quay.lines
         .map((line) => {
             const lineFrontTexts = frontTexts.get(line.id)
             if (!lineFrontTexts || lineFrontTexts.length === 0) return null
-            return { ...line, frontTexts: lineFrontTexts } as TLineFragment
+            return { ...line, frontTexts: lineFrontTexts } as LineWithFrontText
         })
-        .filter((line): line is TLineFragment => line !== null)
+        .filter((line): line is LineWithFrontText => line !== null)
 }
 
-function useLines(tile: BoardTileDB): TQuayFrontText[] | null {
-    const [quays, setQuays] = useState<TQuayFrontText[] | null>(null)
+function useLines(tile: BoardTileDB): QuayWithFrontText[] | null {
+    const [quays, setQuays] = useState<QuayWithFrontText[] | null>(null)
 
     useEffect(() => {
         let cancelled = false

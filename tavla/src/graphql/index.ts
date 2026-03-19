@@ -210,7 +210,7 @@ export const QuayEstimatedCallsQuery = new TypedDocumentString(`
       numberOfDepartures: $numberOfDepartures
       numberOfDeparturesPerLineAndDestinationDisplay: 1
       timeRange: 604800
-      includeCancelledTrips: false
+      includeCancelledTrips: true
     ) {
       destinationDisplay {
         frontText

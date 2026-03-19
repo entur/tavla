@@ -8,7 +8,7 @@ import { useFeatureFlagEnabled } from 'posthog-js/react'
 import { BoardTileDB } from 'src/types/db-types/boards'
 import { TTransportMode } from 'src/types/graphql-schema'
 import { FeatureFlags } from '../../../../../../posthog/featureFlags'
-import { TLineFragment } from './types'
+import { LineWithFrontText } from './types'
 
 function PlatformAndLines({
     tile,
@@ -28,7 +28,7 @@ function PlatformAndLines({
     groupKey: string
     title: string
     description: string | null
-    lines: TLineFragment[]
+    lines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     transportModes: TTransportMode[]
     selectedLineIds: Set<string>
@@ -50,7 +50,7 @@ function PlatformAndLines({
     const isIndeterminate = !isAllSelected && !isNoneSelected
     const showLines = !isNoneSelected
 
-    const publicCode = (line: TLineFragment) => {
+    const publicCode = (line: LineWithFrontText) => {
         if (line.publicCode) {
             return (
                 <div
@@ -62,7 +62,7 @@ function PlatformAndLines({
         }
     }
 
-    const displayName = (line: TLineFragment) => {
+    const displayName = (line: LineWithFrontText) => {
         if (isShowLinesByFrontTextEnabled) {
             if (line.frontTexts) {
                 return line.frontTexts.join(' / ')
@@ -74,7 +74,10 @@ function PlatformAndLines({
         }
     }
 
-    const compareLineFragment = (a: TLineFragment, b: TLineFragment) => {
+    const compareLineFragment = (
+        a: LineWithFrontText,
+        b: LineWithFrontText,
+    ) => {
         const modeA = a.transportMode || ''
         const modeB = b.transportMode || ''
 
@@ -90,7 +93,7 @@ function PlatformAndLines({
         })
     }
 
-    const filterLineFragment = (line: TLineFragment) => {
+    const filterLineFragment = (line: LineWithFrontText) => {
         if (isShowLinesByFrontTextEnabled) {
             return !line.frontTexts || line.frontTexts.length > 0
         } else {
