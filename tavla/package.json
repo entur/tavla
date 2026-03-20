@@ -58,7 +58,7 @@
         "jsdom": "29.0.0",
         "lodash": "4.17.23",
         "nanoid": "5.1.6",
-        "next": "16.1.6",
+        "next": "16.1.7",
         "posthog-js": "1.359.1",
         "posthog-node": "5.26.1",
         "react": "19.2.4",
