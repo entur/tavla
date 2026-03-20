@@ -161,16 +161,21 @@ async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
 async function setViewType(board: BoardDB, viewType: string) {
     userHasAccessToEditBoard(board.id ?? '')
 
-    const shouldDeleteCombinedTiles = viewType === 'separate'
+    const isSeparateTiles = viewType === 'separate'
 
     try {
         await db
             .collection('boards')
             .doc(board.id ?? '')
             .update({
-                combinedTiles: shouldDeleteCombinedTiles
+                combinedTiles: isSeparateTiles
                     ? FieldValue.delete()
-                    : [{ ids: board.tiles.map((tile) => tile.uuid) }],
+                    : [
+                          {
+                              ids: board.tiles.map((tile) => tile.uuid),
+                          },
+                      ],
+                isCombinedTiles: !isSeparateTiles,
                 'meta.dateModified': Date.now(),
             })
 
