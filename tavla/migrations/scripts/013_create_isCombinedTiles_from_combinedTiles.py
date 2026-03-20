@@ -8,7 +8,7 @@ Description:
     either a true or a false in this field. If the field already exists, we don't change it.
 
 Usage:
-    ./migration run scripts/012_create_isCombinedTiles_from_combinedTiles.py
+    ./migration run scripts/013_create_isCombinedTiles_from_combinedTiles.py
 
 Date: 2026-03-18
 Author: Ola
