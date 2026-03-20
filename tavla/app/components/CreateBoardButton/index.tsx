@@ -1,24 +1,29 @@
 'use client'
 import { Button } from '@entur/button'
 import { ForwardIcon } from '@entur/icons'
-import { FeatureFlags } from 'app/posthog/featureFlags'
+import { CreateUserButton } from 'app/components/CreateUserButton'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useFeatureFlagEnabled } from 'posthog-js/react'
 
 import Link from 'next/link'
 
 function CreateBoardButton() {
     const posthog = usePosthogTracking()
 
-    const isCreateBoardWithoutUserEnabled = useFeatureFlagEnabled(
-        FeatureFlags.CreateBoardWithoutUser,
-    )
+    const isCreateBoardWithoutUserEnabled = true
 
     if (isCreateBoardWithoutUserEnabled) {
         return (
-            <Button variant="primary" size="medium" as={Link} href="lag-tavle">
-                Lag en tavle <ForwardIcon aria-hidden />
-            </Button>
+            <>
+                <CreateUserButton variant="secondary" />
+                <Button
+                    variant="primary"
+                    size="medium"
+                    as={Link}
+                    href="lag-tavle"
+                >
+                    Lag en tavle <ForwardIcon aria-hidden />
+                </Button>
+            </>
         )
     }
 

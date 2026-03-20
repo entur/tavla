@@ -6,11 +6,17 @@ import Link from 'next/link'
 
 import { ButtonGroup, SecondaryButton } from '@entur/button'
 import { EmailIcon } from '@entur/icons'
+import { FeatureFlags } from 'app/posthog/featureFlags'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { useFeatureFlagEnabled } from 'posthog-js/react'
 import Google from './Google'
 
 function Entry() {
     const posthog = usePosthogTracking()
+
+    const isCreateBoardWithoutUserEnabled = useFeatureFlagEnabled(
+        FeatureFlags.CreateBoardWithoutUser,
+    )
 
     return (
         <div className="flex flex-col items-center">
@@ -26,6 +32,22 @@ function Entry() {
             </Heading3>
 
             <ButtonGroup className="flex w-full flex-col pb-4">
+                {isCreateBoardWithoutUserEnabled && (
+                    <SecondaryButton
+                        width="fluid"
+                        aria-label="Fortsett uten bruker"
+                        as={Link}
+                        href="lag-tavle"
+                        onClick={() => {
+                            posthog.capture('board_create_without_user', {
+                                location: 'user_modal',
+                                context: 'entry',
+                            })
+                        }}
+                    >
+                        Fortsett uten bruker
+                    </SecondaryButton>
+                )}
                 <SecondaryButton
                     width="fluid"
                     aria-label="Logg inn med mail"
