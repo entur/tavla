@@ -234,6 +234,7 @@ function TileSelector({
 
             <SubmitButton
                 variant="secondary"
+                className="min-w-24"
                 onClick={() =>
                     posthog.capture('stop_place_added', {
                         location: trackingLocation,

@@ -30,7 +30,6 @@ function EditRemoveTileButtonGroup({
                 id="tooltip-edit-tile"
             >
                 <SecondarySquareButton
-                    size="small"
                     onClick={() => {
                         if (!isTileOpen) {
                             posthog.capture('stop_place_edit_started', {
