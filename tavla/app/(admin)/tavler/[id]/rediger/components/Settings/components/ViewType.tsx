@@ -6,15 +6,15 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 
 function ViewType({
-    hasCombinedTiles,
+    isCombinedTiles,
     onChange,
 }: {
-    hasCombinedTiles: boolean
+    isCombinedTiles: boolean
     onChange: () => void
 }) {
     const posthog = usePosthogTracking()
     const [value, setValue] = useState(
-        hasCombinedTiles ? 'combined' : 'separate',
+        isCombinedTiles ? 'combined' : 'separate',
     )
 
     return (

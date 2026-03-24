@@ -76,10 +76,7 @@ export function useSaveDemoBoardInLocalStorage(): {
                 hideClock,
                 hideLogo,
                 footer: footerHasText ? { footer } : undefined,
-                combinedTiles:
-                    viewType === 'separate'
-                        ? undefined
-                        : [{ ids: prev.tiles.map((tile) => tile.uuid) }],
+                isCombinedTiles: viewType === 'combined',
                 tiles: updatedTiles,
             }))
         },

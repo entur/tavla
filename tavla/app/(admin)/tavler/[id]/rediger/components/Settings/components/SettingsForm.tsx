@@ -50,9 +50,7 @@ function SettingsForm({
                     <Heading3 margin="bottom">Tavlevisning</Heading3>
                     <div className="flex flex-col gap-4">
                         <ViewType
-                            hasCombinedTiles={
-                                board.combinedTiles ? true : false
-                            }
+                            isCombinedTiles={board.combinedTiles ? true : false}
                             onChange={handleChange}
                         />
                         <ThemeSelect
