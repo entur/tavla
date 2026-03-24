@@ -1,6 +1,12 @@
 import { NormalizedDropdownItemType } from '@entur/dropdown'
 import { uniq } from 'lodash'
-import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'src/assets/env'
+import {
+    CLIENT_NAME,
+    COUNTY_ENDPOINT,
+    GEOCODER_ENDPOINT,
+    GRAPHQL_ENDPOINTS,
+} from 'src/assets/env'
+import { StopPlacesHaveDeparturesQuery } from 'src/graphql'
 import { LocationDB } from 'src/types/db-types/boards'
 import { TCategory, getIcons } from '../tavler/[id]/utils'
 
@@ -68,6 +74,36 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
         })
 }
 
+async function fetchStopPlaceIdsWithDepartures(
+    ids: string[],
+): Promise<Set<string>> {
+    if (ids.length === 0) return new Set()
+
+    const response = await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
+        headers: {
+            'Content-Type': 'application/json',
+            'ET-Client-Name': CLIENT_NAME,
+        },
+        body: JSON.stringify({
+            query: StopPlacesHaveDeparturesQuery.toString(),
+            variables: { ids },
+        }),
+        method: 'POST',
+    })
+
+    const json = await response.json()
+    const stopPlaces = json.data?.stopPlaces ?? []
+
+    return new Set(
+        stopPlaces
+            .filter(
+                (sp: { id: string; estimatedCalls: unknown[] } | null) =>
+                    sp && sp.estimatedCalls.length > 0,
+            )
+            .map((sp: { id: string }) => sp.id),
+    )
+}
+
 export async function fetchStopPlaces(
     text: string,
     countyIds?: string[],
@@ -76,7 +112,7 @@ export async function fetchStopPlaces(
 
     const searchParams = new URLSearchParams({
         lang: 'no',
-        size: '5',
+        size: '10',
         layers: 'venue,address',
         text,
     })
@@ -84,27 +120,42 @@ export async function fetchStopPlaces(
     if (countyIds && countyIds.length > 0)
         searchParams.append('boundary.county_ids', countyIds.join(','))
 
-    return fetch(`${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`, {
-        headers: {
-            'ET-Client-Name': CLIENT_NAME,
+    const data: TPartialGeoResponse = await fetch(
+        `${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`,
+        {
+            headers: {
+                'ET-Client-Name': CLIENT_NAME,
+            },
         },
-    })
-        .then((res) => res.json())
-        .then((data: TPartialGeoResponse) => {
-            return data.features.map(({ properties, geometry }) => ({
-                value: {
-                    id: properties.id ?? '',
-                    county: properties.county,
-                    category: properties.category,
-                    coordinates: toGeoCoordinate(geometry.coordinates),
-                    layer: properties.layer,
-                },
-                label: properties.label || '',
-                icons: uniq(getIcons(properties.layer, properties.category)),
-                county: properties.county,
-                itemKey: properties.id ?? properties.label ?? '',
-            }))
-        })
+    ).then((res) => res.json())
+
+    const items = data.features.map(({ properties, geometry }) => ({
+        value: {
+            id: properties.id ?? '',
+            county: properties.county,
+            category: properties.category,
+            coordinates: toGeoCoordinate(geometry.coordinates),
+            layer: properties.layer,
+        },
+        label: properties.label || '',
+        icons: uniq(getIcons(properties.layer, properties.category)),
+        county: properties.county,
+        itemKey: properties.id ?? properties.label ?? '',
+    }))
+
+    const venueIds = items
+        .filter((item) => item.value.layer === 'venue' && item.value.id)
+        .map((item) => item.value.id)
+
+    const idsWithDepartures = await fetchStopPlaceIdsWithDepartures(venueIds)
+
+    return items
+        .filter(
+            (item) =>
+                item.value.layer !== 'venue' ||
+                idsWithDepartures.has(item.value.id),
+        )
+        .slice(0, 5)
 }
 
 export async function fetchClosestStopPlaces(
@@ -112,28 +163,38 @@ export async function fetchClosestStopPlaces(
     numberOfStopPlaces: number,
     areaRadiusInKm: number = 1,
 ): Promise<NormalizedDropdownItemType<StopPlace>[]> {
-    return fetch(
-        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordinates.lat}&point.lon=${coordinates.lon}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${numberOfStopPlaces}`,
+    const requestSize = numberOfStopPlaces * 2
+
+    const data: TPartialGeoResponse = await fetch(
+        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordinates.lat}&point.lon=${coordinates.lon}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${requestSize}`,
         {
             headers: {
                 'ET-Client-Name': CLIENT_NAME,
             },
         },
-    )
-        .then((res) => res.json())
-        .then((data: TPartialGeoResponse) => {
-            return data.features.map(({ properties, geometry }) => ({
-                value: {
-                    id: properties.id ?? '',
-                    county: properties.county,
-                    coordinates: toGeoCoordinate(geometry.coordinates),
-                    name: properties.name ?? '',
-                },
-                label: properties.label || '',
-                icons: uniq(getIcons(properties.layer, properties.category)),
-                county: properties.county,
-            }))
-        })
+    ).then((res) => res.json())
+
+    const items = data.features.map(({ properties, geometry }) => ({
+        value: {
+            id: properties.id ?? '',
+            county: properties.county,
+            coordinates: toGeoCoordinate(geometry.coordinates),
+            name: properties.name ?? '',
+        },
+        label: properties.label || '',
+        icons: uniq(getIcons(properties.layer, properties.category)),
+        county: properties.county,
+    }))
+
+    const venueIds = items
+        .filter((item) => item.value.id)
+        .map((item) => item.value.id)
+
+    const idsWithDepartures = await fetchStopPlaceIdsWithDepartures(venueIds)
+
+    return items
+        .filter((item) => idsWithDepartures.has(item.value.id))
+        .slice(0, numberOfStopPlaces)
 }
 
 export async function fetchPoints(
