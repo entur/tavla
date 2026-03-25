@@ -1,5 +1,6 @@
 [data-transport-palette='default'] {
     --bus-color: var(--standard-bus);
+    --regional-bus-color: var(--standard-bus);
     --coach-color: var(--temp-coach-color-standard);
     --air-color: var(--standard-plane);
     --cableway-color: var(--standard-cableway);
@@ -15,6 +16,7 @@
 
 [data-theme='dark'][data-transport-palette='default'] {
     --bus-color: var(--dark-bus);
+    --regional-bus-color: var(--dark-bus);
     --coach-color: var(--temp-coach-color-dark);
     --air-color: var(--dark-plane);
     --cableway-color: var(--dark-cableway);
@@ -31,14 +33,18 @@
 /* Blue bus palette: trains are blue, buses are red */
 [data-transport-palette='blue-bus'] {
     --bus-color: var(--standard-train);
+    --regional-bus-color: var(--standard-train);
     --bus-color-transparent: var(--rgba-rail-color-transparent);
+    --regional-bus-color-transparent: var(--rgba-rail-color-transparent);
     --rail-color: var(--standard-bus);
     --rail-color-transparent: var(--rgba-bus-color-transparent);
 }
 
 [data-theme='dark'][data-transport-palette='blue-bus'] {
     --bus-color: var(--dark-train);
+    --regional-bus-color: var(--dark-train);
     --bus-color-transparent: var(--rgba-rail-color-transparent-dark);
+    --regional-bus-color-transparent: var(--rgba-rail-color-transparent-dark);
     --rail-color: var(--dark-bus);
     --rail-color-transparent: var(--rgba-bus-color-transparent-dark);
 }
@@ -46,14 +52,18 @@
 /* Green bus palette */
 [data-transport-palette='green-bus'] {
     --bus-color: var(--temp-coach-color-standard);
+    --regional-bus-color: var(--temp-coach-color-standard);
     --bus-color-transparent: var(--rgba-coach-color-transparent);
+    --regional-bus-color-transparent: var(--rgba-coach-color-transparent);
     --coach-color: var(--standard-bus);
     --coach-color-transparent: var(--rgba-bus-color-transparent);
 }
 
 [data-theme='dark'][data-transport-palette='green-bus'] {
     --bus-color: var(--temp-coach-color-dark);
+    --regional-bus-color: var(--temp-coach-color-dark);
     --bus-color-transparent: var(--rgba-coach-color-transparent-dark);
+    --regional-bus-color-transparent: var(--rgba-coach-color-transparent-dark);
     --coach-color: var(--dark-bus);
     --coach-color-transparent: var(--rgba-bus-color-transparent-dark);
 }
@@ -61,6 +71,8 @@
 /* ATB palette */
 [data-transport-palette='atb'] {
     --bus-color: #608000;
+    --regional-bus-color: #008099;
+    --regional-bus-color-transparent: rgba(0, 128, 153, 0.15);
     --coach-color: #008099;
     --rail-color: #943894;
     --water-color: #00404d;
@@ -84,6 +96,8 @@
 
 [data-theme='dark'][data-transport-palette='atb'] {
     --bus-color: #a9d22d;
+    --regional-bus-color: #0095b2;
+    --regional-bus-color-transparent: rgba(0, 149, 178, 0.15);
     --coach-color: #0095b2;
     --rail-color: #cd98cd;
     --water-color: #99d9e5;
@@ -108,6 +122,8 @@
 /* Fram palette */
 [data-transport-palette='fram'] {
     --bus-color: #014165;
+    --regional-bus-color: #014165;
+    --regional-bus-color-transparent: rgba(1, 65, 101, 0.15);
     --coach-color: #55823a;
     --rail-color: #551125;
     --water-color: #007ab5;
@@ -131,6 +147,8 @@
 
 [data-theme='dark'][data-transport-palette='fram'] {
     --bus-color: #56a0db;
+    --regional-bus-color: #56a0db;
+    --regional-bus-color-transparent: rgba(86, 160, 219, 0.15);
     --coach-color: #82b863;
     --rail-color: #ce758f;
     --water-color: #9ad9e6;
@@ -155,6 +173,8 @@
 /* Svipper palette */
 [data-transport-palette='svipper'] {
     --bus-color: #334dce;
+    --regional-bus-color: #334dce;
+    --regional-bus-color-transparent: rgba(51, 77, 206, 0.15);
     --coach-color: #507341;
     --rail-color: #bd3685;
     --water-color: #418083;
@@ -168,6 +188,8 @@
 
 [data-theme='dark'][data-transport-palette='svipper'] {
     --bus-color: #8e9dea;
+    --regional-bus-color: #8e9dea;
+    --regional-bus-color-transparent: rgba(142, 157, 234, 0.15);
     --coach-color: #8db67c;
     --rail-color: #cf83af;
     --water-color: #57a7ab;
@@ -182,6 +204,8 @@
 /* Reis palette */
 [data-transport-palette='reis'] {
     --bus-color: #004d61;
+    --regional-bus-color: #004d61;
+    --regional-bus-color-transparent: rgba(0, 77, 97, 0.15);
     --coach-color: #6b7d2e;
     --rail-color: #8a61c2;
     --water-color: #2b71b3;
@@ -204,6 +228,8 @@
 }
 [data-theme='dark'][data-transport-palette='reis'] {
     --bus-color: #38a4bf;
+    --regional-bus-color: #38a4bf;
+    --regional-bus-color-transparent: rgba(56, 164, 191, 0.15);
     --coach-color: #809537;
     --rail-color: #a281ce;
     --water-color: #5ca1e3;
