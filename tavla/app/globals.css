@@ -67,6 +67,7 @@
         --coach-color: var(--temp-coach-color-standard);
         --air-color: var(--standard-plane);
         --bus-color: var(--standard-bus);
+        --regional-bus-color: var(--bus-color);
         --cableway-color: var(--standard-cableway);
         --funicular-color: var(--standard-funicular);
         --metro-color: var(--standard-metro);
@@ -79,6 +80,7 @@
 
         --air-color-transparent: var(--rgba-air-color-transparent);
         --bus-color-transparent: var(--rgba-bus-color-transparent);
+        --regional-bus-color-transparent: var(--bus-color-transparent);
         --coach-color-transparent: var(--rgba-coach-color-transparent);
         --cableway-color-transparent: var(--rgba-cableway-color-transparent);
         --funicular-color-transparent: var(--rgba-funicular-color-transparent);
@@ -124,6 +126,7 @@
         --coach-color: var(--temp-coach-color-dark);
         --air-color: var(--dark-plane);
         --bus-color: var(--dark-bus);
+        --regional-bus-color: var(--bus-color);
         --cableway-color: var(--dark-cableway);
         --funicular-color: var(--dark-funicular);
         --metro-color: var(--dark-metro);
@@ -136,6 +139,7 @@
 
         --air-color-transparent: var(--rgba-air-color-transparent-dark);
         --bus-color-transparent: var(--rgba-bus-color-transparent-dark);
+        --regional-bus-color-transparent: var(--bus-color-transparent);
         --coach-color-transparent: var(--rgba-coach-color-transparent-dark);
         --cableway-color-transparent: var(
             --rgba-cableway-color-transparent-dark

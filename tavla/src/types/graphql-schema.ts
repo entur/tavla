@@ -2259,6 +2259,7 @@ export type TLinesFragment = {
         publicCode: string | null
         name: string | null
         transportMode: TTransportMode | null
+        transportSubmode: TTransportSubmode | null
     }>
 }
 
@@ -2364,6 +2365,7 @@ export type TGetQuayQuery = {
             publicCode: string | null
             name: string | null
             transportMode: TTransportMode | null
+            transportSubmode: TTransportSubmode | null
         }>
     } | null
 }
@@ -2399,6 +2401,7 @@ export type TQuayEditQuery = {
             publicCode: string | null
             name: string | null
             transportMode: TTransportMode | null
+            transportSubmode: TTransportSubmode | null
         }>
     } | null
 }
@@ -2464,6 +2467,7 @@ export type TQuaysSearchQuery = {
                 publicCode: string | null
                 name: string | null
                 transportMode: TTransportMode | null
+                transportSubmode: TTransportSubmode | null
             }>
         } | null> | null
     } | null
@@ -2591,6 +2595,7 @@ export type TStopPlaceEditQuery = {
                 publicCode: string | null
                 name: string | null
                 transportMode: TTransportMode | null
+                transportSubmode: TTransportSubmode | null
             }>
         } | null> | null
     } | null

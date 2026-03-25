@@ -13,6 +13,7 @@ export const transportModes = {
     air: 'var(--air-color)',
     bicycle: 'var(--mobility-color)',
     bus: 'var(--bus-color)',
+    'regional-bus': 'var(--regional-bus-color)',
     cableway: 'var(--cableway-color)',
     citybike: 'var(--mobility-color)',
     coach: 'var(--coach-color)',
@@ -32,6 +33,7 @@ export const transportModes = {
 export const transportModesTransparent = {
     'air-transparent': 'var(--air-color-transparent)',
     'bus-transparent': 'var(--bus-color-transparent)',
+    'regional-bus-transparent': 'var(--regional-bus-color-transparent)',
     'cableway-transparent': 'var(--cableway-color-transparent)',
     'coach-transparent': 'var(--coach-color-transparent)',
     'funicular-transparent': 'var(--funicular-color-transparent)',

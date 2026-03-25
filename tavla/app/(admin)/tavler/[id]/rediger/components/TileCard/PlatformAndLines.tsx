@@ -6,15 +6,30 @@ import { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useFeatureFlagEnabled } from 'posthog-js/react'
 import { BoardTileDB } from 'src/types/db-types/boards'
-import { TTransportMode } from 'src/types/graphql-schema'
+import { TTransportMode, TTransportSubmode } from 'src/types/graphql-schema'
 import { FeatureFlags } from '../../../../../../posthog/featureFlags'
 import { LineWithFrontText } from './types'
+
+function getColorMode(
+    transportMode: TTransportMode,
+    transportSubmode?: TTransportSubmode,
+): string {
+    if (transportSubmode?.startsWith('airport')) return 'air'
+    if (transportSubmode === 'railReplacementBus') return 'rail'
+    if (transportSubmode === 'regionalBus') return 'regional-bus'
+    return transportMode
+}
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
 
+    const color = getColorMode(
+        line.transportMode ?? 'unknown',
+        line.transportSubmode ?? 'unknown',
+    )
+
     return (
-        <div className={`publicCode bg-${line.transportMode} text-white`}>
+        <div className={`publicCode bg-${color} text-white`}>
             {line.publicCode}
         </div>
     )
