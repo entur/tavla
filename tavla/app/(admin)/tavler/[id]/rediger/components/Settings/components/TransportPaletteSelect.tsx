@@ -87,7 +87,7 @@ function TransportPaletteSelect({
             <Paragraph className="mb-3">
                 Velg hvilke farger transportmidlene i tavlevisningen skal ha.
             </Paragraph>
-            <div className="flex flex-col gap-4 md:flex-row">
+            <div className="flex flex-wrap gap-4">
                 <RadioGroup
                     name="transportPalette"
                     value={selectedValue}
@@ -106,11 +106,11 @@ function TransportPaletteSelect({
                         <div key={palette.value}>
                             <Radio value={palette.value}>{palette.label}</Radio>
                             <div
-                                className="flex max-w-max flex-col rounded-sm bg-background px-2 py-3"
+                                className="flex max-w-max flex-col rounded-md bg-secondary px-3 py-3"
                                 data-theme={theme}
                                 data-transport-palette={palette.value}
                             >
-                                <div className="grid grid-cols-2 gap-2">
+                                <div className="grid grid-cols-4 gap-1.5">
                                     {busAndTrainModes.map((mode) => {
                                         const colorDescription =
                                             getTransportColorDescription(
