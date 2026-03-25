@@ -1,7 +1,6 @@
 'use client'
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
-import { TravelTag } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TravelTag'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
 import { BoardTheme, TransportPalette } from 'src/types/db-types/boards'
@@ -11,6 +10,7 @@ import {
     generateTransportPalettes,
     getTransportColorDescription,
 } from '../colorPalettes'
+import { TransportIcon } from './TransportIcon'
 
 const busAndTrainModes: { mode: TTransportMode }[] = [
     {
@@ -124,11 +124,11 @@ function TransportPaletteSelect({
                                                 aria-label={`${transportModeNames(mode.mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
                                                 role="img"
                                             >
-                                                {TravelTag({
-                                                    transportMode: mode.mode,
-                                                    publicCode: '00',
-                                                    'aria-hidden': true,
-                                                })}
+                                                <TransportIcon
+                                                    key={mode.mode}
+                                                    transportMode={mode.mode}
+                                                    className={`h-7 w-7 rounded-md bg-${mode.mode} p-1 text-background`}
+                                                />
                                             </div>
                                         )
                                     })}
@@ -147,13 +147,11 @@ function TransportPaletteSelect({
                                                 role="img"
                                                 aria-label={`${transportModeNames(mode.mode ?? mode.mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
                                             >
-                                                {TravelTag({
-                                                    transportMode: mode.mode,
-                                                    publicCode: '00',
-                                                    transportSubmode:
-                                                        mode.submode,
-                                                    'aria-hidden': true,
-                                                })}
+                                                <TransportIcon
+                                                    key={mode.mode}
+                                                    transportMode={mode.mode}
+                                                    className={`h-7 w-7 rounded-md bg-${mode.mode} p-1 text-background`}
+                                                />
                                             </div>
                                         )
                                     })}
