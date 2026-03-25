@@ -13,8 +13,12 @@ import { LineWithFrontText } from './types'
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
 
+    const color = line.transportSubmode?.startsWith('airport')
+        ? 'air'
+        : line.transportMode
+
     return (
-        <div className={`publicCode bg-${line.transportMode} text-white`}>
+        <div className={`publicCode bg-${color} text-white`}>
             {line.publicCode}
         </div>
     )
