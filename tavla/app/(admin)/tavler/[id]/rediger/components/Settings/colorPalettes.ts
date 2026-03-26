@@ -3,11 +3,11 @@ import { BoardDB, TransportPalette } from 'src/types/db-types/boards'
 
 const baseTransportPalettes = [
     { label: 'Nasjonal', value: 'default' },
-    { label: 'Blå buss', value: 'blue-bus' },
-    { label: 'Grønn buss', value: 'green-bus' },
     { label: 'Lokal', value: 'atb' },
     { label: 'Lokal', value: 'fram' },
     { label: 'Lokal', value: 'reis' },
+    { label: 'Blå buss', value: 'blue-bus' },
+    { label: 'Grønn buss', value: 'green-bus' },
 ]
 
 export const COUNTY_THEME_MAP = {
@@ -35,8 +35,6 @@ export const useAllowedPalettes = (board: BoardDB) =>
         )
 
         const themes = new Set<TransportPalette>(['default'])
-        themes.add('blue-bus')
-        themes.add('green-bus')
         if (hasCountyThemes) {
             counties.forEach((county) => {
                 const theme =
@@ -45,9 +43,9 @@ export const useAllowedPalettes = (board: BoardDB) =>
                     themes.add(theme as TransportPalette)
                 }
             })
-        } else {
-            // No county themes available
         }
+        themes.add('blue-bus')
+        themes.add('green-bus')
 
         return Array.from(themes)
     }, [board.tiles])
