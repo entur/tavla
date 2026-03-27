@@ -188,7 +188,14 @@ export type EventMap = {
 
     stop_place_edit_saved: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
-    >
+    > & {
+        name: boolean
+        offset: boolean
+        offset_walking_dist: boolean
+        columns: boolean
+        lines: boolean
+        transport_mode_filter: boolean
+    }
 
     stop_place_add_interaction: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
