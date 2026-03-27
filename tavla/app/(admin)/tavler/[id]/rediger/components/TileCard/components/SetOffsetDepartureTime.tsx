@@ -14,9 +14,11 @@ import { LocationDB } from 'src/types/db-types/boards'
 function SetOffsetDepartureTime({
     address,
     trackingLocation,
+    onFieldChanged,
 }: {
     address?: LocationDB
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    onFieldChanged: (field: string) => void
 }) {
     const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
@@ -58,6 +60,7 @@ function SetOffsetDepartureTime({
                     value={offset}
                     onChange={(e) => {
                         setOffset(e.target.valueAsNumber || '')
+                        onFieldChanged('offset')
 
                         if (debounceTimerRef.current) {
                             clearTimeout(debounceTimerRef.current)
@@ -85,6 +88,7 @@ function SetOffsetDepartureTime({
                             setOffsetBasedOnWalkingDistance(
                                 !offsetBasedOnWalkingDistance,
                             )
+                            onFieldChanged('offset_walking_dist')
 
                             posthog.capture('stop_place_edit_interaction', {
                                 location: trackingLocation,
