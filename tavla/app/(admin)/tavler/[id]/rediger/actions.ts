@@ -33,25 +33,12 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
         const updateData: {
             tiles: FieldValue
             'meta.dateModified': number
+            isCombinedTiles: boolean
             transportPalette?: TransportPalette
-            combinedTiles?: BoardDB['combinedTiles'] | FieldValue
         } = {
             tiles: FieldValue.arrayUnion(...tiles),
             'meta.dateModified': Date.now(),
-            combinedTiles:
-                currentBoard?.combinedTiles &&
-                currentBoard.combinedTiles.length > 0
-                    ? [
-                          {
-                              ids: [
-                                  ...tiles.map((tile) => tile.uuid),
-                                  ...currentBoard.combinedTiles.flatMap(
-                                      (ct) => ct.ids,
-                                  ),
-                              ],
-                          },
-                      ]
-                    : FieldValue.delete(),
+            isCombinedTiles: currentBoard?.isCombinedTiles || false,
         }
 
         if (!currentBoard?.tiles || currentBoard.tiles.length === 0) {

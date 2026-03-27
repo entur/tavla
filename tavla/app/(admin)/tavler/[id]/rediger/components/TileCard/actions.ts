@@ -5,7 +5,6 @@ import {
     userCanEditBoard,
 } from 'app/(admin)/utils/firebase'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
-import { isEmpty } from 'lodash'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getBoard } from 'src/firebase'
@@ -23,13 +22,6 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
     try {
         const board = await getBoard(boardId)
         const tileToDelete = board?.tiles.find((t) => t.uuid === tile.uuid)
-
-        const updatedCombinedTiles = board?.combinedTiles?.map((t) => {
-            return {
-                ids: t.ids.filter((id) => id !== tile.uuid),
-            }
-        })
-
         const remainingTiles = board?.tiles.filter((t) => t.uuid !== tile.uuid)
         const remainingCounties = new Set<string>()
 
@@ -54,9 +46,6 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
             )
 
         const updatePayload: Record<string, unknown> = {
-            combinedTiles: isEmpty(updatedCombinedTiles)
-                ? FieldValue.delete()
-                : updatedCombinedTiles,
             tiles: FieldValue.arrayRemove(tileToDelete),
             'meta.dateModified': Date.now(),
         }

@@ -31,6 +31,7 @@ export async function createBoard(
             .add({
                 tiles: [],
                 theme: 'dark',
+                isCombinedTiles: false,
                 meta: {
                     title: name.substring(0, 50),
                     fontSize: 'medium',
