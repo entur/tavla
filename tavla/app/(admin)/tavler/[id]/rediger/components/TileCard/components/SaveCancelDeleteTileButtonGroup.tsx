@@ -107,6 +107,7 @@ function SaveCancelDeleteTileButtonGroup({
                         <Button
                             type="button"
                             variant="secondary"
+                            className="min-w-28"
                             aria-label="Forkast endringer"
                             onClick={() => {
                                 posthog.capture('stop_place_edit_discard', {
