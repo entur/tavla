@@ -1,6 +1,6 @@
 'use client'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { BoardFontSize } from 'src/types/db-types/boards'
+import type { BoardFontSize } from 'src/types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
 function FontSelect({

@@ -1,6 +1,9 @@
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
-import { TTransportMode, TTransportSubmode } from 'src/types/graphql-schema'
+import type {
+    TTransportMode,
+    TTransportSubmode,
+} from 'src/types/graphql-schema'
 
 export const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -44,6 +47,7 @@ function TravelTag({
 
     return (
         <div
+            role="img"
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
             aria-hidden={ariaHidden}
             className={`flex h-full w-full items-center justify-between rounded-sm pl-2 ${travelTagBackround}`}
@@ -75,6 +79,7 @@ function SmallTravelTag({
     if (!transportMode) return null
     return (
         <div
+            role="img"
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
             className={`mx-[2px] flex h-5 items-center justify-between rounded-sm p-1 font-bold text-background bg-${transportMode}`}
             key={`${transportMode}${publicCode}`}

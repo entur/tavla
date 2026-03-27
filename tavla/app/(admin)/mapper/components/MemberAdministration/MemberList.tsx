@@ -6,9 +6,9 @@ import {
     TableHead,
     TableRow,
 } from '@entur/table'
-import { AuthenticatedUser } from 'app/(admin)/mapper/[id]/page'
-import { FolderDB } from 'src/types/db-types/folders'
-import { UserDB } from 'src/types/db-types/users'
+import type { AuthenticatedUser } from 'app/(admin)/mapper/[id]/page'
+import type { FolderDB } from 'src/types/db-types/folders'
+import type { UserDB } from 'src/types/db-types/users'
 import { RemoveUserButton } from './RemoveUserButton'
 
 function MemberList({

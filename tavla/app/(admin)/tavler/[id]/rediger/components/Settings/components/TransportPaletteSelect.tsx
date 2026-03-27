@@ -4,8 +4,11 @@ import { Heading4, Paragraph } from '@entur/typography'
 import { TravelTag } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TravelTag'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
-import { BoardTheme, TransportPalette } from 'src/types/db-types/boards'
-import { TTransportMode, TTransportSubmode } from 'src/types/graphql-schema'
+import type { BoardTheme, TransportPalette } from 'src/types/db-types/boards'
+import type {
+    TTransportMode,
+    TTransportSubmode,
+} from 'src/types/graphql-schema'
 import { transportModeNames } from '../../TileCard/utils'
 import {
     generateTransportPalettes,
@@ -72,7 +75,7 @@ function TransportPaletteSelect({
             setSelectedValue('default')
             onChange()
         }
-    }, [allowedPalettes, selectedValue, availablePalettes, onChange])
+    }, [selectedValue, availablePalettes, onChange])
 
     const handleChange = (value: TransportPalette) => {
         setSelectedValue(value)

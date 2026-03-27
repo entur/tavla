@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { BoardDB, TransportPalette } from 'src/types/db-types/boards'
+import type { BoardDB, TransportPalette } from 'src/types/db-types/boards'
 
 const baseTransportPalettes = [
     { label: 'Nasjonal', value: 'default' },
@@ -159,13 +159,13 @@ export const getTransportColorDescription = (
     mode: string,
 ): string => {
     const paletteColors = PALETTE_COLOR_DESCRIPTIONS[palette]
-    const defaultColors = PALETTE_COLOR_DESCRIPTIONS['default']
+    const defaultColors = PALETTE_COLOR_DESCRIPTIONS.default
 
-    if (paletteColors && paletteColors[mode]) {
+    if (paletteColors?.[mode]) {
         return paletteColors[mode]
     }
 
-    if (defaultColors && defaultColors[mode]) {
+    if (defaultColors?.[mode]) {
         return defaultColors[mode]
     }
 

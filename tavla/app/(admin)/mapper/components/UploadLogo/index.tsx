@@ -6,7 +6,7 @@ import { Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Image from 'next/image'
 import { useState } from 'react'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'src/types/db-types/folders'
 import { DeleteLogo } from './DeleteLogo'
 import { LogoInput } from './LogoInput'
 

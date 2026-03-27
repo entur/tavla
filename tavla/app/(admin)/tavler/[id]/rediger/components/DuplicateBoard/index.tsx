@@ -2,8 +2,8 @@
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { OverflowMenuItem } from '@entur/menu'
-import { BoardDB } from 'src/types/db-types/boards'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { BoardDB } from 'src/types/db-types/boards'
+import type { FolderDB } from 'src/types/db-types/folders'
 import { duplicateBoard } from './actions'
 
 interface DuplicateBoardProps {
@@ -19,8 +19,7 @@ function DuplicateBoard({
     const { addToast } = useToast()
 
     const handleSelect = async () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, ...duplicationPayload } = board
+        const { id: _id, ...duplicationPayload } = board
         await duplicateBoard(
             {
                 ...duplicationPayload,

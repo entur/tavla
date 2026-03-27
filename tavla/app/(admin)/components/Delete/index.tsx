@@ -11,14 +11,14 @@ import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
-    TFormFeedback,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'src/types/db-types/folders'
 import { FormError } from '../FormError'
 import { deleteFolderAction } from './actions'
 

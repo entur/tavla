@@ -1,7 +1,7 @@
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { getTilesWithWalkingDistance } from 'app/lag-tavle/actions'
 import { useCallback, useEffect, useRef } from 'react'
-import {
+import type {
     BoardDB,
     BoardFontSize,
     BoardTheme,

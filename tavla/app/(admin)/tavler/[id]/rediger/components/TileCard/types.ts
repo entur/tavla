@@ -1,4 +1,4 @@
-import { TLinesFragment, TQuay } from 'src/types/graphql-schema'
+import type { TLinesFragment, TQuay } from 'src/types/graphql-schema'
 
 type LineFragment = TLinesFragment['lines'][number]
 

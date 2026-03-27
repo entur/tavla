@@ -1,18 +1,18 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
-import { BoardDB } from 'src/types/db-types/boards'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { BoardDB } from 'src/types/db-types/boards'
+import type { FolderDB } from 'src/types/db-types/folders'
 
 initializeAdminApp()
 
 export async function createBoard(
-    prevState: TFormFeedback | undefined,
+    _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
     const name = data.get('name') as string
@@ -23,7 +23,7 @@ export async function createBoard(
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    let createdBoard
+    let createdBoard: FirebaseFirestore.DocumentReference | undefined
 
     try {
         createdBoard = await firestore()

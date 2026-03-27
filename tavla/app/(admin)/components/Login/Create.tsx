@@ -1,5 +1,16 @@
 'use client'
+
+import { ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
+import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
+import {
+    getFormFeedbackForError,
+    getFormFeedbackForField,
+    type TFormFeedback,
+} from 'app/(admin)/utils'
+import { handleError } from 'app/(admin)/utils/handleError'
+import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import musk from 'assets/illustrations/Musk.png'
 import {
     createUserWithEmailAndPassword,
@@ -7,29 +18,18 @@ import {
     sendEmailVerification,
 } from 'firebase/auth'
 import Image from 'next/image'
-import { useActionState, useState } from 'react'
-import { create } from './actions'
-
-import { ButtonGroup } from '@entur/button'
-import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
-import {
-    TFormFeedback,
-    getFormFeedbackForError,
-    getFormFeedbackForField,
-} from 'app/(admin)/utils'
-import { handleError } from 'app/(admin)/utils/handleError'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
+import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
+import { create } from './actions'
 import Google from './Google'
 
 function Create() {
     const posthog = usePosthogTracking()
     const [email, setEmail] = useState('')
     const submit = async (
-        previousState: TFormFeedback | undefined,
+        _previousState: TFormFeedback | undefined,
         data: FormData,
     ) => {
         const email = data.get('email') as string

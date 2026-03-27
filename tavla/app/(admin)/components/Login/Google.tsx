@@ -3,7 +3,7 @@ import { BannerAlertBox } from '@entur/alert'
 import { SecondaryButton } from '@entur/button'
 import { Paragraph } from '@entur/typography'
 import * as Sentry from '@sentry/nextjs'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import GoogleLogo from 'assets/logos/google/GoogleLogo.svg'
 import { FirebaseError } from 'firebase/app'
@@ -48,13 +48,13 @@ export default function Google({
         } catch (error) {
             if (
                 error instanceof FirebaseError &&
-                (error.code == 'auth/popup-closed-by-user' ||
-                    error.code == 'auth/cancelled-popup-request')
+                (error.code === 'auth/popup-closed-by-user' ||
+                    error.code === 'auth/cancelled-popup-request')
             ) {
                 setIsLoading(false)
             } else if (
                 error instanceof FirebaseError &&
-                error.code == 'auth/popup-blocked'
+                error.code === 'auth/popup-blocked'
             ) {
                 setIsLoading(false)
                 setErrorMessage([

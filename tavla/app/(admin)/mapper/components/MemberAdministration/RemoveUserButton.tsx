@@ -5,8 +5,8 @@ import { DeleteIcon } from '@entur/icons'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState } from 'react'
-import { FolderDB } from 'src/types/db-types/folders'
-import { UserDB } from 'src/types/db-types/users'
+import type { FolderDB } from 'src/types/db-types/folders'
+import type { UserDB } from 'src/types/db-types/users'
 import { removeUserAction } from './actions'
 
 function RemoveUserButton({

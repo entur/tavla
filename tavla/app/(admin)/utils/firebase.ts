@@ -2,9 +2,9 @@
 import * as Sentry from '@sentry/nextjs'
 import admin, { auth, firestore } from 'firebase-admin'
 import { getFolderForBoard } from 'src/firebase'
-import { BoardDB } from 'src/types/db-types/boards'
-import { FolderDB } from 'src/types/db-types/folders'
-import { UserDB, UserDBSchema } from 'src/types/db-types/users'
+import type { BoardDB } from 'src/types/db-types/boards'
+import type { FolderDB } from 'src/types/db-types/folders'
+import { type UserDB, UserDBSchema } from 'src/types/db-types/users'
 import { getBoardsForFolder, getFolderIfUserHasAccess } from '../actions'
 import { getUserFromSessionCookie } from './server'
 
@@ -73,11 +73,11 @@ export async function userCanEditBoard(bid?: BoardDB['id']) {
     if (!bid) return false
 
     const user = await getUserWithBoardIds()
-    const userEditorAccess = user && user.owner?.includes(bid)
+    const userEditorAccess = user?.owner?.includes(bid)
 
     if (user?.uid && !userEditorAccess) {
         const folder = await getFolderForBoard(bid)
-        return folder && folder.owners?.includes(user.uid)
+        return folder?.owners?.includes(user.uid)
     }
     return userEditorAccess
 }

@@ -1,15 +1,15 @@
 'use server'
 
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
 import { deleteFolder } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'src/types/db-types/folders'
 
 export async function deleteFolderAction(
-    prevState: TFormFeedback | undefined,
+    _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
     const user = await getUserFromSessionCookie()

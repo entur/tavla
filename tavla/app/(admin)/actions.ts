@@ -1,13 +1,13 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { Folder } from 'app/(admin)/utils/types'
+import type { Folder } from 'app/(admin)/utils/types'
 import { FieldPath, getFirestore } from 'firebase-admin/firestore'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
 import { getFolder } from 'src/firebase'
-import { BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
-import { FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
-import { UserDB } from 'src/types/db-types/users'
+import { type BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
+import { type FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
+import type { UserDB } from 'src/types/db-types/users'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
@@ -23,7 +23,7 @@ export async function getFirebaseClientConfig() {
 }
 
 function userInFolder(uid?: UserDB['uid'], folder?: FolderDB) {
-    return uid && folder && folder.owners?.includes(uid)
+    return uid && folder?.owners?.includes(uid)
 }
 
 export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
@@ -54,8 +54,7 @@ export async function getFoldersForUser(): Promise<Folder[]> {
 
         const queries = await Promise.all([owner])
         const folders = queries
-            .map((query) => query.docs)
-            .flat()
+            .flatMap((query) => query.docs)
             .map((folderDocument) => {
                 const folderData = {
                     ...folderDocument.data(),
@@ -143,31 +142,29 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
 
         const boardRefs = await Promise.all(boardQueries)
 
-        return boardRefs
-            .map((ref) =>
-                ref.docs.map((doc) => {
-                    const boardData = { id: doc.id, ...doc.data() }
-                    const parsedBoard = BoardDBSchema.safeParse(boardData)
+        return boardRefs.flatMap((ref) =>
+            ref.docs.map((doc) => {
+                const boardData = { id: doc.id, ...doc.data() }
+                const parsedBoard = BoardDBSchema.safeParse(boardData)
 
-                    if (!parsedBoard.success) {
-                        Sentry.captureMessage(
-                            'Board data validation failed in getBoardsForFolder',
-                            {
-                                level: 'warning',
-                                extra: {
-                                    error: parsedBoard.error.flatten(),
-                                    boardId: doc.id,
-                                    folderID: folderid,
-                                },
+                if (!parsedBoard.success) {
+                    Sentry.captureMessage(
+                        'Board data validation failed in getBoardsForFolder',
+                        {
+                            level: 'warning',
+                            extra: {
+                                error: parsedBoard.error.flatten(),
+                                boardId: doc.id,
+                                folderID: folderid,
                             },
-                        )
-                        return boardData as BoardDB
-                    }
+                        },
+                    )
+                    return boardData as BoardDB
+                }
 
-                    return parsedBoard.data
-                }),
-            )
-            .flat()
+                return parsedBoard.data
+            }),
+        )
     } catch (error) {
         Sentry.captureMessage(
             'Error while fetching boards for folder with folderID ' + folderid,
@@ -189,30 +186,28 @@ export async function getBoards(ids?: BoardDB['id'][]) {
         )
 
         const refs = await Promise.all(queries)
-        return refs
-            .map((ref) =>
-                ref.docs.map((doc) => {
-                    const boardData = { id: doc.id, ...doc.data() }
-                    const parsedBoard = BoardDBSchema.safeParse(boardData)
+        return refs.flatMap((ref) =>
+            ref.docs.map((doc) => {
+                const boardData = { id: doc.id, ...doc.data() }
+                const parsedBoard = BoardDBSchema.safeParse(boardData)
 
-                    if (!parsedBoard.success) {
-                        Sentry.captureMessage(
-                            'Board data validation failed in getBoards',
-                            {
-                                level: 'warning',
-                                extra: {
-                                    error: parsedBoard.error.flatten(),
-                                    boardId: doc.id,
-                                },
+                if (!parsedBoard.success) {
+                    Sentry.captureMessage(
+                        'Board data validation failed in getBoards',
+                        {
+                            level: 'warning',
+                            extra: {
+                                error: parsedBoard.error.flatten(),
+                                boardId: doc.id,
                             },
-                        )
-                        return boardData as BoardDB
-                    }
+                        },
+                    )
+                    return boardData as BoardDB
+                }
 
-                    return parsedBoard.data
-                }),
-            )
-            .flat()
+                return parsedBoard.data
+            }),
+        )
     } catch (error) {
         Sentry.captureMessage('Error while fetching list of boards: ' + ids)
         throw error

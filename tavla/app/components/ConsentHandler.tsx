@@ -1,12 +1,12 @@
 'use client'
 import { ToastProvider } from '@entur/alert'
 import * as Sentry from '@sentry/react'
-import posthog, { PostHogConfig } from 'posthog-js'
+import posthog, { type PostHogConfig } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
-import { ReactNode, useEffect } from 'react'
+import { type ReactNode, useEffect } from 'react'
 import {
     CONSENT_UPDATED_EVENT,
-    ConsentDetails,
+    type ConsentDetails,
     formatConsentEvent,
     waitFor,
 } from '../../src/utils/cmpUtils'

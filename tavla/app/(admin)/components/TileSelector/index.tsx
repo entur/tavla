@@ -1,7 +1,7 @@
 'use client'
 import {
     MultiSelect,
-    NormalizedDropdownItemType,
+    type NormalizedDropdownItemType,
     SearchableDropdown,
 } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
@@ -14,14 +14,14 @@ import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
-    TFormFeedback,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
-import { StopPlace } from 'app/(admin)/utils/fetch'
+import type { StopPlace } from 'app/(admin)/utils/fetch'
 import { coordinatesToStopPlaceDropdownItem } from 'app/(admin)/utils/position'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'src/types/db-types/folders'
 import { getTypeOfPlace } from './utils'
 
 const NUMBER_OF_CLOSEST_STOP_PLACES = 10
@@ -64,7 +64,7 @@ function TileSelector({
             search || selectedStopPlace?.label.split(',')[0] || '',
         )
         return [
-            search == '' ? coordinatesToStopPlaceDropdownItem() : null,
+            search === '' ? coordinatesToStopPlaceDropdownItem() : null,
             ...stopPlaces,
         ].filter(Boolean) as NormalizedDropdownItemType<StopPlace>[]
     }

@@ -2,7 +2,7 @@
 
 import { IconButton } from '@entur/button'
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
-import { PreviewBoard } from 'app/page'
+import type { PreviewBoard } from 'app/page'
 import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 
@@ -23,7 +23,9 @@ const CarouselIndicators = ({
         >
             {previewBoards.map((_, index) => (
                 <button
-                    key={index}
+                    type="button"
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Carousel indicators have no stable ID
+                    key={`indicator-${index}`}
                     className={`bottom-5 h-6 w-6 rounded-full md:h-5 md:w-5 ${
                         index === activeIndex ? 'bg-blue' : 'bg-tertiary'
                     }`}
@@ -80,7 +82,7 @@ function PreviewCarousel({
                         <LeftArrowIcon size={24} />
                     </IconButton>
                 </div>
-                <div
+                <section
                     className="sm:text-md mx-auto h-[400px] w-full overflow-hidden rounded-md border-2 border-solid text-xs md:h-[500px] xl:w-[1000px]"
                     aria-label={currentBoard.altText}
                     data-theme={currentBoard.theme ?? 'dark'}
@@ -94,7 +96,7 @@ function PreviewCarousel({
                         referrerPolicy="no-referrer"
                         tabIndex={-1}
                     />
-                </div>
+                </section>
                 <div className="my-auto mr-2 hidden md:block">
                     <IconButton
                         onClick={nextSlide}
@@ -113,4 +115,5 @@ function PreviewCarousel({
         </div>
     )
 }
+
 export { PreviewCarousel }

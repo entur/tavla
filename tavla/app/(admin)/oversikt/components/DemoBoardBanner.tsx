@@ -4,7 +4,7 @@ import { SecondaryButton } from '@entur/button'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
+import { type BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
 import { saveBoardToFirebaseForUser } from '../actions'
 
 const LOCAL_STORAGE_KEY = 'lag-tavle-board'

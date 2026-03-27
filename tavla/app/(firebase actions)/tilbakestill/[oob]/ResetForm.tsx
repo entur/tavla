@@ -1,9 +1,9 @@
 'use client'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import {
-    TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { FirebaseError } from 'firebase/app'
@@ -14,7 +14,7 @@ import { getClientApp } from 'src/utils/firebase'
 
 function ResetForm({ oob }: { oob: string }) {
     const submit = async (
-        previousState: TFormFeedback | undefined,
+        _previousState: TFormFeedback | undefined,
         data: FormData,
     ) => {
         const password = data.get('password') as string

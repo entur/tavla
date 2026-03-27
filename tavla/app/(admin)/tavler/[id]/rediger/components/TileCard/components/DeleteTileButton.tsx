@@ -21,17 +21,15 @@ function DeleteTileButton({
     )
 
     return (
-        <>
-            <div>
-                <Tooltip
-                    placement="bottom"
-                    content="Fjern stoppested"
-                    id="tooltip-remove-tile"
-                >
-                    {StyledNegativeButton}
-                </Tooltip>
-            </div>
-        </>
+        <div>
+            <Tooltip
+                placement="bottom"
+                content="Fjern stoppested"
+                id="tooltip-remove-tile"
+            >
+                {StyledNegativeButton}
+            </Tooltip>
+        </div>
     )
 }
 

@@ -1,6 +1,6 @@
 'use client'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { BoardTheme } from 'src/types/db-types/boards'
+import type { BoardTheme } from 'src/types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
 function ThemeSelect({

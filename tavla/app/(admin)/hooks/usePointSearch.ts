@@ -1,6 +1,6 @@
-import { NormalizedDropdownItemType } from '@entur/dropdown'
+import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useCallback, useState } from 'react'
-import { LocationDB } from 'src/types/db-types/boards'
+import type { LocationDB } from 'src/types/db-types/boards'
 import { locationToDropdownItem } from '../tavler/[id]/utils'
 import { fetchPoints } from '../utils/fetch'
 

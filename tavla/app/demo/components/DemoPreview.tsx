@@ -2,7 +2,7 @@
 
 import { isValidTavlaVisningOrigin } from 'app/demo/constants'
 import React, { useEffect, useRef } from 'react'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkClient } from 'src/utils/boardLink'
 
 function sendDemoBoardMessage(
@@ -39,12 +39,9 @@ function DemoPreview({ board }: { board: BoardDB }) {
         [board.id],
     )
 
-    useEffect(
-        function resetIframeLoadedFlagOnSrcChange() {
-            iframeOriginRef.current = null
-        },
-        [iframeSrc],
-    )
+    useEffect(function resetIframeLoadedFlagOnSrcChange() {
+        iframeOriginRef.current = null
+    }, [])
 
     useEffect(function setupMessageListenerForHandshake() {
         const handleMessage = (event: MessageEvent) => {
@@ -95,7 +92,7 @@ function DemoPreview({ board }: { board: BoardDB }) {
             className="previewContainer md:text-2xl"
             data-theme={board?.theme ?? 'dark'}
         >
-            <div
+            <section
                 className="h-96 md:h-[50rem]"
                 aria-label="Forhåndsvisning av tavle"
             >
@@ -110,7 +107,7 @@ function DemoPreview({ board }: { board: BoardDB }) {
                         tabIndex={-1}
                     />
                 )}
-            </div>
+            </section>
         </div>
     )
 }

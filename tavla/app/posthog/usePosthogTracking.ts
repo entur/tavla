@@ -28,7 +28,7 @@ export function usePosthogTracking() {
             const properties = args[0] ?? undefined
 
             if (isLocalDevelopment) {
-                // eslint-disable-next-line no-console
+                // biome-ignore lint/suspicious/noConsole: Intentional logging for local development
                 console.log('PostHog event:', event, properties)
             }
             posthog.capture(event, properties)
