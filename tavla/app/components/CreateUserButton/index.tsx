@@ -3,11 +3,17 @@ import { Button } from '@entur/button'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
 
-function CreateUserButton() {
+function CreateUserButton({
+    variant,
+    width,
+}: {
+    variant?: 'primary' | 'secondary'
+    width?: 'auto' | 'fluid'
+}) {
     const posthog = usePosthogTracking()
     return (
         <Button
-            variant="primary"
+            variant={variant || 'primary'}
             size="medium"
             as={Link}
             href="?login=create"
@@ -16,6 +22,7 @@ function CreateUserButton() {
                     location: 'demo_page',
                 })
             }}
+            width={width || 'auto'}
         >
             Opprett bruker
         </Button>
