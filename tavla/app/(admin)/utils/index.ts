@@ -1,4 +1,4 @@
-import { VariantType } from '@entur/utils'
+import type { VariantType } from '@entur/utils'
 import { FirebaseError } from 'firebase/app'
 
 export type InputType =

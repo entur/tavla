@@ -1,6 +1,6 @@
-import { NormalizedDropdownItemType } from '@entur/dropdown'
+import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { SmallTravelTag } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TravelTag'
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { type FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { QuaysSearchQuery } from 'src/graphql/index'
 import { useQuery } from 'src/hooks/useQuery'
 import { isNotNullOrUndefined } from 'src/utils/typeguards'
@@ -21,7 +21,7 @@ function useQuaySearch(stopPlaceId: string, icons = true) {
     const [selectedQuay, setSelectedQuay] =
         useState<NormalizedDropdownItemType | null>(null)
 
-    useEffect(() => setSelectedQuay(null), [stopPlaceId])
+    useEffect(() => setSelectedQuay(null), [])
 
     const nonAirQuays = useMemo(
         () =>

@@ -1,5 +1,5 @@
-import { TEndpointNames } from 'src/assets/env'
-import { TypedDocumentString } from 'src/graphql/index'
+import type { TEndpointNames } from 'src/assets/env'
+import type { TypedDocumentString } from 'src/graphql/index'
 import { fetcher } from 'src/graphql/utils'
 import useSWR from 'swr'
 

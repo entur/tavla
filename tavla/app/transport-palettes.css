@@ -1,4 +1,4 @@
-[data-transport-palette='default'] {
+[data-transport-palette="default"] {
     --bus-color: var(--standard-bus);
     --coach-color: var(--temp-coach-color-standard);
     --air-color: var(--standard-plane);
@@ -13,7 +13,7 @@
     --water-color: var(--standard-ferry);
 }
 
-[data-theme='dark'][data-transport-palette='default'] {
+[data-theme="dark"][data-transport-palette="default"] {
     --bus-color: var(--dark-bus);
     --coach-color: var(--temp-coach-color-dark);
     --air-color: var(--dark-plane);
@@ -29,14 +29,14 @@
 }
 
 /* Blue bus palette: trains are blue, buses are red */
-[data-transport-palette='blue-bus'] {
+[data-transport-palette="blue-bus"] {
     --bus-color: var(--standard-train);
     --bus-color-transparent: var(--rgba-rail-color-transparent);
     --rail-color: var(--standard-bus);
     --rail-color-transparent: var(--rgba-bus-color-transparent);
 }
 
-[data-theme='dark'][data-transport-palette='blue-bus'] {
+[data-theme="dark"][data-transport-palette="blue-bus"] {
     --bus-color: var(--dark-train);
     --bus-color-transparent: var(--rgba-rail-color-transparent-dark);
     --rail-color: var(--dark-bus);
@@ -44,14 +44,14 @@
 }
 
 /* Green bus palette */
-[data-transport-palette='green-bus'] {
+[data-transport-palette="green-bus"] {
     --bus-color: var(--temp-coach-color-standard);
     --bus-color-transparent: var(--rgba-coach-color-transparent);
     --coach-color: var(--standard-bus);
     --coach-color-transparent: var(--rgba-bus-color-transparent);
 }
 
-[data-theme='dark'][data-transport-palette='green-bus'] {
+[data-theme="dark"][data-transport-palette="green-bus"] {
     --bus-color: var(--temp-coach-color-dark);
     --bus-color-transparent: var(--rgba-coach-color-transparent-dark);
     --coach-color: var(--dark-bus);
@@ -59,7 +59,7 @@
 }
 
 /* ATB palette */
-[data-transport-palette='atb'] {
+[data-transport-palette="atb"] {
     --bus-color: #608000;
     --coach-color: #008099;
     --rail-color: #943894;
@@ -82,7 +82,7 @@
     --taxi-color-transparent: rgba(76, 26, 76, 0.15);
 }
 
-[data-theme='dark'][data-transport-palette='atb'] {
+[data-theme="dark"][data-transport-palette="atb"] {
     --bus-color: #a9d22d;
     --coach-color: #0095b2;
     --rail-color: #cd98cd;
@@ -106,7 +106,7 @@
 }
 
 /* Fram palette */
-[data-transport-palette='fram'] {
+[data-transport-palette="fram"] {
     --bus-color: #014165;
     --coach-color: #55823a;
     --rail-color: #551125;
@@ -129,7 +129,7 @@
     --taxi-color-transparent: rgba(149, 107, 119, 0.15);
 }
 
-[data-theme='dark'][data-transport-palette='fram'] {
+[data-theme="dark"][data-transport-palette="fram"] {
     --bus-color: #56a0db;
     --coach-color: #82b863;
     --rail-color: #ce758f;
@@ -153,7 +153,7 @@
 }
 
 /* Svipper palette */
-[data-transport-palette='svipper'] {
+[data-transport-palette="svipper"] {
     --bus-color: #334dce;
     --coach-color: #507341;
     --rail-color: #bd3685;
@@ -166,7 +166,7 @@
     --air-color-transparent: rgba(55, 66, 74, 0.15);
 }
 
-[data-theme='dark'][data-transport-palette='svipper'] {
+[data-theme="dark"][data-transport-palette="svipper"] {
     --bus-color: #8e9dea;
     --coach-color: #8db67c;
     --rail-color: #cf83af;
@@ -180,7 +180,7 @@
 }
 
 /* Reis palette */
-[data-transport-palette='reis'] {
+[data-transport-palette="reis"] {
     --bus-color: #004d61;
     --coach-color: #6b7d2e;
     --rail-color: #8a61c2;
@@ -202,7 +202,7 @@
     --metro-color-transparent: rgba(138, 97, 194, 0.15);
     --taxi-color-transparent: rgba(112, 112, 112, 0.15);
 }
-[data-theme='dark'][data-transport-palette='reis'] {
+[data-theme="dark"][data-transport-palette="reis"] {
     --bus-color: #38a4bf;
     --coach-color: #809537;
     --rail-color: #a281ce;

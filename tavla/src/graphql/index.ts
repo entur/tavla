@@ -1,7 +1,7 @@
 /* eslint-disable */
-import type * as Types from 'types/graphql-schema'
 
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
+import type * as Types from 'types/graphql-schema'
 export class TypedDocumentString<TResult, TVariables>
     extends String
     implements DocumentTypeDecoration<TResult, TVariables>

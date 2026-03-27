@@ -11,7 +11,7 @@ import {
 } from '@entur/typography'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
-import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
+import { getFormFeedbackForField, type TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
@@ -26,7 +26,7 @@ function DeleteAccount() {
     const posthog = usePostHog()
 
     const submit = async (
-        prevState: TFormFeedback | undefined,
+        _prevState: TFormFeedback | undefined,
         data: FormData,
     ) => {
         const formFeedback = await deleteAccount(data)

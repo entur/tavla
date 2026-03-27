@@ -12,8 +12,8 @@ import { getDownloadURL, getStorage } from 'firebase-admin/storage'
 import { JSDOM } from 'jsdom'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
-import { NextRequest } from 'next/server'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { NextRequest } from 'next/server'
+import type { FolderDB } from 'src/types/db-types/folders'
 import rateLimit from 'src/utils/rateLimit'
 
 initializeAdminApp()

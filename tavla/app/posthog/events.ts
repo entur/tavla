@@ -1,5 +1,5 @@
-import { TLoginPage } from 'app/(admin)/components/Login/types'
-import { TypeOfPlace } from 'app/(admin)/components/TileSelector/utils'
+import type { TLoginPage } from 'app/(admin)/components/Login/types'
+import type { TypeOfPlace } from 'app/(admin)/components/TileSelector/utils'
 
 export const LOCATIONS = {
     LandingPage: 'landing_page',
@@ -66,15 +66,15 @@ export type EventMap = {
         folder_selected: boolean
     }
 
-    board_dismiss_from_local_storage: void
+    board_dismiss_from_local_storage: undefined
 
     board_create_cancelled: {
         method: 'dismissed' | 'close_icon' | 'cancel_button'
     }
 
-    folder_create_started: void
+    folder_create_started: undefined
 
-    folder_created: void
+    folder_created: undefined
 
     folder_create_cancelled: {
         method: 'dismissed' | 'close_icon' | 'cancel_button'
@@ -265,10 +265,10 @@ export type EventMap = {
     >
 
     /* Contact form */
-    contact_form_opened: void
-    contact_form_closed: void
+    contact_form_opened: undefined
+    contact_form_closed: undefined
     contact_form_email_disabled: { disabled: boolean }
-    contact_form_submitted: void
+    contact_form_submitted: undefined
 
     /* Other */
     admin_page_opened: WithLocation<Location>
@@ -277,9 +277,9 @@ export type EventMap = {
     contact_tavla: WithLocation<typeof LOCATIONS.Footer>
     cookie_settings_opened: WithLocation<typeof LOCATIONS.Footer>
     github_link_clicked: WithLocation<typeof LOCATIONS.Footer>
-    survey_set_up_board: void
+    survey_set_up_board: undefined
 }
-export type NoProps = void
+export type NoProps = undefined
 
 export type TrackingEvent = keyof EventMap
 export type EventProps<E extends TrackingEvent> = EventMap[E]

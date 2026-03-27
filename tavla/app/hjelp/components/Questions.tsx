@@ -60,6 +60,7 @@ function Questions() {
                     href="mailto:tavla@entur.org"
                     target="_blank"
                     className="underline"
+                    rel="noopener"
                 >
                     send oss en e-post på tavla@entur.org
                 </a>

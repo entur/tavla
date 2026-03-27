@@ -1,4 +1,4 @@
-import { NormalizedDropdownItemType } from '@entur/dropdown'
+import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { useEffect, useMemo, useState } from 'react'
 import {
     formatDistance,
@@ -6,8 +6,8 @@ import {
 } from '../components/TileSelector/utils'
 import {
     fetchClosestStopPlaces,
-    GeoCoordinate,
-    StopPlace,
+    type GeoCoordinate,
+    type StopPlace,
 } from '../utils/fetch'
 
 function useClosestStopPlaces(

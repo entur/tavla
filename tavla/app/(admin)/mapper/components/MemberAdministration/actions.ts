@@ -1,7 +1,7 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import { getFolderIfUserHasAccess } from 'app/(admin)/actions'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
 import {
     removeUserFromFolder,
     userCanEditFolder,
@@ -12,7 +12,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 export async function removeUserAction(
-    prevState: TFormFeedback | undefined,
+    _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
     const folderId = data.get('folderid')?.toString() ?? ''
@@ -37,7 +37,7 @@ export async function removeUserAction(
 }
 
 export async function inviteUserAction(
-    prevState: TFormFeedback | undefined,
+    _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
     const folderid = data.get('folderid')?.toString() ?? ''

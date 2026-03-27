@@ -3,9 +3,8 @@ import { Button } from '@entur/button'
 import { ForwardIcon } from '@entur/icons'
 import { FeatureFlags } from 'app/posthog/featureFlags'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useFeatureFlagEnabled } from 'posthog-js/react'
-
 import Link from 'next/link'
+import { useFeatureFlagEnabled } from 'posthog-js/react'
 
 function CreateBoardButton() {
     const posthog = usePosthogTracking()

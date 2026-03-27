@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nextjs'
 import admin, { firestore } from 'firebase-admin'
-import { BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
-import { FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
+import { type BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
+import { type FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
 import { makeBoardCompatible } from '../app/(admin)/tavler/[id]/rediger/compatibility'
 
 initializeAdminApp()

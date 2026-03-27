@@ -2,14 +2,14 @@ import { Checkbox } from '@entur/form'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import {
     TRACKING_DEBOUNCE_TIME,
     usePosthogTracking,
 } from 'app/posthog/usePosthogTracking'
 import { useEffect, useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import { LocationDB } from 'src/types/db-types/boards'
+import type { LocationDB } from 'src/types/db-types/boards'
 
 function SetOffsetDepartureTime({
     address,

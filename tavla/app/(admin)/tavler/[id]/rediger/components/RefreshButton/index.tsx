@@ -1,10 +1,9 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
-import { refreshBoard } from './actions'
-
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
+import { refreshBoard } from './actions'
 
 function RefreshButton({ board }: { board: BoardDB }) {
     const toast = useToast()

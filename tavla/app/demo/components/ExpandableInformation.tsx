@@ -10,6 +10,7 @@ function ExpandableInformation() {
     return (
         <div>
             <button
+                type="button"
                 className={`flex w-full cursor-pointer flex-row items-center justify-between bg-blue20 px-6 py-4 ${
                     isOpen ? 'rounded-t' : 'rounded'
                 }`}

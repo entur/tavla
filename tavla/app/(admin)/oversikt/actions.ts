@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 
 initializeAdminApp()
 
@@ -15,8 +15,7 @@ export async function saveBoardToFirebaseForUser(
         throw new Error('Not authenticated')
     }
 
-    //eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
+    const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
     const now = Date.now()
 
     try {

@@ -1,10 +1,10 @@
 'use client'
 import { Heading2, Heading3, SubParagraph } from '@entur/typography'
-import { TFormFeedback } from 'app/(admin)/utils'
-import { ReactNode, useCallback, useRef } from 'react'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { TFormFeedback } from 'app/(admin)/utils'
+import { type ReactNode, useCallback, useRef } from 'react'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { useAllowedPalettes } from '../colorPalettes'
-import { Elements, ElementSelect } from './ElementsSelect'
+import { ElementSelect, type Elements } from './ElementsSelect'
 import { FontSelect } from './FontSelect'
 import { InfoMessage } from './InfoMessage'
 import { ThemeSelect } from './ThemeSelect'
@@ -50,9 +50,7 @@ function SettingsForm({
                     <Heading3 margin="bottom">Tavlevisning</Heading3>
                     <div className="flex flex-col gap-4">
                         <ViewType
-                            hasCombinedTiles={
-                                board.combinedTiles ? true : false
-                            }
+                            hasCombinedTiles={!!board.combinedTiles}
                             onChange={handleChange}
                         />
                         <ThemeSelect

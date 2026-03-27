@@ -2,7 +2,7 @@
 
 function Preview({ boardLink }: { boardLink: string }) {
     return (
-        <div
+        <section
             className="previewContainer md:text-2xl"
             aria-label="Forhåndsvisning av tavle"
         >
@@ -14,7 +14,7 @@ function Preview({ boardLink }: { boardLink: string }) {
                 referrerPolicy="no-referrer"
                 tabIndex={-1}
             />
-        </div>
+        </section>
     )
 }
 

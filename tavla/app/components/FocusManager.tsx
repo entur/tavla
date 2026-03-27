@@ -14,7 +14,7 @@ import { useEffect } from 'react'
  */
 
 export function FocusManager() {
-    const pathname = usePathname()
+    const _pathname = usePathname()
 
     useEffect(() => {
         const hadTabIndex = document.body.hasAttribute('tabIndex')
@@ -32,7 +32,7 @@ export function FocusManager() {
             }
             document.body.addEventListener('blur', cleanup)
         }
-    }, [pathname])
+    }, [])
 
     return null
 }
