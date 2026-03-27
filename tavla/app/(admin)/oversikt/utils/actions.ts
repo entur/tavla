@@ -1,19 +1,19 @@
 'use server'
 import { getBoardsForFolder } from 'app/(admin)/actions'
 import { moveBoard } from 'app/(admin)/tavler/[id]/rediger/components/Settings/actions'
-import { TFormFeedback } from 'app/(admin)/utils'
+import type { TFormFeedback } from 'app/(admin)/utils'
 import { deleteBoard, initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getFolderForBoard } from 'src/firebase'
-import { BoardDB } from 'src/types/db-types/boards'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { BoardDB } from 'src/types/db-types/boards'
+import type { FolderDB } from 'src/types/db-types/folders'
 
 initializeAdminApp()
 
 export async function deleteBoardAction(
-    prevState: TFormFeedback | undefined,
+    _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
     const bid = data.get('bid') as BoardDB['id']

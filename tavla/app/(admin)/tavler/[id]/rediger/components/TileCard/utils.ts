@@ -1,5 +1,5 @@
-import { TTransportMode } from 'src/types/graphql-schema'
-import { LineWithFrontText } from './types'
+import type { TTransportMode } from 'src/types/graphql-schema'
+import type { LineWithFrontText } from './types'
 
 export function sortLineByPublicCode(
     a: LineWithFrontText,

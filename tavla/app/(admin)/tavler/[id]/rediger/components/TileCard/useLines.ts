@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'src/assets/env'
 import { QuayEstimatedCallsQuery, StopPlaceEditQuery } from 'src/graphql'
-import { BoardTileDB } from 'src/types/db-types/boards'
-import { TQuay } from 'src/types/graphql-schema'
-import { LineWithFrontText, QuayWithFrontText } from './types'
+import type { BoardTileDB } from 'src/types/db-types/boards'
+import type { TQuay } from 'src/types/graphql-schema'
+import type { LineWithFrontText, QuayWithFrontText } from './types'
 
 async function getFrontTextsForQuay(
     quayId: string,
@@ -112,7 +112,7 @@ function useLines(tile: BoardTileDB): QuayWithFrontText[] | null {
         fetchData().catch(() => setQuays([]))
 
         return
-    }, [])
+    }, [tile.stopPlaceId])
 
     return quays
 }

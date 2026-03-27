@@ -1,7 +1,7 @@
-import { NormalizedDropdownItemType } from '@entur/dropdown'
+import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { usePostHog } from 'posthog-js/react'
 import { useCallback, useRef, useState } from 'react'
-import { fetchStopPlaces, StopPlace } from '../utils/fetch'
+import { fetchStopPlaces, type StopPlace } from '../utils/fetch'
 
 function useStopPlaceSearch(countyIds?: string[]) {
     const [selectedStopPlace, setSelectedStopPlace] =
@@ -16,7 +16,7 @@ function useStopPlaceSearch(countyIds?: string[]) {
             if (search !== '') count.current += 1
             return await fetchStopPlaces(search, countyIds)
         },
-        [countyIds, count],
+        [countyIds],
     )
     const chooseStopPlace = (
         stopPlace: NormalizedDropdownItemType<StopPlace> | null,

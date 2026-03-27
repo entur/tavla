@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 
 const HEARTBEAT_INTERVAL_MS = 60000 // 1 minute - how often to send heartbeat
 
@@ -84,12 +84,12 @@ function xhrFetch(url: string, options: FetchOptions): Promise<SafeResponse> {
 
             const headers = options.headers || {}
             for (const k in headers) {
-                if (Object.prototype.hasOwnProperty.call(headers, k)) {
-                    xhr.setRequestHeader(k, headers[k]!)
+                if (Object.hasOwn(headers, k)) {
+                    xhr.setRequestHeader(k, headers[k] ?? '')
                 }
             }
 
-            xhr.onreadystatechange = function () {
+            xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     resolve({
                         ok: xhr.status >= 200 && xhr.status < 300,
@@ -177,12 +177,10 @@ function shouldSkipHeartbeat(): boolean {
 function sendHeartbeat(boardId: string, tabId: string, backend_url: string) {
     try {
         const screenInfo = {
-            width: (window && window.screen && window.screen.width) || 0,
-            height: (window && window.screen && window.screen.height) || 0,
+            width: window?.screen?.width || 0,
+            height: window?.screen?.height || 0,
         }
-        const userAgent =
-            (window && window.navigator && window.navigator.userAgent) ||
-            'Unknown'
+        const userAgent = window?.navigator?.userAgent || 'Unknown'
 
         safeFetch(backend_url + '/heartbeat', {
             method: 'POST',

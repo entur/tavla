@@ -1,6 +1,6 @@
 'use client'
 import { Heading4 } from '@entur/typography'
-import { TFormFeedback } from 'app/(admin)/utils'
+import type { TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import {
     TRACKING_DEBOUNCE_TIME,
@@ -50,4 +50,5 @@ function Title({
         </div>
     )
 }
+
 export { Title }

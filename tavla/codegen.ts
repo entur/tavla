@@ -5,7 +5,7 @@ const config: CodegenConfig = {
     schema: './graphql-tools/schema.json',
     documents: 'src/**/*.graphql',
     hooks: {
-        afterAllFileWrite: ['prettier --write'],
+        afterAllFileWrite: ['biome format --write'],
     },
     config: {
         typesPrefix: 'T',
@@ -31,21 +31,14 @@ const config: CodegenConfig = {
     },
     generates: {
         'src/types/graphql-schema.ts': {
-            plugins: [
-                'typescript',
-                'typescript-operations',
-                { add: { content: '/* eslint-disable */' } },
-            ],
+            plugins: ['typescript', 'typescript-operations'],
         },
         'src/graphql/index.ts': {
             preset: 'import-types',
             presetConfig: {
                 typesPath: 'types/graphql-schema',
             },
-            plugins: [
-                'typed-document-node',
-                { add: { content: '/* eslint-disable */' } },
-            ],
+            plugins: ['typed-document-node'],
             config: { withHooks: true },
         },
     },

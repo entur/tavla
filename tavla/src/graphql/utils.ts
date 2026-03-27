@@ -1,7 +1,11 @@
 import * as Sentry from '@sentry/nextjs'
-import { CLIENT_NAME, GRAPHQL_ENDPOINTS, TEndpointNames } from 'src/assets/env'
+import {
+    CLIENT_NAME,
+    GRAPHQL_ENDPOINTS,
+    type TEndpointNames,
+} from 'src/assets/env'
 import { addMinutesToDate, formatDateToISO } from 'src/utils/time'
-import { TypedDocumentString } from './index'
+import type { TypedDocumentString } from './index'
 
 export enum FetchErrorTypes {
     TIMEOUT = 'Request timed out',

@@ -38,16 +38,16 @@ function CreateBoardLocally() {
         }
     }
 
-    const resetPublishedBoard = () => {
+    const resetPublishedBoard = useCallback(() => {
         setPublishState({ type: 'not-published' })
-    }
+    }, [])
 
     const handleSettingsSubmit = useCallback(
         async (data: FormData) => {
             await onSubmit(data)
             resetPublishedBoard()
         },
-        [onSubmit],
+        [onSubmit, resetPublishedBoard],
     )
 
     return (
@@ -72,13 +72,13 @@ function CreateBoardLocally() {
                     setTilesDemoBoard={setTiles}
                     bid="demo"
                 />
-                <div
+                <section
                     data-theme={board.theme ?? 'dark'}
                     aria-label="Forhåndsvisning av Tavla"
                 >
                     <Heading2>Forhåndsvisning</Heading2>
                     <DemoPreview board={board} />
-                </div>
+                </section>
             </div>
             <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
             <div className="flex flex-col gap-4">
