@@ -379,6 +379,19 @@ export const StopPlaceNameQuery = new TypedDocumentString(`
     Types.TStopPlaceNameQuery,
     Types.TStopPlaceNameQueryVariables
 >
+export const StopPlacesHaveDeparturesQuery = new TypedDocumentString(`
+    query StopPlacesHaveDepartures($ids: [String]) {
+  stopPlaces(ids: $ids) {
+    id
+    estimatedCalls(numberOfDepartures: 1, timeRange: 86400) {
+      expectedDepartureTime
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+    Types.TStopPlacesHaveDeparturesQuery,
+    Types.TStopPlacesHaveDeparturesQueryVariables
+>
 export const WalkDistanceQuery = new TypedDocumentString(`
     query walkDistance($from: InputCoordinates!, $to: InputCoordinates!) {
   trip(
