@@ -1,4 +1,4 @@
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 
 export const VIS_TAVLA_HOST_TARGETS: Record<string, string> = {
     'localhost:3000': 'http://localhost:5173',

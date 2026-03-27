@@ -1,11 +1,11 @@
 'use client'
 import { SearchIcon } from '@entur/icons'
 import { Label } from '@entur/typography'
-import { Folder } from 'app/(admin)/utils/types'
+import type { Folder } from 'app/(admin)/utils/types'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { useSearchAndFilter } from '../hooks/useSearchAndFilter'
 import EmptyOverview from './EmptyOverview'
 

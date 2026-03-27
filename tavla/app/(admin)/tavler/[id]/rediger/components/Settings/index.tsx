@@ -3,12 +3,12 @@ import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { FormError } from 'app/(admin)/components/FormError'
 import {
     getFormFeedbackForField,
-    InputType,
-    TFormFeedback,
+    type InputType,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { useCallback, useState } from 'react'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { saveSettings } from './actions'
 import { SettingsForm } from './components/SettingsForm'
 

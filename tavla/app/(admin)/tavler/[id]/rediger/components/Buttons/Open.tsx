@@ -2,10 +2,10 @@
 import { Button, IconButton } from '@entur/button'
 import { ExternalIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkClient } from 'src/utils/boardLink'
 
 type Props = {

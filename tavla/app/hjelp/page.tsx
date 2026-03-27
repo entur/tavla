@@ -5,7 +5,7 @@ import {
     Paragraph,
 } from '@entur/typography'
 import HedgehogIllustration from 'assets/illustrations/Hedgehog.png'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import { Questions } from './components/Questions'
 

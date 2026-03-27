@@ -3,7 +3,7 @@ import gymImage from 'assets/illustrations/Gym_illustration.svg'
 import libraryImage from 'assets/illustrations/Library_illustration.svg'
 import receptionImage from 'assets/illustrations/Reception_illustration.svg'
 import schoolImage from 'assets/illustrations/School_illustration.svg'
-import { StaticImport } from 'next/dist/shared/lib/get-img-props'
+import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -46,16 +46,17 @@ function ImageCarousel() {
         return () => clearInterval(interval)
     }, [currentImageIndex, images.length])
 
+    const currentImage = images[currentImageIndex]
+
+    if (!currentImage) return null
+
     return (
         <div
             className={`flex transform flex-row self-center overflow-hidden transition-all duration-1000 ease-in-out md:scale-90 ${
                 fade ? 'opacity-100' : 'opacity-0'
             }`}
         >
-            <Image
-                src={images[currentImageIndex]!.src}
-                alt={images[currentImageIndex]!.alt}
-            />
+            <Image src={currentImage.src} alt={currentImage.alt} />
         </div>
     )
 }

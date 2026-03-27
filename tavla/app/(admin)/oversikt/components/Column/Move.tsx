@@ -11,9 +11,9 @@ import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
 import { moveBoardAction } from 'app/(admin)/oversikt/utils/actions'
-import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
+import { getFormFeedbackForField, type TFormFeedback } from 'app/(admin)/utils'
 import { useState } from 'react'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 
 function Move({ board }: { board: BoardDB }) {
     const { addToast } = useToast()
@@ -25,10 +25,9 @@ function Move({ board }: { board: BoardDB }) {
         if (resultingError) {
             setError(resultingError)
         } else {
-            const toastText =
-                selectedFolder?.value && selectedFolder?.value.id
-                    ? `Tavlen er flyttet til "${selectedFolder?.value.name}"!`
-                    : 'Tavlen er ikke lengre i en mappe!'
+            const toastText = selectedFolder?.value?.id
+                ? `Tavlen er flyttet til "${selectedFolder?.value.name}"!`
+                : 'Tavlen er ikke lengre i en mappe!'
             addToast(toastText)
             setError(undefined)
             setIsOpen(false)

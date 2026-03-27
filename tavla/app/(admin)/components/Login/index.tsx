@@ -12,7 +12,7 @@ import { logout } from './actions'
 import { Create } from './Create'
 import { Email } from './Email'
 import { Reset } from './Reset'
-import { TLoginPage } from './types'
+import type { TLoginPage } from './types'
 
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()

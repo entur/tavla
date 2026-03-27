@@ -2,14 +2,14 @@ import { Heading4 } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { TransportModeChip } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/components/TransportModeChip'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import { BoardTileDB } from 'src/types/db-types/boards'
-import { TTransportMode } from 'src/types/graphql-schema'
+import type { BoardTileDB } from 'src/types/db-types/boards'
+import type { TTransportMode } from 'src/types/graphql-schema'
 import { PlatformAndLines } from '../PlatformAndLines'
-import { LineWithFrontText, QuayWithFrontText } from '../types'
+import type { LineWithFrontText, QuayWithFrontText } from '../types'
 import { transportModeNames } from '../utils'
 
 function getInitialCheckedLineIds(
@@ -19,26 +19,27 @@ function getInitialCheckedLineIds(
     const set = new Set<string>()
     const hasQuayFilter = tile.quays && tile.quays.length > 0
 
-    quays.forEach((quay) => {
+    for (const quay of quays) {
         const savedQuay = tile.quays?.find((q) => q.id === quay.id)
         if (savedQuay) {
             if (savedQuay.whitelistedLines.length === 0) {
-                quay.lines.forEach((l) => set.add(`${quay.id}||${l.id}`))
+                for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
             } else {
-                savedQuay.whitelistedLines.forEach((lineId) =>
-                    set.add(`${quay.id}||${lineId}`),
-                )
+                for (const lineId of savedQuay.whitelistedLines)
+                    set.add(`${quay.id}||${lineId}`)
             }
         } else if (hasQuayFilter) {
             // Per-quay filter exists but this quay has no entry: nothing selected
         } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
-            quay.lines
-                .filter((l) => tile.whitelistedLines!.includes(l.id))
-                .forEach((l) => set.add(`${quay.id}||${l.id}`))
+            for (const l of quay.lines) {
+                if (tile.whitelistedLines?.includes(l.id)) {
+                    set.add(`${quay.id}||${l.id}`)
+                }
+            }
         } else {
-            quay.lines.forEach((l) => set.add(`${quay.id}||${l.id}`))
+            for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
         }
-    })
+    }
 
     return set
 }
@@ -161,7 +162,7 @@ function sortAndDistributeColumnItems(quays: QuayWithFrontText[]): {
     }
 
     itemsToDistribute.forEach((item) => {
-        let height
+        let height: number
         if (item.type === 'mode_group') {
             height =
                 2 +
@@ -226,9 +227,9 @@ function SetVisibleLines({
     const handleGroupToggle = (lineIds: string[], checked: boolean) => {
         const newSet = new Set(checkedLineIds)
         if (checked) {
-            lineIds.forEach((id) => newSet.add(id))
+            for (const id of lineIds) newSet.add(id)
         } else {
-            lineIds.forEach((id) => newSet.delete(id))
+            for (const id of lineIds) newSet.delete(id)
         }
         setCheckedLineIds(newSet)
     }
@@ -236,20 +237,20 @@ function SetVisibleLines({
     const toggleMode = (mode: TTransportMode) => {
         const keysOnActiveQuays: string[] = []
         const keysOnAllQuays: string[] = []
-        quays.forEach((quay) => {
+        for (const quay of quays) {
             const quayIsActive = quay.lines.some((l) =>
                 checkedLineIds.has(`${quay.id}||${l.id}`),
             )
 
-            quay.lines.forEach((line) => {
+            for (const line of quay.lines) {
                 if (line.transportMode === mode) {
                     keysOnAllQuays.push(`${quay.id}||${line.id}`)
                     if (quayIsActive) {
                         keysOnActiveQuays.push(`${quay.id}||${line.id}`)
                     }
                 }
-            })
-        })
+            }
+        }
 
         const anySelected = keysOnActiveQuays.some((key) =>
             checkedLineIds.has(key),
@@ -257,27 +258,27 @@ function SetVisibleLines({
 
         const newSet = new Set(checkedLineIds)
         if (anySelected) {
-            keysOnActiveQuays.forEach((key) => newSet.delete(key))
+            for (const key of keysOnActiveQuays) newSet.delete(key)
         } else {
-            keysOnAllQuays.forEach((key) => newSet.add(key))
+            for (const key of keysOnAllQuays) newSet.add(key)
         }
         setCheckedLineIds(newSet)
     }
 
     const isModeSelected = (mode: TTransportMode) => {
         const keysInMode: string[] = []
-        quays.forEach((q) => {
+        for (const q of quays) {
             const quayIsActive = q.lines.some((l) =>
                 checkedLineIds.has(`${q.id}||${l.id}`),
             )
-            if (!quayIsActive) return
+            if (!quayIsActive) continue
 
-            q.lines.forEach((l) => {
+            for (const l of q.lines) {
                 if (l.transportMode === mode) {
                     keysInMode.push(`${q.id}||${l.id}`)
                 }
-            })
-        })
+            }
+        }
         if (keysInMode.length === 0) return false
         return keysInMode.some((key) => checkedLineIds.has(key))
     }
@@ -314,7 +315,11 @@ function SetVisibleLines({
                     if (colItems.length === 0) return null
 
                     return (
-                        <div key={index} className="flex flex-1 flex-col gap-2">
+                        <div
+                            // biome-ignore lint/suspicious/noArrayIndexKey: Layout columns have no stable ID
+                            key={`column-${index}`}
+                            className="flex flex-1 flex-col gap-2"
+                        >
                             {colItems.map((item) => {
                                 if (item.type === 'mode_group') {
                                     const { mode, quays } = item.data
