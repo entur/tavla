@@ -1,11 +1,10 @@
+import { MapPinIcon, NewIcon, ShareIcon } from '@entur/icons'
 import {
     Heading1,
     Heading2,
     Heading3,
     LeadParagraph,
-    ListItem,
     Paragraph,
-    UnorderedList,
 } from '@entur/typography'
 import { CreateBoardButton } from 'app/components/CreateBoardButton'
 import type { Metadata } from 'next'
@@ -85,50 +84,58 @@ async function Landing() {
                 </div>
             </div>
 
-            <div className="container mx-auto flex flex-col justify-start gap-4 overflow-hidden py-14 xl:w-[1200px]">
+            <div className="container mx-auto flex flex-col justify-start gap-4 overflow-hidden py-14">
                 <PreviewCarousel previewBoards={previewBoardsWithLinks} />
 
-                <div className="md:px-12">
-                    <Heading2>Kort om Tavla</Heading2>
-                    <UnorderedList className="flex flex-col gap-1 space-y-3 pl-6">
-                        <ListItem>
-                            Du kan lage avgangstavler helt gratis fra alle
-                            stoppesteder, holdeplasser, knutepunkter, fergekaier
-                            mm. i hele Norge. Dette gjelder for alle typer
-                            offentlig transport, inkludert ferger, hurtigbåter
-                            og fly.
-                        </ListItem>
-                        <ListItem>
-                            Det er helt gratis å implementere og bruke Tavla.
-                        </ListItem>
-                        <ListItem>
-                            Tavla kan vises på ulike typer skjermer og er
-                            tilpasset flere operativsystem og oppløsninger.
-                        </ListItem>
-                    </UnorderedList>
+                <div className="lg:px-12 py-16 px-6 text-left lg:text-center">
+                    <Heading1 as="h2" margin="none">
+                        Tavle på 1, 2, 3
+                    </Heading1>
+                    <Paragraph margin="bottom">
+                        Så enkelt er det å lage en tavle
+                    </Paragraph>
 
-                    <Heading3>Enkelt å tilpasse og samarbeide</Heading3>
+                    <div className="mt-12 grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-32 mx-auto">
+                        <div className="flex flex-col items-start text-left rounded-2xl pt-6">
+                            <div className="bg-coral p-3 rounded-2xl text-white">
+                                <MapPinIcon width={36} height={36} />
+                            </div>
+                            <Heading3>Legg til stoppesteder</Heading3>
+                            <Paragraph className="text-()">
+                                Skriv inn en adresse, et sted eller et
+                                stoppested og legg til stoppesteder. Du kan
+                                velge så mange du vil.
+                            </Paragraph>
+                        </div>
 
-                    <UnorderedList className="flex flex-col gap-1 space-y-3 pl-6 m-1">
-                        <ListItem>
-                            Tilpass tekststørrelse, fargetema, logo og hvilken
-                            informasjon som skal vises, slik at tavlen(e) passer
-                            til dine omgivelser og dine besøkende sine behov.
-                        </ListItem>
-                        <ListItem>
-                            Velg om du vil vise hele kollektivtilbudet fra et
-                            stoppested, eller kun vise spesifikke linjer,
-                            stoppesteder eller fremkomstmidler.
-                        </ListItem>
-                        <ListItem>
-                            Opprett mapper for å samle tavler og gi andre
-                            tilgang til å administrere dem. Her kan du også
-                            laste opp en logo som vil vises på alle tavlene i
-                            mappen.
-                        </ListItem>
-                    </UnorderedList>
+                        <div className="flex flex-col items-start text-left rounded-2xl pt-6">
+                            <div className="bg-coral p-3 rounded-2xl text-white">
+                                <NewIcon width={36} height={36} />
+                            </div>
+                            <Heading3>Tilpass visningen</Heading3>
+                            <Paragraph>
+                                Tilpass visningen etter dine behov. Velg
+                                fargemodus, tekststørrelse, legg til logo og
+                                filtrer på linjer.
+                            </Paragraph>
+                        </div>
 
-                    <Heading2 className="pt-8">Eksempler på bruk</Heading2>
+                        <div className="flex flex-col items-start text-left rounded-2xl pt-6">
+                            <div className="bg-coral p-3 rounded-2xl text-white">
+                                <ShareIcon width={36} height={36} />
+                            </div>
+                            <Heading3>Åpne og del</Heading3>
+                            <Paragraph>
+                                Åpne lenken til din tavle på hvilken som helst
+                                enhet med nettleser, og du er ferdig. Oppdater
+                                når som helst, fra hvor som helst.
+                            </Paragraph>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="px-6 lg:px-12">
+                    <Heading2>Eksempler på bruk</Heading2>
                     <Heading3>Hoteller</Heading3>
                     <Paragraph>
                         Plasser Tavla i resepsjonsområdet slik at gjester kan se
