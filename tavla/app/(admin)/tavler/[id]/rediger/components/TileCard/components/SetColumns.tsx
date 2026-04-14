@@ -17,9 +17,11 @@ import { ColumnModal } from '../ColumnModal'
 function SetColumns({
     isCombined,
     trackingLocation,
+    onFieldChanged,
 }: {
     isCombined: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    onFieldChanged: (field: string) => void
 }) {
     const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
@@ -88,6 +90,7 @@ function SetColumns({
                                 isArray(columns) && columns.includes(key)
                             }
                             onChange={(e) => {
+                                onFieldChanged('columns')
                                 posthog.capture('stop_place_edit_interaction', {
                                     location: trackingLocation,
                                     field: 'columns',

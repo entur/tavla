@@ -198,10 +198,12 @@ function sortAndDistributeColumnItems(quays: QuayWithFrontText[]): {
 function SetVisibleLines({
     quays,
     trackingLocation,
+    onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
     allLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    onFieldChanged: (field: string) => void
 }) {
     const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
@@ -222,6 +224,7 @@ function SetVisibleLines({
             newSet.add(lineId)
         }
         setCheckedLineIds(newSet)
+        onFieldChanged('lines')
     }
 
     const handleGroupToggle = (lineIds: string[], checked: boolean) => {
@@ -232,6 +235,7 @@ function SetVisibleLines({
             for (const id of lineIds) newSet.delete(id)
         }
         setCheckedLineIds(newSet)
+        onFieldChanged('lines')
     }
 
     const toggleMode = (mode: TTransportMode) => {
@@ -297,6 +301,7 @@ function SetVisibleLines({
                             mode={mode}
                             isSelected={isSelected}
                             onClick={() => {
+                                onFieldChanged('transport_mode_filter')
                                 posthog.capture('stop_place_edit_interaction', {
                                     location: trackingLocation,
                                     field: 'transport_mode_filter',

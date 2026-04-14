@@ -20,6 +20,7 @@ function SaveCancelDeleteTileButtonGroup({
     setConfirmOpen,
     validation,
     trackingLocation,
+    fieldsChanged,
 }: {
     confirmOpen: boolean
     hasTileChanged: boolean
@@ -29,6 +30,14 @@ function SaveCancelDeleteTileButtonGroup({
     deleteTile: () => void
     validation?: TFormFeedback
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    fieldsChanged: {
+        name: boolean
+        offset: boolean
+        offset_walking_dist: boolean
+        columns: boolean
+        lines: boolean
+        transport_mode_filter: boolean
+    }
 }) {
     const tile = useNonNullContext(TileContext)
     const posthog = usePosthogTracking()
@@ -47,6 +56,7 @@ function SaveCancelDeleteTileButtonGroup({
                     onClick={() => {
                         posthog.capture('stop_place_edit_saved', {
                             location: trackingLocation,
+                            ...fieldsChanged,
                         })
                     }}
                 >
@@ -99,6 +109,7 @@ function SaveCancelDeleteTileButtonGroup({
                             onClick={() => {
                                 posthog.capture('stop_place_edit_saved', {
                                     location: trackingLocation,
+                                    ...fieldsChanged,
                                 })
                             }}
                         >

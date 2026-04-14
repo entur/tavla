@@ -52,6 +52,12 @@ function TileCard({
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
+    const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
+
+    const onFieldChanged = (field: string) => {
+        setChangedFields((prev) => new Set(prev).add(field))
+        setHasUnsavedChanges(true)
+    }
     const { addToast } = useToast()
 
     const submit = async (
@@ -129,6 +135,7 @@ function TileCard({
     const reset = () => {
         setConfirmOpen(false)
         setHasUnsavedChanges(false)
+        setChangedFields(new Set())
         setIsOpen(false)
     }
 
@@ -269,19 +276,23 @@ function TileCard({
                             <SetStopPlaceName
                                 state={state}
                                 trackingLocation={trackingLocation}
+                                onFieldChanged={onFieldChanged}
                             />
                             <SetOffsetDepartureTime
                                 address={address}
                                 trackingLocation={trackingLocation}
+                                onFieldChanged={onFieldChanged}
                             />
                             <SetColumns
                                 isCombined={isCombined}
                                 trackingLocation={trackingLocation}
+                                onFieldChanged={onFieldChanged}
                             />
                             <SetVisibleLines
                                 quays={quaysWithFilteredLines}
                                 allLines={uniqLines}
                                 trackingLocation={trackingLocation}
+                                onFieldChanged={onFieldChanged}
                             />
                             <SaveCancelDeleteTileButtonGroup
                                 confirmOpen={confirmOpen}
@@ -292,6 +303,18 @@ function TileCard({
                                 validation={state}
                                 deleteTile={handleDeleteTile}
                                 trackingLocation={trackingLocation}
+                                fieldsChanged={{
+                                    name: changedFields.has('name'),
+                                    offset: changedFields.has('offset'),
+                                    offset_walking_dist: changedFields.has(
+                                        'offset_walking_dist',
+                                    ),
+                                    columns: changedFields.has('columns'),
+                                    lines: changedFields.has('lines'),
+                                    transport_mode_filter: changedFields.has(
+                                        'transport_mode_filter',
+                                    ),
+                                }}
                             />
                         </form>
                     </div>
