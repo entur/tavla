@@ -1,4 +1,4 @@
-import { TTransportMode } from 'src/types/graphql-schema'
+import type { TTransportMode } from 'src/types/graphql-schema'
 import { z } from 'zod'
 
 const transportModeValues: TTransportMode[] = [

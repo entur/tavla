@@ -4,7 +4,7 @@ import { CreateUserButton } from 'app/components/CreateUserButton'
 import { NavigateToOversiktButton } from 'app/components/NavigateToOversiktButton'
 import { FeatureFlags } from 'app/posthog/featureFlags'
 import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { CreateBoardLocally } from './components/CreateBoardLocally'
 

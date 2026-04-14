@@ -8,7 +8,7 @@ import admin, { auth, firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { UserDB } from 'src/types/db-types/users'
+import type { UserDB } from 'src/types/db-types/users'
 
 initializeAdminApp()
 

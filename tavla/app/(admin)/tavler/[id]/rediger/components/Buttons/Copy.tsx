@@ -3,9 +3,9 @@ import { CopyableText, useToast } from '@entur/alert'
 import { IconButton } from '@entur/button'
 import { CopyIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkClient } from 'src/utils/boardLink'
 
 type Props = {
@@ -60,4 +60,5 @@ function Copy({ type, bid, board, trackingLocation }: Props) {
         </Tooltip>
     )
 }
+
 export { Copy }

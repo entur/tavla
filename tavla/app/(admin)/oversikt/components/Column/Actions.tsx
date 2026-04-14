@@ -1,5 +1,5 @@
 import { DeleteFolder } from 'app/(admin)/components/Delete'
-import { TableItem } from 'app/(admin)/oversikt/components/BoardTable'
+import type { TableItem } from 'app/(admin)/oversikt/components/BoardTable'
 import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
 import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
 import { Delete } from './Delete'

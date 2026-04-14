@@ -11,7 +11,7 @@ import {
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import {
+import type {
     BoardDB,
     BoardTileDB,
     LocationDB,

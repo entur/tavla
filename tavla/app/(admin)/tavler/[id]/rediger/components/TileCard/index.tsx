@@ -6,11 +6,11 @@ import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
 import { startTransition, useActionState, useState } from 'react'
-import {
+import type {
     BoardDB,
     BoardTileDB,
     LocationDB,
@@ -55,7 +55,7 @@ function TileCard({
     const { addToast } = useToast()
 
     const submit = async (
-        prevState: TFormFeedback | undefined,
+        _prevState: TFormFeedback | undefined,
         data: FormData,
     ) => {
         let columns = data.getAll('columns') as TileColumnDB[]
@@ -80,7 +80,7 @@ function TileCard({
             return getFormFeedbackForError('board/tiles-no-lines-selected')
         }
 
-        const allSelected = quayLineKeys.length == count
+        const allSelected = quayLineKeys.length === count
 
         const newQuays = allSelected
             ? []
@@ -169,7 +169,7 @@ function TileCard({
     const saveTileToDemoBoard = (newTile: BoardTileDB) => {
         if (!demoBoard) return null
         const oldTileIndex = demoBoard.tiles.findIndex(
-            (tile) => tile.uuid == newTile.uuid,
+            (tile) => tile.uuid === newTile.uuid,
         )
         if (oldTileIndex === -1) return null
 
@@ -224,12 +224,12 @@ function TileCard({
                             <Heading3 margin="none">
                                 {tile.displayName ?? tile.name}
                             </Heading3>
-                            <div
+                            <section
                                 className="hidden h-8 flex-row gap-4 sm:flex"
                                 aria-label="Transportmidler fra dette stoppestedet: "
                             >
                                 {uniqTransportModeIcons}
-                            </div>
+                            </section>
                         </div>
                         <EditRemoveTileButtonGroup
                             hasTileChanged={hasUnsavedChanges}
@@ -252,7 +252,7 @@ function TileCard({
                 <BaseExpand open={isOpen}>
                     <div
                         className={`mr-14 border-t-2 bg-white px-6 py-4 ${
-                            totalTiles == 1 && 'w-full'
+                            totalTiles === 1 && 'w-full'
                         } rounded-b`}
                     >
                         <form

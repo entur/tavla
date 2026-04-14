@@ -1,8 +1,8 @@
-import { NormalizedDropdownItemType } from '@entur/dropdown'
+import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { uniq } from 'lodash'
 import { CLIENT_NAME, COUNTY_ENDPOINT, GEOCODER_ENDPOINT } from 'src/assets/env'
-import { LocationDB } from 'src/types/db-types/boards'
-import { TCategory, getIcons } from '../tavler/[id]/utils'
+import type { LocationDB } from 'src/types/db-types/boards'
+import { getIcons, type TCategory } from '../tavler/[id]/utils'
 
 export type GeoCoordinate = {
     lat: number

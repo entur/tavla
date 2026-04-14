@@ -1,12 +1,12 @@
 'use client'
-import { Heading3 } from '@entur/typography'
-import squirrel from 'assets/illustrations/Squirrel.png'
-import Image from 'next/image'
-import Link from 'next/link'
 
 import { ButtonGroup, SecondaryButton } from '@entur/button'
 import { EmailIcon } from '@entur/icons'
+import { Heading3 } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import squirrel from 'assets/illustrations/Squirrel.png'
+import Image from 'next/image'
+import Link from 'next/link'
 import Google from './Google'
 
 function Entry() {

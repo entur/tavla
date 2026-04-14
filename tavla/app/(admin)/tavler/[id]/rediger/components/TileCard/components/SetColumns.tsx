@@ -5,7 +5,7 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { DEFAULT_COMBINED_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { isArray } from 'lodash'
 import { useState } from 'react'
@@ -66,7 +66,7 @@ function SetColumns({
                         : tile.columns
 
                     const columnValue: Record<
-                        string,
+                        keyof typeof TileColumns,
                         EventProps<'stop_place_edit_interaction'>['column_value']
                     > = {
                         aimedTime: 'eta',
@@ -91,7 +91,7 @@ function SetColumns({
                                 posthog.capture('stop_place_edit_interaction', {
                                     location: trackingLocation,
                                     field: 'columns',
-                                    column_value: columnValue[key]!,
+                                    column_value: columnValue[key],
                                     action: e.target.checked
                                         ? 'toggled_on'
                                         : 'toggled_off',

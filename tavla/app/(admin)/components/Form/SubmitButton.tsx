@@ -1,5 +1,5 @@
 'use client'
-import { Button, ButtonProps } from '@entur/button'
+import { Button, type ButtonProps } from '@entur/button'
 import { useFormStatus } from 'react-dom'
 
 function SubmitButton(props: ButtonProps<typeof Button>) {

@@ -4,11 +4,11 @@ import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import { addTiles, getWalkingDistanceTile } from './actions'
@@ -125,12 +125,12 @@ export default async function EditPage(props: TProps) {
                         }
                     />
                     <TileList board={board} />
-                    <div
+                    <section
                         data-theme={board.theme ?? 'dark'}
                         aria-label="Forhåndsvisning av Tavla"
                     >
                         <Preview boardLink={boardLink} />
-                    </div>
+                    </section>
                 </div>
                 <Settings board={board} />
             </div>
