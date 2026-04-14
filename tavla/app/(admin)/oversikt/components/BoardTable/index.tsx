@@ -67,7 +67,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
     const tableItems: TableItem[] = foldersMapped.concat(boardsMapped)
 
     const { sortedData, getSortableHeaderProps, getSortableTableProps } =
-        useSortableData(tableItems)
+        useSortableData(tableItems, { key: 'name', order: 'ascending' })
 
     const sortedFolders = sortedData?.filter((data) => data.type === 'folder')
     const sortedBoards = sortedData?.filter((data) => data.type === 'board')
