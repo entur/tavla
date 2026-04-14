@@ -8,8 +8,8 @@ import {
     UnorderedList,
 } from '@entur/typography'
 import { CreateBoardButton } from 'app/components/CreateBoardButton'
-import { Metadata } from 'next'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { Metadata } from 'next'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'

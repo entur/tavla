@@ -1,7 +1,7 @@
 'use server'
 
 import * as Sentry from '@sentry/nextjs'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
@@ -13,7 +13,7 @@ initializeAdminApp()
 const db = getFirestore()
 
 export async function createFolder(
-    prevState: TFormFeedback | undefined,
+    _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
     const name = data.get('name')?.toString() ?? ''
@@ -25,7 +25,7 @@ export async function createFolder(
 
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    let folder
+    let folder: FirebaseFirestore.DocumentReference | undefined
 
     try {
         folder = await db.collection('folders').add({

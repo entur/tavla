@@ -1,8 +1,8 @@
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
-import { getFormFeedbackForField, TFormFeedback } from 'app/(admin)/utils'
+import { getFormFeedbackForField, type TFormFeedback } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import {
     TRACKING_DEBOUNCE_TIME,
     usePosthogTracking,

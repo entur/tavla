@@ -1,6 +1,9 @@
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
-import { TTransportMode, TTransportSubmode } from 'src/types/graphql-schema'
+import type {
+    TTransportMode,
+    TTransportSubmode,
+} from 'src/types/graphql-schema'
 
 export const transportModeNames: Record<TTransportMode, string> = {
     air: 'Fly',
@@ -19,6 +22,18 @@ export const transportModeNames: Record<TTransportMode, string> = {
     unknown: 'Ukjent',
 }
 
+type ColorMode = TTransportMode | 'regional-bus'
+
+function getColorMode(
+    transportMode: TTransportMode,
+    transportSubmode?: TTransportSubmode,
+): ColorMode {
+    if (transportSubmode?.startsWith('airport')) return 'air'
+    if (transportSubmode === 'railReplacementBus') return 'rail'
+    if (transportSubmode === 'regionalBus') return 'regional-bus'
+    return transportMode
+}
+
 function TravelTag({
     transportMode,
     publicCode,
@@ -32,11 +47,8 @@ function TravelTag({
     cancelled?: boolean
     'aria-hidden'?: boolean | 'true' | 'false'
 }) {
-    const colorMode = transportSubmode?.startsWith('airport')
-        ? 'air'
-        : transportMode
-
-    const travelTagBackround = `bg-${colorMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
+    const colorMode = getColorMode(transportMode, transportSubmode)
+    const travelTagBackground = `bg-${colorMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
     const iconPublicCodeColor =
         cancelled && transportMode !== 'unknown'
             ? `text-${colorMode}`
@@ -44,9 +56,10 @@ function TravelTag({
 
     return (
         <div
+            role="img"
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
             aria-hidden={ariaHidden}
-            className={`flex h-full w-full items-center justify-between rounded-sm pl-2 ${travelTagBackround}`}
+            className={`flex h-full w-full items-center justify-between rounded-sm pl-2 ${travelTagBackground}`}
         >
             <TransportIcon
                 className={`h-em-2 w-em-2 ${iconPublicCodeColor}`}
@@ -75,6 +88,7 @@ function SmallTravelTag({
     if (!transportMode) return null
     return (
         <div
+            role="img"
             aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
             className={`mx-[2px] flex h-5 items-center justify-between rounded-sm p-1 font-bold text-background bg-${transportMode}`}
             key={`${transportMode}${publicCode}`}

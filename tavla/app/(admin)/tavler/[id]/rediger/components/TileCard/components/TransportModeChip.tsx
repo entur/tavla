@@ -1,5 +1,5 @@
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
-import { TTransportMode } from 'src/types/graphql-schema'
+import type { TTransportMode } from 'src/types/graphql-schema'
 import { transportModeNames } from '../utils'
 
 type TransportModeChipProps = {
@@ -26,6 +26,8 @@ function TransportModeChip({
         >
             {isSelected && (
                 <svg
+                    role="img"
+                    aria-label="Valgt"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"

@@ -2,7 +2,7 @@
 
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
 import { redirect } from 'next/navigation'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 import { getBackendUrl } from 'src/utils/index'
 
 export async function refreshBoard(board: BoardDB) {

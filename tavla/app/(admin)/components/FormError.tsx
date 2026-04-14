@@ -1,5 +1,5 @@
 import { SmallAlertBox } from '@entur/alert'
-import { VariantType } from '@entur/form'
+import type { VariantType } from '@entur/form'
 
 function FormError({
     feedback,

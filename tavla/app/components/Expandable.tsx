@@ -1,6 +1,6 @@
 import { DownArrowIcon, UpArrowIcon } from '@entur/icons'
 import { Heading5 } from '@entur/typography'
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
 function Expandable({
     title,
@@ -43,4 +43,5 @@ function Expandable({
         </div>
     )
 }
+
 export { Expandable }

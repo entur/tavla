@@ -6,7 +6,7 @@ import {
 } from 'app/(admin)/actions'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard'
 import { CreateFolder } from '../components/CreateFolder'
