@@ -85,6 +85,7 @@ module.exports = {
                 negativeContrast: 'var(--fill-negative-contrast)',
                 tintLight: 'var(--fill-background-tint-light)',
                 coral: 'var(--standard-coral)',
+                hoverContrast: 'var(--fill-primary-hover-contrast)',
             },
             colors: {
                 background: 'var(--main-background-color)',

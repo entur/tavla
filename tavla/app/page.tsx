@@ -9,6 +9,7 @@ import Link from 'next/link'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
+import { FeatureShowcase } from './components/FeatureShowcase/FeatureShowcase'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
 import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
 import { PreviewCarousel } from './components/PreviewCarousel'
@@ -179,6 +180,7 @@ async function Landing() {
                         />
                     </div>
                 </div>
+                <FeatureShowcase />
             </div>
         </main>
     )
