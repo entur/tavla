@@ -13,6 +13,7 @@ const emptyBoard: BoardDB = {
     id: 'demo',
     meta: { title: 'Min tavle' },
     tiles: [],
+    isCombinedTiles: false,
 }
 
 export function useSaveDemoBoardInLocalStorage(): {
@@ -76,10 +77,7 @@ export function useSaveDemoBoardInLocalStorage(): {
                 hideClock,
                 hideLogo,
                 footer: footerHasText ? { footer } : undefined,
-                combinedTiles:
-                    viewType === 'separate'
-                        ? undefined
-                        : [{ ids: prev.tiles.map((tile) => tile.uuid) }],
+                isCombinedTiles: viewType === 'combined',
                 tiles: updatedTiles,
             }))
         },
