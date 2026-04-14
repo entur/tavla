@@ -92,6 +92,7 @@ export const LinesFragment = new TypedDocumentString(
     publicCode
     name
     transportMode
+    transportSubmode
   }
 }
     `,
@@ -155,6 +156,7 @@ fragment lines on Quay {
     publicCode
     name
     transportMode
+    transportSubmode
   }
 }
 fragment situation on PtSituationElement {
@@ -198,6 +200,7 @@ export const QuayEditQuery = new TypedDocumentString(`
     publicCode
     name
     transportMode
+    transportSubmode
   }
 }`) as unknown as TypedDocumentString<
     Types.TQuayEditQuery,
@@ -260,6 +263,7 @@ export const QuaysSearchQuery = new TypedDocumentString(`
     publicCode
     name
     transportMode
+    transportSubmode
   }
 }`) as unknown as TypedDocumentString<
     Types.TQuaysSearchQuery,
@@ -363,6 +367,7 @@ export const StopPlaceEditQuery = new TypedDocumentString(`
     publicCode
     name
     transportMode
+    transportSubmode
   }
 }`) as unknown as TypedDocumentString<
     Types.TStopPlaceEditQuery,
