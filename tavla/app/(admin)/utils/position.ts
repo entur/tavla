@@ -1,6 +1,6 @@
-import { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
+import type { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 import { PositionIcon } from '@entur/icons'
-import { GeoCoordinate, StopPlace } from './fetch'
+import type { GeoCoordinate, StopPlace } from './fetch'
 
 export async function getCurrentPosition(
     options?: PositionOptions,

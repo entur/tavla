@@ -6,7 +6,7 @@ import { usePointSearch } from 'app/(admin)/hooks/usePointSearch'
 import ClientOnly from 'app/components/NoSSR/ClientOnly'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useRef } from 'react'
-import { LocationDB } from 'src/types/db-types/boards'
+import type { LocationDB } from 'src/types/db-types/boards'
 
 function WalkingDistance({
     location,
@@ -29,7 +29,7 @@ function WalkingDistance({
             return
         }
         onChange()
-    }, [selectedPoint, onChange])
+    }, [onChange])
 
     return (
         <div className="flex flex-col">

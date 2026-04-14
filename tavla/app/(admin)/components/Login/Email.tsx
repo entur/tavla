@@ -4,9 +4,9 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useSearchParamsSetter } from 'app/(admin)/hooks/useSearchParamsSetter'
 import {
-    TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
@@ -24,13 +24,13 @@ import { getClientApp } from 'src/utils/firebase'
 import { FormError } from '../FormError'
 import { login } from './actions'
 import Google from './Google'
-import { TLoginPage } from './types'
+import type { TLoginPage } from './types'
 
 function Email() {
     const posthog = usePosthogTracking()
     const [email, setEmail] = useState('')
     const submit = async (
-        previousState: TFormFeedback | undefined,
+        _previousState: TFormFeedback | undefined,
         data: FormData,
     ) => {
         const email = data.get('email') as string
@@ -55,7 +55,7 @@ function Email() {
                     // user should not be shown the too-many-requests feedback
                     if (
                         e instanceof FirebaseError &&
-                        e.code != 'auth/too-many-requests'
+                        e.code !== 'auth/too-many-requests'
                     ) {
                         return getFormFeedbackForError(e)
                     }

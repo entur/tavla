@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { withSentryConfig } = require('@sentry/nextjs')
 
@@ -188,7 +187,6 @@ const nextConfig = {
     },
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = async (phase, { defaultConfig }) => {
     if (phase === PHASE_DEVELOPMENT_SERVER) {
         nextConfig.images.remotePatterns.push({

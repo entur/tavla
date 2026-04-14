@@ -6,9 +6,9 @@ import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/utils'
 import {
-    TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
@@ -152,4 +152,5 @@ function ContactForm() {
         </div>
     )
 }
+
 export { ContactForm }

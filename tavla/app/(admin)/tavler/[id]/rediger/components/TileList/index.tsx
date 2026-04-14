@@ -4,7 +4,7 @@ import { saveUpdatedTileOrder } from 'app/(admin)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
 import { useEffect, useState } from 'react'
 
-import { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { TileCard } from '../TileCard'
 
 function TileList({
@@ -30,9 +30,12 @@ function TileList({
 
         const newArray: BoardTileDB[] = [...board.tiles]
 
-        const oldElement = newArray[newIndex]!
+        const oldElement = newArray[newIndex]
+        const currentElement = newArray[index]
 
-        newArray[newIndex] = newArray[index]!
+        if (!oldElement || !currentElement) return
+
+        newArray[newIndex] = currentElement
         newArray[index] = oldElement
 
         setTileArray(newArray)
@@ -56,10 +59,11 @@ function TileList({
                     index={index}
                     totalTiles={board.tiles.length}
                     setTilesDemoBoard={setTilesDemoBoard}
-                    isCombined={board.combinedTiles ? true : false}
+                    isCombined={!!board.combinedTiles}
                 />
             ))}
         </div>
     )
 }
+
 export { TileList }

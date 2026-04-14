@@ -3,9 +3,9 @@ import { PrimaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { Heading3, Paragraph } from '@entur/typography'
 import {
-    TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
 import musk from 'assets/illustrations/Musk.png'
 import { FirebaseError } from 'firebase/app'
@@ -17,7 +17,7 @@ import { FormError } from '../FormError'
 
 function Reset() {
     const submit = async (
-        previousState: TFormFeedback | undefined,
+        _previousState: TFormFeedback | undefined,
         data: FormData,
     ) => {
         const email = data.get('email') as string

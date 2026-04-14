@@ -1,7 +1,7 @@
 import { SecondarySquareButton } from '@entur/button'
 import { CloseIcon, EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { DeleteTileButton } from './DeleteTileButton'
 
@@ -30,7 +30,6 @@ function EditRemoveTileButtonGroup({
                 id="tooltip-edit-tile"
             >
                 <SecondarySquareButton
-                    size="small"
                     onClick={() => {
                         if (!isTileOpen) {
                             posthog.capture('stop_place_edit_started', {

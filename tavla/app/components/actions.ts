@@ -2,11 +2,11 @@
 
 import * as Sentry from '@sentry/nextjs'
 import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/utils'
-import { TFormFeedback, getFormFeedbackForError } from 'app/(admin)/utils'
+import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { validEmail } from 'src/utils/email'
 
-async function postForm(prevState: TFormFeedback | undefined, data: FormData) {
+async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
     const email = data.get('email') as string
     const message = data.get('message') as string
     const disabledEmail = data.get('disabledEmail') as string

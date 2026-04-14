@@ -3,7 +3,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import { FeatureFlags } from 'app/posthog/featureFlags'
 import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { CreateBoardLocally } from './components/CreateBoardLocally'
 

@@ -9,7 +9,7 @@ import { getFormFeedbackForField } from 'app/(admin)/utils'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState, useRef } from 'react'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'src/types/db-types/folders'
 import { inviteUserAction } from './actions'
 
 function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {

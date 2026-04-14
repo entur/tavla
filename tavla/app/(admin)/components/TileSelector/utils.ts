@@ -1,4 +1,4 @@
-import { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
+import type { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 import * as Sentry from '@sentry/nextjs'
 import { nanoid } from 'nanoid'
 import {
@@ -7,12 +7,12 @@ import {
     WalkDistanceQuery,
 } from 'src/graphql/index'
 import { fetchQuery } from 'src/graphql/utils'
-import {
+import type {
     BoardTileDB,
     Coordinate,
     TileColumnDB,
 } from 'src/types/db-types/boards'
-import { GeoCoordinate, StopPlace } from '../../utils/fetch'
+import type { GeoCoordinate, StopPlace } from '../../utils/fetch'
 
 export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
 

@@ -11,12 +11,12 @@ import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { deleteBoardAction } from 'app/(admin)/oversikt/utils/actions'
 import { getFormFeedbackForField } from 'app/(admin)/utils'
-import { EventProps } from 'app/posthog/events'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 
 function Delete({
     board,

@@ -2,9 +2,9 @@ import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,
 } from 'app/(admin)/utils/constants'
-import { Folder } from 'app/(admin)/utils/types'
+import type { Folder } from 'app/(admin)/utils/types'
 import { useMemo } from 'react'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 
 interface FilteredData {
     folders: Folder[]
@@ -77,7 +77,7 @@ export function useSearchAndFilter(
             folders: folders,
             boards: privateBoards,
         }
-    }, [searchFilters, allBoards, folders, privateBoards])
+    }, [searchFilters, allBoards, folders, privateBoards, isSearching])
 
     return filteredData
 }

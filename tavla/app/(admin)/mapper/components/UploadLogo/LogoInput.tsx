@@ -7,15 +7,15 @@ import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import {
-    TFormFeedback,
     getFormFeedbackForError,
     getFormFeedbackForField,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useRouter } from 'next/navigation'
-import { ChangeEventHandler, useState } from 'react'
+import { type ChangeEventHandler, useState } from 'react'
 import { useFormStatus } from 'react-dom'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'src/types/db-types/folders'
 
 function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
     const [state, setFormError] = useState<TFormFeedback | undefined>()
@@ -94,14 +94,13 @@ function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
                     name="logo"
                     accept="image/apng,image/jpeg,image/png,image/svg+xml,image/svg,image/webp"
                     id="logo"
-                    aria-labelledby="logo"
+                    aria-label="Last opp logo"
                     onChange={setLogo}
                     onDragOver={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
                     }}
                     required
-                    aria-required
                 />
             </Label>
 

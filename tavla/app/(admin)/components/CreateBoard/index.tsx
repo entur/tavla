@@ -2,11 +2,11 @@
 import { IconButton, PrimaryButton } from '@entur/button'
 import { BoardIcon, CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Folder } from 'app/(admin)/utils/types'
-import { EventProps } from 'app/posthog/events'
+import type { Folder } from 'app/(admin)/utils/types'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'src/types/db-types/folders'
 import { NameAndFolderSelector } from './NameAndFolderSelector'
 
 type CreateBoardProps = {

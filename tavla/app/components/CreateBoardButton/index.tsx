@@ -5,6 +5,7 @@ import { CreateUserButton } from 'app/components/CreateUserButton'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 
 import Link from 'next/link'
+import { useFeatureFlagEnabled } from 'posthog-js/react'
 
 function CreateBoardButton() {
     const posthog = usePosthogTracking()

@@ -5,7 +5,7 @@ import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
-import { BoardDB } from 'src/types/db-types/boards'
+import type { BoardDB } from 'src/types/db-types/boards'
 
 const emptyDemoBoard = {
     id: 'demo',

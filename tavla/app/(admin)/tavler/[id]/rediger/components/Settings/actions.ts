@@ -6,9 +6,9 @@ import {
     isOnlyWhiteSpace,
 } from 'app/(admin)/tavler/[id]/utils'
 import {
-    InputType,
-    TFormFeedback,
     getFormFeedbackForError,
+    type InputType,
+    type TFormFeedback,
 } from 'app/(admin)/utils'
 import {
     initializeAdminApp,
@@ -22,7 +22,7 @@ import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
 import { getBoard } from 'src/firebase'
-import {
+import type {
     BoardDB,
     BoardFontSize,
     BoardFooter,
@@ -30,7 +30,7 @@ import {
     LocationDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
-import { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'src/types/db-types/folders'
 
 initializeAdminApp()
 
@@ -71,7 +71,7 @@ export async function saveSettings(data: FormData) {
     const errors = {} as Record<InputType, TFormFeedback>
 
     if (!board) {
-        errors['general'] = getFormFeedbackForError('board/not-found')
+        errors.general = getFormFeedbackForError('board/not-found')
         return errors
     }
 
@@ -79,7 +79,7 @@ export async function saveSettings(data: FormData) {
 
     try {
         if (isEmptyOrSpaces(boardTitle))
-            errors['name'] = getFormFeedbackForError('board/tiles-name-missing')
+            errors.name = getFormFeedbackForError('board/tiles-name-missing')
 
         if (Object.keys(errors).length !== 0) {
             return errors
@@ -101,7 +101,7 @@ export async function saveSettings(data: FormData) {
             redirect('/')
         }
 
-        errors['general'] = handleError(error)
+        errors.general = handleError(error)
         return errors
     }
 }
@@ -161,16 +161,21 @@ async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
 async function setViewType(board: BoardDB, viewType: string) {
     userHasAccessToEditBoard(board.id ?? '')
 
-    const shouldDeleteCombinedTiles = viewType === 'separate'
+    const isSeparateTiles = viewType === 'separate'
 
     try {
         await db
             .collection('boards')
             .doc(board.id ?? '')
             .update({
-                combinedTiles: shouldDeleteCombinedTiles
+                combinedTiles: isSeparateTiles
                     ? FieldValue.delete()
-                    : [{ ids: board.tiles.map((tile) => tile.uuid) }],
+                    : [
+                          {
+                              ids: board.tiles.map((tile) => tile.uuid),
+                          },
+                      ],
+                isCombinedTiles: !isSeparateTiles,
                 'meta.dateModified': Date.now(),
             })
 
