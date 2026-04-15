@@ -177,7 +177,8 @@ function TileCard({
                 key={tm}
                 background
                 rounded
-                className={`h-7 w-7 p-1 text-white`}
+                whiteIcon
+                className={`h-7 w-7 p-1`}
             />
         ))
 

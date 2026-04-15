@@ -132,7 +132,8 @@ function PlatformAndLines({
                                 transportMode={mode}
                                 background
                                 rounded
-                                className={`h-7 w-7 p-1 text-white`}
+                                whiteIcon
+                                className={`h-7 w-7 p-1`}
                             />
                         ))}
                     </div>
