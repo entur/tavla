@@ -12,7 +12,7 @@ function TransportIcon({
 }: {
     transportMode: TTransportMode | null
     transportSubmode?: TTransportSubmode
-    className?: string
+    className: string
 }) {
     const mode = transportMode ?? 'unknown'
 
