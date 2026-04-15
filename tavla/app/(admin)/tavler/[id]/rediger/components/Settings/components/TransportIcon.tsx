@@ -12,7 +12,6 @@ function TransportIcon({
     className,
     size = 7,
     background = false,
-    rounded = false,
     whiteIcon = false,
 }: {
     transportMode: TTransportMode | null
@@ -20,7 +19,6 @@ function TransportIcon({
     className?: string
     size?: number
     background?: boolean
-    rounded?: boolean
     whiteIcon?: boolean
 }) {
     const mode = transportMode ?? 'unknown'
@@ -32,7 +30,7 @@ function TransportIcon({
             : `${transportModeNames(mode)}`
     return (
         <Component
-            className={`h-${size} w-${size} ${background ? `bg-${mode} p-1` : ''} ${whiteIcon ? 'text-white' : ''} ${rounded ? 'rounded-md' : ''} ${className}`}
+            className={`h-${size} w-${size} ${background ? `bg-${mode} p-1 rounded-md` : ''} ${whiteIcon ? 'text-white' : ''} ${className}`}
             role="img"
             aria-label={altText}
         />

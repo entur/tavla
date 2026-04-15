@@ -172,13 +172,7 @@ function TileCard({
     const uniqTransportModeIcons = transportModes
         .filter((tm) => !(tm === 'coach' && transportModes.includes('bus')))
         .map((tm) => (
-            <TransportIcon
-                transportMode={tm}
-                key={tm}
-                background
-                rounded
-                whiteIcon
-            />
+            <TransportIcon transportMode={tm} key={tm} background whiteIcon />
         ))
 
     const saveTileToDemoBoard = (newTile: BoardTileDB) => {

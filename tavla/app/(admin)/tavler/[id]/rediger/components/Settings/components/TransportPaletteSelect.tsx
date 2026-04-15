@@ -149,8 +149,7 @@ function TransportPaletteSelect({
                                                     key={mode.mode}
                                                     transportMode={mode.mode}
                                                     background
-                                                    rounded
-                                                    className={`h-7 w-7 p-1 text-background`}
+                                                    className={`text-background`}
                                                 />
                                             </div>
                                         )
@@ -174,7 +173,6 @@ function TransportPaletteSelect({
                                                     key={mode.mode}
                                                     transportMode={mode.mode}
                                                     background
-                                                    rounded
                                                     className={`text-background`}
                                                 />
                                             </div>

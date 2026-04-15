@@ -103,7 +103,6 @@ const travelTags = (category: TCategory[]) => {
             TransportIcon({
                 transportMode: tm,
                 background: true,
-                rounded: true,
                 whiteIcon: true,
                 size: 6,
                 className: `m-1`,

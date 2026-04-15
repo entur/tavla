@@ -131,7 +131,6 @@ function PlatformAndLines({
                                 key={mode}
                                 transportMode={mode}
                                 background
-                                rounded
                                 whiteIcon
                             />
                         ))}
