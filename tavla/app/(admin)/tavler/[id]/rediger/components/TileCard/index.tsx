@@ -234,7 +234,7 @@ function TileCard({
                                 {tile.displayName ?? tile.name}
                             </Heading3>
                             <section
-                                className="hidden h-8 flex-row gap-4 sm:flex"
+                                className="hidden h-8 flex-row gap-2 sm:flex"
                                 aria-label="Transportmidler fra dette stoppestedet: "
                             >
                                 {uniqTransportModeIcons}

@@ -105,7 +105,7 @@ const travelTags = (category: TCategory[]) => {
                 background: true,
                 whiteIcon: true,
                 size: 6,
-                className: `m-1`,
+                className: `m-0.5`,
             })
 
         UniqueSmallTravelTag.displayName = `TravelTag-${tm}-${index}`
