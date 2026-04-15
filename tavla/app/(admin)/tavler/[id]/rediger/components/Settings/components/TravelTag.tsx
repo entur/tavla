@@ -34,48 +34,6 @@ function getColorMode(
     return transportMode
 }
 
-function TravelTag({
-    transportMode,
-    publicCode,
-    transportSubmode,
-    cancelled,
-    'aria-hidden': ariaHidden,
-}: {
-    transportMode: TTransportMode
-    publicCode: string
-    transportSubmode?: TTransportSubmode
-    cancelled?: boolean
-    'aria-hidden'?: boolean | 'true' | 'false'
-}) {
-    const colorMode = getColorMode(transportMode, transportSubmode)
-    const travelTagBackground = `bg-${colorMode}${cancelled && transportMode !== 'unknown' ? '-transparent' : ''}`
-    const iconPublicCodeColor =
-        cancelled && transportMode !== 'unknown'
-            ? `text-${colorMode}`
-            : 'text-background'
-
-    return (
-        <div
-            role="img"
-            aria-label={`${transportModeNames[transportMode]} - linje ${publicCode}`}
-            aria-hidden={ariaHidden}
-            className={`flex h-full w-full items-center justify-between rounded-sm pl-2 ${travelTagBackground}`}
-        >
-            <TransportIcon
-                className={`h-em-2 w-em-2 ${iconPublicCodeColor}`}
-                transportMode={transportMode}
-                transportSubmode={transportSubmode}
-            />
-            <div
-                aria-hidden="true"
-                className={`flex h-full w-full flex-row items-center justify-center whitespace-nowrap font-semibold ${iconPublicCodeColor}`}
-            >
-                {publicCode}
-            </div>
-        </div>
-    )
-}
-
 function SmallTravelTag({
     transportMode,
     publicCode,
@@ -113,4 +71,4 @@ function SmallTravelTag({
     )
 }
 
-export { SmallTravelTag, TravelTag }
+export { SmallTravelTag }
