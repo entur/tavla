@@ -95,7 +95,7 @@ export function getVenueIcon(category: TCategory) {
 const travelTags = (category: TCategory[]) => {
     const transportModes = uniq(
         category.map((mode) => categoryToTransportmode(mode)),
-    )
+    ).toSorted()
 
     return transportModes.map((tm, index) => {
         // unique key for each travel tag
