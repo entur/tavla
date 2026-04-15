@@ -133,7 +133,6 @@ function PlatformAndLines({
                                 background
                                 rounded
                                 whiteIcon
-                                className={``}
                             />
                         ))}
                     </div>

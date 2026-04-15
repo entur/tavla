@@ -17,7 +17,7 @@ function TransportIcon({
 }: {
     transportMode: TTransportMode | null
     transportSubmode?: TTransportSubmode
-    className: string
+    className?: string
     size?: number
     background?: boolean
     rounded?: boolean

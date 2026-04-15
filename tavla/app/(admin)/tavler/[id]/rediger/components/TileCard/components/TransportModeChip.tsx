@@ -45,7 +45,6 @@ function TransportModeChip({
                 transportMode={mode}
                 whiteIcon={isSelected}
                 size={4}
-                className=""
             />
         </button>
     )

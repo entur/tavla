@@ -178,7 +178,6 @@ function TileCard({
                 background
                 rounded
                 whiteIcon
-                className={``}
             />
         ))
 
