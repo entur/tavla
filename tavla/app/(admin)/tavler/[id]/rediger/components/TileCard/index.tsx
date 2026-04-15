@@ -175,7 +175,9 @@ function TileCard({
             <TransportIcon
                 transportMode={tm}
                 key={tm}
-                className={`h-7 w-7 rounded-md bg-${tm} p-1 text-white`}
+                background
+                rounded
+                className={`h-7 w-7 p-1 text-white`}
             />
         ))
 

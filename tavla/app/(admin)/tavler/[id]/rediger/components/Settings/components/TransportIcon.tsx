@@ -1,4 +1,5 @@
 import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
+import { fa } from 'node_modules/zod/v4/locales/index.cjs'
 import type { SVGProps } from 'react'
 import type {
     TTransportMode,
@@ -9,10 +10,14 @@ function TransportIcon({
     transportMode,
     transportSubmode,
     className,
+    background = false,
+    rounded = false,
 }: {
     transportMode: TTransportMode | null
     transportSubmode?: TTransportSubmode
     className: string
+    background?: boolean
+    rounded?: boolean
 }) {
     const mode = transportMode ?? 'unknown'
 
@@ -23,7 +28,7 @@ function TransportIcon({
             : `${transportModeNames(mode)}`
     return (
         <Component
-            className={className ?? `h-full w-full text-${mode}`}
+            className={`${background ? `bg-${mode}` : ''} ${rounded ? 'rounded-md' : ''} ${className}`}
             role="img"
             aria-label={altText}
         />

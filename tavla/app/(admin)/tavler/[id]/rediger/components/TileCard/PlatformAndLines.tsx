@@ -130,7 +130,9 @@ function PlatformAndLines({
                             <TransportIcon
                                 key={mode}
                                 transportMode={mode}
-                                className={`h-7 w-7 rounded-md bg-${mode} p-1 text-white`}
+                                background
+                                rounded
+                                className={`h-7 w-7 p-1 text-white`}
                             />
                         ))}
                     </div>
