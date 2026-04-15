@@ -175,7 +175,7 @@ function TransportPaletteSelect({
                                                     transportMode={mode.mode}
                                                     background
                                                     rounded
-                                                    className={`h-7 w-7 p-1 text-background`}
+                                                    className={`text-background`}
                                                 />
                                             </div>
                                         )
