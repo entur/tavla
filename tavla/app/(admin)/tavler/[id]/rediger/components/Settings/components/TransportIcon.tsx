@@ -1,5 +1,4 @@
 import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
-import { fa } from 'node_modules/zod/v4/locales/index.cjs'
 import type { SVGProps } from 'react'
 import type {
     TTransportMode,
