@@ -30,7 +30,7 @@ function TransportIcon({
             : `${transportModeNames(mode)}`
     return (
         <Component
-            className={`${sizeString} ${background ? `bg-${mode} p-1 rounded-md` : ''} ${whiteIcon ? 'text-white' : ''} ${className}`}
+            className={`${sizeString} ${background ? `bg-${mode} p-1 rounded-md` : ''} ${whiteIcon ? 'text-white' : ''} ${className ?? ''}`}
             role="img"
             aria-label={altText}
         />
