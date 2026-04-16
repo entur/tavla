@@ -269,21 +269,20 @@ function SetVisibleLines({
     }
 
     const isModeSelected = (mode: TTransportMode) => {
-        const keysInMode: string[] = []
         for (const q of quays) {
             const quayIsActive = q.lines.some((l) =>
                 checkedLineIds.has(`${q.id}||${l.id}`),
             )
             if (!quayIsActive) continue
-
             for (const l of q.lines) {
-                if (l.transportMode === mode) {
-                    keysInMode.push(`${q.id}||${l.id}`)
-                }
+                if (
+                    l.transportMode === mode &&
+                    checkedLineIds.has(`${q.id}||${l.id}`)
+                )
+                    return true
             }
         }
-        if (keysInMode.length === 0) return false
-        return keysInMode.some((key) => checkedLineIds.has(key))
+        return false
     }
 
     return (
