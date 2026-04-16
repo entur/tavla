@@ -109,7 +109,7 @@ async function Landing() {
 
                     <Heading3>Enkelt å tilpasse og samarbeide</Heading3>
 
-                    <UnorderedList className="flex flex-col gap-1 space-y-3 pl-6">
+                    <UnorderedList className="flex flex-col gap-1 space-y-3 pl-6 m-1">
                         <ListItem>
                             Tilpass tekststørrelse, fargetema, logo og hvilken
                             informasjon som skal vises, slik at tavlen(e) passer
