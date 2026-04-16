@@ -84,6 +84,7 @@ module.exports = {
                 negativeDeep: 'var(--fill-negative-deep)',
                 negativeContrast: 'var(--fill-negative-contrast)',
                 tintLight: 'var(--fill-background-tint-light)',
+                coral: 'var(--standard-coral)',
             },
             colors: {
                 background: 'var(--main-background-color)',
