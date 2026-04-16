@@ -9,7 +9,7 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import { PlatformAndLines } from '../PlatformAndLines'
-import type { LineWithFrontText, QuayWithFrontText } from '../types'
+import type { QuayWithFrontText } from '../types'
 import { transportModeNames } from '../utils'
 
 function getInitialCheckedLineIds(
