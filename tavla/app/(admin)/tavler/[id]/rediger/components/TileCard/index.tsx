@@ -171,7 +171,9 @@ function TileCard({
 
     const uniqTransportModeIcons = transportModes
         .filter((tm) => !(tm === 'coach' && transportModes.includes('bus')))
-        .map((tm) => <TransportIcon transportMode={tm} key={tm} />)
+        .map((tm) => (
+            <TransportIcon transportMode={tm} key={tm} background whiteIcon />
+        ))
 
     const saveTileToDemoBoard = (newTile: BoardTileDB) => {
         if (!demoBoard) return null
@@ -232,7 +234,7 @@ function TileCard({
                                 {tile.displayName ?? tile.name}
                             </Heading3>
                             <section
-                                className="hidden h-8 flex-row gap-4 sm:flex"
+                                className="hidden h-8 flex-row gap-2 sm:flex"
                                 aria-label="Transportmidler fra dette stoppestedet: "
                             >
                                 {uniqTransportModeIcons}

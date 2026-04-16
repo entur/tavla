@@ -9,12 +9,19 @@ function TransportIcon({
     transportMode,
     transportSubmode,
     className,
+    size = 7,
+    background = false,
+    whiteIcon = false,
 }: {
     transportMode: TTransportMode | null
     transportSubmode?: TTransportSubmode
     className?: string
+    size?: 4 | 6 | 7
+    background?: boolean
+    whiteIcon?: boolean
 }) {
     const mode = transportMode ?? 'unknown'
+    const sizeString = sizeClasses[size]
 
     const Component = getTransportIcon(mode, transportSubmode)
     const altText =
@@ -23,11 +30,17 @@ function TransportIcon({
             : `${transportModeNames(mode)}`
     return (
         <Component
-            className={className ?? `h-full w-full text-${mode}`}
+            className={`${sizeString} ${background ? `bg-${mode} p-1 rounded-md` : ''} ${whiteIcon ? 'text-white' : ''} ${className ?? ''}`}
             role="img"
             aria-label={altText}
         />
     )
+}
+
+const sizeClasses: Record<4 | 6 | 7, string> = {
+    4: 'h-4 w-4',
+    6: 'h-6 w-6',
+    7: 'h-7 w-7',
 }
 
 export function getTransportIcon(

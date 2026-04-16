@@ -148,7 +148,8 @@ function TransportPaletteSelect({
                                                 <TransportIcon
                                                     key={mode.mode}
                                                     transportMode={mode.mode}
-                                                    className={`h-7 w-7 rounded-md bg-${mode.mode} p-1 text-background`}
+                                                    background
+                                                    className={`text-background`}
                                                 />
                                             </div>
                                         )
@@ -171,7 +172,8 @@ function TransportPaletteSelect({
                                                 <TransportIcon
                                                     key={mode.mode}
                                                     transportMode={mode.mode}
-                                                    className={`h-7 w-7 rounded-md bg-${mode.mode} p-1 text-background`}
+                                                    background
+                                                    className={`text-background`}
                                                 />
                                             </div>
                                         )
