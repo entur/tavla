@@ -201,7 +201,6 @@ function SetVisibleLines({
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
-    allLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
