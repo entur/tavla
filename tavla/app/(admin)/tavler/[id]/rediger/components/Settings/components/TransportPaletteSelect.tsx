@@ -26,12 +26,7 @@ const busAndTrainModes: {
         mode: 'rail',
     },
     {
-        mode: 'bus',
-        submode: 'airportLinkBus',
-    },
-    {
-        mode: 'rail',
-        submode: 'airportLinkRail',
+        mode: 'coach',
     },
 ]
 
@@ -50,9 +45,7 @@ const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
         {
             mode: 'metro',
         },
-        {
-            mode: 'taxi',
-        },
+
         {
             mode: 'tram',
         },
