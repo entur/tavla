@@ -9,7 +9,7 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import { PlatformAndLines } from '../PlatformAndLines'
-import type { LineWithFrontText, QuayWithFrontText } from '../types'
+import type { QuayWithFrontText } from '../types'
 import { transportModeNames } from '../utils'
 
 function getInitialCheckedLineIds(
@@ -201,7 +201,6 @@ function SetVisibleLines({
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
-    allLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
@@ -270,21 +269,44 @@ function SetVisibleLines({
     }
 
     const isModeSelected = (mode: TTransportMode) => {
-        const keysInMode: string[] = []
         for (const q of quays) {
             const quayIsActive = q.lines.some((l) =>
                 checkedLineIds.has(`${q.id}||${l.id}`),
             )
             if (!quayIsActive) continue
-
             for (const l of q.lines) {
-                if (l.transportMode === mode) {
-                    keysInMode.push(`${q.id}||${l.id}`)
-                }
+                if (
+                    l.transportMode === mode &&
+                    checkedLineIds.has(`${q.id}||${l.id}`)
+                )
+                    return true
             }
         }
-        if (keysInMode.length === 0) return false
-        return keysInMode.some((key) => checkedLineIds.has(key))
+        return false
+    }
+
+    const renderQuay = (quay: QuayWithFrontText) => {
+        const modes = quayModesMap.get(quay.id) || []
+        const title =
+            quay.name && quay.publicCode
+                ? `${modes[0] === 'metro' || modes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
+                : quay.name || 'Ukjent'
+        return (
+            <PlatformAndLines
+                key={quay.id}
+                tile={tile}
+                quayId={quay.id}
+                groupKey={quay.publicCode || quay.id}
+                title={title}
+                description={quay.description}
+                lines={quay.lines}
+                trackingLocation={trackingLocation}
+                transportModes={modes}
+                selectedLineIds={checkedLineIds}
+                onToggleLine={handleToggleLine}
+                onToggleGroup={handleGroupToggle}
+            />
+        )
     }
 
     return (
@@ -350,87 +372,14 @@ function SetVisibleLines({
                                                     }
                                                     return cmp
                                                 })
-                                                .map((quay) => {
-                                                    const modes =
-                                                        quayModesMap.get(
-                                                            quay.id,
-                                                        ) || []
-                                                    const title =
-                                                        quay.name &&
-                                                        quay.publicCode
-                                                            ? `${modes[0] === 'metro' || modes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
-                                                            : quay.name ||
-                                                              'Ukjent'
-
-                                                    return (
-                                                        <div key={quay.id}>
-                                                            <PlatformAndLines
-                                                                tile={tile}
-                                                                quayId={quay.id}
-                                                                groupKey={
-                                                                    quay.publicCode ||
-                                                                    quay.id
-                                                                }
-                                                                title={title}
-                                                                description={
-                                                                    quay.description
-                                                                }
-                                                                lines={
-                                                                    quay.lines
-                                                                }
-                                                                trackingLocation={
-                                                                    trackingLocation
-                                                                }
-                                                                transportModes={
-                                                                    modes
-                                                                }
-                                                                selectedLineIds={
-                                                                    checkedLineIds
-                                                                }
-                                                                onToggleLine={
-                                                                    handleToggleLine
-                                                                }
-                                                                onToggleGroup={
-                                                                    handleGroupToggle
-                                                                }
-                                                            />
-                                                        </div>
-                                                    )
-                                                })}
+                                                .map((quay) =>
+                                                    renderQuay(quay),
+                                                )}
                                         </div>
                                     )
                                 } else {
                                     const quay = item.data
-                                    const modes =
-                                        quayModesMap.get(quay.id) || []
-                                    const title =
-                                        quay.name && quay.publicCode
-                                            ? `${modes[0] === 'metro' || modes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
-                                            : quay.name || 'Ukjent'
-
-                                    return (
-                                        <div key={quay.id}>
-                                            <PlatformAndLines
-                                                tile={tile}
-                                                quayId={quay.id}
-                                                groupKey={
-                                                    quay.publicCode || quay.id
-                                                }
-                                                title={title}
-                                                description={quay.description}
-                                                lines={quay.lines}
-                                                trackingLocation={
-                                                    trackingLocation
-                                                }
-                                                transportModes={modes}
-                                                selectedLineIds={checkedLineIds}
-                                                onToggleLine={handleToggleLine}
-                                                onToggleGroup={
-                                                    handleGroupToggle
-                                                }
-                                            />
-                                        </div>
-                                    )
+                                    return renderQuay(quay)
                                 }
                             })}
                         </div>

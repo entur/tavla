@@ -292,7 +292,6 @@ function TileCard({
                             />
                             <SetVisibleLines
                                 quays={quaysWithFilteredLines}
-                                allLines={uniqLines}
                                 trackingLocation={trackingLocation}
                                 onFieldChanged={onFieldChanged}
                             />

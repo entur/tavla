@@ -172,6 +172,9 @@ function TransportPaletteSelect({
                                                 <TransportIcon
                                                     key={mode.mode}
                                                     transportMode={mode.mode}
+                                                    transportSubmode={
+                                                        mode.submode
+                                                    }
                                                     background
                                                     className={`text-background`}
                                                 />
