@@ -59,6 +59,10 @@ export type EventMap = {
         context: 'entry'
     }
 
+    board_share_cancelled: {
+        method: 'close_icon'
+    }
+
     /* Oversikt */
     board_create_started: WithLocation<
         typeof LOCATIONS.Admin | typeof LOCATIONS.Folder

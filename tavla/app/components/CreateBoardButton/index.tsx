@@ -2,15 +2,17 @@
 import { Button } from '@entur/button'
 import { ForwardIcon } from '@entur/icons'
 import { CreateUserButton } from 'app/components/CreateUserButton'
+import { FeatureFlags } from 'app/posthog/featureFlags'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-
 import Link from 'next/link'
 import { useFeatureFlagEnabled } from 'posthog-js/react'
 
 function CreateBoardButton() {
     const posthog = usePosthogTracking()
 
-    const isCreateBoardWithoutUserEnabled = true
+    const isCreateBoardWithoutUserEnabled = useFeatureFlagEnabled(
+        FeatureFlags.CreateBoardWithoutUser,
+    )
 
     if (isCreateBoardWithoutUserEnabled) {
         return (

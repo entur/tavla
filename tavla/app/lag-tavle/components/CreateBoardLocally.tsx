@@ -13,6 +13,7 @@ import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
 import { publishBoard } from 'app/lag-tavle/actions'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import rabbits from 'assets/illustrations/Rabbits.png'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
@@ -32,6 +33,8 @@ function CreateBoardLocally() {
     const [publishState, setPublishState] = useState<PublishBoardState>({
         type: 'not-published',
     })
+
+    const posthog = usePosthogTracking()
 
     const handlePublish = async () => {
         setPublishState({ type: 'publishing' })
@@ -129,11 +132,11 @@ function CreateBoardLocally() {
                 }
             >
                 <IconButton
-                    aria-label="Avbryt opprettelse av tavle"
+                    aria-label="Avbryt deling av tavle"
                     onClick={() => {
-                        /*posthog.capture('board_create_cancelled', {
+                        posthog.capture('board_share_cancelled', {
                             method: 'close_icon',
-                        })*/
+                        })
                         setIsModalOpen(false)
                     }}
                     className="absolute right-4 top-4 flex flex-row gap-2"
