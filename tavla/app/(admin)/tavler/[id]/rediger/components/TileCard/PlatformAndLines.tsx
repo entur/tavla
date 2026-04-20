@@ -4,36 +4,43 @@ import { SkeletonRectangle } from '@entur/loader'
 import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useFeatureFlagEnabled } from 'posthog-js/react'
 import type { BoardTileDB } from 'src/types/db-types/boards'
-import type { TTransportMode } from 'src/types/graphql-schema'
-import { FeatureFlags } from '../../../../../../posthog/featureFlags'
+import type {
+    TTransportMode,
+    TTransportSubmode,
+} from 'src/types/graphql-schema'
 import type { LineWithFrontText } from './types'
+
+function getColorMode(
+    transportMode: TTransportMode,
+    transportSubmode?: TTransportSubmode,
+): string {
+    if (transportSubmode?.startsWith('airport')) return 'air'
+    if (transportSubmode === 'railReplacementBus') return 'rail'
+    if (transportSubmode === 'regionalBus') return 'regional-bus'
+    return transportMode
+}
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
 
+    const color = getColorMode(
+        line.transportMode ?? 'unknown',
+        line.transportSubmode ?? 'unknown',
+    )
+
     return (
-        <div className={`publicCode bg-${line.transportMode} text-white`}>
+        <div className={`publicCode bg-${color} text-white`}>
             {line.publicCode}
         </div>
     )
 }
 
-function DisplayName({
-    line,
-    showByFrontText,
-}: {
-    line: LineWithFrontText
-    showByFrontText: boolean | undefined
-}) {
-    if (showByFrontText) {
-        if (line.frontTexts) {
-            return <>{line.frontTexts.join(' / ')}</>
-        }
-        return <SkeletonRectangle width="6rem" height="1rem" />
+function DisplayName({ line }: { line: LineWithFrontText }) {
+    if (line.frontTexts) {
+        return <>{line.frontTexts.join(' / ')}</>
     }
-    return <>{line.name ?? ''}</>
+    return <SkeletonRectangle width="6rem" height="1rem" />
 }
 
 function PlatformAndLines({
@@ -62,10 +69,6 @@ function PlatformAndLines({
     onToggleGroup: (compositeKeys: string[], checked: boolean) => void
 }) {
     const posthog = usePosthogTracking()
-
-    const isShowLinesByFrontTextEnabled = useFeatureFlagEnabled(
-        FeatureFlags.ShowLinesByFrontText,
-    )
 
     const selectedLinesInGroup = lines.filter((l) =>
         selectedLineIds.has(`${quayId}||${l.id}`),
@@ -96,11 +99,7 @@ function PlatformAndLines({
     }
 
     const filterLineFragment = (line: LineWithFrontText) => {
-        if (isShowLinesByFrontTextEnabled) {
-            return !line.frontTexts || line.frontTexts.length > 0
-        } else {
-            return true
-        }
+        return !line.frontTexts || line.frontTexts.length > 0
     }
 
     return (
@@ -112,7 +111,8 @@ function PlatformAndLines({
                             <TransportIcon
                                 key={mode}
                                 transportMode={mode}
-                                className={`h-7 w-7 rounded-md bg-${mode} p-1 text-white`}
+                                background
+                                whiteIcon
                             />
                         ))}
                     </div>
@@ -166,10 +166,7 @@ function PlatformAndLines({
                     >
                         <div className="flex flex-row items-center gap-2">
                             <PublicCode line={line} />
-                            <DisplayName
-                                line={line}
-                                showByFrontText={isShowLinesByFrontTextEnabled}
-                            />
+                            <DisplayName line={line} />
                         </div>
                     </Checkbox>
                 ))}

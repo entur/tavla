@@ -43,7 +43,8 @@ function TransportModeChip({
             {label}
             <TransportIcon
                 transportMode={mode}
-                className={`h-4 w-4 ${isSelected ? 'text-white' : ``}`}
+                whiteIcon={isSelected}
+                size={4}
             />
         </button>
     )

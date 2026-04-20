@@ -168,13 +168,6 @@ async function setViewType(board: BoardDB, viewType: string) {
             .collection('boards')
             .doc(board.id ?? '')
             .update({
-                combinedTiles: isSeparateTiles
-                    ? FieldValue.delete()
-                    : [
-                          {
-                              ids: board.tiles.map((tile) => tile.uuid),
-                          },
-                      ],
                 isCombinedTiles: !isSeparateTiles,
                 'meta.dateModified': Date.now(),
             })

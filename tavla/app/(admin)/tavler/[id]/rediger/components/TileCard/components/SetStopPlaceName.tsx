@@ -13,9 +13,11 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 function SetStopPlaceName({
     state,
     trackingLocation,
+    onFieldChanged,
 }: {
     state?: TFormFeedback
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    onFieldChanged: (field: string) => void
 }) {
     const posthog = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
@@ -46,6 +48,7 @@ function SetStopPlaceName({
                 }}
                 onChange={(e) => {
                     setDisplayName(e.target.value)
+                    onFieldChanged('name')
 
                     if (debounceTimerRef.current) {
                         clearTimeout(debounceTimerRef.current)

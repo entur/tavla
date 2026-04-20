@@ -1,10 +1,11 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { HomeIcon, MapPinIcon } from '@entur/icons'
-import { SmallTravelTag } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TravelTag'
 import { uniq } from 'lodash'
+import { createElement } from 'react'
 import type { BoardTheme, LocationDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import type { TTransportMode } from 'src/types/graphql-schema'
+import { TransportIcon } from './rediger/components/Settings/components/TransportIcon'
 
 export type TCategory =
     | 'onstreetBus'
@@ -95,14 +96,18 @@ export function getVenueIcon(category: TCategory) {
 const travelTags = (category: TCategory[]) => {
     const transportModes = uniq(
         category.map((mode) => categoryToTransportmode(mode)),
-    )
+    ).toSorted()
 
     return transportModes.map((tm, index) => {
-        // unique key for each travel tag
         const UniqueSmallTravelTag = () =>
-            SmallTravelTag({
+            createElement(TransportIcon, {
                 transportMode: tm,
+                background: true,
+                whiteIcon: true,
+                size: 6,
+                className: 'm-0.5',
             })
+
         UniqueSmallTravelTag.displayName = `TravelTag-${tm}-${index}`
         return UniqueSmallTravelTag
     })
