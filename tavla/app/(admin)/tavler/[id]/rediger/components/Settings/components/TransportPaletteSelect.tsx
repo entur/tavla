@@ -15,12 +15,18 @@ import {
 } from '../colorPalettes'
 import { TransportIcon } from './TransportIcon'
 
-const busAndTrainModes: { mode: TTransportMode }[] = [
+const busAndTrainModes: {
+    mode: TTransportMode
+    submode?: TTransportSubmode
+}[] = [
     {
         mode: 'bus',
     },
     {
         mode: 'rail',
+    },
+    {
+        mode: 'coach',
     },
 ]
 
@@ -39,9 +45,7 @@ const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
         {
             mode: 'metro',
         },
-        {
-            mode: 'taxi',
-        },
+
         {
             mode: 'tram',
         },
@@ -115,22 +119,30 @@ function TransportPaletteSelect({
                             >
                                 <div className="grid grid-cols-4 gap-1.5">
                                     {busAndTrainModes.map((mode) => {
+                                        const effectiveMode =
+                                            mode.submode?.startsWith('airport')
+                                                ? 'air'
+                                                : mode.mode
                                         const colorDescription =
                                             getTransportColorDescription(
                                                 palette.value,
-                                                mode.mode,
+                                                effectiveMode,
                                             )
                                         return (
                                             <div
                                                 className="max-w-min"
-                                                key={theme + mode.mode}
+                                                key={
+                                                    theme +
+                                                    (mode.submode ?? mode.mode)
+                                                }
                                                 aria-label={`${transportModeNames(mode.mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
                                                 role="img"
                                             >
                                                 <TransportIcon
                                                     key={mode.mode}
                                                     transportMode={mode.mode}
-                                                    className={`h-7 w-7 rounded-md bg-${mode.mode} p-1 text-background`}
+                                                    background
+                                                    className={`text-background`}
                                                 />
                                             </div>
                                         )
@@ -153,7 +165,11 @@ function TransportPaletteSelect({
                                                 <TransportIcon
                                                     key={mode.mode}
                                                     transportMode={mode.mode}
-                                                    className={`h-7 w-7 rounded-md bg-${mode.mode} p-1 text-background`}
+                                                    transportSubmode={
+                                                        mode.submode
+                                                    }
+                                                    background
+                                                    className={`text-background`}
                                                 />
                                             </div>
                                         )

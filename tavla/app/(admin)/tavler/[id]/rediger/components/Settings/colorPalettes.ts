@@ -50,6 +50,13 @@ export const useAllowedPalettes = (board: BoardDB) =>
         return Array.from(themes)
     }, [board.tiles])
 
+const PALETTE_TO_COUNTY = Object.fromEntries(
+    Object.entries(COUNTY_THEME_MAP).map(([county, palette]) => [
+        palette,
+        county,
+    ]),
+) as Record<string, string>
+
 export const generateTransportPalettes = (
     allowedPalettes: TransportPalette[],
 ) => {
@@ -62,28 +69,13 @@ export const generateTransportPalettes = (
         : baseTransportPalettes
 
     const localPalettes = filteredPalettes.filter(
-        (palette) => palette.value === 'atb' || palette.value === 'fram',
+        (palette) => PALETTE_TO_COUNTY[palette.value] !== undefined,
     )
 
     if (localPalettes.length > 1) {
         return filteredPalettes.map((palette) => {
-            if (palette.value === 'atb') {
-                return {
-                    ...palette,
-                    label: 'Lokal (Trøndelag)',
-                }
-            } else if (palette.value === 'fram') {
-                return {
-                    ...palette,
-                    label: 'Lokal (Møre og Romsdal)',
-                }
-            } else if (palette.value === 'reis') {
-                return {
-                    ...palette,
-                    label: 'Lokal (Nordland)',
-                }
-            }
-            return palette
+            const county = PALETTE_TO_COUNTY[palette.value]
+            return county ? { ...palette, label: `Lokal (${county})` } : palette
         })
     }
 

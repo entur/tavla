@@ -11,6 +11,7 @@ const emptyDemoBoard = {
     id: 'demo',
     meta: { title: 'Demo' },
     tiles: [],
+    isCombinedTiles: false,
 }
 
 function DemoBoard() {

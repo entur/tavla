@@ -110,8 +110,11 @@ export const BoardDBSchema = z.object({
     id: z.string(),
     meta: boardMetaSchema,
     tiles: z.array(boardTileSchema),
+
+    /** @deprecated Only kept to not generate errors on boards which have not been migrated away from using combinedTiles */
     combinedTiles: z.array(combinedTilesSchema).optional(),
-    isCombinedTiles: z.boolean().optional(),
+
+    isCombinedTiles: z.boolean(),
     theme: boardThemeSchema.optional(),
     footer: boardFooterSchema.optional(),
     transportPalette: transportPaletteSchema.optional(),
@@ -123,21 +126,15 @@ export type BoardDB = z.infer<typeof BoardDBSchema>
 
 export type BoardFooter = z.infer<typeof boardFooterSchema>
 
-export type CombinedTilesDB = z.infer<typeof combinedTilesSchema>
-
 export type BoardTheme = z.infer<typeof boardThemeSchema>
 
 export type TransportPalette = z.infer<typeof transportPaletteSchema>
-
-export type BoardMetaDB = z.infer<typeof boardMetaSchema>
 
 export type BoardFontSize = z.infer<typeof boardFontSizeSchema>
 
 export type Coordinate = z.infer<typeof coordinateSchema>
 
 export type LocationDB = z.infer<typeof locationSchema>
-
-export type BaseTileDB = z.infer<typeof boardTileSchema>
 
 export type TileColumnDB = z.infer<typeof tileColumnSchema>
 
@@ -152,5 +149,3 @@ export const TileColumns: Record<TileColumnDB, string> = {
 } as const
 
 export type BoardTileDB = z.infer<typeof boardTileSchema>
-
-export type BoardWalkingDistanceDB = z.infer<typeof boardWalkingDistanceSchema>
