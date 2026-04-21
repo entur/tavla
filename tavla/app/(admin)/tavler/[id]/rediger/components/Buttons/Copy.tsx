@@ -34,7 +34,7 @@ function Copy({ type, bid, board, trackingLocation }: Props) {
 
     const ariaLabel = board?.meta?.title
         ? `Kopier lenken til tavle ${board.meta.title}`
-        : 'Kopier lenken til tavlen'
+        : 'Kopier lenken til tavla'
 
     if (type === 'button') {
         return (

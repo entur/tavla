@@ -108,6 +108,9 @@ module.exports = {
                 sm: '0.2em',
                 DEFAULT: '0.5em',
             },
+            ringColor: {
+                primary: 'var(--fill-primary-active-light)',
+            },
             borderColor: {
                 primary: 'var(--divider-color)',
                 secondary: 'var(--border-color)',
@@ -157,6 +160,8 @@ module.exports = {
         },
     },
     safelist: [
+        'ring-primary',
+        'focus-within:ring-primary',
         ...Object.keys(transportModes).map((key) => `bg-${key}`),
         ...Object.keys(transportModesTransparent).map((key) => `bg-${key}`),
         ...Object.keys(transportModes).map((key) => `text-${key}`),

@@ -244,6 +244,7 @@ export type EventMap = {
             | 'board_location'
             | 'info_message'
             | 'element_select'
+            | 'custom_link'
         value:
             | 'combined'
             | 'separate'
