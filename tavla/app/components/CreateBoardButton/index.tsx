@@ -1,6 +1,7 @@
 'use client'
 import { Button } from '@entur/button'
 import { ForwardIcon } from '@entur/icons'
+import { CreateUserButton } from 'app/components/CreateUserButton'
 import { FeatureFlags } from 'app/posthog/featureFlags'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
@@ -15,9 +16,17 @@ function CreateBoardButton() {
 
     if (isCreateBoardWithoutUserEnabled) {
         return (
-            <Button variant="primary" size="medium" as={Link} href="lag-tavle">
-                Lag en tavle <ForwardIcon aria-hidden />
-            </Button>
+            <>
+                <CreateUserButton variant="secondary" />
+                <Button
+                    variant="primary"
+                    size="medium"
+                    as={Link}
+                    href="lag-tavle"
+                >
+                    Lag en tavle <ForwardIcon aria-hidden />
+                </Button>
+            </>
         )
     }
 
