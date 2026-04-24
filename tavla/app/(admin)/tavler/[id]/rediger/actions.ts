@@ -114,7 +114,7 @@ export async function saveCustomUrl(
 
     if (trimmed && !/^[a-zA-Z0-9_-]+$/.test(trimmed)) {
         return {
-            error: 'Lenken kan kun inneholde bokstaver, tall, bindestrek og understrek.',
+            error: 'Du kan kun bruke bokstaver (ikke æ, ø og å), tall, bindestrek og understrek.',
         }
     }
 
