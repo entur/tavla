@@ -45,6 +45,7 @@ const basePostHogOptions: Partial<PostHogConfig> = {
     autocapture: false,
     opt_out_capturing_by_default: true,
     cookieless_mode: 'on_reject',
+    opt_out_persistence_by_default: true,
     // debug: true, // Used to test if PostHog turns on only with consent
 }
 
@@ -90,16 +91,17 @@ export default function ConsentHandler({
                 isPosthogService(consent.name),
             )
 
-            if (posthogConsent?.consentGiven) {
-                const controllerId = event.detail?.consent.controllerId
+            const controllerId = event.detail?.consent.controllerId
 
-                posthog.init(posthogToken, basePostHogOptions)
+            posthog.init(posthogToken, basePostHogOptions)
+
+            if (posthogConsent?.consentGiven) {
                 posthog.opt_in_capturing()
                 if (controllerId) {
                     posthog.identify(controllerId)
                 }
             } else {
-                disablePostHog(posthogToken)
+                posthog.opt_out_capturing()
             }
 
             // --- Sentry consent ---
@@ -136,27 +138,6 @@ export default function ConsentHandler({
     }, [posthogToken])
 
     return null
-}
-
-function disablePostHog(posthogToken: string) {
-    // opt-out og reset
-    try {
-        posthog.opt_out_capturing()
-        posthog.reset()
-    } catch {
-        // Ignore mistakes
-    }
-
-    try {
-        const keyPrefix = `ph_${posthogToken}_posthog`
-        Object.keys(localStorage).forEach((key) => {
-            if (key.startsWith(keyPrefix)) {
-                localStorage.removeItem(key)
-            }
-        })
-    } catch {
-        // Ignore mistakes
-    }
 }
 
 export function PHProvider({ children }: { children: ReactNode }) {
