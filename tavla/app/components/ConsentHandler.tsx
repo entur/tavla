@@ -44,6 +44,7 @@ const basePostHogOptions: Partial<PostHogConfig> = {
     capture_pageview: false,
     autocapture: false,
     opt_out_capturing_by_default: true,
+    cookieless_mode: 'on_reject',
     // debug: true, // Used to test if PostHog turns on only with consent
 }
 
