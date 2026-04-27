@@ -11,7 +11,6 @@ import { getBoardLinkClient } from 'src/utils/boardLink'
 type Props = {
     type?: 'button' | 'icon'
     bid?: string
-    url?: string
     board?: BoardDB
     trackingLocation: EventProps<'board_opened'>['location']
 }
