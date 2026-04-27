@@ -49,7 +49,7 @@ function CustomUrl({
 
     const isUseCustomUrlEnabled = useFeatureFlagEnabled(FeatureFlags.CustomURL)
 
-    const baseUrl = resolveVisTavlaBaseUrl(window.location.host)
+    const baseUrl = resolveVisTavlaBaseUrl()
 
     return (
         <>
