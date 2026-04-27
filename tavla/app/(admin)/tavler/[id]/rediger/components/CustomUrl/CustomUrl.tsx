@@ -1,20 +1,13 @@
 'use client'
 
 import { IconButton, PrimaryButton } from '@entur/button'
-import { TextField } from '@entur/form'
+
 import { EditIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
-import {
-    Heading3,
-    Heading4,
-    ListItem,
-    Paragraph,
-    UnorderedList,
-} from '@entur/typography'
-import { Span } from 'next/dist/server/lib/trace/tracer'
+import { Heading3, Paragraph } from '@entur/typography'
 import { useFeatureFlagEnabled } from 'posthog-js/react'
-import { useRef, useState, useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import { resolveVisTavlaBaseUrl } from 'utils/boardLink'
 import { FeatureFlags } from '../../../../../../posthog/featureFlags'
