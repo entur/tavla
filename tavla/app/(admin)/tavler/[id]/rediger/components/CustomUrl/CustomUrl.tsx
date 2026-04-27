@@ -40,9 +40,25 @@ function CustomUrl({
         setValue(newValue)
     }
 
-    const isUseCustomUrlEnabled = useFeatureFlagEnabled(FeatureFlags.CustomURL)
+    const isUseCustomUrlEnabled =
+        useFeatureFlagEnabled(FeatureFlags.CustomURL) || true
 
     const baseUrl = resolveVisTavlaBaseUrl()
+
+    const submit = () => {
+        startTransition(async () => {
+            posthog.capture('board_settings_changed', {
+                setting: 'custom_link',
+                value: 'changed',
+            })
+            const result = await saveCustomUrl(bid, value)
+            if (result.error) {
+                setFeedback(result.error)
+            } else {
+                setOpen(false)
+            }
+        })
+    }
 
     return (
         <>
@@ -96,24 +112,7 @@ function CustomUrl({
                                 onChange={(f) => handleChange(f.target.value)}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' && !feedback) {
-                                        startTransition(async () => {
-                                            posthog.capture(
-                                                'board_settings_changed',
-                                                {
-                                                    setting: 'custom_link',
-                                                    value: 'changed',
-                                                },
-                                            )
-                                            const result = await saveCustomUrl(
-                                                bid,
-                                                value,
-                                            )
-                                            if (result.error) {
-                                                setFeedback(result.error)
-                                            } else {
-                                                setOpen(false)
-                                            }
-                                        })
+                                        submit()
                                     }
                                 }}
                             />
@@ -131,11 +130,7 @@ function CustomUrl({
                     <PrimaryButton
                         disabled={!!feedback}
                         onClick={() => {
-                            posthog.capture('board_settings_changed', {
-                                setting: 'custom_link',
-                                value: 'changed',
-                            })
-                            saveCustomUrl(bid, value).then(() => setOpen(false))
+                            submit()
                         }}
                     >
                         Lagre og lukk
