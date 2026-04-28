@@ -152,9 +152,9 @@ async function Landing() {
                             ].map((item) => (
                                 <li
                                     key={item}
-                                    className="flex items-center gap-3"
+                                    className="flex items-center gap-3 text-nowrap"
                                 >
-                                    <div className="w-2.5 h-2.5 rounded-full bg-coral shrink-0" />
+                                    <div className=" w-2.5 h-2.5 rounded-full bg-coral shrink-0" />
                                     {item}
                                 </li>
                             ))}
