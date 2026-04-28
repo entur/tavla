@@ -239,11 +239,13 @@ export function FeatureShowcase() {
     return (
         <div
             ref={containerRef}
-            className="relative w-screen left-1/2 -translate-x-1/2"
-            style={{ height: `${FEATURES.length * 45}vh` }}
+            className="relative w-screen left-1/2 -translate-x-1/2 mt-20"
+            style={{
+                height: `calc(${FEATURES.length} * min(100dvh, 880px) + 100dvh)`,
+            }}
         >
-            <div className="bg-blue sticky top-0 [@media(min-height:880px)]:top-12 overflow-hidden w-full flex flex-col py-8 lg:py-12 h-dvh [@media(min-height:880px)]:h-[calc(100dvh-6rem)]">
-                <div className="max-w-[1539px] mx-auto w-full flex flex-col gap-8 lg:gap-12 flex-1 min-h-0">
+            <div className="bg-blue sticky top-0 [@media(min-height:880px)]:top-[calc((100dvh-880px)/2)] overflow-hidden w-full flex flex-col py-8 lg:py-12 h-dvh [@media(min-height:880px)]:h-[880px]">
+                <div className="max-w-[1539px] mx-auto w-full flex flex-col justify-center gap-8 lg:gap-12 flex-1 min-h-0">
                     <div className="flex flex-col px-6 lg:px-24 text-center w-full shrink-0">
                         <Heading1 as="h2" className="text-white">
                             Tilpass alt. Eller ingenting!
