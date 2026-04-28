@@ -1,11 +1,9 @@
-import { Button } from '@entur/button'
-import { ForwardIcon, MapPinIcon, NewIcon, ShareIcon } from '@entur/icons'
+import { MapPinIcon, NewIcon, ShareIcon } from '@entur/icons'
 import { Heading1, Heading3, LeadParagraph, Paragraph } from '@entur/typography'
 import { CreateBoardButton } from 'app/components/CreateBoardButton'
 import TavlaNorwayMap from 'assets/illustrations/Tavla-Norway.svg'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
@@ -27,7 +25,7 @@ export type PreviewBoard = {
     theme: BoardDB['theme']
 }
 
-export const PREVIEW_BOARDS: PreviewBoard[] = [
+const PREVIEW_BOARDS: PreviewBoard[] = [
     {
         id: 'preview-1',
         altText:
@@ -83,7 +81,7 @@ async function Landing() {
                 </div>
             </div>
 
-            <div className="container mx-auto flex flex-col justify-start gap-4 overflow-hidden py-14">
+            <div className="container mx-auto flex flex-col justify-start gap-4 py-14">
                 <PreviewCarousel previewBoards={previewBoardsWithLinks} />
 
                 <div className="lg:px-12 py-16 mx-24 text-left lg:text-center">
