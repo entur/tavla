@@ -1,81 +1,4 @@
-import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
-import type { SVGProps } from 'react'
-import type {
-    TTransportMode,
-    TTransportSubmode,
-} from 'src/types/graphql-schema'
-
-function TransportIcon({
-    transportMode,
-    transportSubmode,
-    className,
-    size = 7,
-    background = false,
-    whiteIcon = false,
-}: {
-    transportMode: TTransportMode | null
-    transportSubmode?: TTransportSubmode
-    className?: string
-    size?: 4 | 6 | 7
-    background?: boolean
-    whiteIcon?: boolean
-}) {
-    const mode = transportMode ?? 'unknown'
-    const sizeString = sizeClasses[size]
-
-    const Component = getTransportIcon(mode, transportSubmode)
-    const altText =
-        mode === 'unknown'
-            ? 'Ukjent transportmiddel'
-            : `${transportModeNames(mode)}`
-    return (
-        <Component
-            className={`${sizeString} ${background ? `bg-${mode} p-1 rounded-md` : ''} ${whiteIcon ? 'text-white' : ''} ${className ?? ''}`}
-            role="img"
-            aria-label={altText}
-        />
-    )
-}
-
-const sizeClasses: Record<4 | 6 | 7, string> = {
-    4: 'h-4 w-4',
-    6: 'h-6 w-6',
-    7: 'h-7 w-7',
-}
-
-export function getTransportIcon(
-    transportMode: TTransportMode,
-    transportSubmode?: TTransportSubmode,
-) {
-    if (transportSubmode?.includes('CarFerry')) return CarferryIcon
-
-    switch (transportMode) {
-        case 'air':
-            return PlaneIcon
-        case 'coach':
-        case 'trolleybus':
-        case 'bus':
-            return BusIcon
-        case 'funicular':
-            return FunicularIcon
-        case 'lift':
-        case 'cableway':
-            return CablewayIcon
-        case 'metro':
-            return MetroIcon
-        case 'monorail':
-        case 'rail':
-            return RailIcon
-        case 'tram':
-            return TramIcon
-        case 'taxi':
-            return TaxiIcon
-        case 'water':
-            return FerryIcon
-        default:
-            return UnknownIcon
-    }
-}
+import type { SVGProps } from 'node_modules/@types/react'
 
 export function MetroIcon(props: SVGProps<SVGSVGElement>) {
     return (
@@ -396,5 +319,3 @@ export function UnknownIcon(props: SVGProps<SVGSVGElement>) {
         </svg>
     )
 }
-
-export { TransportIcon }

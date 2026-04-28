@@ -1,7 +1,7 @@
 'use client'
 import { Checkbox } from '@entur/form'
 import { SkeletonRectangle } from '@entur/loader'
-import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
+import { TransportIcon } from 'app/(admin)/components/TransportIcon'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
