@@ -6,11 +6,9 @@ import { EditIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
-import { useFeatureFlagEnabled } from 'posthog-js/react'
 import { useState, useTransition } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import { resolveVisTavlaBaseUrl } from 'utils/boardLink'
-import { FeatureFlags } from '../../../../../../posthog/featureFlags'
 import { usePosthogTracking } from '../../../../../../posthog/usePosthogTracking'
 import { saveCustomUrl } from '../../actions'
 
@@ -40,9 +38,6 @@ function CustomUrl({
         setValue(newValue)
     }
 
-    const isUseCustomUrlEnabled =
-        useFeatureFlagEnabled(FeatureFlags.CustomURL) || true
-
     const baseUrl = resolveVisTavlaBaseUrl()
 
     const submit = () => {
@@ -62,22 +57,20 @@ function CustomUrl({
 
     return (
         <>
-            {isUseCustomUrlEnabled && (
-                <Tooltip
-                    content="Rediger lenken til tavla"
-                    placement="bottom"
-                    id="tooltip-copy-link-board"
+            <Tooltip
+                content="Rediger lenken til tavla"
+                placement="bottom"
+                id="tooltip-copy-link-board"
+            >
+                <IconButton
+                    aria-label="Rediger lenken til tavla"
+                    onClick={() => {
+                        setOpen(true)
+                    }}
                 >
-                    <IconButton
-                        aria-label="Rediger lenken til tavla"
-                        onClick={() => {
-                            setOpen(true)
-                        }}
-                    >
-                        <EditIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
+                    <EditIcon />
+                </IconButton>
+            </Tooltip>
             {open && (
                 <Modal size="medium" onDismiss={() => setOpen(false)}>
                     <div className="flex flex-col w-full mb-4">
@@ -127,12 +120,7 @@ function CustomUrl({
                             </Paragraph>
                         )}
                     </div>
-                    <PrimaryButton
-                        disabled={!!feedback}
-                        onClick={() => {
-                            submit()
-                        }}
-                    >
+                    <PrimaryButton disabled={!!feedback} onClick={submit}>
                         Lagre og lukk
                     </PrimaryButton>
                 </Modal>

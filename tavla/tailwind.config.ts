@@ -160,8 +160,6 @@ module.exports = {
         },
     },
     safelist: [
-        'ring-primary',
-        'focus-within:ring-primary',
         ...Object.keys(transportModes).map((key) => `bg-${key}`),
         ...Object.keys(transportModesTransparent).map((key) => `bg-${key}`),
         ...Object.keys(transportModes).map((key) => `text-${key}`),
