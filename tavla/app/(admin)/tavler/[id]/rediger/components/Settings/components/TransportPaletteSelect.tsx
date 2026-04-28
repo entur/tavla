@@ -15,20 +15,7 @@ import {
     getTransportColorDescription,
 } from '../colorPalettes'
 
-const busAndTrainModes: {
-    mode: TTransportMode
-    submode?: TTransportSubmode
-}[] = [
-    {
-        mode: 'bus',
-    },
-    {
-        mode: 'rail',
-    },
-    {
-        mode: 'coach',
-    },
-]
+const busAndTrainModes: TTransportMode[] = ['bus', 'rail', 'coach']
 
 const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
     [
@@ -119,28 +106,21 @@ function TransportPaletteSelect({
                             >
                                 <div className="grid grid-cols-4 gap-1.5">
                                     {busAndTrainModes.map((mode) => {
-                                        const effectiveMode =
-                                            mode.submode?.startsWith('airport')
-                                                ? 'air'
-                                                : mode.mode
                                         const colorDescription =
                                             getTransportColorDescription(
                                                 palette.value,
-                                                effectiveMode,
+                                                mode,
                                             )
                                         return (
                                             <div
                                                 className="max-w-min"
-                                                key={
-                                                    theme +
-                                                    (mode.submode ?? mode.mode)
-                                                }
-                                                aria-label={`${transportModeNames(mode.mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
+                                                key={theme + (mode ?? mode)}
+                                                aria-label={`${transportModeNames(mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
                                                 role="img"
                                             >
                                                 <TransportIcon
-                                                    key={mode.mode}
-                                                    transportMode={mode.mode}
+                                                    key={mode}
+                                                    transportMode={mode}
                                                     background
                                                     className={`text-background`}
                                                 />
