@@ -73,18 +73,25 @@ const TITLE_CARD_BASE =
 function PastTitles({
     features,
     activeIndex,
+    onFeatureClick,
 }: {
     features: Feature[]
     activeIndex: number
+    onFeatureClick: (index: number) => void
 }) {
     const past = features.slice(0, activeIndex)
     if (past.length === 0) return null
     return (
         <div className="flex flex-col gap-1">
-            {past.map((f) => (
-                <div key={f.title} className={`${TITLE_CARD_BASE} text-white`}>
+            {past.map((f, i) => (
+                <button
+                    key={f.title}
+                    type="button"
+                    onClick={() => onFeatureClick(i)}
+                    className={`${TITLE_CARD_BASE} text-white text-left hover:opacity-80 transition-opacity`}
+                >
                     {f.title}
-                </div>
+                </button>
             ))}
         </div>
     )
@@ -114,7 +121,11 @@ function MobileView({ features, activeIndex, onFeatureClick }: ViewProps) {
     if (!active) return null
     return (
         <div className="flex flex-col h-full p-4 gap-1">
-            <PastTitles features={features} activeIndex={activeIndex} />
+            <PastTitles
+                features={features}
+                activeIndex={activeIndex}
+                onFeatureClick={onFeatureClick}
+            />
             <div className="flex-1 flex flex-col overflow-hidden min-h-0">
                 <div className="bg-hoverContrast border border-[#8186AF] rounded-lg px-4 py-3 mb-3">
                     <p className="font-bold text-blue text-sm mb-1">

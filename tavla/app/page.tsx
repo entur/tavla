@@ -84,7 +84,7 @@ async function Landing() {
             <div className="container mx-auto flex flex-col justify-start gap-4 py-14">
                 <PreviewCarousel previewBoards={previewBoardsWithLinks} />
 
-                <div className="lg:px-12 py-16 mx-24 text-left lg:text-center">
+                <div className="lg:px-12 py-16 mx-6 text-left lg:text-center lg:mx-24">
                     <Heading1 as="h2" margin="none">
                         Tavle på 1, 2, 3
                     </Heading1>
@@ -132,7 +132,7 @@ async function Landing() {
                 </div>
 
                 <div className="bg-[#F5F6FA] rounded-3xl flex flex-row gap-8 overflow-hidden justify-center lg:justify-normal lg:mx-24">
-                    <div className="w-1/2 flex flex-col my-24 lg:ml-24 text-center lg:text-left">
+                    <div className="w-full flex flex-col my-24 lg:ml-24 text-center lg:text-left lg:w-1/2ze">
                         <Heading1 as="h2" margin="none">
                             Hvor brukes Tavla?
                         </Heading1>
