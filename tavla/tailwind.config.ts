@@ -83,7 +83,9 @@ module.exports = {
                 blue10: 'var(--blue10)',
                 negativeDeep: 'var(--fill-negative-deep)',
                 negativeContrast: 'var(--fill-negative-contrast)',
+                negativeMuted: 'var(--fill-negative-muted)',
                 tintLight: 'var(--fill-background-tint-light)',
+                informationMuted: 'var(--fill-information-muted)',
                 coral: 'var(--standard-coral)',
             },
             colors: {
@@ -112,6 +114,8 @@ module.exports = {
                 primary: 'var(--divider-color)',
                 secondary: 'var(--border-color)',
                 chip: 'var(--components-chip-standard-border)',
+                strokeNeutral: 'var(--stroke-neutral)',
+                strokeContrast: 'var(--stroke-contrast)',
             },
             fontSize: {
                 'em-xs': '0.625em',
