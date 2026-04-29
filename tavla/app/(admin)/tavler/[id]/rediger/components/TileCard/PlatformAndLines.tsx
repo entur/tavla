@@ -39,7 +39,7 @@ function PlatformAndLines({
     description,
     lines,
     trackingLocation,
-    transportModes,
+    fallbackTransportModes: fallbackModes,
     selectedLineIds,
     onToggleLine,
     onToggleGroup,
@@ -51,7 +51,7 @@ function PlatformAndLines({
     description: string | null
     lines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    transportModes: TTransportMode[]
+    fallbackTransportModes: TTransportMode[]
     selectedLineIds: Set<string>
     onToggleLine: (compositeKey: string) => void
     onToggleGroup: (compositeKeys: string[], checked: boolean) => void
@@ -90,15 +90,45 @@ function PlatformAndLines({
         return !line.frontTexts || line.frontTexts.length > 0
     }
 
+    const transportModesFromLines = Array.from(
+        new Map(
+            lines.flatMap((line) =>
+                line.transportMode
+                    ? [
+                          [
+                              `${line.transportMode}|${line.transportSubmode ?? ''}`,
+                              {
+                                  transportMode: line.transportMode,
+                                  transportSubmode:
+                                      line.transportSubmode ?? undefined,
+                              },
+                          ] as const,
+                      ]
+                    : [],
+            ),
+        ).values(),
+    )
+
+    const iconPairs =
+        transportModesFromLines.length > 0
+            ? transportModesFromLines
+            : (fallbackModes ?? []).map((m) => ({
+                  transportMode: m,
+                  transportSubmode: undefined,
+              }))
+
     return (
         <div className="rounded-lg border-2 p-4">
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center justify-start gap-2 pr-3 font-semibold">
                     <div className="flex flex-row gap-1 self-center">
-                        {transportModes.map((mode) => (
+                        {iconPairs.map((transportMode) => (
                             <TransportIcon
-                                key={mode}
-                                transportMode={mode}
+                                key={`${transportMode.transportMode}|${transportMode.transportSubmode ?? ''}`}
+                                transportMode={transportMode.transportMode}
+                                transportSubmode={
+                                    transportMode.transportSubmode
+                                }
                                 background
                                 whiteIcon
                             />

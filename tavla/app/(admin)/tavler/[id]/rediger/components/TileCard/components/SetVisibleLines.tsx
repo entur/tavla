@@ -301,7 +301,7 @@ function SetVisibleLines({
                 description={quay.description}
                 lines={quay.lines}
                 trackingLocation={trackingLocation}
-                transportModes={modes}
+                fallbackTransportModes={modes}
                 selectedLineIds={checkedLineIds}
                 onToggleLine={handleToggleLine}
                 onToggleGroup={handleGroupToggle}

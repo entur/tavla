@@ -3,7 +3,7 @@ import type {
     TTransportMode,
     TTransportSubmode,
 } from 'src/types/graphql-schema'
-import { getTransportIcon, sizeClasses } from './utils'
+import { getColorMode, getTransportIcon, sizeClasses } from './utils'
 
 export default function TransportIcon({
     transportMode,
@@ -28,9 +28,12 @@ export default function TransportIcon({
         mode === 'unknown'
             ? 'Ukjent transportmiddel'
             : `${transportModeNames(mode)}`
+
+    const iconColor = getColorMode(mode, transportSubmode)
+
     return (
         <Component
-            className={`${sizeString} ${background ? `bg-${mode} p-1 rounded-md` : ''} ${whiteIcon ? 'text-white' : ''} ${className ?? ''}`}
+            className={`${sizeString} ${background ? `bg-${iconColor} p-1 rounded-md` : ''} ${whiteIcon ? 'text-white' : ''} ${className ?? ''}`}
             role="img"
             aria-label={altText}
         />
