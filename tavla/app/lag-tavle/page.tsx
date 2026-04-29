@@ -2,7 +2,7 @@ import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { FeatureFlags } from 'app/posthog/featureFlags'
 import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import type { Metadata } from 'next'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { CreateBoardLocally } from './components/CreateBoardLocally'
 
 export const metadata: Metadata = {
