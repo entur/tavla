@@ -4,60 +4,13 @@ import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { LoadingDots } from '@entur/loader'
 import { Heading3, Paragraph } from '@entur/typography'
 import { CreateUserButton } from 'app/components/CreateUserButton'
-import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import type { PublishBoardState } from 'app/lag-tavle/components/CreateBoardLocally'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { CopyIcon, ExternalIcon } from 'node_modules/@entur/icons/dist'
 import { getBoardLinkClient } from 'src/utils/boardLink'
 
-type PublishBoardState =
-    | { type: 'not-published' }
-    | { type: 'publishing' }
-    | { type: 'published'; boardId: string }
-    | { type: 'error'; message: string }
-
-function getModalTitle(publishState: PublishBoardState) {
-    switch (publishState.type) {
-        case 'not-published':
-            return 'Ferdig med tavla?'
-        case 'published':
-            return 'Din tavle er klar'
-        case 'error':
-            return 'Det skjedde en feil'
-        default:
-            return undefined
-    }
-}
-
-function PublishButton({
-    publishState,
-    onClick,
-}: {
-    publishState: PublishBoardState
-    onClick: () => void
-}) {
-    const posthog = usePosthogTracking()
-
-    switch (publishState.type) {
-        case 'error':
-            return <div className="text-error">{publishState.message}</div>
-        default:
-            return (
-                <PrimaryButton
-                    onClick={() => {
-                        onClick()
-                        posthog.capture('board_share_started')
-                    }}
-                    loading={publishState.type === 'publishing'}
-                    width="auto"
-                >
-                    Få lenke til tavla
-                </PrimaryButton>
-            )
-    }
-}
-
-function PublishModalContent({
+export function PublishModalContent({
     publishState,
     handlePublish,
     resetPublish,
@@ -205,6 +158,3 @@ function Badge({
         </span>
     )
 }
-
-export type { PublishBoardState }
-export { getModalTitle, PublishButton, PublishModalContent }

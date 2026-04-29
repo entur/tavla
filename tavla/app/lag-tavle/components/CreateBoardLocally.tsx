@@ -1,4 +1,5 @@
 'use client'
+import { PrimaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
@@ -9,14 +10,15 @@ import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
 import { publishBoard } from 'app/lag-tavle/actions'
-import {
-    getModalTitle,
-    type PublishBoardState,
-    PublishButton,
-    PublishModalContent,
-} from 'app/lag-tavle/components/PublishBoardModal'
+import { PublishModalContent } from 'app/lag-tavle/components/PublishBoardModal'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useCallback, useState } from 'react'
+
+export type PublishBoardState =
+    | { type: 'not-published' }
+    | { type: 'publishing' }
+    | { type: 'published'; boardId: string }
+    | { type: 'error'; message: string }
 
 function CreateBoardLocally() {
     const { board, setTiles, onSubmit } = useSaveDemoBoardInLocalStorage()
@@ -127,6 +129,47 @@ function CreateBoardLocally() {
             </Modal>
         </>
     )
+}
+
+function getModalTitle(publishState: PublishBoardState) {
+    switch (publishState.type) {
+        case 'not-published':
+            return 'Ferdig med tavla?'
+        case 'published':
+            return 'Din tavle er klar'
+        case 'error':
+            return 'Det skjedde en feil'
+        default:
+            return undefined
+    }
+}
+
+function PublishButton({
+    publishState,
+    onClick,
+}: {
+    publishState: PublishBoardState
+    onClick: () => void
+}) {
+    const posthog = usePosthogTracking()
+
+    switch (publishState.type) {
+        case 'error':
+            return <div className="text-error">{publishState.message}</div>
+        default:
+            return (
+                <PrimaryButton
+                    onClick={() => {
+                        onClick()
+                        posthog.capture('board_share_started')
+                    }}
+                    loading={publishState.type === 'publishing'}
+                    width="auto"
+                >
+                    Få lenke til tavla
+                </PrimaryButton>
+            )
+    }
 }
 
 export { CreateBoardLocally }
