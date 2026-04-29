@@ -2,7 +2,10 @@
 import { Checkbox } from '@entur/form'
 import { SkeletonRectangle } from '@entur/loader'
 import { TransportIcon } from 'app/(admin)/components/TransportIcon'
-import { getColorMode } from 'app/(admin)/components/TransportIcon/utils'
+import {
+    getColorMode,
+    getRelevantSubmode,
+} from 'app/(admin)/components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
@@ -90,32 +93,33 @@ function PlatformAndLines({
         return !line.frontTexts || line.frontTexts.length > 0
     }
 
-    const transportModesFromLines = Array.from(
-        new Map(
+    const transportModesFromLines = Object.values(
+        Object.fromEntries(
             lines.flatMap((line) =>
                 line.transportMode
                     ? [
                           [
-                              `${line.transportMode}|${line.transportSubmode ?? ''}`,
+                              `${line.transportMode}|${getRelevantSubmode(line.transportSubmode) ?? ''}`,
                               {
                                   transportMode: line.transportMode,
-                                  transportSubmode:
+                                  transportSubmode: getRelevantSubmode(
                                       line.transportSubmode ?? undefined,
+                                  ),
                               },
-                          ] as const,
+                          ],
                       ]
                     : [],
             ),
-        ).values(),
+        ),
     )
 
     const iconPairs =
         transportModesFromLines.length > 0
             ? transportModesFromLines
-            : (fallbackModes ?? []).map((m) => ({
+            : (fallbackModes?.map((m) => ({
                   transportMode: m,
                   transportSubmode: undefined,
-              }))
+              })) ?? [])
 
     return (
         <div className="rounded-lg border-2 p-4">

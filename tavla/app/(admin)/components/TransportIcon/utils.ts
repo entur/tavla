@@ -53,6 +53,16 @@ export function getTransportIcon(
     }
 }
 
+export function getRelevantSubmode(
+    submode?: TTransportSubmode | null,
+): TTransportSubmode | undefined {
+    if (submode?.startsWith('airport')) return submode
+    if (submode === 'railReplacementBus') return submode
+    if (submode === 'regionalBus') return submode
+    if (submode?.includes('CarFerry')) return submode
+    return undefined
+}
+
 export function getColorMode(
     transportMode: TTransportMode,
     transportSubmode?: TTransportSubmode,
