@@ -2,7 +2,7 @@
 
 import { Heading1, Heading3, Paragraph } from '@entur/typography'
 import Image from 'next/image'
-import { type JSX, useEffect, useRef, useState } from 'react'
+import { type JSX, useState } from 'react'
 import TavlaAdministration from 'src/assets/illustrations/Tavla-administration.svg'
 import TavlaCustomization from 'src/assets/illustrations/Tavla-customization.svg'
 import TavlaShowInfo from 'src/assets/illustrations/Tavla-show-info.svg'
@@ -19,7 +19,7 @@ const FEATURES: Feature[] = [
             <Image
                 alt=""
                 src={TavlaCustomization}
-                className={'object-contain max-h-full p-2'}
+                className={'object-contain max-h-full'}
             />
         ),
     },
@@ -31,7 +31,7 @@ const FEATURES: Feature[] = [
             <Image
                 alt=""
                 src={TavlaTransportNorge}
-                className={'object-contain max-h-full p-2'}
+                className={'object-contain max-h-full'}
             />
         ),
     },
@@ -43,7 +43,7 @@ const FEATURES: Feature[] = [
             <Image
                 alt=""
                 src={TavlaAdministration}
-                className={'object-contain max-h-full p-2'}
+                className={'object-contain max-h-full'}
             />
         ),
     },
@@ -55,7 +55,7 @@ const FEATURES: Feature[] = [
             <Image
                 alt=""
                 src={TavlaShowInfo}
-                className={'object-contain max-h-full p-2'}
+                className={'object-contain max-h-full'}
             />
         ),
     },
@@ -135,7 +135,7 @@ function MobileView({ features, activeIndex, onFeatureClick }: ViewProps) {
                         {active.description}
                     </Paragraph>
                 </div>
-                <div className="flex-1 flex items-center justify-center min-h-0">
+                <div className="flex-1 flex items-center justify-center min-h-0 mb-4">
                     {active.content}
                 </div>
             </div>
@@ -150,8 +150,8 @@ function MobileView({ features, activeIndex, onFeatureClick }: ViewProps) {
 
 function DesktopView({ features, activeIndex, onFeatureClick }: ViewProps) {
     return (
-        <div className="relative text-left w-full h-full flex items-center">
-            <div className="flex flex-col gap-2 w-1/2 relative">
+        <div className="relative text-left w-full h-full flex">
+            <div className="flex flex-col gap-2 w-1/2 relative pt-24">
                 {features.map((feature, index) => {
                     const isActive = index === activeIndex
                     return (
@@ -183,7 +183,7 @@ function DesktopView({ features, activeIndex, onFeatureClick }: ViewProps) {
                     )
                 })}
             </div>
-            <div className="absolute inset-y-0 right-0 w-1/2 px-4 flex items-center justify-center pointer-events-none">
+            <div className="w-1/2 flex items-center justify-center pointer-events-none ml-2">
                 {features[activeIndex]?.content}
             </div>
         </div>
@@ -191,62 +191,13 @@ function DesktopView({ features, activeIndex, onFeatureClick }: ViewProps) {
 }
 
 export function FeatureShowcase() {
-    const containerRef = useRef<HTMLDivElement>(null)
     const [activeIndex, setActiveIndex] = useState(0)
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!containerRef.current) return
-
-            const { top, height } = containerRef.current.getBoundingClientRect()
-            const windowHeight = window.innerHeight
-
-            if (top > 0) {
-                setActiveIndex(0)
-                return
-            }
-
-            const scrollDistance = -top
-            const sectionHeight = (height - windowHeight) / FEATURES.length
-
-            let index = Math.floor(scrollDistance / sectionHeight)
-            if (index < 0) index = 0
-            if (index >= FEATURES.length) index = FEATURES.length - 1
-
-            setActiveIndex(index)
-        }
-
-        window.addEventListener('scroll', handleScroll, { passive: true })
-        handleScroll()
-
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    const handleFeatureClick = (index: number) => {
-        if (!containerRef.current) return
-
-        const windowHeight = window.innerHeight
-        const containerTop = containerRef.current.offsetTop
-        const sectionHeight =
-            (containerRef.current.offsetHeight - windowHeight) / FEATURES.length
-
-        window.scrollTo({
-            top: containerTop + sectionHeight * index + 10,
-            behavior: 'smooth',
-        })
-    }
-
     return (
-        <div
-            ref={containerRef}
-            className="relative w-screen left-1/2 -translate-x-1/2 mt-20"
-            style={{
-                height: `calc(${FEATURES.length} * min(100dvh, 880px) + 100dvh)`,
-            }}
-        >
-            <div className="bg-blue sticky top-0 [@media(min-height:880px)]:top-[calc((100dvh-880px)/2)] w-full flex flex-col overflow-hidden py-8 lg:py-12 h-dvh [@media(min-height:880px)]:h-[880px]">
+        <div className="relative w-screen left-1/2 -translate-x-1/2 mt-20">
+            <div className="bg-blue h-[880px]  w-full flex flex-col overflow-hidden py-8 lg:py-12 h-dvh [@media(min-height:880px)]:h-[880px]">
                 <div className="max-w-[1539px] mx-auto w-full flex flex-1 flex-col justify-center gap-8 lg:gap-12 min-h-0">
-                    <div className="px-6 lg:px-24 text-center shrink-0">
+                    <div className="px-6 pt-8 lg:px-24 text-center shrink-0">
                         <Heading1 as="h2" className="text-white">
                             Tilpass alt. Eller ingenting!
                         </Heading1>
@@ -256,21 +207,19 @@ export function FeatureShowcase() {
                         </Paragraph>
                     </div>
 
-                    {/* Mobile */}
                     <div className="flex lg:hidden flex-1 min-h-0 px-4">
                         <MobileView
                             features={FEATURES}
                             activeIndex={activeIndex}
-                            onFeatureClick={handleFeatureClick}
+                            onFeatureClick={(index) => setActiveIndex(index)}
                         />
                     </div>
 
-                    {/* Desktop */}
                     <div className="hidden lg:flex flex-1 min-h-0 px-12">
                         <DesktopView
                             features={FEATURES}
                             activeIndex={activeIndex}
-                            onFeatureClick={handleFeatureClick}
+                            onFeatureClick={(index) => setActiveIndex(index)}
                         />
                     </div>
                 </div>
