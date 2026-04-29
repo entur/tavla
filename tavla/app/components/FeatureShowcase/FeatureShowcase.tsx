@@ -68,7 +68,7 @@ type ViewProps = {
 }
 
 const TITLE_CARD_BASE =
-    'border border-[#8186AF] rounded-lg px-3 py-3 text-sm font-bold'
+    'border border-[#8186AF] rounded-lg p-3 text-sm font-bold'
 
 function PastTitles({
     features,
@@ -159,14 +159,14 @@ function DesktopView({ features, activeIndex, onFeatureClick }: ViewProps) {
                             key={feature.title}
                             type="button"
                             onClick={() => onFeatureClick(index)}
-                            className="cursor-pointer duration-300 ease-in-out text-left lg:ml-10 xl:ml-20"
+                            className="text-left lg:ml-10 xl:ml-20"
                         >
                             <div
-                                className={`transition-all p-6 duration-500 ease-in-out pointer-events-none rounded-xl border-2 border-[#8186AF] ${isActive ? 'bg-hoverContrast' : 'bg-none'}`}
+                                className={`p-6 rounded-xl border-2 border-[#8186AF] transition-all duration-500 ease-in-out ${isActive ? 'bg-hoverContrast' : ''}`}
                             >
                                 <Heading3
                                     margin="none"
-                                    className={`text-2xl font-medium transition-colors duration-300 pointer-events-none ${isActive ? 'text-blue font-semibold' : 'text-white'}`}
+                                    className={`text-2xl transition-colors duration-300 ${isActive ? 'text-blue font-semibold' : 'text-white font-medium'}`}
                                 >
                                     {feature.title}
                                 </Heading3>
@@ -183,7 +183,7 @@ function DesktopView({ features, activeIndex, onFeatureClick }: ViewProps) {
                     )
                 })}
             </div>
-            <div className="absolute -top-10 bottom-0 right-0 w-1/2 px-4 flex items-center justify-center pointer-events-none">
+            <div className="absolute inset-y-0 right-0 w-1/2 px-4 flex items-center justify-center pointer-events-none">
                 {features[activeIndex]?.content}
             </div>
         </div>
@@ -244,9 +244,9 @@ export function FeatureShowcase() {
                 height: `calc(${FEATURES.length} * min(100dvh, 880px) + 100dvh)`,
             }}
         >
-            <div className="bg-blue sticky top-0 [@media(min-height:880px)]:top-[calc((100dvh-880px)/2)] overflow-hidden w-full flex flex-col py-8 lg:py-12 h-dvh [@media(min-height:880px)]:h-[880px]">
-                <div className="max-w-[1539px] mx-auto w-full flex flex-col justify-center gap-8 lg:gap-12 flex-1 min-h-0">
-                    <div className="flex flex-col px-6 lg:px-24 text-center w-full shrink-0">
+            <div className="bg-blue sticky top-0 [@media(min-height:880px)]:top-[calc((100dvh-880px)/2)] w-full flex flex-col overflow-hidden py-8 lg:py-12 h-dvh [@media(min-height:880px)]:h-[880px]">
+                <div className="max-w-[1539px] mx-auto w-full flex flex-1 flex-col justify-center gap-8 lg:gap-12 min-h-0">
+                    <div className="px-6 lg:px-24 text-center shrink-0">
                         <Heading1 as="h2" className="text-white">
                             Tilpass alt. Eller ingenting!
                         </Heading1>
@@ -266,7 +266,7 @@ export function FeatureShowcase() {
                     </div>
 
                     {/* Desktop */}
-                    <div className="hidden lg:flex flex-1 px-12 min-h-0">
+                    <div className="hidden lg:flex flex-1 min-h-0 px-12">
                         <DesktopView
                             features={FEATURES}
                             activeIndex={activeIndex}
