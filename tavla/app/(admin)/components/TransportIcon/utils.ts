@@ -52,3 +52,13 @@ export function getTransportIcon(
             return UnknownIcon
     }
 }
+
+export function getColorMode(
+    transportMode: TTransportMode,
+    transportSubmode?: TTransportSubmode,
+): string {
+    if (transportSubmode?.startsWith('airport')) return 'air'
+    if (transportSubmode === 'railReplacementBus') return 'rail'
+    if (transportSubmode === 'regionalBus') return 'regional-bus'
+    return transportMode
+}

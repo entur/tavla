@@ -2,24 +2,12 @@
 import { Checkbox } from '@entur/form'
 import { SkeletonRectangle } from '@entur/loader'
 import { TransportIcon } from 'app/(admin)/components/TransportIcon'
+import { getColorMode } from 'app/(admin)/components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
-import type {
-    TTransportMode,
-    TTransportSubmode,
-} from 'src/types/graphql-schema'
+import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from './types'
-
-function getColorMode(
-    transportMode: TTransportMode,
-    transportSubmode?: TTransportSubmode,
-): string {
-    if (transportSubmode?.startsWith('airport')) return 'air'
-    if (transportSubmode === 'railReplacementBus') return 'rail'
-    if (transportSubmode === 'regionalBus') return 'regional-bus'
-    return transportMode
-}
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
