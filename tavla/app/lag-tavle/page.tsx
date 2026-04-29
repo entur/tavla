@@ -1,10 +1,8 @@
-import { Heading1, LeadParagraph } from '@entur/typography'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { CreateUserButton } from 'app/components/CreateUserButton'
 import { FeatureFlags } from 'app/posthog/featureFlags'
 import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { CreateBoardLocally } from './components/CreateBoardLocally'
 
 export const metadata: Metadata = {
