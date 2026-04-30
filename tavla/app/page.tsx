@@ -132,7 +132,7 @@ async function Landing() {
                 </div>
 
                 <div className="bg-[#F5F6FA] rounded-3xl flex flex-row gap-8 overflow-hidden justify-center lg:justify-normal lg:mx-24">
-                    <div className="w-full flex flex-col my-24 lg:ml-24 text-center lg:text-left lg:w-1/2ze">
+                    <div className="w-1/2 flex flex-col my-24 lg:ml-24 text-center lg:text-left">
                         <Heading1 as="h2" margin="none">
                             Hvor brukes Tavla?
                         </Heading1>
@@ -154,7 +154,7 @@ async function Landing() {
                                     key={item}
                                     className="flex items-center gap-3 text-nowrap"
                                 >
-                                    <div className=" w-2.5 h-2.5 rounded-full bg-coral shrink-0" />
+                                    <div className="w-2.5 h-2.5 rounded-full bg-coral shrink-0" />
                                     {item}
                                 </li>
                             ))}
