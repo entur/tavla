@@ -268,22 +268,14 @@ function SetVisibleLines({
         setCheckedLineIds(newSet)
     }
 
-    const isModeSelected = (mode: TTransportMode) => {
-        for (const q of quays) {
-            const quayIsActive = q.lines.some((l) =>
-                checkedLineIds.has(`${q.id}||${l.id}`),
-            )
-            if (!quayIsActive) continue
-            for (const l of q.lines) {
-                if (
+    const isModeSelected = (mode: TTransportMode) =>
+        quays.some((q) =>
+            q.lines.some(
+                (l) =>
                     l.transportMode === mode &&
-                    checkedLineIds.has(`${q.id}||${l.id}`)
-                )
-                    return true
-            }
-        }
-        return false
-    }
+                    checkedLineIds.has(`${q.id}||${l.id}`),
+            ),
+        )
 
     const renderQuay = (quay: QuayWithFrontText) => {
         const modes = quayModesMap.get(quay.id) || []
