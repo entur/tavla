@@ -58,7 +58,6 @@ export function getRelevantSubmode(
 ): TTransportSubmode | undefined {
     if (submode?.startsWith('airport')) return submode
     if (submode === 'railReplacementBus') return submode
-    if (submode === 'regionalBus') return submode
     if (submode?.includes('CarFerry')) return submode
     return undefined
 }
