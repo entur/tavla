@@ -40,8 +40,10 @@ async function fetchBoardById(boardId: BoardDB['id']): Promise<BoardDB | null> {
     if (!boardDoc.exists) {
         return null
     }
+    const board = { id: boardId, ...boardDoc.data() } as BoardDB
 
-    return { id: boardId, ...boardDoc.data() } as BoardDB
+    const { location: _, ...meta } = board.meta
+    return { ...board, meta }
 }
 
 async function fetchFolderLogo(boardId: BoardDB['id']): Promise<string | null> {
