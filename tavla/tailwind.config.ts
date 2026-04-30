@@ -81,11 +81,12 @@ module.exports = {
                 grey10: 'var(--grey10)',
                 blue20: 'var(--blue20)',
                 blue10: 'var(--blue10)',
+                peach20: 'var(--peach20)',
+                sky10: 'var(--sky10)',
                 negativeDeep: 'var(--fill-negative-deep)',
                 negativeContrast: 'var(--fill-negative-contrast)',
                 negativeMuted: 'var(--fill-negative-muted)',
                 tintLight: 'var(--fill-background-tint-light)',
-                informationMuted: 'var(--fill-information-muted)',
                 coral: 'var(--standard-coral)',
             },
             colors: {

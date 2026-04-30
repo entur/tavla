@@ -32,7 +32,7 @@ export function PublishModalContent({
                             <div className="flex flex-col">
                                 <Badge
                                     text="For deg som kun skal lage én tavle"
-                                    color="negativeMuted"
+                                    color="peach"
                                 />
                                 <Heading3 as="h3">Få lenke til tavla</Heading3>
                                 <Paragraph>
@@ -52,7 +52,7 @@ export function PublishModalContent({
                             <div className="flex flex-col">
                                 <Badge
                                     text="Flere valg og mer fleksibelt"
-                                    color="informationMuted"
+                                    color="sky"
                                 />
                                 <Heading3 as="h3">
                                     Opprett bruker og lagre tavla
@@ -143,16 +143,15 @@ function Box({ children }: { children: React.ReactNode }) {
     )
 }
 
-function Badge({
-    text,
-    color,
-}: {
-    text: string
-    color: 'negativeMuted' | 'informationMuted'
-}) {
+const badgeColorClass = {
+    peach: 'bg-peach20',
+    sky: 'bg-sky10',
+} as const
+
+function Badge({ text, color }: { text: string; color: 'peach' | 'sky' }) {
     return (
         <span
-            className={`w-fit rounded-[4px] border border-strokeContrast bg-${color} px-1 py-0.5 text-xs`}
+            className={`w-fit rounded-[4px] border border-strokeContrast ${badgeColorClass[color]} px-1 py-0.5 text-xs`}
         >
             {text}
         </span>
