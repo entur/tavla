@@ -5,6 +5,7 @@ import { TransportIcon } from 'app/(admin)/components/TransportIcon'
 import {
     getColorMode,
     getRelevantSubmode,
+    sortByTransportMode,
 } from 'app/(admin)/components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
@@ -113,13 +114,14 @@ function PlatformAndLines({
         ),
     )
 
-    const iconPairs =
+    const iconPairs = (
         transportModesFromLines.length > 0
             ? transportModesFromLines
             : (fallbackModes?.map((m) => ({
                   transportMode: m,
                   transportSubmode: undefined,
               })) ?? [])
+    ).sort(sortByTransportMode)
 
     return (
         <div className="rounded-lg border-2 p-4">

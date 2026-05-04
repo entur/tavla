@@ -15,26 +15,25 @@ import {
     getTransportColorDescription,
 } from '../colorPalettes'
 
-const busAndTrainModes: TTransportMode[] = ['bus', 'rail', 'coach']
+const busAndTrainModes: TTransportMode[] = ['bus', 'coach', 'rail']
 
 const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
     [
+        {
+            mode: 'air',
+        },
+        {
+            mode: 'metro',
+        },
+        {
+            mode: 'tram',
+        },
         {
             mode: 'water',
             submode: 'internationalCarFerry',
         },
         {
-            mode: 'air',
-        },
-        {
             mode: 'water',
-        },
-        {
-            mode: 'metro',
-        },
-
-        {
-            mode: 'tram',
         },
     ]
 

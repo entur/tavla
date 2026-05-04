@@ -71,3 +71,19 @@ export function getColorMode(
     if (transportSubmode === 'regionalBus') return 'regional-bus'
     return transportMode
 }
+
+export function sortByTransportMode<
+    T extends {
+        transportMode: string | null
+        transportSubmode?: string | null
+    },
+>(a: T, b: T): number {
+    const modeA = a.transportMode ?? ''
+    const modeB = b.transportMode ?? ''
+    if (modeA !== modeB) {
+        return modeA < modeB ? -1 : 1
+    }
+    const submodeA = a.transportSubmode ?? ''
+    const submodeB = b.transportSubmode ?? ''
+    return submodeA < submodeB ? -1 : submodeA > submodeB ? 1 : 0
+}
