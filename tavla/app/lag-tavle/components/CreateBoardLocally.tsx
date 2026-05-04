@@ -106,7 +106,6 @@ function CreateBoardLocally() {
                     <DemoPreview board={board} />
                 </section>
             </div>
-            ¨
             {loaded && (
                 <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
             )}
