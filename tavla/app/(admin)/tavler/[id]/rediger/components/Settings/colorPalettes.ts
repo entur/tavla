@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import type { BoardDB, TransportPalette } from 'src/types/db-types/boards'
 
-const baseTransportPalettes = [
+const baseTransportPalettes: { label: string; value: TransportPalette }[] = [
     { label: 'Nasjonal', value: 'default' },
     { label: 'Lokal', value: 'atb' },
     { label: 'Lokal', value: 'fram' },
@@ -59,7 +59,7 @@ const PALETTE_TO_COUNTY = Object.fromEntries(
 
 export const generateTransportPalettes = (
     allowedPalettes: TransportPalette[],
-) => {
+): { label: string; value: TransportPalette }[] => {
     const filteredPalettes = allowedPalettes
         ? baseTransportPalettes.filter(
               (palette) =>
