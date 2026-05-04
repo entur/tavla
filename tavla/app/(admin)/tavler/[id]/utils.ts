@@ -1,11 +1,11 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { HomeIcon, MapPinIcon } from '@entur/icons'
+import { TransportIcon } from 'app/(admin)/components/TransportIcon'
 import { uniq } from 'lodash'
 import { createElement } from 'react'
 import type { BoardTheme, LocationDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import type { TTransportMode } from 'src/types/graphql-schema'
-import { TransportIcon } from './rediger/components/Settings/components/TransportIcon'
 
 export type TCategory =
     | 'onstreetBus'

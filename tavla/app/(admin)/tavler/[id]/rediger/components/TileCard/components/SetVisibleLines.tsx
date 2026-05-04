@@ -52,7 +52,7 @@ type QuaysByTransportMode = {
 
 type ColumnItem =
     | { type: 'mode_group'; data: QuaysByTransportMode }
-    | { type: 'quay'; mode: TTransportMode; data: QuayWithFrontText }
+    | { type: 'quay'; data: QuayWithFrontText }
 
 function generateQuayModesMap(
     quays: QuayWithFrontText[],
@@ -148,11 +148,7 @@ function sortAndDistributeColumnItems(quays: QuayWithFrontText[]): {
                 return cmp
             })
             sortedQuays.forEach((quay) => {
-                itemsToDistribute.push({
-                    type: 'quay',
-                    mode: group.mode,
-                    data: quay,
-                })
+                itemsToDistribute.push({ type: 'quay', data: quay })
             })
         })
     } else {
@@ -268,28 +264,20 @@ function SetVisibleLines({
         setCheckedLineIds(newSet)
     }
 
-    const isModeSelected = (mode: TTransportMode) => {
-        for (const q of quays) {
-            const quayIsActive = q.lines.some((l) =>
-                checkedLineIds.has(`${q.id}||${l.id}`),
-            )
-            if (!quayIsActive) continue
-            for (const l of q.lines) {
-                if (
+    const isModeSelected = (mode: TTransportMode) =>
+        quays.some((q) =>
+            q.lines.some(
+                (l) =>
                     l.transportMode === mode &&
-                    checkedLineIds.has(`${q.id}||${l.id}`)
-                )
-                    return true
-            }
-        }
-        return false
-    }
+                    checkedLineIds.has(`${q.id}||${l.id}`),
+            ),
+        )
 
     const renderQuay = (quay: QuayWithFrontText) => {
-        const modes = quayModesMap.get(quay.id) || []
+        const quayModes = quayModesMap.get(quay.id) || []
         const title =
             quay.name && quay.publicCode
-                ? `${modes[0] === 'metro' || modes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
+                ? `${quayModes[0] === 'metro' || quayModes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
                 : quay.name || 'Ukjent'
         return (
             <PlatformAndLines
@@ -301,7 +289,7 @@ function SetVisibleLines({
                 description={quay.description}
                 lines={quay.lines}
                 trackingLocation={trackingLocation}
-                transportModes={modes}
+                fallbackTransportModes={quayModes}
                 selectedLineIds={checkedLineIds}
                 onToggleLine={handleToggleLine}
                 onToggleGroup={handleGroupToggle}

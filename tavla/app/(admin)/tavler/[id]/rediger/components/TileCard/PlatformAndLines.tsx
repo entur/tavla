@@ -1,25 +1,17 @@
 'use client'
 import { Checkbox } from '@entur/form'
 import { SkeletonRectangle } from '@entur/loader'
-import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
+import { TransportIcon } from 'app/(admin)/components/TransportIcon'
+import {
+    getColorMode,
+    getRelevantSubmode,
+    sortByTransportMode,
+} from 'app/(admin)/components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
-import type {
-    TTransportMode,
-    TTransportSubmode,
-} from 'src/types/graphql-schema'
+import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from './types'
-
-function getColorMode(
-    transportMode: TTransportMode,
-    transportSubmode?: TTransportSubmode,
-): string {
-    if (transportSubmode?.startsWith('airport')) return 'air'
-    if (transportSubmode === 'railReplacementBus') return 'rail'
-    if (transportSubmode === 'regionalBus') return 'regional-bus'
-    return transportMode
-}
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
@@ -51,7 +43,7 @@ function PlatformAndLines({
     description,
     lines,
     trackingLocation,
-    transportModes,
+    fallbackTransportModes: fallbackModes,
     selectedLineIds,
     onToggleLine,
     onToggleGroup,
@@ -63,7 +55,7 @@ function PlatformAndLines({
     description: string | null
     lines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    transportModes: TTransportMode[]
+    fallbackTransportModes: TTransportMode[]
     selectedLineIds: Set<string>
     onToggleLine: (compositeKey: string) => void
     onToggleGroup: (compositeKeys: string[], checked: boolean) => void
@@ -102,15 +94,47 @@ function PlatformAndLines({
         return !line.frontTexts || line.frontTexts.length > 0
     }
 
+    const transportModesFromLines = Object.values(
+        Object.fromEntries(
+            lines.flatMap((line) =>
+                line.transportMode
+                    ? [
+                          [
+                              `${line.transportMode}|${getRelevantSubmode(line.transportSubmode) ?? ''}`,
+                              {
+                                  transportMode: line.transportMode,
+                                  transportSubmode: getRelevantSubmode(
+                                      line.transportSubmode ?? undefined,
+                                  ),
+                              },
+                          ],
+                      ]
+                    : [],
+            ),
+        ),
+    )
+
+    const iconPairs = (
+        transportModesFromLines.length > 0
+            ? transportModesFromLines
+            : (fallbackModes?.map((m) => ({
+                  transportMode: m,
+                  transportSubmode: undefined,
+              })) ?? [])
+    ).sort(sortByTransportMode)
+
     return (
         <div className="rounded-lg border-2 p-4">
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center justify-start gap-2 pr-3 font-semibold">
                     <div className="flex flex-row gap-1 self-center">
-                        {transportModes.map((mode) => (
+                        {iconPairs.map((transportMode) => (
                             <TransportIcon
-                                key={mode}
-                                transportMode={mode}
+                                key={`${transportMode.transportMode}|${transportMode.transportSubmode ?? ''}`}
+                                transportMode={transportMode.transportMode}
+                                transportSubmode={
+                                    transportMode.transportSubmode
+                                }
                                 background
                                 whiteIcon
                             />
