@@ -40,8 +40,28 @@ async function fetchBoardById(boardId: BoardDB['id']): Promise<BoardDB | null> {
     if (!boardDoc.exists) {
         return null
     }
+    const board = { id: boardId, ...boardDoc.data() } as BoardDB
 
-    return { id: boardId, ...boardDoc.data() } as BoardDB
+    const { location: _, ...meta } = board.meta
+    return { ...board, meta }
+}
+
+async function fetchBoardByCustomUrl(
+    boardString: BoardDB['customUrl'],
+): Promise<BoardDB | null> {
+    const boardQuery = await db
+        .collection('boards')
+        .where('customUrl', '==', boardString)
+        .get()
+
+    if (boardQuery.empty) {
+        return null
+    }
+
+    return {
+        id: boardQuery.docs[0]?.id,
+        ...boardQuery.docs[0]?.data(),
+    } as BoardDB
 }
 
 async function fetchFolderLogo(boardId: BoardDB['id']): Promise<string | null> {
@@ -80,12 +100,15 @@ export async function GET(request: NextRequest) {
     const boardId = boardIdParam satisfies BoardDB['id']
 
     try {
-        const boardData = await fetchBoardById(boardId)
+        const boardData =
+            (boardId.length === 20 ? await fetchBoardById(boardId) : null) ??
+            (await fetchBoardByCustomUrl(boardId))
+
         if (!boardData) {
             return createErrorResponse(request, 'Board not found', 404)
         }
 
-        const folderLogo = await fetchFolderLogo(boardId)
+        const folderLogo = await fetchFolderLogo(boardData.id)
 
         return NextResponse.json(
             {

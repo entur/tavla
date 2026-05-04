@@ -59,9 +59,10 @@ export type EventMap = {
         context: 'entry'
     }
 
-    board_share_cancelled: {
-        method: 'close_icon'
-    }
+    /* Tavle uten bruker */
+    board_share_started: undefined
+    board_share_selected: undefined
+    board_share_cancelled: undefined
 
     /* Oversikt */
     board_create_started: WithLocation<
@@ -244,6 +245,7 @@ export type EventMap = {
             | 'board_location'
             | 'info_message'
             | 'element_select'
+            | 'custom_link'
         value:
             | 'combined'
             | 'separate'

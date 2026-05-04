@@ -34,13 +34,13 @@ function Copy({ type, bid, board, trackingLocation }: Props) {
 
     const ariaLabel = board?.meta?.title
         ? `Kopier lenken til tavle ${board.meta.title}`
-        : 'Kopier lenken til tavlen'
+        : 'Kopier lenken til tavla'
 
     if (type === 'button') {
         return (
             <CopyableText
                 successHeading=""
-                successMessage="Lenken til tavlen ble kopiert!"
+                successMessage="Lenken til tavla ble kopiert!"
                 aria-label={ariaLabel}
                 onClick={copy}
             >
@@ -50,7 +50,7 @@ function Copy({ type, bid, board, trackingLocation }: Props) {
     }
     return (
         <Tooltip
-            content="Kopier lenken til tavlen"
+            content="Kopier lenken til tavla"
             placement="bottom"
             id="tooltip-copy-link-board"
         >

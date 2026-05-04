@@ -81,10 +81,14 @@ module.exports = {
                 grey10: 'var(--grey10)',
                 blue20: 'var(--blue20)',
                 blue10: 'var(--blue10)',
+                peach20: 'var(--peach20)',
+                sky10: 'var(--sky10)',
                 negativeDeep: 'var(--fill-negative-deep)',
                 negativeContrast: 'var(--fill-negative-contrast)',
+                negativeMuted: 'var(--fill-negative-muted)',
                 tintLight: 'var(--fill-background-tint-light)',
                 coral: 'var(--standard-coral)',
+                hoverContrast: 'var(--fill-primary-hover-contrast)',
             },
             colors: {
                 background: 'var(--main-background-color)',
@@ -108,10 +112,15 @@ module.exports = {
                 sm: '0.2em',
                 DEFAULT: '0.5em',
             },
+            ringColor: {
+                primary: 'var(--fill-primary-active-light)',
+            },
             borderColor: {
                 primary: 'var(--divider-color)',
                 secondary: 'var(--border-color)',
                 chip: 'var(--components-chip-standard-border)',
+                strokeNeutral: 'var(--stroke-neutral)',
+                strokeContrast: 'var(--stroke-contrast)',
             },
             fontSize: {
                 'em-xs': '0.625em',

@@ -1,10 +1,7 @@
 'use client'
-import { CopyableText } from '@entur/alert'
-import { IconButton, PrimaryButton, SecondaryButton } from '@entur/button'
-import { CloseIcon } from '@entur/icons'
-import { LoadingDots } from '@entur/loader'
+import { PrimaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading2, Heading3, Label, Paragraph } from '@entur/typography'
+import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { useSaveDemoBoardInLocalStorage } from 'app/(admin)/hooks/useSaveDemoBoardInLocalStorage'
@@ -13,14 +10,11 @@ import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
 import { publishBoard } from 'app/lag-tavle/actions'
+import { PublishModalContent } from 'app/lag-tavle/components/PublishBoardModal'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import rabbits from 'assets/illustrations/Rabbits.png'
-import sheep from 'assets/illustrations/Sheep.png'
-import Image from 'next/image'
 import { useCallback, useState } from 'react'
-import { getBoardLinkClient } from 'src/utils/boardLink'
 
-type PublishBoardState =
+export type PublishBoardState =
     | { type: 'not-published' }
     | { type: 'publishing' }
     | { type: 'published'; boardId: string }
@@ -39,6 +33,7 @@ function CreateBoardLocally() {
 
     const handlePublish = async () => {
         setPublishState({ type: 'publishing' })
+        posthog.capture('board_share_selected')
         try {
             const boardId = await publishBoard(board)
 
@@ -66,6 +61,23 @@ function CreateBoardLocally() {
 
     return (
         <>
+            <div className="flex h-full items-center justify-between align-middle">
+                <Heading1 className="!mb-0">Lag en tavle</Heading1>
+
+                <div className="flex flex-row gap-4">
+                    <PublishButton
+                        publishState={publishState}
+                        onClick={() => setIsModalOpen(true)}
+                    />
+                    <CreateUserButton variant="secondary" />
+                </div>
+            </div>
+            <LeadParagraph className="max-w-[1000px] mt-0">
+                Søk opp din adresse eller ditt nærmeste stoppested og lag en
+                tavle med avganger i nærheten. Når du er fornøyd med tavla kan
+                du klikke på "Få lenke til tavla" og få en lenke du kan dele med
+                andre, eller vise på en skjerm.
+            </LeadParagraph>
             <div
                 data-transport-palette={board.transportPalette}
                 className="flex flex-col gap-4 rounded-md bg-tintLight px-6 py-8"
@@ -94,59 +106,23 @@ function CreateBoardLocally() {
                     <DemoPreview board={board} />
                 </section>
             </div>
+            ¨
             {loaded && (
                 <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
             )}
-            <div className="flex flex-col gap-4">
-                {publishState.type !== 'published' && (
-                    <PrimaryButton
-                        onClick={() => setIsModalOpen(true)}
-                        loading={publishState.type === 'publishing'}
-                        width="auto"
-                    >
-                        Del tavla
-                    </PrimaryButton>
-                )}
-                {publishState.type === 'published' && (
-                    <CopyableText
-                        successHeading=""
-                        successMessage="Lenken til tavlen ble kopiert!"
-                    >
-                        {getBoardLinkClient(publishState.boardId)}
-                    </CopyableText>
-                )}
-                {publishState.type === 'error' && (
-                    <div className="text-error">{publishState.message}</div>
-                )}
-            </div>
-
+            <PublishButton
+                publishState={publishState}
+                onClick={() => setIsModalOpen(true)}
+            />
             <Modal
-                size="small"
+                size="medium"
                 open={isModalOpen}
-                onDismiss={() => setIsModalOpen(false)}
-                title={
-                    publishState.type === 'not-published'
-                        ? 'Ferdig å redigere?'
-                        : publishState.type === 'published'
-                          ? 'Din tavle er klar'
-                          : publishState.type === 'error'
-                            ? 'Det skjedde en feil'
-                            : undefined
-                }
+                onDismiss={() => {
+                    posthog.capture('board_share_cancelled')
+                    setIsModalOpen(false)
+                }}
+                title={getModalTitle(publishState)}
             >
-                <IconButton
-                    aria-label="Avbryt deling av tavle"
-                    onClick={() => {
-                        posthog.capture('board_share_cancelled', {
-                            method: 'close_icon',
-                        })
-                        setIsModalOpen(false)
-                    }}
-                    className="absolute right-4 top-4 flex flex-row gap-2"
-                >
-                    <CloseIcon />
-                    <Label>Lukk</Label>
-                </IconButton>
                 <div className="w-full">
                     <PublishModalContent
                         publishState={publishState}
@@ -159,92 +135,43 @@ function CreateBoardLocally() {
     )
 }
 
-function PublishModalContent({
-    publishState,
-    handlePublish,
-    resetPublish,
-}: {
-    publishState: PublishBoardState
-    handlePublish: () => void
-    resetPublish: () => void
-}) {
+function getModalTitle(publishState: PublishBoardState) {
     switch (publishState.type) {
         case 'not-published':
-            return (
-                <>
-                    <Paragraph>
-                        Hvis du deler uten å opprette en bruker så har du ikke
-                        mulighet til å endre denne senere.
-                        <br />
-                        Gå tilbake hvis du vil gjøre flere endringer før du
-                        deler, eller opprett en bruker for å kunne gjøre
-                        endringer etter at du deler.
-                    </Paragraph>
-                    <div className="flex w-full flex-col gap-4">
-                        <PrimaryButton onClick={handlePublish} width="fluid">
-                            Del tavle
-                        </PrimaryButton>
-                        <div className="w-full rounded-sm border-2"></div>
-
-                        <div className="flex flex-row gap-2">
-                            <SecondaryButton
-                                onClick={resetPublish}
-                                width="fluid"
-                            >
-                                Gå tilbake
-                            </SecondaryButton>
-                            <CreateUserButton
-                                variant="secondary"
-                                width="fluid"
-                            />
-                        </div>
-                    </div>
-                </>
-            )
-        case 'publishing':
-            return <LoadingDots />
+            return 'Ferdig med tavla?'
         case 'published':
-            return (
-                <>
-                    <Image
-                        src={rabbits}
-                        aria-hidden="true"
-                        alt="Illustrasjon av sauer"
-                        className="align-center h-1/2 w-1/2 justify-self-center"
-                    />
-                    <Paragraph>
-                        Din tavle er nå publisert og klar til å deles! Kopier
-                        lenken
-                    </Paragraph>
-                    <CopyableText
-                        successHeading=""
-                        successMessage="Lenken til tavlen ble kopiert!"
-                    >
-                        {getBoardLinkClient(publishState.boardId)}
-                    </CopyableText>
-                </>
-            )
+            return 'Din tavle er klar'
         case 'error':
+            return 'Det skjedde en feil'
+        default:
+            return undefined
+    }
+}
+
+function PublishButton({
+    publishState,
+    onClick,
+}: {
+    publishState: PublishBoardState
+    onClick: () => void
+}) {
+    const posthog = usePosthogTracking()
+
+    switch (publishState.type) {
+        case 'error':
+            return <div className="text-error">{publishState.message}</div>
+        default:
             return (
-                <div>
-                    <Image
-                        src={sheep}
-                        aria-hidden="true"
-                        alt="Illustrasjon av sauer"
-                        className="align-center h-1/2 w-1/2 justify-self-center"
-                    />
-                    <Paragraph>
-                        Det skjedde en feil ved publisering av tavlen.
-                    </Paragraph>
-                    <div className="flex w-full flex-row gap-2">
-                        <SecondaryButton onClick={resetPublish} width="fluid">
-                            Lukk
-                        </SecondaryButton>
-                        <PrimaryButton onClick={handlePublish} width="fluid">
-                            Prøv igjen
-                        </PrimaryButton>
-                    </div>
-                </div>
+                <PrimaryButton
+                    onClick={() => {
+                        onClick()
+                        posthog.capture('board_share_started')
+                    }}
+                    loading={publishState.type === 'publishing'}
+                    width="auto"
+                >
+                    Få lenke til tavla
+                </PrimaryButton>
             )
     }
 }

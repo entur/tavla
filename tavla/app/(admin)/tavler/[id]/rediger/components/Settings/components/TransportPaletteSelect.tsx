@@ -1,6 +1,7 @@
 'use client'
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
+import { TransportIcon } from 'app/(admin)/components/TransportIcon'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
 import type { BoardTheme, TransportPalette } from 'src/types/db-types/boards'
@@ -13,41 +14,26 @@ import {
     generateTransportPalettes,
     getTransportColorDescription,
 } from '../colorPalettes'
-import { TransportIcon } from './TransportIcon'
 
-const busAndTrainModes: {
-    mode: TTransportMode
-    submode?: TTransportSubmode
-}[] = [
-    {
-        mode: 'bus',
-    },
-    {
-        mode: 'rail',
-    },
-    {
-        mode: 'coach',
-    },
-]
+const busAndTrainModes: TTransportMode[] = ['bus', 'coach', 'rail']
 
 const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
     [
+        {
+            mode: 'air',
+        },
+        {
+            mode: 'metro',
+        },
+        {
+            mode: 'tram',
+        },
         {
             mode: 'water',
             submode: 'internationalCarFerry',
         },
         {
-            mode: 'air',
-        },
-        {
             mode: 'water',
-        },
-        {
-            mode: 'metro',
-        },
-
-        {
-            mode: 'tram',
         },
     ]
 
@@ -119,28 +105,21 @@ function TransportPaletteSelect({
                             >
                                 <div className="grid grid-cols-4 gap-1.5">
                                     {busAndTrainModes.map((mode) => {
-                                        const effectiveMode =
-                                            mode.submode?.startsWith('airport')
-                                                ? 'air'
-                                                : mode.mode
                                         const colorDescription =
                                             getTransportColorDescription(
                                                 palette.value,
-                                                effectiveMode,
+                                                mode,
                                             )
                                         return (
                                             <div
                                                 className="max-w-min"
-                                                key={
-                                                    theme +
-                                                    (mode.submode ?? mode.mode)
-                                                }
-                                                aria-label={`${transportModeNames(mode.mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
+                                                key={theme + (mode ?? mode)}
+                                                aria-label={`${transportModeNames(mode)}${colorDescription ? `, ${colorDescription}` : ''}`}
                                                 role="img"
                                             >
                                                 <TransportIcon
-                                                    key={mode.mode}
-                                                    transportMode={mode.mode}
+                                                    key={mode}
+                                                    transportMode={mode}
                                                     background
                                                     className={`text-background`}
                                                 />

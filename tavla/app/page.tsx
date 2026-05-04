@@ -1,14 +1,13 @@
-import { Button } from '@entur/button'
-import { ForwardIcon, MapPinIcon, NewIcon, ShareIcon } from '@entur/icons'
+import { MapPinIcon, NewIcon, ShareIcon } from '@entur/icons'
 import { Heading1, Heading3, LeadParagraph, Paragraph } from '@entur/typography'
 import { CreateBoardButton } from 'app/components/CreateBoardButton'
 import TavlaNorwayMap from 'assets/illustrations/Tavla-Norway.svg'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
+import { FeatureShowcase } from './components/FeatureShowcase'
 import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
 import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
 import { PreviewCarousel } from './components/PreviewCarousel'
@@ -26,7 +25,7 @@ export type PreviewBoard = {
     theme: BoardDB['theme']
 }
 
-export const PREVIEW_BOARDS: PreviewBoard[] = [
+const PREVIEW_BOARDS: PreviewBoard[] = [
     {
         id: 'preview-1',
         altText:
@@ -82,10 +81,10 @@ async function Landing() {
                 </div>
             </div>
 
-            <div className="container mx-auto flex flex-col justify-start gap-4 overflow-hidden py-14">
+            <div className="container mx-auto flex flex-col justify-start gap-4 py-14">
                 <PreviewCarousel previewBoards={previewBoardsWithLinks} />
 
-                <div className="lg:px-12 py-16 mx-24 text-left lg:text-center">
+                <div className="lg:px-12 py-16 mx-6 text-left lg:text-center lg:mx-24">
                     <Heading1 as="h2" margin="none">
                         Tavle på 1, 2, 3
                     </Heading1>
@@ -153,7 +152,7 @@ async function Landing() {
                             ].map((item) => (
                                 <li
                                     key={item}
-                                    className="flex items-center gap-3"
+                                    className="flex items-center gap-3 text-nowrap"
                                 >
                                     <div className="w-2.5 h-2.5 rounded-full bg-coral shrink-0" />
                                     {item}
@@ -179,6 +178,7 @@ async function Landing() {
                         />
                     </div>
                 </div>
+                <FeatureShowcase />
             </div>
         </main>
     )

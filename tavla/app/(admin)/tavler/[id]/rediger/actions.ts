@@ -102,3 +102,58 @@ export async function saveUpdatedTileOrder(
         })
     }
 }
+
+export async function saveCustomUrl(
+    bid: BoardDB['id'],
+    customUrl: string,
+): Promise<{ error?: string }> {
+    const access = await userCanEditBoard(bid)
+    if (!access) return redirect('/')
+
+    const trimmed = customUrl.trim()
+
+    if (trimmed && !/^[a-zA-Z0-9_-]+$/.test(trimmed)) {
+        return {
+            error: 'Du kan kun bruke bokstaver (ikke æ, ø og å), tall, bindestrek og understrek.',
+        }
+    }
+
+    if (trimmed && /^preview/i.test(trimmed)) {
+        return {
+            error: 'Denne lenken kan ikke brukes.',
+        }
+    }
+
+    try {
+        if (trimmed) {
+            const existing = await db
+                .collection('boards')
+                .where('customUrl', '==', trimmed)
+                .get()
+
+            const taken = existing.docs.some((doc) => doc.id !== bid)
+            if (taken) {
+                return { error: 'Denne lenken er allerede i bruk.' }
+            }
+        }
+
+        await db
+            .collection('boards')
+            .doc(bid)
+            .update({
+                customUrl: trimmed || FieldValue.delete(),
+                'meta.dateModified': Date.now(),
+            })
+
+        revalidatePath(`/tavler/${bid}/rediger`)
+        return {}
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while saving custom board URL',
+                boardID: bid,
+            },
+        })
+        return { error: 'Noe gikk galt. Prøv igjen.' }
+    }
+}
