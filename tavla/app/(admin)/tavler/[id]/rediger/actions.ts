@@ -118,6 +118,12 @@ export async function saveCustomUrl(
         }
     }
 
+    if (trimmed && /^preview/i.test(trimmed)) {
+        return {
+            error: 'Denne lenken kan ikke brukes.',
+        }
+    }
+
     try {
         if (trimmed) {
             const existing = await db
