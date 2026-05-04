@@ -108,6 +108,9 @@ module.exports = {
                 sm: '0.2em',
                 DEFAULT: '0.5em',
             },
+            ringColor: {
+                primary: 'var(--fill-primary-active-light)',
+            },
             borderColor: {
                 primary: 'var(--divider-color)',
                 secondary: 'var(--border-color)',

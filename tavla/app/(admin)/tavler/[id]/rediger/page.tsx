@@ -1,4 +1,4 @@
-import { Heading1, Heading2, SubParagraph } from '@entur/typography'
+import { Heading1, Heading2, Paragraph, SubParagraph } from '@entur/typography'
 import { TileSelector } from 'app/(admin)/components/TileSelector'
 import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
@@ -9,15 +9,16 @@ import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
-import { getBoardLinkServer } from 'src/utils/boardLink'
+import { getBoardLinkClient, getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import { addTiles, getWalkingDistanceTile } from './actions'
 import { ActionsMenu } from './components/ActionsMenu'
 import { Copy } from './components/Buttons/Copy'
+import { Open } from './components/Buttons/Open'
+import { CustomUrl } from './components/CustomUrl/CustomUrl'
 import { Preview } from './components/Preview'
 import { Settings } from './components/Settings'
 import { TileList } from './components/TileList'
-
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>
 }
@@ -76,7 +77,10 @@ export default async function EditPage(props: TProps) {
         revalidatePath(`/tavler/${params.id}/rediger`)
     }
 
-    const boardLink = getBoardLinkServer(board.id, true)
+    const boardPreviewLink = getBoardLinkServer(board.id, true)
+    const boardLink = getBoardLinkClient(
+        board.customUrl ? board.customUrl : board.id,
+    )
 
     return (
         <main id="main-content">
@@ -91,7 +95,7 @@ export default async function EditPage(props: TProps) {
                     <BreadcrumbsNav type="board" board={board} />
                 )}
 
-                <div className="flex flex-col justify-between pb-2 md:flex-row">
+                <div className="flex flex-col justify-between md:flex-row">
                     <Heading1 margin="top">
                         Rediger {board.meta?.title}
                     </Heading1>
@@ -100,14 +104,22 @@ export default async function EditPage(props: TProps) {
                     </div>
                 </div>
                 <div className="md:w-fit">
-                    <p>Lenke til tavla:</p>
-                    <Copy
-                        bid={board.id}
-                        type="button"
-                        trackingLocation="board_page"
-                    />
+                    <Paragraph margin="none">Lenke til denne tavla:</Paragraph>
+                    <div className="flex items-center gap-2">
+                        <Paragraph
+                            margin="none"
+                            className="border rounded px-2 py-1 font-mono bg-tintLight"
+                        >
+                            {boardLink}
+                        </Paragraph>
+                        <CustomUrl bid={board.id} customUrl={board.customUrl} />
+                        <Copy
+                            bid={board.customUrl ? board.customUrl : board.id}
+                            type="icon"
+                            trackingLocation="board_page"
+                        />
+                    </div>
                 </div>
-
                 <div
                     data-transport-palette={board.transportPalette}
                     className="flex flex-col gap-4 rounded-md bg-tintLight px-6 py-8"
@@ -129,7 +141,7 @@ export default async function EditPage(props: TProps) {
                         data-theme={board.theme ?? 'dark'}
                         aria-label="Forhåndsvisning av Tavla"
                     >
-                        <Preview boardLink={boardLink} />
+                        <Preview boardLink={boardPreviewLink} />
                     </section>
                 </div>
                 <Settings board={board} />

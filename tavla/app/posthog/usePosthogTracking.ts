@@ -31,7 +31,10 @@ export function usePosthogTracking() {
                 // biome-ignore lint/suspicious/noConsole: Intentional logging for local development
                 console.log('PostHog event:', event, properties)
             }
-            posthog.capture(event, properties)
+
+            if (posthog.has_opted_in_capturing()) {
+                posthog.capture(event, properties)
+            }
         },
         [posthog],
     )
