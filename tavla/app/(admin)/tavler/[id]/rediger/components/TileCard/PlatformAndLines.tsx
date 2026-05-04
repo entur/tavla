@@ -4,7 +4,7 @@ import { SkeletonRectangle } from '@entur/loader'
 import { TransportIcon } from 'app/(admin)/components/TransportIcon'
 import {
     getColorMode,
-    getRelevantSubmode,
+    getTransportModesFromLines,
     sortByTransportMode,
 } from 'app/(admin)/components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
@@ -94,25 +94,7 @@ function PlatformAndLines({
         return !line.frontTexts || line.frontTexts.length > 0
     }
 
-    const transportModesFromLines = Object.values(
-        Object.fromEntries(
-            lines.flatMap((line) =>
-                line.transportMode
-                    ? [
-                          [
-                              `${line.transportMode}|${getRelevantSubmode(line.transportSubmode) ?? ''}`,
-                              {
-                                  transportMode: line.transportMode,
-                                  transportSubmode: getRelevantSubmode(
-                                      line.transportSubmode ?? undefined,
-                                  ),
-                              },
-                          ],
-                      ]
-                    : [],
-            ),
-        ),
-    )
+    const transportModesFromLines = getTransportModesFromLines(lines)
 
     const iconPairs = (
         transportModesFromLines.length > 0

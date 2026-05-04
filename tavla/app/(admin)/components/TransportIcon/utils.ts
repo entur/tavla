@@ -1,3 +1,5 @@
+import type { LineWithFrontText } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/types'
+import { uniqBy } from 'lodash'
 import type { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 import {
     BusIcon,
@@ -87,3 +89,16 @@ export function sortByTransportMode<
     const submodeB = b.transportSubmode ?? ''
     return submodeA < submodeB ? -1 : submodeA > submodeB ? 1 : 0
 }
+
+export const getTransportModesFromLines = (lines: LineWithFrontText[]) =>
+    uniqBy(
+        lines
+            .filter((line) => line.transportMode)
+            .map((line) => ({
+                transportMode: line.transportMode,
+                transportSubmode: getRelevantSubmode(
+                    line.transportSubmode ?? undefined,
+                ),
+            })),
+        (m) => `${m.transportMode}|${m.transportSubmode ?? ''}`,
+    )
