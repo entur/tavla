@@ -18,10 +18,11 @@ const emptyBoard: BoardDB = {
 
 export function useSaveDemoBoardInLocalStorage(): {
     board: BoardDB
+    loaded: boolean
     setTiles: (newTiles: BoardDB['tiles']) => void
     onSubmit: (data: FormData) => Promise<void>
 } {
-    const [board, setBoard] = useLocalStorage<BoardDB>(
+    const [board, setBoard, loaded] = useLocalStorage<BoardDB>(
         'lag-tavle-board',
         emptyBoard,
     )
@@ -49,7 +50,7 @@ export function useSaveDemoBoardInLocalStorage(): {
             ) as TransportPalette
             const hideClock = data.get('clock') === null
             const hideLogo = data.get('logo') === null
-            const footer = data.get('footer') as string
+            const footer = data.get('infoMessage') as string
 
             let location: LocationDB | undefined
             const rawLocation = data.get('newLocation') as string
@@ -84,5 +85,5 @@ export function useSaveDemoBoardInLocalStorage(): {
         [setBoard],
     )
 
-    return { board, setTiles, onSubmit }
+    return { board, loaded, setTiles, onSubmit }
 }

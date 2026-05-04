@@ -21,7 +21,8 @@ export type PublishBoardState =
     | { type: 'error'; message: string }
 
 function CreateBoardLocally() {
-    const { board, setTiles, onSubmit } = useSaveDemoBoardInLocalStorage()
+    const { board, loaded, setTiles, onSubmit } =
+        useSaveDemoBoardInLocalStorage()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const [publishState, setPublishState] = useState<PublishBoardState>({
@@ -105,7 +106,9 @@ function CreateBoardLocally() {
                     <DemoPreview board={board} />
                 </section>
             </div>
-            <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
+            {loaded && (
+                <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
+            )}
             <PublishButton
                 publishState={publishState}
                 onClick={() => setIsModalOpen(true)}
