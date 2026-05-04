@@ -1,29 +1,25 @@
-/* eslint-disable */
+import type * as Types from 'types/graphql-schema';
 
-import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
-import type * as Types from 'types/graphql-schema'
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export class TypedDocumentString<TResult, TVariables>
-    extends String
-    implements DocumentTypeDecoration<TResult, TVariables>
+  extends String
+  implements DocumentTypeDecoration<TResult, TVariables>
 {
-    __apiType?: NonNullable<
-        DocumentTypeDecoration<TResult, TVariables>['__apiType']
-    >
-    private value: string
-    public __meta__?: Record<string, any> | undefined
+  __apiType?: NonNullable<DocumentTypeDecoration<TResult, TVariables>['__apiType']>;
+  private value: string;
+  public __meta__?: Record<string, any> | undefined;
 
-    constructor(value: string, __meta__?: Record<string, any> | undefined) {
-        super(value)
-        this.value = value
-        this.__meta__ = __meta__
-    }
+  constructor(value: string, __meta__?: Record<string, any> | undefined) {
+    super(value);
+    this.value = value;
+    this.__meta__ = __meta__;
+  }
 
-    override toString(): string & DocumentTypeDecoration<TResult, TVariables> {
-        return this.value
-    }
+  override toString(): string & DocumentTypeDecoration<TResult, TVariables> {
+    return this.value;
+  }
 }
-export const SituationFragment = new TypedDocumentString(
-    `
+export const SituationFragment = new TypedDocumentString(`
     fragment situation on PtSituationElement {
   id
   description {
@@ -35,11 +31,8 @@ export const SituationFragment = new TypedDocumentString(
     language
   }
 }
-    `,
-    { fragmentName: 'situation' },
-) as unknown as TypedDocumentString<Types.TSituationFragment, unknown>
-export const DepartureFragment = new TypedDocumentString(
-    `
+    `, {"fragmentName":"situation"}) as unknown as TypedDocumentString<Types.TSituationFragment, unknown>;
+export const DepartureFragment = new TypedDocumentString(`
     fragment departure on EstimatedCall {
   quay {
     publicCode
@@ -81,11 +74,8 @@ export const DepartureFragment = new TypedDocumentString(
     value
     language
   }
-}`,
-    { fragmentName: 'departure' },
-) as unknown as TypedDocumentString<Types.TDepartureFragment, unknown>
-export const LinesFragment = new TypedDocumentString(
-    `
+}`, {"fragmentName":"departure"}) as unknown as TypedDocumentString<Types.TDepartureFragment, unknown>;
+export const LinesFragment = new TypedDocumentString(`
     fragment lines on Quay {
   lines {
     id
@@ -95,9 +85,7 @@ export const LinesFragment = new TypedDocumentString(
     transportSubmode
   }
 }
-    `,
-    { fragmentName: 'lines' },
-) as unknown as TypedDocumentString<Types.TLinesFragment, unknown>
+    `, {"fragmentName":"lines"}) as unknown as TypedDocumentString<Types.TLinesFragment, unknown>;
 export const GetQuayQuery = new TypedDocumentString(`
     query getQuay($quayId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20, $startTime: DateTime) {
   quay(id: $quayId) {
@@ -169,10 +157,7 @@ fragment situation on PtSituationElement {
     value
     language
   }
-}`) as unknown as TypedDocumentString<
-    Types.TGetQuayQuery,
-    Types.TGetQuayQueryVariables
->
+}`) as unknown as TypedDocumentString<Types.TGetQuayQuery, Types.TGetQuayQueryVariables>;
 export const QuayCoordinatesQuery = new TypedDocumentString(`
     query quayCoordinates($id: String!) {
   quay(id: $id) {
@@ -181,10 +166,7 @@ export const QuayCoordinatesQuery = new TypedDocumentString(`
     latitude
   }
 }
-    `) as unknown as TypedDocumentString<
-    Types.TQuayCoordinatesQuery,
-    Types.TQuayCoordinatesQueryVariables
->
+    `) as unknown as TypedDocumentString<Types.TQuayCoordinatesQuery, Types.TQuayCoordinatesQueryVariables>;
 export const QuayEditQuery = new TypedDocumentString(`
     query quayEdit($placeId: String!) {
   quay(id: $placeId) {
@@ -202,10 +184,7 @@ export const QuayEditQuery = new TypedDocumentString(`
     transportMode
     transportSubmode
   }
-}`) as unknown as TypedDocumentString<
-    Types.TQuayEditQuery,
-    Types.TQuayEditQueryVariables
->
+}`) as unknown as TypedDocumentString<Types.TQuayEditQuery, Types.TQuayEditQueryVariables>;
 export const QuayEstimatedCallsQuery = new TypedDocumentString(`
     query QuayEstimatedCalls($quayId: String!, $numberOfDepartures: Int = 200) {
   quay(id: $quayId) {
@@ -226,10 +205,7 @@ export const QuayEstimatedCallsQuery = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-    Types.TQuayEstimatedCallsQuery,
-    Types.TQuayEstimatedCallsQueryVariables
->
+    `) as unknown as TypedDocumentString<Types.TQuayEstimatedCallsQuery, Types.TQuayEstimatedCallsQueryVariables>;
 export const QuayNameQuery = new TypedDocumentString(`
     query QuayName($id: String!) {
   quay(id: $id) {
@@ -239,10 +215,7 @@ export const QuayNameQuery = new TypedDocumentString(`
     id
   }
 }
-    `) as unknown as TypedDocumentString<
-    Types.TQuayNameQuery,
-    Types.TQuayNameQueryVariables
->
+    `) as unknown as TypedDocumentString<Types.TQuayNameQuery, Types.TQuayNameQueryVariables>;
 export const QuaysSearchQuery = new TypedDocumentString(`
     query quaysSearch($stopPlaceId: String!) {
   stopPlace(id: $stopPlaceId) {
@@ -265,10 +238,7 @@ export const QuaysSearchQuery = new TypedDocumentString(`
     transportMode
     transportSubmode
   }
-}`) as unknown as TypedDocumentString<
-    Types.TQuaysSearchQuery,
-    Types.TQuaysSearchQueryVariables
->
+}`) as unknown as TypedDocumentString<Types.TQuaysSearchQuery, Types.TQuaysSearchQueryVariables>;
 export const StopPlaceQuery = new TypedDocumentString(`
     query StopPlace($stopPlaceId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20, $startTime: DateTime) {
   stopPlace(id: $stopPlaceId) {
@@ -329,10 +299,7 @@ fragment situation on PtSituationElement {
     value
     language
   }
-}`) as unknown as TypedDocumentString<
-    Types.TStopPlaceQuery,
-    Types.TStopPlaceQueryVariables
->
+}`) as unknown as TypedDocumentString<Types.TStopPlaceQuery, Types.TStopPlaceQueryVariables>;
 export const StopPlaceCoordinatesQuery = new TypedDocumentString(`
     query stopPlaceCoordinates($id: String!) {
   stopPlace(id: $id) {
@@ -341,10 +308,7 @@ export const StopPlaceCoordinatesQuery = new TypedDocumentString(`
     latitude
   }
 }
-    `) as unknown as TypedDocumentString<
-    Types.TStopPlaceCoordinatesQuery,
-    Types.TStopPlaceCoordinatesQueryVariables
->
+    `) as unknown as TypedDocumentString<Types.TStopPlaceCoordinatesQuery, Types.TStopPlaceCoordinatesQueryVariables>;
 export const StopPlaceEditQuery = new TypedDocumentString(`
     query stopPlaceEdit($placeId: String!) {
   stopPlace(id: $placeId) {
@@ -369,10 +333,7 @@ export const StopPlaceEditQuery = new TypedDocumentString(`
     transportMode
     transportSubmode
   }
-}`) as unknown as TypedDocumentString<
-    Types.TStopPlaceEditQuery,
-    Types.TStopPlaceEditQueryVariables
->
+}`) as unknown as TypedDocumentString<Types.TStopPlaceEditQuery, Types.TStopPlaceEditQueryVariables>;
 export const StopPlaceNameQuery = new TypedDocumentString(`
     query StopPlaceName($id: String!) {
   stopPlace(id: $id) {
@@ -380,23 +341,19 @@ export const StopPlaceNameQuery = new TypedDocumentString(`
     id
   }
 }
-    `) as unknown as TypedDocumentString<
-    Types.TStopPlaceNameQuery,
-    Types.TStopPlaceNameQueryVariables
->
+    `) as unknown as TypedDocumentString<Types.TStopPlaceNameQuery, Types.TStopPlaceNameQueryVariables>;
 export const StopPlacesHaveDeparturesQuery = new TypedDocumentString(`
     query StopPlacesHaveDepartures($ids: [String]) {
   stopPlaces(ids: $ids) {
     id
-    estimatedCalls(numberOfDepartures: 1, timeRange: 86400) {
-      expectedDepartureTime
+    quays {
+      lines {
+        id
+      }
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-    Types.TStopPlacesHaveDeparturesQuery,
-    Types.TStopPlacesHaveDeparturesQueryVariables
->
+    `) as unknown as TypedDocumentString<Types.TStopPlacesHaveDeparturesQuery, Types.TStopPlacesHaveDeparturesQueryVariables>;
 export const WalkDistanceQuery = new TypedDocumentString(`
     query walkDistance($from: InputCoordinates!, $to: InputCoordinates!) {
   trip(
@@ -420,7 +377,4 @@ export const WalkDistanceQuery = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-    Types.TWalkDistanceQuery,
-    Types.TWalkDistanceQueryVariables
->
+    `) as unknown as TypedDocumentString<Types.TWalkDistanceQuery, Types.TWalkDistanceQueryVariables>;
