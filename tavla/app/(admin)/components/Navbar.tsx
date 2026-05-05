@@ -1,16 +1,22 @@
 'use client'
 import { TopNavigationItem } from '@entur/menu'
+import { FeatureFlags } from 'app/posthog/featureFlags'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useFeatureFlagEnabled } from 'posthog-js/react'
 import { Login } from './Login'
 import { MobileNavbar } from './MobileNavbar'
 
 function Navbar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
     const posthog = usePosthogTracking()
+
+    const isCreateBoardWithoutUserEnabled = useFeatureFlagEnabled(
+        FeatureFlags.CreateBoardWithoutUser,
+    )
 
     return (
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
@@ -41,6 +47,20 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                             }}
                         >
                             Mine tavler
+                        </TopNavigationItem>
+                    ) : isCreateBoardWithoutUserEnabled ? (
+                        <TopNavigationItem
+                            active={pathname?.includes('/lag-tavle')}
+                            as={Link}
+                            href="/lag-tavle"
+                            onClick={() => {
+                                posthog.capture('demo_started', {
+                                    location: 'nav_bar',
+                                })
+                            }}
+                            className="hidden flex-col !text-primary md:flex"
+                        >
+                            Lag en tavle
                         </TopNavigationItem>
                     ) : (
                         <TopNavigationItem

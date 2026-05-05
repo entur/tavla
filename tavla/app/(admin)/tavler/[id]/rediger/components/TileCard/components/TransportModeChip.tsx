@@ -1,4 +1,4 @@
-import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
+import { TransportIcon } from 'app/(admin)/components/TransportIcon'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import { transportModeNames } from '../utils'
 

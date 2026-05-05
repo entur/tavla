@@ -3,7 +3,8 @@ import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
 import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
-import { TransportIcon } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportIcon'
+import { TransportIcon } from 'app/(admin)/components/TransportIcon'
+import { sortByTransportMode } from 'app/(admin)/components/TransportIcon/utils'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
@@ -166,8 +167,8 @@ function TileCard({
     const uniqLines = uniqBy(allLines, 'id')
 
     const transportModes = uniqBy(uniqLines, 'transportMode')
+        .sort(sortByTransportMode)
         .map((l) => l.transportMode)
-        .sort()
 
     const uniqTransportModeIcons = transportModes
         .filter((tm) => !(tm === 'coach' && transportModes.includes('bus')))
@@ -292,7 +293,6 @@ function TileCard({
                             />
                             <SetVisibleLines
                                 quays={quaysWithFilteredLines}
-                                allLines={uniqLines}
                                 trackingLocation={trackingLocation}
                                 onFieldChanged={onFieldChanged}
                             />

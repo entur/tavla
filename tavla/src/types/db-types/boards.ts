@@ -113,6 +113,8 @@ export const BoardDBSchema = z.object({
     transportPalette: transportPaletteSchema.optional(),
     hideLogo: z.boolean().optional(),
     hideClock: z.boolean().optional(),
+
+    customUrl: z.string().optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>

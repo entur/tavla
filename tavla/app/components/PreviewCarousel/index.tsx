@@ -72,7 +72,7 @@ function PreviewCarousel({
     if (!currentBoard) return null
 
     return (
-        <div className="flex w-full flex-col">
+        <div className="flex w-full xl:max-w-[1200px] mx-auto flex-col">
             <div className="flex w-full flex-row justify-between gap-2">
                 <div className="my-auto ml-2 hidden md:block">
                     <IconButton

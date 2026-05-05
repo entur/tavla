@@ -55,6 +55,15 @@ export type EventMap = {
 
     user_log_out_started: WithLocation<typeof LOCATIONS.NavBar>
 
+    board_create_without_user: WithLocation<typeof LOCATIONS.UserModal> & {
+        context: 'entry'
+    }
+
+    /* Tavle uten bruker */
+    board_share_started: undefined
+    board_share_selected: undefined
+    board_share_cancelled: undefined
+
     /* Oversikt */
     board_create_started: WithLocation<
         typeof LOCATIONS.Admin | typeof LOCATIONS.Folder
@@ -236,6 +245,7 @@ export type EventMap = {
             | 'board_location'
             | 'info_message'
             | 'element_select'
+            | 'custom_link'
         value:
             | 'combined'
             | 'separate'
