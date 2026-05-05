@@ -172,16 +172,6 @@ function TileCard({
     const transportModes =
         getTransportModesFromLines(uniqLines).sort(sortByTransportMode)
 
-    const uniqTransportModeIcons = transportModes.map((tm) => (
-        <TransportIcon
-            transportMode={tm.transportMode}
-            key={`${tm.transportMode}|${tm.transportSubmode ?? ''}`}
-            transportSubmode={tm.transportSubmode}
-            background
-            whiteIcon
-        />
-    ))
-
     const saveTileToDemoBoard = (newTile: BoardTileDB) => {
         if (!demoBoard) return null
         const oldTileIndex = demoBoard.tiles.findIndex(
@@ -244,7 +234,15 @@ function TileCard({
                                 className="hidden h-8 flex-row gap-2 sm:flex"
                                 aria-label="Transportmidler fra dette stoppestedet: "
                             >
-                                {uniqTransportModeIcons}
+                                {transportModes.map((tm) => (
+                                    <TransportIcon
+                                        key={`${tm.transportMode}|${tm.transportSubmode ?? ''}`}
+                                        transportMode={tm.transportMode}
+                                        transportSubmode={tm.transportSubmode}
+                                        background
+                                        whiteIcon
+                                    />
+                                ))}
                             </section>
                         </div>
                         <EditRemoveTileButtonGroup
