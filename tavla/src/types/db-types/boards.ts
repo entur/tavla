@@ -87,10 +87,6 @@ const boardMetaSchema = z.object({
     location: locationSchema.optional(),
 })
 
-const combinedTilesSchema = z.object({
-    ids: z.array(z.string()),
-})
-
 const boardThemeSchema = z.enum(['dark', 'light'])
 
 const boardFooterSchema = z.object({
@@ -110,9 +106,6 @@ export const BoardDBSchema = z.object({
     id: z.string(),
     meta: boardMetaSchema,
     tiles: z.array(boardTileSchema),
-
-    /** @deprecated Only kept to not generate errors on boards which have not been migrated away from using combinedTiles */
-    combinedTiles: z.array(combinedTilesSchema).optional(),
 
     isCombinedTiles: z.boolean(),
     theme: boardThemeSchema.optional(),
