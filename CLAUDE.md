@@ -128,7 +128,7 @@ Always write PR titles and descriptions in Norwegian. Follow the repo's PR templ
 - [ ] Oppdatert dokumentasjon (hvis relevant)
 ```
 
-Skip sections that are not relevant (e.g. omit the image table for non-visual changes).
+Keep sections Bilder and Sjekkliste, but dont change them from the template - a human should look add images and go through the check list.
 
 ## Migrations
 
