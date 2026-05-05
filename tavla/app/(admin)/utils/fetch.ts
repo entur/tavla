@@ -97,8 +97,12 @@ async function fetchStopPlaceIdsWithDepartures(
     return new Set(
         stopPlaces
             .filter(
-                (sp: { id: string; estimatedCalls: unknown[] } | null) =>
-                    sp && sp.estimatedCalls.length > 0,
+                (
+                    sp: {
+                        id: string
+                        quays: Array<{ lines: unknown[] }> | null
+                    } | null,
+                ) => sp?.quays?.some((quay) => quay.lines.length > 0),
             )
             .map((sp: { id: string }) => sp.id),
     )
