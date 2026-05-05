@@ -103,6 +103,33 @@ Start commit messages with an emoji and imperative Norwegian verb:
 
 Branch naming: `feature/`, `bugfix/`, `rydding/` prefix + short description.
 
+## Pull Requests
+
+Always write PR titles and descriptions in Norwegian. Follow the repo's PR template (`.github/pull_request_template.md`):
+
+```markdown
+### 🥅 Bakgrunn
+
+### ✨ Løsning
+
+- 
+
+### 📸 Bilder
+
+| Før   | Etter |
+| ----- | ----- |
+| bilde | bilde |
+
+### ✅ Sjekkliste
+
+- [ ] Testet i Chrome, Firefox og Safari
+- [ ] Lagt på aktuell posthog-tracking
+- [ ] Husket og testet UU
+- [ ] Oppdatert dokumentasjon (hvis relevant)
+```
+
+Skip sections that are not relevant (e.g. omit the image table for non-visual changes).
+
 ## Migrations
 
 From the repo root `migrations/` directory:
