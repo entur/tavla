@@ -80,7 +80,7 @@ Backend env vars for local dev: `BACKEND_API_KEY=super_secret_key`, `REDIS_PASSW
 
 **Component library:** `@entur/*` design system components throughout the frontend.
 
-**Feature flags:** Controlled via `NEXT_PUBLIC_ENABLED_FEATURES` env var.
+**Feature flags:** Controlled in posthog. 
 
 **Accessibility:** All UI/UX changes must follow WCAG (semantic HTML, ARIA, color contrast, keyboard navigation).
 
