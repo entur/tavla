@@ -119,6 +119,7 @@ function PlatformAndLines({
                                 }
                                 background
                                 whiteIcon
+                                includeTooltip
                             />
                         ))}
                     </div>

@@ -241,6 +241,7 @@ function TileCard({
                                         transportSubmode={tm.transportSubmode}
                                         background
                                         whiteIcon
+                                        includeTooltip
                                     />
                                 ))}
                             </section>
