@@ -23,6 +23,7 @@ export async function publishBoard(board: BoardDB): Promise<string> {
                 created: now,
                 dateModified: now,
             },
+            isAnonymousBoard: true,
         })
     return doc.id
 }
