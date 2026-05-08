@@ -1,7 +1,7 @@
 'use client'
 import { Checkbox } from '@entur/form'
 import { SkeletonRectangle } from '@entur/loader'
-import { TransportIcon } from 'app/(admin)/components/TransportIcon'
+import TransportIcon from 'app/(admin)/components/TransportIcon/TransportIcon'
 import {
     getColorMode,
     getRelevantSubmode,
