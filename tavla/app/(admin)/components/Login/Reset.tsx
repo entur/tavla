@@ -6,7 +6,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
-} from 'app/(admin)/utils'
+} from 'app/(admin)/utils/forms'
 import musk from 'assets/illustrations/Musk.png'
 import { FirebaseError } from 'firebase/app'
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth'

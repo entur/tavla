@@ -7,7 +7,10 @@ import { TransportIcon } from 'app/(admin)/components/TransportIcon'
 import { sortByTransportMode } from 'app/(admin)/components/TransportIcon/utils'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
-import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
+import {
+    getFormFeedbackForError,
+    type TFormFeedback,
+} from 'app/(admin)/utils/forms'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
 import { startTransition, useActionState, useState } from 'react'

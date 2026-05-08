@@ -11,7 +11,10 @@ import {
 } from '@entur/typography'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { useSearchParamsModal } from 'app/(admin)/hooks/useSearchParamsModal'
-import { getFormFeedbackForField, type TFormFeedback } from 'app/(admin)/utils'
+import {
+    getFormFeedbackForField,
+    type TFormFeedback,
+} from 'app/(admin)/utils/forms'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'

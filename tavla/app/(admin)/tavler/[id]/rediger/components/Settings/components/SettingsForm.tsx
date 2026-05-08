@@ -1,6 +1,6 @@
 'use client'
 import { Heading2, Heading3, SubParagraph } from '@entur/typography'
-import type { TFormFeedback } from 'app/(admin)/utils'
+import type { TFormFeedback } from 'app/(admin)/utils/forms'
 import { type ReactNode, useCallback, useRef } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { useAllowedPalettes } from '../colorPalettes'

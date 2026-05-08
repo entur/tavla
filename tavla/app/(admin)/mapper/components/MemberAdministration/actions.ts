@@ -1,11 +1,14 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import { getFolderIfUserHasAccess } from 'app/(admin)/actions'
-import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
 import {
     removeUserFromFolder,
     userCanEditFolder,
 } from 'app/(admin)/utils/firebase'
+import {
+    getFormFeedbackForError,
+    type TFormFeedback,
+} from 'app/(admin)/utils/forms'
 import { handleError } from 'app/(admin)/utils/handleError'
 import admin, { auth, firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
