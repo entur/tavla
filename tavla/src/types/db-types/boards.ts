@@ -113,7 +113,7 @@ export const BoardDBSchema = z.object({
     hideLogo: z.boolean().optional(),
     hideClock: z.boolean().optional(),
     customUrl: z.string().optional(),
-    isAnonymousBoard: z.boolean().default(false),
+    isAnonymousBoard: z.boolean().optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>
