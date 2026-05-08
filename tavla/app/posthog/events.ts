@@ -148,6 +148,11 @@ export type EventMap = {
 
     board_published: WithLocation<typeof LOCATIONS.BoardPage>
 
+    custom_url_closed: WithLocation<typeof LOCATIONS.BoardPage>
+    custom_url_modified: WithLocation<typeof LOCATIONS.BoardPage>
+    custom_url_opened: WithLocation<typeof LOCATIONS.BoardPage>
+    custom_url_saved: WithLocation<typeof LOCATIONS.BoardPage>
+
     stop_place_deleted: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
     >
