@@ -4,10 +4,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  docker-push:
-    uses: entur/gha-docker/.github/workflows/push.yml@v1
+  docker-build:
+    uses: entur/gha-docker/.github/workflows/build.yml@v1
     with:
       context: tavla
+      image_name: tavla/frontend
+
+  docker-push:
+    needs: [docker-build]
+    uses: entur/gha-docker/.github/workflows/push.yml@v1
+    with:
       image_name: tavla/frontend
 
   helm-deploy-dev:
