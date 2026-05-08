@@ -9,13 +9,13 @@ jobs:
     with:
       context: tavla
       dockerfile: tavla/Dockerfile
-      image_name: tavla/frontend
+      image_name: tavla-frontend
 
   docker-push:
     needs: [docker-build]
     uses: entur/gha-docker/.github/workflows/push.yml@v1
     with:
-      image_name: tavla/frontend
+      image_name: tavla-frontend
 
   helm-deploy-dev:
     needs: [docker-push]
