@@ -8,6 +8,7 @@ jobs:
     uses: entur/gha-docker/.github/workflows/build.yml@v1
     with:
       context: tavla
+      dockerfile: tavla/Dockerfile
       image_name: tavla/frontend
 
   docker-push:
