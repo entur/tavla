@@ -10,7 +10,10 @@ import { useSearchAndFilter } from '../hooks/useSearchAndFilter'
 import EmptyOverview from './EmptyOverview'
 
 const BoardTable = dynamic(
-    () => import('./BoardTable').then((mod) => ({ default: mod.BoardTable })),
+    () =>
+        import('./BoardTable').then((mod) => ({
+            default: mod.BoardTable,
+        })),
     { ssr: false },
 )
 

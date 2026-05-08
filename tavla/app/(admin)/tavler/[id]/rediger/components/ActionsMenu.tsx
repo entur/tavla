@@ -1,11 +1,11 @@
 'use client'
 import { OverflowMenu } from '@entur/menu'
-import { Delete } from 'app/(admin)/oversikt/components/Column/Delete'
+import { DeleteBoard } from 'app/(admin)/oversikt/components/Column/DeleteBoard'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
-import { Open } from '../Buttons/Open'
-import { DuplicateBoard } from '../DuplicateBoard'
-import { RefreshButton } from '../RefreshButton'
+import { Open } from './Buttons/Open'
+import { DuplicateBoard } from './DuplicateBoard/DuplicateBoard'
+import { RefreshButton } from './RefreshButton/RefreshButton'
 
 function ActionsMenu({
     board,
@@ -33,7 +33,11 @@ function ActionsMenuDesktop({
         <div className="hidden flex-row gap-4 sm:flex md:items-center">
             <Open bid={board.id} type="button" trackingLocation="board_page" />
             <RefreshButton board={board} />
-            <Delete board={board} type="button" trackingLocation="board_page" />
+            <DeleteBoard
+                board={board}
+                type="button"
+                trackingLocation="board_page"
+            />
             <OverflowMenu placement="bottom-left">
                 <DuplicateBoard
                     board={board}
@@ -68,7 +72,7 @@ function ActionsMenuPhone({
                     folderid={folderid}
                     type="menuitem"
                 />
-                <Delete
+                <DeleteBoard
                     board={board}
                     type="menuitem"
                     trackingLocation="board_page"

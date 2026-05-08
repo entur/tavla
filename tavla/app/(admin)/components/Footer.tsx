@@ -6,7 +6,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
 import Link from 'next/link'
-import DeleteAccount from '../DeleteAccount'
+import DeleteAccount from './DeleteAccount/DeleteAccount'
 
 function Footer({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePosthogTracking()

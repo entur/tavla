@@ -18,7 +18,7 @@ import Image from 'next/image'
 import { useActionState, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 
-function Delete({
+function DeleteBoard({
     board,
     type,
     trackingLocation,
@@ -156,4 +156,4 @@ function DeleteButton({
     )
 }
 
-export { Delete, DeleteButton }
+export { DeleteBoard, DeleteButton }
