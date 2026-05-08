@@ -57,6 +57,9 @@
             "style": {
                 "noUnusedTemplateLiteral": "off",
                 "useTemplate": "off"
+            },
+            "performance": {
+                "noBarrelFile": "error"
             }
         }
     },
