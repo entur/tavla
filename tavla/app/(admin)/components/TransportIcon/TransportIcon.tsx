@@ -1,3 +1,4 @@
+'use client'
 import { Tooltip } from '@entur/tooltip'
 import { transportModeNames } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/utils'
 import type {
