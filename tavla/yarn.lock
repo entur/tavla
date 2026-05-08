@@ -10565,14 +10565,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.5.11":
-  version: 8.5.11
-  resolution: "postcss@npm:8.5.11"
+"postcss@npm:8.5.13":
+  version: 8.5.13
+  resolution: "postcss@npm:8.5.13"
   dependencies:
     nanoid: "npm:^3.3.11"
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
-  checksum: 10/e2289a0ef24eb1e6514baad608a9f83905c3edd3e66a0bbf292ac242c1d18993aee65dc1119057af37a499ee2abf3354ebec5bbd1939ece2ae5cf2256f5adf94
+  checksum: 10/4763873c0a39a6f71fc552d0046fedb80dca889ed0b85e36217285f754a3bd003a906f6088feb266b1f53b0ad20483a475dce4cc1c756f05e27940c51e40ebd8
   languageName: node
   linkType: hard
 
@@ -12282,7 +12282,7 @@ __metadata:
     lodash: "npm:4.17.23"
     nanoid: "npm:5.1.7"
     next: "npm:16.2.3"
-    postcss: "npm:8.5.11"
+    postcss: "npm:8.5.13"
     posthog-js: "npm:1.363.4"
     posthog-node: "npm:5.28.5"
     react: "npm:19.2.4"

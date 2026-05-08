@@ -1,8 +1,10 @@
 query StopPlacesHaveDepartures($ids: [String]) {
     stopPlaces(ids: $ids) {
         id
-        estimatedCalls(numberOfDepartures: 1, timeRange: 86400) {
-            expectedDepartureTime
+        quays {
+            lines {
+                id
+            }
         }
     }
 }

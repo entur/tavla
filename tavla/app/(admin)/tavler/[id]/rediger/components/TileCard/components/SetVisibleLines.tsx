@@ -1,4 +1,4 @@
-import { Heading4 } from '@entur/typography'
+import { Heading4, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { TransportModeChip } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/components/TransportModeChip'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
@@ -301,6 +301,12 @@ function SetVisibleLines({
         <>
             <Heading4>Plattformer og linjer</Heading4>
 
+            {quays.length === 0 && (
+                <Paragraph>
+                    Det er ingen avganger fra dette stoppestedet de neste syv
+                    dagene.
+                </Paragraph>
+            )}
             <div className="my-4 flex flex-row flex-wrap gap-4">
                 {modes.map((mode) => {
                     const isSelected = isModeSelected(mode)
