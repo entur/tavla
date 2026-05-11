@@ -4,7 +4,10 @@ import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
 import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import TransportIcon from 'app/(admin)/components/TransportIcon/TransportIcon'
-import { sortByTransportMode } from 'app/(admin)/components/TransportIcon/utils'
+import {
+    getTransportModesFromLines,
+    sortByTransportMode,
+} from 'app/(admin)/components/TransportIcon/utils'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
 import {
@@ -169,15 +172,8 @@ function TileCard({
 
     const uniqLines = uniqBy(allLines, 'id')
 
-    const transportModes = uniqBy(uniqLines, 'transportMode')
-        .sort(sortByTransportMode)
-        .map((l) => l.transportMode)
-
-    const uniqTransportModeIcons = transportModes
-        .filter((tm) => !(tm === 'coach' && transportModes.includes('bus')))
-        .map((tm) => (
-            <TransportIcon transportMode={tm} key={tm} background whiteIcon />
-        ))
+    const transportModes =
+        getTransportModesFromLines(uniqLines).sort(sortByTransportMode)
 
     const saveTileToDemoBoard = (newTile: BoardTileDB) => {
         if (!demoBoard) return null
@@ -241,7 +237,16 @@ function TileCard({
                                 className="hidden h-8 flex-row gap-2 sm:flex"
                                 aria-label="Transportmidler fra dette stoppestedet: "
                             >
-                                {uniqTransportModeIcons}
+                                {transportModes.map((tm) => (
+                                    <TransportIcon
+                                        key={`${tm.transportMode}|${tm.transportSubmode ?? ''}`}
+                                        transportMode={tm.transportMode}
+                                        transportSubmode={tm.transportSubmode}
+                                        background
+                                        whiteIcon
+                                        includeTooltip
+                                    />
+                                ))}
                             </section>
                         </div>
                         <EditRemoveTileButtonGroup

@@ -4,7 +4,7 @@ import { SkeletonRectangle } from '@entur/loader'
 import TransportIcon from 'app/(admin)/components/TransportIcon/TransportIcon'
 import {
     getColorMode,
-    getRelevantSubmode,
+    getTransportModesFromLines,
     sortByTransportMode,
 } from 'app/(admin)/components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
@@ -94,25 +94,7 @@ function PlatformAndLines({
         return !line.frontTexts || line.frontTexts.length > 0
     }
 
-    const transportModesFromLines = Object.values(
-        Object.fromEntries(
-            lines.flatMap((line) =>
-                line.transportMode
-                    ? [
-                          [
-                              `${line.transportMode}|${getRelevantSubmode(line.transportSubmode) ?? ''}`,
-                              {
-                                  transportMode: line.transportMode,
-                                  transportSubmode: getRelevantSubmode(
-                                      line.transportSubmode ?? undefined,
-                                  ),
-                              },
-                          ],
-                      ]
-                    : [],
-            ),
-        ),
-    )
+    const transportModesFromLines = getTransportModesFromLines(lines)
 
     const iconPairs = (
         transportModesFromLines.length > 0
@@ -126,7 +108,7 @@ function PlatformAndLines({
     return (
         <div className="rounded-lg border-2 p-4">
             <div className="flex flex-row justify-between">
-                <div className="flex flex-row items-center justify-start gap-2 pr-3 font-semibold">
+                <div className="flex flex-row items-center justify-start gap-2 pr-3 ">
                     <div className="flex flex-row gap-1 self-center">
                         {iconPairs.map((transportMode) => (
                             <TransportIcon
@@ -137,10 +119,11 @@ function PlatformAndLines({
                                 }
                                 background
                                 whiteIcon
+                                includeTooltip
                             />
                         ))}
                     </div>
-                    <div className="flex flex-row flex-wrap items-baseline gap-x-2">
+                    <div className="flex flex-row flex-wrap items-baseline gap-x-2 font-semibold">
                         {title}
                         {description && (
                             <span className="text-sm font-normal text-[#626493]">
