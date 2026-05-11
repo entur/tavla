@@ -6,10 +6,13 @@ import { EditIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
-import { useState, useTransition } from 'react'
+import { useRef, useState, useTransition } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import { resolveVisTavlaBaseUrl } from 'utils/boardLink'
-import { usePosthogTracking } from '../../../../../../posthog/usePosthogTracking'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from '../../../../../../posthog/usePosthogTracking'
 import { saveCustomUrl } from '../../actions'
 
 function CustomUrl({
@@ -25,9 +28,16 @@ function CustomUrl({
     const [value, setValue] = useState(customUrl ?? '')
     const [feedback, setFeedback] = useState<string | undefined>(undefined)
     const [_isPending, startTransition] = useTransition()
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     const handleChange = (newValue: string) => {
-        posthog.capture('custom_url_modified', { location: 'board_page' })
+        if (debounceTimerRef.current) {
+            clearTimeout(debounceTimerRef.current)
+        }
+
+        debounceTimerRef.current = setTimeout(() => {
+            posthog.capture('custom_url_modified', { location: 'board_page' })
+        }, TRACKING_DEBOUNCE_TIME)
 
         if (newValue && !/^[a-zA-Z0-9_-]*$/.test(newValue)) {
             setFeedback(
