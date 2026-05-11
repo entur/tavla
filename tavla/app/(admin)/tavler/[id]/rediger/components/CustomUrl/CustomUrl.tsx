@@ -60,7 +60,7 @@ function CustomUrl({
             <Tooltip
                 content="Rediger lenken til tavla"
                 placement="bottom"
-                id="tooltip-copy-link-board"
+                id="tooltip-edit-url-board"
             >
                 <IconButton
                     aria-label="Rediger lenken til tavla"
