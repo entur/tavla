@@ -81,6 +81,8 @@ Emojis / kategorier:
 | 👷 | CI/CD & bygg | Pipelines, byggskript, tooling-infrastruktur |
 | 🔒 | Sikkerhet | Sikkerhets- eller personvernrelaterte endringer |
 | 📈 | Målinger | Telemetri, logging, målepunkter |
+| 🤖 | KI | Skills, instruksjoner og annet som forbedrer bruk av agenter |
+
 
 Branches kan valgfritt bruke en kort kategori + beskrivelse, f.eks:
 
