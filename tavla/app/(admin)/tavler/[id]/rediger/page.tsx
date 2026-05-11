@@ -131,9 +131,7 @@ export default async function EditPage(props: TProps) {
                     </div>
                     <TileSelector
                         action={addTilesAction}
-                        trackingLocation={
-                            board.id === 'demo' ? 'demo_page' : 'board_page'
-                        }
+                        trackingLocation="board_page"
                     />
                     <TileList board={board} />
                     <section
