@@ -1,6 +1,6 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { HomeIcon, MapPinIcon } from '@entur/icons'
-import { TransportIcon } from 'app/(admin)/components/TransportIcon'
+import TransportIcon from 'app/(admin)/components/TransportIcon/TransportIcon'
 import { uniq } from 'lodash'
 import { createElement } from 'react'
 import type { BoardTheme, LocationDB } from 'src/types/db-types/boards'

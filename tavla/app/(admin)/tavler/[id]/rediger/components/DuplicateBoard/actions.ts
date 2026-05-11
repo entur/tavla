@@ -1,7 +1,7 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { getFormFeedbackForError } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import { getFormFeedbackForError } from 'app/(admin)/utils/forms'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'

@@ -11,12 +11,12 @@ import { useClosestStopPlaces } from 'app/(admin)/hooks/useClosestStopPlaces'
 import { useCountiesSearch } from 'app/(admin)/hooks/useCountiesSearch'
 import useCurrentPosition from 'app/(admin)/hooks/useCurrentPosition'
 import { useStopPlaceSearch } from 'app/(admin)/hooks/useStopPlaceSearch'
+import type { StopPlace } from 'app/(admin)/utils/fetch'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
-} from 'app/(admin)/utils'
-import type { StopPlace } from 'app/(admin)/utils/fetch'
+} from 'app/(admin)/utils/forms'
 import { coordinatesToStopPlaceDropdownItem } from 'app/(admin)/utils/position'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'

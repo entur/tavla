@@ -3,11 +3,14 @@ import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
 import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
-import { TransportIcon } from 'app/(admin)/components/TransportIcon'
+import TransportIcon from 'app/(admin)/components/TransportIcon/TransportIcon'
 import { sortByTransportMode } from 'app/(admin)/components/TransportIcon/utils'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(admin)/tavler/[id]/utils'
-import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
+import {
+    getFormFeedbackForError,
+    type TFormFeedback,
+} from 'app/(admin)/utils/forms'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
 import { startTransition, useActionState, useState } from 'react'

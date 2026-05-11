@@ -2,7 +2,10 @@
 
 import * as Sentry from '@sentry/nextjs'
 import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/utils'
-import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
+import {
+    getFormFeedbackForError,
+    type TFormFeedback,
+} from 'app/(admin)/utils/forms'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { validEmail } from 'src/utils/email'
 
