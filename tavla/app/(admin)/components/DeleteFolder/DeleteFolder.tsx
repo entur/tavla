@@ -7,7 +7,7 @@ import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
-import { DeleteButton } from 'app/(admin)/oversikt/components/Column/Delete'
+import { DeleteButton } from 'app/(admin)/oversikt/components/Column/DeleteBoard'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,

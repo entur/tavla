@@ -1,5 +1,5 @@
 import { Heading1, Heading2, Paragraph, SubParagraph } from '@entur/typography'
-import { TileSelector } from 'app/(admin)/components/TileSelector'
+import { TileSelector } from 'app/(admin)/components/TileSelector/TileSelector'
 import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import { userCanEditBoard } from 'app/(admin)/utils/firebase'
@@ -16,7 +16,7 @@ import { ActionsMenu } from './components/ActionsMenu'
 import { Copy } from './components/Buttons/Copy'
 import { CustomUrl } from './components/CustomUrl/CustomUrl'
 import { Preview } from './components/Preview'
-import { Settings } from './components/Settings'
+import { Settings } from './components/Settings/Settings'
 import { TileList } from './components/TileList'
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>
