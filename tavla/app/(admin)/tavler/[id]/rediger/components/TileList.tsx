@@ -5,7 +5,7 @@ import { debounce } from 'lodash'
 import { useEffect, useState } from 'react'
 
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
-import { TileCard } from '../TileCard'
+import { TileCard } from './TileCard/TileCard'
 
 function TileList({
     board,

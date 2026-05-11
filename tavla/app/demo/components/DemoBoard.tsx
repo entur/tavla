@@ -1,6 +1,6 @@
 'use client'
 import { Heading2, Heading3 } from '@entur/typography'
-import { TileSelector } from 'app/(admin)/components/TileSelector'
+import { TileSelector } from 'app/(admin)/components/TileSelector/TileSelector'
 import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'

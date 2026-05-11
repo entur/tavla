@@ -2,7 +2,7 @@
 import { PrimaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
-import { TileSelector } from 'app/(admin)/components/TileSelector'
+import { TileSelector } from 'app/(admin)/components/TileSelector/TileSelector'
 import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
 import { useSaveDemoBoardInLocalStorage } from 'app/(admin)/hooks/useSaveDemoBoardInLocalStorage'
 import { SettingsForm } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/SettingsForm'

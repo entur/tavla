@@ -8,10 +8,10 @@ import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
 import { FeatureShowcase } from './components/FeatureShowcase'
-import { ImageCarousel } from './components/ImageCarousel/ImageCarousel'
+import { ImageCarousel } from './components/ImageCarousel'
 import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
 import { PreviewCarousel } from './components/PreviewCarousel'
-import { WordCarousel } from './components/WordCarousel/WordCarousel'
+import { WordCarousel } from './components/WordCarousel'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',

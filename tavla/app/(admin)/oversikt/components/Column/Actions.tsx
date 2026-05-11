@@ -1,8 +1,8 @@
-import { DeleteFolder } from 'app/(admin)/components/Delete'
+import { DeleteFolder } from 'app/(admin)/components/DeleteFolder/DeleteFolder'
 import type { TableItem } from 'app/(admin)/oversikt/components/BoardTable'
 import { Copy } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Copy'
 import { Open } from 'app/(admin)/tavler/[id]/rediger/components/Buttons/Open'
-import { Delete } from './Delete'
+import { DeleteBoard } from './DeleteBoard'
 import { EditBoard, EditFolder } from './Edit'
 import { Move } from './Move'
 
@@ -23,7 +23,10 @@ function TableActions({ data }: { data: TableItem }) {
                         trackingLocation="admin_table"
                     />
                     <Move board={data.board} />
-                    <Delete board={data.board} trackingLocation="admin_table" />
+                    <DeleteBoard
+                        board={data.board}
+                        trackingLocation="admin_table"
+                    />
                 </div>
             )
         case 'folder':
