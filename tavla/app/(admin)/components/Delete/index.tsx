@@ -12,7 +12,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
-} from 'app/(admin)/utils'
+} from 'app/(admin)/utils/forms'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import ducks from 'assets/illustrations/Ducks.png'

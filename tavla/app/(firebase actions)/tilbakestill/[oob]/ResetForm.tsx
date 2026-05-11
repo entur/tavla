@@ -4,7 +4,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
-} from 'app/(admin)/utils'
+} from 'app/(admin)/utils/forms'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { FirebaseError } from 'firebase/app'
 import { confirmPasswordReset, getAuth } from 'firebase/auth'

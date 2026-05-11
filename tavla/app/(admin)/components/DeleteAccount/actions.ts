@@ -1,7 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import { getFoldersForUser } from 'app/(admin)/actions'
-import { getFormFeedbackForError } from 'app/(admin)/utils'
 import {
     deleteBoard,
     deleteFolder,
@@ -10,6 +9,7 @@ import {
     getUserWithBoardIds,
     removeUserFromFolder,
 } from 'app/(admin)/utils/firebase'
+import { getFormFeedbackForError } from 'app/(admin)/utils/forms'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { auth } from 'firebase-admin'
 import { logout } from '../Login/actions'

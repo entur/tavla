@@ -11,7 +11,10 @@ import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
 import { FormError } from 'app/(admin)/components/FormError'
 import { useFolderDropdown } from 'app/(admin)/hooks/useFolders'
 import { moveBoardAction } from 'app/(admin)/oversikt/utils/actions'
-import { getFormFeedbackForField, type TFormFeedback } from 'app/(admin)/utils'
+import {
+    getFormFeedbackForField,
+    type TFormFeedback,
+} from 'app/(admin)/utils/forms'
 import { useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 

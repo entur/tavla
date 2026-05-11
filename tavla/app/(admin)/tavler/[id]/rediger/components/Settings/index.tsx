@@ -1,12 +1,12 @@
 'use client'
 import { HiddenInput } from 'app/(admin)/components/Form/HiddenInput'
 import { FormError } from 'app/(admin)/components/FormError'
+import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
 import {
     getFormFeedbackForField,
     type InputType,
     type TFormFeedback,
-} from 'app/(admin)/utils'
-import { DEFAULT_BOARD_NAME } from 'app/(admin)/utils/constants'
+} from 'app/(admin)/utils/forms'
 import { useCallback, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { saveSettings } from './actions'
