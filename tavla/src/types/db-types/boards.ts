@@ -106,15 +106,14 @@ export const BoardDBSchema = z.object({
     id: z.string(),
     meta: boardMetaSchema,
     tiles: z.array(boardTileSchema),
-
     isCombinedTiles: z.boolean(),
     theme: boardThemeSchema.optional(),
     footer: boardFooterSchema.optional(),
     transportPalette: transportPaletteSchema.optional(),
     hideLogo: z.boolean().optional(),
     hideClock: z.boolean().optional(),
-
     customUrl: z.string().optional(),
+    isAnonymousBoard: z.boolean().optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>
