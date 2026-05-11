@@ -107,7 +107,7 @@ export async function saveSettings(data: FormData) {
 }
 
 async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
-    userHasAccessToEditBoard(bid)
+    await userHasAccessToEditBoard(bid)
 
     const footerContainsText =
         footer && !isOnlyWhiteSpace(footer) && footer.trim() !== ''
@@ -134,7 +134,7 @@ async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
 }
 
 async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
-    userHasAccessToEditBoard(bid)
+    await userHasAccessToEditBoard(bid)
 
     try {
         await db
@@ -159,7 +159,7 @@ async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
 }
 
 async function setViewType(board: BoardDB, viewType: string) {
-    userHasAccessToEditBoard(board.id ?? '')
+    await userHasAccessToEditBoard(board.id ?? '')
 
     const isSeparateTiles = viewType === 'separate'
 
@@ -179,7 +179,7 @@ async function setViewType(board: BoardDB, viewType: string) {
 }
 
 async function saveTitle(bid: BoardDB['id'], title: string) {
-    userHasAccessToEditBoard(bid)
+    await userHasAccessToEditBoard(bid)
 
     try {
         await db
@@ -202,7 +202,7 @@ async function saveTitle(bid: BoardDB['id'], title: string) {
 }
 
 async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
-    userHasAccessToEditBoard(bid)
+    await userHasAccessToEditBoard(bid)
 
     try {
         await db
@@ -222,7 +222,7 @@ async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
 }
 
 async function saveLocation(board: BoardDB, location?: LocationDB) {
-    userHasAccessToEditBoard(board.id ?? '')
+    await userHasAccessToEditBoard(board.id ?? '')
 
     try {
         await db
@@ -267,7 +267,7 @@ export async function moveBoard(
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
-    userHasAccessToEditBoard(bid)
+    await userHasAccessToEditBoard(bid)
 
     if (fromFolder) {
         const canEdit = await userCanEditFolder(fromFolder)
@@ -318,7 +318,7 @@ async function setTransportPalette(
     bid: BoardDB['id'],
     transportPalette?: TransportPalette,
 ) {
-    userHasAccessToEditBoard(bid)
+    await userHasAccessToEditBoard(bid)
 
     try {
         await db
@@ -347,7 +347,7 @@ async function setElements(
     hideClock: boolean,
     hideLogo: boolean,
 ) {
-    userHasAccessToEditBoard(bid)
+    await userHasAccessToEditBoard(bid)
 
     try {
         await db.collection('boards').doc(bid).update({
