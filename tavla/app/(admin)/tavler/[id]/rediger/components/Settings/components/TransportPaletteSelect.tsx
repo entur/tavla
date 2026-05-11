@@ -72,6 +72,8 @@ function TransportPaletteSelect({
         onChange()
     }
 
+    const iconClassName = theme === 'dark' ? 'text-black' : 'text-white'
+
     return (
         <div>
             <Heading4 margin="bottom" id="transport-palette-heading">
@@ -121,7 +123,7 @@ function TransportPaletteSelect({
                                                     key={mode}
                                                     transportMode={mode}
                                                     background
-                                                    className={`text-background`}
+                                                    className={iconClassName}
                                                 />
                                             </div>
                                         )
@@ -148,7 +150,7 @@ function TransportPaletteSelect({
                                                         mode.submode
                                                     }
                                                     background
-                                                    className={`text-background`}
+                                                    className={iconClassName}
                                                 />
                                             </div>
                                         )
