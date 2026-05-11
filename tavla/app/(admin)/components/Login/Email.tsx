@@ -7,7 +7,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
-} from 'app/(admin)/utils'
+} from 'app/(admin)/utils/forms'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import musk from 'assets/illustrations/Musk.png'

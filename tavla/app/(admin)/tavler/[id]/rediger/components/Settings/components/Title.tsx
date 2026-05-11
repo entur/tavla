@@ -1,6 +1,6 @@
 'use client'
 import { Heading4 } from '@entur/typography'
-import type { TFormFeedback } from 'app/(admin)/utils'
+import type { TFormFeedback } from 'app/(admin)/utils/forms'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import {
     TRACKING_DEBOUNCE_TIME,

@@ -1,6 +1,9 @@
 import { Heading4, SubParagraph } from '@entur/typography'
 import { TileContext } from 'app/(admin)/tavler/[id]/rediger/components/TileCard/context'
-import { getFormFeedbackForField, type TFormFeedback } from 'app/(admin)/utils'
+import {
+    getFormFeedbackForField,
+    type TFormFeedback,
+} from 'app/(admin)/utils/forms'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import type { EventProps } from 'app/posthog/events'
 import {

@@ -10,7 +10,7 @@ import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
-} from 'app/(admin)/utils'
+} from 'app/(admin)/utils/forms'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useRouter } from 'next/navigation'
 import { type ChangeEventHandler, useState } from 'react'

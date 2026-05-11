@@ -1,8 +1,11 @@
 'use server'
 
 import * as Sentry from '@sentry/nextjs'
-import { getFormFeedbackForError, type TFormFeedback } from 'app/(admin)/utils'
 import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import {
+    getFormFeedbackForError,
+    type TFormFeedback,
+} from 'app/(admin)/utils/forms'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
 import { getFirestore } from 'firebase-admin/firestore'

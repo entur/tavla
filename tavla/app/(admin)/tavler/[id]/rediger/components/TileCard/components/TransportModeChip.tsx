@@ -1,4 +1,4 @@
-import { TransportIcon } from 'app/(admin)/components/TransportIcon'
+import TransportIcon from 'app/(admin)/components/TransportIcon/TransportIcon'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import { transportModeNames } from '../utils'
 
