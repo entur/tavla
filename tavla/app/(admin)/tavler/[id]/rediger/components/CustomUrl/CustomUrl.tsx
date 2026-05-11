@@ -27,6 +27,8 @@ function CustomUrl({
     const [_isPending, startTransition] = useTransition()
 
     const handleChange = (newValue: string) => {
+        posthog.capture('custom_url_modified', { location: 'board_page' })
+
         if (newValue && !/^[a-zA-Z0-9_-]*$/.test(newValue)) {
             setFeedback(
                 'Du kan kun bruke bokstaver (ikke æ, ø og å), tall, bindestrek og understrek.',
@@ -42,10 +44,7 @@ function CustomUrl({
 
     const submit = () => {
         startTransition(async () => {
-            posthog.capture('board_settings_changed', {
-                setting: 'custom_link',
-                value: 'changed',
-            })
+            posthog.capture('custom_url_saved', { location: 'board_page' })
             const result = await saveCustomUrl(bid, value)
             if (result.error) {
                 setFeedback(result.error)
@@ -65,6 +64,9 @@ function CustomUrl({
                 <IconButton
                     aria-label="Rediger lenken til tavla"
                     onClick={() => {
+                        posthog.capture('custom_url_modal_opened', {
+                            location: 'board_page',
+                        })
                         setOpen(true)
                     }}
                 >
@@ -72,7 +74,15 @@ function CustomUrl({
                 </IconButton>
             </Tooltip>
             {open && (
-                <Modal size="medium" onDismiss={() => setOpen(false)}>
+                <Modal
+                    size="medium"
+                    onDismiss={() => {
+                        posthog.capture('custom_url_modal_closed', {
+                            location: 'board_page',
+                        })
+                        setOpen(false)
+                    }}
+                >
                     <div className="flex flex-col w-full mb-4">
                         <Heading3 margin="bottom">Legg til egen lenke</Heading3>
                         <Paragraph>
