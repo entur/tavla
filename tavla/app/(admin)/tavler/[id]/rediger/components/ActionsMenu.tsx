@@ -31,7 +31,11 @@ function ActionsMenuDesktop({
 }) {
     return (
         <div className="hidden flex-row gap-4 sm:flex md:items-center">
-            <Open bid={board.id} type="button" trackingLocation="board_page" />
+            <Open
+                bid={board.customUrl ?? board.id}
+                type="button"
+                trackingLocation="board_page"
+            />
             <RefreshButton board={board} />
             <DeleteBoard
                 board={board}
@@ -60,7 +64,7 @@ function ActionsMenuPhone({
         <div className="hidden flex-row max-sm:flex md:hidden">
             <div className="flex flex-row gap-1">
                 <Open
-                    bid={board.id}
+                    bid={board.customUrl ?? board.id}
                     type="button"
                     trackingLocation="board_page"
                 />
