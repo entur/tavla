@@ -95,7 +95,10 @@ function CreateBoardLocally() {
                 />
                 <TileList
                     board={board}
-                    setTilesDemoBoard={setTiles}
+                    setTilesDemoBoard={(tiles) => {
+                        setTiles(tiles)
+                        resetPublishedBoard()
+                    }}
                     bid="demo"
                 />
                 <section
