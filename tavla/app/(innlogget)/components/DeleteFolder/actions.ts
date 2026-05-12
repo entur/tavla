@@ -10,6 +10,7 @@ import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import type { FolderDB } from 'src/types/db-types/folders'
+import { logToGcp } from 'src/utils/logging'
 
 export async function deleteFolderAction(
     _prevState: TFormFeedback | undefined,
@@ -32,6 +33,10 @@ export async function deleteFolderAction(
         await deleteFolder(folderid)
         revalidatePath('/')
     } catch (e) {
+        await logToGcp(
+            'error',
+            `Failed to delete folder ${folderid}: ${e instanceof Error ? e.message : String(e)}`,
+        )
         return handleError(e)
     }
 
