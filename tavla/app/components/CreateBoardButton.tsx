@@ -6,6 +6,7 @@ import { FeatureFlags } from 'app/posthog/featureFlags'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
 import { useFeatureFlagEnabled } from 'posthog-js/react'
+import { logToGcp } from 'utils/logging'
 
 function CreateBoardButton() {
     const posthog = usePosthogTracking()
@@ -37,6 +38,8 @@ function CreateBoardButton() {
             as={Link}
             href="?login=entry"
             onClick={() => {
+                logToGcp('info', 'Test gcp log')
+
                 posthog.capture('board_create_entry', {
                     location: 'landing_page',
                 })
