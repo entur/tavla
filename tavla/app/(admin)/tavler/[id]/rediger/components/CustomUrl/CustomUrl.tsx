@@ -6,13 +6,13 @@ import { EditIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
-import { useRef, useState, useTransition } from 'react'
-import type { BoardDB } from 'types/db-types/boards'
-import { resolveVisTavlaBaseUrl } from 'utils/boardLink'
 import {
     TRACKING_DEBOUNCE_TIME,
     usePosthogTracking,
-} from '../../../../../../posthog/usePosthogTracking'
+} from 'app/posthog/usePosthogTracking'
+import { useRef, useState, useTransition } from 'react'
+import type { BoardDB } from 'types/db-types/boards'
+import { resolveVisTavlaBaseUrl } from 'utils/boardLink'
 import { saveCustomUrl } from '../../actions'
 
 function CustomUrl({
