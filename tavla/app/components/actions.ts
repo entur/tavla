@@ -8,6 +8,7 @@ import {
 } from 'app/(admin)/utils/forms'
 import { handleError } from 'app/(admin)/utils/handleError'
 import { validEmail } from 'src/utils/email'
+import { logToGcp } from 'src/utils/logging'
 
 async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
     const email = data.get('email') as string
@@ -100,6 +101,7 @@ async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
     try {
         const url = process.env.SLACK_WEBHOOK_URL
         if (!url) throw Error('Could not find url')
+        await logToGcp('info', 'Outgoing: POST Slack webhook (contact form)')
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -107,6 +109,10 @@ async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
             },
             body: JSON.stringify(payload),
         })
+        await logToGcp(
+            response.ok ? 'info' : 'error',
+            `Outgoing response: Slack webhook status=${response.status}`,
+        )
 
         if (!response.ok) {
             throw Error('Error in request')
