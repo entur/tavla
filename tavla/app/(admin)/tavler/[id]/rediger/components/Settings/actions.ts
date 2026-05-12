@@ -85,6 +85,8 @@ export async function saveSettings(data: FormData) {
             return errors
         }
 
+        await userHasAccessToEditBoard(board.id ?? '')
+
         await saveTitle(bid, boardTitle)
         await moveBoard(bid, newFolder, oldFolder)
         await saveLocation(board, location)
@@ -107,8 +109,6 @@ export async function saveSettings(data: FormData) {
 }
 
 async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
-    await userHasAccessToEditBoard(bid)
-
     const footerContainsText =
         footer && !isOnlyWhiteSpace(footer) && footer.trim() !== ''
 
@@ -134,8 +134,6 @@ async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
 }
 
 async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
-    await userHasAccessToEditBoard(bid)
-
     try {
         await db
             .collection('boards')
@@ -159,8 +157,6 @@ async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
 }
 
 async function setViewType(board: BoardDB, viewType: string) {
-    await userHasAccessToEditBoard(board.id ?? '')
-
     const isSeparateTiles = viewType === 'separate'
 
     try {
@@ -179,8 +175,6 @@ async function setViewType(board: BoardDB, viewType: string) {
 }
 
 async function saveTitle(bid: BoardDB['id'], title: string) {
-    await userHasAccessToEditBoard(bid)
-
     try {
         await db
             .collection('boards')
@@ -202,8 +196,6 @@ async function saveTitle(bid: BoardDB['id'], title: string) {
 }
 
 async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
-    await userHasAccessToEditBoard(bid)
-
     try {
         await db
             .collection('boards')
@@ -222,8 +214,6 @@ async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
 }
 
 async function saveLocation(board: BoardDB, location?: LocationDB) {
-    await userHasAccessToEditBoard(board.id ?? '')
-
     try {
         await db
             .collection('boards')
@@ -266,8 +256,6 @@ export async function moveBoard(
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
-
-    await userHasAccessToEditBoard(bid)
 
     if (fromFolder) {
         const canEdit = await userCanEditFolder(fromFolder)
@@ -318,8 +306,6 @@ async function setTransportPalette(
     bid: BoardDB['id'],
     transportPalette?: TransportPalette,
 ) {
-    await userHasAccessToEditBoard(bid)
-
     try {
         await db
             .collection('boards')
@@ -347,8 +333,6 @@ async function setElements(
     hideClock: boolean,
     hideLogo: boolean,
 ) {
-    await userHasAccessToEditBoard(bid)
-
     try {
         await db.collection('boards').doc(bid).update({
             hideClock: hideClock,
