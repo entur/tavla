@@ -6,10 +6,13 @@ import { EditIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph } from '@entur/typography'
-import { useState, useTransition } from 'react'
+import { useRef, useState, useTransition } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import { resolveVisTavlaBaseUrl } from 'utils/boardLink'
-import { usePosthogTracking } from '../../../../../../posthog/usePosthogTracking'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from '../../../../../../posthog/usePosthogTracking'
 import { saveCustomUrl } from '../../actions'
 
 function CustomUrl({
@@ -25,8 +28,17 @@ function CustomUrl({
     const [value, setValue] = useState(customUrl ?? '')
     const [feedback, setFeedback] = useState<string | undefined>(undefined)
     const [_isPending, startTransition] = useTransition()
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     const handleChange = (newValue: string) => {
+        if (debounceTimerRef.current) {
+            clearTimeout(debounceTimerRef.current)
+        }
+
+        debounceTimerRef.current = setTimeout(() => {
+            posthog.capture('custom_url_modified', { location: 'board_page' })
+        }, TRACKING_DEBOUNCE_TIME)
+
         if (newValue && !/^[a-zA-Z0-9_-]*$/.test(newValue)) {
             setFeedback(
                 'Du kan kun bruke bokstaver (ikke æ, ø og å), tall, bindestrek og understrek.',
@@ -42,10 +54,7 @@ function CustomUrl({
 
     const submit = () => {
         startTransition(async () => {
-            posthog.capture('board_settings_changed', {
-                setting: 'custom_link',
-                value: 'changed',
-            })
+            posthog.capture('custom_url_saved', { location: 'board_page' })
             const result = await saveCustomUrl(bid, value)
             if (result.error) {
                 setFeedback(result.error)
@@ -60,11 +69,14 @@ function CustomUrl({
             <Tooltip
                 content="Rediger lenken til tavla"
                 placement="bottom"
-                id="tooltip-copy-link-board"
+                id="tooltip-edit-url-board"
             >
                 <IconButton
                     aria-label="Rediger lenken til tavla"
                     onClick={() => {
+                        posthog.capture('custom_url_modal_opened', {
+                            location: 'board_page',
+                        })
                         setOpen(true)
                     }}
                 >
@@ -72,7 +84,15 @@ function CustomUrl({
                 </IconButton>
             </Tooltip>
             {open && (
-                <Modal size="medium" onDismiss={() => setOpen(false)}>
+                <Modal
+                    size="medium"
+                    onDismiss={() => {
+                        posthog.capture('custom_url_modal_closed', {
+                            location: 'board_page',
+                        })
+                        setOpen(false)
+                    }}
+                >
                     <div className="flex flex-col w-full mb-4">
                         <Heading3 margin="bottom">Legg til egen lenke</Heading3>
                         <Paragraph>
