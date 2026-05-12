@@ -17,6 +17,7 @@ import type {
     LocationDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
+import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -47,6 +48,10 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
 
         await db.collection('boards').doc(bid).update(updateData)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to save tile to board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureMessage(
             'Failed to save tile to board in firestore. BoardID: ' + bid,
         )
@@ -92,6 +97,10 @@ export async function saveUpdatedTileOrder(
         })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to save tile order for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message:
@@ -148,6 +157,10 @@ export async function saveCustomUrl(
         revalidatePath(`/tavler/${bid}/rediger`)
         return {}
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to save custom URL for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while saving custom board URL',

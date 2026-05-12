@@ -10,6 +10,7 @@ import { handleError } from 'app/(innlogget)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { getFirestore } from 'firebase-admin/firestore'
 import { redirect } from 'next/navigation'
+import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -38,6 +39,10 @@ export async function createFolder(
         })
         if (!folder || !folder.id) return getFormFeedbackForError()
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to create folder: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while creating new folder in firestore',

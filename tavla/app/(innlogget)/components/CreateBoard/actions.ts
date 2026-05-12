@@ -11,6 +11,7 @@ import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
+import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -53,6 +54,10 @@ export async function createBoard(
                     admin.firestore.FieldValue.arrayUnion(createdBoard.id),
             })
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to create board for user ${user.uid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message:

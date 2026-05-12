@@ -9,6 +9,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getBoard } from 'src/firebase'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import { logToGcp } from 'src/utils/logging'
 import { COUNTY_THEME_MAP } from '../Settings/colorPalettes'
 
 initializeAdminApp()
@@ -57,6 +58,10 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
         await db.collection('boards').doc(boardId).update(updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to delete tile from board ${boardId}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while deleting tile from board',
@@ -96,6 +101,10 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to save tile for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while saving tile',
