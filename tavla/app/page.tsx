@@ -56,7 +56,7 @@ async function Landing() {
     return (
         <main id="main-content">
             <div className="bg-secondary">
-                <div className="container flex flex-col justify-center gap-10 pt-12 lg:flex-row">
+                <div className="container flex flex-col justify-center gap-10 py-12 lg:flex-row">
                     <div className="flex flex-col lg:w-3/4 xl:w-1/2">
                         <Heading1>Lag en helt gratis avgangstavle for</Heading1>
                         <WordCarousel />
@@ -81,7 +81,7 @@ async function Landing() {
                 </div>
             </div>
 
-            <div className="container mx-auto flex flex-col justify-start gap-4 py-14">
+            <div className="container mx-auto flex flex-col justify-start gap-4 pt-14">
                 <PreviewCarousel previewBoards={previewBoardsWithLinks} />
 
                 <div className="lg:px-12 py-16 mx-6 text-left lg:text-center lg:mx-24">
