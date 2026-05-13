@@ -1,10 +1,10 @@
 'use client'
-import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
+import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
-} from 'app/(admin)/utils/forms'
+} from 'app/(innlogget)/utils/forms'
 import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { FirebaseError } from 'firebase/app'
 import { confirmPasswordReset, getAuth } from 'firebase/auth'

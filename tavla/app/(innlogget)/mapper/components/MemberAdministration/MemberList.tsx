@@ -1,0 +1,50 @@
+import {
+    DataCell,
+    HeaderCell,
+    Table,
+    TableBody,
+    TableHead,
+    TableRow,
+} from '@entur/table'
+import type { AuthenticatedUser } from 'app/(innlogget)/mapper/[id]/page'
+import type { FolderDB } from 'src/types/db-types/folders'
+import type { UserDB } from 'src/types/db-types/users'
+import { RemoveUserButton } from './RemoveUserButton'
+
+function MemberList({
+    members,
+    uid: currentUserId,
+    folderid,
+}: {
+    members: AuthenticatedUser[]
+    uid: UserDB['uid']
+    folderid?: FolderDB['id']
+}) {
+    return (
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <HeaderCell>Medlemmer</HeaderCell>
+                    <HeaderCell>Handlinger</HeaderCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {members.map((member) => (
+                    <TableRow key={member.uid}>
+                        <DataCell>{member.email}</DataCell>
+                        <DataCell>
+                            {member.uid !== currentUserId && (
+                                <RemoveUserButton
+                                    user={member}
+                                    folderid={folderid}
+                                />
+                            )}
+                        </DataCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+        </Table>
+    )
+}
+
+export { MemberList }

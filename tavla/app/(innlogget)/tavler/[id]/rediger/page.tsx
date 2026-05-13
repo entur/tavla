@@ -1,0 +1,148 @@
+import { Heading1, Heading2, Paragraph, SubParagraph } from '@entur/typography'
+import { TileSelector } from 'app/(innlogget)/components/TileSelector/TileSelector'
+import { formDataToTiles } from 'app/(innlogget)/components/TileSelector/utils'
+import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
+import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
+import type { Metadata } from 'next'
+import { revalidatePath } from 'next/cache'
+import { notFound, redirect } from 'next/navigation'
+import { getBoard, getFolderForBoard } from 'src/firebase'
+import type { BoardDB } from 'src/types/db-types/boards'
+import { getBoardLinkClient, getBoardLinkServer } from 'src/utils/boardLink'
+import { BreadcrumbsNav } from '../BreadcrumbsNav'
+import { addTiles, getWalkingDistanceTile } from './actions'
+import { ActionsMenu } from './components/ActionsMenu'
+import { Copy } from './components/Buttons/Copy'
+import { CustomUrl } from './components/CustomUrl/CustomUrl'
+import { Preview } from './components/Preview'
+import { Settings } from './components/Settings/Settings'
+import { TileList } from './components/TileList'
+export type TProps = {
+    params: Promise<{ id: BoardDB['id'] }>
+}
+
+export async function generateMetadata(props: TProps): Promise<Metadata> {
+    const params = await props.params
+    const { id } = params
+    const board = await getBoard(id)
+    if (!board) {
+        return notFound()
+    }
+    return {
+        title: `${board.meta?.title ?? DEFAULT_BOARD_NAME} | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport`,
+        description: `Rediger tavla ${board.meta?.title ?? DEFAULT_BOARD_NAME}. Legg til og fjern stoppesteder, tilpass utseendet og mer.`,
+    }
+}
+
+export default async function EditPage(props: TProps) {
+    const params = await props.params
+    const user = await getUserFromSessionCookie()
+    if (!user || !user.uid) return redirect('/')
+
+    const board = await getBoard(params.id)
+    if (!board) {
+        return notFound()
+    }
+    const folder = await getFolderForBoard(params.id)
+
+    const access = await userCanEditBoard(params.id)
+    if (!access) return redirect('/')
+
+    async function addTilesAction(data: FormData) {
+        'use server'
+
+        const tiles = formDataToTiles(data)
+        if (tiles.length === 0) return
+
+        const tilesWithDistance = await Promise.all(
+            tiles
+                .filter((tile) => tile.stopPlaceId)
+                .map(async (tile) => {
+                    const tileWithDistance = board?.meta.location
+                        ? await getWalkingDistanceTile(
+                              tile,
+                              board.meta.location,
+                          )
+                        : (() => {
+                              delete tile.walkingDistance
+                              return tile
+                          })()
+                    return tileWithDistance
+                }),
+        )
+        await addTiles(params.id, tilesWithDistance)
+
+        revalidatePath(`/tavler/${params.id}/rediger`)
+    }
+
+    const boardPreviewLink = getBoardLinkServer(board.id, true)
+    const boardLink = getBoardLinkClient(
+        board.customUrl ? board.customUrl : board.id,
+    )
+
+    return (
+        <main id="main-content">
+            <div className="container flex flex-col gap-6 pb-20 pt-16">
+                {folder ? (
+                    <BreadcrumbsNav
+                        type="boardInFolder"
+                        folder={folder}
+                        board={board}
+                    />
+                ) : (
+                    <BreadcrumbsNav type="board" board={board} />
+                )}
+
+                <div className="flex flex-col justify-between md:flex-row">
+                    <Heading1 margin="top">
+                        Rediger {board.meta?.title}
+                    </Heading1>
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                        <ActionsMenu board={board} folderid={folder?.id} />
+                    </div>
+                </div>
+                <div className="md:w-fit">
+                    <Paragraph margin="none">Lenke til denne tavla:</Paragraph>
+                    <div className="flex items-center gap-2">
+                        <Paragraph
+                            margin="none"
+                            className="border rounded px-2 py-1 font-mono bg-tintLight"
+                        >
+                            {boardLink}
+                        </Paragraph>
+                        <CustomUrl bid={board.id} customUrl={board.customUrl} />
+                        <Copy
+                            bid={board.customUrl ? board.customUrl : board.id}
+                            type="icon"
+                            trackingLocation="board_page"
+                        />
+                    </div>
+                </div>
+                <div
+                    data-transport-palette={board.transportPalette}
+                    className="flex flex-col gap-4 rounded-md bg-tintLight px-6 py-8"
+                >
+                    <div>
+                        <Heading2>Stoppesteder</Heading2>
+                        <SubParagraph className="mt-0">
+                            Felter markert med * er påkrevd.
+                        </SubParagraph>
+                    </div>
+                    <TileSelector
+                        action={addTilesAction}
+                        trackingLocation="board_page"
+                    />
+                    <TileList board={board} />
+                    <section
+                        data-theme={board.theme ?? 'dark'}
+                        aria-label="Forhåndsvisning av Tavla"
+                    >
+                        <Preview boardLink={boardPreviewLink} />
+                    </section>
+                </div>
+                <Settings board={board} />
+            </div>
+        </main>
+    )
+}
