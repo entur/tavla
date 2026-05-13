@@ -19,7 +19,7 @@ function TableActions({ data }: { data: TableItem }) {
                     />
                     <Open
                         board={data.board}
-                        bid={data.board.id}
+                        bid={data.board.customUrl ?? data.board.id}
                         trackingLocation="admin_table"
                     />
                     <Move board={data.board} />
