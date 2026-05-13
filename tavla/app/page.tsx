@@ -71,9 +71,7 @@ async function Landing() {
                             {loggedIn ? (
                                 <NavigateToOversiktButton />
                             ) : (
-                                <div className="flex w-full flex-col gap-4 md:flex-row">
-                                    <CreateBoardButton />
-                                </div>
+                                <CreateBoardButton />
                             )}
                         </div>
                     </div>
