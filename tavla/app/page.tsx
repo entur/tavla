@@ -1,9 +1,6 @@
-import { MapPinIcon, NewIcon, ShareIcon } from '@entur/icons'
-import { Heading1, Heading3, LeadParagraph, Paragraph } from '@entur/typography'
+import { Heading1, LeadParagraph } from '@entur/typography'
 import { CreateBoardButton } from 'app/components/CreateBoardButton'
-import TavlaNorwayMap from 'assets/illustrations/Tavla-Norway.svg'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
 import { getUserFromSessionCookie } from './(admin)/utils/server'
@@ -11,6 +8,8 @@ import { FeatureShowcase } from './components/FeatureShowcase'
 import { ImageCarousel } from './components/ImageCarousel'
 import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
 import { PreviewCarousel } from './components/PreviewCarousel'
+import { Tavla123 } from './components/Tavla123'
+import { TavlaUsageMap } from './components/TavlaUsageMap'
 import { WordCarousel } from './components/WordCarousel'
 
 export const metadata: Metadata = {
@@ -79,103 +78,12 @@ async function Landing() {
                 </div>
             </div>
 
-            <div className="container mx-auto flex flex-col justify-start gap-4 py-14">
+            <div className="container mx-auto my-24 flex flex-col justify-start gap-8 lg:gap-16 pt-14">
                 <PreviewCarousel previewBoards={previewBoardsWithLinks} />
 
-                <div className="lg:px-12 py-16 mx-6 text-left lg:text-center lg:mx-24">
-                    <Heading1 as="h2" margin="none">
-                        Tavle på 1, 2, 3
-                    </Heading1>
-                    <Paragraph margin="bottom">
-                        Så enkelt er det å lage en tavle
-                    </Paragraph>
+                <Tavla123 />
 
-                    <div className="mt-12 grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-32 mx-auto">
-                        <div className="flex flex-col items-start text-left rounded-2xl pt-6">
-                            <div className="bg-coral p-3 rounded-2xl text-white">
-                                <MapPinIcon width={36} height={36} />
-                            </div>
-                            <Heading3>Legg til stoppesteder</Heading3>
-                            <Paragraph className="text-()">
-                                Skriv inn en adresse, et sted eller et
-                                stoppested og legg til stoppesteder. Du kan
-                                velge så mange du vil.
-                            </Paragraph>
-                        </div>
-
-                        <div className="flex flex-col items-start text-left rounded-2xl pt-6">
-                            <div className="bg-coral p-3 rounded-2xl text-white">
-                                <NewIcon width={36} height={36} />
-                            </div>
-                            <Heading3>Tilpass visningen</Heading3>
-                            <Paragraph>
-                                Tilpass visningen etter dine behov. Velg
-                                fargemodus, tekststørrelse, legg til logo og
-                                filtrer på linjer.
-                            </Paragraph>
-                        </div>
-
-                        <div className="flex flex-col items-start text-left rounded-2xl pt-6">
-                            <div className="bg-coral p-3 rounded-2xl text-white">
-                                <ShareIcon width={36} height={36} />
-                            </div>
-                            <Heading3>Åpne og del</Heading3>
-                            <Paragraph>
-                                Åpne lenken til din tavle på hvilken som helst
-                                enhet med nettleser, og du er ferdig. Oppdater
-                                når som helst, fra hvor som helst.
-                            </Paragraph>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-[#F5F6FA] rounded-3xl flex flex-row gap-8 overflow-hidden justify-center lg:justify-normal lg:mx-24">
-                    <div className="w-1/2 flex flex-col my-24 lg:ml-24 text-center lg:text-left">
-                        <Heading1 as="h2" margin="none">
-                            Hvor brukes Tavla?
-                        </Heading1>
-                        <Paragraph className="my-2 mb-10 text-lg">
-                            Overalt hvor folk tar kollektivt.
-                        </Paragraph>
-
-                        <ul className="flex flex-col gap-4 my-8 text-primary mx-auto lg:ml-0">
-                            {[
-                                'Busstopp',
-                                'Kollektivknutepunkt',
-                                'Kontorer',
-                                'Borettslag',
-                                'Hjemme',
-                                'Flyplasser',
-                                'Skoler og universiteter',
-                            ].map((item) => (
-                                <li
-                                    key={item}
-                                    className="flex items-center gap-3 text-nowrap"
-                                >
-                                    <div className="w-2.5 h-2.5 rounded-full bg-coral shrink-0" />
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
-
-                        <div className="mt-20 mx-auto lg:mx-0">
-                            {loggedIn ? (
-                                <NavigateToOversiktButton />
-                            ) : (
-                                <CreateBoardButton />
-                            )}
-                        </div>
-                    </div>
-                    <div className="w-1/2 relative items-center justify-center my-24 mr-12 -ml-12 lg:-ml-48 lg:mr-24 hidden lg:flex">
-                        <Image
-                            className="w-full h-auto object-contain max-h-[700px]"
-                            src={TavlaNorwayMap}
-                            alt={
-                                'Kart over Norge med pins på flere forskjellige steder, for å vise at Tavla er i bruk over hele landet.'
-                            }
-                        />
-                    </div>
-                </div>
+                <TavlaUsageMap loggedIn={loggedIn} />
                 <FeatureShowcase />
             </div>
         </main>
