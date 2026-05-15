@@ -5,8 +5,7 @@ description: >
   noen på Tavla-teamet er på dependency-vakt og skal vurdere åpne Dependabot-PRer,
   klassifisere risiko, vurdere CVE-utnyttbarhet, eller skrive triage-notater.
   Trigger også ved omtale av "dependency-vakt", "avhengighetsoppdatering", "sikkerhetsvarsel",
-  "Dependabot", "mandagsbrief", "ukens pakker", "er denne oppgraderingen trygg", eller når
-  noen åpner en Dependabot-PR og vil ha hjelp til å vurdere den. Brukes også for å opprette
+  "Dependabot", "ukens pakker", "pakkeansvarlig". Brukes også for å opprette
   ukens dependency-brief som ETU-sak. Skillen forklarer alltid hvorfor — målet er å bygge
   kompetanse i teamet over tid, ikke bare gjøre vurderingen.
 ---
