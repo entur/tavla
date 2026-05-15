@@ -126,7 +126,7 @@ const DesktopView = ({
     activeFeature,
 }: ViewProps) => {
     return (
-        <div className="relative text-left w-full h-full hidden lg:flex flex-1 min-h-0 px-12">
+        <div className="text-left w-full h-full hidden lg:flex flex-1 min-h-0 gap-4">
             <div className="flex flex-col gap-2 w-1/2 relative pt-24">
                 {FEATURES.map((feature, index) => {
                     const isActive = index === activeIndex
@@ -136,14 +136,14 @@ const DesktopView = ({
                             key={feature.title}
                             type="button"
                             onClick={() => setActiveIndex(index)}
-                            className="text-left lg:ml-10 xl:ml-20"
+                            className="text-left"
                         >
                             <div
-                                className={`p-6 rounded-xl border-2 border-[#8186AF] transition-all duration-500 ease-in-out ${isActive ? 'bg-hoverContrast' : ''}`}
+                                className={`p-6 rounded-xl border-2 border-[#8186AF] ${isActive ? 'bg-hoverContrast' : ''}`}
                             >
                                 <Heading3
                                     margin="none"
-                                    className={`text-2xl transition-colors duration-300 ${isActive ? 'text-blue font-semibold' : 'text-white font-medium'}`}
+                                    className={`text-2xl  ${isActive ? 'text-blue font-semibold' : 'text-white font-medium'}`}
                                 >
                                     {feature.title}
                                 </Heading3>
@@ -173,30 +173,28 @@ function FeatureShowcase() {
     const activeFeature = FEATURES[activeIndex]
 
     return (
-        <div className="relative w-screen left-1/2 -translate-x-1/2 mt-20">
-            <div className="bg-blue h-[880px]  w-full flex flex-col overflow-hidden py-8 lg:py-12">
-                <div className="max-w-[1539px] mx-auto w-full flex flex-1 flex-col justify-center gap-8 lg:gap-12 min-h-0">
-                    <div className="px-6 pt-8 lg:px-24 text-center shrink-0">
-                        <Heading1 as="h2" className="text-white">
-                            Tilpass alt. Eller ingenting!
-                        </Heading1>
-                        <Paragraph className="text-white">
-                            Du kan velge å bare legge til stoppesteder, eller
-                            tilpasse den etter dine behov.
-                        </Paragraph>
-                    </div>
-
-                    <MobileView
-                        activeIndex={activeIndex}
-                        setActiveIndex={setActiveIndex}
-                        activeFeature={activeFeature}
-                    />
-                    <DesktopView
-                        activeIndex={activeIndex}
-                        setActiveIndex={setActiveIndex}
-                        activeFeature={activeFeature}
-                    />
+        <div className="bg-blue rounded-3xl w-full flex flex-col justify-center overflow-hidden px-4 lg:px-16 py-8 lg:py-24">
+            <div className="w-full flex flex-col justify-center gap-2 min-h-0">
+                <div className="text-center shrink-0">
+                    <Heading1 as="h2" className="text-white">
+                        Tilpass alt. Eller ingenting!
+                    </Heading1>
+                    <Paragraph className="text-white">
+                        Du kan velge å bare legge til stoppesteder, eller
+                        tilpasse den etter dine behov.
+                    </Paragraph>
                 </div>
+
+                <MobileView
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                    activeFeature={activeFeature}
+                />
+                <DesktopView
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                    activeFeature={activeFeature}
+                />
             </div>
         </div>
     )
