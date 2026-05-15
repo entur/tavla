@@ -1,5 +1,6 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import { uniq } from 'lodash'
+import { getRelevantSubmode } from 'app/(admin)/components/TransportIcon/utils'
+import { uniq, uniqBy } from 'lodash'
 import {
     CLIENT_NAME,
     COUNTY_ENDPOINT,
@@ -8,7 +9,15 @@ import {
 } from 'src/assets/env'
 import { StopPlacesHaveDeparturesQuery } from 'src/graphql'
 import type { LocationDB } from 'src/types/db-types/boards'
-import { getIcons, type TCategory } from '../tavler/[id]/utils'
+import type {
+    TTransportMode,
+    TTransportSubmode,
+} from 'src/types/graphql-schema'
+import {
+    getIcons,
+    type TCategory,
+    travelTagsFromModes,
+} from '../tavler/[id]/utils'
 
 export type GeoCoordinate = {
     lat: number
@@ -74,10 +83,15 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
         })
 }
 
+type StopPlaceTransportModes = Array<{
+    transportMode: TTransportMode
+    transportSubmode?: TTransportSubmode
+}>
+
 async function fetchStopPlaceIdsWithDepartures(
     ids: string[],
-): Promise<Set<string>> {
-    if (ids.length === 0) return new Set()
+): Promise<Map<string, StopPlaceTransportModes>> {
+    if (ids.length === 0) return new Map()
 
     const response = await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
         headers: {
@@ -92,20 +106,34 @@ async function fetchStopPlaceIdsWithDepartures(
     })
 
     const json = await response.json()
-    const stopPlaces = json.data?.stopPlaces ?? []
+    const stopPlaces: Array<{
+        id: string
+        quays: Array<{
+            lines: Array<{
+                transportMode: TTransportMode | null
+                transportSubmode: TTransportSubmode | null
+            }>
+        }> | null
+    }> = json.data?.stopPlaces ?? []
 
-    return new Set(
-        stopPlaces
-            .filter(
-                (
-                    sp: {
-                        id: string
-                        quays: Array<{ lines: unknown[] }> | null
-                    } | null,
-                ) => sp?.quays?.some((quay) => quay.lines.length > 0),
-            )
-            .map((sp: { id: string }) => sp.id),
-    )
+    const map = new Map<string, StopPlaceTransportModes>()
+    for (const sp of stopPlaces) {
+        if (!sp?.quays?.some((q) => q.lines.length > 0)) continue
+        const allLines = sp.quays.flatMap((q) => q.lines)
+        const modes = uniqBy(
+            allLines
+                .filter((l) => l.transportMode !== null)
+                .map((l) => ({
+                    transportMode: l.transportMode as TTransportMode,
+                    transportSubmode: getRelevantSubmode(
+                        l.transportSubmode ?? undefined,
+                    ),
+                })),
+            (m) => `${m.transportMode}|${m.transportSubmode ?? ''}`,
+        )
+        map.set(sp.id, modes)
+    }
+    return map
 }
 
 export async function fetchStopPlaces(
@@ -159,6 +187,14 @@ export async function fetchStopPlaces(
                 item.value.layer !== 'venue' ||
                 idsWithDepartures.has(item.value.id),
         )
+        .map((item) => ({
+            ...item,
+            icons: idsWithDepartures.has(item.value.id)
+                ? travelTagsFromModes(
+                      idsWithDepartures.get(item.value.id) ?? [],
+                  )
+                : item.icons,
+        }))
         .slice(0, 5)
 }
 
@@ -186,7 +222,6 @@ export async function fetchClosestStopPlaces(
             name: properties.name ?? '',
         },
         label: properties.label || '',
-        icons: uniq(getIcons(properties.layer, properties.category)),
         county: properties.county,
     }))
 
@@ -198,6 +233,12 @@ export async function fetchClosestStopPlaces(
 
     return items
         .filter((item) => idsWithDepartures.has(item.value.id))
+        .map((item) => ({
+            ...item,
+            icons: travelTagsFromModes(
+                idsWithDepartures.get(item.value.id) ?? [],
+            ),
+        }))
         .slice(0, numberOfStopPlaces)
 }
 

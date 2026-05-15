@@ -348,7 +348,8 @@ export const StopPlacesHaveDeparturesQuery = new TypedDocumentString(`
     id
     quays {
       lines {
-        id
+        transportMode
+        transportSubmode
       }
     }
   }
