@@ -1,4 +1,4 @@
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { FeatureFlags } from 'app/posthog/featureFlags'
 import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import type { Metadata } from 'next'

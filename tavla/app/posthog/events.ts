@@ -1,5 +1,5 @@
-import type { TLoginPage } from 'app/(admin)/components/Login/types'
-import type { TypeOfPlace } from 'app/(admin)/components/TileSelector/utils'
+import type { TLoginPage } from 'app/(innlogget)/components/Login/types'
+import type { TypeOfPlace } from 'app/(innlogget)/components/TileSelector/utils'
 
 export const LOCATIONS = {
     LandingPage: 'landing_page',

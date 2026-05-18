@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/nextjs'
-import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getFirestore } from 'firebase-admin/firestore'
 import { type NextRequest, NextResponse } from 'next/server'
 import type { BoardDB } from 'src/types/db-types/boards'

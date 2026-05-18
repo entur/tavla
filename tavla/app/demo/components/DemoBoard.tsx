@@ -1,9 +1,9 @@
 'use client'
 import { Heading2, Heading3 } from '@entur/typography'
-import { TileSelector } from 'app/(admin)/components/TileSelector/TileSelector'
-import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
-import { useLocalStorage } from 'app/(admin)/hooks/useLocalStorage'
-import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
+import { TileSelector } from 'app/(innlogget)/components/TileSelector/TileSelector'
+import { formDataToTiles } from 'app/(innlogget)/components/TileSelector/utils'
+import { useLocalStorage } from 'app/(innlogget)/hooks/useLocalStorage'
+import { TileList } from 'app/(innlogget)/tavler/[id]/rediger/components/TileList'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
 import type { BoardDB } from 'src/types/db-types/boards'
 
