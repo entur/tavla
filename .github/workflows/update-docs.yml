@@ -1,0 +1,84 @@
+name: Månedlig oppdatering av CLAUDE.md
+
+on:
+  schedule:
+    - cron: "0 8 1 * *" # 1. i måneden kl. 08:00 UTC
+  workflow_dispatch: # Tillat manuell kjøring
+
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+
+jobs:
+  update-docs:
+    name: Analyser og oppdater CLAUDE.md
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installer avhengigheter
+        run: pip install openai
+
+      - name: Kjør oppdateringsskript
+        id: update
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        run: |
+          python .github/scripts/update_claude_md.py
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Opprett PR hvis det er endringer
+        if: steps.update.outputs.exit_code == '1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date +%Y-%m)
+          BRANCH="docs/update-claude-md-${DATE}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH"
+          git add CLAUDE.md
+          git commit -m "📝 Automatisk oppdatering av CLAUDE.md (${DATE})"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "📝 Månedlig oppdatering av CLAUDE.md (${DATE})" \
+            --body "$(cat <<'EOF'
+          ### 🥅 Bakgrunn
+
+          Automatisk månedlig gjennomgang av CLAUDE.md for å holde dokumentasjonen i sync med kodebasen.
+
+          ### ✨ Løsning
+
+          - Analyserte `tavla/package.json`, `backend/Cargo.toml` og siste måneds commits
+          - Oppdaterte fakta som har endret seg (versjoner, skript, mønstre)
+
+          ### 📸 Bilder
+
+          | Før   | Etter |
+          | ----- | ----- |
+          | bilde | bilde |
+
+          ### ✅ Sjekkliste
+
+          - [ ] Testet i Chrome, Firefox og Safari
+          - [ ] Lagt på aktuell posthog-tracking
+          - [ ] Husket og testet UU
+          - [ ] Oppdatert dokumentasjon (hvis relevant)
+          EOF
+          )" \
+            --base main \
+            --head "$BRANCH"
