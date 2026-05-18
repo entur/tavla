@@ -1,8 +1,6 @@
 import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
-import { FeatureFlags } from 'app/posthog/featureFlags'
-import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import type { Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { CreateBoardLocally } from './components/CreateBoardLocally'
 
 export const metadata: Metadata = {
@@ -11,11 +9,6 @@ export const metadata: Metadata = {
 }
 
 async function LagTavlePage() {
-    const flagEnabled = await isFeatureEnabled(
-        FeatureFlags.CreateBoardWithoutUser,
-    )
-    if (!flagEnabled) notFound()
-
     const loggedIn = (await getUserFromSessionCookie()) !== null
     if (loggedIn) redirect('/oversikt')
 

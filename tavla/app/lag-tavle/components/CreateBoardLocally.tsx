@@ -8,8 +8,8 @@ import { useSaveDemoBoardInLocalStorage } from 'app/(admin)/hooks/useSaveDemoBoa
 import { SettingsForm } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/SettingsForm'
 import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { CreateUserButton } from 'app/components/CreateUserButton'
-import { DemoPreview } from 'app/demo/components/DemoPreview'
 import { publishBoard } from 'app/lag-tavle/actions'
+import { BoardPreview } from 'app/lag-tavle/components/BoardPreview'
 import { PublishModalContent } from 'app/lag-tavle/components/PublishBoardModal'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useCallback, useState } from 'react'
@@ -106,7 +106,7 @@ function CreateBoardLocally() {
                     aria-label="Forhåndsvisning av Tavla"
                 >
                     <Heading2>Forhåndsvisning</Heading2>
-                    <DemoPreview board={board} />
+                    <BoardPreview board={board} />
                 </section>
             </div>
             {loaded && (
