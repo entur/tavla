@@ -2,14 +2,14 @@
 import { SmallAlertBox, useToast } from '@entur/alert'
 import { Checkbox, TextArea } from '@entur/form'
 import { Label, Paragraph, SubParagraph } from '@entur/typography'
-import { SubmitButton } from 'app/(admin)/components/Form/SubmitButton'
-import { FormError } from 'app/(admin)/components/FormError'
-import { isEmptyOrSpaces } from 'app/(admin)/tavler/[id]/utils'
+import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
+import { FormError } from 'app/(innlogget)/components/FormError'
+import { isEmptyOrSpaces } from 'app/(innlogget)/tavler/[id]/utils'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
-} from 'app/(admin)/utils/forms'
+} from 'app/(innlogget)/utils/forms'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { validEmail } from 'src/utils/email'

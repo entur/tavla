@@ -5,9 +5,9 @@ import { type ReactNode, Suspense } from 'react'
 import 'src/styles/fonts.css'
 import 'src/styles/imports.css'
 import 'src/styles/reset.css'
-import { Footer } from './(admin)/components/Footer'
-import { Navbar } from './(admin)/components/Navbar'
-import { getUserFromSessionCookie } from './(admin)/utils/server'
+import { Footer } from './(innlogget)/components/Footer'
+import { Navbar } from './(innlogget)/components/Navbar'
+import { getUserFromSessionCookie } from './(innlogget)/utils/server'
 import ConsentHandler, {
     EnturToastProvider,
     PHProvider,

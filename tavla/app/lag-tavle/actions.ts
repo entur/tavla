@@ -1,6 +1,6 @@
 'use server'
-import { getWalkingDistanceTile } from 'app/(admin)/tavler/[id]/rediger/actions'
-import { initializeAdminApp } from 'app/(admin)/utils/firebase'
+import { getWalkingDistanceTile } from 'app/(innlogget)/tavler/[id]/rediger/actions'
+import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { firestore } from 'firebase-admin'
 import type {
     BoardDB,
