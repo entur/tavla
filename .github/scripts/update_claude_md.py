@@ -58,6 +58,23 @@ def gather_context(repo_root: str) -> str:
     if recent:
         parts.append(f"## Git commits siste 30 dager\n\n{recent}")
 
+   # git diff --stat siste 30 dager (hvilke filer endret seg, ikke bare meldinger)
+    diff_stat = run_git(["diff", "--stat", "@{30 days ago}", "HEAD"])
+    if diff_stat:
+        parts.append(f"## Endrede filer siste 30 dager (git diff --stat)\n\n{diff_stat}")
+
+    # GraphQL-oppsett
+    for filename in ["codegen.ts", "graphql.config.json"]:
+        path = os.path.join(repo_root, "tavla", filename)
+        if os.path.exists(path):
+            parts.append(f"## tavla/{filename}\n\n{read_file(path)}")
+
+    # CI/CD-workflows (bare filnavn + første linje, ikke fullt innhold — kan bli stort)
+    workflows_dir = os.path.join(repo_root, ".github", "workflows")
+    if os.path.isdir(workflows_dir):
+        workflow_files = os.listdir(workflows_dir)
+        parts.append(f"## .github/workflows/\n\n" + "\n".join(workflow_files))
+
     return "\n\n---\n\n".join(parts)
 
 
@@ -93,6 +110,7 @@ def main() -> int:
     message = client.chat.completions.create(
         model="gpt-4o",
         max_tokens=4096,
+        temperature=0, 
         messages=[{"role": "user", "content": build_prompt(context)}],
     )
 
