@@ -25,13 +25,7 @@ Redis brukes primært for pubsub-funksjonalitet, men vi lagrer også midlertidig
 
 Filen `tavla/app/(innlogget)/utils/constants.ts` inneholder en del config-nøkler som kunne sett ut som at de skulle vært hemmelige, men det trenger de ikke være (se [Firebase security checklist](https://firebase.google.com/support/guides/security-checklist#api-keys-not-secret)).
 
-Kommandoen under kan kjøres for å bruke gitleaks for å finne hemmeligheter:
 
-```bash
-docker run -v .:/repo zricethezav/gitleaks:latest detect --source=/repo -v
-```
-
----
 
 ## 🔗 Koble til dev-databasen lokalt
 
@@ -52,26 +46,6 @@ GOOGLE_APPLICATION_CREDENTIALS='./ent-tavla-dev-<key-id>.json'
 ```bash
 yarn build-start  # yarn build && yarn start
 ```
-
-### Feilsøking
-
-- Det kan hende du må ha den absolutte pathen til hvor JSON-filen din ligger hvis den ikke ligger på rot-nivå i `/tavla`. Det kan finnes ved å skrive dette inn i terminalen:
-
-```bash
-readlink -f ent-tavla-dev-<key-id>.json
-# output eksempel: /Users/emilie/ent-tavla-dev-<key-id>.json
-
-# Legg dette inn i .env.local:
-GOOGLE_APPLICATION_CREDENTIALS='/Users/emilie/ent-tavla-dev-<key-id>.json'
-```
-
-- Det kan hende du må gi tilgang til å lese filen:
-
-```bash
-chmod 644 /path/to/ent-tavla-dev-<key-id>.json
-```
-
----
 
 ## 🗄️ Migrering av database
 
@@ -159,7 +133,7 @@ I `/migrations` har man en `requirements.txt`-fil som scriptet bruker for å fin
 
 For å sikre at vi ikke mister og har kontroll på databasen har vi mulighet til å sikkerhetskopiere gjennom Google Cloud Platform (GCP).
 
-Backupene lagres i GCP-bucketen `tavla-firestore-backups-prd` og kan brukes til å gjenopprette hele eller deler av databasen dersom noe går galt — enten som følge av en feil deploy, en ødelagt migrering, eller utilsiktet sletting av data.
+Backupene lagres i GCP-bucketen `tavla-firestore-backups-dev`/`tavla-firestore-backups-prd`  og kan brukes til å gjenopprette hele eller deler av databasen dersom noe går galt — enten som følge av en feil deploy, en ødelagt migrering, eller utilsiktet sletting av data.
 
 Vi har automatisk scheduled backup satt opp i Firestore: **ukentlig backup hver mandag, med 40 dagers retention**. I tillegg kan manuelle backups tas ved behov, f.eks. før større migreringer.
 
@@ -169,24 +143,7 @@ Ved behov for en sikkerhetskopi, for eksempel før en større migrering eller en
 
 Dette kan gjøres enten direkte via terminalen (GCP CLI) eller ved å kjøre vårt Python-script.
 
-#### 📟 Fra terminal (manuell kommando)
 
-Kjør følgende kommando for å eksportere databasen til GCP-bucketen for backuper:
-
-```bash
-gcloud firestore export gs://tavla-firestore-backups-prd/manual-$(date +%Y-%m-%d)
-```
-
-Denne kommandoen:
-- eksporterer **alle collections og dokumenter** (inkludert metadata)
-- lagrer backupen i `gs://tavla-firestore-backups-prd`
-- legger til dagens dato i filnavnet (for enkel versjonering)
-
-> 💡 **Tips:** Sørg for at du er logget inn i riktig GCP-prosjekt (`ent-tavla-prd` eller `ent-tavla-dev`) før du kjører kommandoen.
->
-> For dev: `gcloud config set project ent-tavla-dev`
->
-> For prod: `gcloud config set project ent-tavla-prd`
 
 #### 🐍 Med script (anbefalt)
 
@@ -210,9 +167,48 @@ python3 scripts/backup_firebase.py dev
 ✅ Du kan sjekke at backupen er opprettet ved å gå til:
 **GCP → Cloud Storage → Buckets → `tavla-firestore-backups-prd`**
 
+#### 📟 Fra terminal (manuell kommando)
+
+Kjør følgende kommando for å eksportere databasen til GCP-bucketen for backuper:
+
+```bash
+gcloud firestore export gs://tavla-firestore-backups-prd/manual-$(date +%Y-%m-%d)
+```
+
+Denne kommandoen:
+- eksporterer **alle collections og dokumenter** (inkludert metadata)
+- lagrer backupen i `gs://tavla-firestore-backups-prd`
+- legger til dagens dato i filnavnet (for enkel versjonering)
+
+> 💡 **Tips:** Sørg for at du er logget inn i riktig GCP-prosjekt (`ent-tavla-prd` eller `ent-tavla-dev`) før du kjører kommandoen.
+>
+> For dev: `gcloud config set project ent-tavla-dev`
+>
+> For prod: `gcloud config set project ent-tavla-prd`
+
 ### 🔄 Rollback (gjenoppretting)
 
 Rollback brukes for å gjenopprette databasen fra en tidligere backup.
+
+#### 🐍 Med script (anbefalt)
+
+Vi har også et Python-script for rollback, som finner og bruker **den nyeste lagrede backupen** automatisk. Kjør fra `/migrations`-mappen:
+
+```bash
+python3 scripts/rollback_firestore.py dev
+```
+
+Dette vil:
+- hente siste backup fra GCP-bucketen for `dev`
+- importere den tilbake til Firestore
+- vise logg underveis med status på rollback
+
+For produksjon kan du tilsvarende kjøre:
+
+```bash
+python3 scripts/rollback_firestore.py prod
+```
+
 
 #### 📟 Fra terminal (manuell import)
 
@@ -237,24 +233,6 @@ gcloud firestore import gs://tavla-firestore-backups-prd/YYYY-MM-DDTHH:MM:SSZ/ \
   --collection-ids=boards,organizations,users
 ```
 
-#### 🐍 Med script (anbefalt)
-
-Vi har også et Python-script for rollback, som finner og bruker **den nyeste lagrede backupen** automatisk. Kjør fra `/migrations`-mappen:
-
-```bash
-python3 scripts/rollback_firestore.py dev
-```
-
-Dette vil:
-- hente siste backup fra GCP-bucketen for `dev`
-- importere den tilbake til Firestore
-- vise logg underveis med status på rollback
-
-For produksjon kan du tilsvarende kjøre:
-
-```bash
-python3 scripts/rollback_firestore.py prod
-```
 
 ✅ Når rollback er ferdig, vil databasen være identisk med tilstanden den hadde ved tidspunktet for siste backup.
 
