@@ -19,7 +19,7 @@ Vi bruker Firebase for å lagre tavler, mapper og brukere (boards, organizations
 
 Hvert objekt i Firebase har en unik id, og er ellers strukturert nokså likt som deres respektive kode-objekter (`TBoard`, `TOrganization`, `TUser`). Husk at selv om Firebase ikke er en relasjonsdatabase, har vi definitivt masse relasjoner mellom disse kategoriene (f.eks.: et board kan eies av en mappe, en mappe inneholder en viss mengde brukere, en bruker kan ha en viss mengde private boards, osv.), og disse må tas høyde for når man skriver nye / endrer på Firebase-operasjoner i koden.
 
-Selv om vi har en Redis-database, er ingenting lagret her. Den brukes utelukkende for sin pubsub-funksjonalitet. I Redis ligger det derfor aldri noen brukere, mapper eller tavler lagret.
+Redis brukes primært for pubsub-funksjonalitet, men vi lagrer også midlertidig state her (bl.a. aktive tavler). Se egen dokumentasjonsfil for Redis.
 
 ### Åpen config for firebase
 
