@@ -1,0 +1,121 @@
+'use client'
+import { useToast } from '@entur/alert'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
+import { Dropdown } from '@entur/dropdown'
+import { ForwardIcon } from '@entur/icons'
+import { Modal } from '@entur/modal'
+import { Tooltip } from '@entur/tooltip'
+import { Heading3, Paragraph } from '@entur/typography'
+import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
+import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
+import { FormError } from 'app/(innlogget)/components/FormError'
+import { useFolderDropdown } from 'app/(innlogget)/hooks/useFolders'
+import { moveBoardAction } from 'app/(innlogget)/oversikt/utils/actions'
+import {
+    getFormFeedbackForField,
+    type TFormFeedback,
+} from 'app/(innlogget)/utils/forms'
+import { useState } from 'react'
+import type { BoardDB } from 'src/types/db-types/boards'
+
+function Move({ board }: { board: BoardDB }) {
+    const { addToast } = useToast()
+    const [isOpen, setIsOpen] = useState(false)
+    const [error, setError] = useState<TFormFeedback | undefined>(undefined)
+
+    const submit = async (data: FormData) => {
+        const resultingError = await moveBoardAction(data)
+        if (resultingError) {
+            setError(resultingError)
+        } else {
+            const toastText = selectedFolder?.value?.id
+                ? `Tavlen er flyttet til "${selectedFolder?.value.name}"!`
+                : 'Tavlen er ikke lengre i en mappe!'
+            addToast(toastText)
+            setError(undefined)
+            setIsOpen(false)
+        }
+    }
+
+    const { folderDropdownList, selectedFolder, handleFolderChange } =
+        useFolderDropdown()
+
+    const ariaLabel = board?.meta?.title
+        ? `Flytt tavle ${board.meta.title} til en annen mappe`
+        : 'Flytt til en annen mappe'
+
+    return (
+        <>
+            <Tooltip
+                content="Flytt til en annen mappe"
+                placement="bottom"
+                id="tooltip-move-board"
+            >
+                <IconButton
+                    aria-label={ariaLabel}
+                    onClick={() => setIsOpen(true)}
+                >
+                    <ForwardIcon aria-label="Pil-ikon" />
+                </IconButton>
+            </Tooltip>
+            <Modal
+                open={isOpen}
+                size="small"
+                onDismiss={() => {
+                    setError(undefined)
+                    setIsOpen(false)
+                }}
+                style={{ overflow: 'visible' }}
+                closeLabel="Avbryt sletting"
+                className="flex flex-col items-center"
+            >
+                <Heading3 margin="bottom" as="h1">
+                    Flytt tavlen &quot;{board.meta.title}&quot;
+                </Heading3>
+                <Paragraph className="mb-5 text-center">
+                    Velg hvilken mappe du vil flytte tavlen til. Vær oppmerksom
+                    på at når du flytter en tavle vil tilgangene endres basert
+                    på hvem som har tilgang til mappen.
+                </Paragraph>
+                <form action={submit} className="w-full">
+                    <Dropdown
+                        items={folderDropdownList}
+                        label="Dine mapper"
+                        selectedItem={selectedFolder}
+                        onChange={handleFolderChange}
+                        aria-required="true"
+                        className="mb-4"
+                    />
+                    <HiddenInput id="bid" value={board.id} />
+                    <HiddenInput
+                        id="newOid"
+                        value={selectedFolder?.value?.id}
+                    />
+                    <FormError {...getFormFeedbackForField('general', error)} />
+
+                    <ButtonGroup className="mt-8 flex w-full flex-row gap-4">
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            className="!mr-0"
+                        >
+                            Flytt tavlen
+                        </SubmitButton>
+                        <Button
+                            type="button"
+                            width="fluid"
+                            variant="secondary"
+                            aria-label="Avbryt flytt tavle"
+                            onClick={() => setIsOpen(false)}
+                            className="!mr-0"
+                        >
+                            Avbryt
+                        </Button>
+                    </ButtonGroup>
+                </form>
+            </Modal>
+        </>
+    )
+}
+
+export { Move }

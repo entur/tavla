@@ -60,7 +60,7 @@ Test the running server: `curl localhost:3001/active -H "Authorization: Bearer s
 - Firestore — board configs, user data, folders
 - Custom backend — real-time refresh signals
 
-**Auth:** Firebase Authentication with session cookies. Server-side verification via `getUserFromSessionCookie()` in `tavla/app/(admin)/utils/server.ts`.
+**Auth:** Firebase Authentication with session cookies. Server-side verification via `getUserFromSessionCookie()` in `tavla/app/(innlogget)/utils/server.ts`.
 
 **Database:** Cloud Firestore collections: `boards`, `folders`, `users`, `config`. Schema validated with Zod in `tavla/src/types/db-types/`.
 

@@ -1,4 +1,4 @@
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { CreateBoardLocally } from './components/CreateBoardLocally'
