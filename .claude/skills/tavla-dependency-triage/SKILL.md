@@ -36,7 +36,6 @@ Vakten roterer ukentlig blant de tre utviklerne. Erfaringsnivå varierer — der
 | Når | Hva | Hvor |
 |-----|-----|------|
 | Man 09:00 | Skriv ut ukens dependency-brief med full triage | Chatten (se Steg 1) |
-| Fre EOD | Oppsummer uken med eventuelle gjenstående punkter | Chatten |
 
 ---
 
