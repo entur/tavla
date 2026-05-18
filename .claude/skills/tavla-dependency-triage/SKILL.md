@@ -117,6 +117,29 @@ Bruk denne strukturen. Alle seksjoner skal alltid være med, også om de er tomm
 
 ---
 
+## 📌 Prioritert todo for uken
+
+Generer denne seksjonen **etter** at all triage er gjort. List opp konkrete handlinger sortert etter prioritet — ikke pakker, men faktiske oppgaver vakten skal utføre. Bruk emoji for prioritet og lenk til relevante PRer/alerts.
+
+```
+🔴 Haster (gjør i dag)
+- [ ] {konkret handling} — {kort begrunnelse} → [lenke]
+
+🟡 Denne uken
+- [ ] {konkret handling} — {kort begrunnelse} → [lenke]
+
+🟢 Kan vente / neste runde
+- [ ] {konkret handling} — {kort begrunnelse} → [lenke]
+```
+
+Eksempel på gode todo-punkter:
+- ✅ "Dismiss CodeQL #39 som tolerable risk med kommentar om hardkodet hostname → [link]"
+- ✅ "Merge Dependabot PR #123 (patch, grønt CI) → [link]"
+- ✅ "Oppgrader postcss til 8.5.10+ i tavla-visning ved neste dep-runde"
+- ❌ "Vurdere hono" (for vagt — si konkret hva som skal gjøres)
+
+---
+
 ## 🧪 Test-sjekkliste for uken
 
 - [ ] CI grønt på alle mergede PRer
@@ -126,6 +149,8 @@ Bruk denne strukturen. Alle seksjoner skal alltid være med, også om de er tomm
 ```
 
 Legg til én seksjon per PR og én per alert. Legg til ekstra sjekklistepunkter for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Dismiss stale DOMPurify-alerts").
+
+**Rekkefølge i brief:** Oversikt → Rutinemessige bumps → Krever vurdering → Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Todo-seksjonen kommer alltid rett før test-sjekklisten.
 
 ---
 
