@@ -4,8 +4,8 @@ import {
     getConfig,
     initializeAdminApp,
     userCanEditFolder,
-} from 'app/(admin)/utils/firebase'
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+} from 'app/(innlogget)/utils/firebase'
+import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import createDOMPurify from 'dompurify'
 import { getFirestore } from 'firebase-admin/firestore'
 import { getDownloadURL, getStorage } from 'firebase-admin/storage'

@@ -1,5 +1,5 @@
 import { Heading1, LeadParagraph } from '@entur/typography'
-import { getUserFromSessionCookie } from 'app/(admin)/utils/server'
+import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import { NavigateToOversiktButton } from 'app/components/NavigateToOversiktButton'
 import type { Metadata } from 'next'
