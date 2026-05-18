@@ -4,7 +4,7 @@ import { getFirestore } from 'firebase-admin/firestore'
 import { type NextRequest, NextResponse } from 'next/server'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
-import { logToGcp } from 'src/utils/logging'
+import { logHttpRequest, logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -91,10 +91,21 @@ function createErrorResponse(
 }
 
 export async function GET(request: NextRequest) {
+    const start = Date.now()
+    const pathname = new URL(request.url).pathname
     const { searchParams } = new URL(request.url)
     const boardIdParam = searchParams.get('id')
 
     if (!boardIdParam) {
+        void logHttpRequest({
+            direction: 'incoming',
+            method: 'GET',
+            url: pathname,
+            statusCode: 400,
+            latencyMs: Date.now() - start,
+            endpoint: 'board-api',
+            success: false,
+        })
         return createErrorResponse(request, 'Board ID is required', 400)
     }
 
@@ -106,11 +117,29 @@ export async function GET(request: NextRequest) {
             (await fetchBoardByCustomUrl(boardId))
 
         if (!boardData) {
+            void logHttpRequest({
+                direction: 'incoming',
+                method: 'GET',
+                url: pathname,
+                statusCode: 404,
+                latencyMs: Date.now() - start,
+                endpoint: 'board-api',
+                success: false,
+            })
             return createErrorResponse(request, 'Board not found', 404)
         }
 
         const folderLogo = await fetchFolderLogo(boardData.id)
 
+        void logHttpRequest({
+            direction: 'incoming',
+            method: 'GET',
+            url: pathname,
+            statusCode: 200,
+            latencyMs: Date.now() - start,
+            endpoint: 'board-api',
+            success: true,
+        })
         return NextResponse.json(
             {
                 board: boardData,
@@ -119,6 +148,15 @@ export async function GET(request: NextRequest) {
             { headers: getCorsHeaders(request) },
         )
     } catch (error) {
+        void logHttpRequest({
+            direction: 'incoming',
+            method: 'GET',
+            url: pathname,
+            statusCode: 500,
+            latencyMs: Date.now() - start,
+            endpoint: 'board-api',
+            success: false,
+        })
         await logToGcp(
             'error',
             `Failed to fetch board ${boardId}: ${error instanceof Error ? error.message : String(error)}`,

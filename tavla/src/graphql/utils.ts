@@ -110,10 +110,47 @@ export async function fetchQuery<Data, Variables>(
         endpoint: 'journey-planner',
         ...options,
     }
-    return fetcher([
-        query,
-        variables,
-        mergedOptions.endpoint,
-        mergedOptions.offset ?? 0,
-    ])
+    const endpoint = mergedOptions.endpoint
+    const start = Date.now()
+
+    try {
+        const data = await fetcher([
+            query,
+            variables,
+            endpoint,
+            mergedOptions.offset ?? 0,
+        ])
+        if (typeof window === 'undefined') {
+            void import('src/utils/logging').then(({ logHttpRequest }) =>
+                logHttpRequest({
+                    direction: 'outgoing',
+                    method: 'POST',
+                    url: GRAPHQL_ENDPOINTS[endpoint],
+                    statusCode: 200,
+                    latencyMs: Date.now() - start,
+                    endpoint,
+                    success: true,
+                }),
+            )
+        }
+        return data
+    } catch (error) {
+        if (typeof window === 'undefined') {
+            const isTimeout =
+                error instanceof Error &&
+                error.message === FetchErrorTypes.TIMEOUT
+            void import('src/utils/logging').then(({ logHttpRequest }) =>
+                logHttpRequest({
+                    direction: 'outgoing',
+                    method: 'POST',
+                    url: GRAPHQL_ENDPOINTS[endpoint],
+                    statusCode: isTimeout ? 408 : 500,
+                    latencyMs: Date.now() - start,
+                    endpoint,
+                    success: false,
+                }),
+            )
+        }
+        throw error
+    }
 }

@@ -8,6 +8,7 @@ import {
 } from 'src/assets/env'
 import { StopPlacesHaveDeparturesQuery } from 'src/graphql'
 import type { LocationDB } from 'src/types/db-types/boards'
+import { logHttpRequest } from 'src/utils/logging'
 import { getIcons, type TCategory } from '../tavler/[id]/utils'
 
 export type GeoCoordinate = {
@@ -124,14 +125,21 @@ export async function fetchStopPlaces(
     if (countyIds && countyIds.length > 0)
         searchParams.append('boundary.county_ids', countyIds.join(','))
 
-    const data: TPartialGeoResponse = await fetch(
-        `${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`,
-        {
-            headers: {
-                'ET-Client-Name': CLIENT_NAME,
-            },
-        },
-    ).then((res) => res.json())
+    const geocoderUrl = `${GEOCODER_ENDPOINT}/autocomplete`
+    const start = Date.now()
+    const res = await fetch(`${geocoderUrl}?${searchParams}`, {
+        headers: { 'ET-Client-Name': CLIENT_NAME },
+    })
+    void logHttpRequest({
+        direction: 'outgoing',
+        method: 'GET',
+        url: geocoderUrl,
+        statusCode: res.status,
+        latencyMs: Date.now() - start,
+        endpoint: 'geocoder',
+        success: res.ok,
+    })
+    const data: TPartialGeoResponse = await res.json()
 
     const items = data.features.map(({ properties, geometry }) => ({
         value: {
@@ -169,14 +177,22 @@ export async function fetchClosestStopPlaces(
 ): Promise<NormalizedDropdownItemType<StopPlace>[]> {
     const requestSize = numberOfStopPlaces * 2
 
-    const data: TPartialGeoResponse = await fetch(
-        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordinates.lat}&point.lon=${coordinates.lon}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${requestSize}`,
-        {
-            headers: {
-                'ET-Client-Name': CLIENT_NAME,
-            },
-        },
-    ).then((res) => res.json())
+    const geocoderUrl = `${GEOCODER_ENDPOINT}/reverse`
+    const start = Date.now()
+    const res = await fetch(
+        `${geocoderUrl}?point.lat=${coordinates.lat}&point.lon=${coordinates.lon}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${requestSize}`,
+        { headers: { 'ET-Client-Name': CLIENT_NAME } },
+    )
+    void logHttpRequest({
+        direction: 'outgoing',
+        method: 'GET',
+        url: geocoderUrl,
+        statusCode: res.status,
+        latencyMs: Date.now() - start,
+        endpoint: 'geocoder',
+        success: res.ok,
+    })
+    const data: TPartialGeoResponse = await res.json()
 
     const items = data.features.map(({ properties, geometry }) => ({
         value: {
@@ -212,23 +228,30 @@ export async function fetchPoints(
         text,
     })
 
-    return fetch(`${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`, {
-        headers: {
-            'ET-Client-Name': CLIENT_NAME,
-        },
+    const geocoderUrl = `${GEOCODER_ENDPOINT}/autocomplete`
+    const start = Date.now()
+    const res = await fetch(`${geocoderUrl}?${searchParams}`, {
+        headers: { 'ET-Client-Name': CLIENT_NAME },
     })
-        .then((res) => res.json())
-        .then((data: TPointGeoresponse) => {
-            return data.features.map(({ properties, geometry }) => ({
-                value: {
-                    name: properties.label ?? '',
-                    coordinate: {
-                        lat: geometry.coordinates[1],
-                        lng: geometry.coordinates[0],
-                    },
-                },
-                label: properties.label || '',
-                icons: getIcons(properties.layer, properties.category),
-            }))
-        })
+    void logHttpRequest({
+        direction: 'outgoing',
+        method: 'GET',
+        url: geocoderUrl,
+        statusCode: res.status,
+        latencyMs: Date.now() - start,
+        endpoint: 'geocoder',
+        success: res.ok,
+    })
+    const data: TPointGeoresponse = await res.json()
+    return data.features.map(({ properties, geometry }) => ({
+        value: {
+            name: properties.label ?? '',
+            coordinate: {
+                lat: geometry.coordinates[1],
+                lng: geometry.coordinates[0],
+            },
+        },
+        label: properties.label || '',
+        icons: getIcons(properties.layer, properties.category),
+    }))
 }
