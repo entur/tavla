@@ -32,18 +32,6 @@ export async function logToGcp(level: LogLevel, message: string) {
     const safeLevel = sanitizeForLog(level) as LogLevel
     const safeMessage = sanitizeForLog(message)
 
-    if (process.env.NODE_ENV === 'development') {
-        // biome-ignore lint/suspicious/noConsole: If using development environment (local), skip logging to GCP and print out to console.
-        console.log({
-            source: 'GCP log',
-            level: safeLevel,
-            timestamp: new Date().toISOString(),
-            message: safeMessage,
-        })
-
-        return
-    }
-
     try {
         const metadata = {
             resource: { type: 'global' },
@@ -51,9 +39,8 @@ export async function logToGcp(level: LogLevel, message: string) {
         }
         const entry = log.entry(metadata, { message: safeMessage })
         await log.write(entry)
-    } catch (error) {
-        // biome-ignore lint/suspicious/noConsole: surface GCP logging errors
-        console.error('GCP logging failed:', error)
+    } catch {
+        // silently ignore — expected to fail locally without GCP credentials
     }
 }
 
@@ -70,16 +57,6 @@ export async function logHttpRequest(payload: HttpRequestLog) {
     const safeUrl = sanitizeUrl(payload.url)
     const safeEndpoint = sanitizeForLog(payload.endpoint)
     const safeMethod = sanitizeForLog(payload.method)
-
-    if (process.env.NODE_ENV === 'development') {
-        // biome-ignore lint/suspicious/noConsole: If using development environment (local), skip logging to GCP and print out to console.
-        console.log({
-            source: 'GCP request log',
-            ...payload,
-            url: safeUrl,
-        })
-        return
-    }
 
     try {
         const latencySeconds = Math.floor(payload.latencyMs / 1000)
@@ -109,8 +86,7 @@ export async function logHttpRequest(payload: HttpRequestLog) {
             success: payload.success,
         })
         await requests_log.write(entry)
-    } catch (error) {
-        // biome-ignore lint/suspicious/noConsole: surface GCP logging errors
-        console.error('GCP request logging failed:', error)
+    } catch {
+        // silently ignore — expected to fail locally without GCP credentials
     }
 }
