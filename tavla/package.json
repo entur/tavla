@@ -47,7 +47,7 @@
         "@entur/typography": "2.1.6",
         "@sentry/nextjs": "10.53.1",
         "@types/jsdom": "28.0.3",
-        "dompurify": "3.4.2",
+        "dompurify": "3.4.3",
         "firebase": "12.13.0",
         "firebase-admin": "13.9.0",
         "firebase-functions": "7.2.5",
