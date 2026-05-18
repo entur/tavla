@@ -1,5 +1,4 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import { getRelevantSubmode } from 'app/(admin)/components/TransportIcon/utils'
 import { uniq, uniqBy } from 'lodash'
 import {
     CLIENT_NAME,
@@ -10,9 +9,12 @@ import {
 import { StopPlacesHaveDeparturesQuery } from 'src/graphql'
 import type { LocationDB } from 'src/types/db-types/boards'
 import type {
+    TStopPlacesHaveDeparturesQuery,
     TTransportMode,
     TTransportSubmode,
 } from 'src/types/graphql-schema'
+import { getRelevantSubmode } from 'utils/transport'
+import { hasField, isNotNullOrUndefined } from 'utils/typeguards'
 import {
     getIcons,
     type TCategory,
@@ -106,32 +108,31 @@ async function fetchStopPlaceIdsWithDepartures(
     })
 
     const json = await response.json()
-    const stopPlaces: Array<{
-        id: string
-        quays: Array<{
-            lines: Array<{
-                transportMode: TTransportMode | null
-                transportSubmode: TTransportSubmode | null
-            }>
-        }> | null
-    }> = json.data?.stopPlaces ?? []
+
+    const stopPlaces: TStopPlacesHaveDeparturesQuery['stopPlaces'] =
+        json.data.stopPlaces ?? []
 
     const map = new Map<string, StopPlaceTransportModes>()
-    for (const sp of stopPlaces) {
-        if (!sp?.quays?.some((q) => q.lines.length > 0)) continue
-        const allLines = sp.quays.flatMap((q) => q.lines)
-        const modes = uniqBy(
-            allLines
-                .filter((l) => l.transportMode !== null)
-                .map((l) => ({
-                    transportMode: l.transportMode as TTransportMode,
-                    transportSubmode: getRelevantSubmode(
-                        l.transportSubmode ?? undefined,
-                    ),
-                })),
-            (m) => `${m.transportMode}|${m.transportSubmode ?? ''}`,
+    for (const stopPlace of stopPlaces) {
+        if (!stopPlace) continue
+
+        const allLines =
+            stopPlace.quays
+                ?.flatMap((quay) => quay?.lines)
+                .filter((lines) => isNotNullOrUndefined(lines)) ?? []
+        const allModes = allLines
+            .filter((line) => hasField(line, 'transportMode'))
+            .map((line) => ({
+                transportMode: line.transportMode,
+                transportSubmode: getRelevantSubmode(
+                    line.transportSubmode ?? undefined,
+                ),
+            }))
+        const uniqueModes = uniqBy(
+            allModes,
+            (modes) => `${modes.transportMode}|${modes.transportSubmode ?? ''}`,
         )
-        map.set(sp.id, modes)
+        map.set(stopPlace.id, uniqueModes)
     }
     return map
 }
