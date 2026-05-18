@@ -5,8 +5,6 @@
 - [🔥 Firebase til database](#-firebase-til-database)
 - [🔗 Koble til dev-databasen lokalt](#-koble-til-dev-databasen-lokalt)
 - [🗄️ Migrering av database](#️-migrering-av-database)
-- [📂 Oppdatering og sletting av felter i database](#-oppdatering-og-sletting-av-felter-i-database)
-- [❌ Hvordan forholder vi oss til data som ikke lengre brukes?](#-hvordan-forholder-vi-oss-til-data-som-ikke-lengre-brukes)
 - [🛡️ Sikkerhetskopiering og rollback av database](#️-sikkerhetskopiering-og-rollback-av-database)
 
 ---
@@ -70,14 +68,16 @@ GOOGLE_APPLICATION_CREDENTIALS='/Users/emilie/ent-tavla-dev-<key-id>.json'
 - Det kan hende du må gi tilgang til å lese filen:
 
 ```bash
-chmod 644 /path/to/ent-tavla-dev-875a70280651.json
+chmod 644 /path/to/ent-tavla-dev-<key-id>.json
 ```
 
 ---
 
 ## 🗄️ Migrering av database
 
-### Best practices for migrering (fra møtet med Kent i april 2025)
+### Best practices for migrering
+
+> Disse retningslinjene ble etablert i et møte med Kent i april 2025.
 
 En god oversikt over begrepene: [Expand and Contract Pattern (Prisma)](https://www.prisma.io/dataguide/types/relational/expand-and-contract-pattern#what-is-the-expand-and-contract-pattern)
 
@@ -149,85 +149,7 @@ Selvbetjent-teamet (app-teamet) migrerer med TypeScript, men vi i Tavla migrerer
 
 I `/migrations` har man en `requirements.txt`-fil som scriptet bruker for å finne ut hvilke dependencies som må lastes ned. I `/migrations/migration`-filen ligger selve bash-scriptet. I `/migrations/scripts` legger man nye migreringer. Fra før ligger blant annet `test.py`, `001_migrate_footer.py` og `002_read_tile_column_count.py` man kan se på for inspirasjon.
 
----
-
-## 📂 Oppdatering og sletting av felter i database
-
-### Hva dokumenteres
-
-Vi har varierende strategier på når og hvordan vi lagrer og oppdaterer felter i databasen. Denne dokumentasjonen gir en oversikt over hva som skjer med feltene når de opprettes, oppdateres eller slettes i databasen. For eksempel: når en bruker som tidligere har satt en adresse eller gåavstand fjerner denne verdien igjen — skal feltet settes til en tom verdi, eller slettes i sin helhet?
-
-Her dokumenteres **ikke** hvordan selve oppdatering av databaseobjekter skjer i koden, men heller strategien vi har for det.
-
-### Board med settings
-
-_(tiles ekskludert — kun feltene som kan oppdateres)_
-
-| Felt | Lagres som | Hva skjer under sletting? |
-|------|-----------|--------------------------|
-| `fontSize` | string — er i utgangspunktet satt til `"medium"` | Kan aldri slettes |
-| `location` | Objekt med `coordinate` & `name` | Hele objektet slettes når adresse-feltet tømmes |
-| `footer` | Objekt med `footer` (string) og `override` (boolean) | Footer-objektet slettes når footer er tom. `override` er alltid `false` etter overgangen til mapper |
-| `theme` | string | Finnes ikke i utgangspunktet. Trykker man lagre finnes verdien for alltid. |
-| `tiles` | Objekt | Når alle tiles slettes, forblir feltet der som en tom array. Det opprettes som en tom array i utgangspunktet når tavla lages, før noen tiles er lagt til |
-| `isCombinedTiles` | boolean | Kan aldri slettes. Blir satt til `false`. |
-
-### Tile-objekt
-
-| Felt | Lagres som | Hva skjer under sletting? |
-|------|-----------|--------------------------|
-| `whitelistedLines` | Liste med strings | I starten finnes ikke `whitelistedLines`. I det du lagrer tileCard (selv uten å ha endret `whitelistedLines` i det hele tatt) opprettes den som en tom array. Går ikke an å slette, forblir en tom array. |
-| `walkingDistance` | Objekt med `visible` (boolean) og `distance` (number) | Er adresse satt, så opprettes `walkingDistance` med `distance`-feltet umiddelbart i det en tile legges til. Hvis ikke, så finnes den ikke i utgangspunktet, men opprettes uten noen `distance`-verdi i det man lagrer. Om man har `walkingDistance` skrudd på og så fjerner det, settes `visible` til `false`, men objektet vil aldri fjernes. Fjerner man adresse, fjernes bare `distance`-feltet, ikke `visible`-feltet. |
-| `offset` | number | Finnes ikke i utgangspunktet, opprettes når den blir satt. Opprettes ikke automatisk når man lagrer tileCard med andre innstillinger. Fjerner man verdien, så slettes feltet. |
-
-### Organisasjon
-
-| Felt | Lagres som | Hva skjer under sletting? |
-|------|-----------|--------------------------|
-| `editors` | array | Opprettes som tom liste, kan aldri slettes. Det finnes heller aldri noen editors — denne funksjonaliteten bør vi ikke ha (dette var tiltenkt for å ha bedre tilgangsstyring). **Bør slettes! Brukes ikke, og har aldri det heller.** |
-| `boards` | array med strings | Tom liste i det organisasjonen opprettes, kan derfor aldri slettes |
-| `counties` | liste med strings | **Bør slettes! Brukes ikke lengre.** |
-| `font` | string | **Bør slettes! Brukes ikke lengre.** |
-| `footer` | string | **Bør slettes! Brukes ikke lengre.** |
-
-### Konklusjon
-
-Vi har to strategier for sletting når bruker fjerner en setting:
-- Sette feltet til en tom array, en tom string, eller en default-verdi
-- Slette hele feltet / hele objektet som feltet tilhører
-
-Vi har to strategier for når en setting settes for første gang:
-- Feltet finnes allerede, fordi det ble laget og satt til en standardverdi i det tavla/tilen/organisasjonen ble opprettet. Verdien oppdateres.
-- Feltet opprettes når bruker trykker lagre for første gang. Tidligere gikk settingen til en default-verdi eller null.
-
-Vi har funksjonalitet for å skille mellom editors og owners som ikke brukes — denne bør fjernes.
-
----
-
-## ❌ Hvordan forholder vi oss til data som ikke lengre brukes?
-
-### Hva dokumenteres
-
-Noen ganger implementerer man ting man ikke lengre har lyst på, som man fjerner eller som ikke lengre brukes. I den forbindelse kan det hende at vi har rukket å lagre ting i databasen, som igjen fører til at det potensielt kan ligge mye felter og data der som er **dødt** — som ikke lengre brukes.
-
-Hvordan forholder vi oss til data i databasen som vi ikke lengre bruker?
-
-### Kjente felter som bør ryddes
-
-Per april 2025:
-
-| Collection | Fields |
-|-----------|--------|
-| `organizations` | `defaults`, `columns`, `counties`, `font`, `footer` |
-| `boards` | `metatags` |
-
-### Er det vanlig å slette ting i databasen når det ikke lengre brukes?
-
-Det korte svaret er: **ja**. Grunnen til dette er egentlig det samme som i koden; man vil ikke opparbeide seg teknisk gjeld og burde holde databasen ryddig. Så en eller annen gang må man slette ting i databasen på lik linje som man gjør med koden.
-
-Her er det viktig å være forsiktig med å ikke endre noe annet enn hva man sletter — f.eks. `data modified`.
-
-Husk å teste en del lokalt og i dev med sletting av felter før du prodsetter for å være sikker på at ikke uforutsette feil kommer.
+> Alle migrerings-scripts kjøres fra `/migrations`-mappen. Se også `README.md` i repo-roten for oppsett av virtual environment.
 
 ---
 
@@ -237,9 +159,9 @@ Husk å teste en del lokalt og i dev med sletting av felter før du prodsetter f
 
 For å sikre at vi ikke mister og har kontroll på databasen har vi mulighet til å sikkerhetskopiere gjennom Google Cloud Platform (GCP).
 
-Backupene lagres i en GCP Bucket og kan brukes til å gjenopprette hele eller deler av databasen dersom noe går galt — enten som følge av en feil deploy, en ødelagt migrering, eller utilsiktet sletting av data.
+Backupene lagres i GCP-bucketen `tavla-firestore-backups-prd` og kan brukes til å gjenopprette hele eller deler av databasen dersom noe går galt — enten som følge av en feil deploy, en ødelagt migrering, eller utilsiktet sletting av data.
 
-Vi har som mål å ta automatiske og jevnlige kopier av databasen, men har mulighet til å kjøre disse manuelt for nå.
+Vi har automatisk scheduled backup satt opp i Firestore: **ukentlig backup hver mandag, med 40 dagers retention**. I tillegg kan manuelle backups tas ved behov, f.eks. før større migreringer.
 
 ### 🧰 Manuell sikkerhetskopiering (backup)
 
@@ -252,12 +174,12 @@ Dette kan gjøres enten direkte via terminalen (GCP CLI) eller ved å kjøre vå
 Kjør følgende kommando for å eksportere databasen til GCP-bucketen for backuper:
 
 ```bash
-gcloud firestore export gs://tavla-firestore-backups/manual-$(date +%Y-%m-%d)
+gcloud firestore export gs://tavla-firestore-backups-prd/manual-$(date +%Y-%m-%d)
 ```
 
 Denne kommandoen:
 - eksporterer **alle collections og dokumenter** (inkludert metadata)
-- lagrer backupen i `gs://tavla-firestore-backups`
+- lagrer backupen i `gs://tavla-firestore-backups-prd`
 - legger til dagens dato i filnavnet (for enkel versjonering)
 
 > 💡 **Tips:** Sørg for at du er logget inn i riktig GCP-prosjekt (`ent-tavla-prd` eller `ent-tavla-dev`) før du kjører kommandoen.
@@ -268,7 +190,7 @@ Denne kommandoen:
 
 #### 🐍 Med script (anbefalt)
 
-Vi har et eget script for å gjøre prosessen enklere og mer konsistent:
+Vi har et eget script for å gjøre prosessen enklere og mer konsistent. Kjør fra `/migrations`-mappen:
 
 ```bash
 python3 scripts/backup_firebase.py prod
@@ -276,7 +198,7 @@ python3 scripts/backup_firebase.py prod
 
 Dette scriptet:
 - tar en full backup av **produksjonsdatabasen**
-- oppretter automatisk en mappe i `gs://tavla-firestore-backups` med dagens dato
+- oppretter automatisk en mappe i `gs://tavla-firestore-backups-prd` med dagens dato
 - logger resultatet til terminalen slik at du ser om backupen ble vellykket
 
 For å ta backup av **dev-databasen**, kjør:
@@ -286,7 +208,7 @@ python3 scripts/backup_firebase.py dev
 ```
 
 ✅ Du kan sjekke at backupen er opprettet ved å gå til:
-**GCP → Cloud Storage → Buckets → `tavla-firestore-backups`** (eller `Firebase_backup`)
+**GCP → Cloud Storage → Buckets → `tavla-firestore-backups-prd`**
 
 ### 🔄 Rollback (gjenoppretting)
 
@@ -297,13 +219,13 @@ Rollback brukes for å gjenopprette databasen fra en tidligere backup.
 Finn først ønsket backup i GCP-bucketen:
 
 ```
-gs://tavla-firestore-backups/YYYY-MM-DDTHH:MM:SSZ/
+gs://tavla-firestore-backups-prd/YYYY-MM-DDTHH:MM:SSZ/
 ```
 
 Kjør deretter kommandoen:
 
 ```bash
-gcloud firestore import gs://tavla-firestore-backups/YYYY-MM-DDTHH:MM:SSZ/
+gcloud firestore import gs://tavla-firestore-backups-prd/YYYY-MM-DDTHH:MM:SSZ/
 ```
 
 Dette vil overskrive eksisterende dokumenter med data fra backupen.
@@ -311,15 +233,13 @@ Dette vil overskrive eksisterende dokumenter med data fra backupen.
 Om du kun ønsker å gjenopprette enkelte collections, kan du spesifisere hvilke med flagget `--collection-ids`:
 
 ```bash
-gcloud firestore import gs://tavla-firestore-backups/YYYY-MM-DDTHH:MM:SSZ/ \
+gcloud firestore import gs://tavla-firestore-backups-prd/YYYY-MM-DDTHH:MM:SSZ/ \
   --collection-ids=boards,organizations,users
 ```
 
 #### 🐍 Med script (anbefalt)
 
-Vi har også et Python-script for rollback, som finner og bruker **den nyeste lagrede backupen** automatisk.
-
-Kjør:
+Vi har også et Python-script for rollback, som finner og bruker **den nyeste lagrede backupen** automatisk. Kjør fra `/migrations`-mappen:
 
 ```bash
 python3 scripts/rollback_firestore.py dev
