@@ -60,7 +60,7 @@ function CreateBoardLocally() {
 
     return (
         <>
-            <div className="flex h-full items-center justify-between align-middle">
+            <div className="flex h-full sm:items-center justify-between sm:align-middle flex-col sm:flex-row">
                 <Heading1 className="!mb-0">Lag en tavle</Heading1>
 
                 <div className="flex flex-row gap-4">
