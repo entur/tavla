@@ -2,6 +2,7 @@ import type { LineWithFrontText } from 'app/(innlogget)/tavler/[id]/rediger/comp
 import { transportModeNames } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/utils'
 import { uniqBy } from 'lodash'
 import type { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
+import { getRelevantSubmode } from 'utils/transport'
 import {
     BusIcon,
     CablewayIcon,
@@ -54,15 +55,6 @@ export function getTransportIcon(
         default:
             return UnknownIcon
     }
-}
-
-export function getRelevantSubmode(
-    submode?: TTransportSubmode | null,
-): TTransportSubmode | undefined {
-    if (submode?.startsWith('airport')) return submode
-    if (submode === 'railReplacementBus') return submode
-    if (submode?.includes('CarFerry')) return submode
-    return undefined
 }
 
 export function getColorMode(

@@ -1,5 +1,5 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import { uniq } from 'lodash'
+import { uniq, uniqBy } from 'lodash'
 import {
     CLIENT_NAME,
     COUNTY_ENDPOINT,
@@ -8,7 +8,18 @@ import {
 } from 'src/assets/env'
 import { StopPlacesHaveDeparturesQuery } from 'src/graphql'
 import type { LocationDB } from 'src/types/db-types/boards'
-import { getIcons, type TCategory } from '../tavler/[id]/utils'
+import type {
+    TStopPlacesHaveDeparturesQuery,
+    TTransportMode,
+    TTransportSubmode,
+} from 'src/types/graphql-schema'
+import { getRelevantSubmode } from 'utils/transport'
+import { hasField, isNotNullOrUndefined } from 'utils/typeguards'
+import {
+    getIcons,
+    type TCategory,
+    travelTagsFromModes,
+} from '../tavler/[id]/utils'
 
 export type GeoCoordinate = {
     lat: number
@@ -74,10 +85,15 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
         })
 }
 
+type StopPlaceTransportModes = Array<{
+    transportMode: TTransportMode
+    transportSubmode?: TTransportSubmode
+}>
+
 async function fetchStopPlaceIdsWithDepartures(
     ids: string[],
-): Promise<Set<string>> {
-    if (ids.length === 0) return new Set()
+): Promise<Map<string, StopPlaceTransportModes>> {
+    if (ids.length === 0) return new Map()
 
     const response = await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
         headers: {
@@ -92,20 +108,33 @@ async function fetchStopPlaceIdsWithDepartures(
     })
 
     const json = await response.json()
-    const stopPlaces = json.data?.stopPlaces ?? []
 
-    return new Set(
-        stopPlaces
-            .filter(
-                (
-                    sp: {
-                        id: string
-                        quays: Array<{ lines: unknown[] }> | null
-                    } | null,
-                ) => sp?.quays?.some((quay) => quay.lines.length > 0),
-            )
-            .map((sp: { id: string }) => sp.id),
-    )
+    const stopPlaces: TStopPlacesHaveDeparturesQuery['stopPlaces'] =
+        json.data.stopPlaces ?? []
+
+    const map = new Map<string, StopPlaceTransportModes>()
+    for (const stopPlace of stopPlaces) {
+        if (!stopPlace) continue
+
+        const allLines =
+            stopPlace.quays
+                ?.flatMap((quay) => quay?.lines)
+                .filter((lines) => isNotNullOrUndefined(lines)) ?? []
+        const allModes = allLines
+            .filter((line) => hasField(line, 'transportMode'))
+            .map((line) => ({
+                transportMode: line.transportMode,
+                transportSubmode: getRelevantSubmode(
+                    line.transportSubmode ?? undefined,
+                ),
+            }))
+        const uniqueModes = uniqBy(
+            allModes,
+            (modes) => `${modes.transportMode}|${modes.transportSubmode ?? ''}`,
+        )
+        map.set(stopPlace.id, uniqueModes)
+    }
+    return map
 }
 
 export async function fetchStopPlaces(
@@ -159,6 +188,14 @@ export async function fetchStopPlaces(
                 item.value.layer !== 'venue' ||
                 idsWithDepartures.has(item.value.id),
         )
+        .map((item) => ({
+            ...item,
+            icons: idsWithDepartures.has(item.value.id)
+                ? travelTagsFromModes(
+                      idsWithDepartures.get(item.value.id) ?? [],
+                  )
+                : item.icons,
+        }))
         .slice(0, 5)
 }
 
@@ -186,7 +223,6 @@ export async function fetchClosestStopPlaces(
             name: properties.name ?? '',
         },
         label: properties.label || '',
-        icons: uniq(getIcons(properties.layer, properties.category)),
         county: properties.county,
     }))
 
@@ -198,6 +234,12 @@ export async function fetchClosestStopPlaces(
 
     return items
         .filter((item) => idsWithDepartures.has(item.value.id))
+        .map((item) => ({
+            ...item,
+            icons: travelTagsFromModes(
+                idsWithDepartures.get(item.value.id) ?? [],
+            ),
+        }))
         .slice(0, numberOfStopPlaces)
 }
 
