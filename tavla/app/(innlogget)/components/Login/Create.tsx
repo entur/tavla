@@ -2,6 +2,7 @@
 
 import { ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
 import {
     getFormFeedbackForError,
@@ -9,7 +10,6 @@ import {
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import musk from 'assets/illustrations/Musk.png'
 import {

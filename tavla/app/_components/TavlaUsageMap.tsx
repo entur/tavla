@@ -1,5 +1,5 @@
 import { Heading1, Paragraph } from '@entur/typography'
-import { CreateBoardButton } from 'app/components/CreateBoardButton'
+import { CreateBoardButton } from 'app/_components/CreateBoardButton'
 import TavlaNorwayMap from 'assets/illustrations/Tavla-Norway.svg'
 import Image from 'next/image'
 import { NavigateToOversiktButton } from './NavigateToOversiktButton'

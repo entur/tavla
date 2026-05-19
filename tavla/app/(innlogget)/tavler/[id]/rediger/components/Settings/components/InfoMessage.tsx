@@ -2,7 +2,7 @@
 import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4 } from '@entur/typography'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import {
     TRACKING_DEBOUNCE_TIME,
     usePosthogTracking,

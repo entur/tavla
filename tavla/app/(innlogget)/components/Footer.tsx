@@ -1,7 +1,7 @@
 'use client'
 import { GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
-import { showUC_UI as showUserCentricsUI } from 'app/components/ConsentHandler'
+import { showUC_UI as showUserCentricsUI } from 'app/_components/ConsentHandler'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
