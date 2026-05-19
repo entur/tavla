@@ -73,7 +73,14 @@ export function PublishModalContent({
             )
         case 'publishing':
             return <LoadingDots />
-        case 'published':
+        case 'published': {
+            const boardLink = getBoardLinkClient(publishState.boardId)
+            function copyLink() {
+                posthog.capture('board_copied', {
+                    location: 'board_without_user',
+                })
+                navigator.clipboard.writeText(boardLink)
+            }
             return (
                 <>
                     <Paragraph>
@@ -83,36 +90,20 @@ export function PublishModalContent({
                     <CopyableText
                         successHeading=""
                         successMessage="Lenken til tavlen ble kopiert!"
-                        onClick={() => {
-                            posthog.capture('baord_without_user_link_copied')
-                            navigator.clipboard.writeText(
-                                getBoardLinkClient(publishState.boardId),
-                            )
-                        }}
+                        onClick={copyLink}
                     >
-                        {getBoardLinkClient(publishState.boardId)}
+                        {boardLink}
                     </CopyableText>
                     <div className="flex flex-row gap-2">
-                        <PrimaryButton
-                            onClick={() => {
-                                posthog.capture(
-                                    'baord_without_user_link_copied',
-                                )
-
-                                navigator.clipboard.writeText(
-                                    getBoardLinkClient(publishState.boardId),
-                                )
-                            }}
-                            width="fluid"
-                        >
+                        <PrimaryButton onClick={copyLink} width="fluid">
                             Kopier lenke
                             <CopyIcon />
                         </PrimaryButton>
                         <PrimaryButton
                             onClick={() => {
-                                posthog.capture(
-                                    'board_without_user_board_opened',
-                                )
+                                posthog.capture('board_opened', {
+                                    location: 'board_without_user',
+                                })
                                 window.open(
                                     getBoardLinkClient(publishState.boardId),
                                     '_blank',
@@ -126,6 +117,7 @@ export function PublishModalContent({
                     </div>
                 </>
             )
+        }
         case 'error':
             return (
                 <div>

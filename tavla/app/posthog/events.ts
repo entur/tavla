@@ -73,8 +73,6 @@ export type EventMap = {
     board_share_started: undefined
     board_share_selected: undefined
     board_share_cancelled: undefined
-    baord_without_user_link_copied: undefined
-    board_without_user_board_opened: undefined
 
     /* Oversikt */
     board_create_started: WithLocation<
@@ -147,11 +145,15 @@ export type EventMap = {
     board_create_entry: WithLocation<typeof LOCATIONS.LandingPage>
 
     board_opened: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardWithoutUser
     >
 
     board_copied: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardWithoutUser
     >
 
     board_deleted: WithLocation<
