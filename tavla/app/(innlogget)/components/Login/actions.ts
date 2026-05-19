@@ -9,6 +9,7 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import type { UserDB } from 'src/types/db-types/users'
+import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -43,6 +44,10 @@ export async function create(uid: UserDB['uid']) {
     try {
         await firestore().collection('users').doc(uid).create({})
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to create user ${uid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while creating new user',

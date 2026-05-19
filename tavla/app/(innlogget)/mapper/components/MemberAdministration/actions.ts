@@ -13,6 +13,7 @@ import { handleError } from 'app/(innlogget)/utils/handleError'
 import admin, { auth, firestore } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { logToGcp } from 'src/utils/logging'
 
 export async function removeUserAction(
     _prevState: TFormFeedback | undefined,
@@ -28,6 +29,10 @@ export async function removeUserAction(
         await removeUserFromFolder(folderId, uid)
         revalidatePath('/')
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to remove user ${uid} from folder ${folderId}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while removing user from folder',
@@ -73,6 +78,10 @@ export async function inviteUserAction(
             })
         revalidatePath('/')
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to invite user ${invitee.uid} to folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while inviting user to folder',
