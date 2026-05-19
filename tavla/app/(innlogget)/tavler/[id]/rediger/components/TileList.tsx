@@ -1,6 +1,6 @@
 'use client'
 
-import { LOCAL_STORAGE_BOARD_ID } from 'app/(innlogget)/hooks/useSaveBoardInLocalStorage'
+import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { saveUpdatedTileOrder } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
 import { useEffect, useState } from 'react'

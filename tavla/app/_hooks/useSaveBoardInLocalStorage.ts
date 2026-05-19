@@ -1,4 +1,4 @@
-import { useLocalStorage } from 'app/(innlogget)/hooks/useLocalStorage'
+import { useLocalStorage } from 'app/_hooks/useLocalStorage'
 import { getTilesWithWalkingDistance } from 'app/lag-tavle/actions'
 import { useCallback, useEffect, useRef } from 'react'
 import type {
