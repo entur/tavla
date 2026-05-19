@@ -5,8 +5,8 @@ description: >
   noen på Tavla-teamet er på dependency-vakt og skal vurdere åpne Dependabot-PRer,
   klassifisere risiko, vurdere CVE-utnyttbarhet, eller skrive triage-notater.
   Trigger også ved omtale av "dependency-vakt", "avhengighetsoppdatering", "sikkerhetsvarsel",
-  "Dependabot", "ukens pakker", "pakkeansvarlig". Brukes også for å opprette
-  ukens dependency-brief som ETU-sak. Skillen forklarer alltid hvorfor — målet er å bygge
+  "Dependabot", "mandagsbrief", "ukens pakker", "pakkeansvarlig". Brukes også for å skrive
+  ukens dependency-brief. Skillen forklarer alltid hvorfor — målet er å bygge
   kompetanse i teamet over tid, ikke bare gjøre vurderingen.
 ---
 
@@ -14,10 +14,8 @@ description: >
 
 Felles arbeidsflyt for Tavlas ukentlige dependency-vakt. Skillen dekker to situasjoner:
 
-1. **Mandagsbrief** — opprett ETU-sak med full triage av alle PRer, alerts og CodeQL-funn.
+1. **Mandagsbrief** — hent og trier alle åpne PRer, alerts og CodeQL-funn, skriv ut en ferdig formatert brief i chatten.
 2. **Enkelt-triage** — vurder én konkret PR eller alert, presenter resultatet i chatten.
-
-All triage-output samles i ETU-saken. Ingen PR-kommentarer skrives.
 
 ## Kontekst
 
@@ -37,12 +35,11 @@ Vakten roterer ukentlig blant de tre utviklerne. Erfaringsnivå varierer — der
 
 | Når | Hva | Hvor |
 |-----|-----|------|
-| Man 09:00 | Opprett ukens dependency-brief med full triage | ETU-sak (se Steg 1) |
-| Fre EOD | Lukk briefingsaken | ETU-sak til Done |
+| Man 09:00 | Skriv ut ukens dependency-brief med full triage | Chatten (se Steg 1) |
 
 ---
 
-## Steg 1 — Mandagsbrief (ETU-sak)
+## Steg 1 — Mandagsbrief
 
 Når brukeren ber om "mandagsbrief", "ukens dependency-brief", "full dependency-sjekk", "ukens pakker", eller når en ny vakt starter uken:
 
@@ -62,285 +59,98 @@ Når brukeren ber om "mandagsbrief", "ukens dependency-brief", "full dependency-
    gh api repos/entur/tavla-visning/code-scanning/alerts --jq '[.[] | select(.state=="open")]'
    ```
 4. For hver PR og alert: klassifiser iht. `references/risikoklassifisering.md`, grep etter brukssteder i Tavla-kode der det er relevant.
-5. Opprett ETU-sak via `jira-entur-tavla`-skillen med **ADF-format** (se malen under):
-   - **Summary:** `📦 Dependency-vakt — uke {ISO-uke} {år}`
-   - **Issue type:** `Task`
-   - **contentFormat:** `adf` ← viktig, ikke markdown
-   - **Description:** ADF-dokument basert på malen under
+5. Skriv ut en ferdig formatert markdown-brief direkte i chatten (se malen under).
 
-### Description-mal (ADF)
+### Brief-mal (markdown)
 
-Send description som et ADF JSON-objekt med `contentFormat: "adf"`. Strukturen er:
+Bruk denne strukturen. Alle seksjoner skal alltid være med, også om de er tomme.
+
+```markdown
+# 📦 Dependency-vakt — uke {ISO-uke} {år}
+
+## 📋 Oversikt
+
+| | entur/tavla | entur/tavla-visning | Totalt |
+|---|---|---|---|
+| Åpne PRer | {n} | {n} | {n} |
+| Sikkerhetsvarsler | {n} ({severity}) | {n} ({severity}) | {n} |
+| CodeQL-funn | {n} | {n} | {n} |
+
+## ✅ Rutinemessige bumps
+
+### 📦 {pakkenavn} {fra-versjon} → {til-versjon}
+**Type:** Patch/Minor  |  **Risiko:** 🟢 Lav  |  [PR #{nummer}]({url})
+
+**Hva endret seg:**
+- {endringspunkt}
+
+**Vurdering:** {Resonnement — hva ble sjekket, grep-funn, hva avgjorde risikoklassen}
+
+**Anbefaling:** ✅ Merge
+
+---
+
+## ⚠️ Krever vurdering
+
+### 📦 {pakkenavn} {fra-versjon} → {til-versjon}
+**Type:** Minor/Major  |  **Risiko:** 🟡 Middels / 🔴 Høy  |  [PR #{nummer}]({url})
+
+**Hva endret seg:**
+- {endringspunkt}
+
+**Vurdering:** {Resonnement}
+
+**Anbefaling:** ⏸ Vent — {begrunnelse}
+
+---
+
+## 🔒 Sikkerhetsvarsler
+
+### 🔒 {pakkenavn} — {CVE/GHSA} ({severity})
+**CVSS:** {score}  |  **Risiko:** 🔴/🟡/🟢  |  **Fix:** {versjon}  |  [Alert #{nummer}]({url})
+
+**Sårbarhet:** {Hva er sårbarheten, hvilken funksjon, hvilken type angrep}
+
+**Utnyttbarhet i Tavla:** {Grep-funn, bruksmønster, om og hvordan Tavla eksponerer den sårbare koden}
+
+**Anbefaling:** ✅ Oppgrader nå / ⏸ Kan vente / 🗑️ Dismiss som falsk positiv
+
+---
+
+## 📌 Prioritert todo for uken
+
+Generer denne seksjonen **etter** at all triage er gjort. List opp konkrete handlinger sortert etter prioritet — ikke pakker, men faktiske oppgaver vakten skal utføre. Bruk emoji for prioritet og lenk til relevante PRer/alerts.
 
 ```
-📋 Oversikt            ← heading 3 + tabell med nøkkeltall
-✅ Rutinemessige bumps ← heading 3 + én panel per PR (grønn)
-⚠️ Krever vurdering   ← heading 3 + én panel per item (gul/rød)
-🔒 Sikkerhetsvarsler  ← heading 3 + én panel per alert (gul/rød)
-🧪 Test-sjekkliste    ← heading 3 + taskList
-📝 Notater fra forrige vakt ← heading 3 + paragraph
+🔴 Haster (gjør i dag)
+- [ ] {konkret handling} — {kort begrunnelse} → [lenke]
+
+🟡 Denne uken
+- [ ] {konkret handling} — {kort begrunnelse} → [lenke]
+
+🟢 Kan vente / neste runde
+- [ ] {konkret handling} — {kort begrunnelse} → [lenke]
 ```
 
-#### Panel-farger etter risiko
+Eksempel på gode todo-punkter:
+- ✅ "Dismiss CodeQL #39 som tolerable risk med kommentar om hardkodet hostname → [link]"
+- ✅ "Merge Dependabot PR #123 (patch, grønt CI) → [link]"
+- ✅ "Oppgrader postcss til 8.5.10+ i tavla-visning ved neste dep-runde"
+- ❌ "Vurdere hono" (for vagt — si konkret hva som skal gjøres)
 
-| Risiko | panelType | Bruk |
-|--------|-----------|------|
-| 🟢 Lav | `success` | Rutinemessige patch/minor-bumps |
-| 🟡 Middels | `note` | Minor med nye API-er, sikkerhetspakker |
-| 🔴 Høy | `warning` | Major, høy/kritisk CVE, kjernebiblioteker |
-| 🔵 Info | `info` | Stale alerts, kontekstuell info |
+---
 
-#### Struktur per PR-panel
+## 🧪 Test-sjekkliste for uken
 
-Hvert element i "Rutinemessige bumps" og "Krever vurdering" skal være et eget panel med denne innholdsstrukturen:
-
-```
-heading 4: 📦 {pakkenavn} {fra-versjon} → {til-versjon}
-paragraph: Type: {Patch/Minor/Major}  |  Risiko: {🟢/🟡/🔴}  |  [PR #{nummer}]({url}) eller [Alert #{nummer}]({url})
-heading 5: Hva endret seg
-bulletList: endringspunkter fra changelog
-heading 5: Vurdering
-paragraph: Resonnement — hva ble sjekket, grep-funn, hva avgjorde risikoklassen
-heading 5: Anbefaling
-paragraph: ✅ Merge / ⏸ Vent / 🗑️ Dismiss (med begrunnelse)
+- [ ] CI grønt på alle mergede PRer
+- [ ] e2e kjørt manuelt etter hver major bump
+- [ ] Bundle-size delta sjekket: kjør `yarn build` og se på Route (app)-tabellen — flag >5% delta
+- [ ] CodeQL-funn besvart eller dismisset med begrunnelse
 ```
 
-#### Fullstendig ADF-skjelett
+Legg til én seksjon per PR og én per alert. Legg til ekstra sjekklistepunkter for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Dismiss stale DOMPurify-alerts").
 
-```json
-{
-  "type": "doc",
-  "version": 1,
-  "content": [
-    {
-      "type": "heading", "attrs": {"level": 3},
-      "content": [{"type": "text", "text": "📋 Oversikt"}]
-    },
-    {
-      "type": "table",
-      "attrs": {"isNumberColumnEnabled": false, "layout": "default"},
-      "content": [
-        {
-          "type": "tableRow",
-          "content": [
-            {"type": "tableHeader", "content": [{"type": "paragraph", "content": [{"type": "text", "text": ""}]}]},
-            {"type": "tableHeader", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "entur/tavla"}]}]},
-            {"type": "tableHeader", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "entur/tavla-visning"}]}]},
-            {"type": "tableHeader", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "Totalt"}]}]}
-          ]
-        },
-        {
-          "type": "tableRow",
-          "content": [
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "Åpne PRer", "marks": [{"type": "strong"}]}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n}"}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n}"}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n}"}]}]}
-          ]
-        },
-        {
-          "type": "tableRow",
-          "content": [
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "Sikkerhetsvarsler", "marks": [{"type": "strong"}]}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n} ({severity})"}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n} ({severity})"}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n}"}]}]}
-          ]
-        },
-        {
-          "type": "tableRow",
-          "content": [
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "CodeQL-funn", "marks": [{"type": "strong"}]}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n}"}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n}"}]}]},
-            {"type": "tableCell", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{n}"}]}]}
-          ]
-        }
-      ]
-    },
-    {
-      "type": "heading", "attrs": {"level": 3},
-      "content": [{"type": "text", "text": "✅ Rutinemessige bumps"}]
-    },
-    {
-      "type": "panel", "attrs": {"panelType": "success"},
-      "content": [
-        {
-          "type": "heading", "attrs": {"level": 4},
-          "content": [{"type": "text", "text": "📦 {pakkenavn} {fra} → {til}"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [
-            {"type": "text", "text": "Type: Patch  |  Risiko: 🟢 Lav  |  "},
-            {"type": "text", "text": "PR #{nummer}", "marks": [{"type": "link", "attrs": {"href": "{pr-url}"}}]}
-          ]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Hva endret seg"}]
-        },
-        {
-          "type": "bulletList",
-          "content": [
-            {"type": "listItem", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{endringspunkt}"}]}]}
-          ]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Vurdering"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [{"type": "text", "text": "{Resonnement — hva ble sjekket, grep-funn, hva avgjorde risikoklassen}"}]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Anbefaling"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [{"type": "text", "text": "✅ Merge"}]
-        }
-      ]
-    },
-    {
-      "type": "heading", "attrs": {"level": 3},
-      "content": [{"type": "text", "text": "⚠️ Krever vurdering"}]
-    },
-    {
-      "type": "panel", "attrs": {"panelType": "note"},
-      "content": [
-        {
-          "type": "heading", "attrs": {"level": 4},
-          "content": [{"type": "text", "text": "📦 {pakkenavn} {fra} → {til}"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [
-            {"type": "text", "text": "Type: Minor  |  Risiko: 🟡 Middels  |  "},
-            {"type": "text", "text": "PR #{nummer}", "marks": [{"type": "link", "attrs": {"href": "{pr-url}"}}]}
-          ]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Hva endret seg"}]
-        },
-        {
-          "type": "bulletList",
-          "content": [
-            {"type": "listItem", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "{endringspunkt}"}]}]}
-          ]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Vurdering"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [{"type": "text", "text": "{Resonnement}"}]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Anbefaling"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [{"type": "text", "text": "⏸ Vent — {begrunnelse}"}]
-        }
-      ]
-    },
-    {
-      "type": "heading", "attrs": {"level": 3},
-      "content": [{"type": "text", "text": "🔒 Sikkerhetsvarsler"}]
-    },
-    {
-      "type": "panel", "attrs": {"panelType": "warning"},
-      "content": [
-        {
-          "type": "heading", "attrs": {"level": 4},
-          "content": [{"type": "text", "text": "🔒 {pakkenavn} — {CVE/GHSA} ({severity})"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [
-            {"type": "text", "text": "CVSS: {score}  |  EPSS: {%}  |  Risiko: 🔴/🟡/🟢  |  Fix: {versjon}  |  "},
-            {"type": "text", "text": "Alert #{nummer}", "marks": [{"type": "link", "attrs": {"href": "{alert-url}"}}]}
-          ]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Sårbarhet"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [{"type": "text", "text": "{Hva er sårbarheten, hvilken funksjon, hvilken type angrep}"}]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Utnyttbarhet i Tavla"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [{"type": "text", "text": "{Grep-funn, bruksmønster, om og hvordan Tavla eksponerer den sårbare koden}"}]
-        },
-        {
-          "type": "heading", "attrs": {"level": 5},
-          "content": [{"type": "text", "text": "Anbefaling"}]
-        },
-        {
-          "type": "paragraph",
-          "content": [{"type": "text", "text": "✅ Oppgrader nå / ⏸ Kan vente / 🗑️ Dismiss som falsk positiv"}]
-        }
-      ]
-    },
-    {
-      "type": "heading", "attrs": {"level": 3},
-      "content": [{"type": "text", "text": "🧪 Test-sjekkliste for uken"}]
-    },
-    {
-      "type": "taskList",
-      "attrs": {"localId": "checklist-1"},
-      "content": [
-        {
-          "type": "taskItem",
-          "attrs": {"localId": "t1", "state": "TODO"},
-          "content": [{"type": "text", "text": "CI grønt på alle merget PRer"}]
-        },
-        {
-          "type": "taskItem",
-          "attrs": {"localId": "t2", "state": "TODO"},
-          "content": [{"type": "text", "text": "e2e kjørt manuelt etter hver major bump"}]
-        },
-        {
-          "type": "taskItem",
-          "attrs": {"localId": "t3", "state": "TODO"},
-          "content": [{"type": "text", "text": "Bundle-size delta sjekket: kjør yarn build og se på Route (app)-tabellen — flag >5% delta"}]
-        },
-        {
-          "type": "taskItem",
-          "attrs": {"localId": "t4", "state": "TODO"},
-          "content": [{"type": "text", "text": "CodeQL-funn besvart eller dismisset med begrunnelse"}]
-        }
-      ]
-    },
-    {
-      "type": "heading", "attrs": {"level": 3},
-      "content": [{"type": "text", "text": "📝 Notater fra forrige vakt"}]
-    },
-    {
-      "type": "paragraph",
-      "content": [{"type": "text", "text": "Ingen ETU-sak funnet fra forrige uke."}]
-    }
-  ]
-}
-```
-
-Legg til én panel per PR og én panel per alert. Legg til task-items i sjekklisten for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Dismiss stale DOMPurify-alerts").
-
-### Hvorfor en ETU-sak med ADF
-
-Saken er vaktens "hjemmebase" for uken. Paneler med farger gjør det visuelt lett å scanne risiko. Triage-notatene er søkbare og gir neste vakt — og fremtidige utviklere — full kontekst. Ved ukens slutt lukkes den og blir paper trail.
+**Rekkefølge i brief:** Oversikt → Rutinemessige bumps → Krever vurdering → Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Todo-seksjonen kommer alltid rett før test-sjekklisten.
 
 ---
 
@@ -355,7 +165,7 @@ Følg `references/sikkerhets-triage.md`. Kort versjon:
 3. **Vurder** reell risiko i vår kontekst.
 4. **Anbefal**: oppgrader nå / kan vente / falsk positiv. Dokumentér resonnement.
 
-Resultatet dokumenteres som et panel i ETU-saken (se ADF-mal over), ikke som PR-kommentar.
+Resultatet skrives ut i chatten, enten som del av mandagsbriefens sikkerhetsvarsel-seksjon eller som frittstående svar.
 
 > Dokumentér alltid resonnementet, også for "lav reell risiko". Det er hva en sikkerhetsrevisor og fremtidige team-medlemmer leser. Og hvis noen i teamet er uenig, kan de korrigere — det er slik vi lærer.
 
@@ -370,7 +180,7 @@ Les bare det som er relevant for situasjonen:
 
 ## Læringsprinsipp
 
-Forklar alltid hvorfor — ikke bare hva. Dette gjelder spesielt i "Vurdering"-seksjonen i hvert panel.
+Forklar alltid hvorfor — ikke bare hva. Dette gjelder spesielt i "Vurdering"-seksjonen for hver PR og alert.
 
 Eksempler på hva som er læringsrikt vs ikke:
 
