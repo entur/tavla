@@ -1,4 +1,4 @@
-import TransportIcon from 'app/(innlogget)/components/TransportIcon/TransportIcon'
+import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import { transportModeNames } from '../utils'
 

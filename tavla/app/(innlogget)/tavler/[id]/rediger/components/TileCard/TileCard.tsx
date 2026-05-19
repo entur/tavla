@@ -2,12 +2,12 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
-import { DEFAULT_COLUMNS } from 'app/(innlogget)/components/TileSelector/utils'
-import TransportIcon from 'app/(innlogget)/components/TransportIcon/TransportIcon'
+import { DEFAULT_COLUMNS } from 'app/_components/TableEditor/TileSelector/utils'
+import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
     sortByTransportMode,
-} from 'app/(innlogget)/components/TransportIcon/utils'
+} from 'app/_components/TransportIcon/utils'
 import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
 import {

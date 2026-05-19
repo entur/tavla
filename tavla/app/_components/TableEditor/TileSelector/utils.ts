@@ -1,5 +1,6 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 import * as Sentry from '@sentry/nextjs'
+import type { GeoCoordinate, StopPlace } from 'app/(innlogget)/utils/fetch'
 import { nanoid } from 'nanoid'
 import {
     QuayCoordinatesQuery,
@@ -12,7 +13,6 @@ import type {
     Coordinate,
     TileColumnDB,
 } from 'src/types/db-types/boards'
-import type { GeoCoordinate, StopPlace } from '../../utils/fetch'
 
 export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
 

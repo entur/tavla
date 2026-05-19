@@ -1,6 +1,6 @@
 import { Heading1, Heading2, Paragraph, SubParagraph } from '@entur/typography'
-import { TileSelector } from 'app/(innlogget)/components/TileSelector/TileSelector'
-import { formDataToTiles } from 'app/(innlogget)/components/TileSelector/utils'
+import { TileSelector } from 'app/_components/TableEditor/TileSelector/TileSelector'
+import { formDataToTiles } from 'app/_components/TableEditor/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'

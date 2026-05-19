@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/nextjs'
 import {
     getStopPlaceCoordinates,
     getWalkingDistance,
-} from 'app/(innlogget)/components/TileSelector/utils'
+} from 'app/_components/TableEditor/TileSelector/utils'
 import {
     initializeAdminApp,
     userCanEditBoard,
