@@ -4,7 +4,7 @@ import type { TypeOfPlace } from 'app/(innlogget)/components/TileSelector/utils'
 export const LOCATIONS = {
     LandingPage: 'landing_page',
     NavBar: 'nav_bar',
-    DemoPage: 'demo_page',
+    BoardWithoutUser: 'board_without_user',
     Footer: 'footer',
     UserModal: 'user_modal',
     Admin: 'admin',
@@ -19,7 +19,7 @@ type WithLocation<L extends Location> = { location: L }
 export type EventMap = {
     /* User: create and login */
     user_create_started:
-        | WithLocation<typeof LOCATIONS.DemoPage>
+        | WithLocation<typeof LOCATIONS.BoardWithoutUser>
         | (WithLocation<typeof LOCATIONS.UserModal> & {
               context: TLoginPage
           })
@@ -34,7 +34,7 @@ export type EventMap = {
 
     user_login_started:
         | WithLocation<
-              | typeof LOCATIONS.DemoPage
+              | typeof LOCATIONS.BoardWithoutUser
               | typeof LOCATIONS.NavBar
               | typeof LOCATIONS.LandingPage
           >
@@ -60,6 +60,16 @@ export type EventMap = {
     }
 
     /* Tavle uten bruker */
+
+    board_without_user_started:
+        | WithLocation<
+              | typeof LOCATIONS.NavBar
+              | typeof LOCATIONS.LandingPage
+              | typeof LOCATIONS.Footer
+          >
+        | (WithLocation<typeof LOCATIONS.UserModal> & {
+              context: TLoginPage
+          })
     board_share_started: undefined
     board_share_selected: undefined
     board_share_cancelled: undefined
@@ -154,25 +164,25 @@ export type EventMap = {
     custom_url_saved: WithLocation<typeof LOCATIONS.BoardPage>
 
     stop_place_deleted: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     >
 
     stop_place_edit_started: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     >
 
     stop_place_edit_cancelled: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > & {
         unsavedChanges: boolean
     }
 
     stop_place_edit_discard: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     >
 
     stop_place_edit_interaction: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > & {
         field:
             | 'name'
@@ -201,7 +211,7 @@ export type EventMap = {
     }
 
     stop_place_edit_saved: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > & {
         name: boolean
         offset: boolean
@@ -212,7 +222,7 @@ export type EventMap = {
     }
 
     stop_place_add_interaction: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > &
         (
             | {
@@ -233,7 +243,7 @@ export type EventMap = {
         )
 
     stop_place_added: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > & {
         county_count: number
         typeOfPlace: TypeOfPlace
@@ -268,17 +278,6 @@ export type EventMap = {
             | 'clock'
             | 'logo'
     }
-
-    /* Demo */
-    demo_started:
-        | WithLocation<
-              | typeof LOCATIONS.NavBar
-              | typeof LOCATIONS.LandingPage
-              | typeof LOCATIONS.Footer
-          >
-        | (WithLocation<typeof LOCATIONS.UserModal> & {
-              context: TLoginPage
-          })
 
     /* FAQ */
     faq_link_clicked: WithLocation<

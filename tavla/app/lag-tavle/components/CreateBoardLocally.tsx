@@ -4,7 +4,7 @@ import { Modal } from '@entur/modal'
 import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
 import { TileSelector } from 'app/(innlogget)/components/TileSelector/TileSelector'
 import { formDataToTiles } from 'app/(innlogget)/components/TileSelector/utils'
-import { useSaveDemoBoardInLocalStorage } from 'app/(innlogget)/hooks/useSaveDemoBoardInLocalStorage'
+import { useSaveBoardInLocalStorage } from 'app/(innlogget)/hooks/useSaveBoardInLocalStorage'
 import { SettingsForm } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/components/SettingsForm'
 import { TileList } from 'app/(innlogget)/tavler/[id]/rediger/components/TileList'
 import { CreateUserButton } from 'app/components/CreateUserButton'
@@ -21,8 +21,7 @@ export type PublishBoardState =
     | { type: 'error'; message: string }
 
 function CreateBoardLocally() {
-    const { board, loaded, setTiles, onSubmit } =
-        useSaveDemoBoardInLocalStorage()
+    const { board, loaded, setTiles, onSubmit } = useSaveBoardInLocalStorage()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const [publishState, setPublishState] = useState<PublishBoardState>({
@@ -91,15 +90,15 @@ function CreateBoardLocally() {
                         setTiles([...board.tiles, ...tiles])
                         resetPublishedBoard()
                     }}
-                    trackingLocation="demo_page"
+                    trackingLocation="board_without_user"
                 />
                 <TileList
                     board={board}
-                    setTilesDemoBoard={(tiles) => {
+                    setTilesLocalStorageBoard={(tiles) => {
                         setTiles(tiles)
                         resetPublishedBoard()
                     }}
-                    bid="demo"
+                    bid={board.id}
                 />
                 <section
                     data-theme={board.theme ?? 'dark'}

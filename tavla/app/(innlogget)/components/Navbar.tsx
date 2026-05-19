@@ -48,7 +48,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                             as={Link}
                             href="/lag-tavle"
                             onClick={() => {
-                                posthog.capture('demo_started', {
+                                posthog.capture('board_without_user_started', {
                                     location: 'nav_bar',
                                 })
                             }}
