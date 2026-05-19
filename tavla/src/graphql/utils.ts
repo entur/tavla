@@ -4,6 +4,7 @@ import {
     GRAPHQL_ENDPOINTS,
     type TEndpointNames,
 } from 'src/assets/env'
+import { logToGcp } from 'src/utils/logging'
 import { addMinutesToDate, formatDateToISO } from 'src/utils/time'
 import type { TypedDocumentString } from './index'
 
@@ -65,10 +66,16 @@ export async function fetcher<Data, Variables>([
         method: 'POST',
     })
 
+    await logToGcp('info', `GraphQL ${endpointName}: status=${response.status}`)
+
     const res = await response.json()
 
     if (res.errors && res.errors.length > 0) {
         const errorMessage = res.errors[0]?.message || 'Unknown GraphQL error'
+        await logToGcp(
+            'warning',
+            `GraphQL ${endpointName} error: ${errorMessage}`,
+        )
         Sentry.captureMessage(`GraphQL error: ${errorMessage}`, {
             level: 'warning',
             extra: {
