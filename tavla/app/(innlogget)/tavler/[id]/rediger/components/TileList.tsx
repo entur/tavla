@@ -1,20 +1,20 @@
 'use client'
 
+import { LOCAL_STORAGE_BOARD_ID } from 'app/(innlogget)/hooks/useSaveBoardInLocalStorage'
 import { saveUpdatedTileOrder } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
 import { useEffect, useState } from 'react'
-
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { TileCard } from './TileCard/TileCard'
 
 function TileList({
     board,
-    setTilesDemoBoard,
+    setTilesLocalStorageBoard,
     bid,
 }: {
     board: BoardDB
     bid?: BoardDB['id']
-    setTilesDemoBoard?: (tiles: BoardDB['tiles']) => void
+    setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)
 
@@ -39,8 +39,8 @@ function TileList({
         newArray[index] = oldElement
 
         setTileArray(newArray)
-        if (bid === 'demo' && setTilesDemoBoard) {
-            setTilesDemoBoard(newArray)
+        if (bid === LOCAL_STORAGE_BOARD_ID && setTilesLocalStorageBoard) {
+            setTilesLocalStorageBoard(newArray)
         } else {
             saveUpdatedTileOrder(board.id ?? '', newArray)
         }
@@ -52,13 +52,15 @@ function TileList({
                 <TileCard
                     key={tile.uuid}
                     bid={bid ?? board.id ?? ''}
-                    demoBoard={bid ? board : undefined}
+                    localStorageBoard={
+                        bid === LOCAL_STORAGE_BOARD_ID ? board : undefined
+                    }
                     tile={tile}
                     address={board.meta.location}
                     moveItem={debouncedSave}
                     index={index}
                     totalTiles={board.tiles.length}
-                    setTilesDemoBoard={setTilesDemoBoard}
+                    setTilesLocalStorageBoard={setTilesLocalStorageBoard}
                     isCombined={board.isCombinedTiles}
                 />
             ))}

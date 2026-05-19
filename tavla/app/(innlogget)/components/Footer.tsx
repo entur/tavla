@@ -67,19 +67,6 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                         <ul className="flex flex-col gap-4">
                             <li>
                                 <EnturLink
-                                    href="/demo"
-                                    as={Link}
-                                    onClick={() =>
-                                        posthog.capture('demo_started', {
-                                            location: 'footer',
-                                        })
-                                    }
-                                >
-                                    Test ut Tavla
-                                </EnturLink>
-                            </li>
-                            <li>
-                                <EnturLink
                                     href="/hjelp"
                                     as={Link}
                                     onClick={() =>

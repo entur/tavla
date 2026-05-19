@@ -13,10 +13,6 @@ function nodePosthogClient() {
     return posthogClient
 }
 
-export enum FeatureFlags {
-    CreateBoardWithoutUser = 'create_board_without_user',
-}
-
 export async function isFeatureEnabled(flag: string): Promise<boolean> {
     const posthogClient = nodePosthogClient()
 

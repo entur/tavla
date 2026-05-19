@@ -150,7 +150,7 @@ function TileSelector({
                 setSelectedClosestStopPlaces(null)
                 setMainStopPlaceItem(null)
                 setTimeout(() => {
-                    if (trackingLocation !== 'demo_page') {
+                    if (trackingLocation !== 'board_without_user') {
                         posthog.capture('survey_set_up_board')
                     }
                 }, 5000)

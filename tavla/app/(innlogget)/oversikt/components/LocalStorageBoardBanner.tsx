@@ -9,7 +9,7 @@ import { saveBoardToFirebaseForUser } from '../actions'
 
 const LOCAL_STORAGE_KEY = 'lag-tavle-board'
 
-export function DemoBoardBanner() {
+export function LocalStorageBoardBanner() {
     const [board, setBoard] = useState<BoardDB | null>(null)
     const [loading, setLoading] = useState(false)
     const router = useRouter()

@@ -77,13 +77,16 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                             </SideNavigationItem>
                         ) : (
                             <SideNavigationItem
-                                active={pathname?.includes('/demo')}
+                                active={pathname?.includes('/lag-tavle')}
                                 as={Link}
-                                href="/demo"
+                                href="/lag-tavle"
                                 onClick={async () => {
-                                    posthog.capture('demo_started', {
-                                        location: 'nav_bar',
-                                    })
+                                    posthog.capture(
+                                        'board_without_user_started',
+                                        {
+                                            location: 'nav_bar',
+                                        },
+                                    )
                                     setIsOpen(false)
                                 }}
                                 className="!text-primary"

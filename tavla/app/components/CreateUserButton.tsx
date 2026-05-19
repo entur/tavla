@@ -19,7 +19,7 @@ function CreateUserButton({
             href="?login=create"
             onClick={() => {
                 posthog.capture('user_create_started', {
-                    location: 'demo_page',
+                    location: 'board_without_user',
                 })
             }}
             width={width || 'auto'}
