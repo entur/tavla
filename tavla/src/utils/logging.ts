@@ -14,8 +14,7 @@ export type HttpRequestLog = {
 }
 
 const logging = new Logging({ projectId: process.env.GOOGLE_PROJECT_ID })
-const log_name = 'tavla_admin'
-const log = logging.log(log_name)
+const admin_log = logging.log('tavla_admin')
 const requests_log = logging.log('tavla_requests')
 
 function sanitizeForLog(value: unknown): string {
@@ -37,8 +36,8 @@ export async function logToGcp(level: LogLevel, message: string) {
             resource: { type: 'global' },
             severity: safeLevel.toUpperCase(),
         }
-        const entry = log.entry(metadata, { message: safeMessage })
-        await log.write(entry)
+        const entry = admin_log.entry(metadata, { message: safeMessage })
+        await admin_log.write(entry)
     } catch {
         // silently ignore — expected to fail locally without GCP credentials
     }

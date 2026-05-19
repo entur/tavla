@@ -1,7 +1,9 @@
 import { SkipToContent } from '@entur/a11y'
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import Script from 'next/script'
 import { type ReactNode, Suspense } from 'react'
+import { logToGcp } from 'src/utils/logging'
 import 'src/styles/fonts.css'
 import 'src/styles/imports.css'
 import 'src/styles/reset.css'
@@ -43,6 +45,9 @@ export const metadata: Metadata = {
 
 async function RootLayout({ children }: { children: ReactNode }) {
     const loggedIn = (await getUserFromSessionCookie()) !== null
+    const headersList = await headers()
+    const pathname = headersList.get('x-pathname') ?? '/'
+    void logToGcp('info', `Pageview: ${pathname}`)
 
     return (
         <html lang="nb">
