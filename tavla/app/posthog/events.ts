@@ -73,6 +73,8 @@ export type EventMap = {
     board_share_started: undefined
     board_share_selected: undefined
     board_share_cancelled: undefined
+    baord_without_user_link_copied: undefined
+    board_without_user_board_opened: undefined
 
     /* Oversikt */
     board_create_started: WithLocation<
