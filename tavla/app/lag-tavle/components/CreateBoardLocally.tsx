@@ -104,7 +104,6 @@ function CreateBoardLocally() {
                     data-theme={board.theme ?? 'dark'}
                     aria-label="Forhåndsvisning av Tavla"
                 >
-                    <Heading2>Forhåndsvisning</Heading2>
                     <BoardPreview board={board} />
                 </section>
             </div>
