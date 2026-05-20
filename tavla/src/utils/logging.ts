@@ -13,6 +13,46 @@ function getLog() {
     return _log
 }
 
+type LogPayload = {
+    message: string
+    type?: 'server-action' | 'http' | 'graphql'
+    action?: string
+    method?: string
+    endpoint?: string
+    status?: number
+}
+
+function buildPayload(message: string): LogPayload {
+    const actionMatch = message.match(/^action:(\w+)/)
+    if (actionMatch) {
+        return { message, type: 'server-action', action: actionMatch[1] }
+    }
+
+    const httpMatch = message.match(/^(GET|POST|PUT|DELETE|PATCH) /)
+    if (httpMatch) {
+        const status = message.match(/status=(\d+)/)?.[1]
+        return {
+            message,
+            type: 'http',
+            method: httpMatch[1],
+            ...(status ? { status: Number(status) } : {}),
+        }
+    }
+
+    const graphqlMatch = message.match(/^GraphQL ([\w-]+)/)
+    if (graphqlMatch) {
+        const status = message.match(/status=(\d+)/)?.[1]
+        return {
+            message,
+            type: 'graphql',
+            endpoint: graphqlMatch[1],
+            ...(status ? { status: Number(status) } : {}),
+        }
+    }
+
+    return { message }
+}
+
 function sanitizeForLog(value: unknown): string {
     return (
         String(value)
@@ -32,7 +72,7 @@ export async function logToGcp(level: LogLevel, message: string) {
         console.log({
             severity: safeLevel.toUpperCase(),
             timestamp: new Date().toISOString(),
-            message: safeMessage,
+            ...buildPayload(safeMessage),
         })
         return
     }
@@ -42,7 +82,7 @@ export async function logToGcp(level: LogLevel, message: string) {
 
     const entry = log.entry(
         { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
-        { message: safeMessage },
+        buildPayload(safeMessage),
     )
     // biome-ignore lint/suspicious/noConsole: surface GCP logging errors
     log.write(entry).catch((error) =>
