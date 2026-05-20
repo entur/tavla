@@ -1,11 +1,11 @@
 'use client'
 import { TopNavigationItem } from '@entur/menu'
+import { Login } from 'app/(innlogget)/components/Login/Login'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Login } from './Login/Login'
 import { MobileNavbar } from './MobileNavbar'
 
 function Navbar({ loggedIn }: { loggedIn: boolean }) {
@@ -15,7 +15,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
     return (
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
             <Link
-                href="/"
+                href="/tavla/public"
                 onClick={() =>
                     posthog.capture('go_to_home_page', { location: 'nav_bar' })
                 }
