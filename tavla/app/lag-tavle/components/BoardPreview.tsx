@@ -1,9 +1,22 @@
 'use client'
 
-import { isValidTavlaVisningOrigin } from 'app/demo/constants'
 import React, { useEffect, useRef } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkClient } from 'src/utils/boardLink'
+
+const TAVLA_VISNING_ORIGINS = {
+    production: 'https://vis-tavla.entur.no',
+    development: 'https://vis-tavla.dev.entur.no',
+    local: 'http://localhost:5173',
+} as const
+
+function isValidTavlaVisningOrigin(origin: string): boolean {
+    return (
+        origin === TAVLA_VISNING_ORIGINS.production ||
+        origin === TAVLA_VISNING_ORIGINS.development ||
+        origin === TAVLA_VISNING_ORIGINS.local
+    )
+}
 
 function sendDemoBoardMessage(
     iframe: HTMLIFrameElement | null,
@@ -19,7 +32,7 @@ function sendDemoBoardMessage(
     )
 }
 
-function DemoPreview({ board }: { board: BoardDB }) {
+function BoardPreview({ board }: { board: BoardDB }) {
     const iframeRef = useRef<HTMLIFrameElement>(null)
     const [iframeSrc, setIframeSrc] = React.useState<string>('')
     const boardRef = useRef<BoardDB>(board)
@@ -112,4 +125,4 @@ function DemoPreview({ board }: { board: BoardDB }) {
     )
 }
 
-export { DemoPreview }
+export { BoardPreview }

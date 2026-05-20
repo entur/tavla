@@ -31,6 +31,7 @@ import type {
     TransportPalette,
 } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
+import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -103,6 +104,10 @@ export async function saveSettings(data: FormData) {
             redirect('/')
         }
 
+        await logToGcp(
+            'error',
+            `Failed to save settings for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         errors.general = handleError(error)
         return errors
     }
@@ -123,6 +128,10 @@ async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
         })
         revalidatePath(`tavler/${bid}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to set footer for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while setting footer of board',
@@ -145,6 +154,10 @@ async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to set theme for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while updating theme of board',
@@ -170,6 +183,10 @@ async function setViewType(board: BoardDB, viewType: string) {
 
         revalidatePath(`/tavler/${board.id}/rediger`)
     } catch (e) {
+        await logToGcp(
+            'error',
+            `Failed to set view type for board ${board.id}: ${e instanceof Error ? e.message : String(e)}`,
+        )
         handleError(e)
     }
 }
@@ -185,6 +202,10 @@ async function saveTitle(bid: BoardDB['id'], title: string) {
             })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to save title for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while saving title of board tile',
@@ -203,6 +224,10 @@ async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
             .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to save font for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while updating font size of board',
@@ -225,6 +250,10 @@ async function saveLocation(board: BoardDB, location?: LocationDB) {
             })
         revalidatePath(`/tavler/${board.id}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to save location for board ${board.id}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while updating location of board',
@@ -290,6 +319,10 @@ export async function moveBoard(
                 .doc(user.uid)
                 .update({ owner: FieldValue.arrayUnion(bid) })
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to move board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while moving board to new folder',
@@ -317,6 +350,10 @@ async function setTransportPalette(
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to set transport palette for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while updating transport palette',
@@ -342,6 +379,10 @@ async function setElements(
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to set elements for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while updating visible elements',

@@ -8,6 +8,7 @@ import { getFolder } from 'src/firebase'
 import { type BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
 import { type FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
 import type { UserDB } from 'src/types/db-types/users'
+import { logToGcp } from 'src/utils/logging'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
@@ -116,6 +117,10 @@ export async function getFoldersForUser(): Promise<Folder[]> {
             }
         })
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to fetch folders for user ${user.uid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureMessage(
             'Error while fetching folders for user with id ' + user.uid,
         )
@@ -166,6 +171,10 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
             }),
         )
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to fetch boards for folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureMessage(
             'Error while fetching boards for folder with folderID ' + folderid,
         )
@@ -209,6 +218,10 @@ export async function getBoards(ids?: BoardDB['id'][]) {
             }),
         )
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to fetch boards [${ids}]: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureMessage('Error while fetching list of boards: ' + ids)
         throw error
     }

@@ -4,6 +4,7 @@ import { getFirestore } from 'firebase-admin/firestore'
 import { type NextRequest, NextResponse } from 'next/server'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
+import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -118,6 +119,10 @@ export async function GET(request: NextRequest) {
             { headers: getCorsHeaders(request) },
         )
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to fetch board ${boardId}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while fetching board',

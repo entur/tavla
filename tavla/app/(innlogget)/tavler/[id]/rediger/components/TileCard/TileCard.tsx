@@ -8,6 +8,7 @@ import {
     getTransportModesFromLines,
     sortByTransportMode,
 } from 'app/(innlogget)/components/TransportIcon/utils'
+import { LOCAL_STORAGE_BOARD_ID } from 'app/(innlogget)/hooks/useSaveBoardInLocalStorage'
 import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
 import {
@@ -38,21 +39,21 @@ function TileCard({
     tile,
     index,
     address,
-    demoBoard,
+    localStorageBoard,
     totalTiles,
     isCombined,
     moveItem,
-    setTilesDemoBoard,
+    setTilesLocalStorageBoard,
 }: {
     bid: BoardDB['id']
     tile: BoardTileDB
     index: number
     address?: LocationDB
-    demoBoard?: BoardDB
+    localStorageBoard?: BoardDB
     totalTiles: number
     isCombined: boolean
     moveItem: (index: number, direction: string) => void
-    setTilesDemoBoard?: (tiles: BoardDB['tiles']) => void
+    setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const posthog = usePosthogTracking()
 
@@ -60,6 +61,11 @@ function TileCard({
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
+
+    const isLocalStorageBoard = bid === LOCAL_STORAGE_BOARD_ID
+    const trackingLocation = isLocalStorageBoard
+        ? 'board_without_user'
+        : 'board_page'
 
     const onFieldChanged = (field: string) => {
         setChangedFields((prev) => new Set(prev).add(field))
@@ -126,8 +132,8 @@ function TileCard({
         }
 
         try {
-            if (bid === 'demo') {
-                saveTileToDemoBoard(newTile)
+            if (isLocalStorageBoard) {
+                saveTileToLocalStorageBoard(newTile)
             } else {
                 await saveTile(bid, newTile)
             }
@@ -175,27 +181,27 @@ function TileCard({
     const transportModes =
         getTransportModesFromLines(uniqLines).sort(sortByTransportMode)
 
-    const saveTileToDemoBoard = (newTile: BoardTileDB) => {
-        if (!demoBoard) return null
-        const oldTileIndex = demoBoard.tiles.findIndex(
+    const saveTileToLocalStorageBoard = (newTile: BoardTileDB) => {
+        if (!localStorageBoard) return null
+        const oldTileIndex = localStorageBoard.tiles.findIndex(
             (tile) => tile.uuid === newTile.uuid,
         )
         if (oldTileIndex === -1) return null
 
-        const updatedTiles = demoBoard.tiles.map((existingTile) =>
+        const updatedTiles = localStorageBoard.tiles.map((existingTile) =>
             existingTile.uuid === newTile.uuid ? newTile : existingTile,
         )
 
-        if (setTilesDemoBoard) setTilesDemoBoard(updatedTiles)
+        if (setTilesLocalStorageBoard) setTilesLocalStorageBoard(updatedTiles)
     }
 
-    const deleteTileDemoBoard = () => {
-        if (!demoBoard) return null
+    const deleteTileLocalStorageBoard = () => {
+        if (!localStorageBoard) return null
 
-        const remainingTiles = demoBoard.tiles.filter(
+        const remainingTiles = localStorageBoard.tiles.filter(
             (t) => t.uuid !== tile.uuid,
         )
-        if (setTilesDemoBoard) setTilesDemoBoard(remainingTiles)
+        if (setTilesLocalStorageBoard) setTilesLocalStorageBoard(remainingTiles)
 
         addToast(`${tile.name} fjernet!`)
     }
@@ -206,19 +212,17 @@ function TileCard({
 
     const handleDeleteTile = () => {
         posthog.capture('stop_place_deleted', {
-            location: bid === 'demo' ? 'demo_page' : 'board_page',
+            location: trackingLocation,
         })
 
-        if (bid === 'demo') {
-            deleteTileDemoBoard()
+        if (isLocalStorageBoard) {
+            deleteTileLocalStorageBoard()
         } else {
             deleteTile(bid, tile).then(() => {
                 addToast(`${tile.name} fjernet!`)
             })
         }
     }
-
-    const trackingLocation = bid === 'demo' ? 'demo_page' : 'board_page'
 
     return (
         <div>
@@ -255,9 +259,7 @@ function TileCard({
                             setIsTileOpen={handleSetIsTileOpen}
                             setConfirmOpen={setConfirmOpen}
                             deleteTile={handleDeleteTile}
-                            trackingLocation={
-                                bid === 'demo' ? 'demo_page' : 'board_page'
-                            }
+                            trackingLocation={trackingLocation}
                         />
                     </div>
                     <TileArrows

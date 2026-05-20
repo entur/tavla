@@ -9,14 +9,17 @@ import type {
     TransportPalette,
 } from 'types/db-types/boards'
 
+/**This board id is used to identify this board type in "tavla-visning", do not change without updating both*/
+export const LOCAL_STORAGE_BOARD_ID = 'demo'
+
 const emptyBoard: BoardDB = {
-    id: 'demo',
+    id: LOCAL_STORAGE_BOARD_ID,
     meta: { title: 'Min tavle' },
     tiles: [],
     isCombinedTiles: false,
 }
 
-export function useSaveDemoBoardInLocalStorage(): {
+export function useSaveBoardInLocalStorage(): {
     board: BoardDB
     loaded: boolean
     setTiles: (newTiles: BoardDB['tiles']) => void
