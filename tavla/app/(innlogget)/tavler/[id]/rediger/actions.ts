@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/nextjs'
 import {
     getStopPlaceCoordinates,
     getWalkingDistance,
-} from 'app/(innlogget)/components/TileSelector/utils'
+} from 'app/_components/TileSelector/utils'
 import {
     initializeAdminApp,
     userCanEditBoard,
@@ -83,6 +83,7 @@ export async function getWalkingDistanceTile(
         },
     }
 }
+
 export async function saveUpdatedTileOrder(
     bid: BoardDB['id'],
     tiles: BoardTileDB[],
