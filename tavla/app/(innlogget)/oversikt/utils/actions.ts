@@ -17,6 +17,7 @@ export async function deleteBoardAction(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
+    await logToGcp('info', 'action:deleteBoardAction invoked')
     const bid = data.get('bid') as BoardDB['id']
     const folder = await getFolderForBoard(bid)
 
@@ -54,6 +55,7 @@ export async function countAllBoards(folders: FolderDB[], boards: BoardDB[]) {
 }
 
 export async function moveBoardAction(data: FormData) {
+    await logToGcp('info', 'action:moveBoardAction invoked')
     const bid = data.get('bid') as BoardDB['id']
     const newFolderID = data.get('newOid') as FolderDB['id'] | undefined
     const oldFolder = await getFolderForBoard(bid)

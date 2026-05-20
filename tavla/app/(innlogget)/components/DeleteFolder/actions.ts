@@ -16,6 +16,7 @@ export async function deleteFolderAction(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
+    await logToGcp('info', 'action:deleteFolderAction invoked')
     const user = await getUserFromSessionCookie()
 
     if (!user) redirect('/')

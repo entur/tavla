@@ -18,6 +18,7 @@ initializeAdminApp()
 const db = getFirestore()
 
 export async function getFirebaseClientConfig() {
+    await logToGcp('info', 'action:getFirebaseClientConfig invoked')
     const env = process.env.GOOGLE_PROJECT_ID
     if (env === 'ent-tavla-prd') return FIREBASE_PRD_CONFIG
     return FIREBASE_DEV_CONFIG
@@ -28,6 +29,7 @@ function userInFolder(uid?: UserDB['uid'], folder?: FolderDB) {
 }
 
 export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
+    await logToGcp('info', 'action:getFolderIfUserHasAccess invoked')
     if (!folderid) return undefined
 
     const folder = await getFolder(folderid)
@@ -44,6 +46,7 @@ export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
 }
 
 export async function getFoldersForUser(): Promise<Folder[]> {
+    await logToGcp('info', 'action:getFoldersForUser invoked')
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
@@ -129,6 +132,7 @@ export async function getFoldersForUser(): Promise<Folder[]> {
 }
 
 export async function getBoardsForFolder(folderid: FolderDB['id']) {
+    await logToGcp('info', 'action:getBoardsForFolder invoked')
     const folder = await getFolderIfUserHasAccess(folderid)
     if (!folder) return redirect('/')
 
@@ -183,6 +187,7 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
 }
 
 export async function getBoards(ids?: BoardDB['id'][]) {
+    await logToGcp('info', 'action:getBoards invoked')
     if (!ids) return []
 
     const batches = chunk(ids, 20)
@@ -228,6 +233,7 @@ export async function getBoards(ids?: BoardDB['id'][]) {
 }
 
 export async function getPrivateBoardsForUser(folders: FolderDB[]) {
+    await logToGcp('info', 'action:getPrivateBoardsForUser invoked')
     const userWithBoards = await getUserWithBoardIds()
     if (!userWithBoards?.uid) return []
 

@@ -29,8 +29,6 @@ export async function logToGcp(level: LogLevel, message: string) {
             timestamp: new Date().toISOString(),
             message: safeMessage,
         })
-
-        return
     }
 
     try {

@@ -17,6 +17,7 @@ initializeAdminApp()
 const db = getFirestore()
 
 export async function deleteTile(boardId: string, tile: BoardTileDB) {
+    await logToGcp('info', 'action:deleteTile invoked')
     const access = await userCanEditBoard(boardId)
     if (!access) return redirect('/')
 
@@ -73,6 +74,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
 }
 
 export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
+    await logToGcp('info', 'action:saveTile invoked')
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 

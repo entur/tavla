@@ -19,6 +19,7 @@ export async function removeUserAction(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
+    await logToGcp('info', 'action:removeUserAction invoked')
     const folderId = data.get('folderid')?.toString() ?? ''
     const uid = data.get('uid')?.toString() ?? ''
 
@@ -48,6 +49,7 @@ export async function inviteUserAction(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
+    await logToGcp('info', 'action:inviteUserAction invoked')
     const folderid = data.get('folderid')?.toString() ?? ''
 
     const email = data.get('email')?.toString()
