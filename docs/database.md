@@ -164,7 +164,8 @@ For å ta backup av **dev-databasen**, kjør:
 python3 scripts/backup_firebase.py dev
 ```
 
-✅ Du kan sjekke at backupen er opprettet ved å gå til:
+✅ Du kan sjekke at backupen er opprettet ved å gå til bucketen som scriptet logger i terminalen.
+For **prod** er dette:
 **GCP → Cloud Storage → Buckets → `tavla-firestore-backups-prd`**
 
 #### 📟 Fra terminal (manuell kommando)
