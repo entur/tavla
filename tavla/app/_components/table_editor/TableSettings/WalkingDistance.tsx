@@ -6,7 +6,7 @@ import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
 import { usePointSearch } from 'app/(innlogget)/hooks/usePointSearch'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useRef } from 'react'
-import type { LocationDB } from 'src/types/db-types/boards'
+import type { LocationDB } from 'types/db-types/boards'
 
 function WalkingDistance({
     location,

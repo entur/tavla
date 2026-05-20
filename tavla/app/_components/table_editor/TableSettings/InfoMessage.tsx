@@ -8,7 +8,7 @@ import {
     usePosthogTracking,
 } from 'app/posthog/usePosthogTracking'
 import { useRef, useState } from 'react'
-import type { BoardFooter } from 'src/types/db-types/boards'
+import type { BoardFooter } from 'types/db-types/boards'
 
 function InfoMessage({
     infoMessage,

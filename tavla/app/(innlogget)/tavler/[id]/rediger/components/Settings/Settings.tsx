@@ -1,4 +1,5 @@
 'use client'
+import { SettingsForm } from 'app/_components/table_editor/TableSettings/SettingsForm'
 import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
 import { FormError } from 'app/(innlogget)/components/FormError'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
@@ -10,7 +11,6 @@ import {
 import { useCallback, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { saveSettings } from './actions'
-import { SettingsForm } from './components/SettingsForm'
 
 function Settings({ board }: { board: BoardDB }) {
     const [formErrors, setFormErrors] = useState<
