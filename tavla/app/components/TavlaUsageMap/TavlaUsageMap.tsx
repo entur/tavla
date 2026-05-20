@@ -1,9 +1,8 @@
 'use client'
 import { Heading1, Paragraph } from '@entur/typography'
 import { CreateBoardButton } from 'app/components/CreateBoardButton'
-import TavlaNorwayMap from 'assets/illustrations/Tavla-Norway.svg'
-import Image from 'next/image'
 import { useState } from 'react'
+import { TavlaMap } from 'src/assets/illustrations/TavlaMap'
 import { NavigateToOversiktButton } from '../NavigateToOversiktButton'
 import { PinTooltip } from './PinTooltip'
 import type { PinData } from './pins'
@@ -11,6 +10,7 @@ import { TavlaNorwayMapSVG } from './TavlaNorwayMapSVG'
 
 type HoverState = {
     pin: PinData
+    pinIndex: number
     rect: DOMRect
 }
 
@@ -56,14 +56,15 @@ export function TavlaUsageMap({ loggedIn }: { loggedIn: boolean }) {
                 </div>
             </div>
             <div className="w-2/3 items-center justify-center hidden lg:flex">
-                <div className="relative w-full aspect-[730/688]">
-                    <Image
-                        className="w-full h-full object-contain"
-                        src={TavlaNorwayMap}
-                        alt="Kart over Norge med pins på flere forskjellige steder, for å vise at Tavla er i bruk over hele landet."
+                <div className="relative w-full aspect-[617/581]">
+                    <TavlaMap
+                        className="w-full h-full"
+                        hoveredPinIndex={hovered?.pinIndex ?? null}
                     />
                     <TavlaNorwayMapSVG
-                        onPinHover={(pin, rect) => setHovered({ pin, rect })}
+                        onPinHover={(pin, pinIndex, rect) =>
+                            setHovered({ pin, pinIndex, rect })
+                        }
                         onPinLeave={() => setHovered(null)}
                     />
                 </div>

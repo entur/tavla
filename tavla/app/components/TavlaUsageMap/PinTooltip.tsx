@@ -1,8 +1,9 @@
+'use client'
 import { MapPinIcon } from '@entur/icons'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import type { PinData } from './pins'
 
-// Same dark blue as the Norway map fill (#181C56) --> sjekke om farger kan hentes på en annen måte.
 const MAP_BLUE = '#181C56'
 const HORIZONTAL_GAP = 4
 
@@ -12,11 +13,23 @@ type Props = {
 }
 
 export function PinTooltip({ pin, rect }: Props) {
+    const [visible, setVisible] = useState(false)
+
+    useEffect(() => {
+        const frame = requestAnimationFrame(() => setVisible(true))
+        return () => cancelAnimationFrame(frame)
+    }, [])
+
     const top = rect.bottom
     const left =
         pin.tooltipSide === 'right'
             ? rect.right + HORIZONTAL_GAP
             : rect.left - HORIZONTAL_GAP
+
+    const baseTransform =
+        pin.tooltipSide === 'left'
+            ? 'translateX(-100%) translateY(-100%)'
+            : 'translateY(-100%)'
 
     return (
         <div
@@ -24,10 +37,9 @@ export function PinTooltip({ pin, rect }: Props) {
             style={{
                 left,
                 top,
-                transform:
-                    pin.tooltipSide === 'left'
-                        ? 'translateX(-100%) translateY(-100%)'
-                        : 'translateY(-100%)',
+                transform: `${baseTransform} scale(${visible ? 1 : 0.96})`,
+                opacity: visible ? 1 : 0,
+                transition: 'opacity 0.35s ease-out, transform 0.35s ease-out',
             }}
         >
             <div
@@ -42,11 +54,11 @@ export function PinTooltip({ pin, rect }: Props) {
                     className="object-cover block"
                 />
                 <div
-                    className="absolute bottom-2 right-2 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white shadow-md text-xs font-medium whitespace-nowrap leading-none"
+                    className="absolute bottom-2 right-2 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white shadow-md text-xs font-medium whitespace-nowrap"
                     style={{ color: MAP_BLUE }}
                 >
                     <MapPinIcon width={14} height={14} className="shrink-0" />
-                    <span className="leading-none">{pin.label}</span>
+                    <span className="leading-[14px]">{pin.label}</span>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ import { ImageCarousel } from './components/ImageCarousel'
 import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
 import { PreviewCarousel } from './components/PreviewCarousel'
 import { Tavla123 } from './components/Tavla123'
-import { TavlaUsageMap } from './components/TavlaUsageMap'
+import { TavlaUsageMap } from './components/TavlaUsageMap/TavlaUsageMap'
 import { WordCarousel } from './components/WordCarousel'
 
 export const metadata: Metadata = {
