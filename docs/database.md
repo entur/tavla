@@ -121,9 +121,9 @@ To vanlige valg i Firebase-migrasjoner:
 
 Selvbetjent-teamet (app-teamet) migrerer med TypeScript, men vi i Tavla migrerer med Python. For å gjøre dette på Mac må man sette opp et virtual environment for å kunne pip-installere pakker og lignende. Vi har satt opp et bash-script man kan kjøre for å få satt opp det med alt man trenger. Sjekk ut `README.md` i `/tavla`.
 
-I `/migrations` har man en `requirements.txt`-fil som scriptet bruker for å finne ut hvilke dependencies som må lastes ned. I `/migrations/migration`-filen ligger selve bash-scriptet. I `/migrations/scripts` legger man nye migreringer. Fra før ligger blant annet `test.py`, `001_migrate_footer.py` og `002_read_tile_column_count.py` man kan se på for inspirasjon.
+I `/tavla/migrations` har man en `requirements.txt`-fil som scriptet bruker for å finne ut hvilke dependencies som må lastes ned. I `/tavla/migrations/migration`-filen ligger selve bash-scriptet. I `/tavla/migrations/scripts` legger man nye migreringer. Fra før ligger blant annet `test.py`, `001_migrate_footer.py` og `002_read_tile_column_count.py` man kan se på for inspirasjon.
 
-> Alle migrerings-scripts kjøres fra `/migrations`-mappen. Se også `README.md` i repo-roten for oppsett av virtual environment.
+> Alle migrerings-scripts kjøres fra `/tavla/migrations`-mappen. Se også `README.md` i repo-roten for oppsett av virtual environment.
 
 ---
 
