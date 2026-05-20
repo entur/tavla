@@ -19,7 +19,6 @@ export async function createBoard(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
-    await logToGcp('info', 'action:createBoard invoked')
     const name = data.get('name') as string
     if (!name) return getFormFeedbackForError('board/name-missing')
 
@@ -27,6 +26,7 @@ export async function createBoard(
 
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
+    await logToGcp('info', 'action:createBoard invoked', { uid: user.uid })
 
     let createdBoard: FirebaseFirestore.DocumentReference | undefined
 

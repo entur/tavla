@@ -20,7 +20,6 @@ export async function createFolder(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
-    await logToGcp('info', 'action:createFolder invoked')
     const name = data.get('name')?.toString() ?? ''
 
     if (!name || /^\s*$/.test(name))
@@ -29,6 +28,7 @@ export async function createFolder(
     const user = await getUserFromSessionCookie()
 
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
+    await logToGcp('info', 'action:createFolder invoked', { uid: user.uid })
 
     let folder: FirebaseFirestore.DocumentReference | undefined
 
