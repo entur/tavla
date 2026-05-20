@@ -58,7 +58,7 @@ function Questions() {
             <ExpandablePanel title="Hvilke eldre nettlesere støttes?">
                 Tavla er utviklet med tanke på at vi skal støtte eldre
                 nettlesere siden mange skjermer har eldre, innebygde nettlesere.
-                Vi støtter helt ned til disse versjonene og oppover:
+                De eldste nettleserversjonene vi støtter er:```
                 <ListItem>Chromium 49</ListItem>
                 <ListItem>Firefox 52</ListItem>
                 <ListItem>Safari 10.1</ListItem>
