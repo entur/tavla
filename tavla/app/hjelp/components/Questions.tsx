@@ -15,7 +15,7 @@ function Questions() {
             <ExpandablePanel title="Er Tavla gratis?">
                 Ja, Tavla er helt gratis å bruke!
             </ExpandablePanel>
-            <ExpandablePanel title="Må jeg opprette bruker for å lage en avgangstavle?">
+            <ExpandablePanel title="Må jeg opprette en bruker for å lage en avgangstavle?">
                 Nei, du kan lage en tavle uten å registrere deg. Tavlen får en
                 lenke du kan åpne på en hvilken som helst skjerm, men uten
                 bruker kan du ikke endre tavlen i ettertid. Vil du oppdatere
@@ -40,9 +40,10 @@ function Questions() {
                 tekststørrelse.
             </ExpandablePanel>
             <ExpandablePanel title="Hvordan tar jeg avgangstavlen i bruk på en skjerm?">
-                Når du har satt opp tavlen din, får du en lenke. Åpne lenken i
-                nettleseren på skjermen du vil bruke. Ingen app eller
-                installasjon er nødvendig.
+                Når du har satt opp tavlen din, får du en lenke. Åpne denne
+                denne lenken i nettleseren på skjermen du vil bruke og
+                avgangstavlen skal være oppe. Ingen app eller installasjon er
+                nødvendig.
             </ExpandablePanel>
             <ExpandablePanel title="Kan jeg vise avgangstavlen på en TV-skjerm?">
                 Ja, Tavla fungerer på alle skjermer med en nettleser, inkludert
@@ -58,19 +59,21 @@ function Questions() {
             <ExpandablePanel title="Hvilke eldre nettlesere støttes?">
                 Tavla er utviklet med tanke på at vi skal støtte eldre
                 nettlesere siden mange skjermer har eldre, innebygde nettlesere.
-                De eldste nettleserversjonene vi støtter er:```
-                <ListItem>Chromium 49</ListItem>
-                <ListItem>Firefox 52</ListItem>
-                <ListItem>Safari 10.1</ListItem>
-                <ListItem>Edge 15</ListItem>
-                <ListItem>Opera 36</ListItem>
-                Det kan hende Tavla funker på enda eldre versjoner, men vi støtter aktivt
-                de overnevnte versjonene, og alle nyere versjoner. Om Tavla
-                funker eller ikke, kommer også an på hvilket operativsystem
-                skjermen har i bunnen.
+                De eldste nettleserversjonene vi støtter er:
+                <ul className="list-disc pl-6">
+                    <ListItem>Chromium 49</ListItem>
+                    <ListItem>Firefox 52</ListItem>
+                    <ListItem>Safari 11</ListItem>
+                    <ListItem>Edge 80</ListItem>
+                    <ListItem>Opera 36</ListItem>
+                </ul>
+                Det kan hende Tavla fungerer på enda eldre versjoner, men vi
+                støtter aktivt de overnevnte versjonene, og alle nyere
+                versjoner. Om Tavla fungerer eller ikke, kommer også an på
+                hvilket operativsystem skjermen har i bunnen.
             </ExpandablePanel>
             <ExpandablePanel title="Kan jeg invitere andre til å administrere tavlen min?">
-                Ja. Opprett en mappe og plasser tavla der. Deretter kan du
+                Ja. Opprett en mappe og plasser tavlen der. Deretter kan du
                 invitere andre brukere til å administrere alle tavlene i mappen.
             </ExpandablePanel>
             <ExpandablePanel title="Jeg har ikke fått en e-post om verifisering, hva gjør jeg?">
