@@ -1,7 +1,7 @@
 'use client'
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
-import TransportIcon from 'app/(innlogget)/components/TransportIcon/TransportIcon'
+import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
 import type { BoardTheme, TransportPalette } from 'src/types/db-types/boards'

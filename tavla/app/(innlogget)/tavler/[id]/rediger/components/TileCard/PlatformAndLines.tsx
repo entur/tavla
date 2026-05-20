@@ -1,12 +1,12 @@
 'use client'
 import { Checkbox } from '@entur/form'
 import { SkeletonRectangle } from '@entur/loader'
-import TransportIcon from 'app/(innlogget)/components/TransportIcon/TransportIcon'
+import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getColorMode,
     getTransportModesFromLines,
     sortByTransportMode,
-} from 'app/(innlogget)/components/TransportIcon/utils'
+} from 'app/_components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'

@@ -2,13 +2,13 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
-import { DEFAULT_COLUMNS } from 'app/_components/table_editor/TileSelector/utils'
-import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
-import TransportIcon from 'app/(innlogget)/components/TransportIcon/TransportIcon'
+import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
     sortByTransportMode,
-} from 'app/(innlogget)/components/TransportIcon/utils'
+} from 'app/_components/TransportIcon/utils'
+import { DEFAULT_COLUMNS } from 'app/_components/table_editor/TileSelector/utils'
+import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
 import {
