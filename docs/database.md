@@ -96,7 +96,7 @@ Selve metoden:
      ❌ <variabelNavn> med <gammelVerdi> ble ikke overskrevet av <nyVerdi>
      ✅ <variabelNavn> ble overskrevet av <nyVerdi>
      ```
-   - Om migreringen er stor, legg inn "sleeps" i koden (på hver 100 eller 1000 operasjon) for å gi serveren en pustepause. Dette minimerer også risiko dersom man må avbryte migreringen underveis.
+   - Om migreringen er stor, legg inn "sleeps" i koden (på hver 100 eller 1000 operasjoner) for å gi serveren en pustepause. Dette minimerer også risiko dersom man må avbryte migreringen underveis.
 
 5. **Fjern all frontend-kode** som bruker det gamle feltet. Skriv om disse så det nye feltet er det eneste som blir brukt.
 
@@ -131,7 +131,7 @@ I `/tavla/migrations` har man en `requirements.txt`-fil som scriptet bruker for 
 
 ### Hvorfor og hvordan vi tar backup
 
-For å sikre at vi ikke mister og har kontroll på databasen har vi mulighet til å sikkerhetskopiere gjennom Google Cloud Platform (GCP).
+For å sikre at vi ikke mister data og beholder kontroll over databasen, har vi mulighet til å sikkerhetskopiere gjennom Google Cloud Platform (GCP).
 
 Backupene lagres i GCP-bucketen `tavla-firestore-backups-dev`/`tavla-firestore-backups-prd`  og kan brukes til å gjenopprette hele eller deler av databasen dersom noe går galt — enten som følge av en feil deploy, en ødelagt migrering, eller utilsiktet sletting av data.
 
@@ -147,9 +147,10 @@ Dette kan gjøres enten direkte via terminalen (GCP CLI) eller ved å kjøre vå
 
 #### 🐍 Med script (anbefalt)
 
-Vi har et eget script for å gjøre prosessen enklere og mer konsistent. Kjør fra `/migrations`-mappen:
+Vi har et eget script for å gjøre prosessen enklere og mer konsistent. Kjør fra `tavla/migrations`-mappen:
 
 ```bash
+source ../../python-venv/bin/activate
 python3 scripts/backup_firebase.py prod
 ```
 
@@ -161,6 +162,7 @@ Dette scriptet:
 For å ta backup av **dev-databasen**, kjør:
 
 ```bash
+source ../../python-venv/bin/activate
 python3 scripts/backup_firebase.py dev
 ```
 
@@ -172,20 +174,21 @@ For **prod** er dette:
 
 Kjør følgende kommando for å eksportere databasen til GCP-bucketen for backuper:
 
+For **prod**:
 ```bash
-gcloud firestore export gs://tavla-firestore-backups-prd/manual-$(date +%Y-%m-%d)
+gcloud firestore export gs://tavla-firestore-backups-prd/manual-$(date +%Y-%m-%d) --project=ent-tavla-prd
+```
+
+For **dev**:
+```bash
+gcloud firestore export gs://tavla-firestore-backups-dev/manual-$(date +%Y-%m-%d) --project=ent-tavla-dev
 ```
 
 Denne kommandoen:
 - eksporterer **alle collections og dokumenter** (inkludert metadata)
-- lagrer backupen i `gs://tavla-firestore-backups-prd`
-- legger til dagens dato i filnavnet (for enkel versjonering)
+- legger til dagens dato i filnavnet for enkel versjonering
 
-> 💡 **Tips:** Sørg for at du er logget inn i riktig GCP-prosjekt (`ent-tavla-prd` eller `ent-tavla-dev`) før du kjører kommandoen.
->
-> For dev: `gcloud config set project ent-tavla-dev`
->
-> For prod: `gcloud config set project ent-tavla-prd`
+> ⚠️ **Merk:** Manuell backup med `manual-`-prefiks kan **ikke** brukes direkte av `rollback_firestore.py`, siden scriptet bare søker etter paths som inneholder `firestore-`. En manuell backup må derfor importeres manuelt via terminalen (se [Fra terminal](#-fra-terminal-manuell-import-1)).
 
 ### 🔄 Rollback (gjenoppretting)
 
@@ -193,9 +196,10 @@ Rollback brukes for å gjenopprette databasen fra en tidligere backup.
 
 #### 🐍 Med script (anbefalt)
 
-Vi har også et Python-script for rollback, som finner og bruker **den nyeste lagrede backupen** automatisk. Kjør fra `/migrations`-mappen:
+Vi har også et Python-script for rollback, som finner og bruker **den nyeste lagrede backupen** automatisk. Kjør fra `tavla/migrations`-mappen:
 
 ```bash
+source ../../python-venv/bin/activate
 python3 scripts/rollback_firestore.py dev
 ```
 
@@ -207,6 +211,7 @@ Dette vil:
 For produksjon kan du tilsvarende kjøre:
 
 ```bash
+source ../../python-venv/bin/activate
 python3 scripts/rollback_firestore.py prod
 ```
 
@@ -222,20 +227,21 @@ gs://tavla-firestore-backups-prd/YYYY-MM-DDTHH:MM:SSZ/
 Kjør deretter kommandoen:
 
 ```bash
-gcloud firestore import gs://tavla-firestore-backups-prd/YYYY-MM-DDTHH:MM:SSZ/
+gcloud firestore import gs://tavla-firestore-backups-prd/<backup-mappe>/ --project=ent-tavla-prd
 ```
 
-Dette vil overskrive eksisterende dokumenter med data fra backupen.
+> **Merk:** Dette overskriver eksisterende dokumenter med data fra backupen, men sletter **ikke** dokumenter som ble opprettet etter at backupen ble tatt.
 
 Om du kun ønsker å gjenopprette enkelte collections, kan du spesifisere hvilke med flagget `--collection-ids`:
 
 ```bash
-gcloud firestore import gs://tavla-firestore-backups-prd/YYYY-MM-DDTHH:MM:SSZ/ \
-  --collection-ids=boards,organizations,users
+gcloud firestore import gs://tavla-firestore-backups-prd/<backup-mappe>/ \
+  --collection-ids=boards,folders,users \
+  --project=ent-tavla-prd
 ```
 
 
-✅ Når rollback er ferdig, vil databasen være identisk med tilstanden den hadde ved tidspunktet for siste backup.
+✅ Når rollback er ferdig, vil dokumentene fra backupen være gjenopprettet. Merk at dokumenter opprettet *etter* backup ikke slettes — Firestore-import overskriver eksisterende dokumenter, men er ikke en fullstendig tilbakestilling.
 
 ### 🧪 Test av backup og rollback
 
