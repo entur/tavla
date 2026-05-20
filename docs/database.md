@@ -57,7 +57,7 @@ En god oversikt over begrepene: [Expand and Contract Pattern (Prisma)](https://w
 
 #### Expand and contract
 
-Expand and contract er en etablert migreringsprosess som går ut på å ekspandere databasen og koden med de nye feltene, for så å fjerne de gamle feltene og referansen til de etter at migreringsjobben er fullført. Du vil da sitte med "dobbelt" opp av informasjon. Denne metoden er spesielt viktig for å unngå nedetid i applikasjonen.
+Expand and contract er en etablert migreringsprosess som går ut på å ekspandere databasen og koden med de nye feltene, for så å fjerne de gamle feltene og referansen til dem etter at migreringsjobben er fullført. Du vil da sitte med "dobbelt" opp av informasjon. Denne metoden er spesielt viktig for å unngå nedetid i applikasjonen.
 
 Selve metoden:
 
