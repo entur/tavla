@@ -24,7 +24,7 @@ initializeAdminApp()
 const db = getFirestore()
 
 export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
-    await logToGcp('info', 'action:addTiles invoked')
+    await logToGcp('info', 'action:addTiles invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -90,7 +90,7 @@ export async function saveUpdatedTileOrder(
     bid: BoardDB['id'],
     tiles: BoardTileDB[],
 ) {
-    await logToGcp('info', 'action:saveUpdatedTileOrder invoked')
+    await logToGcp('info', 'action:saveUpdatedTileOrder invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -120,7 +120,7 @@ export async function saveCustomUrl(
     bid: BoardDB['id'],
     customUrl: string,
 ): Promise<{ error?: string }> {
-    await logToGcp('info', 'action:saveCustomUrl invoked')
+    await logToGcp('info', 'action:saveCustomUrl invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 

@@ -7,7 +7,7 @@ import { logToGcp } from 'src/utils/logging'
 import { getBackendUrl } from 'utils/backendUrl'
 
 export async function refreshBoard(board: BoardDB) {
-    await logToGcp('info', 'action:refreshBoard invoked')
+    await logToGcp('info', 'action:refreshBoard invoked', { bid: board.id })
     const access = await userCanEditBoard(board.id)
     if (!access) return redirect('/')
 

@@ -43,9 +43,9 @@ async function userHasAccessToEditBoard(bid: string) {
 }
 
 export async function saveSettings(data: FormData) {
-    await logToGcp('info', 'action:saveSettings invoked')
     const title = data.get('title') as string
     const bid = data.get('bid') as BoardDB['id']
+    await logToGcp('info', 'action:saveSettings invoked', { bid })
     const viewType = data.get('viewType') as string
     const theme = data.get('theme') as BoardTheme
     const font = data.get('font') as BoardFontSize
@@ -284,7 +284,7 @@ export async function moveBoard(
     toFolder?: FolderDB['id'],
     fromFolder?: FolderDB['id'],
 ) {
-    await logToGcp('info', 'action:moveBoard invoked')
+    await logToGcp('info', 'action:moveBoard invoked', { bid })
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 

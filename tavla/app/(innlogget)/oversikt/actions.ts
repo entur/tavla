@@ -11,11 +11,13 @@ initializeAdminApp()
 export async function saveBoardToFirebaseForUser(
     board: BoardDB,
 ): Promise<string> {
-    await logToGcp('info', 'action:saveBoardToFirebaseForUser invoked')
     const user = await getUserFromSessionCookie()
     if (!user) {
         throw new Error('Not authenticated')
     }
+    await logToGcp('info', 'action:saveBoardToFirebaseForUser invoked', {
+        uid: user.uid,
+    })
 
     const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
     const now = Date.now()

@@ -43,7 +43,7 @@ export async function login(token: string) {
 }
 
 export async function create(uid: UserDB['uid']) {
-    await logToGcp('info', 'action:createUser invoked')
+    await logToGcp('info', 'action:createUser invoked', { uid })
     try {
         await firestore().collection('users').doc(uid).create({})
     } catch (error) {

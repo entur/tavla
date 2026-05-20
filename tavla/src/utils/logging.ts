@@ -13,6 +13,8 @@ function getLog() {
     return _log
 }
 
+type LogExtra = { bid?: string; uid?: string }
+
 type LogPayload = {
     message: string
     type?: 'server-action' | 'http' | 'graphql'
@@ -20,12 +22,19 @@ type LogPayload = {
     method?: string
     endpoint?: string
     status?: number
+    bid?: string
+    uid?: string
 }
 
-function buildPayload(message: string): LogPayload {
+function buildPayload(message: string, extra?: LogExtra): LogPayload {
     const actionMatch = message.match(/^action:(\w+)/)
     if (actionMatch) {
-        return { message, type: 'server-action', action: actionMatch[1] }
+        return {
+            message,
+            type: 'server-action',
+            action: actionMatch[1],
+            ...extra,
+        }
     }
 
     const httpMatch = message.match(/^(GET|POST|PUT|DELETE|PATCH) /)
@@ -36,6 +45,7 @@ function buildPayload(message: string): LogPayload {
             type: 'http',
             method: httpMatch[1],
             ...(status ? { status: Number(status) } : {}),
+            ...extra,
         }
     }
 
@@ -47,10 +57,11 @@ function buildPayload(message: string): LogPayload {
             type: 'graphql',
             endpoint: graphqlMatch[1],
             ...(status ? { status: Number(status) } : {}),
+            ...extra,
         }
     }
 
-    return { message }
+    return { message, ...extra }
 }
 
 function sanitizeForLog(value: unknown): string {
@@ -63,7 +74,11 @@ function sanitizeForLog(value: unknown): string {
     )
 }
 
-export async function logToGcp(level: LogLevel, message: string) {
+export async function logToGcp(
+    level: LogLevel,
+    message: string,
+    extra?: LogExtra,
+) {
     const safeLevel = sanitizeForLog(level) as LogLevel
     const safeMessage = sanitizeForLog(message)
 
@@ -72,7 +87,7 @@ export async function logToGcp(level: LogLevel, message: string) {
         console.log({
             severity: safeLevel.toUpperCase(),
             timestamp: new Date().toISOString(),
-            ...buildPayload(safeMessage),
+            ...buildPayload(safeMessage, extra),
         })
         return
     }
@@ -82,7 +97,7 @@ export async function logToGcp(level: LogLevel, message: string) {
 
     const entry = log.entry(
         { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
-        buildPayload(safeMessage),
+        buildPayload(safeMessage, extra),
     )
     // biome-ignore lint/suspicious/noConsole: surface GCP logging errors
     log.write(entry).catch((error) =>
