@@ -31,7 +31,7 @@ Firebase-config leses fra Firestore. Selv om enkelte config-nøkler kan se ut so
 
 For å kunne teste Next.js lokalt og simulere prod-miljøet likt, kan vi lage en production build og koble oss til dev-prosjektet i Firebase for å teste funksjonalitet og løsningen generelt. Det gjøres slik:
 
-1. Last ned credentials JSON-filen lokalt, og legg den ved rot av prosjektmappen (i `/tavla`-folderen) — den finner du i 1Password for Tavla, under navnet `google-service-keys`.
+1. Last ned credentials JSON-filen lokalt og legg den i `/tavla`-folderen — den finner du i 1Password for Tavla under navnet `google-service-keys`. Filen heter typisk `ent-tavla-dev-<key-id>.json` og er automatisk gitignorert via mønsteret `ent-tavla-*.json` i rot-`.gitignore`.
 
 2. Lag en `.env.local`-fil i rot med følgende env-variabler:
 
