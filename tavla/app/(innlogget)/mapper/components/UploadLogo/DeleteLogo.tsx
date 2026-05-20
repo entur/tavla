@@ -2,7 +2,7 @@
 import { useToast } from '@entur/alert'
 import { Button } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
-import { FormError } from 'app/(innlogget)/components/FormError'
+import { FormError } from 'app/_components/Form/FormError'
 import {
     getFormFeedbackForField,
     type TFormFeedback,

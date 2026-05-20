@@ -1,5 +1,5 @@
 import { Heading4, Paragraph } from '@entur/typography'
-import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
+import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'

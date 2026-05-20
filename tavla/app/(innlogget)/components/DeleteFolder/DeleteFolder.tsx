@@ -5,9 +5,10 @@ import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
+import { FormError } from 'app/_components/Form/FormError'
+import { HiddenInput } from 'app/_components/Form/HiddenInput'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
-import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
 import { DeleteButton } from 'app/(innlogget)/oversikt/components/Column/DeleteBoard'
 import {
     getFormFeedbackForError,
@@ -19,7 +20,6 @@ import ducks from 'assets/illustrations/Ducks.png'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
 import type { FolderDB } from 'src/types/db-types/folders'
-import { FormError } from '../FormError'
 import { deleteFolderAction } from './actions'
 
 function DeleteFolder({
