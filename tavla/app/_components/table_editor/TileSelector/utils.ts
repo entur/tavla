@@ -1,19 +1,19 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 import * as Sentry from '@sentry/nextjs'
+import type { GeoCoordinate, StopPlace } from 'app/(innlogget)/utils/fetch'
 import { nanoid } from 'nanoid'
 import {
     QuayCoordinatesQuery,
     StopPlaceCoordinatesQuery,
     WalkDistanceQuery,
-} from 'src/graphql/index'
+} from 'src/graphql'
 import { fetchQuery } from 'src/graphql/utils'
 import type {
     BoardTileDB,
     Coordinate,
     TileColumnDB,
-} from 'src/types/db-types/boards'
-import { logToGcp } from 'src/utils/logging'
-import type { GeoCoordinate, StopPlace } from '../../utils/fetch'
+} from 'types/db-types/boards'
+import { logToGcp } from 'utils/logging'
 
 export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
 

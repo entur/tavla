@@ -1,9 +1,9 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import { useEffect, useMemo, useState } from 'react'
 import {
     formatDistance,
     haversineDistance,
-} from '../components/TileSelector/utils'
+} from 'app/_components/table_editor/TileSelector/utils'
+import { useEffect, useMemo, useState } from 'react'
 import {
     fetchClosestStopPlaces,
     type GeoCoordinate,

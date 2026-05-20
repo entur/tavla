@@ -2,8 +2,8 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
+import { DEFAULT_COLUMNS } from 'app/_components/table_editor/TileSelector/utils'
 import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
-import { DEFAULT_COLUMNS } from 'app/(innlogget)/components/TileSelector/utils'
 import TransportIcon from 'app/(innlogget)/components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,

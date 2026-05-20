@@ -21,7 +21,7 @@ import { coordinatesToStopPlaceDropdownItem } from 'app/(innlogget)/utils/positi
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
-import type { FolderDB } from 'src/types/db-types/folders'
+import type { FolderDB } from 'types/db-types/folders'
 import { getTypeOfPlace } from './utils'
 
 const NUMBER_OF_CLOSEST_STOP_PLACES = 10
