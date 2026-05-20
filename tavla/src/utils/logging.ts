@@ -3,9 +3,15 @@ import { Logging } from '@google-cloud/logging'
 
 export type LogLevel = 'debug' | 'info' | 'warning' | 'error'
 
-const logging = new Logging({ projectId: process.env.GOOGLE_PROJECT_ID })
-const log_name = 'tavla_admin'
-const log = logging.log(log_name)
+let _log: ReturnType<InstanceType<typeof Logging>['log']> | null = null
+
+function getLog() {
+    if (_log) return _log
+    const projectId = process.env.GOOGLE_PROJECT_ID
+    if (!projectId) return null
+    _log = new Logging({ projectId }).log('tavla_admin')
+    return _log
+}
 
 function sanitizeForLog(value: unknown): string {
     return (
@@ -22,7 +28,7 @@ export async function logToGcp(level: LogLevel, message: string) {
     const safeMessage = sanitizeForLog(message)
 
     if (process.env.NODE_ENV === 'development') {
-        // biome-ignore lint/suspicious/noConsole: If using development environment (local), skip logging to GCP and print out to console.
+        // biome-ignore lint/suspicious/noConsole: local dev mirror of GCP log entry
         console.log({
             source: 'GCP log',
             level: safeLevel,
@@ -31,15 +37,16 @@ export async function logToGcp(level: LogLevel, message: string) {
         })
     }
 
-    try {
-        const metadata = {
-            resource: { type: 'global' },
-            severity: safeLevel.toUpperCase(),
-        }
-        const entry = log.entry(metadata, { message: safeMessage })
-        await log.write(entry)
-    } catch (error) {
-        // biome-ignore lint/suspicious/noConsole: surface GCP logging errors
-        console.error('GCP logging failed:', error)
+    const log = getLog()
+    if (!log) return
+
+    const metadata = {
+        resource: { type: 'global' },
+        severity: safeLevel.toUpperCase(),
     }
+    const entry = log.entry(metadata, { message: safeMessage })
+    // biome-ignore lint/suspicious/noConsole: surface GCP logging errors
+    log.write(entry).catch((error) =>
+        console.error('GCP logging failed:', error),
+    )
 }
