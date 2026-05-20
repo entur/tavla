@@ -13,17 +13,17 @@
 
 ### Hva er lagret hvor?
 
-Vi bruker Firebase for å lagre tavler, mapper og brukere (boards, organizations og users). Kjører du lokalt, finner du Firebase sin Firestore her: http://127.0.0.1:4000/firestore/data/boards
+Vi bruker Firebase for å lagre tavler, mapper og brukere (boards, folders og users). Kjører du lokalt, finner du Firebase sin Firestore her: http://127.0.0.1:4000/firestore/data/boards
 
-> Tips: kjører du `yarn dev:persist` så lagres brukere, tavler og orgs du har på localhost mellom hver gang du kjører.
+> Tips: kjører du `yarn dev:persist` så lagres brukere, tavler og mapper du har på localhost mellom hver gang du kjører.
 
-Hvert objekt i Firebase har en unik id, og er ellers strukturert nokså likt som deres respektive kode-objekter (`TBoard`, `TOrganization`, `TUser`). Husk at selv om Firebase ikke er en relasjonsdatabase, har vi definitivt masse relasjoner mellom disse kategoriene (f.eks.: et board kan eies av en mappe, en mappe inneholder en viss mengde brukere, en bruker kan ha en viss mengde private boards, osv.), og disse må tas høyde for når man skriver nye / endrer på Firebase-operasjoner i koden.
+Hvert objekt i Firebase har en unik id, og er ellers strukturert nokså likt som deres respektive kode-objekter (`TBoard`, `FolderDB`, `TUser`). Husk at selv om Firebase ikke er en relasjonsdatabase, har vi definitivt masse relasjoner mellom disse kategoriene (f.eks.: et board kan eies av en mappe, en mappe inneholder en viss mengde brukere, en bruker kan ha en viss mengde private boards, osv.), og disse må tas høyde for når man skriver nye / endrer på Firebase-operasjoner i koden.
 
 Redis brukes primært for pubsub-funksjonalitet, men vi lagrer også midlertidig state her (bl.a. aktive tavler). Se egen dokumentasjonsfil for Redis.
 
 ### Åpen config for firebase
 
-Filen `tavla/app/(innlogget)/utils/constants.ts` inneholder en del config-nøkler som kunne sett ut som at de skulle vært hemmelige, men det trenger de ikke være (se [Firebase security checklist](https://firebase.google.com/support/guides/security-checklist#api-keys-not-secret)).
+Firebase-config leses fra Firestore. Selv om enkelte config-nøkler kan se ut som hemmeligheter, trenger de ikke være det (se [Firebase security checklist](https://firebase.google.com/support/guides/security-checklist#api-keys-not-secret)).
 
 
 
