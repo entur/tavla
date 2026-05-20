@@ -19,6 +19,7 @@ export async function createBoard(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
+    await logToGcp('info', 'action:createBoard invoked')
     const name = data.get('name') as string
     if (!name) return getFormFeedbackForError('board/name-missing')
 

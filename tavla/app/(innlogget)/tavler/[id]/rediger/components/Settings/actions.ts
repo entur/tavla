@@ -43,6 +43,7 @@ async function userHasAccessToEditBoard(bid: string) {
 }
 
 export async function saveSettings(data: FormData) {
+    await logToGcp('info', 'action:saveSettings invoked')
     const title = data.get('title') as string
     const bid = data.get('bid') as BoardDB['id']
     const viewType = data.get('viewType') as string
@@ -283,6 +284,7 @@ export async function moveBoard(
     toFolder?: FolderDB['id'],
     fromFolder?: FolderDB['id'],
 ) {
+    await logToGcp('info', 'action:moveBoard invoked')
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 

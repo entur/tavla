@@ -16,6 +16,7 @@ import { logToGcp } from 'src/utils/logging'
 import { logout } from '../Login/actions'
 
 export async function deleteAccount(data: FormData) {
+    await logToGcp('info', 'action:deleteAccount invoked')
     const user = await getUserFromSessionCookie()
     if (!user || !user.uid) {
         return getFormFeedbackForError('auth/operation-not-allowed')

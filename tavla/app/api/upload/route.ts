@@ -14,6 +14,7 @@ import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
 import type { NextRequest } from 'next/server'
 import type { FolderDB } from 'src/types/db-types/folders'
+import { logToGcp } from 'src/utils/logging'
 import rateLimit from 'src/utils/rateLimit'
 
 initializeAdminApp()
@@ -29,6 +30,10 @@ export async function POST(request: NextRequest) {
     const response = new Response()
     response.headers.set('Content-Type', 'application/json')
     if (!user || !user.uid) {
+        await logToGcp(
+            'warning',
+            'POST /api/upload: status=401 reason=invalid-token',
+        )
         return new Response(JSON.stringify({ error: 'Invalid token' }), {
             status: 401,
             headers: response.headers,
@@ -39,6 +44,10 @@ export async function POST(request: NextRequest) {
         await rateLimiter.check(response, 5, user.uid)
     } catch {
         response.headers.set('Content-Type', 'application/json')
+        await logToGcp(
+            'warning',
+            `POST /api/upload: status=429 uid=${user.uid}`,
+        )
         return new Response(JSON.stringify({ error: 'Too Many Requests' }), {
             headers: response.headers,
             status: 429,
@@ -49,25 +58,39 @@ export async function POST(request: NextRequest) {
 
     const logo = data.get('logo') as File
 
-    if (!logo || !folderid)
+    if (!logo || !folderid) {
+        await logToGcp(
+            'warning',
+            `POST /api/upload: status=400 uid=${user.uid} reason=missing-values`,
+        )
         return new Response(JSON.stringify({ error: 'Missing values' }), {
             headers: response.headers,
             status: 400,
         })
+    }
 
     try {
         await userCanEditFolder(folderid)
     } catch {
+        await logToGcp(
+            'warning',
+            `POST /api/upload: status=403 uid=${user.uid} folderid=${folderid}`,
+        )
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
             headers: response.headers,
             status: 403,
         })
     }
-    if (logo.size > 10_000_000)
+    if (logo.size > 10_000_000) {
+        await logToGcp(
+            'warning',
+            `POST /api/upload: status=413 uid=${user.uid} size=${logo.size}`,
+        )
         return new Response(JSON.stringify({ error: 'File size too big' }), {
             headers: response.headers,
             status: 413,
         })
+    }
 
     const allowedFileTypes = [
         'image/apng',
@@ -78,6 +101,10 @@ export async function POST(request: NextRequest) {
         'image/webp',
     ]
     if (!allowedFileTypes.includes(logo.type)) {
+        await logToGcp(
+            'warning',
+            `POST /api/upload: status=415 uid=${user.uid} type=${logo.type}`,
+        )
         return new Response(
             JSON.stringify({ error: 'Unsupported file type' }),
             {
@@ -108,7 +135,11 @@ export async function POST(request: NextRequest) {
 
     const logoUrl = await getDownloadURL(file)
 
-    if (!logoUrl)
+    if (!logoUrl) {
+        await logToGcp(
+            'error',
+            `POST /api/upload: status=500 uid=${user.uid} reason=no-logo-url`,
+        )
         return new Response(
             JSON.stringify({ error: 'Failed to get logo url' }),
             {
@@ -116,11 +147,16 @@ export async function POST(request: NextRequest) {
                 status: 500,
             },
         )
+    }
 
     await db.collection('folders').doc(folderid).update({
         logo: logoUrl,
     })
     revalidatePath(`/mapper/${folderid}`)
+    await logToGcp(
+        'info',
+        `POST /api/upload: status=200 uid=${user.uid} folderid=${folderid}`,
+    )
     return new Response(
         JSON.stringify({ message: 'Logo uploaded successfully' }),
         {

@@ -11,6 +11,7 @@ import { validEmail } from 'src/utils/email'
 import { logToGcp } from 'src/utils/logging'
 
 async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
+    await logToGcp('info', 'action:postForm invoked')
     const email = data.get('email') as string
     const message = data.get('message') as string
     const disabledEmail = data.get('disabledEmail') as string

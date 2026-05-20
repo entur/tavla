@@ -11,6 +11,7 @@ initializeAdminApp()
 export async function saveBoardToFirebaseForUser(
     board: BoardDB,
 ): Promise<string> {
+    await logToGcp('info', 'action:saveBoardToFirebaseForUser invoked')
     const user = await getUserFromSessionCookie()
     if (!user) {
         throw new Error('Not authenticated')

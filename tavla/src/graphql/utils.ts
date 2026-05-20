@@ -66,7 +66,14 @@ export async function fetcher<Data, Variables>([
         method: 'POST',
     })
 
-    await logToGcp('info', `GraphQL ${endpointName}: status=${response.status}`)
+    await logToGcp(
+        response.status >= 500
+            ? 'error'
+            : response.status >= 400
+              ? 'warning'
+              : 'info',
+        `GraphQL ${endpointName}: status=${response.status}`,
+    )
 
     const res = await response.json()
 
