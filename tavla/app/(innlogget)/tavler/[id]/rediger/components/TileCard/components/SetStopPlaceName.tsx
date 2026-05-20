@@ -1,10 +1,10 @@
 import { Heading4, SubParagraph } from '@entur/typography'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import {
     getFormFeedbackForField,
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import type { EventProps } from 'app/posthog/events'
 import {
     TRACKING_DEBOUNCE_TIME,

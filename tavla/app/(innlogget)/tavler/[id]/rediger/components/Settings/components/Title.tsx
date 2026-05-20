@@ -1,7 +1,7 @@
 'use client'
 import { Heading4 } from '@entur/typography'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import {
     TRACKING_DEBOUNCE_TIME,
     usePosthogTracking,
