@@ -41,7 +41,7 @@ function Questions() {
             </ExpandablePanel>
             <ExpandablePanel title="Hvordan tar jeg avgangstavlen i bruk på en skjerm?">
                 Når du har satt opp tavlen din, får du en lenke. Åpne lenken i
-                nettleseren på skjermen du vil bruke, ingen app eller
+                nettleseren på skjermen du vil bruke. Ingen app eller
                 installasjon er nødvendig.
             </ExpandablePanel>
             <ExpandablePanel title="Kan jeg vise avgangstavlen på en TV-skjerm?">
