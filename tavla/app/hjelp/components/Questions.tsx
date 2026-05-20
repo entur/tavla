@@ -32,7 +32,7 @@ function Questions() {
             <ExpandablePanel title="Hvilke transportmidler vises i Tavla?">
                 Tavla viser alle kollektivtransportmidler i Norge, inkludert
                 blant annet buss, trikk, T-bane, tog, ferge og fly. Du kan
-                filtrere på linjer og transporttype etter behov.
+                filtrere på linjer og transportmiddel etter behov.
             </ExpandablePanel>
             <ExpandablePanel title="Kan jeg tilpasse utseendet på tavlen?">
                 Ja. Du kan blant annet velge mellom mørkt og lyst tema, endre
