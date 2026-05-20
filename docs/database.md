@@ -17,7 +17,7 @@ Vi bruker Firebase for å lagre tavler, mapper og brukere (boards, folders og us
 
 > Tips: kjører du `yarn dev:persist` så lagres brukere, tavler og mapper du har på localhost mellom hver gang du kjører.
 
-Hvert objekt i Firebase har en unik id, og er ellers strukturert nokså likt som deres respektive kode-objekter (`TBoard`, `FolderDB`, `TUser`). Husk at selv om Firebase ikke er en relasjonsdatabase, har vi definitivt masse relasjoner mellom disse kategoriene (f.eks.: et board kan eies av en mappe, en mappe inneholder en viss mengde brukere, en bruker kan ha en viss mengde private boards, osv.), og disse må tas høyde for når man skriver nye / endrer på Firebase-operasjoner i koden.
+Hvert objekt i Firebase har en unik id, og er ellers strukturert nokså likt som deres respektive kode-objekter (`BoardDB`, `FolderDB`, `UserDB`). Husk at selv om Firebase ikke er en relasjonsdatabase, har vi definitivt masse relasjoner mellom disse kategoriene (f.eks.: et board kan eies av en mappe, en mappe inneholder en viss mengde brukere, en bruker kan ha en viss mengde private boards, osv.), og disse må tas høyde for når man skriver nye / endrer på Firebase-operasjoner i koden.
 
 Redis brukes primært for pubsub-funksjonalitet, men vi lagrer også midlertidig state her (bl.a. aktive tavler). Se egen dokumentasjonsfil for Redis.
 
@@ -44,7 +44,7 @@ GOOGLE_APPLICATION_CREDENTIALS='./ent-tavla-dev-<key-id>.json'
 3. Kjør følgende kommando i terminalen for å bygge prosjektet lokalt med dev-credentials:
 
 ```bash
-yarn build-start  # yarn build && yarn start
+yarn build-start  # next build && next start
 ```
 
 ## 🗄️ Migrering av database
@@ -119,11 +119,29 @@ To vanlige valg i Firebase-migrasjoner:
 
 ### Teknisk: Migrering med Python
 
-Selvbetjent-teamet (app-teamet) migrerer med TypeScript, men vi i Tavla migrerer med Python. For å gjøre dette på Mac må man sette opp et virtual environment for å kunne pip-installere pakker og lignende. Vi har satt opp et bash-script man kan kjøre for å få satt opp det med alt man trenger. Sjekk ut `README.md` i `/tavla`.
+Selvbetjent-teamet (app-teamet) migrerer med TypeScript, men vi i Tavla migrerer med Python. For å gjøre dette på Mac må man sette opp et virtual environment for å kunne pip-installere pakker og lignende.
 
-I `/tavla/migrations` har man en `requirements.txt`-fil som scriptet bruker for å finne ut hvilke dependencies som må lastes ned. I `/tavla/migrations/migration`-filen ligger selve bash-scriptet. I `/tavla/migrations/scripts` legger man nye migreringer. Fra før ligger blant annet `test.py`, `001_migrate_footer.py` og `002_read_tile_column_count.py` man kan se på for inspirasjon.
+#### Oppsett første gang
 
-> Alle migrerings-scripts kjøres fra `/tavla/migrations`-mappen. Se også `README.md` i repo-roten for oppsett av virtual environment.
+Kjør følgende fra `tavla/migrations`-mappen:
+
+```bash
+./migration setup
+```
+
+Dette oppretter `tavla/migrations/python-venv/` og installerer dependencies fra `requirements.txt`. Mappen er allerede gitignorert.
+
+> **Viktig:** `setup` må kjøres fra `tavla/migrations/`-mappen — scriptet bruker relativ sti og oppretter venv-en der du står. Kjører du det fra en annen mappe havner venv-en feil og du får feilmelding når du prøver å kjøre scripts.
+
+#### Kjøre scripts
+
+I `tavla/migrations/scripts` legger man nye migreringer. Fra før ligger blant annet `test.py`, `001_migrate_footer.py` og `002_read_tile_column_count.py` man kan se på for inspirasjon.
+
+```bash
+./migration run scripts/<filnavn>.py
+```
+
+> Alle kommandoer kjøres fra `tavla/migrations`-mappen.
 
 ---
 
@@ -142,15 +160,13 @@ Vi har automatisk scheduled backup satt opp i Firestore: **ukentlig backup hver 
 Ved behov for en sikkerhetskopi, for eksempel før en større migrering eller endring i produksjon, kan du ta en manuell backup av Firestore-databasen. Kjør fra `tavla/migrations`-mappen:
 
 ```bash
-source ../../python-venv/bin/activate
-python3 scripts/backup_firebase.py prod
+./migration run scripts/backup_firebase.py prod
 ```
 
 For **dev**:
 
 ```bash
-source ../../python-venv/bin/activate
-python3 scripts/backup_firebase.py dev
+./migration run scripts/backup_firebase.py dev
 ```
 
 Scriptet oppretter automatisk en mappe i bucketen med dagens dato og logger resultatet til terminalen.
@@ -163,21 +179,25 @@ Scriptet oppretter automatisk en mappe i bucketen med dagens dato og logger resu
 Rollback brukes for å gjenopprette databasen fra en tidligere backup. Scriptet finner og bruker **den nyeste lagrede backupen** automatisk. Kjør fra `tavla/migrations`-mappen:
 
 ```bash
-source ../../python-venv/bin/activate
-python3 scripts/rollback_firestore.py dev
+./migration run scripts/rollback_firestore.py dev
 ```
 
 For produksjon:
 
 ```bash
-source ../../python-venv/bin/activate
-python3 scripts/rollback_firestore.py prod
+./migration run scripts/rollback_firestore.py prod
+```
+
+For lokal testing mot Firebase-emulatoren:
+
+```bash
+./migration run scripts/rollback_firestore.py local
 ```
 
 Du kan også spesifisere en konkret backup-versjon som andre argument:
 
 ```bash
-python3 scripts/rollback_firestore.py dev firestore-ent-tavla-dev-2025-10-17_12-30-00
+./migration run scripts/rollback_firestore.py dev firestore-ent-tavla-dev-2025-10-17_12-30-00
 ```
 
 > **Merk:** Rollback overskriver eksisterende dokumenter med data fra backupen, men sletter **ikke** dokumenter som ble opprettet etter at backupen ble tatt — det er altså ikke en fullstendig tilbakestilling.
