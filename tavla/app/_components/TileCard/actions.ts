@@ -1,6 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { COUNTY_THEME_MAP } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/colorPalettes'
+import { COUNTY_THEME_MAP } from 'app/_utils/colorPalettes'
 import {
     initializeAdminApp,
     userCanEditBoard,
