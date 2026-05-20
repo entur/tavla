@@ -64,7 +64,7 @@ function Questions() {
                 <ListItem>Safari 10.1</ListItem>
                 <ListItem>Edge 15</ListItem>
                 <ListItem>Opera 36</ListItem>
-                Det kan hende vi støtter versjoner lengre ned, men Tavla skal
+                Det kan hende Tavla funker på enda eldre versjoner, men vi støtter aktivt
                 hvertfall funke på overnevnte versjoner og høyere. Om Tavla
                 funker eller ikke, kommer også an på hvilket operativsystem
                 skjermen har i bunnen.
