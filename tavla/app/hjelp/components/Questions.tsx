@@ -65,7 +65,7 @@ function Questions() {
                 <ListItem>Edge 15</ListItem>
                 <ListItem>Opera 36</ListItem>
                 Det kan hende Tavla funker på enda eldre versjoner, men vi støtter aktivt
-                hvertfall funke på overnevnte versjoner og høyere. Om Tavla
+                de overnevnte versjonene, og alle nyere versjoner. Om Tavla
                 funker eller ikke, kommer også an på hvilket operativsystem
                 skjermen har i bunnen.
             </ExpandablePanel>
