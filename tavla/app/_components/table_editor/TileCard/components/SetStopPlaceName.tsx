@@ -1,6 +1,5 @@
 import { Heading4, SubParagraph } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
-import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import {
     getFormFeedbackForField,
     type TFormFeedback,
@@ -12,6 +11,7 @@ import {
 } from 'app/posthog/usePosthogTracking'
 import { useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
+import { TileContext } from '../context'
 
 function SetStopPlaceName({
     state,

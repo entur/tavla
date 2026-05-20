@@ -2,6 +2,7 @@
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
+import { transportModeNames } from 'app/_components/table_editor/TileCard/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
 import type { BoardTheme, TransportPalette } from 'src/types/db-types/boards'
@@ -9,7 +10,6 @@ import type {
     TTransportMode,
     TTransportSubmode,
 } from 'src/types/graphql-schema'
-import { transportModeNames } from '../../TileCard/utils'
 import {
     generateTransportPalettes,
     getTransportColorDescription,

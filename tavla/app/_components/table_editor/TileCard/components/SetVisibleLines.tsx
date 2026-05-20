@@ -1,16 +1,16 @@
 import { Heading4, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
-import { TransportModeChip } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/components/TransportModeChip'
-import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
+import { TileContext } from '../context'
 import { PlatformAndLines } from '../PlatformAndLines'
 import type { QuayWithFrontText } from '../types'
 import { transportModeNames } from '../utils'
+import { TransportModeChip } from './TransportModeChip'
 
 function getInitialCheckedLineIds(
     tile: BoardTileDB,

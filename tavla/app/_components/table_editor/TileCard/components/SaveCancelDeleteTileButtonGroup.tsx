@@ -4,13 +4,13 @@ import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
-import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Goat from 'assets/illustrations/Goat.png'
 import Image from 'next/image'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
+import { TileContext } from '../context'
 
 function SaveCancelDeleteTileButtonGroup({
     confirmOpen,

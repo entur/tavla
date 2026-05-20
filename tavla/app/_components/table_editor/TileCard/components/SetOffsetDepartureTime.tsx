@@ -1,7 +1,6 @@
 import { Checkbox } from '@entur/form'
 import { Heading4, SubParagraph } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
-import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import type { EventProps } from 'app/posthog/events'
 import {
     TRACKING_DEBOUNCE_TIME,
@@ -10,6 +9,7 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { LocationDB } from 'src/types/db-types/boards'
+import { TileContext } from '../context'
 
 function SetOffsetDepartureTime({
     address,

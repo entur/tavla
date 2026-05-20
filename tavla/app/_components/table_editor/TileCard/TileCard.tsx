@@ -9,7 +9,6 @@ import {
 } from 'app/_components/TransportIcon/utils'
 import { DEFAULT_COLUMNS } from 'app/_components/table_editor/TileSelector/utils'
 import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
-import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
 import {
     getFormFeedbackForError,
@@ -32,6 +31,7 @@ import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
 import { SetVisibleLines } from './components/SetVisibleLines'
 import { TileArrows } from './components/TileArrows'
+import { TileContext } from './context'
 import { useLines } from './useLines'
 
 function TileCard({

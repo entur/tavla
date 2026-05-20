@@ -1,4 +1,5 @@
 import { Heading1, Heading2, Paragraph, SubParagraph } from '@entur/typography'
+import { TileList } from 'app/_components/table_editor/TileList'
 import { TileSelector } from 'app/_components/table_editor/TileSelector/TileSelector'
 import { formDataToTiles } from 'app/_components/table_editor/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
@@ -17,7 +18,6 @@ import { Copy } from './components/Buttons/Copy'
 import { CustomUrl } from './components/CustomUrl/CustomUrl'
 import { Preview } from './components/Preview'
 import { Settings } from './components/Settings/Settings'
-import { TileList } from './components/TileList'
 
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>

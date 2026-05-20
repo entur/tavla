@@ -1,5 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
+import { COUNTY_THEME_MAP } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/colorPalettes'
 import {
     initializeAdminApp,
     userCanEditBoard,
@@ -10,7 +11,6 @@ import { redirect } from 'next/navigation'
 import { getBoard } from 'src/firebase'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-import { COUNTY_THEME_MAP } from '../Settings/colorPalettes'
 
 initializeAdminApp()
 

@@ -4,7 +4,6 @@ import { QuestionFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4, SubParagraph } from '@entur/typography'
 import { DEFAULT_COMBINED_COLUMNS } from 'app/_components/table_editor/TileSelector/utils'
-import { TileContext } from 'app/(innlogget)/tavler/[id]/rediger/components/TileCard/context'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { isArray } from 'lodash'
@@ -13,6 +12,7 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { TileColumns } from 'src/types/db-types/boards'
 import { typedEntries } from 'src/utils/typeguards'
 import { ColumnModal } from '../ColumnModal'
+import { TileContext } from '../context'
 
 function SetColumns({
     isCombined,
