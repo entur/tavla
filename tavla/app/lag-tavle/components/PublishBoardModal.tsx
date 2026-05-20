@@ -5,6 +5,7 @@ import { LoadingDots } from '@entur/loader'
 import { Heading3, Paragraph } from '@entur/typography'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import type { PublishBoardState } from 'app/lag-tavle/components/CreateBoardLocally'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { CopyIcon, ExternalIcon } from 'node_modules/@entur/icons/dist'
@@ -19,6 +20,8 @@ export function PublishModalContent({
     handlePublish: () => void
     resetPublish: () => void
 }) {
+    const posthog = usePosthogTracking()
+
     switch (publishState.type) {
         case 'not-published':
             return (
@@ -70,7 +73,14 @@ export function PublishModalContent({
             )
         case 'publishing':
             return <LoadingDots />
-        case 'published':
+        case 'published': {
+            const boardLink = getBoardLinkClient(publishState.boardId)
+            function copyLink() {
+                posthog.capture('board_copied', {
+                    location: 'board_without_user',
+                })
+                navigator.clipboard.writeText(boardLink)
+            }
             return (
                 <>
                     <Paragraph>
@@ -80,28 +90,25 @@ export function PublishModalContent({
                     <CopyableText
                         successHeading=""
                         successMessage="Lenken til tavlen ble kopiert!"
+                        onClick={copyLink}
                     >
-                        {getBoardLinkClient(publishState.boardId)}
+                        {boardLink}
                     </CopyableText>
                     <div className="flex flex-row gap-2">
-                        <PrimaryButton
-                            onClick={() =>
-                                navigator.clipboard.writeText(
-                                    getBoardLinkClient(publishState.boardId),
-                                )
-                            }
-                            width="fluid"
-                        >
+                        <PrimaryButton onClick={copyLink} width="fluid">
                             Kopier lenke
                             <CopyIcon />
                         </PrimaryButton>
                         <PrimaryButton
-                            onClick={() =>
+                            onClick={() => {
+                                posthog.capture('board_opened', {
+                                    location: 'board_without_user',
+                                })
                                 window.open(
                                     getBoardLinkClient(publishState.boardId),
                                     '_blank',
                                 )
-                            }
+                            }}
                             width="fluid"
                         >
                             Åpne tavla
@@ -110,6 +117,7 @@ export function PublishModalContent({
                     </div>
                 </>
             )
+        }
         case 'error':
             return (
                 <div>

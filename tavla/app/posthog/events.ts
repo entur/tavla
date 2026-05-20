@@ -145,11 +145,15 @@ export type EventMap = {
     board_create_entry: WithLocation<typeof LOCATIONS.LandingPage>
 
     board_opened: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardWithoutUser
     >
 
     board_copied: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardWithoutUser
     >
 
     board_deleted: WithLocation<
