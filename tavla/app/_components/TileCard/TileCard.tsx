@@ -2,12 +2,12 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
+import { DEFAULT_COLUMNS } from 'app/_components/TileSelector/utils'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
     sortByTransportMode,
 } from 'app/_components/TransportIcon/utils'
-import { DEFAULT_COLUMNS } from 'app/_components/table_editor/TileSelector/utils'
 import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
 import {
@@ -22,7 +22,7 @@ import type {
     BoardTileDB,
     LocationDB,
     TileColumnDB,
-} from 'src/types/db-types/boards'
+} from 'types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
 import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'

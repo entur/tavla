@@ -1,4 +1,4 @@
-import type { TypeOfPlace } from 'app/_components/table_editor/TileSelector/utils'
+import type { TypeOfPlace } from 'app/_components/TileSelector/utils'
 import type { TLoginPage } from 'app/(innlogget)/components/Login/types'
 
 export const LOCATIONS = {

@@ -1,6 +1,6 @@
 'use client'
 import { Tooltip } from '@entur/tooltip'
-import { transportModeNames } from 'app/_components/table_editor/TileCard/utils'
+import { transportModeNames } from 'app/_components/TileCard/utils'
 import type {
     TTransportMode,
     TTransportSubmode,

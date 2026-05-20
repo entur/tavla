@@ -1,8 +1,8 @@
 'use client'
 import { Radio, RadioGroup } from '@entur/form'
 import { Heading4, Paragraph } from '@entur/typography'
+import { transportModeNames } from 'app/_components/TileCard/utils'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
-import { transportModeNames } from 'app/_components/table_editor/TileCard/utils'
 import {
     generateTransportPalettes,
     getTransportColorDescription,

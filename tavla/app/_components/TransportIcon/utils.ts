@@ -1,5 +1,5 @@
-import type { LineWithFrontText } from 'app/_components/table_editor/TileCard/types'
-import { transportModeNames } from 'app/_components/table_editor/TileCard/utils'
+import type { LineWithFrontText } from 'app/_components/TileCard/types'
+import { transportModeNames } from 'app/_components/TileCard/utils'
 import { uniqBy } from 'lodash'
 import type { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
 import { getRelevantSubmode } from 'utils/transport'

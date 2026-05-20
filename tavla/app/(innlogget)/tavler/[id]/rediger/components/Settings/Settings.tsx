@@ -1,5 +1,5 @@
 'use client'
-import { SettingsForm } from 'app/_components/table_editor/TableSettings/SettingsForm'
+import { SettingsForm } from 'app/_components/TableSettings/SettingsForm'
 import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
 import { FormError } from 'app/(innlogget)/components/FormError'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
