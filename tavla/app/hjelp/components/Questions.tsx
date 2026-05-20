@@ -21,7 +21,7 @@ function Questions() {
                 bruker kan du ikke endre tavlen i ettertid. Vil du oppdatere
                 den, må du lage en ny tavle og ta i bruk den nye lenken. Med en
                 bruker kan du redigere tavlen når som helst, organisere tavlene
-                dine i mapper, legge til egen logo på tavla og invitere andre
+                dine i mapper, legge til egen logo på tavlen og invitere andre
                 til å administrere dem.
             </ExpandablePanel>
             <ExpandablePanel title="Viser Tavla sanntidsinformasjon?">
