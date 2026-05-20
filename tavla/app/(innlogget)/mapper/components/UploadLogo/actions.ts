@@ -21,10 +21,10 @@ export async function remove(
     folderid?: FolderDB['id'],
     logo?: FolderDB['logo'],
 ) {
-    await logToGcp('info', 'action:removeLogo invoked')
     if (!folderid || !logo)
         return getFormFeedbackForError('auth/operation-not-allowed')
 
+    await logToGcp('info', 'action:removeLogo invoked', { folderId: folderid })
     const file = getFilename(logo)
 
     if (!file) return getFormFeedbackForError()

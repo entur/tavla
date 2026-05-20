@@ -16,10 +16,12 @@ export async function deleteFolderAction(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
-    await logToGcp('info', 'action:deleteFolderAction invoked')
     const user = await getUserFromSessionCookie()
 
     if (!user) redirect('/')
+    await logToGcp('info', 'action:deleteFolderAction invoked', {
+        uid: user.uid,
+    })
 
     const folderid = data.get('folderid') as FolderDB['id']
     if (!folderid) return getFormFeedbackForError('general')
@@ -36,7 +38,8 @@ export async function deleteFolderAction(
     } catch (e) {
         await logToGcp(
             'error',
-            `Failed to delete folder ${folderid}: ${e instanceof Error ? e.message : String(e)}`,
+            `Failed to delete folder: ${e instanceof Error ? e.message : String(e)}`,
+            { uid: user.uid, folderId: folderid },
         )
         return handleError(e)
     }

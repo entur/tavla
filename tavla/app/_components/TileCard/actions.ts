@@ -61,7 +61,8 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
     } catch (error) {
         await logToGcp(
             'error',
-            `Failed to delete tile from board ${boardId}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to delete tile from board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid: boardId },
         )
         Sentry.captureException(error, {
             extra: {
@@ -105,7 +106,8 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
     } catch (error) {
         await logToGcp(
             'error',
-            `Failed to save tile for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save tile for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {

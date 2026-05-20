@@ -27,7 +27,8 @@ export async function deleteBoardAction(
     } catch (e) {
         await logToGcp(
             'error',
-            `Failed to delete board ${bid}: ${e instanceof Error ? e.message : String(e)}`,
+            `Failed to delete board: ${e instanceof Error ? e.message : String(e)}`,
+            { bid },
         )
         return handleError(e)
     }

@@ -13,7 +13,7 @@ function getLog() {
     return _log
 }
 
-type LogExtra = { bid?: string; uid?: string }
+type LogExtra = { bid?: string; uid?: string; folderId?: string }
 
 type LogPayload = {
     message: string
@@ -24,6 +24,7 @@ type LogPayload = {
     status?: number
     bid?: string
     uid?: string
+    folderId?: string
 }
 
 function buildPayload(message: string, extra?: LogExtra): LogPayload {
@@ -82,12 +83,20 @@ export async function logToGcp(
     const safeLevel = sanitizeForLog(level) as LogLevel
     const safeMessage = sanitizeForLog(message)
 
+    const safeExtra: LogExtra | undefined = extra
+        ? {
+              uid: sanitizeForLog(extra?.uid),
+              bid: sanitizeForLog(extra?.bid),
+              folderId: sanitizeForLog(extra?.folderId),
+          }
+        : undefined
+
     if (process.env.NODE_ENV === 'development') {
         // biome-ignore lint/suspicious/noConsole: local dev output
         console.log({
             severity: safeLevel.toUpperCase(),
             timestamp: new Date().toISOString(),
-            ...buildPayload(safeMessage, extra),
+            ...buildPayload(safeMessage, safeExtra),
         })
         return
     }

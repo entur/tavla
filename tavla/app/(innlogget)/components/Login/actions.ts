@@ -49,7 +49,8 @@ export async function create(uid: UserDB['uid']) {
     } catch (error) {
         await logToGcp(
             'error',
-            `Failed to create user ${uid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to create user: ${error instanceof Error ? error.message : String(error)}`,
+            { uid },
         )
         Sentry.captureException(error, {
             extra: {

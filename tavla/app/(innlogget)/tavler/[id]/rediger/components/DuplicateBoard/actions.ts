@@ -17,7 +17,10 @@ export async function duplicateBoard(
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-    await logToGcp('info', 'action:duplicateBoard invoked', { uid: user.uid })
+    await logToGcp('info', 'action:duplicateBoard invoked', {
+        uid: user.uid,
+        folderId: folderid,
+    })
 
     let createdBoard: FirebaseFirestore.DocumentReference | undefined
 

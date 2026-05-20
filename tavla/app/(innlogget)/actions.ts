@@ -206,12 +206,18 @@ export async function getBoards(ids?: BoardDB['id'][]) {
                 const parsedBoard = BoardDBSchema.safeParse(boardData)
 
                 if (!parsedBoard.success) {
+                    logToGcp(
+                        'warning',
+                        `Board data validation failed: ${parsedBoard.error.message}`,
+                        { bid: doc.id },
+                    )
+
                     Sentry.captureMessage(
                         'Board data validation failed in getBoards',
                         {
                             level: 'warning',
                             extra: {
-                                error: parsedBoard.error.flatten(),
+                                error: parsedBoard.error.message,
                                 boardId: doc.id,
                             },
                         },
@@ -233,9 +239,12 @@ export async function getBoards(ids?: BoardDB['id'][]) {
 }
 
 export async function getPrivateBoardsForUser(folders: FolderDB[]) {
-    await logToGcp('info', 'action:getPrivateBoardsForUser invoked')
     const userWithBoards = await getUserWithBoardIds()
     if (!userWithBoards?.uid) return []
+
+    await logToGcp('info', 'action:getPrivateBoardsForUser invoked', {
+        uid: userWithBoards.uid,
+    })
 
     const rawOwner = userWithBoards.owner ?? []
 
