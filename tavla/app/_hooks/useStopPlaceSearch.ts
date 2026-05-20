@@ -1,7 +1,7 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
+import { fetchStopPlaces, type StopPlace } from 'app/(innlogget)/utils/fetch'
 import { usePostHog } from 'posthog-js/react'
 import { useCallback, useRef, useState } from 'react'
-import { fetchStopPlaces, type StopPlace } from '../utils/fetch'
 
 function useStopPlaceSearch(countyIds?: string[]) {
     const [selectedStopPlace, setSelectedStopPlace] =

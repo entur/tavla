@@ -1,5 +1,5 @@
+import { getCurrentPosition } from 'app/(innlogget)/utils/position'
 import { useCallback, useState } from 'react'
-import { getCurrentPosition } from '../utils/position'
 
 type CurrentPositionState =
     | { type: 'loading' }

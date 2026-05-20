@@ -5,12 +5,12 @@ import {
     SearchableDropdown,
 } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
+import { useClosestStopPlaces } from 'app/_hooks/useClosestStopPlaces'
+import { useCountiesSearch } from 'app/_hooks/useCountiesSearch'
+import useCurrentPosition from 'app/_hooks/useCurrentPosition'
+import { useStopPlaceSearch } from 'app/_hooks/useStopPlaceSearch'
 import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
 import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
-import { useClosestStopPlaces } from 'app/(innlogget)/hooks/useClosestStopPlaces'
-import { useCountiesSearch } from 'app/(innlogget)/hooks/useCountiesSearch'
-import useCurrentPosition from 'app/(innlogget)/hooks/useCurrentPosition'
-import { useStopPlaceSearch } from 'app/(innlogget)/hooks/useStopPlaceSearch'
 import type { StopPlace } from 'app/(innlogget)/utils/fetch'
 import {
     getFormFeedbackForError,

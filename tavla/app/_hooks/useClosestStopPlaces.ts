@@ -3,12 +3,12 @@ import {
     formatDistance,
     haversineDistance,
 } from 'app/_components/TileSelector/utils'
-import { useEffect, useMemo, useState } from 'react'
 import {
     fetchClosestStopPlaces,
     type GeoCoordinate,
     type StopPlace,
-} from '../utils/fetch'
+} from 'app/(innlogget)/utils/fetch'
+import { useEffect, useMemo, useState } from 'react'
 
 function useClosestStopPlaces(
     coordinates: GeoCoordinate | undefined,

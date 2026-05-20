@@ -1,8 +1,8 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
+import { locationToDropdownItem } from 'app/(innlogget)/tavler/[id]/utils'
+import { fetchPoints } from 'app/(innlogget)/utils/fetch'
 import { useCallback, useState } from 'react'
-import type { LocationDB } from 'src/types/db-types/boards'
-import { locationToDropdownItem } from '../tavler/[id]/utils'
-import { fetchPoints } from '../utils/fetch'
+import type { LocationDB } from 'types/db-types/boards'
 
 function usePointSearch(location?: LocationDB) {
     const [selectedPoint, setSelectedPoint] =
