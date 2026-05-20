@@ -1,6 +1,17 @@
 'use server'
+import { Logging } from '@google-cloud/logging'
 
 export type LogLevel = 'debug' | 'info' | 'warning' | 'error'
+
+let _log: ReturnType<InstanceType<typeof Logging>['log']> | null = null
+
+function getLog() {
+    if (_log) return _log
+    const projectId = process.env.GOOGLE_PROJECT_ID
+    if (!projectId) return null
+    _log = new Logging({ projectId }).log('tavla_admin')
+    return _log
+}
 
 function sanitizeForLog(value: unknown): string {
     return (
@@ -26,12 +37,15 @@ export async function logToGcp(level: LogLevel, message: string) {
         return
     }
 
-    // Fluentbit reads stdout from the pod and forwards structured JSON to Cloud Logging
-    // biome-ignore lint/suspicious/noConsole: structured logging for GCP log ingestion
-    console.log(
-        JSON.stringify({
-            severity: safeLevel.toUpperCase(),
-            message: safeMessage,
-        }),
+    const log = getLog()
+    if (!log) return
+
+    const entry = log.entry(
+        { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
+        { message: safeMessage },
+    )
+    // biome-ignore lint/suspicious/noConsole: surface GCP logging errors
+    log.write(entry).catch((error) =>
+        console.error('GCP logging failed:', error),
     )
 }
