@@ -37,8 +37,10 @@ export async function remove(
         const bucket = storage().bucket((await getConfig()).bucket)
         const logoFile = bucket.file('logo/' + file)
 
-        await logoFile.delete()
-        await updateFolder(folderid, { logo: FieldValue.delete() })
+        await Promise.all([
+            logoFile.delete(),
+            updateFolder(folderid, { logo: FieldValue.delete() }),
+        ])
 
         revalidatePath('/')
     } catch (error) {
