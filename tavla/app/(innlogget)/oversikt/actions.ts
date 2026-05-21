@@ -2,7 +2,6 @@
 import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { redirect } from 'next/navigation'
 import { addBoard, addBoardIdToUser } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
@@ -22,9 +21,6 @@ export async function saveBoardToFirebaseForUser(
     try {
         const doc = await addBoard({
             ...boardData,
-            meta: {
-                ...boardData.meta,
-            },
         })
 
         await addBoardIdToUser(user.uid, doc.id)
