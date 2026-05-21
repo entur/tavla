@@ -81,6 +81,8 @@ Backend env vars for local dev: `BACKEND_API_KEY=super_secret_key`, `REDIS_PASSW
 
 **GraphQL:** Operations defined in `.graphql` files, types generated via `yarn generate` (config in `codegen.ts` and `graphql.config.json`). Always run `yarn generate` after schema changes.
 
+When adding, removing, or modifying any `.graphql` file under `tavla/src/graphql/` (queries or fragments), regenerate `docs/EXPLORER_LINKS.md` by re-running the same Python script logic used to create it: merge each query with its fragments recursively, URL-encode as `query`+`operationName`+`variables` parameters, and write the updated file. Use the same realistic NSR example IDs (`NSR:StopPlace:59872` Oslo S, `NSR:StopPlace:6013` Bergen stasjon, `NSR:Quay:107371` Oslo S pl. 1).
+
 **Linting/formatting:** Biome (not ESLint/Prettier). Pre-commit hooks run Biome on staged files via Husky.
 
 **Component library:** `@entur/*` design system components throughout the frontend.
