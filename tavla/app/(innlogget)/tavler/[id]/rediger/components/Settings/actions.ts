@@ -17,11 +17,18 @@ import {
 } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
-import { getBoard } from 'src/firebase'
+import {
+    addBoardIdToFolder,
+    addBoardIdToUser,
+    getBoard,
+    removeBoardIdFromFolder,
+    removeBoardIdFromUser,
+    updateBoard,
+} from 'src/firebase'
 import type {
     BoardDB,
     BoardFontSize,
@@ -34,8 +41,6 @@ import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
-
-const db = getFirestore()
 
 async function userHasAccessToEditBoard(bid: string) {
     const access = await userCanEditBoard(bid)
@@ -122,10 +127,7 @@ async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
         : FieldValue.delete()
 
     try {
-        await db.collection('boards').doc(bid).update({
-            footer: newFooter,
-            'meta.dateModified': Date.now(),
-        })
+        await updateBoard(bid, { footer: newFooter })
         revalidatePath(`tavler/${bid}/rediger`)
     } catch (error) {
         await logToGcp(
@@ -144,14 +146,7 @@ async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
 
 async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
     try {
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({
-                theme: theme ?? 'dark',
-                'meta.dateModified': Date.now(),
-            })
-
+        await updateBoard(bid, { theme: theme ?? 'dark' })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
         await logToGcp(
@@ -173,14 +168,7 @@ async function setViewType(board: BoardDB, viewType: string) {
     const isSeparateTiles = viewType === 'separate'
 
     try {
-        await db
-            .collection('boards')
-            .doc(board.id ?? '')
-            .update({
-                isCombinedTiles: !isSeparateTiles,
-                'meta.dateModified': Date.now(),
-            })
-
+        await updateBoard(board.id ?? '', { isCombinedTiles: !isSeparateTiles })
         revalidatePath(`/tavler/${board.id}/rediger`)
     } catch (e) {
         await logToGcp(
@@ -193,13 +181,7 @@ async function setViewType(board: BoardDB, viewType: string) {
 
 async function saveTitle(bid: BoardDB['id'], title: string) {
     try {
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({
-                'meta.title': title.substring(0, 50),
-                'meta.dateModified': Date.now(),
-            })
+        await updateBoard(bid, { 'meta.title': title.substring(0, 50) })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
         await logToGcp(
@@ -218,10 +200,7 @@ async function saveTitle(bid: BoardDB['id'], title: string) {
 
 async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
     try {
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
+        await updateBoard(bid, { 'meta.fontSize': font })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
         await logToGcp(
@@ -240,14 +219,10 @@ async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
 
 async function saveLocation(board: BoardDB, location?: LocationDB) {
     try {
-        await db
-            .collection('boards')
-            .doc(board.id ?? '')
-            .update({
-                tiles: await getTilesWithDistance(board, location),
-                'meta.location': location ?? FieldValue.delete(),
-                'meta.dateModified': Date.now(),
-            })
+        await updateBoard(board.id ?? '', {
+            tiles: await getTilesWithDistance(board, location),
+            'meta.location': location ?? FieldValue.delete(),
+        })
         revalidatePath(`/tavler/${board.id}/rediger`)
     } catch (error) {
         await logToGcp(
@@ -297,27 +272,11 @@ export async function moveBoard(
     }
 
     try {
-        if (fromFolder)
-            await db
-                .collection('folders')
-                .doc(fromFolder)
-                .update({ boards: FieldValue.arrayRemove(bid) })
-        else
-            await db
-                .collection('users')
-                .doc(user.uid)
-                .update({ owner: FieldValue.arrayRemove(bid) })
+        if (fromFolder) await removeBoardIdFromFolder(fromFolder, bid)
+        else await removeBoardIdFromUser(user.uid, bid)
 
-        if (toFolder)
-            await db
-                .collection('folders')
-                .doc(toFolder)
-                .update({ boards: FieldValue.arrayUnion(bid) })
-        else
-            await db
-                .collection('users')
-                .doc(user.uid)
-                .update({ owner: FieldValue.arrayUnion(bid) })
+        if (toFolder) await addBoardIdToFolder(toFolder, bid)
+        else await addBoardIdToUser(user.uid, bid)
     } catch (error) {
         await logToGcp(
             'error',
@@ -340,14 +299,9 @@ async function setTransportPalette(
     transportPalette?: TransportPalette,
 ) {
     try {
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({
-                transportPalette: transportPalette ?? 'default',
-                'meta.dateModified': Date.now(),
-            })
-
+        await updateBoard(bid, {
+            transportPalette: transportPalette ?? 'default',
+        })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
         await logToGcp(
@@ -371,12 +325,7 @@ async function setElements(
     hideLogo: boolean,
 ) {
     try {
-        await db.collection('boards').doc(bid).update({
-            hideClock: hideClock,
-            hideLogo: hideLogo,
-            'meta.dateModified': Date.now(),
-        })
-
+        await updateBoard(bid, { hideClock, hideLogo })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
         await logToGcp(

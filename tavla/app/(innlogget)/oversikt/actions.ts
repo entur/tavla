@@ -2,7 +2,8 @@
 import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import admin, { firestore } from 'firebase-admin'
+import { redirect } from 'next/navigation'
+import { addBoard, addBoardIdToUser } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 
@@ -20,23 +21,16 @@ export async function saveBoardToFirebaseForUser(
     const now = Date.now()
 
     try {
-        const doc = await firestore()
-            .collection('boards')
-            .add({
-                ...boardData,
-                meta: {
-                    ...boardData.meta,
-                    created: now,
-                    dateModified: now,
-                },
-            })
+        const doc = await addBoard({
+            ...boardData,
+            meta: {
+                ...boardData.meta,
+                created: now,
+                dateModified: now,
+            },
+        })
 
-        await firestore()
-            .collection('users')
-            .doc(user.uid)
-            .update({
-                owner: admin.firestore.FieldValue.arrayUnion(doc.id),
-            })
+        await addBoardIdToUser(user.uid, doc.id)
 
         return doc.id
     } catch (error) {

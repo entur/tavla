@@ -7,18 +7,16 @@ import {
 } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import createDOMPurify from 'dompurify'
-import { getFirestore } from 'firebase-admin/firestore'
 import { getDownloadURL, getStorage } from 'firebase-admin/storage'
 import { JSDOM } from 'jsdom'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
 import type { NextRequest } from 'next/server'
+import { updateFolder } from 'src/firebase'
 import type { FolderDB } from 'src/types/db-types/folders'
 import rateLimit from 'src/utils/rateLimit'
 
 initializeAdminApp()
-
-const db = getFirestore()
 
 const rateLimiter = rateLimit({
     maxUniqueTokens: 100,
@@ -117,9 +115,7 @@ export async function POST(request: NextRequest) {
             },
         )
 
-    await db.collection('folders').doc(folderid).update({
-        logo: logoUrl,
-    })
+    await updateFolder(folderid, { logo: logoUrl })
     revalidatePath(`/mapper/${folderid}`)
     return new Response(
         JSON.stringify({ message: 'Logo uploaded successfully' }),

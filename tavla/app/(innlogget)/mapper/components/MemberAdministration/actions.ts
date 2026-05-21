@@ -10,9 +10,10 @@ import {
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
-import admin, { auth, firestore } from 'firebase-admin'
+import { auth } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { addOwnerToFolder } from 'src/firebase'
 import { logToGcp } from 'src/utils/logging'
 
 export async function removeUserAction(
@@ -70,12 +71,7 @@ export async function inviteUserAction(
         return getFormFeedbackForError('folder/user-already-invited')
 
     try {
-        await firestore()
-            .collection('folders')
-            .doc(folderid)
-            .update({
-                owners: admin.firestore.FieldValue.arrayUnion(invitee.uid),
-            })
+        await addOwnerToFolder(folderid, invitee.uid)
         revalidatePath('/')
     } catch (error) {
         await logToGcp(

@@ -1,7 +1,12 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import admin, { auth, firestore } from 'firebase-admin'
-import { getFolderForBoard } from 'src/firebase'
+import {
+    getFolderForBoard,
+    removeBoardIdFromFolder,
+    removeBoardIdFromUser,
+    removeOwnerFromFolder,
+} from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { type UserDB, UserDBSchema } from 'src/types/db-types/users'
@@ -95,19 +100,9 @@ export async function deleteBoard(bid: BoardDB['id']) {
         await firestore().collection('boards').doc(bid).delete()
 
         if (folder?.id) {
-            await firestore()
-                .collection('folders')
-                .doc(folder.id)
-                .update({
-                    boards: admin.firestore.FieldValue.arrayRemove(bid),
-                })
+            await removeBoardIdFromFolder(folder.id, bid)
         } else {
-            await firestore()
-                .collection('users')
-                .doc(user.uid)
-                .update({
-                    owner: admin.firestore.FieldValue.arrayRemove(bid),
-                })
+            await removeBoardIdFromUser(user.uid, bid)
         }
     } catch (error) {
         await logToGcp(
@@ -167,12 +162,7 @@ export async function deleteFolderBoard(
 
 export async function removeUserFromFolder(folderid: string, uid: string) {
     try {
-        await firestore()
-            .collection('folders')
-            .doc(folderid)
-            .update({
-                owners: admin.firestore.FieldValue.arrayRemove(uid),
-            })
+        await removeOwnerFromFolder(folderid, uid)
     } catch (error) {
         await logToGcp(
             'error',

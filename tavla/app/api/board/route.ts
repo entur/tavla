@@ -1,14 +1,11 @@
 import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
-import { getFirestore } from 'firebase-admin/firestore'
 import { type NextRequest, NextResponse } from 'next/server'
+import { getBoard, getBoardByCustomUrl, getFolderForBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
-import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
-
-const db = getFirestore()
 
 const allowedOrigins = [
     'https://vis-tavla.dev.entur.no',
@@ -36,47 +33,15 @@ export async function OPTIONS(request: NextRequest) {
 }
 
 async function fetchBoardById(boardId: BoardDB['id']): Promise<BoardDB | null> {
-    const boardDoc = await db.collection('boards').doc(boardId).get()
-
-    if (!boardDoc.exists) {
-        return null
-    }
-    const board = { id: boardId, ...boardDoc.data() } as BoardDB
-
+    const board = await getBoard(boardId)
+    if (!board) return null
     const { location: _, ...meta } = board.meta
     return { ...board, meta }
 }
 
-async function fetchBoardByCustomUrl(
-    boardString: BoardDB['customUrl'],
-): Promise<BoardDB | null> {
-    const boardQuery = await db
-        .collection('boards')
-        .where('customUrl', '==', boardString)
-        .get()
-
-    if (boardQuery.empty) {
-        return null
-    }
-
-    return {
-        id: boardQuery.docs[0]?.id,
-        ...boardQuery.docs[0]?.data(),
-    } as BoardDB
-}
-
 async function fetchFolderLogo(boardId: BoardDB['id']): Promise<string | null> {
-    const foldersSnapshot = await db
-        .collection('folders')
-        .where('boards', 'array-contains', boardId)
-        .get()
-
-    if (foldersSnapshot.empty || !foldersSnapshot.docs[0]) {
-        return null
-    }
-
-    const folderData = foldersSnapshot.docs[0].data() as FolderDB
-    return folderData.logo ?? null
+    const folder = await getFolderForBoard(boardId)
+    return folder?.logo ?? null
 }
 
 function createErrorResponse(
@@ -103,7 +68,7 @@ export async function GET(request: NextRequest) {
     try {
         const boardData =
             (boardId.length === 20 ? await fetchBoardById(boardId) : null) ??
-            (await fetchBoardByCustomUrl(boardId))
+            (await getBoardByCustomUrl(boardId))
 
         if (!boardData) {
             return createErrorResponse(request, 'Board not found', 404)

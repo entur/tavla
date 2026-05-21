@@ -8,9 +8,11 @@ import {
 } from 'app/(innlogget)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
-import { firestore, storage } from 'firebase-admin'
+import { storage } from 'firebase-admin'
+import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { updateFolder } from 'src/firebase'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 import { getFilename } from './utils'
@@ -36,10 +38,7 @@ export async function remove(
         const logoFile = bucket.file('logo/' + file)
 
         await logoFile.delete()
-
-        await firestore().collection('folders').doc(folderid).update({
-            logo: firestore.FieldValue.delete(),
-        })
+        await updateFolder(folderid, { logo: FieldValue.delete() })
 
         revalidatePath('/')
     } catch (error) {

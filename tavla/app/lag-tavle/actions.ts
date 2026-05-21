@@ -1,7 +1,7 @@
 'use server'
 import { getWalkingDistanceTile } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
-import { firestore } from 'firebase-admin'
+import { addBoard } from 'src/firebase'
 import type {
     BoardDB,
     BoardTileDB,
@@ -14,17 +14,15 @@ export async function publishBoard(board: BoardDB): Promise<string> {
     const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
 
     const now = Date.now()
-    const doc = await firestore()
-        .collection('boards')
-        .add({
-            ...boardData,
-            meta: {
-                ...boardData.meta,
-                created: now,
-                dateModified: now,
-            },
-            isAnonymousBoard: true,
-        })
+    const doc = await addBoard({
+        ...boardData,
+        meta: {
+            ...boardData.meta,
+            created: now,
+            dateModified: now,
+        },
+        isAnonymousBoard: true,
+    })
     return doc.id
 }
 
