@@ -1,7 +1,7 @@
 'use client'
 import { PrimaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading1, Heading3, LeadParagraph } from '@entur/typography'
+import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
 import { CreateUserButton } from 'app/_components/CreateUserButton'
 import { SettingsForm } from 'app/_components/TableSettings/SettingsForm'
 import { TileList } from 'app/_components/TileList'
@@ -79,33 +79,34 @@ function CreateBoardLocally() {
             </LeadParagraph>
             <div
                 data-transport-palette={board.transportPalette}
-                className="flex flex-col gap-4 rounded-md bg-tintLight px-6 py-8"
+                className="flex flex-col rounded-md bg-tintLight px-6 py-8"
             >
-                <Heading3 as="h2" margin="top">
-                    Hvilke stoppesteder vil du vise i tavlen?
-                </Heading3>
-                <TileSelector
-                    action={async (data: FormData) => {
-                        const tiles = formDataToTiles(data)
-                        setTiles([...board.tiles, ...tiles])
-                        resetPublishedBoard()
-                    }}
-                    trackingLocation="board_without_user"
-                />
-                <TileList
-                    board={board}
-                    setTilesLocalStorageBoard={(tiles) => {
-                        setTiles(tiles)
-                        resetPublishedBoard()
-                    }}
-                    bid={board.id}
-                />
-                <section
-                    data-theme={board.theme ?? 'dark'}
-                    aria-label="Forhåndsvisning av Tavla"
-                >
-                    <BoardPreview board={board} />
-                </section>
+                <Heading2 as="h2">{board.meta.title || 'Min tavle'}</Heading2>
+                <Heading3>Hvilke stoppesteder vil du vise i tavlen?</Heading3>
+                <div className="flex flex-col gap-4">
+                    <TileSelector
+                        action={async (data: FormData) => {
+                            const tiles = formDataToTiles(data)
+                            setTiles([...board.tiles, ...tiles])
+                            resetPublishedBoard()
+                        }}
+                        trackingLocation="board_without_user"
+                    />
+                    <TileList
+                        board={board}
+                        setTilesLocalStorageBoard={(tiles) => {
+                            setTiles(tiles)
+                            resetPublishedBoard()
+                        }}
+                        bid={board.id}
+                    />
+                    <section
+                        data-theme={board.theme ?? 'dark'}
+                        aria-label="Forhåndsvisning av Tavla"
+                    >
+                        <BoardPreview board={board} />
+                    </section>
+                </div>
             </div>
             {loaded && (
                 <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
