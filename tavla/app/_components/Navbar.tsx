@@ -15,7 +15,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
     return (
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
             <Link
-                href="/tavla/public"
+                href="/"
                 onClick={() =>
                     posthog.capture('go_to_home_page', { location: 'nav_bar' })
                 }
