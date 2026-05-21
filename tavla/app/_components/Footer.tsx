@@ -1,12 +1,12 @@
 'use client'
 import { GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
-import { showUC_UI as showUserCentricsUI } from 'app/_components/ConsentHandler'
+import DeleteAccount from 'app/(innlogget)/components/DeleteAccount/DeleteAccount'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
 import Link from 'next/link'
-import DeleteAccount from './DeleteAccount/DeleteAccount'
+import { showUC_UI as showUserCentricsUI } from './ConsentHandler'
 
 function Footer({ loggedIn }: { loggedIn: boolean }) {
     const posthog = usePosthogTracking()

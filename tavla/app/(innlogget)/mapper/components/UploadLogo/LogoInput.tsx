@@ -3,9 +3,9 @@ import { Button } from '@entur/button'
 import { ImageIcon, UploadIcon } from '@entur/icons'
 import { Loader } from '@entur/loader'
 import { Label, Paragraph } from '@entur/typography'
-import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
-import { FormError } from 'app/(innlogget)/components/FormError'
+import { FormError } from 'app/_components/Form/FormError'
+import { HiddenInput } from 'app/_components/Form/HiddenInput'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
