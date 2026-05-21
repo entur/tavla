@@ -30,7 +30,7 @@ export async function remove(
 
     if (!file) return getFormFeedbackForError()
 
-    const access = userCanEditFolder(folderid)
+    const access = await userCanEditFolder(folderid)
     if (!access) return redirect('/')
 
     try {
