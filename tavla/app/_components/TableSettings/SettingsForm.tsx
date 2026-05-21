@@ -1,6 +1,6 @@
 'use client'
 import { Heading2, Heading3, SubParagraph } from '@entur/typography'
-import { useAllowedPalettes } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/colorPalettes'
+import { useAllowedPalettes } from 'app/_utils/colorPalettes'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
 import { type ReactNode, useCallback, useRef } from 'react'
 import type { BoardDB } from 'types/db-types/boards'

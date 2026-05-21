@@ -2,6 +2,7 @@
 import { PrimaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { Heading3, Paragraph } from '@entur/typography'
+import { FormError } from 'app/_components/Form/FormError'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
@@ -13,7 +14,6 @@ import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 import Image from 'next/image'
 import { useActionState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
-import { FormError } from '../FormError'
 
 function Reset() {
     const submit = async (

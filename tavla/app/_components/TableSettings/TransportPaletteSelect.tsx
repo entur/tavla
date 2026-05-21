@@ -6,7 +6,7 @@ import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     generateTransportPalettes,
     getTransportColorDescription,
-} from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/colorPalettes'
+} from 'app/_utils/colorPalettes'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
 import type { BoardTheme, TransportPalette } from 'types/db-types/boards'

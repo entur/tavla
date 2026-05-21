@@ -1,7 +1,7 @@
 'use client'
+import { FormError } from 'app/_components/Form/FormError'
+import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import { SettingsForm } from 'app/_components/TableSettings/SettingsForm'
-import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
-import { FormError } from 'app/(innlogget)/components/FormError'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import {
     getFormFeedbackForField,

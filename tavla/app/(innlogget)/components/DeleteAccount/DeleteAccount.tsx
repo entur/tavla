@@ -9,8 +9,9 @@ import {
     Paragraph,
     SubParagraph,
 } from '@entur/typography'
+import { FormError } from 'app/_components/Form/FormError'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
 import { useSearchParamsModal } from 'app/(innlogget)/hooks/useSearchParamsModal'
 import {
     getFormFeedbackForField,
@@ -21,7 +22,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import { useActionState } from 'react'
-import { FormError } from '../FormError'
 import { deleteAccount } from './actions'
 
 function DeleteAccount() {

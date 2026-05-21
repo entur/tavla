@@ -2,6 +2,5 @@
 
 .direnv
 .envrc
-ent-tavla-dev-875a70280651.json
-ent-tavla-prd-54ef424ea2f0.json
+ent-tavla-*.json
 **/.idea

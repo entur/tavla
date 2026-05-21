@@ -2,8 +2,6 @@
 import { SmallAlertBox, useToast } from '@entur/alert'
 import { Checkbox, TextArea } from '@entur/form'
 import { Label, Paragraph, SubParagraph } from '@entur/typography'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
-import { FormError } from 'app/(innlogget)/components/FormError'
 import { isEmptyOrSpaces } from 'app/(innlogget)/tavler/[id]/utils'
 import {
     getFormFeedbackForError,
@@ -15,6 +13,8 @@ import { useState } from 'react'
 import { validEmail } from 'src/utils/email'
 import { postForm } from './actions'
 import { Expandable } from './Expandable'
+import { FormError } from './Form/FormError'
+import { SubmitButton } from './Form/SubmitButton'
 import ClientOnlyTextField from './NoSSR/TextField'
 
 function ContactForm() {

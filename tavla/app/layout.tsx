@@ -11,9 +11,9 @@ import ConsentHandler, {
 } from 'app/_components/ConsentHandler'
 import { ContactForm } from 'app/_components/ContactForm'
 import { FocusManager } from 'app/_components/FocusManager'
+import { Footer } from 'app/_components/Footer'
+import { Navbar } from 'app/_components/Navbar'
 import PostHogPageView from 'app/_components/PostHogPageView'
-import { Footer } from './(innlogget)/components/Footer'
-import { Navbar } from './(innlogget)/components/Navbar'
 import { getUserFromSessionCookie } from './(innlogget)/utils/server'
 import './globals.css'
 

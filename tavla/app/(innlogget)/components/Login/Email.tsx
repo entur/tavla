@@ -1,8 +1,9 @@
 'use client'
 import { ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
+import { FormError } from 'app/_components/Form/FormError'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
 import { useSearchParamsSetter } from 'app/(innlogget)/hooks/useSearchParamsSetter'
 import {
     getFormFeedbackForError,
@@ -21,7 +22,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
-import { FormError } from '../FormError'
 import { login } from './actions'
 import Google from './Google'
 import type { TLoginPage } from './types'

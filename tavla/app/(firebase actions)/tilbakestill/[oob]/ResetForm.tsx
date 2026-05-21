@@ -1,6 +1,6 @@
 'use client'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,

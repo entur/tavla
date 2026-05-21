@@ -33,6 +33,11 @@ No unit test framework is configured — CI only runs `yarn lint` and `yarn type
 
 Dev URLs: App at `http://localhost:3000`, Firebase Emulator UI at `http://127.0.0.1:4000/`
 
+## Design system
+
+When working with Entur components, branding, or accessibility, read and follow:
+https://raw.githubusercontent.com/entur/design-system/main/skills/entur-linje/SKILL.md
+
 ## Backend Commands (`backend/` directory)
 
 ```bash
