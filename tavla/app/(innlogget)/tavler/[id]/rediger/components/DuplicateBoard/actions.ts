@@ -1,6 +1,9 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
+import {
+    initializeAdminApp,
+    userCanEditFolder,
+} from 'app/(innlogget)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { redirect } from 'next/navigation'
@@ -25,7 +28,6 @@ export async function duplicateBoard(
             ...board,
             meta: {
                 ...board.meta,
-                fontSize: board.meta?.fontSize,
             },
         })
 
@@ -33,6 +35,9 @@ export async function duplicateBoard(
             throw Error('failed to create board')
 
         if (folderid) {
+            const access = await userCanEditFolder(folderid)
+            if (!access)
+                return getFormFeedbackForError('auth/operation-not-allowed')
             await addBoardIdToFolder(folderid, createdBoard.id)
         } else {
             await addBoardIdToUser(user.uid, createdBoard.id)
