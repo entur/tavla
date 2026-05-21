@@ -108,7 +108,17 @@ export async function updateBoard(
 }
 
 export async function addBoard(boardData: Omit<BoardDB, 'id'>) {
-    return firestore().collection('boards').add(boardData)
+    const now = Date.now()
+    return firestore()
+        .collection('boards')
+        .add({
+            ...boardData,
+            meta: {
+                ...boardData.meta,
+                created: now,
+                dateModified: now,
+            },
+        })
 }
 
 export async function getBoardByCustomUrl(customUrl: string) {

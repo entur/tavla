@@ -18,15 +18,12 @@ export async function saveBoardToFirebaseForUser(
     }
 
     const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
-    const now = Date.now()
 
     try {
         const doc = await addBoard({
             ...boardData,
             meta: {
                 ...boardData.meta,
-                created: now,
-                dateModified: now,
             },
         })
 

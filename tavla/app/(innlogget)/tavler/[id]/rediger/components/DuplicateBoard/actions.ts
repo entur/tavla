@@ -25,9 +25,7 @@ export async function duplicateBoard(
             ...board,
             meta: {
                 ...board.meta,
-                fontSize: board.meta?.fontSize ?? 'medium',
-                created: Date.now(),
-                dateModified: Date.now(),
+                fontSize: board.meta?.fontSize,
             },
         })
 

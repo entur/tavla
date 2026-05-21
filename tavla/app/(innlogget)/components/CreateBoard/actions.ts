@@ -35,9 +35,6 @@ export async function createBoard(
             isCombinedTiles: false,
             meta: {
                 title: name.substring(0, 50),
-                fontSize: 'medium',
-                created: Date.now(),
-                dateModified: Date.now(),
             },
         })
 
