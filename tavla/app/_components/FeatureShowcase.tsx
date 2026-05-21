@@ -91,10 +91,7 @@ const MobileView = ({
                     </button>
                 ))}
             </div>
-            <div
-                key={activeIndex}
-                className="flex-1 flex flex-col overflow-hidden min-h-0 animate-feature-in"
-            >
+            <div className="flex-1 flex flex-col overflow-hidden min-h-0 animate-feature-in">
                 <div className="bg-hoverContrast border border-[#8186AF] rounded-lg px-4 py-3 mb-3">
                     <p className="font-bold text-blue text-sm mb-1">
                         {activeFeature.title}
