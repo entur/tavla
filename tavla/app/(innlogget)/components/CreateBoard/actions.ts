@@ -9,7 +9,6 @@ import { handleError } from 'app/(innlogget)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { redirect } from 'next/navigation'
 import { addBoard, addBoardIdToFolder, addBoardIdToUser } from 'src/firebase'
-import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 
@@ -40,7 +39,7 @@ export async function createBoard(
                 created: Date.now(),
                 dateModified: Date.now(),
             },
-        } as Omit<BoardDB, 'id'>)
+        })
 
         if (!createdBoard) return getFormFeedbackForError('firebase/general')
 
