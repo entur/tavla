@@ -21,18 +21,13 @@ export async function duplicateBoard(
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
-    let createdBoard: FirebaseFirestore.DocumentReference | undefined
-
     try {
-        createdBoard = await addBoard({
+        const createdBoard = await addBoard({
             ...board,
             meta: {
                 ...board.meta,
             },
         })
-
-        if (!createdBoard || !createdBoard.id)
-            throw Error('failed to create board')
 
         if (folderid) {
             const access = await userCanEditFolder(folderid)
@@ -42,6 +37,7 @@ export async function duplicateBoard(
         } else {
             await addBoardIdToUser(user.uid, createdBoard.id)
         }
+        redirect(`/tavler/${createdBoard.id}/rediger`)
     } catch (error) {
         await logToGcp(
             'error',
@@ -50,5 +46,4 @@ export async function duplicateBoard(
         Sentry.captureMessage('Error while duplicating board object: ' + board)
         throw error
     }
-    redirect(`/tavler/${createdBoard.id}/rediger`)
 }
