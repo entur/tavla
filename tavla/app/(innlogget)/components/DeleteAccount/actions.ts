@@ -12,6 +12,7 @@ import {
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { auth } from 'firebase-admin'
+import { logToGcp } from 'src/utils/logging'
 import { logout } from '../Login/actions'
 
 export async function deleteAccount(data: FormData) {
@@ -33,6 +34,10 @@ export async function deleteAccount(data: FormData) {
         await deleteUserFromFirestore()
         await deleteUserFromFirebaseAuth()
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to delete account for user ${user.uid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while deleting user account',

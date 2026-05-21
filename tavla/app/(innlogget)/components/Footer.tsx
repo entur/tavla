@@ -1,7 +1,7 @@
 'use client'
 import { GithubIcon } from '@entur/icons'
 import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
-import { showUC_UI as showUserCentricsUI } from 'app/components/ConsentHandler'
+import { showUC_UI as showUserCentricsUI } from 'app/_components/ConsentHandler'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import TavlaLogo from 'assets/logos/Tavla-white.svg'
 import Image from 'next/image'
@@ -65,19 +65,6 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                     <div className="flex flex-col gap-4">
                         <Heading3 as="h2">Informasjon</Heading3>
                         <ul className="flex flex-col gap-4">
-                            <li>
-                                <EnturLink
-                                    href="/demo"
-                                    as={Link}
-                                    onClick={() =>
-                                        posthog.capture('demo_started', {
-                                            location: 'footer',
-                                        })
-                                    }
-                                >
-                                    Test ut Tavla
-                                </EnturLink>
-                            </li>
                             <li>
                                 <EnturLink
                                     href="/hjelp"

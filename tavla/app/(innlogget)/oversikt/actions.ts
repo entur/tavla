@@ -4,6 +4,7 @@ import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import admin, { firestore } from 'firebase-admin'
 import type { BoardDB } from 'src/types/db-types/boards'
+import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -39,6 +40,10 @@ export async function saveBoardToFirebaseForUser(
 
         return doc.id
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to save board from localStorage for user ${user.uid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message:

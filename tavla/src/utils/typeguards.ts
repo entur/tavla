@@ -22,3 +22,10 @@ export function typedEntries<T extends object>(
 export function typedKeys<T extends object>(obj: T): (keyof T)[] {
     return Object.keys(obj) as (keyof T)[]
 }
+
+export function hasField<T, K extends keyof T>(
+    obj: T,
+    key: K,
+): obj is T & Record<K, NonNullable<T[K]>> {
+    return obj[key] !== null && obj[key] !== undefined
+}

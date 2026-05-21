@@ -9,13 +9,13 @@ import {
     Paragraph,
     SubParagraph,
 } from '@entur/typography'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
 import { useSearchParamsModal } from 'app/(innlogget)/hooks/useSearchParamsModal'
 import {
     getFormFeedbackForField,
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import Link from 'next/link'

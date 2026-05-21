@@ -1,15 +1,15 @@
 'use client'
 import { PrimaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
-import { TileSelector } from 'app/(innlogget)/components/TileSelector/TileSelector'
-import { formDataToTiles } from 'app/(innlogget)/components/TileSelector/utils'
-import { useSaveDemoBoardInLocalStorage } from 'app/(innlogget)/hooks/useSaveDemoBoardInLocalStorage'
-import { SettingsForm } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/components/SettingsForm'
-import { TileList } from 'app/(innlogget)/tavler/[id]/rediger/components/TileList'
-import { CreateUserButton } from 'app/components/CreateUserButton'
-import { DemoPreview } from 'app/demo/components/DemoPreview'
+import { Heading1, Heading3, LeadParagraph } from '@entur/typography'
+import { CreateUserButton } from 'app/_components/CreateUserButton'
+import { SettingsForm } from 'app/_components/TableSettings/SettingsForm'
+import { TileList } from 'app/_components/TileList'
+import { TileSelector } from 'app/_components/TileSelector/TileSelector'
+import { formDataToTiles } from 'app/_components/TileSelector/utils'
+import { useSaveBoardInLocalStorage } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { publishBoard } from 'app/lag-tavle/actions'
+import { BoardPreview } from 'app/lag-tavle/components/BoardPreview'
 import { PublishModalContent } from 'app/lag-tavle/components/PublishBoardModal'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useCallback, useState } from 'react'
@@ -21,8 +21,7 @@ export type PublishBoardState =
     | { type: 'error'; message: string }
 
 function CreateBoardLocally() {
-    const { board, loaded, setTiles, onSubmit } =
-        useSaveDemoBoardInLocalStorage()
+    const { board, loaded, setTiles, onSubmit } = useSaveBoardInLocalStorage()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const [publishState, setPublishState] = useState<PublishBoardState>({
@@ -61,7 +60,7 @@ function CreateBoardLocally() {
 
     return (
         <>
-            <div className="flex h-full items-center justify-between align-middle">
+            <div className="flex h-full sm:items-center justify-between sm:align-middle flex-col sm:flex-row">
                 <Heading1 className="!mb-0">Lag en tavle</Heading1>
 
                 <div className="flex flex-row gap-4">
@@ -91,22 +90,21 @@ function CreateBoardLocally() {
                         setTiles([...board.tiles, ...tiles])
                         resetPublishedBoard()
                     }}
-                    trackingLocation="demo_page"
+                    trackingLocation="board_without_user"
                 />
                 <TileList
                     board={board}
-                    setTilesDemoBoard={(tiles) => {
+                    setTilesLocalStorageBoard={(tiles) => {
                         setTiles(tiles)
                         resetPublishedBoard()
                     }}
-                    bid="demo"
+                    bid={board.id}
                 />
                 <section
                     data-theme={board.theme ?? 'dark'}
                     aria-label="Forhåndsvisning av Tavla"
                 >
-                    <Heading2>Forhåndsvisning</Heading2>
-                    <DemoPreview board={board} />
+                    <BoardPreview board={board} />
                 </section>
             </div>
             {loaded && (

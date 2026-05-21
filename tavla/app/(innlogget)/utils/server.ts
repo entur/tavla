@@ -6,5 +6,6 @@ initializeAdminApp()
 
 export async function getUserFromSessionCookie() {
     const session = (await cookies()).get('session')
-    return await verifySession(session?.value)
+    const user = await verifySession(session?.value)
+    return user
 }

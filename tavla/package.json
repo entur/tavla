@@ -45,6 +45,7 @@
         "@entur/tokens": "3.22.4",
         "@entur/tooltip": "5.3.10",
         "@entur/typography": "2.1.6",
+        "@google-cloud/logging": "11.2.1",
         "@sentry/nextjs": "10.53.1",
         "@types/jsdom": "28.0.3",
         "dompurify": "3.4.3",

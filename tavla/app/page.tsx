@@ -1,16 +1,16 @@
 import { Heading1, LeadParagraph } from '@entur/typography'
-import { CreateBoardButton } from 'app/components/CreateBoardButton'
+import { CreateBoardButton } from 'app/_components/CreateBoardButton'
+import { FeatureShowcase } from 'app/_components/FeatureShowcase'
+import { ImageCarousel } from 'app/_components/ImageCarousel'
+import { NavigateToOversiktButton } from 'app/_components/NavigateToOversiktButton'
+import { PreviewCarousel } from 'app/_components/PreviewCarousel'
+import { Tavla123 } from 'app/_components/Tavla123'
+import { WordCarousel } from 'app/_components/WordCarousel'
 import type { Metadata } from 'next'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'src/utils/boardLink'
+import { TavlaUsageMap } from './_components/TavlaUsageMap/TavlaUsageMap'
 import { getUserFromSessionCookie } from './(innlogget)/utils/server'
-import { FeatureShowcase } from './components/FeatureShowcase'
-import { ImageCarousel } from './components/ImageCarousel'
-import { NavigateToOversiktButton } from './components/NavigateToOversiktButton'
-import { PreviewCarousel } from './components/PreviewCarousel'
-import { Tavla123 } from './components/Tavla123'
-import { TavlaUsageMap } from './components/TavlaUsageMap/TavlaUsageMap'
-import { WordCarousel } from './components/WordCarousel'
 
 export const metadata: Metadata = {
     title: 'Forside | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
@@ -80,9 +80,7 @@ async function Landing() {
 
             <div className="container mx-auto my-24 flex flex-col justify-start gap-8 lg:gap-16 pt-14">
                 <PreviewCarousel previewBoards={previewBoardsWithLinks} />
-
                 <Tavla123 />
-
                 <TavlaUsageMap loggedIn={loggedIn} />
                 <FeatureShowcase />
             </div>
