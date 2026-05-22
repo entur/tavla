@@ -31,7 +31,13 @@ export async function duplicateBoard(
                 return getFormFeedbackForError('auth/operation-not-allowed')
         }
 
-        const createdBoard = await addBoard(board)
+        const createdBoard = await addBoard({
+            ...board,
+            meta: {
+                ...board.meta,
+                fontSize: board.meta?.fontSize ?? 'medium',
+            },
+        })
 
         if (folderid) {
             await addBoardIdToFolder(folderid, createdBoard.id)
