@@ -43,7 +43,7 @@ export function PinImageTooltip({ pin, rect }: Props) {
             }}
         >
             <div
-                className="rounded-sm overflow-hidden shadow-lg relative"
+                className="rounded-sm overflow-hidden shadow-lg relative bg-white"
                 style={{ border: `6px solid ${dataColors.blue}` }}
             >
                 <Image
