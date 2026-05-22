@@ -9,7 +9,7 @@ type Props = {
     onPinLeave: () => void
 }
 
-export function TavlaNorwayMapSVG({ onPinHover, onPinLeave }: Props) {
+export function MapPinButtons({ onPinHover, onPinLeave }: Props) {
     return (
         <>
             {PINS.map((pin) => {

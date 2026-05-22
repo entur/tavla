@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import type { PinData } from './pins'
 
-const MAP_BLUE = '#181C56'
+const MAP_BLUE = '#181C56' // TODO: hente farge fra bibliotek?
 const HORIZONTAL_GAP = 4
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
     rect: DOMRect
 }
 
-export function PinTooltip({ pin, rect }: Props) {
+export function PinImageTooltip({ pin, rect }: Props) {
     const [visible, setVisible] = useState(false)
 
     useEffect(() => {

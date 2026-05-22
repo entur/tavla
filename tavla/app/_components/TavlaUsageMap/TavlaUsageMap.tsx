@@ -4,9 +4,9 @@ import { CreateBoardButton } from 'app/_components/CreateBoardButton'
 import { NavigateToOversiktButton } from 'app/_components/NavigateToOversiktButton'
 import { useState } from 'react'
 import { TavlaMap } from 'src/assets/illustrations/TavlaMap'
-import { PinTooltip } from './PinTooltip'
+import { MapPinButtons } from './MapPinButtons'
+import { PinImageTooltip } from './PinImageTooltip'
 import type { PinData } from './pins'
-import { TavlaNorwayMapSVG } from './TavlaNorwayMapSVG'
 
 type HoverState = {
     pin: PinData
@@ -61,7 +61,7 @@ export function TavlaUsageMap({ loggedIn }: { loggedIn: boolean }) {
                         className="w-full h-full"
                         hoveredPinIndex={hovered?.pinIndex ?? null}
                     />
-                    <TavlaNorwayMapSVG
+                    <MapPinButtons
                         onPinHover={(pin, pinIndex, rect) =>
                             setHovered({ pin, pinIndex, rect })
                         }
@@ -69,7 +69,7 @@ export function TavlaUsageMap({ loggedIn }: { loggedIn: boolean }) {
                     />
                 </div>
                 {hovered && (
-                    <PinTooltip pin={hovered.pin} rect={hovered.rect} />
+                    <PinImageTooltip pin={hovered.pin} rect={hovered.rect} />
                 )}
             </div>
         </div>
