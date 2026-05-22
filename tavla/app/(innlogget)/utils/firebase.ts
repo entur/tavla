@@ -105,7 +105,7 @@ export async function deleteBoard(bid: BoardDB['id']) {
             await removeBoardIdFromUser(user.uid, bid)
         }
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to delete board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -149,7 +149,7 @@ export async function deleteFolderBoard(
     try {
         return firestore().collection('boards').doc(bid).delete()
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to delete board ${bid} in folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -164,9 +164,9 @@ export async function removeUserFromFolder(folderid: string, uid: string) {
     try {
         await removeOwnerFromFolder(folderid, uid)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to remove user ${uid} from folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to remove user from folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
         )
         Sentry.captureMessage(
             'Error while removing user ' + uid + ' from folder ' + folderid,
@@ -183,9 +183,9 @@ export async function deleteUserFromFirebaseAuth() {
     try {
         await auth().deleteUser(user.uid)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to delete user ${user?.uid} from Firebase Auth: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to delete user from Firebase Auth: ${error instanceof Error ? error.message : String(error)}`,
         )
         Sentry.captureMessage(
             'Error while deleting user ' + user?.uid + ' from firebase auth',
@@ -202,9 +202,9 @@ export async function deleteUserFromFirestore() {
     try {
         await firestore().collection('users').doc(user.uid).delete()
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to delete user ${user?.uid} from Firestore: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to delete user from Firestore: ${error instanceof Error ? error.message : String(error)}`,
         )
         Sentry.captureMessage(
             'Error while deleting user ' + user?.uid + ' from firestore',

@@ -52,6 +52,8 @@ export async function saveSettings(data: FormData) {
         ? (JSON.parse(locationRaw) as LocationDB)
         : undefined
 
+    logToGcp('info', 'action:saveSettings invoked', { bid })
+
     const infoMessage = data.get('infoMessage') as string
 
     const board = await getBoard(bid)
@@ -100,7 +102,7 @@ export async function saveSettings(data: FormData) {
             redirect('/')
         }
 
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to save settings for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
         )

@@ -15,6 +15,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { addOwnerToFolder } from 'src/firebase'
 import { logToGcp } from 'src/utils/logging'
+import { getUserFromSessionCookie } from '../../../utils/server'
 
 export async function removeUserAction(
     _prevState: TFormFeedback | undefined,
@@ -23,6 +24,7 @@ export async function removeUserAction(
     const folderId = data.get('folderid')?.toString() ?? ''
     const uid = data.get('uid')?.toString() ?? ''
 
+    logToGcp('info', 'action:removeUserAction invoked', { folderId })
     const access = await userCanEditFolder(folderId)
     if (!access) return redirect('/')
 
@@ -30,9 +32,10 @@ export async function removeUserAction(
         await removeUserFromFolder(folderId, uid)
         revalidatePath('/')
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to remove user ${uid} from folder ${folderId}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to remove user from folder: ${error instanceof Error ? error.message : String(error)}`,
+            { folderId },
         )
         Sentry.captureException(error, {
             extra: {
@@ -50,6 +53,9 @@ export async function inviteUserAction(
     data: FormData,
 ) {
     const folderid = data.get('folderid')?.toString() ?? ''
+    logToGcp('info', 'action:inviteUserAction invoked', {
+        folderId: folderid,
+    })
 
     const email = data.get('email')?.toString()
     if (!email) return getFormFeedbackForError('auth/invalid-email')
@@ -74,9 +80,14 @@ export async function inviteUserAction(
         await addOwnerToFolder(folderid, invitee.uid)
         revalidatePath('/')
     } catch (error) {
-        await logToGcp(
+        const user = await getUserFromSessionCookie()
+
+        logToGcp(
             'error',
-            `Failed to invite user ${invitee.uid} to folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to invite user to folder: ${error instanceof Error ? error.message : String(error)}`,
+            {
+                folderId: folder.id,
+            },
         )
         Sentry.captureException(error, {
             extra: {

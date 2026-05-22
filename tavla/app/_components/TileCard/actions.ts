@@ -15,6 +15,7 @@ import { logToGcp } from 'src/utils/logging'
 initializeAdminApp()
 
 export async function deleteTile(boardId: string, tile: BoardTileDB) {
+    logToGcp('info', 'action:deleteTile invoked', { bid: boardId })
     const access = await userCanEditBoard(boardId)
     if (!access) return redirect('/')
 
@@ -55,9 +56,10 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
         await updateBoard(boardId, updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to delete tile from board ${boardId}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to delete tile from board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid: boardId },
         )
         Sentry.captureException(error, {
             extra: {
@@ -70,6 +72,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
 }
 
 export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
+    logToGcp('info', 'action:saveTile invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -94,9 +97,10 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to save tile for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save tile for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
