@@ -46,7 +46,6 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
 
         const updatePayload: Record<string, unknown> = {
             tiles: FieldValue.arrayRemove(tileToDelete),
-            'meta.dateModified': Date.now(),
         }
 
         if (shouldResetPalette) {
