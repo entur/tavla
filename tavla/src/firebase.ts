@@ -122,12 +122,44 @@ export async function addBoard(boardData: Omit<BoardDB, 'id'>) {
 }
 
 export async function getBoardByCustomUrl(customUrl: string) {
-    const query = await firestore()
-        .collection('boards')
-        .where('customUrl', '==', customUrl)
-        .get()
-    if (query.empty || !query.docs[0]) return null
-    return { id: query.docs[0].id, ...query.docs[0].data() } as BoardDB
+    try {
+        const query = await firestore()
+            .collection('boards')
+            .where('customUrl', '==', customUrl)
+            .get()
+        if (query.empty || !query.docs[0]) return null
+
+        const boardData = {
+            id: query.docs[0].id,
+            ...query.docs[0].data(),
+        }
+        const parsedBoard = BoardDBSchema.safeParse(boardData)
+        if (!parsedBoard.success) {
+            Sentry.captureMessage(
+                'Board data validation failed for board ' + boardData.id,
+                {
+                    level: 'warning',
+                    extra: {
+                        error: parsedBoard.error,
+                    },
+                },
+            )
+            return makeBoardCompatible(boardData as BoardDB)
+        }
+        return makeBoardCompatible(parsedBoard.data)
+    } catch (error) {
+        Sentry.captureException(error, {
+            level: 'error',
+            extra: {
+                customUrl,
+                operation: 'getBoardByCustomUrl',
+            },
+        })
+        throw new Error(
+            `Failed to fetch board by custom URL ${customUrl}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            { cause: error },
+        )
+    }
 }
 
 export async function addBoardIdToUser(uid: string, bid: BoardDB['id']) {
