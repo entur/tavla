@@ -13,13 +13,7 @@ initializeAdminApp()
 export async function publishBoard(board: BoardDB): Promise<string> {
     const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
 
-    const doc = await addBoard({
-        ...boardData,
-        meta: {
-            ...boardData.meta,
-        },
-        isAnonymousBoard: true,
-    })
+    const doc = await addBoard({ ...boardData, isAnonymousBoard: true })
     return doc.id
 }
 
