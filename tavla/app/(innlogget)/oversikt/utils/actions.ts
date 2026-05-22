@@ -1,17 +1,24 @@
 'use server'
+import * as Sentry from '@sentry/nextjs'
 import { getBoardsForFolder } from 'app/(innlogget)/actions'
-import { moveBoard } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/actions'
-import { deleteBoard, initializeAdminApp } from 'app/(innlogget)/utils/firebase'
+import {
+    deleteBoard,
+    initializeAdminApp,
+    userCanEditFolder,
+} from 'app/(innlogget)/utils/firebase'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
+import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getFolderForBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
+import { getUserFromSessionCookie } from '../../utils/server'
 
 initializeAdminApp()
+const db = getFirestore()
 
 export async function deleteBoardAction(
     _prevState: TFormFeedback | undefined,
@@ -51,6 +58,63 @@ export async function countAllBoards(folders: FolderDB[], boards: BoardDB[]) {
     let count = boards.length
     folderCounts.map((folderCount) => (count += folderCount))
     return count
+}
+
+export async function moveBoard(
+    bid: BoardDB['id'],
+    toFolder?: FolderDB['id'],
+    fromFolder?: FolderDB['id'],
+) {
+    const user = await getUserFromSessionCookie()
+    if (!user) return redirect('/')
+
+    if (fromFolder) {
+        const canEdit = await userCanEditFolder(fromFolder)
+        if (!canEdit) return redirect('/')
+    }
+
+    if (toFolder) {
+        const canEdit = await userCanEditFolder(toFolder)
+        if (!canEdit) return redirect('/')
+    }
+
+    try {
+        if (fromFolder)
+            await db
+                .collection('folders')
+                .doc(fromFolder)
+                .update({ boards: FieldValue.arrayRemove(bid) })
+        else
+            await db
+                .collection('users')
+                .doc(user.uid)
+                .update({ owner: FieldValue.arrayRemove(bid) })
+
+        if (toFolder)
+            await db
+                .collection('folders')
+                .doc(toFolder)
+                .update({ boards: FieldValue.arrayUnion(bid) })
+        else
+            await db
+                .collection('users')
+                .doc(user.uid)
+                .update({ owner: FieldValue.arrayUnion(bid) })
+    } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to move board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while moving board to new folder',
+                boardID: bid,
+                newFolder: toFolder,
+                oldFolder: fromFolder,
+            },
+        })
+        throw error
+    }
 }
 
 export async function moveBoardAction(data: FormData) {
