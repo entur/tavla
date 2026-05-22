@@ -1,5 +1,5 @@
 export type PinData = {
-    id: string
+    index: number
     label: string
     imageSrc: string
     tooltipSide: 'left' | 'right'
@@ -9,7 +9,7 @@ export type PinData = {
 
 export const PINS: PinData[] = [
     {
-        id: 'pin-3',
+        index: 3,
         label: 'Visit Helgeland',
         imageSrc: '/images/pins/pin-3.png',
         tooltipSide: 'right',
@@ -17,7 +17,7 @@ export const PINS: PinData[] = [
         cy: 238.6,
     },
     {
-        id: 'pin-4',
+        index: 4,
         label: 'Kontor i Bergen',
         imageSrc: '/images/pins/pin-4.png',
         tooltipSide: 'right',
@@ -25,7 +25,7 @@ export const PINS: PinData[] = [
         cy: 443.0,
     },
     {
-        id: 'pin-7',
+        index: 7,
         label: 'Universitetet i Oslo',
         imageSrc: '/images/pins/pin-7.png',
         tooltipSide: 'left',
@@ -33,7 +33,7 @@ export const PINS: PinData[] = [
         cy: 501.5,
     },
     {
-        id: 'pin-8',
+        index: 8,
         label: 'Kongsberg',
         imageSrc: '/images/pins/pin-8.png',
         tooltipSide: 'right',
@@ -41,7 +41,7 @@ export const PINS: PinData[] = [
         cy: 513.7,
     },
     {
-        id: 'pin-9',
+        index: 9,
         label: 'Trondheim Sentralstasjon',
         imageSrc: '/images/pins/pin-9.png',
         tooltipSide: 'right',
@@ -49,7 +49,7 @@ export const PINS: PinData[] = [
         cy: 378.8,
     },
     {
-        id: 'pin-10',
+        index: 10,
         label: 'Moa Trafikkstasjon',
         imageSrc: '/images/pins/pin-10.png',
         tooltipSide: 'right',
@@ -57,7 +57,7 @@ export const PINS: PinData[] = [
         cy: 395.7,
     },
     {
-        id: 'pin-12',
+        index: 12,
         label: 'Giæverbukta bussterminal',
         imageSrc: '/images/pins/pin-12.png',
         tooltipSide: 'right',

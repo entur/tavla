@@ -5,7 +5,7 @@ const MAP_WIDTH = 617
 const MAP_HEIGHT = 581
 
 type Props = {
-    onPinHover: (pin: PinData, pinIndex: number, rect: DOMRect) => void
+    onPinHover: (pin: PinData, rect: DOMRect) => void
     onPinLeave: () => void
 }
 
@@ -13,16 +13,11 @@ export function MapPinButtons({ onPinHover, onPinLeave }: Props) {
     return (
         <>
             {PINS.map((pin) => {
-                const pinIndex = Number.parseInt(pin.id.replace('pin-', ''), 10)
                 const handleHover = (e: React.MouseEvent | React.FocusEvent) =>
-                    onPinHover(
-                        pin,
-                        pinIndex,
-                        e.currentTarget.getBoundingClientRect(),
-                    )
+                    onPinHover(pin, e.currentTarget.getBoundingClientRect())
                 return (
                     <button
-                        key={pin.id}
+                        key={pin.index}
                         type="button"
                         className="absolute -translate-x-1/2 -translate-y-1/2 w-8 h-10 cursor-pointer bg-transparent"
                         style={{

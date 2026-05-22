@@ -10,7 +10,6 @@ import type { PinData } from './pins'
 
 type HoverState = {
     pin: PinData
-    pinIndex: number
     rect: DOMRect
 }
 
@@ -18,7 +17,7 @@ export function TavlaUsageMap({ loggedIn }: { loggedIn: boolean }) {
     const [hovered, setHovered] = useState<HoverState | null>(null)
 
     return (
-        <div className="bg-[#F5F6FA] rounded-3xl w-full flex flex-row justify-center overflow-hidden px-4 lg:px-16 py-8 lg:py-24">
+        <div className="bg-secondary rounded-3xl w-full flex flex-row justify-center overflow-hidden px-4 lg:px-16 py-8 lg:py-24">
             <div className="lg:w-1/3 flex flex-col text-center lg:text-left">
                 <Heading1 as="h2" margin="none">
                     Hvor brukes Tavla?
@@ -32,6 +31,7 @@ export function TavlaUsageMap({ loggedIn }: { loggedIn: boolean }) {
                         'Busstopp',
                         'Kollektivknutepunkt',
                         'Kontorer',
+                        'Hoteller',
                         'Borettslag',
                         'Hjemme',
                         'Flyplasser',
@@ -56,15 +56,13 @@ export function TavlaUsageMap({ loggedIn }: { loggedIn: boolean }) {
                 </div>
             </div>
             <div className="w-2/3 items-center justify-center hidden lg:flex">
-                <div className="relative w-full aspect-[617/581]">
+                <div className="relative w-4/5 aspect-[617/581]">
                     <TavlaMap
                         className="w-full h-full"
-                        hoveredPinIndex={hovered?.pinIndex ?? null}
+                        hoveredPinIndex={hovered?.pin.index ?? null}
                     />
                     <MapPinButtons
-                        onPinHover={(pin, pinIndex, rect) =>
-                            setHovered({ pin, pinIndex, rect })
-                        }
+                        onPinHover={(pin, rect) => setHovered({ pin, rect })}
                         onPinLeave={() => setHovered(null)}
                     />
                 </div>

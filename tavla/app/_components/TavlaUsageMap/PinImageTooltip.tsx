@@ -2,9 +2,9 @@
 import { MapPinIcon } from '@entur/icons'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { dataColors } from 'utils/tailwindColors'
 import type { PinData } from './pins'
 
-const MAP_BLUE = '#181C56' // TODO: hente farge fra bibliotek?
 const HORIZONTAL_GAP = 4
 
 type Props = {
@@ -44,18 +44,18 @@ export function PinImageTooltip({ pin, rect }: Props) {
         >
             <div
                 className="rounded-sm overflow-hidden shadow-lg relative"
-                style={{ border: `6px solid ${MAP_BLUE}` }}
+                style={{ border: `6px solid ${dataColors.blue}` }}
             >
                 <Image
                     src={pin.imageSrc}
                     alt={pin.label}
                     width={280}
                     height={210}
-                    className="object-cover block"
+                    style={{ width: '360px', height: 'auto' }}
                 />
                 <div
                     className="absolute bottom-2 right-2 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white shadow-md text-xs font-medium whitespace-nowrap"
-                    style={{ color: MAP_BLUE }}
+                    style={{ color: dataColors.blue }}
                 >
                     <MapPinIcon width={14} height={14} className="shrink-0" />
                     <span className="leading-[14px]">{pin.label}</span>
