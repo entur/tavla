@@ -79,6 +79,8 @@ Backend env vars for local dev: `BACKEND_API_KEY=super_secret_key`, `REDIS_PASSW
 
 ## Key Patterns
 
+**File organization:** Files shared across multiple routes belong in `tavla/app/_components`, `tavla/app/_hooks`, or `tavla/app/_utils`. Route-specific files stay co-located with their route.
+
 **GraphQL:** Operations defined in `.graphql` files, types generated via `yarn generate` (config in `codegen.ts` and `graphql.config.json`). Always run `yarn generate` after schema changes.
 
 **Linting/formatting:** Biome (not ESLint/Prettier). Pre-commit hooks run Biome on staged files via Husky.
