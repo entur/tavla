@@ -8,7 +8,6 @@ import {
 import {
     initializeAdminApp,
     userCanEditBoard,
-    userCanEditFolder,
 } from 'app/(innlogget)/utils/firebase'
 import {
     getFormFeedbackForError,
@@ -16,19 +15,11 @@ import {
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
-import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
-import {
-    addBoardIdToFolder,
-    addBoardIdToUser,
-    getBoard,
-    removeBoardIdFromFolder,
-    removeBoardIdFromUser,
-    updateBoard,
-} from 'src/firebase'
+import { getBoard, updateBoard } from 'src/firebase'
 import type {
     BoardDB,
     BoardFontSize,
@@ -36,7 +27,6 @@ import type {
     LocationDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
-import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
@@ -53,9 +43,6 @@ export async function saveSettings(data: FormData) {
     const theme = data.get('theme') as BoardTheme
     const font = data.get('font') as BoardFontSize
     const transportPalette = data.get('transportPalette') as TransportPalette
-
-    const newFolder = data.get('newOid') as FolderDB['id'] | undefined
-    const oldFolder = data.get('oldOid') as FolderDB['id'] | undefined
 
     const hideClock = data.get('clock') === null
     const hideLogo = data.get('logo') === null
@@ -107,10 +94,6 @@ export async function saveSettings(data: FormData) {
             hideLogo,
         })
 
-        if (newFolder !== oldFolder) {
-            await moveBoard(bid, newFolder, oldFolder)
-        }
-
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
         if (isRedirectError(error)) {
@@ -126,47 +109,6 @@ export async function saveSettings(data: FormData) {
         })
         errors.general = handleError(error)
         return errors
-    }
-}
-
-export async function moveBoard(
-    bid: BoardDB['id'],
-    toFolder?: FolderDB['id'],
-    fromFolder?: FolderDB['id'],
-) {
-    const user = await getUserFromSessionCookie()
-    if (!user) return redirect('/')
-
-    if (fromFolder) {
-        const canEdit = await userCanEditFolder(fromFolder)
-        if (!canEdit) return redirect('/')
-    }
-
-    if (toFolder) {
-        const canEdit = await userCanEditFolder(toFolder)
-        if (!canEdit) return redirect('/')
-    }
-
-    try {
-        if (fromFolder) await removeBoardIdFromFolder(fromFolder, bid)
-        else await removeBoardIdFromUser(user.uid, bid)
-
-        if (toFolder) await addBoardIdToFolder(toFolder, bid)
-        else await addBoardIdToUser(user.uid, bid)
-    } catch (error) {
-        await logToGcp(
-            'error',
-            `Failed to move board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while moving board to new folder',
-                boardID: bid,
-                toFolder,
-                fromFolder,
-            },
-        })
-        throw error
     }
 }
 
