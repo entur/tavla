@@ -2,7 +2,7 @@
 import { useToast } from '@entur/alert'
 import { IconButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
-import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
+import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState } from 'react'
 import type { FolderDB } from 'src/types/db-types/folders'

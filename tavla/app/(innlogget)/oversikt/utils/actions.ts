@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation'
 import { getFolderForBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
+import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
@@ -23,6 +24,10 @@ export async function deleteBoardAction(
         await deleteBoard(bid)
         revalidatePath('/')
     } catch (e) {
+        await logToGcp(
+            'error',
+            `Failed to delete board ${bid}: ${e instanceof Error ? e.message : String(e)}`,
+        )
         return handleError(e)
     }
     if (folder) redirect(`/mapper/${folder?.id}`)
@@ -56,6 +61,10 @@ export async function moveBoardAction(data: FormData) {
         await moveBoard(bid, newFolderID, oldFolder?.id)
         revalidatePath('/')
     } catch (e) {
+        await logToGcp(
+            'error',
+            `Failed to move board ${bid}: ${e instanceof Error ? e.message : String(e)}`,
+        )
         return handleError(e)
     }
 }

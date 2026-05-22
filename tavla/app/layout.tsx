@@ -5,16 +5,16 @@ import { type ReactNode, Suspense } from 'react'
 import 'src/styles/fonts.css'
 import 'src/styles/imports.css'
 import 'src/styles/reset.css'
-import { Footer } from './(innlogget)/components/Footer'
-import { Navbar } from './(innlogget)/components/Navbar'
-import { getUserFromSessionCookie } from './(innlogget)/utils/server'
 import ConsentHandler, {
     EnturToastProvider,
     PHProvider,
-} from './components/ConsentHandler'
-import { ContactForm } from './components/ContactForm'
-import { FocusManager } from './components/FocusManager'
-import PostHogPageView from './components/PostHogPageView'
+} from 'app/_components/ConsentHandler'
+import { ContactForm } from 'app/_components/ContactForm'
+import { FocusManager } from 'app/_components/FocusManager'
+import { Footer } from 'app/_components/Footer'
+import { Navbar } from 'app/_components/Navbar'
+import PostHogPageView from 'app/_components/PostHogPageView'
+import { getUserFromSessionCookie } from './(innlogget)/utils/server'
 import './globals.css'
 
 export const metadata: Metadata = {

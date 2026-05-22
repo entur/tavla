@@ -1,11 +1,14 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { HomeIcon, MapPinIcon } from '@entur/icons'
-import TransportIcon from 'app/(innlogget)/components/TransportIcon/TransportIcon'
+import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import { uniq } from 'lodash'
 import { createElement } from 'react'
 import type { BoardTheme, LocationDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
-import type { TTransportMode } from 'src/types/graphql-schema'
+import type {
+    TTransportMode,
+    TTransportSubmode,
+} from 'src/types/graphql-schema'
 
 export type TCategory =
     | 'onstreetBus'
@@ -118,6 +121,27 @@ export function getIcons(layer?: string, category?: TCategory[]) {
     if (layer !== 'venue')
         return uniq(uniq(category).map((mode) => getVenueIcon(mode)))
     return travelTags(category)
+}
+
+export const travelTagsFromModes = (
+    modes: Array<{
+        transportMode: TTransportMode
+        transportSubmode?: TTransportSubmode
+    }>,
+) => {
+    return modes.map((mode, index) => {
+        const UniqueSmallTravelTag = () =>
+            createElement(TransportIcon, {
+                transportMode: mode.transportMode,
+                transportSubmode: mode.transportSubmode,
+                background: true,
+                whiteIcon: true,
+                size: 6,
+                className: 'm-0.5',
+            })
+        UniqueSmallTravelTag.displayName = `TravelTag-${mode.transportMode}-${mode.transportSubmode ?? ''}-${index}`
+        return UniqueSmallTravelTag
+    })
 }
 
 export function isEmptyOrSpaces(str?: string) {

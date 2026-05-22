@@ -1,6 +1,7 @@
 'use client'
-import { HiddenInput } from 'app/(innlogget)/components/Form/HiddenInput'
-import { FormError } from 'app/(innlogget)/components/FormError'
+import { FormError } from 'app/_components/Form/FormError'
+import { HiddenInput } from 'app/_components/Form/HiddenInput'
+import { SettingsForm } from 'app/_components/TableSettings/SettingsForm'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import {
     getFormFeedbackForField,
@@ -10,7 +11,6 @@ import {
 import { useCallback, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { saveSettings } from './actions'
-import { SettingsForm } from './components/SettingsForm'
 
 function Settings({ board }: { board: BoardDB }) {
     const [formErrors, setFormErrors] = useState<

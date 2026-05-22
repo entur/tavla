@@ -12,6 +12,7 @@ import { firestore, storage } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import type { FolderDB } from 'src/types/db-types/folders'
+import { logToGcp } from 'src/utils/logging'
 import { getFilename } from './utils'
 
 initializeAdminApp()
@@ -42,6 +43,10 @@ export async function remove(
 
         revalidatePath('/')
     } catch (error) {
+        await logToGcp(
+            'error',
+            `Failed to remove logo from folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
+        )
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while removing logo from folder',

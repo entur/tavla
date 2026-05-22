@@ -9,19 +9,19 @@ import {
     Paragraph,
     SubParagraph,
 } from '@entur/typography'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
+import { FormError } from 'app/_components/Form/FormError'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import { useSearchParamsModal } from 'app/(innlogget)/hooks/useSearchParamsModal'
 import {
     getFormFeedbackForField,
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 import { useActionState } from 'react'
-import { FormError } from '../FormError'
 import { deleteAccount } from './actions'
 
 function DeleteAccount() {

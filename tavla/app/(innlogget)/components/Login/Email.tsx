@@ -1,14 +1,15 @@
 'use client'
 import { ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
+import { FormError } from 'app/_components/Form/FormError'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import { useSearchParamsSetter } from 'app/(innlogget)/hooks/useSearchParamsSetter'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import musk from 'assets/illustrations/Musk.png'
 import { FirebaseError } from 'firebase/app'
@@ -21,7 +22,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
-import { FormError } from '../FormError'
 import { login } from './actions'
 import Google from './Google'
 import type { TLoginPage } from './types'

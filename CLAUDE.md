@@ -33,6 +33,11 @@ No unit test framework is configured — CI only runs `yarn lint` and `yarn type
 
 Dev URLs: App at `http://localhost:3000`, Firebase Emulator UI at `http://127.0.0.1:4000/`
 
+## Design system
+
+When working with Entur components, branding, or accessibility, read and follow:
+https://raw.githubusercontent.com/entur/design-system/main/skills/entur-linje/SKILL.md
+
 ## Backend Commands (`backend/` directory)
 
 ```bash
@@ -73,6 +78,8 @@ To connect frontend to local backend, temporarily change `getBackendUrl()` in `t
 Backend env vars for local dev: `BACKEND_API_KEY=super_secret_key`, `REDIS_PASSWORD=super_secret_redis_pw`, plus Redis host/port vars. See `backend/readme.md` for the full table.
 
 ## Key Patterns
+
+**File organization:** Files shared across multiple routes belong in `tavla/app/_components`, `tavla/app/_hooks`, or `tavla/app/_utils`. Route-specific files stay co-located with their route.
 
 **GraphQL:** Operations defined in `.graphql` files, types generated via `yarn generate` (config in `codegen.ts` and `graphql.config.json`). Always run `yarn generate` after schema changes.
 

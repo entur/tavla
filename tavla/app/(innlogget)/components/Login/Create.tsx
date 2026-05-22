@@ -2,14 +2,15 @@
 
 import { ButtonGroup } from '@entur/button'
 import { Heading3, Paragraph } from '@entur/typography'
-import { SubmitButton } from 'app/(innlogget)/components/Form/SubmitButton'
+import { FormError } from 'app/_components/Form/FormError'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
-import ClientOnlyTextField from 'app/components/NoSSR/TextField'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import musk from 'assets/illustrations/Musk.png'
 import {
@@ -21,7 +22,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
-import { FormError } from '../FormError'
 import { create } from './actions'
 import Google from './Google'
 
