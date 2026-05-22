@@ -56,7 +56,7 @@ export function TavlaUsageMap({ loggedIn }: { loggedIn: boolean }) {
                 </div>
             </div>
             <div className="w-2/3 items-center justify-center hidden lg:flex">
-                <div className="relative w-4/5 aspect-[617/581]">
+                <div className="relative w-5/6 aspect-[617/581]">
                     <TavlaMap
                         className="w-full h-full"
                         hoveredPinIndex={hovered?.pin.index ?? null}
