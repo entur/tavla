@@ -46,7 +46,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                 <SideNavigation className="!bg-primary !pb-24 !pt-10">
                     <div className="pl-10">
                         <Link
-                            href="/tavla/public"
+                            href="/"
                             aria-label="Tilbake til landingssiden"
                             onClick={() =>
                                 posthog.capture('go_to_home_page', {
