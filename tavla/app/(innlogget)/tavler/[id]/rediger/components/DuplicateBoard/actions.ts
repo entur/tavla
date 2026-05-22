@@ -22,17 +22,15 @@ export async function duplicateBoard(
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
 
     try {
-        const createdBoard = await addBoard({
-            ...board,
-            meta: {
-                ...board.meta,
-            },
-        })
-
         if (folderid) {
             const access = await userCanEditFolder(folderid)
             if (!access)
                 return getFormFeedbackForError('auth/operation-not-allowed')
+        }
+
+        const createdBoard = await addBoard(board)
+
+        if (folderid) {
             await addBoardIdToFolder(folderid, createdBoard.id)
         } else {
             await addBoardIdToUser(user.uid, createdBoard.id)
