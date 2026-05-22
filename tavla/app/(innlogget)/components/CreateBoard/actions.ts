@@ -26,6 +26,7 @@ export async function createBoard(
 
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
+    logToGcp('info', 'action:createBoard invoked')
 
     let createdBoard: FirebaseFirestore.DocumentReference | undefined
 
@@ -54,9 +55,9 @@ export async function createBoard(
                     admin.firestore.FieldValue.arrayUnion(createdBoard.id),
             })
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to create board for user ${user.uid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to create board: ${error instanceof Error ? error.message : String(error)}`,
         )
         Sentry.captureException(error, {
             extra: {

@@ -156,11 +156,16 @@ module.exports = {
             },
             animation: {
                 pulse: 'pulse 3s ease-out infinite',
+                'feature-in': 'featureIn 0.35s ease-out',
             },
             keyframes: {
                 pulse: {
                     '0%': { transform: 'scale(1)', opacity: '1' },
                     '100%': { transform: 'scale(2.4)', opacity: '0' },
+                },
+                featureIn: {
+                    '0%': { opacity: '0', transform: 'translateY(10px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' },
                 },
             },
         },

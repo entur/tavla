@@ -4,3 +4,4 @@
 .envrc
 ent-tavla-*.json
 **/.idea
+**/.claude/settings.local.json
