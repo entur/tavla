@@ -53,14 +53,13 @@ export async function POST(request: NextRequest) {
             status: 400,
         })
 
-    try {
-        await userCanEditFolder(folderid)
-    } catch {
+    const canEdit = await userCanEditFolder(folderid)
+    if (!canEdit)
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
             headers: response.headers,
             status: 403,
         })
-    }
+
     if (logo.size > 10_000_000)
         return new Response(JSON.stringify({ error: 'File size too big' }), {
             headers: response.headers,
