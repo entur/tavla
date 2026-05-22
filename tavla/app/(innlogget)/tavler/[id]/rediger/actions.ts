@@ -8,7 +8,7 @@ import {
     initializeAdminApp,
     userCanEditBoard,
 } from 'app/(innlogget)/utils/firebase'
-import { FieldValue } from 'firebase-admin/firestore'
+import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getBoard, getBoardByCustomUrl, updateBoard } from 'src/firebase'
@@ -21,13 +21,15 @@ import type {
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
+const db = getFirestore()
 
 export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {
-        const currentBoard = await getBoard(bid)
+        const boardDoc = await db.collection('boards').doc(bid).get()
+        const currentBoard = boardDoc.data() as BoardDB | undefined
 
         const updateData: {
             tiles: FieldValue
