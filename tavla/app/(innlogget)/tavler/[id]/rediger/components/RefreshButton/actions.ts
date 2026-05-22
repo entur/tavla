@@ -20,7 +20,8 @@ export async function refreshBoard(board: BoardDB) {
                 Authorization: `Bearer ${process.env.BACKEND_API_KEY}`,
                 'Content-Type': 'application/json',
             },
-    })
+        },
+    )
     logToGcp(
         res.ok ? 'info' : 'warning',
         `POST /refresh/${board.id}: status=${res.status}`,
