@@ -8,17 +8,21 @@ import {
 } from 'app/(innlogget)/utils/firebase'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
-import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { getFolderForBoard } from 'src/firebase'
+import {
+    addBoardIdToFolder,
+    addBoardIdToUser,
+    getFolderForBoard,
+    removeBoardIdFromFolder,
+    removeBoardIdFromUser,
+} from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 import { getUserFromSessionCookie } from '../../utils/server'
 
 initializeAdminApp()
-const db = getFirestore()
 
 export async function deleteBoardAction(
     _prevState: TFormFeedback | undefined,
@@ -62,76 +66,47 @@ export async function countAllBoards(folders: FolderDB[], boards: BoardDB[]) {
     return count
 }
 
-export async function moveBoard(
-    bid: BoardDB['id'],
-    toFolder?: FolderDB['id'],
-    fromFolder?: FolderDB['id'],
-) {
-    const user = await getUserFromSessionCookie()
-    if (!user) return redirect('/')
-
-    if (fromFolder) {
-        const canEdit = await userCanEditFolder(fromFolder)
-        if (!canEdit) return redirect('/')
-    }
-
-    if (toFolder) {
-        const canEdit = await userCanEditFolder(toFolder)
-        if (!canEdit) return redirect('/')
-    }
-
-    try {
-        if (fromFolder)
-            await db
-                .collection('folders')
-                .doc(fromFolder)
-                .update({ boards: FieldValue.arrayRemove(bid) })
-        else
-            await db
-                .collection('users')
-                .doc(user.uid)
-                .update({ owner: FieldValue.arrayRemove(bid) })
-
-        if (toFolder)
-            await db
-                .collection('folders')
-                .doc(toFolder)
-                .update({ boards: FieldValue.arrayUnion(bid) })
-        else
-            await db
-                .collection('users')
-                .doc(user.uid)
-                .update({ owner: FieldValue.arrayUnion(bid) })
-    } catch (error) {
-        await logToGcp(
-            'error',
-            `Failed to move board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while moving board to new folder',
-                boardID: bid,
-                newFolder: toFolder,
-                oldFolder: fromFolder,
-            },
-        })
-        throw error
-    }
-}
-
 export async function moveBoardAction(data: FormData) {
     const bid = data.get('bid') as BoardDB['id']
     logToGcp('info', 'action:moveBoardAction invoked', { bid })
+
+    const user = await getUserFromSessionCookie()
+    if (!user) return redirect('/')
+
     const newFolderID = data.get('newOid') as FolderDB['id'] | undefined
     const oldFolder = await getFolderForBoard(bid)
+
+    if (oldFolder?.id) {
+        const canEdit = await userCanEditFolder(oldFolder.id)
+        if (!canEdit) return redirect('/')
+    }
+
+    if (newFolderID) {
+        const canEdit = await userCanEditFolder(newFolderID)
+        if (!canEdit) return redirect('/')
+    }
+
     try {
-        await moveBoard(bid, newFolderID, oldFolder?.id)
+        if (oldFolder?.id) await removeBoardIdFromFolder(oldFolder.id, bid)
+        else await removeBoardIdFromUser(user.uid, bid)
+
+        if (newFolderID) await addBoardIdToFolder(newFolderID, bid)
+        else await addBoardIdToUser(user.uid, bid)
+
         revalidatePath('/')
     } catch (e) {
         logToGcp(
             'error',
             `Failed to move board ${bid}: ${e instanceof Error ? e.message : String(e)}`,
         )
+        Sentry.captureException(e, {
+            extra: {
+                message: 'Error while moving board to new folder',
+                boardID: bid,
+                newFolder: newFolderID,
+                oldFolder: oldFolder?.id,
+            },
+        })
         return handleError(e)
     }
 }
