@@ -17,7 +17,7 @@ initializeAdminApp()
 const db = getFirestore()
 
 export async function deleteTile(boardId: string, tile: BoardTileDB) {
-    await logToGcp('info', 'action:deleteTile invoked', { bid: boardId })
+    logToGcp('info', 'action:deleteTile invoked', { bid: boardId })
     const access = await userCanEditBoard(boardId)
     if (!access) return redirect('/')
 
@@ -59,7 +59,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
         await db.collection('boards').doc(boardId).update(updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to delete tile from board: ${error instanceof Error ? error.message : String(error)}`,
             { bid: boardId },
@@ -75,7 +75,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
 }
 
 export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
-    await logToGcp('info', 'action:saveTile invoked', { bid })
+    logToGcp('info', 'action:saveTile invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -104,7 +104,7 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to save tile for board: ${error instanceof Error ? error.message : String(error)}`,
             { bid },

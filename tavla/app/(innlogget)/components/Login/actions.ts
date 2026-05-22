@@ -14,7 +14,7 @@ import { logToGcp } from 'src/utils/logging'
 initializeAdminApp()
 
 export async function logout() {
-    await logToGcp('info', 'action:logout invoked')
+    logToGcp('info', 'action:logout invoked')
     revokeUserTokenOnLogout()
     ;(await cookies()).delete('session')
     revalidatePath('/')
@@ -22,7 +22,7 @@ export async function logout() {
 }
 
 export async function login(token: string) {
-    await logToGcp('info', 'action:login invoked')
+    logToGcp('info', 'action:login invoked')
     const expiresIn = 60 * 60 * 24 * 10 // Ten days in seconds
     const sessionCookie = await admin.auth().createSessionCookie(token, {
         expiresIn: expiresIn * 1000, // Firebase expects the number in milliseconds
@@ -43,14 +43,13 @@ export async function login(token: string) {
 }
 
 export async function create(uid: UserDB['uid']) {
-    await logToGcp('info', 'action:createUser invoked', { uid })
+    logToGcp('info', 'action:createUser invoked')
     try {
         await firestore().collection('users').doc(uid).create({})
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to create user: ${error instanceof Error ? error.message : String(error)}`,
-            { uid },
         )
         Sentry.captureException(error, {
             extra: {

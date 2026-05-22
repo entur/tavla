@@ -24,7 +24,7 @@ initializeAdminApp()
 const db = getFirestore()
 
 export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
-    await logToGcp('info', 'action:addTiles invoked', { bid })
+    logToGcp('info', 'action:addTiles invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -49,7 +49,7 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
 
         await db.collection('boards').doc(bid).update(updateData)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to save tile to board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -64,7 +64,7 @@ export async function getWalkingDistanceTile(
     tile: BoardTileDB,
     location: LocationDB,
 ): Promise<BoardTileDB> {
-    await logToGcp('info', 'action:getWalkingDistanceTile invoked')
+    logToGcp('info', 'action:getWalkingDistanceTile invoked')
     const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate
 
@@ -90,7 +90,7 @@ export async function saveUpdatedTileOrder(
     bid: BoardDB['id'],
     tiles: BoardTileDB[],
 ) {
-    await logToGcp('info', 'action:saveUpdatedTileOrder invoked', { bid })
+    logToGcp('info', 'action:saveUpdatedTileOrder invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -101,7 +101,7 @@ export async function saveUpdatedTileOrder(
         })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to save tile order for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -120,7 +120,7 @@ export async function saveCustomUrl(
     bid: BoardDB['id'],
     customUrl: string,
 ): Promise<{ error?: string }> {
-    await logToGcp('info', 'action:saveCustomUrl invoked', { bid })
+    logToGcp('info', 'action:saveCustomUrl invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -162,7 +162,7 @@ export async function saveCustomUrl(
         revalidatePath(`/tavler/${bid}/rediger`)
         return {}
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to save custom URL for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
         )

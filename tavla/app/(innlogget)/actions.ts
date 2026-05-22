@@ -18,7 +18,7 @@ initializeAdminApp()
 const db = getFirestore()
 
 export async function getFirebaseClientConfig() {
-    await logToGcp('info', 'action:getFirebaseClientConfig invoked')
+    logToGcp('info', 'action:getFirebaseClientConfig invoked')
     const env = process.env.GOOGLE_PROJECT_ID
     if (env === 'ent-tavla-prd') return FIREBASE_PRD_CONFIG
     return FIREBASE_DEV_CONFIG
@@ -29,7 +29,7 @@ function userInFolder(uid?: UserDB['uid'], folder?: FolderDB) {
 }
 
 export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
-    await logToGcp('info', 'action:getFolderIfUserHasAccess invoked')
+    logToGcp('info', 'action:getFolderIfUserHasAccess invoked')
     if (!folderid) return undefined
 
     const folder = await getFolder(folderid)
@@ -46,7 +46,7 @@ export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
 }
 
 export async function getFoldersForUser(): Promise<Folder[]> {
-    await logToGcp('info', 'action:getFoldersForUser invoked')
+    logToGcp('info', 'action:getFoldersForUser invoked')
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
@@ -120,9 +120,9 @@ export async function getFoldersForUser(): Promise<Folder[]> {
             }
         })
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to fetch folders for user ${user.uid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to fetch folders: ${error instanceof Error ? error.message : String(error)}`,
         )
         Sentry.captureMessage(
             'Error while fetching folders for user with id ' + user.uid,
@@ -132,7 +132,7 @@ export async function getFoldersForUser(): Promise<Folder[]> {
 }
 
 export async function getBoardsForFolder(folderid: FolderDB['id']) {
-    await logToGcp('info', 'action:getBoardsForFolder invoked')
+    logToGcp('info', 'action:getBoardsForFolder invoked')
     const folder = await getFolderIfUserHasAccess(folderid)
     if (!folder) return redirect('/')
 
@@ -175,7 +175,7 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
             }),
         )
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to fetch boards for folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -187,7 +187,7 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
 }
 
 export async function getBoards(ids?: BoardDB['id'][]) {
-    await logToGcp('info', 'action:getBoards invoked')
+    logToGcp('info', 'action:getBoards invoked')
     if (!ids) return []
 
     const batches = chunk(ids, 20)
@@ -229,7 +229,7 @@ export async function getBoards(ids?: BoardDB['id'][]) {
             }),
         )
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to fetch boards [${ids}]: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -242,9 +242,7 @@ export async function getPrivateBoardsForUser(folders: FolderDB[]) {
     const userWithBoards = await getUserWithBoardIds()
     if (!userWithBoards?.uid) return []
 
-    await logToGcp('info', 'action:getPrivateBoardsForUser invoked', {
-        uid: userWithBoards.uid,
-    })
+    logToGcp('info', 'action:getPrivateBoardsForUser invoked')
 
     const rawOwner = userWithBoards.owner ?? []
 

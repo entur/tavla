@@ -28,7 +28,7 @@ export async function createFolder(
     const user = await getUserFromSessionCookie()
 
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-    await logToGcp('info', 'action:createFolder invoked', { uid: user.uid })
+    logToGcp('info', 'action:createFolder invoked')
 
     let folder: FirebaseFirestore.DocumentReference | undefined
 
@@ -40,7 +40,7 @@ export async function createFolder(
         })
         if (!folder || !folder.id) return getFormFeedbackForError()
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to create folder: ${error instanceof Error ? error.message : String(error)}`,
         )

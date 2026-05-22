@@ -12,7 +12,7 @@ import { logToGcp } from 'src/utils/logging'
 initializeAdminApp()
 
 export async function publishBoard(board: BoardDB): Promise<string> {
-    await logToGcp('info', 'action:publishBoard invoked')
+    logToGcp('info', 'action:publishBoard invoked')
     const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
 
     const now = Date.now()

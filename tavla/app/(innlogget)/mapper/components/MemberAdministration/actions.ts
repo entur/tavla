@@ -23,7 +23,7 @@ export async function removeUserAction(
     const folderId = data.get('folderid')?.toString() ?? ''
     const uid = data.get('uid')?.toString() ?? ''
 
-    await logToGcp('info', 'action:removeUserAction invoked', { uid, folderId })
+    logToGcp('info', 'action:removeUserAction invoked', { folderId })
     const access = await userCanEditFolder(folderId)
     if (!access) return redirect('/')
 
@@ -31,10 +31,10 @@ export async function removeUserAction(
         await removeUserFromFolder(folderId, uid)
         revalidatePath('/')
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to remove user from folder: ${error instanceof Error ? error.message : String(error)}`,
-            { uid, folderId },
+            { folderId },
         )
         Sentry.captureException(error, {
             extra: {
@@ -52,7 +52,7 @@ export async function inviteUserAction(
     data: FormData,
 ) {
     const folderid = data.get('folderid')?.toString() ?? ''
-    await logToGcp('info', 'action:inviteUserAction invoked', {
+    logToGcp('info', 'action:inviteUserAction invoked', {
         folderId: folderid,
     })
 
@@ -86,11 +86,10 @@ export async function inviteUserAction(
     } catch (error) {
         const user = await getUserFromSessionCookie()
 
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to invite user ${invitee.uid} to folder: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to invite user to folder: ${error instanceof Error ? error.message : String(error)}`,
             {
-                uid: user?.uid ?? 'invalid user / unauthorized',
                 folderId: folder.id,
             },
         )

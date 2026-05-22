@@ -66,7 +66,7 @@ export async function fetcher<Data, Variables>([
         method: 'POST',
     })
 
-    await logToGcp(
+    logToGcp(
         response.status >= 500
             ? 'error'
             : response.status >= 400
@@ -79,10 +79,7 @@ export async function fetcher<Data, Variables>([
 
     if (res.errors && res.errors.length > 0) {
         const errorMessage = res.errors[0]?.message || 'Unknown GraphQL error'
-        await logToGcp(
-            'warning',
-            `GraphQL ${endpointName} error: ${errorMessage}`,
-        )
+        logToGcp('warning', `GraphQL ${endpointName} error: ${errorMessage}`)
         Sentry.captureMessage(`GraphQL error: ${errorMessage}`, {
             level: 'warning',
             extra: {

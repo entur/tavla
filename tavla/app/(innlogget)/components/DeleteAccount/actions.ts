@@ -20,7 +20,7 @@ export async function deleteAccount(data: FormData) {
     if (!user || !user.uid) {
         return getFormFeedbackForError('auth/operation-not-allowed')
     }
-    await logToGcp('info', 'action:deleteAccount invoked', { uid: user.uid })
+    logToGcp('info', 'action:deleteAccount invoked')
 
     const userObject = await auth().getUser(user.uid)
     const confirmEmail = data.get('confirmEmail') as string
@@ -35,9 +35,9 @@ export async function deleteAccount(data: FormData) {
         await deleteUserFromFirestore()
         await deleteUserFromFirebaseAuth()
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to delete account for user ${user.uid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to delete account for user: ${error instanceof Error ? error.message : String(error)}`,
         )
         Sentry.captureException(error, {
             extra: {

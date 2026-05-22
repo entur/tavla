@@ -106,17 +106,14 @@ export async function GET(request: NextRequest) {
             (await fetchBoardByCustomUrl(boardId))
 
         if (!boardData) {
-            await logToGcp(
-                'warning',
-                `GET /api/board: boardId=${boardId} status=404`,
-            )
+            logToGcp('warning', `GET /api/board: boardId=${boardId} status=404`)
             return createErrorResponse(request, 'Board not found', 404)
         }
 
         const folderLogo = await fetchFolderLogo(boardData.id)
 
         const origin = request.headers.get('origin') ?? 'unknown'
-        await logToGcp(
+        logToGcp(
             'info',
             `GET /api/board: boardId=${boardId} status=200 origin=${origin}`,
         )
@@ -128,7 +125,7 @@ export async function GET(request: NextRequest) {
             { headers: getCorsHeaders(request) },
         )
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to fetch board ${boardId}: ${error instanceof Error ? error.message : String(error)}`,
         )

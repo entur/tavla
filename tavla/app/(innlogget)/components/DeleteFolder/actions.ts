@@ -19,9 +19,7 @@ export async function deleteFolderAction(
     const user = await getUserFromSessionCookie()
 
     if (!user) redirect('/')
-    await logToGcp('info', 'action:deleteFolderAction invoked', {
-        uid: user.uid,
-    })
+    logToGcp('info', 'action:deleteFolderAction invoked')
 
     const folderid = data.get('folderid') as FolderDB['id']
     if (!folderid) return getFormFeedbackForError('general')
@@ -36,10 +34,10 @@ export async function deleteFolderAction(
         await deleteFolder(folderid)
         revalidatePath('/')
     } catch (e) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to delete folder: ${e instanceof Error ? e.message : String(e)}`,
-            { uid: user.uid, folderId: folderid },
+            { folderId: folderid },
         )
         return handleError(e)
     }
