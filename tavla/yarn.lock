@@ -10109,6 +10109,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^3.3.12":
+  version: 3.3.12
+  resolution: "nanoid@npm:3.3.12"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 10/6eec280694e2088d18fb802b1e3bfc4578e27b665b7ecfbe36c7356612fea2f814277056e671e2a1529dff551588a652efdc0bfa39f8a3185bc2247be311872e
+  languageName: node
+  linkType: hard
+
 "nearley@npm:^2.20.1":
   version: 2.20.1
   resolution: "nearley@npm:2.20.1"
@@ -11010,14 +11019,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.5.14":
-  version: 8.5.14
-  resolution: "postcss@npm:8.5.14"
+"postcss@npm:8.5.15":
+  version: 8.5.15
+  resolution: "postcss@npm:8.5.15"
   dependencies:
-    nanoid: "npm:^3.3.11"
+    nanoid: "npm:^3.3.12"
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
-  checksum: 10/2e3f4dea69692918fe9df5402beb0e54df84499995a094f2fbf63d1a9e38bc1b7a42854df47f09e02593213e01a5eb0627b1d1bd6d1b0ea90767b2e072f7167c
+  checksum: 10/d02ad19eb1e0fa53a1229ee6d53807eb88f903f2b9a8cac66993367f3ac7dd3b97238c783a54ccbf4145f82f6ca9a5cbd58f089846285d759c8a3259fbea8318
   languageName: node
   linkType: hard
 
@@ -12782,7 +12791,7 @@ __metadata:
     lodash: "npm:4.18.1"
     nanoid: "npm:5.1.11"
     next: "npm:16.2.6"
-    postcss: "npm:8.5.14"
+    postcss: "npm:8.5.15"
     posthog-js: "npm:1.373.4"
     posthog-node: "npm:5.34.1"
     react: "npm:19.2.6"
