@@ -18,15 +18,17 @@ export async function deleteBoardAction(
     data: FormData,
 ) {
     const bid = data.get('bid') as BoardDB['id']
+    logToGcp('info', 'action:deleteBoardAction invoked', { bid })
     const folder = await getFolderForBoard(bid)
 
     try {
         await deleteBoard(bid)
         revalidatePath('/')
     } catch (e) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to delete board ${bid}: ${e instanceof Error ? e.message : String(e)}`,
+            `Failed to delete board: ${e instanceof Error ? e.message : String(e)}`,
+            { bid },
         )
         return handleError(e)
     }
@@ -55,13 +57,14 @@ export async function countAllBoards(folders: FolderDB[], boards: BoardDB[]) {
 
 export async function moveBoardAction(data: FormData) {
     const bid = data.get('bid') as BoardDB['id']
+    logToGcp('info', 'action:moveBoardAction invoked', { bid })
     const newFolderID = data.get('newOid') as FolderDB['id'] | undefined
     const oldFolder = await getFolderForBoard(bid)
     try {
         await moveBoard(bid, newFolderID, oldFolder?.id)
         revalidatePath('/')
     } catch (e) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to move board ${bid}: ${e instanceof Error ? e.message : String(e)}`,
         )

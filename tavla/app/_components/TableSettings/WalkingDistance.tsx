@@ -23,13 +23,14 @@ function WalkingDistance({
     const isFirstRender = useRef(true)
 
     //Wait until selectedPoint is set before calling onChange to ensure the form is updated correctly
+    // biome-ignore lint/correctness/useExhaustiveDependencies: selectedPoint triggers onChange intentionally
     useEffect(() => {
         if (isFirstRender.current) {
             isFirstRender.current = false
             return
         }
         onChange()
-    }, [onChange])
+    }, [onChange, selectedPoint])
 
     return (
         <div className="flex flex-col">

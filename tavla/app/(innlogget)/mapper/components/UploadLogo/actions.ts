@@ -24,6 +24,7 @@ export async function remove(
     if (!folderid || !logo)
         return getFormFeedbackForError('auth/operation-not-allowed')
 
+    logToGcp('info', 'action:removeLogo invoked', { folderId: folderid })
     const file = getFilename(logo)
 
     if (!file) return getFormFeedbackForError()
@@ -43,7 +44,7 @@ export async function remove(
 
         revalidatePath('/')
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to remove logo from folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
         )

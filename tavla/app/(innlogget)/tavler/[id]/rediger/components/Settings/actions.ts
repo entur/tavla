@@ -60,6 +60,8 @@ export async function saveSettings(data: FormData) {
         'newLocation',
     ) as string
 
+    logToGcp('info', 'action:saveSettings invoked', { bid })
+
     if (location) {
         location = JSON.parse(location) as LocationDB
     } else {
@@ -104,7 +106,7 @@ export async function saveSettings(data: FormData) {
             redirect('/')
         }
 
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to save settings for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -128,9 +130,10 @@ async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
         })
         revalidatePath(`tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to set footer for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to set footer for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
@@ -154,9 +157,10 @@ async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to set theme for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to set theme for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
@@ -183,9 +187,10 @@ async function setViewType(board: BoardDB, viewType: string) {
 
         revalidatePath(`/tavler/${board.id}/rediger`)
     } catch (e) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to set view type for board ${board.id}: ${e instanceof Error ? e.message : String(e)}`,
+            `Failed to set view type for board: ${e instanceof Error ? e.message : String(e)}`,
+            { bid: board.id },
         )
         handleError(e)
     }
@@ -202,9 +207,10 @@ async function saveTitle(bid: BoardDB['id'], title: string) {
             })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to save title for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save title for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
@@ -224,9 +230,10 @@ async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
             .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to save font for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save font for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
@@ -250,9 +257,10 @@ async function saveLocation(board: BoardDB, location?: LocationDB) {
             })
         revalidatePath(`/tavler/${board.id}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to save location for board ${board.id}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save location for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid: board.id },
         )
         Sentry.captureException(error, {
             extra: {
@@ -285,6 +293,8 @@ export async function moveBoard(
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
+
+    logToGcp('info', 'action:moveBoard invoked', { bid })
 
     if (fromFolder) {
         const canEdit = await userCanEditFolder(fromFolder)
@@ -319,9 +329,10 @@ export async function moveBoard(
                 .doc(user.uid)
                 .update({ owner: FieldValue.arrayUnion(bid) })
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to move board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to move board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
@@ -350,9 +361,10 @@ async function setTransportPalette(
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to set transport palette for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to set transport palette for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
@@ -379,9 +391,10 @@ async function setElements(
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
-            `Failed to set elements for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to set elements for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
