@@ -19,7 +19,7 @@ export function MapPinButtons({ onPinHover, onPinLeave }: Props) {
                     <button
                         key={pin.index}
                         type="button"
-                        className="absolute -translate-x-1/2 -translate-y-1/2 w-8 h-10 cursor-pointer bg-transparent"
+                        className="absolute -translate-x-1/2 -translate-y-1/2 w-8 h-10 cursor-default focus-visible bg-transparent"
                         style={{
                             left: `${(pin.cx / MAP_WIDTH) * 100}%`,
                             top: `${(pin.cy / MAP_HEIGHT) * 100}%`,
