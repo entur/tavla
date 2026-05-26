@@ -107,9 +107,7 @@ export async function logToGcp(
         buildPayload(safeMessage, extra),
     )
     await log.write(entry).catch((error) => {
-        if (process.env.NODE_ENV === 'development') {
-            // biome-ignore lint/suspicious/noConsole: Local logging in dev for why logging failed. Fail silently in prod.
-            console.error('GCP logging failed:', error)
-        }
+        // biome-ignore lint/suspicious/noConsole: Log errors on GCP logging in container output.
+        console.error('GCP logging failed:', error)
     })
 }
