@@ -69,7 +69,7 @@ export async function getWalkingDistance(
         })
         return response.trip.tripPatterns[0]?.duration ?? undefined
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to get walking distance from ${JSON.stringify(from)} to ${JSON.stringify(to)}: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -95,7 +95,7 @@ export async function getStopPlaceCoordinates(
             lng: response.stopPlace?.longitude ?? 0,
         }
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to get stop place coordinates for ${stopPlaceId}: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -116,7 +116,7 @@ export async function getQuayCoordinates(quayId?: string): Promise<Coordinate> {
             lng: response.quay?.longitude ?? 0,
         }
     } catch (error) {
-        await logToGcp(
+        logToGcp(
             'error',
             `Failed to get quay coordinates for ${quayId}: ${error instanceof Error ? error.message : String(error)}`,
         )

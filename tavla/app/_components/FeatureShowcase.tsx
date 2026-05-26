@@ -91,7 +91,7 @@ const MobileView = ({
                     </button>
                 ))}
             </div>
-            <div className="flex-1 flex flex-col overflow-hidden min-h-0">
+            <div className="flex-1 flex flex-col overflow-hidden min-h-0 animate-feature-in">
                 <div className="bg-hoverContrast border border-[#8186AF] rounded-lg px-4 py-3 mb-3">
                     <p className="font-bold text-blue text-sm mb-1">
                         {activeFeature.title}
@@ -139,28 +139,37 @@ const DesktopView = ({
                             className="text-left"
                         >
                             <div
-                                className={`p-6 rounded-xl border-2 border-[#8186AF] ${isActive ? 'bg-hoverContrast' : ''}`}
+                                className={`p-6 rounded-xl border-2 border-[#8186AF] transition-colors duration-300 ${isActive ? 'bg-hoverContrast' : ''}`}
                             >
                                 <Heading3
                                     margin="none"
-                                    className={`text-2xl  ${isActive ? 'text-blue font-semibold' : 'text-white font-medium'}`}
+                                    className={`text-2xl transition-colors duration-300 ${isActive ? 'text-blue font-semibold' : 'text-white font-medium'}`}
                                 >
                                     {feature.title}
                                 </Heading3>
-                                {isActive && (
-                                    <Paragraph
-                                        margin="none"
-                                        className="text-lg mt-2"
+                                <div
+                                    className={`grid transition-all duration-300 ease-in-out ${isActive ? 'grid-rows-[1fr] mt-2' : 'grid-rows-[0fr] mt-0'}`}
+                                >
+                                    <div
+                                        className={`overflow-hidden transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}
                                     >
-                                        {feature.description}
-                                    </Paragraph>
-                                )}
+                                        <Paragraph
+                                            margin="none"
+                                            className="text-lg"
+                                        >
+                                            {feature.description}
+                                        </Paragraph>
+                                    </div>
+                                </div>
                             </div>
                         </button>
                     )
                 })}
             </div>
-            <div className="w-1/2 flex items-center justify-center pointer-events-none ml-2">
+            <div
+                key={activeIndex}
+                className="w-1/2 flex items-center justify-center pointer-events-none ml-2 animate-feature-in"
+            >
                 {activeFeature?.content}
             </div>
         </div>
