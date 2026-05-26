@@ -32,7 +32,7 @@ export async function createFolderAction(
 
     try {
         folder = await createFolder(name.substring(0, 50), user.uid)
-        if (!folder || !folder.id) return getFormFeedbackForError()
+        if (!folder?.id) return getFormFeedbackForError()
     } catch (error) {
         logToGcp(
             'error',
