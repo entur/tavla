@@ -39,7 +39,7 @@ export function TavlaUsageMap({ loggedIn }: { loggedIn: boolean }) {
                     {loggedIn ? (
                         <NavigateToOversiktButton />
                     ) : (
-                        <CreateBoardButton />
+                        <CreateBoardButton section="usage_map" />
                     )}
                 </div>
             </div>

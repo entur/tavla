@@ -142,7 +142,9 @@ export type EventMap = {
     }
 
     /* Tavler */
-    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage>
+    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage> & {
+        section: 'hero' | 'usage_map'
+    }
 
     board_opened: WithLocation<
         | typeof LOCATIONS.BoardPage
@@ -302,6 +304,17 @@ export type EventMap = {
     cookie_settings_opened: WithLocation<typeof LOCATIONS.Footer>
     github_link_clicked: WithLocation<typeof LOCATIONS.Footer>
     survey_set_up_board: undefined
+
+    /* Landingsside */
+    feature_showcase_clicked: WithLocation<typeof LOCATIONS.LandingPage> & {
+        feature: 'customization' | 'norway' | 'administration' | 'show_info'
+    }
+    preview_carousel_dot: WithLocation<typeof LOCATIONS.LandingPage> & {
+        number: '1 ' | '2 ' | '3'
+    }
+    preview_carousel_arrow: WithLocation<typeof LOCATIONS.LandingPage> & {
+        direction: 'next' | 'prev'
+    }
 }
 export type NoProps = undefined
 
