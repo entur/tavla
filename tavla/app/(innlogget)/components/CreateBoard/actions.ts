@@ -8,13 +8,13 @@ import {
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { redirect } from 'next/navigation'
-import { addBoard, addBoardIdToFolder, addBoardIdToUser } from 'src/firebase'
+import { addBoardIdToFolder, addBoardIdToUser, createBoard } from 'src/firebase'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
-export async function createBoard(
+export async function createBoardAction(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
@@ -30,7 +30,7 @@ export async function createBoard(
     let createdBoard: FirebaseFirestore.DocumentReference | undefined
 
     try {
-        createdBoard = await addBoard({
+        createdBoard = await createBoard({
             tiles: [],
             theme: 'dark',
             isCombinedTiles: false,

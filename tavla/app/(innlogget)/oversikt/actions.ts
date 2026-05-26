@@ -2,7 +2,7 @@
 import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { addBoard, addBoardIdToUser } from 'src/firebase'
+import { addBoardIdToUser, createBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 
@@ -20,7 +20,7 @@ export async function saveBoardToFirebaseForUser(
     const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
 
     try {
-        const doc = await addBoard({
+        const doc = await createBoard({
             ...boardData,
         })
 

@@ -7,7 +7,7 @@ import {
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { redirect } from 'next/navigation'
-import { addBoard, addBoardIdToFolder, addBoardIdToUser } from 'src/firebase'
+import { addBoardIdToFolder, addBoardIdToUser, createBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
@@ -31,7 +31,7 @@ export async function duplicateBoard(
                 return getFormFeedbackForError('auth/operation-not-allowed')
         }
 
-        const createdBoard = await addBoard({
+        const createdBoard = await createBoard({
             ...board,
             meta: {
                 ...board.meta,

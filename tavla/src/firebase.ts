@@ -107,7 +107,7 @@ export async function updateBoard(
         .update({ ...data, 'meta.dateModified': Date.now() })
 }
 
-export async function addBoard(boardData: Omit<BoardDB, 'id'>) {
+export async function createBoard(boardData: Omit<BoardDB, 'id'>) {
     const now = Date.now()
     return firestore()
         .collection('boards')
