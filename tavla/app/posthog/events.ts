@@ -309,9 +309,7 @@ export type EventMap = {
     feature_showcase_clicked: WithLocation<typeof LOCATIONS.LandingPage> & {
         feature: 'customization' | 'norway' | 'administration' | 'show_info'
     }
-    preview_carousel_dot: WithLocation<typeof LOCATIONS.LandingPage> & {
-        number: '1 ' | '2 ' | '3'
-    }
+    preview_carousel_dot: WithLocation<typeof LOCATIONS.LandingPage>
     preview_carousel_arrow: WithLocation<typeof LOCATIONS.LandingPage> & {
         direction: 'next' | 'prev'
     }
