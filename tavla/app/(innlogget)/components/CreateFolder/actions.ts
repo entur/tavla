@@ -9,12 +9,12 @@ import {
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { redirect } from 'next/navigation'
-import { addFolder } from 'src/firebase'
+import { createFolder } from 'src/firebase'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
-export async function createFolder(
+export async function createFolderAction(
     _prevState: TFormFeedback | undefined,
     data: FormData,
 ) {
@@ -31,7 +31,7 @@ export async function createFolder(
     let folder: FirebaseFirestore.DocumentReference | undefined
 
     try {
-        folder = await addFolder(name.substring(0, 50), user.uid)
+        folder = await createFolder(name.substring(0, 50), user.uid)
         if (!folder || !folder.id) return getFormFeedbackForError()
     } catch (error) {
         logToGcp(

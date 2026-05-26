@@ -220,7 +220,7 @@ export async function updateFolder(
     await firestore().collection('folders').doc(folderid).update(data)
 }
 
-export async function addFolder(name: string, uid: string) {
+export async function createFolder(name: string, uid: string) {
     return firestore()
         .collection('folders')
         .add({
