@@ -13,7 +13,7 @@ function getLog() {
     return _log
 }
 
-type LogExtra = { bid?: string; folderId?: string }
+type LogExtra = { bid?: string; folderId?: string; status?: number }
 
 type LogPayload = {
     message: string
@@ -86,6 +86,7 @@ export async function logToGcp(
         ? {
               bid: sanitizeForLog(extra?.bid),
               folderId: sanitizeForLog(extra?.folderId),
+              status: extra?.status,
           }
         : undefined
 

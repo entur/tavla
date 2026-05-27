@@ -7,6 +7,7 @@ import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
+import { logToGcp } from 'utils/logging'
 
 export default function GlobalErrorPage({
     error,
@@ -15,6 +16,7 @@ export default function GlobalErrorPage({
 }) {
     useEffect(() => {
         Sentry.captureException(error)
+        logToGcp('warning', `Global error: ${error.message}`, { status: 500 })
     }, [error])
 
     return (

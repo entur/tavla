@@ -3,8 +3,10 @@ import { Heading3 } from '@entur/typography'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import { logToGcp } from 'src/utils/logging'
 
-function Custom404() {
+async function Custom404() {
+    await logToGcp('warning', 'Page not found', { status: 404 })
     return (
         <main className="container flex flex-col items-center pb-10">
             <Heading3>Denne siden finnes ikke!</Heading3>
