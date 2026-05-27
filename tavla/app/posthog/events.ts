@@ -18,7 +18,10 @@ type WithLocation<L extends Location> = { location: L }
 
 export type EventMap = {
     /* Landingsside */
-    preview_carousel_dot: undefined
+    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage> & {
+        section: 'hero' | 'usage_map'
+    }
+    preview_carousel_dot: { index: number }
     preview_carousel_arrow: {
         direction: 'next' | 'prev'
     }
@@ -111,7 +114,6 @@ export type EventMap = {
     }
 
     /* Mapper */
-
     folder_logo_upload_started: WithLocation<typeof LOCATIONS.Folder> & {
         folder_id: string
     }
@@ -153,10 +155,6 @@ export type EventMap = {
     }
 
     /* Tavler */
-    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage> & {
-        section: 'hero' | 'usage_map'
-    }
-
     board_opened: WithLocation<
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.AdminTable

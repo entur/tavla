@@ -1,3 +1,4 @@
+'use client'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { PinData } from './pins'
 import { PINS } from './pins'

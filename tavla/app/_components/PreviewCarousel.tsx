@@ -47,10 +47,10 @@ function PreviewCarousel({
     previewBoards: (PreviewBoard & { link: string })[]
 }) {
     const [boardIndex, setBoardIndex] = useState(0)
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const nextSlide = () => {
-        posthog.capture('preview_carousel_arrow', {
+        capture('preview_carousel_arrow', {
             direction: 'next',
         })
         setBoardIndex((prevIndex) =>
@@ -58,7 +58,7 @@ function PreviewCarousel({
         )
     }
     const prevSlide = () => {
-        posthog.capture('preview_carousel_arrow', {
+        capture('preview_carousel_arrow', {
             direction: 'prev',
         })
         setBoardIndex((prevIndex) =>
@@ -67,7 +67,7 @@ function PreviewCarousel({
     }
 
     const goToSlide = (index: number) => {
-        posthog.capture('preview_carousel_dot')
+        capture('preview_carousel_dot', { index: index })
         setBoardIndex(index)
     }
 
