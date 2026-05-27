@@ -13,17 +13,26 @@ function getLog() {
     return _log
 }
 
-type LogExtra = { bid?: string; folderId?: string }
+type LogType = 'server-action' | 'http' | 'graphql'
+
+type LogExtra = {
+    bid?: string
+    folderId?: string
+    status?: number
+    type?: LogType
+    path?: string
+}
 
 type LogPayload = {
     message: string
-    type?: 'server-action' | 'http' | 'graphql'
+    type?: LogType
     action?: string
     method?: string
     endpoint?: string
     status?: number
     bid?: string
     folderId?: string
+    path?: string
 }
 
 function buildPayload(message: string, extra?: LogExtra): LogPayload {
@@ -86,6 +95,8 @@ export async function logToGcp(
         ? {
               bid: sanitizeForLog(extra?.bid),
               folderId: sanitizeForLog(extra?.folderId),
+              status: extra?.status,
+              path: sanitizeForLog(extra?.path),
           }
         : undefined
 

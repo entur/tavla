@@ -1,10 +1,24 @@
+'use client'
+
 import { Button } from '@entur/button'
 import { Heading3 } from '@entur/typography'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
+import { logToGcp } from 'utils/logging'
 
-function Custom404() {
+export default function NotFound() {
+    const pathname = usePathname()
+
+    useEffect(() => {
+        logToGcp('warning', `GET Page Not Found`, {
+            status: 404,
+            path: pathname,
+        })
+    }, [pathname])
+
     return (
         <main className="container flex flex-col items-center pb-10">
             <Heading3>Denne siden finnes ikke!</Heading3>
@@ -20,5 +34,3 @@ function Custom404() {
         </main>
     )
 }
-
-export default Custom404
