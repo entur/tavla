@@ -17,6 +17,18 @@ type Location = (typeof LOCATIONS)[keyof typeof LOCATIONS]
 type WithLocation<L extends Location> = { location: L }
 
 export type EventMap = {
+    /* Landingsside */
+    preview_carousel_dot: undefined
+    preview_carousel_arrow: {
+        direction: 'next' | 'prev'
+    }
+    usage_map_pin_hovered: {
+        pin_label: string
+    }
+    feature_showcase_clicked: {
+        feature: 'customization' | 'norway' | 'administration' | 'show_info'
+    }
+
     /* User: create and login */
     user_create_started:
         | WithLocation<typeof LOCATIONS.BoardWithoutUser>
@@ -60,7 +72,6 @@ export type EventMap = {
     }
 
     /* Tavle uten bruker */
-
     board_without_user_started:
         | WithLocation<
               | typeof LOCATIONS.NavBar
@@ -304,15 +315,6 @@ export type EventMap = {
     cookie_settings_opened: WithLocation<typeof LOCATIONS.Footer>
     github_link_clicked: WithLocation<typeof LOCATIONS.Footer>
     survey_set_up_board: undefined
-
-    /* Landingsside */
-    feature_showcase_clicked: WithLocation<typeof LOCATIONS.LandingPage> & {
-        feature: 'customization' | 'norway' | 'administration' | 'show_info'
-    }
-    preview_carousel_dot: WithLocation<typeof LOCATIONS.LandingPage>
-    preview_carousel_arrow: WithLocation<typeof LOCATIONS.LandingPage> & {
-        direction: 'next' | 'prev'
-    }
 }
 export type NoProps = undefined
 

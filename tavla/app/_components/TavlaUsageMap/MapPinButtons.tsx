@@ -1,3 +1,4 @@
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { PinData } from './pins'
 import { PINS } from './pins'
 
@@ -10,11 +11,16 @@ type Props = {
 }
 
 export function MapPinButtons({ onPinHover, onPinLeave }: Props) {
+    const { capture } = usePosthogTracking()
     return (
         <>
             {PINS.map((pin) => {
-                const handleHover = (e: React.MouseEvent | React.FocusEvent) =>
+                const handleHover = (
+                    e: React.MouseEvent | React.FocusEvent,
+                ) => {
+                    capture('usage_map_pin_hovered', { pin_label: pin.label })
                     onPinHover(pin, e.currentTarget.getBoundingClientRect())
+                }
                 return (
                     <button
                         key={pin.index}

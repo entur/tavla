@@ -4,7 +4,6 @@ import { IconButton } from '@entur/button'
 import { LeftArrowIcon, RightArrowIcon } from '@entur/icons'
 import type { PreviewBoard } from 'app/page'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { usePostHog } from 'posthog-js/react'
 import { useState } from 'react'
 
 const CarouselIndicators = ({
@@ -52,7 +51,6 @@ function PreviewCarousel({
 
     const nextSlide = () => {
         posthog.capture('preview_carousel_arrow', {
-            location: 'landing_page',
             direction: 'next',
         })
         setBoardIndex((prevIndex) =>
@@ -61,7 +59,6 @@ function PreviewCarousel({
     }
     const prevSlide = () => {
         posthog.capture('preview_carousel_arrow', {
-            location: 'landing_page',
             direction: 'prev',
         })
         setBoardIndex((prevIndex) =>
@@ -70,7 +67,7 @@ function PreviewCarousel({
     }
 
     const goToSlide = (index: number) => {
-        posthog.capture('preview_carousel_dot', { location: 'landing_page' })
+        posthog.capture('preview_carousel_dot')
         setBoardIndex(index)
     }
 

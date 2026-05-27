@@ -2,11 +2,16 @@
 import { Heading1, Paragraph } from '@entur/typography'
 import { CreateBoardButton } from 'app/_components/CreateBoardButton'
 import { NavigateToOversiktButton } from 'app/_components/NavigateToOversiktButton'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { TavlaMap } from 'src/assets/illustrations/TavlaMap'
 import { MapPinButtons } from './MapPinButtons'
-import { PinImageTooltip } from './PinImageTooltip'
 import type { PinData } from './pins'
+
+const PinImageTooltip = dynamic(
+    () => import('./PinImageTooltip').then((m) => m.PinImageTooltip),
+    { ssr: false },
+)
 
 type HoverState = {
     pin: PinData

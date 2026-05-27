@@ -197,7 +197,6 @@ function FeatureShowcase() {
         const feature = FEATURES[index]
         if (feature) {
             capture('feature_showcase_clicked', {
-                location: 'landing_page',
                 feature: feature.trackingId,
             })
         }
