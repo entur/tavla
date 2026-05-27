@@ -5,16 +5,14 @@ import {
     initializeAdminApp,
     userCanEditBoard,
 } from 'app/(innlogget)/utils/firebase'
-import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { getBoard } from 'src/firebase'
+import { getBoard, updateBoard } from 'src/firebase'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
-
-const db = getFirestore()
 
 export async function deleteTile(boardId: string, tile: BoardTileDB) {
     logToGcp('info', 'action:deleteTile invoked', { bid: boardId })
@@ -49,14 +47,13 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
 
         const updatePayload: Record<string, unknown> = {
             tiles: FieldValue.arrayRemove(tileToDelete),
-            'meta.dateModified': Date.now(),
         }
 
         if (shouldResetPalette) {
             updatePayload.transportPalette = 'default'
         }
 
-        await db.collection('boards').doc(boardId).update(updatePayload)
+        await updateBoard(boardId, updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger`)
     } catch (error) {
         logToGcp(
@@ -80,14 +77,13 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
     if (!access) return redirect('/')
 
     try {
-        const boardRef = db.collection('boards').doc(bid)
         const board = await getBoard(bid)
         const existingTile = board?.tiles.find((t) => t.uuid === tile.uuid)
-        if (!existingTile)
-            return boardRef.update({
-                tiles: FieldValue.arrayUnion(tile),
-                'meta.dateModified': Date.now(),
-            })
+        if (!existingTile) {
+            await updateBoard(bid, { tiles: FieldValue.arrayUnion(tile) })
+            revalidatePath(`/tavler/${bid}/rediger`)
+            return
+        }
         const indexExistingTile = board?.tiles.indexOf(existingTile)
 
         if (
@@ -96,10 +92,7 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
             indexExistingTile !== -1
         ) {
             board.tiles[indexExistingTile] = tile
-            boardRef.update({
-                tiles: board.tiles,
-                'meta.dateModified': Date.now(),
-            })
+            await updateBoard(bid, { tiles: board.tiles })
         }
 
         revalidatePath(`/tavler/${bid}/rediger`)
