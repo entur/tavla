@@ -18,6 +18,7 @@ import type {
     TransportPalette,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
+import { validateCustomUrl } from './components/CustomUrl/utils'
 
 initializeAdminApp()
 
@@ -126,17 +127,8 @@ export async function saveCustomUrl(
 
     const trimmed = customUrl.trim()
 
-    if (trimmed && !/^[a-zA-Z0-9_-]+$/.test(trimmed)) {
-        return {
-            error: 'Du kan kun bruke bokstaver (ikke æ, ø og å), tall, bindestrek og understrek.',
-        }
-    }
-
-    if (trimmed && /^preview/i.test(trimmed)) {
-        return {
-            error: 'Denne lenken kan ikke brukes.',
-        }
-    }
+    const validationError = validateCustomUrl(trimmed)
+    if (validationError) return { error: validationError }
 
     try {
         if (trimmed) {
