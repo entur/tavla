@@ -47,7 +47,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                     <div className="pl-10">
                         <Link
                             href="/"
-                            aria-label="Tilbake til landingssiden"
+                            aria-label="Tilbake til forsiden"
                             onClick={() =>
                                 posthog.capture('go_to_home_page', {
                                     location: 'nav_bar',
