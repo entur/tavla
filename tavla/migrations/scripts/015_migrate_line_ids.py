@@ -73,6 +73,71 @@ def board_has_old_ids(tiles: list) -> bool:
     return False
 
 
+def scan_old_ids(db: firestore.Client) -> dict:
+    """
+    Les gjennom alle boards og tell hvor mange boards som inneholder hver gamle ID.
+    Returnerer:
+        {
+            "total_boards": int,
+            "affected_boards": int,
+            "id_counts": { old_id: antall_boards }
+        }
+    """
+    id_counts = {old_id: 0 for old_id in OLD_IDS}
+    total_boards = 0
+    affected_boards = 0
+
+    for doc_snap in stream_in_batches(db.collection(COLLECTION)):
+        total_boards += 1
+        tiles = doc_snap.to_dict().get("tiles") or []
+        found_in_board = set()
+
+        for tile in tiles:
+            for lid in tile.get("whitelistedLines") or []:
+                if lid in OLD_IDS:
+                    found_in_board.add(lid)
+            for quay in tile.get("quays") or []:
+                for lid in quay.get("whitelistedLines") or []:
+                    if lid in OLD_IDS:
+                        found_in_board.add(lid)
+
+        if found_in_board:
+            affected_boards += 1
+            for lid in found_in_board:
+                id_counts[lid] += 1
+
+    return {
+        "total_boards": total_boards,
+        "affected_boards": affected_boards,
+        "id_counts": id_counts,
+    }
+
+
+def print_scan_summary(label: str, scan: dict):
+    """Skriv en lesbar oppsummering av scan-resultatet til konsollen."""
+    found = {lid: count for lid, count in scan["id_counts"].items() if count > 0}
+    not_found_count = len(OLD_IDS) - len(found)
+
+    print(f"\n📊 Status {label} migrering:")
+    print(f"   Totalt boards skannet : {scan['total_boards']}")
+    print(f"   Boards med gamle ID-er: {scan['affected_boards']}")
+
+    if not found:
+        print("   ✅ Ingen gamle ID-er funnet i databasen\n")
+        return
+
+    print()
+    print(f"   {'Gammel ID':<20} {'→  Ny ID':<20} {'Boards':>6}")
+    print(f"   {'─' * 50}")
+    for old_id, count in sorted(found.items(), key=lambda x: -x[1]):
+        print(f"   {old_id:<20}  →  {LINE_ID_MAP[old_id]:<20} {count:>4}")
+
+    if not_found_count:
+        print(f"\n   ({not_found_count} av {len(OLD_IDS)} ID-er ikke funnet i databasen)\n")
+    else:
+        print()
+
+
 def transform_tiles(tiles: list, log_file) -> tuple:
     """
     Returns (new_tiles, total_change_count).
@@ -188,7 +253,20 @@ def migrate_all(db: firestore.Client):
 def run():
     db = init.dev()  # Bytt til init.prod() når klar for prod
     print(f"Tilkoblet prosjekt: {db.project}")
+
+    print("\n🔍 Scanner databasen før migrering...")
+    before = scan_old_ids(db)
+    print_scan_summary("FØR", before)
+
+    if before["affected_boards"] == 0:
+        print("Ingen gamle ID-er funnet — migrering ikke nødvendig.")
+        return
+
     migrate_all(db)
+
+    print("\n🔍 Scanner databasen etter migrering...")
+    after = scan_old_ids(db)
+    print_scan_summary("ETTER", after)
 
 
 if __name__ == "__main__":
