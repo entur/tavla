@@ -7,6 +7,7 @@ import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
+import { logToGcp } from 'src/utils/logging'
 
 export default function ErrorPage({
     error,
@@ -15,6 +16,7 @@ export default function ErrorPage({
 }) {
     useEffect(() => {
         Sentry.captureException(error)
+        logToGcp('warning', `Page error: ${error.message}`, { status: 500 })
     }, [error])
     return (
         <main className="container flex flex-col items-center pb-10">
