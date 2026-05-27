@@ -17,6 +17,21 @@ type Location = (typeof LOCATIONS)[keyof typeof LOCATIONS]
 type WithLocation<L extends Location> = { location: L }
 
 export type EventMap = {
+    /* Landingsside */
+    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage> & {
+        section: 'hero' | 'usage_map'
+    }
+    preview_carousel_dot: { index: number }
+    preview_carousel_arrow: {
+        direction: 'next' | 'prev'
+    }
+    usage_map_pin_hovered: {
+        pin_label: string
+    }
+    feature_showcase_clicked: {
+        feature: 'customization' | 'norway' | 'administration' | 'show_info'
+    }
+
     /* User: create and login */
     user_create_started:
         | WithLocation<typeof LOCATIONS.BoardWithoutUser>
@@ -60,7 +75,6 @@ export type EventMap = {
     }
 
     /* Tavle uten bruker */
-
     board_without_user_started:
         | WithLocation<
               | typeof LOCATIONS.NavBar
@@ -100,7 +114,6 @@ export type EventMap = {
     }
 
     /* Mapper */
-
     folder_logo_upload_started: WithLocation<typeof LOCATIONS.Folder> & {
         folder_id: string
     }
@@ -142,8 +155,6 @@ export type EventMap = {
     }
 
     /* Tavler */
-    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage>
-
     board_opened: WithLocation<
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.AdminTable
