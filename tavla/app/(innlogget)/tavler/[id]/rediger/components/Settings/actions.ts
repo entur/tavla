@@ -8,7 +8,6 @@ import {
 import {
     initializeAdminApp,
     userCanEditBoard,
-    userCanEditFolder,
 } from 'app/(innlogget)/utils/firebase'
 import {
     getFormFeedbackForError,
@@ -16,26 +15,21 @@ import {
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
-import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
-import { getBoard } from 'src/firebase'
+import { getBoard, updateBoard } from 'src/firebase'
 import type {
     BoardDB,
     BoardFontSize,
-    BoardFooter,
     BoardTheme,
     LocationDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
-import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
-
-const db = getFirestore()
 
 async function userHasAccessToEditBoard(bid: string) {
     const access = await userCanEditBoard(bid)
@@ -50,23 +44,15 @@ export async function saveSettings(data: FormData) {
     const font = data.get('font') as BoardFontSize
     const transportPalette = data.get('transportPalette') as TransportPalette
 
-    const newFolder = data.get('newOid') as FolderDB['id'] | undefined
-    const oldFolder = data.get('oldOid') as FolderDB['id'] | undefined
-
     const hideClock = data.get('clock') === null
     const hideLogo = data.get('logo') === null
 
-    let location: LocationDB | undefined | string = data.get(
-        'newLocation',
-    ) as string
+    const locationRaw = data.get('newLocation') as string
+    const location: LocationDB | undefined = locationRaw
+        ? (JSON.parse(locationRaw) as LocationDB)
+        : undefined
 
     logToGcp('info', 'action:saveSettings invoked', { bid })
-
-    if (location) {
-        location = JSON.parse(location) as LocationDB
-    } else {
-        location = undefined
-    }
 
     const infoMessage = data.get('infoMessage') as string
 
@@ -80,25 +66,35 @@ export async function saveSettings(data: FormData) {
 
     const boardTitle = title ?? board.meta.title //Ugly hack, should re-evaluate the whole structure
 
+    if (isEmptyOrSpaces(boardTitle)) {
+        errors.name = getFormFeedbackForError('board/tiles-name-missing')
+        return errors
+    }
+
     try {
-        if (isEmptyOrSpaces(boardTitle))
-            errors.name = getFormFeedbackForError('board/tiles-name-missing')
-
-        if (Object.keys(errors).length !== 0) {
-            return errors
-        }
-
         await userHasAccessToEditBoard(board.id ?? '')
 
-        await saveTitle(bid, boardTitle)
-        await moveBoard(bid, newFolder, oldFolder)
-        await saveLocation(board, location)
-        await saveFont(bid, font)
-        await setTheme(bid, theme)
-        await setViewType(board, viewType)
-        await setFooter(bid, { footer: infoMessage })
-        await setTransportPalette(bid, transportPalette)
-        await setElements(bid, hideClock, hideLogo)
+        const tiles = await getTilesWithDistance(board, location)
+
+        const footerContainsText =
+            infoMessage &&
+            !isOnlyWhiteSpace(infoMessage) &&
+            infoMessage.trim() !== ''
+
+        await updateBoard(bid, {
+            'meta.title': boardTitle.substring(0, 50),
+            'meta.fontSize': font,
+            'meta.location': location ?? FieldValue.delete(),
+            theme: theme ?? 'dark',
+            isCombinedTiles: viewType !== 'separate',
+            footer: footerContainsText
+                ? { footer: infoMessage }
+                : FieldValue.delete(),
+            transportPalette: transportPalette ?? 'default',
+            tiles,
+            hideClock,
+            hideLogo,
+        })
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
@@ -110,166 +106,11 @@ export async function saveSettings(data: FormData) {
             'error',
             `Failed to save settings for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
         )
+        Sentry.captureException(error, {
+            extra: { message: 'Error while saving settings', boardID: bid },
+        })
         errors.general = handleError(error)
         return errors
-    }
-}
-
-async function setFooter(bid: BoardDB['id'], { footer }: BoardFooter) {
-    const footerContainsText =
-        footer && !isOnlyWhiteSpace(footer) && footer.trim() !== ''
-
-    const newFooter = footerContainsText
-        ? { footer: footer }
-        : FieldValue.delete()
-
-    try {
-        await db.collection('boards').doc(bid).update({
-            footer: newFooter,
-            'meta.dateModified': Date.now(),
-        })
-        revalidatePath(`tavler/${bid}/rediger`)
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to set footer for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while setting footer of board',
-                boardID: bid,
-            },
-        })
-        return handleError(error)
-    }
-}
-
-async function setTheme(bid: BoardDB['id'], theme?: BoardTheme) {
-    try {
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({
-                theme: theme ?? 'dark',
-                'meta.dateModified': Date.now(),
-            })
-
-        revalidatePath(`/tavler/${bid}/rediger`)
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to set theme for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while updating theme of board',
-                boardID: bid,
-                newTheme: theme,
-            },
-        })
-        return handleError(error)
-    }
-}
-
-async function setViewType(board: BoardDB, viewType: string) {
-    const isSeparateTiles = viewType === 'separate'
-
-    try {
-        await db
-            .collection('boards')
-            .doc(board.id ?? '')
-            .update({
-                isCombinedTiles: !isSeparateTiles,
-                'meta.dateModified': Date.now(),
-            })
-
-        revalidatePath(`/tavler/${board.id}/rediger`)
-    } catch (e) {
-        logToGcp(
-            'error',
-            `Failed to set view type for board: ${e instanceof Error ? e.message : String(e)}`,
-            { bid: board.id },
-        )
-        handleError(e)
-    }
-}
-
-async function saveTitle(bid: BoardDB['id'], title: string) {
-    try {
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({
-                'meta.title': title.substring(0, 50),
-                'meta.dateModified': Date.now(),
-            })
-        revalidatePath(`/tavler/${bid}/rediger`)
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save title for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while saving title of board tile',
-                boardID: bid,
-            },
-        })
-        return handleError(error)
-    }
-}
-
-async function saveFont(bid: BoardDB['id'], font: BoardFontSize) {
-    try {
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({ 'meta.fontSize': font, 'meta.dateModified': Date.now() })
-        revalidatePath(`/tavler/${bid}/rediger`)
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save font for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while updating font size of board',
-                boardID: bid,
-            },
-        })
-        return handleError(error)
-    }
-}
-
-async function saveLocation(board: BoardDB, location?: LocationDB) {
-    try {
-        await db
-            .collection('boards')
-            .doc(board.id ?? '')
-            .update({
-                tiles: await getTilesWithDistance(board, location),
-                'meta.location': location ?? FieldValue.delete(),
-                'meta.dateModified': Date.now(),
-            })
-        revalidatePath(`/tavler/${board.id}/rediger`)
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save location for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid: board.id },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while updating location of board',
-                boardID: board.id,
-                location: location,
-            },
-        })
-        return handleError(error)
     }
 }
 
@@ -284,126 +125,4 @@ async function getTilesWithDistance(board: BoardDB, location?: LocationDB) {
             }
         }),
     )
-}
-
-export async function moveBoard(
-    bid: BoardDB['id'],
-    toFolder?: FolderDB['id'],
-    fromFolder?: FolderDB['id'],
-) {
-    const user = await getUserFromSessionCookie()
-    if (!user) return redirect('/')
-
-    logToGcp('info', 'action:moveBoard invoked', { bid })
-
-    if (fromFolder) {
-        const canEdit = await userCanEditFolder(fromFolder)
-        if (!canEdit) return redirect('/')
-    }
-
-    if (toFolder) {
-        const canEdit = await userCanEditFolder(toFolder)
-        if (!canEdit) return redirect('/')
-    }
-
-    try {
-        if (fromFolder)
-            await db
-                .collection('folders')
-                .doc(fromFolder)
-                .update({ boards: FieldValue.arrayRemove(bid) })
-        else
-            await db
-                .collection('users')
-                .doc(user.uid)
-                .update({ owner: FieldValue.arrayRemove(bid) })
-
-        if (toFolder)
-            await db
-                .collection('folders')
-                .doc(toFolder)
-                .update({ boards: FieldValue.arrayUnion(bid) })
-        else
-            await db
-                .collection('users')
-                .doc(user.uid)
-                .update({ owner: FieldValue.arrayUnion(bid) })
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to move board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while moving board to new folder',
-                boardID: bid,
-                newFolder: toFolder,
-                oldFolder: fromFolder,
-            },
-        })
-        throw error
-    }
-}
-
-async function setTransportPalette(
-    bid: BoardDB['id'],
-    transportPalette?: TransportPalette,
-) {
-    try {
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({
-                transportPalette: transportPalette ?? 'default',
-                'meta.dateModified': Date.now(),
-            })
-
-        revalidatePath(`/tavler/${bid}/rediger`)
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to set transport palette for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while updating transport palette',
-                boardID: bid,
-                newTransportPalette: transportPalette,
-            },
-        })
-        return handleError(error)
-    }
-}
-
-async function setElements(
-    bid: BoardDB['id'],
-    hideClock: boolean,
-    hideLogo: boolean,
-) {
-    try {
-        await db.collection('boards').doc(bid).update({
-            hideClock: hideClock,
-            hideLogo: hideLogo,
-            'meta.dateModified': Date.now(),
-        })
-
-        revalidatePath(`/tavler/${bid}/rediger`)
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to set elements for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while updating visible elements',
-                boardID: bid,
-                hideClock: hideClock,
-                hideLogo: hideLogo,
-            },
-        })
-        return handleError(error)
-    }
 }

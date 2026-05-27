@@ -15,7 +15,7 @@ import { isNull } from 'lodash'
 import Image from 'next/image'
 import { useActionState } from 'react'
 import type { FolderDB } from 'src/types/db-types/folders'
-import { createBoard } from './actions'
+import { createBoardAction } from './actions'
 
 type NameAndFolderSelectorProps = {
     folder?: FolderDB
@@ -28,7 +28,7 @@ function NameAndFolderSelector({
     folders,
     onClose,
 }: NameAndFolderSelectorProps) {
-    const [state, action] = useActionState(createBoard, undefined)
+    const [state, action] = useActionState(createBoardAction, undefined)
     const posthog = usePosthogTracking()
 
     const { folderDropdownList, selectedFolder, handleFolderChange } =

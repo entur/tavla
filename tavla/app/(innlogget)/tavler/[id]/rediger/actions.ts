@@ -8,9 +8,10 @@ import {
     initializeAdminApp,
     userCanEditBoard,
 } from 'app/(innlogget)/utils/firebase'
-import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { getBoard, getBoardByCustomUrl, updateBoard } from 'src/firebase'
 import type {
     BoardDB,
     BoardTileDB,
@@ -22,25 +23,20 @@ import { validateCustomUrl } from './components/CustomUrl/utils'
 
 initializeAdminApp()
 
-const db = getFirestore()
-
 export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
     logToGcp('info', 'action:addTiles invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
     try {
-        const boardDoc = await db.collection('boards').doc(bid).get()
-        const currentBoard = boardDoc.data() as BoardDB | undefined
+        const currentBoard = await getBoard(bid)
 
         const updateData: {
             tiles: FieldValue
-            'meta.dateModified': number
             isCombinedTiles: boolean
             transportPalette?: TransportPalette
         } = {
             tiles: FieldValue.arrayUnion(...tiles),
-            'meta.dateModified': Date.now(),
             isCombinedTiles: currentBoard?.isCombinedTiles || false,
         }
 
@@ -48,7 +44,7 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
             updateData.transportPalette = 'default'
         }
 
-        await db.collection('boards').doc(bid).update(updateData)
+        await updateBoard(bid, updateData)
     } catch (error) {
         logToGcp(
             'error',
@@ -96,10 +92,7 @@ export async function saveUpdatedTileOrder(
     if (!access) return redirect('/')
 
     try {
-        await db.collection('boards').doc(bid).update({
-            tiles: tiles,
-            'meta.dateModified': Date.now(),
-        })
+        await updateBoard(bid, { tiles })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
         logToGcp(
@@ -114,6 +107,7 @@ export async function saveUpdatedTileOrder(
                 tilesObjects: tiles,
             },
         })
+        throw error
     }
 }
 
@@ -132,24 +126,15 @@ export async function saveCustomUrl(
 
     try {
         if (trimmed) {
-            const existing = await db
-                .collection('boards')
-                .where('customUrl', '==', trimmed)
-                .get()
-
-            const taken = existing.docs.some((doc) => doc.id !== bid)
-            if (taken) {
+            const existing = await getBoardByCustomUrl(trimmed)
+            if (existing && existing.id !== bid) {
                 return { error: 'Denne lenken er allerede i bruk.' }
             }
         }
 
-        await db
-            .collection('boards')
-            .doc(bid)
-            .update({
-                customUrl: trimmed || FieldValue.delete(),
-                'meta.dateModified': Date.now(),
-            })
+        await updateBoard(bid, {
+            customUrl: trimmed || FieldValue.delete(),
+        })
 
         revalidatePath(`/tavler/${bid}/rediger`)
         return {}
