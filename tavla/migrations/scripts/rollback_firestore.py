@@ -82,6 +82,19 @@ def rollback_firestore(env: str, version: str = None, source_env: str = None):
 
         if env == "local":
             _restore_local(export_path)
+            if source == "prod":
+                print("\n🚨 PÅMINNELSE: Du har nå produksjonsdata på maskinen din.")
+                print("   Start emulatoren med 'yarn dev' (ikke 'yarn dev:persist') under testingen,")
+                print("   så unngår du at proddata spres til andre mapper.")
+                print()
+                print("   Husk å slette .db-mappen når du er ferdig:")
+                print()
+                print("     rm -rf tavla/.db")
+                print()
+                print("   Eller gjenopprett fra dev-backup for å gå tilbake til dev-data:")
+                print()
+                print("     ./migration run scripts/rollback_firestore.py local")
+                print()
         else:
             subprocess.run(
                 ["gcloud", "firestore", "import", export_path, "--project", project],
