@@ -23,7 +23,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                 <Image
                     src={TavlaLogoBlue}
                     height={32}
-                    alt="Gå tilbake til landingssiden"
+                    alt="Gå tilbake til forsiden"
                 />
             </Link>
             <div className="flex shrink-0 flex-row items-center gap-4">
