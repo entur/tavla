@@ -70,7 +70,7 @@ async function Landing() {
                             {loggedIn ? (
                                 <NavigateToOversiktButton />
                             ) : (
-                                <CreateBoardButton />
+                                <CreateBoardButton section="hero" />
                             )}
                         </div>
                     </div>
