@@ -200,7 +200,24 @@ Du kan også spesifisere en konkret backup-versjon som andre argument:
 ./migration run scripts/rollback_firestore.py dev firestore-ent-tavla-dev-2025-10-17_12-30-00
 ```
 
+For å teste en migrering med ekte produksjonsdata lokalt kan du laste ned en prod-backup direkte til emulatoren:
+
+```bash
+./migration run scripts/rollback_firestore.py local --from prod
+```
+
 > **Merk:** Rollback overskriver eksisterende dokumenter med data fra backupen, men sletter **ikke** dokumenter som ble opprettet etter at backupen ble tatt — det er altså ikke en fullstendig tilbakestilling.
+
+> 🚨 **Viktig ved bruk av `--from prod`:** Du har da produksjonsdata liggende lokalt på maskinen din. Start emulatoren med `yarn dev` (ikke `yarn dev:persist`) mens du tester — da unngår du at proddata spres til andre mapper.
+>
+> Husk å slette `.db`-mappen når du er ferdig med testingen:
+> ```bash
+> rm -rf tavla/.db
+> ```
+> Alternativt kan du gjenopprette til dev-data, som er det normale for lokal utvikling:
+> ```bash
+> ./migration run scripts/rollback_firestore.py local
+> ```
 
 ### 🧪 Test av backup og rollback
 
