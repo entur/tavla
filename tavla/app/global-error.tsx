@@ -6,15 +6,23 @@ import * as Sentry from '@sentry/nextjs'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
+import { logToGcp } from 'utils/logging'
 
 export default function GlobalErrorPage({
     error,
 }: {
     error: Error & { digest?: string }
 }) {
+    const path = usePathname()
+
     useEffect(() => {
         Sentry.captureException(error)
+        logToGcp('error', `GET Internal Server Error: ${error.message}`, {
+            status: 500,
+            path,
+        })
     }, [error])
 
     return (

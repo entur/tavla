@@ -1,6 +1,8 @@
 'use client'
 
 import { Heading1, Heading3, Paragraph } from '@entur/typography'
+import type { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Image from 'next/image'
 import { type JSX, useState } from 'react'
 import TavlaAdministration from 'src/assets/illustrations/Tavla-administration.svg'
@@ -8,7 +10,12 @@ import TavlaCustomization from 'src/assets/illustrations/Tavla-customization.svg
 import TavlaShowInfo from 'src/assets/illustrations/Tavla-show-info.svg'
 import TavlaTransportNorge from 'src/assets/illustrations/Tavla-Transport-Norge.svg'
 
-type Feature = { title: string; description: string; content: JSX.Element }
+type Feature = {
+    title: string
+    description: string
+    content: JSX.Element
+    trackingId: EventProps<'feature_showcase_clicked'>['feature']
+}
 
 const FEATURES: Feature[] = [
     {
@@ -22,6 +29,7 @@ const FEATURES: Feature[] = [
                 className={'object-contain max-h-full'}
             />
         ),
+        trackingId: 'customization',
     },
     {
         title: 'I hele Norge',
@@ -34,6 +42,7 @@ const FEATURES: Feature[] = [
                 className={'object-contain max-h-full'}
             />
         ),
+        trackingId: 'norway',
     },
     {
         title: 'Enkel å administrere',
@@ -46,6 +55,7 @@ const FEATURES: Feature[] = [
                 className={'object-contain max-h-full'}
             />
         ),
+        trackingId: 'administration',
     },
     {
         title: 'Vis det folk faktisk trenger',
@@ -58,6 +68,7 @@ const FEATURES: Feature[] = [
                 className={'object-contain max-h-full'}
             />
         ),
+        trackingId: 'show_info',
     },
 ]
 
@@ -180,6 +191,17 @@ function FeatureShowcase() {
     const [activeIndex, setActiveIndex] = useState(0)
 
     const activeFeature = FEATURES[activeIndex]
+    const { capture } = usePosthogTracking()
+
+    const handleSetActiveIndex = (index: number) => {
+        const feature = FEATURES[index]
+        if (feature) {
+            capture('feature_showcase_clicked', {
+                feature: feature.trackingId,
+            })
+        }
+        setActiveIndex(index)
+    }
 
     return (
         <div className="bg-blue rounded-3xl w-full flex flex-col justify-center overflow-hidden px-4 lg:px-16 py-8 lg:py-24">
@@ -196,12 +218,12 @@ function FeatureShowcase() {
 
                 <MobileView
                     activeIndex={activeIndex}
-                    setActiveIndex={setActiveIndex}
+                    setActiveIndex={handleSetActiveIndex}
                     activeFeature={activeFeature}
                 />
                 <DesktopView
                     activeIndex={activeIndex}
-                    setActiveIndex={setActiveIndex}
+                    setActiveIndex={handleSetActiveIndex}
                     activeFeature={activeFeature}
                 />
             </div>

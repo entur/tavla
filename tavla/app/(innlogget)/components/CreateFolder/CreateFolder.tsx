@@ -11,11 +11,11 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import birds from 'assets/illustrations/Birds.png'
 import Image from 'next/image'
 import { useActionState, useState } from 'react'
-import { createFolder } from './actions'
+import { createFolderAction } from './actions'
 
 function CreateFolder() {
     const [isOpen, setIsOpen] = useState(false)
-    const [state, formAction] = useActionState(createFolder, undefined)
+    const [state, formAction] = useActionState(createFolderAction, undefined)
 
     const posthog = usePosthogTracking()
 

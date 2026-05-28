@@ -6,16 +6,25 @@ import * as Sentry from '@sentry/nextjs'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
+import { logToGcp } from 'src/utils/logging'
 
 export default function ErrorPage({
     error,
 }: {
     error: Error & { digest?: string }
 }) {
+    const path = usePathname()
+
     useEffect(() => {
         Sentry.captureException(error)
-    }, [error])
+        logToGcp('error', `GET Internal Server Error: ${error.message}`, {
+            status: 500,
+            path,
+        })
+    }, [error, path])
+
     return (
         <main className="container flex flex-col items-center pb-10">
             <Heading3>Au da! Noe gikk galt!</Heading3>
