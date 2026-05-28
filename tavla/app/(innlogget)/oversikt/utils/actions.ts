@@ -1,15 +1,26 @@
 'use server'
+import * as Sentry from '@sentry/nextjs'
 import { getBoardsForFolder } from 'app/(innlogget)/actions'
-import { moveBoard } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/actions'
-import { deleteBoard, initializeAdminApp } from 'app/(innlogget)/utils/firebase'
+import {
+    deleteBoard,
+    initializeAdminApp,
+    userCanEditFolder,
+} from 'app/(innlogget)/utils/firebase'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { getFolderForBoard } from 'src/firebase'
+import {
+    addBoardIdToFolder,
+    addBoardIdToUser,
+    getFolderForBoard,
+    removeBoardIdFromFolder,
+    removeBoardIdFromUser,
+} from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
+import { getUserFromSessionCookie } from '../../utils/server'
 
 initializeAdminApp()
 
@@ -58,16 +69,44 @@ export async function countAllBoards(folders: FolderDB[], boards: BoardDB[]) {
 export async function moveBoardAction(data: FormData) {
     const bid = data.get('bid') as BoardDB['id']
     logToGcp('info', 'action:moveBoardAction invoked', { bid })
+
+    const user = await getUserFromSessionCookie()
+    if (!user) return redirect('/')
+
     const newFolderID = data.get('newOid') as FolderDB['id'] | undefined
     const oldFolder = await getFolderForBoard(bid)
+
+    if (oldFolder?.id) {
+        const canEdit = await userCanEditFolder(oldFolder.id)
+        if (!canEdit) return redirect('/')
+    }
+
+    if (newFolderID) {
+        const canEdit = await userCanEditFolder(newFolderID)
+        if (!canEdit) return redirect('/')
+    }
+
     try {
-        await moveBoard(bid, newFolderID, oldFolder?.id)
+        if (oldFolder?.id) await removeBoardIdFromFolder(oldFolder.id, bid)
+        else await removeBoardIdFromUser(user.uid, bid)
+
+        if (newFolderID) await addBoardIdToFolder(newFolderID, bid)
+        else await addBoardIdToUser(user.uid, bid)
+
         revalidatePath('/')
     } catch (e) {
         logToGcp(
             'error',
             `Failed to move board ${bid}: ${e instanceof Error ? e.message : String(e)}`,
         )
+        Sentry.captureException(e, {
+            extra: {
+                message: 'Error while moving board to new folder',
+                boardID: bid,
+                newFolder: newFolderID,
+                oldFolder: oldFolder?.id,
+            },
+        })
         return handleError(e)
     }
 }

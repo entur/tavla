@@ -14,6 +14,7 @@ import { useRef, useState, useTransition } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import { resolveVisTavlaBaseUrl } from 'utils/boardLink'
 import { saveCustomUrl } from '../../actions'
+import { validateCustomUrl } from './utils'
 
 function CustomUrl({
     bid,
@@ -39,13 +40,7 @@ function CustomUrl({
             posthog.capture('custom_url_modified', { location: 'board_page' })
         }, TRACKING_DEBOUNCE_TIME)
 
-        if (newValue && !/^[a-zA-Z0-9_-]*$/.test(newValue)) {
-            setFeedback(
-                'Du kan kun bruke bokstaver (ikke æ, ø og å), tall, bindestrek og understrek.',
-            )
-        } else {
-            setFeedback(undefined)
-        }
+        setFeedback(validateCustomUrl(newValue))
 
         setValue(newValue)
     }

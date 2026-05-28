@@ -4,10 +4,11 @@ import {
     initializeAdminApp,
     revokeUserTokenOnLogout,
 } from 'app/(innlogget)/utils/firebase'
-import admin, { auth, firestore } from 'firebase-admin'
+import admin, { auth } from 'firebase-admin'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { createUser } from 'src/firebase'
 import type { UserDB } from 'src/types/db-types/users'
 import { logToGcp } from 'src/utils/logging'
 
@@ -45,7 +46,7 @@ export async function login(token: string) {
 export async function create(uid: UserDB['uid']) {
     logToGcp('info', 'action:createUser invoked')
     try {
-        await firestore().collection('users').doc(uid).create({})
+        await createUser(uid)
     } catch (error) {
         logToGcp(
             'error',

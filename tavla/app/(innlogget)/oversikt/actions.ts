@@ -2,7 +2,7 @@
 import * as Sentry from '@sentry/nextjs'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import admin, { firestore } from 'firebase-admin'
+import { addBoardIdToUser, createBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 
@@ -18,26 +18,13 @@ export async function saveBoardToFirebaseForUser(
     logToGcp('info', 'action:saveBoardToFirebaseForUser invoked')
 
     const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
-    const now = Date.now()
 
     try {
-        const doc = await firestore()
-            .collection('boards')
-            .add({
-                ...boardData,
-                meta: {
-                    ...boardData.meta,
-                    created: now,
-                    dateModified: now,
-                },
-            })
+        const doc = await createBoard({
+            ...boardData,
+        })
 
-        await firestore()
-            .collection('users')
-            .doc(user.uid)
-            .update({
-                owner: admin.firestore.FieldValue.arrayUnion(doc.id),
-            })
+        await addBoardIdToUser(user.uid, doc.id)
 
         return doc.id
     } catch (error) {

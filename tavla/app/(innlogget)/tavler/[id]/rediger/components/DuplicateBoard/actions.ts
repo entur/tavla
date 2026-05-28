@@ -1,10 +1,13 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
+import {
+    initializeAdminApp,
+    userCanEditFolder,
+} from 'app/(innlogget)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import admin, { firestore } from 'firebase-admin'
 import { redirect } from 'next/navigation'
+import { addBoardIdToFolder, addBoardIdToUser, createBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
@@ -21,31 +24,27 @@ export async function duplicateBoard(
         folderId: folderid,
     })
 
-    let createdBoard: FirebaseFirestore.DocumentReference | undefined
-
     try {
-        createdBoard = await firestore()
-            .collection('boards')
-            .add({
-                ...board,
-                meta: {
-                    ...board.meta,
-                    fontSize: board.meta?.fontSize ?? 'medium',
-                    created: Date.now(),
-                    dateModified: Date.now(),
-                },
-            })
+        if (folderid) {
+            const access = await userCanEditFolder(folderid)
+            if (!access)
+                return getFormFeedbackForError('auth/operation-not-allowed')
+        }
 
-        if (!createdBoard || !createdBoard.id)
-            throw Error('failed to create board')
+        const createdBoard = await createBoard({
+            ...board,
+            meta: {
+                ...board.meta,
+                fontSize: board.meta?.fontSize ?? 'medium',
+            },
+        })
 
-        firestore()
-            .collection(folderid ? 'folders' : 'users')
-            .doc(folderid ? String(folderid) : String(user.uid))
-            .update({
-                [folderid ? 'boards' : 'owner']:
-                    admin.firestore.FieldValue.arrayUnion(createdBoard.id),
-            })
+        if (folderid) {
+            await addBoardIdToFolder(folderid, createdBoard.id)
+        } else {
+            await addBoardIdToUser(user.uid, createdBoard.id)
+        }
+        redirect(`/tavler/${createdBoard.id}/rediger`)
     } catch (error) {
         logToGcp(
             'error',
@@ -54,5 +53,4 @@ export async function duplicateBoard(
         Sentry.captureMessage('Error while duplicating board object: ' + board)
         throw error
     }
-    redirect(`/tavler/${createdBoard.id}/rediger`)
 }
