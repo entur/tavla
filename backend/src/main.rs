@@ -42,6 +42,18 @@ pub struct Metrics {
     pub active_boards: Gauge,
 }
 
+#[derive(Serialize, Deserialize, Clone)]
+pub enum BoardType {
+    #[serde(rename = "departure")]
+    Departure,
+    #[serde(rename = "anonymousDeparture")]
+    AnonymousDeparture,
+    #[serde(rename = "arrival")]
+    Arrival,
+    #[serde(rename = "directLink")]
+    DirectLink,
+}
+
 #[derive(Serialize, Deserialize)]
 struct HeartbeatPayload {
     bid: String,
@@ -50,7 +62,7 @@ struct HeartbeatPayload {
     screen_width: u32,
     screen_height: u32,
     app: Option<String>,
-    boardtype: String,
+    boardtype: BoardType,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -61,7 +73,7 @@ pub struct ActiveInfo {
     pub screen_width: u32,
     pub screen_height: u32,
     pub app: Option<String>,
-    pub boardtype: String,
+    pub boardtype: BoardType,
 }
 
 #[tokio::main]
