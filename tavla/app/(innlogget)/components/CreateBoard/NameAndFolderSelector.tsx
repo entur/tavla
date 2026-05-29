@@ -1,6 +1,6 @@
 'use client'
 import { Button, ButtonGroup } from '@entur/button'
-import { Dropdown } from '@entur/dropdown'
+import { Dropdown, type NormalizedDropdownItemType } from '@entur/dropdown'
 import { Heading2, Label, Paragraph } from '@entur/typography'
 import { FormError } from 'app/_components/Form/FormError'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
@@ -13,7 +13,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import rabbits from 'assets/illustrations/Rabbits.png'
 import { isNull } from 'lodash'
 import Image from 'next/image'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { createBoardAction } from './actions'
 
@@ -21,15 +21,26 @@ type NameAndFolderSelectorProps = {
     folder?: FolderDB
     folders?: Folder[]
     onClose: () => void
+    showArrivalDeparture: boolean
 }
+
+type ArrivalDepartureValue = 'departures' | 'arrivals'
+const DEFAULT_ARRIVAL_DEPARTURE: NormalizedDropdownItemType<ArrivalDepartureValue> =
+    { value: 'departures', label: 'Avgang' }
+const arrivalDepartureItems: NormalizedDropdownItemType<ArrivalDepartureValue>[] =
+    [DEFAULT_ARRIVAL_DEPARTURE, { value: 'arrivals', label: 'Ankomst' }]
 
 function NameAndFolderSelector({
     folder,
     folders,
     onClose,
+    showArrivalDeparture,
 }: NameAndFolderSelectorProps) {
     const [state, action] = useActionState(createBoardAction, undefined)
     const posthog = usePosthogTracking()
+    const [selectedArrivalDeparture, setSelectedArrivalDeparture] = useState<
+        NormalizedDropdownItemType<ArrivalDepartureValue>
+    >(DEFAULT_ARRIVAL_DEPARTURE)
 
     const { folderDropdownList, selectedFolder, handleFolderChange } =
         useFolderDropdown(folder, folders)
@@ -75,6 +86,25 @@ function NameAndFolderSelector({
                     <HiddenInput
                         id="folderid"
                         value={selectedFolder?.value?.id}
+                    />
+                </div>
+            )}
+
+            {showArrivalDeparture && (
+                <div className="mt-4">
+                    <Label>Hva vil du vise?</Label>
+                    <Dropdown
+                        items={arrivalDepartureItems}
+                        label="Hva vil du vise"
+                        selectedItem={selectedArrivalDeparture}
+                        onChange={(item) => {
+                            if (item) setSelectedArrivalDeparture(item)
+                        }}
+                        className="mb-4"
+                    />
+                    <HiddenInput
+                        id="arrivalDeparture"
+                        value={selectedArrivalDeparture.value}
                     />
                 </div>
             )}
