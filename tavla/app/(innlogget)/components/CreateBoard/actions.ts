@@ -9,6 +9,7 @@ import { handleError } from 'app/(innlogget)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { redirect } from 'next/navigation'
 import { addBoardIdToFolder, addBoardIdToUser, createBoard } from 'src/firebase'
+import { arrivalDepartureBoardSchema } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 
@@ -22,6 +23,9 @@ export async function createBoardAction(
     if (!name) return getFormFeedbackForError('board/name-missing')
 
     const folderid = data.get('folderid') as FolderDB['id']
+    const parsedArrivalDeparture = arrivalDepartureBoardSchema.safeParse(
+        data.get('arrivalDeparture'),
+    )
 
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
@@ -34,6 +38,10 @@ export async function createBoardAction(
             tiles: [],
             theme: 'dark',
             isCombinedTiles: false,
+            ...(parsedArrivalDeparture.success &&
+            parsedArrivalDeparture.data !== 'departures'
+                ? { arrivalDeparture: parsedArrivalDeparture.data }
+                : {}),
             meta: {
                 title: name.substring(0, 50),
                 fontSize: 'medium',
