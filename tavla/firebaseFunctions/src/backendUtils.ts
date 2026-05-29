@@ -7,7 +7,7 @@ type SingleActiveBoardFromRedis = {
     browser: string
     screen_width: number
     screen_height: number
-    boardtype: 'departure' | 'anonymousDeparture' | 'arrival' | 'directLink'
+    boardtype?: 'departure' | 'directLink'
 }
 
 type ActiveBoardsFromRedis = {
