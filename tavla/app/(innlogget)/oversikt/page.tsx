@@ -6,6 +6,8 @@ import {
 } from 'app/(innlogget)/actions'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
+import { FeatureFlags } from 'app/posthog/featureFlags'
+import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard/CreateBoard'
@@ -26,6 +28,9 @@ async function FoldersAndBoardsPage() {
 
     const folders = await getFoldersForUser()
     const privateBoards = await getPrivateBoardsForUser(folders)
+    const showArrivalDeparture = await isFeatureEnabled(
+        FeatureFlags.ARRIVAL_DEPARTURE_BOARD,
+    )
 
     const allFolderBoardIds = folders
         .flatMap((folder) => folder.boards || [])
@@ -39,7 +44,11 @@ async function FoldersAndBoardsPage() {
             <div className="flex flex-row justify-between max-sm:flex-col">
                 <Heading1>Mine tavler</Heading1>
                 <div className="flex flex-row gap-4">
-                    <CreateBoard folders={folders} trackingLocation="admin" />
+                    <CreateBoard
+                        folders={folders}
+                        trackingLocation="admin"
+                        showArrivalDeparture={showArrivalDeparture}
+                    />
                     <CreateFolder />
                 </div>
             </div>
