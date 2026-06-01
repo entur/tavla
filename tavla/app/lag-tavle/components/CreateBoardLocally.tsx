@@ -109,7 +109,6 @@ function CreateBoardLocally() {
                             setTiles(tiles)
                             resetPublishedBoard()
                         }}
-                        bid={board.id}
                     />
                     <section
                         data-theme={board.theme ?? 'dark'}

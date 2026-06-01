@@ -10,10 +10,8 @@ import { TileCard } from './TileCard/TileCard'
 function TileList({
     board,
     setTilesLocalStorageBoard,
-    bid,
 }: {
     board: BoardDB
-    bid?: BoardDB['id']
     setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)
@@ -39,7 +37,7 @@ function TileList({
         newArray[index] = oldElement
 
         setTileArray(newArray)
-        if (bid === LOCAL_STORAGE_BOARD_ID && setTilesLocalStorageBoard) {
+        if (board.id === LOCAL_STORAGE_BOARD_ID && setTilesLocalStorageBoard) {
             setTilesLocalStorageBoard(newArray)
         } else {
             saveUpdatedTileOrder(board.id ?? '', newArray)
@@ -51,9 +49,9 @@ function TileList({
             {tileArray.map((tile, index) => (
                 <TileCard
                     key={tile.uuid}
-                    bid={bid ?? board.id ?? ''}
+                    bid={board.id}
                     localStorageBoard={
-                        bid === LOCAL_STORAGE_BOARD_ID ? board : undefined
+                        board.id === LOCAL_STORAGE_BOARD_ID ? board : undefined
                     }
                     tile={tile}
                     address={board.meta.location}
