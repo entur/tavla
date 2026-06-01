@@ -15,7 +15,7 @@ import { logToGcp } from 'src/utils/logging'
 initializeAdminApp()
 
 export async function duplicateBoard(
-    board: BoardDB,
+    board: Omit<BoardDB, 'id'>,
     folderid?: FolderDB['id'],
 ) {
     const user = await getUserFromSessionCookie()
@@ -49,7 +49,6 @@ export async function duplicateBoard(
         logToGcp(
             'error',
             `Failed to duplicate board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid: board.id },
         )
         Sentry.captureMessage('Error while duplicating board object: ' + board)
         throw error
