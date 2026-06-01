@@ -42,14 +42,6 @@ pub struct Metrics {
     pub active_boards: Gauge,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
-pub enum BoardType {
-    #[serde(rename = "departure")]
-    Departure,
-    #[serde(rename = "directLink")]
-    DirectLink,
-}
-
 #[derive(Serialize, Deserialize)]
 struct HeartbeatPayload {
     bid: String,
@@ -58,7 +50,7 @@ struct HeartbeatPayload {
     screen_width: u32,
     screen_height: u32,
     app: Option<String>,
-    board_type: Option<BoardType>,
+    is_direct_link: Option<bool>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -69,7 +61,7 @@ pub struct ActiveInfo {
     pub screen_width: u32,
     pub screen_height: u32,
     pub app: Option<String>,
-    pub board_type: Option<BoardType>,
+    pub is_direct_link: Option<bool>,
 }
 
 #[tokio::main]
@@ -391,7 +383,7 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
             screen_width: payload.screen_width,
             screen_height: payload.screen_height,
             app: payload.app,
-            board_type: payload.board_type,
+            is_direct_link: payload.is_direct_link,
         }),
     )?;
 
