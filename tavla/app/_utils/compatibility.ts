@@ -12,7 +12,11 @@ export function makeBoardCompatible(board: BoardDB): BoardDB {
             }),
         }),
     )
-    return { ...board, tiles: updatedTiles }
+    return {
+        ...board,
+        tiles: updatedTiles,
+        isCombinedTiles: board.isCombinedTiles ?? false,
+    }
 }
 
 function oldLineIdsToNew(lineId: string): string | string[] {
