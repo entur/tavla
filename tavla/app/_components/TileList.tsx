@@ -48,18 +48,16 @@ function TileList({
         <div className="flex flex-col gap-4">
             {tileArray.map((tile, index) => (
                 <TileCard
+                    board={board}
                     key={tile.uuid}
                     bid={board.id}
                     localStorageBoard={
                         board.id === LOCAL_STORAGE_BOARD_ID ? board : undefined
                     }
                     tile={tile}
-                    address={board.meta.location}
                     moveItem={debouncedSave}
                     index={index}
-                    totalTiles={board.tiles.length}
                     setTilesLocalStorageBoard={setTilesLocalStorageBoard}
-                    isCombined={board.isCombinedTiles}
                 />
             ))}
         </div>

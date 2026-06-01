@@ -17,12 +17,7 @@ import {
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
 import { startTransition, useActionState, useState } from 'react'
-import type {
-    BoardDB,
-    BoardTileDB,
-    LocationDB,
-    TileColumnDB,
-} from 'types/db-types/boards'
+import type { BoardDB, BoardTileDB, TileColumnDB } from 'types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
 import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
@@ -35,27 +30,26 @@ import { TileContext } from './context'
 import { useLines } from './useLines'
 
 function TileCard({
-    bid,
+    board,
     tile,
     index,
-    address,
     localStorageBoard,
-    totalTiles,
-    isCombined,
     moveItem,
     setTilesLocalStorageBoard,
 }: {
-    bid: BoardDB['id']
+    board: BoardDB
     tile: BoardTileDB
     index: number
-    address?: LocationDB
     localStorageBoard?: BoardDB
-    totalTiles: number
-    isCombined: boolean
     moveItem: (index: number, direction: string) => void
     setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const posthog = usePosthogTracking()
+
+    const totalTiles = board.tiles.length
+    const bid = board.id
+    const location = board.meta.location
+    const isCombinedTiles = board.isCombinedTiles
 
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
@@ -114,7 +108,7 @@ function TileCard({
                   }))
                   .filter((q) => q.whitelistedLines.length > 0)
 
-        if (isCombined) {
+        if (isCombinedTiles) {
             columns = tile.columns ?? DEFAULT_COLUMNS
         }
 
@@ -122,7 +116,7 @@ function TileCard({
             ...tile,
             columns,
             quays: newQuays,
-            ...(address && {
+            ...(location && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
                 },
@@ -292,12 +286,12 @@ function TileCard({
                                 onFieldChanged={onFieldChanged}
                             />
                             <SetOffsetDepartureTime
-                                address={address}
+                                address={location}
                                 trackingLocation={trackingLocation}
                                 onFieldChanged={onFieldChanged}
                             />
                             <SetColumns
-                                isCombined={isCombined}
+                                isCombined={isCombinedTiles}
                                 trackingLocation={trackingLocation}
                                 onFieldChanged={onFieldChanged}
                             />
