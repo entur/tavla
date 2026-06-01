@@ -2,7 +2,7 @@
 import { CopyableText } from '@entur/alert'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { LoadingDots } from '@entur/loader'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { CreateUserButton } from 'app/_components/CreateUserButton'
 import type { PublishBoardState } from 'app/lag-tavle/components/CreateBoardLocally'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
@@ -82,8 +82,9 @@ export function PublishModalContent({
                 navigator.clipboard.writeText(boardLink)
             }
             return (
-                <>
-                    <Paragraph>
+                <div className="flex flex-col gap-4 pt-4">
+                    <Heading2 margin="none">Din tavle er klar</Heading2>
+                    <Paragraph margin="none">
                         Din tavle er nå klar! Kopier lenken og del den med andre
                         eller vis den på en skjerm.
                     </Paragraph>
@@ -115,7 +116,7 @@ export function PublishModalContent({
                             <ExternalIcon />
                         </PrimaryButton>
                     </div>
-                </>
+                </div>
             )
         }
         case 'error':

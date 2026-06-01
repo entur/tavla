@@ -1,7 +1,14 @@
 'use client'
-import { PrimaryButton } from '@entur/button'
+import { IconButton, PrimaryButton } from '@entur/button'
+import { LeftArrowIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
+import {
+    Heading1,
+    Heading2,
+    Heading3,
+    Label,
+    LeadParagraph,
+} from '@entur/typography'
 import { CreateUserButton } from 'app/_components/CreateUserButton'
 import { SettingsForm } from 'app/_components/TableSettings/SettingsForm'
 import { TileList } from 'app/_components/TileList'
@@ -48,6 +55,10 @@ function CreateBoardLocally() {
     const resetPublishedBoard = useCallback(() => {
         setPublishState({ type: 'not-published' })
         setIsModalOpen(false)
+    }, [])
+
+    const resetToChoice = useCallback(() => {
+        setPublishState({ type: 'not-published' })
     }, [])
 
     const handleSettingsSubmit = useCallback(
@@ -124,6 +135,16 @@ function CreateBoardLocally() {
                 }}
                 title={getModalTitle(publishState)}
             >
+                {publishState.type === 'published' && (
+                    <IconButton
+                        aria-label="Tilbake"
+                        onClick={resetToChoice}
+                        className="absolute left-4 top-4 gap-2"
+                    >
+                        <LeftArrowIcon />
+                        <Label as="span">Tilbake</Label>
+                    </IconButton>
+                )}
                 <div className="w-full">
                     <PublishModalContent
                         publishState={publishState}
@@ -140,8 +161,6 @@ function getModalTitle(publishState: PublishBoardState) {
     switch (publishState.type) {
         case 'not-published':
             return 'Ferdig med tavla?'
-        case 'published':
-            return 'Din tavle er klar'
         case 'error':
             return 'Det skjedde en feil'
         default:
