@@ -76,7 +76,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                     className="absolute right-4 top-4 flex flex-row gap-2"
                 >
                     <CloseIcon />
-                    <Label>Lukk</Label>
+                    <Label as="span">Lukk</Label>
                 </IconButton>
 
                 <Page page={pageParam as TLoginPage} />
