@@ -42,7 +42,6 @@ pub struct Metrics {
     pub active_boards: Gauge,
 }
 
-
 #[derive(Serialize, Deserialize, Clone)]
 pub enum BoardType {
     #[serde(rename = "departure")]
