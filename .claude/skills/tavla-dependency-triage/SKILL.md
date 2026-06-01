@@ -37,7 +37,7 @@ Backend (`backend/Cargo.toml`, Rust/Axum) og redirect-tjenesten er egne Cargo-pr
 
 Vakten roterer ukentlig blant de tre utviklerne. Erfaringsnivå varierer — derfor er **forklaring av resonnement** en eksplisitt del av jobben. Det er hvordan teamet bygger kompetanse over tid.
 
-> Hvis du er usikker på noe, spør en teammedlem. Det er ikke en formell prosess — det er hvordan teamet jobber. Tech lead følger med uansett.
+> Hvis du er usikker på noe, spør en annen utvikler på teamet. Det er ikke en formell prosess — det er hvordan teamet jobber.
 
 ## Ukens flyt
 
@@ -175,6 +175,20 @@ Følg `references/sikkerhets-triage.md`. Kort versjon:
 
 Resultatet skrives ut i chatten, enten som del av mandagsbriefens sikkerhetsvarsel-seksjon eller som frittstående svar.
 
+---
+
+## Når en annen utvikler bør se på det
+
+Vakten gjør førstevurdering og foreslår handling. I disse tre tilfellene skal en annen utvikler på teamet se på koden/PR-en før merge:
+
+1. **Oppgraderingen krever kodeendringer hos oss** — ikke bare en versjonsbump.
+2. **Det er en major-oppgradering** (semver-major).
+3. **Du er usikker på noe** — uansett hva.
+
+Dette er ikke en formell prosess. Tagg en annen utvikler i PR-en eller spør på Slack, og gå videre til neste i køen mens du venter. Du må ikke gjøre triagen alene — spør om bistand og sparring fra resten av teamet når som helst.
+
+---
+
 > Dokumentér alltid resonnementet, også for "lav reell risiko". Det er hva en sikkerhetsrevisor og fremtidige team-medlemmer leser. Og hvis noen i teamet er uenig, kan de korrigere — det er slik vi lærer.
 
 ---
@@ -185,7 +199,6 @@ Les bare det som er relevant for situasjonen:
 
 - `references/risikoklassifisering.md` — Hvordan klassifisere risiko per pakke / endring. Les ved tvil om en PR er rutine eller krever full triage.
 - `references/sikkerhets-triage.md` — Detaljert framgangsmåte for CVE-vurdering. Les når en Dependabot security alert dukker opp.
-- `references/eskaleringsregler.md` — Når og hvordan en PR eller alert skal eskaleres til senior. Les ved major bumps, høy/kritisk severity, eller når triagen er flertydig.
 
 ## Læringsprinsipp
 

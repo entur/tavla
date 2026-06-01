@@ -44,7 +44,7 @@ CVSS-skår er en startverdi, ikke en konklusjon. Ofte vil reell risiko være ett
 
 Velg en av tre:
 
-- **Oppgrader nå** — høy eller middels reell risiko. Lag PR snarest, eskaler hvis bumpen er stor.
+- **Oppgrader nå** — høy eller middels reell risiko. Lag PR snarest, og få en annen utvikler til å se på den hvis bumpen er stor eller krever kodeendringer.
 - **Oppgrader når praktisk** — lav reell risiko. Bake inn i neste planlagte runde, ikke haste-PR.
 - **Falsk positiv / ikke relevant** — dokumentér hvorfor i triage-notatet, og dismiss alertet med begrunnelse i GitHub.
 
@@ -54,7 +54,7 @@ Dette er kritisk og kan ikke skippes — selv for "lav reell risiko" og "falsk p
 
 - Sikkerhetsrevisorer og auditører kan be om dette
 - Neste vakt kan trenge å revurdere hvis kontekst endrer seg
-- Senior reviewer kan korrigere deg hvis vurderingen er feil — og det er hvordan teamet blir bedre
+- En annen utvikler kan korrigere deg hvis vurderingen er feil — og det er hvordan teamet blir bedre
 
 Skriv resonnementet i triage-notatet på PR-en, og i `## 🔒 Sikkerhetsvarsler`-seksjonen av mandagsbriefingen.
 
@@ -70,4 +70,4 @@ Skriv resonnementet i triage-notatet på PR-en, og i `## 🔒 Sikkerhetsvarsler`
 >
 > **Anbefaling:** Oppgrader nå. Patch-bump, CI bør være grønt etter merge.
 
-Den korte versjonen — "høy reell risiko, oppgrader nå" — kunne stått alene. Men den lange forklaringen er det som gjør at neste vakt og senior kan etterprøve.
+Den korte versjonen — "høy reell risiko, oppgrader nå" — kunne stått alene. Men den lange forklaringen er det som gjør at neste vakt og andre på teamet kan etterprøve.
