@@ -29,7 +29,7 @@ export async function isFeatureEnabled(flag: string): Promise<boolean> {
 
         const enabled = await posthogClient.isFeatureEnabled(flag, distinctId)
         return enabled ?? false
-    } catch (error) {
+    } catch {
         return false
     }
 }
