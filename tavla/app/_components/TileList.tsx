@@ -50,10 +50,6 @@ function TileList({
                 <TileCard
                     board={board}
                     key={tile.uuid}
-                    bid={board.id}
-                    localStorageBoard={
-                        board.id === LOCAL_STORAGE_BOARD_ID ? board : undefined
-                    }
                     tile={tile}
                     moveItem={debouncedSave}
                     index={index}

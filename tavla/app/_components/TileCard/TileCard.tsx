@@ -33,14 +33,12 @@ function TileCard({
     board,
     tile,
     index,
-    localStorageBoard,
     moveItem,
     setTilesLocalStorageBoard,
 }: {
     board: BoardDB
     tile: BoardTileDB
     index: number
-    localStorageBoard?: BoardDB
     moveItem: (index: number, direction: string) => void
     setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
@@ -176,13 +174,13 @@ function TileCard({
         getTransportModesFromLines(uniqLines).sort(sortByTransportMode)
 
     const saveTileToLocalStorageBoard = (newTile: BoardTileDB) => {
-        if (!localStorageBoard) return null
-        const oldTileIndex = localStorageBoard.tiles.findIndex(
+        if (!isLocalStorageBoard) return null
+        const oldTileIndex = board.tiles.findIndex(
             (tile) => tile.uuid === newTile.uuid,
         )
         if (oldTileIndex === -1) return null
 
-        const updatedTiles = localStorageBoard.tiles.map((existingTile) =>
+        const updatedTiles = board.tiles.map((existingTile) =>
             existingTile.uuid === newTile.uuid ? newTile : existingTile,
         )
 
@@ -190,11 +188,9 @@ function TileCard({
     }
 
     const deleteTileLocalStorageBoard = () => {
-        if (!localStorageBoard) return null
+        if (!isLocalStorageBoard) return null
 
-        const remainingTiles = localStorageBoard.tiles.filter(
-            (t) => t.uuid !== tile.uuid,
-        )
+        const remainingTiles = board.tiles.filter((t) => t.uuid !== tile.uuid)
         if (setTilesLocalStorageBoard) setTilesLocalStorageBoard(remainingTiles)
 
         addToast(`${tile.name} fjernet!`)
