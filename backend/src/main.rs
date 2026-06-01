@@ -58,7 +58,7 @@ struct HeartbeatPayload {
     screen_width: u32,
     screen_height: u32,
     app: Option<String>,
-    board_type: Option<BoardType>,
+    board_type: BoardType,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -69,7 +69,7 @@ pub struct ActiveInfo {
     pub screen_width: u32,
     pub screen_height: u32,
     pub app: Option<String>,
-    pub board_type: Option<BoardType>,
+    pub board_type: BoardType,
 }
 
 #[tokio::main]
