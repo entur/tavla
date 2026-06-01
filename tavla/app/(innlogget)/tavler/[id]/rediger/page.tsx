@@ -39,7 +39,7 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
 export default async function EditPage(props: TProps) {
     const params = await props.params
     const user = await getUserFromSessionCookie()
-    if (!user || !user.uid) return redirect('/')
+    if (!user?.uid) return redirect('/')
 
     const board = await getBoard(params.id)
     if (!board) {

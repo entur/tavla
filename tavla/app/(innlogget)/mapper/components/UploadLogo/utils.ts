@@ -4,7 +4,7 @@ export function getFilename(logoUrl?: string) {
 
     const file = logoUrl.match(regex)
 
-    if (!file || !file[1]) return ''
+    if (!file?.[1]) return ''
 
     return file[1]
 }

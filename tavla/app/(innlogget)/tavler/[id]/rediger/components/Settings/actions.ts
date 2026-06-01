@@ -104,7 +104,8 @@ export async function saveSettings(data: FormData) {
 
         logToGcp(
             'error',
-            `Failed to save settings for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save settings for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: { message: 'Error while saving settings', boardID: bid },

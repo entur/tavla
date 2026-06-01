@@ -3,6 +3,7 @@ import admin, { firestore } from 'firebase-admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { type BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
 import { type FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
+import { logToGcp } from 'utils/logging'
 
 initializeAdminApp()
 
@@ -27,6 +28,11 @@ export async function getBoard(bid: BoardDB['id']) {
         }
         const parsedBoard = BoardDBSchema.safeParse(boardData)
         if (!parsedBoard.success) {
+            logToGcp(
+                'debug',
+                `Board data validation failed: ${parsedBoard.error}`,
+                { bid },
+            )
             Sentry.captureMessage(
                 'Board data validation failed for board ' + bid,
                 {
@@ -40,6 +46,9 @@ export async function getBoard(bid: BoardDB['id']) {
         }
         return parsedBoard.data
     } catch (error) {
+        logToGcp('error', `Fetching board from Firebase failed: ${error}`, {
+            bid,
+        })
         Sentry.captureException(error, {
             level: 'error',
             extra: {
@@ -69,6 +78,11 @@ export async function getFolder(folderid: FolderDB['id']) {
         }
         const parsedFolder = FolderDBSchema.safeParse(folderData)
         if (!parsedFolder.success) {
+            logToGcp(
+                'debug',
+                `Folder data validation failed (${parsedFolder.error})`,
+                { folderId: folderid },
+            )
             Sentry.captureMessage(
                 'Folder data validation failed for OID ' + folderid,
                 {
@@ -82,6 +96,9 @@ export async function getFolder(folderid: FolderDB['id']) {
         }
         return parsedFolder.data
     } catch (error) {
+        logToGcp('error', `Failed to fetch folder from Firebase: ${error}`, {
+            folderId: folderid,
+        })
         Sentry.captureException(error, {
             level: 'error',
             extra: {
@@ -134,6 +151,11 @@ export async function getBoardByCustomUrl(customUrl: string) {
         }
         const parsedBoard = BoardDBSchema.safeParse(boardData)
         if (!parsedBoard.success) {
+            logToGcp(
+                'debug',
+                `Board data validation failed (${parsedBoard.error})`,
+                { bid: boardData.id },
+            )
             Sentry.captureMessage(
                 'Board data validation failed for board ' + boardData.id,
                 {
@@ -147,6 +169,10 @@ export async function getBoardByCustomUrl(customUrl: string) {
         }
         return parsedBoard.data
     } catch (error) {
+        logToGcp(
+            'error',
+            `Failed to fetch board with custom url from Firebase: ${error}`,
+        )
         Sentry.captureException(error, {
             level: 'error',
             extra: {
@@ -248,6 +274,11 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
             if (parsedFolder.success) {
                 return parsedFolder.data
             } else {
+                logToGcp(
+                    'debug',
+                    `Folder data validation failed: ${parsedFolder.error}`,
+                    { bid },
+                )
                 Sentry.captureMessage(
                     'Folder data validation failed for board ' + bid,
                     {
@@ -263,6 +294,10 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
         })
         return folders[0] ?? null
     } catch (error) {
+        logToGcp(
+            'error',
+            `Failed to fetch folder for board from Firebase: ${error}`,
+        )
         Sentry.captureException(error, {
             level: 'error',
             extra: {

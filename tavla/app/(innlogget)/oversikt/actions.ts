@@ -36,7 +36,6 @@ export async function saveBoardToFirebaseForUser(
             extra: {
                 message:
                     'Error while saving board from localStorage to firebase for user',
-                userID: user.uid,
             },
         })
         throw new Error('Failed to save board from localStorage to firebase', {
