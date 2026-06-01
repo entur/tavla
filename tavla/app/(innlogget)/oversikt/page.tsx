@@ -28,7 +28,8 @@ async function FoldersAndBoardsPage() {
 
     const folders = await getFoldersForUser()
     const privateBoards = await getPrivateBoardsForUser(folders)
-    const showArrivalDeparture = await isFeatureEnabled(
+
+    const isArrival = await isFeatureEnabled(
         FeatureFlags.ARRIVAL_DEPARTURE_BOARD,
     )
 
@@ -47,7 +48,7 @@ async function FoldersAndBoardsPage() {
                     <CreateBoard
                         folders={folders}
                         trackingLocation="admin"
-                        showArrivalDeparture={showArrivalDeparture}
+                        showArrivalDeparture={isArrival}
                     />
                     <CreateFolder />
                 </div>
