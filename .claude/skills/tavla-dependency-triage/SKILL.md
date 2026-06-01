@@ -1,5 +1,13 @@
 ---
 name: tavla-dependency-triage
+allowed-tools:
+  - Bash(gh pr list:*)
+  - Bash(gh pr view:*)
+  - Bash(gh api:*)
+  - Bash(grep:*)
+  - Grep
+  - Glob
+  - Read
 description: >
   Triage av Dependabot-PRer, sikkerhetsvarsler og CodeQL-funn for Tavla. Bruk når
   noen på Tavla-teamet er på dependency-vakt og skal vurdere åpne Dependabot-PRer,
@@ -177,6 +185,7 @@ Les bare det som er relevant for situasjonen:
 
 - `references/risikoklassifisering.md` — Hvordan klassifisere risiko per pakke / endring. Les ved tvil om en PR er rutine eller krever full triage.
 - `references/sikkerhets-triage.md` — Detaljert framgangsmåte for CVE-vurdering. Les når en Dependabot security alert dukker opp.
+- `references/eskaleringsregler.md` — Når og hvordan en PR eller alert skal eskaleres til senior. Les ved major bumps, høy/kritisk severity, eller når triagen er flertydig.
 
 ## Læringsprinsipp
 
