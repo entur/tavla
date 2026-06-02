@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/nextjs'
-import { makeBoardCompatible } from 'app/_utils/compatibility'
 import admin, { firestore } from 'firebase-admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { type BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
@@ -37,9 +36,9 @@ export async function getBoard(bid: BoardDB['id']) {
                     },
                 },
             )
-            return makeBoardCompatible(boardData as BoardDB)
+            return boardData as BoardDB
         }
-        return makeBoardCompatible(parsedBoard.data)
+        return parsedBoard.data
     } catch (error) {
         Sentry.captureException(error, {
             level: 'error',
@@ -144,9 +143,9 @@ export async function getBoardByCustomUrl(customUrl: string) {
                     },
                 },
             )
-            return makeBoardCompatible(boardData as BoardDB)
+            return boardData as BoardDB
         }
-        return makeBoardCompatible(parsedBoard.data)
+        return parsedBoard.data
     } catch (error) {
         Sentry.captureException(error, {
             level: 'error',

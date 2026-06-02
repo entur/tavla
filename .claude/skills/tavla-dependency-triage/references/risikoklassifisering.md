@@ -1,6 +1,6 @@
 # Risikoklassifisering
 
-Brukes til å plassere hver Dependabot-PR i en av tre klasser. Klassifiseringen styrer hvor mye tid som brukes på triagen og om senior eskaleres.
+Brukes til å plassere hver Dependabot-PR i en av tre klasser. Klassifiseringen styrer hvor mye tid som brukes på triagen og om en annen utvikler bør se på den.
 
 ## 🟢 Lavt risiko — scan + merge
 
@@ -22,7 +22,7 @@ Krever at vakten faktisk leser changelog og sjekker brukssteder i Tavla-kode.
 
 ## 🔴 Høyt risiko — grundig vurdering
 
-Krever at vakten leser changelog grundig, sjekker brukssteder, og skriver detaljert triage-notat med konkret test-plan. Hvis du står fast eller er usikker — spør en teammedlem.
+Krever at vakten leser changelog grundig, sjekker brukssteder, og skriver detaljert triage-notat med konkret test-plan. Hvis du står fast eller er usikker — spør en annen utvikler på teamet.
 
 - **Alle major version bumps** (semver-major)
 - Sikkerhetsvarsler med severity `high` eller `critical`
