@@ -219,6 +219,7 @@ export type EventMap = {
             | 'arrival'
             | 'line'
             | 'destination'
+            | 'from'
             | 'stop_place'
             | 'platform'
             | 'expected'

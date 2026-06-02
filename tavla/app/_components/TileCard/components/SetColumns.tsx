@@ -75,6 +75,7 @@ function SetColumns({
                         arrivalTime: 'arrival',
                         line: 'line',
                         destination: 'destination',
+                        fromStopPlace: 'from',
                         name: 'stop_place',
                         platform: 'platform',
                         time: 'expected',

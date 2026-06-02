@@ -43,6 +43,7 @@ const tileColumnValues = [
     'name',
     'platform',
     'time',
+    'fromStopPlace',
 ] as const
 
 const tileColumnSchema = z.enum(tileColumnValues)
@@ -137,6 +138,7 @@ export const TileColumns: Record<TileColumnDB, string> = {
     arrivalTime: 'Ankomst',
     line: 'Linje',
     destination: 'Destinasjon',
+    fromStopPlace: 'Fra',
     name: 'Stoppested',
     platform: 'Plattform',
     time: 'Forventet',
