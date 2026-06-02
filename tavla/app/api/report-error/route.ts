@@ -6,7 +6,7 @@ import { z } from 'zod'
 const ALLOWED_ORIGINS = [
     'https://vis-tavla.entur.no',
     'https://vis-tavla.dev.entur.no',
-    'http://localhost:5173',
+    ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:5173'] : []),
 ]
 
 const ErrorCode = z.enum(['display_error', 'unknown'])
