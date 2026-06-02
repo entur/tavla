@@ -29,6 +29,7 @@ async function fetchWithTimeout(
     } catch (error) {
         clearTimeout(timeoutScheduler)
         if (signal.aborted) {
+            logToGcp('error', `Departure fetch timed out: ${url} ${options}`)
             Sentry.captureException(new Error('Departure fetch timed out'), {
                 extra: {
                     url: url,
@@ -37,6 +38,7 @@ async function fetchWithTimeout(
             })
             throw new Error(FetchErrorTypes.TIMEOUT, { cause: error })
         }
+        logToGcp('error', `Unknown error occured during fetch: ${error}`)
         Sentry.captureException(error, {
             extra: {
                 message: 'Unknown error occured during fetch',
@@ -93,6 +95,10 @@ export async function fetcher<Data, Variables>([
     }
 
     if (res.data === null || res.data === undefined) {
+        logToGcp(
+            'warning',
+            `GraphQL returned null/undefined data: query: ${query}, response: ${res}`,
+        )
         Sentry.captureMessage('GraphQL returned null/undefined data', {
             level: 'warning',
             extra: {

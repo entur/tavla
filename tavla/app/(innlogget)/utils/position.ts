@@ -5,7 +5,7 @@ import type { GeoCoordinate, StopPlace } from './fetch'
 export async function getCurrentPosition(
     options?: PositionOptions,
 ): Promise<GeolocationPosition> {
-    if (!navigator || !navigator.geolocation) {
+    if (!navigator?.geolocation) {
         throw new Error('navigator.geolocation is not defined')
     }
 

@@ -51,12 +51,12 @@ export async function createBoardAction(
         logToGcp(
             'error',
             `Failed to create board: ${error instanceof Error ? error.message : String(error)}`,
+            { folderId: folderid },
         )
         Sentry.captureException(error, {
             extra: {
                 message:
                     'Error while adding newly created board to either user or folder',
-                userID: user.uid,
                 folderID: folderid,
             },
         })

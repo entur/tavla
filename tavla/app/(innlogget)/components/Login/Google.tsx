@@ -16,6 +16,7 @@ import {
 import Image from 'next/image'
 import { useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
+import { logToGcp } from 'utils/logging'
 import { create, login } from './actions'
 
 type Props = {
@@ -62,6 +63,10 @@ export default function Google({
                     'Endre denne innstillingen i nettleseren din for å logge på med Google.',
                 ])
             } else {
+                logToGcp(
+                    'error',
+                    `Error while creating new user with Google sign in`,
+                )
                 Sentry.captureException(error, {
                     extra: {
                         message:

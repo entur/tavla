@@ -121,7 +121,7 @@ async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
     } catch (error) {
         logToGcp(
             'error',
-            `Failed to submit contact form: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to submit contact form: ${error instanceof Error ? error.message : String(error)} (form message: ${message})`,
         )
         Sentry.captureException(error, {
             extra: {

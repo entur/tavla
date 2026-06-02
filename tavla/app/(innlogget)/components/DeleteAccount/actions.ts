@@ -17,7 +17,7 @@ import { logout } from '../Login/actions'
 
 export async function deleteAccount(data: FormData) {
     const user = await getUserFromSessionCookie()
-    if (!user || !user.uid) {
+    if (!user?.uid) {
         return getFormFeedbackForError('auth/operation-not-allowed')
     }
     logToGcp('info', 'action:deleteAccount invoked')
@@ -42,7 +42,6 @@ export async function deleteAccount(data: FormData) {
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while deleting user account',
-                userID: user.uid,
             },
         })
         return getFormFeedbackForError('firebase/general')

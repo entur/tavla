@@ -5,7 +5,7 @@ export function sortLineByPublicCode(
     a: LineWithFrontText,
     b: LineWithFrontText,
 ) {
-    if (!a || !a.publicCode || !b || !b.publicCode) return 1
+    if (!a?.publicCode || !b?.publicCode) return 1
 
     const containsLetters = /[a-zæøåA-ZÆØÅ]/
     const aContainsLetters = containsLetters.test(a.publicCode)

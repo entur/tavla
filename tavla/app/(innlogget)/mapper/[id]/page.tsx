@@ -27,7 +27,7 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
     const { id } = params
     const folder = await getFolder(id)
 
-    if (!folder || !folder.id) {
+    if (!folder?.id) {
         return notFound()
     }
     return {
@@ -56,11 +56,11 @@ async function getAuthenticatedUsers(
 
 async function FolderPage(props: TProps) {
     const user = await getUserFromSessionCookie()
-    if (!user || !user.uid) return redirect('/')
+    if (!user?.uid) return redirect('/')
 
     const params = await props.params
     const folder = await getFolder(params.id)
-    if (!folder || !folder.id) {
+    if (!folder?.id) {
         return notFound()
     }
     const boardsInFolder = await getBoardsForFolder(folder.id)

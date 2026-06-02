@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const user = await getUserFromSessionCookie()
     const response = new Response()
     response.headers.set('Content-Type', 'application/json')
-    if (!user || !user.uid) {
+    if (!user?.uid) {
         logToGcp('warning', 'POST /api/upload: status=401 reason=invalid-token')
         return new Response(JSON.stringify({ error: 'Invalid token' }), {
             status: 401,

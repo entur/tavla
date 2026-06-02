@@ -15,7 +15,6 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { addOwnerToFolder } from 'src/firebase'
 import { logToGcp } from 'src/utils/logging'
-import { getUserFromSessionCookie } from '../../../utils/server'
 
 export async function removeUserAction(
     _prevState: TFormFeedback | undefined,
@@ -41,7 +40,6 @@ export async function removeUserAction(
             extra: {
                 message: 'Error while removing user from folder',
                 folderID: folderId,
-                userID: uid,
             },
         })
         return handleError(error)
@@ -80,8 +78,6 @@ export async function inviteUserAction(
         await addOwnerToFolder(folderid, invitee.uid)
         revalidatePath('/')
     } catch (error) {
-        const user = await getUserFromSessionCookie()
-
         logToGcp(
             'error',
             `Failed to invite user to folder: ${error instanceof Error ? error.message : String(error)}`,
@@ -93,7 +89,6 @@ export async function inviteUserAction(
             extra: {
                 message: 'Error while inviting user to folder',
                 folderID: folderid,
-                inviteeID: invitee.uid,
             },
         })
         return handleError(error)

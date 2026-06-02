@@ -55,7 +55,6 @@ export async function create(uid: UserDB['uid']) {
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while creating new user',
-                userID: uid,
             },
         })
         throw error

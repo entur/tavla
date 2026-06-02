@@ -48,7 +48,8 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
     } catch (error) {
         logToGcp(
             'error',
-            `Failed to save tile to board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save tile to board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureMessage(
             'Failed to save tile to board in firestore. BoardID: ' + bid,
@@ -97,7 +98,8 @@ export async function saveUpdatedTileOrder(
     } catch (error) {
         logToGcp(
             'error',
-            `Failed to save tile order for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save tile order for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
@@ -141,7 +143,8 @@ export async function saveCustomUrl(
     } catch (error) {
         logToGcp(
             'error',
-            `Failed to save custom URL for board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to save custom URL for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureException(error, {
             extra: {
