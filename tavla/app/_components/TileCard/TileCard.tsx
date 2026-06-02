@@ -17,7 +17,7 @@ import {
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
 import { startTransition, useActionState, useState } from 'react'
-import type { BoardDB, BoardTileDB, TileColumnDB } from 'types/db-types/boards'
+import type { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
 import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
@@ -28,6 +28,7 @@ import { SetVisibleLines } from './components/SetVisibleLines'
 import { TileArrows } from './components/TileArrows'
 import { TileContext } from './context'
 import { useLines } from './useLines'
+import { parseTileFormData } from './utils'
 
 function TileCard({
     board,
@@ -69,22 +70,11 @@ function TileCard({
         _prevState: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        let columns = data.getAll('columns') as TileColumnDB[]
-        data.delete('columns')
-        const count = data.get('count') as number | null
-        data.delete('count')
-        const offset = data.get('offset') as number | null
-        data.delete('offset')
-        const displayName = data.get('displayName') as string
-        data.delete('displayName')
+        const { columns, count, offset, displayName, quayLineKeys } =
+            parseTileFormData(data)
 
         if (isOnlyWhiteSpace(displayName)) {
             return getFormFeedbackForError('board/tiles-name-missing')
-        }
-
-        const quayLineKeys: string[] = []
-        for (const value of data.values()) {
-            quayLineKeys.push(value as string)
         }
 
         if (quayLineKeys.length === 0 && count !== null && count > 0) {
@@ -106,13 +96,12 @@ function TileCard({
                   }))
                   .filter((q) => q.whitelistedLines.length > 0)
 
-        if (isCombinedTiles) {
-            columns = tile.columns ?? DEFAULT_COLUMNS
-        }
-
         const newTile: BoardTileDB = {
             ...tile,
-            columns,
+            // TODO: må defaultkolonnene settes i denne filen?
+            columns: isCombinedTiles
+                ? (tile.columns ?? DEFAULT_COLUMNS)
+                : columns,
             quays: newQuays,
             ...(location && {
                 walkingDistance: {
