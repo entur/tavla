@@ -13,15 +13,9 @@ type CreateBoardProps = {
     trackingLocation: EventProps<'board_create_started'>['location']
     folder?: FolderDB
     folders?: Folder[]
-    showArrivalDeparture: boolean
 }
 
-function CreateBoard({
-    folders,
-    folder,
-    trackingLocation,
-    showArrivalDeparture,
-}: CreateBoardProps) {
+function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
     const [isOpen, setIsOpen] = useState(false)
     const posthog = usePosthogTracking()
 
@@ -66,7 +60,6 @@ function CreateBoard({
                 <NameAndFolderSelector
                     folders={folders}
                     folder={folder}
-                    showArrivalDeparture={showArrivalDeparture}
                     onClose={() => {
                         posthog.capture('board_create_cancelled', {
                             method: 'cancel_button',

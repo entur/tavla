@@ -9,10 +9,12 @@ import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import { useFolderDropdown } from 'app/(innlogget)/hooks/useFolders'
 import { getFormFeedbackForField } from 'app/(innlogget)/utils/forms'
 import type { Folder } from 'app/(innlogget)/utils/types'
+import { FeatureFlags } from 'app/posthog/featureFlags'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import rabbits from 'assets/illustrations/Rabbits.png'
 import { isNull } from 'lodash'
 import Image from 'next/image'
+import { useFeatureFlagEnabled } from 'posthog-js/react'
 import { useActionState, useState } from 'react'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { createBoardAction } from './actions'
@@ -21,23 +23,25 @@ type NameAndFolderSelectorProps = {
     folder?: FolderDB
     folders?: Folder[]
     onClose: () => void
-    showArrivalDeparture: boolean
 }
 
 type ArrivalDepartureValue = 'departures' | 'arrivals'
 const DEFAULT_ARRIVAL_DEPARTURE: NormalizedDropdownItemType<ArrivalDepartureValue> =
-    { value: 'departures', label: 'Avgang' }
+    { value: 'departures', label: 'Avganger' }
 const arrivalDepartureItems: NormalizedDropdownItemType<ArrivalDepartureValue>[] =
-    [DEFAULT_ARRIVAL_DEPARTURE, { value: 'arrivals', label: 'Ankomst' }]
+    [DEFAULT_ARRIVAL_DEPARTURE, { value: 'arrivals', label: 'Ankomster' }]
 
 function NameAndFolderSelector({
     folder,
     folders,
     onClose,
-    showArrivalDeparture,
 }: NameAndFolderSelectorProps) {
     const [state, action] = useActionState(createBoardAction, undefined)
     const posthog = usePosthogTracking()
+    const isArrivalDepartureFeatureFlagEnabled = useFeatureFlagEnabled(
+        FeatureFlags.ARRIVAL_DEPARTURE_BOARD,
+    )
+
     const [selectedArrivalDeparture, setSelectedArrivalDeparture] = useState<
         NormalizedDropdownItemType<ArrivalDepartureValue>
     >(DEFAULT_ARRIVAL_DEPARTURE)
@@ -90,7 +94,7 @@ function NameAndFolderSelector({
                 </div>
             )}
 
-            {showArrivalDeparture && (
+            {isArrivalDepartureFeatureFlagEnabled && (
                 <div className="mt-4">
                     <Label>Hva vil du vise?</Label>
                     <Dropdown

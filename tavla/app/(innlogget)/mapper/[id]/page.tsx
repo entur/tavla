@@ -8,8 +8,6 @@ import { BoardTable } from 'app/(innlogget)/oversikt/components/BoardTable'
 import EmptyOverview from 'app/(innlogget)/oversikt/components/EmptyOverview'
 import { BreadcrumbsNav } from 'app/(innlogget)/tavler/[id]/BreadcrumbsNav'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { FeatureFlags } from 'app/posthog/featureFlags'
-import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import { auth } from 'firebase-admin'
 import type { UserIdentifier } from 'firebase-admin/auth'
 import type { Metadata } from 'next'
@@ -71,10 +69,6 @@ async function FolderPage(props: TProps) {
 
     const members: AuthenticatedUser[] = await getAuthenticatedUsers(owners)
 
-    const isArrival = await isFeatureEnabled(
-        FeatureFlags.ARRIVAL_DEPARTURE_BOARD,
-    )
-
     return (
         <main id="main-content" className="container flex flex-col gap-4 pb-20">
             <BreadcrumbsNav type="folder" folder={folder} />
@@ -84,11 +78,7 @@ async function FolderPage(props: TProps) {
                     {folder.name}
                 </Heading1>
                 <ButtonGroup>
-                    <CreateBoard
-                        folder={folder}
-                        trackingLocation="folder"
-                        showArrivalDeparture={isArrival}
-                    />
+                    <CreateBoard folder={folder} trackingLocation="folder" />
                     <UploadLogo folder={folder} />
                     <MemberAdministration
                         folder={folder}
