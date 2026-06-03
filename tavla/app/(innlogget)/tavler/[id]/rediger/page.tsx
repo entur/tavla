@@ -53,7 +53,7 @@ export default async function EditPage(props: TProps) {
     async function addTilesAction(data: FormData) {
         'use server'
 
-        const tiles = formDataToTiles(data)
+        const tiles = formDataToTiles(data, board?.isCombinedTiles)
         if (tiles.length === 0) return
 
         const tilesWithDistance = await Promise.all(

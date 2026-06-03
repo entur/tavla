@@ -15,7 +15,7 @@ import type {
 } from 'types/db-types/boards'
 import { logToGcp } from 'utils/logging'
 
-export const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
+const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
 
 export type TypeOfPlace =
     | 'stop_place'
@@ -23,7 +23,7 @@ export type TypeOfPlace =
     | 'other'
     | 'current_position'
 
-export const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
+const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
     'line',
     'destination',
     'name',
@@ -34,7 +34,10 @@ export const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
 export const getDefaultColumns = (isCombined: boolean) =>
     isCombined ? DEFAULT_COMBINED_COLUMNS : DEFAULT_COLUMNS
 
-export function formDataToTiles(data: FormData): BoardTileDB[] {
+export function formDataToTiles(
+    data: FormData,
+    isCombined: boolean,
+): BoardTileDB[] {
     const closestStopPlacesJson = data.get('closest_stop_places') as string
     if (!closestStopPlacesJson) return []
 
@@ -49,7 +52,7 @@ export function formDataToTiles(data: FormData): BoardTileDB[] {
         quays: [],
         name: sp.name,
         uuid: nanoid(),
-        columns: DEFAULT_COLUMNS,
+        columns: getDefaultColumns(isCombined),
         county: sp.county || undefined,
     }))
 }

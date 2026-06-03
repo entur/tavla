@@ -2,7 +2,6 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
-import { DEFAULT_COLUMNS } from 'app/_components/TileSelector/utils'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
@@ -77,7 +76,7 @@ function TileCard({
         _prevState: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        let columns = data.getAll('columns') as TileColumnDB[]
+        const columns = data.getAll('columns') as TileColumnDB[]
         data.delete('columns')
         const count = data.get('count') as number | null
         data.delete('count')
@@ -113,10 +112,6 @@ function TileCard({
                           .map((l) => l.id),
                   }))
                   .filter((q) => q.whitelistedLines.length > 0)
-
-        if (isCombined) {
-            columns = tile.columns ?? DEFAULT_COLUMNS
-        }
 
         const newTile: BoardTileDB = {
             ...tile,

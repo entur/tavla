@@ -3,7 +3,6 @@ import { FilterChip } from '@entur/chip'
 import { QuestionFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4, SubParagraph } from '@entur/typography'
-import { DEFAULT_COMBINED_COLUMNS } from 'app/_components/TileSelector/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { isArray } from 'lodash'
@@ -63,10 +62,6 @@ function SetColumns({
             />
             <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
                 {typedEntries(TileColumns).map(([key, value]) => {
-                    const columns = isCombined
-                        ? DEFAULT_COMBINED_COLUMNS
-                        : tile.columns
-
                     const columnValue: Record<
                         keyof typeof TileColumns,
                         EventProps<'stop_place_edit_interaction'>['column_value']
@@ -87,7 +82,8 @@ function SetColumns({
                             value={key}
                             disabled={isCombined}
                             defaultChecked={
-                                isArray(columns) && columns.includes(key)
+                                isArray(tile.columns) &&
+                                tile.columns.includes(key)
                             }
                             onChange={(e) => {
                                 onFieldChanged('columns')

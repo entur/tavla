@@ -97,7 +97,10 @@ function CreateBoardLocally() {
                 <div className="flex flex-col gap-4">
                     <TileSelector
                         action={async (data: FormData) => {
-                            const tiles = formDataToTiles(data)
+                            const tiles = formDataToTiles(
+                                data,
+                                board.isCombinedTiles,
+                            )
                             setTiles([...board.tiles, ...tiles])
                             resetPublishedBoard()
                         }}
