@@ -5,7 +5,7 @@ import {
 } from 'firebase-functions/v2/scheduler'
 import { secretParams } from './config/secretParams'
 
-const getDefaultOptions = () => {
+export const getDefaultOptions = () => {
     return {
         region: 'europe-west1' as const,
         secrets: secretParams.map((secret) => secret.name),
