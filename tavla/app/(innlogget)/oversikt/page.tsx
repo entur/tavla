@@ -6,7 +6,6 @@ import {
 } from 'app/(innlogget)/actions'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard/CreateBoard'
