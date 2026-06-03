@@ -21,12 +21,6 @@ function useStopPlaceSearch(countyIds?: string[]) {
     const chooseStopPlace = (
         stopPlace: NormalizedDropdownItemType<StopPlace> | null,
     ) => {
-        if (stopPlace) {
-            posthog.capture('EDIT_STOP_PLACE_SEARCH', {
-                counties: countyIds && countyIds.length > 0,
-                count: count.current,
-            })
-        }
         setSelectedStopPlace(stopPlace)
         count.current = 0
     }
