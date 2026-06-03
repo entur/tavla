@@ -2,7 +2,7 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
-import { DEFAULT_COLUMNS } from 'app/_components/TileSelector/utils'
+import { getDefaultColumns } from 'app/_components/TileSelector/utils'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
@@ -49,6 +49,7 @@ function TileCard({
     const bid = board.id
     const location = board.meta.location
     const isCombinedTiles = board.isCombinedTiles
+    const isArrival = board.arrivalDeparture === 'arrivals'
 
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
@@ -98,9 +99,10 @@ function TileCard({
 
         const newTile: BoardTileDB = {
             ...tile,
-            // TODO: må defaultkolonnene settes i denne filen?
             columns: isCombinedTiles
-                ? (tile.columns ?? DEFAULT_COLUMNS)
+                ? // TODO: for combinedTiles vil aldri disse ha noe å si sånn som tavla-visning er nå.
+                  // burde heller forhindre endring av columns når vi har kombinerte tiles, også unngår vi heller å gjøre endring dersom isCombinedTiles er true
+                  getDefaultColumns(true, isArrival)
                 : columns,
             quays: newQuays,
             ...(location && {

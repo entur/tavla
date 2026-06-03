@@ -102,6 +102,7 @@ const transportPaletteSchema = z.enum([
     'fram',
     'reis',
 ])
+export const arrivalDepartureBoardSchema = z.enum(['departures', 'arrivals'])
 
 export const BoardDBSchema = z.object({
     id: z.string(),
@@ -115,6 +116,7 @@ export const BoardDBSchema = z.object({
     hideClock: z.boolean().optional(),
     customUrl: z.string().optional(),
     isAnonymousBoard: z.boolean().optional(),
+    arrivalDeparture: arrivalDepartureBoardSchema.optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>

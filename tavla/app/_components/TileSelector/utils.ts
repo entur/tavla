@@ -31,7 +31,7 @@ export type TypeOfPlace =
 export const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
     'line',
     'destination',
-    'name',
+    'name', // TODO: denne burde hete noe annet enn name, fordi det er vel stoppestedsnavn
     'platform',
     'time',
 ]
@@ -42,14 +42,14 @@ export const DEFAULT_ARRIVAL_COMBINED_COLUMNS: TileColumnDB[] = [
     'time',
 ]
 
-export const getDefaultColumns = (isCombined: boolean, isDeparture: boolean) =>
+export const getDefaultColumns = (isCombined: boolean, isArrival: boolean) =>
     isCombined
-        ? isDeparture
-            ? DEFAULT_COMBINED_COLUMNS
-            : DEFAULT_ARRIVAL_COMBINED_COLUMNS
-        : isDeparture
-          ? DEFAULT_COLUMNS
-          : DEFAULT_ARRIVAL_COLUMNS
+        ? isArrival
+            ? DEFAULT_ARRIVAL_COMBINED_COLUMNS
+            : DEFAULT_COMBINED_COLUMNS
+        : isArrival
+          ? DEFAULT_ARRIVAL_COLUMNS
+          : DEFAULT_COLUMNS
 
 export function formDataToTiles(data: FormData): BoardTileDB[] {
     const closestStopPlacesJson = data.get('closest_stop_places') as string

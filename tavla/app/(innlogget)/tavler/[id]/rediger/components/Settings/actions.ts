@@ -1,5 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
+import { getDefaultColumns } from 'app/_components/TileSelector/utils'
 import { getWalkingDistanceTile } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import {
     isEmptyOrSpaces,
@@ -74,7 +75,18 @@ export async function saveSettings(data: FormData) {
     try {
         await userHasAccessToEditBoard(board.id ?? '')
 
-        const tiles = await getTilesWithDistance(board, location)
+        const isCombinedTiles = viewType === 'combined'
+        const isArrival = board.arrivalDeparture === 'arrivals'
+
+        const viewTypeChanged = isCombinedTiles !== board.isCombinedTiles
+        const tiles = (await getTilesWithDistance(board, location)).map(
+            (tile) => ({
+                ...tile,
+                ...(viewTypeChanged && {
+                    columns: getDefaultColumns(isCombinedTiles, isArrival),
+                }),
+            }),
+        )
 
         const footerContainsText =
             infoMessage &&
@@ -86,7 +98,7 @@ export async function saveSettings(data: FormData) {
             'meta.fontSize': font,
             'meta.location': location ?? FieldValue.delete(),
             theme: theme ?? 'dark',
-            isCombinedTiles: viewType !== 'separate',
+            isCombinedTiles,
             footer: footerContainsText
                 ? { footer: infoMessage }
                 : FieldValue.delete(),
@@ -115,14 +127,20 @@ export async function saveSettings(data: FormData) {
 }
 
 async function getTilesWithDistance(board: BoardDB, location?: LocationDB) {
+    if (location === undefined) {
+        return board.tiles.map((tile) => {
+            delete tile.walkingDistance
+            return tile
+        })
+    }
+
+    const existing = board.meta.location
+    const locationUnchanged =
+        existing?.coordinate?.lat === location.coordinate?.lat &&
+        existing?.coordinate?.lng === location.coordinate?.lng
+    if (locationUnchanged) return board.tiles
+
     return await Promise.all(
-        board.tiles.map(async (tile) => {
-            if (location === undefined) {
-                delete tile.walkingDistance
-                return tile
-            } else {
-                return await getWalkingDistanceTile(tile, location)
-            }
-        }),
+        board.tiles.map((tile) => getWalkingDistanceTile(tile, location)),
     )
 }
