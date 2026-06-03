@@ -16,12 +16,7 @@ import {
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
 import { startTransition, useActionState, useState } from 'react'
-import type {
-    BoardDB,
-    BoardTileDB,
-    LocationDB,
-    TileColumnDB,
-} from 'types/db-types/boards'
+import type { BoardDB, BoardTileDB, TileColumnDB } from 'types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
 import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
@@ -33,35 +28,29 @@ import { TileArrows } from './components/TileArrows'
 import { TileContext } from './context'
 import { useLines } from './useLines'
 
-function TileCard({
-    bid,
+export function TileCard({
+    board,
     tile,
     index,
-    address,
-    localStorageBoard,
-    totalTiles,
-    isCombined,
     moveItem,
     setTilesLocalStorageBoard,
 }: {
-    bid: BoardDB['id']
+    board: BoardDB
     tile: BoardTileDB
     index: number
-    address?: LocationDB
-    localStorageBoard?: BoardDB
-    totalTiles: number
-    isCombined: boolean
     moveItem: (index: number, direction: string) => void
     setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const posthog = usePosthogTracking()
+
+    const totalTiles = board.tiles.length
 
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
 
-    const isLocalStorageBoard = bid === LOCAL_STORAGE_BOARD_ID
+    const isLocalStorageBoard = board.id === LOCAL_STORAGE_BOARD_ID
     const trackingLocation = isLocalStorageBoard
         ? 'board_without_user'
         : 'board_page'
@@ -117,7 +106,7 @@ function TileCard({
             ...tile,
             columns,
             quays: newQuays,
-            ...(address && {
+            ...(board.meta.location && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
                 },
@@ -130,7 +119,7 @@ function TileCard({
             if (isLocalStorageBoard) {
                 saveTileToLocalStorageBoard(newTile)
             } else {
-                await saveTile(bid, newTile)
+                await saveTile(board.id, newTile)
             }
             reset()
         } catch {
@@ -177,13 +166,13 @@ function TileCard({
         getTransportModesFromLines(uniqLines).sort(sortByTransportMode)
 
     const saveTileToLocalStorageBoard = (newTile: BoardTileDB) => {
-        if (!localStorageBoard) return null
-        const oldTileIndex = localStorageBoard.tiles.findIndex(
+        if (!isLocalStorageBoard) return null
+        const oldTileIndex = board.tiles.findIndex(
             (tile) => tile.uuid === newTile.uuid,
         )
         if (oldTileIndex === -1) return null
 
-        const updatedTiles = localStorageBoard.tiles.map((existingTile) =>
+        const updatedTiles = board.tiles.map((existingTile) =>
             existingTile.uuid === newTile.uuid ? newTile : existingTile,
         )
 
@@ -191,11 +180,9 @@ function TileCard({
     }
 
     const deleteTileLocalStorageBoard = () => {
-        if (!localStorageBoard) return null
+        if (!isLocalStorageBoard) return null
 
-        const remainingTiles = localStorageBoard.tiles.filter(
-            (t) => t.uuid !== tile.uuid,
-        )
+        const remainingTiles = board.tiles.filter((t) => t.uuid !== tile.uuid)
         if (setTilesLocalStorageBoard) setTilesLocalStorageBoard(remainingTiles)
 
         addToast(`${tile.name} fjernet!`)
@@ -213,7 +200,7 @@ function TileCard({
         if (isLocalStorageBoard) {
             deleteTileLocalStorageBoard()
         } else {
-            deleteTile(bid, tile).then(() => {
+            deleteTile(board.id, tile).then(() => {
                 addToast(`${tile.name} fjernet!`)
             })
         }
@@ -287,12 +274,12 @@ function TileCard({
                                 onFieldChanged={onFieldChanged}
                             />
                             <SetOffsetDepartureTime
-                                address={address}
+                                address={board.meta.location}
                                 trackingLocation={trackingLocation}
                                 onFieldChanged={onFieldChanged}
                             />
                             <SetColumns
-                                isCombined={isCombined}
+                                isCombined={board.isCombinedTiles}
                                 trackingLocation={trackingLocation}
                                 onFieldChanged={onFieldChanged}
                             />
@@ -330,5 +317,3 @@ function TileCard({
         </div>
     )
 }
-
-export { TileCard }
