@@ -60,7 +60,7 @@ export default async function EditPage(props: TProps) {
             tiles
                 .filter((tile) => tile.stopPlaceId)
                 .map(async (tile) => {
-                    const tileWithDistance = board?.meta.location
+                    return board?.meta.location
                         ? await getWalkingDistanceTile(
                               tile,
                               board.meta.location,
@@ -69,7 +69,6 @@ export default async function EditPage(props: TProps) {
                               delete tile.walkingDistance
                               return tile
                           })()
-                    return tileWithDistance
                 }),
         )
         await addTiles(params.id, tilesWithDistance)
