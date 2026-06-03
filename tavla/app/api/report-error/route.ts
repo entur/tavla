@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { logToGcp } from 'src/utils/logging'
 import rateLimit from 'src/utils/rateLimit'
+import { clientIp } from 'utils/clientIp'
 import { z } from 'zod'
 
 const ALLOWED_ORIGINS = [
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { boardId, errorCode } = parsed.data
-    const ip = req.headers.get('x-forwarded-for') ?? 'unknown'
+    const ip = clientIp(req)
 
     try {
         await ipLimiter.check(new Response(), 100, ip)
