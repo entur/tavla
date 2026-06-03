@@ -64,7 +64,6 @@ export async function POST(req: NextRequest) {
         await ipLimiter.check(new Response(), 100, ip)
         await boardLimiter.check(new Response(), 5, boardId)
     } catch {
-        logToGcp('warning', `POST /api/report-error: status=429 bid=${boardId}`)
         return NextResponse.json(
             { error: 'rate limited' },
             { status: 429, headers },
