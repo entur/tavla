@@ -19,6 +19,7 @@ type LogExtra = {
     status?: number
     path?: string
     errorCode?: string
+    userAgent?: string
 }
 
 type LogType = 'server-action' | 'http' | 'graphql' | 'tavla-visning'
@@ -111,6 +112,7 @@ export async function logToGcp(
               status: extra?.status,
               path: sanitizeForLog(extra?.path),
               errorCode: sanitizeForLog(extra?.errorCode),
+              userAgent: sanitizeForLog(extra?.userAgent),
           }
         : undefined
 

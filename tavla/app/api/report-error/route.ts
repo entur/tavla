@@ -47,6 +47,8 @@ export async function POST(req: NextRequest) {
         )
     }
 
+    const userAgent = req.headers.get('User-Agent') ?? 'unknown User-Agent'
+
     const body = await req.json().catch(() => null)
     const parsed = ReportSchema.safeParse(body)
 
@@ -73,7 +75,7 @@ export async function POST(req: NextRequest) {
     await logToGcp(
         'error',
         `[tavla-visning] ${errorCode} reported from ${boardId}`,
-        { bid: boardId, errorCode: errorCode },
+        { bid: boardId, errorCode: errorCode, userAgent: userAgent },
     )
 
     return NextResponse.json({ ok: true }, { headers })
