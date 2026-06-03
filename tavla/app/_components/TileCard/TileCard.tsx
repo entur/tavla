@@ -2,6 +2,7 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
+import { getDefaultColumns } from 'app/_components/TileSelector/utils'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
@@ -27,6 +28,7 @@ import { SetVisibleLines } from './components/SetVisibleLines'
 import { TileArrows } from './components/TileArrows'
 import { TileContext } from './context'
 import { useLines } from './useLines'
+import { parseTileFormData } from './utils'
 
 export function TileCard({
     board,
@@ -65,22 +67,19 @@ export function TileCard({
         _prevState: TFormFeedback | undefined,
         data: FormData,
     ) => {
-        const columns = data.getAll('columns') as TileColumnDB[]
-        data.delete('columns')
-        const count = data.get('count') as number | null
-        data.delete('count')
-        const offset = data.get('offset') as number | null
-        data.delete('offset')
-        const displayName = data.get('displayName') as string
-        data.delete('displayName')
+        const {
+            columns: parsedColumns,
+            count,
+            offset,
+            displayName,
+            quayLineKeys,
+        } = parseTileFormData(data)
+        const columns = board.isCombinedTiles
+            ? getDefaultColumns(board.isCombinedTiles)
+            : parsedColumns
 
         if (isOnlyWhiteSpace(displayName)) {
             return getFormFeedbackForError('board/tiles-name-missing')
-        }
-
-        const quayLineKeys: string[] = []
-        for (const value of data.values()) {
-            quayLineKeys.push(value as string)
         }
 
         if (quayLineKeys.length === 0 && count !== null && count > 0) {
