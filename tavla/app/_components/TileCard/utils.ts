@@ -1,38 +1,4 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
-import type { LineWithFrontText } from './types'
-
-export function sortLineByPublicCode(
-    a: LineWithFrontText,
-    b: LineWithFrontText,
-) {
-    if (!a?.publicCode || !b?.publicCode) return 1
-
-    const containsLetters = /[a-zæøåA-ZÆØÅ]/
-    const aContainsLetters = containsLetters.test(a.publicCode)
-    const bContainsLetters = containsLetters.test(b.publicCode)
-
-    if (aContainsLetters && !bContainsLetters) return 1
-    else if (!aContainsLetters && bContainsLetters) return -1
-
-    return a.publicCode.localeCompare(b.publicCode, 'no-NB', {
-        numeric: true,
-    })
-}
-
-export function sortPublicCodes(a: string, b: string) {
-    if (!a || !b) return 1
-
-    const containsLetters = /[a-zæøåA-ZÆØÅ]/
-    const aContainsLetters = containsLetters.test(a)
-    const bContainsLetters = containsLetters.test(b)
-
-    if (aContainsLetters && !bContainsLetters) return 1
-    else if (!aContainsLetters && bContainsLetters) return -1
-
-    return a.localeCompare(b, 'no-NB', {
-        numeric: true,
-    })
-}
 
 export function transportModeNames(
     transportMode: TTransportMode | null | undefined,
