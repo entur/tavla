@@ -17,6 +17,8 @@ const ReportSchema = z.object({
     errorCode: ErrorCode,
 })
 
+//Limits live in the memory of the pods. These are not hard limits, but work as per-instance LRU limiters.
+//Good to keep in mind as it can be abused to spam logs, but the risk is low.
 const ipLimiter = rateLimit({ maxUniqueTokens: 500, interval: 60000 })
 const boardLimiter = rateLimit({ maxUniqueTokens: 2000, interval: 60000 })
 
