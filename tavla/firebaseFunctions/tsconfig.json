@@ -1,9 +1,11 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "moduleResolution": "node",
+        "moduleResolution": "node10",
+        "ignoreDeprecations": "6.0",
         "lib": ["es2021"],
         "noImplicitReturns": true,
+        "rootDir": "src",
         "outDir": "dist",
         "sourceMap": true,
         "strict": true,

@@ -25,7 +25,6 @@
         "source": "firebaseFunctions",
         "runtime": "nodejs22",
         "predeploy": "yarn workspace @utils/firebase-functions build",
-        "postdeploy": "gcloud functions call postUsageMetricsHttp --gen2 --region=europe-west1",
         "region": "europe-west1",
         "isolate": true
     }

@@ -43,6 +43,9 @@ async function runUsageMetrics(): Promise<void> {
                 console.error(
                     `Failed to get placeId. Board with no stops added?`,
                 )
+                console.error(
+                    `Board ${client.bid} has no placeId ${placeId} and doesn't follow expected NSR:StopPlace: or NSR:Quay: format for boardId, skipping...`,
+                )
                 failed++
                 continue
             }
@@ -68,7 +71,7 @@ async function runUsageMetrics(): Promise<void> {
         }
 
         if(!county) {
-            const response = await details.json()
+            const response = await details.json() as any
 
             const centroid = response['centroid']
             let lat = centroid['latitude']
@@ -96,7 +99,7 @@ async function runUsageMetrics(): Promise<void> {
                         'ET-Client-Name': 'tavla-board-stats',
                     },
                 },
-            ).then((res) => res.json())
+            ).then((res) => res.json()) as any
 
             county = geocoderResponse['features'][0]['properties']['county']
         }
@@ -123,7 +126,7 @@ Fordelt på fylker 👇`
         message += `\n${palette}: ${count}`
     }
 
-    fetch(`${SLACK_WEBHOOK_TAVLETALL.value()}`, {
+    await fetch(`${SLACK_WEBHOOK_TAVLETALL.value()}`, {
         method: 'POST',
         body: JSON.stringify({
             text: message,
