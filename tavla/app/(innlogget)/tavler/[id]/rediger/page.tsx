@@ -50,20 +50,22 @@ export default async function EditPage(props: TProps) {
     const access = await userCanEditBoard(params.id)
     if (!access) return redirect('/')
 
+    const definedBoard = board
+
     async function addTilesAction(data: FormData) {
         'use server'
 
-        const tiles = formDataToTiles(data, board?.isCombinedTiles)
+        const tiles = formDataToTiles(data, definedBoard.isCombinedTiles)
         if (tiles.length === 0) return
 
         const tilesWithDistance = await Promise.all(
             tiles
                 .filter((tile) => tile.stopPlaceId)
                 .map(async (tile) => {
-                    return board?.meta.location
+                    return definedBoard.meta.location
                         ? await getWalkingDistanceTile(
                               tile,
-                              board.meta.location,
+                              definedBoard.meta.location,
                           )
                         : (() => {
                               delete tile.walkingDistance
