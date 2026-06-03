@@ -31,10 +31,30 @@ export async function POST(req: NextRequest) {
     const origin = req.headers.get('origin') ?? ''
     const headers = corsHeaders(origin)
 
+    const contentLength = Number(req.headers.get('Content-Length') ?? '0')
+    if (contentLength > 500) {
+        return NextResponse.json(
+            { error: 'invalid request' },
+            { status: 400, headers },
+        )
+    }
+
+    const contentType = req.headers.get('Content-Type') ?? ''
+    if (contentType !== 'application/json') {
+        return NextResponse.json(
+            { error: 'invalid request' },
+            { status: 400, headers },
+        )
+    }
+
     const body = await req.json().catch(() => null)
     const parsed = ReportSchema.safeParse(body)
+
     if (!parsed.success) {
-        return NextResponse.json({ error: 'invalid' }, { status: 400, headers })
+        return NextResponse.json(
+            { error: 'invalid request' },
+            { status: 400, headers },
+        )
     }
 
     const { boardId, errorCode } = parsed.data
