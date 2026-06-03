@@ -26,6 +26,8 @@ import type {
     BoardFontSize,
     BoardTheme,
     LocationDB,
+    TileColumnDB,
+    TileDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
@@ -78,14 +80,15 @@ export async function saveSettings(data: FormData) {
         const isCombinedTilesFromForm = viewType === 'combined'
         const viewTypeChanged =
             isCombinedTilesFromForm !== board.isCombinedTiles
+        const columns = viewTypeChanged
+            ? getDefaultColumns(isCombinedTilesFromForm)
+            : undefined
+        const locationChanged = !isSameLocation(location, board.meta.location)
 
-        const tiles = (await getTilesWithDistance(board, location)).map(
-            (tile) => ({
-                ...tile,
-                ...(viewTypeChanged && {
-                    columns: getDefaultColumns(isCombinedTilesFromForm),
-                }),
-            }),
+        const tiles = await Promise.all(
+            board.tiles.map((tile: TileDB) =>
+                buildUpdatedTile(tile, location, locationChanged, columns),
+            ),
         )
 
         const footerContainsText =
@@ -127,15 +130,30 @@ export async function saveSettings(data: FormData) {
     }
 }
 
-async function getTilesWithDistance(board: BoardDB, location?: LocationDB) {
-    return await Promise.all(
-        board.tiles.map(async (tile) => {
-            if (location === undefined) {
-                delete tile.walkingDistance
-                return tile
-            } else {
-                return await getWalkingDistanceTile(tile, location)
-            }
-        }),
+async function buildUpdatedTile(
+    tile: TileDB,
+    location: LocationDB | undefined,
+    locationUpdated: boolean,
+    columns: TileColumnDB[] | undefined,
+) {
+    if (location === undefined) {
+        const rest = { ...tile }
+        delete rest.walkingDistance
+        return columns ? { ...rest, columns } : rest
+    }
+
+    if (!locationUpdated) {
+        return columns ? { ...tile, columns } : tile
+    }
+    const newLocationOnTile = await getWalkingDistanceTile(tile, location)
+    return columns ? { ...newLocationOnTile, columns } : newLocationOnTile
+}
+
+function isSameLocation(a: LocationDB | undefined, b: LocationDB | undefined) {
+    if (a === undefined && b === undefined) return true
+    if (a === undefined || b === undefined) return false
+    return (
+        a.coordinate?.lat === b.coordinate?.lat &&
+        a.coordinate?.lng === b.coordinate?.lng
     )
 }

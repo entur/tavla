@@ -118,6 +118,8 @@ export const BoardDBSchema = z.object({
 
 export type BoardDB = z.infer<typeof BoardDBSchema>
 
+export type TileDB = z.infer<typeof boardTileSchema>
+
 export type BoardFooter = z.infer<typeof boardFooterSchema>
 
 export type BoardTheme = z.infer<typeof boardThemeSchema>
