@@ -1,5 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
+import { getDefaultColumns } from 'app/_components/TileSelector/utils'
 import { getWalkingDistanceTile } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import {
     isEmptyOrSpaces,
@@ -74,7 +75,18 @@ export async function saveSettings(data: FormData) {
     try {
         await userHasAccessToEditBoard(board.id ?? '')
 
-        const tiles = await getTilesWithDistance(board, location)
+        const isCombinedTilesFromForm = viewType === 'combined'
+        const viewTypeChanged =
+            isCombinedTilesFromForm !== board.isCombinedTiles
+
+        const tiles = (await getTilesWithDistance(board, location)).map(
+            (tile) => ({
+                ...tile,
+                ...(viewTypeChanged && {
+                    columns: getDefaultColumns(isCombinedTilesFromForm),
+                }),
+            }),
+        )
 
         const footerContainsText =
             infoMessage &&
@@ -86,7 +98,7 @@ export async function saveSettings(data: FormData) {
             'meta.fontSize': font,
             'meta.location': location ?? FieldValue.delete(),
             theme: theme ?? 'dark',
-            isCombinedTiles: viewType !== 'separate',
+            isCombinedTiles: isCombinedTilesFromForm,
             footer: footerContainsText
                 ? { footer: infoMessage }
                 : FieldValue.delete(),

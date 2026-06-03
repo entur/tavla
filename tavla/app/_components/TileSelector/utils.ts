@@ -31,6 +31,9 @@ export const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
     'time',
 ]
 
+export const getDefaultColumns = (isCombined: boolean) =>
+    isCombined ? DEFAULT_COMBINED_COLUMNS : DEFAULT_COLUMNS
+
 export function formDataToTiles(data: FormData): BoardTileDB[] {
     const closestStopPlacesJson = data.get('closest_stop_places') as string
     if (!closestStopPlacesJson) return []
