@@ -125,7 +125,7 @@ export async function getFoldersForUser(): Promise<Folder[]> {
             `Failed to fetch folders: ${error instanceof Error ? error.message : String(error)}`,
         )
         Sentry.captureMessage(
-            'Error while fetching folders for user with id ' + user.uid,
+            `Failed to fetch folders: ${error instanceof Error ? error.message : String(error)}`,
         )
         throw error
     }
@@ -247,12 +247,16 @@ export async function getPrivateBoardsForUser(folders: FolderDB[]) {
     const rawOwner = userWithBoards.owner ?? []
 
     if (!Array.isArray(rawOwner)) {
+        logToGcp(
+            'warning',
+            'Invalid owner field type in getPrivateBoardsForUser',
+            { folderId: folders[0]?.id },
+        )
         Sentry.captureMessage(
             'Invalid owner field type in getPrivateBoardsForUser',
             {
                 level: 'warning',
                 extra: {
-                    userId: userWithBoards.uid,
                     ownerType: typeof rawOwner,
                 },
             },

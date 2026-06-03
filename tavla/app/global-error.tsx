@@ -23,7 +23,7 @@ export default function GlobalErrorPage({
             status: 500,
             path,
         })
-    }, [error])
+    }, [error, path])
 
     return (
         <html lang="no">

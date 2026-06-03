@@ -41,7 +41,7 @@ export async function verifySession(session?: string) {
 
 export async function revokeUserTokenOnLogout() {
     const user = await getUserFromSessionCookie()
-    if (!user || !user.uid) {
+    if (!user?.uid) {
         return null
     }
     try {
@@ -61,15 +61,13 @@ export async function getUserWithBoardIds(): Promise<UserDB | null> {
     }
     const parsedUser = UserDBSchema.safeParse(userData)
     if (!parsedUser.success) {
-        Sentry.captureMessage(
-            'User data validation failed for user:' + userDoc.id,
-            {
-                level: 'warning',
-                extra: {
-                    error: parsedUser.error,
-                },
+        logToGcp('warning', `User data validation failed: ${parsedUser.error}`)
+        Sentry.captureMessage('User data validation failed', {
+            level: 'warning',
+            extra: {
+                error: parsedUser.error,
             },
-        )
+        })
         return null
     }
     return parsedUser.data
@@ -107,7 +105,8 @@ export async function deleteBoard(bid: BoardDB['id']) {
     } catch (error) {
         logToGcp(
             'error',
-            `Failed to delete board ${bid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to delete board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
         )
         Sentry.captureMessage('Failed to delete board with id: ' + bid)
         throw error
@@ -151,7 +150,8 @@ export async function deleteFolderBoard(
     } catch (error) {
         logToGcp(
             'error',
-            `Failed to delete board ${bid} in folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to delete board in folder: ${error instanceof Error ? error.message : String(error)}`,
+            { folderId: folderid, bid },
         )
         Sentry.captureMessage(
             'Erorr while deleting board ' + bid + ' in folder ' + folderid,
@@ -166,10 +166,11 @@ export async function removeUserFromFolder(folderid: string, uid: string) {
     } catch (error) {
         logToGcp(
             'error',
-            `Failed to remove user from folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to remove user from folder: ${error instanceof Error ? error.message : String(error)}`,
+            { folderId: folderid },
         )
         Sentry.captureMessage(
-            'Error while removing user ' + uid + ' from folder ' + folderid,
+            'Error while removing user from folder ' + folderid,
         )
         throw error
     }
@@ -177,7 +178,7 @@ export async function removeUserFromFolder(folderid: string, uid: string) {
 
 export async function deleteUserFromFirebaseAuth() {
     const user = await getUserFromSessionCookie()
-    if (!user || !user.uid) {
+    if (!user?.uid) {
         return
     }
     try {
@@ -187,16 +188,14 @@ export async function deleteUserFromFirebaseAuth() {
             'error',
             `Failed to delete user from Firebase Auth: ${error instanceof Error ? error.message : String(error)}`,
         )
-        Sentry.captureMessage(
-            'Error while deleting user ' + user?.uid + ' from firebase auth',
-        )
+        Sentry.captureMessage('Error while deleting user from firebase auth')
         throw error
     }
 }
 
 export async function deleteUserFromFirestore() {
     const user = await getUserFromSessionCookie()
-    if (!user || !user.uid) {
+    if (!user?.uid) {
         return
     }
     try {
@@ -206,9 +205,7 @@ export async function deleteUserFromFirestore() {
             'error',
             `Failed to delete user from Firestore: ${error instanceof Error ? error.message : String(error)}`,
         )
-        Sentry.captureMessage(
-            'Error while deleting user ' + user?.uid + ' from firestore',
-        )
+        Sentry.captureMessage('Error while deleting user from firestore')
         throw error
     }
 }

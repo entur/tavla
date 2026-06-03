@@ -97,7 +97,8 @@ export async function moveBoardAction(data: FormData) {
     } catch (e) {
         logToGcp(
             'error',
-            `Failed to move board ${bid}: ${e instanceof Error ? e.message : String(e)}`,
+            `Failed to move board: ${e instanceof Error ? e.message : String(e)}`,
+            { bid },
         )
         Sentry.captureException(e, {
             extra: {
