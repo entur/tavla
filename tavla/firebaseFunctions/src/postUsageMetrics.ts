@@ -112,7 +112,7 @@ async function runUsageMetrics(): Promise<void> {
 
     let message = `God onsdag teamet! 👋🤓  Her kommer ukens TavleTall™️:
 
-Aktive tavler 📈: ${total} (uten stoppested/quay: ${failed})
+Aktive tavler 📈: ${total} (uten stoppested eller med feil i direktelenken: ${failed})
 
 Fordelt på fylker 👇`
 
