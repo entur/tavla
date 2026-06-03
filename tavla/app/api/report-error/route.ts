@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     const contentLength = Number(req.headers.get('Content-Length') ?? '0')
     if (contentLength > 500) {
         return NextResponse.json(
-            { error: 'invalid request' },
+            { error: 'invalid request: Content-Length' },
             { status: 400, headers },
         )
     }
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     const contentType = req.headers.get('Content-Type') ?? ''
     if (contentType !== 'application/json') {
         return NextResponse.json(
-            { error: 'invalid request' },
+            { error: 'invalid request: Content-Type' },
             { status: 400, headers },
         )
     }
@@ -73,8 +73,8 @@ export async function POST(req: NextRequest) {
 
     await logToGcp(
         'error',
-        `POST /api/report-error: status=200 errorCode=${errorCode}`,
-        { bid: boardId },
+        `[tavla-visning] ${errorCode} reported from ${boardId}`,
+        { bid: boardId, errorCode: errorCode },
     )
 
     return NextResponse.json({ ok: true }, { headers })
