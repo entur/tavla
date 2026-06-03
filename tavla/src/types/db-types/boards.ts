@@ -1,8 +1,6 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
 import { z } from 'zod'
 
-export const arrivalDepartureBoardSchema = z.enum(['departures', 'arrivals'])
-
 const transportModeValues: TTransportMode[] = [
     'air',
     'bus',
@@ -116,7 +114,7 @@ export const BoardDBSchema = z.object({
     hideClock: z.boolean().optional(),
     customUrl: z.string().optional(),
     isAnonymousBoard: z.boolean().optional(),
-    arrivalDeparture: arrivalDepartureBoardSchema.optional(),
+    isArrivals: z.boolean().optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>
@@ -134,9 +132,6 @@ export type Coordinate = z.infer<typeof coordinateSchema>
 export type LocationDB = z.infer<typeof locationSchema>
 
 export type TileColumnDB = z.infer<typeof tileColumnSchema>
-
-export type ArrivalDepartureBoard = z.infer<typeof arrivalDepartureBoardSchema>
-
 export const TileColumns: Record<TileColumnDB, string> = {
     aimedTime: 'Planlagt',
     arrivalTime: 'Ankomst',

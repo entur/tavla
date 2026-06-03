@@ -24,12 +24,14 @@ type NameAndFolderSelectorProps = {
     folders?: Folder[]
     onClose: () => void
 }
-
-type ArrivalDepartureValue = 'departures' | 'arrivals'
-const DEFAULT_ARRIVAL_DEPARTURE: NormalizedDropdownItemType<ArrivalDepartureValue> =
-    { value: 'departures', label: 'Avganger' }
-const arrivalDepartureItems: NormalizedDropdownItemType<ArrivalDepartureValue>[] =
-    [DEFAULT_ARRIVAL_DEPARTURE, { value: 'arrivals', label: 'Ankomster' }]
+const DEFAULT_ARRIVAL_DEPARTURE: NormalizedDropdownItemType<boolean> = {
+    value: false,
+    label: 'Avganger',
+}
+const arrivalDepartureItems: NormalizedDropdownItemType<boolean>[] = [
+    DEFAULT_ARRIVAL_DEPARTURE,
+    { value: true, label: 'Ankomster' },
+]
 
 function NameAndFolderSelector({
     folder,
@@ -43,7 +45,7 @@ function NameAndFolderSelector({
     )
 
     const [selectedArrivalDeparture, setSelectedArrivalDeparture] = useState<
-        NormalizedDropdownItemType<ArrivalDepartureValue>
+        NormalizedDropdownItemType<boolean>
     >(DEFAULT_ARRIVAL_DEPARTURE)
 
     const { folderDropdownList, selectedFolder, handleFolderChange } =
@@ -93,7 +95,6 @@ function NameAndFolderSelector({
                     />
                 </div>
             )}
-
             {isArrivalDepartureFeatureFlagEnabled && (
                 <div className="mt-4">
                     <Label>Hva vil du vise?</Label>
@@ -107,8 +108,8 @@ function NameAndFolderSelector({
                         className="mb-4"
                     />
                     <HiddenInput
-                        id="arrivalDeparture"
-                        value={selectedArrivalDeparture.value}
+                        id="isArrivals"
+                        value={String(selectedArrivalDeparture.value)}
                     />
                 </div>
             )}
