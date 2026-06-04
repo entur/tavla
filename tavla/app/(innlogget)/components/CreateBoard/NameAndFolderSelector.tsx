@@ -96,27 +96,31 @@ function NameAndFolderSelector({
                 </div>
             )}
 
-            <div className="mt-4">
-                <Label>Hva vil du vise?</Label>
-                <Dropdown
-                    items={arrivalDepartureItems}
-                    label="Visning"
-                    selectedItem={selectedArrivalDeparture}
-                    onChange={(item) => {
-                        if (item) {
-                            setSelectedArrivalDeparture(item)
-                            posthog.capture('choose_board_type_selected', {
-                                type: item.value ? 'arrivals' : 'departures',
-                            })
-                        }
-                    }}
-                    className="mb-4"
-                />
-                <HiddenInput
-                    id="isArrivals"
-                    value={String(selectedArrivalDeparture.value)}
-                />
-            </div>
+            {isArrivalDepartureFeatureFlagEnabled && (
+                <div className="mt-4">
+                    <Label>Hva vil du vise?</Label>
+                    <Dropdown
+                        items={arrivalDepartureItems}
+                        label="Visninger"
+                        selectedItem={selectedArrivalDeparture}
+                        onChange={(item) => {
+                            if (item) {
+                                setSelectedArrivalDeparture(item)
+                                posthog.capture('choose_board_type_selected', {
+                                    type: item.value
+                                        ? 'arrivals'
+                                        : 'departures',
+                                })
+                            }
+                        }}
+                        className="mb-4"
+                    />
+                    <HiddenInput
+                        id="isArrivals"
+                        value={String(selectedArrivalDeparture.value)}
+                    />
+                </div>
+            )}
             <div className="mt-4">
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
