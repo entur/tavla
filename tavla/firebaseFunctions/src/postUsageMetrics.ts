@@ -51,8 +51,7 @@ async function runUsageMetrics(): Promise<void> {
             }
         }
 
-        if (paletteCount[palette]) paletteCount[palette]++
-        else paletteCount[palette] = 1
+        paletteCount[palette] = (paletteCount[palette] ?? 0) + 1
 
         const details = await fetch(
             `${placeId.startsWith('NSR:StopPlace:') ? stopPlaceUrl : quayUrl}/${placeId}`,
@@ -101,11 +100,10 @@ async function runUsageMetrics(): Promise<void> {
                 },
             ).then((res) => res.json()) as any
 
-            county = geocoderResponse['features'][0]['properties']['county']
+            county = geocoderResponse['features']?.[0]?.['properties']?.['county'] ?? 'ukjent'
         }
 
-        if (countyCount[county]) countyCount[county]++
-        else countyCount[county] = 1
+        countyCount[county] = (countyCount[county] ?? 0) + 1
 
         total++
     }
