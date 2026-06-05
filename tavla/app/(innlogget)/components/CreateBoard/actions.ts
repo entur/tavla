@@ -34,7 +34,7 @@ export async function createBoardAction(
             tiles: [],
             theme: 'dark',
             isCombinedTiles: false,
-            ...(isArrivals ? { isArrivals: true } : { isArrivals: false }),
+            isArrivals,
             meta: {
                 title: name.substring(0, 50),
                 fontSize: 'medium',
