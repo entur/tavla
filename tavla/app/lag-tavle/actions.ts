@@ -1,5 +1,5 @@
 'use server'
-import { getWalkingDistanceTile } from 'app/(innlogget)/tavler/[id]/rediger/actions'
+import { getTileWithWalkingDistance } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { createBoard } from 'src/firebase'
 import type {
@@ -29,7 +29,7 @@ export async function getTilesWithWalkingDistance(
                 delete tile.walkingDistance
                 return tile
             }
-            return getWalkingDistanceTile(tile, location)
+            return getTileWithWalkingDistance(tile, location)
         }),
     )
 }

@@ -58,7 +58,7 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
     }
 }
 
-export async function getWalkingDistanceTile(
+export async function getTileWithWalkingDistance(
     tile: BoardTileDB,
     location: LocationDB,
 ): Promise<BoardTileDB> {

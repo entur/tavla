@@ -1,6 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { getWalkingDistanceTile } from 'app/(innlogget)/tavler/[id]/rediger/actions'
+import { getTileWithWalkingDistance } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import {
     isEmptyOrSpaces,
     isOnlyWhiteSpace,
@@ -75,12 +75,13 @@ export async function saveSettings(data: FormData) {
     try {
         await userHasAccessToEditBoard(board.id ?? '')
 
-        const isCombinedTilesFromForm = viewType === 'combined'
-        const locationChanged = !isSameLocation(location, board.meta.location)
+        const isLocationChanged = !isSameLocation(location, board.meta.location)
 
         const tiles = await Promise.all(
             board.tiles.map((tile) =>
-                buildUpdatedTile(tile, location, locationChanged),
+                isLocationChanged
+                    ? addOrRemoveWalkingDistanceFromTile(tile, location)
+                    : tile,
             ),
         )
 
@@ -94,7 +95,7 @@ export async function saveSettings(data: FormData) {
             'meta.fontSize': font,
             'meta.location': location ?? FieldValue.delete(),
             theme: theme ?? 'dark',
-            isCombinedTiles: isCombinedTilesFromForm,
+            isCombinedTiles: viewType === 'combined',
             footer: footerContainsText
                 ? { footer: infoMessage }
                 : FieldValue.delete(),
@@ -123,21 +124,19 @@ export async function saveSettings(data: FormData) {
     }
 }
 
-async function buildUpdatedTile(
+async function addOrRemoveWalkingDistanceFromTile(
     tile: BoardTileDB,
     location: LocationDB | undefined,
-    locationUpdated: boolean,
 ) {
-    if (location === undefined) {
+    const userHasRemovedLocation = location === undefined
+
+    if (userHasRemovedLocation) {
         const rest = { ...tile }
         delete rest.walkingDistance
         return rest
     }
 
-    if (!locationUpdated) {
-        return tile
-    }
-    return await getWalkingDistanceTile(tile, location)
+    return await getTileWithWalkingDistance(tile, location)
 }
 
 function isSameLocation(a: LocationDB | undefined, b: LocationDB | undefined) {

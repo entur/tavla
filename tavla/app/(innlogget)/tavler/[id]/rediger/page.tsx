@@ -12,7 +12,7 @@ import { getBoard, getFolderForBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkClient, getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
-import { addTiles, getWalkingDistanceTile } from './actions'
+import { addTiles, getTileWithWalkingDistance } from './actions'
 import { ActionsMenu } from './components/ActionsMenu'
 import { Copy } from './components/Buttons/Copy'
 import { CustomUrl } from './components/CustomUrl/CustomUrl'
@@ -45,28 +45,28 @@ export default async function EditPage(props: TProps) {
     if (!board) {
         return notFound()
     }
+
     const folder = await getFolderForBoard(params.id)
 
     const access = await userCanEditBoard(params.id)
-    if (!access) return redirect('/')
+    if (!access) {
+        return redirect('/')
+    }
 
-    const definedBoard = board
+    const { isCombinedTiles, meta } = board
 
     async function addTilesAction(data: FormData) {
         'use server'
 
-        const tiles = formDataToTiles(data, definedBoard.isCombinedTiles)
+        const tiles = formDataToTiles(data, isCombinedTiles)
         if (tiles.length === 0) return
 
         const tilesWithDistance = await Promise.all(
             tiles
                 .filter((tile) => tile.stopPlaceId)
                 .map(async (tile) => {
-                    return definedBoard.meta.location
-                        ? await getWalkingDistanceTile(
-                              tile,
-                              definedBoard.meta.location,
-                          )
+                    return meta.location
+                        ? await getTileWithWalkingDistance(tile, meta.location)
                         : (() => {
                               delete tile.walkingDistance
                               return tile
