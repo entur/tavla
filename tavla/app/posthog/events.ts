@@ -95,8 +95,13 @@ export type EventMap = {
         type: 'new' | 'from_local_storage'
     }
 
+    choose_board_type_selected: {
+        type: 'arrivals' | 'departures'
+    }
+
     board_created: {
         folder_selected: boolean
+        type_selected: 'arrivals' | 'departures'
     }
 
     board_dismiss_from_local_storage: undefined
