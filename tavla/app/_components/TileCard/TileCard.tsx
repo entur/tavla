@@ -2,7 +2,6 @@
 import { useToast } from '@entur/alert'
 import { BaseExpand } from '@entur/expand'
 import { Heading3 } from '@entur/typography'
-import { getDefaultColumns } from 'app/_components/TileSelector/utils'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
@@ -74,9 +73,7 @@ export function TileCard({
             displayName,
             quayLineKeys,
         } = parseTileFormData(data)
-        const columns = board.isCombinedTiles
-            ? getDefaultColumns(board.isCombinedTiles)
-            : parsedColumns
+        const columns = board.isCombinedTiles ? tile.columns : parsedColumns
 
         if (isOnlyWhiteSpace(displayName)) {
             return getFormFeedbackForError('board/tiles-name-missing')
