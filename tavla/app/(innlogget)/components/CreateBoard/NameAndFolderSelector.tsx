@@ -1,6 +1,6 @@
 'use client'
 import { Button, ButtonGroup } from '@entur/button'
-import { Dropdown } from '@entur/dropdown'
+import { Dropdown, type NormalizedDropdownItemType } from '@entur/dropdown'
 import { Heading2, Label, Paragraph } from '@entur/typography'
 import { FormError } from 'app/_components/Form/FormError'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
@@ -9,11 +9,13 @@ import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import { useFolderDropdown } from 'app/(innlogget)/hooks/useFolders'
 import { getFormFeedbackForField } from 'app/(innlogget)/utils/forms'
 import type { Folder } from 'app/(innlogget)/utils/types'
+import { FeatureFlags } from 'app/posthog/featureFlags'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import rabbits from 'assets/illustrations/Rabbits.png'
 import { isNull } from 'lodash'
 import Image from 'next/image'
-import { useActionState } from 'react'
+import { useFeatureFlagEnabled } from 'posthog-js/react'
+import { useActionState, useState } from 'react'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { createBoardAction } from './actions'
 
@@ -22,6 +24,14 @@ type NameAndFolderSelectorProps = {
     folders?: Folder[]
     onClose: () => void
 }
+const DEFAULT_ARRIVAL_DEPARTURE: NormalizedDropdownItemType<boolean> = {
+    value: false,
+    label: 'Avganger',
+}
+const arrivalDepartureItems: NormalizedDropdownItemType<boolean>[] = [
+    DEFAULT_ARRIVAL_DEPARTURE,
+    { value: true, label: 'Ankomster' },
+]
 
 function NameAndFolderSelector({
     folder,
@@ -30,6 +40,13 @@ function NameAndFolderSelector({
 }: NameAndFolderSelectorProps) {
     const [state, action] = useActionState(createBoardAction, undefined)
     const posthog = usePosthogTracking()
+    const isArrivalDepartureFeatureFlagEnabled = useFeatureFlagEnabled(
+        FeatureFlags.ARRIVAL_DEPARTURE_BOARD,
+    )
+
+    const [selectedArrivalDeparture, setSelectedArrivalDeparture] = useState<
+        NormalizedDropdownItemType<boolean>
+    >(DEFAULT_ARRIVAL_DEPARTURE)
 
     const { folderDropdownList, selectedFolder, handleFolderChange } =
         useFolderDropdown(folder, folders)
@@ -79,10 +96,34 @@ function NameAndFolderSelector({
                 </div>
             )}
 
+            {isArrivalDepartureFeatureFlagEnabled && (
+                <div className="mt-4">
+                    <Label>Hva vil du vise?</Label>
+                    <Dropdown
+                        items={arrivalDepartureItems}
+                        label="Visninger"
+                        selectedItem={selectedArrivalDeparture}
+                        onChange={(item) => {
+                            if (item) {
+                                setSelectedArrivalDeparture(item)
+                                posthog.capture('choose_board_type_selected', {
+                                    type: item.value
+                                        ? 'arrivals'
+                                        : 'departures',
+                                })
+                            }
+                        }}
+                        className="mb-4"
+                    />
+                    <HiddenInput
+                        id="isArrivals"
+                        value={String(selectedArrivalDeparture.value)}
+                    />
+                </div>
+            )}
             <div className="mt-4">
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
-
             <ButtonGroup className="mt-8 flex w-full flex-row gap-4">
                 <SubmitButton
                     variant="primary"
@@ -90,6 +131,9 @@ function NameAndFolderSelector({
                     onClick={() => {
                         posthog.capture('board_created', {
                             folder_selected: !isNull(selectedFolder.value),
+                            type_selected: selectedArrivalDeparture.value
+                                ? 'arrivals'
+                                : 'departures',
                         })
                     }}
                     aria-label="Opprett tavle"

@@ -33,7 +33,7 @@ For å kunne teste Next.js lokalt og simulere prod-miljøet likt, kan vi lage en
 
 1. Last ned credentials JSON-filen lokalt og legg den i `/tavla`-folderen — den finner du i 1Password for Tavla under navnet `google-service-keys`. Filen heter typisk `ent-tavla-dev-<key-id>.json` og er automatisk gitignorert via mønsteret `ent-tavla-*.json` i rot-`.gitignore`.
 
-2. Lag en `.env.local`-fil i rot med følgende env-variabler:
+2. Lag en `.env.local`-fil i `/tavla`-folderen med følgende env-variabler:
 
 ```env
 GOOGLE_CLOUD_PROJECT="ent-tavla-dev"

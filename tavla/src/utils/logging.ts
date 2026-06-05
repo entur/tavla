@@ -18,11 +18,15 @@ type LogExtra = {
     folderId?: string
     status?: number
     path?: string
+    errorCode?: string
+    userAgent?: string
 }
+
+type LogType = 'server-action' | 'http' | 'graphql' | 'tavla-visning'
 
 type LogPayload = {
     message: string
-    type?: 'server-action' | 'http' | 'graphql'
+    type?: LogType
     action?: string
     method?: string
     endpoint?: string
@@ -32,7 +36,19 @@ type LogPayload = {
     path?: string
 }
 
-function buildPayload(message: string, extra?: LogExtra): LogPayload {
+function buildPayload(
+    message: string,
+    extra?: LogExtra,
+    type?: LogType,
+): LogPayload {
+    if (type) {
+        return {
+            message,
+            type: 'tavla-visning',
+            ...extra,
+        }
+    }
+
     const actionMatch = message.match(/^action:(\w+)/)
     if (actionMatch) {
         return {
@@ -84,6 +100,7 @@ export async function logToGcp(
     level: LogLevel,
     message: string,
     extra?: LogExtra,
+    type?: LogType,
 ) {
     const safeLevel = sanitizeForLog(level) as LogLevel
     const safeMessage = sanitizeForLog(message)
@@ -94,6 +111,8 @@ export async function logToGcp(
               folderId: sanitizeForLog(extra?.folderId),
               status: extra?.status,
               path: sanitizeForLog(extra?.path),
+              errorCode: sanitizeForLog(extra?.errorCode),
+              userAgent: sanitizeForLog(extra?.userAgent),
           }
         : undefined
 
@@ -112,7 +131,7 @@ export async function logToGcp(
 
     const entry = log.entry(
         { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
-        buildPayload(safeMessage, extra),
+        buildPayload(safeMessage, extra, type),
     )
     await log.write(entry).catch((error) => {
         // biome-ignore lint/suspicious/noConsole: Log errors on GCP logging in container output.

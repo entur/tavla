@@ -114,6 +114,7 @@ export const BoardDBSchema = z.object({
     hideClock: z.boolean().optional(),
     customUrl: z.string().optional(),
     isAnonymousBoard: z.boolean().optional(),
+    isArrivals: z.boolean().optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>
@@ -133,7 +134,6 @@ export type Coordinate = z.infer<typeof coordinateSchema>
 export type LocationDB = z.infer<typeof locationSchema>
 
 export type TileColumnDB = z.infer<typeof tileColumnSchema>
-
 export const TileColumns: Record<TileColumnDB, string> = {
     aimedTime: 'Planlagt',
     arrivalTime: 'Ankomst',

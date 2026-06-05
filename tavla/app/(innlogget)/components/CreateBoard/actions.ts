@@ -20,8 +20,8 @@ export async function createBoardAction(
 ) {
     const name = data.get('name') as string
     if (!name) return getFormFeedbackForError('board/name-missing')
-
     const folderid = data.get('folderid') as FolderDB['id']
+    const isArrivals = data.get('isArrivals') === 'true'
 
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
@@ -34,6 +34,7 @@ export async function createBoardAction(
             tiles: [],
             theme: 'dark',
             isCombinedTiles: false,
+            isArrivals,
             meta: {
                 title: name.substring(0, 50),
                 fontSize: 'medium',
