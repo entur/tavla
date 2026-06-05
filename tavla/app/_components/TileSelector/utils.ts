@@ -23,21 +23,7 @@ export type TypeOfPlace =
     | 'other'
     | 'current_position'
 
-const DEFAULT_COMBINED_COLUMNS: TileColumnDB[] = [
-    'line',
-    'destination',
-    'name',
-    'platform',
-    'time',
-]
-
-export const getDefaultColumns = (isCombined: boolean) =>
-    isCombined ? DEFAULT_COMBINED_COLUMNS : DEFAULT_COLUMNS
-
-export function formDataToTiles(
-    data: FormData,
-    isCombined: boolean,
-): BoardTileDB[] {
+export function formDataToTiles(data: FormData): BoardTileDB[] {
     const closestStopPlacesJson = data.get('closest_stop_places') as string
     if (!closestStopPlacesJson) return []
 
@@ -52,7 +38,7 @@ export function formDataToTiles(
         quays: [],
         name: sp.name,
         uuid: nanoid(),
-        columns: getDefaultColumns(isCombined),
+        columns: DEFAULT_COLUMNS,
         county: sp.county || undefined,
     }))
 }
