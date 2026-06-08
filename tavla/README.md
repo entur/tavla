@@ -1,20 +1,21 @@
 ## Frontend (Next.js) – Utviklerguide
 
-Denne mappen inneholder frontend-koden for Tavla (Next.js 15, React 18, TypeScript, Tailwind, Firebase-emulator i utvikling).
+Denne mappen inneholder frontend-koden for Tavla (Next.js 16, React 19, TypeScript, Tailwind, Firebase-emulator i utvikling).
 
 ### Forutsetninger
 
 - Node 22 (bruk gjerne `mise` eller `nvm`)
-- Yarn 3 (Berry) – allerede satt opp i repoet
+- Yarn 4 (Berry) – allerede satt opp i repoet
 - Firebase CLI (for emulatorer)
 - To interne service key JSON-filer: `ent-tavla-dev-*.json` og `ent-tavla-prd-*.json` (Disse finner du i teamets passord-manager, de skal ikke sjekkes inn i git)
 
 ### Installere avhengigheter
 
-```
-cd tavla/tavla
-yarn install --frozen-lockfile
+Frontend-koden ligger i `tavla/`-mappen i repo-roten (altså `tavla/tavla` sett fra mappen over repoet). Fra repo-roten:
 
+```
+cd tavla
+yarn install --frozen-lockfile
 ```
 
 ### Node-versjon (eksempel med mise)
@@ -24,7 +25,7 @@ brew install mise
 echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 exec $SHELL
 node -v
-# Skal vise v18.x
+# Skal vise v22.x
 ```
 
 ### Kjøre i utvikling
@@ -54,7 +55,7 @@ Sentry- og PostHog-variabler er valgfrie og trengs ikke for lokal kjøring.
 | Fix (lint + format) | `yarn fix`                       |
 | Lint                | `yarn lint`                      |
 | Type-sjekk          | `yarn typecheck`                 |
-| Format-sjekk        | `yarn prettier`                  |
+| Format-sjekk        | `yarn format`                    |
 | Bygg (dev/prod)     | `yarn build` / `yarn build:prod` |
 | GraphQL codegen     | `yarn generate`                  |
 
@@ -62,7 +63,7 @@ Sentry- og PostHog-variabler er valgfrie og trengs ikke for lokal kjøring.
 
 ### Backend-integrasjon
 
-Frontend kaller Rust-backenden med bearer-token (`BACKEND_API_KEY`). Sørg for at nøkkel samsvarer med verdien backend prosessen forventer. Midlertidig endring av backend-URL kan gjøres i util-funksjon (ikke committ endringen).
+Frontend kaller Rust-backenden med bearer-token (`BACKEND_API_KEY`). Sørg for at nøkkelen samsvarer med verdien backend-prosessen forventer. For å peke mot en lokal backend kan du midlertidig endre `getBackendUrl()` i `tavla/src/utils/backendUrl.ts` til å returnere `'http://127.0.0.1:3001'` (**ikke commit denne endringen**).
 
 ### Git-konvensjoner (gitmoji-subsett)
 
@@ -92,9 +93,9 @@ bugfix/feil-i-refresh-endpoint
 rydding/refaktor-board-context
 ```
 
-### Migrasjonsskript (fra rot `migrations/`)
+### Migrasjonsskript (`tavla/migrations/`)
 
-Migreringsscriptet kan ta inn to argumenter - enten `setup` eller `run`:
+Kjør fra `tavla/migrations/`. Migreringsscriptet tar inn ett av to argumenter – enten `setup` eller `run`:
 
 For å sette opp mijøet for første gang:
 
@@ -113,7 +114,7 @@ For å kjøre en migreringsfil, putt filen i /scripts mappen og kjør:
 Du kan teste migreringsskriptene ved å kjøre de lokalt. Trenger du å skaffe deg litt ekte data, kan du "rollbacke" din lokale Firebase med data fra dev 🔥 Dette gjøres slik:
 
 1. Avslutt emulatoren (kill typ `yarn dev:persist`)
-2. Kjør `python3 scripts/rollback_firestore local`
+2. Kjør `./migration run scripts/rollback_firestore.py local`
 3. Start emulatoren: `yarn dev:persist`
 
 Nå kan du kjøre migrasjonsskriptet ditt som om det var mot dev. Dette korter ned litt på utviklingstiden for migrasjonsskripter.
