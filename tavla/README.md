@@ -40,7 +40,7 @@ Tilgang:
 - App: http://localhost:3000
 - Firebase Emulator UI: http://127.0.0.1:4000/
 
-For forhåndsvisning av tavler må du også kjøre `tavla-visning`: https://github.com/entur/tavla-visning
+Dette repoet er admin-/konfigurasjonsappen. Selve tavle-visningen (det som rendres på skjermene) ligger i et eget repo. For å forhåndsvise tavler lokalt må du derfor også kjøre `tavla-visning`: https://github.com/entur/tavla-visning
 
 ### Miljøvariabler (lokalt minimum)
 

@@ -28,6 +28,8 @@ Monorepo with two main applications:
 - **`redirect/`** – Rust redirect service for custom board URLs
 - **`tavla/migrations/`** – Python migration scripts for Firestore
 
+This repo is the **admin/configuration app** where boards are created and edited. The public-facing board display (what renders on the screens) lives in a separate repo: [`entur/tavla-visning`](https://github.com/entur/tavla-visning). Run it locally to preview boards.
+
 ## Frontend Commands (`tavla/` directory)
 
 ```bash
