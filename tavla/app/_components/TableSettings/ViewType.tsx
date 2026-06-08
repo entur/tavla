@@ -12,7 +12,7 @@ function ViewType({
     hasCombinedTiles: boolean
     onChange: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const [value, setValue] = useState(
         hasCombinedTiles ? 'combined' : 'separate',
     )
@@ -29,7 +29,7 @@ function ViewType({
                 <RadioGroup
                     name="viewType"
                     onChange={(e) => {
-                        posthog.capture('board_settings_changed', {
+                        capture('board_settings_changed', {
                             setting: 'view_type',
                             value: e.target.value as 'combined' | 'separate',
                         })

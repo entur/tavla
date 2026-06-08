@@ -20,7 +20,7 @@ export function PublishModalContent({
     handlePublish: () => void
     resetPublish: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     switch (publishState.type) {
         case 'not-published':
@@ -76,7 +76,7 @@ export function PublishModalContent({
         case 'published': {
             const boardLink = getBoardLinkClient(publishState.boardId)
             function copyLink() {
-                posthog.capture('board_copied', {
+                capture('board_copied', {
                     location: 'board_without_user',
                 })
                 navigator.clipboard.writeText(boardLink)
@@ -102,7 +102,7 @@ export function PublishModalContent({
                         </PrimaryButton>
                         <PrimaryButton
                             onClick={() => {
-                                posthog.capture('board_opened', {
+                                capture('board_opened', {
                                     location: 'board_without_user',
                                 })
                                 window.open(

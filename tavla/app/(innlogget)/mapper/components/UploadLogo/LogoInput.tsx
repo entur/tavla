@@ -23,10 +23,10 @@ function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
     const [fileName, setFileName] = useState<string>()
     const router = useRouter()
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const clearLogo = () => {
-        posthog.capture('folder_logo_upload_cancelled', {
+        capture('folder_logo_upload_cancelled', {
             location: 'folder',
             folder_id: folderid ?? '',
             method: 'cancel_button',
@@ -115,7 +115,7 @@ function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
                         aria-label="Last opp logo"
                         className="w-full justify-center"
                         onClick={() => {
-                            posthog.capture('folder_logo_uploaded', {
+                            capture('folder_logo_uploaded', {
                                 location: 'folder',
                                 folder_id: folderid ?? '',
                             })

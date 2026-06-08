@@ -18,7 +18,7 @@ import { SubmitButton } from './Form/SubmitButton'
 import ClientOnlyTextField from './NoSSR/TextField'
 
 function ContactForm() {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const { addToast } = useToast()
     const [isOpen, setIsOpen] = useState(false)
@@ -59,9 +59,9 @@ function ContactForm() {
                 setIsOpen={(open) => {
                     setIsOpen(open)
                     if (open) {
-                        posthog.capture('contact_form_opened')
+                        capture('contact_form_opened')
                     } else {
-                        posthog.capture('contact_form_closed')
+                        capture('contact_form_closed')
                     }
                 }}
             >
@@ -104,12 +104,9 @@ function ContactForm() {
                                 name="disabledEmail"
                                 onChange={(e) => {
                                     setDisabledEmail(e.target.checked)
-                                    posthog.capture(
-                                        'contact_form_email_disabled',
-                                        {
-                                            disabled: e.target.checked,
-                                        },
-                                    )
+                                    capture('contact_form_email_disabled', {
+                                        disabled: e.target.checked,
+                                    })
                                 }}
                             >
                                 Jeg ønsker ikke å oppgi e-postadresse og vil
@@ -141,9 +138,7 @@ function ContactForm() {
                         variant="primary"
                         width="fluid"
                         aria-label="Send"
-                        onClick={() =>
-                            posthog.capture('contact_form_submitted')
-                        }
+                        onClick={() => capture('contact_form_submitted')}
                     >
                         Send
                     </SubmitButton>

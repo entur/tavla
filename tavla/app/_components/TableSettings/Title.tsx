@@ -17,7 +17,7 @@ function Title({
     feedback?: TFormFeedback
     onBlur: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     return (
@@ -39,7 +39,7 @@ function Title({
                     }
 
                     debounceTimerRef.current = setTimeout(() => {
-                        posthog.capture('board_settings_changed', {
+                        capture('board_settings_changed', {
                             setting: 'title',
                             value: 'changed',
                         })

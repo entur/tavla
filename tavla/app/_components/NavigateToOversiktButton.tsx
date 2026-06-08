@@ -5,7 +5,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Link from 'next/link'
 
 export function NavigateToOversiktButton() {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     return (
         <Button
             variant="primary"
@@ -13,7 +13,7 @@ export function NavigateToOversiktButton() {
             as={Link}
             href="/oversikt"
             onClick={() => {
-                posthog.capture('admin_page_opened', {
+                capture('admin_page_opened', {
                     location: 'landing_page',
                 })
             }}

@@ -17,7 +17,7 @@ function InfoMessage({
     infoMessage?: BoardFooter
     onBlur: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const [selectedValue, setSelectedValue] = useState<string>(
         infoMessage?.footer ?? '',
     )
@@ -53,7 +53,7 @@ function InfoMessage({
                     }
 
                     debounceTimerRef.current = setTimeout(() => {
-                        posthog.capture('board_settings_changed', {
+                        capture('board_settings_changed', {
                             setting: 'info_message',
                             value: 'changed',
                         })

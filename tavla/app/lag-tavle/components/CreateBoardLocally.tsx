@@ -35,11 +35,11 @@ export function CreateBoardLocally() {
         type: 'not-published',
     })
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const handlePublish = async () => {
         setPublishState({ type: 'publishing' })
-        posthog.capture('board_share_selected')
+        capture('board_share_selected')
         try {
             const boardId = await publishBoard(board)
 
@@ -129,7 +129,7 @@ export function CreateBoardLocally() {
                 size="medium"
                 open={isModalOpen}
                 onDismiss={() => {
-                    posthog.capture('board_share_cancelled')
+                    capture('board_share_cancelled')
                     setIsModalOpen(false)
                 }}
                 title={getModalTitle(publishState)}
@@ -174,7 +174,7 @@ function PublishButton({
     publishState: PublishBoardState
     onClick: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     switch (publishState.type) {
         case 'error':
@@ -184,7 +184,7 @@ function PublishButton({
                 <PrimaryButton
                     onClick={() => {
                         onClick()
-                        posthog.capture('board_share_started')
+                        capture('board_share_started')
                     }}
                     loading={publishState.type === 'publishing'}
                     width="auto"
