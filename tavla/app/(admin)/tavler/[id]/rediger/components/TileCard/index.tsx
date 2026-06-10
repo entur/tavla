@@ -1,6 +1,6 @@
 'use client'
 import { useToast } from '@entur/alert'
-import { BaseExpand } from '@entur/expand'
+import { Modal } from '@entur/modal'
 import { Heading3 } from '@entur/typography'
 import { DEFAULT_COLUMNS } from 'app/(admin)/components/TileSelector/utils'
 import { TransportIcon } from 'app/(admin)/components/TransportIcon'
@@ -18,7 +18,6 @@ import type {
     TileColumnDB,
 } from 'src/types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
-import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
 import { SetColumns } from './components/SetColumns'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
@@ -225,10 +224,16 @@ function TileCard({
         <div>
             <TileContext.Provider value={tile}>
                 <div className="flex flex-row">
-                    <div
-                        className={`flex w-full items-center justify-between bg-white px-6 py-4 ${
-                            isOpen ? 'rounded-t' : 'rounded'
-                        }`}
+                    <button
+                        type="button"
+                        aria-label={`Rediger ${tile.displayName ?? tile.name}`}
+                        onClick={() => {
+                            posthog.capture('stop_place_edit_started', {
+                                location: trackingLocation,
+                            })
+                            handleSetIsTileOpen(true)
+                        }}
+                        className="flex w-full items-center justify-between rounded bg-white px-6 py-4 text-left transition-colors hover:bg-tintLight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-main"
                     >
                         <div className="flex flex-row items-center gap-4">
                             <Heading3 margin="none">
@@ -241,17 +246,7 @@ function TileCard({
                                 {uniqTransportModeIcons}
                             </section>
                         </div>
-                        <EditRemoveTileButtonGroup
-                            hasTileChanged={hasUnsavedChanges}
-                            isTileOpen={isOpen}
-                            setIsTileOpen={handleSetIsTileOpen}
-                            setConfirmOpen={setConfirmOpen}
-                            deleteTile={handleDeleteTile}
-                            trackingLocation={
-                                bid === 'demo' ? 'demo_page' : 'board_page'
-                            }
-                        />
-                    </div>
+                    </button>
                     <TileArrows
                         index={index}
                         totalTiles={totalTiles}
@@ -259,68 +254,70 @@ function TileCard({
                     />
                 </div>
 
-                <BaseExpand open={isOpen}>
-                    <div
-                        className={`mr-14 border-t-2 bg-white px-6 py-4 ${
-                            totalTiles === 1 && 'w-full'
-                        } rounded-b`}
+                <Modal
+                    size="medium"
+                    open={isOpen}
+                    title={tile.displayName ?? tile.name}
+                    onDismiss={() => {
+                        if (hasUnsavedChanges) return setConfirmOpen(true)
+                        reset()
+                    }}
+                >
+                    <form
+                        id={tile.uuid}
+                        onSubmit={(e) => {
+                            e.preventDefault()
+                            const fd = new FormData(e.currentTarget)
+                            startTransition(() => {
+                                runAction(fd)
+                            })
+                        }}
+                        onInput={() => setHasUnsavedChanges(true)}
                     >
-                        <form
-                            id={tile.uuid}
-                            onSubmit={(e) => {
-                                e.preventDefault()
-                                const fd = new FormData(e.currentTarget)
-                                startTransition(() => {
-                                    runAction(fd)
-                                })
+                        <SetStopPlaceName
+                            state={state}
+                            trackingLocation={trackingLocation}
+                            onFieldChanged={onFieldChanged}
+                        />
+                        <SetOffsetDepartureTime
+                            address={address}
+                            trackingLocation={trackingLocation}
+                            onFieldChanged={onFieldChanged}
+                        />
+                        <SetColumns
+                            isCombined={isCombined}
+                            trackingLocation={trackingLocation}
+                            onFieldChanged={onFieldChanged}
+                        />
+                        <SetVisibleLines
+                            quays={quaysWithFilteredLines}
+                            trackingLocation={trackingLocation}
+                            onFieldChanged={onFieldChanged}
+                        />
+                        <SaveCancelDeleteTileButtonGroup
+                            confirmOpen={confirmOpen}
+                            hasTileChanged={hasUnsavedChanges}
+                            resetTile={reset}
+                            setIsTileOpen={handleSetIsTileOpen}
+                            setConfirmOpen={setConfirmOpen}
+                            validation={state}
+                            deleteTile={handleDeleteTile}
+                            trackingLocation={trackingLocation}
+                            fieldsChanged={{
+                                name: changedFields.has('name'),
+                                offset: changedFields.has('offset'),
+                                offset_walking_dist: changedFields.has(
+                                    'offset_walking_dist',
+                                ),
+                                columns: changedFields.has('columns'),
+                                lines: changedFields.has('lines'),
+                                transport_mode_filter: changedFields.has(
+                                    'transport_mode_filter',
+                                ),
                             }}
-                            onInput={() => setHasUnsavedChanges(true)}
-                        >
-                            <SetStopPlaceName
-                                state={state}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetOffsetDepartureTime
-                                address={address}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetColumns
-                                isCombined={isCombined}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetVisibleLines
-                                quays={quaysWithFilteredLines}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SaveCancelDeleteTileButtonGroup
-                                confirmOpen={confirmOpen}
-                                hasTileChanged={hasUnsavedChanges}
-                                resetTile={reset}
-                                setIsTileOpen={handleSetIsTileOpen}
-                                setConfirmOpen={setConfirmOpen}
-                                validation={state}
-                                deleteTile={handleDeleteTile}
-                                trackingLocation={trackingLocation}
-                                fieldsChanged={{
-                                    name: changedFields.has('name'),
-                                    offset: changedFields.has('offset'),
-                                    offset_walking_dist: changedFields.has(
-                                        'offset_walking_dist',
-                                    ),
-                                    columns: changedFields.has('columns'),
-                                    lines: changedFields.has('lines'),
-                                    transport_mode_filter: changedFields.has(
-                                        'transport_mode_filter',
-                                    ),
-                                }}
-                            />
-                        </form>
-                    </div>
-                </BaseExpand>
+                        />
+                    </form>
+                </Modal>
             </TileContext.Provider>
         </div>
     )

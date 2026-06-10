@@ -52,7 +52,7 @@ function SetOffsetDepartureTime({
                     id="offset"
                     type="number"
                     min={0}
-                    className="!w-full md:!w-1/2 lg:!w-1/4"
+                    className="!w-full"
                     clearable={!offsetBasedOnWalkingDistance}
                     onClear={() => {
                         setOffset('')

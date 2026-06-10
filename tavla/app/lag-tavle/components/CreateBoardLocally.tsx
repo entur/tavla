@@ -1,15 +1,12 @@
 'use client'
 import { PrimaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading1, Heading2, Heading3, LeadParagraph } from '@entur/typography'
-import { TileSelector } from 'app/(admin)/components/TileSelector'
-import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
+import { Heading1, LeadParagraph } from '@entur/typography'
 import { useSaveDemoBoardInLocalStorage } from 'app/(admin)/hooks/useSaveDemoBoardInLocalStorage'
-import { SettingsForm } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/SettingsForm'
-import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
 import { CreateUserButton } from 'app/components/CreateUserButton'
 import { DemoPreview } from 'app/demo/components/DemoPreview'
 import { publishBoard } from 'app/lag-tavle/actions'
+import { CreateBoardSidebar } from 'app/lag-tavle/components/CreateBoardSidebar'
 import { PublishModalContent } from 'app/lag-tavle/components/PublishBoardModal'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useCallback, useState } from 'react'
@@ -80,39 +77,27 @@ function CreateBoardLocally() {
             </LeadParagraph>
             <div
                 data-transport-palette={board.transportPalette}
-                className="flex flex-col gap-4 rounded-md bg-tintLight px-6 py-8"
+                className="flex flex-col gap-6 lg:flex-row lg:items-start"
             >
-                <Heading3 as="h2" margin="top">
-                    Hvilke stoppesteder vil du vise i tavlen?
-                </Heading3>
-                <TileSelector
-                    action={async (data: FormData) => {
-                        const tiles = formDataToTiles(data)
-                        setTiles([...board.tiles, ...tiles])
-                        resetPublishedBoard()
-                    }}
-                    trackingLocation="demo_page"
-                />
-                <TileList
-                    board={board}
-                    setTilesDemoBoard={setTiles}
-                    bid="demo"
-                />
                 <section
                     data-theme={board.theme ?? 'dark'}
                     aria-label="Forhåndsvisning av Tavla"
+                    className="min-w-0 flex-1 lg:sticky lg:top-8 lg:self-start"
                 >
-                    <Heading2>Forhåndsvisning</Heading2>
                     <DemoPreview board={board} />
                 </section>
+
+                {loaded && (
+                    <aside className="w-full shrink-0 rounded-md bg-tintLight lg:w-[536px]">
+                        <CreateBoardSidebar
+                            board={board}
+                            setTiles={setTiles}
+                            onSettingsSubmit={handleSettingsSubmit}
+                            resetPublishedBoard={resetPublishedBoard}
+                        />
+                    </aside>
+                )}
             </div>
-            {loaded && (
-                <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
-            )}
-            <PublishButton
-                publishState={publishState}
-                onClick={() => setIsModalOpen(true)}
-            />
             <Modal
                 size="medium"
                 open={isModalOpen}
