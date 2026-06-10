@@ -14,7 +14,21 @@ import { typedEntries } from 'src/utils/typeguards'
 import { ColumnModal } from '../ColumnModal'
 import { TileContext } from '../context'
 
-function SetColumns({
+const COLUMN_TRACKING_VALUE: Record<
+    keyof typeof TileColumns,
+    EventProps<'stop_place_edit_interaction'>['column_value']
+> = {
+    aimedTime: 'eta',
+    arrivalTime: 'arrival',
+    line: 'line',
+    destination: 'destination',
+    fromStopPlace: 'fromStopPlace',
+    name: 'stop_place',
+    platform: 'platform',
+    time: 'expected',
+}
+
+export function SetColumns({
     isCombined,
     isArrivals,
     trackingLocation,
@@ -73,54 +87,37 @@ function SetColumns({
                                 ? key !== 'arrivalTime'
                                 : key !== 'fromStopPlace',
                         )
-                        .map(([key, value]) => {
-                            const columnValue: Record<
-                                keyof typeof TileColumns,
-                                EventProps<'stop_place_edit_interaction'>['column_value']
-                            > = {
-                                aimedTime: 'eta',
-                                arrivalTime: 'arrival',
-                                line: 'line',
-                                destination: 'destination',
-                                fromStopPlace: 'fromStopPlace',
-                                name: 'stop_place',
-                                platform: 'platform',
-                                time: 'expected',
-                            }
-
-                            return (
-                                <FilterChip
-                                    name="columns"
-                                    key={key}
-                                    value={key}
-                                    disabled={isCombined}
-                                    defaultChecked={
-                                        isArray(tile.columns) &&
-                                        tile.columns.includes(key)
-                                    }
-                                    onChange={(e) => {
-                                        onFieldChanged('columns')
-                                        posthog.capture(
-                                            'stop_place_edit_interaction',
-                                            {
-                                                location: trackingLocation,
-                                                field: 'columns',
-                                                column_value: columnValue[key],
-                                                action: e.target.checked
-                                                    ? 'toggled_on'
-                                                    : 'toggled_off',
-                                            },
-                                        )
-                                    }}
-                                >
-                                    {value}
-                                </FilterChip>
-                            )
-                        })}
+                        .map(([key, value]) => (
+                            <FilterChip
+                                name="columns"
+                                key={key}
+                                value={key}
+                                disabled={isCombined}
+                                defaultChecked={
+                                    isArray(tile.columns) &&
+                                    tile.columns.includes(key)
+                                }
+                                onChange={(e) => {
+                                    onFieldChanged('columns')
+                                    posthog.capture(
+                                        'stop_place_edit_interaction',
+                                        {
+                                            location: trackingLocation,
+                                            field: 'columns',
+                                            column_value:
+                                                COLUMN_TRACKING_VALUE[key],
+                                            action: e.target.checked
+                                                ? 'toggled_on'
+                                                : 'toggled_off',
+                                        },
+                                    )
+                                }}
+                            >
+                                {value}
+                            </FilterChip>
+                        ))}
                 </div>
             )}
         </>
     )
 }
-
-export { SetColumns }
