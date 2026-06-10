@@ -24,7 +24,6 @@ import type {
     BoardDB,
     BoardFontSize,
     BoardTheme,
-    BoardTileDB,
     LocationDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
