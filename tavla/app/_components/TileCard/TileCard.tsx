@@ -132,7 +132,7 @@ export function TileCard({
         setIsOpen(false)
     }
 
-    const quays = useLines(tile)
+    const quays = useLines(tile, board.isArrivals ?? false)
 
     if (!quays)
         return (

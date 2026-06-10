@@ -7,6 +7,7 @@ import type { LineWithFrontText, QuayWithFrontText } from './types'
 
 async function getFrontTextsForQuay(
     quayId: string,
+    isArrival: boolean,
 ): Promise<Map<string, string[]>> {
     const linesToFrontTexts = new Map<string, string[]>()
 
@@ -18,7 +19,10 @@ async function getFrontTextsForQuay(
             },
             body: JSON.stringify({
                 query: QuayEstimatedCallsQuery,
-                variables: { quayId: quayId },
+                variables: {
+                    quayId: quayId,
+                    arrivalDeparture: isArrival ? 'arrivals' : 'departures',
+                },
             }),
             method: 'POST',
         })
@@ -59,7 +63,10 @@ function addFrontTextToQuay(
         .filter((line) => line !== null)
 }
 
-function useLines(tile: BoardTileDB): QuayWithFrontText[] | null {
+function useLines(
+    tile: BoardTileDB,
+    isArrival: boolean,
+): QuayWithFrontText[] | null {
     const [quays, setQuays] = useState<QuayWithFrontText[] | null>(null)
 
     useEffect(() => {
@@ -89,7 +96,10 @@ function useLines(tile: BoardTileDB): QuayWithFrontText[] | null {
                 )
 
                 for (const quay of quays) {
-                    const frontTexts = await getFrontTextsForQuay(quay.id)
+                    const frontTexts = await getFrontTextsForQuay(
+                        quay.id,
+                        isArrival,
+                    )
                     const quayWithFrontTexts = addFrontTextToQuay(
                         quay,
                         frontTexts,
@@ -112,7 +122,7 @@ function useLines(tile: BoardTileDB): QuayWithFrontText[] | null {
         fetchData().catch(() => setQuays([]))
 
         return
-    }, [tile.stopPlaceId])
+    }, [tile.stopPlaceId, isArrival])
 
     return quays
 }
