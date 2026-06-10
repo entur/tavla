@@ -2,6 +2,8 @@
 
 Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all offentlig transport i Norge. Løsningen utvikles av Entur, og er helt gratis og tilgjengelig for alle. Logg inn på [tavla.entur.no](https://tavla.entur.no/) for å komme i gang! Abonner på oppdateringer til Tavla ved å klikke på “Watch” i menyen.
 
+> **Merk:** Dette repoet er admin-/konfigurasjonsappen der man oppretter og redigerer tavler. Selve tavle-visningen (det som vises på skjermene) rendres i et eget repo: [entur/tavla-visning](https://github.com/entur/tavla-visning).
+
 ## Hva du kan gjøre
 
 - Lage skreddersydde tavler (velg stopp, rekkefølge, layout)
@@ -14,12 +16,14 @@ Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all off
 
 ```
 /
-├─ backend/        Rust (Axum) API + Redis
-├─ tavla/          Next.js-frontend
-├─ redirect/       Liten Rust-tjeneste (redirect)
-├─ migrations/     Skript og hjelpeverktøy
-├─ helm/           Deploy-konfigurasjon (Helm charts)
-└─ flake.nix       Valgfri Nix dev-miljøfil
+├─ backend/            Rust (Axum) API + Redis
+│  └─ helm/            Deploy-konfigurasjon for backend (Helm chart)
+├─ tavla/              Next.js-frontend
+│  ├─ migrations/      Python-migrasjonsskript for Firestore
+│  └─ helm/            Deploy-konfigurasjon for frontend (Helm chart)
+├─ redirect/           Liten Rust-tjeneste (redirect)
+├─ docs/               Dokumentasjon (database-skjema, GraphQL-lenker)
+└─ flake.nix           Valgfri Nix dev-miljøfil
 ```
 
 ## Teknologistack
@@ -29,12 +33,12 @@ Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all off
 | Frontend | Next.js 16, React 19, TypeScript, Tailwind |
 | Backend  | Rust (Axum), Tokio, Redis pub/sub          |
 | Data/Auth | Firebase (emulator i utvikling)            |
-| Verktøy  | Yarn 3, GraphQL Codegen, Sentry            |
+| Verktøy  | Yarn 4, GraphQL Codegen, Sentry            |
 
 ## Oversikt: slik kjører du (høytnivå)
 
 1. Start Redis (master + replica) – se `backend/readme.md` for detaljer
-2. Start backend (`cargo run`)
+2. Start backend (`./run-local.sh`, eller `cargo run` med miljøvariabler satt)
 3. Start frontend (`yarn dev` eller `yarn dev:persist`)
 4. Sett `BACKEND_API_KEY` i frontend (`.env.local`)
 5. Test med `curl` mot backend
@@ -56,6 +60,15 @@ Detaljer per delkomponent finnes i deres respektive README.
 | NEXT_PUBLIC_ENV | Frontend | Nei | dev | Bygg-/miljøflagg i frontend |
 | SENTRY_* | Frontend/Backend | Nei | – | Valgfri observability |
 | FIREBASE_* | Frontend | Ja (auth) | – | Konfig via emulator / service keys |
+
+## Videre dokumentasjon
+
+Mappen [`docs/`](docs/) inneholder mer utfyllende dokumentasjon:
+
+- [`docs/database.md`](docs/database.md) – Firebase/Firestore-oppsett, hvordan koble mot dev-databasen lokalt, migrering og sikkerhetskopiering/rollback
+- [`docs/EXPLORER_LINKS.md`](docs/EXPLORER_LINKS.md) – alle GraphQL-spørringene mot Journey Planner v3, klare til å kjøres i GraphQL Explorer
+
+Se ellers `backend/readme.md` og `tavla/README.md` for komponentspesifikke detaljer.
 
 ## Bidrag
 
