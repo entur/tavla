@@ -16,10 +16,12 @@ import { TileContext } from '../context'
 
 function SetColumns({
     isCombined,
+    isArrivals,
     trackingLocation,
     onFieldChanged,
 }: {
     isCombined: boolean
+    isArrivals: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
@@ -65,49 +67,56 @@ function SetColumns({
             />
             {!isCombined && (
                 <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
-                    {typedEntries(TileColumns).map(([key, value]) => {
-                        const columnValue: Record<
-                            keyof typeof TileColumns,
-                            EventProps<'stop_place_edit_interaction'>['column_value']
-                        > = {
-                            aimedTime: 'eta',
-                            arrivalTime: 'arrival',
-                            line: 'line',
-                            destination: 'destination',
-                            name: 'stop_place',
-                            platform: 'platform',
-                            time: 'expected',
-                        }
-
-                        return (
-                            <FilterChip
-                                name="columns"
-                                key={key}
-                                value={key}
-                                disabled={isCombined}
-                                defaultChecked={
-                                    isArray(tile.columns) &&
-                                    tile.columns.includes(key)
-                                }
-                                onChange={(e) => {
-                                    onFieldChanged('columns')
-                                    posthog.capture(
-                                        'stop_place_edit_interaction',
-                                        {
-                                            location: trackingLocation,
-                                            field: 'columns',
-                                            column_value: columnValue[key],
-                                            action: e.target.checked
-                                                ? 'toggled_on'
-                                                : 'toggled_off',
-                                        },
-                                    )
-                                }}
-                            >
-                                {value}
-                            </FilterChip>
+                    {typedEntries(TileColumns)
+                        .filter(([key]) =>
+                            isArrivals
+                                ? key !== 'arrivalTime'
+                                : key !== 'fromStopPlace',
                         )
-                    })}
+                        .map(([key, value]) => {
+                            const columnValue: Record<
+                                keyof typeof TileColumns,
+                                EventProps<'stop_place_edit_interaction'>['column_value']
+                            > = {
+                                aimedTime: 'eta',
+                                arrivalTime: 'arrival',
+                                line: 'line',
+                                destination: 'destination',
+                                fromStopPlace: 'fromStopPlace',
+                                name: 'stop_place',
+                                platform: 'platform',
+                                time: 'expected',
+                            }
+
+                            return (
+                                <FilterChip
+                                    name="columns"
+                                    key={key}
+                                    value={key}
+                                    disabled={isCombined}
+                                    defaultChecked={
+                                        isArray(tile.columns) &&
+                                        tile.columns.includes(key)
+                                    }
+                                    onChange={(e) => {
+                                        onFieldChanged('columns')
+                                        posthog.capture(
+                                            'stop_place_edit_interaction',
+                                            {
+                                                location: trackingLocation,
+                                                field: 'columns',
+                                                column_value: columnValue[key],
+                                                action: e.target.checked
+                                                    ? 'toggled_on'
+                                                    : 'toggled_off',
+                                            },
+                                        )
+                                    }}
+                                >
+                                    {value}
+                                </FilterChip>
+                            )
+                        })}
                 </div>
             )}
         </>
