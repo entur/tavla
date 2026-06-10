@@ -27,7 +27,7 @@ export type PublishBoardState =
     | { type: 'published'; boardId: string }
     | { type: 'error'; message: string }
 
-function CreateBoardLocally() {
+export function CreateBoardLocally() {
     const { board, loaded, setTiles, onSubmit } = useSaveBoardInLocalStorage()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -109,7 +109,6 @@ function CreateBoardLocally() {
                             setTiles(tiles)
                             resetPublishedBoard()
                         }}
-                        bid={board.id}
                     />
                     <section
                         data-theme={board.theme ?? 'dark'}
@@ -195,5 +194,3 @@ function PublishButton({
             )
     }
 }
-
-export { CreateBoardLocally }

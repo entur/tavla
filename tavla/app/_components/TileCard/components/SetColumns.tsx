@@ -1,9 +1,9 @@
+import { SmallAlertBox } from '@entur/alert/'
 import { IconButton } from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { QuestionFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import { Heading4, SubParagraph } from '@entur/typography'
-import { DEFAULT_COMBINED_COLUMNS } from 'app/_components/TileSelector/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { isArray } from 'lodash'
@@ -47,13 +47,15 @@ function SetColumns({
                     </IconButton>
                 </Tooltip>
             </div>
-            <SubParagraph>
-                Her bestemmer du hvilke kolonner som skal vises i tavlen.
-            </SubParagraph>
-            {isCombined && (
-                <SubParagraph className="mb-2 !text-error">
-                    Har du samlet stoppestedene i én liste vil du ikke ha
-                    mulighet til å velge kolonner.
+
+            {isCombined ? (
+                <SmallAlertBox variant="info" className="mb-2 w-fit">
+                    Du har valgt å vise alle stoppesteder i en liste, og kan
+                    derfor ikke velge kolonner per stoppested.
+                </SmallAlertBox>
+            ) : (
+                <SubParagraph>
+                    Her bestemmer du hvilke kolonner som skal vises i tavlen.
                 </SubParagraph>
             )}
 
@@ -61,51 +63,53 @@ function SetColumns({
                 isOpen={isColumnModalOpen}
                 setIsOpen={setIsColumnModalOpen}
             />
-            <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
-                {typedEntries(TileColumns).map(([key, value]) => {
-                    const columns = isCombined
-                        ? DEFAULT_COMBINED_COLUMNS
-                        : tile.columns
+            {!isCombined && (
+                <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
+                    {typedEntries(TileColumns).map(([key, value]) => {
+                        const columnValue: Record<
+                            keyof typeof TileColumns,
+                            EventProps<'stop_place_edit_interaction'>['column_value']
+                        > = {
+                            aimedTime: 'eta',
+                            arrivalTime: 'arrival',
+                            line: 'line',
+                            destination: 'destination',
+                            name: 'stop_place',
+                            platform: 'platform',
+                            time: 'expected',
+                        }
 
-                    const columnValue: Record<
-                        keyof typeof TileColumns,
-                        EventProps<'stop_place_edit_interaction'>['column_value']
-                    > = {
-                        aimedTime: 'eta',
-                        arrivalTime: 'arrival',
-                        line: 'line',
-                        destination: 'destination',
-                        name: 'stop_place',
-                        platform: 'platform',
-                        time: 'expected',
-                    }
-
-                    return (
-                        <FilterChip
-                            name="columns"
-                            key={key}
-                            value={key}
-                            disabled={isCombined}
-                            defaultChecked={
-                                isArray(columns) && columns.includes(key)
-                            }
-                            onChange={(e) => {
-                                onFieldChanged('columns')
-                                posthog.capture('stop_place_edit_interaction', {
-                                    location: trackingLocation,
-                                    field: 'columns',
-                                    column_value: columnValue[key],
-                                    action: e.target.checked
-                                        ? 'toggled_on'
-                                        : 'toggled_off',
-                                })
-                            }}
-                        >
-                            {value}
-                        </FilterChip>
-                    )
-                })}
-            </div>
+                        return (
+                            <FilterChip
+                                name="columns"
+                                key={key}
+                                value={key}
+                                disabled={isCombined}
+                                defaultChecked={
+                                    isArray(tile.columns) &&
+                                    tile.columns.includes(key)
+                                }
+                                onChange={(e) => {
+                                    onFieldChanged('columns')
+                                    posthog.capture(
+                                        'stop_place_edit_interaction',
+                                        {
+                                            location: trackingLocation,
+                                            field: 'columns',
+                                            column_value: columnValue[key],
+                                            action: e.target.checked
+                                                ? 'toggled_on'
+                                                : 'toggled_off',
+                                        },
+                                    )
+                                }}
+                            >
+                                {value}
+                            </FilterChip>
+                        )
+                    })}
+                </div>
+            )}
         </>
     )
 }

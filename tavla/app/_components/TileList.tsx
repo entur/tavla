@@ -7,13 +7,11 @@ import { useEffect, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { TileCard } from './TileCard/TileCard'
 
-function TileList({
+export function TileList({
     board,
     setTilesLocalStorageBoard,
-    bid,
 }: {
     board: BoardDB
-    bid?: BoardDB['id']
     setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)
@@ -39,7 +37,7 @@ function TileList({
         newArray[index] = oldElement
 
         setTileArray(newArray)
-        if (bid === LOCAL_STORAGE_BOARD_ID && setTilesLocalStorageBoard) {
+        if (board.id === LOCAL_STORAGE_BOARD_ID && setTilesLocalStorageBoard) {
             setTilesLocalStorageBoard(newArray)
         } else {
             saveUpdatedTileOrder(board.id ?? '', newArray)
@@ -51,21 +49,13 @@ function TileList({
             {tileArray.map((tile, index) => (
                 <TileCard
                     key={tile.uuid}
-                    bid={bid ?? board.id ?? ''}
-                    localStorageBoard={
-                        bid === LOCAL_STORAGE_BOARD_ID ? board : undefined
-                    }
+                    board={board}
                     tile={tile}
-                    address={board.meta.location}
                     moveItem={debouncedSave}
                     index={index}
-                    totalTiles={board.tiles.length}
                     setTilesLocalStorageBoard={setTilesLocalStorageBoard}
-                    isCombined={board.isCombinedTiles}
                 />
             ))}
         </div>
     )
 }
-
-export { TileList }
