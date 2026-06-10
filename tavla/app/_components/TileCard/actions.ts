@@ -54,7 +54,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
         }
 
         await updateBoard(boardId, updatePayload)
-        revalidatePath(`/tavler/${boardId}/rediger`)
+        revalidatePath(`/tavler/${boardId}`, 'layout')
     } catch (error) {
         logToGcp(
             'error',
@@ -81,7 +81,7 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
         const existingTile = board?.tiles.find((t) => t.uuid === tile.uuid)
         if (!existingTile) {
             await updateBoard(bid, { tiles: FieldValue.arrayUnion(tile) })
-            revalidatePath(`/tavler/${bid}/rediger`)
+            revalidatePath(`/tavler/${bid}`, 'layout')
             return
         }
         const indexExistingTile = board?.tiles.indexOf(existingTile)
@@ -95,7 +95,7 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
             await updateBoard(bid, { tiles: board.tiles })
         }
 
-        revalidatePath(`/tavler/${bid}/rediger`)
+        revalidatePath(`/tavler/${bid}`, 'layout')
     } catch (error) {
         logToGcp(
             'error',

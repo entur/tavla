@@ -96,7 +96,7 @@ export async function saveSettings(data: FormData) {
             hideLogo,
         })
 
-        revalidatePath(`/tavler/${bid}/rediger`)
+        revalidatePath(`/tavler/${bid}`, 'layout')
     } catch (error) {
         if (isRedirectError(error)) {
             redirect('/')

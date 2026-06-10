@@ -94,7 +94,7 @@ export async function saveUpdatedTileOrder(
 
     try {
         await updateBoard(bid, { tiles })
-        revalidatePath(`/tavler/${bid}/rediger`)
+        revalidatePath(`/tavler/${bid}`, 'layout')
     } catch (error) {
         logToGcp(
             'error',
@@ -138,7 +138,7 @@ export async function saveCustomUrl(
             customUrl: trimmed || FieldValue.delete(),
         })
 
-        revalidatePath(`/tavler/${bid}/rediger`)
+        revalidatePath(`/tavler/${bid}`, 'layout')
         return {}
     } catch (error) {
         logToGcp(
