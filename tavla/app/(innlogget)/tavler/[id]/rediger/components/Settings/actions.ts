@@ -80,7 +80,7 @@ export async function saveSettings(data: FormData) {
         const tiles = await Promise.all(
             board.tiles.map((tile) =>
                 isLocationChanged
-                    ? addOrRemoveWalkingDistanceFromTile(tile, location)
+                    ? getTileWithWalkingDistance(tile, location)
                     : tile,
             ),
         )
@@ -122,21 +122,6 @@ export async function saveSettings(data: FormData) {
         errors.general = handleError(error)
         return errors
     }
-}
-
-async function addOrRemoveWalkingDistanceFromTile(
-    tile: BoardTileDB,
-    location: LocationDB | undefined,
-) {
-    const userHasRemovedLocation = location === undefined
-
-    if (userHasRemovedLocation) {
-        const rest = { ...tile }
-        delete rest.walkingDistance
-        return rest
-    }
-
-    return await getTileWithWalkingDistance(tile, location)
 }
 
 function isSameLocation(a: LocationDB | undefined, b: LocationDB | undefined) {

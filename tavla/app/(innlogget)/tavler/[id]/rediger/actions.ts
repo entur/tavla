@@ -60,8 +60,12 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
 
 export async function getTileWithWalkingDistance(
     tile: BoardTileDB,
-    location: LocationDB,
+    location: LocationDB | undefined,
 ): Promise<BoardTileDB> {
+    if (!location) {
+        delete tile.walkingDistance
+        return tile
+    }
     logToGcp('info', 'action:getWalkingDistanceTile invoked')
     const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate

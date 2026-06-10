@@ -24,12 +24,6 @@ export async function getTilesWithWalkingDistance(
     location: LocationDB | undefined,
 ): Promise<BoardTileDB[]> {
     return Promise.all(
-        tiles.map(async (tile) => {
-            if (!location) {
-                delete tile.walkingDistance
-                return tile
-            }
-            return getTileWithWalkingDistance(tile, location)
-        }),
+        tiles.map((tile) => getTileWithWalkingDistance(tile, location)),
     )
 }
