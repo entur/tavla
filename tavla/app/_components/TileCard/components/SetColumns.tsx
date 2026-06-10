@@ -14,12 +14,28 @@ import { typedEntries } from 'src/utils/typeguards'
 import { ColumnModal } from '../ColumnModal'
 import { TileContext } from '../context'
 
-function SetColumns({
+const COLUMN_TRACKING_VALUE: Record<
+    keyof typeof TileColumns,
+    EventProps<'stop_place_edit_interaction'>['column_value']
+> = {
+    aimedTime: 'eta',
+    arrivalTime: 'arrival',
+    line: 'line',
+    destination: 'destination',
+    fromStopPlace: 'fromStopPlace',
+    name: 'stop_place',
+    platform: 'platform',
+    time: 'expected',
+}
+
+export function SetColumns({
     isCombined,
+    isArrivals,
     trackingLocation,
     onFieldChanged,
 }: {
     isCombined: boolean
+    isArrivals: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
@@ -65,21 +81,13 @@ function SetColumns({
             />
             {!isCombined && (
                 <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
-                    {typedEntries(TileColumns).map(([key, value]) => {
-                        const columnValue: Record<
-                            keyof typeof TileColumns,
-                            EventProps<'stop_place_edit_interaction'>['column_value']
-                        > = {
-                            aimedTime: 'eta',
-                            arrivalTime: 'arrival',
-                            line: 'line',
-                            destination: 'destination',
-                            name: 'stop_place',
-                            platform: 'platform',
-                            time: 'expected',
-                        }
-
-                        return (
+                    {typedEntries(TileColumns)
+                        .filter(([key]) =>
+                            isArrivals
+                                ? key !== 'arrivalTime'
+                                : key !== 'fromStopPlace',
+                        )
+                        .map(([key, value]) => (
                             <FilterChip
                                 name="columns"
                                 key={key}
@@ -96,7 +104,8 @@ function SetColumns({
                                         {
                                             location: trackingLocation,
                                             field: 'columns',
-                                            column_value: columnValue[key],
+                                            column_value:
+                                                COLUMN_TRACKING_VALUE[key],
                                             action: e.target.checked
                                                 ? 'toggled_on'
                                                 : 'toggled_off',
@@ -106,12 +115,9 @@ function SetColumns({
                             >
                                 {value}
                             </FilterChip>
-                        )
-                    })}
+                        ))}
                 </div>
             )}
         </>
     )
 }
-
-export { SetColumns }
