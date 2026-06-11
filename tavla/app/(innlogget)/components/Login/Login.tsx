@@ -17,7 +17,7 @@ import type { TLoginPage } from './types'
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
     const pathname = usePathname()
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const { open, pageParam } = usePageParam('login')
 
@@ -25,7 +25,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
         return (
             <IconButton
                 onClick={async () => {
-                    posthog.capture('user_log_out_started', {
+                    capture('user_log_out_started', {
                         location: 'nav_bar',
                     })
                     await logout()
@@ -45,7 +45,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 scroll={false}
                 className="shrink-0 gap-2"
                 onClick={() => {
-                    posthog.capture('user_login_started', {
+                    capture('user_login_started', {
                         location: 'nav_bar',
                     })
                 }}
@@ -60,7 +60,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 className="w-11/12 lg:w-full"
                 onDismiss={() => {
                     router.push(pathname ?? '/')
-                    posthog.capture('user_modal_closed', {
+                    capture('user_modal_closed', {
                         context: pageParam as TLoginPage,
                     })
                 }}
@@ -68,7 +68,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => {
-                        posthog.capture('user_modal_closed', {
+                        capture('user_modal_closed', {
                             context: pageParam as TLoginPage,
                         })
                         router.push(pathname ?? '/')

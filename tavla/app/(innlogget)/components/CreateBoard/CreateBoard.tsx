@@ -17,13 +17,13 @@ type CreateBoardProps = {
 
 function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
     const [isOpen, setIsOpen] = useState(false)
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <>
             <PrimaryButton
                 onClick={() => {
-                    posthog.capture('board_create_started', {
+                    capture('board_create_started', {
                         location: trackingLocation,
                         type: 'new',
                     })
@@ -37,7 +37,7 @@ function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
                 open={isOpen}
                 size="small"
                 onDismiss={() => {
-                    posthog.capture('board_create_cancelled', {
+                    capture('board_create_cancelled', {
                         method: 'dismissed',
                     })
                     setIsOpen(false)
@@ -48,7 +48,7 @@ function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
                 <IconButton
                     aria-label="Avbryt opprettelse av tavle"
                     onClick={() => {
-                        posthog.capture('board_create_cancelled', {
+                        capture('board_create_cancelled', {
                             method: 'close_icon',
                         })
                         setIsOpen(false)
@@ -61,7 +61,7 @@ function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
                     folders={folders}
                     folder={folder}
                     onClose={() => {
-                        posthog.capture('board_create_cancelled', {
+                        capture('board_create_cancelled', {
                             method: 'cancel_button',
                         })
                         setIsOpen(false)

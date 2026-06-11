@@ -13,7 +13,7 @@ export function LocalStorageBoardBanner() {
     const [board, setBoard] = useState<BoardDB | null>(null)
     const [loading, setLoading] = useState(false)
     const router = useRouter()
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     useEffect(() => {
         const localStorageValue = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -31,7 +31,7 @@ export function LocalStorageBoardBanner() {
         try {
             const boardId = await saveBoardToFirebaseForUser(board)
             localStorage.removeItem(LOCAL_STORAGE_KEY)
-            posthog.capture('board_create_started', {
+            capture('board_create_started', {
                 location: 'admin',
                 type: 'from_local_storage',
             })
@@ -43,7 +43,7 @@ export function LocalStorageBoardBanner() {
 
     const handleDiscard = () => {
         localStorage.removeItem(LOCAL_STORAGE_KEY)
-        posthog.capture('board_dismiss_from_local_storage')
+        capture('board_dismiss_from_local_storage')
         setBoard(null)
     }
 

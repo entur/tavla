@@ -27,7 +27,7 @@ import Google from './Google'
 import type { TLoginPage } from './types'
 
 function Email() {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const [email, setEmail] = useState('')
     const submit = async (
         _previousState: TFormFeedback | undefined,
@@ -123,7 +123,7 @@ function Email() {
                         className="underline"
                         href={getPathWithParams('reset')}
                         onClick={() =>
-                            posthog.capture('user_forgot_password', {
+                            capture('user_forgot_password', {
                                 location: 'user_modal',
                             })
                         }
@@ -137,7 +137,7 @@ function Email() {
                         width="fluid"
                         aria-label="Logg inn"
                         onClick={() => {
-                            posthog.capture('user_login_method_selected', {
+                            capture('user_login_method_selected', {
                                 method: 'email',
                                 location: 'user_modal',
                                 context: 'email',
@@ -156,7 +156,7 @@ function Email() {
                     className="underline"
                     href={getPathWithParams('create')}
                     onClick={() =>
-                        posthog.capture('user_create_started', {
+                        capture('user_create_started', {
                             location: 'user_modal',
                             context: 'email',
                         })

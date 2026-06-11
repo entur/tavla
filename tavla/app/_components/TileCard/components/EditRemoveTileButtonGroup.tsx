@@ -20,7 +20,7 @@ function EditRemoveTileButtonGroup({
     deleteTile: () => void
     trackingLocation: EventProps<'stop_place_edit_cancelled'>['location']
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <div className="flex gap-4">
@@ -32,11 +32,11 @@ function EditRemoveTileButtonGroup({
                 <SecondarySquareButton
                     onClick={() => {
                         if (!isTileOpen) {
-                            posthog.capture('stop_place_edit_started', {
+                            capture('stop_place_edit_started', {
                                 location: trackingLocation,
                             })
                         } else {
-                            posthog.capture('stop_place_edit_cancelled', {
+                            capture('stop_place_edit_cancelled', {
                                 location: trackingLocation,
                                 unsavedChanges: hasTileChanged,
                             })

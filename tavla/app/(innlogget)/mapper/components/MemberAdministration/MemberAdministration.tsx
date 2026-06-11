@@ -22,13 +22,13 @@ function MemberAdministration({
 }) {
     const [isOpen, setIsOpen] = useState(false)
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <>
             <Button
                 onClick={() => {
-                    posthog.capture('folder_members_manage_started', {
+                    capture('folder_members_manage_started', {
                         location: 'folder',
                         folder_id: folder.id,
                     })
@@ -43,7 +43,7 @@ function MemberAdministration({
                 title="Administrer medlemmer"
                 open={isOpen}
                 onDismiss={() => {
-                    posthog.capture('folder_members_manage_cancelled', {
+                    capture('folder_members_manage_cancelled', {
                         location: 'folder',
                         folder_id: folder.id,
                         method: 'dismissed',

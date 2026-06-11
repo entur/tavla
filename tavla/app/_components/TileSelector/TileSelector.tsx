@@ -55,7 +55,7 @@ function TileSelector({
 
     const { fetchPosition, currentPositionState } = useCurrentPosition()
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const [state, setFormError] = useState<TFormFeedback | undefined>()
 
@@ -94,7 +94,7 @@ function TileSelector({
 
         const typeOfPlace = getTypeOfPlace(selectedItem)
 
-        posthog.capture('stop_place_add_interaction', {
+        capture('stop_place_add_interaction', {
             location: trackingLocation,
             field: 'stop_place',
             action: selectedItem?.value ? 'selected' : 'cleared',
@@ -151,7 +151,7 @@ function TileSelector({
                 setMainStopPlaceItem(null)
                 setTimeout(() => {
                     if (trackingLocation !== 'board_without_user') {
-                        posthog.capture('survey_set_up_board')
+                        capture('survey_set_up_board')
                     }
                 }, 5000)
             }}
@@ -162,7 +162,7 @@ function TileSelector({
                     items={counties}
                     selectedItems={selectedCounties}
                     onChange={(e) => {
-                        posthog.capture('stop_place_add_interaction', {
+                        capture('stop_place_add_interaction', {
                             location: trackingLocation,
                             field: 'county',
                             action:
@@ -203,7 +203,7 @@ function TileSelector({
                         const addedStopPlace =
                             selectedItems.length >
                             (selectedClosestStopPlaces?.length ?? 0)
-                        posthog.capture('stop_place_add_interaction', {
+                        capture('stop_place_add_interaction', {
                             location: trackingLocation,
                             field: 'closest_stop_places',
                             action: addedStopPlace ? 'added' : 'removed',
@@ -236,7 +236,7 @@ function TileSelector({
                 variant="secondary"
                 className="min-w-24"
                 onClick={() =>
-                    posthog.capture('stop_place_added', {
+                    capture('stop_place_added', {
                         location: trackingLocation,
                         county_count: selectedCounties.length,
                         typeOfPlace: getTypeOfPlace(selectedStopPlace),

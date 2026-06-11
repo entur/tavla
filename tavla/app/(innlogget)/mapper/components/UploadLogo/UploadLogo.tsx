@@ -13,14 +13,14 @@ import { LogoInput } from './LogoInput'
 function UploadLogo({ folder }: { folder: FolderDB }) {
     const [isOpen, setIsOpen] = useState(false)
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <>
             <Button
                 variant="secondary"
                 onClick={() => {
-                    posthog.capture('folder_logo_upload_started', {
+                    capture('folder_logo_upload_started', {
                         location: 'folder',
                         folder_id: folder.id,
                     })
@@ -32,7 +32,7 @@ function UploadLogo({ folder }: { folder: FolderDB }) {
             <Modal
                 open={isOpen}
                 onDismiss={() => {
-                    posthog.capture('folder_logo_upload_cancelled', {
+                    capture('folder_logo_upload_cancelled', {
                         location: 'folder',
                         folder_id: folder.id,
                         method: 'dismissed',
