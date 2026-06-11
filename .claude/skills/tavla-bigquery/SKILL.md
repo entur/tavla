@@ -215,7 +215,7 @@ SELECT
   COUNT(DISTINCT document_id) AS antall_boards,
   COALESCE(LOGICAL_OR(
     CAST(JSON_VALUE(data, '$.meta.lastActiveTimestamp') AS INT64) > (SELECT ms FROM one_year_ago)
-  ), FALSE) AS noen_aktive_siste_år
+  ), FALSE) AS noen_aktive_siste_ar
 FROM `ent-tavla-prd.firestore_export.boards_raw_latest`
 WHERE operation != 'DELETE'
 GROUP BY 1
