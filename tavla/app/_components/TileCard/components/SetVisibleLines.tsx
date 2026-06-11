@@ -191,7 +191,7 @@ function sortAndDistributeColumnItems(quays: QuayWithFrontText[]): {
     return { modes, quayModesMap, columns }
 }
 
-function SetVisibleLines({
+export function SetVisibleLines({
     quays,
     trackingLocation,
     onFieldChanged,
@@ -384,5 +384,3 @@ function SetVisibleLines({
         </>
     )
 }
-
-export { SetVisibleLines }
