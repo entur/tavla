@@ -276,6 +276,7 @@ export function TileCard({
                             />
                             <SetColumns
                                 isCombined={board.isCombinedTiles}
+                                isArrivals={board.isArrivals ?? false}
                                 trackingLocation={trackingLocation}
                                 onFieldChanged={onFieldChanged}
                             />
