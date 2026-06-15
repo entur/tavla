@@ -50,12 +50,12 @@ function Hjelp() {
                     </Paragraph>
                     <div className="flex flex-col">
                         <iframe
-                            src="https://www.kakadu.no/entur/slik-logger-du-inn-og-oppretter-en-tavle/embed"
+                            src="https://www.kakadu.no/entur/slik-oppretter-du-en-tavle/embed"
                             loading="lazy"
                             width="100%"
                             height="690px"
                             className="overflow-hidden"
-                            title="Instruksjoner som viser hvordan du logger inn og oppretter en tavle"
+                            title="Instruksjoner som viser hvordan du oppretter en tavle"
                         ></iframe>
                     </div>
                 </div>

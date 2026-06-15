@@ -11,7 +11,7 @@ import {
     StrongText,
     UnorderedList,
 } from '@entur/typography'
-import { showUC_UI_second } from 'app/components/ConsentHandler'
+import { showUC_UI_second } from 'app/_components/ConsentHandler'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'

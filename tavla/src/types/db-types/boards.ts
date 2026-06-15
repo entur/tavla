@@ -40,6 +40,7 @@ const tileColumnValues = [
     'arrivalTime',
     'line',
     'destination',
+    'fromStopPlace',
     'name',
     'platform',
     'time',
@@ -106,15 +107,15 @@ export const BoardDBSchema = z.object({
     id: z.string(),
     meta: boardMetaSchema,
     tiles: z.array(boardTileSchema),
-
     isCombinedTiles: z.boolean(),
     theme: boardThemeSchema.optional(),
     footer: boardFooterSchema.optional(),
     transportPalette: transportPaletteSchema.optional(),
     hideLogo: z.boolean().optional(),
     hideClock: z.boolean().optional(),
-
     customUrl: z.string().optional(),
+    isAnonymousBoard: z.boolean().optional(),
+    isArrivals: z.boolean().optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>
@@ -132,11 +133,11 @@ export type Coordinate = z.infer<typeof coordinateSchema>
 export type LocationDB = z.infer<typeof locationSchema>
 
 export type TileColumnDB = z.infer<typeof tileColumnSchema>
-
 export const TileColumns: Record<TileColumnDB, string> = {
     aimedTime: 'Planlagt',
     arrivalTime: 'Ankomst',
     line: 'Linje',
+    fromStopPlace: 'Fra',
     destination: 'Destinasjon',
     name: 'Stoppested',
     platform: 'Plattform',

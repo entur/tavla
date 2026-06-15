@@ -2312,7 +2312,7 @@ export type TStopPlacesHaveDeparturesQueryVariables = Exact<{
 }>;
 
 
-export type TStopPlacesHaveDeparturesQuery = { __typename?: 'QueryType', stopPlaces: Array<{ __typename?: 'StopPlace', id: string, quays: Array<{ __typename?: 'Quay', lines: Array<{ __typename?: 'Line', id: string }> } | null> | null } | null> };
+export type TStopPlacesHaveDeparturesQuery = { __typename?: 'QueryType', stopPlaces: Array<{ __typename?: 'StopPlace', id: string, quays: Array<{ __typename?: 'Quay', lines: Array<{ __typename?: 'Line', transportMode: TTransportMode | null, transportSubmode: TTransportSubmode | null }> } | null> | null } | null> };
 
 export type TWalkDistanceQueryVariables = Exact<{
   from: TInputCoordinates;

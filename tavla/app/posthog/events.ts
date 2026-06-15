@@ -1,10 +1,10 @@
-import type { TLoginPage } from 'app/(admin)/components/Login/types'
-import type { TypeOfPlace } from 'app/(admin)/components/TileSelector/utils'
+import type { TypeOfPlace } from 'app/_components/TileSelector/utils'
+import type { TLoginPage } from 'app/(innlogget)/components/Login/types'
 
 export const LOCATIONS = {
     LandingPage: 'landing_page',
     NavBar: 'nav_bar',
-    DemoPage: 'demo_page',
+    BoardWithoutUser: 'board_without_user',
     Footer: 'footer',
     UserModal: 'user_modal',
     Admin: 'admin',
@@ -17,9 +17,24 @@ type Location = (typeof LOCATIONS)[keyof typeof LOCATIONS]
 type WithLocation<L extends Location> = { location: L }
 
 export type EventMap = {
+    /* Landingsside */
+    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage> & {
+        section: 'hero' | 'usage_map'
+    }
+    preview_carousel_dot: { index: number }
+    preview_carousel_arrow: {
+        direction: 'next' | 'prev'
+    }
+    usage_map_pin_hovered: {
+        pin_label: string
+    }
+    feature_showcase_clicked: {
+        feature: 'customization' | 'norway' | 'administration' | 'show_info'
+    }
+
     /* User: create and login */
     user_create_started:
-        | WithLocation<typeof LOCATIONS.DemoPage>
+        | WithLocation<typeof LOCATIONS.BoardWithoutUser>
         | (WithLocation<typeof LOCATIONS.UserModal> & {
               context: TLoginPage
           })
@@ -34,7 +49,7 @@ export type EventMap = {
 
     user_login_started:
         | WithLocation<
-              | typeof LOCATIONS.DemoPage
+              | typeof LOCATIONS.BoardWithoutUser
               | typeof LOCATIONS.NavBar
               | typeof LOCATIONS.LandingPage
           >
@@ -60,6 +75,15 @@ export type EventMap = {
     }
 
     /* Tavle uten bruker */
+    board_without_user_started:
+        | WithLocation<
+              | typeof LOCATIONS.NavBar
+              | typeof LOCATIONS.LandingPage
+              | typeof LOCATIONS.Footer
+          >
+        | (WithLocation<typeof LOCATIONS.UserModal> & {
+              context: TLoginPage
+          })
     board_share_started: undefined
     board_share_selected: undefined
     board_share_cancelled: undefined
@@ -71,8 +95,13 @@ export type EventMap = {
         type: 'new' | 'from_local_storage'
     }
 
+    choose_board_type_selected: {
+        type: 'arrivals' | 'departures'
+    }
+
     board_created: {
         folder_selected: boolean
+        type_selected: 'arrivals' | 'departures'
     }
 
     board_dismiss_from_local_storage: undefined
@@ -90,7 +119,6 @@ export type EventMap = {
     }
 
     /* Mapper */
-
     folder_logo_upload_started: WithLocation<typeof LOCATIONS.Folder> & {
         folder_id: string
     }
@@ -132,14 +160,16 @@ export type EventMap = {
     }
 
     /* Tavler */
-    board_create_entry: WithLocation<typeof LOCATIONS.LandingPage>
-
     board_opened: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardWithoutUser
     >
 
     board_copied: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.AdminTable
+        | typeof LOCATIONS.BoardWithoutUser
     >
 
     board_deleted: WithLocation<
@@ -148,26 +178,31 @@ export type EventMap = {
 
     board_published: WithLocation<typeof LOCATIONS.BoardPage>
 
+    custom_url_modal_closed: WithLocation<typeof LOCATIONS.BoardPage>
+    custom_url_modal_opened: WithLocation<typeof LOCATIONS.BoardPage>
+    custom_url_modified: WithLocation<typeof LOCATIONS.BoardPage>
+    custom_url_saved: WithLocation<typeof LOCATIONS.BoardPage>
+
     stop_place_deleted: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     >
 
     stop_place_edit_started: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     >
 
     stop_place_edit_cancelled: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > & {
         unsavedChanges: boolean
     }
 
     stop_place_edit_discard: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     >
 
     stop_place_edit_interaction: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > & {
         field:
             | 'name'
@@ -190,13 +225,14 @@ export type EventMap = {
             | 'line'
             | 'destination'
             | 'stop_place'
+            | 'fromStopPlace'
             | 'platform'
             | 'expected'
             | 'none'
     }
 
     stop_place_edit_saved: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > & {
         name: boolean
         offset: boolean
@@ -207,7 +243,7 @@ export type EventMap = {
     }
 
     stop_place_add_interaction: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > &
         (
             | {
@@ -228,7 +264,7 @@ export type EventMap = {
         )
 
     stop_place_added: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.DemoPage
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     > & {
         county_count: number
         typeOfPlace: TypeOfPlace
@@ -245,7 +281,6 @@ export type EventMap = {
             | 'board_location'
             | 'info_message'
             | 'element_select'
-            | 'custom_link'
         value:
             | 'combined'
             | 'separate'
@@ -264,17 +299,6 @@ export type EventMap = {
             | 'clock'
             | 'logo'
     }
-
-    /* Demo */
-    demo_started:
-        | WithLocation<
-              | typeof LOCATIONS.NavBar
-              | typeof LOCATIONS.LandingPage
-              | typeof LOCATIONS.Footer
-          >
-        | (WithLocation<typeof LOCATIONS.UserModal> & {
-              context: TLoginPage
-          })
 
     /* FAQ */
     faq_link_clicked: WithLocation<

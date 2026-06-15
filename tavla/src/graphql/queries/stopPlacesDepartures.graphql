@@ -3,7 +3,8 @@ query StopPlacesHaveDepartures($ids: [String]) {
         id
         quays {
             lines {
-                id
+                transportMode
+                transportSubmode
             }
         }
     }

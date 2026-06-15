@@ -23,7 +23,7 @@ run_environment() {
         fi
 
         echo "> Running migration for: $1"
-        ./python-venv/bin/python3 $1
+        ./python-venv/bin/python3 $@
     
     else 
         echo "> Error: No virtual environment running"

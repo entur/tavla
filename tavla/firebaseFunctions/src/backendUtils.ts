@@ -7,6 +7,7 @@ type SingleActiveBoardFromRedis = {
     browser: string
     screen_width: number
     screen_height: number
+    isDirectLink?: boolean
 }
 
 type ActiveBoardsFromRedis = {

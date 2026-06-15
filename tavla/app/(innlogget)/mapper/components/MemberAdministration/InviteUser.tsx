@@ -1,0 +1,65 @@
+'use client'
+import { useToast } from '@entur/alert'
+import { AddIcon } from '@entur/icons'
+import { Heading3 } from '@entur/typography'
+import { FormError } from 'app/_components/Form/FormError'
+import { HiddenInput } from 'app/_components/Form/HiddenInput'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
+import { getFormFeedbackForField } from 'app/(innlogget)/utils/forms'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { useActionState, useRef } from 'react'
+import type { FolderDB } from 'src/types/db-types/folders'
+import { inviteUserAction } from './actions'
+
+function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
+    const [state, formAction] = useActionState(inviteUserAction, undefined)
+    const { addToast } = useToast()
+
+    const { capture } = usePosthogTracking()
+
+    const formRef = useRef<HTMLFormElement>(null)
+
+    const action = async (data: FormData) => {
+        formAction(data)
+        formRef.current?.reset()
+        addToast('Medlem lagt til i mappen')
+    }
+    return (
+        <form action={action} ref={formRef}>
+            <Heading3 className="pb-2">Legg til medlem i mappen</Heading3>
+            <div className="flex flex-col gap-2 sm:flex-row">
+                <HiddenInput id="folderid" value={folderid} />
+                <div className="flex w-full flex-col">
+                    <ClientOnlyTextField
+                        name="email"
+                        id="email"
+                        label="E-post"
+                        type="email"
+                        autoComplete="email"
+                        {...getFormFeedbackForField('email', state)}
+                    />
+                </div>
+                <SubmitButton
+                    aria-label="Legg til medlem"
+                    variant="primary"
+                    width="fluid"
+                    className="mb-4 w-full sm:max-w-48"
+                    onClick={() => {
+                        capture('folder_members_managed', {
+                            location: 'folder',
+                            folder_id: folderid ?? '',
+                            method: 'invited',
+                        })
+                    }}
+                >
+                    <AddIcon />
+                    Legg til
+                </SubmitButton>
+            </div>
+            <FormError {...getFormFeedbackForField('general', state)} />
+        </form>
+    )
+}
+
+export { InviteUser }

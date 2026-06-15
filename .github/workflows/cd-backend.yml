@@ -9,12 +9,18 @@ on:
       - "backend/**"
 
 jobs:
-  docker-push:
-    uses: entur/gha-docker/.github/workflows/push.yml@v1.2.3
+  docker-build:
+    uses: entur/gha-docker/.github/workflows/build.yml@v1
     with:
-      environment: prd
       context: backend
-      image_name: tavla/backend
+      dockerfile: backend/Dockerfile
+      image_name: tavla-backend
+
+  docker-push:
+    needs: [docker-build]
+    uses: entur/gha-docker/.github/workflows/push.yml@v1
+    with:
+      image_name: tavla-backend
 
   helm-deploy-dev:
     needs: [docker-push]
@@ -24,7 +30,6 @@ jobs:
       chart: backend/helm/backend
       image: ${{ needs.docker-push.outputs.image_name }}:${{ needs.docker-push.outputs.image_tag}}
       release_name: backend
-
 
   helm-deploy-prd:
     needs: [docker-push]

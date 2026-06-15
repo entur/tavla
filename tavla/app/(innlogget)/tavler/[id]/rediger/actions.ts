@@ -1,0 +1,161 @@
+'use server'
+import * as Sentry from '@sentry/nextjs'
+import {
+    getStopPlaceCoordinates,
+    getWalkingDistance,
+} from 'app/_components/TileSelector/utils'
+import {
+    initializeAdminApp,
+    userCanEditBoard,
+} from 'app/(innlogget)/utils/firebase'
+import { FieldValue } from 'firebase-admin/firestore'
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
+import { getBoard, getBoardByCustomUrl, updateBoard } from 'src/firebase'
+import type {
+    BoardDB,
+    BoardTileDB,
+    LocationDB,
+    TransportPalette,
+} from 'src/types/db-types/boards'
+import { logToGcp } from 'src/utils/logging'
+import { validateCustomUrl } from './components/CustomUrl/utils'
+
+initializeAdminApp()
+
+export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
+    logToGcp('info', 'action:addTiles invoked', { bid })
+    const access = await userCanEditBoard(bid)
+    if (!access) return redirect('/')
+
+    try {
+        const currentBoard = await getBoard(bid)
+
+        const updateData: {
+            tiles: FieldValue
+            isCombinedTiles: boolean
+            transportPalette?: TransportPalette
+        } = {
+            tiles: FieldValue.arrayUnion(...tiles),
+            isCombinedTiles: currentBoard?.isCombinedTiles || false,
+        }
+
+        if (!currentBoard?.tiles || currentBoard.tiles.length === 0) {
+            updateData.transportPalette = 'default'
+        }
+
+        await updateBoard(bid, updateData)
+    } catch (error) {
+        logToGcp(
+            'error',
+            `Failed to save tile to board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
+        )
+        Sentry.captureMessage(
+            'Failed to save tile to board in firestore. BoardID: ' + bid,
+        )
+        throw error
+    }
+}
+
+export async function getTileWithWalkingDistance(
+    tile: BoardTileDB,
+    location: LocationDB | undefined,
+): Promise<BoardTileDB> {
+    if (!location) {
+        delete tile.walkingDistance
+        return tile
+    }
+    logToGcp('info', 'action:getWalkingDistanceTile invoked')
+    const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
+    const toCoordinates = location.coordinate
+
+    const walkingDistance = await getWalkingDistance(
+        fromCoordinates,
+        toCoordinates,
+    )
+
+    if (!walkingDistance) {
+        delete tile.walkingDistance
+        return tile
+    }
+
+    return {
+        ...tile,
+        walkingDistance: {
+            distance: walkingDistance,
+        },
+    }
+}
+
+export async function saveUpdatedTileOrder(
+    bid: BoardDB['id'],
+    tiles: BoardTileDB[],
+) {
+    logToGcp('info', 'action:saveUpdatedTileOrder invoked', { bid })
+    const access = await userCanEditBoard(bid)
+    if (!access) return redirect('/')
+
+    try {
+        await updateBoard(bid, { tiles })
+        revalidatePath(`/tavler/${bid}/rediger`)
+    } catch (error) {
+        logToGcp(
+            'error',
+            `Failed to save tile order for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
+        )
+        Sentry.captureException(error, {
+            extra: {
+                message:
+                    'Error while saving updated tile ordering to firestore',
+                boardID: bid,
+                tilesObjects: tiles,
+            },
+        })
+        throw error
+    }
+}
+
+export async function saveCustomUrl(
+    bid: BoardDB['id'],
+    customUrl: string,
+): Promise<{ error?: string }> {
+    logToGcp('info', 'action:saveCustomUrl invoked', { bid })
+    const access = await userCanEditBoard(bid)
+    if (!access) return redirect('/')
+
+    const trimmed = customUrl.trim()
+
+    const validationError = validateCustomUrl(trimmed)
+    if (validationError) return { error: validationError }
+
+    try {
+        if (trimmed) {
+            const existing = await getBoardByCustomUrl(trimmed)
+            if (existing && existing.id !== bid) {
+                return { error: 'Denne lenken er allerede i bruk.' }
+            }
+        }
+
+        await updateBoard(bid, {
+            customUrl: trimmed || FieldValue.delete(),
+        })
+
+        revalidatePath(`/tavler/${bid}/rediger`)
+        return {}
+    } catch (error) {
+        logToGcp(
+            'error',
+            `Failed to save custom URL for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid },
+        )
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while saving custom board URL',
+                boardID: bid,
+            },
+        })
+        return { error: 'Noe gikk galt. Prøv igjen.' }
+    }
+}

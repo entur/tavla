@@ -4,6 +4,7 @@ import {
     GRAPHQL_ENDPOINTS,
     type TEndpointNames,
 } from 'src/assets/env'
+import { logToGcp } from 'src/utils/logging'
 import { addMinutesToDate, formatDateToISO } from 'src/utils/time'
 import type { TypedDocumentString } from './index'
 
@@ -28,6 +29,7 @@ async function fetchWithTimeout(
     } catch (error) {
         clearTimeout(timeoutScheduler)
         if (signal.aborted) {
+            logToGcp('error', `Departure fetch timed out: ${url} ${options}`)
             Sentry.captureException(new Error('Departure fetch timed out'), {
                 extra: {
                     url: url,
@@ -36,6 +38,7 @@ async function fetchWithTimeout(
             })
             throw new Error(FetchErrorTypes.TIMEOUT, { cause: error })
         }
+        logToGcp('error', `Unknown error occured during fetch: ${error}`)
         Sentry.captureException(error, {
             extra: {
                 message: 'Unknown error occured during fetch',
@@ -65,10 +68,20 @@ export async function fetcher<Data, Variables>([
         method: 'POST',
     })
 
+    logToGcp(
+        response.status >= 500
+            ? 'error'
+            : response.status >= 400
+              ? 'warning'
+              : 'info',
+        `GraphQL ${endpointName}: status=${response.status}`,
+    )
+
     const res = await response.json()
 
     if (res.errors && res.errors.length > 0) {
         const errorMessage = res.errors[0]?.message || 'Unknown GraphQL error'
+        logToGcp('warning', `GraphQL ${endpointName} error: ${errorMessage}`)
         Sentry.captureMessage(`GraphQL error: ${errorMessage}`, {
             level: 'warning',
             extra: {
@@ -82,6 +95,10 @@ export async function fetcher<Data, Variables>([
     }
 
     if (res.data === null || res.data === undefined) {
+        logToGcp(
+            'warning',
+            `GraphQL returned null/undefined data: query: ${query}, response: ${res}`,
+        )
         Sentry.captureMessage('GraphQL returned null/undefined data', {
             level: 'warning',
             extra: {

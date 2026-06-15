@@ -1,3 +1,3 @@
 export enum FeatureFlags {
-    CreateBoardWithoutUser = 'create_board_without_user',
+    ARRIVAL_DEPARTURE_BOARD = 'arrival_board',
 }

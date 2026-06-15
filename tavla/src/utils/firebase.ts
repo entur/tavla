@@ -1,5 +1,5 @@
-import { getFirebaseClientConfig } from 'app/(admin)/actions'
-import { FIREBASE_DEV_CONFIG } from 'app/(admin)/utils/constants'
+import { getFirebaseClientConfig } from 'app/(innlogget)/actions'
+import { FIREBASE_DEV_CONFIG } from 'app/(innlogget)/utils/constants'
 import { getApp, getApps, initializeApp } from 'firebase/app'
 import {
     connectAuthEmulator,

@@ -1,0 +1,64 @@
+'use client'
+import { CopyableText, useToast } from '@entur/alert'
+import { IconButton } from '@entur/button'
+import { CopyIcon } from '@entur/icons'
+import { Tooltip } from '@entur/tooltip'
+import type { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import type { BoardDB } from 'src/types/db-types/boards'
+import { getBoardLinkClient } from 'src/utils/boardLink'
+
+type Props = {
+    type?: 'button' | 'icon'
+    bid?: string
+    board?: BoardDB
+    trackingLocation: EventProps<'board_copied'>['location']
+}
+
+function Copy({ type, bid, board, trackingLocation }: Props) {
+    const { addToast } = useToast()
+    const { capture } = usePosthogTracking()
+
+    if (!bid) return null
+
+    const boardLink = getBoardLinkClient(bid)
+
+    const copy = () => {
+        navigator.clipboard.writeText(boardLink)
+        addToast('Lenken til tavlen ble kopiert!')
+
+        capture('board_copied', {
+            location: trackingLocation,
+        })
+    }
+
+    const ariaLabel = board?.meta?.title
+        ? `Kopier lenken til tavle ${board.meta.title}`
+        : 'Kopier lenken til tavla'
+
+    if (type === 'button') {
+        return (
+            <CopyableText
+                successHeading=""
+                successMessage="Lenken til tavla ble kopiert!"
+                aria-label={ariaLabel}
+                onClick={copy}
+            >
+                {boardLink}
+            </CopyableText>
+        )
+    }
+    return (
+        <Tooltip
+            content="Kopier lenken til tavla"
+            placement="bottom"
+            id="tooltip-copy-link-board"
+        >
+            <IconButton aria-label={ariaLabel} onClick={copy}>
+                <CopyIcon />
+            </IconButton>
+        </Tooltip>
+    )
+}
+
+export { Copy }

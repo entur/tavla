@@ -1,11 +1,21 @@
 'use client'
-import { PrimaryButton } from '@entur/button'
+import { IconButton, PrimaryButton } from '@entur/button'
+import { LeftArrowIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading1, LeadParagraph } from '@entur/typography'
-import { useSaveDemoBoardInLocalStorage } from 'app/(admin)/hooks/useSaveDemoBoardInLocalStorage'
-import { CreateUserButton } from 'app/components/CreateUserButton'
-import { DemoPreview } from 'app/demo/components/DemoPreview'
+import {
+    Heading1,
+    Heading2,
+    Heading3,
+    Label,
+    LeadParagraph,
+} from '@entur/typography'
+import { CreateUserButton } from 'app/_components/CreateUserButton'
+import { TileList } from 'app/_components/TileList'
+import { TileSelector } from 'app/_components/TileSelector/TileSelector'
+import { formDataToTiles } from 'app/_components/TileSelector/utils'
+import { useSaveBoardInLocalStorage } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { publishBoard } from 'app/lag-tavle/actions'
+import { BoardPreview } from 'app/lag-tavle/components/BoardPreview'
 import { CreateBoardSidebar } from 'app/lag-tavle/components/CreateBoardSidebar'
 import { PublishModalContent } from 'app/lag-tavle/components/PublishBoardModal'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
@@ -17,20 +27,19 @@ export type PublishBoardState =
     | { type: 'published'; boardId: string }
     | { type: 'error'; message: string }
 
-function CreateBoardLocally() {
-    const { board, loaded, setTiles, onSubmit } =
-        useSaveDemoBoardInLocalStorage()
+export function CreateBoardLocally() {
+    const { board, loaded, setTiles, onSubmit } = useSaveBoardInLocalStorage()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const [publishState, setPublishState] = useState<PublishBoardState>({
         type: 'not-published',
     })
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const handlePublish = async () => {
         setPublishState({ type: 'publishing' })
-        posthog.capture('board_share_selected')
+        capture('board_share_selected')
         try {
             const boardId = await publishBoard(board)
 
@@ -48,6 +57,10 @@ function CreateBoardLocally() {
         setIsModalOpen(false)
     }, [])
 
+    const resetToChoice = useCallback(() => {
+        setPublishState({ type: 'not-published' })
+    }, [])
+
     const handleSettingsSubmit = useCallback(
         async (data: FormData) => {
             await onSubmit(data)
@@ -58,7 +71,7 @@ function CreateBoardLocally() {
 
     return (
         <>
-            <div className="flex h-full items-center justify-between align-middle">
+            <div className="flex h-full sm:items-center justify-between sm:align-middle flex-col sm:flex-row">
                 <Heading1 className="!mb-0">Lag en tavle</Heading1>
 
                 <div className="flex flex-row gap-4">
@@ -84,7 +97,7 @@ function CreateBoardLocally() {
                     aria-label="Forhåndsvisning av Tavla"
                     className="min-w-0 flex-1 lg:sticky lg:top-8 lg:self-start"
                 >
-                    <DemoPreview board={board} />
+                    <BoardPreview board={board} />
                 </section>
 
                 {loaded && (
@@ -97,16 +110,52 @@ function CreateBoardLocally() {
                         />
                     </aside>
                 )}
+
+                <Heading2 as="h2">{board.meta.title || 'Min tavle'}</Heading2>
+                <Heading3>Hvilke stoppesteder vil du vise i tavlen?</Heading3>
+                <div className="flex flex-col gap-4">
+                    <TileSelector
+                        action={async (data: FormData) => {
+                            const tiles = formDataToTiles(data)
+                            setTiles([...board.tiles, ...tiles])
+                            resetPublishedBoard()
+                        }}
+                        trackingLocation="board_without_user"
+                    />
+                    <TileList
+                        board={board}
+                        setTilesLocalStorageBoard={(tiles) => {
+                            setTiles(tiles)
+                            resetPublishedBoard()
+                        }}
+                    />
+                    <section
+                        data-theme={board.theme ?? 'dark'}
+                        aria-label="Forhåndsvisning av Tavla"
+                    >
+                        <BoardPreview board={board} />
+                    </section>
+                </div>
             </div>
             <Modal
                 size="medium"
                 open={isModalOpen}
                 onDismiss={() => {
-                    posthog.capture('board_share_cancelled')
+                    capture('board_share_cancelled')
                     setIsModalOpen(false)
                 }}
                 title={getModalTitle(publishState)}
             >
+                {publishState.type === 'published' && (
+                    <IconButton
+                        aria-label="Tilbake"
+                        onClick={resetToChoice}
+                        className="absolute left-4 top-4 gap-2"
+                    >
+                        <LeftArrowIcon />
+                        <Label as="span">Tilbake</Label>
+                    </IconButton>
+                )}
                 <div className="w-full">
                     <PublishModalContent
                         publishState={publishState}
@@ -123,8 +172,6 @@ function getModalTitle(publishState: PublishBoardState) {
     switch (publishState.type) {
         case 'not-published':
             return 'Ferdig med tavla?'
-        case 'published':
-            return 'Din tavle er klar'
         case 'error':
             return 'Det skjedde en feil'
         default:
@@ -139,7 +186,7 @@ function PublishButton({
     publishState: PublishBoardState
     onClick: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     switch (publishState.type) {
         case 'error':
@@ -149,7 +196,7 @@ function PublishButton({
                 <PrimaryButton
                     onClick={() => {
                         onClick()
-                        posthog.capture('board_share_started')
+                        capture('board_share_started')
                     }}
                     loading={publishState.type === 'publishing'}
                     width="auto"
@@ -159,5 +206,3 @@ function PublishButton({
             )
     }
 }
-
-export { CreateBoardLocally }

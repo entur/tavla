@@ -2,9 +2,10 @@
 import { CopyableText } from '@entur/alert'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { LoadingDots } from '@entur/loader'
-import { Heading3, Paragraph } from '@entur/typography'
-import { CreateUserButton } from 'app/components/CreateUserButton'
+import { Heading2, Heading3, Paragraph } from '@entur/typography'
+import { CreateUserButton } from 'app/_components/CreateUserButton'
 import type { PublishBoardState } from 'app/lag-tavle/components/CreateBoardLocally'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import { CopyIcon, ExternalIcon } from 'node_modules/@entur/icons/dist'
@@ -19,6 +20,8 @@ export function PublishModalContent({
     handlePublish: () => void
     resetPublish: () => void
 }) {
+    const { capture } = usePosthogTracking()
+
     switch (publishState.type) {
         case 'not-published':
             return (
@@ -70,46 +73,52 @@ export function PublishModalContent({
             )
         case 'publishing':
             return <LoadingDots />
-        case 'published':
+        case 'published': {
+            const boardLink = getBoardLinkClient(publishState.boardId)
+            function copyLink() {
+                capture('board_copied', {
+                    location: 'board_without_user',
+                })
+                navigator.clipboard.writeText(boardLink)
+            }
             return (
-                <>
-                    <Paragraph>
+                <div className="flex flex-col gap-4 pt-4">
+                    <Heading2 margin="none">Din tavle er klar</Heading2>
+                    <Paragraph margin="none">
                         Din tavle er nå klar! Kopier lenken og del den med andre
                         eller vis den på en skjerm.
                     </Paragraph>
                     <CopyableText
                         successHeading=""
                         successMessage="Lenken til tavlen ble kopiert!"
+                        onClick={copyLink}
                     >
-                        {getBoardLinkClient(publishState.boardId)}
+                        {boardLink}
                     </CopyableText>
                     <div className="flex flex-row gap-2">
-                        <PrimaryButton
-                            onClick={() =>
-                                navigator.clipboard.writeText(
-                                    getBoardLinkClient(publishState.boardId),
-                                )
-                            }
-                            width="fluid"
-                        >
+                        <PrimaryButton onClick={copyLink} width="fluid">
                             Kopier lenke
                             <CopyIcon />
                         </PrimaryButton>
                         <PrimaryButton
-                            onClick={() =>
+                            onClick={() => {
+                                capture('board_opened', {
+                                    location: 'board_without_user',
+                                })
                                 window.open(
                                     getBoardLinkClient(publishState.boardId),
                                     '_blank',
                                 )
-                            }
+                            }}
                             width="fluid"
                         >
                             Åpne tavla
                             <ExternalIcon />
                         </PrimaryButton>
                     </div>
-                </>
+                </div>
             )
+        }
         case 'error':
             return (
                 <div>

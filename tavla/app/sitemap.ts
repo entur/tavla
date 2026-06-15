@@ -7,7 +7,7 @@ export default function sitemap() {
             lastModified: new Date().toISOString(),
         },
         {
-            url: `${baseUrl}/demo`,
+            url: `${baseUrl}/lag-tavle`,
             lastModified: new Date().toISOString(),
         },
         {

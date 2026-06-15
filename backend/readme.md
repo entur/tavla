@@ -37,48 +37,56 @@ The code depends on Redis. Download Redis here:
 
 ### Start Redis
 
-Since we run our stack on Kubernetes we need to mock a master/replica structure locally (You could run the stack in its entirity on a local Kubernetes cluster, like Minikube. Do this on your own discretion)
+Siden vi kjører stacken på Kubernetes må vi etterligne en master/replica-struktur lokalt. (Du kan også kjøre hele stacken i en lokal Kubernetes-klynge som Minikube – på eget ansvar.)
 
-First, start the master instance. Executing the `redis-server` command with `-` as an input will put us in a state where we are reading configurations directly from stdin. We need to set the password for both the master and the replicas.
+`redis-server -` leser konfigurasjon fra stdin. Vi setter samme passord på både master og replica.
+
+**1. Start master (terminal 1):**
 
 ```sh
 redis-server -
 ```
 
-    
+Du skal se noe à la:
 
+```sh
+~ > redis-server -
+82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
+```
 
-    Du skal se noe ala:
-    ```sh
-    ~ > redis-server -
-    82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
-    ```
-    Skriv inn konfigurasjonen:
-    ```sh
-    masterauth super_secret_redis_pw
-    requirepass super_secret_redis_pw
-    ```
+Skriv inn konfigurasjonen:
+
+```sh
+masterauth super_secret_redis_pw
+requirepass super_secret_redis_pw
+```
 
 Terminalen ser da slik ut:
+
 ```sh
 ~ > redis-server -
 82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
 masterauth super_secret_redis_pw
 requirepass super_secret_redis_pw
 ```
-Avslutt konfigurering av første instans med `CTRL-D`.
-2. Start replica i ny terminal:
-    ```sh
-    redis-server -
-    ```
 
-    Du skal se:
-    ```sh
-    ~ > redis-server -
-    82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
-    ```
+Avslutt konfigureringen av første instans med `CTRL-D`.
+
+**2. Start replica (terminal 2):**
+
+```sh
+redis-server -
+```
+
+Du skal se:
+
+```sh
+~ > redis-server -
+82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
+```
 
 Skriv inn konfigurasjonen:
+
 ```sh
 masterauth super_secret_redis_pw
 requirepass super_secret_redis_pw
@@ -87,6 +95,7 @@ replicaof 127.0.0.1 6379
 ```
 
 Terminalen ser da slik ut:
+
 ```sh
 ~ > redis-server -
 82635:C 20 Aug 2024 10:20:39.350 * Reading config from stdin
@@ -97,8 +106,8 @@ replicaof 127.0.0.1 6379
 ```
 
 Avslutt med `CTRL-D`.
-3. Verifiser Redis / sett teller:
-Koble til Redis i en ny terminal:
+
+**3. Verifiser og sett teller (terminal 3):**
 
 Koble til Redis i en ny terminal:
 
@@ -107,11 +116,13 @@ redis-cli
 ```
 
 Autentiser deg:
+
 ```sh
 auth super_secret_redis_pw
 ```
 
 Sett `active_boards` (teller for aktive tavler) til 0:
+
 ```sh
 set active_boards 0
 ```
@@ -164,14 +175,14 @@ Dette skal returnere `0` (siden du nettopp satte telleren til 0).
 
 For at frontend skal bruke din lokale backend må backend-URL midlertidig endres. **Ikke commit denne endringen.**
 
-Gå til `tavla/src/Shared/utils/index.ts` og endre funksjonen `getBackendUrl` til:
+Gå til `tavla/src/utils/backendUrl.ts` og endre funksjonen `getBackendUrl` til:
 ```ts
 export function getBackendUrl() {
     return 'http://127.0.0.1:3001'
 }
 ```
 
-Frontend trenger også en `.env.local` i `tavla/tavla` med:
+Frontend trenger også en `.env.local` i `tavla/`-mappen (frontend-roten) med:
 ```
 BACKEND_API_KEY="super_secret_key"
 ```

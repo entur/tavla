@@ -44,7 +44,7 @@ const cspHeaderTavlevisning = `
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
-    serverExternalPackages: [],
+    serverExternalPackages: ['@google-cloud/logging'],
     transpilePackages: [
         'swr',
         'tailwindcss',
