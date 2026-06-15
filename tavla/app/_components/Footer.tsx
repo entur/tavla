@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { showUC_UI as showUserCentricsUI } from './ConsentHandler'
 
 function Footer({ loggedIn }: { loggedIn: boolean }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     return (
         <footer className="eds-contrast">
             <div className="container pb-20 pt-16">
@@ -37,10 +37,9 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     external
                                     href="https://www.entur.org/kontakt-oss/"
                                     onClick={() =>
-                                        posthog.capture(
-                                            'contact_customer_service',
-                                            { location: 'footer' },
-                                        )
+                                        capture('contact_customer_service', {
+                                            location: 'footer',
+                                        })
                                     }
                                     target="_blank"
                                 >
@@ -52,7 +51,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     href="mailto:tavla@entur.org"
                                     target="_blank"
                                     onClick={() =>
-                                        posthog.capture('contact_tavla', {
+                                        capture('contact_tavla', {
                                             location: 'footer',
                                         })
                                     }
@@ -70,7 +69,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     href="/hjelp"
                                     as={Link}
                                     onClick={() =>
-                                        posthog.capture('faq_link_clicked', {
+                                        capture('faq_link_clicked', {
                                             location: 'footer',
                                         })
                                     }
@@ -102,12 +101,9 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                 <EnturLink
                                     as="button"
                                     onClick={() => {
-                                        posthog.capture(
-                                            'cookie_settings_opened',
-                                            {
-                                                location: 'footer',
-                                            },
-                                        )
+                                        capture('cookie_settings_opened', {
+                                            location: 'footer',
+                                        })
                                         showUserCentricsUI()
                                     }}
                                     className="self-start"
@@ -121,7 +117,7 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
                                     href="https://github.com/entur/tavla"
                                     target="_blank"
                                     onClick={() =>
-                                        posthog.capture('github_link_clicked', {
+                                        capture('github_link_clicked', {
                                             location: 'footer',
                                         })
                                     }

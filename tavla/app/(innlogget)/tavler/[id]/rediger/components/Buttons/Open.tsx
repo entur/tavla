@@ -16,7 +16,7 @@ type Props = {
 }
 
 function Open({ type, bid, board, trackingLocation }: Props) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     if (!bid) {
         return null
@@ -35,7 +35,7 @@ function Open({ type, bid, board, trackingLocation }: Props) {
                 href={link ?? '/'}
                 target="_blank"
                 onClick={() => {
-                    posthog.capture('board_opened', {
+                    capture('board_opened', {
                         location: trackingLocation,
                     })
                 }}
@@ -58,7 +58,7 @@ function Open({ type, bid, board, trackingLocation }: Props) {
                 href={link ?? '/'}
                 target="_blank"
                 onClick={() =>
-                    posthog.capture('board_opened', {
+                    capture('board_opened', {
                         location: trackingLocation,
                     })
                 }

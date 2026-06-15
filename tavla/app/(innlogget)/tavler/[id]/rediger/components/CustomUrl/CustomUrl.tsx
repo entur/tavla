@@ -23,7 +23,7 @@ function CustomUrl({
     bid: BoardDB['id']
     customUrl?: string
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState(customUrl ?? '')
@@ -37,7 +37,7 @@ function CustomUrl({
         }
 
         debounceTimerRef.current = setTimeout(() => {
-            posthog.capture('custom_url_modified', { location: 'board_page' })
+            capture('custom_url_modified', { location: 'board_page' })
         }, TRACKING_DEBOUNCE_TIME)
 
         setFeedback(validateCustomUrl(newValue))
@@ -49,7 +49,7 @@ function CustomUrl({
 
     const submit = () => {
         startTransition(async () => {
-            posthog.capture('custom_url_saved', { location: 'board_page' })
+            capture('custom_url_saved', { location: 'board_page' })
             const result = await saveCustomUrl(bid, value)
             if (result.error) {
                 setFeedback(result.error)
@@ -69,7 +69,7 @@ function CustomUrl({
                 <IconButton
                     aria-label="Rediger lenken til tavla"
                     onClick={() => {
-                        posthog.capture('custom_url_modal_opened', {
+                        capture('custom_url_modal_opened', {
                             location: 'board_page',
                         })
                         setOpen(true)
@@ -82,7 +82,7 @@ function CustomUrl({
                 <Modal
                     size="medium"
                     onDismiss={() => {
-                        posthog.capture('custom_url_modal_closed', {
+                        capture('custom_url_modal_closed', {
                             location: 'board_page',
                         })
                         setOpen(false)

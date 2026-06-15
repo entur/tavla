@@ -14,7 +14,7 @@ import { useState } from 'react'
 function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
     const [isOpen, setIsOpen] = useState(false)
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <div className="block md:hidden">
@@ -49,7 +49,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                             href="/"
                             aria-label="Tilbake til forsiden"
                             onClick={() =>
-                                posthog.capture('go_to_home_page', {
+                                capture('go_to_home_page', {
                                     location: 'nav_bar',
                                 })
                             }
@@ -64,7 +64,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                             <SideNavigationItem
                                 active={pathname?.includes('/oversikt')}
                                 onClick={async () => {
-                                    posthog.capture('admin_page_opened', {
+                                    capture('admin_page_opened', {
                                         location: 'nav_bar',
                                     })
                                     setIsOpen(false)
@@ -81,12 +81,9 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                                 as={Link}
                                 href="/lag-tavle"
                                 onClick={async () => {
-                                    posthog.capture(
-                                        'board_without_user_started',
-                                        {
-                                            location: 'nav_bar',
-                                        },
-                                    )
+                                    capture('board_without_user_started', {
+                                        location: 'nav_bar',
+                                    })
                                     setIsOpen(false)
                                 }}
                                 className="!text-primary"
@@ -98,7 +95,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                         <SideNavigationItem
                             active={pathname?.includes('/hjelp')}
                             onClick={async () => {
-                                posthog.capture('faq_link_clicked', {
+                                capture('faq_link_clicked', {
                                     location: 'nav_bar',
                                 })
                                 setIsOpen(false)

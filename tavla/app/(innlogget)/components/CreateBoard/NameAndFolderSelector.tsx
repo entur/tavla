@@ -39,7 +39,8 @@ function NameAndFolderSelector({
     onClose,
 }: NameAndFolderSelectorProps) {
     const [state, action] = useActionState(createBoardAction, undefined)
-    const posthog = usePosthogTracking()
+
+    const { capture } = usePosthogTracking()
     const isArrivalDepartureFeatureFlagEnabled = useFeatureFlagEnabled(
         FeatureFlags.ARRIVAL_DEPARTURE_BOARD,
     )
@@ -106,7 +107,7 @@ function NameAndFolderSelector({
                         onChange={(item) => {
                             if (item) {
                                 setSelectedArrivalDeparture(item)
-                                posthog.capture('choose_board_type_selected', {
+                                capture('choose_board_type_selected', {
                                     type: item.value
                                         ? 'arrivals'
                                         : 'departures',
@@ -129,7 +130,7 @@ function NameAndFolderSelector({
                     variant="primary"
                     width="fluid"
                     onClick={() => {
-                        posthog.capture('board_created', {
+                        capture('board_created', {
                             folder_selected: !isNull(selectedFolder.value),
                             type_selected: selectedArrivalDeparture.value
                                 ? 'arrivals'

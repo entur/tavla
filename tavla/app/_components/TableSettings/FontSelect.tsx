@@ -10,7 +10,7 @@ function FontSelect({
     font?: BoardFontSize
     onChange: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <ChoiceChipGroupGeneral<BoardFontSize>
@@ -24,7 +24,7 @@ function FontSelect({
             name="font"
             ariaLabel="Tekststørrelse"
             onChange={(value) => {
-                posthog.capture('board_settings_changed', {
+                capture('board_settings_changed', {
                     setting: 'font',
                     value: value as 'small' | 'medium' | 'large',
                 })

@@ -15,7 +15,17 @@ import type {
 } from 'types/db-types/boards'
 import { logToGcp } from 'utils/logging'
 
-const DEFAULT_COLUMNS: TileColumnDB[] = ['line', 'destination', 'time']
+const DEFAULT_DEPARTURE_COLUMNS: TileColumnDB[] = [
+    'line',
+    'destination',
+    'time',
+]
+const DEFAULT_ARRIVAL_COLUMNS: TileColumnDB[] = [
+    'line',
+    'fromStopPlace',
+    'destination',
+    'time',
+]
 
 export type TypeOfPlace =
     | 'stop_place'
@@ -23,7 +33,10 @@ export type TypeOfPlace =
     | 'other'
     | 'current_position'
 
-export function formDataToTiles(data: FormData): BoardTileDB[] {
+export function formDataToTiles(
+    data: FormData,
+    isArrivals = false,
+): BoardTileDB[] {
     const closestStopPlacesJson = data.get('closest_stop_places') as string
     if (!closestStopPlacesJson) return []
 
@@ -33,12 +46,15 @@ export function formDataToTiles(data: FormData): BoardTileDB[] {
         county?: string
     }> = JSON.parse(closestStopPlacesJson)
 
+    const columns = isArrivals
+        ? DEFAULT_ARRIVAL_COLUMNS
+        : DEFAULT_DEPARTURE_COLUMNS
     return closestStopPlaces.map((sp) => ({
         stopPlaceId: sp.id,
         quays: [],
         name: sp.name,
         uuid: nanoid(),
-        columns: DEFAULT_COLUMNS,
+        columns,
         county: sp.county || undefined,
     }))
 }

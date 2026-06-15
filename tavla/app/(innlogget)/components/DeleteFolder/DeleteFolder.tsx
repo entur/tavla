@@ -30,7 +30,7 @@ function DeleteFolder({
     type: 'icon' | 'button'
 }) {
     const { addToast } = useToast()
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const [state, deleteFolder] = useActionState(deleteFolderAction, undefined)
     const [isOpen, setIsOpen] = useState(false)
@@ -60,7 +60,7 @@ function DeleteFolder({
                     ariaLabel={ariaLabel}
                     type={type}
                     onClick={() => {
-                        posthog.capture('folder_delete_started', {
+                        capture('folder_delete_started', {
                             location: 'folder',
                             folder_id: folder.id,
                         })
@@ -73,7 +73,7 @@ function DeleteFolder({
                 open={isOpen}
                 size="small"
                 onDismiss={() => {
-                    posthog.capture('folder_delete_cancelled', {
+                    capture('folder_delete_cancelled', {
                         location: 'folder',
                         folder_id: folder.id,
                         method: 'dismissed',
@@ -88,7 +88,7 @@ function DeleteFolder({
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => {
-                        posthog.capture('folder_delete_cancelled', {
+                        capture('folder_delete_cancelled', {
                             location: 'folder',
                             folder_id: folder.id,
                             method: 'close_icon',
@@ -132,7 +132,7 @@ function DeleteFolder({
                             className="w-1/2"
                             width="fluid"
                             onClick={() => {
-                                posthog.capture('folder_deleted', {
+                                capture('folder_deleted', {
                                     location: 'folder',
                                     folder_id: folder.id,
                                 })
@@ -145,7 +145,7 @@ function DeleteFolder({
                             variant="secondary"
                             aria-label="Avbryt sletting"
                             onClick={() => {
-                                posthog.capture('folder_delete_cancelled', {
+                                capture('folder_delete_cancelled', {
                                     location: 'folder',
                                     folder_id: folder.id,
                                     method: 'cancelled',

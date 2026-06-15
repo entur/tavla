@@ -16,7 +16,7 @@ function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
     const [state, formAction] = useActionState(inviteUserAction, undefined)
     const { addToast } = useToast()
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const formRef = useRef<HTMLFormElement>(null)
 
@@ -46,7 +46,7 @@ function InviteUser({ folderid }: { folderid?: FolderDB['id'] }) {
                     width="fluid"
                     className="mb-4 w-full sm:max-w-48"
                     onClick={() => {
-                        posthog.capture('folder_members_managed', {
+                        capture('folder_members_managed', {
                             location: 'folder',
                             folder_id: folderid ?? '',
                             method: 'invited',

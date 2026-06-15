@@ -60,7 +60,7 @@ function PlatformAndLines({
     onToggleLine: (compositeKey: string) => void
     onToggleGroup: (compositeKeys: string[], checked: boolean) => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const selectedLinesInGroup = lines.filter((l) =>
         selectedLineIds.has(`${quayId}||${l.id}`),
@@ -137,7 +137,7 @@ function PlatformAndLines({
                     checked={isIndeterminate ? 'indeterminate' : isAllSelected}
                     onChange={(e) => {
                         const checked = e.target.checked
-                        posthog.capture('stop_place_edit_interaction', {
+                        capture('stop_place_edit_interaction', {
                             location: trackingLocation,
                             field: 'lines',
                             column_value: 'none',
@@ -162,7 +162,7 @@ function PlatformAndLines({
                         name={`${tile.uuid}-lines`}
                         data-transport-mode={line.transportMode}
                         onChange={() => {
-                            posthog.capture('stop_place_edit_interaction', {
+                            capture('stop_place_edit_interaction', {
                                 location: trackingLocation,
                                 field: 'lines',
                                 column_value: 'none',

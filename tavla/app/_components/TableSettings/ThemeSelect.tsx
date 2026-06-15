@@ -10,7 +10,7 @@ function ThemeSelect({
     theme?: BoardTheme
     onChange: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <ChoiceChipGroupGeneral<BoardTheme>
@@ -21,7 +21,7 @@ function ThemeSelect({
             ]}
             defaultValue={theme}
             onChange={(value) => {
-                posthog.capture('board_settings_changed', {
+                capture('board_settings_changed', {
                     setting: 'theme',
                     value: value as 'light' | 'dark',
                 })
