@@ -200,7 +200,7 @@ function SetVisibleLines({
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
 
     const { modes, quayModesMap, columns } = sortAndDistributeColumnItems(quays)
@@ -318,7 +318,7 @@ function SetVisibleLines({
                             isSelected={isSelected}
                             onClick={() => {
                                 onFieldChanged('transport_mode_filter')
-                                posthog.capture('stop_place_edit_interaction', {
+                                capture('stop_place_edit_interaction', {
                                     location: trackingLocation,
                                     field: 'transport_mode_filter',
                                     column_value: 'none',

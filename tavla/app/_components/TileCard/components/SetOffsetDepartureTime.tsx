@@ -20,7 +20,7 @@ function SetOffsetDepartureTime({
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
 
     const walkingDistanceInMinutes = Math.ceil(
@@ -67,7 +67,7 @@ function SetOffsetDepartureTime({
                         }
 
                         debounceTimerRef.current = setTimeout(() => {
-                            posthog.capture('stop_place_edit_interaction', {
+                            capture('stop_place_edit_interaction', {
                                 location: trackingLocation,
                                 field: 'offset',
                                 action: 'changed',
@@ -90,7 +90,7 @@ function SetOffsetDepartureTime({
                             )
                             onFieldChanged('offset_walking_dist')
 
-                            posthog.capture('stop_place_edit_interaction', {
+                            capture('stop_place_edit_interaction', {
                                 location: trackingLocation,
                                 field: 'offset_walking_dist',
                                 action: !offsetBasedOnWalkingDistance

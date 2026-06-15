@@ -26,7 +26,7 @@ import { create } from './actions'
 import Google from './Google'
 
 function Create() {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const [email, setEmail] = useState('')
     const submit = async (
         _previousState: TFormFeedback | undefined,
@@ -105,7 +105,7 @@ function Create() {
                         width="fluid"
                         aria-label="Opprett bruker"
                         onClick={() => {
-                            posthog.capture('user_create_method_selected', {
+                            capture('user_create_method_selected', {
                                 location: 'user_modal',
                                 method: 'email',
                             })
@@ -126,7 +126,7 @@ function Create() {
                     className="underline"
                     href="?login=email"
                     onClick={() =>
-                        posthog.capture('user_login_started', {
+                        capture('user_login_started', {
                             location: 'user_modal',
                             context: 'create',
                         })

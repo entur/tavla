@@ -15,7 +15,7 @@ function WalkingDistance({
     location?: LocationDB
     onChange: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const { pointItems, selectedPoint, setSelectedPoint } =
         usePointSearch(location)
@@ -45,7 +45,7 @@ function WalkingDistance({
                     items={pointItems}
                     selectedItem={selectedPoint}
                     onChange={(e) => {
-                        posthog.capture('board_settings_changed', {
+                        capture('board_settings_changed', {
                             setting: 'board_location',
                             value: 'changed',
                         })

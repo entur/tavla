@@ -1,4 +1,3 @@
-import { SmallAlertBox } from '@entur/alert/'
 import { IconButton } from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { QuestionFilledIcon } from '@entur/icons'
@@ -39,7 +38,7 @@ export function SetColumns({
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
     const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
 
@@ -63,15 +62,13 @@ export function SetColumns({
                     </IconButton>
                 </Tooltip>
             </div>
-
-            {isCombined ? (
-                <SmallAlertBox variant="info" className="mb-2 w-fit">
-                    Du har valgt å vise alle stoppesteder i en liste, og kan
-                    derfor ikke velge kolonner per stoppested.
-                </SmallAlertBox>
-            ) : (
-                <SubParagraph>
-                    Her bestemmer du hvilke kolonner som skal vises i tavlen.
+            <SubParagraph>
+                Her bestemmer du hvilke kolonner som skal vises i tavlen.
+            </SubParagraph>
+            {isCombined && (
+                <SubParagraph className="mb-2 !text-error">
+                    Har du samlet stoppestedene i én liste vil du ikke ha
+                    mulighet til å velge kolonner.
                 </SubParagraph>
             )}
 
@@ -99,18 +96,15 @@ export function SetColumns({
                                 }
                                 onChange={(e) => {
                                     onFieldChanged('columns')
-                                    posthog.capture(
-                                        'stop_place_edit_interaction',
-                                        {
-                                            location: trackingLocation,
-                                            field: 'columns',
-                                            column_value:
-                                                COLUMN_TRACKING_VALUE[key],
-                                            action: e.target.checked
-                                                ? 'toggled_on'
-                                                : 'toggled_off',
-                                        },
-                                    )
+                                    capture('stop_place_edit_interaction', {
+                                        location: trackingLocation,
+                                        field: 'columns',
+                                        column_value:
+                                            COLUMN_TRACKING_VALUE[key],
+                                        action: e.target.checked
+                                            ? 'toggled_on'
+                                            : 'toggled_off',
+                                    })
                                 }}
                             >
                                 {value}

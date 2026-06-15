@@ -30,7 +30,7 @@ export default function Google({
 }: Props) {
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(['', ''])
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const googleAction = async () => {
         setIsLoading(true)
@@ -87,7 +87,7 @@ export default function Google({
             ) : (
                 <SecondaryButton
                     onClick={() => {
-                        posthog.capture('user_login_method_selected', {
+                        capture('user_login_method_selected', {
                             location: trackingLocation,
                             method: 'google',
                             context: trackingContext,

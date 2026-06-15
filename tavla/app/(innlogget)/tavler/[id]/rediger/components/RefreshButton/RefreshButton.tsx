@@ -7,9 +7,9 @@ import { refreshBoard } from './actions'
 
 function RefreshButton({ board }: { board: BoardDB }) {
     const toast = useToast()
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const refresh = async () => {
-        posthog.capture('board_published', {
+        capture('board_published', {
             location: 'board_page',
         })
         const status = await refreshBoard(board)

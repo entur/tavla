@@ -28,7 +28,7 @@ function DeleteBoard({
     trackingLocation: EventProps<'board_deleted'>['location']
 }) {
     const { addToast } = useToast()
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const [state, deleteBoard] = useActionState(deleteBoardAction, undefined)
     const [isOpen, setIsOpen] = useState(false)
@@ -49,7 +49,7 @@ function DeleteBoard({
                 ariaLabel={ariaLabel}
                 type={type}
                 onClick={() => {
-                    posthog.capture('board_deleted', {
+                    capture('board_deleted', {
                         location: trackingLocation,
                     })
                     setIsOpen(true)

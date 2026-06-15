@@ -42,7 +42,7 @@ export function TileCard({
     moveItem: (index: number, direction: string) => void
     setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const totalTiles = board.tiles.length
 
@@ -189,7 +189,7 @@ export function TileCard({
     }
 
     const handleDeleteTile = () => {
-        posthog.capture('stop_place_deleted', {
+        capture('stop_place_deleted', {
             location: trackingLocation,
         })
 

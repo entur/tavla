@@ -10,7 +10,7 @@ function CreateUserButton({
     variant?: 'primary' | 'secondary'
     width?: 'auto' | 'fluid'
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     return (
         <Button
             variant={variant || 'primary'}
@@ -18,7 +18,7 @@ function CreateUserButton({
             as={Link}
             href="?login=create"
             onClick={() => {
-                posthog.capture('user_create_started', {
+                capture('user_create_started', {
                     location: 'board_without_user',
                 })
             }}

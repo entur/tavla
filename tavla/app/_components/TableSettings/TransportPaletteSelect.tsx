@@ -45,7 +45,7 @@ function TransportPaletteSelect({
     allowedPalettes?: TransportPalette[]
     onChange: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const [selectedValue, setSelectedValue] =
         useState<TransportPalette>(transportPalette)
@@ -88,7 +88,7 @@ function TransportPaletteSelect({
                         const newValue = e.target.value as TransportPalette
                         handleChange(newValue)
 
-                        posthog.capture('board_settings_changed', {
+                        capture('board_settings_changed', {
                             setting: 'transport_palette',
                             value: newValue,
                         })

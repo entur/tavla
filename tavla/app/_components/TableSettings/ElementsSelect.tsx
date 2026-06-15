@@ -13,7 +13,7 @@ function ElementSelect({
     selectedElements?: Elements[]
     onChange: () => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <div className="flex flex-col gap-1">
@@ -26,7 +26,7 @@ function ElementSelect({
                     name="clock"
                     value="clock"
                     onChange={() => {
-                        posthog.capture('board_settings_changed', {
+                        capture('board_settings_changed', {
                             setting: 'element_select',
                             value: 'clock',
                         })
@@ -40,7 +40,7 @@ function ElementSelect({
                     name="logo"
                     value="logo"
                     onChange={() => {
-                        posthog.capture('board_settings_changed', {
+                        capture('board_settings_changed', {
                             setting: 'element_select',
                             value: 'logo',
                         })

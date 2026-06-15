@@ -10,7 +10,7 @@ import Link from 'next/link'
 import Google from './Google'
 
 function Entry() {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <div className="flex flex-col items-center">
@@ -32,7 +32,7 @@ function Entry() {
                     as={Link}
                     href="lag-tavle"
                     onClick={() => {
-                        posthog.capture('board_create_without_user', {
+                        capture('board_create_without_user', {
                             location: 'user_modal',
                             context: 'entry',
                         })
@@ -46,7 +46,7 @@ function Entry() {
                     as={Link}
                     href="?login=email"
                     onClick={() => {
-                        posthog.capture('user_login_method_selected', {
+                        capture('user_login_method_selected', {
                             location: 'user_modal',
                             method: 'email',
                             context: 'entry',
@@ -68,7 +68,7 @@ function Entry() {
                     as={Link}
                     href="?login=create"
                     onClick={() => {
-                        posthog.capture('user_create_started', {
+                        capture('user_create_started', {
                             location: 'user_modal',
                             context: 'entry',
                         })
