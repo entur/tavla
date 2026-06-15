@@ -46,3 +46,8 @@ export const transportModesTransparent = {
     'trolleybus-transparent': 'var(--bus-color-transparent)',
     'water-transparent': 'var(--water-color-transparent)',
 }
+
+export const arrivalsBadge = {
+    fill: 'var(--arrivals-badge-fill)',
+    text: 'var(--arrivals-badge-text)',
+}

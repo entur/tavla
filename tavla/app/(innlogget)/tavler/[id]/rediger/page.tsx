@@ -14,6 +14,7 @@ import { getBoardLinkClient, getBoardLinkServer } from 'src/utils/boardLink'
 import { BreadcrumbsNav } from '../BreadcrumbsNav'
 import { addTiles, getTileWithWalkingDistance } from './actions'
 import { ActionsMenu } from './components/ActionsMenu'
+import { ArrivalsBadge } from './components/ArrivalsBadge'
 import { Copy } from './components/Buttons/Copy'
 import { CustomUrl } from './components/CustomUrl/CustomUrl'
 import { Preview } from './components/Preview'
@@ -86,12 +87,18 @@ export default async function EditPage(props: TProps) {
                     <BreadcrumbsNav type="board" board={board} />
                 )}
 
-                <div className="flex flex-col justify-between md:flex-row">
-                    <Heading1 margin="top">
-                        Rediger {board.meta?.title}
-                    </Heading1>
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                        <ActionsMenu board={board} folderid={folder?.id} />
+                <div className="flex flex-col gap-2">
+                    {board.isArrivals && <ArrivalsBadge />}
+                    <div className="flex flex-col justify-between md:flex-row">
+                        <Heading1 margin="top">
+                            {board.isArrivals
+                                ? 'Ankomsttavle: '
+                                : 'Avgangstavle: '}{' '}
+                            {board.meta?.title}
+                        </Heading1>
+                        <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                            <ActionsMenu board={board} folderid={folder?.id} />
+                        </div>
                     </div>
                 </div>
                 <div className="md:w-fit">
