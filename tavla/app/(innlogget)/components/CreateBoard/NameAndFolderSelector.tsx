@@ -39,6 +39,7 @@ function NameAndFolderSelector({
     onClose,
 }: NameAndFolderSelectorProps) {
     const [state, action] = useActionState(createBoardAction, undefined)
+
     const { capture } = usePosthogTracking()
     const isArrivalDepartureFeatureFlagEnabled = useFeatureFlagEnabled(
         FeatureFlags.ARRIVAL_DEPARTURE_BOARD,

@@ -37,28 +37,25 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
 }
 
 export default async function EditPage(props: TProps) {
-    const params = await props.params
+    const { id: bid } = await props.params
     const user = await getUserFromSessionCookie()
     if (!user?.uid) return redirect('/')
 
-    const board = await getBoard(params.id)
-    if (!board) {
-        return notFound()
-    }
+    const [board, folder, access] = await Promise.all([
+        getBoard(bid),
+        getFolderForBoard(bid),
+        userCanEditBoard(bid),
+    ])
 
-    const folder = await getFolderForBoard(params.id)
-
-    const access = await userCanEditBoard(params.id)
-    if (!access) {
-        return redirect('/')
-    }
+    if (!board) return notFound()
+    if (!access) return redirect('/')
 
     const { meta } = board
 
     async function addTilesAction(data: FormData) {
         'use server'
 
-        const tiles = formDataToTiles(data)
+        const tiles = formDataToTiles(data, board?.isArrivals)
         if (tiles.length === 0) return
 
         const tilesWithDistance = await Promise.all(
@@ -66,9 +63,9 @@ export default async function EditPage(props: TProps) {
                 .filter((tile) => tile.stopPlaceId)
                 .map((tile) => getTileWithWalkingDistance(tile, meta.location)),
         )
-        await addTiles(params.id, tilesWithDistance)
+        await addTiles(bid, tilesWithDistance)
 
-        revalidatePath(`/tavler/${params.id}/rediger`)
+        revalidatePath(`/tavler/${bid}/rediger`)
     }
 
     const boardPreviewLink = getBoardLinkServer(board.id, true)
