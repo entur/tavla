@@ -23,6 +23,7 @@ const DEFAULT_DEPARTURE_COLUMNS: TileColumnDB[] = [
 const DEFAULT_ARRIVAL_COLUMNS: TileColumnDB[] = [
     'line',
     'fromStopPlace',
+    'destination',
     'time',
 ]
 
