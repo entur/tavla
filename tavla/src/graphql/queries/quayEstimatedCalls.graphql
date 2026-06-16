@@ -1,4 +1,8 @@
-query QuayEstimatedCalls($quayId: String!, $numberOfDepartures: Int = 200, $arrivalDeparture: ArrivalDeparture = departures) {
+query QuayEstimatedCalls(
+    $quayId: String!
+    $numberOfDepartures: Int = 200
+    $arrivalDeparture: ArrivalDeparture = departures
+) {
     quay(id: $quayId) {
         estimatedCalls(
             numberOfDepartures: $numberOfDepartures
