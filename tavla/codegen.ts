@@ -34,10 +34,7 @@ const config: CodegenConfig = {
         'src/types/graphql-schema.ts': {
             plugins: ['typescript'],
         },
-        // Operation/fragment result + variable types. Imports base types from
-        // graphql-schema. Kept separate from the base types because
-        // typescript-operations (v6) re-emits every enum/input it references,
-        // which would collide with the typescript plugin if they shared a file.
+        // Operation/fragment result + variable types. Imports base types from graphql-schema
         'src/types/operations.ts': {
             preset: 'import-types',
             presetConfig: {
