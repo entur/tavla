@@ -54,13 +54,6 @@
         --divider-color: var(--stroke-contrastalt);
         --border-color: var(--grey-50);
 
-        --arrivals-badge-fill: var(
-            --components-layout-badge-neutral-contrast-fill
-        );
-        --arrivals-badge-text: var(
-            --components-layout-badge-neutral-contrast-text
-        );
-
         --blue20: var(--blue-20);
         --blue10: var(--blue-10);
         --peach20: var(--peach-20);
