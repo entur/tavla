@@ -1,4 +1,4 @@
-import type * as Types from 'types/graphql-schema';
+import type * as Types from 'types/operations';
 
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export class TypedDocumentString<TResult, TVariables>
