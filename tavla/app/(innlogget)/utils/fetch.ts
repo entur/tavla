@@ -9,10 +9,10 @@ import {
 import { StopPlacesHaveDeparturesQuery } from 'src/graphql'
 import type { LocationDB } from 'src/types/db-types/boards'
 import type {
-    TStopPlacesHaveDeparturesQuery,
     TTransportMode,
     TTransportSubmode,
 } from 'src/types/graphql-schema'
+import type { TStopPlacesHaveDeparturesQuery } from 'types/operations'
 import { getRelevantSubmode } from 'utils/transport'
 import { hasField, isNotNullOrUndefined } from 'utils/typeguards'
 import {

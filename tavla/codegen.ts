@@ -30,13 +30,23 @@ const config: CodegenConfig = {
         },
     },
     generates: {
+        // Base schema types (objects, enums, inputs, scalars).
         'src/types/graphql-schema.ts': {
-            plugins: ['typescript', 'typescript-operations'],
+            plugins: ['typescript'],
         },
-        'src/graphql/index.ts': {
+        // Operation/fragment result + variable types. Imports base types from graphql-schema
+        'src/types/operations.ts': {
             preset: 'import-types',
             presetConfig: {
                 typesPath: 'types/graphql-schema',
+            },
+            plugins: ['typescript-operations'],
+        },
+        // Typed document strings. Reference the operation types above.
+        'src/graphql/index.ts': {
+            preset: 'import-types',
+            presetConfig: {
+                typesPath: 'types/operations',
             },
             plugins: ['typed-document-node'],
             config: { withHooks: true },

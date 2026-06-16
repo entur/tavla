@@ -35,7 +35,7 @@ function DisplayName({ line }: { line: LineWithFrontText }) {
     return <SkeletonRectangle width="6rem" height="1rem" />
 }
 
-function PlatformAndLines({
+export function PlatformAndLines({
     tile,
     quayId,
     groupKey,
@@ -180,5 +180,3 @@ function PlatformAndLines({
         </div>
     )
 }
-
-export { PlatformAndLines }
