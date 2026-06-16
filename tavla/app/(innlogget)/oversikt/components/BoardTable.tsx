@@ -10,8 +10,8 @@ import {
     useSortableData,
 } from '@entur/table'
 import { Tooltip } from '@entur/tooltip'
+import { ArrivalsBadge } from 'app/(innlogget)/components/ArrivalsBadge'
 import { TableActions } from 'app/(innlogget)/oversikt/components/Column/Actions'
-import { ArrivalsBadge } from 'app/(innlogget)/tavler/[id]/rediger/components/ArrivalsBadge'
 import {
     DEFAULT_BOARD_NAME,
     DEFAULT_FOLDER_NAME,
