@@ -225,6 +225,7 @@ export type EventMap = {
             | 'line'
             | 'destination'
             | 'stop_place'
+            | 'fromStopPlace'
             | 'platform'
             | 'expected'
             | 'none'

@@ -40,7 +40,7 @@ function SaveCancelDeleteTileButtonGroup({
     }
 }) {
     const tile = useNonNullContext(TileContext)
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <>
@@ -54,7 +54,7 @@ function SaveCancelDeleteTileButtonGroup({
                     variant="primary"
                     aria-label="lagre valg"
                     onClick={() => {
-                        posthog.capture('stop_place_edit_saved', {
+                        capture('stop_place_edit_saved', {
                             location: trackingLocation,
                             ...fieldsChanged,
                         })
@@ -67,7 +67,7 @@ function SaveCancelDeleteTileButtonGroup({
                     aria-label="avbryt"
                     type="button"
                     onClick={() => {
-                        posthog.capture('stop_place_edit_cancelled', {
+                        capture('stop_place_edit_cancelled', {
                             location: trackingLocation,
                             unsavedChanges: hasTileChanged,
                         })
@@ -107,7 +107,7 @@ function SaveCancelDeleteTileButtonGroup({
                             form={tile.uuid}
                             aria-label="Lagre endringer"
                             onClick={() => {
-                                posthog.capture('stop_place_edit_saved', {
+                                capture('stop_place_edit_saved', {
                                     location: trackingLocation,
                                     ...fieldsChanged,
                                 })
@@ -121,7 +121,7 @@ function SaveCancelDeleteTileButtonGroup({
                             width="fluid"
                             aria-label="Forkast endringer"
                             onClick={() => {
-                                posthog.capture('stop_place_edit_discard', {
+                                capture('stop_place_edit_discard', {
                                     location: trackingLocation,
                                 })
                                 resetTile()

@@ -22,7 +22,7 @@ function SetStopPlaceName({
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -58,7 +58,7 @@ function SetStopPlaceName({
                     }
 
                     debounceTimerRef.current = setTimeout(() => {
-                        posthog.capture('stop_place_edit_interaction', {
+                        capture('stop_place_edit_interaction', {
                             location: trackingLocation,
                             field: 'name',
                             action: 'changed',

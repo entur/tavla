@@ -1,4 +1,3 @@
-import { SmallAlertBox } from '@entur/alert/'
 import { IconButton } from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { QuestionFilledIcon } from '@entur/icons'
@@ -14,16 +13,32 @@ import { typedEntries } from 'src/utils/typeguards'
 import { ColumnModal } from '../ColumnModal'
 import { TileContext } from '../context'
 
-function SetColumns({
+const COLUMN_TRACKING_VALUE: Record<
+    keyof typeof TileColumns,
+    EventProps<'stop_place_edit_interaction'>['column_value']
+> = {
+    aimedTime: 'eta',
+    arrivalTime: 'arrival',
+    line: 'line',
+    fromStopPlace: 'fromStopPlace',
+    destination: 'destination',
+    name: 'stop_place',
+    platform: 'platform',
+    time: 'expected',
+}
+
+export function SetColumns({
     isCombined,
+    isArrivals,
     trackingLocation,
     onFieldChanged,
 }: {
     isCombined: boolean
+    isArrivals: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
     const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
 
@@ -47,15 +62,13 @@ function SetColumns({
                     </IconButton>
                 </Tooltip>
             </div>
-
-            {isCombined ? (
-                <SmallAlertBox variant="info" className="mb-2 w-fit">
-                    Du har valgt å vise alle stoppesteder i en liste, og kan
-                    derfor ikke velge kolonner per stoppested.
-                </SmallAlertBox>
-            ) : (
-                <SubParagraph>
-                    Her bestemmer du hvilke kolonner som skal vises i tavlen.
+            <SubParagraph>
+                Her bestemmer du hvilke kolonner som skal vises i tavlen.
+            </SubParagraph>
+            {isCombined && (
+                <SubParagraph className="mb-2 !text-error">
+                    Har du samlet stoppestedene i én liste vil du ikke ha
+                    mulighet til å velge kolonner.
                 </SubParagraph>
             )}
 
@@ -65,21 +78,13 @@ function SetColumns({
             />
             {!isCombined && (
                 <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
-                    {typedEntries(TileColumns).map(([key, value]) => {
-                        const columnValue: Record<
-                            keyof typeof TileColumns,
-                            EventProps<'stop_place_edit_interaction'>['column_value']
-                        > = {
-                            aimedTime: 'eta',
-                            arrivalTime: 'arrival',
-                            line: 'line',
-                            destination: 'destination',
-                            name: 'stop_place',
-                            platform: 'platform',
-                            time: 'expected',
-                        }
-
-                        return (
+                    {typedEntries(TileColumns)
+                        .filter(([key]) =>
+                            isArrivals
+                                ? key !== 'arrivalTime'
+                                : key !== 'fromStopPlace',
+                        )
+                        .map(([key, value]) => (
                             <FilterChip
                                 name="columns"
                                 key={key}
@@ -91,27 +96,22 @@ function SetColumns({
                                 }
                                 onChange={(e) => {
                                     onFieldChanged('columns')
-                                    posthog.capture(
-                                        'stop_place_edit_interaction',
-                                        {
-                                            location: trackingLocation,
-                                            field: 'columns',
-                                            column_value: columnValue[key],
-                                            action: e.target.checked
-                                                ? 'toggled_on'
-                                                : 'toggled_off',
-                                        },
-                                    )
+                                    capture('stop_place_edit_interaction', {
+                                        location: trackingLocation,
+                                        field: 'columns',
+                                        column_value:
+                                            COLUMN_TRACKING_VALUE[key],
+                                        action: e.target.checked
+                                            ? 'toggled_on'
+                                            : 'toggled_off',
+                                    })
                                 }}
                             >
                                 {value}
                             </FilterChip>
-                        )
-                    })}
+                        ))}
                 </div>
             )}
         </>
     )
 }
-
-export { SetColumns }

@@ -19,7 +19,7 @@ function RemoveUserButton({
     const [, deleteUser] = useActionState(removeUserAction, undefined)
     const { addToast } = useToast()
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     const action = async (data: FormData) => {
         deleteUser(data)
@@ -35,7 +35,7 @@ function RemoveUserButton({
                     type="submit"
                     className="gap-2"
                     onClick={() => {
-                        posthog.capture('folder_members_managed', {
+                        capture('folder_members_managed', {
                             location: 'folder',
                             folder_id: folderid ?? '',
                             method: 'removed',

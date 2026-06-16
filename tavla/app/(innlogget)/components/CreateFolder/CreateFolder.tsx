@@ -17,13 +17,13 @@ function CreateFolder() {
     const [isOpen, setIsOpen] = useState(false)
     const [state, formAction] = useActionState(createFolderAction, undefined)
 
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <>
             <SecondaryButton
                 onClick={() => {
-                    posthog.capture('folder_create_started')
+                    capture('folder_create_started')
                     setIsOpen(true)
                 }}
             >
@@ -35,7 +35,7 @@ function CreateFolder() {
                 open={isOpen}
                 size="small"
                 onDismiss={() => {
-                    posthog.capture('folder_create_cancelled', {
+                    capture('folder_create_cancelled', {
                         method: 'dismissed',
                     })
                     setIsOpen(false)
@@ -45,7 +45,7 @@ function CreateFolder() {
                 <IconButton
                     aria-label="Lukk"
                     onClick={() => {
-                        posthog.capture('folder_create_cancelled', {
+                        capture('folder_create_cancelled', {
                             method: 'close_icon',
                         })
                         setIsOpen(false)
@@ -92,7 +92,7 @@ function CreateFolder() {
                             aria-label="Opprett mappe"
                             className="!mr-0"
                             onClick={() => {
-                                posthog.capture('folder_created')
+                                capture('folder_created')
                             }}
                         >
                             Opprett
@@ -104,7 +104,7 @@ function CreateFolder() {
                             variant="secondary"
                             aria-label="Avbryt opprett mappe"
                             onClick={() => {
-                                posthog.capture('folder_create_cancelled', {
+                                capture('folder_create_cancelled', {
                                     method: 'cancel_button',
                                 })
                                 setIsOpen(false)

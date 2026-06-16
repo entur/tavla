@@ -17,7 +17,7 @@ type Props = {
 
 function Copy({ type, bid, board, trackingLocation }: Props) {
     const { addToast } = useToast()
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     if (!bid) return null
 
@@ -27,7 +27,7 @@ function Copy({ type, bid, board, trackingLocation }: Props) {
         navigator.clipboard.writeText(boardLink)
         addToast('Lenken til tavlen ble kopiert!')
 
-        posthog.capture('board_copied', {
+        capture('board_copied', {
             location: trackingLocation,
         })
     }

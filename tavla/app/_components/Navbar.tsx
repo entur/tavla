@@ -10,14 +10,14 @@ import { MobileNavbar } from './MobileNavbar'
 
 function Navbar({ loggedIn }: { loggedIn: boolean }) {
     const pathname = usePathname()
-    const posthog = usePosthogTracking()
+    const { capture } = usePosthogTracking()
 
     return (
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
             <Link
                 href="/"
                 onClick={() =>
-                    posthog.capture('go_to_home_page', { location: 'nav_bar' })
+                    capture('go_to_home_page', { location: 'nav_bar' })
                 }
             >
                 <Image
@@ -35,7 +35,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                             href="/oversikt"
                             className="hidden flex-col !text-primary md:flex"
                             onClick={() => {
-                                posthog.capture('admin_page_opened', {
+                                capture('admin_page_opened', {
                                     location: 'nav_bar',
                                 })
                             }}
@@ -48,7 +48,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                             as={Link}
                             href="/lag-tavle"
                             onClick={() => {
-                                posthog.capture('board_without_user_started', {
+                                capture('board_without_user_started', {
                                     location: 'nav_bar',
                                 })
                             }}
@@ -63,7 +63,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
                         href="/hjelp"
                         className="hidden flex-col !text-primary md:flex"
                         onClick={() => {
-                            posthog.capture('faq_link_clicked', {
+                            capture('faq_link_clicked', {
                                 location: 'nav_bar',
                             })
                         }}
