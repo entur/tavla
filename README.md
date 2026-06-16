@@ -66,6 +66,7 @@ Detaljer per delkomponent finnes i deres respektive README.
 Mappen [`docs/`](docs/) inneholder mer utfyllende dokumentasjon:
 
 - [`docs/database.md`](docs/database.md) – Firebase/Firestore-oppsett, hvordan koble mot dev-databasen lokalt, migrering og sikkerhetskopiering/rollback
+- [`docs/graphql.md`](docs/graphql.md) – hvordan GraphQL og typegenerering (`graphql-codegen`) henger sammen: dataflyt, de tre genererte filene, og hvordan du legger til og bruker en spørring
 - [`docs/EXPLORER_LINKS.md`](docs/EXPLORER_LINKS.md) – alle GraphQL-spørringene mot Journey Planner v3, klare til å kjøres i GraphQL Explorer
 
 Se ellers `backend/readme.md` og `tavla/README.md` for komponentspesifikke detaljer.
