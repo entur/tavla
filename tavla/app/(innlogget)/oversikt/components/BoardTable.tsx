@@ -10,6 +10,7 @@ import {
     useSortableData,
 } from '@entur/table'
 import { Tooltip } from '@entur/tooltip'
+import { ArrivalsBadge } from 'app/(innlogget)/components/ArrivalsBadge'
 import { TableActions } from 'app/(innlogget)/oversikt/components/Column/Actions'
 import {
     DEFAULT_BOARD_NAME,
@@ -126,7 +127,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                             key={data.id}
                             className="odd:bg-primary even:bg-secondary"
                         >
-                            <DataCell>
+                            <DataCell className="flex flex-row items-center gap-4">
                                 <Link
                                     href={data.link}
                                     className="flex flex-row items-center gap-2 hover:underline"
@@ -138,6 +139,8 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                                     )}
                                     {data.name}
                                 </Link>
+                                {data.type === 'board' &&
+                                    data.board.isArrivals && <ArrivalsBadge />}
                             </DataCell>
                             <DataCell>
                                 {lastActiveToStatus(
