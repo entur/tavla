@@ -6250,15 +6250,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:3.4.8":
-  version: 3.4.8
-  resolution: "dompurify@npm:3.4.8"
+"dompurify@npm:3.4.9":
+  version: 3.4.9
+  resolution: "dompurify@npm:3.4.9"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10/d661322889a8938bfb99ee27853e9e78661949398e803f344865fd94f8378a494efadd329faea0b16e8085efae1bfeed5f5df372909c3a2be3e583686a0a48fa
+  checksum: 10/2d651dcf413646e4a66202b424eade1f2a793fb22fe83dcb5a0800349ad879344fd92e76fd494ef06fb10ecb051660207844e7900156cef3e61942fdac405aa0
   languageName: node
   linkType: hard
 
@@ -12102,7 +12102,7 @@ __metadata:
     "@types/react-dom": "npm:19.2.3"
     "@types/semver": "npm:7.7.1"
     autoprefixer: "npm:10.5.0"
-    dompurify: "npm:3.4.8"
+    dompurify: "npm:3.4.9"
     firebase: "npm:12.14.0"
     firebase-admin: "npm:13.10.0"
     firebase-functions: "npm:7.2.5"
