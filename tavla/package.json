@@ -93,6 +93,6 @@
         "minimatch": "9.0.7",
         "tar": "7.5.11",
         "immutable": "3.8.3",
-        "protobufjs": "7.5.8"
+        "protobufjs": "7.6.3"
     }
 }
