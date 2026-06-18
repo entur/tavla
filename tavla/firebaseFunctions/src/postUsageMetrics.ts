@@ -89,7 +89,7 @@ async function runUsageMetrics(): Promise<void> {
                 placeId: placeId,
             }
 
-            const geocodeParams = `?point.lat=${results.lat}&point.lon=${results.lon}&boundary.circle.radius=10&size=1&layers=venue`
+            const geocodeParams = `?lat=${results.lat}&lon=${results.lon}&radius=10&limit=1&layers=stopPlace`
 
             const geocoderResponse = await fetch(
                 `${geocoderUrl}${geocodeParams}`,
@@ -100,7 +100,7 @@ async function runUsageMetrics(): Promise<void> {
                 },
             ).then((res) => res.json()) as any
 
-            county = geocoderResponse['features']?.[0]?.['properties']?.['county'] ?? 'ukjent'
+            county = geocoderResponse['features']?.[0]?.['properties']?.['address']?.['county'] ?? 'ukjent'
         }
 
         countyCount[county] = (countyCount[county] ?? 0) + 1
