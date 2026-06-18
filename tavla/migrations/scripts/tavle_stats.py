@@ -15,7 +15,7 @@ HEARTBEAT_URL = "https://tavla-api.entur.no/heartbeat/active"
 STOP_PLACE_URL = "https://api.entur.io/stop-places/v1/read/stop-places/"
 QUAY_URL = "https://api.entur.io/stop-places/v1/read/quays/"
 TOPOGRAPHIC_PLACE_URL = "https://api.entur.io/stop-places/v1/read/topographic-places/"
-GEOCODER_URL = "https://api.entur.io/geocoder/v1/reverse"
+GEOCODER_URL = "https://api.entur.io/geocoder/v3/reverse"
 APP_ROOT = Path(__file__).resolve().parents[2]
 ENV_LOCAL_PATH = APP_ROOT / ".env.local"
 CLIENT_HEADER = {"ET-Client-Name": "tavla-board-stats"}
@@ -138,7 +138,7 @@ class EnturLookup:
         key = (round(lat, 6), round(lon, 6))
         if key in self._geocode_cache:
             return self._geocode_cache[key]
-        params = {"point.lat": lat, "point.lon": lon}
+        params = {"lat": lat, "lon": lon}
         try:
             resp = requests.get(GEOCODER_URL, headers=CLIENT_HEADER, params=params, timeout=REQUEST_TIMEOUT)
         except requests.RequestException as exc:
@@ -159,7 +159,7 @@ class EnturLookup:
         county = None
         for feature in features:
             props = feature.get("properties", {})
-            county = props.get("county")
+            county = props.get("address", {}).get("county")
             if county:
                 break
         self._geocode_cache[key] = county
