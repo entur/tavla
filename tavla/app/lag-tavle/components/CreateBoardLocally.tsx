@@ -2,17 +2,8 @@
 import { IconButton, PrimaryButton } from '@entur/button'
 import { LeftArrowIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import {
-    Heading1,
-    Heading2,
-    Heading3,
-    Label,
-    LeadParagraph,
-} from '@entur/typography'
+import { Heading1, Label, LeadParagraph } from '@entur/typography'
 import { CreateUserButton } from 'app/_components/CreateUserButton'
-import { TileList } from 'app/_components/TileList'
-import { TileSelector } from 'app/_components/TileSelector/TileSelector'
-import { formDataToTiles } from 'app/_components/TileSelector/utils'
 import { useSaveBoardInLocalStorage } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { publishBoard } from 'app/lag-tavle/actions'
 import { BoardPreview } from 'app/lag-tavle/components/BoardPreview'
@@ -110,32 +101,6 @@ export function CreateBoardLocally() {
                         />
                     </aside>
                 )}
-
-                <Heading2 as="h2">{board.meta.title || 'Min tavle'}</Heading2>
-                <Heading3>Hvilke stoppesteder vil du vise i tavlen?</Heading3>
-                <div className="flex flex-col gap-4">
-                    <TileSelector
-                        action={async (data: FormData) => {
-                            const tiles = formDataToTiles(data)
-                            setTiles([...board.tiles, ...tiles])
-                            resetPublishedBoard()
-                        }}
-                        trackingLocation="board_without_user"
-                    />
-                    <TileList
-                        board={board}
-                        setTilesLocalStorageBoard={(tiles) => {
-                            setTiles(tiles)
-                            resetPublishedBoard()
-                        }}
-                    />
-                    <section
-                        data-theme={board.theme ?? 'dark'}
-                        aria-label="Forhåndsvisning av Tavla"
-                    >
-                        <BoardPreview board={board} />
-                    </section>
-                </div>
             </div>
             <Modal
                 size="medium"

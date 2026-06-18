@@ -1,17 +1,17 @@
 'use client'
 import { EditIcon } from '@entur/icons'
 import { Heading2, Heading3 } from '@entur/typography'
-import { TileSelector } from 'app/(admin)/components/TileSelector'
-import { formDataToTiles } from 'app/(admin)/components/TileSelector/utils'
-import { useAllowedPalettes } from 'app/(admin)/tavler/[id]/rediger/components/Settings/colorPalettes'
-import { ChoiceChipGroupGeneral } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/ChoiceChipGroupGeneral'
-import { ElementSelect } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/ElementsSelect'
-import { FontSelect } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/FontSelect'
-import { InfoMessage } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/InfoMessage'
-import { ThemeSelect } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/ThemeSelect'
-import { TransportPaletteSelect } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/TransportPaletteSelect'
-import { WalkingDistance } from 'app/(admin)/tavler/[id]/rediger/components/Settings/components/WalkingDistance'
-import { TileList } from 'app/(admin)/tavler/[id]/rediger/components/TileList'
+import { ChoiceChipGroupGeneral } from 'app/_components/TableSettings/ChoiceChipGroupGeneral'
+import { ElementSelect } from 'app/_components/TableSettings/ElementsSelect'
+import { FontSelect } from 'app/_components/TableSettings/FontSelect'
+import { InfoMessage } from 'app/_components/TableSettings/InfoMessage'
+import { ThemeSelect } from 'app/_components/TableSettings/ThemeSelect'
+import { TransportPaletteSelect } from 'app/_components/TableSettings/TransportPaletteSelect'
+import { WalkingDistance } from 'app/_components/TableSettings/WalkingDistance'
+import { TileList } from 'app/_components/TileList'
+import { TileSelector } from 'app/_components/TileSelector/TileSelector'
+import { formDataToTiles } from 'app/_components/TileSelector/utils'
+import { useAllowedPalettes } from 'app/_utils/colorPalettes'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 
@@ -97,14 +97,10 @@ function CreateBoardSidebar({
                         setTiles([...board.tiles, ...tiles])
                         resetPublishedBoard()
                     }}
-                    trackingLocation="demo_page"
+                    trackingLocation="board_without_user"
                     hideCountyFilter
                 />
-                <TileList
-                    board={board}
-                    setTilesDemoBoard={setTiles}
-                    bid="demo"
-                />
+                <TileList board={board} setTilesLocalStorageBoard={setTiles} />
             </section>
 
             <form

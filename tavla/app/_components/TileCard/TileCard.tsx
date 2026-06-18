@@ -209,7 +209,7 @@ export function TileCard({
                         type="button"
                         aria-label={`Rediger ${tile.displayName ?? tile.name}`}
                         onClick={() => {
-                            posthog.capture('stop_place_edit_started', {
+                            capture('stop_place_edit_started', {
                                 location: trackingLocation,
                             })
                             handleSetIsTileOpen(true)
@@ -270,12 +270,13 @@ export function TileCard({
                             onFieldChanged={onFieldChanged}
                         />
                         <SetOffsetDepartureTime
-                            address={address}
+                            address={board.meta.location}
                             trackingLocation={trackingLocation}
                             onFieldChanged={onFieldChanged}
                         />
                         <SetColumns
-                            isCombined={isCombined}
+                            isCombined={board.isCombinedTiles}
+                            isArrivals={board.isArrivals ?? false}
                             trackingLocation={trackingLocation}
                             onFieldChanged={onFieldChanged}
                         />
