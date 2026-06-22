@@ -40,6 +40,7 @@ use std::sync::Arc;
 pub struct Metrics {
     pub registry: Registry,
     pub active_boards: Gauge,
+    pub active_direct_boards: Gauge,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -83,9 +84,20 @@ async fn main() {
         .register(Box::new(active_boards_gauge.clone()))
         .expect("Failed to register metrics");
 
+    let active_direct_boards_gauge = Gauge::new(
+        "tavla_active_direct_sessions_current",
+        "Number of currently active tavla sessions/tabs that are direct-link boards (NSR id in URL, no board doc)",
+    )
+    .expect("Failed to create active_direct_sessions metric");
+
+    registry
+        .register(Box::new(active_direct_boards_gauge.clone()))
+        .expect("Failed to register direct metrics");
+
     let metrics = Arc::new(Metrics {
         registry,
         active_boards: active_boards_gauge,
+        active_direct_boards: active_direct_boards_gauge,
     });
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
@@ -115,6 +127,21 @@ async fn main() {
                     Ok(keys) => {
                         let keys: Vec<String> = keys;
                         metrics_updater.active_boards.set(keys.len() as f64);
+
+                        // Read each heartbeat to count how many are direct-link boards
+                        let mut direct_count: u64 = 0;
+                        for key in &keys {
+                            if let Ok(val) = connection.get::<_, String>(key).await {
+                                if let Ok(info) = serde_json::from_str::<ActiveInfo>(&val) {
+                                    if info.is_direct_link == Some(true) {
+                                        direct_count += 1;
+                                    }
+                                }
+                            }
+                        }
+                        metrics_updater
+                            .active_direct_boards
+                            .set(direct_count as f64);
                     }
                     Err(_) => {
                         eprintln!("Warning: Failed to update metrics from Redis");
