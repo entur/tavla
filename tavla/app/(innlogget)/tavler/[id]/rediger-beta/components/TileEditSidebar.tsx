@@ -169,25 +169,25 @@ function TileEditSidebar({
                     >
                         <SetStopPlaceName
                             state={state}
-                            trackingLocation="board_without_user"
+                            trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
                         />
                         <SetOffsetDepartureTime
                             address={address}
-                            trackingLocation="board_without_user"
+                            trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
                         />
                         {!board.isCombinedTiles && (
                             <SetColumns
                                 isCombined={false}
                                 isArrivals={board.isArrivals ?? false}
-                                trackingLocation="board_without_user"
+                                trackingLocation="board_page"
                                 onFieldChanged={onFieldChanged}
                             />
                         )}
                         <SetVisibleLines
                             quays={quaysWithFilteredLines}
-                            trackingLocation="board_without_user"
+                            trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
                         />
                         {state?.feedback && (

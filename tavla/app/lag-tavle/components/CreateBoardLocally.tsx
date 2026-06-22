@@ -2,12 +2,21 @@
 import { IconButton, PrimaryButton } from '@entur/button'
 import { LeftArrowIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading1, Label, LeadParagraph } from '@entur/typography'
+import {
+    Heading1,
+    Heading2,
+    Heading3,
+    Label,
+    LeadParagraph,
+} from '@entur/typography'
 import { CreateUserButton } from 'app/_components/CreateUserButton'
+import { SettingsForm } from 'app/_components/TableSettings/SettingsForm'
+import { TileList } from 'app/_components/TileList'
+import { TileSelector } from 'app/_components/TileSelector/TileSelector'
+import { formDataToTiles } from 'app/_components/TileSelector/utils'
 import { useSaveBoardInLocalStorage } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { publishBoard } from 'app/lag-tavle/actions'
 import { BoardPreview } from 'app/lag-tavle/components/BoardPreview'
-import { CreateBoardSidebar } from 'app/lag-tavle/components/CreateBoardSidebar'
 import { PublishModalContent } from 'app/lag-tavle/components/PublishBoardModal'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useCallback, useState } from 'react'
@@ -81,27 +90,41 @@ export function CreateBoardLocally() {
             </LeadParagraph>
             <div
                 data-transport-palette={board.transportPalette}
-                className="flex flex-col gap-6 lg:flex-row lg:items-start"
+                className="flex flex-col rounded-md bg-tintLight px-6 py-8"
             >
-                <section
-                    data-theme={board.theme ?? 'dark'}
-                    aria-label="Forhåndsvisning av Tavla"
-                    className="min-w-0 flex-1 lg:sticky lg:top-8 lg:self-start"
-                >
-                    <BoardPreview board={board} />
-                </section>
-
-                {loaded && (
-                    <aside className="w-full shrink-0 rounded-md bg-tintLight lg:w-[536px]">
-                        <CreateBoardSidebar
-                            board={board}
-                            setTiles={setTiles}
-                            onSettingsSubmit={handleSettingsSubmit}
-                            resetPublishedBoard={resetPublishedBoard}
-                        />
-                    </aside>
-                )}
+                <Heading2 as="h2">{board.meta.title || 'Min tavle'}</Heading2>
+                <Heading3>Hvilke stoppesteder vil du vise i tavlen?</Heading3>
+                <div className="flex flex-col gap-4">
+                    <TileSelector
+                        action={async (data: FormData) => {
+                            const tiles = formDataToTiles(data)
+                            setTiles([...board.tiles, ...tiles])
+                            resetPublishedBoard()
+                        }}
+                        trackingLocation="board_without_user"
+                    />
+                    <TileList
+                        board={board}
+                        setTilesLocalStorageBoard={(tiles) => {
+                            setTiles(tiles)
+                            resetPublishedBoard()
+                        }}
+                    />
+                    <section
+                        data-theme={board.theme ?? 'dark'}
+                        aria-label="Forhåndsvisning av Tavla"
+                    >
+                        <BoardPreview board={board} />
+                    </section>
+                </div>
             </div>
+            {loaded && (
+                <SettingsForm board={board} onSubmit={handleSettingsSubmit} />
+            )}
+            <PublishButton
+                publishState={publishState}
+                onClick={() => setIsModalOpen(true)}
+            />
             <Modal
                 size="medium"
                 open={isModalOpen}

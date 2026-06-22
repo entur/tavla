@@ -10,21 +10,20 @@ import { TransportPaletteSelect } from 'app/_components/TableSettings/TransportP
 import { WalkingDistance } from 'app/_components/TableSettings/WalkingDistance'
 import { TileList } from 'app/_components/TileList'
 import { TileSelector } from 'app/_components/TileSelector/TileSelector'
-import { formDataToTiles } from 'app/_components/TileSelector/utils'
 import { useAllowedPalettes } from 'app/_utils/colorPalettes'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 
-function CreateBoardSidebar({
+function EditBoardSidebar({
     board,
     setTiles,
+    onAddTiles,
     onSettingsSubmit,
-    resetPublishedBoard,
 }: {
     board: BoardDB
     setTiles: (tiles: BoardDB['tiles']) => void
+    onAddTiles: (data: FormData) => Promise<void>
     onSettingsSubmit: (data: FormData) => Promise<void>
-    resetPublishedBoard: () => void
 }) {
     const formRef = useRef<HTMLFormElement | null>(null)
     const titleInputRef = useRef<HTMLInputElement | null>(null)
@@ -92,13 +91,8 @@ function CreateBoardSidebar({
                     Hvilke stoppesteder vil du vise på Tavla?
                 </Heading3>
                 <TileSelector
-                    action={async (data: FormData) => {
-                        const tiles = formDataToTiles(data)
-                        setTiles([...board.tiles, ...tiles])
-                        resetPublishedBoard()
-                    }}
-                    trackingLocation="board_without_user"
-                    hideCountyFilter
+                    action={onAddTiles}
+                    trackingLocation="board_page"
                 />
                 <TileList board={board} setTilesLocalStorageBoard={setTiles} />
             </section>
@@ -164,4 +158,4 @@ function CreateBoardSidebar({
     )
 }
 
-export { CreateBoardSidebar }
+export { EditBoardSidebar }
