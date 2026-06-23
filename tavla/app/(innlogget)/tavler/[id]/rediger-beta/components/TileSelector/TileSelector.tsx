@@ -7,6 +7,7 @@ import {
 import { SearchIcon } from '@entur/icons'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
+import { getTypeOfPlace } from 'app/_components/TileSelector/utils'
 import { useClosestStopPlaces } from 'app/_hooks/useClosestStopPlaces'
 import { useCountiesSearch } from 'app/_hooks/useCountiesSearch'
 import useCurrentPosition from 'app/_hooks/useCurrentPosition'
@@ -22,7 +23,6 @@ import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { FolderDB } from 'types/db-types/folders'
-import { getTypeOfPlace } from './utils'
 
 const NUMBER_OF_CLOSEST_STOP_PLACES = 10
 const AREA_RADIUS_IN_KM = 20
@@ -30,10 +30,12 @@ const AREA_RADIUS_IN_KM = 20
 function TileSelector({
     action,
     trackingLocation,
+    hideCountyFilter = false,
 }: {
     action: (data: FormData) => void
     folderid?: FolderDB['id']
     trackingLocation: EventProps<'stop_place_add_interaction'>['location']
+    hideCountyFilter?: boolean
 }) {
     const { counties, selectedCounties, setSelectedCounties } =
         useCountiesSearch()
@@ -126,7 +128,7 @@ function TileSelector({
 
     return (
         <form
-            className="mr-6 flex w-full flex-col gap-4 lg:flex-row"
+            className={`flex w-full flex-col gap-4 ${hideCountyFilter ? '' : 'mr-6 lg:flex-row'}`}
             action={action}
             onSubmit={() => {
                 if (!selectedStopPlace) {
@@ -156,33 +158,39 @@ function TileSelector({
                 }, 5000)
             }}
         >
-            <div className="w-full">
-                <MultiSelect
-                    label="Fylker"
-                    items={counties}
-                    selectedItems={selectedCounties}
-                    onChange={(e) => {
-                        capture('stop_place_add_interaction', {
-                            location: trackingLocation,
-                            field: 'county',
-                            action:
-                                e.length > selectedCounties.length
-                                    ? 'selected'
-                                    : 'cleared',
-                        })
-                        setSelectedCounties(e)
-                    }}
-                    clearInputOnSelect={true}
-                    prepend={<SearchIcon aria-hidden />}
-                    maxChips={2}
-                    hideSelectAll
-                />
-            </div>
+            {!hideCountyFilter && (
+                <div className="w-full">
+                    <MultiSelect
+                        label="Fylker"
+                        items={counties}
+                        selectedItems={selectedCounties}
+                        onChange={(e) => {
+                            capture('stop_place_add_interaction', {
+                                location: trackingLocation,
+                                field: 'county',
+                                action:
+                                    e.length > selectedCounties.length
+                                        ? 'selected'
+                                        : 'cleared',
+                            })
+                            setSelectedCounties(e)
+                        }}
+                        clearInputOnSelect={true}
+                        prepend={<SearchIcon aria-hidden />}
+                        maxChips={2}
+                        hideSelectAll
+                    />
+                </div>
+            )}
             <div className="w-full">
                 <SearchableDropdown
                     noMatchesText="Ingen stoppesteder funnet"
                     items={searchStopPlaces}
-                    label="Stoppested, adresse eller sted*"
+                    label={
+                        hideCountyFilter
+                            ? 'Skriv inn adresse, stoppested eller sted'
+                            : 'Stoppested, adresse eller sted*'
+                    }
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
@@ -233,8 +241,8 @@ function TileSelector({
             />
 
             <SubmitButton
-                variant="secondary"
-                className="min-w-24"
+                variant={hideCountyFilter ? 'primary' : 'secondary'}
+                className={hideCountyFilter ? 'w-full' : 'min-w-24'}
                 onClick={() =>
                     capture('stop_place_added', {
                         location: trackingLocation,
@@ -251,7 +259,7 @@ function TileSelector({
                     })
                 }
             >
-                Legg til
+                {hideCountyFilter ? 'Legg til stoppesteder' : 'Legg til'}
             </SubmitButton>
         </form>
     )

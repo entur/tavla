@@ -5,8 +5,6 @@ import { BackArrowIcon, DeleteIcon } from '@entur/icons'
 import { Heading2 } from '@entur/typography'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import { SetColumns } from 'app/_components/TileCard/components/SetColumns'
-import { SetOffsetDepartureTime } from 'app/_components/TileCard/components/SetOffsetDepartureTime'
-import { SetStopPlaceName } from 'app/_components/TileCard/components/SetStopPlaceName'
 import { SetVisibleLines } from 'app/_components/TileCard/components/SetVisibleLines'
 import { TileContext } from 'app/_components/TileCard/context'
 import { useLines } from 'app/_components/TileCard/useLines'
@@ -22,6 +20,8 @@ import type {
     LocationDB,
     TileColumnDB,
 } from 'src/types/db-types/boards'
+import { SetOffsetDepartureTime } from './TileCard/components/SetOffsetDepartureTime'
+import { SetStopPlaceName } from './TileCard/components/SetStopPlaceName'
 
 function TileEditSidebar({
     tile,

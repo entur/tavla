@@ -1,7 +1,14 @@
 'use client'
 import { useToast } from '@entur/alert'
-import { BaseExpand } from '@entur/expand'
+import { Modal } from '@entur/modal'
 import { Heading3 } from '@entur/typography'
+import { deleteTile, saveTile } from 'app/_components/TileCard/actions'
+import { SetColumns } from 'app/_components/TileCard/components/SetColumns'
+import { SetVisibleLines } from 'app/_components/TileCard/components/SetVisibleLines'
+import { TileArrows } from 'app/_components/TileCard/components/TileArrows'
+import { TileContext } from 'app/_components/TileCard/context'
+import { useLines } from 'app/_components/TileCard/useLines'
+import { parseTileFormData } from 'app/_components/TileCard/utils'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
@@ -17,17 +24,9 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { uniqBy } from 'lodash'
 import { startTransition, useActionState, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'types/db-types/boards'
-import { deleteTile, saveTile } from './actions'
-import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
-import { SetColumns } from './components/SetColumns'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
-import { SetVisibleLines } from './components/SetVisibleLines'
-import { TileArrows } from './components/TileArrows'
-import { TileContext } from './context'
-import { useLines } from './useLines'
-import { parseTileFormData } from './utils'
 
 export function TileCard({
     board,
@@ -111,11 +110,17 @@ export function TileCard({
             displayName: displayName.substring(0, 50) || undefined,
         }
 
+        const updatedTiles = board.tiles.map((existingTile) =>
+            existingTile.uuid === newTile.uuid ? newTile : existingTile,
+        )
+
         try {
             if (isLocalStorageBoard) {
-                saveTileToLocalStorageBoard(newTile)
+                setTilesLocalStorageBoard?.(updatedTiles)
             } else {
                 await saveTile(board.id, newTile)
+                // Keep the parent board (live preview) in sync after persisting.
+                setTilesLocalStorageBoard?.(updatedTiles)
             }
             reset()
         } catch {
@@ -161,29 +166,6 @@ export function TileCard({
     const transportModes =
         getTransportModesFromLines(uniqLines).sort(sortByTransportMode)
 
-    const saveTileToLocalStorageBoard = (newTile: BoardTileDB) => {
-        if (!isLocalStorageBoard) return null
-        const oldTileIndex = board.tiles.findIndex(
-            (tile) => tile.uuid === newTile.uuid,
-        )
-        if (oldTileIndex === -1) return null
-
-        const updatedTiles = board.tiles.map((existingTile) =>
-            existingTile.uuid === newTile.uuid ? newTile : existingTile,
-        )
-
-        if (setTilesLocalStorageBoard) setTilesLocalStorageBoard(updatedTiles)
-    }
-
-    const deleteTileLocalStorageBoard = () => {
-        if (!isLocalStorageBoard) return null
-
-        const remainingTiles = board.tiles.filter((t) => t.uuid !== tile.uuid)
-        if (setTilesLocalStorageBoard) setTilesLocalStorageBoard(remainingTiles)
-
-        addToast(`${tile.name} fjernet!`)
-    }
-
     const handleSetIsTileOpen = (open: boolean) => {
         setIsOpen(open)
     }
@@ -193,12 +175,17 @@ export function TileCard({
             location: trackingLocation,
         })
 
+        const remainingTiles = board.tiles.filter((t) => t.uuid !== tile.uuid)
+
         if (isLocalStorageBoard) {
-            deleteTileLocalStorageBoard()
+            setTilesLocalStorageBoard?.(remainingTiles)
+            addToast(`${tile.name} fjernet!`)
         } else {
             deleteTile(board.id, tile).then(() => {
                 addToast(`${tile.name} fjernet!`)
             })
+            // Keep the parent board (live preview) in sync after persisting.
+            setTilesLocalStorageBoard?.(remainingTiles)
         }
     }
 
@@ -206,10 +193,16 @@ export function TileCard({
         <div>
             <TileContext.Provider value={tile}>
                 <div className="flex flex-row">
-                    <div
-                        className={`flex w-full items-center justify-between bg-white px-6 py-4 ${
-                            isOpen ? 'rounded-t' : 'rounded'
-                        }`}
+                    <button
+                        type="button"
+                        aria-label={`Rediger ${tile.displayName ?? tile.name}`}
+                        onClick={() => {
+                            capture('stop_place_edit_started', {
+                                location: trackingLocation,
+                            })
+                            handleSetIsTileOpen(true)
+                        }}
+                        className="flex w-full items-center justify-between rounded bg-white px-6 py-4 text-left transition-colors hover:bg-tintLight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-main"
                     >
                         <div className="flex flex-row items-center gap-4">
                             <Heading3 margin="none">
@@ -231,15 +224,7 @@ export function TileCard({
                                 ))}
                             </section>
                         </div>
-                        <EditRemoveTileButtonGroup
-                            hasTileChanged={hasUnsavedChanges}
-                            isTileOpen={isOpen}
-                            setIsTileOpen={handleSetIsTileOpen}
-                            setConfirmOpen={setConfirmOpen}
-                            deleteTile={handleDeleteTile}
-                            trackingLocation={trackingLocation}
-                        />
-                    </div>
+                    </button>
                     <TileArrows
                         index={index}
                         totalTiles={totalTiles}
@@ -247,69 +232,71 @@ export function TileCard({
                     />
                 </div>
 
-                <BaseExpand open={isOpen}>
-                    <div
-                        className={`mr-14 border-t-2 bg-white px-6 py-4 ${
-                            totalTiles === 1 && 'w-full'
-                        } rounded-b`}
+                <Modal
+                    size="medium"
+                    open={isOpen}
+                    title={tile.displayName ?? tile.name}
+                    onDismiss={() => {
+                        if (hasUnsavedChanges) return setConfirmOpen(true)
+                        reset()
+                    }}
+                >
+                    <form
+                        id={tile.uuid}
+                        onSubmit={(e) => {
+                            e.preventDefault()
+                            const fd = new FormData(e.currentTarget)
+                            startTransition(() => {
+                                runAction(fd)
+                            })
+                        }}
+                        onInput={() => setHasUnsavedChanges(true)}
                     >
-                        <form
-                            id={tile.uuid}
-                            onSubmit={(e) => {
-                                e.preventDefault()
-                                const fd = new FormData(e.currentTarget)
-                                startTransition(() => {
-                                    runAction(fd)
-                                })
+                        <SetStopPlaceName
+                            state={state}
+                            trackingLocation={trackingLocation}
+                            onFieldChanged={onFieldChanged}
+                        />
+                        <SetOffsetDepartureTime
+                            address={board.meta.location}
+                            trackingLocation={trackingLocation}
+                            onFieldChanged={onFieldChanged}
+                        />
+                        <SetColumns
+                            isCombined={board.isCombinedTiles}
+                            isArrivals={board.isArrivals ?? false}
+                            trackingLocation={trackingLocation}
+                            onFieldChanged={onFieldChanged}
+                        />
+                        <SetVisibleLines
+                            quays={quaysWithFilteredLines}
+                            trackingLocation={trackingLocation}
+                            onFieldChanged={onFieldChanged}
+                        />
+                        <SaveCancelDeleteTileButtonGroup
+                            confirmOpen={confirmOpen}
+                            hasTileChanged={hasUnsavedChanges}
+                            resetTile={reset}
+                            setIsTileOpen={handleSetIsTileOpen}
+                            setConfirmOpen={setConfirmOpen}
+                            validation={state}
+                            deleteTile={handleDeleteTile}
+                            trackingLocation={trackingLocation}
+                            fieldsChanged={{
+                                name: changedFields.has('name'),
+                                offset: changedFields.has('offset'),
+                                offset_walking_dist: changedFields.has(
+                                    'offset_walking_dist',
+                                ),
+                                columns: changedFields.has('columns'),
+                                lines: changedFields.has('lines'),
+                                transport_mode_filter: changedFields.has(
+                                    'transport_mode_filter',
+                                ),
                             }}
-                            onInput={() => setHasUnsavedChanges(true)}
-                        >
-                            <SetStopPlaceName
-                                state={state}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetOffsetDepartureTime
-                                address={board.meta.location}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetColumns
-                                isCombined={board.isCombinedTiles}
-                                isArrivals={board.isArrivals ?? false}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetVisibleLines
-                                quays={quaysWithFilteredLines}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SaveCancelDeleteTileButtonGroup
-                                confirmOpen={confirmOpen}
-                                hasTileChanged={hasUnsavedChanges}
-                                resetTile={reset}
-                                setIsTileOpen={handleSetIsTileOpen}
-                                setConfirmOpen={setConfirmOpen}
-                                validation={state}
-                                deleteTile={handleDeleteTile}
-                                trackingLocation={trackingLocation}
-                                fieldsChanged={{
-                                    name: changedFields.has('name'),
-                                    offset: changedFields.has('offset'),
-                                    offset_walking_dist: changedFields.has(
-                                        'offset_walking_dist',
-                                    ),
-                                    columns: changedFields.has('columns'),
-                                    lines: changedFields.has('lines'),
-                                    transport_mode_filter: changedFields.has(
-                                        'transport_mode_filter',
-                                    ),
-                                }}
-                            />
-                        </form>
-                    </div>
-                </BaseExpand>
+                        />
+                    </form>
+                </Modal>
             </TileContext.Provider>
         </div>
     )

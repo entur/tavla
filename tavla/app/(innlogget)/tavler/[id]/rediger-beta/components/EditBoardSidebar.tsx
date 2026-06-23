@@ -8,11 +8,11 @@ import { InfoMessage } from 'app/_components/TableSettings/InfoMessage'
 import { ThemeSelect } from 'app/_components/TableSettings/ThemeSelect'
 import { TransportPaletteSelect } from 'app/_components/TableSettings/TransportPaletteSelect'
 import { WalkingDistance } from 'app/_components/TableSettings/WalkingDistance'
-import { TileList } from 'app/_components/TileList'
-import { TileSelector } from 'app/_components/TileSelector/TileSelector'
 import { useAllowedPalettes } from 'app/_utils/colorPalettes'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
+import { TileList } from './TileList'
+import { TileSelector } from './TileSelector/TileSelector'
 
 function EditBoardSidebar({
     board,
@@ -93,6 +93,7 @@ function EditBoardSidebar({
                 <TileSelector
                     action={onAddTiles}
                     trackingLocation="board_page"
+                    hideCountyFilter
                 />
                 <TileList board={board} setTilesLocalStorageBoard={setTiles} />
             </section>

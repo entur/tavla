@@ -1,6 +1,7 @@
 import { Checkbox } from '@entur/form'
 import { Heading4, SubParagraph } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
+import { TileContext } from 'app/_components/TileCard/context'
 import type { EventProps } from 'app/posthog/events'
 import {
     TRACKING_DEBOUNCE_TIME,
@@ -9,7 +10,6 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { LocationDB } from 'src/types/db-types/boards'
-import { TileContext } from '../context'
 
 function SetOffsetDepartureTime({
     address,
@@ -52,7 +52,7 @@ function SetOffsetDepartureTime({
                     id="offset"
                     type="number"
                     min={0}
-                    className="!w-full md:!w-1/2 lg:!w-1/4"
+                    className="!w-full"
                     clearable={!offsetBasedOnWalkingDistance}
                     onClear={() => {
                         setOffset('')

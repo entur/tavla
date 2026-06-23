@@ -1,16 +1,16 @@
 import { SmallAlertBox } from '@entur/alert'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { CloseIcon } from '@entur/icons'
+import { Button, ButtonGroup, IconButton, NegativeButton } from '@entur/button'
+import { CloseIcon, DeleteIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
+import { TileContext } from 'app/_components/TileCard/context'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import Goat from 'assets/illustrations/Goat.png'
 import Image from 'next/image'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import { TileContext } from '../context'
 
 function SaveCancelDeleteTileButtonGroup({
     confirmOpen,
@@ -18,6 +18,7 @@ function SaveCancelDeleteTileButtonGroup({
     resetTile,
     setIsTileOpen,
     setConfirmOpen,
+    deleteTile,
     validation,
     trackingLocation,
     fieldsChanged,
@@ -49,35 +50,45 @@ function SaveCancelDeleteTileButtonGroup({
                     {validation.feedback}
                 </SmallAlertBox>
             )}
-            <div className="mt-8 flex flex-col justify-start gap-4 md:flex-row">
-                <SubmitButton
-                    variant="primary"
-                    aria-label="lagre valg"
-                    onClick={() => {
-                        capture('stop_place_edit_saved', {
-                            location: trackingLocation,
-                            ...fieldsChanged,
-                        })
-                    }}
-                >
-                    Lagre valg
-                </SubmitButton>
-                <Button
-                    variant="secondary"
-                    aria-label="avbryt"
-                    type="button"
-                    onClick={() => {
-                        capture('stop_place_edit_cancelled', {
-                            location: trackingLocation,
-                            unsavedChanges: hasTileChanged,
-                        })
+            <div className="mt-8 flex flex-col justify-start gap-4 md:flex-row md:items-center md:justify-between">
+                <div className="flex flex-col gap-4 md:flex-row">
+                    <SubmitButton
+                        variant="primary"
+                        aria-label="lagre valg"
+                        onClick={() => {
+                            capture('stop_place_edit_saved', {
+                                location: trackingLocation,
+                                ...fieldsChanged,
+                            })
+                        }}
+                    >
+                        Lagre valg
+                    </SubmitButton>
+                    <Button
+                        variant="secondary"
+                        aria-label="avbryt"
+                        type="button"
+                        onClick={() => {
+                            capture('stop_place_edit_cancelled', {
+                                location: trackingLocation,
+                                unsavedChanges: hasTileChanged,
+                            })
 
-                        if (hasTileChanged) return setConfirmOpen(true)
-                        return setIsTileOpen(false)
-                    }}
+                            if (hasTileChanged) return setConfirmOpen(true)
+                            return setIsTileOpen(false)
+                        }}
+                    >
+                        Avbryt
+                    </Button>
+                </div>
+                <NegativeButton
+                    type="button"
+                    aria-label="Fjern stoppested"
+                    onClick={() => deleteTile()}
                 >
-                    Avbryt
-                </Button>
+                    <DeleteIcon aria-hidden />
+                    Slett stoppested
+                </NegativeButton>
             </div>
 
             <Modal

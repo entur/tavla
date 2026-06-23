@@ -1,5 +1,6 @@
 import { Heading4, SubParagraph } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
+import { TileContext } from 'app/_components/TileCard/context'
 import {
     getFormFeedbackForField,
     type TFormFeedback,
@@ -11,7 +12,6 @@ import {
 } from 'app/posthog/usePosthogTracking'
 import { useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import { TileContext } from '../context'
 
 function SetStopPlaceName({
     state,
@@ -41,7 +41,7 @@ function SetStopPlaceName({
             </div>
             <ClientOnlyTextField
                 label="Navn på stoppested"
-                className="!w-full md:!w-1/2 lg:!w-1/4"
+                className="!w-full"
                 name="displayName"
                 value={displayName}
                 maxLength={50}
