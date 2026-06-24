@@ -1,7 +1,6 @@
 'use client'
 import { formDataToTiles } from 'app/_components/TileSelector/utils'
 import { saveSettings } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/actions'
-import { BoardPreview } from 'app/lag-tavle/components/BoardPreview'
 import { useCallback, useState } from 'react'
 import type {
     BoardDB,
@@ -11,6 +10,7 @@ import type {
     TransportPalette,
 } from 'src/types/db-types/boards'
 import { addBetaTiles } from '../actions'
+import { BoardPreview } from './BoardPreview'
 import { EditBoardSidebar } from './EditBoardSidebar'
 
 /**

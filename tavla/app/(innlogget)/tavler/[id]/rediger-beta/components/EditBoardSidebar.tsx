@@ -29,7 +29,11 @@ function EditBoardSidebar({
     onAddTiles: (data: FormData) => Promise<void>
     onSettingsSubmit: (data: FormData) => Promise<void>
 }) {
+    // Two sibling forms (info card + appearance/content) so the TileSelector,
+    // which renders its own <form>, can sit between them without nesting forms
+    // (invalid HTML). Both forms are merged when collecting settings.
     const formRef = useRef<HTMLFormElement | null>(null)
+    const topFormRef = useRef<HTMLFormElement | null>(null)
     const titleInputRef = useRef<HTMLInputElement | null>(null)
     const allowedPalettes = useAllowedPalettes(board)
     const [isEditingTitle, setIsEditingTitle] = useState(false)
@@ -39,18 +43,33 @@ function EditBoardSidebar({
         if (!isEditingTitle) setTitleDraft(board.meta.title)
     }, [board.meta.title, isEditingTitle])
 
+    const collectSettings = useCallback(() => {
+        const data = formRef.current
+            ? new FormData(formRef.current)
+            : new FormData()
+        if (topFormRef.current) {
+            for (const [key, value] of new FormData(topFormRef.current)) {
+                data.append(key, value)
+            }
+        }
+        return data
+    }, [])
+
     const handleChange = useCallback(async () => {
-        if (!formRef.current) return
-        await onSettingsSubmit(new FormData(formRef.current))
-    }, [onSettingsSubmit])
+        await onSettingsSubmit(collectSettings())
+    }, [onSettingsSubmit, collectSettings])
 
     const selectedElements: ('clock' | 'logo')[] = []
     if (!board.hideClock) selectedElements.push('clock')
     if (!board.hideLogo) selectedElements.push('logo')
 
     return (
-        <form ref={formRef} onChange={handleChange}>
-            <div className="flex h-full flex-col gap-12 overflow-y-auto  text-sm">
+        <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
+            <form
+                ref={topFormRef}
+                onChange={handleChange}
+                onSubmit={(e) => e.preventDefault()}
+            >
                 <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-wrap justify-between gap-2">
@@ -89,8 +108,7 @@ function EditBoardSidebar({
                         onChange={(e) => setTitleDraft(e.target.value)}
                         onBlur={async () => {
                             setIsEditingTitle(false)
-                            if (!formRef.current) return
-                            const data = new FormData(formRef.current)
+                            const data = collectSettings()
                             data.set('title', titleDraft ?? '')
                             await onSettingsSubmit(data)
                         }}
@@ -113,22 +131,26 @@ function EditBoardSidebar({
                         onChange={handleChange}
                     />
                 </section>
+            </form>
 
-                <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
-                    <Heading3 margin="none">
-                        Hvilke stoppesteder vil du vise på Tavla?
-                    </Heading3>
-                    <TileSelector
-                        action={onAddTiles}
-                        trackingLocation="board_page"
-                        hideCountyFilter
-                    />
-                    <TileList
-                        board={board}
-                        setTilesLocalStorageBoard={setTiles}
-                    />
-                </section>
+            <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
+                <Heading3 margin="none">
+                    Hvilke stoppesteder vil du vise på Tavla?
+                </Heading3>
+                <TileSelector
+                    action={onAddTiles}
+                    trackingLocation="board_page"
+                    hideCountyFilter
+                />
+                <TileList board={board} setTilesLocalStorageBoard={setTiles} />
+            </section>
 
+            <form
+                ref={formRef}
+                onChange={handleChange}
+                onSubmit={(e) => e.preventDefault()}
+                className="flex flex-col gap-12"
+            >
                 <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
                     <Heading3 margin="none">
                         Hvordan vil du at Tavla skal se ut?
@@ -177,8 +199,8 @@ function EditBoardSidebar({
                         onChange={handleChange}
                     />
                 </section>
-            </div>
-        </form>
+            </form>
+        </div>
     )
 }
 
