@@ -1,4 +1,4 @@
-import type * as Types from 'types/graphql-schema';
+import type * as Types from 'types/operations';
 
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export class TypedDocumentString<TResult, TVariables>
@@ -186,13 +186,14 @@ export const QuayEditQuery = new TypedDocumentString(`
   }
 }`) as unknown as TypedDocumentString<Types.TQuayEditQuery, Types.TQuayEditQueryVariables>;
 export const QuayEstimatedCallsQuery = new TypedDocumentString(`
-    query QuayEstimatedCalls($quayId: String!, $numberOfDepartures: Int = 200) {
+    query QuayEstimatedCalls($quayId: String!, $numberOfDepartures: Int = 200, $arrivalDeparture: ArrivalDeparture = departures) {
   quay(id: $quayId) {
     estimatedCalls(
       numberOfDepartures: $numberOfDepartures
       numberOfDeparturesPerLineAndDestinationDisplay: 1
       timeRange: 604800
       includeCancelledTrips: true
+      arrivalDeparture: $arrivalDeparture
     ) {
       destinationDisplay {
         frontText

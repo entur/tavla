@@ -155,7 +155,7 @@ Alle spørringene Tavla bruker mot [Journey Planner v3](https://api.entur.io/jou
 
 **Kildefil:** [`tavla/src/graphql/queries/quayEstimatedCalls.graphql`](../tavla/src/graphql/queries/quayEstimatedCalls.graphql)
 
-**Beskrivelse:** Henter alle estimerte avganger for en perrong i løpet av én uke. Brukes til å bygge linje-/destinasjonsfiltre.
+**Beskrivelse:** Henter alle estimerte avganger eller ankomster for en perrong i løpet av én uke. Brukes til å bygge linje-/destinasjonsfiltre. Med `arrivalDeparture`-variabelen (`departures` som standard, eller `arrivals`) kan man hente linjer basert på ankomster i stedet for avganger — brukes for ankomsttavler.
 
 **Fragmenter:** ingen
 
@@ -163,11 +163,12 @@ Alle spørringene Tavla bruker mot [Journey Planner v3](https://api.entur.io/jou
 ```json
 {
   "quayId": "NSR:Quay:107371",
-  "numberOfDepartures": 200
+  "numberOfDepartures": 200,
+  "arrivalDeparture": "departures"
 }
 ```
 
-**[Åpne i GraphQL Explorer](https://api.entur.io/graphql-explorer/journey-planner-v3?query=query%20QuayEstimatedCalls%28%24quayId%3A%20String%21%2C%20%24numberOfDepartures%3A%20Int%20%3D%20200%29%20%7B%0A%20%20%20%20quay%28id%3A%20%24quayId%29%20%7B%0A%20%20%20%20%20%20%20%20estimatedCalls%28%0A%20%20%20%20%20%20%20%20%20%20%20%20numberOfDepartures%3A%20%24numberOfDepartures%0A%20%20%20%20%20%20%20%20%20%20%20%20numberOfDeparturesPerLineAndDestinationDisplay%3A%201%0A%20%20%20%20%20%20%20%20%20%20%20%20timeRange%3A%20604800%0A%20%20%20%20%20%20%20%20%20%20%20%20includeCancelledTrips%3A%20true%0A%20%20%20%20%20%20%20%20%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20destinationDisplay%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20frontText%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20serviceJourney%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20line%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20id%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%7D&operationName=QuayEstimatedCalls&variables=%7B%22quayId%22%3A%22NSR%3AQuay%3A107371%22%2C%22numberOfDepartures%22%3A200%7D)**
+**[Åpne i GraphQL Explorer](https://api.entur.io/graphql-explorer/journey-planner-v3?query=query%20QuayEstimatedCalls%28%0A%20%20%20%20%24quayId%3A%20String%21%0A%20%20%20%20%24numberOfDepartures%3A%20Int%20%3D%20200%0A%20%20%20%20%24arrivalDeparture%3A%20ArrivalDeparture%20%3D%20departures%0A%29%20%7B%0A%20%20%20%20quay%28id%3A%20%24quayId%29%20%7B%0A%20%20%20%20%20%20%20%20estimatedCalls%28%0A%20%20%20%20%20%20%20%20%20%20%20%20numberOfDepartures%3A%20%24numberOfDepartures%0A%20%20%20%20%20%20%20%20%20%20%20%20numberOfDeparturesPerLineAndDestinationDisplay%3A%201%0A%20%20%20%20%20%20%20%20%20%20%20%20timeRange%3A%20604800%0A%20%20%20%20%20%20%20%20%20%20%20%20includeCancelledTrips%3A%20true%0A%20%20%20%20%20%20%20%20%20%20%20%20arrivalDeparture%3A%20%24arrivalDeparture%0A%20%20%20%20%20%20%20%20%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20destinationDisplay%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20frontText%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20serviceJourney%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20line%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20id%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%7D&operationName=QuayEstimatedCalls&variables=%7B%22quayId%22%3A%22NSR%3AQuay%3A107371%22%2C%22numberOfDepartures%22%3A200%2C%22arrivalDeparture%22%3A%22departures%22%7D)**
 
 ---
 

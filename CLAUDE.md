@@ -98,6 +98,13 @@ Backend env vars for local dev: `BACKEND_API_KEY=super_secret_key`, `REDIS_PASSW
 
 **GraphQL:** Operations defined in `.graphql` files, types generated via `yarn generate` (config in `codegen.ts` and `graphql.config.json`). Always run `yarn generate` after schema changes.
 
+Codegen writes three files, split deliberately so types flow in one direction (base ← operations ← documents):
+- `src/types/graphql-schema.ts` — base schema types (objects, enums, inputs, scalars), `typescript` plugin only.
+- `src/types/operations.ts` — operation/fragment result + variable types (`T*Query`, `T*Fragment`), imports base types from `graphql-schema`.
+- `src/graphql/index.ts` — typed document strings, imports operation types from `operations`.
+
+The split is required because `@graphql-codegen/typescript-operations` v6 re-emits every enum/input it references; co-locating it with the `typescript` plugin produced duplicate-identifier types. Import operation types from `types/operations`, base types from `types/graphql-schema`. All three are generated — commit them together after `yarn generate`.
+
 When adding, removing, or modifying any `.graphql` file under `tavla/src/graphql/` (queries or fragments), regenerate `docs/EXPLORER_LINKS.md` by re-running the same Python script logic used to create it: merge each query with its fragments recursively, URL-encode as `query`+`operationName`+`variables` parameters, and write the updated file. Use the same realistic NSR example IDs (`NSR:StopPlace:59872` Oslo S, `NSR:StopPlace:6013` Bergen stasjon, `NSR:Quay:107371` Oslo S pl. 1).
 
 **Linting/formatting:** Biome (not ESLint/Prettier). Pre-commit hooks run Biome on staged files via Husky.
