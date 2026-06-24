@@ -14,9 +14,6 @@ function nodePosthogClient() {
 }
 
 export async function isFeatureEnabled(flag: string): Promise<boolean> {
-    const localOverrides = process.env.FEATURE_FLAGS_ENABLED?.split(',') ?? []
-    if (localOverrides.includes(flag)) return true
-
     const posthogClient = nodePosthogClient()
 
     const cookieStore = await cookies()

@@ -43,7 +43,6 @@ function Copy({ type, bid, board, trackingLocation }: Props) {
                 successMessage="Lenken til tavla ble kopiert!"
                 aria-label={ariaLabel}
                 onClick={copy}
-                className="[&>*]:p-2 flex flex-row"
             >
                 {boardLink}
             </CopyableText>

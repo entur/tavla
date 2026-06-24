@@ -102,7 +102,7 @@ function BoardPreview({ board }: { board: BoardDB }) {
 
     return (
         <div
-            className={`previewContainer md:text-2xl ${board?.theme === 'dark' ? 'bg-black' : 'bg-primary'}`}
+            className="previewContainer md:text-2xl"
             data-theme={board?.theme ?? 'dark'}
         >
             <section

@@ -1,9 +1,15 @@
 'use client'
+import { Preview } from 'app/(innlogget)/tavler/[id]/rediger/components/Preview'
 import type { BoardDB } from 'src/types/db-types/boards'
-import { BoardPreview } from './BoardPreview'
 import { EditBoardSidebar } from './EditBoardSidebar'
 
-export function EditBoardBeta({ initialBoard }: { initialBoard: BoardDB }) {
+export function EditBoardBeta({
+    initialBoard,
+    boardLink,
+}: {
+    initialBoard: BoardDB
+    boardLink: string
+}) {
     return (
         <div
             data-transport-palette={initialBoard.transportPalette}
@@ -14,7 +20,7 @@ export function EditBoardBeta({ initialBoard }: { initialBoard: BoardDB }) {
                 aria-label="Forhåndsvisning av Tavla"
                 className="min-w-0 flex-1 lg:sticky lg:top-8 lg:self-start"
             >
-                <BoardPreview board={initialBoard} />
+                <Preview boardLink={boardLink} />
             </section>
 
             <aside className="w-full shrink-0 rounded-md lg:w-[536px]">
