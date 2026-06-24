@@ -1,5 +1,6 @@
 'use client'
 
+import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
 import React, { useEffect, useRef } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkClient } from 'src/utils/boardLink'
@@ -32,6 +33,13 @@ function sendDemoBoardMessage(
     )
 }
 
+/**
+ * Live preview for an existing board. The iframe is loaded in tavla-visning's
+ * demo mode (the `demo` board id) so it performs the DEMO_BOARD handshake and
+ * renders whatever board object we post — letting unsaved, in-memory edits show
+ * instantly. Loading the real board URL instead would make visning render the
+ * saved Firestore state and ignore our postMessage updates.
+ */
 function BoardPreview({ board }: { board: BoardDB }) {
     const iframeRef = useRef<HTMLIFrameElement>(null)
     const [iframeSrc, setIframeSrc] = React.useState<string>('')
@@ -45,12 +53,9 @@ function BoardPreview({ board }: { board: BoardDB }) {
         [board],
     )
 
-    useEffect(
-        function setInitialIframeSrc() {
-            setIframeSrc(getBoardLinkClient(board.id))
-        },
-        [board.id],
-    )
+    useEffect(function setInitialIframeSrc() {
+        setIframeSrc(getBoardLinkClient(LOCAL_STORAGE_BOARD_ID))
+    }, [])
 
     useEffect(function resetIframeLoadedFlagOnSrcChange() {
         iframeOriginRef.current = null
