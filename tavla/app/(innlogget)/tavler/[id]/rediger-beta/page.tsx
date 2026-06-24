@@ -2,6 +2,8 @@ import { BreadcrumbsNav } from 'app/(innlogget)/tavler/[id]/BreadcrumbsNav'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
+import { FeatureFlags } from 'app/posthog/featureFlags'
+import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
@@ -29,6 +31,9 @@ export default async function EditBetaPage(props: TProps) {
     const { id: bid } = await props.params
     const user = await getUserFromSessionCookie()
     if (!user?.uid) return redirect('/')
+
+    const flagEnabled = await isFeatureEnabled(FeatureFlags.EDIT_BOARD_BETA)
+    if (!flagEnabled) return redirect(`/tavler/${bid}/rediger`)
 
     const [board, folder, access] = await Promise.all([
         getBoard(bid),
