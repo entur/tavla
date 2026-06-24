@@ -1,6 +1,6 @@
 'use client'
 import { SearchableDropdown } from '@entur/dropdown'
-import { Heading4, Paragraph } from '@entur/typography'
+import { Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import ClientOnly from 'app/_components/NoSSR/ClientOnly'
 import { usePointSearch } from 'app/_hooks/usePointSearch'

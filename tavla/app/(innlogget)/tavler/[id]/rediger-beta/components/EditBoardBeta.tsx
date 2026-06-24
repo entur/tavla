@@ -1,7 +1,5 @@
 'use client'
-import { Heading1, Paragraph } from '@entur/typography'
 import { formDataToTiles } from 'app/_components/TileSelector/utils'
-import { Copy } from 'app/(innlogget)/tavler/[id]/rediger/components/Buttons/Copy'
 import { saveSettings } from 'app/(innlogget)/tavler/[id]/rediger/components/Settings/actions'
 import { BoardPreview } from 'app/lag-tavle/components/BoardPreview'
 import { useCallback, useState } from 'react'
@@ -12,7 +10,6 @@ import type {
     LocationDB,
     TransportPalette,
 } from 'src/types/db-types/boards'
-import { getBoardLinkClient } from 'src/utils/boardLink'
 import { addBetaTiles } from '../actions'
 import { EditBoardSidebar } from './EditBoardSidebar'
 
