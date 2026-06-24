@@ -90,55 +90,27 @@ export function EditBoardBeta({ initialBoard }: { initialBoard: BoardDB }) {
         [board.id],
     )
 
-    const boardLink = getBoardLinkClient(
-        board.customUrl ? board.customUrl : board.id,
-    )
-
     return (
-        <>
-            <div className="flex h-full flex-col justify-between sm:flex-row sm:items-center">
-                <Heading1 className="!mb-0">
-                    Rediger {board.meta.title}
-                </Heading1>
-            </div>
-            <div className="md:w-fit">
-                <Paragraph margin="none">Lenke til denne tavla:</Paragraph>
-                <div className="flex items-center gap-2">
-                    <Paragraph
-                        margin="none"
-                        className="border rounded px-2 py-1 font-mono bg-tintLight"
-                    >
-                        {boardLink}
-                    </Paragraph>
-                    <Copy
-                        bid={board.customUrl ? board.customUrl : board.id}
-                        type="icon"
-                        trackingLocation="board_page"
-                    />
-                </div>
-            </div>
-
-            <div
-                data-transport-palette={board.transportPalette}
-                className="flex flex-col gap-6 lg:flex-row lg:items-start"
+        <div
+            data-transport-palette={board.transportPalette}
+            className="flex flex-col gap-6 lg:flex-row lg:items-start"
+        >
+            <section
+                data-theme={board.theme ?? 'dark'}
+                aria-label="Forhåndsvisning av Tavla"
+                className="min-w-0 flex-1 lg:sticky lg:top-8 lg:self-start"
             >
-                <section
-                    data-theme={board.theme ?? 'dark'}
-                    aria-label="Forhåndsvisning av Tavla"
-                    className="min-w-0 flex-1 lg:sticky lg:top-8 lg:self-start"
-                >
-                    <BoardPreview board={board} />
-                </section>
+                <BoardPreview board={board} />
+            </section>
 
-                <aside className="w-full shrink-0 rounded-md bg-tintLight lg:w-[536px]">
-                    <EditBoardSidebar
-                        board={board}
-                        setTiles={setTiles}
-                        onAddTiles={onAddTiles}
-                        onSettingsSubmit={onSettingsSubmit}
-                    />
-                </aside>
-            </div>
-        </>
+            <aside className="w-full shrink-0 rounded-md lg:w-[536px]">
+                <EditBoardSidebar
+                    board={board}
+                    setTiles={setTiles}
+                    onAddTiles={onAddTiles}
+                    onSettingsSubmit={onSettingsSubmit}
+                />
+            </aside>
+        </div>
     )
 }

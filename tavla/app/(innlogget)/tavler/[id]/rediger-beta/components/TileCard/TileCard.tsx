@@ -233,7 +233,7 @@ export function TileCard({
                 </div>
 
                 <Modal
-                    size="medium"
+                    size="large"
                     open={isOpen}
                     title={tile.displayName ?? tile.name}
                     onDismiss={() => {

@@ -261,7 +261,7 @@
     }
 
     .previewContainer {
-        @apply rounded border border-secondary bg-primary p-4;
+        @apply rounded border border-secondary p-2;
     }
 
     .table-custom-nth-child {

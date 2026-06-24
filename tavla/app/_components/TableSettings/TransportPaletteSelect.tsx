@@ -95,14 +95,17 @@ function TransportPaletteSelect({
                     }}
                 >
                     {availablePalettes.map((palette) => (
-                        <div key={palette.value}>
+                        <div
+                            key={palette.value}
+                            className="flex flex-row justify-between gap-2 w-full items-center"
+                        >
                             <Radio value={palette.value}>{palette.label}</Radio>
                             <div
-                                className="flex max-w-max flex-col rounded-md bg-secondary px-3 py-3"
+                                className="flex max-w-max flex-col rounded-md bg-secondary p-2"
                                 data-theme={theme}
                                 data-transport-palette={palette.value}
                             >
-                                <div className="grid grid-cols-4 gap-1.5">
+                                <div className="flex flex-row gap-1">
                                     {busAndTrainModes.map((mode) => {
                                         const colorDescription =
                                             getTransportColorDescription(

@@ -1,5 +1,6 @@
 'use client'
-import { EditIcon } from '@entur/icons'
+import { TextField } from '@entur/form'
+import { Badge } from '@entur/layout'
 import { Heading2, Heading3 } from '@entur/typography'
 import { ChoiceChipGroupGeneral } from 'app/_components/TableSettings/ChoiceChipGroupGeneral'
 import { ElementSelect } from 'app/_components/TableSettings/ElementsSelect'
@@ -7,10 +8,13 @@ import { FontSelect } from 'app/_components/TableSettings/FontSelect'
 import { InfoMessage } from 'app/_components/TableSettings/InfoMessage'
 import { ThemeSelect } from 'app/_components/TableSettings/ThemeSelect'
 import { TransportPaletteSelect } from 'app/_components/TableSettings/TransportPaletteSelect'
-import { WalkingDistance } from 'app/_components/TableSettings/WalkingDistance'
 import { useAllowedPalettes } from 'app/_utils/colorPalettes'
+import { Open } from 'app/(innlogget)/tavler/[id]/rediger/components/Buttons/Open'
+import { WalkingDistance } from 'app/(innlogget)/tavler/[id]/rediger-beta/components/WalkingDistance'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
+import { BoardLinkField } from './BoardLinkField'
+import { PublishButton } from './PublishButton'
 import { TileList } from './TileList'
 import { TileSelector } from './TileSelector/TileSelector'
 
@@ -45,65 +49,87 @@ function EditBoardSidebar({
     if (!board.hideLogo) selectedElements.push('logo')
 
     return (
-        <div className="flex h-full flex-col gap-16 overflow-y-auto px-6 py-8 text-sm [&_h2]:text-2xl [&_h3]:text-base [&_h4]:text-sm">
-            {isEditingTitle ? (
-                <input
-                    ref={titleInputRef}
-                    className="w-full border-b-2 border-blue-dark bg-transparent text-2xl font-semibold text-blue-dark outline-none"
-                    value={titleDraft}
-                    maxLength={50}
-                    onChange={(e) => setTitleDraft(e.target.value)}
-                    onBlur={async () => {
-                        setIsEditingTitle(false)
-                        if (!formRef.current) return
-                        const data = new FormData(formRef.current)
-                        data.set('title', titleDraft ?? '')
-                        await onSettingsSubmit(data)
-                    }}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') e.currentTarget.blur()
-                        if (e.key === 'Escape') {
-                            setTitleDraft(board.meta.title)
+        <form ref={formRef} onChange={handleChange}>
+            <div className="flex h-full flex-col gap-12 overflow-y-auto  text-sm">
+                <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
+                    <div className="flex flex-col gap-2">
+                        <div className="flex flex-wrap justify-between gap-2">
+                            <div>
+                                <Badge variant="primary" size="small">
+                                    {board.isArrivals
+                                        ? 'Ankomsttavle'
+                                        : 'Avgangstavle'}
+                                </Badge>
+                                <Heading2 as="h1" margin="none">
+                                    {board.meta.title}
+                                </Heading2>
+                            </div>
+
+                            <div className="flex gap-2">
+                                <Open
+                                    type="button"
+                                    bid={
+                                        board.customUrl
+                                            ? board.customUrl
+                                            : board.id
+                                    }
+                                    board={board}
+                                    trackingLocation="board_page"
+                                />
+                                <PublishButton board={board} />
+                            </div>
+                        </div>
+                    </div>
+                    <TextField
+                        ref={titleInputRef}
+                        label="Navn på tavla"
+                        value={titleDraft}
+                        maxLength={50}
+                        disableLabelAnimation
+                        onChange={(e) => setTitleDraft(e.target.value)}
+                        onBlur={async () => {
                             setIsEditingTitle(false)
-                        }
-                    }}
-                    aria-label="Rediger navn på tavlen"
-                />
-            ) : (
-                <div className="flex items-center gap-2">
-                    <Heading2 margin="none">{board.meta.title}</Heading2>
-                    <button
-                        type="button"
-                        aria-label="Rediger navn på tavlen"
-                        className="shrink-0 text-blue-dark opacity-60 hover:opacity-100"
-                        onClick={() => {
-                            setTitleDraft(board.meta.title)
-                            setIsEditingTitle(true)
+                            if (!formRef.current) return
+                            const data = new FormData(formRef.current)
+                            data.set('title', titleDraft ?? '')
+                            await onSettingsSubmit(data)
                         }}
-                    >
-                        <EditIcon />
-                    </button>
-                </div>
-            )}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') e.currentTarget.blur()
+                            if (e.key === 'Escape') {
+                                setTitleDraft(board.meta.title)
+                                setIsEditingTitle(false)
+                            }
+                        }}
+                    />
 
-            <section className="flex flex-col gap-4">
-                <Heading3 margin="none">
-                    Hvilke stoppesteder vil du vise på Tavla?
-                </Heading3>
-                <TileSelector
-                    action={onAddTiles}
-                    trackingLocation="board_page"
-                    hideCountyFilter
-                />
-                <TileList board={board} setTilesLocalStorageBoard={setTiles} />
-            </section>
+                    <BoardLinkField
+                        bid={board.id}
+                        customUrl={board.customUrl}
+                    />
 
-            <form
-                ref={formRef}
-                className="flex flex-col gap-16"
-                onChange={handleChange}
-            >
-                <section className="flex flex-col gap-6">
+                    <WalkingDistance
+                        location={board.meta.location}
+                        onChange={handleChange}
+                    />
+                </section>
+
+                <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
+                    <Heading3 margin="none">
+                        Hvilke stoppesteder vil du vise på Tavla?
+                    </Heading3>
+                    <TileSelector
+                        action={onAddTiles}
+                        trackingLocation="board_page"
+                        hideCountyFilter
+                    />
+                    <TileList
+                        board={board}
+                        setTilesLocalStorageBoard={setTiles}
+                    />
+                </section>
+
+                <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
                     <Heading3 margin="none">
                         Hvordan vil du at Tavla skal se ut?
                     </Heading3>
@@ -139,12 +165,9 @@ function EditBoardSidebar({
                     />
                 </section>
 
-                <section className="flex flex-col gap-6">
+                <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
                     <Heading3 margin="none">Hva vil du vise på tavla?</Heading3>
-                    <WalkingDistance
-                        location={board.meta.location}
-                        onChange={handleChange}
-                    />
+
                     <InfoMessage
                         infoMessage={board.footer}
                         onBlur={handleChange}
@@ -154,8 +177,8 @@ function EditBoardSidebar({
                         onChange={handleChange}
                     />
                 </section>
-            </form>
-        </div>
+            </div>
+        </form>
     )
 }
 
