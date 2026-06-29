@@ -117,7 +117,6 @@ async fn main() {
         loop {
             interval.tick().await;
 
-            // Update active boards count
             if let Ok(mut connection) = redis_for_metrics.get_multiplexed_async_connection().await {
                 match redis::cmd("KEYS")
                     .arg("heartbeat:*")
@@ -128,7 +127,6 @@ async fn main() {
                         let keys: Vec<String> = keys;
                         metrics_updater.active_boards.set(keys.len() as f64);
 
-                        // Read each heartbeat to count how many are direct-link boards
                         let mut direct_count: u64 = 0;
                         for key in &keys {
                             if let Ok(val) = connection.get::<_, String>(key).await {
