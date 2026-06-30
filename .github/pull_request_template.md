@@ -18,3 +18,7 @@
 - [ ] Lagt på aktuell posthog-tracking
 - [ ] Husket og testet UU
 - [ ] Oppdatert dokumentasjon (hvis relevant)
+
+
+### 🧩 Testing
+<fyll inn dersom det forventes testing fra reveiwer>
