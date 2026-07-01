@@ -21,4 +21,4 @@
 
 
 ### 🧩 Testing
-<fyll inn dersom det forventes testing fra reveiwer>
+<fyll inn dersom det forventes testing fra reviewer>
