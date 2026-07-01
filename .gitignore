@@ -3,5 +3,6 @@
 .direnv
 .envrc
 ent-tavla-*.json
+Ent Tavla*.json
 **/.idea
 **/.claude/settings.local.json
