@@ -22,7 +22,7 @@ Description:
 Usage:
     ./migration run scripts/017_remove_deprecated_tile_fields.py
 
-Date: 2026-06-19
+Date: 2026-07-01
 Author: Maiken
 """
 
