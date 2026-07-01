@@ -127,16 +127,19 @@ async fn main() {
                         let keys: Vec<String> = keys;
                         metrics_updater.active_boards.set(keys.len() as f64);
 
-                        let mut direct_count: u64 = 0;
-                        for key in &keys {
-                            if let Ok(val) = connection.get::<_, String>(key).await {
-                                if let Ok(info) = serde_json::from_str::<ActiveInfo>(&val) {
-                                    if info.is_direct_link == Some(true) {
-                                        direct_count += 1;
-                                    }
-                                }
-                            }
-                        }
+                        let direct_count = if keys.is_empty() {
+                            0
+                        } else {
+                            connection
+                                .mget::<_, Vec<Option<String>>>(&keys)
+                                .await
+                                .unwrap_or_default()
+                                .iter()
+                                .flatten()
+                                .filter_map(|val| serde_json::from_str::<ActiveInfo>(val).ok())
+                                .filter(|info| info.is_direct_link == Some(true))
+                                .count() as u64
+                        };
                         metrics_updater
                             .active_direct_boards
                             .set(direct_count as f64);
