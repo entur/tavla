@@ -271,6 +271,7 @@ export function TileCard({
                             />
                             <SetOffsetDepartureTime
                                 address={board.meta.location}
+                                isArrivals={board.isArrivals ?? false}
                                 trackingLocation={trackingLocation}
                                 onFieldChanged={onFieldChanged}
                             />
