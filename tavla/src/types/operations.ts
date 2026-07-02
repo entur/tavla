@@ -514,3 +514,24 @@ export type TWalkDistanceQuery = {
         }>
     }
 }
+
+export type TDriveDistanceQueryVariables = Exact<{
+    from: Types.TInputCoordinates
+    to: Types.TInputCoordinates
+}>
+
+export type TDriveDistanceQuery = {
+    trip: {
+        tripPatterns: Array<{
+            duration: Long | null
+            streetDistance: number | null
+            legs: Array<{
+                expectedStartTime: DateTime
+                expectedEndTime: DateTime
+                mode: Types.TMode
+                distance: number
+                line: { id: string; publicCode: string | null } | null
+            }>
+        }>
+    }
+}

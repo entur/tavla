@@ -380,3 +380,28 @@ export const WalkDistanceQuery = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<Types.TWalkDistanceQuery, Types.TWalkDistanceQueryVariables>;
+
+export const DriveDistanceQuery = new TypedDocumentString(`
+    query driveDistance($from: InputCoordinates!, $to: InputCoordinates!) {
+  trip(
+    from: {coordinates: $from}
+    to: {coordinates: $to}
+    modes: {directMode: car, transportModes: []}
+  ) {
+    tripPatterns {
+      duration
+      streetDistance
+      legs {
+        expectedStartTime
+        expectedEndTime
+        mode
+        distance
+        line {
+          id
+          publicCode
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<Types.TDriveDistanceQuery, Types.TDriveDistanceQueryVariables>;

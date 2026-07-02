@@ -106,6 +106,9 @@ export function TileCard({
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
                 },
+                drivingDistance: {
+                    distance: tile.drivingDistance?.distance,
+                },
             }),
             offset: Number(offset) || undefined,
             displayName: displayName.substring(0, 50) || undefined,
