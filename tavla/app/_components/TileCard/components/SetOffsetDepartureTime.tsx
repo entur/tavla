@@ -13,10 +13,12 @@ import { TileContext } from '../context'
 
 function SetOffsetDepartureTime({
     address,
+    isArrivals,
     trackingLocation,
     onFieldChanged,
 }: {
     address?: LocationDB
+    isArrivals: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
@@ -37,6 +39,8 @@ function SetOffsetDepartureTime({
             setOffsetBasedOnWalkingDistance(false)
         }
     }, [address])
+
+    if (isArrivals) return null
 
     return (
         <>
