@@ -30,12 +30,6 @@ function getInitialCheckedLineIds(
             }
         } else if (hasQuayFilter) {
             // Per-quay filter exists but this quay has no entry: nothing selected
-        } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
-            for (const l of quay.lines) {
-                if (tile.whitelistedLines?.includes(l.id)) {
-                    set.add(`${quay.id}||${l.id}`)
-                }
-            }
         } else {
             for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
         }
