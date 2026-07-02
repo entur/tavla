@@ -261,7 +261,11 @@
     }
 
     .previewContainer {
-        @apply rounded border border-secondary bg-primary p-4;
+        @apply rounded border border-secondary bg-primary p-2;
+
+        [data-theme="dark"] & {
+            @apply bg-black;
+        }
     }
 
     .table-custom-nth-child {
