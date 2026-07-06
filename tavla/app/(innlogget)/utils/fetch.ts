@@ -176,7 +176,10 @@ export async function fetchStopPlaces(
     const searchParams = new URLSearchParams({
         lang: 'no',
         limit: '10',
-        layers: 'stopPlace,address',
+        // v1's broad `address` layer became several layers in v3. Request all of
+        // them so the field keeps returning addresses, streets, POIs and groups
+        // of stop places alongside stop places, like v1's `venue,address` did.
+        layers: 'stopPlace,groupOfStopPlaces,address,street,poi',
         q: text,
     })
 
