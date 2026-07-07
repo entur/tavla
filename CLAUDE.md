@@ -44,7 +44,15 @@ yarn build                       # Build (dev)
 yarn build:prod                  # Build for production
 ```
 
-No unit test framework is configured — CI only runs `yarn lint` and `yarn typecheck`.
+### Tests
+
+```bash
+yarn test:e2e             # Playwright E2E against Firebase emulators
+yarn test:e2e:ui          # interactive UI mode
+yarn test:e2e:install     # one-time browser install
+```
+
+Playwright's `webServer` wraps `next dev` in `firebase emulators:exec`, so the emulator suite is started/stopped automatically. Specs live in `tavla/e2e/`. Global setup at `tavla/e2e/global-setup.ts` resets emulator state and seeds a test user + starter board on every run. No frontend unit test framework is configured.
 
 Dev URLs: App at `http://localhost:3000`, Firebase Emulator UI at `http://127.0.0.1:4000/`
 

@@ -20,6 +20,9 @@
         "lint": "biome check .",
         "format": "biome format .",
         "fix": "biome check --write .",
+        "test:e2e": "playwright test",
+        "test:e2e:ui": "playwright test --ui",
+        "test:e2e:install": "playwright install --with-deps chromium",
         "build-start": "next build && next start",
         "postinstall": "cd .. && husky install ./.husky",
         "prepare": "husky"
@@ -71,6 +74,7 @@
         "@graphql-codegen/typed-document-node": "7.0.3",
         "@graphql-codegen/typescript": "6.0.2",
         "@graphql-codegen/typescript-operations": "6.0.5",
+        "@playwright/test": "1.61.1",
         "@types/lodash": "4.17.24",
         "@types/node": "25.9.2",
         "@types/react": "19.2.17",

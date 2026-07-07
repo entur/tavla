@@ -28,6 +28,12 @@ firebase-export-*
 cypress/videos
 cypress/screenshots
 
+e2e/.auth/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
