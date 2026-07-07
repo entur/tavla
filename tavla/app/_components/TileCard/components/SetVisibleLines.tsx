@@ -9,7 +9,7 @@ import type { TTransportMode } from 'src/types/graphql-schema'
 import { TileContext } from '../context'
 import { PlatformAndLines } from '../PlatformAndLines'
 import type { QuayWithFrontText } from '../types'
-import { transportModeNames } from '../utils'
+import { deriveLinesWithDirection, transportModeNames } from '../utils'
 import { TransportModeChip } from './TransportModeChip'
 
 function getInitialCheckedLineIds(
@@ -211,6 +211,11 @@ export function SetVisibleLines({
 
     const totalQuayLinePairs = quays.reduce((sum, q) => sum + q.lines.length, 0)
 
+    const linesWithDirection = deriveLinesWithDirection(
+        quays,
+        Array.from(checkedLineIds),
+    )
+
     const handleToggleLine = (lineId: string) => {
         const newSet = new Set(checkedLineIds)
         if (newSet.has(lineId)) {
@@ -381,6 +386,10 @@ export function SetVisibleLines({
                 })}
             </div>
             <HiddenInput id="count" value={totalQuayLinePairs.toString()} />
+            <HiddenInput
+                id="linesWithDirection"
+                value={JSON.stringify(linesWithDirection)}
+            />
         </>
     )
 }

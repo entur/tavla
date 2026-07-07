@@ -1,5 +1,6 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
-import type { TileColumnDB } from 'types/db-types/boards'
+import type { LineWithDirectionDB, TileColumnDB } from 'types/db-types/boards'
+import type { QuayWithFrontText } from './types'
 
 export function transportModeNames(
     transportMode: TTransportMode | null | undefined,
@@ -44,6 +45,7 @@ export type TileFormValues = {
     offset: number | null
     displayName: string
     quayLineKeys: string[]
+    linesWithDirection: LineWithDirectionDB[]
 }
 
 export function parseTileFormData(data: FormData): TileFormValues {
@@ -56,10 +58,75 @@ export function parseTileFormData(data: FormData): TileFormValues {
     const displayName = data.get('displayName') as string
     data.delete('displayName')
 
+    const linesWithDirectionRaw = data.get('linesWithDirection') as
+        | string
+        | null
+    data.delete('linesWithDirection')
+    const linesWithDirection: LineWithDirectionDB[] = JSON.parse(
+        linesWithDirectionRaw ?? '[]',
+    )
+
     const quayLineKeys: string[] = []
     for (const value of data.values()) {
         quayLineKeys.push(value as string)
     }
 
-    return { columns, count, offset, displayName, quayLineKeys }
+    return {
+        columns,
+        count,
+        offset,
+        displayName,
+        quayLineKeys,
+        linesWithDirection,
+    }
+}
+
+/**
+ *
+ * @param quays The quays with all lines and frontTexts
+ * @param selectedQuayLineKeys The currently selected quay-line pairs, in the
+ * form of `${quayId}||${lineId}`.
+ *
+ * @returns A list of lines with their selected directions (frontTexts). If all
+ * known directions of a line are selected, the line is returned with an empty
+ * `frontTexts` array, meaning "all directions"
+ *
+ */
+export function deriveLinesWithDirection(
+    quays: QuayWithFrontText[],
+    selectedQuayLineKeys: string[],
+): LineWithDirectionDB[] {
+    const selectedLineIds = new Set(selectedQuayLineKeys)
+    const selectedFrontTexts = new Map<string, Set<string>>()
+    const knownFrontTexts = new Map<string, Set<string>>()
+
+    for (const quay of quays) {
+        for (const line of quay.lines) {
+            const frontTexts = line.frontTexts ?? []
+
+            const known = knownFrontTexts.get(line.id) ?? new Set<string>()
+            for (const frontText of frontTexts) known.add(frontText)
+            knownFrontTexts.set(line.id, known)
+
+            if (selectedLineIds.has(`${quay.id}||${line.id}`)) {
+                const chosen =
+                    selectedFrontTexts.get(line.id) ?? new Set<string>()
+                for (const frontText of frontTexts) chosen.add(frontText)
+                selectedFrontTexts.set(line.id, chosen)
+            }
+        }
+    }
+
+    return Array.from(selectedFrontTexts.entries()).map(([lineId, chosen]) => {
+        const known = knownFrontTexts.get(lineId) ?? new Set<string>()
+        const allDirectionsChosen =
+            known.size > 0 &&
+            chosen.size >= known.size &&
+            Array.from(known).every((frontText) => chosen.has(frontText))
+
+        return {
+            lineId,
+            frontTexts: allDirectionsChosen ? [] : Array.from(chosen).sort(),
+        }
+    })
 }
