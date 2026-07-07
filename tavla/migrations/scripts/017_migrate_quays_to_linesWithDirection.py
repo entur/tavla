@@ -18,14 +18,24 @@ Description:
     (samme QuayEstimatedCalls-query som admin bruker), unionert per linje på tvers
     av flisens quays. Vi lagrer EKSPLISITTE frontTexts (ingen "alle retninger ->
     []"-kollaps) for å bevare historiske retninger og slippe å hente alle quays
-    ved stoppet. Fail-open: valgt linje uten frontTexts lagres med [] (alle
-    retninger), aldri droppet.
+    ved stoppet.
+
+    Feilhåndtering av API-kall:
+      - Hvert quay-oppslag prøves på nytt med backoff (API_MAX_RETRIES).
+      - Blir et oppslag stående å feile, settes IKKE linesWithDirection på fliser
+        som bruker den quayen — de forblir umigrerte og fanges opp ved en senere
+        kjøring (idempotent). Vi skriver aldri ufullstendig retningsdata.
+      - Et VELLYKKET oppslag som gir 0 frontTexts for en linje (linja har ingen
+        avganger i vinduet) lagres som [] (alle retninger) — det er reell data,
+        ikke en feil.
 
     Additiv: quays / whitelistedLines beholdes urørt. En senere migrering (018)
     kan fjerne dem etter BigQuery-verifisering.
 
     NB: API-kall gjøres i en egen prefetch-fase UTENFOR transaksjonene (011 gjorde
-    API-kall inne i transaksjon -> GCP-timeout).
+    API-kall inne i transaksjon -> GCP-timeout). Transaksjonscallbacken er fri for
+    side-effekter (logging skjer etter commit), siden Firestore kan kjøre den om
+    igjen ved contention.
 
 Usage:
     ./migration run scripts/017_migrate_quays_to_linesWithDirection.py
@@ -46,6 +56,9 @@ COLLECTION = "boards"
 JOURNEY_PLANNER_URL = "https://api.entur.io/journey-planner/v3/graphql"
 CLIENT_NAME = "entur-tavla"
 API_SLEEP_SECONDS = 0.2
+API_MAX_RETRIES = 3
+API_RETRY_BACKOFF_SECONDS = 2  # base for eksponentiell backoff (2, 4, 8 ...)
+API_TIMEOUT_SECONDS = 30
 LOG_FILENAME = "migration_017_log.txt"
 
 # Samme query som admin (tavla/src/graphql/queries/quayEstimatedCalls.graphql):
@@ -151,40 +164,63 @@ def print_scan_summary(label: str, stats: dict, needed: set | None):
 # Fase B: prefetch frontTexts per (quayId, mode) -- UTENFOR transaksjon
 # ---------------------------------------------------------------------------
 def fetch_quay_fronttexts(quay_id: str, mode: str) -> dict:
-    """Returnerer { lineId: set(frontText) } for en quay. Kaster ved API-feil."""
-    response = requests.post(
-        JOURNEY_PLANNER_URL,
-        headers={
-            "Content-Type": "application/json",
-            "ET-Client-Name": CLIENT_NAME,
-        },
-        json={
-            "query": QUAY_ESTIMATED_CALLS_QUERY,
-            "variables": {"quayId": quay_id, "arrivalDeparture": mode},
-        },
-        timeout=30,
-    )
-    response.raise_for_status()
+    """
+    Returnerer { lineId: set(frontText) } for en quay.
+    Prøver på nytt med backoff; kaster siste feil når alle forsøk er brukt opp.
+    """
+    last_error = None
+    for attempt in range(1, API_MAX_RETRIES + 1):
+        try:
+            response = requests.post(
+                JOURNEY_PLANNER_URL,
+                headers={
+                    "Content-Type": "application/json",
+                    "ET-Client-Name": CLIENT_NAME,
+                },
+                json={
+                    "query": QUAY_ESTIMATED_CALLS_QUERY,
+                    "variables": {"quayId": quay_id, "arrivalDeparture": mode},
+                },
+                timeout=API_TIMEOUT_SECONDS,
+            )
+            response.raise_for_status()
+            payload = response.json()
 
-    data = response.json().get("data") or {}
-    quay = data.get("quay") or {}
-    calls = quay.get("estimatedCalls") or []
+            # GraphQL kan svare 200 med errors + null data -> behandle som feil.
+            if payload.get("errors"):
+                raise RuntimeError(f"GraphQL errors: {payload['errors']}")
 
-    line_to_fronttexts: dict = {}
-    for call in calls:
-        line = (call.get("serviceJourney") or {}).get("line") or {}
-        line_id = line.get("id")
-        front_text = (call.get("destinationDisplay") or {}).get("frontText")
-        if not line_id or not front_text:
-            continue
-        line_to_fronttexts.setdefault(line_id, set()).add(front_text)
+            data = payload.get("data") or {}
+            quay = data.get("quay") or {}
+            calls = quay.get("estimatedCalls") or []
 
-    return line_to_fronttexts
+            line_to_fronttexts: dict = {}
+            for call in calls:
+                line = (call.get("serviceJourney") or {}).get("line") or {}
+                line_id = line.get("id")
+                front_text = (call.get("destinationDisplay") or {}).get("frontText")
+                if not line_id or not front_text:
+                    continue
+                line_to_fronttexts.setdefault(line_id, set()).add(front_text)
+
+            return line_to_fronttexts
+
+        except Exception as e:  # noqa: BLE001 - transient nettverks-/API-feil
+            last_error = e
+            if attempt < API_MAX_RETRIES:
+                time.sleep(API_RETRY_BACKOFF_SECONDS * (2 ** (attempt - 1)))
+
+    raise last_error
 
 
-def build_cache(needed: set) -> dict:
-    """{ (quayId, mode): { lineId: set(frontText) } }. Fail-open ved feil."""
+def build_cache(needed: set) -> tuple:
+    """
+    Returnerer (cache, failed):
+      - cache:  { (quayId, mode): { lineId: set(frontText) } } for vellykkede oppslag
+      - failed: set av (quayId, mode) som feilet etter alle forsøk
+    """
     cache = {}
+    failed = set()
     total = len(needed)
 
     with open(LOG_FILENAME, "a", encoding="utf-8") as log_file:
@@ -198,13 +234,12 @@ def build_cache(needed: set) -> dict:
                     f"🔍 {quay_id} [{mode}]: {len(fronttexts)} linjer, "
                     f"{num_fronttexts} frontTexts\n"
                 )
-                if not fronttexts:
-                    log_file.write(
-                        f"⚠️ {quay_id} [{mode}]: ingen frontTexts (fail-open)\n"
-                    )
-            except Exception as e:
-                cache[(quay_id, mode)] = {}
-                log_file.write(f"❌ {quay_id} [{mode}]: API-feil: {e}\n")
+            except Exception as e:  # noqa: BLE001
+                failed.add((quay_id, mode))
+                log_file.write(
+                    f"❌ {quay_id} [{mode}]: API-feil etter {API_MAX_RETRIES} "
+                    f"forsøk: {e} — fliser som bruker denne quayen forblir umigrerte\n"
+                )
 
             if i % 25 == 0:
                 log_file.flush()
@@ -212,11 +247,14 @@ def build_cache(needed: set) -> dict:
 
             time.sleep(API_SLEEP_SECONDS)
 
-    return cache
+        if failed:
+            log_file.write(f"\n⚠️ {len(failed)} quay-oppslag feilet totalt.\n")
+
+    return cache, failed
 
 
 # ---------------------------------------------------------------------------
-# Fase C: transform + transaksjonell skriv
+# Fase C: transform (ren, uten I/O) + transaksjonell skriv
 # ---------------------------------------------------------------------------
 def build_stop_place_legacy(tile: dict) -> list:
     """Flis-nivå whitelistedLines -> hver linje med frontTexts: [] (alle retninger)."""
@@ -235,7 +273,7 @@ def build_quay_lines_with_direction(tile: dict, mode: str, cache: dict) -> list:
         whitelisted = quay.get("whitelistedLines") or []
         if whitelisted:
             for line_id in whitelisted:
-                # tomt sett = fail-open [] (alle retninger)
+                # tomt sett = vellykket oppslag uten frontTexts -> [] (alle retninger)
                 acc.setdefault(line_id, set()).update(quay_map.get(line_id, set()))
         else:
             # tom quay-whitelist = alle linjer på plattformen
@@ -248,10 +286,16 @@ def build_quay_lines_with_direction(tile: dict, mode: str, cache: dict) -> list:
     ]
 
 
-def transform_tiles(tiles: list, mode: str, cache: dict, log_file) -> tuple:
-    """Returnerer (new_tiles, antall_endrede_fliser)."""
+def transform_tiles(tiles: list, mode: str, cache: dict, failed: set) -> tuple:
+    """
+    Ren funksjon (ingen I/O — trygg ved transaksjons-retry).
+    Returnerer (new_tiles, changed, deferred, log_lines).
+    Fliser hvis quay-oppslag feilet utsettes (ingen linesWithDirection).
+    """
     new_tiles = copy.deepcopy(tiles)
     changed = 0
+    deferred = 0
+    log_lines: list = []
 
     for tile in new_tiles:
         cls = classify_tile(tile)
@@ -259,6 +303,15 @@ def transform_tiles(tiles: list, mode: str, cache: dict, log_file) -> tuple:
             tile["linesWithDirection"] = build_stop_place_legacy(tile)
             changed += 1
         elif cls == "quay":
+            quay_ids = [q.get("id") for q in tile.get("quays") or []]
+            if any((quay_id, mode) in failed for quay_id in quay_ids):
+                # Ufullstendig data -> ikke migrer flisa; tas ved neste kjøring.
+                deferred += 1
+                log_lines.append(
+                    f"   ⏭️ flis {tile.get('uuid', '?')}: utsatt (API-feil på quay) "
+                    f"— forblir umigrert"
+                )
+                continue
             lines_with_direction = build_quay_lines_with_direction(tile, mode, cache)
             tile["linesWithDirection"] = lines_with_direction
             changed += 1
@@ -268,39 +321,54 @@ def transform_tiles(tiles: list, mode: str, cache: dict, log_file) -> tuple:
                 if not entry["frontTexts"]
             ]
             if empty:
-                log_file.write(
+                log_lines.append(
                     f"   ⚠️ flis {tile.get('uuid', '?')}: {len(empty)} linje(r) "
-                    f"uten frontTexts (alle retninger): {empty}\n"
+                    f"uten frontTexts (alle retninger): {empty}"
                 )
         # show_all / already_migrated: urørt
 
-    return new_tiles, changed
+    return new_tiles, changed, deferred, log_lines
 
 
 @firestore.transactional
-def migrate_board(transaction, board_ref, cache, log_file):
+def migrate_board(transaction, board_ref, cache, failed):
+    """
+    Side-effekt-fri: gjør kun read + (evt.) update, og returnerer et resultat som
+    kalleren logger ETTER commit. Firestore kan kjøre denne om igjen ved contention.
+    """
     snapshot = board_ref.get(transaction=transaction)
     if not snapshot.exists:
-        log_file.write(f"☠️ Board finnes ikke: {board_ref.id}\n")
-        return False
+        return {"status": "missing", "log_lines": []}
 
     data = snapshot.to_dict() or {}
     tiles = data.get("tiles") or []
 
     if not board_needs_migration(tiles):
-        return None  # None = ingen endring nødvendig
+        return {"status": "skip", "log_lines": []}
 
     mode = board_mode(data)
-    new_tiles, changed = transform_tiles(tiles, mode, cache, log_file)
+    new_tiles, changed, deferred, log_lines = transform_tiles(
+        tiles, mode, cache, failed
+    )
+
+    if changed == 0:
+        # Alle migrerbare fliser ble utsatt (API-feil) -> ikke skriv.
+        return {"status": "deferred", "deferred": deferred, "log_lines": log_lines}
+
     transaction.update(board_ref, {"tiles": new_tiles})
-    log_file.write(f"✅ {board_ref.id}: {changed} flis(er) migrert\n")
-    return True
+    return {
+        "status": "ok",
+        "changed": changed,
+        "deferred": deferred,
+        "log_lines": log_lines,
+    }
 
 
-def migrate_all(db: firestore.Client, cache: dict):
+def migrate_all(db: firestore.Client, cache: dict, failed: set):
     collection_ref = db.collection(COLLECTION)
     success_count = 0
     skip_count = 0
+    deferred_count = 0
     fail_count = 0
     total_count = 0
 
@@ -309,22 +377,40 @@ def migrate_all(db: firestore.Client, cache: dict):
         for i, doc_snap in enumerate(stream_in_batches(collection_ref)):
             total_count += 1
             board_id = doc_snap.id
-            log_file.write(f"\n-----> 🏁 Board: {board_id}\n")
 
             try:
                 board_ref = db.collection(COLLECTION).document(board_id)
                 transaction = db.transaction()
-                result = migrate_board(transaction, board_ref, cache, log_file)
+                result = migrate_board(transaction, board_ref, cache, failed)
+                status = result["status"]
 
-                if result is True:
+                # Logg ETTER commit (transaksjonscallbacken er side-effekt-fri).
+                if result["log_lines"]:
+                    log_file.write(f"\n-----> 🏁 Board: {board_id}\n")
+                    for line in result["log_lines"]:
+                        log_file.write(line + "\n")
+
+                if status == "ok":
                     success_count += 1
-                elif result is None:
+                    suffix = (
+                        f", {result['deferred']} utsatt" if result["deferred"] else ""
+                    )
+                    log_file.write(
+                        f"✅ {board_id}: {result['changed']} flis(er) migrert{suffix}\n"
+                    )
+                elif status == "deferred":
+                    deferred_count += 1
+                    log_file.write(
+                        f"⏭️ {board_id}: alle migrerbare fliser utsatt (API-feil) "
+                        f"— umigrert, tas ved neste kjøring\n"
+                    )
+                elif status == "skip":
                     skip_count += 1
-                    log_file.write("⏭️ Ingenting å migrere, hopper over\n")
-                else:
+                elif status == "missing":
                     fail_count += 1
+                    log_file.write(f"☠️ Board finnes ikke: {board_id}\n")
 
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 fail_count += 1
                 log_file.write(f"❌ Feil ved oppdatering av {board_id}: {str(e)}\n")
 
@@ -337,9 +423,15 @@ def migrate_all(db: firestore.Client, cache: dict):
 
         log_file.write(
             f"\n🎉 Ferdig: {success_count} migrert, {skip_count} hoppet over, "
-            f"{fail_count} feilet, {total_count} totalt 🎉\n"
+            f"{deferred_count} utsatt (API-feil), {fail_count} feilet, "
+            f"{total_count} totalt 🎉\n"
         )
         print(f"Migrering fullført. Se {LOG_FILENAME} for detaljer.")
+        if deferred_count:
+            print(
+                f"⚠️ {deferred_count} board(s) utsatt pga. API-feil — "
+                f"kjør skriptet på nytt senere for å fange dem opp."
+            )
 
 
 def stream_in_batches(collection_ref, batch_size=500):
@@ -371,9 +463,11 @@ def run():
         return
 
     print(f"\n🌐 Henter frontTexts for {len(needed)} unike (quay, mode)-oppslag...")
-    cache = build_cache(needed)
+    cache, failed = build_cache(needed)
+    if failed:
+        print(f"⚠️ {len(failed)} quay-oppslag feilet — berørte fliser forblir umigrerte.")
 
-    migrate_all(db, cache)
+    migrate_all(db, cache, failed)
 
     print("\n🔍 Scanner databasen etter migrering...")
     stats_after, _ = scan_and_collect(db)
