@@ -39,12 +39,14 @@ yarn dev                         # Start dev without state persistence
 yarn fix                         # Fix lint + format (Biome)
 yarn lint                        # Check only
 yarn typecheck                   # TypeScript check
+yarn test                        # Run unit tests (Vitest, run mode)
+yarn test:watch                  # Run unit tests in watch mode
 yarn generate                    # Regenerate GraphQL types (run after schema changes)
 yarn build                       # Build (dev)
 yarn build:prod                  # Build for production
 ```
 
-No unit test framework is configured — CI only runs `yarn lint` and `yarn typecheck`.
+Unit tests use Vitest (`*.test.ts`, co-located). CI runs `yarn lint`, `yarn typecheck` and `yarn test`.
 
 Dev URLs: App at `http://localhost:3000`, Firebase Emulator UI at `http://127.0.0.1:4000/`
 
