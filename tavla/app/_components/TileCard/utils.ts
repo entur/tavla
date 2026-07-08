@@ -1,5 +1,9 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
-import type { LineWithDirectionDB, TileColumnDB } from 'types/db-types/boards'
+import type {
+    BoardTileDB,
+    LineWithDirectionDB,
+    TileColumnDB,
+} from 'types/db-types/boards'
 import type { QuayWithFrontText } from './types'
 
 export function transportModeNames(
@@ -130,4 +134,35 @@ export function deriveLinesWithDirection(
             frontTexts: allDirectionsChosen ? [] : Array.from(chosen).sort(),
         }
     })
+}
+export function getInitialCheckedLineIds(
+    tile: BoardTileDB,
+    quays: QuayWithFrontText[],
+): Set<string> {
+    const set = new Set<string>()
+    const hasQuayFilter = tile.quays && tile.quays.length > 0
+
+    for (const quay of quays) {
+        const savedQuay = tile.quays?.find((q) => q.id === quay.id)
+        if (savedQuay) {
+            if (savedQuay.whitelistedLines.length === 0) {
+                for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
+            } else {
+                for (const lineId of savedQuay.whitelistedLines)
+                    set.add(`${quay.id}||${lineId}`)
+            }
+        } else if (hasQuayFilter) {
+            // Per-quay filter exists but this quay has no entry: nothing selected
+        } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
+            for (const l of quay.lines) {
+                if (tile.whitelistedLines?.includes(l.id)) {
+                    set.add(`${quay.id}||${l.id}`)
+                }
+            }
+        } else {
+            for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
+        }
+    }
+
+    return set
 }
