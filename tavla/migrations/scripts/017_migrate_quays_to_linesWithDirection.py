@@ -67,9 +67,8 @@ API_RETRY_BACKOFF_SECONDS = 2  # base for eksponentiell backoff (2, 4, 8 ...)
 API_TIMEOUT_SECONDS = 30
 LOG_FILENAME = "migration_017_log.txt"
 
-# Samme query som admin (tavla/src/graphql/queries/quayEstimatedCalls.graphql):
-# numberOfDeparturesPerLineAndDestinationDisplay: 1 enumererer distinkte
-# (linje, destinasjon)-par; timeRange 7 dager fanger sjeldne avganger.
+# Samme query som admin (tavla/src/graphql/queries/quayEstimatedCalls.graphql) pluss quay.lines.id 
+
 QUAY_ESTIMATED_CALLS_QUERY = """
 query QuayEstimatedCalls(
     $quayId: String!
@@ -146,9 +145,9 @@ def scan_and_collect(db: firestore.Client) -> tuple:
 
         for tile in tiles:
             stats["total_tiles"] += 1
-            cls = classify_tile(tile)
-            stats[cls] += 1
-            if cls == "quay":
+            tile_classification = classify_tile(tile)
+            stats[tile_classification] += 1
+            if tile_classification == "quay":
                 for quay in tile.get("quays") or []:
                     quay_id = quay.get("id")
                     if quay_id:
@@ -220,6 +219,7 @@ def fetch_quay_data(quay_id: str, arrival_or_departure: str) -> dict:
                 line_id = line.get("id")
                 front_text = (call.get("destinationDisplay") or {}).get("frontText")
                 if not line_id or not front_text:
+                    # Mangler frontText eller linjeId, ingorer denne avgangen
                     continue
                 fronttexts.setdefault(line_id, set()).add(front_text)
 
@@ -259,7 +259,7 @@ def build_cache(needed: set) -> tuple:
                 failed.add((quay_id, arrival_or_departure))
                 log_file.write(
                     f"❌ {quay_id} [{arrival_or_departure}]: API-feil etter {API_MAX_RETRIES} "
-                    f"forsøk: {e} — tileer som bruker denne quayen forblir umigrerte\n"
+                    f"forsøk: {e} — tiles som bruker denne quayen forblir umigrerte\n"
                 )
 
             if i % 25 == 0:
@@ -331,7 +331,7 @@ def transform_tiles(tiles: list, arrival_or_departure: str, cache: dict, failed:
         elif tile_classification == "quay":
             quay_ids = [q.get("id") for q in tile.get("quays") or []]
             if any((quay_id, arrival_or_departure) in failed for quay_id in quay_ids):
-                # Ufullstendig data -> ikke migrer tile
+                # Hvis noen av tileens quays feilet i prefetch-fasen, utsett migrering av denne tileen (ingen linesWithDirection settes).
                 deferred += 1
                 log_lines.append(
                     f"⏭️ tile {tile.get('uuid', '?')}: utsatt (API-feil på quay) "
@@ -349,9 +349,9 @@ def transform_tiles(tiles: list, arrival_or_departure: str, cache: dict, failed:
             if empty:
                 log_lines.append(
                     f"⚠️ tile {tile.get('uuid', '?')}: {len(empty)} linje(r) "
-                    f"uten frontTexts (alle retninger): {empty}"
+                    f"uten frontTexts (ingen avganger neste 7 dager). Viser alle retninger): {empty}"
                 )
-        # show_all / already_migrated: urørt
+        # kategori show_all eller already_migrated, gjør ingenting
 
     return new_tiles, changed, deferred, log_lines
 
@@ -360,7 +360,7 @@ def transform_tiles(tiles: list, arrival_or_departure: str, cache: dict, failed:
 def migrate_board(transaction, board_ref, cache, failed):
     """
     Side-effekt-fri: gjør kun read + (evt.) update, og returnerer et resultat som
-    kalleren logger ETTER commit. Firestore kan kjøre denne om igjen ved contention.
+    kalleren logger etter commit. Firestore kan kjøre denne om igjen ved contention.
     """
     snapshot = board_ref.get(transaction=transaction)
     if not snapshot.exists:
@@ -378,7 +378,7 @@ def migrate_board(transaction, board_ref, cache, failed):
     )
 
     if changed == 0:
-        # Alle migrerbare tileer ble utsatt (API-feil) -> ikke skriv.
+        # Alle migrerbare tiles ble utsatt (API-feil) -> ikke skriv.
         return {"status": "deferred", "deferred": deferred, "log_lines": log_lines}
 
     transaction.update(board_ref, {"tiles": new_tiles})
@@ -410,28 +410,34 @@ def migrate_all(db: firestore.Client, cache: dict, failed: set):
                 result = migrate_board(transaction, board_ref, cache, failed)
                 status = result["status"]
 
-                # Logg ETTER commit (transaksjonscallbacken er side-effekt-fri).
+                # Logg etter transaksjons commit
                 # board_id på hver logglinje for å kunne søke i loggfilen og lettere slå opp i databasen
                 for line in result["log_lines"]:
                     log_file.write(f"   board {board_id} · {line}\n")
 
                 if status == "ok":
+                    # Board ble oppdatert med linesWithDirection -> migrert
                     success_count += 1
-                    suffix = (
+
+                    # Hvis noen tiles ble utsatt, logg det også
+                    deferred_count_suffix = (
                         f", {result['deferred']} utsatt" if result["deferred"] else ""
                     )
                     log_file.write(
-                        f"✅ {board_id}: {result['changed']} tile(er) migrert{suffix}\n"
+                        f"✅ {board_id}: {result['changed']} tile(er) migrert{deferred_count_suffix}\n"
                     )
                 elif status == "deferred":
+                    # Alle migrerbare tileer ble utsatt (API-feil) -> ingen update, forblir umigrert
                     deferred_count += 1
                     log_file.write(
                         f"⏭️ {board_id}: alle migrerbare tileer utsatt (API-feil) "
                         f"— umigrert, tas ved neste kjøring\n"
                     )
                 elif status == "skip":
+                    # Ingen tiles som trengte migrering -> hopp over
                     skip_count += 1
                 elif status == "missing":
+                    # Board-dokumentet finnes ikke (kan ha blitt slettet etter scan-fasen)
                     fail_count += 1
                     log_file.write(f"☠️ Board finnes ikke: {board_id}\n")
 
