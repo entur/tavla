@@ -67,7 +67,10 @@ API_RETRY_BACKOFF_SECONDS = 2  # base for eksponentiell backoff (2, 4, 8 ...)
 API_TIMEOUT_SECONDS = 30
 LOG_FILENAME = "migration_017_log.txt"
 
-# Samme query som admin (tavla/src/graphql/queries/quayEstimatedCalls.graphql) pluss quay.lines.id 
+# Basert på admin sin QuayEstimatedCalls (tavla/src/graphql/queries/quayEstimatedCalls.graphql),
+# men utvidet med quay.lines.id og med timeRange 30 dager (admin bruker 7). 30 dager gir bedre
+# retnings-dekning for sesong-/sjelden trafikk uten målbar ekstra kostnad (verifisert empirisk),
+# og påvirker kun retnings-presisjon — hvilke linjer som lagres kommer fra quay.lines uansett.
 
 QUAY_ESTIMATED_CALLS_QUERY = """
 query QuayEstimatedCalls(
@@ -82,7 +85,7 @@ query QuayEstimatedCalls(
         estimatedCalls(
             numberOfDepartures: $numberOfDepartures
             numberOfDeparturesPerLineAndDestinationDisplay: 1
-            timeRange: 604800
+            timeRange: 2592000
             includeCancelledTrips: true
             arrivalDeparture: $arrivalDeparture
         ) {
@@ -175,8 +178,8 @@ def fetch_quay_data(quay_id: str, arrival_or_departure: str) -> dict:
     """
     Returnerer { "all_lines": set(lineId), "fronttexts": { lineId: set(frontText) } }.
       - all_lines : alle linjer quayen betjener (quay.lines) — komplett, uavhengig
-        av 7-dagersvinduet. Brukes for tom-whitelist-quays så ingen linje mistes.
-      - fronttexts: retninger observert i estimatedCalls (7-dagersvindu).
+        av tidsvinduet. Brukes for tom-whitelist-quays så ingen linje mistes.
+      - fronttexts: retninger observert i estimatedCalls (30-dagersvindu).
     Prøver på nytt med backoff; kaster siste feil når alle forsøk er brukt opp.
     """
     last_error = None
@@ -301,7 +304,7 @@ def build_quay_lines_with_direction(tile: dict, arrival_or_departure: str, cache
                 acc.setdefault(line_id, set()).update(cached_fronttexts.get(line_id, set()))
         else:
             # Hvis vi har tom quay-whitelist, vis alle linjer på plattformen. Disse typen tiles stammer fra migrering 011, der type=="quay" uten whitelistedLines betyr "alle linjer på plattformen".
-            # For å beholde alle linjer (ikke bare de med avganger neste 7 dager) bruker vi hele settet fra quay.lines i cache
+            # For å beholde alle linjer (ikke bare de med avganger neste 30 dager) bruker vi hele settet fra quay.lines i cache
             # Legg til frontTexts fra cache  hvis linja har avganger i vinduet, ellers [] (alle retninger)
             for line_id in cached_quay_data["all_lines"]:
                 acc.setdefault(line_id, set()).update(cached_fronttexts.get(line_id, set()))
@@ -349,7 +352,7 @@ def transform_tiles(tiles: list, arrival_or_departure: str, cache: dict, failed:
             if empty:
                 log_lines.append(
                     f"⚠️ tile {tile.get('uuid', '?')}: {len(empty)} linje(r) "
-                    f"uten frontTexts (ingen avganger neste 7 dager). Viser alle retninger): {empty}"
+                    f"uten frontTexts (ingen avganger neste 30 dager). Viser alle retninger): {empty}"
                 )
         # kategori show_all eller already_migrated, gjør ingenting
 
@@ -482,7 +485,7 @@ def stream_in_batches(collection_ref, batch_size=500):
 
 
 def run():
-    db = init.dev()  # Bytt til init.prod() når klar for prod
+    db = init.local()  # Bytt til init.prod() når klar for prod
     print(f"Tilkoblet prosjekt: {db.project}")
 
     print("\n🔍 Scanner databasen før migrering...")
