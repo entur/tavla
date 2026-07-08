@@ -334,7 +334,7 @@ def transform_tiles(tiles: list, arrival_or_departure: str, cache: dict, failed:
                 # Ufullstendig data -> ikke migrer tile
                 deferred += 1
                 log_lines.append(
-                    f"   ⏭️ tile {tile.get('uuid', '?')}: utsatt (API-feil på quay) "
+                    f"⏭️ tile {tile.get('uuid', '?')}: utsatt (API-feil på quay) "
                     f"— forblir umigrert"
                 )
                 continue
@@ -348,7 +348,7 @@ def transform_tiles(tiles: list, arrival_or_departure: str, cache: dict, failed:
             ]
             if empty:
                 log_lines.append(
-                    f"   ⚠️ tile {tile.get('uuid', '?')}: {len(empty)} linje(r) "
+                    f"⚠️ tile {tile.get('uuid', '?')}: {len(empty)} linje(r) "
                     f"uten frontTexts (alle retninger): {empty}"
                 )
         # show_all / already_migrated: urørt
@@ -411,10 +411,9 @@ def migrate_all(db: firestore.Client, cache: dict, failed: set):
                 status = result["status"]
 
                 # Logg ETTER commit (transaksjonscallbacken er side-effekt-fri).
-                if result["log_lines"]:
-                    log_file.write(f"\n-----> 🏁 Board: {board_id}\n")
-                    for line in result["log_lines"]:
-                        log_file.write(line + "\n")
+                # board_id på hver logglinje for å kunne søke i loggfilen og lettere slå opp i databasen
+                for line in result["log_lines"]:
+                    log_file.write(f"   board {board_id} · {line}\n")
 
                 if status == "ok":
                     success_count += 1
