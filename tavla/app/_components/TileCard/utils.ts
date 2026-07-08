@@ -51,7 +51,8 @@ export type TileFormValues = {
 export function parseTileFormData(data: FormData): TileFormValues {
     const columns = data.getAll('columns') as TileColumnDB[]
     data.delete('columns')
-    const count = data.get('count') as number | null
+    const countRaw = data.get('count')
+    const count = countRaw !== null ? Number(countRaw) : null
     data.delete('count')
     const offset = data.get('offset') as number | null
     data.delete('offset')
