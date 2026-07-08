@@ -7,22 +7,28 @@ Description:
     filtrering. Feltet konsumeres av visningen (stopplass-nivå + klient-filter på
     (lineId, frontText)) og erstatter quay-basert filtrering.
 
-    Klassifisering per flis (presedens: linesWithDirection -> quays ->
+    Klassifisering per tile (presedens: linesWithDirection -> quays ->
     whitelistedLines -> show_all):
       - already_migrated : har linesWithDirection      -> urørt (idempotent)
       - quay             : quays ikke-tom              -> API-oppslag per quay
       - stop_place_legacy: tom quays + whitelistedLines -> frontTexts: [] per linje
       - show_all         : verken filter               -> ingen endring
 
-    For quay-fliser hentes frontTexts per (quay, linje) fra journey-planner
+    For quay-tileer hentes frontTexts per (quay, linje) fra journey-planner
     (samme QuayEstimatedCalls-query som admin bruker), unionert per linje på tvers
-    av flisens quays. Vi lagrer EKSPLISITTE frontTexts (ingen "alle retninger ->
-    []"-kollaps) for å bevare historiske retninger og slippe å hente alle quays
-    ved stoppet.
+    av tileens quays. Vi lagrer EKSPLISITTE frontTexts (ingen "alle retninger ->
+    []"-kollaps) for å bevare historiske retninger.
+
+    En quay med tom whitelistedLines betyr "alle linjer på plattformen" (kommer
+    typisk fra migrering 011: type=="quay"-tiles uten linjefilter). For å bevare
+    dette eksakt henter vi quayens KOMPLETTE linjeliste (quay.lines) i samme query,
+    ikke bare linjene som tilfeldigvis har avganger i vinduet — slik at sesong-/
+    dvale-linjer ikke mistes. frontTexts settes fra estimatedCalls (eller [] hvis
+    linja ikke har avganger i vinduet).
 
     Feilhåndtering av API-kall:
       - Hvert quay-oppslag prøves på nytt med backoff (API_MAX_RETRIES).
-      - Blir et oppslag stående å feile, settes IKKE linesWithDirection på fliser
+      - Blir et oppslag stående å feile, settes IKKE linesWithDirection på tileer
         som bruker den quayen — de forblir umigrerte og fanges opp ved en senere
         kjøring (idempotent). Vi skriver aldri ufullstendig retningsdata.
       - Et VELLYKKET oppslag som gir 0 frontTexts for en linje (linja har ingen
@@ -71,6 +77,9 @@ query QuayEstimatedCalls(
     $arrivalDeparture: ArrivalDeparture = departures
 ) {
     quay(id: $quayId) {
+        lines {
+            id
+        }
         estimatedCalls(
             numberOfDepartures: $numberOfDepartures
             numberOfDeparturesPerLineAndDestinationDisplay: 1
@@ -92,7 +101,7 @@ query QuayEstimatedCalls(
 """
 
 
-def board_mode(data: dict) -> str:
+def board_arrival_or_departure(data: dict) -> str:
     """Ankomsttavler enumererer ankomst-frontTexts, ellers avgang."""
     return "arrivals" if data.get("isArrivals") else "departures"
 
@@ -117,7 +126,7 @@ def board_needs_migration(tiles: list) -> bool:
 def scan_and_collect(db: firestore.Client) -> tuple:
     """
     Returnerer (stats, needed_lookups) der needed_lookups er et sett av
-    (quayId, mode) som må hentes fra journey-planner.
+    (quayId, arrival_or_departure) som må hentes fra journey-planner.
     """
     stats = {
         "total_boards": 0,
@@ -132,7 +141,7 @@ def scan_and_collect(db: firestore.Client) -> tuple:
     for doc_snap in stream_in_batches(db.collection(COLLECTION)):
         stats["total_boards"] += 1
         data = doc_snap.to_dict() or {}
-        mode = board_mode(data)
+        arrival_or_departure = board_arrival_or_departure(data)
         tiles = data.get("tiles") or []
 
         for tile in tiles:
@@ -143,7 +152,7 @@ def scan_and_collect(db: firestore.Client) -> tuple:
                 for quay in tile.get("quays") or []:
                     quay_id = quay.get("id")
                     if quay_id:
-                        needed.add((quay_id, mode))
+                        needed.add((quay_id, arrival_or_departure))
 
     return stats, needed
 
@@ -151,7 +160,7 @@ def scan_and_collect(db: firestore.Client) -> tuple:
 def print_scan_summary(label: str, stats: dict, needed: set | None):
     print(f"\n📊 Status {label} migrering:")
     print(f"   Boards skannet    : {stats['total_boards']}")
-    print(f"   Fliser totalt     : {stats['total_tiles']}")
+    print(f"   Tileer totalt     : {stats['total_tiles']}")
     print(f"   quay              : {stats['quay']}")
     print(f"   stop_place_legacy : {stats['stop_place_legacy']}")
     print(f"   show_all          : {stats['show_all']}")
@@ -161,11 +170,14 @@ def print_scan_summary(label: str, stats: dict, needed: set | None):
 
 
 # ---------------------------------------------------------------------------
-# Fase B: prefetch frontTexts per (quayId, mode) -- UTENFOR transaksjon
+# Fase B: prefetch frontTexts per (quayId, arrival_or_departure) -- UTENFOR transaksjon
 # ---------------------------------------------------------------------------
-def fetch_quay_fronttexts(quay_id: str, mode: str) -> dict:
+def fetch_quay_data(quay_id: str, arrival_or_departure: str) -> dict:
     """
-    Returnerer { lineId: set(frontText) } for en quay.
+    Returnerer { "all_lines": set(lineId), "fronttexts": { lineId: set(frontText) } }.
+      - all_lines : alle linjer quayen betjener (quay.lines) — komplett, uavhengig
+        av 7-dagersvinduet. Brukes for tom-whitelist-quays så ingen linje mistes.
+      - fronttexts: retninger observert i estimatedCalls (7-dagersvindu).
     Prøver på nytt med backoff; kaster siste feil når alle forsøk er brukt opp.
     """
     last_error = None
@@ -179,7 +191,10 @@ def fetch_quay_fronttexts(quay_id: str, mode: str) -> dict:
                 },
                 json={
                     "query": QUAY_ESTIMATED_CALLS_QUERY,
-                    "variables": {"quayId": quay_id, "arrivalDeparture": mode},
+                    "variables": {
+                        "quayId": quay_id,
+                        "arrivalDeparture": arrival_or_departure,
+                    },
                 },
                 timeout=API_TIMEOUT_SECONDS,
             )
@@ -192,18 +207,23 @@ def fetch_quay_fronttexts(quay_id: str, mode: str) -> dict:
 
             data = payload.get("data") or {}
             quay = data.get("quay") or {}
-            calls = quay.get("estimatedCalls") or []
 
-            line_to_fronttexts: dict = {}
-            for call in calls:
+            all_lines = {
+                line.get("id")
+                for line in (quay.get("lines") or [])
+                if line.get("id")
+            }
+
+            fronttexts: dict = {}
+            for call in quay.get("estimatedCalls") or []:
                 line = (call.get("serviceJourney") or {}).get("line") or {}
                 line_id = line.get("id")
                 front_text = (call.get("destinationDisplay") or {}).get("frontText")
                 if not line_id or not front_text:
                     continue
-                line_to_fronttexts.setdefault(line_id, set()).add(front_text)
+                fronttexts.setdefault(line_id, set()).add(front_text)
 
-            return line_to_fronttexts
+            return {"all_lines": all_lines, "fronttexts": fronttexts}
 
         except Exception as e:  # noqa: BLE001 - transient nettverks-/API-feil
             last_error = e
@@ -216,8 +236,8 @@ def fetch_quay_fronttexts(quay_id: str, mode: str) -> dict:
 def build_cache(needed: set) -> tuple:
     """
     Returnerer (cache, failed):
-      - cache:  { (quayId, mode): { lineId: set(frontText) } } for vellykkede oppslag
-      - failed: set av (quayId, mode) som feilet etter alle forsøk
+      - cache:  { (quayId, arrival_or_departure): { lineId: set(frontText) } } for vellykkede oppslag
+      - failed: set av (quayId, arrival_or_departure) som feilet etter alle forsøk
     """
     cache = {}
     failed = set()
@@ -225,20 +245,21 @@ def build_cache(needed: set) -> tuple:
 
     with open(LOG_FILENAME, "a", encoding="utf-8") as log_file:
         log_file.write(f"\n===== PREFETCH ({total} unike quay-oppslag) =====\n")
-        for i, (quay_id, mode) in enumerate(sorted(needed), start=1):
+        for i, (quay_id, arrival_or_departure) in enumerate(sorted(needed), start=1):
             try:
-                fronttexts = fetch_quay_fronttexts(quay_id, mode)
-                cache[(quay_id, mode)] = fronttexts
-                num_fronttexts = sum(len(v) for v in fronttexts.values())
+                quay_data = fetch_quay_data(quay_id, arrival_or_departure)
+                cache[(quay_id, arrival_or_departure)] = quay_data
+                num_lines = len(quay_data["all_lines"])
+                num_fronttexts = sum(len(v) for v in quay_data["fronttexts"].values())
                 log_file.write(
-                    f"🔍 {quay_id} [{mode}]: {len(fronttexts)} linjer, "
+                    f"🔍 {quay_id} [{arrival_or_departure}]: {num_lines} linjer, "
                     f"{num_fronttexts} frontTexts\n"
                 )
             except Exception as e:  # noqa: BLE001
-                failed.add((quay_id, mode))
+                failed.add((quay_id, arrival_or_departure))
                 log_file.write(
-                    f"❌ {quay_id} [{mode}]: API-feil etter {API_MAX_RETRIES} "
-                    f"forsøk: {e} — fliser som bruker denne quayen forblir umigrerte\n"
+                    f"❌ {quay_id} [{arrival_or_departure}]: API-feil etter {API_MAX_RETRIES} "
+                    f"forsøk: {e} — tileer som bruker denne quayen forblir umigrerte\n"
                 )
 
             if i % 25 == 0:
@@ -257,7 +278,7 @@ def build_cache(needed: set) -> tuple:
 # Fase C: transform (ren, uten I/O) + transaksjonell skriv
 # ---------------------------------------------------------------------------
 def build_stop_place_legacy(tile: dict) -> list:
-    """Flis-nivå whitelistedLines -> hver linje med frontTexts: [] (alle retninger)."""
+    """Tile-nivå whitelistedLines -> hver linje med frontTexts: [] (alle retninger)."""
     seen = []
     for line_id in tile.get("whitelistedLines") or []:
         if line_id not in seen:
@@ -265,20 +286,25 @@ def build_stop_place_legacy(tile: dict) -> list:
     return [{"lineId": line_id, "frontTexts": []} for line_id in seen]
 
 
-def build_quay_lines_with_direction(tile: dict, mode: str, cache: dict) -> list:
-    """Union av frontTexts per linje på tvers av flisens valgte quays."""
+def build_quay_lines_with_direction(tile: dict, arrival_or_departure: str, cache: dict) -> list:
+    """Union av frontTexts per linje på tvers av tilens valgte quays."""
     acc: dict = {}  # lineId -> set(frontText)
+    empty_quay = {"all_lines": set(), "fronttexts": {}}
     for quay in tile.get("quays") or []:
-        quay_map = cache.get((quay.get("id"), mode), {})
+        # Hent quay-data fra cache (prefetch-fase). Hvis oppslaget feilet, returneres tomt sett.
+        cached_quay_data = cache.get((quay.get("id"), arrival_or_departure), empty_quay)
+        cached_fronttexts = cached_quay_data["fronttexts"]
         whitelisted = quay.get("whitelistedLines") or []
         if whitelisted:
+            # for hver linje i whitelistedLines, sett union av frontTexts fra cache (eller [] hvis ingen)
             for line_id in whitelisted:
-                # tomt sett = vellykket oppslag uten frontTexts -> [] (alle retninger)
-                acc.setdefault(line_id, set()).update(quay_map.get(line_id, set()))
+                acc.setdefault(line_id, set()).update(cached_fronttexts.get(line_id, set()))
         else:
-            # tom quay-whitelist = alle linjer på plattformen
-            for line_id, fronttexts in quay_map.items():
-                acc.setdefault(line_id, set()).update(fronttexts)
+            # Hvis vi har tom quay-whitelist, vis alle linjer på plattformen. Disse typen tiles stammer fra migrering 011, der type=="quay" uten whitelistedLines betyr "alle linjer på plattformen".
+            # For å beholde alle linjer (ikke bare de med avganger neste 7 dager) bruker vi hele settet fra quay.lines i cache
+            # Legg til frontTexts fra cache  hvis linja har avganger i vinduet, ellers [] (alle retninger)
+            for line_id in cached_quay_data["all_lines"]:
+                acc.setdefault(line_id, set()).update(cached_fronttexts.get(line_id, set()))
 
     return [
         {"lineId": line_id, "frontTexts": sorted(fronttexts)}
@@ -286,11 +312,11 @@ def build_quay_lines_with_direction(tile: dict, mode: str, cache: dict) -> list:
     ]
 
 
-def transform_tiles(tiles: list, mode: str, cache: dict, failed: set) -> tuple:
+def transform_tiles(tiles: list, arrival_or_departure: str, cache: dict, failed: set) -> tuple:
     """
     Ren funksjon (ingen I/O — trygg ved transaksjons-retry).
     Returnerer (new_tiles, changed, deferred, log_lines).
-    Fliser hvis quay-oppslag feilet utsettes (ingen linesWithDirection).
+    Tileer hvis quay-oppslag feilet utsettes (ingen linesWithDirection).
     """
     new_tiles = copy.deepcopy(tiles)
     changed = 0
@@ -298,21 +324,21 @@ def transform_tiles(tiles: list, mode: str, cache: dict, failed: set) -> tuple:
     log_lines: list = []
 
     for tile in new_tiles:
-        cls = classify_tile(tile)
-        if cls == "stop_place_legacy":
+        tile_classification = classify_tile(tile)
+        if tile_classification == "stop_place_legacy":
             tile["linesWithDirection"] = build_stop_place_legacy(tile)
             changed += 1
-        elif cls == "quay":
+        elif tile_classification == "quay":
             quay_ids = [q.get("id") for q in tile.get("quays") or []]
-            if any((quay_id, mode) in failed for quay_id in quay_ids):
-                # Ufullstendig data -> ikke migrer flisa; tas ved neste kjøring.
+            if any((quay_id, arrival_or_departure) in failed for quay_id in quay_ids):
+                # Ufullstendig data -> ikke migrer tile
                 deferred += 1
                 log_lines.append(
-                    f"   ⏭️ flis {tile.get('uuid', '?')}: utsatt (API-feil på quay) "
+                    f"   ⏭️ tile {tile.get('uuid', '?')}: utsatt (API-feil på quay) "
                     f"— forblir umigrert"
                 )
                 continue
-            lines_with_direction = build_quay_lines_with_direction(tile, mode, cache)
+            lines_with_direction = build_quay_lines_with_direction(tile, arrival_or_departure, cache)
             tile["linesWithDirection"] = lines_with_direction
             changed += 1
             empty = [
@@ -322,7 +348,7 @@ def transform_tiles(tiles: list, mode: str, cache: dict, failed: set) -> tuple:
             ]
             if empty:
                 log_lines.append(
-                    f"   ⚠️ flis {tile.get('uuid', '?')}: {len(empty)} linje(r) "
+                    f"   ⚠️ tile {tile.get('uuid', '?')}: {len(empty)} linje(r) "
                     f"uten frontTexts (alle retninger): {empty}"
                 )
         # show_all / already_migrated: urørt
@@ -346,13 +372,13 @@ def migrate_board(transaction, board_ref, cache, failed):
     if not board_needs_migration(tiles):
         return {"status": "skip", "log_lines": []}
 
-    mode = board_mode(data)
+    arrival_or_departure = board_arrival_or_departure(data)
     new_tiles, changed, deferred, log_lines = transform_tiles(
-        tiles, mode, cache, failed
+        tiles, arrival_or_departure, cache, failed
     )
 
     if changed == 0:
-        # Alle migrerbare fliser ble utsatt (API-feil) -> ikke skriv.
+        # Alle migrerbare tileer ble utsatt (API-feil) -> ikke skriv.
         return {"status": "deferred", "deferred": deferred, "log_lines": log_lines}
 
     transaction.update(board_ref, {"tiles": new_tiles})
@@ -396,12 +422,12 @@ def migrate_all(db: firestore.Client, cache: dict, failed: set):
                         f", {result['deferred']} utsatt" if result["deferred"] else ""
                     )
                     log_file.write(
-                        f"✅ {board_id}: {result['changed']} flis(er) migrert{suffix}\n"
+                        f"✅ {board_id}: {result['changed']} tile(er) migrert{suffix}\n"
                     )
                 elif status == "deferred":
                     deferred_count += 1
                     log_file.write(
-                        f"⏭️ {board_id}: alle migrerbare fliser utsatt (API-feil) "
+                        f"⏭️ {board_id}: alle migrerbare tileer utsatt (API-feil) "
                         f"— umigrert, tas ved neste kjøring\n"
                     )
                 elif status == "skip":
@@ -462,10 +488,10 @@ def run():
         print("Ingenting å migrere.")
         return
 
-    print(f"\n🌐 Henter frontTexts for {len(needed)} unike (quay, mode)-oppslag...")
+    print(f"\n🌐 Henter frontTexts for {len(needed)} unike (quay, arrival_or_departure)-oppslag...")
     cache, failed = build_cache(needed)
     if failed:
-        print(f"⚠️ {len(failed)} quay-oppslag feilet — berørte fliser forblir umigrerte.")
+        print(f"⚠️ {len(failed)} quay-oppslag feilet — berørte tileer forblir umigrerte.")
 
     migrate_all(db, cache, failed)
 
