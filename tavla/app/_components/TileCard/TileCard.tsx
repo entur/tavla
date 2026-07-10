@@ -72,6 +72,7 @@ export function TileCard({
             offset,
             displayName,
             quayLineKeys,
+            linesWithDirection: selectedLinesWithDirection,
         } = parseTileFormData(data)
         const columns = board.isCombinedTiles ? tile.columns : parsedColumns
 
@@ -98,10 +99,13 @@ export function TileCard({
                   }))
                   .filter((q) => q.whitelistedLines.length > 0)
 
+        const linesWithDirection = allSelected ? [] : selectedLinesWithDirection
+
         const newTile: BoardTileDB = {
             ...tile,
             columns,
             quays: newQuays,
+            linesWithDirection,
             ...(board.meta.location && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,

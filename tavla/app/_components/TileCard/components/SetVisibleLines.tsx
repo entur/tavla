@@ -4,45 +4,16 @@ import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import { TileContext } from '../context'
 import { PlatformAndLines } from '../PlatformAndLines'
 import type { QuayWithFrontText } from '../types'
-import { transportModeNames } from '../utils'
+import {
+    deriveLinesWithDirection,
+    getInitialCheckedLineIds,
+    transportModeNames,
+} from '../utils'
 import { TransportModeChip } from './TransportModeChip'
-
-function getInitialCheckedLineIds(
-    tile: BoardTileDB,
-    quays: QuayWithFrontText[],
-): Set<string> {
-    const set = new Set<string>()
-    const hasQuayFilter = tile.quays && tile.quays.length > 0
-
-    for (const quay of quays) {
-        const savedQuay = tile.quays?.find((q) => q.id === quay.id)
-        if (savedQuay) {
-            if (savedQuay.whitelistedLines.length === 0) {
-                for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
-            } else {
-                for (const lineId of savedQuay.whitelistedLines)
-                    set.add(`${quay.id}||${lineId}`)
-            }
-        } else if (hasQuayFilter) {
-            // Per-quay filter exists but this quay has no entry: nothing selected
-        } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
-            for (const l of quay.lines) {
-                if (tile.whitelistedLines?.includes(l.id)) {
-                    set.add(`${quay.id}||${l.id}`)
-                }
-            }
-        } else {
-            for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
-        }
-    }
-
-    return set
-}
 
 type QuaysByTransportMode = {
     mode: TTransportMode
@@ -210,6 +181,11 @@ export function SetVisibleLines({
     )
 
     const totalQuayLinePairs = quays.reduce((sum, q) => sum + q.lines.length, 0)
+
+    const linesWithDirection = deriveLinesWithDirection(
+        quays,
+        Array.from(checkedLineIds),
+    )
 
     const handleToggleLine = (lineId: string) => {
         const newSet = new Set(checkedLineIds)
@@ -381,6 +357,10 @@ export function SetVisibleLines({
                 })}
             </div>
             <HiddenInput id="count" value={totalQuayLinePairs.toString()} />
+            <HiddenInput
+                id="linesWithDirection"
+                value={JSON.stringify(linesWithDirection)}
+            />
         </>
     )
 }
