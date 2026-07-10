@@ -11,7 +11,10 @@ if (process.env.NODE_ENV === 'development') {
     const app = initializeApp(FIREBASE_DEV_CONFIG)
     const auth = getAuth(app)
     auth.setPersistence(inMemoryPersistence)
-    connectAuthEmulator(auth, 'http://127.0.0.1:9099')
+    connectAuthEmulator(
+        auth,
+        `http://127.0.0.1:${process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_PORT ?? '9099'}`,
+    )
 }
 
 export async function getClientApp() {

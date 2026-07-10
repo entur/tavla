@@ -1,6 +1,8 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { withSentryConfig } = require('@sentry/nextjs')
 
+const authEmulatorHost = process.env.FIREBASE_AUTH_EMULATOR_HOST ?? '127.0.0.1:9099'
+
 const commonConnectSrc = [
     "'self'",
     'https://api.entur.io',
@@ -10,12 +12,12 @@ const commonConnectSrc = [
 
 if (process.env.NODE_ENV == 'development') {
     commonConnectSrc.push(
-        'http://*.identitytoolkit.googleapis.com http://127.0.0.1:9099 ws://localhost:3000 http://127.0.0.1:3001',
+        `http://*.identitytoolkit.googleapis.com http://${authEmulatorHost} ws://localhost:3000 http://127.0.0.1:3001`,
     )
 }
 
 const cspHeaderCommon = `
-    default-src 'self' apis.google.com http://127.0.0.1:9099 https://ent-tavla-dev.firebaseapp.com/ https://ent-tavla-prd.firebaseapp.com/;
+    default-src 'self' apis.google.com http://${authEmulatorHost} https://ent-tavla-dev.firebaseapp.com/ https://ent-tavla-prd.firebaseapp.com/;
     style-src 'self' 'unsafe-inline';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://eu-assets.i.posthog.com https://apis.google.com https://web.cmp.usercentrics.eu;
     object-src 'none';
@@ -44,6 +46,7 @@ const cspHeaderTavlevisning = `
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
+    distDir: process.env.NEXT_DIST_DIR || '.next',
     serverExternalPackages: ['@google-cloud/logging'],
     transpilePackages: [
         'swr',
