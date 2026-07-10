@@ -39,12 +39,14 @@ yarn dev                         # Start dev without state persistence
 yarn fix                         # Fix lint + format (Biome)
 yarn lint                        # Check only
 yarn typecheck                   # TypeScript check
+yarn test                        # Run unit tests (Vitest, run mode)
+yarn test:watch                  # Run unit tests in watch mode
 yarn generate                    # Regenerate GraphQL types (run after schema changes)
 yarn build                       # Build (dev)
 yarn build:prod                  # Build for production
 ```
 
-### Tests
+Unit tests use Vitest (`*.test.ts`, co-located). CI runs `yarn lint`, `yarn typecheck` and `yarn test`.
 
 ```bash
 yarn test:e2e             # Playwright E2E against Firebase emulators
