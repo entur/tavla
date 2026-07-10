@@ -2,10 +2,6 @@ import fs from 'node:fs'
 import net from 'node:net'
 import path from 'node:path'
 
-// Ports the local dev setup (`yarn dev` / `yarn dev:persist`) binds. The e2e
-// emulator must never land on any of these, otherwise a concurrent test run
-// could reset dev's emulator and wipe its persisted `.db` state. The emulator
-// ports come straight from firebase.json so this stays in sync if they change.
 const baseFirebaseConfig = JSON.parse(
     fs.readFileSync(
         path.join(import.meta.dirname, '..', 'firebase.json'),
@@ -16,9 +12,9 @@ const RESERVED = new Set([
     ...Object.values(baseFirebaseConfig.emulators)
         .map((emulator) => emulator?.port)
         .filter((port) => typeof port === 'number'),
-    4000, // firebase emulator UI (defaults to 4000, not set in firebase.json)
-    3000, // next dev / dev:persist
-    3001, // local backend
+    4000, // firebase emulator UI
+    3000, // port brukt av dev:persist
+    3001, // lokal backen
 ])
 
 function listenOnFreePort() {
@@ -32,10 +28,6 @@ function listenOnFreePort() {
     })
 }
 
-// OS-assigned free ports come from the ephemeral range (well above the reserved
-// ports), so a collision is already practically impossible — this re-rolls to
-// make it a hard guarantee. `taken` keeps the ports mutually distinct while the
-// bound servers are held open below.
 async function pickPort(taken) {
     for (let attempt = 0; attempt < 50; attempt++) {
         const bound = await listenOnFreePort()
@@ -52,8 +44,6 @@ async function pickPort(taken) {
 
 const keys = ['auth', 'firestore', 'storage', 'ui', 'next']
 
-// Pick sequentially, holding each server open, so the OS cannot hand the same
-// port to two of them before we record it as taken.
 const bound = []
 const taken = new Set()
 for (const _key of keys) {

@@ -10,9 +10,6 @@ test('editing a board title persists after reload', async ({ page }) => {
     const titleInput = page.getByRole('textbox', { name: 'Navn på tavlen' })
     await titleInput.fill(newTitle)
 
-    // Match on the response body, not just any 200 POST — the settings form
-    // re-submits on every field's change/blur, so a different field's save
-    // could otherwise be mistaken for this one.
     const saveResponse = page.waitForResponse(
         async (res) =>
             res.request().method() === 'POST' &&

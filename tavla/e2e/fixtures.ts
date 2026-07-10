@@ -15,9 +15,6 @@ function getAdminApp() {
     return admin.app()
 }
 
-// Creates a board owned by TEST_USER directly in Firestore. Each test that
-// needs a board calls this itself to get its own, so tests never share (or
-// race over) board state and stay safe to retry from a clean slate.
 export async function createTestBoard(title: string): Promise<string> {
     const db = getAdminApp().firestore()
     const now = Date.now()
