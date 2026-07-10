@@ -16,6 +16,7 @@ firebase-export-*
 
 .vscode/
 .next/
+.next-e2e/
 
 .pnp.*
 .yarn/*
@@ -39,3 +40,6 @@ firestore-debug.log
 ui-debug.log
 
 .db
+
+firebase.e2e.json
+e2e/.ports.json

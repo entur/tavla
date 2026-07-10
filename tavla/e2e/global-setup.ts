@@ -4,13 +4,19 @@ import { chromium, type FullConfig } from '@playwright/test'
 import admin from 'firebase-admin'
 
 const PROJECT_ID = 'ent-tavla-dev'
-const AUTH_EMULATOR = '127.0.0.1:9099'
-const FIRESTORE_EMULATOR = '127.0.0.1:8080'
 
-process.env.FIREBASE_AUTH_EMULATOR_HOST = AUTH_EMULATOR
-process.env.FIRESTORE_EMULATOR_HOST = FIRESTORE_EMULATOR
-process.env.FIREBASE_STORAGE_EMULATOR_HOST = '127.0.0.1:9199'
-process.env.GOOGLE_PROJECT_ID = PROJECT_ID
+function requireEnv(name: string): string {
+    const value = process.env[name]
+    if (!value) {
+        throw new Error(
+            `${name} is not set — playwright.config.ts must set it before globalSetup runs`,
+        )
+    }
+    return value
+}
+
+const AUTH_EMULATOR = requireEnv('FIREBASE_AUTH_EMULATOR_HOST')
+const FIRESTORE_EMULATOR = requireEnv('FIRESTORE_EMULATOR_HOST')
 
 export const TEST_USER = {
     email: 'e2e@tavla.test',
