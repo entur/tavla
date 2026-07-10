@@ -653,16 +653,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/a11y@npm:^0.2.111":
-  version: 0.2.111
-  resolution: "@entur/a11y@npm:0.2.111"
+"@entur/a11y@npm:^0.2.112":
+  version: 0.2.113
+  resolution: "@entur/a11y@npm:0.2.113"
   dependencies:
     "@entur/tokens": "npm:^3.24.0"
-    "@entur/utils": "npm:^0.13.5"
+    "@entur/utils": "npm:^0.13.6"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 10/592ba1d7c4e8ad707bd5f0d1a4200d959925789d1a791ba748fd5210c2c1b69d1f3f275e1bb1416ff4f334dbdd1f4963f232e1cfb1eb1bd60603a4cd77f1851e
+  checksum: 10/a033fc77f14bf88c08e7467f71ba2400933fa0e4f1cba62c952af86f6e362964282939be55444695ff1cd018a4494c195b135fe5dd83f5e26893fc3dcaba7d95
   languageName: node
   linkType: hard
 
@@ -961,6 +961,18 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 10/dc266c92c4942d3270ae13739599265cde5e1b3c59ea5036660624620cd8ebb91e56de9d83aa6d9fd27a99a2e23a76ceb9e4fbf79c43eb0f2d9f2d9cd6f9228d
+  languageName: node
+  linkType: hard
+
+"@entur/utils@npm:^0.13.6":
+  version: 0.13.6
+  resolution: "@entur/utils@npm:0.13.6"
+  dependencies:
+    tiny-warning: "npm:^1.0.3"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/f48bfc1a8c839accce0b38dd9fe880b305a8d75447b39b62701f07dd9537fac9cc1d169340694db24dd16a83e3e5ae1e0f2d1f2bbdd67d6c123ddf0a7548829e
   languageName: node
   linkType: hard
 
@@ -6973,7 +6985,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-module-lexer@npm:^2.0.0":
+"es-module-lexer@npm:^2.0.0, es-module-lexer@npm:^2.1.0":
   version: 2.3.0
   resolution: "es-module-lexer@npm:2.3.0"
   checksum: 10/daf73d870758116a84ba5801ec297c891837f482bb0b9836a431e5b71965a544e909d9cb6a5887f7e08d23dd20ad13838e569c7029413da88402b9ea567f3afe
@@ -7786,12 +7798,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fsevents@npm:2.3.2":
+  version: 2.3.2
+  resolution: "fsevents@npm:2.3.2"
+  dependencies:
+    node-gyp: "npm:latest"
+  checksum: 10/6b5b6f5692372446ff81cf9501c76e3e0459a4852b3b5f1fc72c103198c125a6b8c72f5f166bdd76ffb2fca261e7f6ee5565daf80dca6e571e55bcc589cc1256
+  conditions: os=darwin
+  languageName: node
+  linkType: hard
+
 "fsevents@npm:~2.3.2, fsevents@npm:~2.3.3":
   version: 2.3.3
   resolution: "fsevents@npm:2.3.3"
   dependencies:
     node-gyp: "npm:latest"
   checksum: 10/4c1ade961ded57cdbfbb5cac5106ec17bc8bccd62e16343c569a0ceeca83b9dfef87550b4dc5cbb89642da412b20c5071f304c8c464b80415446e8e155a038c0
+  conditions: os=darwin
+  languageName: node
+  linkType: hard
+
+"fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>":
+  version: 2.3.2
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#optional!builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
+  dependencies:
+    node-gyp: "npm:latest"
   conditions: os=darwin
   languageName: node
   linkType: hard
@@ -9668,7 +9699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.30.21, magic-string@npm:^0.30.3, magic-string@npm:~0.30.8":
+"magic-string@npm:^0.30.21, magic-string@npm:^0.30.3, magic-string@npm:~0.30.0, magic-string@npm:~0.30.8":
   version: 0.30.21
   resolution: "magic-string@npm:0.30.21"
   dependencies:
