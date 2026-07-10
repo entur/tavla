@@ -2,6 +2,7 @@ import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import { chromium, type FullConfig } from '@playwright/test'
 import admin from 'firebase-admin'
+import { TEST_USER } from './fixtures'
 
 const PROJECT_ID = 'ent-tavla-dev'
 
@@ -18,15 +19,8 @@ function requireEnv(name: string): string {
 const AUTH_EMULATOR = requireEnv('FIREBASE_AUTH_EMULATOR_HOST')
 const FIRESTORE_EMULATOR = requireEnv('FIRESTORE_EMULATOR_HOST')
 
-export const TEST_USER = {
-    email: 'e2e@tavla.test',
-    password: 'e2etestpassword',
-    uid: 'e2e-test-user',
-} as const
-
 const AUTH_DIR = path.join(__dirname, '.auth')
 const STATE_FILE = path.join(AUTH_DIR, 'user.json')
-const SEED_FILE = path.join(AUTH_DIR, 'seed.json')
 
 async function resetEmulators() {
     const responses = await Promise.all([
@@ -46,34 +40,23 @@ async function resetEmulators() {
     }
 }
 
-async function seedFirebase() {
+async function createTestUser() {
     if (admin.apps.length === 0) {
         admin.initializeApp({ projectId: PROJECT_ID })
     }
-    const auth = admin.auth()
-    const db = admin.firestore()
 
-    await auth.createUser({
+    await admin.auth().createUser({
         uid: TEST_USER.uid,
         email: TEST_USER.email,
         password: TEST_USER.password,
         emailVerified: true,
     })
 
-    const now = Date.now()
-    const boardRef = await db.collection('boards').add({
-        meta: { title: 'E2E seed board', created: now, dateModified: now },
-        tiles: [],
-        isCombinedTiles: false,
-    })
-
-    await db
-        .collection('users')
-        .doc(TEST_USER.uid)
-        .set({ owner: [boardRef.id] })
-    await db.collection('config').doc('env').set({ bucket: 'e2e-bucket' })
-
-    return boardRef.id
+    await admin
+        .firestore()
+        .collection('config')
+        .doc('env')
+        .set({ bucket: 'e2e-bucket' })
 }
 
 async function saveAuthState(baseURL: string) {
@@ -97,7 +80,6 @@ export default async function globalSetup(config: FullConfig) {
 
     await fs.mkdir(AUTH_DIR, { recursive: true })
     await resetEmulators()
-    const boardId = await seedFirebase()
-    await fs.writeFile(SEED_FILE, JSON.stringify({ boardId }, null, 2))
+    await createTestUser()
     await saveAuthState(baseURL)
 }
