@@ -57,11 +57,17 @@ const quaySchema = z.object({
     whitelistedLines: z.array(z.string()),
 })
 
+const lineWithDirectionSchema = z.object({
+    lineId: z.string(),
+    frontTexts: z.array(z.string()),
+})
+
 const boardTileSchema = z.object({
     uuid: z.string(),
     name: z.string(),
     stopPlaceId: z.string(),
     quays: z.array(quaySchema),
+    linesWithDirection: z.array(lineWithDirectionSchema).optional(),
     walkingDistance: boardWalkingDistanceSchema.optional(),
     drivingDistance: boardDrivingDistanceSchema.optional(),
     offset: z.number().optional(),
@@ -150,3 +156,5 @@ export const TileColumns: Record<TileColumnDB, string> = {
 } as const
 
 export type BoardTileDB = z.infer<typeof boardTileSchema>
+
+export type LineWithDirectionDB = z.infer<typeof lineWithDirectionSchema>
