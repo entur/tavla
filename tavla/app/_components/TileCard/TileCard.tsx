@@ -107,12 +107,16 @@ export function TileCard({
             quays: newQuays,
             linesWithDirection,
             ...(board.meta.location && {
-                walkingDistance: {
-                    distance: tile.walkingDistance?.distance,
-                },
-                drivingDistance: {
-                    distance: tile.drivingDistance?.distance,
-                },
+                ...(tile.walkingDistance?.distance !== undefined && {
+                    walkingDistance: {
+                        distance: tile.walkingDistance.distance,
+                    },
+                }),
+                ...(tile.drivingDistance?.distance !== undefined && {
+                    drivingDistance: {
+                        distance: tile.drivingDistance.distance,
+                    },
+                }),
             }),
             offset: Number(offset) || undefined,
             displayName: displayName.substring(0, 50) || undefined,

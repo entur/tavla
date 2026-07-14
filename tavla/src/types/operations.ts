@@ -223,6 +223,27 @@ export type TSituationFragment = {
     summary: Array<{ value: string; language: string | null }>
 }
 
+export type TDriveDistanceQueryVariables = Exact<{
+    from: Types.TInputCoordinates
+    to: Types.TInputCoordinates
+}>
+
+export type TDriveDistanceQuery = {
+    trip: {
+        tripPatterns: Array<{
+            duration: Long | null
+            streetDistance: number | null
+            legs: Array<{
+                expectedStartTime: DateTime
+                expectedEndTime: DateTime
+                mode: Types.TMode
+                distance: number
+                line: { id: string; publicCode: string | null } | null
+            }>
+        }>
+    }
+}
+
 export type TGetQuayQueryVariables = Exact<{
     quayId: string
     whitelistedTransportModes?:
@@ -500,27 +521,6 @@ export type TWalkDistanceQueryVariables = Exact<{
 }>
 
 export type TWalkDistanceQuery = {
-    trip: {
-        tripPatterns: Array<{
-            duration: Long | null
-            streetDistance: number | null
-            legs: Array<{
-                expectedStartTime: DateTime
-                expectedEndTime: DateTime
-                mode: Types.TMode
-                distance: number
-                line: { id: string; publicCode: string | null } | null
-            }>
-        }>
-    }
-}
-
-export type TDriveDistanceQueryVariables = Exact<{
-    from: Types.TInputCoordinates
-    to: Types.TInputCoordinates
-}>
-
-export type TDriveDistanceQuery = {
     trip: {
         tripPatterns: Array<{
             duration: Long | null

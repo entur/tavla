@@ -72,20 +72,25 @@ export async function getTileWithWalkingDistance(
     const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate
 
-    const [walkingDistance, drivingDistance] = await Promise.all([
+    const [walkingResult, drivingResult] = await Promise.allSettled([
         getWalkingDistance(fromCoordinates, toCoordinates),
         getDrivingDistance(fromCoordinates, toCoordinates),
     ])
 
+    const walkingDistance =
+        walkingResult.status === 'fulfilled' ? walkingResult.value : undefined
+    const drivingDistance =
+        drivingResult.status === 'fulfilled' ? drivingResult.value : undefined
+
     const newTile = { ...tile }
 
-    if (walkingDistance) {
+    if (walkingDistance !== undefined) {
         newTile.walkingDistance = { distance: walkingDistance }
     } else {
         delete newTile.walkingDistance
     }
 
-    if (drivingDistance) {
+    if (drivingDistance !== undefined) {
         newTile.drivingDistance = { distance: drivingDistance }
     } else {
         delete newTile.drivingDistance
