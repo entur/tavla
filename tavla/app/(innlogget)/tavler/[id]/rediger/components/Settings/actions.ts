@@ -23,6 +23,7 @@ import { getBoard, updateBoard } from 'src/firebase'
 import type {
     BoardDB,
     BoardFontSize,
+    BoardLanguage,
     BoardTheme,
     LocationDB,
     TransportPalette,
@@ -46,6 +47,7 @@ export async function saveSettings(data: FormData) {
 
     const hideClock = data.get('clock') === null
     const hideLogo = data.get('logo') === null
+    const language: BoardLanguage = data.get('language') === null ? 'nb' : 'en'
 
     const locationRaw = data.get('newLocation') as string
     const location: LocationDB | undefined = locationRaw
@@ -102,6 +104,7 @@ export async function saveSettings(data: FormData) {
             tiles,
             hideClock,
             hideLogo,
+            language,
         })
 
         revalidatePath(`/tavler/${bid}/rediger`)

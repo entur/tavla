@@ -17,6 +17,7 @@ const getSelectedElements = (board: BoardDB): Elements[] => {
     const elements: Elements[] = []
     if (!board.hideClock) elements.push('clock')
     if (!board.hideLogo) elements.push('logo')
+    if (board.language === 'en') elements.push('language')
     return elements
 }
 

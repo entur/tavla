@@ -298,6 +298,7 @@ export type EventMap = {
             | 'changed'
             | 'clock'
             | 'logo'
+            | 'language'
     }
 
     /* FAQ */
