@@ -255,6 +255,9 @@ export function SetVisibleLines({
             quay.name && quay.publicCode
                 ? `${quayModes[0] === 'metro' || quayModes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
                 : quay.name || 'Ukjent'
+        const description = quay.publicCode
+            ? quay.description
+            : [quay.description, quay.id].filter(Boolean).join(' · ')
         return (
             <PlatformAndLines
                 key={quay.id}
@@ -262,7 +265,7 @@ export function SetVisibleLines({
                 quayId={quay.id}
                 groupKey={quay.publicCode || quay.id}
                 title={title}
-                description={quay.description}
+                description={description}
                 lines={quay.lines}
                 trackingLocation={trackingLocation}
                 fallbackTransportModes={quayModes}
