@@ -5,6 +5,8 @@ import { formDataToTiles } from 'app/_components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
+import { FeatureFlags } from 'app/posthog/featureFlags'
+import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import type { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
@@ -43,10 +45,11 @@ export default async function EditPage(props: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user?.uid) return redirect('/')
 
-    const [board, folder, access] = await Promise.all([
+    const [board, folder, access, editNameEnabled] = await Promise.all([
         getBoard(bid),
         getFolderForBoard(bid),
         userCanEditBoard(bid),
+        isFeatureEnabled(FeatureFlags.EDIT_BOARD_BETA),
     ])
 
     if (!board) return notFound()
@@ -98,7 +101,7 @@ export default async function EditPage(props: TProps) {
                                     : 'Avgangstavle: '}{' '}
                                 {board.meta?.title}
                             </Heading1>
-                            <EditBoardName board={board} />
+                            {editNameEnabled && <EditBoardName board={board} />}
                         </div>
                         <div className="flex flex-col gap-4 md:flex-row md:items-center">
                             <ActionsMenu board={board} folderid={folder?.id} />
