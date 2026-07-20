@@ -1,6 +1,11 @@
 'use client'
 
-import { ButtonGroup, PrimaryButton, SecondaryButton } from '@entur/button'
+import {
+    ButtonGroup,
+    IconButton,
+    PrimaryButton,
+    SecondaryButton,
+} from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3 } from '@entur/typography'
@@ -52,15 +57,14 @@ function EditBoardName({ board }: { board: BoardDB }) {
 
     return (
         <>
-            <button
-                type="button"
+            <IconButton
                 aria-label="Endre navn på tavla"
                 onClick={openModal}
-                className="flex flex-row items-center gap-2 hover:underline"
+                className="gap-2"
             >
-                <EditIcon aria-hidden />
+                <EditIcon />
                 Endre navn
-            </button>
+            </IconButton>
             <Modal
                 open={open}
                 size="small"
