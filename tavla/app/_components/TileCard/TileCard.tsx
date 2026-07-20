@@ -1,7 +1,10 @@
 'use client'
 import { useToast } from '@entur/alert'
-import { BaseExpand } from '@entur/expand'
-import { Heading3 } from '@entur/typography'
+import { Button, ButtonGroup, IconButton } from '@entur/button'
+import { CloseIcon } from '@entur/icons'
+import { Modal } from '@entur/modal'
+import { Heading3, Paragraph } from '@entur/typography'
+import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
@@ -14,7 +17,9 @@ import {
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import Goat from 'assets/illustrations/Goat.png'
 import { uniqBy } from 'lodash'
+import Image from 'next/image'
 import { startTransition, useActionState, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
@@ -138,14 +143,7 @@ export function TileCard({
 
     const quays = useLines(tile, board.isArrivals ?? false)
 
-    if (!quays)
-        return (
-            <div className="flex items-center justify-between rounded p-4">
-                Laster...
-            </div>
-        )
-
-    const quaysWithFilteredLines = quays
+    const quaysWithFilteredLines = (quays ?? [])
         .map((q) => ({
             ...q,
         }))
@@ -206,15 +204,30 @@ export function TileCard({
         }
     }
 
+    const fieldsChanged = {
+        name: changedFields.has('name'),
+        offset: changedFields.has('offset'),
+        offset_walking_dist: changedFields.has('offset_walking_dist'),
+        columns: changedFields.has('columns'),
+        lines: changedFields.has('lines'),
+        transport_mode_filter: changedFields.has('transport_mode_filter'),
+    }
+
+    const handleDismiss = () => {
+        capture('stop_place_edit_cancelled', {
+            location: trackingLocation,
+            unsavedChanges: hasUnsavedChanges,
+        })
+
+        if (hasUnsavedChanges) return setConfirmOpen(true)
+        reset()
+    }
+
     return (
         <div>
             <TileContext.Provider value={tile}>
                 <div className="flex flex-row">
-                    <div
-                        className={`flex w-full items-center justify-between bg-white px-6 py-4 ${
-                            isOpen ? 'rounded-t' : 'rounded'
-                        }`}
-                    >
+                    <div className="flex w-full items-center justify-between rounded bg-white px-6 py-4">
                         <div className="flex flex-row items-center gap-4">
                             <Heading3 margin="none">
                                 {tile.displayName ?? tile.name}
@@ -236,10 +249,7 @@ export function TileCard({
                             </section>
                         </div>
                         <EditRemoveTileButtonGroup
-                            hasTileChanged={hasUnsavedChanges}
-                            isTileOpen={isOpen}
                             setIsTileOpen={handleSetIsTileOpen}
-                            setConfirmOpen={setConfirmOpen}
                             deleteTile={handleDeleteTile}
                             trackingLocation={trackingLocation}
                         />
@@ -251,12 +261,18 @@ export function TileCard({
                     />
                 </div>
 
-                <BaseExpand open={isOpen}>
-                    <div
-                        className={`mr-14 border-t-2 bg-white px-6 py-4 ${
-                            totalTiles === 1 && 'w-full'
-                        } rounded-b`}
-                    >
+                <Modal
+                    open={isOpen}
+                    onDismiss={handleDismiss}
+                    size="large"
+                    closeLabel="Lukk redigering"
+                    title={`Redigerer ${tile.displayName ?? tile.name}`}
+                >
+                    {!quays ? (
+                        <div className="flex items-center justify-between p-4">
+                            Laster...
+                        </div>
+                    ) : (
                         <form
                             id={tile.uuid}
                             onSubmit={(e) => {
@@ -291,30 +307,71 @@ export function TileCard({
                                 onFieldChanged={onFieldChanged}
                             />
                             <SaveCancelDeleteTileButtonGroup
-                                confirmOpen={confirmOpen}
                                 hasTileChanged={hasUnsavedChanges}
-                                resetTile={reset}
                                 setIsTileOpen={handleSetIsTileOpen}
                                 setConfirmOpen={setConfirmOpen}
                                 validation={state}
-                                deleteTile={handleDeleteTile}
                                 trackingLocation={trackingLocation}
-                                fieldsChanged={{
-                                    name: changedFields.has('name'),
-                                    offset: changedFields.has('offset'),
-                                    offset_walking_dist: changedFields.has(
-                                        'offset_walking_dist',
-                                    ),
-                                    columns: changedFields.has('columns'),
-                                    lines: changedFields.has('lines'),
-                                    transport_mode_filter: changedFields.has(
-                                        'transport_mode_filter',
-                                    ),
-                                }}
+                                fieldsChanged={fieldsChanged}
                             />
                         </form>
+                    )}
+                </Modal>
+
+                <Modal
+                    size="small"
+                    open={confirmOpen}
+                    onDismiss={() => setConfirmOpen(false)}
+                    closeLabel="Avbryt endring"
+                >
+                    <IconButton
+                        aria-label="Lukk"
+                        onClick={() => setConfirmOpen(false)}
+                        className="absolute right-4 top-4"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <div className="flex flex-col items-center">
+                        <Image alt="" src={Goat} className="h-1/2 w-1/2" />
+                        <Heading3 margin="bottom" as="h1">
+                            Lagre endringer
+                        </Heading3>
+                        <Paragraph>
+                            Du har endringer som ikke er lagret.
+                        </Paragraph>
+
+                        <ButtonGroup className="flex flex-row">
+                            <SubmitButton
+                                variant="primary"
+                                width="fluid"
+                                form={tile.uuid}
+                                aria-label="Lagre endringer"
+                                onClick={() => {
+                                    capture('stop_place_edit_saved', {
+                                        location: trackingLocation,
+                                        ...fieldsChanged,
+                                    })
+                                }}
+                            >
+                                Lagre
+                            </SubmitButton>
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                width="fluid"
+                                aria-label="Forkast endringer"
+                                onClick={() => {
+                                    capture('stop_place_edit_discard', {
+                                        location: trackingLocation,
+                                    })
+                                    reset()
+                                }}
+                            >
+                                Forkast
+                            </Button>
+                        </ButtonGroup>
                     </div>
-                </BaseExpand>
+                </Modal>
             </TileContext.Provider>
         </div>
     )

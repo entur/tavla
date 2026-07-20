@@ -1,22 +1,16 @@
 import { SecondarySquareButton } from '@entur/button'
-import { CloseIcon, EditIcon } from '@entur/icons'
+import { EditIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { DeleteTileButton } from './DeleteTileButton'
 
 function EditRemoveTileButtonGroup({
-    isTileOpen,
-    hasTileChanged,
     setIsTileOpen,
-    setConfirmOpen,
     deleteTile,
     trackingLocation,
 }: {
-    isTileOpen: boolean
-    hasTileChanged: boolean
     setIsTileOpen: (isOpen: boolean) => void
-    setConfirmOpen: (isOpen: boolean) => void
     deleteTile: () => void
     trackingLocation: EventProps<'stop_place_edit_cancelled'>['location']
 }) {
@@ -26,28 +20,19 @@ function EditRemoveTileButtonGroup({
         <div className="flex gap-4">
             <Tooltip
                 placement="bottom"
-                content={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
+                content="Rediger stoppested"
                 id="tooltip-edit-tile"
             >
                 <SecondarySquareButton
                     onClick={() => {
-                        if (!isTileOpen) {
-                            capture('stop_place_edit_started', {
-                                location: trackingLocation,
-                            })
-                        } else {
-                            capture('stop_place_edit_cancelled', {
-                                location: trackingLocation,
-                                unsavedChanges: hasTileChanged,
-                            })
-                        }
-
-                        if (hasTileChanged) return setConfirmOpen(true)
-                        setIsTileOpen(!isTileOpen)
+                        capture('stop_place_edit_started', {
+                            location: trackingLocation,
+                        })
+                        setIsTileOpen(true)
                     }}
-                    aria-label={isTileOpen ? 'Lukk' : 'Rediger stoppested'}
+                    aria-label="Rediger stoppested"
                 >
-                    {isTileOpen ? <CloseIcon /> : <EditIcon />}
+                    <EditIcon />
                 </SecondarySquareButton>
             </Tooltip>
             <DeleteTileButton isWideScreen={true} deleteTile={deleteTile} />

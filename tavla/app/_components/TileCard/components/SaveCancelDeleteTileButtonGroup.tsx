@@ -1,33 +1,21 @@
 import { SmallAlertBox } from '@entur/alert'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { CloseIcon } from '@entur/icons'
-import { Modal } from '@entur/modal'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Button } from '@entur/button'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import Goat from 'assets/illustrations/Goat.png'
-import Image from 'next/image'
-import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import { TileContext } from '../context'
 
 function SaveCancelDeleteTileButtonGroup({
-    confirmOpen,
     hasTileChanged,
-    resetTile,
     setIsTileOpen,
     setConfirmOpen,
     validation,
     trackingLocation,
     fieldsChanged,
 }: {
-    confirmOpen: boolean
     hasTileChanged: boolean
-    resetTile: () => void
     setIsTileOpen: (isOpen: boolean) => void
     setConfirmOpen: (confirmOpen: boolean) => void
-    deleteTile: () => void
     validation?: TFormFeedback
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     fieldsChanged: {
@@ -39,7 +27,6 @@ function SaveCancelDeleteTileButtonGroup({
         transport_mode_filter: boolean
     }
 }) {
-    const tile = useNonNullContext(TileContext)
     const { capture } = usePosthogTracking()
 
     return (
@@ -79,59 +66,6 @@ function SaveCancelDeleteTileButtonGroup({
                     Avbryt
                 </Button>
             </div>
-
-            <Modal
-                size="small"
-                open={confirmOpen}
-                onDismiss={() => setConfirmOpen(false)}
-                closeLabel="Avbryt endring"
-            >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={() => setConfirmOpen(false)}
-                    className="absolute right-4 top-4"
-                >
-                    <CloseIcon />
-                </IconButton>
-                <div className="flex flex-col items-center">
-                    <Image alt="" src={Goat} className="h-1/2 w-1/2" />
-                    <Heading3 margin="bottom" as="h1">
-                        Lagre endringer
-                    </Heading3>
-                    <Paragraph>Du har endringer som ikke er lagret.</Paragraph>
-
-                    <ButtonGroup className="flex flex-row">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            form={tile.uuid}
-                            aria-label="Lagre endringer"
-                            onClick={() => {
-                                capture('stop_place_edit_saved', {
-                                    location: trackingLocation,
-                                    ...fieldsChanged,
-                                })
-                            }}
-                        >
-                            Lagre
-                        </SubmitButton>
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            width="fluid"
-                            aria-label="Forkast endringer"
-                            onClick={() => {
-                                capture('stop_place_edit_discard', {
-                                    location: trackingLocation,
-                                })
-                                resetTile()
-                            }}
-                        >
-                            Forkast
-                        </Button>
-                    </ButtonGroup>
-                </div>
-            </Modal>
         </>
     )
 }
