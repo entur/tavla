@@ -7,15 +7,13 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 
 function SaveCancelDeleteTileButtonGroup({
     hasTileChanged,
-    setIsTileOpen,
-    setConfirmOpen,
+    resetTile,
     validation,
     trackingLocation,
     fieldsChanged,
 }: {
     hasTileChanged: boolean
-    setIsTileOpen: (isOpen: boolean) => void
-    setConfirmOpen: (confirmOpen: boolean) => void
+    resetTile: () => void
     validation?: TFormFeedback
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     fieldsChanged: {
@@ -48,8 +46,7 @@ function SaveCancelDeleteTileButtonGroup({
                             unsavedChanges: hasTileChanged,
                         })
 
-                        if (hasTileChanged) return setConfirmOpen(true)
-                        return setIsTileOpen(false)
+                        resetTile()
                     }}
                 >
                     Avbryt

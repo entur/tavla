@@ -47,7 +47,6 @@ export function TileCard({
 
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
-    const [confirmOpen, setConfirmOpen] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
 
     const isLocalStorageBoard = board.id === LOCAL_STORAGE_BOARD_ID
@@ -129,7 +128,6 @@ export function TileCard({
     const [state, runAction] = useActionState(submit, undefined)
 
     const reset = () => {
-        setConfirmOpen(false)
         setHasUnsavedChanges(false)
         setChangedFields(new Set())
         setIsOpen(false)
@@ -213,7 +211,6 @@ export function TileCard({
             unsavedChanges: hasUnsavedChanges,
         })
 
-        if (hasUnsavedChanges) return setConfirmOpen(true)
         reset()
     }
 
@@ -311,8 +308,7 @@ export function TileCard({
 
                             <SaveCancelDeleteTileButtonGroup
                                 hasTileChanged={hasUnsavedChanges}
-                                setIsTileOpen={handleSetIsTileOpen}
-                                setConfirmOpen={setConfirmOpen}
+                                resetTile={reset}
                                 validation={state}
                                 trackingLocation={trackingLocation}
                                 fieldsChanged={fieldsChanged}
