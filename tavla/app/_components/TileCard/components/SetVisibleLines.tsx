@@ -1,4 +1,4 @@
-import { Heading4, Paragraph } from '@entur/typography'
+import { Heading5, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
@@ -275,7 +275,9 @@ export function SetVisibleLines({
 
     return (
         <>
-            <Heading4>Plattformer og linjer</Heading4>
+            <Heading5>
+                Hvilke plattformer og linjer vil du vise på Tavla?
+            </Heading5>
 
             {quays.length === 0 && (
                 <Paragraph>

@@ -1,10 +1,7 @@
 'use client'
 import { useToast } from '@entur/alert'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { CloseIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Heading3, Paragraph } from '@entur/typography'
-import { SubmitButton } from 'app/_components/Form/SubmitButton'
+import { Heading3 } from '@entur/typography'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getTransportModesFromLines,
@@ -17,16 +14,13 @@ import {
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import Goat from 'assets/illustrations/Goat.png'
 import { uniqBy } from 'lodash'
-import Image from 'next/image'
 import { startTransition, useActionState, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'types/db-types/boards'
 import { deleteTile, saveTile } from './actions'
 import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
 import { SetColumns } from './components/SetColumns'
-import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
 import { SetVisibleLines } from './components/SetVisibleLines'
 import { TileArrows } from './components/TileArrows'
@@ -284,28 +278,37 @@ export function TileCard({
                             }}
                             onInput={() => setHasUnsavedChanges(true)}
                         >
-                            <SetStopPlaceName
-                                state={state}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetOffsetDepartureTime
-                                address={board.meta.location}
-                                isArrivals={board.isArrivals ?? false}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetColumns
-                                isCombined={board.isCombinedTiles}
-                                isArrivals={board.isArrivals ?? false}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetVisibleLines
-                                quays={quaysWithFilteredLines}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
+                            <div className="mt-6">
+                                <SetVisibleLines
+                                    quays={quaysWithFilteredLines}
+                                    trackingLocation={trackingLocation}
+                                    onFieldChanged={onFieldChanged}
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <SetColumns
+                                    isCombined={board.isCombinedTiles}
+                                    isArrivals={board.isArrivals ?? false}
+                                    trackingLocation={trackingLocation}
+                                    onFieldChanged={onFieldChanged}
+                                />
+                            </div>
+
+                            <div className="mt-6">
+                                <SetStopPlaceName
+                                    state={state}
+                                    trackingLocation={trackingLocation}
+                                    onFieldChanged={onFieldChanged}
+                                />
+                            </div>
+
+                            {/*     <SetOffsetDepartureTime
+                                    address={board.meta.location}
+                                    isArrivals={board.isArrivals ?? false}
+                                    trackingLocation={trackingLocation}
+                                    onFieldChanged={onFieldChanged}
+                                /> */}
+
                             <SaveCancelDeleteTileButtonGroup
                                 hasTileChanged={hasUnsavedChanges}
                                 setIsTileOpen={handleSetIsTileOpen}
@@ -316,61 +319,6 @@ export function TileCard({
                             />
                         </form>
                     )}
-                </Modal>
-
-                <Modal
-                    size="small"
-                    open={confirmOpen}
-                    onDismiss={() => setConfirmOpen(false)}
-                    closeLabel="Avbryt endring"
-                >
-                    <IconButton
-                        aria-label="Lukk"
-                        onClick={() => setConfirmOpen(false)}
-                        className="absolute right-4 top-4"
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                    <div className="flex flex-col items-center">
-                        <Image alt="" src={Goat} className="h-1/2 w-1/2" />
-                        <Heading3 margin="bottom" as="h1">
-                            Lagre endringer
-                        </Heading3>
-                        <Paragraph>
-                            Du har endringer som ikke er lagret.
-                        </Paragraph>
-
-                        <ButtonGroup className="flex flex-row">
-                            <SubmitButton
-                                variant="primary"
-                                width="fluid"
-                                form={tile.uuid}
-                                aria-label="Lagre endringer"
-                                onClick={() => {
-                                    capture('stop_place_edit_saved', {
-                                        location: trackingLocation,
-                                        ...fieldsChanged,
-                                    })
-                                }}
-                            >
-                                Lagre
-                            </SubmitButton>
-                            <Button
-                                type="button"
-                                variant="secondary"
-                                width="fluid"
-                                aria-label="Forkast endringer"
-                                onClick={() => {
-                                    capture('stop_place_edit_discard', {
-                                        location: trackingLocation,
-                                    })
-                                    reset()
-                                }}
-                            >
-                                Forkast
-                            </Button>
-                        </ButtonGroup>
-                    </div>
                 </Modal>
             </TileContext.Provider>
         </div>

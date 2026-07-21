@@ -2,7 +2,7 @@ import { IconButton } from '@entur/button'
 import { FilterChip } from '@entur/chip'
 import { QuestionFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import { Heading4, SubParagraph } from '@entur/typography'
+import { Heading5, SubParagraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { isArray } from 'lodash'
@@ -45,7 +45,7 @@ export function SetColumns({
     return (
         <>
             <div className="flex flex-row items-baseline gap-1">
-                <Heading4>Kolonner</Heading4>
+                <Heading5>Hvilke kolonner vil du vise?</Heading5>
 
                 <Tooltip
                     aria-hidden
@@ -62,9 +62,7 @@ export function SetColumns({
                     </IconButton>
                 </Tooltip>
             </div>
-            <SubParagraph>
-                Her bestemmer du hvilke kolonner som skal vises i tavlen.
-            </SubParagraph>
+
             {isCombined && (
                 <SubParagraph className="mb-2 !text-error">
                     Har du samlet stoppestedene i én liste vil du ikke ha
@@ -77,7 +75,7 @@ export function SetColumns({
                 setIsOpen={setIsColumnModalOpen}
             />
             {!isCombined && (
-                <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
+                <div className="mb-8 mt-2 flex flex-row flex-wrap gap-2">
                     {typedEntries(TileColumns)
                         .filter(([key]) =>
                             isArrivals

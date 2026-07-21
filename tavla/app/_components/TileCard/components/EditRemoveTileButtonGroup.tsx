@@ -22,6 +22,7 @@ function EditRemoveTileButtonGroup({
                 placement="bottom"
                 content="Rediger stoppested"
                 id="tooltip-edit-tile"
+                disableFocusListener
             >
                 <SecondarySquareButton
                     onClick={() => {

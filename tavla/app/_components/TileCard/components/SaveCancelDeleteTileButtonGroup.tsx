@@ -37,20 +37,9 @@ function SaveCancelDeleteTileButtonGroup({
                 </SmallAlertBox>
             )}
             <div className="mt-8 flex flex-col justify-start gap-4 md:flex-row">
-                <SubmitButton
-                    variant="primary"
-                    aria-label="lagre valg"
-                    onClick={() => {
-                        capture('stop_place_edit_saved', {
-                            location: trackingLocation,
-                            ...fieldsChanged,
-                        })
-                    }}
-                >
-                    Lagre valg
-                </SubmitButton>
                 <Button
                     variant="secondary"
+                    width="fluid"
                     aria-label="avbryt"
                     type="button"
                     onClick={() => {
@@ -65,6 +54,19 @@ function SaveCancelDeleteTileButtonGroup({
                 >
                     Avbryt
                 </Button>
+                <SubmitButton
+                    variant="primary"
+                    width="fluid"
+                    aria-label="lagre valg"
+                    onClick={() => {
+                        capture('stop_place_edit_saved', {
+                            location: trackingLocation,
+                            ...fieldsChanged,
+                        })
+                    }}
+                >
+                    Bekreft valg
+                </SubmitButton>
             </div>
         </>
     )
