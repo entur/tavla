@@ -106,7 +106,7 @@ export default async function EditPage(props: TProps) {
                     <div className="flex items-center gap-2">
                         <Paragraph
                             margin="none"
-                            className="border rounded px-2 py-1 font-mono bg-tintLight"
+                            className="border rounded px-2 py-1 font-mono bg-tintLight break-all"
                         >
                             {boardLink}
                         </Paragraph>

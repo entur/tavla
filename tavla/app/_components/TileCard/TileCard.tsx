@@ -211,12 +211,15 @@ export function TileCard({
             <TileContext.Provider value={tile}>
                 <div className="flex flex-row">
                     <div
-                        className={`flex w-full items-center justify-between bg-white px-6 py-4 ${
+                        className={`flex w-full flex-col gap-2 bg-white px-6 py-4 sm:flex-row sm:items-center sm:justify-between ${
                             isOpen ? 'rounded-t' : 'rounded'
                         }`}
                     >
                         <div className="flex flex-row items-center gap-4">
-                            <Heading3 margin="none">
+                            <Heading3
+                                margin="none"
+                                className="break-words min-w-0"
+                            >
                                 {tile.displayName ?? tile.name}
                             </Heading3>
                             <section
