@@ -7,6 +7,7 @@ import type { BoardDB } from 'types/db-types/boards'
 import { ElementSelect, type Elements } from './ElementsSelect'
 import { FontSelect } from './FontSelect'
 import { InfoMessage } from './InfoMessage'
+import { LanguageSelect } from './LanguageSelect'
 import { ThemeSelect } from './ThemeSelect'
 import { Title } from './Title'
 import { TransportPaletteSelect } from './TransportPaletteSelect'
@@ -17,7 +18,6 @@ const getSelectedElements = (board: BoardDB): Elements[] => {
     const elements: Elements[] = []
     if (!board.hideClock) elements.push('clock')
     if (!board.hideLogo) elements.push('logo')
-    if (board.language === 'en') elements.push('language')
     return elements
 }
 
@@ -92,6 +92,10 @@ function SettingsForm({
                         />
                         <ElementSelect
                             selectedElements={getSelectedElements(board)}
+                            onChange={handleChange}
+                        />
+                        <LanguageSelect
+                            language={board.language}
                             onChange={handleChange}
                         />
                     </div>

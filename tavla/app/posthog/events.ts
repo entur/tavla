@@ -281,6 +281,7 @@ export type EventMap = {
             | 'board_location'
             | 'info_message'
             | 'element_select'
+            | 'language'
         value:
             | 'combined'
             | 'separate'
@@ -298,7 +299,8 @@ export type EventMap = {
             | 'changed'
             | 'clock'
             | 'logo'
-            | 'language'
+            | 'nb'
+            | 'en'
     }
 
     /* FAQ */

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import type {
     BoardDB,
     BoardFontSize,
+    BoardLanguage,
     BoardTheme,
     LocationDB,
     TransportPalette,
@@ -51,6 +52,7 @@ export function useSaveBoardInLocalStorage(): {
             const transportPalette = data.get(
                 'transportPalette',
             ) as TransportPalette
+            const language = data.get('language') as BoardLanguage
             const hideClock = data.get('clock') === null
             const hideLogo = data.get('logo') === null
             const footer = data.get('infoMessage') as string
@@ -78,6 +80,7 @@ export function useSaveBoardInLocalStorage(): {
                 },
                 theme: theme ?? 'dark',
                 transportPalette: transportPalette ?? 'default',
+                language: language ?? 'nb',
                 hideClock,
                 hideLogo,
                 footer: footerHasText ? { footer } : undefined,

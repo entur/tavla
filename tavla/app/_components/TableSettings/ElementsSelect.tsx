@@ -4,7 +4,7 @@ import { FilterChip } from '@entur/chip'
 import { Heading4, Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 
-export type Elements = 'clock' | 'logo' | 'language'
+export type Elements = 'clock' | 'logo'
 
 function ElementSelect({
     selectedElements = [],
@@ -49,20 +49,6 @@ function ElementSelect({
                     defaultChecked={selectedElements.includes('logo')}
                 >
                     Logo
-                </FilterChip>
-                <FilterChip
-                    name="language"
-                    value="en"
-                    onChange={() => {
-                        capture('board_settings_changed', {
-                            setting: 'element_select',
-                            value: 'language',
-                        })
-                        onChange()
-                    }}
-                    defaultChecked={selectedElements.includes('language')}
-                >
-                    Engelsk
                 </FilterChip>
             </div>
         </div>
