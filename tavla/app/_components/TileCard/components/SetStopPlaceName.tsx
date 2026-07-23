@@ -1,4 +1,4 @@
-import { Heading4, SubParagraph } from '@entur/typography'
+import { Heading5, SubParagraph } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import {
     getFormFeedbackForField,
@@ -29,19 +29,17 @@ function SetStopPlaceName({
 
     return (
         <div className="flex flex-col gap-2">
-            <Heading4 margin="bottom">Navn på stoppested</Heading4>
+            <Heading5 margin="bottom">Navn på stoppested</Heading5>
             <div>
-                <SubParagraph margin="none">
-                    Dette navnet vil vises i tavlen.
-                </SubParagraph>
                 <SubParagraph>
                     Det originale navnet til stoppestedet:{' '}
                     {tile.name.split(',')[0]}
                 </SubParagraph>
             </div>
+
             <ClientOnlyTextField
                 label="Navn på stoppested"
-                className="!w-full md:!w-1/2 lg:!w-1/4"
+                className="!w-full md:!w-1/2 lg:!w-1/2"
                 name="displayName"
                 value={displayName}
                 maxLength={50}

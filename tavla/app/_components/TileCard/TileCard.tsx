@@ -1,6 +1,6 @@
 'use client'
 import { useToast } from '@entur/alert'
-import { BaseExpand } from '@entur/expand'
+import { Modal } from '@entur/modal'
 import { Heading3 } from '@entur/typography'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
@@ -21,7 +21,6 @@ import { deleteTile, saveTile } from './actions'
 import { EditRemoveTileButtonGroup } from './components/EditRemoveTileButtonGroup'
 import { SaveCancelDeleteTileButtonGroup } from './components/SaveCancelDeleteTileButtonGroup'
 import { SetColumns } from './components/SetColumns'
-import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
 import { SetVisibleLines } from './components/SetVisibleLines'
 import { TileArrows } from './components/TileArrows'
@@ -48,7 +47,6 @@ export function TileCard({
 
     const [isOpen, setIsOpen] = useState(false)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
-    const [confirmOpen, setConfirmOpen] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
 
     const isLocalStorageBoard = board.id === LOCAL_STORAGE_BOARD_ID
@@ -130,7 +128,6 @@ export function TileCard({
     const [state, runAction] = useActionState(submit, undefined)
 
     const reset = () => {
-        setConfirmOpen(false)
         setHasUnsavedChanges(false)
         setChangedFields(new Set())
         setIsOpen(false)
@@ -138,14 +135,7 @@ export function TileCard({
 
     const quays = useLines(tile, board.isArrivals ?? false)
 
-    if (!quays)
-        return (
-            <div className="flex items-center justify-between rounded p-4">
-                Laster...
-            </div>
-        )
-
-    const quaysWithFilteredLines = quays
+    const quaysWithFilteredLines = (quays ?? [])
         .map((q) => ({
             ...q,
         }))
@@ -206,15 +196,29 @@ export function TileCard({
         }
     }
 
+    const fieldsChanged = {
+        name: changedFields.has('name'),
+        offset: changedFields.has('offset'),
+        offset_walking_dist: changedFields.has('offset_walking_dist'),
+        columns: changedFields.has('columns'),
+        lines: changedFields.has('lines'),
+        transport_mode_filter: changedFields.has('transport_mode_filter'),
+    }
+
+    const handleDismiss = () => {
+        capture('stop_place_edit_cancelled', {
+            location: trackingLocation,
+            unsavedChanges: hasUnsavedChanges,
+        })
+
+        reset()
+    }
+
     return (
         <div>
             <TileContext.Provider value={tile}>
                 <div className="flex flex-row">
-                    <div
-                        className={`flex w-full items-center justify-between bg-white px-6 py-4 ${
-                            isOpen ? 'rounded-t' : 'rounded'
-                        }`}
-                    >
+                    <div className="flex w-full items-center justify-between rounded bg-white px-6 py-4">
                         <div className="flex flex-row items-center gap-4">
                             <Heading3 margin="none">
                                 {tile.displayName ?? tile.name}
@@ -236,10 +240,7 @@ export function TileCard({
                             </section>
                         </div>
                         <EditRemoveTileButtonGroup
-                            hasTileChanged={hasUnsavedChanges}
-                            isTileOpen={isOpen}
                             setIsTileOpen={handleSetIsTileOpen}
-                            setConfirmOpen={setConfirmOpen}
                             deleteTile={handleDeleteTile}
                             trackingLocation={trackingLocation}
                         />
@@ -251,12 +252,18 @@ export function TileCard({
                     />
                 </div>
 
-                <BaseExpand open={isOpen}>
-                    <div
-                        className={`mr-14 border-t-2 bg-white px-6 py-4 ${
-                            totalTiles === 1 && 'w-full'
-                        } rounded-b`}
-                    >
+                <Modal
+                    open={isOpen}
+                    onDismiss={handleDismiss}
+                    size="large"
+                    closeLabel="Lukk redigering"
+                    title={`Redigerer ${tile.displayName ?? tile.name}`}
+                >
+                    {!quays ? (
+                        <div className="flex items-center justify-between p-4">
+                            Laster...
+                        </div>
+                    ) : (
                         <form
                             id={tile.uuid}
                             onSubmit={(e) => {
@@ -268,53 +275,47 @@ export function TileCard({
                             }}
                             onInput={() => setHasUnsavedChanges(true)}
                         >
-                            <SetStopPlaceName
-                                state={state}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetOffsetDepartureTime
-                                address={board.meta.location}
-                                isArrivals={board.isArrivals ?? false}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetColumns
-                                isCombined={board.isCombinedTiles}
-                                isArrivals={board.isArrivals ?? false}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
-                            <SetVisibleLines
-                                quays={quaysWithFilteredLines}
-                                trackingLocation={trackingLocation}
-                                onFieldChanged={onFieldChanged}
-                            />
+                            <div className="mt-6">
+                                <SetVisibleLines
+                                    quays={quaysWithFilteredLines}
+                                    trackingLocation={trackingLocation}
+                                    onFieldChanged={onFieldChanged}
+                                />
+                            </div>
+                            <div className="mt-6">
+                                <SetColumns
+                                    isCombined={board.isCombinedTiles}
+                                    isArrivals={board.isArrivals ?? false}
+                                    trackingLocation={trackingLocation}
+                                    onFieldChanged={onFieldChanged}
+                                />
+                            </div>
+
+                            <div className="mt-6">
+                                <SetStopPlaceName
+                                    state={state}
+                                    trackingLocation={trackingLocation}
+                                    onFieldChanged={onFieldChanged}
+                                />
+                            </div>
+
+                            {/*     <SetOffsetDepartureTime
+                                    address={board.meta.location}
+                                    isArrivals={board.isArrivals ?? false}
+                                    trackingLocation={trackingLocation}
+                                    onFieldChanged={onFieldChanged}
+                                /> */}
+
                             <SaveCancelDeleteTileButtonGroup
-                                confirmOpen={confirmOpen}
                                 hasTileChanged={hasUnsavedChanges}
                                 resetTile={reset}
-                                setIsTileOpen={handleSetIsTileOpen}
-                                setConfirmOpen={setConfirmOpen}
                                 validation={state}
-                                deleteTile={handleDeleteTile}
                                 trackingLocation={trackingLocation}
-                                fieldsChanged={{
-                                    name: changedFields.has('name'),
-                                    offset: changedFields.has('offset'),
-                                    offset_walking_dist: changedFields.has(
-                                        'offset_walking_dist',
-                                    ),
-                                    columns: changedFields.has('columns'),
-                                    lines: changedFields.has('lines'),
-                                    transport_mode_filter: changedFields.has(
-                                        'transport_mode_filter',
-                                    ),
-                                }}
+                                fieldsChanged={fieldsChanged}
                             />
                         </form>
-                    </div>
-                </BaseExpand>
+                    )}
+                </Modal>
             </TileContext.Provider>
         </div>
     )
