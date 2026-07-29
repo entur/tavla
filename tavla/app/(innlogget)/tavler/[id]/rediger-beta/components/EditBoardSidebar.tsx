@@ -3,6 +3,7 @@ import { Badge } from '@entur/layout'
 import { Heading2, Heading3, Paragraph } from '@entur/typography'
 import { Open } from 'app/(innlogget)/tavler/[id]/rediger/components/Buttons/Open'
 import type { BoardDB } from 'src/types/db-types/boards'
+import { EditBoardName } from './EditBoardName'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
@@ -21,7 +22,8 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
                             </Heading2>
                         </div>
 
-                        <div className="flex gap-2">
+                        <div className="flex shrink-0 items-center gap-2">
+                            <EditBoardName board={board} />
                             <Open
                                 type="button"
                                 bid={

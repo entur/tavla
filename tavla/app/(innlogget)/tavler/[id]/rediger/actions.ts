@@ -138,6 +138,7 @@ export async function saveBoardTitle(
         })
 
         revalidatePath(`/tavler/${bid}/rediger`)
+        revalidatePath(`/tavler/${bid}/rediger-beta`)
         return {}
     } catch (error) {
         logToGcp(

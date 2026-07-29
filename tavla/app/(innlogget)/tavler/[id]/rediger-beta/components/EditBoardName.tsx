@@ -10,11 +10,11 @@ import { EditIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3 } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
+import { saveBoardTitle } from 'app/(innlogget)/tavler/[id]/rediger/actions'
+import { isEmptyOrSpaces } from 'app/(innlogget)/tavler/[id]/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState, useTransition } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
-import { isEmptyOrSpaces } from '../../utils'
-import { saveBoardTitle } from '../actions'
 
 function EditBoardName({ board }: { board: BoardDB }) {
     const { capture } = usePosthogTracking()
