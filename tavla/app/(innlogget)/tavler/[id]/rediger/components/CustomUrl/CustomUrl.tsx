@@ -100,7 +100,7 @@ function CustomUrl({
                         <Paragraph margin="none">
                             <b>Original lenke:</b>
                         </Paragraph>
-                        <Paragraph className="whitespace-nowrap">
+                        <Paragraph className="break-all">
                             {baseUrl}/{bid}
                         </Paragraph>
                         <Paragraph margin="none">
@@ -109,7 +109,7 @@ function CustomUrl({
                         <div className="font-mono rounded-lg p-1 flex flex-row items-center">
                             <Paragraph
                                 margin="none"
-                                className="whitespace-nowrap select-none"
+                                className="shrink-0 select-none"
                             >
                                 {baseUrl}/
                             </Paragraph>

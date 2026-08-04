@@ -53,7 +53,7 @@
         "@google-cloud/logging": "11.2.3",
         "@sentry/nextjs": "10.62.0",
         "@types/jsdom": "28.0.3",
-        "dompurify": "3.4.12",
+        "dompurify": "3.4.13",
         "firebase": "12.15.0",
         "firebase-admin": "13.10.0",
         "firebase-functions": "7.2.5",
