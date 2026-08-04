@@ -3,7 +3,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardLanguage } from 'types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
-function LanguageSelect({
+export function LanguageSelect({
     language = 'nb',
     onChange,
 }: {
@@ -23,7 +23,7 @@ function LanguageSelect({
             onChange={(value) => {
                 capture('board_settings_changed', {
                     setting: 'language',
-                    value: value as BoardLanguage,
+                    value,
                 })
 
                 onChange()
@@ -33,5 +33,3 @@ function LanguageSelect({
         />
     )
 }
-
-export { LanguageSelect }

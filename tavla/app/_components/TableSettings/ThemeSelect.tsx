@@ -3,7 +3,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTheme } from 'types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
-function ThemeSelect({
+export function ThemeSelect({
     theme = 'dark',
     onChange,
 }: {
@@ -23,7 +23,7 @@ function ThemeSelect({
             onChange={(value) => {
                 capture('board_settings_changed', {
                     setting: 'theme',
-                    value: value as 'light' | 'dark',
+                    value,
                 })
 
                 onChange()
@@ -33,5 +33,3 @@ function ThemeSelect({
         />
     )
 }
-
-export { ThemeSelect }
