@@ -145,9 +145,8 @@ def migrate_all(db: firestore.Client):
 
 
 def run():
-    db = init.dev()  # Bytt til init.prod() når klar for prod
+    db = init.prod() 
     print(f"Tilkoblet prosjekt: {db.project}")
-
     print("\n🔍 Scanner databasen før migrering...")
     before = scan_missing(db)
     print_scan_summary("FØR", before)
