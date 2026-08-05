@@ -1,35 +1,35 @@
 'use client'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import type { BoardTheme } from 'types/db-types/boards'
+import type { BoardLanguage } from 'types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
-export function ThemeSelect({
-    theme = 'dark',
+export function LanguageSelect({
+    language = 'nb',
     onChange,
 }: {
-    theme?: BoardTheme
+    language?: BoardLanguage
     onChange: () => void
 }) {
     const { capture } = usePosthogTracking()
 
     return (
-        <ChoiceChipGroupGeneral<BoardTheme>
-            label="Fargetema"
+        <ChoiceChipGroupGeneral<BoardLanguage>
+            label="Velg språk"
             options={[
-                { value: 'light', label: 'Lys' },
-                { value: 'dark', label: 'Mørk' },
+                { value: 'nb', label: 'Norsk' },
+                { value: 'en', label: 'Engelsk' },
             ]}
-            defaultValue={theme}
+            defaultValue={language}
             onChange={(value) => {
                 capture('board_settings_changed', {
-                    setting: 'theme',
+                    setting: 'language',
                     value,
                 })
 
                 onChange()
             }}
-            name="theme"
-            ariaLabel="Fargetema"
+            name="language"
+            ariaLabel="Språk"
         />
     )
 }
