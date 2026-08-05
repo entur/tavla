@@ -101,22 +101,25 @@ export function TileCard({
 
         const linesWithDirection = allSelected ? [] : selectedLinesWithDirection
 
+        const hasWalkingDistance =
+            board.meta.location && tile.walkingDistance?.distance !== undefined
+        const hasDrivingDistance =
+            board.meta.location && tile.drivingDistance?.distance !== undefined
+
         const newTile: BoardTileDB = {
             ...tile,
             columns,
             quays: newQuays,
             linesWithDirection,
-            ...(board.meta.location && {
-                ...(tile.walkingDistance?.distance !== undefined && {
-                    walkingDistance: {
-                        distance: tile.walkingDistance.distance,
-                    },
-                }),
-                ...(tile.drivingDistance?.distance !== undefined && {
-                    drivingDistance: {
-                        distance: tile.drivingDistance.distance,
-                    },
-                }),
+            ...(hasWalkingDistance && {
+                walkingDistance: {
+                    distance: tile.walkingDistance?.distance,
+                },
+            }),
+            ...(hasDrivingDistance && {
+                drivingDistance: {
+                    distance: tile.drivingDistance?.distance,
+                },
             }),
             offset: Number(offset) || undefined,
             displayName: displayName.substring(0, 50) || undefined,
