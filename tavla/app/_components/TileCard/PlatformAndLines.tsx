@@ -1,6 +1,8 @@
 'use client'
 import { Checkbox } from '@entur/form'
+import { ValidationInfoFilledIcon } from '@entur/icons'
 import { SkeletonRectangle } from '@entur/loader'
+import { Tooltip } from '@entur/tooltip'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
     getColorMode,
@@ -41,6 +43,7 @@ export function PlatformAndLines({
     groupKey,
     title,
     description,
+    quayCodeTooltip,
     lines,
     trackingLocation,
     fallbackTransportModes: fallbackModes,
@@ -53,6 +56,7 @@ export function PlatformAndLines({
     groupKey: string
     title: string
     description: string | null
+    quayCodeTooltip?: string | null
     lines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     fallbackTransportModes: TTransportMode[]
@@ -125,6 +129,24 @@ export function PlatformAndLines({
                     </div>
                     <div className="flex flex-row flex-wrap items-baseline gap-x-2 font-semibold">
                         {title}
+                        {quayCodeTooltip && (
+                            <span className="self-center">
+                                <Tooltip
+                                    content={
+                                        <span className="font-normal">
+                                            {quayCodeTooltip}
+                                        </span>
+                                    }
+                                    placement="top"
+                                    id={`tooltip-quay-code-${quayId}`}
+                                >
+                                    <ValidationInfoFilledIcon
+                                        size={20}
+                                        aria-labelledby={`tooltip-quay-code-${quayId}`}
+                                    />
+                                </Tooltip>
+                            </span>
+                        )}
                         {description && (
                             <span className="text-sm font-normal text-[#626493]">
                                 {description}
