@@ -3,7 +3,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardFontSize } from 'types/db-types/boards'
 import { ChoiceChipGroupGeneral } from './ChoiceChipGroupGeneral'
 
-function FontSelect({
+export function FontSelect({
     font = 'medium',
     onChange,
 }: {
@@ -26,12 +26,10 @@ function FontSelect({
             onChange={(value) => {
                 capture('board_settings_changed', {
                     setting: 'font',
-                    value: value as 'small' | 'medium' | 'large',
+                    value,
                 })
                 onChange()
             }}
         />
     )
 }
-
-export { FontSelect }
