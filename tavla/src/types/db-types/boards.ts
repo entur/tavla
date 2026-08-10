@@ -53,11 +53,17 @@ const quaySchema = z.object({
     whitelistedLines: z.array(z.string()),
 })
 
+const lineWithDirectionSchema = z.object({
+    lineId: z.string(),
+    frontTexts: z.array(z.string()),
+})
+
 const boardTileSchema = z.object({
     uuid: z.string(),
     name: z.string(),
     stopPlaceId: z.string(),
     quays: z.array(quaySchema),
+    linesWithDirection: z.array(lineWithDirectionSchema).optional(),
     walkingDistance: boardWalkingDistanceSchema.optional(),
     offset: z.number().optional(),
     displayName: z.string().optional(),
@@ -90,6 +96,8 @@ const boardMetaSchema = z.object({
 
 const boardThemeSchema = z.enum(['dark', 'light'])
 
+const boardLanguageSchema = z.enum(['nb', 'en'])
+
 const boardFooterSchema = z.object({
     footer: z.string().optional(),
 })
@@ -116,6 +124,7 @@ export const BoardDBSchema = z.object({
     customUrl: z.string().optional(),
     isAnonymousBoard: z.boolean().optional(),
     isArrivals: z.boolean().optional(),
+    language: boardLanguageSchema.optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>
@@ -123,6 +132,8 @@ export type BoardDB = z.infer<typeof BoardDBSchema>
 export type BoardFooter = z.infer<typeof boardFooterSchema>
 
 export type BoardTheme = z.infer<typeof boardThemeSchema>
+
+export type BoardLanguage = z.infer<typeof boardLanguageSchema>
 
 export type TransportPalette = z.infer<typeof transportPaletteSchema>
 
@@ -145,3 +156,5 @@ export const TileColumns: Record<TileColumnDB, string> = {
 } as const
 
 export type BoardTileDB = z.infer<typeof boardTileSchema>
+
+export type LineWithDirectionDB = z.infer<typeof lineWithDirectionSchema>
