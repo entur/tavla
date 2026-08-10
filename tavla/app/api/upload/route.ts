@@ -6,9 +6,7 @@ import {
     userCanEditFolder,
 } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import createDOMPurify from 'dompurify'
 import { getDownloadURL, getStorage } from 'firebase-admin/storage'
-import { JSDOM } from 'jsdom'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
 import type { NextRequest } from 'next/server'
@@ -16,6 +14,7 @@ import { updateFolder } from 'src/firebase'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 import rateLimit from 'src/utils/rateLimit'
+import { sanitizeSvg } from './sanitizeSvg'
 
 initializeAdminApp()
 
@@ -96,12 +95,10 @@ export async function POST(request: NextRequest) {
         )
     }
     let processedFile: Buffer
-    const window = new JSDOM('').window
-    const DOMPurify = createDOMPurify(window)
 
     if (logo.type === 'image/svg+xml') {
         const svgContent = new TextDecoder().decode(await logo.arrayBuffer())
-        const sanitizedSVG = DOMPurify.sanitize(svgContent)
+        const sanitizedSVG = sanitizeSvg(svgContent)
         processedFile = Buffer.from(sanitizedSVG)
     } else {
         processedFile = Buffer.from(await logo.arrayBuffer())

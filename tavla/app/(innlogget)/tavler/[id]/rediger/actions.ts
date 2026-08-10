@@ -1,6 +1,7 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import {
+    getDrivingDistance,
     getStopPlaceCoordinates,
     getWalkingDistance,
 } from 'app/_components/TileSelector/utils'
@@ -65,28 +66,38 @@ export async function getTileWithWalkingDistance(
 ): Promise<BoardTileDB> {
     if (!location) {
         delete tile.walkingDistance
+        delete tile.drivingDistance
         return tile
     }
     logToGcp('info', 'action:getWalkingDistanceTile invoked')
     const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate
 
-    const walkingDistance = await getWalkingDistance(
-        fromCoordinates,
-        toCoordinates,
-    )
+    const [walkingResult, drivingResult] = await Promise.allSettled([
+        getWalkingDistance(fromCoordinates, toCoordinates),
+        getDrivingDistance(fromCoordinates, toCoordinates),
+    ])
 
-    if (!walkingDistance) {
-        delete tile.walkingDistance
-        return tile
+    const walkingDistance =
+        walkingResult.status === 'fulfilled' ? walkingResult.value : undefined
+    const drivingDistance =
+        drivingResult.status === 'fulfilled' ? drivingResult.value : undefined
+
+    const newTile = { ...tile }
+
+    if (walkingDistance !== undefined) {
+        newTile.walkingDistance = { distance: walkingDistance }
+    } else {
+        delete newTile.walkingDistance
     }
 
-    return {
-        ...tile,
-        walkingDistance: {
-            distance: walkingDistance,
-        },
+    if (drivingDistance !== undefined) {
+        newTile.drivingDistance = { distance: drivingDistance }
+    } else {
+        delete newTile.drivingDistance
     }
+
+    return newTile
 }
 
 export async function saveUpdatedTileOrder(

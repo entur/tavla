@@ -101,14 +101,24 @@ export function TileCard({
 
         const linesWithDirection = allSelected ? [] : selectedLinesWithDirection
 
+        const hasWalkingDistance =
+            board.meta.location && tile.walkingDistance?.distance !== undefined
+        const hasDrivingDistance =
+            board.meta.location && tile.drivingDistance?.distance !== undefined
+
         const newTile: BoardTileDB = {
             ...tile,
             columns,
             quays: newQuays,
             linesWithDirection,
-            ...(board.meta.location && {
+            ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
+                },
+            }),
+            ...(hasDrivingDistance && {
+                drivingDistance: {
+                    distance: tile.drivingDistance?.distance,
                 },
             }),
             offset: Number(offset) || undefined,
@@ -211,12 +221,15 @@ export function TileCard({
             <TileContext.Provider value={tile}>
                 <div className="flex flex-row">
                     <div
-                        className={`flex w-full items-center justify-between bg-white px-6 py-4 ${
+                        className={`flex w-full min-w-0 flex-col gap-2 bg-white px-6 py-4 sm:flex-row sm:items-center sm:justify-between ${
                             isOpen ? 'rounded-t' : 'rounded'
                         }`}
                     >
-                        <div className="flex flex-row items-center gap-4">
-                            <Heading3 margin="none">
+                        <div className="flex min-w-0 flex-row items-center gap-4">
+                            <Heading3
+                                margin="none"
+                                className="break-words min-w-0"
+                            >
                                 {tile.displayName ?? tile.name}
                             </Heading3>
                             <section

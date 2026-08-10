@@ -182,7 +182,7 @@ function TileSelector({
                 <SearchableDropdown
                     noMatchesText="Ingen stoppesteder funnet"
                     items={searchStopPlaces}
-                    label="Stoppested, adresse eller sted*"
+                    label="Stoppested eller adresse*"
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
