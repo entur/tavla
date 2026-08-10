@@ -127,25 +127,20 @@ export function PlatformAndLines({
                             />
                         ))}
                     </div>
-                    <div className="flex flex-row flex-wrap items-baseline gap-x-2 font-semibold">
+                    <div className="flex flex-row flex-wrap items-center gap-x-2 font-semibold">
                         {title}
                         {quayCodeTooltip && (
-                            <span className="self-center">
-                                <Tooltip
-                                    content={
-                                        <span className="font-normal">
-                                            {quayCodeTooltip}
-                                        </span>
-                                    }
-                                    placement="top"
-                                    id={`tooltip-quay-code-${quayId}`}
-                                >
-                                    <ValidationInfoFilledIcon
-                                        size={20}
-                                        aria-labelledby={`tooltip-quay-code-${quayId}`}
-                                    />
-                                </Tooltip>
-                            </span>
+                            <Tooltip
+                                className="font-normal"
+                                content={quayCodeTooltip}
+                                placement="top"
+                                id={`tooltip-quay-code-${quayId}`}
+                            >
+                                <ValidationInfoFilledIcon
+                                    size={20}
+                                    aria-labelledby={`tooltip-quay-code-${quayId}`}
+                                />
+                            </Tooltip>
                         )}
                         {description && (
                             <span className="text-sm font-normal text-[#626493]">
