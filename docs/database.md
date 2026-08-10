@@ -163,6 +163,11 @@ Ved behov for en sikkerhetskopi, for eksempel før en større migrering eller en
 ./migration run scripts/backup_firebase.py prod
 ```
 
+> NB! Sett riktig aktivt prosjekt før du kjører backupen dersom du får feilmelding:
+> ```bash
+> gcloud config set project ent-tavla-prd  
+> ```
+
 For **dev**:
 
 ```bash
