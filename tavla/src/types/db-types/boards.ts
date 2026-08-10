@@ -35,6 +35,10 @@ const boardWalkingDistanceSchema = z.object({
     visible: z.boolean().optional(),
 })
 
+const boardDrivingDistanceSchema = z.object({
+    distance: z.number().optional(),
+})
+
 const tileColumnValues = [
     'aimedTime',
     'arrivalTime',
@@ -65,6 +69,7 @@ const boardTileSchema = z.object({
     quays: z.array(quaySchema),
     linesWithDirection: z.array(lineWithDirectionSchema).optional(),
     walkingDistance: boardWalkingDistanceSchema.optional(),
+    drivingDistance: boardDrivingDistanceSchema.optional(),
     offset: z.number().optional(),
     displayName: z.string().optional(),
     columns: z.array(tileColumnSchema).optional(),
