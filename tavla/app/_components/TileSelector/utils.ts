@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/nextjs'
 import type { GeoCoordinate, StopPlace } from 'app/(innlogget)/utils/fetch'
 import { nanoid } from 'nanoid'
 import {
+    DriveDistanceQuery,
     QuayCoordinatesQuery,
     StopPlaceCoordinatesQuery,
     WalkDistanceQuery,
@@ -83,6 +84,38 @@ export async function getWalkingDistance(
         )
         Sentry.captureMessage(
             'getWalkingDistance failed with from-coordinates ' +
+                from +
+                ' and to-coordinates' +
+                to,
+        )
+        throw error
+    }
+}
+
+export async function getDrivingDistance(
+    from?: Coordinate,
+    to?: Coordinate,
+): Promise<number | undefined> {
+    if (!from || !to) return undefined
+    try {
+        const response = await fetchQuery(DriveDistanceQuery, {
+            from: {
+                longitude: from.lng,
+                latitude: from.lat,
+            },
+            to: {
+                longitude: to.lng,
+                latitude: to.lat,
+            },
+        })
+        return response.trip.tripPatterns[0]?.duration ?? undefined
+    } catch (error) {
+        logToGcp(
+            'error',
+            `Failed to get driving distance from ${JSON.stringify(from)} to ${JSON.stringify(to)}: ${error instanceof Error ? error.message : String(error)}`,
+        )
+        Sentry.captureMessage(
+            'getDrivingDistance failed with from-coordinates ' +
                 from +
                 ' and to-coordinates' +
                 to,

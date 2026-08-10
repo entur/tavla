@@ -101,14 +101,24 @@ export function TileCard({
 
         const linesWithDirection = allSelected ? [] : selectedLinesWithDirection
 
+        const hasWalkingDistance =
+            board.meta.location && tile.walkingDistance?.distance !== undefined
+        const hasDrivingDistance =
+            board.meta.location && tile.drivingDistance?.distance !== undefined
+
         const newTile: BoardTileDB = {
             ...tile,
             columns,
             quays: newQuays,
             linesWithDirection,
-            ...(board.meta.location && {
+            ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
+                },
+            }),
+            ...(hasDrivingDistance && {
+                drivingDistance: {
+                    distance: tile.drivingDistance?.distance,
                 },
             }),
             offset: Number(offset) || undefined,
