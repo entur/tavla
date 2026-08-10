@@ -7,6 +7,7 @@ import type { BoardDB } from 'types/db-types/boards'
 import { ElementSelect, type Elements } from './ElementsSelect'
 import { FontSelect } from './FontSelect'
 import { InfoMessage } from './InfoMessage'
+import { LanguageSelect } from './LanguageSelect'
 import { ThemeSelect } from './ThemeSelect'
 import { Title } from './Title'
 import { TransportPaletteSelect } from './TransportPaletteSelect'
@@ -91,6 +92,10 @@ function SettingsForm({
                         />
                         <ElementSelect
                             selectedElements={getSelectedElements(board)}
+                            onChange={handleChange}
+                        />
+                        <LanguageSelect
+                            language={board.language}
                             onChange={handleChange}
                         />
                     </div>
