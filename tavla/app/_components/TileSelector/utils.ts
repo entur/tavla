@@ -1,6 +1,7 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
 import * as Sentry from '@sentry/nextjs'
-import type { GeoCoordinate, StopPlace } from 'app/(innlogget)/utils/fetch'
+import type { GeoCoordinate } from 'app/(innlogget)/utils/fetch'
+import type { TGeoProperties } from 'app/(innlogget)/utils/geocoder'
 import { nanoid } from 'nanoid'
 import {
     QuayCoordinatesQuery,
@@ -157,16 +158,16 @@ export function formatDistance(meters: number): string {
     return `${(meters / 1000).toFixed(1)} km`
 }
 
-export function getTypeOfPlace(
-    placeItem: NormalizedDropdownItemType<StopPlace> | null,
-): TypeOfPlace {
-    if (placeItem?.value.id === 'current_position') {
-        return 'current_position'
+export function getTypeOfPlace(properties: TGeoProperties): TypeOfPlace {
+    switch (properties.layer) {
+        case 'stopPlace':
+            return 'stop_place'
+        case 'address':
+        case 'street':
+            return 'address'
+        case 'poi':
+            return 'other'
+        default:
+            return 'other'
     }
-    if (placeItem?.value.layer === 'venue') {
-        return 'stop_place'
-    } else if (placeItem?.value.category?.includes('vegadresse')) {
-        return 'address'
-    }
-    return 'other'
 }
