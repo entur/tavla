@@ -1,4 +1,8 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
+import {
+    getTypeOfPlace,
+    type TypeOfPlace,
+} from 'app/_components/TileSelector/utils'
 import { uniq, uniqBy } from 'lodash'
 import {
     CLIENT_NAME,
@@ -15,16 +19,8 @@ import type {
 import type { TStopPlacesHaveDeparturesQuery } from 'types/operations'
 import { getRelevantSubmode } from 'utils/transport'
 import { hasField, isNotNullOrUndefined } from 'utils/typeguards'
-import {
-    getIcons,
-    type TCategory,
-    travelTagsFromModes,
-} from '../tavler/[id]/utils'
-import {
-    normalizeCategory,
-    normalizeLayer,
-    type TGeoProperties,
-} from './geocoder'
+import { getIcons, travelTagsFromModes } from '../tavler/[id]/utils'
+import { isStopPlace, type TGeoProperties } from './geocoder'
 
 export type GeoCoordinate = {
     lat: number
@@ -41,9 +37,6 @@ type TGeoFeature = {
     }
 }
 
-// `features` is optional on purpose: a v3 error response is HTTP 4xx with an
-// `application/problem+json` body that has no `features`, so the field can be
-// absent at runtime. Callers must default to `[]` before mapping.
 type TGeoResponse = {
     features?: TGeoFeature[]
 }
@@ -55,7 +48,7 @@ function toGeoCoordinate(coordinates: [number, number]): GeoCoordinate {
 export type StopPlace = {
     id: string
     county?: string
-    category?: TCategory[]
+    type: TypeOfPlace
     coordinates?: GeoCoordinate
     layer?: string
     name?: string
@@ -138,9 +131,6 @@ export async function fetchStopPlaces(
     const searchParams = new URLSearchParams({
         lang: 'no',
         limit: '10',
-        // v1's broad `address` layer became several layers in v3. Request all of
-        // them so the field keeps returning addresses, streets, POIs and groups
-        // of stop places alongside stop places, like v1's `venue,address` did.
         layers: 'stopPlace,groupOfStopPlaces,address,street,poi',
         q: text,
     })
@@ -161,35 +151,34 @@ export async function fetchStopPlaces(
     ).then((res) => res.json())
 
     const items = (data.features ?? []).map(({ properties, geometry }) => {
-        const layer = normalizeLayer(properties.layer)
-        const category = normalizeCategory(properties)
         const county = properties.address?.county
         const label = properties.names?.display ?? ''
         return {
             value: {
                 id: properties.id ?? '',
                 county,
-                category,
                 coordinates: toGeoCoordinate(geometry.coordinates),
-                layer,
+                layer: properties.layer,
+                type: getTypeOfPlace(properties),
             },
             label,
-            icons: uniq(getIcons(layer, category)),
+            icons: uniq(getIcons(properties)),
             county,
             itemKey: properties.id ?? label,
         }
     })
 
-    const venueIds = items
-        .filter((item) => item.value.layer === 'venue' && item.value.id)
+    const stopPlaceIds = items
+        .filter((item) => isStopPlace(item.value.layer) && item.value.id)
         .map((item) => item.value.id)
 
-    const idsWithDepartures = await fetchStopPlaceIdsWithDepartures(venueIds)
+    const idsWithDepartures =
+        await fetchStopPlaceIdsWithDepartures(stopPlaceIds)
 
     return items
         .filter(
             (item) =>
-                item.value.layer !== 'venue' ||
+                !isStopPlace(item.value.layer) ||
                 idsWithDepartures.has(item.value.id),
         )
         .map((item) => ({
@@ -227,6 +216,7 @@ export async function fetchClosestStopPlaces(
                 county,
                 coordinates: toGeoCoordinate(geometry.coordinates),
                 name: properties.names?.default ?? '',
+                type: getTypeOfPlace(properties),
             },
             label: properties.names?.display ?? '',
             county,
@@ -279,10 +269,7 @@ export async function fetchPoints(
                         },
                     },
                     label,
-                    icons: getIcons(
-                        normalizeLayer(properties.layer),
-                        normalizeCategory(properties),
-                    ),
+                    icons: getIcons(properties),
                 }
             })
         })

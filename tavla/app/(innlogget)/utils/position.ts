@@ -26,6 +26,7 @@ export const coordinatesToStopPlaceDropdownItem = (
     value: {
         id: 'current_position',
         layer: 'position',
+        type: 'current_position',
         coordinates,
     },
     label: 'Posisjonen din',
