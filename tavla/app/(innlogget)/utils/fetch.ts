@@ -20,38 +20,19 @@ import {
     type TCategory,
     travelTagsFromModes,
 } from '../tavler/[id]/utils'
+import {
+    normalizeCategory,
+    normalizeLayer,
+    type TGeoProperties,
+} from './geocoder'
 
 export type GeoCoordinate = {
     lat: number
     lon: number
 }
 
-/**
- * Geocoder v3 returns a GeoJSON FeatureCollection with structured `properties`
- * (see the v2→v3 migration guide). We normalise it back to the flat shape the
- * rest of the app consumes via `normalizeLayer` / `normalizeCategory` below.
- */
-type TGeoLayer =
-    | 'address'
-    | 'street'
-    | 'stopPlace'
-    | 'groupOfStopPlaces'
-    | 'poi'
-    | 'place'
-
 type TGeoFeature = {
-    properties: {
-        id?: string
-        names?: {
-            default?: string
-            display?: string
-        }
-        layer?: TGeoLayer
-        address?: {
-            county?: string
-        }
-        stopPlaceTypes?: TCategory[]
-    }
+    properties: TGeoProperties
     geometry: {
         coordinates: [number, number]
     }
@@ -66,28 +47,6 @@ type TGeoResponse = {
 
 function toGeoCoordinate(coordinates: [number, number]): GeoCoordinate {
     return { lon: coordinates[0], lat: coordinates[1] }
-}
-
-// v3 renamed the stop-place layer from v1's 'venue' to 'stopPlace'. The rest of
-// the app (getIcons, getTypeOfPlace) still speaks the 'venue' vocabulary.
-function normalizeLayer(layer?: TGeoLayer): string | undefined {
-    return layer === 'stopPlace' ? 'venue' : layer
-}
-
-// v3 split v1's flat `category` into `stopPlaceTypes` (NeTEx types for stops)
-// and `categories` (OSM tags). Stops keep their NeTEx types; addresses keep the
-// 'vegadresse' marker v1 used to pick the address icon and place type.
-function normalizeCategory(
-    properties: TGeoFeature['properties'],
-): TCategory[] | undefined {
-    if (properties.stopPlaceTypes && properties.stopPlaceTypes.length > 0)
-        return properties.stopPlaceTypes
-    if (properties.layer === 'address' || properties.layer === 'street')
-        return ['vegadresse']
-    if (properties.layer === 'stopPlace') return undefined
-    // poi / place / groupOfStopPlaces — non-stop, non-address results render
-    // the generic location pin (v1 returned a 'poi'-style category here).
-    return ['poi']
 }
 
 export type StopPlace = {
@@ -176,7 +135,10 @@ export async function fetchStopPlaces(
     const searchParams = new URLSearchParams({
         lang: 'no',
         limit: '10',
-        layers: 'stopPlace,address',
+        // v1's broad `address` layer became several layers in v3. Request all of
+        // them so the field keeps returning addresses, streets, POIs and groups
+        // of stop places alongside stop places, like v1's `venue,address` did.
+        layers: 'stopPlace,groupOfStopPlaces,address,street,poi',
         q: text,
     })
 
