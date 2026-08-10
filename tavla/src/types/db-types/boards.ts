@@ -101,6 +101,8 @@ const boardMetaSchema = z.object({
 
 const boardThemeSchema = z.enum(['dark', 'light'])
 
+const boardLanguageSchema = z.enum(['nb', 'en'])
+
 const boardFooterSchema = z.object({
     footer: z.string().optional(),
 })
@@ -127,6 +129,7 @@ export const BoardDBSchema = z.object({
     customUrl: z.string().optional(),
     isAnonymousBoard: z.boolean().optional(),
     isArrivals: z.boolean().optional(),
+    language: boardLanguageSchema.optional(),
 })
 
 export type BoardDB = z.infer<typeof BoardDBSchema>
@@ -134,6 +137,8 @@ export type BoardDB = z.infer<typeof BoardDBSchema>
 export type BoardFooter = z.infer<typeof boardFooterSchema>
 
 export type BoardTheme = z.infer<typeof boardThemeSchema>
+
+export type BoardLanguage = z.infer<typeof boardLanguageSchema>
 
 export type TransportPalette = z.infer<typeof transportPaletteSchema>
 
