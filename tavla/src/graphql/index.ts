@@ -86,6 +86,30 @@ export const LinesFragment = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"lines"}) as unknown as TypedDocumentString<Types.TLinesFragment, unknown>;
+export const DriveDistanceQuery = new TypedDocumentString(`
+    query driveDistance($from: InputCoordinates!, $to: InputCoordinates!) {
+  trip(
+    from: {coordinates: $from}
+    to: {coordinates: $to}
+    modes: {directMode: car, transportModes: []}
+  ) {
+    tripPatterns {
+      duration
+      streetDistance
+      legs {
+        expectedStartTime
+        expectedEndTime
+        mode
+        distance
+        line {
+          id
+          publicCode
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<Types.TDriveDistanceQuery, Types.TDriveDistanceQueryVariables>;
 export const GetQuayQuery = new TypedDocumentString(`
     query getQuay($quayId: String!, $whitelistedTransportModes: [TransportMode], $whitelistedLines: [ID!], $numberOfDepartures: Int = 20, $startTime: DateTime) {
   quay(id: $quayId) {

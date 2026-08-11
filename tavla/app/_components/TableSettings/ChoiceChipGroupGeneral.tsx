@@ -9,10 +9,10 @@ type ChoiceChipProps<T> = {
     defaultValue: T
     name: string
     ariaLabel: string
-    onChange: (value: string) => void
+    onChange: (value: T) => void
 }
 
-function ChoiceChipGroupGeneral<T extends string>({
+export function ChoiceChipGroupGeneral<T extends string>({
     label,
     options,
     defaultValue,
@@ -46,5 +46,3 @@ function ChoiceChipGroupGeneral<T extends string>({
         </div>
     )
 }
-
-export { ChoiceChipGroupGeneral }
