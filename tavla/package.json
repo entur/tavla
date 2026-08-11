@@ -60,7 +60,7 @@
         "graphql": "16.14.2",
         "jsdom": "29.1.1",
         "lodash": "4.18.1",
-        "nanoid": "5.1.16",
+        "nanoid": "6.0.0",
         "next": "16.2.11",
         "posthog-js": "1.395.0",
         "posthog-node": "5.38.6",
