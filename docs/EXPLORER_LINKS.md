@@ -132,6 +132,32 @@ Alle spørringene Tavla bruker mot [Journey Planner v3](https://api.entur.io/jou
 
 ---
 
+## `driveDistance`
+
+**Kildefil:** [`tavla/src/graphql/queries/drivingDistance.graphql`](../tavla/src/graphql/queries/drivingDistance.graphql)
+
+**Beskrivelse:** Beregner kjøreavstand og reisetid mellom to koordinater via Journey Planner.
+
+**Fragmenter:** ingen
+
+**Eksempelvariabler:**
+```json
+{
+  "from": {
+    "latitude": 59.9127,
+    "longitude": 10.7461
+  },
+  "to": {
+    "latitude": 59.9139,
+    "longitude": 10.7522
+  }
+}
+```
+
+**[Åpne i GraphQL Explorer](https://api.entur.io/graphql-explorer/journey-planner-v3?query=query%20driveDistance%28%24from%3A%20InputCoordinates%21%2C%20%24to%3A%20InputCoordinates%21%29%20%7B%0A%20%20%20%20trip%28%0A%20%20%20%20%20%20%20%20from%3A%20%7B%20coordinates%3A%20%24from%20%7D%0A%20%20%20%20%20%20%20%20to%3A%20%7B%20coordinates%3A%20%24to%20%7D%0A%20%20%20%20%20%20%20%20modes%3A%20%7B%20directMode%3A%20car%2C%20transportModes%3A%20%5B%5D%20%7D%0A%20%20%20%20%29%20%7B%0A%20%20%20%20%20%20%20%20tripPatterns%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20duration%0A%20%20%20%20%20%20%20%20%20%20%20%20streetDistance%0A%20%20%20%20%20%20%20%20%20%20%20%20legs%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20expectedStartTime%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20expectedEndTime%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20mode%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20distance%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20line%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20id%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20publicCode%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%7D&operationName=driveDistance&variables=%7B%22from%22%3A%7B%22latitude%22%3A59.9127%2C%22longitude%22%3A10.7461%7D%2C%22to%22%3A%7B%22latitude%22%3A59.9139%2C%22longitude%22%3A10.7522%7D%7D)**
+
+---
+
 ## `StopPlaceName`
 
 **Kildefil:** [`tavla/src/graphql/queries/stopPlaceName.graphql`](../tavla/src/graphql/queries/stopPlaceName.graphql)
