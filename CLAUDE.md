@@ -54,7 +54,7 @@ yarn test:e2e:ui          # interactive UI mode
 yarn test:e2e:install     # one-time browser install
 ```
 
-Playwright's `webServer` wraps `next dev` in `firebase emulators:exec`, so the emulator suite is started/stopped automatically. Specs live in `tavla/e2e/`. Global setup at `tavla/e2e/global-setup.ts` resets emulator state and seeds a test user + starter board on every run.
+Playwright's `webServer` wraps `next dev` in `firebase emulators:exec`, so the emulator suite is started/stopped automatically. Specs live in `tavla/e2e/`. Global setup at `tavla/e2e/global-setup.ts` resets emulator state and seeds a test user + starter board on every run.  No frontend unit test framework is configured.
 
 `playwright.config.ts` picks fresh OS-assigned free ports for the Auth/Firestore/Storage/UI emulators and the Next dev server on every run (via `e2e/pick-ports.mjs`, cached per-run in `e2e/.ports.json`) and writes them into a generated `firebase.e2e.json`. This is deliberate: it keeps `yarn test:e2e` fully isolated from a concurrently running `yarn dev:persist` (which always uses the fixed ports below), so a local test run can never reset or overwrite `dev:persist`'s persisted `.db` state. `next.config.js`'s `distDir` is also overridden (`NEXT_DIST_DIR=.next-e2e`) so the e2e Next process doesn't collide with `dev:persist`'s dev-server lock.
 
