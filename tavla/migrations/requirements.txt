@@ -17,12 +17,12 @@ google-resumable-media==2.7.2
 googleapis-common-protos==1.69.2
 grpcio==1.78.0
 grpcio-status==1.71.2
-httplib2==0.22.0
+httplib2==0.32.0
 idna==3.15
-msgpack==1.1.0
+msgpack==1.2.1
 proto-plus==1.26.1
 protobuf==5.29.6
-pyasn1==0.6.3
+pyasn1==0.6.4
 pyasn1_modules==0.4.2
 pycparser==2.22
 PyJWT==2.13.0
