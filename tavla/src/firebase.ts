@@ -1,16 +1,20 @@
 import * as Sentry from '@sentry/nextjs'
-import admin, { firestore } from 'firebase-admin'
-import { FieldValue } from 'firebase-admin/firestore'
+import { applicationDefault, getApps, initializeApp } from 'firebase-admin'
+import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { type BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
 import { type FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
 import { logToGcp } from 'utils/logging'
 
 initializeAdminApp()
 
+// getApps/initializeApp/applicationDefault hentes fra pakkeroten, ikke
+// 'firebase-admin/app'. Subpath-ene eksporteres via en ESM-shim som Turbopack
+// fyller lazily, og denne funksjonen kalles på modulnivå — da er bindingene
+// fortsatt undefined. Roten har ingen ESM-betingelse og løses som CJS.
 async function initializeAdminApp() {
-    if (admin.apps.length <= 0) {
-        admin.initializeApp({
-            credential: admin.credential.applicationDefault(),
+    if (getApps().length <= 0) {
+        initializeApp({
+            credential: applicationDefault(),
             projectId: process.env.GOOGLE_PROJECT_ID,
         })
     }
@@ -18,7 +22,7 @@ async function initializeAdminApp() {
 
 export async function getBoard(bid: BoardDB['id']) {
     try {
-        const board = await firestore().collection('boards').doc(bid).get()
+        const board = await getFirestore().collection('boards').doc(bid).get()
         if (!board.exists) {
             return undefined
         }
@@ -65,7 +69,7 @@ export async function getBoard(bid: BoardDB['id']) {
 
 export async function getFolder(folderid: FolderDB['id']) {
     try {
-        const folder = await firestore()
+        const folder = await getFirestore()
             .collection('folders')
             .doc(folderid)
             .get()
@@ -117,7 +121,7 @@ export async function updateBoard(
     bid: BoardDB['id'],
     data: Record<string, unknown>,
 ) {
-    await firestore()
+    await getFirestore()
         .collection('boards')
         .doc(bid)
         .update({ ...data, 'meta.dateModified': Date.now() })
@@ -125,7 +129,7 @@ export async function updateBoard(
 
 export async function createBoard(boardData: Omit<BoardDB, 'id'>) {
     const now = Date.now()
-    return firestore()
+    return getFirestore()
         .collection('boards')
         .add({
             ...boardData,
@@ -139,7 +143,7 @@ export async function createBoard(boardData: Omit<BoardDB, 'id'>) {
 
 export async function getBoardByCustomUrl(customUrl: string) {
     try {
-        const query = await firestore()
+        const query = await getFirestore()
             .collection('boards')
             .where('customUrl', '==', customUrl)
             .get()
@@ -188,14 +192,14 @@ export async function getBoardByCustomUrl(customUrl: string) {
 }
 
 export async function addBoardIdToUser(uid: string, bid: BoardDB['id']) {
-    await firestore()
+    await getFirestore()
         .collection('users')
         .doc(uid)
         .update({ owner: FieldValue.arrayUnion(bid) })
 }
 
 export async function removeBoardIdFromUser(uid: string, bid: BoardDB['id']) {
-    await firestore()
+    await getFirestore()
         .collection('users')
         .doc(uid)
         .update({ owner: FieldValue.arrayRemove(bid) })
@@ -205,7 +209,7 @@ export async function addBoardIdToFolder(
     folderid: FolderDB['id'],
     bid: BoardDB['id'],
 ) {
-    await firestore()
+    await getFirestore()
         .collection('folders')
         .doc(folderid)
         .update({ boards: FieldValue.arrayUnion(bid) })
@@ -215,14 +219,14 @@ export async function removeBoardIdFromFolder(
     folderid: FolderDB['id'],
     bid: BoardDB['id'],
 ) {
-    await firestore()
+    await getFirestore()
         .collection('folders')
         .doc(folderid)
         .update({ boards: FieldValue.arrayRemove(bid) })
 }
 
 export async function addOwnerToFolder(folderid: FolderDB['id'], uid: string) {
-    await firestore()
+    await getFirestore()
         .collection('folders')
         .doc(folderid)
         .update({ owners: FieldValue.arrayUnion(uid) })
@@ -232,7 +236,7 @@ export async function removeOwnerFromFolder(
     folderid: FolderDB['id'],
     uid: string,
 ) {
-    await firestore()
+    await getFirestore()
         .collection('folders')
         .doc(folderid)
         .update({ owners: FieldValue.arrayRemove(uid) })
@@ -242,11 +246,11 @@ export async function updateFolder(
     folderid: FolderDB['id'],
     data: Record<string, unknown>,
 ) {
-    await firestore().collection('folders').doc(folderid).update(data)
+    await getFirestore().collection('folders').doc(folderid).update(data)
 }
 
 export async function createFolder(name: string, uid: string) {
-    return firestore()
+    return getFirestore()
         .collection('folders')
         .add({
             name,
@@ -256,12 +260,12 @@ export async function createFolder(name: string, uid: string) {
 }
 
 export async function createUser(uid: string) {
-    await firestore().collection('users').doc(uid).create({})
+    await getFirestore().collection('users').doc(uid).create({})
 }
 
 export async function getFolderForBoard(bid: BoardDB['id']) {
     try {
-        const ref = await firestore()
+        const ref = await getFirestore()
             .collection('folders')
             .where('boards', 'array-contains', bid)
             .get()

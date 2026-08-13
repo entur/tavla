@@ -1,11 +1,12 @@
-import * as admin from 'firebase-admin'
+import {initializeApp} from 'firebase-admin/app'
+import {getFirestore} from 'firebase-admin/firestore'
 import {onRequest} from 'firebase-functions/v2/https'
 import {getActiveBoardsFromRedis} from './backendUtils'
 import {getRuntimeConfig} from './config'
 import {SLACK_WEBHOOK_TAVLETALL} from './config/secretParams'
 import {getDefaultOptions, scheduledFunction} from './functions'
 
-admin.initializeApp()
+initializeApp()
 
 type LocationDetails = {
     raw: string
@@ -19,7 +20,7 @@ async function runUsageMetrics(): Promise<void> {
     const { stopPlaceUrl, quayUrl, geocoderUrl } = getRuntimeConfig()
 
     const activeBoards = await getActiveBoardsFromRedis()
-    const boardCollection = admin.firestore().collection('boards')
+    const boardCollection = getFirestore().collection('boards')
 
     const countyCount: Record<string, number> = {}
     const paletteCount: Record<string, number> = {}

@@ -1,4 +1,4 @@
-import type { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
+import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import * as Sentry from '@sentry/nextjs'
 import type { GeoCoordinate, StopPlace } from 'app/(innlogget)/utils/fetch'
 import { nanoid } from 'nanoid'

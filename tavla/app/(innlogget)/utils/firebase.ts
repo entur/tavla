@@ -1,6 +1,8 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import admin, { auth, firestore } from 'firebase-admin'
+import { applicationDefault, getApps, initializeApp } from 'firebase-admin'
+import { getAuth } from 'firebase-admin/auth'
+import { getFirestore } from 'firebase-admin/firestore'
 import {
     getFolderForBoard,
     removeBoardIdFromFolder,
@@ -17,23 +19,23 @@ import { getUserFromSessionCookie } from './server'
 initializeAdminApp()
 
 export async function initializeAdminApp() {
-    if (admin.apps.length <= 0) {
-        admin.initializeApp({
-            credential: admin.credential.applicationDefault(),
+    if (getApps().length <= 0) {
+        initializeApp({
+            credential: applicationDefault(),
             projectId: process.env.GOOGLE_PROJECT_ID,
         })
     }
 }
 
 export async function getConfig() {
-    const doc = await firestore().collection('config').doc('env').get()
+    const doc = await getFirestore().collection('config').doc('env').get()
     return doc.data() as { bucket: string }
 }
 
 export async function verifySession(session?: string) {
     if (!session) return null
     try {
-        return await auth().verifySessionCookie(session, true)
+        return await getAuth().verifySessionCookie(session, true)
     } catch {
         return null
     }
@@ -45,7 +47,7 @@ export async function revokeUserTokenOnLogout() {
         return null
     }
     try {
-        await auth().revokeRefreshTokens(user.uid)
+        await getAuth().revokeRefreshTokens(user.uid)
     } catch {
         return null
     }
@@ -54,7 +56,7 @@ export async function revokeUserTokenOnLogout() {
 export async function getUserWithBoardIds(): Promise<UserDB | null> {
     const user = await getUserFromSessionCookie()
     if (!user) return null
-    const userDoc = await firestore().collection('users').doc(user.uid).get()
+    const userDoc = await getFirestore().collection('users').doc(user.uid).get()
     const userData = {
         uid: userDoc.id,
         ...userDoc.data(),
@@ -95,7 +97,7 @@ export async function deleteBoard(bid: BoardDB['id']) {
     const folder = await getFolderForBoard(bid)
 
     try {
-        await firestore().collection('boards').doc(bid).delete()
+        await getFirestore().collection('boards').doc(bid).delete()
 
         if (folder?.id) {
             await removeBoardIdFromFolder(folder.id, bid)
@@ -117,7 +119,7 @@ export async function deleteFolder(folderid: FolderDB['id']) {
     const access = await userCanEditFolder(folderid)
     if (!access) throw 'auth/operation-not-allowed'
     await deleteFolderBoards(folderid)
-    await firestore().collection('folders').doc(folderid).delete()
+    await getFirestore().collection('folders').doc(folderid).delete()
 }
 
 export async function userCanEditFolder(folderid: FolderDB['id']) {
@@ -146,7 +148,7 @@ export async function deleteFolderBoard(
     const access = await userCanEditFolder(folderid)
     if (!access) throw 'auth/operation-not-allowed'
     try {
-        return firestore().collection('boards').doc(bid).delete()
+        return getFirestore().collection('boards').doc(bid).delete()
     } catch (error) {
         logToGcp(
             'error',
@@ -182,7 +184,7 @@ export async function deleteUserFromFirebaseAuth() {
         return
     }
     try {
-        await auth().deleteUser(user.uid)
+        await getAuth().deleteUser(user.uid)
     } catch (error) {
         logToGcp(
             'error',
@@ -199,7 +201,7 @@ export async function deleteUserFromFirestore() {
         return
     }
     try {
-        await firestore().collection('users').doc(user.uid).delete()
+        await getFirestore().collection('users').doc(user.uid).delete()
     } catch (error) {
         logToGcp(
             'error',

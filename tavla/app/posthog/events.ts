@@ -44,7 +44,7 @@ export type EventMap = {
     }
 
     user_create_cancelled: WithLocation<typeof LOCATIONS.UserModal> & {
-        method: 'cancel_button' | 'close_icon'
+        method: 'cancel_button'
     }
 
     user_login_started:
@@ -107,7 +107,11 @@ export type EventMap = {
     board_dismiss_from_local_storage: undefined
 
     board_create_cancelled: {
-        method: 'dismissed' | 'close_icon' | 'cancel_button'
+        method: 'dismissed' | 'cancel_button'
+    }
+
+    board_delete_cancelled: {
+        method: 'dismissed' | 'cancel_button'
     }
 
     folder_create_started: undefined
@@ -115,7 +119,11 @@ export type EventMap = {
     folder_created: undefined
 
     folder_create_cancelled: {
-        method: 'dismissed' | 'close_icon' | 'cancel_button'
+        method: 'dismissed' | 'cancel_button'
+    }
+
+    delete_user_cancelled: {
+        method: 'dismissed' | 'cancel_button'
     }
 
     /* Mapper */
@@ -152,7 +160,7 @@ export type EventMap = {
 
     folder_delete_cancelled: WithLocation<typeof LOCATIONS.Folder> & {
         folder_id: string
-        method: 'cancelled' | 'dismissed' | 'close_icon'
+        method: 'cancelled' | 'dismissed'
     }
 
     folder_deleted: WithLocation<typeof LOCATIONS.Folder> & {
