@@ -1,6 +1,10 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { HomeIcon, MapPinIcon } from '@entur/icons'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
+import type {
+    TGeoProperties,
+    TStopPlaceType,
+} from 'app/(innlogget)/utils/geocoder'
 import { uniq } from 'lodash'
 import { createElement } from 'react'
 import type { BoardTheme, LocationDB } from 'src/types/db-types/boards'
@@ -9,23 +13,6 @@ import type {
     TTransportMode,
     TTransportSubmode,
 } from 'src/types/graphql-schema'
-
-export type TCategory =
-    | 'onstreetBus'
-    | 'onstreetTram'
-    | 'airport'
-    | 'railStation'
-    | 'metroStation'
-    | 'busStation'
-    | 'coachStation'
-    | 'tramStation'
-    | 'harbourPort'
-    | 'ferryPort'
-    | 'ferryStop'
-    | 'liftStation'
-    | 'vehicleRailInterchange'
-    | 'poi'
-    | 'vegadresse'
 
 export function locationToDropdownItem(
     location: LocationDB,
@@ -61,8 +48,10 @@ export function themeToDropdownItem(
     )
 }
 
-export function categoryToTransportmode(category: TCategory): TTransportMode {
-    switch (category) {
+export function stopPlaceTypeToTransportMode(
+    stopPlaceType: TStopPlaceType,
+): TTransportMode {
+    switch (stopPlaceType) {
         case 'onstreetBus':
         case 'busStation':
         case 'coachStation':
@@ -87,20 +76,7 @@ export function categoryToTransportmode(category: TCategory): TTransportMode {
     }
 }
 
-export function getVenueIcon(category: TCategory) {
-    switch (category) {
-        case 'vegadresse':
-            return HomeIcon
-        default:
-            return MapPinIcon
-    }
-}
-
-const travelTags = (category: TCategory[]) => {
-    const transportModes = uniq(
-        category.map((mode) => categoryToTransportmode(mode)),
-    ).toSorted()
-
+const getTravelTagsFromTransportMode = (transportModes: TTransportMode[]) => {
     return transportModes.map((tm, index) => {
         const UniqueSmallTravelTag = () =>
             createElement(TransportIcon, {
@@ -116,11 +92,30 @@ const travelTags = (category: TCategory[]) => {
     })
 }
 
-export function getIcons(layer?: string, category?: TCategory[]) {
-    if (!layer || !category) return
-    if (layer !== 'venue')
-        return uniq(uniq(category).map((mode) => getVenueIcon(mode)))
-    return travelTags(category)
+export function getIcons(properties: TGeoProperties) {
+    switch (properties.layer) {
+        case 'address':
+        case 'street':
+            return [HomeIcon]
+        case 'poi':
+            return [MapPinIcon]
+        case 'stopPlace': {
+            const transportModes = properties.stopPlaceTypes
+                ?.filter((type) => type === 'other')
+                .map(stopPlaceTypeToTransportMode)
+            const uniqueTransportModes = uniq(transportModes)
+
+            if (!uniqueTransportModes || uniqueTransportModes.length === 0) {
+                return [MapPinIcon]
+            }
+
+            return getTravelTagsFromTransportMode(uniqueTransportModes)
+        }
+        case 'groupOfStopPlaces':
+            return [MapPinIcon]
+        default:
+            return [MapPinIcon]
+    }
 }
 
 export const travelTagsFromModes = (

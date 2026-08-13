@@ -22,7 +22,6 @@ import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { FolderDB } from 'types/db-types/folders'
-import { getTypeOfPlace } from './utils'
 
 const NUMBER_OF_CLOSEST_STOP_PLACES = 10
 const AREA_RADIUS_IN_KM = 20
@@ -92,13 +91,13 @@ function TileSelector({
             return
         }
 
-        const typeOfPlace = getTypeOfPlace(selectedItem)
+        const typeOfPlace = selectedItem?.value.type
 
         capture('stop_place_add_interaction', {
             location: trackingLocation,
             field: 'stop_place',
             action: selectedItem?.value ? 'selected' : 'cleared',
-            typeOfPlace,
+            typeOfPlace: typeOfPlace ?? 'other',
         })
         setSelectedStopPlace(selectedItem)
 
@@ -112,6 +111,7 @@ function TileSelector({
             value: {
                 id: selectedItem.value.id,
                 county: selectedItem.value.county,
+                type: typeOfPlace ?? 'other',
             },
             label: selectedItem.label,
         }
@@ -207,7 +207,8 @@ function TileSelector({
                             location: trackingLocation,
                             field: 'closest_stop_places',
                             action: addedStopPlace ? 'added' : 'removed',
-                            typeOfPlace: getTypeOfPlace(selectedStopPlace),
+                            typeOfPlace:
+                                selectedStopPlace?.value.type ?? 'other',
                             selectedIndexes: selectedItems.map((selectedItem) =>
                                 closestStopPlaceItems.findIndex(
                                     (closestItem) =>
@@ -239,7 +240,7 @@ function TileSelector({
                     capture('stop_place_added', {
                         location: trackingLocation,
                         county_count: selectedCounties.length,
-                        typeOfPlace: getTypeOfPlace(selectedStopPlace),
+                        typeOfPlace: selectedStopPlace?.value.type ?? 'other',
                         selectedIndexes:
                             selectedClosestStopPlaces?.map((selected) =>
                                 closestStopPlaceItems.findIndex(
