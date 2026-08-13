@@ -1,4 +1,8 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
+import {
+    getTypeOfPlace,
+    type TypeOfPlace,
+} from 'app/_components/TileSelector/utils'
 import { uniq, uniqBy } from 'lodash'
 import {
     CLIENT_NAME,
@@ -15,31 +19,26 @@ import type {
 import type { TStopPlacesHaveDeparturesQuery } from 'types/operations'
 import { getRelevantSubmode } from 'utils/transport'
 import { hasField, isNotNullOrUndefined } from 'utils/typeguards'
-import {
-    getIcons,
-    type TCategory,
-    travelTagsFromModes,
-} from '../tavler/[id]/utils'
+import { getIcons, travelTagsFromModes } from '../tavler/[id]/utils'
+import { isStopPlace, type TGeoProperties } from './geocoder'
 
 export type GeoCoordinate = {
     lat: number
     lon: number
 }
 
-type TPartialGeoResponse = {
-    features: Array<{
-        properties: {
-            id?: string
-            label?: string
-            layer?: string
-            category?: [TCategory]
-            county?: string
-            name?: string
-        }
-        geometry: {
-            coordinates: [number, number]
-        }
-    }>
+// Geocoder v3 returns a GeoJSON FeatureCollection. `properties` is normalised
+// back to the flat shape the rest of the app consumes via the helpers in
+// `./geocoder`.
+type TGeoFeature = {
+    properties: TGeoProperties
+    geometry: {
+        coordinates: [number, number]
+    }
+}
+
+type TGeoResponse = {
+    features?: TGeoFeature[]
 }
 
 function toGeoCoordinate(coordinates: [number, number]): GeoCoordinate {
@@ -49,24 +48,10 @@ function toGeoCoordinate(coordinates: [number, number]): GeoCoordinate {
 export type StopPlace = {
     id: string
     county?: string
-    category?: [TCategory]
+    type: TypeOfPlace
     coordinates?: GeoCoordinate
     layer?: string
     name?: string
-}
-
-type TPointGeoresponse = {
-    features: Array<{
-        properties: {
-            id?: string
-            label?: string
-            layer?: string
-            category?: [TCategory]
-        }
-        geometry: {
-            coordinates: [number, number]
-        }
-    }>
 }
 
 type TCounty = {
@@ -145,15 +130,18 @@ export async function fetchStopPlaces(
 
     const searchParams = new URLSearchParams({
         lang: 'no',
-        size: '10',
-        layers: 'venue,address',
-        text,
+        limit: '10',
+        layers: 'stopPlace,groupOfStopPlaces,address,street,poi',
+        q: text,
     })
 
     if (countyIds && countyIds.length > 0)
-        searchParams.append('boundary.county_ids', countyIds.join(','))
+        searchParams.append(
+            'counties',
+            countyIds.map((id) => `KVE:TopographicPlace:${id}`).join(','),
+        )
 
-    const data: TPartialGeoResponse = await fetch(
+    const data: TGeoResponse = await fetch(
         `${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`,
         {
             headers: {
@@ -162,30 +150,35 @@ export async function fetchStopPlaces(
         },
     ).then((res) => res.json())
 
-    const items = data.features.map(({ properties, geometry }) => ({
-        value: {
-            id: properties.id ?? '',
-            county: properties.county,
-            category: properties.category,
-            coordinates: toGeoCoordinate(geometry.coordinates),
-            layer: properties.layer,
-        },
-        label: properties.label || '',
-        icons: uniq(getIcons(properties.layer, properties.category)),
-        county: properties.county,
-        itemKey: properties.id ?? properties.label ?? '',
-    }))
+    const items = (data.features ?? []).map(({ properties, geometry }) => {
+        const county = properties.address?.county
+        const label = properties.names?.display ?? ''
+        return {
+            value: {
+                id: properties.id ?? '',
+                county,
+                coordinates: toGeoCoordinate(geometry.coordinates),
+                layer: properties.layer,
+                type: getTypeOfPlace(properties),
+            },
+            label,
+            icons: uniq(getIcons(properties)),
+            county,
+            itemKey: properties.id ?? label,
+        }
+    })
 
-    const venueIds = items
-        .filter((item) => item.value.layer === 'venue' && item.value.id)
+    const stopPlaceIds = items
+        .filter((item) => isStopPlace(item.value.layer) && item.value.id)
         .map((item) => item.value.id)
 
-    const idsWithDepartures = await fetchStopPlaceIdsWithDepartures(venueIds)
+    const idsWithDepartures =
+        await fetchStopPlaceIdsWithDepartures(stopPlaceIds)
 
     return items
         .filter(
             (item) =>
-                item.value.layer !== 'venue' ||
+                !isStopPlace(item.value.layer) ||
                 idsWithDepartures.has(item.value.id),
         )
         .map((item) => ({
@@ -206,8 +199,8 @@ export async function fetchClosestStopPlaces(
 ): Promise<NormalizedDropdownItemType<StopPlace>[]> {
     const requestSize = numberOfStopPlaces * 2
 
-    const data: TPartialGeoResponse = await fetch(
-        `${GEOCODER_ENDPOINT}/reverse?point.lat=${coordinates.lat}&point.lon=${coordinates.lon}&boundary.circle.radius=${areaRadiusInKm}&layers=venue&size=${requestSize}`,
+    const data: TGeoResponse = await fetch(
+        `${GEOCODER_ENDPOINT}/reverse?lat=${coordinates.lat}&lon=${coordinates.lon}&radius=${areaRadiusInKm}&layers=stopPlace&limit=${requestSize}`,
         {
             headers: {
                 'ET-Client-Name': CLIENT_NAME,
@@ -215,16 +208,20 @@ export async function fetchClosestStopPlaces(
         },
     ).then((res) => res.json())
 
-    const items = data.features.map(({ properties, geometry }) => ({
-        value: {
-            id: properties.id ?? '',
-            county: properties.county,
-            coordinates: toGeoCoordinate(geometry.coordinates),
-            name: properties.name ?? '',
-        },
-        label: properties.label || '',
-        county: properties.county,
-    }))
+    const items = (data.features ?? []).map(({ properties, geometry }) => {
+        const county = properties.address?.county
+        return {
+            value: {
+                id: properties.id ?? '',
+                county,
+                coordinates: toGeoCoordinate(geometry.coordinates),
+                name: properties.names?.default ?? '',
+                type: getTypeOfPlace(properties),
+            },
+            label: properties.names?.display ?? '',
+            county,
+        }
+    })
 
     const venueIds = items
         .filter((item) => item.value.id)
@@ -250,8 +247,8 @@ export async function fetchPoints(
 
     const searchParams = new URLSearchParams({
         lang: 'no',
-        size: '5',
-        text,
+        limit: '5',
+        q: text,
     })
 
     return fetch(`${GEOCODER_ENDPOINT}/autocomplete?${searchParams}`, {
@@ -260,17 +257,20 @@ export async function fetchPoints(
         },
     })
         .then((res) => res.json())
-        .then((data: TPointGeoresponse) => {
-            return data.features.map(({ properties, geometry }) => ({
-                value: {
-                    name: properties.label ?? '',
-                    coordinate: {
-                        lat: geometry.coordinates[1],
-                        lng: geometry.coordinates[0],
+        .then((data: TGeoResponse) => {
+            return (data.features ?? []).map(({ properties, geometry }) => {
+                const label = properties.names?.display ?? ''
+                return {
+                    value: {
+                        name: label,
+                        coordinate: {
+                            lat: geometry.coordinates[1],
+                            lng: geometry.coordinates[0],
+                        },
                     },
-                },
-                label: properties.label || '',
-                icons: getIcons(properties.layer, properties.category),
-            }))
+                    label,
+                    icons: getIcons(properties),
+                }
+            })
         })
 }
