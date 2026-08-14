@@ -7,10 +7,6 @@ import { logToGcp } from 'utils/logging'
 
 initializeAdminApp()
 
-// getApps/initializeApp/applicationDefault hentes fra pakkeroten, ikke
-// 'firebase-admin/app'. Subpath-ene eksporteres via en ESM-shim som Turbopack
-// fyller lazily, og denne funksjonen kalles på modulnivå — da er bindingene
-// fortsatt undefined. Roten har ingen ESM-betingelse og løses som CJS.
 async function initializeAdminApp() {
     if (getApps().length <= 0) {
         initializeApp({
