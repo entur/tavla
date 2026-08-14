@@ -10143,12 +10143,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:6.0.0":
-  version: 6.0.0
-  resolution: "nanoid@npm:6.0.0"
+"nanoid@npm:6.0.1":
+  version: 6.0.1
+  resolution: "nanoid@npm:6.0.1"
   bin:
     nanoid: bin/nanoid.js
-  checksum: 10/ac39c3fc955353bdadb2b675a7ea3642a9aa13838c97f0bdf8153c6d3811096038f620258a00218c3f992f30141015d71ea20dd0e26b1edd86a69e897b83f7c6
+  checksum: 10/e49582351f6fff22c275a58504950e923b74c611fc1eac9589a98e89506270d2d1e3b61ed6429df6e7529e54ff71d9f0c5fbb1c540aaee81ae33a523e88ca668
   languageName: node
   linkType: hard
 
@@ -12917,7 +12917,7 @@ __metadata:
     jsdom: "npm:30.0.1"
     lint-staged: "npm:17.0.8"
     lodash: "npm:4.18.1"
-    nanoid: "npm:6.0.0"
+    nanoid: "npm:6.0.1"
     next: "npm:16.2.11"
     postcss: "npm:8.5.23"
     posthog-js: "npm:1.395.0"
