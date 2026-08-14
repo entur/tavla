@@ -210,12 +210,12 @@ export const QuayEditQuery = new TypedDocumentString(`
   }
 }`) as unknown as TypedDocumentString<Types.TQuayEditQuery, Types.TQuayEditQueryVariables>;
 export const QuayEstimatedCallsQuery = new TypedDocumentString(`
-    query QuayEstimatedCalls($quayId: String!, $numberOfDepartures: Int = 200, $arrivalDeparture: ArrivalDeparture = departures) {
+    query QuayEstimatedCalls($quayId: String!, $arrivalDeparture: ArrivalDeparture = departures) {
   quay(id: $quayId) {
     estimatedCalls(
-      numberOfDepartures: $numberOfDepartures
+      numberOfDepartures: 1000
       numberOfDeparturesPerLineAndDestinationDisplay: 1
-      timeRange: 604800
+      timeRange: 2592000
       includeCancelledTrips: true
       arrivalDeparture: $arrivalDeparture
     ) {
