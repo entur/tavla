@@ -1,6 +1,5 @@
 import { SmallAlertBox } from '@entur/alert'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { CloseIcon } from '@entur/icons'
+import { Button, ButtonGroup } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
@@ -86,13 +85,6 @@ function SaveCancelDeleteTileButtonGroup({
                 onDismiss={() => setConfirmOpen(false)}
                 closeLabel="Avbryt endring"
             >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={() => setConfirmOpen(false)}
-                    className="absolute right-4 top-4"
-                >
-                    <CloseIcon />
-                </IconButton>
                 <div className="flex flex-col items-center">
                     <Image alt="" src={Goat} className="h-1/2 w-1/2" />
                     <Heading3 margin="bottom" as="h1">

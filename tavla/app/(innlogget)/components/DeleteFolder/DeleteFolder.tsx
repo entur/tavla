@@ -1,7 +1,6 @@
 'use client'
 import { useToast } from '@entur/alert'
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { CloseIcon } from '@entur/icons'
+import { Button, ButtonGroup } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
 import { Heading3, Paragraph, SubParagraph } from '@entur/typography'
@@ -85,21 +84,6 @@ function DeleteFolder({
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={() => {
-                        capture('folder_delete_cancelled', {
-                            location: 'folder',
-                            folder_id: folder.id,
-                            method: 'close_icon',
-                        })
-                        setIsOpen(false)
-                        setNameError(undefined)
-                    }}
-                    className="absolute right-4 top-4"
-                >
-                    <CloseIcon />
-                </IconButton>
                 <Image src={ducks} alt="" className="mx-auto h-1/2 w-1/2" />
                 <Heading3 margin="bottom" as="h1">
                     Slett mappe

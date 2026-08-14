@@ -1,6 +1,6 @@
 'use client'
 import { IconButton, PrimaryButton } from '@entur/button'
-import { CloseIcon, LeftArrowIcon, MenuIcon } from '@entur/icons'
+import { LeftArrowIcon, MenuIcon } from '@entur/icons'
 import { SideNavigation, SideNavigationItem } from '@entur/menu'
 import { Modal } from '@entur/modal'
 import { Heading2 } from '@entur/typography'
@@ -34,15 +34,6 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                 closeLabel="Lukk meny"
                 className="!fixed !left-0 !top-0 !h-full !max-h-full !w-9/12 !overflow-y-auto !rounded-none !p-0"
             >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={() => {
-                        setIsOpen(false)
-                    }}
-                    className="absolute right-4 top-4 z-10"
-                >
-                    <CloseIcon />
-                </IconButton>
                 <SideNavigation className="!bg-primary !pb-24 !pt-10">
                     <div className="pl-10">
                         <Link

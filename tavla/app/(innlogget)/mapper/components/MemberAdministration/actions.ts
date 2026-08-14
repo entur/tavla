@@ -10,7 +10,7 @@ import {
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
-import { auth } from 'firebase-admin'
+import { getAuth } from 'firebase-admin/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { addOwnerToFolder } from 'src/firebase'
@@ -61,7 +61,7 @@ export async function inviteUserAction(
     const access = await userCanEditFolder(folderid)
     if (!access) return redirect('/')
 
-    const invitee = await auth()
+    const invitee = await getAuth()
         .getUserByEmail(email)
         .catch(() => undefined)
 

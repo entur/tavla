@@ -1,15 +1,16 @@
-import * as admin from 'firebase-admin'
+import { initializeApp } from 'firebase-admin/app'
+import { getFirestore } from 'firebase-admin/firestore'
 import { getActiveBoardsFromRedis } from './backendUtils'
 import { scheduledFunction } from './functions'
 
-admin.initializeApp()
+initializeApp()
 
 export const updateLastActiveOnSchedule = scheduledFunction(
     '0 */6 * * *',
     undefined,
     async () => {
         const activeBoards = await getActiveBoardsFromRedis()
-        const boardsCollection = admin.firestore().collection('boards')
+        const boardsCollection = getFirestore().collection('boards')
 
         let successCount = 0
 

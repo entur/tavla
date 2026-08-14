@@ -1,6 +1,6 @@
 'use client'
-import { IconButton, PrimaryButton } from '@entur/button'
-import { BoardIcon, CloseIcon } from '@entur/icons'
+import { PrimaryButton } from '@entur/button'
+import { BoardIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import type { Folder } from 'app/(innlogget)/utils/types'
 import type { EventProps } from 'app/posthog/events'
@@ -45,18 +45,6 @@ function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
                 closeLabel="Avbryt opprettelse av tavle"
                 style={{ overflow: 'visible' }}
             >
-                <IconButton
-                    aria-label="Avbryt opprettelse av tavle"
-                    onClick={() => {
-                        capture('board_create_cancelled', {
-                            method: 'close_icon',
-                        })
-                        setIsOpen(false)
-                    }}
-                    className="absolute right-4 top-4"
-                >
-                    <CloseIcon />
-                </IconButton>
                 <NameAndFolderSelector
                     folders={folders}
                     folder={folder}
