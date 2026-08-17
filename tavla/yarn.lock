@@ -4872,15 +4872,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsdom@npm:28.0.3":
-  version: 28.0.3
-  resolution: "@types/jsdom@npm:28.0.3"
+"@types/jsdom@npm:30.0.0":
+  version: 30.0.0
+  resolution: "@types/jsdom@npm:30.0.0"
   dependencies:
     "@types/node": "npm:*"
     "@types/tough-cookie": "npm:*"
     parse5: "npm:^8.0.0"
-    undici-types: "npm:^7.21.0"
-  checksum: 10/a98a86449245372a1c02fee45299bef8eae9bdebe22863e02f785f05fd1f27c51c381aefe72054247994612f94ee0f45520a6eaa32c5d91d36639d208b578e87
+    undici-types: "npm:^8.9.0"
+  checksum: 10/f430fe309267733e6df8fecdc9724ffd035cee2da21f504e21cf6e879fb91796b56b96794bdec5e134cdb025be63292e258dca25fe7059861b60542b220a86f5
   languageName: node
   linkType: hard
 
@@ -12900,7 +12900,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:6.0.5"
     "@playwright/test": "npm:1.61.1"
     "@sentry/nextjs": "npm:10.62.0"
-    "@types/jsdom": "npm:28.0.3"
+    "@types/jsdom": "npm:30.0.0"
     "@types/lodash": "npm:4.17.24"
     "@types/node": "npm:26.1.2"
     "@types/react": "npm:19.2.17"
@@ -13253,10 +13253,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:^7.21.0":
-  version: 7.22.0
-  resolution: "undici-types@npm:7.22.0"
-  checksum: 10/692a9ee08327f34e2945647acbec330090a43a381bfc2d723f0ef5bfe3709390d9fa7a3b929384471a72a4494686079851daf1750c26c990ed5f5accbaf2ce0b
+"undici-types@npm:^8.9.0":
+  version: 8.10.0
+  resolution: "undici-types@npm:8.10.0"
+  checksum: 10/eae2070aa650bb2ce972c621ffc8a3d627670620233ba978d211ececb64c7d07597d11b6028a3058bc205421de98e858d9809d22eff30df1bc915755c43c118a
   languageName: node
   linkType: hard
 
