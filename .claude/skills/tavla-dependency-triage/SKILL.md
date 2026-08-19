@@ -5,9 +5,14 @@ allowed-tools:
   - Bash(gh pr view:*)
   - Bash(gh api:*)
   - Bash(grep:*)
+  - Bash(awk:*)
+  - Bash(git log:*)
+  - Bash(git show:*)
+  - Bash(python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py)
   - Grep
   - Glob
   - Read
+  - Write
 description: >
   Triage av Dependabot-PRer, sikkerhetsvarsler og CodeQL-funn for Tavla. Bruk når
   noen på Tavla-teamet er på dependency-vakt og skal vurdere åpne Dependabot-PRer,
@@ -22,8 +27,8 @@ description: >
 
 Felles arbeidsflyt for Tavlas ukentlige dependency-vakt. Skillen dekker to situasjoner:
 
-1. **Mandagsbrief** — hent og trier alle åpne PRer, alerts og CodeQL-funn, skriv ut en ferdig formatert brief i chatten.
-2. **Enkelt-triage** — vurder én konkret PR eller alert, presenter resultatet i chatten.
+1. **Mandagsbrief** — hent og trier alle åpne PRer, alerts og CodeQL-funn, og skriv en ferdig formatert brief til fil.
+2. **Enkelt-triage** — vurder én konkret PR eller alert, og presenter resultatet i chatten.
 
 ## Kontekst
 
@@ -43,7 +48,8 @@ Vakten roterer ukentlig blant de tre utviklerne. Erfaringsnivå varierer — der
 
 | Når | Hva | Hvor |
 |-----|-----|------|
-| Man 09:00 | Skriv ut ukens dependency-brief med full triage | Chatten (se Steg 1) |
+| Man 09:00 | Kjør pin-auditen — hvilke pinner blokkerer en fiks, og hvilke trengs ikke lenger? | `scripts/pin-audit.py` (se Steg 1b) |
+| Man 09:00 | Skriv ukens dependency-brief med full triage | `docs/dependency-vakt/{år}-uke-{NN}.md` (se Steg 1) |
 
 ---
 
@@ -66,8 +72,66 @@ Når brukeren ber om "mandagsbrief", "ukens dependency-brief", "full dependency-
    gh api repos/entur/tavla/code-scanning/alerts --jq '[.[] | select(.state=="open")]'
    gh api repos/entur/tavla-visning/code-scanning/alerts --jq '[.[] | select(.state=="open")]'
    ```
-4. For hver PR og alert: klassifiser iht. `references/risikoklassifisering.md`, grep etter brukssteder i Tavla-kode der det er relevant.
-5. Skriv ut en ferdig formatert markdown-brief direkte i chatten (se malen under).
+4. **Kjør pin-auditen** (se Steg 1b under). Gjør dette **før** du vurderer enkeltvarsler — den avgjør om et varsel i det hele tatt *kan* fikses av Dependabot.
+5. For hver PR og alert: klassifiser iht. `references/risikoklassifisering.md`, grep etter brukssteder i Tavla-kode der det er relevant.
+6. **Sjekk installert versjon, ikke bare fiksversjon** (se «Fallgruve» under).
+7. **Skriv briefen til fil** — ikke til chatten. Se «Hvor briefen skal ligge» rett under.
+
+### Hvor briefen skal ligge
+
+Skriv den ferdige briefen til:
+
+```
+docs/dependency-vakt/{år}-uke-{ISO-uke}.md
+```
+
+for eksempel `docs/dependency-vakt/2026-uke-34.md`. Bruk alltid to siffer i ukenummeret (`uke-07`, ikke `uke-7`) så filene sorterer kronologisk. Opprett katalogen hvis den ikke finnes.
+
+Hvorfor fil og ikke chat: briefen er et arbeidsdokument som skal leses gjennom uka, kopieres inn i Slack, og finnes igjen når neste vakt lurer på hva forrige vakt konkluderte med. En lang chat-melding scroller bort; en fil i repoet gjør triage-historikken søkbar og lar teamet se hvordan en vurdering endret seg over tid.
+
+Finnes fila allerede (du kjører briefen på nytt samme uke), **overskriv den** — briefen skal reflektere dagens tilstand, ikke være et vedlegg av flere kjøringer.
+
+**I chatten skriver du bare et kort sammendrag:** filsti, totaler (PRer / varsler / CodeQL / pinner), og de tre–fem viktigste handlingspunktene. Ikke gjenta hele briefen — poenget med fila er at den ikke trenger å stå i chatten også.
+
+### Fallgruve: en Dependabot-PR lukker ikke nødvendigvis varselet
+
+Sjekk alltid hvilken versjon som faktisk er **installert**, ikke bare hvilken som fikser. Varselet forteller deg `first_patched_version`, aldri hva du har. To feilmodus går igjen:
+
+- **Flere parallelle kopier.** `postcss` fantes i fire versjoner i `tavla/yarn.lock` samtidig (8.5.23 direkte, pluss 8.4.31 under `next`, 8.5.8 under `tailwindcss`, 8.5.16 under `vite`). Dependabot bumper bare den direkte, så PRen lukket ingen av de fire postcss-varslene.
+- **PRen gjelder en helt annen versjonslinje.** `nanoid`-PRen bumpet 6.0.0 → 6.0.1, mens varselet gjaldt de nestede 3.3.x-kopiene under `postcss`. Den direkte pakka var aldri sårbar.
+
+Konkret sjekk for `entur/tavla`:
+
+```bash
+cd tavla && awk '/^"PAKKE@npm:/{f=1} f&&/^  version/{print $2; f=0}' yarn.lock | sort -u
+```
+
+Er svaret mer enn én versjon, må du finne ut hvem som drar inn de sårbare kopiene før du konkluderer — og ofte er fiksen en pin/deduplisering, ikke PRen som ligger åpen.
+
+---
+
+## Steg 1b — Pin-audit (fast punkt hver uke)
+
+`resolutions` (tavla) og `pnpm.overrides` (tavla-visning) er teamets mekanisme for å fikse sårbarheter i transitive pakker. Den har to feilmoduser, og auditen dekker begge:
+
+```bash
+python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py
+```
+
+**Del 1 — blokkerer pinnen en fiks?** En eksakt pin har ingen utløpsdato. Den var trygg da den ble satt, men når nye CVE-er kommer mot samme versjon, kan ikke Dependabot lage en PR — pinnen overstyrer den. Varselet blir liggende åpent på ubestemt tid uten at noe brekker eller varsler deg. Utfall: ✅ frisk / 🟡 hevet-men-ikke-merget / 🔴 blokkerer.
+
+**Del 2 — trengs pinnen fortsatt?** Dette er forebyggingen, og den viktigste delen. For hver pin regner scriptet ut hva yarn faktisk ville resolvert til *uten* pinnen — `maxSatisfying` over alle publiserte versjoner, per konsumentrange i `yarn.lock` — og sjekker om resultatet ligger utenfor alle sårbare intervall. Utfall:
+
+- 🟢 **KAN FJERNES** — alle konsumentranges konvergerer til én trygg versjon. Pinnen gjør ingen nytte lenger; den bare hindrer Dependabot i å vedlikeholde pakken.
+- 🟡 **Tjener deduplisering** — uten pinnen blir det flere kopier, alle trygge. Fjerning er mulig, men er en avveining.
+- 🔒 **Trengs** — uten pinnen ville en sårbar kopi blitt liggende igjen.
+- ⚠️ **Tvinger konsumenter utenfor deklarasjonen sin** — pinnen setter en pakke på en versjon den selv ikke sier den støtter. Flagges uavhengig av de tre over, og er alltid verdt å rette.
+
+**Fjerning slår heving.** Å heve en pin til en ny eksakt versjon fikser varselet, men lar mekanismen stå — den forfaller igjen ved neste CVE. Å fjerne den gir Dependabot ansvaret tilbake permanent. Alt som kommer ut 🟢 skal derfor inn i briefen og todo-lista, ikke bare det som er 🔴.
+
+Del 2 kjøres bare for `entur/tavla`. `pnpm-lock` v9 lagrer resolverte versjoner, ikke konsumentenes ranges, så for tavla-visning skriver scriptet ut den manuelle framgangsmåten i stedet.
+
+Detaljert framgangsmåte for å heve eller fjerne en pin, range vs. eksakt versjon, og hvordan finne historikken til en pin: `references/pin-vedlikehold.md`.
 
 ### Brief-mal (markdown)
 
@@ -83,6 +147,29 @@ Bruk denne strukturen. Alle seksjoner skal alltid være med, også om de er tomm
 | Åpne PRer | {n} | {n} | {n} |
 | Sikkerhetsvarsler | {n} ({severity}) | {n} ({severity}) | {n} |
 | CodeQL-funn | {n} | {n} | {n} |
+| Pinner: blokkerer / overflødige | {n} / {n} | {n} / {n} | {n} / {n} |
+
+## 📌 Pin-status
+
+Utdrag fra `pin-audit.py`. Ta med **alle** 🔴 (blokkerer en fiks — lukker seg aldri av seg selv) og **alle** 🟢 (overflødig pin — venter bare på å forfalle). Er begge lister tomme, skriv «Ingen pinner blokkerer eller er overflødige denne uken» og gå videre.
+
+### 🔴 {pakkenavn} — pinnet {pin-versjon}, fiks krever {versjon}
+**Repo:** {repo}  |  **Blokkerer:** {n} varsler ({severity})  |  Satt i [{PR}]({url})
+
+**Hvorfor pinnen står der:** {Fra `git log -L` på resolutions-blokka — hvilken PR innførte den, og hvilket problem løste den den gang}
+
+**Hvorfor den nå er et problem:** {Nye CVE-er mot pinversjonen. Nevn hvis pinversjonslinja aldri fikk en fiks — da er varselet umulig å lukke uten å bytte versjonslinje}
+
+**Anbefaling:** ✅ Fjern pinnen hvis Del 2 sier 🟢 — {hvilken versjon den da resolverer til}. Ellers hev til {versjon}, og si hvorfor pinnen må bli stående.
+
+### 🟢 {pakkenavn} — pinnet {pin-versjon}, men trengs ikke lenger
+**Repo:** {repo}  |  **Uten pinnen:** {versjon} ({n} konsumentranges konvergerer)
+
+**Vurdering:** {Hvorfor pinnen ble satt, og hvorfor den ikke gjør nytte lenger}
+
+**Anbefaling:** ✅ Fjern — gir Dependabot ansvaret tilbake, og pinnen kan ikke forfalle igjen
+
+---
 
 ## ✅ Rutinemessige bumps
 
@@ -154,11 +241,13 @@ Eksempel på gode todo-punkter:
 - [ ] e2e kjørt manuelt etter hver major bump
 - [ ] Bundle-size delta sjekket: kjør `yarn build` og se på Route (app)-tabellen — flag >5% delta
 - [ ] CodeQL-funn besvart eller dismisset med begrunnelse
+- [ ] `pin-audit.py` kjørt, og alle 🔴 **og** 🟢 er enten fikset eller står i todo-lista
+- [ ] `yarn install --immutable` grønt etter hver pin-endring (bekrefter at lockfilen er konsistent)
 ```
 
 Legg til én seksjon per PR og én per alert. Legg til ekstra sjekklistepunkter for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Dismiss stale DOMPurify-alerts").
 
-**Rekkefølge i brief:** Oversikt → Rutinemessige bumps → Krever vurdering → Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Todo-seksjonen kommer alltid rett før test-sjekklisten.
+**Rekkefølge i brief:** Oversikt → **📌 Pin-status** → Rutinemessige bumps → Krever vurdering → Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Pin-seksjonen kommer først fordi den avgjør hvilke varsler som er handlingsbare i det hele tatt. Todo-seksjonen kommer alltid rett før test-sjekklisten.
 
 ---
 
@@ -173,7 +262,7 @@ Følg `references/sikkerhets-triage.md`. Kort versjon:
 3. **Vurder** reell risiko i vår kontekst.
 4. **Anbefal**: oppgrader nå / kan vente / falsk positiv. Dokumentér resonnement.
 
-Resultatet skrives ut i chatten, enten som del av mandagsbriefens sikkerhetsvarsel-seksjon eller som frittstående svar.
+Resultatet havner ett av to steder: som del av `## 🔒 Sikkerhetsvarsler` i mandagsbriefens fil, eller — hvis noen ber om triage av ett enkelt varsel utenom mandagsrunden — som frittstående svar i chatten. Enkelt-triage trenger ingen fil.
 
 ---
 
@@ -199,6 +288,11 @@ Les bare det som er relevant for situasjonen:
 
 - `references/risikoklassifisering.md` — Hvordan klassifisere risiko per pakke / endring. Les ved tvil om en PR er rutine eller krever full triage.
 - `references/sikkerhets-triage.md` — Detaljert framgangsmåte for CVE-vurdering. Les når en Dependabot security alert dukker opp.
+- `references/pin-vedlikehold.md` — Hvorfor `resolutions`/`overrides`-pinner forfaller, hvordan heve en forfalt pin trygt, range vs. eksakt versjon, og hvordan finne historikken til en pin (`git log -L`, ikke `git blame`). Les når pin-auditen gir 🔴, eller når du skal sette en ny pin.
+
+## Scripts
+
+- `scripts/pin-audit.py` — Krysser pinnede pakker mot åpne varsler (Del 1: blokkerer pinnen en fiks?) og regner ut hva som ville resolvert uten pinnen (Del 2: trengs den fortsatt?). Kjøres som fast punkt i mandagsbriefen (Steg 1b).
 
 ## Læringsprinsipp
 
