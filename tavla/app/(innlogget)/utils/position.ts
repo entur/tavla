@@ -1,4 +1,4 @@
-import type { NormalizedDropdownItemType } from '@entur/dropdown/dist/types'
+import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { PositionIcon } from '@entur/icons'
 import type { GeoCoordinate, StopPlace } from './fetch'
 

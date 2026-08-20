@@ -1,7 +1,9 @@
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import { chromium, type FullConfig } from '@playwright/test'
-import admin from 'firebase-admin'
+import { getApps, initializeApp } from 'firebase-admin/app'
+import { getAuth } from 'firebase-admin/auth'
+import { getFirestore } from 'firebase-admin/firestore'
 import { TEST_USER } from './fixtures'
 
 const PROJECT_ID = 'ent-tavla-dev'
@@ -41,19 +43,18 @@ async function resetEmulators() {
 }
 
 async function createTestUser() {
-    if (admin.apps.length === 0) {
-        admin.initializeApp({ projectId: PROJECT_ID })
+    if (getApps().length === 0) {
+        initializeApp({ projectId: PROJECT_ID })
     }
 
-    await admin.auth().createUser({
+    await getAuth().createUser({
         uid: TEST_USER.uid,
         email: TEST_USER.email,
         password: TEST_USER.password,
         emailVerified: true,
     })
 
-    await admin
-        .firestore()
+    await getFirestore()
         .collection('config')
         .doc('env')
         .set({ bucket: 'e2e-bucket' })

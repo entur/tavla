@@ -1,6 +1,6 @@
 'use client'
-import { Button, ButtonGroup, IconButton, SecondaryButton } from '@entur/button'
-import { CloseIcon, FolderIcon } from '@entur/icons'
+import { Button, ButtonGroup, SecondaryButton } from '@entur/button'
+import { FolderIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading2, Label, Paragraph } from '@entur/typography'
 import { FormError } from 'app/_components/Form/FormError'
@@ -42,18 +42,6 @@ function CreateFolder() {
                 }}
                 closeLabel="Avbryt oppretting"
             >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={() => {
-                        capture('folder_create_cancelled', {
-                            method: 'close_icon',
-                        })
-                        setIsOpen(false)
-                    }}
-                    className="absolute right-4 top-4"
-                >
-                    <CloseIcon />
-                </IconButton>
                 <Image
                     src={birds}
                     alt="Illustrasjon av to fugler"

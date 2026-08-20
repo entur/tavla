@@ -1,7 +1,7 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { CloseIcon, DeleteIcon } from '@entur/icons'
+import { DeleteIcon } from '@entur/icons'
 import { OverflowMenuItem } from '@entur/menu'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
@@ -58,17 +58,13 @@ function DeleteBoard({
             <Modal
                 open={isOpen}
                 size="small"
-                onDismiss={() => setIsOpen(false)}
+                onDismiss={() => {
+                    capture('board_delete_cancelled', { method: 'dismissed' })
+                    setIsOpen(false)
+                }}
                 closeLabel="Avbryt sletting"
                 className="flex flex-col items-center justify-start text-center"
             >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={() => setIsOpen(false)}
-                    className="absolute right-4 top-4"
-                >
-                    <CloseIcon />
-                </IconButton>
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />
                 <Heading3 margin="bottom" as="h1">
                     Slett tavle

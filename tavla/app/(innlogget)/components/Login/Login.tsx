@@ -1,8 +1,7 @@
 'use client'
 import { IconButton } from '@entur/button'
-import { CloseIcon, LogOutIcon, UserIcon } from '@entur/icons'
+import { LogOutIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
-import { Label } from '@entur/typography'
 import { Entry } from 'app/(innlogget)/components/Login/Entry'
 import { usePageParam } from 'app/(innlogget)/hooks/usePageParam'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
@@ -56,7 +55,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
             <Modal
                 open={open}
                 size="small"
-                closeLabel='"Avbryt"'
+                closeLabel="Avbryt"
                 className="w-11/12 lg:w-full"
                 onDismiss={() => {
                     router.push(pathname ?? '/')
@@ -65,20 +64,6 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                     })
                 }}
             >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={() => {
-                        capture('user_modal_closed', {
-                            context: pageParam as TLoginPage,
-                        })
-                        router.push(pathname ?? '/')
-                    }}
-                    className="absolute right-4 top-4 flex flex-row gap-2"
-                >
-                    <CloseIcon />
-                    <Label as="span">Lukk</Label>
-                </IconButton>
-
                 <Page page={pageParam as TLoginPage} />
             </Modal>
         </>

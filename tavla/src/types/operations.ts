@@ -344,7 +344,6 @@ export type TQuayEditQuery = {
 
 export type TQuayEstimatedCallsQueryVariables = Exact<{
     quayId: string
-    numberOfDepartures?: number | null | undefined
     arrivalDeparture?: Types.TArrivalDeparture | null | undefined
 }>
 

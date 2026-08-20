@@ -1,7 +1,6 @@
 'use client'
 
-import { Button, ButtonGroup, IconButton } from '@entur/button'
-import { CloseIcon } from '@entur/icons'
+import { Button, ButtonGroup } from '@entur/button'
 import { Modal } from '@entur/modal'
 import {
     Link as EnturLink,
@@ -17,6 +16,7 @@ import {
     getFormFeedbackForField,
     type TFormFeedback,
 } from 'app/(innlogget)/utils/forms'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import sheep from 'assets/illustrations/Sheep.png'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -25,7 +25,8 @@ import { useActionState } from 'react'
 import { deleteAccount } from './actions'
 
 function DeleteAccount() {
-    const [modalIsOpen, close] = useSearchParamsModal('deleteAccount')
+    const [isOpen, close] = useSearchParamsModal('deleteAccount')
+
     const posthog = usePostHog()
 
     const submit = async (
@@ -37,6 +38,7 @@ function DeleteAccount() {
     }
 
     const [formError, deleteAccountAction] = useActionState(submit, undefined)
+    const { capture } = usePosthogTracking()
 
     return (
         <>
@@ -50,19 +52,17 @@ function DeleteAccount() {
                 Slett bruker
             </EnturLink>
             <Modal
-                open={modalIsOpen}
+                open={isOpen}
                 size="small"
-                onDismiss={close}
+                onDismiss={() => {
+                    capture('delete_user_cancelled', {
+                        method: 'dismissed',
+                    })
+                    close()
+                }}
                 closeLabel="Avbryt sletting"
                 className="flex flex-col text-center"
             >
-                <IconButton
-                    aria-label="Lukk"
-                    onClick={close}
-                    className="absolute right-4 top-4"
-                >
-                    <CloseIcon />
-                </IconButton>
                 <div className="flex flex-col items-center">
                     <Image
                         src={sheep}
@@ -113,6 +113,9 @@ function DeleteAccount() {
                                 variant="secondary"
                                 aria-label="Avbryt sletting"
                                 onClick={() => {
+                                    capture('delete_user_cancelled', {
+                                        method: 'cancel_button',
+                                    })
                                     close()
                                 }}
                                 width="fluid"

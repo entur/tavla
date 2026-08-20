@@ -1,4 +1,5 @@
-import admin from 'firebase-admin'
+import { getApp, getApps, initializeApp } from 'firebase-admin/app'
+import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 
 const PROJECT_ID = 'ent-tavla-dev'
 
@@ -9,14 +10,14 @@ export const TEST_USER = {
 } as const
 
 function getAdminApp() {
-    if (admin.apps.length === 0) {
-        admin.initializeApp({ projectId: PROJECT_ID })
+    if (getApps().length === 0) {
+        initializeApp({ projectId: PROJECT_ID })
     }
-    return admin.app()
+    return getApp()
 }
 
 export async function createTestBoard(title: string): Promise<string> {
-    const db = getAdminApp().firestore()
+    const db = getFirestore(getAdminApp())
     const now = Date.now()
     const boardRef = await db.collection('boards').add({
         meta: { title, created: now, dateModified: now },
@@ -27,10 +28,7 @@ export async function createTestBoard(title: string): Promise<string> {
     await db
         .collection('users')
         .doc(TEST_USER.uid)
-        .set(
-            { owner: admin.firestore.FieldValue.arrayUnion(boardRef.id) },
-            { merge: true },
-        )
+        .set({ owner: FieldValue.arrayUnion(boardRef.id) }, { merge: true })
 
     return boardRef.id
 }
