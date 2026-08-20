@@ -90,12 +90,14 @@ export default async function EditPage(props: TProps) {
                 <div className="flex flex-col gap-2">
                     {board.isArrivals && <ArrivalsBadge />}
                     <div className="flex flex-col justify-between md:flex-row">
-                        <Heading1 margin="top">
-                            {board.isArrivals
-                                ? 'Ankomsttavle: '
-                                : 'Avgangstavle: '}{' '}
-                            {board.meta?.title}
-                        </Heading1>
+                        <div className="flex flex-wrap items-center gap-4">
+                            <Heading1 margin="top">
+                                {board.isArrivals
+                                    ? 'Ankomsttavle: '
+                                    : 'Avgangstavle: '}{' '}
+                                {board.meta?.title}
+                            </Heading1>
+                        </div>
                         <div className="flex flex-col gap-4 md:flex-row md:items-center">
                             <ActionsMenu board={board} folderid={folder?.id} />
                         </div>

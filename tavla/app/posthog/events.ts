@@ -191,6 +191,12 @@ export type EventMap = {
     custom_url_modified: WithLocation<typeof LOCATIONS.BoardPage>
     custom_url_saved: WithLocation<typeof LOCATIONS.BoardPage>
 
+    board_name_edit_started: WithLocation<typeof LOCATIONS.BoardPage>
+    board_name_saved: WithLocation<typeof LOCATIONS.BoardPage>
+    board_name_edit_cancelled: WithLocation<typeof LOCATIONS.BoardPage> & {
+        method: 'dismissed' | 'cancel_button'
+    }
+
     stop_place_deleted: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
     >
