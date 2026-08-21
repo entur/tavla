@@ -28,7 +28,7 @@ node -v
 # Skal vise v22.x
 ```
 
-### Kjøre i utvikling
+### Kjøre opp lokalt
 
 ```
 yarn dev          # uten persistering av lokal database
@@ -40,7 +40,9 @@ Tilgang:
 - App: http://localhost:3000
 - Firebase Emulator UI: http://127.0.0.1:4000/
 
-Dette repoet er admin-/konfigurasjonsappen. Selve tavle-visningen (det som rendres på skjermene) ligger i et eget repo. For å forhåndsvise tavler lokalt må du derfor også kjøre `tavla-visning`: https://github.com/entur/tavla-visning
+Dette repoet er admin-/konfigurasjonsappen. Selve tavle-visningen (det som rendres på skjermene) ligger i et eget repo. For å forhåndsvise tavler lokalt må du derfor også kjøre `tavla-visning`: https://github.com/entur/tavla-visning. 
+
+Når du skal opprette en bruker lokalt får du ikke en epost om å verifisere e-post, men en lenke du må klikke på i terminalen der appen kjører. 
 
 ### Miljøvariabler (lokalt minimum)
 
@@ -63,7 +65,7 @@ Sentry- og PostHog-variabler er valgfrie og trengs ikke for lokal kjøring.
 
 ### Backend-integrasjon
 
-Frontend kaller Rust-backenden med bearer-token (`BACKEND_API_KEY`). Sørg for at nøkkelen samsvarer med verdien backend-prosessen forventer. For å peke mot en lokal backend kan du midlertidig endre `getBackendUrl()` i `tavla/src/utils/backendUrl.ts` til å returnere `'http://127.0.0.1:3001'` (**ikke commit denne endringen**).
+Det er ikke nødvendig å kjøre opp backend lokalt for å kjøre frontend lokalt. For å peke lokal frontend mot en lokal backend kan du midlertidig endre `getBackendUrl()` i `tavla/src/utils/backendUrl.ts` til å returnere `'http://127.0.0.1:3001'`
 
 ### Git-konvensjoner (gitmoji-subsett)
 
@@ -93,31 +95,6 @@ bugfix/feil-i-refresh-endpoint
 rydding/refaktor-board-context
 ```
 
-### Migrasjonsskript (`tavla/migrations/`)
-
-Kjør fra `tavla/migrations/`. Migreringsscriptet tar inn ett av to argumenter – enten `setup` eller `run`:
-
-For å sette opp mijøet for første gang:
-
-```
-./migration setup
-```
-
-For å kjøre en migreringsfil, putt filen i /scripts mappen og kjør:
-
-```
-./migration run scripts/<filnavn>
-```
-
-#### Teste lokalt
-
-Du kan teste migreringsskriptene ved å kjøre de lokalt. Trenger du å skaffe deg litt ekte data, kan du "rollbacke" din lokale Firebase med data fra dev 🔥 Dette gjøres slik:
-
-1. Avslutt emulatoren (kill typ `yarn dev:persist`)
-2. Kjør `./migration run scripts/rollback_firestore.py local`
-3. Start emulatoren: `yarn dev:persist`
-
-Nå kan du kjøre migrasjonsskriptet ditt som om det var mot dev. Dette korter ned litt på utviklingstiden for migrasjonsskripter.
 
 ### Feilsøking
 
