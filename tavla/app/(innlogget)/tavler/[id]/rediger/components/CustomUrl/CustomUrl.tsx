@@ -80,6 +80,7 @@ function CustomUrl({
             </Tooltip>
             {open && (
                 <Modal
+                    open={open}
                     size="medium"
                     onDismiss={() => {
                         capture('custom_url_modal_closed', {
