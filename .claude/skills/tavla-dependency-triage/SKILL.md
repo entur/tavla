@@ -125,7 +125,11 @@ Er svaret mer enn én versjon, må du finne ut hvem som drar inn de sårbare kop
 python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py
 ```
 
-**Del 1 — blokkerer pinnen en fiks?** En eksakt pin har ingen utløpsdato. Den var trygg da den ble satt, men når nye CVE-er kommer mot samme versjon, kan ikke Dependabot lage en PR — pinnen overstyrer den. Varselet blir liggende åpent på ubestemt tid uten at noe brekker eller varsler deg. Utfall: ✅ frisk / 🟡 hevet-men-ikke-merget / 🔴 blokkerer.
+**Del 1 — blokkerer pinnen en fiks?** En eksakt pin har ingen utløpsdato. Den var trygg da den ble satt, men når nye CVE-er kommer mot samme versjon, kan ikke Dependabot lage en PR — pinnen overstyrer den. Varselet blir liggende åpent på ubestemt tid uten at noe brekker eller varsler deg. Utfall: ✅ frisk / 🟡 hevet-men-ikke-merget / 🔴 blokkerer / 🔴 varsel uten fiksversjon.
+
+Den siste er den verste, og lett å overse: finnes det ingen `first_patched_version`, kan varselet ikke lukkes ved å bumpe i det hele tatt. Da må du bytte versjonslinje, eller allowliste med begrunnelse (`references/sikkerhets-triage.md`, Steg 5).
+
+**Scriptet feiler lukket.** Kunne noe ikke sjekkes — gh uten riktig scope, npm som ikke svarer, semver som mangler — sier det ❔ per punkt, lister alt usjekket til slutt, og avslutter med exit-kode 1. Et ufullstendig resultat skal ikke kunne leses som grønt. Ser du ❔ i outputen, er auditen ikke ferdig, og den skal ikke inn i briefen som om den var det.
 
 **Del 2 — trengs pinnen fortsatt?** Dette er forebyggingen, og den viktigste delen. For hver pin regner scriptet ut hva yarn faktisk ville resolvert til *uten* pinnen — `maxSatisfying` over alle publiserte versjoner, per konsumentrange i `yarn.lock` — og sjekker om resultatet ligger utenfor alle sårbare intervall. Utfall:
 

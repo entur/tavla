@@ -28,6 +28,8 @@ Scriptet kjører to uavhengige analyser.
 - ✅ **Ingen åpne varsler** — pinnen er frisk på dette punktet.
 - 🟡 **Pin ≥ påkrevd fiks** — allerede hevet, varslene lukkes når endringen merges.
 - 🔴 **Pin < påkrevd fiks** — pinnen *blokkerer* fiksen. Handlingspunkt.
+- 🔴 **Varsel uten fiksversjon** — advisoryen har ingen `first_patched_version` for denne linja. Varselet kan ikke lukkes ved å bumpe, uansett hvor høyt du går. Bytt versjonslinje, eller allowlist med begrunnelse.
+- ❔ **Ikke sjekket** — et kall feilet. Scriptet gjetter ikke: det lister alt usjekket til slutt og avslutter med exit-kode 1. Ser du ❔, er auditen ufullstendig.
 
 Skillet mellom 🟡 og 🔴 er viktig: GitHub holder et varsel åpent til fiksen er merget til `main`, så «det finnes åpne varsler for en pinnet pakke» er i seg selv ikke nok.
 

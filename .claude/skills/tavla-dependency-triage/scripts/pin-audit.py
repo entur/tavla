@@ -11,6 +11,11 @@ den fjerner Dependabots mulighet til å vedlikeholde pakken, og blir stående
 til noen oppdager at et varsel aldri lukker seg. Det var nøyaktig det som
 skjedde med `tar` (pinnet mars 2026, seks varsler bak seg i august).
 
+FEILER LUKKET, IKKE ÅPENT. Et verktøy som skal avdekke varsler ingen ser på,
+må aldri kunne printe «✅ ingen varsler» fordi et kall feilet. Alt som ikke
+kunne sjekkes rapporteres som ❔ og gir exit-kode 1 — stillhet skal ikke
+kunne forveksles med grønt.
+
 Bruk (fra repo-rot i entur/tavla):
     python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py
 
@@ -29,32 +34,92 @@ TAVLA_PKG = "tavla/package.json"
 TAVLA_LOCK = "tavla/yarn.lock"
 VISNING_PKG = "../tavla-visning/package.json"
 
+# Alt som ikke kunne sjekkes. Styrer exit-koden, så en halv audit aldri
+# leses som en ren audit.
+unchecked = []
+
 
 def sh(*args, cwd=None):
-    r = subprocess.run(args, capture_output=True, text=True, cwd=cwd)
-    return r.stdout.strip() if r.returncode == 0 else ""
+    """→ stdout ved suksess, None ved feil.
+
+    None betyr «vet ikke» og aldri «tomt resultat». Det skillet er hele
+    grunnen til at denne funksjonen ikke returnerer tom streng ved feil:
+    en tom streng ser ut som et gyldig, tomt svar hos hver enkelt kaller.
+    """
+    try:
+        r = subprocess.run(args, capture_output=True, text=True, cwd=cwd)
+    except OSError:
+        return None
+    return r.stdout.strip() if r.returncode == 0 else None
+
+
+VERSION_RE = re.compile(
+    r"^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$"
+)
 
 
 def vkey(v):
-    out = []
-    for part in str(v).split("-")[0].split("."):
-        try:
-            out.append(int(part))
-        except ValueError:
-            out.append(0)
-    return tuple(out + [0, 0, 0])[:3]
+    """Semver-sortering med prerelease. → None hvis v ikke er en eksakt versjon.
+
+    None er viktig: et range-pin (`7.x`, `^7.5.0`) skal ikke sammenlignes
+    numerisk med en fiksversjon — det ga tidligere falske 🔴, fordi `7.x`
+    ble lest som 7.0.0.
+    """
+    m = VERSION_RE.match(str(v).strip())
+    if not m:
+        return None
+    major, minor, patch, pre = int(m[1]), int(m[2]), int(m[3]), m[4]
+    if pre is None:
+        return (major, minor, patch, 1, ())  # release rangerer over prerelease
+    ids = tuple((0, int(p), "") if p.isdigit() else (1, 0, p) for p in pre.split("."))
+    return (major, minor, patch, 0, ids)
 
 
 # ---------------------------------------------------------------- alerts
 
+def _alert(a):
+    sv = a.get("security_vulnerability") or {}
+    return {
+        "pkg": ((a.get("dependency") or {}).get("package") or {}).get("name"),
+        "sev": (a.get("security_advisory") or {}).get("severity"),
+        "fix": (sv.get("first_patched_version") or {}).get("identifier"),
+        "vuln": sv.get("vulnerable_version_range"),
+        "n": a.get("number"),
+    }
+
+
 def open_alerts(repo):
-    raw = sh("gh", "api", f"repos/{repo}/dependabot/alerts?state=open&per_page=100",
-             "--jq", "[.[]|{pkg:.dependency.package.name,"
-                     "sev:.security_advisory.severity,"
-                     "fix:.security_vulnerability.first_patched_version.identifier,"
-                     "vuln:.security_vulnerability.vulnerable_version_range,"
-                     "n:.number}]")
-    return json.loads(raw or "[]")
+    """→ liste med åpne varsler, eller None hvis de ikke kunne hentes.
+
+    Bruker `--paginate --slurp`. GitHub kapper på 100 varsler per side, så
+    uten paginering ville varsel nr. 101 og oppover vært usynlige — og pinner
+    foran dem rapportert som friske. Merk at dette endepunktet *ikke* støtter
+    `page`-parameteren (den gir HTTP 400); paginering er cursor-basert via
+    Link-headeren, som `--paginate` følger. `--slurp` samler sidene i én
+    JSON-verdi, ellers får vi flere arrayer etter hverandre som ikke kan
+    json-parses.
+    """
+    raw = sh("gh", "api", "--paginate", "--slurp",
+             f"repos/{repo}/dependabot/alerts?state=open&per_page=100")
+    if raw is None:
+        return None
+    try:
+        pages = json.loads(raw)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(pages, list):
+        return None
+    # --slurp gir én liste per side. Tåler også en flat liste, i tilfelle
+    # gh endrer formen.
+    raw_alerts = []
+    for page in pages:
+        if isinstance(page, list):
+            raw_alerts += page
+        elif isinstance(page, dict):
+            raw_alerts.append(page)
+        else:
+            return None
+    return [_alert(a) for a in raw_alerts]
 
 
 # ------------------------------------------------------- yarn.lock parsing
@@ -110,7 +175,7 @@ def consumers_of(entries, pkg):
 def resolve_ranges(versions, ranges, pin):
     """For hver range: hvilken versjon ville yarn valgt uten pinnen (maxSatisfying),
     og tilfredsstiller selve pinnen rangen?
-    → {"resolved": {range: version|None}, "pinok": {range: bool|None}}"""
+    → {"resolved": {range: version|None}, "pinok": {range: bool|None}} eller None"""
     script = (
         "const s=require('semver');const[vs,rs,pin]=JSON.parse(process.argv[1]);"
         "const f=(fn)=>{try{return fn()}catch(e){return null}};"
@@ -120,37 +185,52 @@ def resolve_ranges(versions, ranges, pin):
         "}))"
     )
     out = sh("node", "-e", script, json.dumps([versions, ranges, str(pin)]), cwd="tavla")
+    if out is None:
+        return None
     try:
         return json.loads(out)
-    except Exception:
+    except json.JSONDecodeError:
         return None
 
 
-def in_vuln_range(version, ranges):
+def vuln_hits(versions, ranges):
     """GitHub-intervaller ('>= 4.0.0, < 5.1.8') → semver-AND ('>=4.0.0 <5.1.8').
-    → liste over intervaller `version` faktisk ligger inne i."""
+
+    → {"bad": [uparsebare intervall], "hits": {versjon: [intervall den ligger i]}}
+      eller None hvis sjekken ikke kunne kjøres.
+
+    Returnerer aldri «ingen treff» ved feil. Et intervall vi ikke klarer å
+    tolke er ukjent risiko, ikke fravær av risiko.
+    """
     conv = [r.replace(", ", " ").replace("= ", "=") for r in ranges if r]
-    if not conv:
-        return []
+    if not conv or not versions:
+        return {"bad": [], "hits": {v: [] for v in versions}}
     script = (
-        "const s=require('semver');const[v,rs]=JSON.parse(process.argv[1]);"
-        "console.log(JSON.stringify(rs.filter(r=>{"
-        "try{return s.satisfies(v,r,{includePrerelease:true})}catch(e){return false}})))"
+        "const s=require('semver');const[vs,rs]=JSON.parse(process.argv[1]);"
+        "const bad=rs.filter(r=>!s.validRange(r));"
+        "console.log(JSON.stringify({bad,hits:Object.fromEntries(vs.map(v=>[v,"
+        "rs.filter(r=>{try{return s.satisfies(v,r,{includePrerelease:true})}"
+        "catch(e){return false}})]))}))"
     )
-    out = sh("node", "-e", script, json.dumps([version, conv]), cwd="tavla")
+    out = sh("node", "-e", script, json.dumps([versions, conv]), cwd="tavla")
+    if out is None:
+        return None
     try:
         return json.loads(out)
-    except Exception:
-        return []
+    except json.JSONDecodeError:
+        return None
 
 
 def npm_versions(pkg):
+    """→ liste med publiserte versjoner, eller None hvis npm ikke svarte."""
     raw = sh("npm", "view", pkg, "versions", "--json")
+    if raw is None:
+        return None
     try:
         v = json.loads(raw)
-        return v if isinstance(v, list) else [v]
-    except Exception:
-        return []
+    except json.JSONDecodeError:
+        return None
+    return v if isinstance(v, list) else [v]
 
 
 # ------------------------------------------------------------------ pins
@@ -162,42 +242,66 @@ def load_pins(path, repo):
         raw = sh("gh", "api", f"repos/{repo}/contents/package.json", "--jq", ".content")
         if not raw:
             return None
-        pkg = json.loads(base64.b64decode(raw))
+        try:
+            pkg = json.loads(base64.b64decode(raw))
+        except (ValueError, json.JSONDecodeError):
+            return None
     return pkg.get("resolutions") or pkg.get("pnpm", {}).get("overrides", {}) or {}
 
 
 # ----------------------------------------------------------------- report
 
-blocking, removable = [], []
+blocking, unfixable, removable = [], [], []
 
 print("=" * 72)
 print("DEL 1 — Blokkerer noen pin en sikkerhetsfiks?")
 print("=" * 72)
 
 repos = [("entur/tavla", TAVLA_PKG), ("entur/tavla-visning", VISNING_PKG)]
-pinmap = {}
+pinmap, alertmap = {}, {}
 for repo, path in repos:
     pins = load_pins(path, repo)
     pinmap[repo] = pins
     print(f"\n### {repo}")
     if pins is None:
-        print("  (fant ikke package.json — hopper over)")
+        print("  ❔ fant ikke package.json, og kunne ikke hente den via gh — ikke sjekket")
+        unchecked.append(f"{repo}: fikk ikke lest package.json")
         continue
     if not pins:
         print("  (ingen pinner)")
         continue
     alerts = open_alerts(repo)
+    alertmap[repo] = alerts
+    if alerts is None:
+        print("  ❔ kunne ikke hente sikkerhetsvarsler (gh feilet — token, scope, nett?)")
+        print("     INGEN av pinnene under er sjekket. Dette er ikke et grønt resultat.")
+        unchecked.append(f"{repo}: fikk ikke hentet sikkerhetsvarsler, {len(pins)} pin(ner) usjekket")
+        continue
     for name, pin in pins.items():
         hits = [a for a in alerts if a["pkg"] == name]
         if not hits:
             print(f"  ✅ {name}: pinnet {pin} — ingen åpne varsler")
             continue
-        fixes = [a["fix"] for a in hits if a["fix"]]
+        fixes = [a["fix"] for a in hits if a["fix"] and vkey(a["fix"])]
         need = max(fixes, key=vkey) if fixes else None
-        sevs = ",".join(sorted({a["sev"] for a in hits}))
-        nums = ", #".join(str(a["n"]) for a in sorted(hits, key=lambda a: a["n"]))
+        sevs = ",".join(sorted({a["sev"] for a in hits if a["sev"]}))
+        nums = ", #".join(str(a["n"]) for a in sorted(hits, key=lambda a: a["n"] or 0))
         word = "varsel" if len(hits) == 1 else "varsler"
-        if need and vkey(str(pin).lstrip("^~>=<ex ")) < vkey(need):
+        pk = vkey(pin)
+
+        if need is None:
+            unfixable.append((repo, name, pin, len(hits)))
+            print(f"  🔴 {name}: pinnet {pin} — {len(hits)} {word} ({sevs}) har INGEN "
+                  f"fiksversjon → #{nums}")
+            print(f"       Kan ikke lukkes ved å bumpe. Enten bytter du versjonslinje, "
+                  f"eller varselet må allowlistes/dismisses med begrunnelse "
+                  f"(references/sikkerhets-triage.md, Steg 5).")
+        elif pk is None:
+            print(f"  ⚠️  {name}: pinnet «{pin}» er ikke en eksakt versjon, så den kan ikke "
+                  f"sammenlignes med fiks {need} → #{nums}")
+            print(f"       Tavla skal bruke eksakte pinner — se references/pin-vedlikehold.md.")
+            unchecked.append(f"{repo}: {name} har ikke-eksakt pin «{pin}», ikke vurdert mot fiks")
+        elif pk < vkey(need):
             blocking.append((repo, name, pin, need))
             print(f"  🔴 {name}: pinnet {pin}, men fiks krever {need} "
                   f"— BLOKKERER {len(hits)} {word} ({sevs}) → #{nums}")
@@ -215,45 +319,78 @@ print("Fjern den, så vedlikeholder Dependabot pakken slik den gjorde før pinne
 # --- entur/tavla: hva ville skjedd uten pinnen?
 print("### entur/tavla")
 tavla_pins = pinmap.get("entur/tavla") or {}
-tavla_alerts = open_alerts("entur/tavla") if tavla_pins else []
+tavla_alerts = alertmap.get("entur/tavla")  # gjenbruk fra Del 1, ikke nytt kall
 if not os.path.exists(TAVLA_LOCK):
-    print("  (fant ikke yarn.lock — kjør fra repo-rot i entur/tavla)")
-elif tavla_pins:
+    print("  ❔ fant ikke yarn.lock — kjør fra repo-rot i entur/tavla")
+    unchecked.append("entur/tavla: yarn.lock ikke funnet, Del 2 ikke kjørt")
+elif not tavla_pins:
+    print("  (ingen pinner)")
+elif tavla_alerts is None:
+    print("  ❔ sikkerhetsvarsler manglet fra Del 1 — kan ikke avgjøre om en pin trengs")
+    unchecked.append("entur/tavla: Del 2 ikke kjørt, varsler manglet")
+else:
     entries = parse_berry(TAVLA_LOCK)
     for name, pin in tavla_pins.items():
         cons = consumers_of(entries, name)
         if not cons:
             print(f"  ❔ {name}: fant ingen konsumenter i yarn.lock — "
                   f"sjekk om pakken fortsatt er i bruk")
+            unchecked.append(f"entur/tavla: {name} uten konsumenter i yarn.lock")
             continue
         versions = npm_versions(name)
         if not versions:
             print(f"  ❔ {name}: fikk ikke versjonsliste fra npm — sjekk manuelt")
+            unchecked.append(f"entur/tavla: {name} manglet versjonsliste fra npm")
             continue
         ranges = sorted({r for _, r in cons})
         res = resolve_ranges(versions, ranges, pin)
         if res is None:
             print(f"  ❔ {name}: semver utilgjengelig (kjør `yarn install` i tavla/)")
+            unchecked.append(f"entur/tavla: {name} kunne ikke resolveres, semver manglet")
             continue
 
-        # Hva ville hver konsument fått uten pinnen?
         resolved = res["resolved"]
-        distinct = sorted({v for v in resolved.values() if v}, key=vkey)
 
-        # Ligger noen av de resolverte versjonene fortsatt inne i et sårbart intervall?
+        # Ranges vi ikke klarte å resolve kan ikke bare droppes: da ville de
+        # gjenværende «konvergere» og gi en falsk 🟢.
+        unresolvable = sorted(r for r, v in resolved.items() if not v)
+        if unresolvable:
+            print(f"  ❔ {name}: klarte ikke å resolve {len(unresolvable)} av "
+                  f"{len(ranges)} konsumentranges ({', '.join(unresolvable)}) — "
+                  f"ikke rene semver-ranges (alias, patch: eller workspace:?). "
+                  f"Kan ikke konkludere; sjekk manuelt.")
+            unchecked.append(f"entur/tavla: {name} hadde {len(unresolvable)} uresolverbare ranges")
+            continue
+
+        distinct = sorted({v for v in resolved.values()}, key=vkey)
+
         pkg_alerts = [a for a in tavla_alerts if a["pkg"] == name]
         vulns = [a.get("vuln") for a in pkg_alerts]
-        fixes = [a["fix"] for a in pkg_alerts if a["fix"]]
+        fixes = [a["fix"] for a in pkg_alerts if a["fix"] and vkey(a["fix"])]
         need = max(fixes, key=vkey) if fixes else None
 
-        # Tvinger pinnen noen konsument utenfor sin egen deklarasjon?
-        outside = [(lbl, r) for lbl, r in cons if res["pinok"].get(r) is False]
+        vh = vuln_hits(distinct, vulns)
+        if vh is None:
+            print(f"  ❔ {name}: kunne ikke sjekke de resolverte versjonene mot "
+                  f"sårbare intervall — ikke konkludert")
+            unchecked.append(f"entur/tavla: {name} ikke sjekket mot sårbare intervall")
+            continue
+        if vh["bad"]:
+            print(f"  ❔ {name}: klarte ikke å tolke {len(vh['bad'])} sårbart intervall "
+                  f"({', '.join(vh['bad'])}) — ukjent risiko, ikke konkludert")
+            unchecked.append(f"entur/tavla: {name} hadde uparsebare sårbare intervall")
+            continue
 
-        unsafe = [v for v in distinct if in_vuln_range(v, vulns)]
+        unsafe = [v for v in distinct if vh["hits"].get(v)]
+
+        # Tvinger pinnen noen konsument utenfor sin egen deklarasjon?
+        outside = sorted({(lbl, r) for lbl, r in cons if res["pinok"].get(r) is False})
 
         if unsafe:
+            fiks = f"fiks: {need}" if need else "ingen fiksversjon finnes"
             verdict = (f"  🔒 {name}: pinnet {pin} — PINNEN TRENGS. Uten den ville "
-                       f"{', '.join(unsafe)} blitt liggende igjen, fortsatt i et sårbart intervall (fiks: {need}).")
+                       f"{', '.join(unsafe)} blitt liggende igjen, fortsatt i et sårbart "
+                       f"intervall ({fiks}).")
         elif len(distinct) == 1:
             removable.append((name, pin, distinct[0]))
             verdict = (f"  🟢 {name}: pinnet {pin} — KAN FJERNES. Alle {len(ranges)} "
@@ -267,13 +404,11 @@ elif tavla_pins:
         print(verdict)
 
         if outside:
-            why = "; ".join(f"{lbl} krever {r}" for lbl, r in sorted(set(outside))[:3])
-            more = f" (+{len(set(outside)) - 3} flere)" if len(set(outside)) > 3 else ""
+            why = "; ".join(f"{lbl} krever {r}" for lbl, r in outside[:3])
+            more = f" (+{len(outside) - 3} flere)" if len(outside) > 3 else ""
             print(f"       ⚠️  Pinnen tvinger konsumenter utenfor deklarasjonen sin: "
                   f"{why}{more}. Pakken kjører da på en versjon den ikke selv "
                   f"sier den støtter — se references/pin-vedlikehold.md.")
-else:
-    print("  (ingen pinner)")
 
 # --- entur/tavla-visning: pnpm-lock v9 har ikke konsumentranges
 print("\n### entur/tavla-visning")
@@ -296,8 +431,19 @@ if blocking:
     print(f"🔴 {len(blocking)} pin(ner) blokkerer sikkerhetsfikser — inn i briefen og todo-lista:")
     for repo, name, pin, need in blocking:
         print(f"     {repo}: {name} {pin} → må minst til {need}")
-else:
-    print("✅ Ingen pinner blokkerer fikser denne uken.")
+if unfixable:
+    print(f"\n🔴 {len(unfixable)} pin(ner) står på en versjonslinje uten fiks — "
+          f"varslene lukkes ikke av seg selv:")
+    for repo, name, pin, n in unfixable:
+        print(f"     {repo}: {name} {pin} → {n} varsel/varsler uten fiksversjon. "
+              f"Bytt versjonslinje, eller allowlist med begrunnelse.")
+if not blocking and not unfixable:
+    # Bare grønt hvis alt faktisk ble sjekket. «Ingen funn» og «ikke sett
+    # etter» må aldri skrives likt.
+    if unchecked:
+        print("❔ Ingen blokkerende pinner FUNNET, men auditen er ufullstendig (se under).")
+    else:
+        print("✅ Ingen pinner blokkerer fikser denne uken.")
 if removable:
     print(f"\n🟢 {len(removable)} pin(ner) er trolig overflødige — vurder fjerning "
           f"(se references/pin-vedlikehold.md):")
@@ -305,5 +451,12 @@ if removable:
         print(f"     entur/tavla: {name} {pin} → fjern, resolverer til {target}")
     print("\n   Fjerning er å foretrekke framfor å heve pinnen: det gir Dependabot")
     print("   ansvaret tilbake, og pinnen kan ikke forfalle igjen.")
+if unchecked:
+    print()
+    print("=" * 72)
+    print(f"❔ {len(unchecked)} ting kunne IKKE sjekkes. Auditen er ufullstendig — "
+          f"ikke før den inn i briefen som grønn:")
+    for u in unchecked:
+        print(f"     • {u}")
 print("=" * 72)
-sys.exit(0)
+sys.exit(1 if unchecked else 0)
