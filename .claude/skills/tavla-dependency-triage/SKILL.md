@@ -34,6 +34,8 @@ Felles arbeidsflyt for Tavlas ukentlige dependency-vakt. Skillen dekker to situa
 
 Dependabot kjører mandager 08:00 (Europe/Amsterdam) på `/tavla` og grupperer i `patch-minor-dependencies` og `major-dependencies`. CodeQL kjører på PR-er mot `main` og som ukentlig scan mandag 03:00. Dependabot-sikkerhetsvarsel kan komme når som helst.
 
+**30-dagersfristen.** Entur krever at sårbarheter triages og fikses innen **30 dager** fra de oppdages. Det står både i `guides/reference/security.md` i `entur/ai` og i Confluence-siden [Behandle sikkerhetsadvarsler](https://entur.atlassian.net/wiki/spaces/EOS/pages/5689376819/Behandle+sikkerhetsadvarsler). Dette er ikke en intern Tavla-regel, men en org-bred forpliktelse — og den er grunnen til at «kan vente» må være en tidsbegrenset vurdering, ikke en utsettelse på ubestemt tid. Regn derfor alltid ut alderen på et varsel, og la fristen styre prioriteringen i todo-lista.
+
 **Repoer som dekkes:** Tavla-teamet har to GitHub-repoer som begge skal sjekkes:
 - `entur/tavla` — Next.js-frontenden (admin + konfigurasjon)
 - `entur/tavla-visning` — den offentlige visningsappen (public display board)
@@ -67,6 +69,7 @@ Når brukeren ber om "mandagsbrief", "ukens dependency-brief", "full dependency-
    gh api "repos/entur/tavla/dependabot/alerts?state=open&per_page=100"
    gh api "repos/entur/tavla-visning/dependabot/alerts?state=open&per_page=100"
    ```
+   Hvert varsel har `created_at`. Regn ut alder i dager og hvor mange dager som er igjen av de 30 — begge tallene skal med i briefen per varsel. Et varsel du ikke kan datere, kan du ikke prioritere riktig.
 3. Hent siste ukes CodeQL-funn fra begge repoer:
    ```
    gh api repos/entur/tavla/code-scanning/alerts --jq '[.[] | select(.state=="open")]'
@@ -127,11 +130,13 @@ python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py
 - 🔒 **Trengs** — uten pinnen ville en sårbar kopi blitt liggende igjen.
 - ⚠️ **Tvinger konsumenter utenfor deklarasjonen sin** — pinnen setter en pakke på en versjon den selv ikke sier den støtter. Flagges uavhengig av de tre over, og er alltid verdt å rette.
 
-**Fjerning slår heving.** Å heve en pin til en ny eksakt versjon fikser varselet, men lar mekanismen stå — den forfaller igjen ved neste CVE. Å fjerne den gir Dependabot ansvaret tilbake permanent. Alt som kommer ut 🟢 skal derfor inn i briefen og todo-lista, ikke bare det som er 🔴.
+**Beslutningsrekkefølgen er `fjern → eksakt + audit`.** Å heve en pin til en ny eksakt versjon fikser varselet, men lar mekanismen stå — den forfaller igjen ved neste CVE. Å fjerne den gir Dependabot ansvaret tilbake permanent. Alt som kommer ut 🟢 skal derfor inn i briefen og todo-lista, ikke bare det som er 🔴.
+
+Må pinnen bli stående, skal den være en **eksakt versjon — ikke en range.** `tavla/.yarnrc.yml` setter `defaultSemverRangePrefix: ''` sammen med `npmMinimalAgeGate: 5760` og `enableScripts: false`, som er Team Sikkerhets herding mot supply chain-angrep ([#2100](https://github.com/entur/tavla/pull/2100)). En caret i `resolutions` flytter versjonsvalget tilbake til resolveringstidspunktet og undergraver nettopp det. Forfallsproblemet løses av denne auditen, ikke av en løsere versjonsspesifikasjon. Begrunnelse: `references/pin-vedlikehold.md`.
 
 Del 2 kjøres bare for `entur/tavla`. `pnpm-lock` v9 lagrer resolverte versjoner, ikke konsumentenes ranges, så for tavla-visning skriver scriptet ut den manuelle framgangsmåten i stedet.
 
-Detaljert framgangsmåte for å heve eller fjerne en pin, range vs. eksakt versjon, og hvordan finne historikken til en pin: `references/pin-vedlikehold.md`.
+Detaljert framgangsmåte for å heve eller fjerne en pin, hvorfor eksakt versjon og ikke range, og hvordan finne historikken til en pin: `references/pin-vedlikehold.md`.
 
 ### Brief-mal (markdown)
 
@@ -147,6 +152,7 @@ Bruk denne strukturen. Alle seksjoner skal alltid være med, også om de er tomm
 | Åpne PRer | {n} | {n} | {n} |
 | Sikkerhetsvarsler | {n} ({severity}) | {n} ({severity}) | {n} |
 | CodeQL-funn | {n} | {n} | {n} |
+| Varsler med ≤7 dager til 30-dagersfristen | {n} | {n} | {n} |
 | Pinner: blokkerer / overflødige | {n} / {n} | {n} / {n} | {n} / {n} |
 
 ## 📌 Pin-status
@@ -201,14 +207,16 @@ Utdrag fra `pin-audit.py`. Ta med **alle** 🔴 (blokkerer en fiks — lukker se
 
 ## 🔒 Sikkerhetsvarsler
 
+Hvert varsel skal ha alder og gjenstående frist i topplinja. **Fristregel:** varsler med ≤7 dager igjen av de 30 hører i 🔴-bøtta i todo-lista uansett hvor lav reell risiko er. Er reell risiko lav og fristen nærmer seg, er svaret ikke «vent» — det er allowlist eller dismiss med begrunnelse (`references/sikkerhets-triage.md`, Steg 5). Et varsel som passerer 30 dager uten vurdering er et brudd på forpliktelsen, ikke en nedprioritering.
+
 ### 🔒 {pakkenavn} — {CVE/GHSA} ({severity})
-**CVSS:** {score}  |  **Risiko:** 🔴/🟡/🟢  |  **Fix:** {versjon}  |  [Alert #{nummer}]({url})
+**CVSS:** {score}  |  **Risiko:** 🔴/🟡/🟢  |  **Fix:** {versjon}  |  **Åpnet:** {dato} ({n} dager gammelt, {m} dager til fristen)  |  [Alert #{nummer}]({url})
 
 **Sårbarhet:** {Hva er sårbarheten, hvilken funksjon, hvilken type angrep}
 
 **Utnyttbarhet i Tavla:** {Grep-funn, bruksmønster, om og hvordan Tavla eksponerer den sårbare koden}
 
-**Anbefaling:** ✅ Oppgrader nå / ⏸ Kan vente / 🗑️ Dismiss som falsk positiv
+**Anbefaling:** ✅ Oppgrader nå / ⏸ Kan vente til {konkret dato innenfor fristen} / 🗑️ Allowlist med `reason` + `comment`, eller dismiss med begrunnelse ({Fix already started} / {False positive})
 
 ---
 
@@ -240,7 +248,8 @@ Eksempel på gode todo-punkter:
 - [ ] CI grønt på alle mergede PRer
 - [ ] e2e kjørt manuelt etter hver major bump
 - [ ] Bundle-size delta sjekket: kjør `yarn build` og se på Route (app)-tabellen — flag >5% delta
-- [ ] CodeQL-funn besvart eller dismisset med begrunnelse
+- [ ] CodeQL-funn besvart, allowlistet med `reason` + `comment`, eller dismisset med begrunnelse
+- [ ] Ingen åpne varsler har passert 30 dager, og alle med ≤7 dager igjen står i 🔴-todo
 - [ ] `pin-audit.py` kjørt, og alle 🔴 **og** 🟢 er enten fikset eller står i todo-lista
 - [ ] `yarn install --immutable` grønt etter hver pin-endring (bekrefter at lockfilen er konsistent)
 ```
@@ -260,7 +269,8 @@ Følg `references/sikkerhets-triage.md`. Kort versjon:
 1. **Forstå** sårbarheten (hvilken funksjon, hvilken type angrep, hvilken input).
 2. **Søk** etter brukssteder i Tavla-kode.
 3. **Vurder** reell risiko i vår kontekst.
-4. **Anbefal**: oppgrader nå / kan vente / falsk positiv. Dokumentér resonnement.
+4. **Anbefal**: oppgrader nå / kan vente (med konkret dato innenfor 30-dagersfristen) / falsk positiv. Dokumentér resonnement.
+5. **Lukk formelt**: skal varselet ikke fikses, må vurderingen bli sporbar — allowlist i `codescan.yml`/`dockerscan.yml`, eller dismiss med en av Enturs to godkjente begrunnelser. Se Steg 5 i referansefila.
 
 Resultatet havner ett av to steder: som del av `## 🔒 Sikkerhetsvarsler` i mandagsbriefens fil, eller — hvis noen ber om triage av ett enkelt varsel utenom mandagsrunden — som frittstående svar i chatten. Enkelt-triage trenger ingen fil.
 
@@ -287,8 +297,8 @@ Dette er ikke en formell prosess. Tagg en annen utvikler i PR-en eller spør på
 Les bare det som er relevant for situasjonen:
 
 - `references/risikoklassifisering.md` — Hvordan klassifisere risiko per pakke / endring. Les ved tvil om en PR er rutine eller krever full triage.
-- `references/sikkerhets-triage.md` — Detaljert framgangsmåte for CVE-vurdering. Les når en Dependabot security alert dukker opp.
-- `references/pin-vedlikehold.md` — Hvorfor `resolutions`/`overrides`-pinner forfaller, hvordan heve en forfalt pin trygt, range vs. eksakt versjon, og hvordan finne historikken til en pin (`git log -L`, ikke `git blame`). Les når pin-auditen gir 🔴, eller når du skal sette en ny pin.
+- `references/sikkerhets-triage.md` — Detaljert framgangsmåte for CVE-vurdering, og hvordan et varsel lukkes formelt (allowlist vs. dismiss, Enturs to godkjente dismiss-begrunnelser, når Team Sikkerhet skal inn). Les når en Dependabot security alert dukker opp.
+- `references/pin-vedlikehold.md` — Hvorfor `resolutions`/`overrides`-pinner forfaller, beslutningsrekkefølgen `fjern → eksakt + audit`, hvorfor range ikke brukes i Tavla, hvordan heve en forfalt pin trygt, og hvordan finne historikken til en pin (`git log -L`, ikke `git blame`). Les når pin-auditen gir 🔴, eller når du skal sette en ny pin.
 
 ## Scripts
 
