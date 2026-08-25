@@ -13,18 +13,6 @@ En eksakt pin som `"tar": "7.5.11"` gjør to ting samtidig:
 
 Punkt 2 er lett å glemme, fordi symptomet ikke ser ut som et symptom: Dependabot lager rett og slett ingen PR. Pinnen overstyrer den, så varselet dukker opp i sikkerhetsfanen og blir bare liggende. Ingenting brekker, ingen får en påminnelse, og etter noen måneder ser det ut som «det varselet vi aldri klarte å fikse».
 
-Dette er ikke hypotetisk. I uke 34 2026 blokkerte fire pinner ti varsler på tvers av de to repoene:
-
-| Pin | Satt | Blokkerte |
-|---|---|---|
-| `tar: 7.5.11` (tavla) | mars 2026, [#2330](https://github.com/entur/tavla/pull/2330) | 6 varsler, inkl. repoets eneste **kritiske** (#497) |
-| `immutable: 3.8.3` (tavla) | mars 2026, [#2330](https://github.com/entur/tavla/pull/2330) | #507, #508 |
-| `immutable: 3.8.3` (visning) | — | #65, #66 |
-| `shell-quote: 1.8.4` (visning) | — | #67 — pinnet til presis den versjonen varselet peker på |
-
-`tar`-pinnen sto urørt i fem måneder mens seks varsler samlet seg bak den.
-
-`immutable` illustrerer en verre variant: advisoryen har to fikslinjer (`< 4.3.9` → 4.3.9, og `>= 5.0.0-beta.1, < 5.1.8` → 5.1.8), og pinnen står på **3.8.3 — en versjonslinje som aldri fikk en fiks**. Så lenge pinnen står, er varselet *umulig* å lukke. I tillegg deklarerer konsumenten `@ardatan/relay-compiler@13` `immutable: ^5.1.5`, så pinnen tvinger den to majors under sitt eget krav.
 
 ## Ukens pin-audit
 
@@ -90,15 +78,7 @@ Sammenlign `shell-quote` på tvers av repoene — samme pakke, samme rolle:
 
 Upinnet tok Dependabot den til 1.10.0 i [#2547](https://github.com/entur/tavla/pull/2547) og varselet lukket seg selv. Pinnet står den fast på presis den versjonen varselet peker på.
 
-**2. Hvis ikke — kan en range brukes i stedet for en eksakt versjon?** Både yarn `resolutions` og pnpm `overrides` godtar ranges:
-
-```json
-"resolutions": { "tar": "^7.5.21" }
-```
-
-Med en caret kan yarn og Dependabot fortsatt heve innenfor `7.5.x`, mens dedupliseringen består. Pinnen vedlikeholder seg selv for patchnivå-CVE-er, som er de aller fleste.
-
-**3. Ellers: eksakt versjon som bevisst gjeld.** Riktig når du må overstyre en konsument som selv pinner eksakt (slik `next` pinner `postcss` til `8.4.31`), eller når du vet at høyere versjoner brekker noe. Da er pinnen gjeld — og neste ukes audit skal fange den opp.
+**2. Ellers: eksakt versjon som bevisst gjeld.** Riktig når du må overstyre en konsument som selv pinner eksakt (slik `next` pinner `postcss` til `8.4.31`), eller når du vet at høyere versjoner brekker noe. Da er pinnen gjeld — og neste ukes audit skal fange den opp.
 
 ## Fjerning betyr ikke at versjonen flyter
 
