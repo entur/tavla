@@ -51,7 +51,7 @@ Vakten roterer ukentlig blant de tre utviklerne. Erfaringsnivå varierer — der
 | Når | Hva | Hvor |
 |-----|-----|------|
 | Man 09:00 | Kjør pin-auditen — hvilke pinner blokkerer en fiks, og hvilke trengs ikke lenger? | `scripts/pin-audit.py` (se Steg 1b) |
-| Man 09:00 | Skriv ukens dependency-brief med full triage | `docs/dependency-vakt/{år}-uke-{NN}.md` (se Steg 1) |
+| Man 09:00 | Skriv ukens dependency-brief med full triage | `.dependency-vakt/{år}-uke-{NN}.md` — lokal, gitignorert (se Steg 1) |
 
 ---
 
@@ -85,12 +85,16 @@ Når brukeren ber om "mandagsbrief", "ukens dependency-brief", "full dependency-
 Skriv den ferdige briefen til:
 
 ```
-docs/dependency-vakt/{år}-uke-{ISO-uke}.md
+.dependency-vakt/{år}-uke-{ISO-uke}.md
 ```
 
-for eksempel `docs/dependency-vakt/2026-uke-34.md`. Bruk alltid to siffer i ukenummeret (`uke-07`, ikke `uke-7`) så filene sorterer kronologisk. Opprett katalogen hvis den ikke finnes.
+for eksempel `.dependency-vakt/2026-uke-34.md`. Bruk alltid to siffer i ukenummeret (`uke-07`, ikke `uke-7`) så filene sorterer kronologisk. Opprett katalogen hvis den ikke finnes.
 
-Hvorfor fil og ikke chat: briefen er et arbeidsdokument som skal leses gjennom uka, kopieres inn i Slack, og finnes igjen når neste vakt lurer på hva forrige vakt konkluderte med. En lang chat-melding scroller bort; en fil i repoet gjør triage-historikken søkbar og lar teamet se hvordan en vurdering endret seg over tid.
+**Katalogen er gitignorert, og det er med vilje.** Briefen er en lokal arbeidsfil for den som har vakta den uka — den skal ikke committes og ikke pushes. Grunnen er at `entur/tavla` er et **offentlig repo**, og briefen lister åpne, ufiksede sårbarheter med versjonsnumre og en vurdering av hvor utnyttbare de er i vår kode. Det er en presis oppskrift for noen som vil finne en vei inn, og git-historikken glemmer aldri. Sjekk `.gitignore` hvis `.dependency-vakt/` mot formodning dukker opp i `git status`.
+
+Hvorfor fil og ikke chat: briefen skal leses gjennom uka, kopieres inn i Slack, og være noe du kan åpne i editoren mens du jobber deg gjennom todo-lista. En lang chat-melding scroller bort.
+
+**Skal en vurdering overleve uka, hører den et annet sted.** Briefen er efemer. Konklusjoner som må kunne etterprøves senere skrives der de hører hjemme: som kommentar på PR-en eller varselet, som `comment` i `codescan.yml`-allowlisten, eller i en Jira-sak. Det er også de stedene en revisor faktisk leter.
 
 Finnes fila allerede (du kjører briefen på nytt samme uke), **overskriv den** — briefen skal reflektere dagens tilstand, ikke være et vedlegg av flere kjøringer.
 

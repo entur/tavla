@@ -5,3 +5,8 @@
 ent-tavla-*.json
 **/.idea
 **/.claude/settings.local.json
+
+# Dependency-vakt: ukens triage-brief er en lokal arbeidsfil.
+# Skal ikke committes — den lister åpne, ufiksede sårbarheter og
+# dette repoet er offentlig. Se .claude/skills/tavla-dependency-triage.
+.dependency-vakt/
