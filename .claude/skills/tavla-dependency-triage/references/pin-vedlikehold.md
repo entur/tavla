@@ -13,17 +13,29 @@ En eksakt pin som `"tar": "7.5.11"` gjør to ting samtidig:
 
 Punkt 2 er lett å glemme, fordi symptomet ikke ser ut som et symptom: Dependabot lager rett og slett ingen PR. Pinnen overstyrer den, så varselet dukker opp i sikkerhetsfanen og blir bare liggende. Ingenting brekker, ingen får en påminnelse, og etter noen måneder ser det ut som «det varselet vi aldri klarte å fikse».
 
-## Ukens pin-audit
+## Arbeidet er delt i to
 
-Kjør denne som del av mandagsbriefen, **før** du vurderer enkeltvarsler — den avgjør om et varsel i det hele tatt *kan* fikses av Dependabot:
+**Oversikten**, som del av mandagsbriefen. Billig, og konkluderer ingenting:
 
 ```bash
-python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py
+python3 .claude/skills/tavla-dependency-triage/scripts/pin-oversikt.py
 ```
 
-Scriptet kjører to uavhengige analyser.
+Hver pin i begge repoer med versjon, hvilken PR som sist satte den, og alder — eldst først. Kryss lista mot ukens åpne varsler: står en pinnet pakke også der, kan pinnen være grunnen til at varselet ikke lukker seg.
 
-**Del 1 — blokkerer pinnen en fiks?** Krysser pinnene i begge repoer mot åpne varsler:
+**Vurderingen**, på de pinnene oversikten gir grunn til å se på. Én om gangen:
+
+```bash
+python3 .claude/skills/tavla-dependency-triage/scripts/pin-vurder.py <pakke> [tavla|visning]
+```
+
+Delingen er bevisst. Den tunge analysen krever `gh`, npm og semver, og den gir en konklusjon per pin — det er en vurdering vakten skal ha vært innom, ikke noe som skal skje i bakgrunnen hver mandag. Oversikten sier *hva som finnes*; vurderingen sier *hva du bør gjøre med én av dem*.
+
+### Vurderingen svarer på tre ting
+
+**Hvorfor står pinnen der?** Hele kjeden av verdiendringer med dato og PR. Scriptet sammenligner de faktiske pin-verdiene ved hver commit, ikke diff-linjer — se «Finn historikken til en pin» nederst for hvorfor det skillet er nødvendig.
+
+**Blokkerer pinnen en fiks?** Krysser pakkens åpne varsler mot pinversjonen:
 
 - ✅ **Ingen åpne varsler** — pinnen er frisk på dette punktet.
 - 🟡 **Pin ≥ påkrevd fiks** — allerede hevet, varslene lukkes når endringen merges.
@@ -33,20 +45,20 @@ Scriptet kjører to uavhengige analyser.
 
 Skillet mellom 🟡 og 🔴 er viktig: GitHub holder et varsel åpent til fiksen er merget til `main`, så «det finnes åpne varsler for en pinnet pakke» er i seg selv ikke nok.
 
-**Del 2 — trengs pinnen fortsatt?** Dette er forebyggingen. For hver pin leser scriptet konsumentenes deklarerte ranges ut av `yarn.lock`, henter alle publiserte versjoner fra npm, og regner ut hva yarn faktisk ville valgt per range uten pinnen (`maxSatisfying`). Deretter sjekkes hvert resultat mot advisoryens *sårbare intervall* — ikke bare mot høyeste fiksversjon, siden en advisory kan ha flere fikslinjer (`immutable` har `< 4.3.9` → 4.3.9 og `>= 5.0.0-beta.1, < 5.1.8` → 5.1.8, så 5.1.0 er sårbar selv om den er høyere enn 4.3.9).
+**Trengs pinnen fortsatt?** Dette er forebyggingen. For pakken leser scriptet konsumentenes deklarerte ranges ut av `yarn.lock`, henter alle publiserte versjoner fra npm, og regner ut hva yarn faktisk ville valgt per range uten pinnen (`maxSatisfying`). Deretter sjekkes hvert resultat mot advisoryens *sårbare intervall* — ikke bare mot høyeste fiksversjon, siden en advisory kan ha flere fikslinjer (`immutable` har `< 4.3.9` → 4.3.9 og `>= 5.0.0-beta.1, < 5.1.8` → 5.1.8, så 5.1.0 er sårbar selv om den er høyere enn 4.3.9).
 
 - 🟢 **KAN FJERNES** — alle ranges konvergerer til én trygg versjon. Pinnen gjør ingen nytte lenger.
 - 🟡 **Tjener deduplisering** — uten pinnen blir det flere kopier, alle trygge. En avveining.
 - 🔒 **Trengs** — uten pinnen ville en sårbar kopi blitt liggende igjen.
 - ⚠️ **Tvinger konsumenter utenfor deklarasjonen sin** — flagges uavhengig av de tre over.
 
-Del 2 gjelder bare `entur/tavla`. `pnpm-lock` v9 lagrer resolverte versjoner, ikke konsumentenes ranges, så for tavla-visning skriver scriptet ut den manuelle framgangsmåten i stedet.
+Dette siste spørsmålet kan bare besvares automatisk for `entur/tavla`. `pnpm-lock` v9 lagrer resolverte versjoner, ikke konsumentenes ranges, så for tavla-visning skriver scriptet ut den manuelle framgangsmåten i stedet.
 
 ## Heve en forfalt pin
 
 > Sjekk først om pinnen kan **fjernes** i stedet — se «Beslutningsrekkefølge» under. Heving fikser varselet, men lar mekanismen som forfalt stå.
 
-1. **Finn den nyeste påkrevde fiksversjonen** blant alle varsler for pakken. Ikke bump til det første varselet krever — da må du gjøre det igjen neste uke. `pin-audit.py` regner ut maks for deg.
+1. **Finn den nyeste påkrevde fiksversjonen** blant alle varsler for pakken. Ikke bump til det første varselet krever — da må du gjøre det igjen neste uke. `pin-vurder.py` regner ut maks for deg.
 2. **Sjekk at konsumentenes ranges tilfredsstilles.** For `entur/tavla`:
    ```bash
    grep -n '^    "\?PAKKE"\?: ' tavla/yarn.lock
@@ -65,7 +77,7 @@ Da `tar` ble triagert i uke 34, var førsteutkastet å heve pinnen fra 7.5.11 ti
 
 Rekkefølgen er **fjern → eksakt + audit**. Still spørsmålene slik:
 
-**1. Kan pinnen fjernes helt?** Dette er det beste utfallet, og `pin-audit.py` Del 2 svarer på det automatisk. Kriteriet er at alle konsumentranges konvergerer til én trygg versjon uten pinnen. For `tar` var det tilfellet: begge konsumentene ba om carets (`^7.5.11`, `^7.5.4`), som kollapser til én entry på 7.5.22.
+**1. Kan pinnen fjernes helt?** Dette er det beste utfallet, og `pin-vurder.py` svarer på det. Kriteriet er at alle konsumentranges konvergerer til én trygg versjon uten pinnen. For `tar` var det tilfellet: begge konsumentene ba om carets (`^7.5.11`, `^7.5.4`), som kollapser til én entry på 7.5.22.
 
 Fjerning er bedre enn heving fordi det gir Dependabot ansvaret tilbake — permanent. Og at Dependabot klarer det, er ikke en antakelse: [#2277](https://github.com/entur/tavla/pull/2277) bumpet `tar` 7.5.7 → 7.5.9 helt selv før pinnen fantes. Transitiv-only er ikke noe hinder.
 
@@ -79,7 +91,7 @@ Sammenlign `shell-quote` på tvers av repoene — samme pakke, samme rolle:
 
 Upinnet tok Dependabot den til 1.10.0 i [#2547](https://github.com/entur/tavla/pull/2547) og varselet lukket seg selv. Pinnet står den fast på presis den versjonen varselet peker på.
 
-**2. Ellers: eksakt versjon som bevisst gjeld.** Riktig når du må overstyre en konsument som selv pinner eksakt (slik `next` pinner `postcss` til `8.4.31`), eller når du vet at høyere versjoner brekker noe. Da er pinnen gjeld — men den forfaller ikke stille lenger, for `pin-audit.py` fanger den opp hver mandag.
+**2. Ellers: eksakt versjon som bevisst gjeld.** Riktig når du må overstyre en konsument som selv pinner eksakt (slik `next` pinner `postcss` til `8.4.31`), eller når du vet at høyere versjoner brekker noe. Da er pinnen gjeld — men den forfaller ikke stille lenger, for `pin-oversikt.py` viser alderen hver mandag.
 
 ## Ikke bruk range i `resolutions`
 
@@ -93,7 +105,7 @@ En vanlig innvending mot å fjerne en pin er at vi «mister kontrollen». Det st
 
 ## Pinner som tvinger konsumenter utenfor deklarasjonen sin
 
-`pin-audit.py` flagger dette med ⚠️ uavhengig av de andre utfallene, og det er alltid verdt å rette.
+`pin-vurder.py` flagger dette med ⚠️ uavhengig av de andre utfallene, og det er alltid verdt å rette.
 
 `immutable` er eksempelet: pinnet til `3.8.3`, mens konsumenten `@ardatan/relay-compiler@13` deklarerer `^5.1.5`. Pakken kjører altså to majors under det den selv sier den støtter. `minimatch` har samme problem i større skala — pinnet til `9.0.7` med konsumenter som ber om alt fra `^3.0.4` til `^10.2.2`.
 

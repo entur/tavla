@@ -10,3 +10,6 @@ ent-tavla-*.json
 # Skal ikke committes — den lister åpne, ufiksede sårbarheter og
 # dette repoet er offentlig. Se .claude/skills/tavla-dependency-triage.
 .dependency-vakt/
+
+# Python-bytecode fra skill-scriptene
+__pycache__/

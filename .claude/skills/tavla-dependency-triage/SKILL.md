@@ -13,6 +13,12 @@ name: tavla-dependency-triage
 # sperren mot skriving i ask-reglene i .claude/settings.json, som alltid
 # spør ved -X/--method/-f/-F/--input. Lagdelt, ikke enten-eller.
 #
+# pin-oversikt.py er billig og konkluderer ingenting, så den kan kjøre fritt.
+# pin-vurder.py har bevisst INGEN entry: entryen over er en eksaktmatch uten
+# wildcard, så den dekker bare den argumentløse kommandoen. Per-pin-vurderingen
+# faller dermed utenfor grantet og spør av seg selv — det er hele poenget, og
+# ikke noe som skal «fikses» ved å legge til en wildcard.
+#
 # Edit dekker både Edit- og Write-verktøyet. Write(sti) ville ikke virket:
 # Claude Code konsulterer aldri stiregler for Write, bare for Edit og Read.
 # Grantet gjelder bare ukens brief. Skal en codescan.yml-allowlist skrives,
@@ -23,7 +29,7 @@ allowed-tools:
   - Bash(gh api *dependabot/alerts*)
   - Bash(gh api *code-scanning/alerts*)
   - Bash(awk:*)
-  - Bash(python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py)
+  - Bash(python3 .claude/skills/tavla-dependency-triage/scripts/pin-oversikt.py)
   - Edit(.dependency-vakt/**)
 description: >
   Triage av Dependabot-PRer, sikkerhetsvarsler og CodeQL-funn for Tavla. Bruk når
@@ -62,7 +68,8 @@ Vakten roterer ukentlig blant de tre utviklerne. Erfaringsnivå varierer — der
 
 | Når | Hva | Hvor |
 |-----|-----|------|
-| Man 09:00 | Kjør pin-auditen — hvilke pinner blokkerer en fiks, og hvilke trengs ikke lenger? | `scripts/pin-audit.py` (se Steg 1b) |
+| Man 09:00 | Kjør pin-oversikten — hva er pinnet, og hvor lenge har det stått? | `scripts/pin-oversikt.py` (se Steg 1b) |
+| Ved behov | Vurder én pin — blokkerer den en fiks, trengs den fortsatt? | `scripts/pin-vurder.py <pakke>` (se Steg 1b) |
 | Man 09:00 | Skriv ukens dependency-brief med full triage | `.dependency-vakt/{år}-uke-{NN}.md` — lokal, gitignorert (se Steg 1) |
 
 ---
@@ -87,7 +94,7 @@ Når brukeren ber om "mandagsbrief", "ukens dependency-brief", "full dependency-
    gh api repos/entur/tavla/code-scanning/alerts --jq '[.[] | select(.state=="open")]'
    gh api repos/entur/tavla-visning/code-scanning/alerts --jq '[.[] | select(.state=="open")]'
    ```
-4. **Kjør pin-auditen** (se Steg 1b under). Gjør dette **før** du vurderer enkeltvarsler — den avgjør om et varsel i det hele tatt *kan* fikses av Dependabot.
+4. **Kjør pin-oversikten** (se Steg 1b under), og kryss den mot varsellista fra punkt 2. Står en pinnet pakke også blant varslene, kan pinnen være grunnen til at varselet ikke lukker seg — da kjører du `pin-vurder.py` på den pakken før du konkluderer om varselet.
 5. For hver PR og alert: klassifiser iht. `references/risikoklassifisering.md`, grep etter brukssteder i Tavla-kode der det er relevant.
 6. **Sjekk installert versjon, ikke bare fiksversjon** (se «Fallgruve» under).
 7. **Skriv briefen til fil** — ikke til chatten. Se «Hvor briefen skal ligge» rett under.
@@ -129,32 +136,54 @@ Er svaret mer enn én versjon, må du finne ut hvem som drar inn de sårbare kop
 
 ---
 
-## Steg 1b — Pin-audit (fast punkt hver uke)
+## Steg 1b — Pinner: oversikt ukentlig, vurdering ved behov
 
-`resolutions` (tavla) og `pnpm.overrides` (tavla-visning) er teamets mekanisme for å fikse sårbarheter i transitive pakker. Den har to feilmoduser, og auditen dekker begge:
+`resolutions` (tavla) og `pnpm.overrides` (tavla-visning) er teamets mekanisme for å fikse sårbarheter i transitive pakker. Mekanismen er riktig, men den har ingen utløpsdato — og det er derfor arbeidet er delt i to.
+
+### Oversikten — fast punkt hver mandag
 
 ```bash
-python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py
+python3 .claude/skills/tavla-dependency-triage/scripts/pin-oversikt.py
 ```
 
-**Del 1 — blokkerer pinnen en fiks?** En eksakt pin har ingen utløpsdato. Den var trygg da den ble satt, men når nye CVE-er kommer mot samme versjon, kan ikke Dependabot lage en PR — pinnen overstyrer den. Varselet blir liggende åpent på ubestemt tid uten at noe brekker eller varsler deg. Utfall: ✅ frisk / 🟡 hevet-men-ikke-merget / 🔴 blokkerer / 🔴 varsel uten fiksversjon.
+Den lister hver pin i begge repoer med versjon, hvilken PR som sist satte den, og alder — sortert **eldst først**. Ingen nettverkskall, ingen npm, ingen semver. Den konkluderer med vilje ingenting.
+
+Alder er signalet. En pin som har stått i åtte måneder har hatt lang tid på å bli overflødig, eller på å blokkere en fiks uten at noen la merke til det. Symptomet ser nemlig ikke ut som et symptom: Dependabot lager rett og slett ingen PR, fordi pinnen overstyrer den, og varselet blir bare liggende.
+
+**Kryss oversikten mot varsellista fra Steg 1.** Står en pinnet pakke også blant de åpne varslene, er den kandidat nummer én — og det er den koblingen som gjør at `tar` ikke får stå i fem måneder igjen. Ingenting gjør denne kryssingen for deg; det er vaktens jobb, og det er meningen.
+
+### Vurderingen — én pin om gangen
+
+```bash
+python3 .claude/skills/tavla-dependency-triage/scripts/pin-vurder.py <pakke> [tavla|visning]
+```
+
+Kjør den på pinnene oversikten gir grunn til å se på. Den svarer på tre ting for **én** pakke:
+
+**Hvorfor står pinnen der?** Hele kjeden av verdiendringer, med dato og PR. JSON tåler ikke kommentarer, så PR-titlene *er* dokumentasjonen. Scriptet sammenligner de faktiske pin-verdiene ved hver commit, ikke diff-linjer — en commit som bare flyttet et komma teller ikke, og en pakke som står i både `dependencies` og `resolutions` (som `dompurify`) blir ikke forvekslet.
+
+**Blokkerer pinnen en fiks?** Utfall: ✅ ingen varsler / 🟡 hevet-men-ikke-merget / 🔴 blokkerer / 🔴 varsel uten fiksversjon.
 
 Den siste er den verste, og lett å overse: finnes det ingen `first_patched_version`, kan varselet ikke lukkes ved å bumpe i det hele tatt. Da må du bytte versjonslinje, eller allowliste med begrunnelse (`references/sikkerhets-triage.md`, Steg 5).
 
-**Scriptet feiler lukket.** Kunne noe ikke sjekkes — gh uten riktig scope, npm som ikke svarer, semver som mangler — sier det ❔ per punkt, lister alt usjekket til slutt, og avslutter med exit-kode 1. Et ufullstendig resultat skal ikke kunne leses som grønt. Ser du ❔ i outputen, er auditen ikke ferdig, og den skal ikke inn i briefen som om den var det.
-
-**Del 2 — trengs pinnen fortsatt?** Dette er forebyggingen, og den viktigste delen. For hver pin regner scriptet ut hva yarn faktisk ville resolvert til *uten* pinnen — `maxSatisfying` over alle publiserte versjoner, per konsumentrange i `yarn.lock` — og sjekker om resultatet ligger utenfor alle sårbare intervall. Utfall:
+**Trengs pinnen fortsatt?** Scriptet regner ut hva yarn faktisk ville resolvert til *uten* pinnen — `maxSatisfying` over alle publiserte versjoner, per konsumentrange i `yarn.lock` — og sjekker om resultatet ligger utenfor alle sårbare intervall. Utfall:
 
 - 🟢 **KAN FJERNES** — alle konsumentranges konvergerer til én trygg versjon. Pinnen gjør ingen nytte lenger; den bare hindrer Dependabot i å vedlikeholde pakken.
 - 🟡 **Tjener deduplisering** — uten pinnen blir det flere kopier, alle trygge. Fjerning er mulig, men er en avveining.
 - 🔒 **Trengs** — uten pinnen ville en sårbar kopi blitt liggende igjen.
 - ⚠️ **Tvinger konsumenter utenfor deklarasjonen sin** — pinnen setter en pakke på en versjon den selv ikke sier den støtter. Flagges uavhengig av de tre over, og er alltid verdt å rette.
 
-**Beslutningsrekkefølgen er `fjern → eksakt + audit`.** Å heve en pin til en ny eksakt versjon fikser varselet, men lar mekanismen stå — den forfaller igjen ved neste CVE. Å fjerne den gir Dependabot ansvaret tilbake permanent. Alt som kommer ut 🟢 skal derfor inn i briefen og todo-lista, ikke bare det som er 🔴.
+Dette siste spørsmålet kan bare besvares automatisk for `entur/tavla`. `pnpm-lock` v9 lagrer resolverte versjoner, ikke konsumentenes ranges, så for tavla-visning skriver scriptet ut den manuelle framgangsmåten i stedet.
 
-Må pinnen bli stående, skal den være en **eksakt versjon — ikke en range.** `tavla/.yarnrc.yml` setter `defaultSemverRangePrefix: ''` sammen med `npmMinimalAgeGate: 5760` og `enableScripts: false`, som er Team Sikkerhets herding mot supply chain-angrep ([#2100](https://github.com/entur/tavla/pull/2100)). En caret i `resolutions` flytter versjonsvalget tilbake til resolveringstidspunktet og undergraver nettopp det. Forfallsproblemet løses av denne auditen, ikke av en løsere versjonsspesifikasjon. Begrunnelse: `references/pin-vedlikehold.md`.
+### Begge scriptene feiler lukket
 
-Del 2 kjøres bare for `entur/tavla`. `pnpm-lock` v9 lagrer resolverte versjoner, ikke konsumentenes ranges, så for tavla-visning skriver scriptet ut den manuelle framgangsmåten i stedet.
+Kunne noe ikke sjekkes — `gh` uten riktig scope, npm som ikke svarer, semver som mangler, git-historikk som ikke finnes — sies det ❔ per punkt, alt usjekket listes til slutt, og exit-koden er 1. Et ufullstendig resultat skal ikke kunne leses som grønt. Ser du ❔, er jobben ikke ferdig, og den skal ikke inn i briefen som om den var det.
+
+### Beslutningsrekkefølgen er `fjern → eksakt + audit`
+
+Å heve en pin til en ny eksakt versjon fikser varselet, men lar mekanismen stå — den forfaller igjen ved neste CVE. Å fjerne den gir Dependabot ansvaret tilbake permanent. Alt som kommer ut 🟢 skal derfor inn i briefen og todo-lista, ikke bare det som er 🔴.
+
+Må pinnen bli stående, skal den være en **eksakt versjon — ikke en range.** `tavla/.yarnrc.yml` setter `defaultSemverRangePrefix: ''` sammen med `npmMinimalAgeGate: 5760` og `enableScripts: false`, som er Team Sikkerhets herding mot supply chain-angrep ([#2100](https://github.com/entur/tavla/pull/2100)). En caret i `resolutions` flytter versjonsvalget tilbake til resolveringstidspunktet og undergraver nettopp det. Forfallsproblemet løses av at oversikten kjøres hver uke, ikke av en løsere versjonsspesifikasjon. Begrunnelse: `references/pin-vedlikehold.md`.
 
 Detaljert framgangsmåte for å heve eller fjerne en pin, hvorfor eksakt versjon og ikke range, og hvordan finne historikken til en pin: `references/pin-vedlikehold.md`.
 
@@ -173,11 +202,17 @@ Bruk denne strukturen. Alle seksjoner skal alltid være med, også om de er tomm
 | Sikkerhetsvarsler | {n} ({severity}) | {n} ({severity}) | {n} |
 | CodeQL-funn | {n} | {n} | {n} |
 | Varsler med ≤7 dager til 30-dagersfristen | {n} | {n} | {n} |
-| Pinner: blokkerer / overflødige | {n} / {n} | {n} / {n} | {n} / {n} |
+| Pinner: antall / eldste | {n} / {alder} | {n} / {alder} | {n} |
 
 ## 📌 Pin-status
 
-Utdrag fra `pin-audit.py`. Ta med **alle** 🔴 (blokkerer en fiks — lukker seg aldri av seg selv) og **alle** 🟢 (overflødig pin — venter bare på å forfalle). Er begge lister tomme, skriv «Ingen pinner blokkerer eller er overflødige denne uken» og gå videre.
+Først **hele oversikten** fra `pin-oversikt.py`, eldst først — den er kort, og den viser hva som finnes:
+
+| Pakke | Repo | Pin | Sist satt | Alder |
+|---|---|---|---|---|
+| {pakke} | {repo} | {versjon} | {dato} ({PR}) | {alder} |
+
+Deretter én underseksjon per pin du faktisk **vurderte** med `pin-vurder.py`. Vurder minst hver pin som også har et åpent varsel; står ingen av dem i varsellista, skriv «ingen pinner krysser ukens varsler» og la det være med oversikten.
 
 ### 🔴 {pakkenavn} — pinnet {pin-versjon}, fiks krever {versjon}
 **Repo:** {repo}  |  **Blokkerer:** {n} varsler ({severity})  |  Satt i [{PR}]({url})
@@ -186,7 +221,7 @@ Utdrag fra `pin-audit.py`. Ta med **alle** 🔴 (blokkerer en fiks — lukker se
 
 **Hvorfor den nå er et problem:** {Nye CVE-er mot pinversjonen. Nevn hvis pinversjonslinja aldri fikk en fiks — da er varselet umulig å lukke uten å bytte versjonslinje}
 
-**Anbefaling:** ✅ Fjern pinnen hvis Del 2 sier 🟢 — {hvilken versjon den da resolverer til}. Ellers hev til {versjon}, og si hvorfor pinnen må bli stående.
+**Anbefaling:** ✅ Fjern pinnen hvis vurderingen sier 🟢 — {hvilken versjon den da resolverer til}. Ellers hev til {versjon}, og si hvorfor pinnen må bli stående.
 
 ### 🟢 {pakkenavn} — pinnet {pin-versjon}, men trengs ikke lenger
 **Repo:** {repo}  |  **Uten pinnen:** {versjon} ({n} konsumentranges konvergerer)
@@ -270,13 +305,14 @@ Eksempel på gode todo-punkter:
 - [ ] Bundle-size delta sjekket: kjør `yarn build` og se på Route (app)-tabellen — flag >5% delta
 - [ ] CodeQL-funn besvart, allowlistet med `reason` + `comment`, eller dismisset med begrunnelse
 - [ ] Ingen åpne varsler har passert 30 dager, og alle med ≤7 dager igjen står i 🔴-todo
-- [ ] `pin-audit.py` kjørt, og alle 🔴 **og** 🟢 er enten fikset eller står i todo-lista
+- [ ] `pin-oversikt.py` kjørt og krysset mot varsellista, og hver pinnet pakke med åpent varsel er enten vurdert med `pin-vurder.py` eller står i todo-lista
+- [ ] Alt som kom ut 🔴 **eller** 🟢 av en vurdering er fikset eller står i todo-lista
 - [ ] `yarn install --immutable` grønt etter hver pin-endring (bekrefter at lockfilen er konsistent)
 ```
 
 Legg til én seksjon per PR og én per alert. Legg til ekstra sjekklistepunkter for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Dismiss stale DOMPurify-alerts").
 
-**Rekkefølge i brief:** Oversikt → **📌 Pin-status** → Rutinemessige bumps → Krever vurdering → Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Pin-seksjonen kommer først fordi den avgjør hvilke varsler som er handlingsbare i det hele tatt. Todo-seksjonen kommer alltid rett før test-sjekklisten.
+**Rekkefølge i brief:** Oversikt → **📌 Pin-status** → Rutinemessige bumps → Krever vurdering → Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Pin-seksjonen kommer først fordi en pin kan være grunnen til at et varsel lenger ned ikke lar seg lukke. Todo-seksjonen kommer alltid rett før test-sjekklisten.
 
 ---
 
@@ -318,11 +354,13 @@ Les bare det som er relevant for situasjonen:
 
 - `references/risikoklassifisering.md` — Hvordan klassifisere risiko per pakke / endring. Les ved tvil om en PR er rutine eller krever full triage.
 - `references/sikkerhets-triage.md` — Detaljert framgangsmåte for CVE-vurdering, og hvordan et varsel lukkes formelt (allowlist vs. dismiss, Enturs to godkjente dismiss-begrunnelser, når Team Sikkerhet skal inn). Les når en Dependabot security alert dukker opp.
-- `references/pin-vedlikehold.md` — Hvorfor `resolutions`/`overrides`-pinner forfaller, beslutningsrekkefølgen `fjern → eksakt + audit`, hvorfor range ikke brukes i Tavla, hvordan heve en forfalt pin trygt, og hvordan finne historikken til en pin (`git log -L`, ikke `git blame`). Les når pin-auditen gir 🔴, eller når du skal sette en ny pin.
+- `references/pin-vedlikehold.md` — Hvorfor `resolutions`/`overrides`-pinner forfaller, beslutningsrekkefølgen `fjern → eksakt + audit`, hvorfor range ikke brukes i Tavla, hvordan heve en forfalt pin trygt, og hvordan finne historikken til en pin (`git log -L`, ikke `git blame`). Les når en pin-vurdering gir 🔴, eller når du skal sette en ny pin.
 
 ## Scripts
 
-- `scripts/pin-audit.py` — Krysser pinnede pakker mot åpne varsler (Del 1: blokkerer pinnen en fiks?) og regner ut hva som ville resolvert uten pinnen (Del 2: trengs den fortsatt?). Kjøres som fast punkt i mandagsbriefen (Steg 1b).
+- `scripts/pin-oversikt.py` — Lister alle pinner i begge repoer med versjon, PR og alder, eldst først. Billig: bare git og to package.json-filer. Fast punkt i mandagsbriefen (Steg 1b).
+- `scripts/pin-vurder.py <pakke> [tavla|visning]` — Vurderer én pin: hvorfor den står der, om den blokkerer en fiks, og om den fortsatt trengs. Krever `gh`, npm og semver. Kjøres på forespørsel, ikke automatisk.
+- `scripts/_pinfelles.py` — Delt grunnlag for de to over. Ikke et selvstendig script.
 
 ## Læringsprinsipp
 
