@@ -1,17 +1,17 @@
 ---
 name: tavla-dependency-triage
+# Lista er kort med vilje. allowed-tools er en forhåndsgodkjenning, ikke en
+# begrensning — den fjerner et godkjenningssteg, så alt som ikke trenger et
+# grant skal ikke stå her. grep, git log, git show og de rene lesetøyene
+# (Read/Grep/Glob) ligger i Claude Codes innebygde read-only-sett og spør
+# aldri uansett; entries for dem var inerte. awk står her fordi det *ikke*
+# er i det settet.
 allowed-tools:
   - Bash(gh pr list:*)
   - Bash(gh pr view:*)
   - Bash(gh api:*)
-  - Bash(grep:*)
   - Bash(awk:*)
-  - Bash(git log:*)
-  - Bash(git show:*)
   - Bash(python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py)
-  - Grep
-  - Glob
-  - Read
   - Write
 description: >
   Triage av Dependabot-PRer, sikkerhetsvarsler og CodeQL-funn for Tavla. Bruk når
