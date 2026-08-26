@@ -6,13 +6,25 @@ name: tavla-dependency-triage
 # (Read/Grep/Glob) ligger i Claude Codes innebygde read-only-sett og spør
 # aldri uansett; entries for dem var inerte. awk står her fordi det *ikke*
 # er i det settet.
+#
+# gh api er snevret til de to varsel-endepunktene skillen faktisk leser.
+# Bash-regler matcher hele kommandoteksten, så et etterfølgende * dekker
+# også en skrivende variant av samme URL — derfor ligger den egentlige
+# sperren mot skriving i ask-reglene i .claude/settings.json, som alltid
+# spør ved -X/--method/-f/-F/--input. Lagdelt, ikke enten-eller.
+#
+# Edit dekker både Edit- og Write-verktøyet. Write(sti) ville ikke virket:
+# Claude Code konsulterer aldri stiregler for Write, bare for Edit og Read.
+# Grantet gjelder bare ukens brief. Skal en codescan.yml-allowlist skrives,
+# er det en PR som fortjener et par øyne — den skal spørre.
 allowed-tools:
   - Bash(gh pr list:*)
   - Bash(gh pr view:*)
-  - Bash(gh api:*)
+  - Bash(gh api *dependabot/alerts*)
+  - Bash(gh api *code-scanning/alerts*)
   - Bash(awk:*)
   - Bash(python3 .claude/skills/tavla-dependency-triage/scripts/pin-audit.py)
-  - Write
+  - Edit(.dependency-vakt/**)
 description: >
   Triage av Dependabot-PRer, sikkerhetsvarsler og CodeQL-funn for Tavla. Bruk når
   noen på Tavla-teamet er på dependency-vakt og skal vurdere åpne Dependabot-PRer,
