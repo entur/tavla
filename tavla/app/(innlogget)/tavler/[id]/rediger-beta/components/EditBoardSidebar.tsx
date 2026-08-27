@@ -1,8 +1,7 @@
 'use client'
 import { Heading3, Paragraph } from '@entur/typography'
-import type { BoardDB } from 'src/types/db-types/boards'
 
-export function EditBoardSidebar({ board }: { board: BoardDB }) {
+export function EditBoardSidebar() {
     return (
         <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
             <EditSection title="Hvilke stoppesteder vil du vise på Tavla?">
