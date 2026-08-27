@@ -20,7 +20,6 @@ import type {
     TransportPalette,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-import { isEmptyOrSpaces } from '../utils'
 import { validateCustomUrl } from './components/CustomUrl/utils'
 
 initializeAdminApp()
