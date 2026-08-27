@@ -129,44 +129,6 @@ export async function saveUpdatedTileOrder(
     }
 }
 
-export async function saveBoardTitle(
-    bid: BoardDB['id'],
-    title: string,
-): Promise<{ error?: string }> {
-    logToGcp('info', 'action:saveBoardTitle invoked', { bid })
-    const access = await userCanEditBoard(bid)
-    if (!access) return redirect('/')
-
-    const trimmed = title.trim()
-
-    if (isEmptyOrSpaces(trimmed)) {
-        return { error: 'Tavla må ha et navn.' }
-    }
-
-    try {
-        await updateBoard(bid, {
-            'meta.title': trimmed.substring(0, 50),
-        })
-
-        revalidatePath(`/tavler/${bid}/rediger`)
-        revalidatePath(`/tavler/${bid}/rediger-beta`)
-        return {}
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save board title: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, {
-            extra: {
-                message: 'Error while saving board title',
-                boardID: bid,
-            },
-        })
-        return { error: 'Noe gikk galt. Prøv igjen.' }
-    }
-}
-
 export async function saveCustomUrl(
     bid: BoardDB['id'],
     customUrl: string,
