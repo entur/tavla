@@ -256,10 +256,7 @@ export function SetVisibleLines({
         quays.some((q) =>
             q.lines.some((l) => {
                 if (l.transportMode !== mode) return false
-                const frontTexts = l.frontTexts?.length
-                    ? l.frontTexts
-                    : [undefined]
-                return frontTexts.some((frontText) =>
+                return l.frontTexts.some((frontText) =>
                     checkedLineIds.has(
                         buildQuayLineFrontTextKey(q.id, l.id, frontText),
                     ),
