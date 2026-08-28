@@ -13,7 +13,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from './types'
-import { generateQuayLineFrontTextKey } from './utils'
+import { frontTextsOrDefault, generateQuayLineFrontTextKey } from './utils'
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
@@ -60,7 +60,7 @@ export function PlatformAndLines({
     const { capture } = usePosthogTracking()
 
     const selectedLinesInGroup = lines.filter((l) =>
-        (l.frontTexts ?? []).some((frontText) =>
+        frontTextsOrDefault(l.frontTexts).some((frontText) =>
             selectedLineIds.has(
                 generateQuayLineFrontTextKey(quayId, l.id, frontText),
             ),
@@ -158,12 +158,13 @@ export function PlatformAndLines({
                         })
                         onToggleGroup(
                             lines.flatMap((l) =>
-                                (l.frontTexts ?? []).map((frontText) =>
-                                    generateQuayLineFrontTextKey(
-                                        quayId,
-                                        l.id,
-                                        frontText,
-                                    ),
+                                frontTextsOrDefault(l.frontTexts).map(
+                                    (frontText) =>
+                                        generateQuayLineFrontTextKey(
+                                            quayId,
+                                            l.id,
+                                            frontText,
+                                        ),
                                 ),
                             ),
                             checked,
@@ -175,7 +176,7 @@ export function PlatformAndLines({
                 .sort(compareLineFragment)
                 .filter(filterLineFragment)
                 .flatMap((line) =>
-                    (line.frontTexts ?? []).map((frontText) => (
+                    frontTextsOrDefault(line.frontTexts).map((frontText) => (
                         <Checkbox
                             key={generateQuayLineFrontTextKey(
                                 quayId,

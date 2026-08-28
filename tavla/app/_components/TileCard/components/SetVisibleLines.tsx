@@ -10,6 +10,7 @@ import { PlatformAndLines } from '../PlatformAndLines'
 import type { QuayWithFrontText } from '../types'
 import {
     deriveLinesWithDirection,
+    frontTextsOrDefault,
     generateQuayLineFrontTextKey,
     getInitialCheckedLineIds,
     transportModeNames,
@@ -214,23 +215,19 @@ export function SetVisibleLines({
         const keysOnActiveQuays: string[] = []
         const keysOnAllQuays: string[] = []
         for (const quay of quays) {
-            const quayIsActive = quay.lines.some((l) => {
-                const frontTexts = l.frontTexts?.length
-                    ? l.frontTexts
-                    : [undefined]
-                return frontTexts.some((frontText) =>
+            const quayIsActive = quay.lines.some((l) =>
+                frontTextsOrDefault(l.frontTexts).some((frontText) =>
                     checkedLineIds.has(
                         generateQuayLineFrontTextKey(quay.id, l.id, frontText),
                     ),
-                )
-            })
+                ),
+            )
 
             for (const line of quay.lines) {
                 if (line.transportMode === mode) {
-                    const frontTexts = line.frontTexts?.length
-                        ? line.frontTexts
-                        : [undefined]
-                    for (const frontText of frontTexts) {
+                    for (const frontText of frontTextsOrDefault(
+                        line.frontTexts,
+                    )) {
                         const key = generateQuayLineFrontTextKey(
                             quay.id,
                             line.id,
@@ -262,10 +259,7 @@ export function SetVisibleLines({
         quays.some((q) =>
             q.lines.some((l) => {
                 if (l.transportMode !== mode) return false
-                const frontTexts = l.frontTexts?.length
-                    ? l.frontTexts
-                    : [undefined]
-                return frontTexts.some((frontText) =>
+                return frontTextsOrDefault(l.frontTexts).some((frontText) =>
                     checkedLineIds.has(
                         generateQuayLineFrontTextKey(q.id, l.id, frontText),
                     ),

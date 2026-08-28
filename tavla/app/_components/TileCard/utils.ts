@@ -97,6 +97,17 @@ export function generateQuayLineFrontTextKey(
 }
 
 /**
+ * Directions (frontTexts) a line runs in, or a single `undefined` placeholder
+ * when no directions are known — so callers can still generate one
+ * quay-line(-frontText) key for the line.
+ */
+export function frontTextsOrDefault(
+    frontTexts: string[] | undefined,
+): (string | undefined)[] {
+    return frontTexts?.length ? frontTexts : [undefined]
+}
+
+/**
  *
  * @param quays The quays with all lines and frontTexts
  * @param selectedQuayLineKeys The currently selected quay-line(-frontText) pairs, in the
@@ -124,10 +135,7 @@ export function deriveLinesWithDirection(
             for (const frontText of frontTexts) known.add(frontText)
             knownFrontTexts.set(line.id, known)
 
-            const frontTextsOrFallback = frontTexts.length
-                ? frontTexts
-                : [undefined]
-            for (const frontText of frontTextsOrFallback) {
+            for (const frontText of frontTextsOrDefault(line.frontTexts)) {
                 const key = generateQuayLineFrontTextKey(
                     quay.id,
                     line.id,
@@ -174,10 +182,7 @@ export function getInitialCheckedLineIds(
         if (savedQuay) {
             if (savedQuay.whitelistedLines.length === 0) {
                 for (const l of quay.lines) {
-                    const frontTexts = l.frontTexts?.length
-                        ? l.frontTexts
-                        : [undefined]
-                    for (const frontText of frontTexts) {
+                    for (const frontText of frontTextsOrDefault(l.frontTexts)) {
                         set.add(
                             generateQuayLineFrontTextKey(
                                 quay.id,
@@ -190,10 +195,9 @@ export function getInitialCheckedLineIds(
             } else {
                 for (const lineId of savedQuay.whitelistedLines) {
                     const line = quay.lines.find((l) => l.id === lineId)
-                    const frontTexts = line?.frontTexts?.length
-                        ? line.frontTexts
-                        : [undefined]
-                    for (const frontText of frontTexts) {
+                    for (const frontText of frontTextsOrDefault(
+                        line?.frontTexts,
+                    )) {
                         set.add(
                             generateQuayLineFrontTextKey(
                                 quay.id,
@@ -209,10 +213,7 @@ export function getInitialCheckedLineIds(
         } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
             for (const l of quay.lines) {
                 if (tile.whitelistedLines?.includes(l.id)) {
-                    const frontTexts = l.frontTexts?.length
-                        ? l.frontTexts
-                        : [undefined]
-                    for (const frontText of frontTexts) {
+                    for (const frontText of frontTextsOrDefault(l.frontTexts)) {
                         set.add(
                             generateQuayLineFrontTextKey(
                                 quay.id,
@@ -225,10 +226,7 @@ export function getInitialCheckedLineIds(
             }
         } else {
             for (const l of quay.lines) {
-                const frontTexts = l.frontTexts?.length
-                    ? l.frontTexts
-                    : [undefined]
-                for (const frontText of frontTexts) {
+                for (const frontText of frontTextsOrDefault(l.frontTexts)) {
                     set.add(
                         generateQuayLineFrontTextKey(quay.id, l.id, frontText),
                     )
