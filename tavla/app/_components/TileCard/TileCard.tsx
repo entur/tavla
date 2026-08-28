@@ -93,7 +93,11 @@ export function TileCard({
                       id: q.id,
                       whitelistedLines: q.lines
                           .filter((l) =>
-                              quayLineKeys.includes(`${q.id}||${l.id}`),
+                              quayLineKeys.some(
+                                  (key) =>
+                                      key === `${q.id}||${l.id}` ||
+                                      key.startsWith(`${q.id}||${l.id}||`),
+                              ),
                           )
                           .map((l) => l.id),
                   }))
