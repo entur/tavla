@@ -86,11 +86,21 @@ export function parseTileFormData(data: FormData): TileFormValues {
     }
 }
 
+export function generateQuayLineFrontTextKey(
+    quayId: string,
+    lineId: string,
+    frontText?: string | null,
+): string {
+    return frontText
+        ? `${quayId}||${lineId}||${frontText}`
+        : `${quayId}||${lineId}`
+}
+
 /**
  *
  * @param quays The quays with all lines and frontTexts
- * @param selectedQuayLineKeys The currently selected quay-line pairs, in the
- * form of `${quayId}||${lineId}`.
+ * @param selectedQuayLineKeys The currently selected quay-line(-frontText) pairs, in the
+ * form of `${quayId}||${lineId}` or `${quayId}||${lineId}||${frontText}` for lines with known directions
  *
  * @returns A list of lines with their selected directions (frontTexts). If all
  * known directions of a line are selected, the line is returned with an empty
@@ -104,6 +114,7 @@ export function deriveLinesWithDirection(
     const selectedLineIds = new Set(selectedQuayLineKeys)
     const selectedFrontTexts = new Map<string, Set<string>>()
     const knownFrontTexts = new Map<string, Set<string>>()
+    const linesWithAnySelection = new Set<string>()
 
     for (const quay of quays) {
         for (const line of quay.lines) {
@@ -113,21 +124,36 @@ export function deriveLinesWithDirection(
             for (const frontText of frontTexts) known.add(frontText)
             knownFrontTexts.set(line.id, known)
 
-            if (selectedLineIds.has(`${quay.id}||${line.id}`)) {
-                const chosen =
-                    selectedFrontTexts.get(line.id) ?? new Set<string>()
-                for (const frontText of frontTexts) chosen.add(frontText)
-                selectedFrontTexts.set(line.id, chosen)
+            const frontTextsOrFallback = frontTexts.length
+                ? frontTexts
+                : [undefined]
+            for (const frontText of frontTextsOrFallback) {
+                const key = generateQuayLineFrontTextKey(
+                    quay.id,
+                    line.id,
+                    frontText,
+                )
+
+                if (!selectedLineIds.has(key)) continue
+
+                linesWithAnySelection.add(line.id)
+                if (frontText) {
+                    const chosen =
+                        selectedFrontTexts.get(line.id) ?? new Set<string>()
+                    chosen.add(frontText)
+                    selectedFrontTexts.set(line.id, chosen)
+                }
             }
         }
     }
 
-    return Array.from(selectedFrontTexts.entries()).map(([lineId, chosen]) => {
+    return Array.from(linesWithAnySelection).map((lineId) => {
         const known = knownFrontTexts.get(lineId) ?? new Set<string>()
+        const chosen = selectedFrontTexts.get(lineId) ?? new Set<string>()
         const allDirectionsChosen =
-            known.size > 0 &&
-            chosen.size >= known.size &&
-            Array.from(known).every((frontText) => chosen.has(frontText))
+            known.size === 0 ||
+            (chosen.size >= known.size &&
+                Array.from(known).every((frontText) => chosen.has(frontText)))
 
         return {
             lineId,
@@ -135,6 +161,7 @@ export function deriveLinesWithDirection(
         }
     })
 }
+
 export function getInitialCheckedLineIds(
     tile: BoardTileDB,
     quays: QuayWithFrontText[],
@@ -146,21 +173,67 @@ export function getInitialCheckedLineIds(
         const savedQuay = tile.quays?.find((q) => q.id === quay.id)
         if (savedQuay) {
             if (savedQuay.whitelistedLines.length === 0) {
-                for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
+                for (const l of quay.lines) {
+                    const frontTexts = l.frontTexts?.length
+                        ? l.frontTexts
+                        : [undefined]
+                    for (const frontText of frontTexts) {
+                        set.add(
+                            generateQuayLineFrontTextKey(
+                                quay.id,
+                                l.id,
+                                frontText,
+                            ),
+                        )
+                    }
+                }
             } else {
-                for (const lineId of savedQuay.whitelistedLines)
-                    set.add(`${quay.id}||${lineId}`)
+                for (const lineId of savedQuay.whitelistedLines) {
+                    const line = quay.lines.find((l) => l.id === lineId)
+                    const frontTexts = line?.frontTexts?.length
+                        ? line.frontTexts
+                        : [undefined]
+                    for (const frontText of frontTexts) {
+                        set.add(
+                            generateQuayLineFrontTextKey(
+                                quay.id,
+                                lineId,
+                                frontText,
+                            ),
+                        )
+                    }
+                }
             }
         } else if (hasQuayFilter) {
             // Per-quay filter exists but this quay has no entry: nothing selected
         } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
             for (const l of quay.lines) {
                 if (tile.whitelistedLines?.includes(l.id)) {
-                    set.add(`${quay.id}||${l.id}`)
+                    const frontTexts = l.frontTexts?.length
+                        ? l.frontTexts
+                        : [undefined]
+                    for (const frontText of frontTexts) {
+                        set.add(
+                            generateQuayLineFrontTextKey(
+                                quay.id,
+                                l.id,
+                                frontText,
+                            ),
+                        )
+                    }
                 }
             }
         } else {
-            for (const l of quay.lines) set.add(`${quay.id}||${l.id}`)
+            for (const l of quay.lines) {
+                const frontTexts = l.frontTexts?.length
+                    ? l.frontTexts
+                    : [undefined]
+                for (const frontText of frontTexts) {
+                    set.add(
+                        generateQuayLineFrontTextKey(quay.id, l.id, frontText),
+                    )
+                }
+            }
         }
     }
 

@@ -14,6 +14,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from './types'
+import { generateQuayLineFrontTextKey } from './utils'
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
@@ -28,13 +29,6 @@ function PublicCode({ line }: { line: LineWithFrontText }) {
             {line.publicCode}
         </div>
     )
-}
-
-function DisplayName({ line }: { line: LineWithFrontText }) {
-    if (line.frontTexts) {
-        return <>{line.frontTexts.join(' / ')}</>
-    }
-    return <SkeletonRectangle width="6rem" height="1rem" />
 }
 
 export function PlatformAndLines({
@@ -67,13 +61,16 @@ export function PlatformAndLines({
     const { capture } = usePosthogTracking()
 
     const selectedLinesInGroup = lines.filter((l) =>
-        selectedLineIds.has(`${quayId}||${l.id}`),
+        (l.frontTexts ?? []).some((frontText) =>
+            selectedLineIds.has(
+                generateQuayLineFrontTextKey(quayId, l.id, frontText),
+            ),
+        ),
     )
     const isAllSelected =
         lines.length > 0 && selectedLinesInGroup.length === lines.length
     const isNoneSelected = selectedLinesInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
-    const showLines = !isNoneSelected
 
     const compareLineFragment = (
         a: LineWithFrontText,
@@ -161,7 +158,15 @@ export function PlatformAndLines({
                             action: checked ? 'select_all' : 'cleared',
                         })
                         onToggleGroup(
-                            lines.map((l) => `${quayId}||${l.id}`),
+                            lines.flatMap((l) =>
+                                (l.frontTexts ?? []).map((frontText) =>
+                                    generateQuayLineFrontTextKey(
+                                        quayId,
+                                        l.id,
+                                        frontText,
+                                    ),
+                                ),
+                            ),
                             checked,
                         )
                     }}
@@ -170,30 +175,52 @@ export function PlatformAndLines({
             {[...lines]
                 .sort(compareLineFragment)
                 .filter(filterLineFragment)
-                .map((line) => (
-                    <Checkbox
-                        key={line.id}
-                        value={`${quayId}||${line.id}`}
-                        checked={selectedLineIds.has(`${quayId}||${line.id}`)}
-                        className={`pl-3 ${showLines ? '' : 'hidden'}`}
-                        name={`${tile.uuid}-lines`}
-                        data-transport-mode={line.transportMode}
-                        onChange={() => {
-                            capture('stop_place_edit_interaction', {
-                                location: trackingLocation,
-                                field: 'lines',
-                                column_value: 'none',
-                                action: 'changed',
-                            })
-                            onToggleLine(`${quayId}||${line.id}`)
-                        }}
-                    >
-                        <div className="flex flex-row items-center gap-2">
-                            <PublicCode line={line} />
-                            <DisplayName line={line} />
-                        </div>
-                    </Checkbox>
-                ))}
+                .flatMap((line) =>
+                    (line.frontTexts ?? []).map((frontText) => (
+                        <Checkbox
+                            key={generateQuayLineFrontTextKey(
+                                quayId,
+                                line.id,
+                                frontText,
+                            )}
+                            value={generateQuayLineFrontTextKey(
+                                quayId,
+                                line.id,
+                                frontText,
+                            )}
+                            checked={selectedLineIds.has(
+                                generateQuayLineFrontTextKey(
+                                    quayId,
+                                    line.id,
+                                    frontText,
+                                ),
+                            )}
+                            className={`pl-3`}
+                            name={`${tile.uuid}-lines`}
+                            data-transport-mode={line.transportMode}
+                            onChange={() => {
+                                capture('stop_place_edit_interaction', {
+                                    location: trackingLocation,
+                                    field: 'lines',
+                                    column_value: 'none',
+                                    action: 'changed',
+                                })
+                                onToggleLine(
+                                    generateQuayLineFrontTextKey(
+                                        quayId,
+                                        line.id,
+                                        frontText,
+                                    ),
+                                )
+                            }}
+                        >
+                            <div className="flex flex-row items-center gap-2">
+                                <PublicCode line={line} />
+                                {frontText}
+                            </div>
+                        </Checkbox>
+                    )),
+                )}
         </div>
     )
 }

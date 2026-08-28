@@ -10,6 +10,7 @@ import { PlatformAndLines } from '../PlatformAndLines'
 import type { QuayWithFrontText } from '../types'
 import {
     deriveLinesWithDirection,
+    generateQuayLineFrontTextKey,
     getInitialCheckedLineIds,
     transportModeNames,
 } from '../utils'
@@ -213,15 +214,32 @@ export function SetVisibleLines({
         const keysOnActiveQuays: string[] = []
         const keysOnAllQuays: string[] = []
         for (const quay of quays) {
-            const quayIsActive = quay.lines.some((l) =>
-                checkedLineIds.has(`${quay.id}||${l.id}`),
-            )
+            const quayIsActive = quay.lines.some((l) => {
+                const frontTexts = l.frontTexts?.length
+                    ? l.frontTexts
+                    : [undefined]
+                return frontTexts.some((frontText) =>
+                    checkedLineIds.has(
+                        generateQuayLineFrontTextKey(quay.id, l.id, frontText),
+                    ),
+                )
+            })
 
             for (const line of quay.lines) {
                 if (line.transportMode === mode) {
-                    keysOnAllQuays.push(`${quay.id}||${line.id}`)
-                    if (quayIsActive) {
-                        keysOnActiveQuays.push(`${quay.id}||${line.id}`)
+                    const frontTexts = line.frontTexts?.length
+                        ? line.frontTexts
+                        : [undefined]
+                    for (const frontText of frontTexts) {
+                        const key = generateQuayLineFrontTextKey(
+                            quay.id,
+                            line.id,
+                            frontText,
+                        )
+                        keysOnAllQuays.push(key)
+                        if (quayIsActive) {
+                            keysOnActiveQuays.push(key)
+                        }
                     }
                 }
             }
@@ -242,11 +260,17 @@ export function SetVisibleLines({
 
     const isModeSelected = (mode: TTransportMode) =>
         quays.some((q) =>
-            q.lines.some(
-                (l) =>
-                    l.transportMode === mode &&
-                    checkedLineIds.has(`${q.id}||${l.id}`),
-            ),
+            q.lines.some((l) => {
+                if (l.transportMode !== mode) return false
+                const frontTexts = l.frontTexts?.length
+                    ? l.frontTexts
+                    : [undefined]
+                return frontTexts.some((frontText) =>
+                    checkedLineIds.has(
+                        generateQuayLineFrontTextKey(q.id, l.id, frontText),
+                    ),
+                )
+            }),
         )
 
     const renderQuay = (quay: QuayWithFrontText) => {
