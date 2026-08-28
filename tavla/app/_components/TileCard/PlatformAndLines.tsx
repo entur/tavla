@@ -1,7 +1,6 @@
 'use client'
 import { Checkbox } from '@entur/form'
 import { ValidationInfoFilledIcon } from '@entur/icons'
-import { SkeletonRectangle } from '@entur/loader'
 import { Tooltip } from '@entur/tooltip'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
