@@ -215,10 +215,7 @@ export function SetVisibleLines({
         const keysOnAllQuays: string[] = []
         for (const quay of quays) {
             const quayIsActive = quay.lines.some((l) => {
-                const frontTexts = l.frontTexts?.length
-                    ? l.frontTexts
-                    : [undefined]
-                return frontTexts.some((frontText) =>
+                return l.frontTexts.some((frontText) =>
                     checkedLineIds.has(
                         generateQuayLineFrontTextKey(quay.id, l.id, frontText),
                     ),
@@ -227,10 +224,7 @@ export function SetVisibleLines({
 
             for (const line of quay.lines) {
                 if (line.transportMode === mode) {
-                    const frontTexts = line.frontTexts?.length
-                        ? line.frontTexts
-                        : [undefined]
-                    for (const frontText of frontTexts) {
+                    for (const frontText of line.frontTexts) {
                         const key = generateQuayLineFrontTextKey(
                             quay.id,
                             line.id,
