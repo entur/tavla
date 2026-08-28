@@ -61,7 +61,7 @@ export function PlatformAndLines({
     const { capture } = usePosthogTracking()
 
     const selectedLinesInGroup = lines.filter((l) =>
-        (l.frontTexts ?? []).some((frontText) =>
+        l.frontTexts.some((frontText) =>
             selectedLineIds.has(
                 generateQuayLineFrontTextKey(quayId, l.id, frontText),
             ),
@@ -159,7 +159,7 @@ export function PlatformAndLines({
                         })
                         onToggleGroup(
                             lines.flatMap((l) =>
-                                (l.frontTexts ?? []).map((frontText) =>
+                                l.frontTexts.map((frontText) =>
                                     generateQuayLineFrontTextKey(
                                         quayId,
                                         l.id,
@@ -176,7 +176,7 @@ export function PlatformAndLines({
                 .sort(compareLineFragment)
                 .filter(filterLineFragment)
                 .flatMap((line) =>
-                    (line.frontTexts ?? []).map((frontText) => (
+                    line.frontTexts.map((frontText) => (
                         <Checkbox
                             key={generateQuayLineFrontTextKey(
                                 quayId,

@@ -90,7 +90,7 @@ function useLines(
                         ...q,
                         lines: q.lines.map((l) => ({
                             ...l,
-                            frontTexts: undefined,
+                            frontTexts: [],
                         })),
                     })),
                 )
