@@ -26,7 +26,7 @@ describe('deriveLinesWithDirection', () => {
             quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }]),
             quay('Q2', [{ id: 'L1', frontTexts: ['Sør'] }]),
         ]
-        expect(deriveLinesWithDirection(quays, ['Q1||L1'])).toEqual([
+        expect(deriveLinesWithDirection(quays, ['Q1||L1||Nord'])).toEqual([
             { lineId: 'L1', frontTexts: ['Nord'] },
         ])
     })
@@ -36,9 +36,9 @@ describe('deriveLinesWithDirection', () => {
             quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }]),
             quay('Q2', [{ id: 'L1', frontTexts: ['Sør'] }]),
         ]
-        expect(deriveLinesWithDirection(quays, ['Q1||L1', 'Q2||L1'])).toEqual([
-            { lineId: 'L1', frontTexts: [] },
-        ])
+        expect(
+            deriveLinesWithDirection(quays, ['Q1||L1||Nord', 'Q2||L1||Sør']),
+        ).toEqual([{ lineId: 'L1', frontTexts: [] }])
     })
 
     it('gir frontTexts: [] ("alle retninger", fail-open) for en valgt linje som mangler frontText-data, i stedet for å droppe linja', () => {
@@ -60,7 +60,7 @@ describe('deriveLinesWithDirection', () => {
                 { id: 'L2', frontTexts: ['Vest'] },
             ]),
         ]
-        const result = deriveLinesWithDirection(quays, ['Q1||L1'])
+        const result = deriveLinesWithDirection(quays, ['Q1||L1||Nord'])
         expect(result).toHaveLength(1)
         expect(result[0]?.lineId).toBe('L1')
     })
@@ -70,9 +70,12 @@ describe('deriveLinesWithDirection', () => {
             quay('Q1', [{ id: 'L1', frontTexts: ['Storo', 'Bergkrystallen'] }]),
             quay('Q2', [{ id: 'L1', frontTexts: ['Sinsen'] }]),
         ]
-        expect(deriveLinesWithDirection(quays, ['Q1||L1'])).toEqual([
-            { lineId: 'L1', frontTexts: ['Bergkrystallen', 'Storo'] },
-        ])
+        expect(
+            deriveLinesWithDirection(quays, [
+                'Q1||L1||Storo',
+                'Q1||L1||Bergkrystallen',
+            ]),
+        ).toEqual([{ lineId: 'L1', frontTexts: ['Bergkrystallen', 'Storo'] }])
     })
 })
 
