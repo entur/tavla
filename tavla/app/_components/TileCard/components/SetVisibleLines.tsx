@@ -9,8 +9,8 @@ import { TileContext } from '../context'
 import { PlatformAndLines } from '../PlatformAndLines'
 import type { QuayWithFrontText } from '../types'
 import {
+    buildQuayLineFrontTextKey,
     deriveLinesWithDirection,
-    generateQuayLineFrontTextKey,
     getInitialCheckedLineIds,
     transportModeNames,
 } from '../utils'
@@ -217,7 +217,7 @@ export function SetVisibleLines({
             const quayIsActive = quay.lines.some((l) => {
                 return l.frontTexts.some((frontText) =>
                     checkedLineIds.has(
-                        generateQuayLineFrontTextKey(quay.id, l.id, frontText),
+                        buildQuayLineFrontTextKey(quay.id, l.id, frontText),
                     ),
                 )
             })
@@ -225,7 +225,7 @@ export function SetVisibleLines({
             for (const line of quay.lines) {
                 if (line.transportMode === mode) {
                     for (const frontText of line.frontTexts) {
-                        const key = generateQuayLineFrontTextKey(
+                        const key = buildQuayLineFrontTextKey(
                             quay.id,
                             line.id,
                             frontText,
@@ -261,7 +261,7 @@ export function SetVisibleLines({
                     : [undefined]
                 return frontTexts.some((frontText) =>
                     checkedLineIds.has(
-                        generateQuayLineFrontTextKey(q.id, l.id, frontText),
+                        buildQuayLineFrontTextKey(q.id, l.id, frontText),
                     ),
                 )
             }),

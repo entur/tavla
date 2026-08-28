@@ -86,7 +86,7 @@ export function parseTileFormData(data: FormData): TileFormValues {
     }
 }
 
-export function generateQuayLineFrontTextKey(
+export function buildQuayLineFrontTextKey(
     quayId: string,
     lineId: string,
     frontText?: string | null,
@@ -125,7 +125,7 @@ export function deriveLinesWithDirection(
             knownFrontTexts.set(line.id, known)
 
             for (const frontText of frontTexts) {
-                const key = generateQuayLineFrontTextKey(
+                const key = buildQuayLineFrontTextKey(
                     quay.id,
                     line.id,
                     frontText,
@@ -173,11 +173,7 @@ export function getInitialCheckedLineIds(
                 for (const l of quay.lines) {
                     for (const frontText of l.frontTexts) {
                         set.add(
-                            generateQuayLineFrontTextKey(
-                                quay.id,
-                                l.id,
-                                frontText,
-                            ),
+                            buildQuayLineFrontTextKey(quay.id, l.id, frontText),
                         )
                     }
                 }
@@ -189,7 +185,7 @@ export function getInitialCheckedLineIds(
                     if (!frontTexts) continue
                     for (const frontText of frontTexts) {
                         set.add(
-                            generateQuayLineFrontTextKey(
+                            buildQuayLineFrontTextKey(
                                 quay.id,
                                 lineId,
                                 frontText,
@@ -205,11 +201,7 @@ export function getInitialCheckedLineIds(
                 if (tile.whitelistedLines?.includes(l.id)) {
                     for (const frontText of l.frontTexts) {
                         set.add(
-                            generateQuayLineFrontTextKey(
-                                quay.id,
-                                l.id,
-                                frontText,
-                            ),
+                            buildQuayLineFrontTextKey(quay.id, l.id, frontText),
                         )
                     }
                 }
@@ -217,9 +209,7 @@ export function getInitialCheckedLineIds(
         } else {
             for (const l of quay.lines) {
                 for (const frontText of l.frontTexts) {
-                    set.add(
-                        generateQuayLineFrontTextKey(quay.id, l.id, frontText),
-                    )
+                    set.add(buildQuayLineFrontTextKey(quay.id, l.id, frontText))
                 }
             }
         }

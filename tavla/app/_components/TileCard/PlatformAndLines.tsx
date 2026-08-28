@@ -14,7 +14,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from './types'
-import { generateQuayLineFrontTextKey } from './utils'
+import { buildQuayLineFrontTextKey } from './utils'
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
@@ -63,7 +63,7 @@ export function PlatformAndLines({
     const selectedLinesInGroup = lines.filter((l) =>
         l.frontTexts.some((frontText) =>
             selectedLineIds.has(
-                generateQuayLineFrontTextKey(quayId, l.id, frontText),
+                buildQuayLineFrontTextKey(quayId, l.id, frontText),
             ),
         ),
     )
@@ -160,7 +160,7 @@ export function PlatformAndLines({
                         onToggleGroup(
                             lines.flatMap((l) =>
                                 l.frontTexts.map((frontText) =>
-                                    generateQuayLineFrontTextKey(
+                                    buildQuayLineFrontTextKey(
                                         quayId,
                                         l.id,
                                         frontText,
@@ -178,18 +178,18 @@ export function PlatformAndLines({
                 .flatMap((line) =>
                     line.frontTexts.map((frontText) => (
                         <Checkbox
-                            key={generateQuayLineFrontTextKey(
+                            key={buildQuayLineFrontTextKey(
                                 quayId,
                                 line.id,
                                 frontText,
                             )}
-                            value={generateQuayLineFrontTextKey(
+                            value={buildQuayLineFrontTextKey(
                                 quayId,
                                 line.id,
                                 frontText,
                             )}
                             checked={selectedLineIds.has(
-                                generateQuayLineFrontTextKey(
+                                buildQuayLineFrontTextKey(
                                     quayId,
                                     line.id,
                                     frontText,
@@ -206,7 +206,7 @@ export function PlatformAndLines({
                                     action: 'changed',
                                 })
                                 onToggleLine(
-                                    generateQuayLineFrontTextKey(
+                                    buildQuayLineFrontTextKey(
                                         quayId,
                                         line.id,
                                         frontText,
