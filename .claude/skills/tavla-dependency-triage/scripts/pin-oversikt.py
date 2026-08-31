@@ -16,6 +16,7 @@ Bruk (fra repo-rot i entur/tavla):
     python3 .claude/skills/tavla-dependency-triage/scripts/pin-oversikt.py
 
 Krever git og lesetilgang til de to package.json-filene. Ingenting annet.
+Begge repoene må være klonet — mangler ett, avbryter scriptet.
 """
 
 import os
@@ -49,16 +50,22 @@ def rows_for(repo_key, path, repo_name):
         chain = None if changes is None else changes.get(pkg)
         last = chain[0] if chain else None
         if last is None:
-            # Ukjent alder er ikke det samme som «ny». Fører den i unchecked.
             pf.unchecked.append(
                 f"{repo_name}: fant ikke historikk for {pkg}, alder ukjent")
             rows.append(("9999-99-99", pkg, pin, "❔ ukjent", None, "❔"))
             continue
         datestr, _sha, pr, _before, _after = last
         rows.append((datestr, pkg, pin, datestr, pr, pf.human_age(datestr) or "❔"))
-    rows.sort(key=lambda r: r[0])  # eldst først — det er prioriteringssignalet
+    rows.sort(key=lambda r: r[0]) 
     return rows
 
+
+# Sjekkes før noe skrives: en halv oversikt er lettere å overse enn en
+# kjøring som stopper.
+if any(not os.path.exists(sti) for _navn, _nokkel, sti in REPOS):
+    print("FEIL: Repo mangler. Sørg for at du har klonet både tavla og "
+          "tavla-visning.", file=sys.stderr)
+    sys.exit(1)
 
 print("=" * 72)
 print("PIN-OVERSIKT — hva er pinnet, og hvor lenge har det stått?")
@@ -73,18 +80,12 @@ for repo_name, repo_key, path in REPOS:
     head = f"### {repo_name}"
     print(f"{head}  (gren: {branch})" if branch else f"{head}  (gren: ❔)")
     if branch is None:
-        pf.unchecked.append(f"{repo_name}: fant ikke git-checkout, historikk utilgjengelig")
+        pf.unchecked.append(f"{repo_name}: fant ikke git-historikk, alder utilgjengelig")
 
     rows = rows_for(repo_key, path, repo_name)
     if rows is None:
-        if not os.path.exists(path):
-            print(f"  ❔ fant ikke {path} — klon repoet ved siden av tavla for å få")
-            print("     pin-oversikt for det. Enkeltpinner kan vurderes uansett:")
-            print(f"     pin-vurder.py <pakke> {repo_key}")
-            pf.unchecked.append(f"{repo_name}: ikke klonet lokalt, pinner ikke listet")
-        else:
-            print(f"  ❔ klarte ikke å lese {path} — ugyldig JSON? (merge-konflikt?)")
-            pf.unchecked.append(f"{repo_name}: package.json kunne ikke leses")
+        print(f"  ❔ klarte ikke å lese {path} — ugyldig JSON? (merge-konflikt?)")
+        pf.unchecked.append(f"{repo_name}: package.json kunne ikke leses")
         print()
         continue
     if not rows:
@@ -114,4 +115,5 @@ if pf.unchecked:
     for u in pf.unchecked:
         print(f"     • {u}")
 print("=" * 72)
+# Bare reelle feil gir exit 1.
 sys.exit(1 if pf.unchecked else 0)

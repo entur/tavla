@@ -56,8 +56,19 @@ if pin is None:
 # der den faktisk betyr noe.
 manual = []
 
+# Hvor pinnen faktisk er lest fra. Uten dette kan vurderingen sammenligne en
+# pin fra en gammel feature-gren mot live varsler fra GitHub, og anbefale
+# handling på en tilstand som ikke finnes i produksjon. Det har skjedd: `tar`
+# ble rapportert som blokkerende mens origin/main alt hadde fjernet pinnen.
+if os.path.exists(pkg_path):
+    _branch = pf.current_branch(repo_key)
+    kilde = f"lokalt arbeidstre, gren {_branch}" if _branch else "lokalt arbeidstre, ukjent gren"
+else:
+    kilde = "GitHub, default-grenen"
+
 print("=" * 72)
 print(f"{name} — pinnet {pin} i {repo}")
+print(f"Pin lest fra: {kilde}.  Varsler hentes live fra GitHub.")
 print("=" * 72)
 
 # ------------------------------------------------------------- historikk

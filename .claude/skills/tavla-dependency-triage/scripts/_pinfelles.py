@@ -317,7 +317,7 @@ def pins_at(repo_key, ref):
         except json.JSONDecodeError:
             d = None
         if d is not None:
-            val = d.get("resolutions") or d.get("pnpm", {}).get("overrides", {}) or {}
+            val = _pins_from(d)
     _pins_cache[key] = val
     return val
 
