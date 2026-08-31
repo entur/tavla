@@ -59,16 +59,26 @@ export function PlatformAndLines({
 }) {
     const { capture } = usePosthogTracking()
 
-    const selectedLinesInGroup = lines.filter((l) =>
-        frontTextsOrDefault(l.frontTexts).some((frontText) =>
-            selectedLineIds.has(
+    const filterLineFragment = (line: LineWithFrontText) => {
+        return !line.frontTexts || line.frontTexts.length > 0
+    }
+
+    const allKeysInGroup = lines
+        .filter(filterLineFragment)
+        .flatMap((l) =>
+            frontTextsOrDefault(l.frontTexts).map((frontText) =>
                 generateQuayLineFrontTextKey(quayId, l.id, frontText),
             ),
-        ),
+        )
+
+    const selectedKeysInGroup = allKeysInGroup.filter((key) =>
+        selectedLineIds.has(key),
     )
+
     const isAllSelected =
-        lines.length > 0 && selectedLinesInGroup.length === lines.length
-    const isNoneSelected = selectedLinesInGroup.length === 0
+        allKeysInGroup.length > 0 &&
+        selectedKeysInGroup.length === allKeysInGroup.length
+    const isNoneSelected = selectedKeysInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
 
     const compareLineFragment = (
@@ -88,10 +98,6 @@ export function PlatformAndLines({
         return codeA.localeCompare(codeB, undefined, {
             numeric: true,
         })
-    }
-
-    const filterLineFragment = (line: LineWithFrontText) => {
-        return !line.frontTexts || line.frontTexts.length > 0
     }
 
     const transportModesFromLines = getTransportModesFromLines(lines)

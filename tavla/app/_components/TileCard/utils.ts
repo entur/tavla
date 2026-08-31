@@ -170,6 +170,23 @@ export function deriveLinesWithDirection(
     })
 }
 
+export function countSelectableQuayLineKeys(
+    quays: QuayWithFrontText[],
+): number {
+    return quays.reduce(
+        (sum, quay) =>
+            sum +
+            quay.lines
+                .filter((l) => !l.frontTexts || l.frontTexts.length > 0)
+                .reduce(
+                    (lineSum, l) =>
+                        lineSum + frontTextsOrDefault(l.frontTexts).length,
+                    0,
+                ),
+        0,
+    )
+}
+
 export function getInitialCheckedLineIds(
     tile: BoardTileDB,
     quays: QuayWithFrontText[],

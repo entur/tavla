@@ -27,7 +27,7 @@ import { SetVisibleLines } from './components/SetVisibleLines'
 import { TileArrows } from './components/TileArrows'
 import { TileContext } from './context'
 import { useLines } from './useLines'
-import { parseTileFormData } from './utils'
+import { countSelectableQuayLineKeys, parseTileFormData } from './utils'
 
 export function TileCard({
     board,
@@ -68,7 +68,6 @@ export function TileCard({
     ) => {
         const {
             columns: parsedColumns,
-            count,
             offset,
             displayName,
             quayLineKeys,
@@ -80,11 +79,15 @@ export function TileCard({
             return getFormFeedbackForError('board/tiles-name-missing')
         }
 
-        if (quayLineKeys.length === 0 && count !== null && count > 0) {
+        const totalSelectableKeys = countSelectableQuayLineKeys(
+            quaysWithFilteredLines,
+        )
+
+        if (quayLineKeys.length === 0 && totalSelectableKeys > 0) {
             return getFormFeedbackForError('board/tiles-no-lines-selected')
         }
 
-        const allSelected = quayLineKeys.length === count
+        const allSelected = quayLineKeys.length === totalSelectableKeys
 
         const newQuays = allSelected
             ? []
