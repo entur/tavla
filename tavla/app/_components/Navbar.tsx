@@ -13,9 +13,19 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
     return (
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
             <Logo
+                href="/"
+                alt="Gå tilbake til forsiden"
+                className="flex md:hidden"
+                size="small"
+                onClick={() =>
+                    capture('go_to_home_page', { location: 'nav_bar' })
+                }
+            />
+            <Logo
                 productName="Tavla"
                 href="/"
                 alt="Gå tilbake til forsiden"
+                className="hidden md:flex"
                 onClick={() =>
                     capture('go_to_home_page', { location: 'nav_bar' })
                 }
