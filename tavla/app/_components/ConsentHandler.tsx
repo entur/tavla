@@ -54,6 +54,8 @@ const basePostHogOptions: Partial<PostHogConfig> = {
             return null
         }
         if (hostname === 'tavla.dev.entur.no') {
+            // biome-ignore lint/suspicious/noConsole: Intentional logging for testing in environment
+            console.log('PostHog event (blokkert, tavla.dev.entur.no):', event)
             return null
         }
         return event
