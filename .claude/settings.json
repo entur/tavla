@@ -1,5 +1,9 @@
 {
   "permissions": {
+    "deny": [
+      "Bash(gh api *dependabot/alerts/*)",
+      "Bash(gh api *code-scanning/alerts/*)"
+    ],
     "ask": [
       "Bash(gh api -X*)",
       "Bash(gh api * -X*)",

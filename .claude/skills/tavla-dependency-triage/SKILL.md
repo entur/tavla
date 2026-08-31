@@ -4,14 +4,15 @@ name: tavla-dependency-triage
 # begrensning — den fjerner et godkjenningssteg, så alt som ikke trenger et
 # grant skal ikke stå her. grep, git log, git show og de rene lesetøyene
 # (Read/Grep/Glob) ligger i Claude Codes innebygde read-only-sett og spør
-# aldri uansett; entries for dem var inerte. awk står her fordi det *ikke*
-# er i det settet.
+# aldri uansett; entries for dem var inerte. awk er også ute: det kan skrive
+# filer (`print > "fil"`), og alt skillen trenger det til får grep gjort.
 #
-# gh api er snevret til de to varsel-endepunktene skillen faktisk leser.
-# Bash-regler matcher hele kommandoteksten, så et etterfølgende * dekker
-# også en skrivende variant av samme URL — derfor ligger den egentlige
-# sperren mot skriving i ask-reglene i .claude/settings.json, som alltid
-# spør ved -X/--method/-f/-F/--input. Lagdelt, ikke enten-eller.
+# gh api er snevret til de to varsel-endepunktene skillen faktisk leser, og
+# de listende formene: liste-URLen har «?» etter «alerts», mens alt som gjelder
+# ETT varsel har «/<nummer>». Deny-reglene i .claude/settings.json blokkerer
+# den siste formen helt, slik at et sikkerhetsvarsel aldri kan endres — deny
+# slår allow, og kan ikke godkjennes bort i øyeblikket. Ask-reglene der er
+# forsvar i dybden for alle andre endepunkter. Lagdelt, ikke enten-eller.
 #
 # pin-oversikt.py kan kjøre fritt fordi den er lokal: bare git og to
 # package.json-filer, ingen nettverk. Den bruker load_pins_local nettopp for
@@ -33,7 +34,6 @@ allowed-tools:
   - Bash(gh pr view:*)
   - Bash(gh api *dependabot/alerts*)
   - Bash(gh api *code-scanning/alerts*)
-  - Bash(awk:*)
   - Bash(python3 .claude/skills/tavla-dependency-triage/scripts/pin-oversikt.py)
   - Edit(.dependency-vakt/**)
 description: >
@@ -134,7 +134,7 @@ Sjekk alltid hvilken versjon som faktisk er **installert**, ikke bare hvilken so
 Konkret sjekk for `entur/tavla`:
 
 ```bash
-cd tavla && awk '/^"PAKKE@npm:/{f=1} f&&/^  version/{print $2; f=0}' yarn.lock | sort -u
+grep -A2 '^"PAKKE@npm:' tavla/yarn.lock | grep '^  version:' | sort -u
 ```
 
 Er svaret mer enn én versjon, må du finne ut hvem som drar inn de sårbare kopiene før du konkluderer — og ofte er fiksen en pin/deduplisering, ikke PRen som ligger åpen.
@@ -237,31 +237,48 @@ Deretter én underseksjon per pin du faktisk **vurderte** med `pin-vurder.py`. V
 
 ---
 
-## ✅ Rutinemessige bumps
+## ✅ Patch — du merger selv
 
 ### 📦 {pakkenavn} {fra-versjon} → {til-versjon}
-**Type:** Patch/Minor  |  **Risiko:** 🟢 Lav  |  [PR #{nummer}]({url})
+**Patch**{ — changelog lest fordi pakken håndterer brukerinput/auth}  |  [PR #{nummer}]({url})
 
-**Hva endret seg:**
-- {endringspunkt}
+**Hva endret seg:** {endringspunkt}
 
-**Vurdering:** {Resonnement — hva ble sjekket, grep-funn, hva avgjorde risikoklassen}
+**Vurdering:** {Hva ble sjekket — grep-funn for brukssteder, CI-status, hva du testet}
 
 **Anbefaling:** ✅ Merge
 
 ---
 
-## ⚠️ Krever vurdering
+## 👀 Minor og major — til review
 
 ### 📦 {pakkenavn} {fra-versjon} → {til-versjon}
-**Type:** Minor/Major  |  **Risiko:** 🟡 Middels / 🔴 Høy  |  [PR #{nummer}]({url})
+**{Minor|Major}**  |  [PR #{nummer}]({url})
 
 **Hva endret seg:**
-- {endringspunkt}
+- {endringspunkt fra changelog — `added` / `changed` / `deprecated` / `removed`}
 
 **Vurdering:** {Resonnement}
 
-**Anbefaling:** ⏸ Vent — {begrunnelse}
+**Til reviewer:** {Hva ble sjekket, hva er du usikker på, hva bør de se spesielt på}
+
+**Anbefaling:** 👀 Tagg en til i PR-en — {hva du mener bør skje}
+
+---
+
+## 📋 Major med breaking changes — boardoppgave
+
+Majors som krever kodeendringer hos oss er ikke dependency-triage lenger, det er planlagt arbeid. La PR-en ligge, og skriv oppgaven her så neste vakt ikke triagerer den på nytt.
+
+### 📦 {pakkenavn} {fra-versjon} → {til-versjon}
+**Major med breaking changes**  |  [PR #{nummer}]({url})  |  Boardoppgave: {ETU-nummer, eller «ikke opprettet ennå»}
+
+**Hva brekker hos oss:**
+- {konkret API/mønster, med filsti fra grep}
+
+**Anslag på omfang:** {hva må endres, og omtrent hvor mye}
+
+**Anbefaling:** 📋 Opprett boardoppgave og la PR-en ligge
 
 ---
 
@@ -296,10 +313,12 @@ Generer denne seksjonen **etter** at all triage er gjort. List opp konkrete hand
 ```
 
 Eksempel på gode todo-punkter:
-- ✅ "Dismiss CodeQL #39 som tolerable risk med kommentar om hardkodet hostname → [link]"
 - ✅ "Merge Dependabot PR #123 (patch, grønt CI) → [link]"
+- ✅ "Tagg en utvikler på PR #124 (minor på dompurify) → [link]"
+- ✅ "Lag allowlist-PR for CodeQL #39 med begrunnelse om hardkodet hostname → [link]"
 - ✅ "Oppgrader postcss til 8.5.10+ i tavla-visning ved neste dep-runde"
 - ❌ "Vurdere hono" (for vagt — si konkret hva som skal gjøres)
+- ❌ "Dismiss varsel #39" (vakten endrer aldri et varsel — det er en allowlist-PR noen reviewer)
 
 ---
 
@@ -317,7 +336,7 @@ Eksempel på gode todo-punkter:
 
 Legg til én seksjon per PR og én per alert. Legg til ekstra sjekklistepunkter for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Dismiss stale DOMPurify-alerts").
 
-**Rekkefølge i brief:** Oversikt → **📌 Pin-status** → Rutinemessige bumps → Krever vurdering → Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Pin-seksjonen kommer først fordi en pin kan være grunnen til at et varsel lenger ned ikke lar seg lukke. Todo-seksjonen kommer alltid rett før test-sjekklisten.
+**Rekkefølge i brief:** Oversikt → **📌 Pin-status** → ✅ Patch → 👀 Minor og major → 📋 Major med breaking changes → 🔒 Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Pin-seksjonen kommer først fordi en pin kan være grunnen til at et varsel lenger ned ikke lar seg lukke. Todo-seksjonen kommer alltid rett før test-sjekklisten.
 
 ---
 
@@ -337,15 +356,30 @@ Resultatet havner ett av to steder: som del av `## 🔒 Sikkerhetsvarsler` i man
 
 ---
 
-## Når en annen utvikler bør se på det
+## Hva vakten merger selv
 
-Vakten gjør førstevurdering og foreslår handling. I disse tre tilfellene skal en annen utvikler på teamet se på koden/PR-en før merge:
+**Bumptypen bestemmer.** Patch merger du selv; minor og major skal en annen utvikler se på først.
 
-1. **Oppgraderingen krever kodeendringer hos oss** — ikke bare en versjonsbump.
-2. **Det er en major-oppgradering** (semver-major).
-3. **Du er usikker på noe** — uansett hva.
+| Bumptype | Dette gjør du | Hvem merger |
+|---|---|---|
+| **patch** `x.y.Z` | CI grønn, sjekk brukssteder, test raskt | du selv |
+| **minor** `x.Y.z` | changelog, brukssteder, CI grønn, test | tagg en til i PR-en |
+| **major** `X.y.z` | breaking changes hos oss? Ja → oppgave i boardet, PR-en ligger. Nei → minor-stegene | tagg en til i PR-en |
 
-Dette er ikke en formell prosess. Tagg en annen utvikler i PR-en eller spør på Slack, og gå videre til neste i køen mens du venter. Du må ikke gjøre triagen alene — spør om bistand og sparring fra resten av teamet når som helst.
+To ting å huske utover tabellen:
+
+- **PRene er gruppert.** `patch-minor-dependencies` kan inneholde begge typer. Da gjelder den høyeste typen i gruppa for hele PR-en.
+- **`dompurify` og `firebase*` krever changelog uansett bumptype** — de håndterer brukerinput og auth. Det endrer bare arbeidet, ikke hvem som merger: en patch merger du fortsatt selv.
+
+Full framgangsmåte per bumptype, med hva du ser etter i changelogen: `references/risikoklassifisering.md`.
+
+Tabellen er hele regelen. Er du usikker på en patch, les changelogen — det tar to minutter og krever ingen andres tid. Er du usikker på om noe er patch eller minor, se på versjonsnummeret; er du usikker på om en minor egentlig brekker noe, er den allerede på vei til review.
+
+Dette er ikke en formell prosess. Tagg en annen utvikler i PR-en eller spør på Slack, og gå videre til neste i køen mens du venter. Du må ikke gjøre triagen alene — spør om sparring når som helst, også på en patch.
+
+**Skillen skal aldri endre et sikkerhetsvarsel.** Den er teknisk sperret fra det — deny-reglene i `.claude/settings.json` blokkerer alle kall mot et enkelt varsel, og deny kan ikke godkjennes bort i øyeblikket. Får du et forslag om å dismisse et varsel, er det en feil i skillen; meld det.
+
+Å lukke et varsel uten en oppgradering er en **risikoaksept**, og den hører ikke i 🟢-bøtta. Den varige formen er en allowlist-PR som en annen utvikler reviewer (`references/sikkerhets-triage.md`, Steg 5) — og på `wont_fix` med høy CVSS skal Team Sikkerhet inn.
 
 ---
 
