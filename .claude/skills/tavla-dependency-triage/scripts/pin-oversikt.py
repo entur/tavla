@@ -18,6 +18,7 @@ Bruk (fra repo-rot i entur/tavla):
 Krever git og lesetilgang til de to package.json-filene. Ingenting annet.
 """
 
+import os
 import sys
 
 import _pinfelles as pf
@@ -29,8 +30,15 @@ REPOS = [
 
 
 def rows_for(repo_key, path, repo_name):
-    """→ [(sortnøkkel, pakke, pin, datotekst, pr, aldertekst)] eller None."""
-    pins = pf.load_pins(path, repo_name)
+    """→ [(sortnøkkel, pakke, pin, datotekst, pr, aldertekst)] eller None.
+
+    Bruker load_pins_local, ikke load_pins: gh-fallbacken ville gjort denne
+    kjøringen nettverksavhengig, og det er nettopp fordi den *ikke* er det at
+    den kan kjøre uten å spørre. Uten lokal checkout er alderen ukjent
+    uansett, siden git-historikken mangler — halv informasjon er ikke verdt
+    å bytte den egenskapen for.
+    """
+    pins = pf.load_pins_local(path)
     if pins is None:
         return None
     if not pins:
@@ -69,8 +77,14 @@ for repo_name, repo_key, path in REPOS:
 
     rows = rows_for(repo_key, path, repo_name)
     if rows is None:
-        print("  ❔ fant ikke package.json, og kunne ikke hente den via gh — ikke sjekket")
-        pf.unchecked.append(f"{repo_name}: fikk ikke lest package.json")
+        if not os.path.exists(path):
+            print(f"  ❔ fant ikke {path} — klon repoet ved siden av tavla for å få")
+            print("     pin-oversikt for det. Enkeltpinner kan vurderes uansett:")
+            print(f"     pin-vurder.py <pakke> {repo_key}")
+            pf.unchecked.append(f"{repo_name}: ikke klonet lokalt, pinner ikke listet")
+        else:
+            print(f"  ❔ klarte ikke å lese {path} — ugyldig JSON? (merge-konflikt?)")
+            pf.unchecked.append(f"{repo_name}: package.json kunne ikke leses")
         print()
         continue
     if not rows:

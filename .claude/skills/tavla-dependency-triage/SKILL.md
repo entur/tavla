@@ -13,7 +13,12 @@ name: tavla-dependency-triage
 # sperren mot skriving i ask-reglene i .claude/settings.json, som alltid
 # spør ved -X/--method/-f/-F/--input. Lagdelt, ikke enten-eller.
 #
-# pin-oversikt.py er billig og konkluderer ingenting, så den kan kjøre fritt.
+# pin-oversikt.py kan kjøre fritt fordi den er lokal: bare git og to
+# package.json-filer, ingen nettverk. Den bruker load_pins_local nettopp for
+# å holde det slik — gh-fallbacken finnes bare i pin-vurder.py. Endres det,
+# er grunnlaget for dette grantet borte, for grantet dekker transitivt alt i
+# _pinfelles.py, og Bash-regler ser ikke kall som skjer inne i Python.
+#
 # pin-vurder.py har bevisst INGEN entry: entryen over er en eksaktmatch uten
 # wildcard, så den dekker bare den argumentløse kommandoen. Per-pin-vurderingen
 # faller dermed utenfor grantet og spør av seg selv — det er hele poenget, og

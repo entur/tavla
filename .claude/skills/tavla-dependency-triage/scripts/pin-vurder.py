@@ -49,6 +49,13 @@ if pin is None:
         print(f"  • {k} ({v})")
     sys.exit(1)
 
+# Kjente begrensninger som krever manuell oppfølging. Holdes atskilt fra
+# pf.unchecked med vilje: «kan ikke avgjøres automatisk her, og her er
+# framgangsmåten» er et gyldig utfall, ikke en feil. Blandet sammen ville
+# hver visning-kjøring gitt exit 1, og da slutter folk å tro på exit-koden
+# der den faktisk betyr noe.
+manual = []
+
 print("=" * 72)
 print(f"{name} — pinnet {pin} i {repo}")
 print("=" * 72)
@@ -125,7 +132,8 @@ if repo_key == "visning":
     print("        pnpm install --lockfile-only")
     print(f"        grep -n '^  {name}@' pnpm-lock.yaml")
     print("\n      Én kopi på en trygg versjon ⇒ pinnen kan fjernes permanent.")
-    pf.unchecked.append(f"{repo}: {name} Del 2 må gjøres manuelt (pnpm-lock v9)")
+    manual.append(f"{repo}: avgjør om {name} fortsatt trengs — pnpm-lock v9 "
+                  f"mangler konsumentranges, så steget er manuelt")
 elif alerts is None:
     print("  ❔ varsellista manglet, så en trygg/usikker-vurdering er umulig")
 else:
@@ -236,6 +244,12 @@ else:
 print("\n  Beslutningsrekkefølgen er fjern → eksakt + audit. Range i resolutions")
 print("  brukes ikke i Tavla; se references/pin-vedlikehold.md.")
 
+if manual:
+    print()
+    print("=" * 72)
+    print(f"ℹ️  {len(manual)} steg må gjøres manuelt (kjent begrensning, ikke en feil):")
+    for m in manual:
+        print(f"     • {m}")
 if pf.unchecked:
     print()
     print("=" * 72)
@@ -243,4 +257,5 @@ if pf.unchecked:
     for u in pf.unchecked:
         print(f"     • {u}")
 print("=" * 72)
+# Bare reelle feil gir exit 1. Manuelle steg er forventet arbeid.
 sys.exit(1 if pf.unchecked else 0)

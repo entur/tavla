@@ -226,18 +226,42 @@ def npm_versions(pkg):
 
 # ------------------------------------------------------------------ pins
 
-def load_pins(path, repo):
-    if os.path.exists(path):
-        pkg = json.load(open(path))
-    else:
-        raw = sh("gh", "api", f"repos/{repo}/contents/package.json", "--jq", ".content")
-        if not raw:
-            return None
-        try:
-            pkg = json.loads(base64.b64decode(raw))
-        except (ValueError, json.JSONDecodeError):
-            return None
+def _pins_from(pkg):
     return pkg.get("resolutions") or pkg.get("pnpm", {}).get("overrides", {}) or {}
+
+
+def load_pins_local(path):
+    """→ pin-dict fra en lokal package.json, eller None. Rører aldri nettverket.
+
+    None betyr «vet ikke», ikke «ingen pinner»: en package.json som ikke kan
+    leses — for eksempel midt i en uavklart merge-konflikt — skal gi ❔ og
+    exit 1 hos kalleren, ikke en traceback.
+    """
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path) as f:
+            return _pins_from(json.load(f))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def load_pins(path, repo):
+    """Som load_pins_local, men faller tilbake på `gh api` når fila mangler.
+
+    Fallbacken koster nettverk og et autentisert gh, så den hører bare i
+    `pin-vurder.py`, som brukeren kjører bevisst. `pin-oversikt.py` bruker
+    load_pins_local og holder seg lokal.
+    """
+    if os.path.exists(path):
+        return load_pins_local(path)
+    raw = sh("gh", "api", f"repos/{repo}/contents/package.json", "--jq", ".content")
+    if not raw:
+        return None
+    try:
+        return _pins_from(json.loads(base64.b64decode(raw)))
+    except (ValueError, json.JSONDecodeError):
+        return None
 
 
 # ------------------------------------------------------------- git-historikk
