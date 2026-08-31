@@ -44,6 +44,14 @@ const basePostHogOptions: Partial<PostHogConfig> = {
     capture_pageview: false,
     autocapture: false,
     opt_out_capturing_by_default: true,
+    before_send: (event) => {
+        if (typeof window === 'undefined') return event
+        const hostname = window.location.hostname
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return null
+        }
+        return event
+    },
     // debug: true, // Used to test if PostHog turns on only with consent
 }
 
