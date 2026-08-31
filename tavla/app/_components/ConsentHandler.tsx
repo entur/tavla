@@ -47,7 +47,13 @@ const basePostHogOptions: Partial<PostHogConfig> = {
     before_send: (event) => {
         if (typeof window === 'undefined') return event
         const hostname = window.location.hostname
-        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        const isLocal = hostname === 'localhost' || hostname === '127.0.0.1'
+        if (isLocal) {
+            // biome-ignore lint/suspicious/noConsole: Intentional logging for local development
+            console.log('PostHog event (blokkert, localhost):', event)
+            return null
+        }
+        if (hostname === 'tavla.dev.entur.no') {
             return null
         }
         return event
