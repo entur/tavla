@@ -1,9 +1,7 @@
 'use client'
-import { TopNavigationItem } from '@entur/menu'
+import { Logo, TopNavigationItem } from '@entur/menu'
 import { Login } from 'app/(innlogget)/components/Login/Login'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import TavlaLogoBlue from 'assets/logos/Tavla-blue.svg'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MobileNavbar } from './MobileNavbar'
@@ -14,18 +12,25 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
 
     return (
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
-            <Link
+            <Logo
                 href="/"
+                alt="Gå tilbake til forsiden"
+                className="flex md:hidden"
+                size="small"
                 onClick={() =>
                     capture('go_to_home_page', { location: 'nav_bar' })
                 }
-            >
-                <Image
-                    src={TavlaLogoBlue}
-                    height={32}
-                    alt="Gå tilbake til forsiden"
-                />
-            </Link>
+            />
+            <Logo
+                productName="Tavla"
+                href="/"
+                alt="Gå tilbake til forsiden"
+                className="hidden md:flex"
+                onClick={() =>
+                    capture('go_to_home_page', { location: 'nav_bar' })
+                }
+            />
+
             <div className="flex shrink-0 flex-row items-center gap-4">
                 <div className="flex flex-row sm:gap-10">
                     {loggedIn ? (

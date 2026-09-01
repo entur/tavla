@@ -3,16 +3,10 @@
 Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all offentlig transport i Norge. Løsningen utvikles av Entur, og er helt gratis og tilgjengelig for alle. Logg inn på [tavla.entur.no](https://tavla.entur.no/) for å komme i gang! Abonner på oppdateringer til Tavla ved å klikke på “Watch” i menyen.
 
 > **Merk:** Dette repoet er admin-/konfigurasjonsappen der man oppretter og redigerer tavler. Selve tavle-visningen (det som vises på skjermene) rendres i et eget repo: [entur/tavla-visning](https://github.com/entur/tavla-visning).
-
-## Hva du kan gjøre
-
-- Lage skreddersydde tavler (velg stopp, rekkefølge, layout)
-- Få sanntidsoppdateringer (Redis pub/sub)
-- Se hvor mange tavler som er aktive
-- Autentisering og vedvarende data via Firebase (emulator lokalt)
-- Moderne og tilgjengelig grensesnitt (Entur designsystem)
+ 
 
 ## Struktur i repoet
+Dette repo består av tre tjenester: en backend i /backend, en frontend i /tavla og en liten redirect-tjeneste i /redirect. For lokal kjøring og oppsett, se i undermappene og deres egne readme-filer. 
 
 ```
 /
@@ -22,7 +16,7 @@ Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all off
 │  ├─ migrations/      Python-migrasjonsskript for Firestore
 │  └─ helm/            Deploy-konfigurasjon for frontend (Helm chart)
 ├─ redirect/           Liten Rust-tjeneste (redirect)
-├─ docs/               Dokumentasjon (database-skjema, GraphQL-lenker)
+├─ docs/               Dokumentasjon (database, GraphQL-lenker)
 └─ flake.nix           Valgfri Nix dev-miljøfil
 ```
 
@@ -35,15 +29,6 @@ Med «Tavla» kan du sette opp egne, spesialtilpassede avgangstavler for all off
 | Data/Auth | Firebase (emulator i utvikling)            |
 | Verktøy  | Yarn 4, GraphQL Codegen, Sentry            |
 
-## Oversikt: slik kjører du (høytnivå)
-
-1. Start Redis (master + replica) – se `backend/readme.md` for detaljer
-2. Start backend (`./run-local.sh`, eller `cargo run` med miljøvariabler satt)
-3. Start frontend (`yarn dev` eller `yarn dev:persist`)
-4. Sett `BACKEND_API_KEY` i frontend (`.env.local`)
-5. Test med `curl` mot backend
-
-Detaljer per delkomponent finnes i deres respektive README.
 
 ## Miljøvariabler (samlet oversikt)
 
@@ -69,7 +54,7 @@ Mappen [`docs/`](docs/) inneholder mer utfyllende dokumentasjon:
 - [`docs/graphql.md`](docs/graphql.md) – hvordan GraphQL og typegenerering (`graphql-codegen`) henger sammen: dataflyt, de tre genererte filene, og hvordan du legger til og bruker en spørring
 - [`docs/EXPLORER_LINKS.md`](docs/EXPLORER_LINKS.md) – alle GraphQL-spørringene mot Journey Planner v3, klare til å kjøres i GraphQL Explorer
 
-Se ellers `backend/readme.md` og `tavla/README.md` for komponentspesifikke detaljer.
+Se ellers `backend/readme.md` og `tavla/README.md`.
 
 ## Bidrag
 
@@ -87,15 +72,3 @@ Kode: EUPL-1.2 (se `LICENSE`)
 Fonter: Egen lisens (Nationale – https://playtype.com/typefaces/nationale/)
 Varemerker (logo, illustrasjoner, bilder): Kun for Entur.
 
-
-## Kort kom i gang (huskeliste)
-
-```
-redis (master + replica)
-cargo run (backend)
-yarn dev:persist (frontend)
-curl localhost:3001/active -H "Authorization: Bearer <key>"
-```
----
-
-Se mappene `backend/` og `tavla/` for mer detaljert informasjon.
