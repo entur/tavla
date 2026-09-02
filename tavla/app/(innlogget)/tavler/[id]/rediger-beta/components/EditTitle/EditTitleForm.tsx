@@ -28,8 +28,6 @@ export function EditTitleForm({
             onSuccess()
         }
 
-        // ønsker vi å logge feil her også? Det logges i actions.ts,
-
         return result
     }
 
