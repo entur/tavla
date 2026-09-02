@@ -3,8 +3,8 @@ import { ButtonGroup, SecondaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useActionState, useEffect, useState } from 'react'
-import { saveBoardTitle } from './actions'
+import { useActionState } from 'react'
+import { type FormState, saveBoardTitle } from './actions'
 import { BOARD_TITLE_MAX_LENGTH } from './validation'
 
 export function EditTitleForm({
@@ -19,28 +19,28 @@ export function EditTitleForm({
     onCancel: () => void
 }) {
     const { capture } = usePosthogTracking()
-    const [value, setValue] = useState(currentTitle)
-    const [state, formAction] = useActionState(
-        saveBoardTitle.bind(null, bid),
-        null,
-    )
 
-    useEffect(() => {
-        if (state?.status === 'success') {
+    async function handleSave(_prevState: FormState, formData: FormData) {
+        const result = await saveBoardTitle(bid, _prevState, formData)
+
+        if (result?.status === 'success') {
             capture('board_name_saved', { location: 'board_page' })
             onSuccess()
         }
-    }, [state, capture, onSuccess])
+
+        return result
+    }
+
+    const [state, formAction, isPending] = useActionState(handleSave, null)
 
     const error = state?.status === 'error' ? state.message : undefined
 
     return (
-        <form action={formAction} className="mt-6 flex flex-col">
+        <form action={formAction} className="mt-8 flex flex-col">
             <TextField
                 label="Navn på tavla"
                 name="title"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
+                defaultValue={currentTitle}
                 maxLength={BOARD_TITLE_MAX_LENGTH}
                 required
                 aria-required
@@ -51,12 +51,18 @@ export function EditTitleForm({
                 <SecondaryButton
                     type="button"
                     width="fluid"
-                    className="!mr-0"
                     onClick={onCancel}
+                    className="!m-0"
+                    disabled={isPending}
                 >
                     Avbryt
                 </SecondaryButton>
-                <SubmitButton variant="primary" width="fluid" className="!mr-0">
+                <SubmitButton
+                    variant="primary"
+                    width="fluid"
+                    disabled={isPending}
+                    className="!m-0"
+                >
                     Bekreft valg
                 </SubmitButton>
             </ButtonGroup>
