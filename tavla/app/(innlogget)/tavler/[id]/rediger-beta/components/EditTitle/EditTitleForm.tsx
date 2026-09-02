@@ -24,7 +24,7 @@ export function EditTitleForm({
         const result = await saveBoardTitle(bid, _prevState, formData)
 
         if (result?.status === 'success') {
-            capture('board_name_saved', { location: 'board_page' })
+            capture('board_name_saved', { location: 'edit_board_page' })
             onSuccess()
         }
 

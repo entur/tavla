@@ -12,7 +12,10 @@ export function EditBoardTitle({ board }: { board: BoardDB }) {
     const [open, setOpen] = useState(false)
 
     const closeModal = (method: 'dismissed' | 'cancel_button') => {
-        capture('board_name_edit_cancelled', { location: 'board_page', method })
+        capture('board_name_edit_cancelled', {
+            location: 'edit_board_page',
+            method,
+        })
         setOpen(false)
     }
 
@@ -23,7 +26,7 @@ export function EditBoardTitle({ board }: { board: BoardDB }) {
                 className="gap-2"
                 onClick={() => {
                     capture('board_name_edit_started', {
-                        location: 'board_page',
+                        location: 'edit_board_page',
                     })
                     setOpen(true)
                 }}
