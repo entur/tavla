@@ -53,9 +53,6 @@ const basePostHogOptions: Partial<PostHogConfig> = {
             console.log('PostHog event (blokkert, localhost):', event)
             return null
         }
-        if (hostname === 'tavla.dev.entur.no') {
-            return null
-        }
         return event
     },
     // debug: true, // Used to test if PostHog turns on only with consent
