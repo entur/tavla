@@ -39,7 +39,8 @@ allowed-tools:
 description: >
   Triage av Dependabot-PRer, sikkerhetsvarsler og CodeQL-funn for Tavla. Bruk når
   noen på Tavla-teamet er på dependency-vakt og skal vurdere åpne Dependabot-PRer,
-  klassifisere risiko, vurdere CVE-utnyttbarhet, eller skrive triage-notater.
+  avgjøre hva en patch, minor eller major krever, vurdere CVE-utnyttbarhet og
+  risiko, eller skrive triage-notater.
   Trigger også ved omtale av "dependency-vakt", "avhengighetsoppdatering", "sikkerhetsvarsel",
   "Dependabot", "mandagsbrief", "ukens pakker", "pakkeansvarlig". Brukes også for å skrive
   ukens dependency-brief. Skillen forklarer alltid hvorfor — målet er å bygge
@@ -327,14 +328,14 @@ Eksempel på gode todo-punkter:
 - [ ] CI grønt på alle mergede PRer
 - [ ] e2e kjørt manuelt etter hver major bump
 - [ ] Bundle-size delta sjekket: kjør `yarn build` og se på Route (app)-tabellen — flag >5% delta
-- [ ] CodeQL-funn besvart, allowlistet med `reason` + `comment`, eller dismisset med begrunnelse
+- [ ] CodeQL-funn besvart, eller lukket via allowlist-PR med `reason` + `comment` — en dismiss i UI-et er midlertidig og etterlater ingen sporbar vurdering (`references/sikkerhets-triage.md`, Steg 5)
 - [ ] Ingen åpne varsler har passert 30 dager, og alle med ≤7 dager igjen står i 🔴-todo
 - [ ] `pin-oversikt.py` kjørt og krysset mot varsellista, og hver pinnet pakke med åpent varsel er enten vurdert med `pin-vurder.py` eller står i todo-lista
 - [ ] Alt som kom ut 🔴 **eller** 🟢 av en vurdering er fikset eller står i todo-lista
 - [ ] `yarn install --immutable` grønt etter hver pin-endring (bekrefter at lockfilen er konsistent)
 ```
 
-Legg til én seksjon per PR og én per alert. Legg til ekstra sjekklistepunkter for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Dismiss stale DOMPurify-alerts").
+Legg til én seksjon per PR og én per alert. Legg til ekstra sjekklistepunkter for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Allowlist-PR for de tre stale DOMPurify-funnene").
 
 **Rekkefølge i brief:** Oversikt → **📌 Pin-status** → ✅ Patch → 👀 Minor og major → 📋 Major med breaking changes → 🔒 Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Pin-seksjonen kommer først fordi en pin kan være grunnen til at et varsel lenger ned ikke lar seg lukke. Todo-seksjonen kommer alltid rett før test-sjekklisten.
 
@@ -391,7 +392,7 @@ Dette er ikke en formell prosess. Tagg en annen utvikler i PR-en eller spør på
 
 Les bare det som er relevant for situasjonen:
 
-- `references/risikoklassifisering.md` — Hvordan klassifisere risiko per pakke / endring. Les ved tvil om en PR er rutine eller krever full triage.
+- `references/risikoklassifisering.md` — Hva du gjør med en Dependabot-PR, per bumptype: hva du sjekker, hva du ser etter i changelogen, og hvem som merger. Les ved tvil om en PR er patch, minor eller major — eller hva du skylder en reviewer.
 - `references/sikkerhets-triage.md` — Detaljert framgangsmåte for CVE-vurdering, og hvordan et varsel lukkes formelt (allowlist vs. dismiss, Enturs to godkjente dismiss-begrunnelser, når Team Sikkerhet skal inn). Les når en Dependabot security alert dukker opp.
 - `references/pin-vedlikehold.md` — Hvorfor `resolutions`/`overrides`-pinner forfaller, beslutningsrekkefølgen `fjern → eksakt + audit`, hvorfor range ikke brukes i Tavla, hvordan heve en forfalt pin trygt, og hvordan finne historikken til en pin (`git log -L`, ikke `git blame`). Les når en pin-vurdering gir 🔴, eller når du skal sette en ny pin.
 
