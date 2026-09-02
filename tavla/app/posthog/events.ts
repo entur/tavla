@@ -11,6 +11,7 @@ export const LOCATIONS = {
     Folder: 'folder',
     BoardPage: 'board_page',
     AdminTable: 'admin_table',
+    EditBoardPage: 'edit_board_page',
 } as const
 
 type Location = (typeof LOCATIONS)[keyof typeof LOCATIONS]
@@ -190,6 +191,12 @@ export type EventMap = {
     custom_url_modal_opened: WithLocation<typeof LOCATIONS.BoardPage>
     custom_url_modified: WithLocation<typeof LOCATIONS.BoardPage>
     custom_url_saved: WithLocation<typeof LOCATIONS.BoardPage>
+
+    board_name_edit_started: WithLocation<typeof LOCATIONS.EditBoardPage>
+    board_name_saved: WithLocation<typeof LOCATIONS.EditBoardPage>
+    board_name_edit_cancelled: WithLocation<typeof LOCATIONS.EditBoardPage> & {
+        method: 'dismissed' | 'cancel_button'
+    }
 
     stop_place_deleted: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
