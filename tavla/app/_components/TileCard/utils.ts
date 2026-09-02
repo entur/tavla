@@ -97,17 +97,6 @@ export function generateQuayLineFrontTextKey(
 }
 
 /**
- * Directions (frontTexts) a line runs in, or a single `undefined` placeholder
- * when no directions are known — so callers can still generate one
- * quay-line(-frontText) key for the line.
- */
-export function frontTextsOrDefault(
-    frontTexts: string[] | undefined,
-): (string | undefined)[] {
-    return frontTexts?.length ? frontTexts : [undefined]
-}
-
-/**
  *
  * @param quays The quays with all lines and frontTexts
  * @param selectedQuayLineKeys The currently selected quay-line(-frontText) pairs, in the
@@ -129,13 +118,21 @@ export function deriveLinesWithDirection(
 
     for (const quay of quays) {
         for (const line of quay.lines) {
-            const frontTexts = line.frontTexts ?? []
+            const frontTexts = line.frontTexts
+
+            if (frontTexts.length === 0) {
+                const key = generateQuayLineFrontTextKey(quay.id, line.id)
+                if (selectedLineIds.has(key)) {
+                    linesWithAnySelection.add(line.id)
+                }
+                continue
+            }
 
             const known = knownFrontTexts.get(line.id) ?? new Set<string>()
             for (const frontText of frontTexts) known.add(frontText)
             knownFrontTexts.set(line.id, known)
 
-            for (const frontText of frontTextsOrDefault(line.frontTexts)) {
+            for (const frontText of frontTexts) {
                 const key = generateQuayLineFrontTextKey(
                     quay.id,
                     line.id,
@@ -176,15 +173,32 @@ export function countSelectableQuayLineKeys(
     return quays.reduce(
         (sum, quay) =>
             sum +
-            quay.lines
-                .filter((l) => !l.frontTexts || l.frontTexts.length > 0)
-                .reduce(
-                    (lineSum, l) =>
-                        lineSum + frontTextsOrDefault(l.frontTexts).length,
-                    0,
-                ),
+            quay.lines.reduce(
+                (lineSum, l) => lineSum + (l.frontTexts.length || 1),
+                0,
+            ),
         0,
     )
+}
+
+/**
+ * Adds a quay-line(-frontText) key to the set. If the line has no known directions,
+ * the key is added without a frontText. If the line has known directions, a key
+ * is added for each frontText.
+ */
+function addLineKeys(
+    set: Set<string>,
+    quayId: string,
+    lineId: string,
+    frontTexts: string[] | undefined,
+): void {
+    if (!frontTexts || frontTexts.length === 0) {
+        set.add(generateQuayLineFrontTextKey(quayId, lineId))
+        return
+    }
+    for (const frontText of frontTexts) {
+        set.add(generateQuayLineFrontTextKey(quayId, lineId, frontText))
+    }
 }
 
 export function getInitialCheckedLineIds(
@@ -199,30 +213,13 @@ export function getInitialCheckedLineIds(
         if (savedQuay) {
             if (savedQuay.whitelistedLines.length === 0) {
                 for (const l of quay.lines) {
-                    for (const frontText of frontTextsOrDefault(l.frontTexts)) {
-                        set.add(
-                            generateQuayLineFrontTextKey(
-                                quay.id,
-                                l.id,
-                                frontText,
-                            ),
-                        )
-                    }
+                    addLineKeys(set, quay.id, l.id, l.frontTexts)
                 }
             } else {
                 for (const lineId of savedQuay.whitelistedLines) {
                     const line = quay.lines.find((l) => l.id === lineId)
-                    for (const frontText of frontTextsOrDefault(
-                        line?.frontTexts,
-                    )) {
-                        set.add(
-                            generateQuayLineFrontTextKey(
-                                quay.id,
-                                lineId,
-                                frontText,
-                            ),
-                        )
-                    }
+                    if (!line) continue
+                    addLineKeys(set, quay.id, line.id, line.frontTexts)
                 }
             }
         } else if (hasQuayFilter) {
@@ -230,24 +227,12 @@ export function getInitialCheckedLineIds(
         } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
             for (const l of quay.lines) {
                 if (tile.whitelistedLines?.includes(l.id)) {
-                    for (const frontText of frontTextsOrDefault(l.frontTexts)) {
-                        set.add(
-                            generateQuayLineFrontTextKey(
-                                quay.id,
-                                l.id,
-                                frontText,
-                            ),
-                        )
-                    }
+                    addLineKeys(set, quay.id, l.id, l.frontTexts)
                 }
             }
         } else {
             for (const l of quay.lines) {
-                for (const frontText of frontTextsOrDefault(l.frontTexts)) {
-                    set.add(
-                        generateQuayLineFrontTextKey(quay.id, l.id, frontText),
-                    )
-                }
+                addLineKeys(set, quay.id, l.id, l.frontTexts)
             }
         }
     }

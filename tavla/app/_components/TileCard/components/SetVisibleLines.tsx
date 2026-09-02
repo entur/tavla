@@ -10,7 +10,6 @@ import { PlatformAndLines } from '../PlatformAndLines'
 import type { QuayWithFrontText } from '../types'
 import {
     deriveLinesWithDirection,
-    frontTextsOrDefault,
     generateQuayLineFrontTextKey,
     getInitialCheckedLineIds,
     transportModeNames,
@@ -216,7 +215,7 @@ export function SetVisibleLines({
         const keysOnAllQuays: string[] = []
         for (const quay of quays) {
             const quayIsActive = quay.lines.some((l) =>
-                frontTextsOrDefault(l.frontTexts).some((frontText) =>
+                l.frontTexts.some((frontText) =>
                     checkedLineIds.has(
                         generateQuayLineFrontTextKey(quay.id, l.id, frontText),
                     ),
@@ -225,9 +224,7 @@ export function SetVisibleLines({
 
             for (const line of quay.lines) {
                 if (line.transportMode === mode) {
-                    for (const frontText of frontTextsOrDefault(
-                        line.frontTexts,
-                    )) {
+                    for (const frontText of line.frontTexts) {
                         const key = generateQuayLineFrontTextKey(
                             quay.id,
                             line.id,
@@ -259,7 +256,7 @@ export function SetVisibleLines({
         quays.some((q) =>
             q.lines.some((l) => {
                 if (l.transportMode !== mode) return false
-                return frontTextsOrDefault(l.frontTexts).some((frontText) =>
+                return l.frontTexts.some((frontText) =>
                     checkedLineIds.has(
                         generateQuayLineFrontTextKey(q.id, l.id, frontText),
                     ),
