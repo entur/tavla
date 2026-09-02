@@ -28,6 +28,8 @@ export function EditTitleForm({
             onSuccess()
         }
 
+        // ønsker vi å logge feil her også? Det logges i actions.ts,
+
         return result
     }
 
@@ -53,7 +55,6 @@ export function EditTitleForm({
                     width="fluid"
                     onClick={onCancel}
                     className="!m-0"
-                    disabled={isPending}
                 >
                     Avbryt
                 </SecondaryButton>

@@ -1,4 +1,3 @@
-'use client'
 import { Preview } from 'app/(innlogget)/tavler/[id]/rediger/components/Preview'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { BoardHeader } from './EditBoardHeader'
