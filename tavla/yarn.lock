@@ -4030,13 +4030,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@protobufjs/inquire@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "@protobufjs/inquire@npm:1.1.2"
-  checksum: 10/259756489c75a751552df60d18f82503d2534855646397b96b91cf15807fa852e99bd9eb73dabb64da37aec7913844032ecb031a4326d82aae622f5e4c2f8a17
-  languageName: node
-  linkType: hard
-
 "@protobufjs/path@npm:^1.1.2":
   version: 1.1.2
   resolution: "@protobufjs/path@npm:1.1.2"
@@ -8577,10 +8570,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immutable@npm:3.8.3":
-  version: 3.8.3
-  resolution: "immutable@npm:3.8.3"
-  checksum: 10/29db366d4dff83b0b296150c351b08db24837005909a71c123d860c1d2a40605f19a3ecd56d1e96be9799e947ddf7906897a28fa2e81f0b8c63c652b6bfe5550
+"immutable@npm:^5.1.5":
+  version: 5.1.9
+  resolution: "immutable@npm:5.1.9"
+  checksum: 10/dc61ea6f79897320a048f193dec703dff25ad7bb633c3a0294677d2f258764c88da06e7c2b53d1aa51b6657c98d9f1c7341f49735b9b802fe6e834122cf78dcd
   languageName: node
   linkType: hard
 
@@ -10143,12 +10136,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:6.0.0":
-  version: 6.0.0
-  resolution: "nanoid@npm:6.0.0"
+"nanoid@npm:6.0.1":
+  version: 6.0.1
+  resolution: "nanoid@npm:6.0.1"
   bin:
     nanoid: bin/nanoid.js
-  checksum: 10/ac39c3fc955353bdadb2b675a7ea3642a9aa13838c97f0bdf8153c6d3811096038f620258a00218c3f992f30141015d71ea20dd0e26b1edd86a69e897b83f7c6
+  checksum: 10/e49582351f6fff22c275a58504950e923b74c611fc1eac9589a98e89506270d2d1e3b61ed6429df6e7529e54ff71d9f0c5fbb1c540aaee81ae33a523e88ca668
   languageName: node
   linkType: hard
 
@@ -11102,14 +11095,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.5.23":
-  version: 8.5.23
-  resolution: "postcss@npm:8.5.23"
+"postcss@npm:8.5.25":
+  version: 8.5.25
+  resolution: "postcss@npm:8.5.25"
   dependencies:
     nanoid: "npm:^3.3.16"
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
-  checksum: 10/8387f421216696bf62a13e5a270e9fefdafc81e196903c0f8d7653f8bab315367cc2261b3c22cf197e492cb075f31bdfc07fd9c3be1cb165ff3cabe14c5a039a
+  checksum: 10/68aaeb314a1b2407e11e926acc0462b01b3e911d3d9e755d06adc5b2ececdefe8432dc3c3c93eacc07138952e17997d4674529061b8e3a338a7ac4c1accfdf98
   languageName: node
   linkType: hard
 
@@ -11290,9 +11283,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@npm:7.6.3":
-  version: 7.6.3
-  resolution: "protobufjs@npm:7.6.3"
+"protobufjs@npm:^7.2.2, protobufjs@npm:^7.2.5, protobufjs@npm:^7.3.2, protobufjs@npm:^7.4.0, protobufjs@npm:^7.5.3, protobufjs@npm:^7.5.4":
+  version: 7.6.6
+  resolution: "protobufjs@npm:7.6.6"
   dependencies:
     "@protobufjs/aspromise": "npm:^1.1.2"
     "@protobufjs/base64": "npm:^1.1.2"
@@ -11300,13 +11293,12 @@ __metadata:
     "@protobufjs/eventemitter": "npm:^1.1.1"
     "@protobufjs/fetch": "npm:^1.1.1"
     "@protobufjs/float": "npm:^1.0.2"
-    "@protobufjs/inquire": "npm:^1.1.2"
     "@protobufjs/path": "npm:^1.1.2"
     "@protobufjs/pool": "npm:^1.1.0"
     "@protobufjs/utf8": "npm:^1.1.1"
     "@types/node": "npm:>=13.7.0"
     long: "npm:^5.3.2"
-  checksum: 10/80c05985e8d7b9657bc7c2e72dea3b20be96209d6f4a550f7849dd9ed73adb3f698b9d876e3a6329828051572e4af253f9b53f56e09fbc009651a26338e5da8b
+  checksum: 10/a894f38c793a0d741f77a7fbf8595141618e8c1cb3433637d2d0309ea9baca59bd9c44ec95f46ee839d063de5d5ae1bc78ef8d474359866af52ee4ceef7fec4f
   languageName: node
   linkType: hard
 
@@ -12859,16 +12851,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:7.5.11":
-  version: 7.5.11
-  resolution: "tar@npm:7.5.11"
+"tar@npm:^7.5.11, tar@npm:^7.5.4":
+  version: 7.5.22
+  resolution: "tar@npm:7.5.22"
   dependencies:
     "@isaacs/fs-minipass": "npm:^4.0.0"
     chownr: "npm:^3.0.0"
     minipass: "npm:^7.1.2"
     minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
-  checksum: 10/fb2e77ee858a73936c68e066f4a602d428d6f812e6da0cc1e14a41f99498e4f7fd3535e355fa15157240a5538aa416026cfa6306bb0d1d1c1abf314b1f878e9a
+  checksum: 10/129606384b3c895f422aaca48bf316357be6dc7aa35c1066c3f06c28acfff0be5b356e1b0a0be7c53a7a8945534ac06cec6d8e296d170d8a09c8bff67b29300e
   languageName: node
   linkType: hard
 
@@ -12917,9 +12909,9 @@ __metadata:
     jsdom: "npm:30.0.1"
     lint-staged: "npm:17.0.8"
     lodash: "npm:4.18.1"
-    nanoid: "npm:6.0.0"
+    nanoid: "npm:6.0.1"
     next: "npm:16.2.11"
-    postcss: "npm:8.5.23"
+    postcss: "npm:8.5.25"
     posthog-js: "npm:1.395.0"
     posthog-node: "npm:5.38.6"
     react: "npm:19.2.7"

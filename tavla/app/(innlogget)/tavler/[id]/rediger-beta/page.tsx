@@ -60,7 +60,7 @@ export default async function EditBetaPage(props: TProps) {
             ) : (
                 <BreadcrumbsNav type="board" board={board} />
             )}
-            <EditBoardBeta initialBoard={board} boardLink={boardPreviewLink} />
+            <EditBoardBeta board={board} boardLink={boardPreviewLink} />
         </main>
     )
 }
