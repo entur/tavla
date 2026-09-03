@@ -200,7 +200,7 @@ export function PlatformAndLines({
                                     frontText,
                                 ),
                             )}
-                            className={`pl-3`}
+                            className="pl-3"
                             name={`${tile.uuid}-lines`}
                             data-transport-mode={line.transportMode}
                             onChange={() => {
