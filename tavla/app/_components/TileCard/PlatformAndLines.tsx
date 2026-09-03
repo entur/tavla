@@ -181,50 +181,38 @@ export function PlatformAndLines({
                 .sort(compareLineFragment)
                 .filter(filterLineFragment)
                 .flatMap((line) =>
-                    line.frontTexts.map((frontText) => (
-                        <Checkbox
-                            key={generateQuayLineFrontTextKey(
-                                quayId,
-                                line.id,
-                                frontText,
-                            )}
-                            value={generateQuayLineFrontTextKey(
-                                quayId,
-                                line.id,
-                                frontText,
-                            )}
-                            checked={selectedLineIds.has(
-                                generateQuayLineFrontTextKey(
-                                    quayId,
-                                    line.id,
-                                    frontText,
-                                ),
-                            )}
-                            className="pl-3"
-                            name={`${tile.uuid}-lines`}
-                            data-transport-mode={line.transportMode}
-                            onChange={() => {
-                                capture('stop_place_edit_interaction', {
-                                    location: trackingLocation,
-                                    field: 'lines',
-                                    column_value: 'none',
-                                    action: 'changed',
-                                })
-                                onToggleLine(
-                                    generateQuayLineFrontTextKey(
-                                        quayId,
-                                        line.id,
-                                        frontText,
-                                    ),
-                                )
-                            }}
-                        >
-                            <div className="flex flex-row items-center gap-2">
-                                <PublicCode line={line} />
-                                {frontText}
-                            </div>
-                        </Checkbox>
-                    )),
+                    line.frontTexts.map((frontText) => {
+                        const key = generateQuayLineFrontTextKey(
+                            quayId,
+                            line.id,
+                            frontText,
+                        )
+
+                        return (
+                            <Checkbox
+                                key={key}
+                                value={key}
+                                checked={selectedLineIds.has(key)}
+                                className="pl-3"
+                                name={`${tile.uuid}-lines`}
+                                data-transport-mode={line.transportMode}
+                                onChange={() => {
+                                    capture('stop_place_edit_interaction', {
+                                        location: trackingLocation,
+                                        field: 'lines',
+                                        column_value: 'none',
+                                        action: 'changed',
+                                    })
+                                    onToggleLine(key)
+                                }}
+                            >
+                                <div className="flex flex-row items-center gap-2">
+                                    <PublicCode line={line} />
+                                    {frontText}
+                                </div>
+                            </Checkbox>
+                        )
+                    }),
                 )}
         </div>
     )
