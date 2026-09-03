@@ -35,7 +35,7 @@
         ]
     },
     "dependencies": {
-        "@entur/alert": "0.19.3",
+        "@entur/alert": "0.21.0",
         "@entur/button": "5.0.1",
         "@entur/chip": "0.10.15",
         "@entur/dropdown": "9.0.1",
@@ -63,6 +63,7 @@
         "nanoid": "6.0.1",
         "next": "16.2.11",
         "posthog-js": "1.395.0",
+
         "posthog-node": "5.38.6",
         "react": "19.2.7",
         "react-dom": "19.2.7",
