@@ -1,6 +1,11 @@
 'use client'
 
-import { IconButton, PrimaryButton } from '@entur/button'
+import {
+    ButtonGroup,
+    IconButton,
+    PrimaryButton,
+    SecondaryButton,
+} from '@entur/button'
 
 import { EditIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
@@ -59,6 +64,11 @@ function CustomUrl({
         })
     }
 
+    const cancel = () => {
+        capture('custom_url_modal_closed', { location: 'edit_board_page' })
+        setOpen(false)
+    }
+
     return (
         <>
             <Tooltip
@@ -81,7 +91,7 @@ function CustomUrl({
             {open && (
                 <Modal
                     open={open}
-                    size="medium"
+                    size="small"
                     onDismiss={() => {
                         capture('custom_url_modal_closed', {
                             location: 'edit_board_page',
@@ -92,11 +102,9 @@ function CustomUrl({
                     <div className="flex flex-col w-full mb-4">
                         <Heading3 margin="bottom">Legg til egen lenke</Heading3>
                         <Paragraph>
-                            Du kan selv velge en lenke til denne tavla. Det gjør
-                            det enklere å huske, dele og skrive inn lenken til
-                            tavla der den skal bli vist. Den originale lenken
-                            vil fortsette å fungere selv om du legger til en
-                            egen lenke.
+                            Du kan selv velge en lenke til denne tavla. Den
+                            originale lenken vil fortsette å fungere selv om du
+                            legger til en egen lenke.
                         </Paragraph>
                         <Paragraph margin="none">
                             <b>Original lenke:</b>
@@ -115,7 +123,7 @@ function CustomUrl({
                                 {baseUrl}/
                             </Paragraph>
                             <input
-                                className={`outline-none min-w-0 border rounded px-2 py-1 pl-0 focus:ring-2 focus:ring-primary ${feedback ? 'border-red-500' : 'border-gray-300'}`}
+                                className={`outline-none min-w-0 border rounded px-2 py-1 pl-0.5 focus:ring-2 focus:ring-primary ${feedback ? 'border-red-500' : 'border-gray-300'}`}
                                 value={value}
                                 aria-label="Egendefinert lenke"
                                 onChange={(f) => handleChange(f.target.value)}
@@ -136,9 +144,18 @@ function CustomUrl({
                             </Paragraph>
                         )}
                     </div>
-                    <PrimaryButton disabled={!!feedback} onClick={submit}>
-                        Lagre og lukk
-                    </PrimaryButton>
+                    <ButtonGroup className="mt-8 flex flex-row gap-4">
+                        <SecondaryButton width="fluid" onClick={cancel}>
+                            Avbryt
+                        </SecondaryButton>
+                        <PrimaryButton
+                            width="fluid"
+                            disabled={!!feedback}
+                            onClick={submit}
+                        >
+                            Lagre
+                        </PrimaryButton>
+                    </ButtonGroup>
                 </Modal>
             )}
         </>
