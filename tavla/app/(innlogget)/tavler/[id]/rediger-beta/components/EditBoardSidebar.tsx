@@ -3,7 +3,7 @@ import { Heading3, Paragraph } from '@entur/typography'
 
 export function EditBoardSidebar() {
     return (
-        <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
+        <div className="flex flex-col gap-12 overflow-y-auto text-sm">
             <EditSection title="Hvilke stoppesteder vil du vise på Tavla?">
                 <Paragraph>Kommer senere...</Paragraph>
             </EditSection>
