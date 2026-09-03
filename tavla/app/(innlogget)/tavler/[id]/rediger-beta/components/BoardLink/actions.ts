@@ -10,11 +10,11 @@ import { redirect } from 'next/navigation'
 import { getBoardByCustomUrl, updateBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-import { validateCustomUrl } from './utils'
+import { customUrlSchema } from './validation'
 
 initializeAdminApp()
 
-// Dette er en kopi av saveCustomUrl fra tavla/app/(innlogget)/tavler/[id]/rediger/actions.ts, men med revalidatePath som peker til /rediger-beta i stedet for /rediger.
+// Dette er en kopi av saveCustomUrl fra tavla/app/(innlogget)/tavler/[id]/rediger/actions.ts, men med revalidatePath som peker til /rediger-beta i stedet for /rediger, og med zod-validering (customUrlSchema) i stedet for den gamle regex-baserte validateCustomUrl.
 export async function saveCustomUrl(
     bid: BoardDB['id'],
     customUrl: string,
@@ -23,10 +23,11 @@ export async function saveCustomUrl(
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
-    const trimmed = customUrl.trim()
-
-    const validationError = validateCustomUrl(trimmed)
-    if (validationError) return { error: validationError }
+    const parsed = customUrlSchema.safeParse(customUrl)
+    if (!parsed.success) {
+        return { error: parsed.error.issues[0]?.message ?? 'Ugyldig lenke' }
+    }
+    const trimmed = parsed.data
 
     try {
         if (trimmed) {

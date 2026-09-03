@@ -14,7 +14,7 @@ import { useRef, useState, useTransition } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import { resolveVisTavlaBaseUrl } from 'utils/boardLink'
 import { saveCustomUrl } from './actions'
-import { validateCustomUrl } from './utils'
+import { validateCustomUrl } from './validation'
 
 function CustomUrl({
     bid,
