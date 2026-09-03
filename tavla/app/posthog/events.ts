@@ -173,24 +173,36 @@ export type EventMap = {
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.AdminTable
         | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     board_copied: WithLocation<
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.AdminTable
         | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     board_deleted: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
     >
 
-    board_published: WithLocation<typeof LOCATIONS.BoardPage>
+    board_published: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
 
-    custom_url_modal_closed: WithLocation<typeof LOCATIONS.BoardPage>
-    custom_url_modal_opened: WithLocation<typeof LOCATIONS.BoardPage>
-    custom_url_modified: WithLocation<typeof LOCATIONS.BoardPage>
-    custom_url_saved: WithLocation<typeof LOCATIONS.BoardPage>
+    custom_url_modal_closed: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
+    custom_url_modal_opened: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
+    custom_url_modified: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
+    custom_url_saved: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
 
     board_name_edit_started: WithLocation<typeof LOCATIONS.EditBoardPage>
     board_name_saved: WithLocation<typeof LOCATIONS.EditBoardPage>
