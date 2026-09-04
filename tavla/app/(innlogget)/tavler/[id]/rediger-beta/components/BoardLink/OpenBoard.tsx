@@ -23,6 +23,7 @@ function OpenBoard({ board }: { board: BoardDB }) {
             href={link}
             rel="noopener noreferrer"
             target="_blank"
+            className="w-full sm:w-auto"
             onClick={() => {
                 capture('board_opened', {
                     location: 'edit_board_page',
