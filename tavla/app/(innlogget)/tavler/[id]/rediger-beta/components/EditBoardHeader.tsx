@@ -13,7 +13,7 @@ export function BoardLinkActions({ board }: { board: BoardDB }) {
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div className="flex min-w-0 items-end sm:items-center gap-2">
                 <div className="flex min-w-0 flex-1 justify-start w-full gap-2 sm:items-center flex-col sm:flex-row">
-                    <div className="flex-shrink-0">Lenke til tavla:</div>
+                    <span className="flex-shrink-0">Lenke til tavla:</span>
                     <CopyableText
                         className="p-0 m-0 min-w-0 flex-1"
                         size="small"
