@@ -49,7 +49,7 @@ export default async function EditBetaPage(props: TProps) {
     return (
         <main
             id="main-content"
-            className="container flex flex-col gap-6 pb-20 pt-4"
+            className="container flex flex-col gap-8 pb-20 pt-4"
         >
             {folder ? (
                 <BreadcrumbsNav
