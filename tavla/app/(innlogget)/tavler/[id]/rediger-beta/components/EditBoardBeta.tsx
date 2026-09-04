@@ -24,7 +24,7 @@ export function EditBoardBeta({
             </section>
 
             <aside className="w-full shrink-0 lg:w-[536px]">
-                <EditBoardSidebar />
+                <EditBoardSidebar board={board} />
             </aside>
         </div>
     )
