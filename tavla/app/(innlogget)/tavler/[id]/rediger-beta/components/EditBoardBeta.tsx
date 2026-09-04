@@ -1,4 +1,4 @@
-import { Preview } from 'app/(innlogget)/tavler/[id]/rediger/components/Preview'
+import { Preview } from 'app/(innlogget)/tavler/[id]/rediger-beta/components/Preview'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { BoardTitle } from './BoardTitle'
 import { BoardLinkActions } from './EditBoardHeader'
