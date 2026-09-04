@@ -14,7 +14,6 @@ import { customUrlSchema } from './validation'
 
 initializeAdminApp()
 
-// Dette er en kopi av saveCustomUrl fra tavla/app/(innlogget)/tavler/[id]/rediger/actions.ts, men med revalidatePath som peker til /rediger-beta i stedet for /rediger, og med zod-validering (customUrlSchema) i stedet for den gamle regex-baserte validateCustomUrl.
 export async function saveCustomUrl(
     bid: BoardDB['id'],
     customUrl: string,
