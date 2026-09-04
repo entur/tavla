@@ -1,7 +1,7 @@
 import { Preview } from 'app/(innlogget)/tavler/[id]/rediger-beta/components/Preview'
 import type { BoardDB } from 'src/types/db-types/boards'
+import { BoardLinkActions } from './BoardLinkActions'
 import { BoardTitle } from './BoardTitle'
-import { BoardLinkActions } from './EditBoardHeader'
 import { EditBoardSidebar } from './EditBoardSidebar'
 
 export function EditBoardBeta({
