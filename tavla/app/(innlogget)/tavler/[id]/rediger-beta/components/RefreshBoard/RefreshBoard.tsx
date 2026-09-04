@@ -33,7 +33,7 @@ function RefreshBoard({ board }: { board: BoardDB }) {
         <Button
             variant="secondary"
             onClick={publish}
-            className="flex flex-row gap-2"
+            className="flex flex-row gap-2 w-full sm:w-auto"
         >
             Oppdater tavle
             <RefreshIcon className="!top-[-2px]" />{' '}
