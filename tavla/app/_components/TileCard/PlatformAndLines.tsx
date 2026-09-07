@@ -1,7 +1,6 @@
 'use client'
 import { Checkbox } from '@entur/form'
 import { ValidationInfoFilledIcon } from '@entur/icons'
-import { SkeletonRectangle } from '@entur/loader'
 import { Tooltip } from '@entur/tooltip'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
@@ -14,6 +13,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from './types'
+import { generateQuayLineFrontTextKey } from './utils'
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
@@ -28,13 +28,6 @@ function PublicCode({ line }: { line: LineWithFrontText }) {
             {line.publicCode}
         </div>
     )
-}
-
-function DisplayName({ line }: { line: LineWithFrontText }) {
-    if (line.frontTexts) {
-        return <>{line.frontTexts.join(' / ')}</>
-    }
-    return <SkeletonRectangle width="6rem" height="1rem" />
 }
 
 export function PlatformAndLines({
@@ -66,14 +59,27 @@ export function PlatformAndLines({
 }) {
     const { capture } = usePosthogTracking()
 
-    const selectedLinesInGroup = lines.filter((l) =>
-        selectedLineIds.has(`${quayId}||${l.id}`),
+    const filterLineFragment = (line: LineWithFrontText) => {
+        return !line.frontTexts || line.frontTexts.length > 0
+    }
+
+    const allKeysInGroup = lines
+        .filter(filterLineFragment)
+        .flatMap((l) =>
+            l.frontTexts.map((frontText) =>
+                generateQuayLineFrontTextKey(quayId, l.id, frontText),
+            ),
+        )
+
+    const selectedKeysInGroup = allKeysInGroup.filter((key) =>
+        selectedLineIds.has(key),
     )
+
     const isAllSelected =
-        lines.length > 0 && selectedLinesInGroup.length === lines.length
-    const isNoneSelected = selectedLinesInGroup.length === 0
+        allKeysInGroup.length > 0 &&
+        selectedKeysInGroup.length === allKeysInGroup.length
+    const isNoneSelected = selectedKeysInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
-    const showLines = !isNoneSelected
 
     const compareLineFragment = (
         a: LineWithFrontText,
@@ -92,10 +98,6 @@ export function PlatformAndLines({
         return codeA.localeCompare(codeB, undefined, {
             numeric: true,
         })
-    }
-
-    const filterLineFragment = (line: LineWithFrontText) => {
-        return !line.frontTexts || line.frontTexts.length > 0
     }
 
     const transportModesFromLines = getTransportModesFromLines(lines)
@@ -161,7 +163,15 @@ export function PlatformAndLines({
                             action: checked ? 'select_all' : 'cleared',
                         })
                         onToggleGroup(
-                            lines.map((l) => `${quayId}||${l.id}`),
+                            lines.flatMap((l) =>
+                                l.frontTexts.map((frontText) =>
+                                    generateQuayLineFrontTextKey(
+                                        quayId,
+                                        l.id,
+                                        frontText,
+                                    ),
+                                ),
+                            ),
                             checked,
                         )
                     }}
@@ -170,30 +180,40 @@ export function PlatformAndLines({
             {[...lines]
                 .sort(compareLineFragment)
                 .filter(filterLineFragment)
-                .map((line) => (
-                    <Checkbox
-                        key={line.id}
-                        value={`${quayId}||${line.id}`}
-                        checked={selectedLineIds.has(`${quayId}||${line.id}`)}
-                        className={`pl-3 ${showLines ? '' : 'hidden'}`}
-                        name={`${tile.uuid}-lines`}
-                        data-transport-mode={line.transportMode}
-                        onChange={() => {
-                            capture('stop_place_edit_interaction', {
-                                location: trackingLocation,
-                                field: 'lines',
-                                column_value: 'none',
-                                action: 'changed',
-                            })
-                            onToggleLine(`${quayId}||${line.id}`)
-                        }}
-                    >
-                        <div className="flex flex-row items-center gap-2">
-                            <PublicCode line={line} />
-                            <DisplayName line={line} />
-                        </div>
-                    </Checkbox>
-                ))}
+                .flatMap((line) =>
+                    line.frontTexts.map((frontText) => {
+                        const key = generateQuayLineFrontTextKey(
+                            quayId,
+                            line.id,
+                            frontText,
+                        )
+
+                        return (
+                            <Checkbox
+                                key={key}
+                                value={key}
+                                checked={selectedLineIds.has(key)}
+                                className="pl-3"
+                                name={`${tile.uuid}-lines`}
+                                data-transport-mode={line.transportMode}
+                                onChange={() => {
+                                    capture('stop_place_edit_interaction', {
+                                        location: trackingLocation,
+                                        field: 'lines',
+                                        column_value: 'none',
+                                        action: 'changed',
+                                    })
+                                    onToggleLine(key)
+                                }}
+                            >
+                                <div className="flex flex-row items-center gap-2">
+                                    <PublicCode line={line} />
+                                    {frontText}
+                                </div>
+                            </Checkbox>
+                        )
+                    }),
+                )}
         </div>
     )
 }

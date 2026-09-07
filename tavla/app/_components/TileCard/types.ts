@@ -4,7 +4,7 @@ import type { TLinesFragment } from 'types/operations'
 type LineFragment = TLinesFragment['lines'][number]
 
 export type LineWithFrontText = LineFragment & {
-    frontTexts?: string[]
+    frontTexts: string[]
 }
 
 export type QuayWithFrontText = Omit<TQuay, 'lines'> & {

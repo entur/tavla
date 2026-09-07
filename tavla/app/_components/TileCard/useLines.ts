@@ -85,35 +85,23 @@ function useLines(
                 const json = await res.json()
                 const quays: TQuay[] = json.data?.stopPlace?.quays ?? []
 
-                setQuays(
-                    quays.map((q) => ({
-                        ...q,
-                        lines: q.lines.map((l) => ({
-                            ...l,
-                            frontTexts: undefined,
-                        })),
-                    })),
-                )
-
-                await Promise.all(
+                const quaysWithFrontTexts = await Promise.all(
                     quays.map(async (quay) => {
                         const frontTexts = await getFrontTextsForQuay(
                             quay.id,
                             isArrival,
                         )
-                        const quayWithFrontTexts = addFrontTextToQuay(
-                            quay,
-                            frontTexts,
-                        )
-                        setQuays((prev) =>
-                            (prev ?? []).map((q) =>
-                                q.id === quay.id
-                                    ? { ...q, lines: quayWithFrontTexts }
-                                    : q,
-                            ),
-                        )
+
+                        const lines = addFrontTextToQuay(quay, frontTexts)
+
+                        return {
+                            ...quay,
+                            lines,
+                        }
                     }),
                 )
+
+                setQuays(quaysWithFrontTexts)
             })
         }
 
