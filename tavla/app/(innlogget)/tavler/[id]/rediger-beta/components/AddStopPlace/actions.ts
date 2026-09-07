@@ -7,7 +7,6 @@ import {
 import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { D } from 'node_modules/vitest/dist/chunks/reporters.d.CtLUhkkA'
 import { getBoard, updateBoard } from 'src/firebase'
 import type {
     BoardDB,
@@ -16,15 +15,24 @@ import type {
     TransportPalette,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-import type { FormState } from '../EditTitle/actions'
 import {
-    formDataToTiles,
+    closestStopPlacesToTiles,
     getDrivingDistance,
     getStopPlaceCoordinates,
     getWalkingDistance,
 } from './utils'
+import { parseClosestStopPlaces } from './validation'
 
 initializeAdminApp()
+
+export type AddStopPlaceFormState =
+    | { status: 'success' }
+    | {
+          status: 'error'
+          message: string
+          field?: 'stop_place' | 'closest_stop_places'
+      }
+    | null
 
 export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
     logToGcp('info', 'action:addTiles invoked', { bid })
@@ -107,12 +115,23 @@ export async function addStopPlaceTiles(
     data: FormData,
     isArrivals: boolean | undefined,
     location: LocationDB | undefined,
-): Promise<FormState> {
-    const tiles = formDataToTiles(data, isArrivals)
-    //TODO: bruke zod for trygg parsing
+): Promise<AddStopPlaceFormState> {
+    const parsed = parseClosestStopPlaces(data)
 
-    //TODO: bedre feilmelding
-    if (tiles.length === 0) return { status: 'error', message: 'ingen tiles' }
+    if (!parsed.success) {
+        logToGcp(
+            'error',
+            `Failed to parse closest stop places: ${parsed.error.issues[0]?.message ?? 'Ugyldig data'}`,
+            { bid },
+        )
+        return {
+            status: 'error',
+            message: parsed.error.issues[0]?.message ?? 'Ugyldig data',
+            field: 'closest_stop_places',
+        }
+    }
+
+    const tiles = closestStopPlacesToTiles(parsed.data, isArrivals)
 
     try {
         const tilesWithDistance = await Promise.all(

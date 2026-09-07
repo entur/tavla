@@ -16,6 +16,8 @@ import type {
     TileColumnDB,
 } from 'types/db-types/boards'
 import { logToGcp } from 'utils/logging'
+import type { z } from 'zod'
+import type { closestStopPlacesSchema } from './validation'
 
 const DEFAULT_DEPARTURE_COLUMNS: TileColumnDB[] = [
     'line',
@@ -35,19 +37,10 @@ export type TypeOfPlace =
     | 'other'
     | 'current_position'
 
-export function formDataToTiles(
-    data: FormData,
+export function closestStopPlacesToTiles(
+    closestStopPlaces: z.infer<typeof closestStopPlacesSchema>,
     isArrivals = false,
 ): BoardTileDB[] {
-    const closestStopPlacesJson = data.get('closest_stop_places') as string
-    if (!closestStopPlacesJson) return []
-
-    const closestStopPlaces: Array<{
-        id: string
-        name: string
-        county?: string
-    }> = JSON.parse(closestStopPlacesJson)
-
     const columns = isArrivals
         ? DEFAULT_ARRIVAL_COLUMNS
         : DEFAULT_DEPARTURE_COLUMNS

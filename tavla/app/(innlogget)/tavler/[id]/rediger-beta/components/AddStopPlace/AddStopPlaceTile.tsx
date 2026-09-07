@@ -4,6 +4,7 @@ import {
     type NormalizedDropdownItemType,
     SearchableDropdown,
 } from '@entur/dropdown'
+import { FeedbackText } from '@entur/form'
 import { SearchIcon } from '@entur/icons'
 import { Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
@@ -12,19 +13,12 @@ import { useClosestStopPlaces } from 'app/_hooks/useClosestStopPlaces'
 import useCurrentPosition from 'app/_hooks/useCurrentPosition'
 import { useStopPlaceSearch } from 'app/_hooks/useStopPlaceSearch'
 import type { StopPlace } from 'app/(innlogget)/utils/fetch'
-import {
-    getFormFeedbackForError,
-    getFormFeedbackForField,
-    type TFormFeedback,
-} from 'app/(innlogget)/utils/forms'
 import { coordinatesToStopPlaceDropdownItem } from 'app/(innlogget)/utils/position'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState, useState } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
-import type { FolderDB } from 'types/db-types/folders'
-import type { FormState } from '../EditTitle/actions'
-import { addStopPlaceTiles } from './actions'
+import { type AddStopPlaceFormState, addStopPlaceTiles } from './actions'
 
 const NUMBER_OF_CLOSEST_STOP_PLACES = 10
 const AREA_RADIUS_IN_KM = 20
@@ -55,45 +49,37 @@ function AddStopPlaceTile({
 
     const { capture } = usePosthogTracking()
 
-    const [errorstate, setFormError] = useState<TFormFeedback | undefined>()
+    const [positionError, setPositionError] = useState<string | undefined>()
 
     //LEGGE TIL handleAddStopPlaces her:------------------------------------------
 
     async function handleAddStopPlaces(
-        _prevState: FormState,
+        _prevState: AddStopPlaceFormState,
         formData: FormData,
-    ) {
+    ): Promise<AddStopPlaceFormState> {
+        // Valdiering her siden dette ikke er en del av formData som sendes til serveren, men brukes til å validere at det er valgt et stoppested
         if (!selectedStopPlace) {
-            setFormError(getFormFeedbackForError('create/stop_place-missing'))
-        }
-
-        if (
-            !selectedClosestStopPlaces ||
-            selectedClosestStopPlaces.length === 0
-        ) {
-            setFormError(
-                getFormFeedbackForError('create/closest_stop_places-missing'),
-            )
-        }
-
-        setFormError(undefined)
-        setSelectedClosestStopPlaces(null)
-        setMainStopPlaceItem(null)
-
-        setTimeout(() => {
-            if (trackingLocation !== 'board_without_user') {
-                capture('survey_set_up_board')
+            return {
+                status: 'error',
+                message: 'Du må velge et stoppested',
+                field: 'stop_place',
             }
-        }, 5000)
+        }
 
-        const result = await addStopPlaceTiles(
-            board.id,
-            formData,
-            board.isArrivals,
-            board.meta.location,
-        )
-
-        return result
+        try {
+            const result = await addStopPlaceTiles(
+                board.id,
+                formData,
+                board.isArrivals,
+                board.meta.location,
+            )
+            return result
+        } catch {
+            return {
+                status: 'error',
+                message: 'Noe gikk galt. Prøv igjen.',
+            }
+        }
     }
 
     const [state, formAction, isPending] = useActionState(
@@ -101,7 +87,24 @@ function AddStopPlaceTile({
         null,
     )
 
-    const error = state?.status === 'error' ? state.message : undefined
+    const stopPlaceError =
+        state?.status === 'error' &&
+        state.field === 'stop_place' &&
+        !selectedStopPlace
+            ? state.message
+            : undefined
+
+    const closestStopPlacesError =
+        state?.status === 'error' &&
+        state.field === 'closest_stop_places' &&
+        !selectedClosestStopPlaces?.length
+            ? state.message
+            : undefined
+
+    const generalError =
+        (state?.status === 'error' && !state.field
+            ? state.message
+            : undefined) ?? positionError
 
     //----------------------------------------------------------------------------
 
@@ -130,9 +133,7 @@ function AddStopPlaceTile({
                     )
                 } else if (currentPositionState?.type === 'error') {
                     setSelectedStopPlace(null)
-                    setFormError(
-                        getFormFeedbackForError('create/position-failed'),
-                    )
+                    setPositionError('Kunne ikke hente posisjonen din')
                 }
             })
             return
@@ -189,7 +190,8 @@ function AddStopPlaceTile({
                     onChange={handleStopPlaceChange}
                     debounceTimeout={200}
                     aria-required
-                    {...getFormFeedbackForField('stop_place', errorstate)}
+                    variant={stopPlaceError ? 'negative' : undefined}
+                    feedback={stopPlaceError}
                 />
             </div>
             <div className="w-full">
@@ -220,10 +222,8 @@ function AddStopPlaceTile({
                         })
                         setSelectedClosestStopPlaces(selectedItems)
                     }}
-                    {...getFormFeedbackForField(
-                        'closest_stop_places',
-                        errorstate,
-                    )}
+                    variant={closestStopPlacesError ? 'negative' : undefined}
+                    feedback={closestStopPlacesError}
                 />
             </div>
             <HiddenInput
@@ -237,8 +237,9 @@ function AddStopPlaceTile({
                 )}
             />
 
-            {/* TODO - Bedre feilmelding her */}
-            {error && <p className=" text-red-500">{error}</p>}
+            {generalError && (
+                <FeedbackText variant="negative">{generalError}</FeedbackText>
+            )}
 
             <SubmitButton
                 variant="primary"
