@@ -73,6 +73,14 @@ function AddStopPlaceTile({
                 board.isArrivals,
                 board.meta.location,
             )
+
+            if (result && result.status === 'success') {
+                setTimeout(() => {
+                    if (trackingLocation !== 'board_without_user') {
+                        capture('survey_set_up_board')
+                    }
+                }, 5000)
+            }
             return result
         } catch {
             return {
