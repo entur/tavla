@@ -7,6 +7,10 @@ import type { BoardFooter } from 'src/types/db-types/boards'
 import { type FormState, saveInfoMessage } from './action'
 import { INFO_MESSAGE_MAX_LENGTH } from './validation'
 
+function hasUnsavedChanges(currentValue: string, savedValue: string) {
+    return currentValue.trim() !== savedValue.trim()
+}
+
 export function InfoMessageForm({
     bid,
     infoMessage,
@@ -22,6 +26,7 @@ export function InfoMessageForm({
         const result = await saveInfoMessage(bid, _prevState, formData)
 
         if (result?.status === 'success') {
+            setValue((current) => current.trim())
             capture('board_settings_changed', {
                 setting: 'info_message',
                 value: 'changed',
@@ -53,8 +58,9 @@ export function InfoMessageForm({
                 variant={error ? 'negative' : undefined}
                 feedback={error}
                 className="w-full"
-                onBlur={(_e) => {
-                    if (value === (infoMessage?.footer ?? '')) return
+                onBlur={() => {
+                    if (!hasUnsavedChanges(value, infoMessage?.footer ?? ''))
+                        return
                     formRef.current?.requestSubmit()
                 }}
             />
