@@ -8,10 +8,7 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
         <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
             <EditSection title="Hva vil du vise på Tavla?">
-                <AddStopPlaceTile
-                    trackingLocation="board_page"
-                    board={board}
-                ></AddStopPlaceTile>
+                <AddStopPlaceTile trackingLocation="board_page" board={board} />
                 <TileList board={board} />
             </EditSection>
 

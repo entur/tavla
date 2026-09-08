@@ -51,7 +51,6 @@ function AddStopPlaceTile({
 
     const [positionError, setPositionError] = useState<string | undefined>()
 
-
     async function handleAddStopPlaces(
         _prevState: AddStopPlaceFormState,
         formData: FormData,
@@ -112,8 +111,6 @@ function AddStopPlaceTile({
         (state?.status === 'error' && !state.field
             ? state.message
             : undefined) ?? positionError
-
-    //----------------------------------------------------------------------------
 
     async function searchStopPlaces(search: string) {
         const stopPlaces = await stopPlaceItems(
