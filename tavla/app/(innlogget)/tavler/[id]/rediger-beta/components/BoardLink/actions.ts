@@ -14,17 +14,28 @@ import { customUrlSchema } from './validation'
 
 initializeAdminApp()
 
+export type FormState =
+    | { status: 'success' }
+    | { status: 'error'; message: string }
+    | null
+
 export async function saveCustomUrl(
     bid: BoardDB['id'],
-    customUrl: string,
-): Promise<{ error?: string }> {
+    _prevState: FormState,
+    formData: FormData,
+): Promise<FormState> {
     logToGcp('info', 'action:saveCustomUrl invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
-    const parsed = customUrlSchema.safeParse(customUrl)
+    const parsed = customUrlSchema.safeParse(
+        formData.get('customUrl')?.toString() ?? '',
+    )
     if (!parsed.success) {
-        return { error: parsed.error.issues[0]?.message ?? 'Ugyldig lenke' }
+        return {
+            status: 'error',
+            message: parsed.error.issues[0]?.message ?? 'Ugyldig lenke',
+        }
     }
     const trimmed = parsed.data
 
@@ -32,16 +43,16 @@ export async function saveCustomUrl(
         if (trimmed) {
             const existing = await getBoardByCustomUrl(trimmed)
             if (existing && existing.id !== bid) {
-                return { error: 'Denne lenken er allerede i bruk.' }
+                return {
+                    status: 'error',
+                    message: 'Denne lenken er allerede i bruk.',
+                }
             }
         }
 
         await updateBoard(bid, {
             customUrl: trimmed || FieldValue.delete(),
         })
-
-        revalidatePath(`/tavler/${bid}/rediger-beta`)
-        return {}
     } catch (error) {
         logToGcp(
             'error',
@@ -54,6 +65,9 @@ export async function saveCustomUrl(
                 boardID: bid,
             },
         })
-        return { error: 'Noe gikk galt. Prøv igjen.' }
+        return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }
+
+    revalidatePath(`/tavler/${bid}/rediger-beta`)
+    return { status: 'success' }
 }
