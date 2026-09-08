@@ -19,13 +19,13 @@ function RefreshBoard({ board }: { board: BoardDB }) {
             toast.addToast({
                 variant: 'success',
                 title: 'Tavle oppdatert',
-                content: 'Alle instanser av denne tavlen har blitt oppdatert!',
+                content: 'Alle instanser av denne tavla har blitt oppdatert!',
             })
         else
             toast.addToast({
                 variant: 'info',
-                title: 'Feil ved oppdatering av tavlen',
-                content: 'Det oppsto en feil. Tavlen har ikke blitt oppdatert.',
+                title: 'Feil ved oppdatering av tavla',
+                content: 'Det oppsto en feil. Tavla har ikke blitt oppdatert.',
             })
     }
 
@@ -37,7 +37,6 @@ function RefreshBoard({ board }: { board: BoardDB }) {
         >
             Oppdater tavle
             <RefreshIcon className="!top-[-2px]" />{' '}
-            {/*  Høre med hanna om vi skal ha ikon her */}
         </Button>
     )
 }
