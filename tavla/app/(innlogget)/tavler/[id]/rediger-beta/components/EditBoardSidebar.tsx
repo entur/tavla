@@ -1,7 +1,9 @@
 'use client'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading4, Paragraph } from '@entur/typography'
+import type { BoardDB } from 'src/types/db-types/boards'
+import { InfoMessageForm } from './InfoMessage/InfoMessage'
 
-export function EditBoardSidebar() {
+export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
         <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
             <EditSection title="Hvilke stoppesteder vil du vise på Tavla?">
@@ -13,7 +15,7 @@ export function EditBoardSidebar() {
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
-                <Paragraph>Kommer senere...</Paragraph>
+                <InfoMessageForm bid={board.id} infoMessage={board.footer} />
             </EditSection>
         </div>
     )
@@ -27,8 +29,10 @@ function EditSection({
     title: string
 }) {
     return (
-        <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
-            <Heading3 margin="none">{title}</Heading3>
+        <section className="flex flex-col gap-4 p-6 rounded-xl">
+            <Heading4 margin="none" as="h2">
+                {title}
+            </Heading4>
             {children}
         </section>
     )
