@@ -1,7 +1,9 @@
 'use client'
 import { Heading3, Paragraph } from '@entur/typography'
+import type { BoardDB } from 'types/db-types/boards'
+import { EditViewType } from './EditViewType/EditViewType'
 
-export function EditBoardSidebar() {
+export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
         <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
             <EditSection title="Hvilke stoppesteder vil du vise på Tavla?">
@@ -9,7 +11,10 @@ export function EditBoardSidebar() {
             </EditSection>
 
             <EditSection title="Hvordan vil du at Tavla skal se ut?">
-                <Paragraph>Kommer senere...</Paragraph>
+                <EditViewType
+                    bid={board.id}
+                    hasCombinedTiles={board.isCombinedTiles}
+                ></EditViewType>
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
