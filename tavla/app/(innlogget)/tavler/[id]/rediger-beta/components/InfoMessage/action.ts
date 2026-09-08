@@ -1,6 +1,5 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
 import {
     initializeAdminApp,
     userCanEditBoard,
@@ -37,13 +36,13 @@ export async function saveInfoMessage(
         }
 
     const infoMessage = parsed.data
-    const hasInfoMessage = infoMessage && !isOnlyWhiteSpace(infoMessage)
 
     try {
         await updateBoard(bid, {
-            footer: hasInfoMessage
-                ? { footer: infoMessage }
-                : FieldValue.delete(),
+            footer:
+                infoMessage.length > 0
+                    ? { footer: infoMessage }
+                    : FieldValue.delete(),
         })
     } catch (error) {
         logToGcp(
