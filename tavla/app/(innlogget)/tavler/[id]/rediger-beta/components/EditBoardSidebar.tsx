@@ -2,10 +2,11 @@
 import { Heading4, Paragraph } from '@entur/typography'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { InfoMessageForm } from './InfoMessage/InfoMessage'
+import { WalkingDistanceForm } from './WalkingDistance/WalkingDistance'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
-        <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
+        <div className="flex h-full flex-col gap-12 text-sm">
             <EditSection title="Hvilke stoppesteder vil du vise på Tavla?">
                 <Paragraph>Kommer senere...</Paragraph>
             </EditSection>
@@ -16,6 +17,10 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
 
             <EditSection title="Hva vil du vise på tavla?">
                 <InfoMessageForm bid={board.id} infoMessage={board.footer} />
+                <WalkingDistanceForm
+                    bid={board.id}
+                    location={board.meta.location}
+                />
             </EditSection>
         </div>
     )
