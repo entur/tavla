@@ -51,7 +51,6 @@ function AddStopPlaceTile({
 
     const [positionError, setPositionError] = useState<string | undefined>()
 
-    //LEGGE TIL handleAddStopPlaces her:------------------------------------------
 
     async function handleAddStopPlaces(
         _prevState: AddStopPlaceFormState,
