@@ -89,7 +89,7 @@
         "postcss": "8.5.27",
         "tailwindcss": "3.4.19",
         "typescript": "6.0.3",
-        "vitest": "4.1.8"
+        "vitest": "4.1.11"
     },
     "packageManager": "yarn@4.10.3",
     "engines": {
