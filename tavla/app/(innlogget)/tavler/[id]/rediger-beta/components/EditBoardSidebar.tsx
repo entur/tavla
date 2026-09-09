@@ -1,6 +1,7 @@
 'use client'
 import { Heading3, Paragraph } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
+import { EditTheme } from './EditTheme/EditTheme'
 import { EditViewType } from './EditViewType/EditViewType'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
@@ -14,7 +15,8 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
                 <EditViewType
                     bid={board.id}
                     hasCombinedTiles={board.isCombinedTiles}
-                ></EditViewType>
+                />
+                <EditTheme bid={board.id} theme={board.theme ?? 'dark'} />
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
