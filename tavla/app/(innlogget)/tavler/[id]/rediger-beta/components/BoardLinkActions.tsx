@@ -2,8 +2,8 @@
 import { CopyableText } from 'node_modules/@entur/alert'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkClient } from 'src/utils/boardLink'
-import { CustomUrl } from './BoardLink/CustomUrl'
-import { OpenBoard } from './BoardLink/OpenBoard'
+import { CustomUrl } from './CustomUrl/CustomUrl'
+import { OpenBoard } from './OpenBoard'
 import { RefreshBoard } from './RefreshBoard/RefreshBoard'
 
 export function BoardLinkActions({ board }: { board: BoardDB }) {
