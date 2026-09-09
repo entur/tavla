@@ -8,26 +8,23 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { updateBoard } from 'src/firebase'
 import { logToGcp } from 'utils/logging'
-import { viewTypeSchema } from './validation'
+import { type ViewTypeValue, viewTypeSchema } from './validation'
 
 initializeAdminApp()
 
-export type FormState =
+export type ViewTypeState =
     | { status: 'success' }
     | { status: 'error'; message: string }
     | null
 
 export async function saveViewType(
     bid: string,
-    _prevState: FormState,
-    formData: FormData,
-): Promise<FormState> {
+    value: ViewTypeValue,
+): Promise<ViewTypeState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
     logToGcp('info', 'action:saveViewType invoked', { bid })
 
-    const parsed = viewTypeSchema.safeParse(
-        formData.get('viewType')?.toString(),
-    )
+    const parsed = viewTypeSchema.safeParse(value)
     if (!parsed.success)
         return {
             status: 'error',
