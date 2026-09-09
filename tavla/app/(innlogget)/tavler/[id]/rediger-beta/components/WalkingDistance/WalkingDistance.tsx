@@ -1,6 +1,6 @@
 'use client'
 import { SearchableDropdown } from '@entur/dropdown'
-import { Paragraph } from '@entur/typography'
+import { Label, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import ClientOnly from 'app/_components/NoSSR/ClientOnly'
 import { usePointSearch } from 'app/_hooks/usePointSearch'
@@ -51,12 +51,10 @@ export function WalkingDistanceForm({
 
     return (
         <form action={formAction} ref={formRef} className="flex flex-col">
-            <Paragraph variant="small" className="mb-2 text-lg">
-                Gangavstand
-            </Paragraph>
-            <Paragraph variant="small" className="mb-2 text-[#626493]">
+            <Paragraph className="mb-2">Gangavstand</Paragraph>
+            <Label className="mb-2">
                 Skriv inn hvor tavlen står for å vise avstand til stoppestedet.
-            </Paragraph>
+            </Label>
             <ClientOnly>
                 <SearchableDropdown
                     label="Hvor befinner tavlen seg?"
@@ -64,6 +62,7 @@ export function WalkingDistanceForm({
                     selectedItem={selectedPoint}
                     onChange={setSelectedPoint}
                     debounceTimeout={150}
+                    noMatchesText="Skriv inn sted, adresse eller stoppested"
                     clearable
                     variant={error ? 'negative' : undefined}
                     feedback={error}
