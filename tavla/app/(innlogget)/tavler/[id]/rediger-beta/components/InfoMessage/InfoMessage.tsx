@@ -28,6 +28,7 @@ export function InfoMessageForm({
         if (result?.status === 'success') {
             setValue((current) => current.trim())
             capture('board_settings_changed', {
+                location: 'edit_board_page',
                 setting: 'info_message',
                 value: 'changed',
             })

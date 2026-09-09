@@ -299,6 +299,7 @@ export type EventMap = {
     }
 
     board_settings_changed: {
+        location?: typeof LOCATIONS.EditBoardPage
         setting:
             | 'view_type'
             | 'theme'
