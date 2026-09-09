@@ -3,9 +3,9 @@
 import { FeedbackText } from '@entur/form'
 import { ChoiceChipGroupGeneral } from 'app/_components/TableSettings/ChoiceChipGroupGeneral'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { startTransition, useActionState, useRef } from 'react'
+import { startTransition, useActionState } from 'react'
 import { saveViewType, type ViewTypeState } from './actions'
-import { type ViewTypeValue, viewTypeSchema } from './validation'
+import type { ViewTypeValue } from './validation'
 
 function EditViewType({
     bid,

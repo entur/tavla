@@ -1,8 +1,8 @@
 'use client'
 import { Heading3, Paragraph } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
-import { EditViewType } from './EditViewType/EditViewType'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
+import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
