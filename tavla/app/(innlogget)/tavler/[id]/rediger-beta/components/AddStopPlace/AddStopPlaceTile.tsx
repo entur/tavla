@@ -1,11 +1,9 @@
 'use client'
-import { stat } from 'node:fs'
 import {
     MultiSelect,
     type NormalizedDropdownItemType,
     SearchableDropdown,
 } from '@entur/dropdown'
-import { FeedbackText } from '@entur/form'
 import { SearchIcon } from '@entur/icons'
 import { Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
@@ -74,6 +72,8 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
             board.isArrivals,
             board.meta.location,
         )
+
+        setSelectedClosestStopPlaces(null)
 
         return result
     }

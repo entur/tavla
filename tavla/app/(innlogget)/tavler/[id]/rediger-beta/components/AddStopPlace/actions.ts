@@ -34,7 +34,7 @@ export type AddStopPlaceFormState =
       }
     | null
 
-export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
+async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
     logToGcp('info', 'action:addTiles invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
