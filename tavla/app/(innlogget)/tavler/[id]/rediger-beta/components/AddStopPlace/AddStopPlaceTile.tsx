@@ -55,37 +55,22 @@ function AddStopPlaceTile({
         _prevState: AddStopPlaceFormState,
         formData: FormData,
     ): Promise<AddStopPlaceFormState> {
-        // Valdiering her siden dette ikke er en del av formData som sendes til serveren, men brukes til å validere at det er valgt et stoppested
         if (!selectedStopPlace) {
             return {
                 status: 'error',
-                message: 'Du må velge et stoppested',
+                message: 'Du må velge adresse, stoppesed eller sted',
                 field: 'stop_place',
             }
         }
 
-        try {
-            const result = await addStopPlaceTiles(
-                board.id,
-                formData,
-                board.isArrivals,
-                board.meta.location,
-            )
+        const result = await addStopPlaceTiles(
+            board.id,
+            formData,
+            board.isArrivals,
+            board.meta.location,
+        )
 
-            if (result && result.status === 'success') {
-                setTimeout(() => {
-                    if (trackingLocation !== 'board_without_user') {
-                        capture('survey_set_up_board')
-                    }
-                }, 5000)
-            }
-            return result
-        } catch {
-            return {
-                status: 'error',
-                message: 'Noe gikk galt. Prøv igjen.',
-            }
-        }
+        return result
     }
 
     const [state, formAction, isPending] = useActionState(

@@ -82,56 +82,70 @@ export async function getTileWithWalkingDistance(
     const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate
 
-    const [walkingResult, drivingResult] = await Promise.allSettled([
-        getWalkingDistance(fromCoordinates, toCoordinates),
-        getDrivingDistance(fromCoordinates, toCoordinates),
-    ])
+    try {
+        const [walkingResult, drivingResult] = await Promise.allSettled([
+            getWalkingDistance(fromCoordinates, toCoordinates),
+            getDrivingDistance(fromCoordinates, toCoordinates),
+        ])
 
-    const walkingDistance =
-        walkingResult.status === 'fulfilled' ? walkingResult.value : undefined
-    const drivingDistance =
-        drivingResult.status === 'fulfilled' ? drivingResult.value : undefined
+        const walkingDistance =
+            walkingResult.status === 'fulfilled'
+                ? walkingResult.value
+                : undefined
+        const drivingDistance =
+            drivingResult.status === 'fulfilled'
+                ? drivingResult.value
+                : undefined
 
-    const newTile = { ...tile }
+        const newTile = { ...tile }
 
-    if (walkingDistance !== undefined) {
-        newTile.walkingDistance = { distance: walkingDistance }
-    } else {
-        delete newTile.walkingDistance
+        if (walkingDistance !== undefined) {
+            newTile.walkingDistance = { distance: walkingDistance }
+        } else {
+            delete newTile.walkingDistance
+        }
+
+        if (drivingDistance !== undefined) {
+            newTile.drivingDistance = { distance: drivingDistance }
+        } else {
+            delete newTile.drivingDistance
+        }
+
+        return newTile
+    } catch (error) {
+        logToGcp(
+            'error',
+            `Failed to add walking distance to tile: ${error instanceof Error ? error.message : String(error)}`,
+        )
+        Sentry.captureMessage('Failed to add walking distance to tile')
+        throw error
     }
-
-    if (drivingDistance !== undefined) {
-        newTile.drivingDistance = { distance: drivingDistance }
-    } else {
-        delete newTile.drivingDistance
-    }
-
-    return newTile
 }
 
-//tilsvarer addTilesAction() fra page i rediger/page.tsx
 export async function addStopPlaceTiles(
     bid: BoardDB['id'],
     data: FormData,
     isArrivals: boolean | undefined,
     location: LocationDB | undefined,
 ): Promise<AddStopPlaceFormState> {
-    const parsed = parseClosestStopPlaces(data)
+    logToGcp('info', 'action:addStopPlaceTiles invoked')
+    const parsedStopPlaces = parseClosestStopPlaces(data)
 
-    if (!parsed.success) {
+    if (!parsedStopPlaces.success) {
         logToGcp(
             'error',
-            `Failed to parse closest stop places: ${parsed.error.issues[0]?.message ?? 'Ugyldig data'}`,
+            `Failed to parse closest stop places: ${parsedStopPlaces.error.issues[0]?.message ?? 'Ugyldig data'}`,
             { bid },
         )
         return {
             status: 'error',
-            message: parsed.error.issues[0]?.message ?? 'Ugyldig data',
+            message:
+                parsedStopPlaces.error.issues[0]?.message ?? 'Ugyldig data',
             field: 'closest_stop_places',
         }
     }
 
-    const tiles = closestStopPlacesToTiles(parsed.data, isArrivals)
+    const tiles = closestStopPlacesToTiles(parsedStopPlaces.data, isArrivals)
 
     try {
         const tilesWithDistance = await Promise.all(
@@ -140,13 +154,7 @@ export async function addStopPlaceTiles(
                 .map((tile) => getTileWithWalkingDistance(tile, location)),
         )
         await addTiles(bid, tilesWithDistance)
-    } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to add stop place tiles: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
-        Sentry.captureException(error, { extra: { boardID: bid } })
+    } catch {
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }
 
