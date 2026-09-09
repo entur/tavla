@@ -14,7 +14,6 @@ import useCurrentPosition from 'app/_hooks/useCurrentPosition'
 import { useStopPlaceSearch } from 'app/_hooks/useStopPlaceSearch'
 import type { StopPlace } from 'app/(innlogget)/utils/fetch'
 import { coordinatesToStopPlaceDropdownItem } from 'app/(innlogget)/utils/position'
-import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState, useState } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
@@ -23,13 +22,7 @@ import { type AddStopPlaceFormState, addStopPlaceTiles } from './actions'
 const NUMBER_OF_CLOSEST_STOP_PLACES = 10
 const AREA_RADIUS_IN_KM = 20
 
-function AddStopPlaceTile({
-    board,
-    trackingLocation,
-}: {
-    board: BoardDB
-    trackingLocation: EventProps<'stop_place_add_interaction'>['location']
-}) {
+function AddStopPlaceTile({ board }: { board: BoardDB }) {
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch()
 
@@ -131,7 +124,7 @@ function AddStopPlaceTile({
         const typeOfPlace = selectedItem?.value.type
 
         capture('stop_place_add_interaction', {
-            location: trackingLocation,
+            location: 'edit_board_page',
             field: 'stop_place',
             action: selectedItem?.value ? 'selected' : 'cleared',
             typeOfPlace: typeOfPlace ?? 'other',
@@ -196,7 +189,7 @@ function AddStopPlaceTile({
                             selectedItems.length >
                             (selectedClosestStopPlaces?.length ?? 0)
                         capture('stop_place_add_interaction', {
-                            location: trackingLocation,
+                            location: 'edit_board_page',
                             field: 'closest_stop_places',
                             action: addedStopPlace ? 'added' : 'removed',
                             typeOfPlace:
@@ -236,8 +229,7 @@ function AddStopPlaceTile({
                 disabled={isPending}
                 onClick={() =>
                     capture('stop_place_added', {
-                        location: trackingLocation,
-                        county_count: 0 /* Midlertidig satt til 0 da dette feltet er obligatorisk */,
+                        location: 'edit_board_page',
                         typeOfPlace: selectedStopPlace?.value.type ?? 'other',
                         selectedIndexes:
                             selectedClosestStopPlaces?.map((selected) =>

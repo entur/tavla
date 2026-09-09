@@ -2,13 +2,13 @@
 import { Heading3, Paragraph } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
-import { TileList } from './AddStopPlace/TileList'
+import { TileList } from './TileList/TileList'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
         <div className="flex flex-col gap-8 overflow-y-auto text-sm">
             <EditSection title="Hva vil du vise på Tavla?">
-                <AddStopPlaceTile trackingLocation="board_page" board={board} />
+                <AddStopPlaceTile board={board} />
                 <TileList board={board} />
             </EditSection>
 

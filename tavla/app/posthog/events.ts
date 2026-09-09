@@ -270,7 +270,9 @@ export type EventMap = {
     }
 
     stop_place_add_interaction: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     > &
         (
             | {
@@ -291,9 +293,11 @@ export type EventMap = {
         )
 
     stop_place_added: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     > & {
-        county_count: number
+        county_count?: number
         typeOfPlace: TypeOfPlace
         selectedIndexes: number[]
     }
