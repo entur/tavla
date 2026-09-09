@@ -1,6 +1,6 @@
 'use client'
 import { TextField } from '@entur/form'
-import { Paragraph } from '@entur/typography'
+import { Label, Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState, useRef, useState } from 'react'
 import type { BoardFooter } from 'src/types/db-types/boards'
@@ -42,13 +42,10 @@ export function InfoMessageForm({
 
     return (
         <form action={formAction} ref={formRef} className="flex flex-col">
-            {/* Dette er stylet litt rart i påvente av at linje lanserer ny versjon av TextField */}
-            <Paragraph variant="small" className="mb-2 text-lg">
-                Infomelding
-            </Paragraph>
-            <Paragraph variant="small" className="mb-2 text-[#626493]">
+            <Paragraph className="mb-2">Infomelding</Paragraph>
+            <Label className="mb-2 ">
                 Skriv en kort tekst som vises nederst på tavla.
-            </Paragraph>
+            </Label>
             <TextField
                 label="Infomelding"
                 name="infoMessage"
