@@ -6,7 +6,7 @@ import { TileList } from './AddStopPlace/TileList'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
-        <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
+        <div className="flex flex-col gap-8 overflow-y-auto text-sm">
             <EditSection title="Hva vil du vise på Tavla?">
                 <AddStopPlaceTile trackingLocation="board_page" board={board} />
                 <TileList board={board} />

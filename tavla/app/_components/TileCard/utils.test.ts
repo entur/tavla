@@ -10,7 +10,7 @@ import {
 /* Minimal fixture — deriveLinesWithDirection bruker kun quay.id og lines[].id/frontTexts, så vi caster forbi resten av TQuay-feltene.*/
 function quay(
     id: string,
-    lines: Array<{ id: string; frontTexts?: string[] }>,
+    lines: Array<{ id: string; frontTexts: string[] }>,
 ): QuayWithFrontText {
     return { id, lines } as unknown as QuayWithFrontText
 }
@@ -26,7 +26,7 @@ describe('deriveLinesWithDirection', () => {
             quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }]),
             quay('Q2', [{ id: 'L1', frontTexts: ['Sør'] }]),
         ]
-        expect(deriveLinesWithDirection(quays, ['Q1||L1'])).toEqual([
+        expect(deriveLinesWithDirection(quays, ['Q1||L1||Nord'])).toEqual([
             { lineId: 'L1', frontTexts: ['Nord'] },
         ])
     })
@@ -36,9 +36,9 @@ describe('deriveLinesWithDirection', () => {
             quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }]),
             quay('Q2', [{ id: 'L1', frontTexts: ['Sør'] }]),
         ]
-        expect(deriveLinesWithDirection(quays, ['Q1||L1', 'Q2||L1'])).toEqual([
-            { lineId: 'L1', frontTexts: [] },
-        ])
+        expect(
+            deriveLinesWithDirection(quays, ['Q1||L1||Nord', 'Q2||L1||Sør']),
+        ).toEqual([{ lineId: 'L1', frontTexts: [] }])
     })
 
     it('gir frontTexts: [] ("alle retninger", fail-open) for en valgt linje som mangler frontText-data, i stedet for å droppe linja', () => {
@@ -60,7 +60,7 @@ describe('deriveLinesWithDirection', () => {
                 { id: 'L2', frontTexts: ['Vest'] },
             ]),
         ]
-        const result = deriveLinesWithDirection(quays, ['Q1||L1'])
+        const result = deriveLinesWithDirection(quays, ['Q1||L1||Nord'])
         expect(result).toHaveLength(1)
         expect(result[0]?.lineId).toBe('L1')
     })
@@ -70,9 +70,12 @@ describe('deriveLinesWithDirection', () => {
             quay('Q1', [{ id: 'L1', frontTexts: ['Storo', 'Bergkrystallen'] }]),
             quay('Q2', [{ id: 'L1', frontTexts: ['Sinsen'] }]),
         ]
-        expect(deriveLinesWithDirection(quays, ['Q1||L1'])).toEqual([
-            { lineId: 'L1', frontTexts: ['Bergkrystallen', 'Storo'] },
-        ])
+        expect(
+            deriveLinesWithDirection(quays, [
+                'Q1||L1||Storo',
+                'Q1||L1||Bergkrystallen',
+            ]),
+        ).toEqual([{ lineId: 'L1', frontTexts: ['Bergkrystallen', 'Storo'] }])
     })
 })
 
@@ -128,7 +131,12 @@ function adminTile(
 describe('getInitialCheckedLineIds (read-back-presedens)', () => {
     it('for quay lagret med en ikke-tom whitelistedLines returneres kun de linjene', () => {
         const tile = adminTile([{ id: 'Q1', whitelistedLines: ['L1'] }])
-        const quays = [quay('Q1', [{ id: 'L1' }, { id: 'L2' }])]
+        const quays = [
+            quay('Q1', [
+                { id: 'L1', frontTexts: [] },
+                { id: 'L2', frontTexts: [] },
+            ]),
+        ]
         expect(getInitialCheckedLineIds(tile, quays)).toEqual(
             new Set(['Q1||L1']),
         )
@@ -136,7 +144,12 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
 
     it('for quay lagret med tom whitelistedLines tolkes [] som "alle linjer på quayen" og alle linjer returneres', () => {
         const tile = adminTile([{ id: 'Q1', whitelistedLines: [] }])
-        const quays = [quay('Q1', [{ id: 'L1' }, { id: 'L2' }])]
+        const quays = [
+            quay('Q1', [
+                { id: 'L1', frontTexts: [] },
+                { id: 'L2', frontTexts: [] },
+            ]),
+        ]
         expect(getInitialCheckedLineIds(tile, quays)).toEqual(
             new Set(['Q1||L1', 'Q1||L2']),
         )
@@ -144,7 +157,10 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
 
     it('tile har en quay med whitelistedLines, på stoppet finnes det flere quays som ikke er lagret på tile. Da returneres kun kombinasjon av lagret quay og linje', () => {
         const tile = adminTile([{ id: 'Q1', whitelistedLines: ['L1'] }])
-        const quays = [quay('Q1', [{ id: 'L1' }]), quay('Q2', [{ id: 'L3' }])]
+        const quays = [
+            quay('Q1', [{ id: 'L1', frontTexts: [] }]),
+            quay('Q2', [{ id: 'L3', frontTexts: [] }]),
+        ]
         expect(getInitialCheckedLineIds(tile, quays)).toEqual(
             new Set(['Q1||L1']),
         )
@@ -153,9 +169,18 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
     it('når ingen quays lagret, men deprekert tile.whitelistedLines er satt så returneres alle kombinasjoner quay og valgt linje', () => {
         const tile = adminTile([], ['L1'])
         const quays = [
-            quay('Q1', [{ id: 'L1' }, { id: 'L2' }]),
-            quay('Q2', [{ id: 'L1' }, { id: 'L3' }]),
-            quay('Q3', [{ id: 'L2' }, { id: 'L3' }]),
+            quay('Q1', [
+                { id: 'L1', frontTexts: [] },
+                { id: 'L2', frontTexts: [] },
+            ]),
+            quay('Q2', [
+                { id: 'L1', frontTexts: [] },
+                { id: 'L3', frontTexts: [] },
+            ]),
+            quay('Q3', [
+                { id: 'L2', frontTexts: [] },
+                { id: 'L3', frontTexts: [] },
+            ]),
         ]
         expect(getInitialCheckedLineIds(tile, quays)).toEqual(
             new Set(['Q1||L1', 'Q2||L1']),
@@ -164,7 +189,12 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
 
     it('verken quays eller tile.whitelistedLines er satt så alle kombinasjoner returneres', () => {
         const tile = adminTile([])
-        const quays = [quay('Q1', [{ id: 'L1' }, { id: 'L2' }])]
+        const quays = [
+            quay('Q1', [
+                { id: 'L1', frontTexts: [] },
+                { id: 'L2', frontTexts: [] },
+            ]),
+        ]
         expect(getInitialCheckedLineIds(tile, quays)).toEqual(
             new Set(['Q1||L1', 'Q1||L2']),
         )
