@@ -17,7 +17,6 @@ export type FormState =
     | { status: 'error'; message: string }
     | null
 
-//tilsvarer isCombinedTiles-delen i saveSettings() fra rediger/components/Settings/actions.ts
 export async function saveViewType(
     bid: string,
     _prevState: FormState,
