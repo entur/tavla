@@ -1,4 +1,5 @@
 'use client'
+import { stat } from 'node:fs'
 import {
     MultiSelect,
     type NormalizedDropdownItemType,
@@ -48,6 +49,17 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
         _prevState: AddStopPlaceFormState,
         formData: FormData,
     ): Promise<AddStopPlaceFormState> {
+        capture('stop_place_added', {
+            location: 'edit_board_page',
+            typeOfPlace: selectedStopPlace?.value.type ?? 'other',
+            selectedIndexes:
+                selectedClosestStopPlaces?.map((selected) =>
+                    closestStopPlaceItems.findIndex(
+                        (closestItem) =>
+                            closestItem.value.id === selected.value.id,
+                    ),
+                ) ?? [],
+        })
         if (!selectedStopPlace) {
             return {
                 status: 'error',
@@ -72,23 +84,14 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
     )
 
     const stopPlaceError =
-        state?.status === 'error' &&
-        state.field === 'stop_place' &&
-        !selectedStopPlace
-            ? state.message
-            : undefined
-
-    const closestStopPlacesError =
-        state?.status === 'error' &&
-        state.field === 'closest_stop_places' &&
-        !selectedClosestStopPlaces?.length
-            ? state.message
-            : undefined
-
-    const generalError =
-        (state?.status === 'error' && !state.field
+        (state?.status === 'error' && state.field === 'stop_place'
             ? state.message
             : undefined) ?? positionError
+
+    const closestStopPlacesError =
+        state?.status === 'error' && state.field === 'closest_stop_places'
+            ? state.message
+            : undefined
 
     async function searchStopPlaces(search: string) {
         const stopPlaces = await stopPlaceItems(
@@ -100,7 +103,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
         ].filter(Boolean) as NormalizedDropdownItemType<StopPlace>[]
     }
 
-    function handleStopPlaceChange(
+    function handlePlaceChange(
         selectedItem: NormalizedDropdownItemType<StopPlace> | null,
     ) {
         if (selectedItem?.value.id === 'current_position') {
@@ -113,7 +116,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                     setSelectedStopPlace(
                         coordinatesToStopPlaceDropdownItem(coords),
                     )
-                } else if (currentPositionState?.type === 'error') {
+                } else {
                     setSelectedStopPlace(null)
                     setPositionError('Kunne ikke hente posisjonen din')
                 }
@@ -153,6 +156,27 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
             setSelectedClosestStopPlaces(null)
         }
     }
+
+    function handleClosestStopPlacesChange(
+        selectedItems: NormalizedDropdownItemType<StopPlace>[],
+    ) {
+        const addedStopPlace =
+            selectedItems.length > (selectedClosestStopPlaces?.length ?? 0)
+        capture('stop_place_add_interaction', {
+            location: 'edit_board_page',
+            field: 'closest_stop_places',
+            action: addedStopPlace ? 'added' : 'removed',
+            typeOfPlace: selectedStopPlace?.value.type ?? 'other',
+            selectedIndexes: selectedItems.map((selectedItem) =>
+                closestStopPlaceItems.findIndex(
+                    (closestItem) =>
+                        closestItem.value.id === selectedItem.value.id,
+                ),
+            ),
+        })
+        setSelectedClosestStopPlaces(selectedItems)
+    }
+
     return (
         <form
             className="mr-6 flex w-full flex-col gap-4 lg:flex-col"
@@ -169,11 +193,19 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                     clearable
                     prepend={<SearchIcon aria-hidden />}
                     selectedItem={selectedStopPlace}
-                    onChange={handleStopPlaceChange}
+                    onChange={handlePlaceChange}
                     debounceTimeout={200}
                     aria-required
-                    variant={stopPlaceError ? 'negative' : undefined}
-                    feedback={stopPlaceError}
+                    variant={
+                        !selectedStopPlace && stopPlaceError
+                            ? 'negative'
+                            : undefined
+                    }
+                    feedback={
+                        !selectedStopPlace && stopPlaceError
+                            ? stopPlaceError
+                            : undefined
+                    }
                 />
             </div>
             <div className="w-full">
@@ -184,28 +216,19 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                     label="Stoppesteder i nærheten"
                     prepend={<SearchIcon aria-hidden />}
                     selectedItems={selectedClosestStopPlaces ?? []}
-                    onChange={(selectedItems) => {
-                        const addedStopPlace =
-                            selectedItems.length >
-                            (selectedClosestStopPlaces?.length ?? 0)
-                        capture('stop_place_add_interaction', {
-                            location: 'edit_board_page',
-                            field: 'closest_stop_places',
-                            action: addedStopPlace ? 'added' : 'removed',
-                            typeOfPlace:
-                                selectedStopPlace?.value.type ?? 'other',
-                            selectedIndexes: selectedItems.map((selectedItem) =>
-                                closestStopPlaceItems.findIndex(
-                                    (closestItem) =>
-                                        closestItem.value.id ===
-                                        selectedItem.value.id,
-                                ),
-                            ),
-                        })
-                        setSelectedClosestStopPlaces(selectedItems)
-                    }}
-                    variant={closestStopPlacesError ? 'negative' : undefined}
-                    feedback={closestStopPlacesError}
+                    onChange={handleClosestStopPlacesChange}
+                    variant={
+                        !selectedClosestStopPlaces?.length &&
+                        closestStopPlacesError
+                            ? 'negative'
+                            : undefined
+                    }
+                    feedback={
+                        !selectedClosestStopPlaces?.length &&
+                        closestStopPlacesError
+                            ? closestStopPlacesError
+                            : undefined
+                    }
                 />
             </div>
             <HiddenInput
@@ -219,28 +242,10 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                 )}
             />
 
-            {generalError && (
-                <FeedbackText variant="negative">{generalError}</FeedbackText>
-            )}
-
             <SubmitButton
                 variant="primary"
                 className="w-full"
                 disabled={isPending}
-                onClick={() =>
-                    capture('stop_place_added', {
-                        location: 'edit_board_page',
-                        typeOfPlace: selectedStopPlace?.value.type ?? 'other',
-                        selectedIndexes:
-                            selectedClosestStopPlaces?.map((selected) =>
-                                closestStopPlaceItems.findIndex(
-                                    (closestItem) =>
-                                        closestItem.value.id ===
-                                        selected.value.id,
-                                ),
-                            ) ?? [],
-                    })
-                }
             >
                 Legg til stoppesteder
             </SubmitButton>
