@@ -35,7 +35,7 @@
         ]
     },
     "dependencies": {
-        "@entur/alert": "0.19.3",
+        "@entur/alert": "0.21.0",
         "@entur/button": "5.0.1",
         "@entur/chip": "0.10.15",
         "@entur/dropdown": "9.0.1",
