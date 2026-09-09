@@ -14,7 +14,7 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
                 <EditViewType
                     bid={board.id}
                     hasCombinedTiles={board.isCombinedTiles}
-                ></EditViewType>
+                />
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
