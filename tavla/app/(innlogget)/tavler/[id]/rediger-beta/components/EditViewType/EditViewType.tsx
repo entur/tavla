@@ -26,6 +26,7 @@ function EditViewType({
             )
             if (parsed.success) {
                 capture('board_settings_changed', {
+                    location: 'edit_board_page',
                     setting: 'view_type',
                     value: parsed.data,
                 })
