@@ -2,16 +2,16 @@
 import { TextField } from '@entur/form'
 import { Label, Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useActionState, useRef, useState } from 'react'
+import { startTransition, useActionState, useState } from 'react'
 import type { BoardFooter } from 'src/types/db-types/boards'
-import { type FormState, saveInfoMessage } from './action'
+import { type InfoMessageState, saveInfoMessage } from './actions'
 import { INFO_MESSAGE_MAX_LENGTH } from './validation'
 
 function hasUnsavedChanges(currentValue: string, savedValue: string) {
     return currentValue.trim() !== savedValue.trim()
 }
 
-export function InfoMessageForm({
+function EditInfoMessage({
     bid,
     infoMessage,
 }: {
@@ -20,10 +20,9 @@ export function InfoMessageForm({
 }) {
     const { capture } = usePosthogTracking()
     const [value, setValue] = useState(infoMessage?.footer ?? '')
-    const formRef = useRef<HTMLFormElement>(null)
 
-    async function handleSave(_prevState: FormState, formData: FormData) {
-        const result = await saveInfoMessage(bid, _prevState, formData)
+    async function handleSave(_prevState: InfoMessageState, value: string) {
+        const result = await saveInfoMessage(bid, value)
 
         if (result?.status === 'success') {
             setValue((current) => current.trim())
@@ -37,31 +36,34 @@ export function InfoMessageForm({
         return result
     }
 
-    const [state, formAction] = useActionState(handleSave, null)
+    const [state, action] = useActionState(handleSave, null)
 
     const error = state?.status === 'error' ? state.message : undefined
 
+    function handleBlur() {
+        if (!hasUnsavedChanges(value, infoMessage?.footer ?? '')) return
+        startTransition(() => {
+            action(value)
+        })
+    }
+
     return (
-        <form action={formAction} ref={formRef} className="flex flex-col">
+        <div className="flex flex-col">
             <Paragraph className="mb-2">Infomelding</Paragraph>
-            <Label className="mb-2 ">
-                Skriv en kort tekst som vises nederst på tavla.
-            </Label>
+            <Label>Skriv en kort tekst som vises nederst på tavla</Label>
             <TextField
                 label="Infomelding"
                 name="infoMessage"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
+                onBlur={handleBlur}
                 maxLength={INFO_MESSAGE_MAX_LENGTH}
                 variant={error ? 'negative' : undefined}
                 feedback={error}
                 className="w-full"
-                onBlur={() => {
-                    if (!hasUnsavedChanges(value, infoMessage?.footer ?? ''))
-                        return
-                    formRef.current?.requestSubmit()
-                }}
             />
-        </form>
+        </div>
     )
 }
+
+export { EditInfoMessage }

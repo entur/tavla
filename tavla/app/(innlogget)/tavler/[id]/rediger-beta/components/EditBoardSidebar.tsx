@@ -2,8 +2,8 @@
 import { Heading4 } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
+import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
 import { EditViewType } from './EditViewType/EditViewType'
-import { InfoMessageForm } from './InfoMessage/InfoMessage'
 import { TileList } from './TileList/TileList'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
@@ -22,7 +22,7 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
-                <InfoMessageForm bid={board.id} infoMessage={board.footer} />
+                <EditInfoMessage bid={board.id} infoMessage={board.footer} />
             </EditSection>
         </div>
     )

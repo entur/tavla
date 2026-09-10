@@ -13,22 +13,19 @@ import { infoMessageSchema } from './validation'
 
 initializeAdminApp()
 
-export type FormState =
+export type InfoMessageState =
     | { status: 'success' }
     | { status: 'error'; message: string }
     | null
 
 export async function saveInfoMessage(
     bid: string,
-    _prevState: FormState,
-    formData: FormData,
-): Promise<FormState> {
+    value: string,
+): Promise<InfoMessageState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
     logToGcp('info', 'action:saveInfoMessage invoked', { bid })
 
-    const parsed = infoMessageSchema.safeParse(
-        formData.get('infoMessage')?.toString() ?? '',
-    )
+    const parsed = infoMessageSchema.safeParse(value)
     if (!parsed.success)
         return {
             status: 'error',
