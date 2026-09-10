@@ -1,6 +1,6 @@
 'use client'
 import { ChoiceChip, ChoiceChipGroup } from '@entur/chip'
-import { Heading4, Label, Paragraph } from '@entur/typography'
+import { Paragraph } from '@entur/typography'
 import { useState } from 'react'
 
 type ChoiceChipProps<T> = {
