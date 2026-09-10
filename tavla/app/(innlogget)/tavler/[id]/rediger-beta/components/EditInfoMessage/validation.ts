@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
-// TODO - finn en passe lengde
-export const INFO_MESSAGE_MAX_LENGTH = 500
+export const INFO_MESSAGE_MAX_LENGTH = 250
 
 export const infoMessageSchema = z
     .string()
