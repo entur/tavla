@@ -31,7 +31,7 @@ export function ChoiceChipPicker<T extends string>({
         <div className="flex flex-col gap-1">
             <Paragraph className="mb-2">{label}</Paragraph>
             <ChoiceChipGroup
-                className="mb-2 h-full"
+                className="h-full"
                 name={name}
                 value={selectedValue}
                 onChange={(e) => handleChange(e.target.value as T)}
