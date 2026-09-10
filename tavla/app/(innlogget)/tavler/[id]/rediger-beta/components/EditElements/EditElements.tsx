@@ -2,7 +2,7 @@
 
 import { FilterChip } from '@entur/chip'
 import { FeedbackText } from '@entur/form'
-import { Heading4, Label, Paragraph } from '@entur/typography'
+import { Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState, useState } from 'react'
 import { type ElementsState, saveElements } from './actions'
@@ -35,8 +35,8 @@ function EditElements({
                 setting: 'element_select',
                 value: payload.element,
             })
+            setElements(payload.value)
         }
-
         return result
     }
 
@@ -49,7 +49,6 @@ function EditElements({
             hideClock: element === 'clock' ? !checked : elements.hideClock,
             hideLogo: element === 'logo' ? !checked : elements.hideLogo,
         }
-        setElements(next)
 
         startTransition(() => {
             action({ element, value: next })
