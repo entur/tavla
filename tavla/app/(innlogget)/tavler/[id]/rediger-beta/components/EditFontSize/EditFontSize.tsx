@@ -4,6 +4,7 @@ import { FeedbackText } from '@entur/form'
 import { ChoiceChipGroupGeneral } from 'app/_components/TableSettings/ChoiceChipGroupGeneral'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState } from 'react'
+import { ChoiceChipPicker } from '../ChoiceChipPicker'
 import { type FontSizeState, saveFontSize } from './actions'
 import type { FontSizeValue } from './validation'
 
@@ -42,7 +43,7 @@ function EditFontSize({
 
     return (
         <>
-            <ChoiceChipGroupGeneral<FontSizeValue>
+            <ChoiceChipPicker<FontSizeValue>
                 label="Tekststørrelse"
                 options={[
                     { value: 'small', label: 'Liten' },

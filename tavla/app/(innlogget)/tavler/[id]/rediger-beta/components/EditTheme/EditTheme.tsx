@@ -1,9 +1,9 @@
 'use client'
 
 import { FeedbackText } from '@entur/form'
-import { ChoiceChipGroupGeneral } from 'app/_components/TableSettings/ChoiceChipGroupGeneral'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState } from 'react'
+import { ChoiceChipPicker } from '../ChoiceChipPicker'
 import { saveTheme, type ThemeState } from './actions'
 import type { ThemeValue } from './validation'
 
@@ -36,7 +36,7 @@ function EditTheme({ bid, theme }: { bid: string; theme: ThemeValue }) {
 
     return (
         <>
-            <ChoiceChipGroupGeneral<ThemeValue>
+            <ChoiceChipPicker<ThemeValue>
                 label="Fargetema"
                 options={[
                     { value: 'dark', label: 'Mørkt' },

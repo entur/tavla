@@ -1,9 +1,9 @@
 'use client'
 
 import { FeedbackText } from '@entur/form'
-import { ChoiceChipGroupGeneral } from 'app/_components/TableSettings/ChoiceChipGroupGeneral'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState } from 'react'
+import { ChoiceChipPicker } from '../ChoiceChipPicker'
 import { saveViewType, type ViewTypeState } from './actions'
 import type { ViewTypeValue } from './validation'
 
@@ -42,7 +42,7 @@ function EditViewType({
 
     return (
         <>
-            <ChoiceChipGroupGeneral<ViewTypeValue>
+            <ChoiceChipPicker<ViewTypeValue>
                 label="Visningstype"
                 options={[
                     { value: 'separate', label: 'En liste per stoppested' },
