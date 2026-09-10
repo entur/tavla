@@ -45,8 +45,60 @@ CVSS-skår er en startverdi, ikke en konklusjon. Ofte vil reell risiko være ett
 Velg en av tre:
 
 - **Oppgrader nå** — høy eller middels reell risiko. Lag PR snarest, og få en annen utvikler til å se på den hvis bumpen er stor eller krever kodeendringer.
-- **Oppgrader når praktisk** — lav reell risiko. Bake inn i neste planlagte runde, ikke haste-PR.
-- **Falsk positiv / ikke relevant** — dokumentér hvorfor i triage-notatet, og dismiss alertet med begrunnelse i GitHub.
+- **Oppgrader når praktisk** — lav reell risiko. Bake inn i neste planlagte runde, ikke haste-PR. Sett en **konkret dato**, og la den ligge innenfor 30-dagersfristen fra varselet ble åpnet. «Når praktisk» betyr ikke «når som helst».
+- **Falsk positiv / ikke relevant** — dokumentér hvorfor i triage-notatet, og lukk varselet formelt (Steg 5).
+
+Alle tre må forholde seg til fristen: Entur krever at sårbarheter er triaget og fikset innen **30 dager** fra de oppdages. Regn ut hvor mange dager som er igjen før du velger. Har varselet ≤7 dager igjen, er «kan vente» ikke lenger et gyldig utfall — da er det enten fiks eller formelt lukket med begrunnelse.
+
+## Steg 5 — Lukk varselet formelt
+
+Et varsel du har vurdert, men ikke skal fikse, må lukkes slik at vurderingen blir sporbar. Entur har to mekanismer, og de brukes til forskjellige ting.
+
+### Allowlist — den varige mekanismen
+
+Sårbarheter som ikke kan løses på annen måte legges i en allowlist. Poenget er dobbelt: de forsvinner fra oversikten, *og* det dokumenteres at risikoen faktisk er vurdert. For CodeQL-funn ligger lista i `.entur/security/codescan.yml`:
+
+```yaml
+apiVersion: entur.io/securitytools/v1
+kind: CodeScanConfig
+metadata:
+  id: tavla
+spec:
+  allowlist:
+    - cwe: "cwe-080"
+      comment: "Hardkodet hostname, ikke brukerkontrollert input"
+      reason: "false_positive"   # false_positive | wont_fix | test
+```
+
+`reason` er ett av tre:
+
+| Verdi | Betyr |
+|-------|-------|
+| `false_positive` | Funnet er feil — koden er ikke sårbar |
+| `wont_fix` | Funnet er reelt, men vi aksepterer risikoen bevisst |
+| `test` | Treffer testkode, ikke prod |
+
+`comment` er der resonnementet ditt havner. Skriv det som om en revisor leser det uten annen kontekst, for det er nøyaktig hva som skjer. For sårbarheter i docker-image er fila `dockerscan.yml` og nøkkelen `cve:` i stedet for `cwe:`.
+
+Fila plukkes opp neste gang appen bygges, og må merges til `main` for å ha effekt.
+
+To ting å være obs på:
+
+- **Tavla har ingen `.entur/`-katalog i dag.** Første allowlist betyr at du oppretter den, og det er en PR som fortjener et par øyne — ikke noe som skal snikes inn i en dependency-bump.
+- **Plasseringen kan flytte.** Team Sikkerhet har en pågående sak (SIK-1995) om å flytte `codescan.yml`/`dockerscan.yml` fra `.entur/security/` opp til repo-rot. Sjekk hva `entur/gha-security` faktisk leter etter før du oppretter fila.
+
+### Dismiss i GitHub — den midlertidige
+
+Dismiss brukes når varselet skal bort nå, uten at det trengs en permanent regel. Entur krever at du oppgir én av to grunner:
+
+- **Fix already started** — lenk til PR-en eller Jira-saken som fikser det
+- **False positive** — forklar konkret hvorfor
+
+En dismiss uten begrunnelse er verre enn et åpent varsel: oversikten ser ren ut, men vurderingen finnes ikke noe sted. Skriv samme resonnement i dismiss-kommentaren som i briefen.
+
+### Når Team Sikkerhet skal inn
+
+Retningslinjen sier eksplisitt at utnyttbarhetsvurderinger kan være kompliserte, og bør gjøres i samarbeid med teamet — ved behov med assistanse fra Team Sikkerhet (`#talk-sikkerhet`). Det gjelder særlig før du setter `wont_fix` på noe med høy CVSS: da erklærer du at Tavla aksepterer en reell risiko, og det er ikke en avgjørelse en vakt bør ta alene.
 
 ## Dokumentér resonnementet
 
