@@ -8,24 +8,23 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { updateBoard } from 'src/firebase'
 import { logToGcp } from 'utils/logging'
-import { themeSchema } from './validation'
+import { type ThemeValue, themeSchema } from './validation'
 
 initializeAdminApp()
 
-export type FormState =
+export type ThemeState =
     | { status: 'success' }
     | { status: 'error'; message: string }
     | null
 
 export async function saveTheme(
     bid: string,
-    _prevState: FormState,
-    formData: FormData,
-): Promise<FormState> {
+    value: ThemeValue,
+): Promise<ThemeState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
     logToGcp('info', 'action:saveTheme invoked', { bid })
 
-    const parsed = themeSchema.safeParse(formData.get('theme')?.toString())
+    const parsed = themeSchema.safeParse(value)
     if (!parsed.success)
         return {
             status: 'error',
