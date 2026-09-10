@@ -31,29 +31,23 @@ function isSameLocation(a: LocationDB | undefined, b: LocationDB | undefined) {
 
 export async function saveWalkingDistance(
     bid: string,
-    _prevState: FormState,
-    formData: FormData,
+    value?: LocationDB,
 ): Promise<FormState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
     logToGcp('info', 'action:saveWalkingDistance invoked', { bid })
 
-    const raw = formData.get('newLocation')?.toString() ?? ''
-    let location: LocationDB | undefined
+    const parsed = value ? locationSchema.safeParse(value) : undefined
 
-    if (raw) {
-        let json: unknown
-        try {
-            json = JSON.parse(raw)
-        } catch {
-            return { status: 'error', message: 'Ugyldig posisjon' }
-        }
-
-        const parsed = locationSchema.safeParse(json)
-        if (!parsed.success)
-            return { status: 'error', message: 'Ugyldig posisjon' }
-
-        location = parsed.data
+    if (parsed && !parsed.success) {
+        logToGcp(
+            'error',
+            `Invalid location payload for saveWalkingDistance: ${parsed.error.message}`,
+            { bid },
+        )
+        return { status: 'error', message: 'Ugyldig posisjon' }
     }
+
+    const location = parsed?.data
 
     try {
         const board = await getBoard(bid)

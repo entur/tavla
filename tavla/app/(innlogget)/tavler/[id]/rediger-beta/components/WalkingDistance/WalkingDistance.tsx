@@ -1,11 +1,11 @@
 'use client'
+import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { SearchableDropdown } from '@entur/dropdown'
 import { Label, Paragraph } from '@entur/typography'
-import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import ClientOnly from 'app/_components/NoSSR/ClientOnly'
 import { usePointSearch } from 'app/_hooks/usePointSearch'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useActionState, useEffect, useRef } from 'react'
+import { startTransition, useActionState } from 'react'
 import type { LocationDB } from 'src/types/db-types/boards'
 import { type FormState, saveWalkingDistance } from './action'
 
@@ -17,14 +17,15 @@ export function WalkingDistanceForm({
     location?: LocationDB
 }) {
     const { capture } = usePosthogTracking()
-    const formRef = useRef<HTMLFormElement>(null)
-    const isFirstRender = useRef(true)
 
     const { pointItems, selectedPoint, setSelectedPoint } =
         usePointSearch(location)
 
-    async function handleSave(_prevState: FormState, formData: FormData) {
-        const result = await saveWalkingDistance(bid, _prevState, formData)
+    async function handleSave(
+        _prevState: FormState,
+        value: LocationDB | undefined,
+    ) {
+        const result = await saveWalkingDistance(bid, value)
 
         if (result?.status === 'success') {
             capture('board_settings_changed', {
@@ -36,23 +37,21 @@ export function WalkingDistanceForm({
         return result
     }
 
-    const [state, formAction] = useActionState(handleSave, null)
+    const [state, action] = useActionState(handleSave, null)
 
     const error = state?.status === 'error' ? state.message : undefined
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: selectedPoint triggers the submit intentionally
-    useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false
-            return
-        }
-        formRef.current?.requestSubmit()
-    }, [selectedPoint])
+    function handleChange(item: NormalizedDropdownItemType<LocationDB> | null) {
+        setSelectedPoint(item)
+        startTransition(() => {
+            action(item?.value)
+        })
+    }
 
     return (
-        <form action={formAction} ref={formRef} className="flex flex-col">
+        <div className="flex flex-col">
             <Paragraph className="mb-2">Gangavstand</Paragraph>
-            <Label className="mb-2">
+            <Label>
                 Skriv inn hvor tavlen står for å vise avstand til stoppestedet.
             </Label>
             <ClientOnly>
@@ -60,7 +59,7 @@ export function WalkingDistanceForm({
                     label="Hvor befinner tavlen seg?"
                     items={pointItems}
                     selectedItem={selectedPoint}
-                    onChange={setSelectedPoint}
+                    onChange={handleChange}
                     debounceTimeout={150}
                     noMatchesText="Skriv inn sted, adresse eller stoppested"
                     clearable
@@ -68,14 +67,6 @@ export function WalkingDistanceForm({
                     feedback={error}
                 />
             </ClientOnly>
-            <HiddenInput
-                id="newLocation"
-                value={
-                    selectedPoint?.value
-                        ? JSON.stringify(selectedPoint.value)
-                        : ''
-                }
-            />
-        </form>
+        </div>
     )
 }
