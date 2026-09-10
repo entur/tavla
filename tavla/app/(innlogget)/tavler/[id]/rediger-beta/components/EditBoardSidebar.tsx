@@ -1,8 +1,9 @@
 'use client'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
 import { EditTheme } from './EditTheme/EditTheme'
+import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
 import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
 
@@ -23,7 +24,7 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
-                <Paragraph>Kommer senere...</Paragraph>
+                <EditInfoMessage bid={board.id} infoMessage={board.footer} />
             </EditSection>
         </div>
     )
@@ -37,8 +38,10 @@ function EditSection({
     title: string
 }) {
     return (
-        <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
-            <Heading3 margin="none">{title}</Heading3>
+        <section className="flex flex-col gap-4 p-6 rounded-xl">
+            <Heading4 margin="none" as="h2">
+                {title}
+            </Heading4>
             {children}
         </section>
     )
