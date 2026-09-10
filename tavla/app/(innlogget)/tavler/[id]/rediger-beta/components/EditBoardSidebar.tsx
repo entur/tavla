@@ -4,6 +4,7 @@ import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
 import { EditFontSize } from './EditFontSize/EditFontSize'
 import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
+import { EditLanguage } from './EditLanguage/EditLanguage'
 import { EditTheme } from './EditTheme/EditTheme'
 import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
@@ -34,6 +35,10 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
                 <WalkingDistanceForm
                     bid={board.id}
                     location={board.meta.location}
+                />
+                <EditLanguage
+                    bid={board.id}
+                    language={board.language ?? 'nb'}
                 />
             </EditSection>
         </div>
