@@ -2,6 +2,7 @@
 import { Heading4 } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
+import { EditElements } from './EditElements/EditElements'
 import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
 import { EditLanguage } from './EditLanguage/EditLanguage'
 import { EditTheme } from './EditTheme/EditTheme'
@@ -26,6 +27,11 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
 
             <EditSection title="Hva vil du vise på tavla?">
                 <EditInfoMessage bid={board.id} infoMessage={board.footer} />
+                <EditElements
+                    bid={board.id}
+                    hideClock={board.hideClock ?? false}
+                    hideLogo={board.hideLogo ?? false}
+                />
                 <EditLanguage
                     bid={board.id}
                     language={board.language ?? 'nb'}
