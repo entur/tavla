@@ -19,13 +19,17 @@ function EditInfoMessage({
     infoMessage?: BoardFooter
 }) {
     const { capture } = usePosthogTracking()
+
     const [value, setValue] = useState(infoMessage?.footer ?? '')
+    const [savedValue, setSavedValue] = useState(infoMessage?.footer ?? '')
 
     async function handleSave(_prevState: InfoMessageState, value: string) {
         const result = await saveInfoMessage(bid, value)
 
         if (result?.status === 'success') {
-            setValue((current) => current.trim())
+            const trimmed = value.trim()
+            setValue(trimmed)
+            setSavedValue(trimmed)
             capture('board_settings_changed', {
                 location: 'edit_board_page',
                 setting: 'info_message',
@@ -41,7 +45,7 @@ function EditInfoMessage({
     const error = state?.status === 'error' ? state.message : undefined
 
     function handleBlur() {
-        if (!hasUnsavedChanges(value, infoMessage?.footer ?? '')) return
+        if (!hasUnsavedChanges(value, savedValue)) return
         startTransition(() => {
             action(value)
         })
