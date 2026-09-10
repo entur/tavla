@@ -1,14 +1,17 @@
 'use client'
 import { Heading3, Paragraph } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
+import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
 import { EditTheme } from './EditTheme/EditTheme'
 import { EditViewType } from './EditViewType/EditViewType'
+import { TileList } from './TileList/TileList'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
-        <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
-            <EditSection title="Hvilke stoppesteder vil du vise på Tavla?">
-                <Paragraph>Kommer senere...</Paragraph>
+        <div className="flex flex-col gap-8 overflow-y-auto text-sm">
+            <EditSection title="Hva vil du vise på Tavla?">
+                <AddStopPlaceTile board={board} />
+                <TileList board={board} />
             </EditSection>
 
             <EditSection title="Hvordan vil du at Tavla skal se ut?">
