@@ -2,6 +2,7 @@
 import { Heading4 } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
+import { EditFontSize } from './EditFontSize/EditFontSize'
 import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
 import { EditTheme } from './EditTheme/EditTheme'
 import { EditViewType } from './EditViewType/EditViewType'
@@ -22,6 +23,10 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
                     hasCombinedTiles={board.isCombinedTiles}
                 />
                 <EditTheme bid={board.id} theme={board.theme ?? 'dark'} />
+                <EditFontSize
+                    bid={board.id}
+                    fontSize={board.meta.fontSize ?? 'medium'}
+                />
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
