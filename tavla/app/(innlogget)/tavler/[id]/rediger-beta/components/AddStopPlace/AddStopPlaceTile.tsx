@@ -37,7 +37,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
         AREA_RADIUS_IN_KM,
     )
 
-    const { fetchPosition, currentPositionState } = useCurrentPosition()
+    const { fetchPosition } = useCurrentPosition()
 
     const { capture } = usePosthogTracking()
 
