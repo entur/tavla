@@ -2,6 +2,7 @@
 import { Heading3, Paragraph } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
+import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
@@ -13,7 +14,10 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
             </EditSection>
 
             <EditSection title="Hvordan vil du at Tavla skal se ut?">
-                <Paragraph>Kommer senere...</Paragraph>
+                <EditViewType
+                    bid={board.id}
+                    hasCombinedTiles={board.isCombinedTiles}
+                />
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
