@@ -2,8 +2,8 @@
 import { Heading4 } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
-import { EditTheme } from './EditTheme/EditTheme'
 import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
+import { EditTheme } from './EditTheme/EditTheme'
 import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
 
