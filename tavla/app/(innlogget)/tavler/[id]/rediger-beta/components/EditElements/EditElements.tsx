@@ -2,7 +2,7 @@
 
 import { FilterChip } from '@entur/chip'
 import { FeedbackText } from '@entur/form'
-import { Heading4, Paragraph } from '@entur/typography'
+import { Heading4, Label, Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState, useState } from 'react'
 import { type ElementsState, saveElements } from './actions'
@@ -58,10 +58,7 @@ function EditElements({
 
     return (
         <div className="flex flex-col gap-1">
-            <Heading4 margin="bottom">Vis elementer</Heading4>
-            <Paragraph margin="none">
-                Velg hvilke elementer som skal vises øverst på tavla.
-            </Paragraph>
+            <Paragraph className="mb-2">Vis elementer</Paragraph>
             <div className="mb-2 flex h-full flex-row gap-3">
                 <FilterChip
                     name="clock"
