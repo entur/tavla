@@ -7,10 +7,11 @@ import { EditLanguage } from './EditLanguage/EditLanguage'
 import { EditTheme } from './EditTheme/EditTheme'
 import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
+import { WalkingDistanceForm } from './WalkingDistance/WalkingDistance'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
-        <div className="flex flex-col gap-8 overflow-y-auto text-sm">
+        <div className="flex flex-col gap-8 text-sm">
             <EditSection title="Hva vil du vise på Tavla?">
                 <AddStopPlaceTile board={board} />
                 <TileList board={board} />
@@ -26,6 +27,10 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
 
             <EditSection title="Hva vil du vise på tavla?">
                 <EditInfoMessage bid={board.id} infoMessage={board.footer} />
+                <WalkingDistanceForm
+                    bid={board.id}
+                    location={board.meta.location}
+                />
                 <EditLanguage
                     bid={board.id}
                     language={board.language ?? 'nb'}
