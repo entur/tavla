@@ -3,6 +3,7 @@ import { Heading4 } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
 import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
+import { EditTheme } from './EditTheme/EditTheme'
 import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
 import { WalkingDistanceForm } from './WalkingDistance/WalkingDistance'
@@ -20,6 +21,7 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
                     bid={board.id}
                     hasCombinedTiles={board.isCombinedTiles}
                 />
+                <EditTheme bid={board.id} theme={board.theme ?? 'dark'} />
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
