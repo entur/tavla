@@ -106,16 +106,6 @@ function EditTransportPalette({ board }: { board: BoardDB }) {
         board.transportPalette ?? 'default',
     )
 
-    useEffect(() => {
-        const availableValues = availablePalettes.map((p) => p.value)
-        if (!availableValues.includes(selectedValue)) {
-            setSelectedValue('default')
-            startTransition(() => {
-                action('default')
-            })
-        }
-    }, [availablePalettes, selectedValue, action])
-
     async function handleSave(
         _prevState: TransportPaletteState,
         value: TransportPaletteValue,
@@ -136,6 +126,16 @@ function EditTransportPalette({ board }: { board: BoardDB }) {
     const [state, action] = useActionState(handleSave, null)
 
     const error = state?.status === 'error' ? state.message : undefined
+
+    useEffect(() => {
+        const availableValues = availablePalettes.map((p) => p.value)
+        if (!availableValues.includes(selectedValue)) {
+            setSelectedValue('default')
+            startTransition(() => {
+                action('default')
+            })
+        }
+    }, [availablePalettes, selectedValue, action])
 
     function handleChange(value: TransportPaletteValue) {
         setSelectedValue(value)
