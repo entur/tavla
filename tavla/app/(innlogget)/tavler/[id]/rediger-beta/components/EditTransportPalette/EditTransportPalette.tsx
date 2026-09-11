@@ -110,8 +110,11 @@ function EditTransportPalette({ board }: { board: BoardDB }) {
         const availableValues = availablePalettes.map((p) => p.value)
         if (!availableValues.includes(selectedValue)) {
             setSelectedValue('default')
+            startTransition(() => {
+                action('default')
+            })
         }
-    }, [availablePalettes, selectedValue])
+    }, [availablePalettes, selectedValue, action])
 
     async function handleSave(
         _prevState: TransportPaletteState,
