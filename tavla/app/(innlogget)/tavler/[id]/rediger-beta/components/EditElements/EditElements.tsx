@@ -18,10 +18,6 @@ function EditElements({
     hideLogo: boolean
 }) {
     const { capture } = usePosthogTracking()
-    const [elements, setElements] = useState<ElementsValue>({
-        hideClock,
-        hideLogo,
-    })
 
     async function handleSave(
         _prevState: ElementsState,
@@ -35,7 +31,6 @@ function EditElements({
                 setting: 'element_select',
                 value: payload.element,
             })
-            setElements(payload.value)
         }
         return result
     }
@@ -46,8 +41,8 @@ function EditElements({
 
     function handleToggle(element: 'clock' | 'logo', checked: boolean) {
         const next: ElementsValue = {
-            hideClock: element === 'clock' ? !checked : elements.hideClock,
-            hideLogo: element === 'logo' ? !checked : elements.hideLogo,
+            hideClock: element === 'clock' ? !checked : hideClock,
+            hideLogo: element === 'logo' ? !checked : hideLogo,
         }
 
         startTransition(() => {
@@ -62,7 +57,7 @@ function EditElements({
                 <FilterChip
                     name="clock"
                     value="clock"
-                    checked={!elements.hideClock}
+                    checked={!hideClock}
                     onChange={(e) => handleToggle('clock', e.target.checked)}
                 >
                     Klokke
@@ -70,7 +65,7 @@ function EditElements({
                 <FilterChip
                     name="logo"
                     value="logo"
-                    checked={!elements.hideLogo}
+                    checked={!hideLogo}
                     onChange={(e) => handleToggle('logo', e.target.checked)}
                 >
                     Logo
