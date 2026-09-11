@@ -3,11 +3,6 @@ import { FeedbackText, Radio, RadioGroup } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { transportModeNames } from 'app/_components/TileCard/utils'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
-import {
-    generateTransportPalettes,
-    getTransportColorDescription,
-    useAllowedPalettes,
-} from 'app/_utils/colorPalettes'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import {
     startTransition,
@@ -18,6 +13,11 @@ import {
 } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import type { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
+import {
+    generateTransportPalettes,
+    getTransportColorDescription,
+    useAllowedPalettes,
+} from '../utils/colorPalette'
 import { saveTransportPalette, type TransportPaletteState } from './actions'
 import type { TransportPaletteValue } from './validation'
 
@@ -32,7 +32,6 @@ const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
         { mode: 'water' },
     ]
 
-//trakk ut funksjon for å vise preview av fargene og ikonene
 function TransportPalettePreview({
     palette,
     theme,
@@ -93,8 +92,6 @@ function TransportPalettePreview({
         </div>
     )
 }
-
-//Dette følger samme designpattern som de andre nye komponentene, men må legge på litt ekstra
 
 function EditTransportPalette({ board }: { board: BoardDB }) {
     const { capture } = usePosthogTracking()
@@ -182,7 +179,3 @@ function EditTransportPalette({ board }: { board: BoardDB }) {
 }
 
 export { EditTransportPalette }
-
-//4. Lav prioritet / valgfritt: availablePalettes (linje 97) regnes ut på nytt ved hver rendering (ikke useMemo-et),
-// som gjør at useEffect-en på linje 103 kjører oftere enn strengt tatt nødvendig. Dette er arvet fra gamle TransportPaletteSelect.tsx
-// og ikke noe du har innført — grei å la stå, men nevner den i tilfelle du vil stramme den til.
