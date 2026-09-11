@@ -2,6 +2,7 @@
 import { Heading4 } from '@entur/typography'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
+import { EditElements } from './EditElements/EditElements'
 import { EditFontSize } from './EditFontSize/EditFontSize'
 import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
 import { EditLanguage } from './EditLanguage/EditLanguage'
@@ -37,6 +38,11 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
                 <WalkingDistanceForm
                     bid={board.id}
                     location={board.meta.location}
+                />
+                <EditElements
+                    bid={board.id}
+                    hideClock={board.hideClock ?? false}
+                    hideLogo={board.hideLogo ?? false}
                 />
                 <EditLanguage
                     bid={board.id}
