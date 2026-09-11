@@ -4,7 +4,7 @@ import { FilterChip } from '@entur/chip'
 import { FeedbackText } from '@entur/form'
 import { Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { startTransition, useActionState, useState } from 'react'
+import { startTransition, useActionState } from 'react'
 import { type ElementsState, saveElements } from './actions'
 import type { ElementsValue } from './validation'
 

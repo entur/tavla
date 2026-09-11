@@ -12,10 +12,7 @@ export function EditBoardBeta({
     boardLink: string
 }) {
     return (
-        <div
-            data-transport-palette={board.transportPalette}
-            className="flex flex-col gap-12 lg:flex-row lg:items-start"
-        >
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-start">
             <section className="flex min-w-0 flex-1 flex-col gap-12 lg:sticky lg:top-[15vh] lg:self-start">
                 <div data-theme={board.theme ?? 'dark'}>
                     <Preview boardLink={boardLink} />

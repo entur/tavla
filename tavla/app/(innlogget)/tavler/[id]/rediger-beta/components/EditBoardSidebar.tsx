@@ -7,6 +7,7 @@ import { EditFontSize } from './EditFontSize/EditFontSize'
 import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
 import { EditLanguage } from './EditLanguage/EditLanguage'
 import { EditTheme } from './EditTheme/EditTheme'
+import { EditTransportPalette } from './EditTransportPalette/EditTransportPalette'
 import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
 import { WalkingDistanceForm } from './WalkingDistance/WalkingDistance'
@@ -29,6 +30,7 @@ export function EditBoardSidebar({ board }: { board: BoardDB }) {
                     bid={board.id}
                     fontSize={board.meta.fontSize ?? 'medium'}
                 />
+                <EditTransportPalette board={board} />
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
