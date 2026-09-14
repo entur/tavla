@@ -3,9 +3,9 @@ import { StopPlaceTile } from './StopPlaceTile'
 
 export function TileList({ board }: { board: BoardDB }) {
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
             {board.tiles.map((tile) => (
-                <StopPlaceTile key={tile.uuid} tile={tile} />
+                <StopPlaceTile key={tile.uuid} boardId={board.id} tile={tile} />
             ))}
         </div>
     )

@@ -89,7 +89,7 @@ function EditTransportPalette({ board }: { board: BoardDB }) {
                     {availablePalettes.map((palette) => (
                         <div
                             key={palette.value}
-                            className="flex items-center justify-between"
+                            className="flex items-start md:items-center flex-col md:flex-row gap-2 md:gap-4 md:justify-between "
                         >
                             <Radio value={palette.value}>{palette.label}</Radio>
                             <TransportPalettePreview

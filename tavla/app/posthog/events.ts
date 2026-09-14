@@ -211,15 +211,21 @@ export type EventMap = {
     }
 
     stop_place_deleted: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     stop_place_edit_started: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     stop_place_edit_cancelled: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     > & {
         unsavedChanges: boolean
     }

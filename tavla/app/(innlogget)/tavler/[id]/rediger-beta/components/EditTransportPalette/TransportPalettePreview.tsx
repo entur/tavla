@@ -10,8 +10,6 @@ const busAndTrainModes: TTransportMode[] = ['bus', 'coach', 'rail']
 const transportModes: { mode: TTransportMode; submode?: TTransportSubmode }[] =
     [
         { mode: 'air' },
-        { mode: 'metro' },
-        { mode: 'tram' },
         { mode: 'water', submode: 'internationalCarFerry' },
         { mode: 'water' },
     ]
@@ -31,7 +29,7 @@ function TransportPalettePreview({
             data-theme={theme ?? 'dark'}
             data-transport-palette={palette.value}
         >
-            <div className="grid grid-cols-8 gap-1.5">
+            <div className="grid grid-cols-6 gap-1.5">
                 {busAndTrainModes.map((mode) => {
                     const colorDescription = getTransportColorDescription(
                         palette.value,
@@ -48,6 +46,7 @@ function TransportPalettePreview({
                                 transportMode={mode}
                                 background
                                 className={iconClassName}
+                                includeTooltip
                             />
                         </div>
                     )
@@ -68,6 +67,7 @@ function TransportPalettePreview({
                                 transportSubmode={mode.submode}
                                 background
                                 className={iconClassName}
+                                includeTooltip
                             />
                         </div>
                     )
