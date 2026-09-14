@@ -101,24 +101,9 @@ export const PALETTE_COLOR_DESCRIPTIONS: Record<
     'blue-bus': {
         bus: 'blå',
         rail: 'rød',
-        //defualt under:
-        water: 'lyseblå',
-        air: 'mørk lilla',
-        metro: 'oransje',
-        taxi: 'mørk grå',
-        tram: 'lys lilla',
-        coach: 'grønn',
     },
     'green-bus': {
         bus: 'grønn',
-        //defualt under:
-        rail: 'blå',
-        water: 'lyseblå',
-        air: 'mørk lilla',
-        metro: 'oransje',
-        taxi: 'mørk grå',
-        tram: 'lys lilla',
-        coach: 'grønn',
     },
     atb: {
         bus: 'grønn',
@@ -146,10 +131,6 @@ export const PALETTE_COLOR_DESCRIPTIONS: Record<
         rail: 'rosa',
         water: 'turkis',
         air: 'mørk grå',
-        //defualt under:
-        metro: 'oransje',
-        taxi: 'mørk grå',
-        tram: 'lys lilla',
     },
     reis: {
         bus: 'mørk blå',
