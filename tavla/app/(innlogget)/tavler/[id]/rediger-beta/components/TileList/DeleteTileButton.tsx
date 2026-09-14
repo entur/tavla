@@ -11,9 +11,11 @@ import { type DeleteTileState, deleteTile } from './actions'
 function DeleteTileButton({
     boardId,
     tile,
+    onError,
 }: {
     boardId: string
     tile: BoardTileDB
+    onError: (message: string) => void
 }) {
     const { addToast } = useToast()
     const { capture } = usePosthogTracking()
@@ -26,6 +28,8 @@ function DeleteTileButton({
         if (result?.status === 'success') {
             capture('stop_place_deleted', { location: 'edit_board_page' })
             addToast(`${tile.name} fjernet!`)
+        } else if (result?.status === 'error') {
+            onError(`Feil ved sletting av ${tile.name}, vennligst prøv igjen`)
         }
 
         return result
