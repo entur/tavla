@@ -1,5 +1,4 @@
 'use client'
-import { useToast } from '@entur/alert'
 import { SecondaryButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import { LeadParagraph } from '@entur/typography'
@@ -8,7 +7,6 @@ import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import { getTransportModesFromLines } from 'app/_components/TransportIcon/utils'
 import { useState } from 'react'
 import type { BoardTileDB } from 'src/types/db-types/boards'
-import { deleteTile } from './actions'
 import { DeleteTileButton } from './DeleteTileButton'
 import { EditStopPlaceModal } from './EditStopPlaceModal'
 
@@ -20,17 +18,12 @@ export function StopPlaceTile({
     tile: BoardTileDB
 }) {
     const [isEditOpen, setIsEditOpen] = useState(false)
-    const { addToast } = useToast()
 
     const quays = useLines(tile, true) ?? []
 
     const transportModes = getTransportModesFromLines(
         quays.flatMap(({ lines }) => lines),
     )
-
-    function handleDelete() {
-        deleteTile(boardId, tile).then(() => addToast(`${tile.name} fjernet!`))
-    }
 
     return (
         <div className="flex items-center justify-between rounded bg-tintLight p-6">
@@ -59,7 +52,7 @@ export function StopPlaceTile({
                 >
                     <EditIcon /> Rediger
                 </SecondaryButton>
-                <DeleteTileButton deleteTile={handleDelete} />
+                <DeleteTileButton boardId={boardId} tile={tile} />
             </div>
             <EditStopPlaceModal
                 isOpen={isEditOpen}

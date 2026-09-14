@@ -14,7 +14,15 @@ import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
-export async function deleteTile(boardId: string, tile: BoardTileDB) {
+export type DeleteTileState =
+    | { status: 'success' }
+    | { status: 'error'; message: string }
+    | null
+
+export async function deleteTile(
+    boardId: string,
+    tile: BoardTileDB,
+): Promise<DeleteTileState> {
     logToGcp('info', 'action:deleteTile invoked', { bid: boardId })
     const access = await userCanEditBoard(boardId)
     if (!access) return redirect('/')
@@ -68,5 +76,8 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
                 tileObject: tile,
             },
         })
+        return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }
+
+    return { status: 'success' }
 }
