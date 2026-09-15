@@ -273,4 +273,5 @@ export async function fetchPoints(
                 }
             })
         })
+        .then((items) => uniqBy(items, (item) => item.label))
 }

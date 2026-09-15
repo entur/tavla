@@ -1,50 +1,53 @@
 'use client'
-import { Badge } from '@entur/layout'
-import { Heading2, Heading3, Paragraph } from '@entur/typography'
-import { Open } from 'app/(innlogget)/tavler/[id]/rediger/components/Buttons/Open'
-import type { BoardDB } from 'src/types/db-types/boards'
+import { Heading4 } from '@entur/typography'
+import type { BoardDB } from 'types/db-types/boards'
+import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
+import { EditElements } from './EditElements/EditElements'
+import { EditFontSize } from './EditFontSize/EditFontSize'
+import { EditInfoMessage } from './EditInfoMessage/EditInfoMessage'
+import { EditLanguage } from './EditLanguage/EditLanguage'
+import { EditTheme } from './EditTheme/EditTheme'
+import { EditTransportPalette } from './EditTransportPalette/EditTransportPalette'
+import { EditViewType } from './EditViewType/EditViewType'
+import { TileList } from './TileList/TileList'
+import { WalkingDistanceForm } from './WalkingDistance/WalkingDistance'
 
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
-        <div className="flex h-full flex-col gap-12 overflow-y-auto text-sm">
-            <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
-                <div className="flex flex-col gap-2">
-                    <div className="flex flex-wrap justify-between gap-2">
-                        <div>
-                            <Badge variant="primary" size="small">
-                                {board.isArrivals
-                                    ? 'Ankomsttavle'
-                                    : 'Avgangstavle'}
-                            </Badge>
-                            <Heading2 as="h1" margin="none">
-                                {board.meta.title}
-                            </Heading2>
-                        </div>
-
-                        <div className="flex gap-2">
-                            <Open
-                                type="button"
-                                bid={
-                                    board.customUrl ? board.customUrl : board.id
-                                }
-                                board={board}
-                                trackingLocation="board_page"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <EditSection title="Hvilke stoppesteder vil du vise på Tavla?">
-                <Paragraph>Kommer senere...</Paragraph>
+        <div className="flex flex-col gap-8 text-sm">
+            <EditSection title="Hva vil du vise på Tavla?">
+                <AddStopPlaceTile board={board} />
+                <TileList board={board} />
             </EditSection>
 
             <EditSection title="Hvordan vil du at Tavla skal se ut?">
-                <Paragraph>Kommer senere...</Paragraph>
+                <EditViewType
+                    bid={board.id}
+                    hasCombinedTiles={board.isCombinedTiles}
+                />
+                <EditTheme bid={board.id} theme={board.theme ?? 'dark'} />
+                <EditFontSize
+                    bid={board.id}
+                    fontSize={board.meta.fontSize ?? 'medium'}
+                />
+                <EditTransportPalette board={board} />
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
-                <Paragraph>Kommer senere...</Paragraph>
+                <EditInfoMessage bid={board.id} infoMessage={board.footer} />
+                <WalkingDistanceForm
+                    bid={board.id}
+                    location={board.meta.location}
+                />
+                <EditElements
+                    bid={board.id}
+                    hideClock={board.hideClock ?? false}
+                    hideLogo={board.hideLogo ?? false}
+                />
+                <EditLanguage
+                    bid={board.id}
+                    language={board.language ?? 'nb'}
+                />
             </EditSection>
         </div>
     )
@@ -58,8 +61,10 @@ function EditSection({
     title: string
 }) {
     return (
-        <section className="flex flex-col gap-4 bg-tintLight p-6 rounded-xl">
-            <Heading3 margin="none">{title}</Heading3>
+        <section className="flex flex-col gap-8 rounded-xl my-8">
+            <Heading4 margin="none" as="h2">
+                {title}
+            </Heading4>
             {children}
         </section>
     )

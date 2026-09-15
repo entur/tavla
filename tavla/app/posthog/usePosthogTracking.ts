@@ -23,14 +23,7 @@ export function usePosthogTracking() {
                 return
             }
 
-            const isLocalDevelopment =
-                window !== undefined && window.location.hostname === 'localhost'
             const properties = args[0] ?? undefined
-
-            if (isLocalDevelopment) {
-                // biome-ignore lint/suspicious/noConsole: Intentional logging for local development
-                console.log('PostHog event:', event, properties)
-            }
 
             if (posthog.has_opted_in_capturing()) {
                 posthog.capture(event, properties)

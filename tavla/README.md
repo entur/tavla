@@ -46,8 +46,10 @@ Når du skal opprette en bruker lokalt får du ikke en epost om å verifisere e-
 
 ### Miljøvariabler (lokalt minimum)
 
-Lag `.env.local`og kopier innnholdet fra teamets passord-manager.
-Sentry- og PostHog-variabler er valgfrie og trengs ikke for lokal kjøring.
+- Lag `.env.local`og kopier innnholdet fra teamets passord-manager.[(https://entur.1password.eu/)](https://entur.1password.eu/)
+    - Finn Team-Tavla
+    - Kopier over innholdet fra `.env.local`
+- Sentry- og PostHog-variabler er valgfrie og trengs ikke for lokal kjøring.
 
 ### Vanlige kommandoer
 

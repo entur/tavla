@@ -38,6 +38,18 @@
     --regional-bus-color-transparent: var(--rgba-rail-color-transparent);
     --rail-color: var(--standard-bus);
     --rail-color-transparent: var(--rgba-bus-color-transparent);
+
+    /* Default under */
+    --coach-color: var(--temp-coach-color-standard);
+    --air-color: var(--standard-plane);
+    --cableway-color: var(--standard-cableway);
+    --funicular-color: var(--standard-funicular);
+    --metro-color: var(--standard-metro);
+    --mobility-color: var(--standard-mobility);
+    --taxi-color: var(--standard-taxi);
+    --tram-color: var(--standard-tram);
+    --unknown-color: var(--standard-walk);
+    --water-color: var(--standard-ferry);
 }
 
 [data-theme="dark"][data-transport-palette="blue-bus"] {
@@ -47,6 +59,18 @@
     --regional-bus-color-transparent: var(--rgba-rail-color-transparent-dark);
     --rail-color: var(--dark-bus);
     --rail-color-transparent: var(--rgba-bus-color-transparent-dark);
+
+    /* Default under */
+    --coach-color: var(--temp-coach-color-dark);
+    --air-color: var(--dark-plane);
+    --cableway-color: var(--dark-cableway);
+    --funicular-color: var(--dark-funicular);
+    --metro-color: var(--dark-metro);
+    --mobility-color: var(--dark-mobility);
+    --taxi-color: var(--dark-taxi);
+    --tram-color: var(--dark-tram);
+    --unknown-color: var(--dark-walk);
+    --water-color: var(--dark-ferry);
 }
 
 /* Green bus palette */
@@ -57,6 +81,18 @@
     --regional-bus-color-transparent: var(--rgba-coach-color-transparent);
     --coach-color: var(--standard-bus);
     --coach-color-transparent: var(--rgba-bus-color-transparent);
+
+    /* Default under */
+    --air-color: var(--standard-plane);
+    --cableway-color: var(--standard-cableway);
+    --funicular-color: var(--standard-funicular);
+    --metro-color: var(--standard-metro);
+    --mobility-color: var(--standard-mobility);
+    --rail-color: var(--standard-train);
+    --taxi-color: var(--standard-taxi);
+    --tram-color: var(--standard-tram);
+    --unknown-color: var(--standard-walk);
+    --water-color: var(--standard-ferry);
 }
 
 [data-theme="dark"][data-transport-palette="green-bus"] {
@@ -66,6 +102,18 @@
     --regional-bus-color-transparent: var(--rgba-coach-color-transparent-dark);
     --coach-color: var(--dark-bus);
     --coach-color-transparent: var(--rgba-bus-color-transparent-dark);
+
+    /* Default under */
+    --air-color: var(--dark-plane);
+    --cableway-color: var(--dark-cableway);
+    --funicular-color: var(--dark-funicular);
+    --metro-color: var(--dark-metro);
+    --mobility-color: var(--dark-mobility);
+    --rail-color: var(--dark-train);
+    --taxi-color: var(--dark-taxi);
+    --tram-color: var(--dark-tram);
+    --unknown-color: var(--dark-walk);
+    --water-color: var(--dark-ferry);
 }
 
 /* ATB palette */
@@ -92,6 +140,7 @@
     --tram-color-transparent: rgba(96, 128, 0, 0.15);
     --metro-color-transparent: rgba(148, 56, 148, 0.15);
     --taxi-color-transparent: rgba(76, 26, 76, 0.15);
+    --unknown-color: var(--standard-walk);
 }
 
 [data-theme="dark"][data-transport-palette="atb"] {
@@ -117,6 +166,7 @@
     --tram-color-transparent: rgba(169, 210, 45, 0.15);
     --metro-color-transparent: rgba(205, 152, 205, 0.15);
     --taxi-color-transparent: rgba(172, 83, 172, 0.15);
+    --unknown-color: var(--dark-walk);
 }
 
 /* Fram palette */
@@ -143,6 +193,7 @@
     --tram-color-transparent: rgba(103, 103, 103, 0.15);
     --metro-color-transparent: rgba(103, 103, 103, 0.15);
     --taxi-color-transparent: rgba(149, 107, 119, 0.15);
+    --unknown-color: var(--standard-walk);
 }
 
 [data-theme="dark"][data-transport-palette="fram"] {
@@ -168,6 +219,7 @@
     --tram-color-transparent: rgba(179, 190, 196, 0.15);
     --metro-color-transparent: rgba(179, 190, 196, 0.15);
     --taxi-color-transparent: rgba(169, 136, 145, 0.15);
+    --unknown-color: var(--dark-walk);
 }
 
 /* Svipper palette */
@@ -184,6 +236,7 @@
     --rail-color-transparent: rgba(189, 54, 133, 0.15);
     --water-color-transparent: rgba(65, 128, 131, 0.15);
     --air-color-transparent: rgba(55, 66, 74, 0.15);
+    --unknown-color: var(--standard-walk);
 }
 
 [data-theme="dark"][data-transport-palette="svipper"] {
@@ -199,6 +252,7 @@
     --rail-color-transparent: rgba(207, 131, 175, 0.15);
     --water-color-transparent: rgba(87, 167, 171, 0.15);
     --air-color-transparent: rgba(199, 202, 204, 0.15);
+    --unknown-color: var(--dark-walk);
 }
 
 /* Reis palette */
@@ -225,6 +279,7 @@
     --tram-color-transparent: rgba(0, 77, 97, 0.15);
     --metro-color-transparent: rgba(138, 97, 194, 0.15);
     --taxi-color-transparent: rgba(112, 112, 112, 0.15);
+    --unknown-color: var(--standard-walk);
 }
 [data-theme="dark"][data-transport-palette="reis"] {
     --bus-color: #38a4bf;
@@ -249,4 +304,5 @@
     --tram-color-transparent: rgba(56, 164, 191, 0.15);
     --metro-color-transparent: rgba(162, 129, 206, 0.15);
     --taxi-color-transparent: rgba(179, 190, 196, 0.15);
+    --unknown-color: var(--dark-walk);
 }
