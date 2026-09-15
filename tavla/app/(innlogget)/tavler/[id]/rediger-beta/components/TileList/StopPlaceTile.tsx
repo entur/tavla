@@ -9,8 +9,8 @@ import { getTransportModesFromLines } from 'app/_components/TransportIcon/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardTileDB } from 'src/types/db-types/boards'
+import { EditStopPlaceModal } from '../EditStopPlaceModal/EditStopPlaceModal'
 import { DeleteTileButton } from './DeleteTileButton'
-import { EditStopPlaceModal } from './EditStopPlaceModal'
 
 export function StopPlaceTile({
     boardId,
