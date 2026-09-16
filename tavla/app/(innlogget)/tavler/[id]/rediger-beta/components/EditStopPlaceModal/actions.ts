@@ -23,7 +23,7 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
         const existingTile = board?.tiles.find((t) => t.uuid === tile.uuid)
         if (!existingTile) {
             await updateBoard(bid, { tiles: FieldValue.arrayUnion(tile) })
-            revalidatePath(`/tavler/${bid}/rediger`)
+            revalidatePath(`/tavler/${bid}/rediger-beta`)
             return
         }
         const indexExistingTile = board?.tiles.indexOf(existingTile)

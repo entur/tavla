@@ -1,0 +1,385 @@
+import { Heading4, Paragraph } from '@entur/typography'
+import { HiddenInput } from 'app/_components/Form/HiddenInput'
+import type { EventProps } from 'app/posthog/events'
+import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { useState } from 'react'
+import { useNonNullContext } from 'src/hooks/useNonNullContext'
+import type { TTransportMode } from 'src/types/graphql-schema'
+import { TileContext } from '../context'
+import type { QuayWithFrontText } from '../types'
+import {
+    deriveLinesWithDirection,
+    generateQuayLineFrontTextKey,
+    getInitialCheckedLineIds,
+    transportModeNames,
+} from '../utils'
+import { PlatformAndLines } from './PlatformAndLines'
+import { TransportModeChip } from './TransportModeChip'
+
+type QuaysByTransportMode = {
+    mode: TTransportMode
+    label: string
+    quays: QuayWithFrontText[]
+}
+
+type ColumnItem =
+    | { type: 'mode_group'; data: QuaysByTransportMode }
+    | { type: 'quay'; data: QuayWithFrontText }
+
+function generateQuayModesMap(
+    quays: QuayWithFrontText[],
+): Map<string, TTransportMode[]> {
+    const map = new Map<string, TTransportMode[]>()
+
+    quays.forEach((quay) => {
+        const modeCounts = new Map<TTransportMode, number>()
+        quay.lines.forEach((l) => {
+            const m = l.transportMode as TTransportMode
+            if (m && m !== 'unknown') {
+                modeCounts.set(m, (modeCounts.get(m) || 0) + 1)
+            }
+        })
+
+        const modes = Array.from(modeCounts.entries())
+            .sort((a, b) => {
+                if (b[1] !== a[1]) return b[1] - a[1]
+                return a[0].localeCompare(b[0])
+            })
+            .map(([mode]) => mode)
+
+        if (
+            modes.length === 0 &&
+            quay.stopPlace?.transportMode &&
+            quay.stopPlace.transportMode.length > 0
+        ) {
+            modes.push(
+                ...(quay.stopPlace.transportMode
+                    .map((m) => m as TTransportMode)
+                    .filter((m) => !!m && m !== 'unknown') || []),
+            )
+        }
+
+        const uniqueModes = Array.from(new Set(modes))
+        map.set(quay.id, uniqueModes)
+    })
+
+    return map
+}
+
+function sortAndDistributeColumnItems(quays: QuayWithFrontText[]): {
+    modes: TTransportMode[]
+    quayModesMap: Map<string, TTransportMode[]>
+    columns: ColumnItem[][]
+} {
+    const columns: ColumnItem[][] = [[], []]
+    const columnHeights = [0, 0]
+    const itemsToDistribute: ColumnItem[] = []
+    const quayModesMap = generateQuayModesMap(quays)
+
+    const quaysByTransportMode = Object.values(
+        quays.reduce(
+            (prev, quay) => {
+                const modes = quayModesMap.get(quay.id) || []
+
+                const primaryMode: TTransportMode =
+                    modes.length > 0 ? (modes[0] as TTransportMode) : 'unknown'
+
+                if (!prev[primaryMode]) {
+                    prev[primaryMode] = {
+                        mode: primaryMode,
+                        label: transportModeNames(primaryMode) || 'Ukjent',
+                        quays: [],
+                    }
+                }
+
+                prev[primaryMode]?.quays.push(quay)
+                return prev
+            },
+            {} as Record<
+                string,
+                {
+                    mode: TTransportMode
+                    label: string
+                    quays: QuayWithFrontText[]
+                }
+            >,
+        ),
+    ).sort((a, b) => a.label.localeCompare(b.label, 'nb-NO'))
+
+    if (quaysByTransportMode.length < 2) {
+        quaysByTransportMode.forEach((group) => {
+            const sortedQuays = [...group.quays].sort((a, b) => {
+                const cmp = (a.publicCode || '').localeCompare(
+                    b.publicCode || '',
+                    'nb-NO',
+                    { numeric: true },
+                )
+                if (cmp === 0) {
+                    return b.lines.length - a.lines.length
+                }
+                return cmp
+            })
+            sortedQuays.forEach((quay) => {
+                itemsToDistribute.push({ type: 'quay', data: quay })
+            })
+        })
+    } else {
+        quaysByTransportMode.forEach((group) => {
+            itemsToDistribute.push({ type: 'mode_group', data: group })
+        })
+    }
+
+    itemsToDistribute.forEach((item) => {
+        let height: number
+        if (item.type === 'mode_group') {
+            height =
+                2 +
+                item.data.quays.reduce(
+                    (acc, q) => acc + 1 + q.lines.length,
+                    0,
+                ) +
+                item.data.quays.length * 2
+        } else {
+            height = 1 + item.data.lines.length + 2
+        }
+
+        const minHeight = Math.min(...columnHeights)
+        const colIndex = columnHeights.indexOf(minHeight)
+
+        if (columns[colIndex] && typeof columnHeights[colIndex] === 'number') {
+            columns[colIndex].push(item)
+            columnHeights[colIndex] += height
+        }
+    })
+
+    const modes = Array.from(new Set(Array.from(quayModesMap.values()).flat()))
+        .filter((m): m is TTransportMode => !!m && m !== 'unknown')
+        .sort((a, b) => {
+            const labelA = transportModeNames(a) || ''
+            const labelB = transportModeNames(b) || ''
+            return labelA.localeCompare(labelB, 'nb-NO')
+        })
+
+    return { modes, quayModesMap, columns }
+}
+
+export function SetVisibleLines({
+    quays,
+    trackingLocation,
+    onFieldChanged,
+}: {
+    quays: QuayWithFrontText[]
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    onFieldChanged: (field: string) => void
+}) {
+    const { capture } = usePosthogTracking()
+    const tile = useNonNullContext(TileContext)
+
+    const { modes, quayModesMap, columns } = sortAndDistributeColumnItems(quays)
+
+    const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() =>
+        getInitialCheckedLineIds(tile, quays),
+    )
+
+    const totalQuayLinePairs = quays.reduce((sum, q) => sum + q.lines.length, 0)
+
+    const linesWithDirection = deriveLinesWithDirection(
+        quays,
+        Array.from(checkedLineIds),
+    )
+
+    const handleToggleLine = (lineId: string) => {
+        const newSet = new Set(checkedLineIds)
+        if (newSet.has(lineId)) {
+            newSet.delete(lineId)
+        } else {
+            newSet.add(lineId)
+        }
+        setCheckedLineIds(newSet)
+        onFieldChanged('lines')
+    }
+
+    const handleGroupToggle = (lineIds: string[], checked: boolean) => {
+        const newSet = new Set(checkedLineIds)
+        if (checked) {
+            for (const id of lineIds) newSet.add(id)
+        } else {
+            for (const id of lineIds) newSet.delete(id)
+        }
+        setCheckedLineIds(newSet)
+        onFieldChanged('lines')
+    }
+
+    const toggleMode = (mode: TTransportMode) => {
+        const keysOnActiveQuays: string[] = []
+        const keysOnAllQuays: string[] = []
+        for (const quay of quays) {
+            const quayIsActive = quay.lines.some((l) =>
+                l.frontTexts.some((frontText) =>
+                    checkedLineIds.has(
+                        generateQuayLineFrontTextKey(quay.id, l.id, frontText),
+                    ),
+                ),
+            )
+
+            for (const line of quay.lines) {
+                if (line.transportMode === mode) {
+                    for (const frontText of line.frontTexts) {
+                        const key = generateQuayLineFrontTextKey(
+                            quay.id,
+                            line.id,
+                            frontText,
+                        )
+                        keysOnAllQuays.push(key)
+                        if (quayIsActive) {
+                            keysOnActiveQuays.push(key)
+                        }
+                    }
+                }
+            }
+        }
+
+        const anySelected = keysOnActiveQuays.some((key) =>
+            checkedLineIds.has(key),
+        )
+
+        const newSet = new Set(checkedLineIds)
+        if (anySelected) {
+            for (const key of keysOnActiveQuays) newSet.delete(key)
+        } else {
+            for (const key of keysOnAllQuays) newSet.add(key)
+        }
+        setCheckedLineIds(newSet)
+    }
+
+    const isModeSelected = (mode: TTransportMode) =>
+        quays.some((q) =>
+            q.lines.some((l) => {
+                if (l.transportMode !== mode) return false
+                return l.frontTexts.some((frontText) =>
+                    checkedLineIds.has(
+                        generateQuayLineFrontTextKey(q.id, l.id, frontText),
+                    ),
+                )
+            }),
+        )
+
+    const renderQuay = (quay: QuayWithFrontText) => {
+        const quayModes = quayModesMap.get(quay.id) || []
+        const title =
+            quay.name && quay.publicCode
+                ? `${quayModes[0] === 'metro' || quayModes[0] === 'rail' ? 'Spor' : 'Plattform'} ${quay.publicCode}`
+                : quay.name || 'Ukjent'
+        const quayCodeTooltip = quay.publicCode
+            ? null
+            : `Plattformkode: ${quay.id}`
+        return (
+            <PlatformAndLines
+                key={quay.id}
+                tile={tile}
+                quayId={quay.id}
+                groupKey={quay.publicCode || quay.id}
+                title={title}
+                description={quay.description}
+                quayCodeTooltip={quayCodeTooltip}
+                lines={quay.lines}
+                trackingLocation={trackingLocation}
+                fallbackTransportModes={quayModes}
+                selectedLineIds={checkedLineIds}
+                onToggleLine={handleToggleLine}
+                onToggleGroup={handleGroupToggle}
+            />
+        )
+    }
+
+    return (
+        <>
+            <Heading4>Plattformer og linjer</Heading4>
+
+            {quays.length === 0 && (
+                <Paragraph>
+                    Det er ingen avganger fra dette stoppestedet de neste syv
+                    dagene.
+                </Paragraph>
+            )}
+            <div className="my-4 flex flex-row flex-wrap gap-4">
+                {modes.map((mode) => {
+                    const isSelected = isModeSelected(mode)
+
+                    return (
+                        <TransportModeChip
+                            key={mode}
+                            mode={mode}
+                            isSelected={isSelected}
+                            onClick={() => {
+                                onFieldChanged('transport_mode_filter')
+                                capture('stop_place_edit_interaction', {
+                                    location: trackingLocation,
+                                    field: 'transport_mode_filter',
+                                    column_value: 'none',
+                                    action: 'changed',
+                                })
+                                toggleMode(mode)
+                            }}
+                        />
+                    )
+                })}
+            </div>
+
+            <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
+                {columns.map((colItems, index) => {
+                    if (colItems.length === 0) return null
+
+                    return (
+                        <div
+                            // biome-ignore lint/suspicious/noArrayIndexKey: Layout columns have no stable ID
+                            key={`column-${index}`}
+                            className="flex flex-1 flex-col gap-2"
+                        >
+                            {colItems.map((item) => {
+                                if (item.type === 'mode_group') {
+                                    const { mode, quays } = item.data
+                                    return (
+                                        <div
+                                            key={mode}
+                                            className="flex flex-col gap-2"
+                                        >
+                                            {quays
+                                                .sort((a, b) => {
+                                                    const cmp = (
+                                                        a.publicCode || ''
+                                                    ).localeCompare(
+                                                        b.publicCode || '',
+                                                        'nb-NO',
+                                                        { numeric: true },
+                                                    )
+                                                    if (cmp === 0) {
+                                                        return (
+                                                            b.lines.length -
+                                                            a.lines.length
+                                                        )
+                                                    }
+                                                    return cmp
+                                                })
+                                                .map((quay) =>
+                                                    renderQuay(quay),
+                                                )}
+                                        </div>
+                                    )
+                                } else {
+                                    const quay = item.data
+                                    return renderQuay(quay)
+                                }
+                            })}
+                        </div>
+                    )
+                })}
+            </div>
+            <HiddenInput id="count" value={totalQuayLinePairs.toString()} />
+            <HiddenInput
+                id="linesWithDirection"
+                value={JSON.stringify(linesWithDirection)}
+            />
+        </>
+    )
+}
