@@ -44,27 +44,7 @@ export function SetColumns({
 
     return (
         <>
-            <div className="flex flex-row items-baseline gap-1">
-                <Heading4>Kolonner</Heading4>
-
-                <Tooltip
-                    aria-hidden
-                    placement="top"
-                    content="Vis forklaring på kolonner"
-                    id="tooltip-columns"
-                >
-                    <IconButton
-                        type="button"
-                        aria-label="Vis forklaring på kolonner"
-                        onClick={() => setIsColumnModalOpen(true)}
-                    >
-                        <QuestionFilledIcon />
-                    </IconButton>
-                </Tooltip>
-            </div>
-            <SubParagraph>
-                Her bestemmer du hvilke kolonner som skal vises i tavlen.
-            </SubParagraph>
+            <Heading4>Hvilke kolonner vil du at skal vises på tavla?</Heading4>
             {isCombined && (
                 <SubParagraph className="mb-2 !text-error">
                     Har du samlet stoppestedene i én liste vil du ikke ha

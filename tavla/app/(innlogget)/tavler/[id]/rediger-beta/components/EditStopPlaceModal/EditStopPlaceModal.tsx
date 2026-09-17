@@ -2,7 +2,7 @@
 import { SmallAlertBox } from '@entur/alert'
 import { Button } from '@entur/button'
 import { Modal } from '@entur/modal'
-import { Heading2 } from '@entur/typography'
+import { Heading3 } from '@entur/typography'
 import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
 import {
     getFormFeedbackForError,
@@ -11,13 +11,13 @@ import {
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState, useEffect, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import { useLines } from '../utils/useLines'
 import { saveTile } from './actions'
 import { SetColumns } from './components/SetColumns'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
 import { SetVisibleLines } from './components/SetVisibleLines'
 import { TileContext } from './context'
-import { useLines } from './useLines'
 import { countSelectableQuayLineKeys, parseTileFormData } from './utils'
 
 function EditStopPlaceModal({
@@ -34,7 +34,6 @@ function EditStopPlaceModal({
     const { capture } = usePosthogTracking()
 
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
-    const [confirmOpen, setConfirmOpen] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
 
     const onFieldChanged = (field: string) => {
@@ -42,14 +41,12 @@ function EditStopPlaceModal({
         setHasUnsavedChanges(true)
     }
 
+    // HUSK Å FJERNE DENNE!
     useEffect(() => {
         console.log('sett med changedFields:', changedFields)
     }, [changedFields])
 
-    //TODO: legge til state for om det er gjort endringer så man for en popup hvis man vil lagre endringene
-
     const reset = () => {
-        setConfirmOpen(false)
         setHasUnsavedChanges(false)
         setChangedFields(new Set())
         setIsOpen(false)
@@ -139,17 +136,25 @@ function EditStopPlaceModal({
 
     const [state, action] = useActionState(handleSave, undefined)
 
-    const generalError =
-        state?.form_type === 'general' ? state.feedback : undefined
+    // const generalError =
+    //     state?.form_type === 'general' ? state.feedback : undefined
 
     //TODO: sjekke om tracklocation skal endres til noe mer spesifikt (endre i events.ts)
 
     return (
-        <Modal open={isOpen} onDismiss={() => setIsOpen(false)} size="large">
+        <Modal
+            open={isOpen}
+            onDismiss={() => {
+                setIsOpen(false)
+                reset()
+            }}
+            size="large"
+            data-transport-palette={board.transportPalette}
+        >
             <TileContext.Provider value={tile}>
-                <Heading2 as="h1">
+                <Heading3 as="h1">
                     Rediger {tile.displayName ?? tile.name}
-                </Heading2>
+                </Heading3>
 
                 {!quays ? (
                     <div>Laster...</div>
@@ -164,14 +169,8 @@ function EditStopPlaceModal({
                         }}
                         onInput={() => setHasUnsavedChanges(true)}
                     >
-                        <SetStopPlaceName
-                            state={state}
-                            trackingLocation="board_page"
-                            onFieldChanged={onFieldChanged}
-                        />
-                        <SetOffsetDepartureTime
-                            address={board.meta.location}
-                            isArrivals={board.isArrivals ?? false}
+                        <SetVisibleLines
+                            quays={quaysWithFilteredLines}
                             trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
                         />
@@ -181,25 +180,42 @@ function EditStopPlaceModal({
                             trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
                         />
-                        <SetVisibleLines
-                            quays={quaysWithFilteredLines}
+
+                        <SetStopPlaceName
+                            state={state}
                             trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
                         />
 
-                        {generalError && (
+                        <SetOffsetDepartureTime
+                            address={board.meta.location}
+                            isArrivals={board.isArrivals ?? false}
+                            trackingLocation="board_page"
+                            onFieldChanged={onFieldChanged}
+                        />
+
+                        {/* {generalError && (
                             <SmallAlertBox
                                 variant="warning"
                                 className="mt-4 w-fit"
                             >
                                 {generalError}
                             </SmallAlertBox>
-                        )}
+                        )} */}
 
                         {/* SETTE INN TILSVARENDE SaveCancelDeleteButtonGroup her, passe på at men får popup når man har gjort endringer og prøver å gå ut. */}
 
                         <div className="mt-8 flex flex-row gap-4">
                             <Button
+                                className="w-full"
+                                type="button"
+                                variant="secondary"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Avbryt
+                            </Button>
+                            <Button
+                                className="w-full"
                                 type="submit"
                                 variant="primary"
                                 onClick={() => {
@@ -219,14 +235,7 @@ function EditStopPlaceModal({
                                     })
                                 }}
                             >
-                                Lagre
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="secondary"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                Avbryt
+                                Bekreft valg
                             </Button>
                         </div>
                     </form>

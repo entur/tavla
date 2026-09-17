@@ -4,7 +4,7 @@ import type {
     LineWithDirectionDB,
     TileColumnDB,
 } from 'types/db-types/boards'
-import type { QuayWithFrontText } from './types'
+import type { QuayWithFrontText } from '../utils/types'
 
 export function transportModeNames(
     transportMode: TTransportMode | null | undefined,

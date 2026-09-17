@@ -5,8 +5,8 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { TTransportMode } from 'src/types/graphql-schema'
+import type { QuayWithFrontText } from '../../utils/types'
 import { TileContext } from '../context'
-import type { QuayWithFrontText } from '../types'
 import {
     deriveLinesWithDirection,
     generateQuayLineFrontTextKey,
@@ -294,7 +294,9 @@ export function SetVisibleLines({
 
     return (
         <>
-            <Heading4>Plattformer og linjer</Heading4>
+            <Heading4 as="h2">
+                Hvilke plattformer og linjer vil du vise på Tavla?
+            </Heading4>
 
             {quays.length === 0 && (
                 <Paragraph>
@@ -326,7 +328,7 @@ export function SetVisibleLines({
                 })}
             </div>
 
-            <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
                 {columns.map((colItems, index) => {
                     if (colItems.length === 0) return null
 

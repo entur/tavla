@@ -12,7 +12,7 @@ import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
-import type { LineWithFrontText } from '../types'
+import type { LineWithFrontText } from '../../utils/types'
 import { generateQuayLineFrontTextKey } from '../utils'
 
 function PublicCode({ line }: { line: LineWithFrontText }) {

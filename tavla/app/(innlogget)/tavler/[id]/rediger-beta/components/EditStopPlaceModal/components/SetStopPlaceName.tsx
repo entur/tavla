@@ -26,22 +26,16 @@ function SetStopPlaceName({
     const tile = useNonNullContext(TileContext)
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
+    const title = tile.name.split(',')[0]
 
     return (
         <div className="flex flex-col gap-2">
-            <Heading4 margin="bottom">Navn på stoppested</Heading4>
-            <div>
-                <SubParagraph margin="none">
-                    Dette navnet vil vises i tavlen.
-                </SubParagraph>
-                <SubParagraph>
-                    Det originale navnet til stoppestedet:{' '}
-                    {tile.name.split(',')[0]}
-                </SubParagraph>
-            </div>
+            <Heading4 margin="bottom" as="h2">
+                Vil du kalle stoppestedet for noe annet enn "{title}"?
+            </Heading4>
             <ClientOnlyTextField
-                label="Navn på stoppested"
-                className="!w-full md:!w-1/2 lg:!w-1/4"
+                label={'Navn på stoppested'}
+                className="!w-full md:!w-1/2 lg:!w-1/2"
                 name="displayName"
                 value={displayName}
                 maxLength={50}
