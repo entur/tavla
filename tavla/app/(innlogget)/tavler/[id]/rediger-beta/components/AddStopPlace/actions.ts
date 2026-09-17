@@ -158,8 +158,7 @@ export async function addStopPlaceTiles(
     } catch {
         return {
             status: 'error',
-            message:
-                'Noe gikk galt i prosessen med å legge til stoppesteder. Prøv igjen.',
+            message: 'Kunne ikke til å legge til stoppested. Prøv igjen.',
         }
     }
 
