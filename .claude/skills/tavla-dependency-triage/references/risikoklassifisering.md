@@ -4,9 +4,9 @@ Bumptypen bestemmer to ting: hvor mye arbeid du legger i den, og hvem som merger
 
 | Bumptype | Dette gjør du | Hvem merger |
 |---|---|---|
-| **patch** `x.y.Z` | CI grønn, sjekk hvor pakken brukes, test raskt | du selv |
-| **minor** `x.Y.z` | changelog, hvor pakken brukes, CI grønn, test | tagg en til i PR-en |
-| **major** `X.y.z` | gir det breaking changes hos oss? | se «major» under |
+| **patch** `x.y.Z` | CI grønn → merge | du selv |
+| **minor** `x.Y.z` | changelog/release notes: treffer noe av det oss? CI grønn og ingen hindringer → merge | du selv |
+| **major** `X.y.z` | breaking changes hos oss? | se «major» under |
 
 ## Slik ser du hvilken det er
 
@@ -16,25 +16,23 @@ Dependabot skriver den i PR-tittelen: `bump postcss from 8.5.23 to 8.5.24`. Samm
 
 ## patch
 
-Etter semver skal en patch bare inneholde bugfixes — ingen nye API-er, ingen endret oppførsel. Det er derfor CI og en rask test holder i de fleste tilfeller.
+Etter semver skal en patch bare inneholde bugfixes — ingen nye API-er, ingen endret oppførsel. Er CI grønn, merger du den selv. Det er hele regelen.
 
-Sjekk likevel *hvor* pakken brukes, med `grep -rn "pakkenavn" tavla/app tavla/src`. Ligger den i render-pathen til avgangstavlen, i auth, eller i GraphQL-klienten mot journey-planner, er et raskt blikk på changelogen billig forsikring — semver er en konvensjon, ikke en garanti.
+(Unntaket er de to pakkene under «krever changelog uansett bumptype» — der leser du changelogen først, men merger fortsatt selv.)
 
 ## minor
 
-En minor kan legge til API-er, men skal ikke fjerne eller endre eksisterende. Derfor er changelogen obligatorisk her, og du leter etter noe annet enn i en patch: `added` er greit, mens `changed`, `deprecated` og `removed` er verdt å stoppe ved.
+En minor kan legge til API-er, men skal ikke fjerne eller endre eksisterende. Les derfor changelogen/release notes og finn ut om noe av det som er endret treffer oss: `added` er greit, mens `changed`, `deprecated` og `removed` er verdt å stoppe ved. `grep -rn "pakkenavn" tavla/app tavla/src` viser hvor pakken faktisk brukes.
 
-Sjekk brukssteder, kjør testene, og se at CI er grønt. Deretter tagger du en annen utvikler i PR-en. Skriv i samme slengen hva du sjekket og hva du er usikker på — det er det reviewer trenger, og det er raskere for hen enn å gjøre vurderingen på nytt.
+Er CI grønn og ingenting hindrer — ingen breaking i det vi bruker — merger du den selv. Finner du noe som treffer oss, behandles det som en major (se under): enten en review hvis det er lite, eller en boardoppgave hvis det krever kodeendringer.
 
 ## major
 
-En major betyr at pakkeforfatteren selv sier at noe er brutt. Spørsmålet er om det brutte gjelder oss.
+En major betyr at pakkeforfatteren selv sier at noe er brutt. Spørsmålet er om det brutte gjelder oss. Les changelogens breaking-changes-seksjon, og `grep` etter de API-ene den nevner.
 
-Les changelogens breaking-changes-seksjon, og `grep` etter de API-ene den nevner.
+**Finner du ingen breaking changes hos oss** → er CI grønn, be om en review fra en annen utvikler, og merge når den er godkjent. En major fortjener et par øyne selv når den ikke treffer koden vår.
 
-**Finner du breaking changes hos oss** → dette er ikke en dependency-bump lenger, det er planlagt arbeid. Opprett en oppgave i boardet med hva som må endres, og la PR-en ligge. Skriv oppgavenummeret i briefen, så neste vakt ikke triagerer den på nytt. (Teamet har en `jira-entur-tavla`-skill for å opprette ETU-saker.)
-
-**Finner du ingen** → gjør minor-stegene, og tagg en til i PR-en for review. En major uten breaking changes for oss er fortsatt en major, og den fortjener et par øyne.
+**Finner du breaking changes hos oss** → dette er ikke en dependency-bump lenger, det er planlagt arbeid. Opprett en oppgave i boardet så den kommer inn i prioriteringen, og la PR-en ligge. Selve arbeidet, når den prioriteres: sjekk CI, se hva som har endret seg og om det treffer vår kode, og be om review når vi må endre noe hos oss. Skriv oppgavenummeret i briefen, så neste vakt ikke triagerer den på nytt. (Teamet har en `jira-entur-tavla`-skill for å opprette ETU-saker.)
 
 ## To pakker krever changelog uansett bumptype
 

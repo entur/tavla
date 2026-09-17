@@ -238,36 +238,40 @@ Deretter én underseksjon per pin du faktisk **vurderte** med `pin-vurder.py`. V
 
 ---
 
-## ✅ Patch — du merger selv
+## ✅ Patch og minor — du merger selv
+
+Patch: CI grønn → merge. Minor: changelog lest, ingenting treffer oss, CI grønn → merge. Traff en minor noe vi bruker, hører den i én av seksjonene under i stedet.
 
 ### 📦 {pakkenavn} {fra-versjon} → {til-versjon}
-**Patch**{ — changelog lest fordi pakken håndterer brukerinput/auth}  |  [PR #{nummer}]({url})
+**{Patch|Minor}**{ — changelog lest fordi pakken håndterer brukerinput/auth}  |  [PR #{nummer}]({url})
 
-**Hva endret seg:** {endringspunkt}
+**Hva endret seg:** {endringspunkt — for minor: `added` / `changed` / `deprecated` / `removed` fra changelog}
 
-**Vurdering:** {Hva ble sjekket — grep-funn for brukssteder, CI-status, hva du testet}
+**Vurdering:** {Hva ble sjekket — CI-status, og for minor: hva changelogen sier og hvorfor ingenting treffer oss}
 
 **Anbefaling:** ✅ Merge
 
 ---
 
-## 👀 Minor og major — til review
+## 👀 Major uten treff hos oss — review, så merge
+
+En major fortjener et par øyne selv når den ikke treffer koden vår. CI grønn → be om review → merge når godkjent.
 
 ### 📦 {pakkenavn} {fra-versjon} → {til-versjon}
-**{Minor|Major}**  |  [PR #{nummer}]({url})
+**Major**  |  [PR #{nummer}]({url})
 
 **Hva endret seg:**
-- {endringspunkt fra changelog — `added` / `changed` / `deprecated` / `removed`}
+- {breaking changes fra changelog — og hvorfor ingen av dem treffer oss}
 
-**Vurdering:** {Resonnement}
+**Vurdering:** {Resonnement — grep-funn som viser at de brutte API-ene ikke brukes hos oss, CI-status}
 
 **Til reviewer:** {Hva ble sjekket, hva er du usikker på, hva bør de se spesielt på}
 
-**Anbefaling:** 👀 Tagg en til i PR-en — {hva du mener bør skje}
+**Anbefaling:** 👀 Be om review i PR-en, merge når godkjent
 
 ---
 
-## 📋 Major med breaking changes — boardoppgave
+## 📋 Major som treffer oss — boardoppgave
 
 Majors som krever kodeendringer hos oss er ikke dependency-triage lenger, det er planlagt arbeid. La PR-en ligge, og skriv oppgaven her så neste vakt ikke triagerer den på nytt.
 
@@ -315,7 +319,8 @@ Generer denne seksjonen **etter** at all triage er gjort. List opp konkrete hand
 
 Eksempel på gode todo-punkter:
 - ✅ "Merge Dependabot PR #123 (patch, grønt CI) → [link]"
-- ✅ "Tagg en utvikler på PR #124 (minor på dompurify) → [link]"
+- ✅ "Merge Dependabot PR #124 (minor på dompurify, changelog lest, treffer ikke oss, grønt CI) → [link]"
+- ✅ "Be om review på PR #125 (major på vitest, ingen breaking hos oss, grønt CI) → [link]"
 - ✅ "Lag allowlist-PR for CodeQL #39 med begrunnelse om hardkodet hostname → [link]"
 - ✅ "Oppgrader postcss til 8.5.10+ i tavla-visning ved neste dep-runde"
 - ❌ "Vurdere hono" (for vagt — si konkret hva som skal gjøres)
@@ -337,7 +342,7 @@ Eksempel på gode todo-punkter:
 
 Legg til én seksjon per PR og én per alert. Legg til ekstra sjekklistepunkter for spesifikke handlingspunkter som dukker opp i triage (f.eks. "Allowlist-PR for de tre stale DOMPurify-funnene").
 
-**Rekkefølge i brief:** Oversikt → **📌 Pin-status** → ✅ Patch → 👀 Minor og major → 📋 Major med breaking changes → 🔒 Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Pin-seksjonen kommer først fordi en pin kan være grunnen til at et varsel lenger ned ikke lar seg lukke. Todo-seksjonen kommer alltid rett før test-sjekklisten.
+**Rekkefølge i brief:** Oversikt → **📌 Pin-status** → ✅ Patch og minor → 👀 Major uten treff hos oss → 📋 Major som treffer oss → 🔒 Sikkerhetsvarsler → **📌 Prioritert todo** → 🧪 Test-sjekkliste. Pin-seksjonen kommer først fordi en pin kan være grunnen til at et varsel lenger ned ikke lar seg lukke. Todo-seksjonen kommer alltid rett før test-sjekklisten.
 
 ---
 
@@ -359,13 +364,13 @@ Resultatet havner ett av to steder: som del av `## 🔒 Sikkerhetsvarsler` i man
 
 ## Hva vakten merger selv
 
-**Bumptypen bestemmer.** Patch merger du selv; minor og major skal en annen utvikler se på først.
+**Bumptypen bestemmer.** Patch og minor merger du selv; en major skal en annen utvikler se på først.
 
 | Bumptype | Dette gjør du | Hvem merger |
 |---|---|---|
-| **patch** `x.y.Z` | CI grønn, sjekk brukssteder, test raskt | du selv |
-| **minor** `x.Y.z` | changelog, brukssteder, CI grønn, test | tagg en til i PR-en |
-| **major** `X.y.z` | breaking changes hos oss? Ja → oppgave i boardet, PR-en ligger. Nei → minor-stegene | tagg en til i PR-en |
+| **patch** `x.y.Z` | CI grønn → merge | du selv |
+| **minor** `x.Y.z` | changelog/release notes: treffer noe av det oss? CI grønn og ingen hindringer → merge | du selv |
+| **major** `X.y.z` | breaking changes hos oss? Nei → CI grønn, be om review, merge. Ja → oppgave i boardet, PR-en ligger | se «major»-raden |
 
 To ting å huske utover tabellen:
 
@@ -374,7 +379,7 @@ To ting å huske utover tabellen:
 
 Full framgangsmåte per bumptype, med hva du ser etter i changelogen: `references/risikoklassifisering.md`.
 
-Tabellen er hele regelen. Er du usikker på en patch, les changelogen — det tar to minutter og krever ingen andres tid. Er du usikker på om noe er patch eller minor, se på versjonsnummeret; er du usikker på om en minor egentlig brekker noe, er den allerede på vei til review.
+Tabellen er hele regelen. Er du usikker på en patch, les changelogen — det tar to minutter og krever ingen andres tid. Er du usikker på om noe er patch eller minor, se på versjonsnummeret; treffer en minor faktisk noe vi bruker, behandler du den som en major — review eller boardoppgave, avhengig av omfang.
 
 Dette er ikke en formell prosess. Tagg en annen utvikler i PR-en eller spør på Slack, og gå videre til neste i køen mens du venter. Du må ikke gjøre triagen alene — spør om sparring når som helst, også på en patch.
 
