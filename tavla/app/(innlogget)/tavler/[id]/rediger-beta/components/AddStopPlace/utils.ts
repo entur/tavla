@@ -50,7 +50,7 @@ export function closestStopPlacesToTiles(
         name: sp.name,
         uuid: nanoid(),
         columns,
-        county: sp.county || undefined,
+        county: sp.county,
     }))
 }
 

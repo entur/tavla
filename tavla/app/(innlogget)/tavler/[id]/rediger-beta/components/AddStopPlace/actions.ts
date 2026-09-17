@@ -15,6 +15,7 @@ import type {
     TransportPalette,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
+import { omitUndefinedValues } from 'src/utils/typeguards'
 import {
     closestStopPlacesToTiles,
     getDrivingDistance,
@@ -47,7 +48,7 @@ async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
             isCombinedTiles: boolean
             transportPalette?: TransportPalette
         } = {
-            tiles: FieldValue.arrayUnion(...tiles),
+            tiles: FieldValue.arrayUnion(...tiles.map(omitUndefinedValues)),
             isCombinedTiles: currentBoard?.isCombinedTiles || false,
         }
 
@@ -155,7 +156,10 @@ export async function addStopPlaceTiles(
         )
         await addTiles(bid, tilesWithDistance)
     } catch {
-        return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
+        return {
+            status: 'error',
+            message: 'Kunne ikke til å legge til stoppested. Prøv igjen.',
+        }
     }
 
     revalidatePath(`/tavler/${bid}/rediger-beta`)
