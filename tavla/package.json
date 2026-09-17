@@ -35,7 +35,7 @@
         ]
     },
     "dependencies": {
-        "@entur/alert": "0.19.3",
+        "@entur/alert": "0.21.0",
         "@entur/button": "5.0.1",
         "@entur/chip": "0.10.15",
         "@entur/dropdown": "9.0.1",
@@ -52,7 +52,7 @@
         "@entur/typography": "3.0.1",
         "@google-cloud/logging": "12.0.0",
         "@sentry/nextjs": "10.62.0",
-        "@types/jsdom": "28.0.3",
+        "@types/jsdom": "30.0.0",
         "dompurify": "3.4.13",
         "firebase": "12.15.0",
         "firebase-admin": "14.2.0",
@@ -61,7 +61,7 @@
         "jsdom": "30.0.1",
         "lodash": "4.18.1",
         "nanoid": "6.0.1",
-        "next": "16.2.11",
+        "next": "16.3.3",
         "posthog-js": "1.395.0",
         "posthog-node": "5.38.6",
         "react": "19.2.7",
@@ -86,10 +86,10 @@
         "firebase-tools": "15.22.3",
         "husky": "9.1.7",
         "lint-staged": "17.0.8",
-        "postcss": "8.5.24",
+        "postcss": "8.5.28",
         "tailwindcss": "3.4.19",
         "typescript": "6.0.3",
-        "vitest": "4.1.8"
+        "vitest": "4.1.11"
     },
     "packageManager": "yarn@4.10.3",
     "engines": {
@@ -98,8 +98,6 @@
     "resolutions": {
         "basic-ftp": "5.3.1",
         "minimatch": "9.0.7",
-        "immutable": "3.8.3",
-        "protobufjs": "7.6.3",
         "dompurify": "3.4.13"
     }
 }

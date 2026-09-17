@@ -11,6 +11,7 @@ export const LOCATIONS = {
     Folder: 'folder',
     BoardPage: 'board_page',
     AdminTable: 'admin_table',
+    EditBoardPage: 'edit_board_page',
 } as const
 
 type Location = (typeof LOCATIONS)[keyof typeof LOCATIONS]
@@ -172,35 +173,59 @@ export type EventMap = {
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.AdminTable
         | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     board_copied: WithLocation<
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.AdminTable
         | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     board_deleted: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
     >
 
-    board_published: WithLocation<typeof LOCATIONS.BoardPage>
+    board_published: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
 
-    custom_url_modal_closed: WithLocation<typeof LOCATIONS.BoardPage>
-    custom_url_modal_opened: WithLocation<typeof LOCATIONS.BoardPage>
-    custom_url_modified: WithLocation<typeof LOCATIONS.BoardPage>
-    custom_url_saved: WithLocation<typeof LOCATIONS.BoardPage>
+    custom_url_modal_closed: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
+    custom_url_modal_opened: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
+    custom_url_modified: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
+    custom_url_saved: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
+    >
+
+    board_name_edit_started: WithLocation<typeof LOCATIONS.EditBoardPage>
+    board_name_saved: WithLocation<typeof LOCATIONS.EditBoardPage>
+    board_name_edit_cancelled: WithLocation<typeof LOCATIONS.EditBoardPage> & {
+        method: 'dismissed' | 'cancel_button'
+    }
 
     stop_place_deleted: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     stop_place_edit_started: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     stop_place_edit_cancelled: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     > & {
         unsavedChanges: boolean
     }
@@ -251,7 +276,9 @@ export type EventMap = {
     }
 
     stop_place_add_interaction: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     > &
         (
             | {
@@ -272,14 +299,17 @@ export type EventMap = {
         )
 
     stop_place_added: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     > & {
-        county_count: number
+        county_count?: number
         typeOfPlace: TypeOfPlace
         selectedIndexes: number[]
     }
 
     board_settings_changed: {
+        location?: typeof LOCATIONS.EditBoardPage
         setting:
             | 'view_type'
             | 'theme'

@@ -44,6 +44,17 @@ const basePostHogOptions: Partial<PostHogConfig> = {
     capture_pageview: false,
     autocapture: false,
     opt_out_capturing_by_default: true,
+    before_send: (event) => {
+        if (typeof window === 'undefined') return event
+        const hostname = window.location.hostname
+        const isLocal = hostname === 'localhost' || hostname === '127.0.0.1'
+        if (isLocal) {
+            // biome-ignore lint/suspicious/noConsole: Intentional logging for local development
+            console.log('PostHog event (blokkert, localhost):', event)
+            return null
+        }
+        return event
+    },
     // debug: true, // Used to test if PostHog turns on only with consent
 }
 
