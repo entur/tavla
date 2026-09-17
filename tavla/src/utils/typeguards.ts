@@ -31,8 +31,14 @@ export function hasField<T, K extends keyof T>(
 }
 
 /**
- * Firestore rejects explicit `undefined` values (e.g. in `arrayUnion`
- * payloads) — drop keys set to `undefined` rather than keeping them.
+ * Returns a copy of an object without properties whose values are `undefined`.
+ *
+ * Firestore rejects explicit `undefined` values, including in `arrayUnion`
+ * payloads.
+ *
+ * @template T - The type of the input object.
+ * @param obj - The object to remove `undefined` values from.
+ * @returns A shallow copy of `obj` without `undefined`-valued properties.
  */
 export function omitUndefinedValues<T extends object>(obj: T): T {
     return Object.fromEntries(
