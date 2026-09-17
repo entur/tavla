@@ -66,7 +66,7 @@ Dette siste spørsmålet kan bare besvares automatisk for `entur/tavla`. `pnpm-l
    Ligger alle deklarerte ranges (`^7.5.11`, `^7.5.4`, …) rundt målversjonen, er det en rein heving med lav risiko. Ligger målet **utenfor** en range, tvinger du en pakke forbi sin egen deklarasjon — da er det 🔴 og en annen utvikler bør se på det. (`sharp` i uke 34 var et slikt tilfelle: fiksen `0.35.0` tilfredsstiller ikke `next` sin `^0.34.5`.)
 3. **Verifiser at pakken faktisk ble deduplisert** — at det bare finnes én kopi etterpå:
    ```bash
-   cd tavla && awk '/^"PAKKE@npm:/{f=1} f&&/^  version/{print $2; f=0}' yarn.lock | sort -u
+   grep -A2 '^"PAKKE@npm:' tavla/yarn.lock | grep '^  version:' | sort -u
    ```
 4. **Sjekk at `dependencies`-lista til pakken er uendret** i lockfile-diffen. Er den det, drar oppgraderingen ikke inn nye transitive pakker, og risikoen er tilsvarende lavere. Det er verdt å skrive i PR-beskrivelsen.
 5. **Kjør `yarn install --immutable`** for å bekrefte at lockfilen er konsistent med `package.json`, i tillegg til vanlig `typecheck`/`test`/`build`.

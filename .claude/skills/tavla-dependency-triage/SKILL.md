@@ -378,7 +378,7 @@ Tabellen er hele regelen. Er du usikker på en patch, les changelogen — det ta
 
 Dette er ikke en formell prosess. Tagg en annen utvikler i PR-en eller spør på Slack, og gå videre til neste i køen mens du venter. Du må ikke gjøre triagen alene — spør om sparring når som helst, også på en patch.
 
-**Skillen skal aldri endre et sikkerhetsvarsel.** Den er teknisk sperret fra det — deny-reglene i `.claude/settings.json` blokkerer alle kall mot et enkelt varsel, og deny kan ikke godkjennes bort i øyeblikket. Får du et forslag om å dismisse et varsel, er det en feil i skillen; meld det.
+**Skillen skal aldri endre et sikkerhetsvarsel.** Deny-reglene i `.claude/settings.json` blokkerer REST-kallene mot et enkelt varsel (`dependabot/alerts/<nr>`, `code-scanning/alerts/<nr>`) helt — deny slår allow, og kan ikke godkjennes bort i øyeblikket. Andre veier inn (for eksempel en `gh api graphql`-mutasjon) fanges av ask-reglene og ber om godkjenning, i stedet for å sperres hardt — så et forslag om å dismisse et varsel skal du alltid avvise. Får du et slikt forslag, er det en feil i skillen; meld det.
 
 Å lukke et varsel uten en oppgradering er en **risikoaksept**, og den hører ikke i 🟢-bøtta. Den varige formen er en allowlist-PR som en annen utvikler reviewer (`references/sikkerhets-triage.md`, Steg 5) — og på `wont_fix` med høy CVSS skal Team Sikkerhet inn.
 
