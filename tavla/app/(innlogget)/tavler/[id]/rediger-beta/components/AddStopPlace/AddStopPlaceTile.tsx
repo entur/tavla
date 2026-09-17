@@ -6,6 +6,7 @@ import {
 } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { Paragraph } from '@entur/typography'
+import { FormError } from 'app/_components/Form/FormError'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import { useClosestStopPlaces } from 'app/_hooks/useClosestStopPlaces'
@@ -14,6 +15,7 @@ import { useStopPlaceSearch } from 'app/_hooks/useStopPlaceSearch'
 import type { StopPlace } from 'app/(innlogget)/utils/fetch'
 import { coordinatesToStopPlaceDropdownItem } from 'app/(innlogget)/utils/position'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { FeedbackText } from 'node_modules/@entur/form'
 import { useActionState, useState } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import { type AddStopPlaceFormState, addStopPlaceTiles } from './actions'
@@ -92,6 +94,9 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
         state?.status === 'error' && state.field === 'closest_stop_places'
             ? state.message
             : undefined
+
+    const genericError =
+        state?.status === 'error' && !state.field ? state.message : undefined
 
     async function searchStopPlaces(search: string) {
         const stopPlaces = await stopPlaceItems(
@@ -241,6 +246,12 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                     })),
                 )}
             />
+
+            {genericError && (
+                <FeedbackText variant="negative">{genericError}</FeedbackText>
+            )}
+
+            <FormError feedback={genericError} variant="error" />
 
             <SubmitButton
                 variant="primary"
