@@ -247,12 +247,6 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                 )}
             />
 
-            {genericError && (
-                <FeedbackText variant="negative">{genericError}</FeedbackText>
-            )}
-
-            <FormError feedback={genericError} variant="error" />
-
             <SubmitButton
                 variant="primary"
                 className="w-full"
@@ -260,6 +254,8 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
             >
                 Legg til stoppesteder
             </SubmitButton>
+
+            <FormError feedback={genericError} variant="error" />
         </form>
     )
 }

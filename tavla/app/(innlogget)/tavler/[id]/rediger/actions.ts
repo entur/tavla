@@ -20,6 +20,7 @@ import type {
     TransportPalette,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
+import { omitUndefinedValues } from 'src/utils/typeguards'
 import { validateCustomUrl } from './components/CustomUrl/utils'
 
 initializeAdminApp()
@@ -37,7 +38,7 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
             isCombinedTiles: boolean
             transportPalette?: TransportPalette
         } = {
-            tiles: FieldValue.arrayUnion(...tiles),
+            tiles: FieldValue.arrayUnion(...tiles.map(omitUndefinedValues)),
             isCombinedTiles: currentBoard?.isCombinedTiles || false,
         }
 

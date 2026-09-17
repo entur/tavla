@@ -29,3 +29,13 @@ export function hasField<T, K extends keyof T>(
 ): obj is T & Record<K, NonNullable<T[K]>> {
     return obj[key] !== null && obj[key] !== undefined
 }
+
+/**
+ * Firestore rejects explicit `undefined` values (e.g. in `arrayUnion`
+ * payloads) — drop keys set to `undefined` rather than keeping them.
+ */
+export function omitUndefinedValues<T extends object>(obj: T): T {
+    return Object.fromEntries(
+        Object.entries(obj).filter(([, value]) => value !== undefined),
+    ) as T
+}
