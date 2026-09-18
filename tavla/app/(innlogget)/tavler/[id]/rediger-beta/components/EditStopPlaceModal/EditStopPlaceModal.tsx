@@ -3,16 +3,11 @@ import { SmallAlertBox } from '@entur/alert'
 import { Button } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading3 } from '@entur/typography'
-import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
-import {
-    getFormFeedbackForError,
-    type TFormFeedback,
-} from 'app/(innlogget)/utils/forms'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState, useEffect, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { useLines } from '../utils/useLines'
-import { saveTile } from './actions'
+import { type EditStopPlaceModalFormState, saveTile } from './actions'
 import { SetColumns } from './components/SetColumns'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
@@ -57,9 +52,9 @@ function EditStopPlaceModal({
         quays?.filter((q) => q.lines.length > 0) ?? []
 
     const handleSave = async (
-        _prevState: TFormFeedback | undefined,
+        _prevState: EditStopPlaceModalFormState,
         data: FormData,
-    ) => {
+    ): Promise<EditStopPlaceModalFormState> => {
         const {
             columns: parsedColumns,
             offset,
@@ -69,16 +64,24 @@ function EditStopPlaceModal({
         } = parseTileFormData(data)
         const columns = board.isCombinedTiles ? tile.columns : parsedColumns
 
-        if (isOnlyWhiteSpace(displayName)) {
-            return getFormFeedbackForError('board/tiles-name-missing') //TODO: endre til å ikke bruke den lange delte listen
-        }
-
         const totalSelectableKeys = countSelectableQuayLineKeys(
             quaysWithFilteredLines,
         )
 
         if (quayLineKeys.length === 0 && totalSelectableKeys > 0) {
-            return getFormFeedbackForError('board/tiles-no-lines-selected') //TODO: endre til å ikke bruke den lange delte listen
+            return {
+                status: 'error',
+                message: 'Du må velge en eller flere linjer for å lagre',
+                field: 'lines',
+            }
+        }
+
+        if (Number(offset) > 60) {
+            return {
+                status: 'error',
+                message: 'Du kan ikke forskyve avgangstid mer enn 60 minutter',
+                field: 'offset',
+            }
         }
 
         const allSelected = quayLineKeys.length === totalSelectableKeys
@@ -130,16 +133,23 @@ function EditStopPlaceModal({
             await saveTile(board.id, newTile)
             reset()
         } catch {
-            return getFormFeedbackForError('board/tiles-save-failed')
+            return {
+                status: 'error',
+                message: 'Noe gikk galt. Prøv igjen',
+            }
         }
+        return { status: 'success' }
     }
 
-    const [state, action] = useActionState(handleSave, undefined)
+    const [state, action] = useActionState(handleSave, null)
 
-    // const generalError =
-    //     state?.form_type === 'general' ? state.feedback : undefined
+    const generalError =
+        state?.status === 'error' && !state.field ? state.message : undefined
 
-    //TODO: sjekke om tracklocation skal endres til noe mer spesifikt (endre i events.ts)
+    const linesError =
+        state?.status === 'error' && state.field === 'lines'
+            ? state.message
+            : undefined
 
     return (
         <Modal
@@ -160,8 +170,6 @@ function EditStopPlaceModal({
                     <div>Laster...</div>
                 ) : (
                     <form
-                        id={tile.uuid}
-                        // la til id som skal brukes i modal hvis mang går ut når endringer er gjort
                         onSubmit={(e) => {
                             e.preventDefault()
                             const fd = new FormData(e.currentTarget)
@@ -169,20 +177,7 @@ function EditStopPlaceModal({
                         }}
                         onInput={() => setHasUnsavedChanges(true)}
                     >
-                        <SetVisibleLines
-                            quays={quaysWithFilteredLines}
-                            trackingLocation="board_page"
-                            onFieldChanged={onFieldChanged}
-                        />
-                        <SetColumns
-                            isCombined={board.isCombinedTiles}
-                            isArrivals={board.isArrivals ?? false}
-                            trackingLocation="board_page"
-                            onFieldChanged={onFieldChanged}
-                        />
-
                         <SetStopPlaceName
-                            state={state}
                             trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
                         />
@@ -193,17 +188,36 @@ function EditStopPlaceModal({
                             trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
                         />
+                        <SetColumns
+                            isCombined={board.isCombinedTiles}
+                            isArrivals={board.isArrivals ?? false}
+                            trackingLocation="board_page"
+                            onFieldChanged={onFieldChanged}
+                        />
 
-                        {/* {generalError && (
+                        <SetVisibleLines
+                            quays={quaysWithFilteredLines}
+                            trackingLocation="board_page"
+                            onFieldChanged={onFieldChanged}
+                            error={linesError}
+                        />
+
+                        {generalError && (
                             <SmallAlertBox
                                 variant="warning"
                                 className="mt-4 w-fit"
                             >
                                 {generalError}
                             </SmallAlertBox>
-                        )} */}
-
-                        {/* SETTE INN TILSVARENDE SaveCancelDeleteButtonGroup her, passe på at men får popup når man har gjort endringer og prøver å gå ut. */}
+                        )}
+                        {linesError !== undefined && (
+                            <SmallAlertBox
+                                variant="error"
+                                className="mt-4 w-fit"
+                            >
+                                {linesError}
+                            </SmallAlertBox>
+                        )}
 
                         <div className="mt-8 flex flex-row gap-4">
                             <Button

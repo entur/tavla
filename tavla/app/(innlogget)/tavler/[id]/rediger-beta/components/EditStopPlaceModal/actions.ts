@@ -13,6 +13,15 @@ import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
+export type EditStopPlaceModalFormState =
+    | { status: 'success' }
+    | {
+          status: 'error'
+          message: string
+          field?: 'lines' | 'offset'
+      }
+    | null
+
 export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
     logToGcp('info', 'action:saveTile invoked', { bid })
     const access = await userCanEditBoard(bid)

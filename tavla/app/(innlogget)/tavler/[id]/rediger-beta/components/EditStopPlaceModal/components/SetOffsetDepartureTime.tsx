@@ -34,6 +34,8 @@ function SetOffsetDepartureTime({
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
+    const isOverMax = Number(offset) > 60
+
     useEffect(() => {
         if (!address) {
             setOffsetBasedOnWalkingDistance(false)
@@ -56,6 +58,7 @@ function SetOffsetDepartureTime({
                     id="offset"
                     type="number"
                     min={0}
+                    max={60}
                     className="!w-full md:!w-1/2 lg:!w-1/4"
                     clearable={!offsetBasedOnWalkingDistance}
                     onClear={() => {
@@ -80,8 +83,14 @@ function SetOffsetDepartureTime({
                         }, TRACKING_DEBOUNCE_TIME)
                     }}
                     readOnly={offsetBasedOnWalkingDistance}
+                    feedback={
+                        isOverMax
+                            ? 'Du kan ikke forskyve avgangstid mer enn 60 minutter'
+                            : undefined
+                    }
+                    variant={isOverMax ? 'negative' : undefined}
                 />
-                {address && !Number.isNaN(tile.walkingDistance?.distance) && (
+                {address && tile.walkingDistance?.distance && (
                     <Checkbox
                         checked={offsetBasedOnWalkingDistance}
                         onChange={() => {

@@ -1,9 +1,5 @@
-import { Heading4, SubParagraph } from '@entur/typography'
+import { Heading4 } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
-import {
-    getFormFeedbackForField,
-    type TFormFeedback,
-} from 'app/(innlogget)/utils/forms'
 import type { EventProps } from 'app/posthog/events'
 import {
     TRACKING_DEBOUNCE_TIME,
@@ -14,17 +10,16 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { TileContext } from '../context'
 
 function SetStopPlaceName({
-    state,
     trackingLocation,
     onFieldChanged,
 }: {
-    state?: TFormFeedback
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
     const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
+    const isAtMaxLength = displayName.length >= 50
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
     const title = tile.name.split(',')[0]
 
@@ -60,7 +55,12 @@ function SetStopPlaceName({
                         })
                     }, TRACKING_DEBOUNCE_TIME)
                 }}
-                {...getFormFeedbackForField('name', state)}
+                feedback={
+                    isAtMaxLength
+                        ? 'Navnet kan ikke være lengre enn 50 tegn'
+                        : undefined
+                }
+                variant={isAtMaxLength ? 'error' : undefined}
             />
         </div>
     )

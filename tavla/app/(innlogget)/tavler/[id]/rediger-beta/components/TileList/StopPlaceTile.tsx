@@ -78,12 +78,14 @@ export function StopPlaceTile({
                         onError={setDeleteError}
                     />
                 </div>
-                <EditStopPlaceModal
-                    isOpen={isEditOpen}
-                    setIsOpen={handleSetIsEditOpen}
-                    tile={tile}
-                    board={board}
-                />
+                {isEditOpen && (
+                    <EditStopPlaceModal
+                        isOpen={isEditOpen}
+                        setIsOpen={handleSetIsEditOpen}
+                        tile={tile}
+                        board={board}
+                    />
+                )}
             </div>
             {deleteError && (
                 <FeedbackText variant="negative">{deleteError}</FeedbackText>
