@@ -62,7 +62,7 @@ const lineWithDirectionSchema = z.object({
     frontTexts: z.array(z.string()),
 })
 
-const boardTileSchema = z.object({
+export const boardTileSchema = z.object({
     uuid: z.string(),
     name: z.string(),
     stopPlaceId: z.string(),

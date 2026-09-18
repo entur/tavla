@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { LocationDB } from 'src/types/db-types/boards'
 import { TileContext } from '../context'
+import { OFFSET_MAX_MINUTES } from '../validation'
 
 function SetOffsetDepartureTime({
     address,
@@ -34,7 +35,7 @@ function SetOffsetDepartureTime({
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
-    const isOverMax = Number(offset) > 60
+    const isOverMax = Number(offset) > OFFSET_MAX_MINUTES
 
     useEffect(() => {
         if (!address) {
@@ -58,7 +59,7 @@ function SetOffsetDepartureTime({
                     id="offset"
                     type="number"
                     min={0}
-                    max={60}
+                    max={OFFSET_MAX_MINUTES}
                     className="!w-full md:!w-1/2 lg:!w-1/4"
                     clearable={!offsetBasedOnWalkingDistance}
                     onClear={() => {
@@ -85,7 +86,7 @@ function SetOffsetDepartureTime({
                     readOnly={offsetBasedOnWalkingDistance}
                     feedback={
                         isOverMax
-                            ? 'Du kan ikke forskyve avgangstid mer enn 60 minutter'
+                            ? `Du kan ikke forskyve avgangstid mer enn ${OFFSET_MAX_MINUTES} minutter`
                             : undefined
                     }
                     variant={isOverMax ? 'negative' : undefined}

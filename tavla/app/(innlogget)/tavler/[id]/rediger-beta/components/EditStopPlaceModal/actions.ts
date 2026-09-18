@@ -8,7 +8,11 @@ import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getBoard, updateBoard } from 'src/firebase'
-import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import {
+    type BoardDB,
+    type BoardTileDB,
+    boardTileSchema,
+} from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
@@ -22,18 +26,26 @@ export type EditStopPlaceModalFormState =
       }
     | null
 
-export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
+export async function saveTile(
+    bid: BoardDB['id'],
+    tile: BoardTileDB,
+): Promise<EditStopPlaceModalFormState> {
     logToGcp('info', 'action:saveTile invoked', { bid })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
+    const parsed = boardTileSchema.safeParse(tile)
+
     try {
+        if (!parsed.success) {
+            throw new Error('Failed to parse tile')
+        }
         const board = await getBoard(bid)
         const existingTile = board?.tiles.find((t) => t.uuid === tile.uuid)
         if (!existingTile) {
             await updateBoard(bid, { tiles: FieldValue.arrayUnion(tile) })
             revalidatePath(`/tavler/${bid}/rediger-beta`)
-            return
+            return { status: 'success' }
         }
         const indexExistingTile = board?.tiles.indexOf(existingTile)
 
@@ -47,6 +59,7 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
         }
 
         revalidatePath(`/tavler/${bid}/rediger-beta`)
+        return { status: 'success' }
     } catch (error) {
         logToGcp(
             'error',
@@ -60,6 +73,6 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
                 tileObject: tile,
             },
         })
-        throw error
+        return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }
 }

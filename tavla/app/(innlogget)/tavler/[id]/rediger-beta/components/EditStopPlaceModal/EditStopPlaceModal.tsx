@@ -76,14 +76,6 @@ function EditStopPlaceModal({
             }
         }
 
-        if (Number(offset) > 60) {
-            return {
-                status: 'error',
-                message: 'Du kan ikke forskyve avgangstid mer enn 60 minutter',
-                field: 'offset',
-            }
-        }
-
         const allSelected = quayLineKeys.length === totalSelectableKeys
 
         const newQuays = allSelected
@@ -129,16 +121,13 @@ function EditStopPlaceModal({
             displayName: displayName.substring(0, 50) || undefined,
         }
 
-        try {
-            await saveTile(board.id, newTile)
+        const result = await saveTile(board.id, newTile)
+        if (result?.status === 'success') {
+            //capture('', { location: 'edit_board_page' })
             reset()
-        } catch {
-            return {
-                status: 'error',
-                message: 'Noe gikk galt. Prøv igjen',
-            }
         }
-        return { status: 'success' }
+
+        return result
     }
 
     const [state, action] = useActionState(handleSave, null)
@@ -150,6 +139,8 @@ function EditStopPlaceModal({
         state?.status === 'error' && state.field === 'lines'
             ? state.message
             : undefined
+
+    const errorMessage = generalError ?? linesError
 
     return (
         <Modal
@@ -202,20 +193,12 @@ function EditStopPlaceModal({
                             error={linesError}
                         />
 
-                        {generalError && (
-                            <SmallAlertBox
-                                variant="warning"
-                                className="mt-4 w-fit"
-                            >
-                                {generalError}
-                            </SmallAlertBox>
-                        )}
-                        {linesError !== undefined && (
+                        {errorMessage && (
                             <SmallAlertBox
                                 variant="error"
                                 className="mt-4 w-fit"
                             >
-                                {linesError}
+                                {errorMessage}
                             </SmallAlertBox>
                         )}
 

@@ -8,6 +8,7 @@ import {
 import { useRef, useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { TileContext } from '../context'
+import { NAME_MAX_LENGTH } from '../validation'
 
 function SetStopPlaceName({
     trackingLocation,
@@ -19,7 +20,7 @@ function SetStopPlaceName({
     const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
-    const isAtMaxLength = displayName.length >= 50
+    const isAtMaxLength = displayName.length >= NAME_MAX_LENGTH
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
     const title = tile.name.split(',')[0]
 
@@ -33,7 +34,7 @@ function SetStopPlaceName({
                 className="!w-full md:!w-1/2 lg:!w-1/2"
                 name="displayName"
                 value={displayName}
-                maxLength={50}
+                maxLength={NAME_MAX_LENGTH}
                 clearable={!!displayName}
                 onClear={() => {
                     setDisplayName('')
@@ -57,7 +58,7 @@ function SetStopPlaceName({
                 }}
                 feedback={
                     isAtMaxLength
-                        ? 'Navnet kan ikke være lengre enn 50 tegn'
+                        ? `Navnet kan ikke være lengre enn ${NAME_MAX_LENGTH} tegn`
                         : undefined
                 }
                 variant={isAtMaxLength ? 'error' : undefined}
