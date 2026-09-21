@@ -6,6 +6,7 @@ import {
 } from '@entur/dropdown'
 import { SearchIcon } from '@entur/icons'
 import { Paragraph } from '@entur/typography'
+import { FormError } from 'app/_components/Form/FormError'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import { useClosestStopPlaces } from 'app/_hooks/useClosestStopPlaces'
@@ -92,6 +93,9 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
         state?.status === 'error' && state.field === 'closest_stop_places'
             ? state.message
             : undefined
+
+    const genericError =
+        state?.status === 'error' && !state.field ? state.message : undefined
 
     async function searchStopPlaces(search: string) {
         const stopPlaces = await stopPlaceItems(
@@ -249,6 +253,8 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
             >
                 Legg til stoppesteder
             </SubmitButton>
+
+            <FormError feedback={genericError} variant="error" />
         </form>
     )
 }
