@@ -28,13 +28,16 @@ function EditStopPlaceModal({
 }) {
     const { capture } = usePosthogTracking()
 
+    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
 
     const onFieldChanged = (field: string) => {
         setChangedFields((prev) => new Set(prev).add(field))
+        setHasUnsavedChanges(true)
     }
 
     const reset = () => {
+        setHasUnsavedChanges(false)
         setChangedFields(new Set())
         setIsOpen(false)
     }
@@ -115,7 +118,17 @@ function EditStopPlaceModal({
 
         const result = await saveTile(board.id, newTile)
         if (result?.status === 'success') {
-            //capture('', { location: 'edit_board_page' })
+            capture('stop_place_edit_saved', {
+                location: 'board_page',
+                name: changedFields.has('name'),
+                offset: changedFields.has('offset'),
+                offset_walking_dist: changedFields.has('offset_walking_dist'),
+                columns: changedFields.has('columns'),
+                lines: changedFields.has('lines'),
+                transport_mode_filter: changedFields.has(
+                    'transport_mode_filter',
+                ),
+            })
             reset()
         }
 
@@ -138,6 +151,10 @@ function EditStopPlaceModal({
         <Modal
             open={isOpen}
             onDismiss={() => {
+                capture('stop_place_edit_cancelled', {
+                    location: 'edit_board_page',
+                    unsavedChanges: hasUnsavedChanges,
+                })
                 setIsOpen(false)
                 reset()
             }}
@@ -158,6 +175,7 @@ function EditStopPlaceModal({
                             const fd = new FormData(e.currentTarget)
                             startTransition(() => action(fd))
                         }}
+                        onInput={() => setHasUnsavedChanges(true)}
                     >
                         <SetStopPlaceName
                             trackingLocation="board_page"
@@ -198,7 +216,13 @@ function EditStopPlaceModal({
                                 className="w-full"
                                 type="button"
                                 variant="secondary"
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => {
+                                    capture('stop_place_edit_cancelled', {
+                                        location: 'edit_board_page',
+                                        unsavedChanges: hasUnsavedChanges,
+                                    })
+                                    setIsOpen(false)
+                                }}
                             >
                                 Avbryt
                             </Button>
@@ -206,22 +230,6 @@ function EditStopPlaceModal({
                                 className="w-full"
                                 type="submit"
                                 variant="primary"
-                                onClick={() => {
-                                    capture('stop_place_edit_saved', {
-                                        location: 'board_page',
-                                        name: changedFields.has('name'),
-                                        offset: changedFields.has('offset'),
-                                        offset_walking_dist: changedFields.has(
-                                            'offset_walking_dist',
-                                        ),
-                                        columns: changedFields.has('columns'),
-                                        lines: changedFields.has('lines'),
-                                        transport_mode_filter:
-                                            changedFields.has(
-                                                'transport_mode_filter',
-                                            ),
-                                    })
-                                }}
                             >
                                 Bekreft valg
                             </Button>
