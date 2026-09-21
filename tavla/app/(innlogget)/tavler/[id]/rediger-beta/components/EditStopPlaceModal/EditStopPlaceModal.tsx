@@ -4,7 +4,7 @@ import { Button } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Heading3 } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { startTransition, useActionState, useEffect, useState } from 'react'
+import { startTransition, useActionState, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { useLines } from '../utils/useLines'
 import { type EditStopPlaceModalFormState, saveTile } from './actions'
@@ -28,21 +28,13 @@ function EditStopPlaceModal({
 }) {
     const { capture } = usePosthogTracking()
 
-    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
 
     const onFieldChanged = (field: string) => {
         setChangedFields((prev) => new Set(prev).add(field))
-        setHasUnsavedChanges(true)
     }
 
-    // HUSK Å FJERNE DENNE!
-    useEffect(() => {
-        console.log('sett med changedFields:', changedFields)
-    }, [changedFields])
-
     const reset = () => {
-        setHasUnsavedChanges(false)
         setChangedFields(new Set())
         setIsOpen(false)
     }
@@ -166,7 +158,6 @@ function EditStopPlaceModal({
                             const fd = new FormData(e.currentTarget)
                             startTransition(() => action(fd))
                         }}
-                        onInput={() => setHasUnsavedChanges(true)}
                     >
                         <SetStopPlaceName
                             trackingLocation="board_page"
