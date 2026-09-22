@@ -14,7 +14,7 @@ const SUBSCRIBE_TIMEOUT_SECS: u64 = 90; // 1.5 minutes - max wait time for subsc
 const HEARTBEAT_TTL_SECS: u64 = 86400; // 24 hours - how long heartbeats are stored in Redis
 
 use axum_auth::AuthBearer;
-use prometheus::{Encoder, Gauge, Registry, TextEncoder};
+use prometheus::{Encoder, Gauge, GaugeVec, Opts, Registry, TextEncoder};
 use serde_json::{json, to_string, Value};
 use tokio::{net::TcpListener, time};
 
@@ -28,12 +28,13 @@ mod types;
 mod utils;
 use tower_http::cors::CorsLayer;
 use types::{AppError, AppState, BoardAction, Message};
-use utils::{graceful_shutdown, setup_redis};
+use utils::{bool_label, graceful_shutdown, is_mobile_user_agent, setup_redis, BOOL_LABEL_VALUES};
 use uuid::Uuid;
 
 use crate::types::Guard;
 
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::sync::Arc;
 
 #[derive(Clone)]
@@ -41,6 +42,9 @@ pub struct Metrics {
     pub registry: Registry,
     pub active_boards: Gauge,
     pub active_direct_boards: Gauge,
+    /// Skal ta over for de to over: samme telling, men splittet på is_mobile og
+    /// is_direct_link. De gamle beholdes til dashboards blir endret.
+    pub sessions: GaugeVec,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -58,7 +62,10 @@ struct HeartbeatPayload {
 pub struct ActiveInfo {
     pub bid: String,
     pub tid: Uuid,
-    pub browser: String,
+    /// Older heartbeats written before this field existed lack it in Redis;
+    /// default to false rather than fail to parse
+    #[serde(default)]
+    pub is_mobile: bool,
     pub screen_width: u32,
     pub screen_height: u32,
     pub app: Option<String>,
@@ -94,10 +101,33 @@ async fn main() {
         .register(Box::new(active_direct_boards_gauge.clone()))
         .expect("Failed to register direct metrics");
 
+    let sessions_gauge = GaugeVec::new(
+        Opts::new(
+            "tavla_sessions_current",
+            "Number of currently active tavla sessions/tabs with heartbeats, by is_mobile and is_direct_link",
+        ),
+        &["is_mobile", "is_direct_link"],
+    )
+    .expect("Failed to create sessions metric");
+
+    registry
+        .register(Box::new(sessions_gauge.clone()))
+        .expect("Failed to register sessions metric");
+
+    // GaugeVec has no child series until with_label_values is called, seeds all 4 label combinations so the metric is never silently absent from /metrics.
+    for mobile_label in BOOL_LABEL_VALUES {
+        for direct_label in BOOL_LABEL_VALUES {
+            sessions_gauge
+                .with_label_values(&[mobile_label, direct_label])
+                .set(0.0);
+        }
+    }
+
     let metrics = Arc::new(Metrics {
         registry,
         active_boards: active_boards_gauge,
         active_direct_boards: active_direct_boards_gauge,
+        sessions: sessions_gauge,
     });
 
     let listener = TcpListener::bind(format!("{}:{}", host, port))
@@ -130,17 +160,49 @@ async fn main() {
                         if !keys.is_empty() {
                             match connection.mget::<_, Vec<Option<String>>>(&keys).await {
                                 Ok(values) => {
-                                    let direct_count = values
+                                    let infos: Vec<ActiveInfo> = values
                                         .iter()
                                         .flatten()
                                         .filter_map(|val| {
                                             serde_json::from_str::<ActiveInfo>(val).ok()
                                         })
+                                        .collect();
+
+                                    let direct_count = infos
+                                        .iter()
                                         .filter(|info| info.is_direct_link == Some(true))
                                         .count();
                                     metrics_updater
                                         .active_direct_boards
                                         .set(direct_count as f64);
+
+                                    let mut session_counts: HashMap<(&str, &str), f64> =
+                                        BOOL_LABEL_VALUES
+                                            .iter()
+                                            .flat_map(|&mobile| {
+                                                BOOL_LABEL_VALUES
+                                                    .iter()
+                                                    .map(move |&direct| ((mobile, direct), 0.0))
+                                            })
+                                            .collect();
+
+                                    for info in &infos {
+                                        let mobile_label = bool_label(info.is_mobile);
+                                        let direct_label =
+                                            bool_label(info.is_direct_link == Some(true));
+                                        *session_counts
+                                            .get_mut(&(mobile_label, direct_label))
+                                            .unwrap() += 1.0;
+                                    }
+
+                                    for mobile_label in BOOL_LABEL_VALUES {
+                                        for direct_label in BOOL_LABEL_VALUES {
+                                            metrics_updater
+                                                .sessions
+                                                .with_label_values(&[mobile_label, direct_label])
+                                                .set(session_counts[&(mobile_label, direct_label)]);
+                                        }
+                                    }
                                 }
                                 Err(_) => {
                                     eprintln!(
@@ -150,6 +212,14 @@ async fn main() {
                             }
                         } else {
                             metrics_updater.active_direct_boards.set(0.0);
+                            for mobile_label in BOOL_LABEL_VALUES {
+                                for direct_label in BOOL_LABEL_VALUES {
+                                    metrics_updater
+                                        .sessions
+                                        .with_label_values(&[mobile_label, direct_label])
+                                        .set(0.0);
+                                }
+                            }
                         }
                     }
                     Err(_) => {
@@ -415,7 +485,7 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
         &(ActiveInfo {
             bid: payload.bid,
             tid: payload.tid,
-            browser: payload.browser,
+            is_mobile: is_mobile_user_agent(&payload.browser),
             screen_width: payload.screen_width,
             screen_height: payload.screen_height,
             app: payload.app,

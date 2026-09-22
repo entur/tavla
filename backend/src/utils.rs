@@ -28,6 +28,34 @@ pub async fn graceful_shutdown(cancellation_token: CancellationToken, tracker: T
     }
 }
 
+/// Classifies a User-Agent string as mobile or not. Only trusts the explicit
+/// mobile tokens browsers set deliberately (Android phones include "Mobile",
+/// iPhones/iPods, Windows Phone, BlackBerry, Opera Mini) - this is reliable.
+pub fn is_mobile_user_agent(user_agent: &str) -> bool {
+    let ua = user_agent.to_lowercase();
+    [
+        "mobi",
+        "iphone",
+        "ipod",
+        "blackberry",
+        "windows phone",
+        "opera mini",
+    ]
+    .iter()
+    .any(|token| ua.contains(token))
+}
+
+// Values a boolean session label (`is_mobile`, `is_direct_link`) can take.
+pub const BOOL_LABEL_VALUES: [&str; 2] = ["true", "false"];
+
+pub fn bool_label(value: bool) -> &'static str {
+    if value {
+        "true"
+    } else {
+        "false"
+    }
+}
+
 pub async fn setup_redis() -> (MultiplexedConnection, Client) {
     let redis_pw = std::env::var("REDIS_PASSWORD").ok();
     let conn_info = RedisConnectionInfo {

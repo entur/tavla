@@ -4,7 +4,7 @@ import { BACKEND_KEY } from './config/secretParams'
 type SingleActiveBoardFromRedis = {
     bid: string
     tid: string
-    browser: string
+    is_mobile: boolean
     screen_width: number
     screen_height: number
     isDirectLink?: boolean
