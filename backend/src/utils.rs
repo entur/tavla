@@ -45,6 +45,17 @@ pub fn is_mobile_user_agent(user_agent: &str) -> bool {
     .any(|token| ua.contains(token))
 }
 
+// Values a boolean session label (`is_mobile`, `is_direct_link`) can take.
+pub const BOOL_LABEL_VALUES: [&str; 2] = ["true", "false"];
+
+pub fn bool_label(value: bool) -> &'static str {
+    if value {
+        "true"
+    } else {
+        "false"
+    }
+}
+
 pub async fn setup_redis() -> (MultiplexedConnection, Client) {
     let redis_pw = std::env::var("REDIS_PASSWORD").ok();
     let conn_info = RedisConnectionInfo {

@@ -28,7 +28,7 @@ mod types;
 mod utils;
 use tower_http::cors::CorsLayer;
 use types::{AppError, AppState, BoardAction, Message};
-use utils::{graceful_shutdown, is_mobile_user_agent, setup_redis};
+use utils::{bool_label, graceful_shutdown, is_mobile_user_agent, setup_redis, BOOL_LABEL_VALUES};
 use uuid::Uuid;
 
 use crate::types::Guard;
@@ -36,17 +36,6 @@ use crate::types::Guard;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
-
-// Values a boolean session label (`is_mobile`, `is_direct_link`) can take.
-const BOOL_LABEL_VALUES: [&str; 2] = ["true", "false"];
-
-fn bool_label(value: bool) -> &'static str {
-    if value {
-        "true"
-    } else {
-        "false"
-    }
-}
 
 #[derive(Clone)]
 pub struct Metrics {
@@ -122,9 +111,7 @@ async fn main() {
         .register(Box::new(sessions_gauge.clone()))
         .expect("Failed to register sessions metric");
 
-    // GaugeVec has no child series until with_label_values is called, unlike
-    // a plain Gauge which starts at 0.0 on registration - seed all 4 label
-    // combinations so the metric is never silently absent from /metrics.
+    // GaugeVec has no child series until with_label_values is called, seeds all 4 label combinations so the metric is never silently absent from /metrics. 
     for mobile_label in BOOL_LABEL_VALUES {
         for direct_label in BOOL_LABEL_VALUES {
             sessions_gauge
