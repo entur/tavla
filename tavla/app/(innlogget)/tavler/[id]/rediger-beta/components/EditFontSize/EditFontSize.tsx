@@ -1,7 +1,6 @@
 'use client'
 
 import { FeedbackText } from '@entur/form'
-import { ChoiceChipGroupGeneral } from 'app/_components/TableSettings/ChoiceChipGroupGeneral'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState } from 'react'
 import { ChoiceChipPicker } from '../ChoiceChipPicker'
