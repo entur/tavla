@@ -62,6 +62,9 @@ struct HeartbeatPayload {
 pub struct ActiveInfo {
     pub bid: String,
     pub tid: Uuid,
+    /// Older heartbeats written before this field existed lack it in Redis;
+    /// default to false rather than fail to parse
+    #[serde(default)]
     pub is_mobile: bool,
     pub screen_width: u32,
     pub screen_height: u32,
@@ -111,7 +114,7 @@ async fn main() {
         .register(Box::new(sessions_gauge.clone()))
         .expect("Failed to register sessions metric");
 
-    // GaugeVec has no child series until with_label_values is called, seeds all 4 label combinations so the metric is never silently absent from /metrics. 
+    // GaugeVec has no child series until with_label_values is called, seeds all 4 label combinations so the metric is never silently absent from /metrics.
     for mobile_label in BOOL_LABEL_VALUES {
         for direct_label in BOOL_LABEL_VALUES {
             sessions_gauge
