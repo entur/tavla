@@ -73,7 +73,7 @@ struct HeartbeatPayload {
 pub struct ActiveInfo {
     pub bid: String,
     pub tid: Uuid,
-    pub browser: String,
+    pub is_mobile: bool,
     pub screen_width: u32,
     pub screen_height: u32,
     pub app: Option<String>,
@@ -197,8 +197,7 @@ async fn main() {
                                             .collect();
 
                                     for info in &infos {
-                                        let mobile_label =
-                                            bool_label(is_mobile_user_agent(&info.browser));
+                                        let mobile_label = bool_label(info.is_mobile);
                                         let direct_label =
                                             bool_label(info.is_direct_link == Some(true));
                                         *session_counts
@@ -496,7 +495,7 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
         &(ActiveInfo {
             bid: payload.bid,
             tid: payload.tid,
-            browser: payload.browser,
+            is_mobile: is_mobile_user_agent(&payload.browser),
             screen_width: payload.screen_width,
             screen_height: payload.screen_height,
             app: payload.app,
