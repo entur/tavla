@@ -115,7 +115,7 @@ Loggnivå settes automatisk i GraphQL-fetcheren basert på statuskode:
 Brukes kun via `/api/report-error`-endepunktet (se seksjon 3). Send eksplisitt `type`-parameter.
 
 ```typescript
-logToGcp('error', `[tavla-visning] ${errorCode} reported from ${boardId}`, extra, 'tavla-visning')
+logToGcp('error', `[tavla-visning] ${errorCode} reported from ${boardId} with message: ${message}`, extra, 'tavla-visning')
 ```
 
 ### `LogExtra`-felter
@@ -189,7 +189,8 @@ fetch('https://tavla.entur.no/api/report-error', {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
         boardId: '<20-tegns alfanumerisk ID>',
-        errorCode: 'display_error', // eller 'unknown'
+        errorCode: 'display_error', // eller 'unknown', 'fetch_journey_planner'
+        message: '<feilmelding>',
     }),
 }).catch(() => {}) // fire-and-forget
 ```
@@ -200,7 +201,7 @@ Endepunktet er åpent, men beskyttet med flere lag:
 
 | Tiltak | Detalj |
 |--------|--------|
-| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$`, `errorCode` er fast enum |
+| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$`, `errorCode` er fast enum, `message` er en streng |
 | **Content-Length** | Avviser forespørsler over 500 bytes |
 | **Rate-limiting per IP** | Maks 100 forespørsler/minutt per IP-adresse |
 | **Rate-limiting per tavle** | Maks 5 forespørsler/minutt per `boardId` |
