@@ -189,7 +189,7 @@ fetch('https://tavla.entur.no/api/report-error', {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
         boardId: '<20-tegns alfanumerisk ID>',
-        errorCode: 'display_error', // eller 'unknown', 'fetch_journey_planner'
+        errorCode: 'display_error', // eller 'unknown', 'fetch_journey_planner', 'fetch_board'
         message: '<feilmelding>',
     }),
 }).catch(() => {}) // fire-and-forget
