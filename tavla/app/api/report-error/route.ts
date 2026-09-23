@@ -10,7 +10,12 @@ const ALLOWED_ORIGINS = [
     ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:5173'] : []),
 ]
 
-const ErrorCode = z.enum(['display_error', 'unknown', 'fetch_journey_planner'])
+const ErrorCode = z.enum([
+    'display_error',
+    'unknown',
+    'fetch_journey_planner',
+    'fetch_board',
+])
 
 const ReportSchema = z.object({
     boardId: z.string().regex(/^[A-Za-z0-9]{20}$/),
