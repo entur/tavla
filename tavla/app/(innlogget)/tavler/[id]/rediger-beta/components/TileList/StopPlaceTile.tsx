@@ -15,15 +15,17 @@ import { EditStopPlaceModal } from './EditStopPlaceModal'
 export function StopPlaceTile({
     boardId,
     tile,
+    isArrivals,
 }: {
     boardId: string
     tile: BoardTileDB
+    isArrivals: boolean
 }) {
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [deleteError, setDeleteError] = useState<string | undefined>()
     const { capture } = usePosthogTracking()
 
-    const quays = useLines(tile, true) ?? []
+    const quays = useLines(tile, isArrivals) ?? []
 
     const transportModes = getTransportModesFromLines(
         quays.flatMap(({ lines }) => lines),
@@ -82,6 +84,8 @@ export function StopPlaceTile({
                     isOpen={isEditOpen}
                     setIsOpen={handleSetIsEditOpen}
                     tile={tile}
+                    boardId={boardId}
+                    isArrivals={isArrivals}
                 />
             </div>
             {deleteError && (

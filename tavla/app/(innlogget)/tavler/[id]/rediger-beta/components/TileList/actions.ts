@@ -19,6 +19,55 @@ export type DeleteTileState =
     | { status: 'error'; message: string }
     | null
 
+export type SaveTileState =
+    | { status: 'success' }
+    | { status: 'error'; message: string }
+    | null
+
+export async function saveTile(
+    boardId: string,
+    tile: BoardTileDB,
+): Promise<SaveTileState> {
+    logToGcp('info', 'action:saveTile invoked', { bid: boardId })
+    const access = await userCanEditBoard(boardId)
+    if (!access) return redirect('/')
+
+    try {
+        const board = await getBoard(boardId)
+        const existingTile = board?.tiles.find((t) => t.uuid === tile.uuid)
+
+        if (!board || !existingTile) {
+            await updateBoard(boardId, { tiles: FieldValue.arrayUnion(tile) })
+            revalidatePath(`/tavler/${boardId}/rediger-beta`)
+            return { status: 'success' }
+        }
+
+        const index = board.tiles.indexOf(existingTile)
+        if (index !== -1) {
+            board.tiles[index] = tile
+            await updateBoard(boardId, { tiles: board.tiles })
+        }
+
+        revalidatePath(`/tavler/${boardId}/rediger-beta`)
+    } catch (error) {
+        logToGcp(
+            'error',
+            `Failed to save tile for board: ${error instanceof Error ? error.message : String(error)}`,
+            { bid: boardId },
+        )
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while saving tile',
+                boardID: boardId,
+                tileObject: tile,
+            },
+        })
+        return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
+    }
+
+    return { status: 'success' }
+}
+
 export async function deleteTile(
     boardId: string,
     tile: BoardTileDB,

@@ -27,7 +27,11 @@ import { SetVisibleLines } from './components/SetVisibleLines'
 import { TileArrows } from './components/TileArrows'
 import { TileContext } from './context'
 import { useLines } from './useLines'
-import { countSelectableQuayLineKeys, parseTileFormData } from './utils'
+import {
+    buildTilePersistence,
+    countSelectableQuayLineKeys,
+    parseTileFormData,
+} from './utils'
 
 export function TileCard({
     board,
@@ -71,7 +75,6 @@ export function TileCard({
             offset,
             displayName,
             quayLineKeys,
-            linesWithDirection: selectedLinesWithDirection,
         } = parseTileFormData(data)
         const columns = board.isCombinedTiles ? tile.columns : parsedColumns
 
@@ -87,26 +90,10 @@ export function TileCard({
             return getFormFeedbackForError('board/tiles-no-lines-selected')
         }
 
-        const allSelected = quayLineKeys.length === totalSelectableKeys
-
-        const newQuays = allSelected
-            ? []
-            : quaysWithFilteredLines
-                  .map((q) => ({
-                      id: q.id,
-                      whitelistedLines: q.lines
-                          .filter((l) =>
-                              quayLineKeys.some(
-                                  (key) =>
-                                      key === `${q.id}||${l.id}` ||
-                                      key.startsWith(`${q.id}||${l.id}||`),
-                              ),
-                          )
-                          .map((l) => l.id),
-                  }))
-                  .filter((q) => q.whitelistedLines.length > 0)
-
-        const linesWithDirection = allSelected ? [] : selectedLinesWithDirection
+        const { quays: newQuays, linesWithDirection } = buildTilePersistence(
+            quaysWithFilteredLines,
+            quayLineKeys,
+        )
 
         const hasWalkingDistance =
             board.meta.location && tile.walkingDistance?.distance !== undefined

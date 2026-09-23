@@ -5,7 +5,12 @@ export function TileList({ board }: { board: BoardDB }) {
     return (
         <div className="flex flex-col gap-2">
             {board.tiles.map((tile) => (
-                <StopPlaceTile key={tile.uuid} boardId={board.id} tile={tile} />
+                <StopPlaceTile
+                    key={tile.uuid}
+                    boardId={board.id}
+                    tile={tile}
+                    isArrivals={board.isArrivals ?? false}
+                />
             ))}
         </div>
     )

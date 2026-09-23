@@ -167,6 +167,67 @@ export function deriveLinesWithDirection(
     })
 }
 
+/**
+ * Oversetter de valgte quay-linje(-frontText)-nøklene til det som faktisk lagres
+ * på en tile: `quays[].whitelistedLines` + `linesWithDirection[]`.
+ *
+ * Er *alt* valgt, lagres begge som tomme arrays — det tolkes som "ingen filter"
+ * (alle nåværende og framtidige linjer/retninger blir med). Ellers whitelistes
+ * kun de valgte linjene per quay, og retningene utledes med
+ * {@link deriveLinesWithDirection}. Quays uten noen valgt linje utelates.
+ *
+ * Delt mellom dagens `TileCard` og den nye `EditStopPlaceModal` slik at begge
+ * garantert lagrer likt.
+ */
+export function buildTilePersistence(
+    quays: QuayWithFrontText[],
+    selectedQuayLineKeys: string[],
+): {
+    quays: BoardTileDB['quays']
+    linesWithDirection: LineWithDirectionDB[]
+} {
+    const totalSelectableKeys = countSelectableQuayLineKeys(quays)
+    const allSelected =
+        totalSelectableKeys > 0 &&
+        selectedQuayLineKeys.length === totalSelectableKeys
+
+    if (allSelected) {
+        return { quays: [], linesWithDirection: [] }
+    }
+
+    const selectedKeySet = new Set(selectedQuayLineKeys)
+    const newQuays = quays
+        .map((q) => ({
+            id: q.id,
+            whitelistedLines: q.lines
+                .filter((l) =>
+                    l.frontTexts.length > 0
+                        ? l.frontTexts.some((frontText) =>
+                              selectedKeySet.has(
+                                  generateQuayLineFrontTextKey(
+                                      q.id,
+                                      l.id,
+                                      frontText,
+                                  ),
+                              ),
+                          )
+                        : selectedKeySet.has(
+                              generateQuayLineFrontTextKey(q.id, l.id),
+                          ),
+                )
+                .map((l) => l.id),
+        }))
+        .filter((q) => q.whitelistedLines.length > 0)
+
+    return {
+        quays: newQuays,
+        linesWithDirection: deriveLinesWithDirection(
+            quays,
+            selectedQuayLineKeys,
+        ),
+    }
+}
+
 export function countSelectableQuayLineKeys(
     quays: QuayWithFrontText[],
 ): number {

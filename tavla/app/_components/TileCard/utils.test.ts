@@ -2,6 +2,7 @@ import type { BoardTileDB } from 'types/db-types/boards'
 import { describe, expect, it } from 'vitest'
 import type { QuayWithFrontText } from './types'
 import {
+    buildTilePersistence,
     deriveLinesWithDirection,
     getInitialCheckedLineIds,
     parseTileFormData,
@@ -76,6 +77,69 @@ describe('deriveLinesWithDirection', () => {
                 'Q1||L1||Bergkrystallen',
             ]),
         ).toEqual([{ lineId: 'L1', frontTexts: ['Bergkrystallen', 'Storo'] }])
+    })
+})
+
+/* buildTilePersistence(quays, selectedKeys): oversetter valgte quay-linje(-frontText)-nøkler
+ til det som lagres på tile — `quays[].whitelistedLines` + `linesWithDirection[]`.
+ Alt valgt => begge tomme ("ingen filter"). Delvis => whitelist per quay + utledede retninger.
+ Denne semantikken er delt mellom TileCard og EditStopPlaceModal og må ikke endres utilsiktet. */
+describe('buildTilePersistence', () => {
+    it('alt valgt kollapser til tomme arrays (ingen filter — nye linjer/retninger blir med)', () => {
+        const quays = [
+            quay('Q1', [
+                { id: 'L1', frontTexts: ['Nord'] },
+                { id: 'L2', frontTexts: [] },
+            ]),
+        ]
+        expect(buildTilePersistence(quays, ['Q1||L1||Nord', 'Q1||L2'])).toEqual(
+            { quays: [], linesWithDirection: [] },
+        )
+    })
+
+    it('delvis valg whitelister kun valgte linjer per quay og utleder retninger', () => {
+        const quays = [
+            quay('Q1', [
+                { id: 'L1', frontTexts: ['Nord', 'Sør'] },
+                { id: 'L2', frontTexts: ['Vest'] },
+            ]),
+        ]
+        const result = buildTilePersistence(quays, ['Q1||L1||Nord'])
+        expect(result.quays).toEqual([{ id: 'Q1', whitelistedLines: ['L1'] }])
+        expect(result.linesWithDirection).toEqual([
+            { lineId: 'L1', frontTexts: ['Nord'] },
+        ])
+    })
+
+    it('utelater quays uten noen valgt linje', () => {
+        const quays = [
+            quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }]),
+            quay('Q2', [{ id: 'L2', frontTexts: ['Sør'] }]),
+        ]
+        const result = buildTilePersistence(quays, ['Q1||L1||Nord'])
+        expect(result.quays).toEqual([{ id: 'Q1', whitelistedLines: ['L1'] }])
+    })
+
+    it('en hel quay valgt (alle linjer/retninger på den, men ikke andre quays) whitelistes eksplisitt', () => {
+        const quays = [
+            quay('Q1', [
+                { id: 'L1', frontTexts: ['Nord'] },
+                { id: 'L2', frontTexts: [] },
+            ]),
+            quay('Q2', [{ id: 'L3', frontTexts: ['Sør'] }]),
+        ]
+        const result = buildTilePersistence(quays, ['Q1||L1||Nord', 'Q1||L2'])
+        expect(result.quays).toEqual([
+            { id: 'Q1', whitelistedLines: ['L1', 'L2'] },
+        ])
+    })
+
+    it('ingen valgt gir tom whitelist-liste (men ikke "alt valgt")', () => {
+        const quays = [quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }])]
+        expect(buildTilePersistence(quays, [])).toEqual({
+            quays: [],
+            linesWithDirection: [],
+        })
     })
 })
 
