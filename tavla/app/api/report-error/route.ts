@@ -10,11 +10,12 @@ const ALLOWED_ORIGINS = [
     ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:5173'] : []),
 ]
 
-const ErrorCode = z.enum(['display_error', 'unknown'])
+const ErrorCode = z.enum(['display_error', 'unknown', 'fetch_journey_planner'])
 
 const ReportSchema = z.object({
     boardId: z.string().regex(/^[A-Za-z0-9]{20}$/),
     errorCode: ErrorCode,
+    message: z.string(),
 })
 
 //Limits live in the memory of the pods. These are not hard limits, but work as per-instance LRU limiters.
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
         )
     }
 
-    const { boardId, errorCode } = parsed.data
+    const { boardId, errorCode, message } = parsed.data
     const ip = clientIp(req)
 
     try {
@@ -74,7 +75,7 @@ export async function POST(req: NextRequest) {
 
     await logToGcp(
         'error',
-        `[tavla-visning] ${errorCode} reported from ${boardId}`,
+        `[tavla-visning] ${errorCode} reported from ${boardId} with message: ${message}`,
         { bid: boardId, errorCode: errorCode, userAgent: userAgent },
     )
 
