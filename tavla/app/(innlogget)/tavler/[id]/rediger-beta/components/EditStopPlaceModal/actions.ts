@@ -14,6 +14,7 @@ import {
     boardTileSchema,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
+import { displayNameSchema, offsetSchema } from './validation'
 
 initializeAdminApp()
 
@@ -35,11 +36,20 @@ export async function saveTile(
     if (!access) return redirect('/')
 
     const parsed = boardTileSchema.safeParse(tile)
+    const offsetParsed = offsetSchema.safeParse(tile.offset)
+    const displayNameParsed = displayNameSchema.safeParse(tile.displayName)
 
     try {
         if (!parsed.success) {
             throw new Error('Failed to parse tile')
         }
+        if (!offsetParsed.success) {
+            throw new Error('Failed to parse offset')
+        }
+        if (!displayNameParsed.success) {
+            throw new Error('Failed to parse display name')
+        }
+
         const board = await getBoard(bid)
         const existingTile = board?.tiles.find((t) => t.uuid === tile.uuid)
         if (!existingTile) {

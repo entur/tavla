@@ -380,11 +380,6 @@ export function SetVisibleLines({
                     )
                 })}
             </div>
-            {/* {error !== undefined && (
-                <SmallAlertBox variant="warning" className="mt-4 w-fit">
-                    {error}
-                </SmallAlertBox>
-            )} */}
             <HiddenInput id="count" value={totalQuayLinePairs.toString()} />
             <HiddenInput
                 id="linesWithDirection"
