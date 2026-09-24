@@ -1,4 +1,5 @@
 import { apiBaseUrl, geocoderUrl, quayUrl, stopPlaceUrl } from './variables'
+
 interface RuntimeConfig {
     apiBaseUrl: string
     geocoderUrl: string

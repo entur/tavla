@@ -1,6 +1,8 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
-    "files": {
-        "includes": ["tavla/**"]
-    }
+	"$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+	"files": {
+		"includes": [
+			"tavla/**"
+		]
+	}
 }
