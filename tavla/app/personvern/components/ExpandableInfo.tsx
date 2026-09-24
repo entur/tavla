@@ -232,8 +232,8 @@ function ExpandableInfo() {
                 <Paragraph>
                     Vi har vurdert det som strengt nødvendig å lagre noen
                     informasjonskapsler for at nettstedet vårt skal fungere.
-                    Disse kan du ikke slå av. Trykk på «Detaljert informasjon om
-                    informasjonskapslene» for å lese mer om dem.
+                    Disse kan du ikke slå av. Trykk på knappen «Detaljert
+                    informasjon om informasjonskapslene» for å lese mer om dem.
                 </Paragraph>
                 <Heading3>
                     Innsikt om bruk av nettstedet for å øke brukervennlighet
@@ -312,9 +312,8 @@ function ExpandableInfo() {
                     <EnturLink as={Link} href="/">
                         tavla.entur.no
                     </EnturLink>{' '}
-                    blir brukt. PostHog behandler data i Europa, og vi har slått
-                    av lagring av IP-adresse. Vi lagrer altså ikke IP-adressen
-                    din i PostHog.
+                    blir brukt. PostHog behandler data i Europa, og vi lagrer
+                    ikke IP-adressen din.
                 </Paragraph>
                 <Heading3>Hvilken informasjon lagres?</Heading3>
                 <Paragraph>
