@@ -18,7 +18,10 @@ const ErrorCode = z.enum([
 ])
 
 const ReportSchema = z.object({
-    boardId: z.string().regex(/^[A-Za-z0-9]{20}$/),
+    boardId: z
+        .string()
+        .regex(/^[A-Za-z0-9]{20}$/)
+        .or(z.string().regex(/^NSR:(Quay|StopPlace):\d+$/i)),
     errorCode: ErrorCode,
     message: z.string(),
 })
