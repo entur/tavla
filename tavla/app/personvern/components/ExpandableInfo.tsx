@@ -2,7 +2,24 @@
 import { CopyableText } from '@entur/alert'
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { ExpandablePanel } from '@entur/expand'
-import { CookieIcon, ExternalIcon } from '@entur/icons'
+import {
+    BugIcon,
+    ChartIcon,
+    CookieIcon,
+    ExternalIcon,
+    FileIcon,
+    PrivacyIcon,
+    UserIcon,
+} from '@entur/icons'
+import {
+    DataCell,
+    HeaderCell,
+    Table,
+    TableBody,
+    TableHead,
+    TableRow,
+} from '@entur/table'
+import { Tooltip } from '@entur/tooltip'
 import {
     Link as EnturLink,
     Heading3,
@@ -14,12 +31,28 @@ import {
 import { showUC_UI_second } from 'app/_components/ConsentHandler'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import type { ComponentType, ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import { waitFor } from 'src/utils/cmpUtils'
 
 const emailSubject = 'Forespørsel om å slette analysedata'
 const emailBody = (id: string) => {
     return `Hei! %0D%0A%0D%0A Jeg ønsker at dere sletter analysedata dere har for min enhet med ID: %0D%0A%0D%0A ${id}`
+}
+
+function PanelTitle({
+    icon: Icon,
+    children,
+}: {
+    icon: ComponentType<{ 'aria-hidden'?: boolean }>
+    children: ReactNode
+}) {
+    return (
+        <span className="flex items-center gap-2">
+            <Icon aria-hidden />
+            {children}
+        </span>
+    )
 }
 
 function ExpandableInfo() {
@@ -38,7 +71,92 @@ function ExpandableInfo() {
 
     return (
         <div className="flex flex-col items-center justify-center gap-1 p-4">
-            <ExpandablePanel title="Behandling av personopplysninger">
+            <ExpandablePanel
+                title={<PanelTitle icon={FileIcon}>Kort oppsummert</PanelTitle>}
+                defaultOpen
+            >
+                <Paragraph>
+                    Oversikt over hva vi behandler, hvorfor og hvor lenge.
+                    Detaljene finner du i seksjonene under.
+                </Paragraph>
+                <div className="overflow-x-auto">
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <HeaderCell>Formål</HeaderCell>
+                                <HeaderCell>Behandlingsgrunnlag</HeaderCell>
+                                <HeaderCell>Lagringstid</HeaderCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <DataCell>Profil (e-postadresse)</DataCell>
+                                <DataCell>Samtykke</DataCell>
+                                <DataCell>Så lenge profilen er aktiv</DataCell>
+                            </TableRow>
+                            <TableRow>
+                                <DataCell>Analyse (PostHog)</DataCell>
+                                <DataCell>Samtykke</DataCell>
+                                <DataCell>
+                                    Til du trekker samtykke eller ber om
+                                    sletting
+                                </DataCell>
+                            </TableRow>
+                            <TableRow>
+                                <DataCell>
+                                    Drift og feilsøking (app- og tilgangslogger)
+                                </DataCell>
+                                <DataCell>
+                                    Berettiget interesse (
+                                    <Tooltip
+                                        placement="top"
+                                        content="Personvernforordningen artikkel 6 nr. 1 bokstav f"
+                                    >
+                                        <EnturLink
+                                            href="https://lovdata.no/lov/2018-06-15-38/gdpr/artikkel_6"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            art. 6 nr. 1 bokstav f
+                                        </EnturLink>
+                                    </Tooltip>
+                                    )
+                                </DataCell>
+                                <DataCell>Inntil 30 dager</DataCell>
+                            </TableRow>
+                            <TableRow>
+                                <DataCell>
+                                    Aktivitetsmåling (visningsskjermer)
+                                </DataCell>
+                                <DataCell>
+                                    Berettiget interesse (
+                                    <Tooltip
+                                        placement="top"
+                                        content="Personvernforordningen artikkel 6 nr. 1 bokstav f"
+                                    >
+                                        <EnturLink
+                                            href="https://lovdata.no/lov/2018-06-15-38/gdpr/artikkel_6"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            art. 6 nr. 1 bokstav f
+                                        </EnturLink>
+                                    </Tooltip>
+                                    )
+                                </DataCell>
+                                <DataCell>24 timer</DataCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </div>
+            </ExpandablePanel>
+            <ExpandablePanel
+                title={
+                    <PanelTitle icon={UserIcon}>
+                        Behandling av personopplysninger
+                    </PanelTitle>
+                }
+            >
                 <Heading3>Behandlingsansvar</Heading3>
                 <Paragraph>
                     Entur AS (heretter «Entur» eller «vi»), Postboks 1800, 0048
@@ -102,7 +220,11 @@ function ExpandableInfo() {
                 </Paragraph>
             </ExpandablePanel>
             <ExpandablePanel
-                title="Informasjonskapsler"
+                title={
+                    <PanelTitle icon={CookieIcon}>
+                        Informasjonskapsler
+                    </PanelTitle>
+                }
                 defaultOpen={open === '2'}
                 id="informasjonskapsler"
             >
@@ -179,7 +301,9 @@ function ExpandableInfo() {
                     </CopyableText>
                 </div>
             </ExpandablePanel>
-            <ExpandablePanel title="Analyseverktøy">
+            <ExpandablePanel
+                title={<PanelTitle icon={ChartIcon}>Analyseverktøy</PanelTitle>}
+            >
                 <Heading3>Analyseverktøy</Heading3>
                 <Paragraph>
                     For å kunne lage løsninger for et så brukervennlig nettsted
@@ -228,15 +352,28 @@ function ExpandableInfo() {
                     </ListItem>
                 </UnorderedList>
             </ExpandablePanel>
-            <ExpandablePanel title="Feilsøking og driftslogging">
+            <ExpandablePanel
+                title={
+                    <PanelTitle icon={BugIcon}>
+                        Feilsøking og driftslogging
+                    </PanelTitle>
+                }
+            >
                 <Heading3>Teknisk logging for drift og feilsøking</Heading3>
                 <Paragraph>
                     For å kunne drifte tjenesten på en sikker og stabil måte, og
                     for å finne og rette feil, logger vi tekniske hendelser på
                     våre servere. Disse loggene lagres hos Google Cloud Platform
                     (GCP). Behandlingsgrunnlaget er vår berettigede interesse i
-                    sikker og stabil drift av tjenesten (personvernforordningen
-                    artikkel 6 nr. 1 bokstav f).
+                    sikker og stabil drift av tjenesten (
+                    <EnturLink
+                        href="https://lovdata.no/lov/2018-06-15-38/gdpr/artikkel_6"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        personvernforordningen artikkel 6 nr. 1 bokstav f
+                    </EnturLink>
+                    ).
                 </Paragraph>
                 <Heading3>Hvilken informasjon logges?</Heading3>
                 <Paragraph>
@@ -298,8 +435,15 @@ function ExpandableInfo() {
                 <Paragraph>
                     Tilgangsloggene brukes til sikkerhet, feilsøking og drift av
                     tjenesten. Behandlingsgrunnlaget er vår berettigede
-                    interesse i sikker og stabil drift (personvernforordningen
-                    artikkel 6 nr. 1 bokstav f).
+                    interesse i sikker og stabil drift (
+                    <EnturLink
+                        href="https://lovdata.no/lov/2018-06-15-38/gdpr/artikkel_6"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        personvernforordningen artikkel 6 nr. 1 bokstav f
+                    </EnturLink>
+                    ).
                 </Paragraph>
                 <Heading3>Aktivitetsmåling for visningsskjermer</Heading3>
                 <Paragraph>
@@ -337,7 +481,11 @@ function ExpandableInfo() {
                     EU–US Data Privacy Framework.
                 </Paragraph>
             </ExpandablePanel>
-            <ExpandablePanel title="Dine rettigheter">
+            <ExpandablePanel
+                title={
+                    <PanelTitle icon={PrivacyIcon}>Dine rettigheter</PanelTitle>
+                }
+            >
                 <Heading3>Dine rettigheter</Heading3>
                 <Paragraph>
                     Du har flere rettigheter knyttet til personopplysningene vi

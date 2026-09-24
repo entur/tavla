@@ -2,7 +2,7 @@
 
 import { ButtonGroup, SecondaryButton } from '@entur/button'
 import { EmailIcon } from '@entur/icons'
-import { Heading3 } from '@entur/typography'
+import { Link as EnturLink, Heading3, Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import squirrel from 'assets/illustrations/Squirrel.png'
 import Image from 'next/image'
@@ -77,6 +77,15 @@ function Entry() {
                     Opprett bruker
                 </SecondaryButton>
             </ButtonGroup>
+
+            <Paragraph className="text-center text-sm">
+                Når du oppretter en bruker eller logger inn, behandler vi
+                personopplysninger som beskrevet i{' '}
+                <EnturLink as={Link} href="/personvern">
+                    personvernerklæringen
+                </EnturLink>
+                .
+            </Paragraph>
         </div>
     )
 }
