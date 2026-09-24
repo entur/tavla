@@ -487,45 +487,19 @@ function ExpandableInfo() {
             >
                 <Heading3>Dine rettigheter</Heading3>
                 <Paragraph>
-                    Du har flere rettigheter knyttet til personopplysningene vi
-                    behandler om deg:
+                    Du har rett til innsyn i personopplysningene vi behandler om
+                    deg, og du kan be om at opplysningene rettes, suppleres
+                    eller slettes. Du kan også be om at behandlingen begrenses,
+                    protestere mot behandling som skjer på grunnlag av vår
+                    berettigede interesse, og be om å få utlevert opplysningene
+                    dine i et strukturert, alminnelig anvendt og maskinlesbart
+                    format (dataportabilitet). Der behandlingen bygger på
+                    samtykke – som for profil-e-post og analyse – kan du når som
+                    helst trekke samtykket tilbake. Det påvirker ikke
+                    lovligheten av behandlingen som skjedde før du trakk det
+                    tilbake. Forespørslene dine behandles kostnadsfritt og
+                    senest innen 30 dager.
                 </Paragraph>
-                <UnorderedList className="pl-8">
-                    <ListItem>
-                        <StrongText>Innsyn: </StrongText>Du har rett til å be om
-                        innsyn i opplysningene vi behandler om deg.
-                    </ListItem>
-                    <ListItem>
-                        <StrongText>Retting og sletting: </StrongText>Du kan få
-                        opplysningene rettet, supplert eller slettet.
-                    </ListItem>
-                    <ListItem>
-                        <StrongText>Begrensning: </StrongText>Du har rett til å
-                        be om at behandlingen av opplysningene dine begrenses.
-                    </ListItem>
-                    <ListItem>
-                        <StrongText>Innsigelse: </StrongText>Du har rett til å
-                        protestere mot behandling som skjer på grunnlag av vår
-                        berettigede interesse.
-                    </ListItem>
-                    <ListItem>
-                        <StrongText>Dataportabilitet: </StrongText>Du har rett
-                        til å motta opplysningene dine i et strukturert,
-                        alminnelig anvendt og maskinlesbart format.
-                    </ListItem>
-                    <ListItem>
-                        <StrongText>Trekke tilbake samtykke: </StrongText>Der
-                        behandlingen bygger på samtykke (profil-e-post og
-                        analyse), kan du når som helst trekke det tilbake. Det
-                        påvirker ikke lovligheten av behandlingen som skjedde
-                        før du trakk samtykket tilbake.
-                    </ListItem>
-                    <ListItem>
-                        <StrongText>Klage: </StrongText>Du har rett til å klage
-                        til Datatilsynet dersom du mener behandlingen ikke er i
-                        samsvar med personvernregelverket.
-                    </ListItem>
-                </UnorderedList>
                 <Paragraph>
                     For å bruke rettighetene dine, eller hvis du har spørsmål om
                     hvordan vi behandler personopplysninger, kan du kontakte{' '}
@@ -534,6 +508,18 @@ function ExpandableInfo() {
                     </EnturLink>
                     . Ønsker du å slette analysedataene dine, finner du
                     fremgangsmåten under «Informasjonskapsler».
+                </Paragraph>
+                <Paragraph>
+                    Dersom du mener at vi behandler personopplysninger i strid
+                    med personvernregelverket, har du rett til å{' '}
+                    <EnturLink
+                        href="https://www.datatilsynet.no/om-datatilsynet/kontakt-oss/klage-til-datatilsynet/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        klage til Datatilsynet
+                    </EnturLink>
+                    .
                 </Paragraph>
             </ExpandablePanel>
         </div>
