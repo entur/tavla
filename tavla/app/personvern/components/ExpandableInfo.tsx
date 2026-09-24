@@ -232,8 +232,8 @@ function ExpandableInfo() {
                 <Paragraph>
                     Vi har vurdert det som strengt nødvendig å lagre noen
                     informasjonskapsler for at nettstedet vårt skal fungere.
-                    Disse kan du ikke slå av. Les mer om disse ved å klikke på
-                    knappen under.
+                    Disse kan du ikke slå av. Trykk på «Detaljert informasjon om
+                    informasjonskapslene» for å lese mer om dem.
                 </Paragraph>
                 <Heading3>
                     Innsikt om bruk av nettstedet for å øke brukervennlighet
