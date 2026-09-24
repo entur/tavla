@@ -41,7 +41,7 @@ function ExpandableInfo() {
             <ExpandablePanel title="Behandling av personopplysninger">
                 <Heading3>Behandlingsansvar</Heading3>
                 <Paragraph>
-                    Entur AS (heretter “Entur” eller “vi”), Postboks 1800, 0048
+                    Entur AS (heretter «Entur» eller «vi»), Postboks 1800, 0048
                     Oslo, er ansvarlig for lagring og bruk av dine
                     personopplysninger (Behandlingsansvarlig).
                 </Paragraph>
@@ -79,6 +79,16 @@ function ExpandableInfo() {
                         For å vite hvilke mapper du er en del av.
                     </ListItem>
                 </UnorderedList>
+                <Heading3>Hvor lenge lagrer vi opplysningene?</Heading3>
+                <Paragraph>
+                    Vi lagrer og behandler personopplysningene om deg så lenge
+                    du har en aktiv profil. Du kan når som helst slette profilen
+                    din selv, og da slettes e-postadressen din. Tekniske
+                    driftslogger og tilgangslogger (se «Feilsøking og
+                    driftslogging») oppbevares i inntil 30 dager, mens
+                    aktivitetsdata fra visningsskjermer slettes automatisk etter
+                    24 timer.
+                </Paragraph>
             </ExpandablePanel>
             <ExpandablePanel
                 title="Informasjonskapsler"
@@ -89,8 +99,8 @@ function ExpandableInfo() {
                 <Paragraph>
                     Vi har vurdert det som strengt nødvendig å lagre noen
                     informasjonskapsler for at nettstedet vårt skal fungere.
-                    Disse kan du ikke slå av. Les mer om disse ved her eller ved
-                    å klikke på knappen under.
+                    Disse kan du ikke slå av. Les mer om disse ved å klikke på
+                    knappen under.
                 </Paragraph>
                 <Heading3>
                     Innsikt om bruk av nettstedet for å øke brukervennlighet
@@ -102,8 +112,11 @@ function ExpandableInfo() {
                     klikker på, hvilke sider hos Entur du besøker og hvor lenge
                     du er på en side, kan vi lære hvordan sidene blir brukt og
                     tilpasse innholdet vårt. For å forstå hvordan du opplever
-                    nettstedet, bruker vi også informasjon om din maskintype,
-                    programvareversjon, nettleser, IP-adresse og MAC-adresse.
+                    nettstedet, utleder vi hvilken nettleser og hvilket
+                    operativsystem du bruker fra User Agent-headeren, men lagrer
+                    ikke selve strengen. Vi lagrer heller ikke IP-adressen din i
+                    analyseverktøyet – se «Feilsøking og driftslogging» for
+                    hvordan IP-adresse behandles i tilgangslogger.
                 </Paragraph>
                 <Heading3>
                     Oppdage tekniske feil som oppstår for å raskere løse feil
@@ -115,7 +128,9 @@ function ExpandableInfo() {
                     lettere og raskere å finne ut av årsaken til feilen og
                     hvordan den bør håndteres. For å forstå hva som skjedde,
                     bruker vi også informasjon om din maskintype,
-                    programvareversjon, nettleser, IP-adresse og MAC-adresse.
+                    programvareversjon og nettleser (User Agent). IP-adressen
+                    din registreres i infrastrukturens tilgangslogger for
+                    sikkerhet og drift – se «Feilsøking og driftslogging».
                 </Paragraph>
                 <Heading3>Sletting av analysedata</Heading3>
                 <Paragraph>
@@ -162,18 +177,22 @@ function ExpandableInfo() {
                     <EnturLink as={Link} href="/">
                         tavla.entur.no
                     </EnturLink>{' '}
-                    blir brukt. PostHog behandler data i Europa. Vi lagrer ikke
-                    IP-adressen din.
+                    blir brukt. PostHog behandler data i Europa, og vi har slått
+                    av lagring av IP-adresse. Vi lagrer altså ikke IP-adressen
+                    din i PostHog.
                 </Paragraph>
                 <Heading3>Hvilken informasjon lagres?</Heading3>
                 <Paragraph>
-                    PostHog mottar generell web- og appstatistikk. Ingenting av
-                    dette kan brukes til å identifisere deg.
+                    PostHog mottar generell web- og appstatistikk. Opplysningene
+                    identifiserer deg ikke direkte, men er knyttet til en
+                    pseudonym sporings-ID, og enkelte opplysninger kan i teorien
+                    bidra til indirekte gjenkjenning.
                     <UnorderedList className="pl-8">
                         <ListItem>
-                            <StrongText>Unik ID: </StrongText>En tilfeldig
-                            generert ID. Denne blir ikke sporet på tvers av
-                            domener.
+                            <StrongText>Sporings-ID: </StrongText>En pseudonym
+                            ID (samme som du kan hente under
+                            «Informasjonskapsler»). Denne blir ikke sporet på
+                            tvers av domener.
                         </ListItem>
                         <ListItem>
                             <StrongText>Land: </StrongText>Hvilket land du
@@ -188,15 +207,153 @@ function ExpandableInfo() {
                             fra blir lagret dersom det er tilgjengelig.
                         </ListItem>
                         <ListItem>
-                            <StrongText>User Agent: </StrongText>Vi leser User
-                            Agent-headeren for å hente ut informasjon om hvilken
-                            nettleser og operativsystem du bruker.
+                            <StrongText>Nettleser og enhet: </StrongText>Vi
+                            leser User Agent-headeren for å utlede hvilken
+                            nettleser og operativsystem du bruker. Selve User
+                            Agent-strengen lagres ikke i PostHog.
                         </ListItem>
                         <ListItem>
                             <StrongText>Tid: </StrongText>Tid du bruker på en
                             side.
                         </ListItem>
                     </UnorderedList>
+                </Paragraph>
+            </ExpandablePanel>
+            <ExpandablePanel title="Feilsøking og driftslogging">
+                <Heading3>Teknisk logging for drift og feilsøking</Heading3>
+                <Paragraph>
+                    For å kunne drifte tjenesten på en sikker og stabil måte, og
+                    for å finne og rette feil, logger vi tekniske hendelser på
+                    våre servere. Disse loggene lagres hos Google Cloud Platform
+                    (GCP). Behandlingsgrunnlaget er vår berettigede interesse i
+                    sikker og stabil drift av tjenesten (personvernforordningen
+                    artikkel 6 nr. 1 bokstav f).
+                </Paragraph>
+                <Heading3>Hvilken informasjon logges?</Heading3>
+                <Paragraph>
+                    Loggene inneholder teknisk informasjon om hendelser og feil
+                    i tjenesten:
+                    <UnorderedList className="pl-8">
+                        <ListItem>
+                            <StrongText>Tavle- og mappe-ID: </StrongText>
+                            identifikatorer for tavlene og mappene en handling
+                            gjelder.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Sti og statuskoder: </StrongText>hvilket
+                            endepunkt som ble kalt og resultatet av kallet.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Feilkoder: </StrongText>hva som gikk
+                            galt når en feil oppstår.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Nettleser (User Agent): </StrongText>
+                            informasjon om nettleseren og operativsystemet som
+                            ble brukt.
+                        </ListItem>
+                    </UnorderedList>
+                </Paragraph>
+                <Paragraph>
+                    Disse applikasjonsloggene inneholder{' '}
+                    <StrongText>ikke</StrongText> e-postadressen din, bruker-ID
+                    eller IP-adressen din.
+                </Paragraph>
+                <Heading3>Tilgangslogger i infrastrukturen</Heading3>
+                <Paragraph>
+                    Tjenesten driftes på Enturs plattform, og trafikken går
+                    gjennom en felles infrastruktur (lastbalanserer) som fører
+                    tilgangslogger over forespørslene som kommer inn. Disse
+                    loggene registrerer blant annet:
+                    <UnorderedList className="pl-8">
+                        <ListItem>
+                            <StrongText>IP-adresse: </StrongText>IP-adressen
+                            forespørselen kommer fra.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Forespørsel: </StrongText>tidspunkt,
+                            metode, adressen (URL) som ble kalt, statuskode og
+                            hvilken side forespørselen kom fra (referer).
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Nettleser (User Agent): </StrongText>
+                            informasjon om nettleseren og operativsystemet.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Tekniske kjennetegn: </StrongText>
+                            tilkoblingens tekniske fingeravtrykk samt grov
+                            geografisk region og nettverksoperatør.
+                        </ListItem>
+                    </UnorderedList>
+                </Paragraph>
+                <Paragraph>
+                    Tilgangsloggene brukes til sikkerhet, feilsøking og drift av
+                    tjenesten. Behandlingsgrunnlaget er vår berettigede
+                    interesse i sikker og stabil drift (personvernforordningen
+                    artikkel 6 nr. 1 bokstav f).
+                </Paragraph>
+                <Heading3>Aktivitetsmåling for visningsskjermer</Heading3>
+                <Paragraph>
+                    Skjermer som viser en tavle sender jevnlig teknisk
+                    informasjon til oss slik at vi kan måle bruk av tjenesten.
+                    Dette omfatter tavle-ID, skjermstørrelse og nettlesertype
+                    (som vi kun bruker til å avgjøre om skjermen er en mobil
+                    eller ikke). Denne informasjonen brukes aggregert og slettes
+                    automatisk etter 24 timer.
+                </Paragraph>
+                <Heading3>Databehandlere</Heading3>
+                <Paragraph>
+                    Entur benytter Google Cloud Platform som databehandler for
+                    lagring og drift. For å sikre dine rettigheter har vi
+                    inngått databehandleravtale som regulerer hvordan
+                    opplysningene kan behandles.
+                </Paragraph>
+            </ExpandablePanel>
+            <ExpandablePanel title="Dine rettigheter">
+                <Heading3>Dine rettigheter</Heading3>
+                <Paragraph>
+                    Du har flere rettigheter knyttet til personopplysningene vi
+                    behandler om deg:
+                    <UnorderedList className="pl-8">
+                        <ListItem>
+                            <StrongText>Innsyn: </StrongText>Du har rett til å
+                            be om innsyn i opplysningene vi behandler om deg.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Retting og sletting: </StrongText>Du kan
+                            få opplysningene rettet, supplert eller slettet.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Begrensning: </StrongText>Du har rett
+                            til å be om at behandlingen av opplysningene dine
+                            begrenses.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Innsigelse: </StrongText>Du har rett til
+                            å protestere mot behandling som skjer på grunnlag av
+                            vår berettigede interesse.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Dataportabilitet: </StrongText>Du har
+                            rett til å motta opplysningene dine i et
+                            strukturert, alminnelig anvendt og maskinlesbart
+                            format.
+                        </ListItem>
+                        <ListItem>
+                            <StrongText>Klage: </StrongText>Du har rett til å
+                            klage til Datatilsynet dersom du mener behandlingen
+                            ikke er i samsvar med personvernregelverket.
+                        </ListItem>
+                    </UnorderedList>
+                </Paragraph>
+                <Paragraph>
+                    For å bruke rettighetene dine, eller hvis du har spørsmål om
+                    hvordan vi behandler personopplysninger, kan du kontakte{' '}
+                    <EnturLink as={Link} href="mailto:personvern@entur.org">
+                        Enturs personvernombud på personvern@entur.org
+                    </EnturLink>
+                    . Ønsker du å slette analysedataene dine, finner du
+                    fremgangsmåten under «Informasjonskapsler».
                 </Paragraph>
             </ExpandablePanel>
         </div>
