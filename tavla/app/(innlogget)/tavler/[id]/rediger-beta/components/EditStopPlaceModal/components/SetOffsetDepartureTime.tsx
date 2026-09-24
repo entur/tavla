@@ -1,0 +1,125 @@
+import { Checkbox } from '@entur/form'
+import { Heading4, SubParagraph } from '@entur/typography'
+import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
+import type { EventProps } from 'app/posthog/events'
+import {
+    TRACKING_DEBOUNCE_TIME,
+    usePosthogTracking,
+} from 'app/posthog/usePosthogTracking'
+import { useEffect, useRef, useState } from 'react'
+import { useNonNullContext } from 'src/hooks/useNonNullContext'
+import type { LocationDB } from 'src/types/db-types/boards'
+import { TileContext } from '../context'
+import { OFFSET_MAX_MINUTES } from '../validation'
+
+function SetOffsetDepartureTime({
+    address,
+    isArrivals,
+    trackingLocation,
+    onFieldChanged,
+}: {
+    address?: LocationDB
+    isArrivals: boolean
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    onFieldChanged: (field: string) => void
+}) {
+    const { capture } = usePosthogTracking()
+    const tile = useNonNullContext(TileContext)
+
+    const walkingDistanceInMinutes = Math.ceil(
+        (tile.walkingDistance?.distance ?? 0) / 60,
+    )
+    const [offsetBasedOnWalkingDistance, setOffsetBasedOnWalkingDistance] =
+        useState(walkingDistanceInMinutes === tile.offset)
+
+    const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+    const isOverMax = Number(offset) > OFFSET_MAX_MINUTES
+
+    useEffect(() => {
+        if (!address) {
+            setOffsetBasedOnWalkingDistance(false)
+        }
+    }, [address])
+
+    if (isArrivals) return null
+
+    return (
+        <>
+            <Heading4>Forskyv avgangstid</Heading4>
+            <div className="flex flex-col gap-2">
+                <SubParagraph>
+                    Vis kun avganger som går om mer enn et valgt antall
+                    minutter.
+                </SubParagraph>
+                <ClientOnlyTextField
+                    label="Antall minutter"
+                    name="offset"
+                    id="offset"
+                    type="number"
+                    min={0}
+                    max={OFFSET_MAX_MINUTES}
+                    className="!w-full md:!w-1/2 lg:!w-1/4"
+                    clearable={!offsetBasedOnWalkingDistance}
+                    onClear={() => {
+                        setOffset('')
+                    }}
+                    value={offset}
+                    onChange={(e) => {
+                        setOffset(e.target.valueAsNumber || '')
+                        onFieldChanged('offset')
+
+                        if (debounceTimerRef.current) {
+                            clearTimeout(debounceTimerRef.current)
+                        }
+
+                        debounceTimerRef.current = setTimeout(() => {
+                            capture('stop_place_edit_interaction', {
+                                location: trackingLocation,
+                                field: 'offset',
+                                action: 'changed',
+                                column_value: 'none',
+                            })
+                        }, TRACKING_DEBOUNCE_TIME)
+                    }}
+                    readOnly={offsetBasedOnWalkingDistance}
+                    feedback={
+                        isOverMax
+                            ? `Du kan ikke forskyve avgangstid mer enn ${OFFSET_MAX_MINUTES} minutter`
+                            : undefined
+                    }
+                    variant={isOverMax ? 'negative' : undefined}
+                />
+                {address && tile.walkingDistance?.distance && (
+                    <Checkbox
+                        checked={offsetBasedOnWalkingDistance}
+                        onChange={() => {
+                            if (!offsetBasedOnWalkingDistance)
+                                setOffset(walkingDistanceInMinutes)
+                            else setOffset(tile.offset ?? '')
+
+                            setOffsetBasedOnWalkingDistance(
+                                !offsetBasedOnWalkingDistance,
+                            )
+                            onFieldChanged('offset_walking_dist')
+
+                            capture('stop_place_edit_interaction', {
+                                location: trackingLocation,
+                                field: 'offset_walking_dist',
+                                action: !offsetBasedOnWalkingDistance
+                                    ? 'toggled_on'
+                                    : 'toggled_off',
+                                column_value: 'none',
+                            })
+                        }}
+                    >
+                        Forskyv basert på gangavstand
+                    </Checkbox>
+                )}
+            </div>
+        </>
+    )
+}
+
+export { SetOffsetDepartureTime }

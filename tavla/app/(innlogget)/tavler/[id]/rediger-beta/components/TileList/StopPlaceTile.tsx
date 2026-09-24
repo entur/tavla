@@ -3,20 +3,20 @@ import { SecondaryButton } from '@entur/button'
 import { FeedbackText } from '@entur/form'
 import { EditIcon } from '@entur/icons'
 import { LeadParagraph } from '@entur/typography'
-import { useLines } from 'app/_components/TileCard/useLines'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import { getTransportModesFromLines } from 'app/_components/TransportIcon/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
-import type { BoardTileDB } from 'src/types/db-types/boards'
+import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
+import { EditStopPlaceModal } from '../EditStopPlaceModal/EditStopPlaceModal'
+import { useLines } from '../utils/useLines'
 import { DeleteTileButton } from './DeleteTileButton'
-import { EditStopPlaceModal } from './EditStopPlaceModal'
 
 export function StopPlaceTile({
-    boardId,
+    board,
     tile,
 }: {
-    boardId: string
+    board: BoardDB
     tile: BoardTileDB
 }) {
     const [isEditOpen, setIsEditOpen] = useState(false)
@@ -73,7 +73,7 @@ export function StopPlaceTile({
                         <EditIcon /> Rediger
                     </SecondaryButton>
                     <DeleteTileButton
-                        boardId={boardId}
+                        boardId={board.id}
                         tile={tile}
                         onError={setDeleteError}
                     />
@@ -82,6 +82,7 @@ export function StopPlaceTile({
                     isOpen={isEditOpen}
                     setIsOpen={handleSetIsEditOpen}
                     tile={tile}
+                    board={board}
                 />
             </div>
             {deleteError && (
