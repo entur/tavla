@@ -75,9 +75,13 @@ Dette siste spørsmålet kan bare besvares automatisk for `entur/tavla`. `pnpm-l
 
 Da `tar` ble triagert i uke 34, var førsteutkastet å heve pinnen fra 7.5.11 til 7.5.21. Det ville fikset varslene — og latt selve problemet stå. En ny eksakt pin forfaller like sikkert som den forrige.
 
-Rekkefølgen er **fjern → eksakt + audit**. Still spørsmålene slik:
+Rekkefølgen er **dedupe → fjern → eksakt + audit**. Still spørsmålene slik:
 
-**1. Kan pinnen fjernes helt?** Dette er det beste utfallet, og `pin-vurder.py` svarer på det. Kriteriet er at alle konsumentranges konvergerer til én trygg versjon uten pinnen. For `tar` var det tilfellet: begge konsumentene ba om carets (`^7.5.11`, `^7.5.4`), som kollapser til én entry på 7.5.22.
+**1. Finnes det ingen pin ennå — løser `yarn dedupe`/`pnpm dedupe` det alene?** Dette er det billigste utfallet, og det som gjelder *før* en pin i det hele tatt kommer på tale. Flere sårbare kopier av samme pakke er ofte bare en lockfile som ikke har konsolidert til en versjon konsumentenes egne ranges allerede tillater — ikke en range-konflikt som krever en overstyring. `yarn dedupe --check <pakke>` (tavla) / `pnpm dedupe --check <pakke>` (tavla-visning) svarer på det: viser target-versjonen ≥ pakkens `first_patched_version`, er svaret dedupe, ikke pin. Se «Før du foreslår en ny pin: prøv dedupe først» i `SKILL.md` for fremgangsmåte og et konkret eksempel (`postcss`+`nanoid`, uke 39).
+
+Løser dedupe det, er du ferdig — ingen `resolutions`/`overrides`-oppføring betyr ingenting for `pin-oversikt.py` å holde styr på, og ingenting som kan forfalle senere. Dedupe kan derimot bare velge blant versjoner som *allerede* finnes et sted i lockfilen; den henter aldri noe nytt fra npm. Dekker ingen av de allerede resolverte kopiene fiksen, gå til `yarn up <pakke>` / `pnpm update <pakke> --lockfile-only` (fersk resolve) før du vurderer pin.
+
+**2. Kan en eksisterende pin fjernes helt?** Dette er det beste utfallet for en pakke som *allerede* er pinnet, og `pin-vurder.py` svarer på det. Kriteriet er at alle konsumentranges konvergerer til én trygg versjon uten pinnen. For `tar` var det tilfellet: begge konsumentene ba om carets (`^7.5.11`, `^7.5.4`), som kollapser til én entry på 7.5.22.
 
 Fjerning er bedre enn heving fordi det gir Dependabot ansvaret tilbake — permanent. Og at Dependabot klarer det, er ikke en antakelse: [#2277](https://github.com/entur/tavla/pull/2277) bumpet `tar` 7.5.7 → 7.5.9 helt selv før pinnen fantes. Transitiv-only er ikke noe hinder.
 
@@ -91,13 +95,13 @@ Sammenlign `shell-quote` på tvers av repoene — samme pakke, samme rolle:
 
 Upinnet tok Dependabot den til 1.10.0 i [#2547](https://github.com/entur/tavla/pull/2547) og varselet lukket seg selv. Pinnet står den fast på presis den versjonen varselet peker på.
 
-**2. Ellers: eksakt versjon som bevisst gjeld.** Riktig når du må overstyre en konsument som selv pinner eksakt (slik `next` pinner `postcss` til `8.4.31`), eller når du vet at høyere versjoner brekker noe. Da er pinnen gjeld — men den forfaller ikke stille lenger, for `pin-oversikt.py` viser alderen hver mandag.
+**3. Ellers: eksakt versjon som bevisst gjeld.** Riktig når du må overstyre en konsument som selv pinner eksakt (slik `next` pinner `postcss` til `8.4.31`), eller når du vet at høyere versjoner brekker noe. Da er pinnen gjeld — men den forfaller ikke stille lenger, for `pin-oversikt.py` viser alderen hver mandag.
 
 ## Ikke bruk range i `resolutions`
 
 En caret (`"tar": "^7.5.21"`) ser ut som en elegant mellomting — pinnen vedlikeholder seg selv innenfor `7.5.x` og forfaller aldri. **Ikke gjør det i Tavla.** `tavla/.yarnrc.yml` setter `defaultSemverRangePrefix: ''` sammen med `npmMinimalAgeGate: 5760` og `enableScripts: false` — Team Sikkerhets herding mot supply chain-angrep, innført i [#2100](https://github.com/entur/tavla/pull/2100). Poenget med den første er at versjonsvalget skal være et eksplisitt, committet valg, ikke noe som avgjøres på resolveringstidspunktet. En caret i `resolutions` flytter valget tilbake dit.
 
-At eksakte pinner forfaller stille er et vedlikeholdsargument, ikke et sikkerhetsargument — og det er auditen som løser det. Så: fjern hvis du kan, ellers eksakt.
+At eksakte pinner forfaller stille er et vedlikeholdsargument, ikke et sikkerhetsargument — og det er auditen som løser det. Så: dedupe hvis pakken ikke trenger en pin i det hele tatt, fjern hvis den allerede har en den ikke trenger, ellers eksakt.
 
 ## Fjerning betyr ikke at versjonen flyter
 

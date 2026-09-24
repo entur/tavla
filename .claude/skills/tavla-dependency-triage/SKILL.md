@@ -140,6 +140,22 @@ grep -A2 '^"PAKKE@npm:' tavla/yarn.lock | grep '^  version:' | sort -u
 
 Er svaret mer enn én versjon, må du finne ut hvem som drar inn de sårbare kopiene før du konkluderer — og ofte er fiksen en pin/deduplisering, ikke PRen som ligger åpen.
 
+### Før du foreslår en ny pin: prøv dedupe først
+
+Flere parallelle kopier betyr ikke automatisk at svaret er en ny `resolutions`/`overrides`-pin. Konsumentenes ranges tillater ofte allerede en trygg versjon som finnes et annet sted i lockfilen — da er problemet bare at yarn/pnpm ikke har konsolidert til den, ikke en range-konflikt. Sjekk det **før** du skriver en pin-anbefaling:
+
+```bash
+yarn dedupe --check <pakke>          # entur/tavla
+pnpm dedupe --check <pakke>          # entur/tavla-visning
+```
+
+Les utfallet slik:
+
+- **Target-versjonen dekker fiksen** (`can be deduped from X to Y`, og Y ≥ `first_patched_version`) → anbefal dedupe, ingen pin. Dedupe endrer bare `yarn.lock`/`pnpm-lock.yaml`, aldri `package.json` — det er ingen ny gjeld å spore i `pin-oversikt.py` neste mandag.
+- **Target-versjonen dekker ikke fiksen**, eller pakken vises ikke i dedupe-outputen i det hele tatt (ingen trygg kopi finnes ennå noe sted i treet) → dedupe kan bare omfordele versjoner som allerede er resolvert, den henter ingenting fra npm. Gå videre til `yarn up <pakke>` / `pnpm update <pakke> --lockfile-only` (fersk resolve). Først når *det* heller ikke dekker alle konsumenters ranges, er en ny eksakt pin riktig — se «Beslutningsrekkefølge» i `references/pin-vedlikehold.md`.
+
+Eksempel: postcss+nanoid i uke 39 hadde tre kopier av postcss (`8.5.8`, `8.5.23`, `8.5.28`) og to av nanoid (`3.3.11`, `3.3.18`). `yarn dedupe --check postcss` viste `can be deduped ... to postcss@npm:8.5.28` — over fiksversjonen — så riktig anbefaling var dedupe, ikke en ny pin i `resolutions`.
+
 ---
 
 ## Steg 1b — Pinner: oversikt ukentlig, vurdering ved behov
@@ -185,9 +201,9 @@ Dette siste spørsmålet kan bare besvares automatisk for `entur/tavla`. `pnpm-l
 
 Kunne noe ikke sjekkes — `gh` uten riktig scope, npm som ikke svarer, semver som mangler, git-historikk som ikke finnes — sies det ❔ per punkt, alt usjekket listes til slutt, og exit-koden er 1. Et ufullstendig resultat skal ikke kunne leses som grønt. Ser du ❔, er jobben ikke ferdig, og den skal ikke inn i briefen som om den var det.
 
-### Beslutningsrekkefølgen er `fjern → eksakt + audit`
+### Beslutningsrekkefølgen er `dedupe → fjern → eksakt + audit`
 
-Å heve en pin til en ny eksakt versjon fikser varselet, men lar mekanismen stå — den forfaller igjen ved neste CVE. Å fjerne den gir Dependabot ansvaret tilbake permanent. Alt som kommer ut 🟢 skal derfor inn i briefen og todo-lista, ikke bare det som er 🔴.
+Å heve en pin til en ny eksakt versjon fikser varselet, men lar mekanismen stå — den forfaller igjen ved neste CVE. Å fjerne den gir Dependabot ansvaret tilbake permanent. Alt som kommer ut 🟢 skal derfor inn i briefen og todo-lista, ikke bare det som er 🔴. Dette gjelder auditen av en pin som **allerede finnes**. Vurderer du en pakke med flere sårbare kopier som ennå ikke er pinnet, still spørsmålet enda tidligere — se «Før du foreslår en ny pin: prøv dedupe først» over.
 
 Må pinnen bli stående, skal den være en **eksakt versjon — ikke en range.** `tavla/.yarnrc.yml` setter `defaultSemverRangePrefix: ''` sammen med `npmMinimalAgeGate: 5760` og `enableScripts: false`, som er Team Sikkerhets herding mot supply chain-angrep ([#2100](https://github.com/entur/tavla/pull/2100)). En caret i `resolutions` flytter versjonsvalget tilbake til resolveringstidspunktet og undergraver nettopp det. Forfallsproblemet løses av at oversikten kjøres hver uke, ikke av en løsere versjonsspesifikasjon. Begrunnelse: `references/pin-vedlikehold.md`.
 
@@ -399,7 +415,7 @@ Les bare det som er relevant for situasjonen:
 
 - `references/risikoklassifisering.md` — Hva du gjør med en Dependabot-PR, per bumptype: hva du sjekker, hva du ser etter i changelogen, og hvem som merger. Les ved tvil om en PR er patch, minor eller major — eller hva du skylder en reviewer.
 - `references/sikkerhets-triage.md` — Detaljert framgangsmåte for CVE-vurdering, og hvordan et varsel lukkes formelt (allowlist vs. dismiss, Enturs to godkjente dismiss-begrunnelser, når Team Sikkerhet skal inn). Les når en Dependabot security alert dukker opp.
-- `references/pin-vedlikehold.md` — Hvorfor `resolutions`/`overrides`-pinner forfaller, beslutningsrekkefølgen `fjern → eksakt + audit`, hvorfor range ikke brukes i Tavla, hvordan heve en forfalt pin trygt, og hvordan finne historikken til en pin (`git log -L`, ikke `git blame`). Les når en pin-vurdering gir 🔴, eller når du skal sette en ny pin.
+- `references/pin-vedlikehold.md` — Hvorfor `resolutions`/`overrides`-pinner forfaller, beslutningsrekkefølgen `dedupe → fjern → eksakt + audit`, hvorfor range ikke brukes i Tavla, hvordan heve en forfalt pin trygt, og hvordan finne historikken til en pin (`git log -L`, ikke `git blame`). Les når en pin-vurdering gir 🔴, eller når du skal sette en ny pin.
 
 ## Scripts
 
