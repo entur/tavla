@@ -28,7 +28,10 @@ mod types;
 mod utils;
 use tower_http::cors::CorsLayer;
 use types::{AppError, AppState, BoardAction, Message};
-use utils::{bool_label, graceful_shutdown, is_mobile_user_agent, setup_redis, BOOL_LABEL_VALUES};
+use utils::{
+    bool_label, county_label, graceful_shutdown, is_mobile_user_agent, setup_redis,
+    BOOL_LABEL_VALUES, COUNTY_LABEL_VALUES,
+};
 use uuid::Uuid;
 
 use crate::types::Guard;
@@ -56,6 +59,7 @@ struct HeartbeatPayload {
     screen_height: u32,
     app: Option<String>,
     is_direct_link: Option<bool>,
+    county: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -70,6 +74,7 @@ pub struct ActiveInfo {
     pub screen_height: u32,
     pub app: Option<String>,
     pub is_direct_link: Option<bool>,
+    pub county: Option<String>,
 }
 
 #[tokio::main]
@@ -104,9 +109,9 @@ async fn main() {
     let sessions_gauge = GaugeVec::new(
         Opts::new(
             "tavla_sessions_current",
-            "Number of currently active tavla sessions/tabs with heartbeats, by is_mobile and is_direct_link",
+            "Number of currently active tavla sessions/tabs with heartbeats, by is_mobile, is_direct_link and county",
         ),
-        &["is_mobile", "is_direct_link"],
+        &["is_mobile", "is_direct_link", "county"],
     )
     .expect("Failed to create sessions metric");
 
@@ -114,12 +119,14 @@ async fn main() {
         .register(Box::new(sessions_gauge.clone()))
         .expect("Failed to register sessions metric");
 
-    // GaugeVec has no child series until with_label_values is called, seeds all 4 label combinations so the metric is never silently absent from /metrics.
+    // GaugeVec has no child series until with_label_values is called, seeds all label combinations so the metric is never silently absent from /metrics.
     for mobile_label in BOOL_LABEL_VALUES {
         for direct_label in BOOL_LABEL_VALUES {
-            sessions_gauge
-                .with_label_values(&[mobile_label, direct_label])
-                .set(0.0);
+            for county_lbl in COUNTY_LABEL_VALUES {
+                sessions_gauge
+                    .with_label_values(&[mobile_label, direct_label, county_lbl])
+                    .set(0.0);
+            }
         }
     }
 
@@ -176,13 +183,15 @@ async fn main() {
                                         .active_direct_boards
                                         .set(direct_count as f64);
 
-                                    let mut session_counts: HashMap<(&str, &str), f64> =
+                                    let mut session_counts: HashMap<(&str, &str, &str), f64> =
                                         BOOL_LABEL_VALUES
                                             .iter()
                                             .flat_map(|&mobile| {
-                                                BOOL_LABEL_VALUES
-                                                    .iter()
-                                                    .map(move |&direct| ((mobile, direct), 0.0))
+                                                BOOL_LABEL_VALUES.iter().flat_map(move |&direct| {
+                                                    COUNTY_LABEL_VALUES.iter().map(move |&county| {
+                                                        ((mobile, direct, county), 0.0)
+                                                    })
+                                                })
                                             })
                                             .collect();
 
@@ -190,17 +199,30 @@ async fn main() {
                                         let mobile_label = bool_label(info.is_mobile);
                                         let direct_label =
                                             bool_label(info.is_direct_link == Some(true));
+                                        let county_lbl = county_label(info.county.as_deref());
                                         *session_counts
-                                            .get_mut(&(mobile_label, direct_label))
+                                            .get_mut(&(mobile_label, direct_label, county_lbl))
                                             .unwrap() += 1.0;
                                     }
 
                                     for mobile_label in BOOL_LABEL_VALUES {
                                         for direct_label in BOOL_LABEL_VALUES {
-                                            metrics_updater
-                                                .sessions
-                                                .with_label_values(&[mobile_label, direct_label])
-                                                .set(session_counts[&(mobile_label, direct_label)]);
+                                            for county_lbl in COUNTY_LABEL_VALUES {
+                                                metrics_updater
+                                                    .sessions
+                                                    .with_label_values(&[
+                                                        mobile_label,
+                                                        direct_label,
+                                                        county_lbl,
+                                                    ])
+                                                    .set(
+                                                        session_counts[&(
+                                                            mobile_label,
+                                                            direct_label,
+                                                            county_lbl,
+                                                        )],
+                                                    );
+                                            }
                                         }
                                     }
                                 }
@@ -214,10 +236,16 @@ async fn main() {
                             metrics_updater.active_direct_boards.set(0.0);
                             for mobile_label in BOOL_LABEL_VALUES {
                                 for direct_label in BOOL_LABEL_VALUES {
-                                    metrics_updater
-                                        .sessions
-                                        .with_label_values(&[mobile_label, direct_label])
-                                        .set(0.0);
+                                    for county_lbl in COUNTY_LABEL_VALUES {
+                                        metrics_updater
+                                            .sessions
+                                            .with_label_values(&[
+                                                mobile_label,
+                                                direct_label,
+                                                county_lbl,
+                                            ])
+                                            .set(0.0);
+                                    }
                                 }
                             }
                         }
@@ -490,6 +518,7 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
             screen_height: payload.screen_height,
             app: payload.app,
             is_direct_link: payload.is_direct_link,
+            county: payload.county,
         }),
     )?;
 

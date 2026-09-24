@@ -301,7 +301,7 @@ Tilgjengelig metrikk:
 |---------|------|-------------|
 | `tavla_active_sessions_current` | Gauge | Antall tavler som aktivt lytter på oppdateringer |
 | `tavla_active_direct_sessions_current` | Gauge | Antall aktive direktelink-tavler (NSR-id i URL, ingen tavle-dokument) |
-| `tavla_sessions_current` | Gauge (labels: `is_mobile`, `is_direct_link`) | Tilnærmet samme telling som de to over, splittet på enhet og direktelink - kan avvike litt siden denne kun teller heartbeats som lar seg parse. Erstatter etter hvert de to eldre metrikkene når dashboards/alerts er migrert. |
+| `tavla_sessions_current` | Gauge (labels: `is_mobile`, `is_direct_link`, `county`) | Tilnærmet samme telling som de to over, splittet på enhet, direktelink og fylke - kan avvike litt siden denne kun teller heartbeats som lar seg parse. `county` er ett av de 15 norske fylkene, `Annet` (verdi utenfor Norge, f.eks. svenske fylker nær grensen) eller `N/A` (heartbeaten inneholdt ikke et county-felt - forventet for direktelenke-tavler inntil de også får en fylke-kilde). Erstatter etter hvert de to eldre metrikkene når dashboards/alerts er migrert. |
 
 Disse metrikkene kan skrapes av Prometheus og visualiseres i Grafana for å overvåke sanntidsbelastning på tjenesten.
 

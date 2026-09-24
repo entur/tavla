@@ -56,6 +56,64 @@ pub fn bool_label(value: bool) -> &'static str {
     }
 }
 
+pub const NORWEGIAN_COUNTIES: [&str; 15] = [
+    "Oslo",
+    "Trøndelag",
+    "Akershus",
+    "Vestland",
+    "Innlandet",
+    "Møre og Romsdal",
+    "Troms",
+    "Nordland",
+    "Rogaland",
+    "Østfold",
+    "Buskerud",
+    "Agder",
+    "Finnmark",
+    "Vestfold",
+    "Telemark",
+];
+
+const COUNTY_OTHER: &str = "Annet";
+const COUNTY_NA: &str = "N/A";
+
+// Values the `county` session label can take: the fylker in NORWEGIAN_COUNTIES,
+// COUNTY_OTHER for any other non-empty value (e.g. Swedish counties near the
+// border), or COUNTY_NA if the heartbeat didn't include a county at all.
+// Derived from NORWEGIAN_COUNTIES rather than duplicated, so the two lists
+// can't drift out of sync.
+const fn build_county_label_values() -> [&'static str; NORWEGIAN_COUNTIES.len() + 2] {
+    let mut values = [""; NORWEGIAN_COUNTIES.len() + 2];
+    let mut i = 0;
+    while i < NORWEGIAN_COUNTIES.len() {
+        values[i] = NORWEGIAN_COUNTIES[i];
+        i += 1;
+    }
+    values[NORWEGIAN_COUNTIES.len()] = COUNTY_OTHER;
+    values[NORWEGIAN_COUNTIES.len() + 1] = COUNTY_NA;
+    values
+}
+
+pub const COUNTY_LABEL_VALUES: [&str; NORWEGIAN_COUNTIES.len() + 2] = build_county_label_values();
+
+// Lowercased once at first use rather than re-lowercasing every county name on every lookup.
+static NORWEGIAN_COUNTIES_LOWER: std::sync::LazyLock<[String; NORWEGIAN_COUNTIES.len()]> =
+    std::sync::LazyLock::new(|| NORWEGIAN_COUNTIES.map(|county| county.to_lowercase()));
+
+pub fn county_label(raw: Option<&str>) -> &'static str {
+    match raw.filter(|c| !c.is_empty()) {
+        Some(c) => {
+            let c_lower = c.to_lowercase();
+            NORWEGIAN_COUNTIES_LOWER
+                .iter()
+                .position(|county| *county == c_lower)
+                .map(|i| NORWEGIAN_COUNTIES[i])
+                .unwrap_or(COUNTY_OTHER)
+        }
+        None => COUNTY_NA,
+    }
+}
+
 pub async fn setup_redis() -> (MultiplexedConnection, Client) {
     let redis_pw = std::env::var("REDIS_PASSWORD").ok();
     let conn_info = RedisConnectionInfo {
