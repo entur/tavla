@@ -493,12 +493,10 @@ function ExpandableInfo() {
                     protestere mot behandling som skjer på grunnlag av vår
                     berettigede interesse, og be om å få utlevert opplysningene
                     dine i et strukturert, alminnelig anvendt og maskinlesbart
-                    format (dataportabilitet). Der behandlingen bygger på
-                    samtykke – som for profil-e-post og analyse – kan du når som
+                    format. Der behandlingen bygger på samtykke kan du når som
                     helst trekke samtykket tilbake. Det påvirker ikke
                     lovligheten av behandlingen som skjedde før du trakk det
-                    tilbake. Forespørslene dine behandles kostnadsfritt og
-                    senest innen 30 dager.
+                    tilbake.
                 </Paragraph>
                 <Paragraph>
                     For å bruke rettighetene dine, eller hvis du har spørsmål om
