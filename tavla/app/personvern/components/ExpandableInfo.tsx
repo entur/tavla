@@ -79,6 +79,11 @@ function ExpandableInfo() {
                         For å vite hvilke mapper du er en del av.
                     </ListItem>
                 </UnorderedList>
+                <Paragraph>
+                    Det er nødvendig å oppgi e-postadresse for å opprette en
+                    profil. Uten en profil kan du ikke opprette og administrere
+                    tavler innlogget.
+                </Paragraph>
                 <Heading3>Hvor lenge lagrer vi opplysningene?</Heading3>
                 <Paragraph>
                     Vi lagrer og behandler personopplysningene om deg så lenge
@@ -88,6 +93,12 @@ function ExpandableInfo() {
                     driftslogging») oppbevares i inntil 30 dager, mens
                     aktivitetsdata fra visningsskjermer slettes automatisk etter
                     24 timer.
+                </Paragraph>
+                <Heading3>Automatiserte avgjørelser</Heading3>
+                <Paragraph>
+                    Vi bruker ikke personopplysningene dine til automatiserte
+                    avgjørelser eller profilering med rettslig eller tilsvarende
+                    vesentlig virkning for deg.
                 </Paragraph>
             </ExpandablePanel>
             <ExpandablePanel
@@ -301,10 +312,29 @@ function ExpandableInfo() {
                 </Paragraph>
                 <Heading3>Databehandlere</Heading3>
                 <Paragraph>
-                    Entur benytter Google Cloud Platform som databehandler for
-                    lagring og drift. For å sikre dine rettigheter har vi
-                    inngått databehandleravtale som regulerer hvordan
-                    opplysningene kan behandles.
+                    Vi benytter databehandlere som behandler personopplysninger
+                    på våre vegne. For å sikre dine rettigheter har vi inngått
+                    databehandleravtaler som regulerer hvordan opplysningene kan
+                    behandles:
+                </Paragraph>
+                <UnorderedList className="pl-8">
+                    <ListItem>
+                        <StrongText>Google Cloud Platform: </StrongText>lagring
+                        og drift. Dataene lagres i Googles datasentre i EU
+                        (europe-west1).
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>PostHog: </StrongText>analyse av bruk.
+                        PostHog behandler data i Europa.
+                    </ListItem>
+                </UnorderedList>
+                <Heading3>Overføring til land utenfor EØS</Heading3>
+                <Paragraph>
+                    Personopplysningene behandles i utgangspunktet innenfor
+                    EU/EØS. Der en behandling likevel kan innebære overføring
+                    til land utenfor EØS, baserer Entur seg på gyldige
+                    overføringsgrunnlag, som EUs standardavtaleklausuler og
+                    EU–US Data Privacy Framework.
                 </Paragraph>
             </ExpandablePanel>
             <ExpandablePanel title="Dine rettigheter">
@@ -335,6 +365,13 @@ function ExpandableInfo() {
                         <StrongText>Dataportabilitet: </StrongText>Du har rett
                         til å motta opplysningene dine i et strukturert,
                         alminnelig anvendt og maskinlesbart format.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Trekke tilbake samtykke: </StrongText>Der
+                        behandlingen bygger på samtykke (profil-e-post og
+                        analyse), kan du når som helst trekke det tilbake. Det
+                        påvirker ikke lovligheten av behandlingen som skjedde
+                        før du trakk samtykket tilbake.
                     </ListItem>
                     <ListItem>
                         <StrongText>Klage: </StrongText>Du har rett til å klage
