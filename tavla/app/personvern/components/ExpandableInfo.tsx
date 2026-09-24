@@ -187,37 +187,35 @@ function ExpandableInfo() {
                     identifiserer deg ikke direkte, men er knyttet til en
                     pseudonym sporings-ID, og enkelte opplysninger kan i teorien
                     bidra til indirekte gjenkjenning.
-                    <UnorderedList className="pl-8">
-                        <ListItem>
-                            <StrongText>Sporings-ID: </StrongText>En pseudonym
-                            ID (samme som du kan hente under
-                            «Informasjonskapsler»). Denne blir ikke sporet på
-                            tvers av domener.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Land: </StrongText>Hvilket land du
-                            befinner deg i.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Sidevisninger: </StrongText>Alle
-                            sidevisninger du gjør.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Referrer: </StrongText> Siden du kommer
-                            fra blir lagret dersom det er tilgjengelig.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Nettleser og enhet: </StrongText>Vi
-                            leser User Agent-headeren for å utlede hvilken
-                            nettleser og operativsystem du bruker. Selve User
-                            Agent-strengen lagres ikke i PostHog.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Tid: </StrongText>Tid du bruker på en
-                            side.
-                        </ListItem>
-                    </UnorderedList>
                 </Paragraph>
+                <UnorderedList className="pl-8">
+                    <ListItem>
+                        <StrongText>Sporings-ID: </StrongText>En pseudonym ID
+                        (samme som du kan hente under «Informasjonskapsler»).
+                        Denne blir ikke sporet på tvers av domener.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Land: </StrongText>Hvilket land du befinner
+                        deg i.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Sidevisninger: </StrongText>Alle
+                        sidevisninger du gjør.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Referrer: </StrongText> Siden du kommer fra
+                        blir lagret dersom det er tilgjengelig.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Nettleser og enhet: </StrongText>Vi leser
+                        User Agent-headeren for å utlede hvilken nettleser og
+                        operativsystem du bruker. Selve User Agent-strengen
+                        lagres ikke i PostHog.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Tid: </StrongText>Tid du bruker på en side.
+                    </ListItem>
+                </UnorderedList>
             </ExpandablePanel>
             <ExpandablePanel title="Feilsøking og driftslogging">
                 <Heading3>Teknisk logging for drift og feilsøking</Heading3>
@@ -233,27 +231,27 @@ function ExpandableInfo() {
                 <Paragraph>
                     Loggene inneholder teknisk informasjon om hendelser og feil
                     i tjenesten:
-                    <UnorderedList className="pl-8">
-                        <ListItem>
-                            <StrongText>Tavle- og mappe-ID: </StrongText>
-                            identifikatorer for tavlene og mappene en handling
-                            gjelder.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Sti og statuskoder: </StrongText>hvilket
-                            endepunkt som ble kalt og resultatet av kallet.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Feilkoder: </StrongText>hva som gikk
-                            galt når en feil oppstår.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Nettleser (User Agent): </StrongText>
-                            informasjon om nettleseren og operativsystemet som
-                            ble brukt.
-                        </ListItem>
-                    </UnorderedList>
                 </Paragraph>
+                <UnorderedList className="pl-8">
+                    <ListItem>
+                        <StrongText>Tavle- og mappe-ID: </StrongText>
+                        identifikatorer for tavlene og mappene en handling
+                        gjelder.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Sti og statuskoder: </StrongText>hvilket
+                        endepunkt som ble kalt og resultatet av kallet.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Feilkoder: </StrongText>hva som gikk galt
+                        når en feil oppstår.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Nettleser (User Agent): </StrongText>
+                        informasjon om nettleseren og operativsystemet som ble
+                        brukt.
+                    </ListItem>
+                </UnorderedList>
                 <Paragraph>
                     Disse applikasjonsloggene inneholder{' '}
                     <StrongText>ikke</StrongText> e-postadressen din, bruker-ID
@@ -265,27 +263,27 @@ function ExpandableInfo() {
                     gjennom en felles infrastruktur (lastbalanserer) som fører
                     tilgangslogger over forespørslene som kommer inn. Disse
                     loggene registrerer blant annet:
-                    <UnorderedList className="pl-8">
-                        <ListItem>
-                            <StrongText>IP-adresse: </StrongText>IP-adressen
-                            forespørselen kommer fra.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Forespørsel: </StrongText>tidspunkt,
-                            metode, adressen (URL) som ble kalt, statuskode og
-                            hvilken side forespørselen kom fra (referer).
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Nettleser (User Agent): </StrongText>
-                            informasjon om nettleseren og operativsystemet.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Tekniske kjennetegn: </StrongText>
-                            tilkoblingens tekniske fingeravtrykk samt grov
-                            geografisk region og nettverksoperatør.
-                        </ListItem>
-                    </UnorderedList>
                 </Paragraph>
+                <UnorderedList className="pl-8">
+                    <ListItem>
+                        <StrongText>IP-adresse: </StrongText>IP-adressen
+                        forespørselen kommer fra.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Forespørsel: </StrongText>tidspunkt, metode,
+                        adressen (URL) som ble kalt, statuskode og hvilken side
+                        forespørselen kom fra (referer).
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Nettleser (User Agent): </StrongText>
+                        informasjon om nettleseren og operativsystemet.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Tekniske kjennetegn: </StrongText>
+                        tilkoblingens tekniske fingeravtrykk samt grov
+                        geografisk region og nettverksoperatør.
+                    </ListItem>
+                </UnorderedList>
                 <Paragraph>
                     Tilgangsloggene brukes til sikkerhet, feilsøking og drift av
                     tjenesten. Behandlingsgrunnlaget er vår berettigede
@@ -314,38 +312,36 @@ function ExpandableInfo() {
                 <Paragraph>
                     Du har flere rettigheter knyttet til personopplysningene vi
                     behandler om deg:
-                    <UnorderedList className="pl-8">
-                        <ListItem>
-                            <StrongText>Innsyn: </StrongText>Du har rett til å
-                            be om innsyn i opplysningene vi behandler om deg.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Retting og sletting: </StrongText>Du kan
-                            få opplysningene rettet, supplert eller slettet.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Begrensning: </StrongText>Du har rett
-                            til å be om at behandlingen av opplysningene dine
-                            begrenses.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Innsigelse: </StrongText>Du har rett til
-                            å protestere mot behandling som skjer på grunnlag av
-                            vår berettigede interesse.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Dataportabilitet: </StrongText>Du har
-                            rett til å motta opplysningene dine i et
-                            strukturert, alminnelig anvendt og maskinlesbart
-                            format.
-                        </ListItem>
-                        <ListItem>
-                            <StrongText>Klage: </StrongText>Du har rett til å
-                            klage til Datatilsynet dersom du mener behandlingen
-                            ikke er i samsvar med personvernregelverket.
-                        </ListItem>
-                    </UnorderedList>
                 </Paragraph>
+                <UnorderedList className="pl-8">
+                    <ListItem>
+                        <StrongText>Innsyn: </StrongText>Du har rett til å be om
+                        innsyn i opplysningene vi behandler om deg.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Retting og sletting: </StrongText>Du kan få
+                        opplysningene rettet, supplert eller slettet.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Begrensning: </StrongText>Du har rett til å
+                        be om at behandlingen av opplysningene dine begrenses.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Innsigelse: </StrongText>Du har rett til å
+                        protestere mot behandling som skjer på grunnlag av vår
+                        berettigede interesse.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Dataportabilitet: </StrongText>Du har rett
+                        til å motta opplysningene dine i et strukturert,
+                        alminnelig anvendt og maskinlesbart format.
+                    </ListItem>
+                    <ListItem>
+                        <StrongText>Klage: </StrongText>Du har rett til å klage
+                        til Datatilsynet dersom du mener behandlingen ikke er i
+                        samsvar med personvernregelverket.
+                    </ListItem>
+                </UnorderedList>
                 <Paragraph>
                     For å bruke rettighetene dine, eller hvis du har spørsmål om
                     hvordan vi behandler personopplysninger, kan du kontakte{' '}
