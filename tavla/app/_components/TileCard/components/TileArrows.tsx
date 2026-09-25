@@ -26,12 +26,7 @@ function TileArrows({
                     aria-label="Flytt opp"
                     className="ml-2 *:!border-gray-300"
                 >
-                    <UpwardIcon
-                        onClick={() => {
-                            moveItem(index, 'up')
-                        }}
-                        aria-label="Flytt opp"
-                    />
+                    <UpwardIcon />
                 </SecondarySquareButton>
             )}
             {index !== totalTiles - 1 && (

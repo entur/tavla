@@ -275,6 +275,10 @@ export type EventMap = {
         transport_mode_filter: boolean
     }
 
+    stop_place_moved: WithLocation<
+        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+    >
+
     stop_place_add_interaction: WithLocation<
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.BoardWithoutUser
