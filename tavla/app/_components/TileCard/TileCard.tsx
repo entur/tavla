@@ -223,6 +223,11 @@ export function TileCard({
         }
     }
 
+    const handleMoveItem = (index: number, direction: string) => {
+        capture('stop_place_moved', { location: trackingLocation })
+        moveItem(index, direction)
+    }
+
     return (
         <div>
             <TileContext.Provider value={tile}>
@@ -267,7 +272,7 @@ export function TileCard({
                     <TileArrows
                         index={index}
                         totalTiles={totalTiles}
-                        moveItem={moveItem}
+                        moveItem={handleMoveItem}
                     />
                 </div>
 
