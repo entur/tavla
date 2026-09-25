@@ -10,6 +10,7 @@ import { getBoard, getFolderForBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'utils/boardLink'
 import { EditBoardBeta } from './components/EditBoardBeta'
+import { InBetaBanner } from './components/InBetaBanner'
 
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>
@@ -51,6 +52,7 @@ export default async function EditBetaPage(props: TProps) {
             id="main-content"
             className="container flex flex-col gap-8 pb-20 pt-4"
         >
+            <InBetaBanner bid={bid} />
             {folder ? (
                 <BreadcrumbsNav
                     type="boardInFolder"

@@ -360,6 +360,12 @@ export type EventMap = {
     cookie_settings_opened: WithLocation<typeof LOCATIONS.Footer>
     github_link_clicked: WithLocation<typeof LOCATIONS.Footer>
     survey_set_up_board: undefined
+
+    /* Beta banner */
+    try_beta_banner_clicked: WithLocation<typeof LOCATIONS.EditBoardPage>
+    try_beta_banner_dismissed: WithLocation<typeof LOCATIONS.EditBoardPage>
+    in_beta_banner_go_back: WithLocation<typeof LOCATIONS.EditBoardPage>
+    in_beta_banner_dismissed: WithLocation<typeof LOCATIONS.EditBoardPage>
 }
 export type NoProps = undefined
 
