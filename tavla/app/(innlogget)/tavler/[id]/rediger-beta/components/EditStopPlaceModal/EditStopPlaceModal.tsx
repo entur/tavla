@@ -199,7 +199,6 @@ function EditStopPlaceModal({
                             quays={quaysWithFilteredLines}
                             trackingLocation="board_page"
                             onFieldChanged={onFieldChanged}
-                            error={linesError}
                         />
 
                         {errorMessage && (

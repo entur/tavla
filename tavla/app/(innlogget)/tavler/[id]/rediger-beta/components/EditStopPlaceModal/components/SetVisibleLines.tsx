@@ -1,4 +1,3 @@
-import { SmallAlertBox } from '@entur/alert'
 import { Heading4, Paragraph } from '@entur/typography'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import type { EventProps } from 'app/posthog/events'
@@ -168,12 +167,10 @@ export function SetVisibleLines({
     quays,
     trackingLocation,
     onFieldChanged,
-    error,
 }: {
     quays: QuayWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
-    error: string | undefined
 }) {
     const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)

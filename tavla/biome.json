@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
     "root": false,
     "extends": "//",
     "vcs": {
@@ -20,7 +20,7 @@
             "!src/types/graphql-schema.ts",
             "!src/graphql/index.ts",
             "!migrations/*",
-            "!firebaseFunctions/*",
+            "!python-venv",
             "!next-env.d.ts",
             "!public",
             "!**/*.svg",
@@ -49,7 +49,7 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true,
+            "preset": "recommended",
             "correctness": {
                 "noUnusedVariables": "warn",
                 "noUnusedImports": "warn",
@@ -76,6 +76,16 @@
                 "rules": {
                     "suspicious": {
                         "noUnknownAtRules": "off"
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["firebaseFunctions/**"],
+            "linter": {
+                "rules": {
+                    "suspicious": {
+                        "noConsole": "off"
                     }
                 }
             }

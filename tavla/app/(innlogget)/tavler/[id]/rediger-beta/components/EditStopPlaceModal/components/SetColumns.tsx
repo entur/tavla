@@ -1,7 +1,4 @@
-import { IconButton } from '@entur/button'
 import { FilterChip } from '@entur/chip'
-import { QuestionFilledIcon } from '@entur/icons'
-import { Tooltip } from '@entur/tooltip'
 import { Heading4, SubParagraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'

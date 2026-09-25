@@ -20,7 +20,7 @@ export const updateLastActiveOnSchedule = scheduledFunction(
                     'meta.lastActiveTimestamp': Date.now(),
                 })
                 successCount++
-            } catch (error) {
+            } catch {
                 console.log(
                     `Could not set lastActiveTimeStamp. Board ${client.bid} does not exist in database`,
                 )
