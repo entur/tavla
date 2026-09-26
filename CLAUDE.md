@@ -86,6 +86,7 @@ Test the running server: `curl localhost:3001/active -H "Authorization: Bearer s
 2. Backend publishes to Redis channels (`update` global, or `<board-id>` specific)
 3. Frontend long-polls `GET /subscribe/:bid` — returns first event or times out after ~55s, then re-subscribes
 4. `active_boards` counter in Redis tracks currently connected boards
+5. `POST /heartbeat` — sent every 60s by tavla-visning for presence/analytics tracking; the response also returns the backend's current time (`{ time: <ms since epoch> }`), which tavla-visning uses to keep its displayed clock correct even when the display hardware's own system clock is wrong
 
 **Frontend data sources:**
 - Entur GraphQL API (`https://api.entur.io/journey-planner/v3/graphql`) — transit departures, stops, routes
