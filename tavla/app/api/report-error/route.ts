@@ -85,8 +85,9 @@ export async function POST(req: NextRequest) {
         type: 'tavla-visning',
         bid: boardId,
         errorCode,
+        errorMessage: message,
         userAgent,
-        context: { message, origin },
+        context: { origin },
     })
 
     return NextResponse.json({ ok: true }, { headers })
