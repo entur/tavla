@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
         bid: boardId,
         errorCode,
         userAgent,
-        context: { message },
+        context: { message, origin },
     })
 
     return NextResponse.json({ ok: true }, { headers })
