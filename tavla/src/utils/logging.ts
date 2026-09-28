@@ -108,7 +108,10 @@ export async function logToGcp(
     const log = getLog()
     if (!log) return
 
-    const entry = log.entry({ severity: safeLevel.toUpperCase() }, payload)
+    const entry = log.entry(
+        { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
+        payload,
+    )
     await log.write(entry).catch((error) => {
         // biome-ignore lint/suspicious/noConsole: Log errors on GCP logging in container output.
         console.error('GCP logging failed:', error)

@@ -239,7 +239,7 @@ Rate-limitene lever i minnet på hvert pod og er ikke delte på tvers av instans
 Logger havner i GCP Cloud Logging under:
 - **Prosjekt**: `ent-tavla-prd` (prod) / `ent-tavla-dev` (dev)
 - **Lognavn**: `tavla_admin`
-- **Ressurstype**: auto-detektert av `@google-cloud/logging` (`cloud_run_revision` i prod, med `service_name`/`revision_name`/`location` som egne felt)
+- **Ressurstype**: `global` (appen kjører på Kubernetes/GKE via Helm, ikke Cloud Run - auto-deteksjon av en mer presis `k8s_container`-ressurs krever at `NAMESPACE_NAME`/`POD_NAME`/`CONTAINER_NAME` settes i deploymentet, som ikke gjøres i dag)
 
 ### Filtrering i GCP Log Viewer
 
