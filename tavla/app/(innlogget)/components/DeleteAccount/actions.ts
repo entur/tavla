@@ -20,7 +20,7 @@ export async function deleteAccount(data: FormData) {
     if (!user?.uid) {
         return getFormFeedbackForError('auth/operation-not-allowed')
     }
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: deleteAccount', {
         type: 'server-action',
         action: 'deleteAccount',
     })
@@ -38,7 +38,7 @@ export async function deleteAccount(data: FormData) {
         await deleteUserFromFirestore()
         await deleteUserFromFirebaseAuth()
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: deleteAccount', {
             type: 'server-action',
             action: 'deleteAccount',
             errorName: error instanceof Error ? error.name : undefined,

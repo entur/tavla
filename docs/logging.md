@@ -60,11 +60,15 @@ logToGcp('warning', 'upload rejected: unauthorized', {
 
 `type` settes alltid eksplisitt av kalleren – det utledes ikke lenger fra meldingsteksten.
 
+**Unntak fra regelen:** verdier fra en liten, lukket, kodebestemt mengde (som ikke vokser med brukerdata) kan trygt inkluderes i meldingen for gruppering – f.eks. action-navn eller en enum som `errorCode`. Det er forskjellig fra en id, feiltekst eller annen fritekst, som alltid skal være et eget felt.
+
 #### Server actions – `type: 'server-action'`
 
+Meldingen inkluderer action-navnet slik at man kan gruppere/skumme per action i Log Explorer, i tillegg til at det ligger i `action`-feltet for presis filtrering.
+
 ```typescript
-logToGcp('info', 'action invoked', { type: 'server-action', action: 'deleteBoard', bid: boardId })
-logToGcp('error', 'action failed', { type: 'server-action', action: 'createFolder', folderId })
+logToGcp('info', 'action invoked: deleteBoard', { type: 'server-action', action: 'deleteBoard', bid: boardId })
+logToGcp('error', 'action failed: createFolder', { type: 'server-action', action: 'createFolder', folderId })
 ```
 
 #### HTTP-endepunkter – `type: 'http'`
@@ -138,9 +142,9 @@ Alle verdier saniteres før logging: linjeskift (`\r`, `\n`, Unicode-linjeskille
 import { logToGcp } from 'src/utils/logging'
 
 export async function deleteBoard(bid: string) {
-    logToGcp('info', 'action invoked', { type: 'server-action', action: 'deleteBoard', bid })
+    logToGcp('info', 'action invoked: deleteBoard', { type: 'server-action', action: 'deleteBoard', bid })
     // ...
-    logToGcp('error', 'action failed', { type: 'server-action', action: 'deleteBoard', bid })
+    logToGcp('error', 'action failed: deleteBoard', { type: 'server-action', action: 'deleteBoard', bid })
 }
 ```
 
@@ -319,7 +323,7 @@ I lokalt utviklingsmiljø (`NODE_ENV=development`) skrives alle GCP-logger til k
 {
   "severity": "INFO",
   "timestamp": "2024-01-15T10:30:00.000Z",
-  "message": "action invoked",
+  "message": "action invoked: getFirebaseClientConfig",
   "type": "server-action",
   "action": "getFirebaseClientConfig"
 }

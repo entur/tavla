@@ -22,7 +22,7 @@ export async function saveLanguage(
     value: LanguageValue,
 ): Promise<LanguageState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveLanguage', {
         type: 'server-action',
         action: 'saveLanguage',
         bid,
@@ -38,7 +38,7 @@ export async function saveLanguage(
     try {
         await updateBoard(bid, { language: parsed.data })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveLanguage', {
             type: 'server-action',
             action: 'saveLanguage',
             bid,

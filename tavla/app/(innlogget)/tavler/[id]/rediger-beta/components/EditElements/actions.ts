@@ -22,7 +22,7 @@ export async function saveElements(
     value: ElementsValue,
 ): Promise<ElementsState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveElements', {
         type: 'server-action',
         action: 'saveElements',
         bid,
@@ -42,7 +42,7 @@ export async function saveElements(
             hideLogo: parsed.data.hideLogo,
         })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveElements', {
             type: 'server-action',
             action: 'saveElements',
             bid,

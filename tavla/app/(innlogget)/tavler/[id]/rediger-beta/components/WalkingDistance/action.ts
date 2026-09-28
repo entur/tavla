@@ -34,7 +34,7 @@ export async function saveWalkingDistance(
     value?: LocationDB,
 ): Promise<FormState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveWalkingDistance', {
         type: 'server-action',
         action: 'saveWalkingDistance',
         bid,
@@ -71,7 +71,7 @@ export async function saveWalkingDistance(
             })
         }
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveWalkingDistance', {
             type: 'server-action',
             action: 'saveWalkingDistance',
             bid,

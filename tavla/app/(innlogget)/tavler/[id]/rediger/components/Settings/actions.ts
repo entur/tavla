@@ -54,7 +54,7 @@ export async function saveSettings(data: FormData) {
         ? (JSON.parse(locationRaw) as LocationDB)
         : undefined
 
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveSettings', {
         type: 'server-action',
         action: 'saveSettings',
         bid,
@@ -117,7 +117,7 @@ export async function saveSettings(data: FormData) {
             redirect('/')
         }
 
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveSettings', {
             type: 'server-action',
             action: 'saveSettings',
             bid,

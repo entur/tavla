@@ -23,7 +23,7 @@ export async function saveBoardTitle(
     formData: FormData,
 ): Promise<FormState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveBoardTitle', {
         type: 'server-action',
         action: 'saveBoardTitle',
         bid,
@@ -41,7 +41,7 @@ export async function saveBoardTitle(
     try {
         await updateBoard(bid, { 'meta.title': parsed.data })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveBoardTitle', {
             type: 'server-action',
             action: 'saveBoardTitle',
             bid,

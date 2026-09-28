@@ -36,7 +36,7 @@ export type AddStopPlaceFormState =
     | null
 
 async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: addTiles', {
         type: 'server-action',
         action: 'addTiles',
         bid,
@@ -62,7 +62,7 @@ async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
 
         await updateBoard(bid, updateData)
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: addTiles', {
             type: 'server-action',
             action: 'addTiles',
             bid,
@@ -86,7 +86,7 @@ export async function getTileWithWalkingDistance(
         delete tile.drivingDistance
         return tile
     }
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: getWalkingDistanceTile', {
         type: 'server-action',
         action: 'getWalkingDistanceTile',
     })
@@ -124,7 +124,7 @@ export async function getTileWithWalkingDistance(
 
         return newTile
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: getWalkingDistanceTile', {
             type: 'server-action',
             action: 'getWalkingDistanceTile',
             errorName: error instanceof Error ? error.name : undefined,
@@ -142,7 +142,7 @@ export async function addStopPlaceTiles(
     isArrivals: boolean | undefined,
     location: LocationDB | undefined,
 ): Promise<AddStopPlaceFormState> {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: addStopPlaceTiles', {
         type: 'server-action',
         action: 'addStopPlaceTiles',
     })

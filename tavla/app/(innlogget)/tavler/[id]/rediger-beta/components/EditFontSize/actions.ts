@@ -22,7 +22,7 @@ export async function saveFontSize(
     value: FontSizeValue,
 ): Promise<FontSizeState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveFontSize', {
         type: 'server-action',
         action: 'saveFontSize',
         bid,
@@ -39,7 +39,7 @@ export async function saveFontSize(
     try {
         await updateBoard(bid, { 'meta.fontSize': parsed.data })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveFontSize', {
             type: 'server-action',
             action: 'saveFontSize',
             bid,

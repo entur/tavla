@@ -7,7 +7,7 @@ import { logToGcp } from 'src/utils/logging'
 import { getBackendUrl } from 'utils/backendUrl'
 
 export async function refreshBoard(board: BoardDB) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: refreshBoard', {
         type: 'server-action',
         action: 'refreshBoard',
         bid: board.id,

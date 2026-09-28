@@ -11,7 +11,7 @@ import { validEmail } from 'src/utils/email'
 import { logToGcp } from 'src/utils/logging'
 
 async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: postForm', {
         type: 'server-action',
         action: 'postForm',
     })

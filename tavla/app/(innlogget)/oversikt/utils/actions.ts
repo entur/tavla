@@ -29,7 +29,7 @@ export async function deleteBoardAction(
     data: FormData,
 ) {
     const bid = data.get('bid') as BoardDB['id']
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: deleteBoardAction', {
         type: 'server-action',
         action: 'deleteBoardAction',
         bid,
@@ -40,7 +40,7 @@ export async function deleteBoardAction(
         await deleteBoard(bid)
         revalidatePath('/')
     } catch (e) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: deleteBoardAction', {
             type: 'server-action',
             action: 'deleteBoardAction',
             bid,
@@ -74,7 +74,7 @@ export async function countAllBoards(folders: FolderDB[], boards: BoardDB[]) {
 
 export async function moveBoardAction(data: FormData) {
     const bid = data.get('bid') as BoardDB['id']
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: moveBoardAction', {
         type: 'server-action',
         action: 'moveBoardAction',
         bid,
@@ -105,7 +105,7 @@ export async function moveBoardAction(data: FormData) {
 
         revalidatePath('/')
     } catch (e) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: moveBoardAction', {
             type: 'server-action',
             action: 'moveBoardAction',
             bid,

@@ -22,7 +22,7 @@ export async function saveTheme(
     value: ThemeValue,
 ): Promise<ThemeState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveTheme', {
         type: 'server-action',
         action: 'saveTheme',
         bid,
@@ -38,7 +38,7 @@ export async function saveTheme(
     try {
         await updateBoard(bid, { theme: parsed.data })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveTheme', {
             type: 'server-action',
             action: 'saveTheme',
             bid,

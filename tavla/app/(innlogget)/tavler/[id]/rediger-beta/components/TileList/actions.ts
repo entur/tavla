@@ -23,7 +23,7 @@ export async function deleteTile(
     boardId: string,
     tile: BoardTileDB,
 ): Promise<DeleteTileState> {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: deleteTile', {
         type: 'server-action',
         action: 'deleteTile',
         bid: boardId,
@@ -68,7 +68,7 @@ export async function deleteTile(
         await updateBoard(boardId, updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger-beta`)
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: deleteTile', {
             type: 'server-action',
             action: 'deleteTile',
             bid: boardId,

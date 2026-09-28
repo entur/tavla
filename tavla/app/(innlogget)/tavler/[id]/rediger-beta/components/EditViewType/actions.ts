@@ -22,7 +22,7 @@ export async function saveViewType(
     value: ViewTypeValue,
 ): Promise<ViewTypeState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveViewType', {
         type: 'server-action',
         action: 'saveViewType',
         bid,
@@ -40,7 +40,7 @@ export async function saveViewType(
             isCombinedTiles: parsed.data === 'combined',
         })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveViewType', {
             type: 'server-action',
             action: 'saveViewType',
             bid,

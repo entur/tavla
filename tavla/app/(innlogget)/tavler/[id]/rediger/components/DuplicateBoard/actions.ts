@@ -20,7 +20,7 @@ export async function duplicateBoard(
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: duplicateBoard', {
         type: 'server-action',
         action: 'duplicateBoard',
         folderId: folderid,
@@ -48,7 +48,7 @@ export async function duplicateBoard(
         }
         redirect(`/tavler/${createdBoard.id}/rediger`)
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: duplicateBoard', {
             type: 'server-action',
             action: 'duplicateBoard',
             folderId: folderid,

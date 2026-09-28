@@ -15,7 +15,7 @@ import { logToGcp } from 'src/utils/logging'
 initializeAdminApp()
 
 export async function deleteTile(boardId: string, tile: BoardTileDB) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: deleteTile', {
         type: 'server-action',
         action: 'deleteTile',
         bid: boardId,
@@ -60,7 +60,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
         await updateBoard(boardId, updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger`)
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: deleteTile', {
             type: 'server-action',
             action: 'deleteTile',
             bid: boardId,
@@ -79,7 +79,7 @@ export async function deleteTile(boardId: string, tile: BoardTileDB) {
 }
 
 export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveTile', {
         type: 'server-action',
         action: 'saveTile',
         bid,
@@ -108,7 +108,7 @@ export async function saveTile(bid: BoardDB['id'], tile: BoardTileDB) {
 
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveTile', {
             type: 'server-action',
             action: 'saveTile',
             bid,

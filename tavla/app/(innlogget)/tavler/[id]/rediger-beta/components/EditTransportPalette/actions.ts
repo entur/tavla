@@ -25,7 +25,7 @@ export async function saveTransportPalette(
     value: TransportPaletteValue,
 ): Promise<TransportPaletteState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveTransportPalette', {
         type: 'server-action',
         action: 'saveTransportPalette',
         bid,
@@ -43,7 +43,7 @@ export async function saveTransportPalette(
     try {
         await updateBoard(bid, { transportPalette: parsed.data })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveTransportPalette', {
             type: 'server-action',
             action: 'saveTransportPalette',
             bid,

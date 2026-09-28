@@ -26,7 +26,7 @@ import { validateCustomUrl } from './components/CustomUrl/utils'
 initializeAdminApp()
 
 export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: addTiles', {
         type: 'server-action',
         action: 'addTiles',
         bid,
@@ -52,7 +52,7 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
 
         await updateBoard(bid, updateData)
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: addTiles', {
             type: 'server-action',
             action: 'addTiles',
             bid,
@@ -76,7 +76,7 @@ export async function getTileWithWalkingDistance(
         delete tile.drivingDistance
         return tile
     }
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: getWalkingDistanceTile', {
         type: 'server-action',
         action: 'getWalkingDistanceTile',
     })
@@ -114,7 +114,7 @@ export async function saveUpdatedTileOrder(
     bid: BoardDB['id'],
     tiles: BoardTileDB[],
 ) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveUpdatedTileOrder', {
         type: 'server-action',
         action: 'saveUpdatedTileOrder',
         bid,
@@ -126,7 +126,7 @@ export async function saveUpdatedTileOrder(
         await updateBoard(bid, { tiles })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveUpdatedTileOrder', {
             type: 'server-action',
             action: 'saveUpdatedTileOrder',
             bid,
@@ -150,7 +150,7 @@ export async function saveCustomUrl(
     bid: BoardDB['id'],
     customUrl: string,
 ): Promise<{ error?: string }> {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveCustomUrl', {
         type: 'server-action',
         action: 'saveCustomUrl',
         bid,
@@ -178,7 +178,7 @@ export async function saveCustomUrl(
         revalidatePath(`/tavler/${bid}/rediger`)
         return {}
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveCustomUrl', {
             type: 'server-action',
             action: 'saveCustomUrl',
             bid,

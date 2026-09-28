@@ -12,7 +12,7 @@ import { logToGcp } from 'src/utils/logging'
 initializeAdminApp()
 
 export async function publishBoard(board: BoardDB): Promise<string> {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: publishBoard', {
         type: 'server-action',
         action: 'publishBoard',
     })

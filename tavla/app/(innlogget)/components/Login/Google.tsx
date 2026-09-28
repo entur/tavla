@@ -63,7 +63,7 @@ export default function Google({
                     'Endre denne innstillingen i nettleseren din for å logge på med Google.',
                 ])
             } else {
-                logToGcp('error', 'action failed', {
+                logToGcp('error', 'action failed: googleSignIn', {
                     type: 'server-action',
                     action: 'googleSignIn',
                     errorCode:

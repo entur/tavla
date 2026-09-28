@@ -25,7 +25,7 @@ export async function createBoardAction(
 
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: createBoard', {
         type: 'server-action',
         action: 'createBoard',
         folderId: folderid,
@@ -53,7 +53,7 @@ export async function createBoardAction(
             await addBoardIdToUser(user.uid, createdBoard.id)
         }
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: createBoard', {
             type: 'server-action',
             action: 'createBoard',
             folderId: folderid,

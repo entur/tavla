@@ -23,7 +23,7 @@ export async function saveInfoMessage(
     value: string,
 ): Promise<InfoMessageState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveInfoMessage', {
         type: 'server-action',
         action: 'saveInfoMessage',
         bid,
@@ -46,7 +46,7 @@ export async function saveInfoMessage(
                     : FieldValue.delete(),
         })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveInfoMessage', {
             type: 'server-action',
             action: 'saveInfoMessage',
             bid,

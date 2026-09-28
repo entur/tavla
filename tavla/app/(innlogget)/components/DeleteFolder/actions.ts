@@ -21,7 +21,7 @@ export async function deleteFolderAction(
     if (!user) redirect('/')
 
     const folderid = data.get('folderid') as FolderDB['id']
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: deleteFolderAction', {
         type: 'server-action',
         action: 'deleteFolderAction',
         folderId: folderid,
@@ -38,7 +38,7 @@ export async function deleteFolderAction(
         await deleteFolder(folderid)
         revalidatePath('/')
     } catch (e) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: deleteFolderAction', {
             type: 'server-action',
             action: 'deleteFolderAction',
             folderId: folderid,

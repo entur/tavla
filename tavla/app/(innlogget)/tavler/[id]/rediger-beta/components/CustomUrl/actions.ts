@@ -24,7 +24,7 @@ export async function saveCustomUrl(
     _prevState: FormState,
     formData: FormData,
 ): Promise<FormState> {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveCustomUrl', {
         type: 'server-action',
         action: 'saveCustomUrl',
         bid,
@@ -58,7 +58,7 @@ export async function saveCustomUrl(
             customUrl: trimmed || FieldValue.delete(),
         })
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveCustomUrl', {
             type: 'server-action',
             action: 'saveCustomUrl',
             bid,

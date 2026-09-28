@@ -15,7 +15,7 @@ import { logToGcp } from 'src/utils/logging'
 initializeAdminApp()
 
 export async function logout() {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: logout', {
         type: 'server-action',
         action: 'logout',
     })
@@ -26,7 +26,7 @@ export async function logout() {
 }
 
 export async function login(token: string) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: login', {
         type: 'server-action',
         action: 'login',
     })
@@ -50,14 +50,14 @@ export async function login(token: string) {
 }
 
 export async function create(uid: UserDB['uid']) {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: createUser', {
         type: 'server-action',
         action: 'createUser',
     })
     try {
         await createUser(uid)
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: createUser', {
             type: 'server-action',
             action: 'createUser',
             errorName: error instanceof Error ? error.name : undefined,

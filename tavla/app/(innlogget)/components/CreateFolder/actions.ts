@@ -26,7 +26,7 @@ export async function createFolderAction(
     const user = await getUserFromSessionCookie()
 
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: createFolder', {
         type: 'server-action',
         action: 'createFolder',
     })
@@ -37,7 +37,7 @@ export async function createFolderAction(
         folder = await createFolder(name.substring(0, 50), user.uid)
         if (!folder?.id) return getFormFeedbackForError()
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: createFolder', {
             type: 'server-action',
             action: 'createFolder',
             errorName: error instanceof Error ? error.name : undefined,

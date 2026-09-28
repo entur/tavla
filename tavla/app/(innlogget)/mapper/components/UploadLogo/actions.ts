@@ -26,7 +26,7 @@ export async function remove(
     if (!folderid || !logo)
         return getFormFeedbackForError('auth/operation-not-allowed')
 
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: removeLogo', {
         type: 'server-action',
         action: 'removeLogo',
         folderId: folderid,
@@ -49,7 +49,7 @@ export async function remove(
 
         revalidatePath('/')
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: removeLogo', {
             type: 'server-action',
             action: 'removeLogo',
             folderId: folderid,

@@ -31,7 +31,7 @@ export async function saveTile(
     bid: BoardDB['id'],
     tile: BoardTileDB,
 ): Promise<EditStopPlaceModalFormState> {
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveTile', {
         type: 'server-action',
         action: 'saveTile',
         bid,
@@ -75,7 +75,7 @@ export async function saveTile(
         revalidatePath(`/tavler/${bid}/rediger-beta`)
         return { status: 'success' }
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveTile', {
             type: 'server-action',
             action: 'saveTile',
             bid,

@@ -15,7 +15,7 @@ export async function saveBoardToFirebaseForUser(
     if (!user) {
         throw new Error('Not authenticated')
     }
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: saveBoardToFirebaseForUser', {
         type: 'server-action',
         action: 'saveBoardToFirebaseForUser',
     })
@@ -31,7 +31,7 @@ export async function saveBoardToFirebaseForUser(
 
         return doc.id
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: saveBoardToFirebaseForUser', {
             type: 'server-action',
             action: 'saveBoardToFirebaseForUser',
             errorName: error instanceof Error ? error.name : undefined,

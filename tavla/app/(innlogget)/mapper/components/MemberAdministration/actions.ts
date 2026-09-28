@@ -23,7 +23,7 @@ export async function removeUserAction(
     const folderId = data.get('folderid')?.toString() ?? ''
     const uid = data.get('uid')?.toString() ?? ''
 
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: removeUserAction', {
         type: 'server-action',
         action: 'removeUserAction',
         folderId,
@@ -35,7 +35,7 @@ export async function removeUserAction(
         await removeUserFromFolder(folderId, uid)
         revalidatePath('/')
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: removeUserAction', {
             type: 'server-action',
             action: 'removeUserAction',
             folderId,
@@ -58,7 +58,7 @@ export async function inviteUserAction(
     data: FormData,
 ) {
     const folderid = data.get('folderid')?.toString() ?? ''
-    logToGcp('info', 'action invoked', {
+    logToGcp('info', 'action invoked: inviteUserAction', {
         type: 'server-action',
         action: 'inviteUserAction',
         folderId: folderid,
@@ -87,7 +87,7 @@ export async function inviteUserAction(
         await addOwnerToFolder(folderid, invitee.uid)
         revalidatePath('/')
     } catch (error) {
-        logToGcp('error', 'action failed', {
+        logToGcp('error', 'action failed: inviteUserAction', {
             type: 'server-action',
             action: 'inviteUserAction',
             folderId: folder.id,
