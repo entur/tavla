@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
         )
     }
 
-    await logToGcp('error', 'error reported from tavla-visning', {
+    await logToGcp('error', `tavla-visning error: ${errorCode}`, {
         type: 'tavla-visning',
         bid: boardId,
         errorCode,
