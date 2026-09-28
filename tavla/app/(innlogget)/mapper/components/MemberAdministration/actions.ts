@@ -23,7 +23,11 @@ export async function removeUserAction(
     const folderId = data.get('folderid')?.toString() ?? ''
     const uid = data.get('uid')?.toString() ?? ''
 
-    logToGcp('info', 'action:removeUserAction invoked', { folderId })
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'removeUserAction',
+        folderId,
+    })
     const access = await userCanEditFolder(folderId)
     if (!access) return redirect('/')
 
@@ -31,11 +35,14 @@ export async function removeUserAction(
         await removeUserFromFolder(folderId, uid)
         revalidatePath('/')
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to remove user from folder: ${error instanceof Error ? error.message : String(error)}`,
-            { folderId },
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'removeUserAction',
+            folderId,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while removing user from folder',
@@ -51,7 +58,9 @@ export async function inviteUserAction(
     data: FormData,
 ) {
     const folderid = data.get('folderid')?.toString() ?? ''
-    logToGcp('info', 'action:inviteUserAction invoked', {
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'inviteUserAction',
         folderId: folderid,
     })
 
@@ -78,13 +87,14 @@ export async function inviteUserAction(
         await addOwnerToFolder(folderid, invitee.uid)
         revalidatePath('/')
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to invite user to folder: ${error instanceof Error ? error.message : String(error)}`,
-            {
-                folderId: folder.id,
-            },
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'inviteUserAction',
+            folderId: folder.id,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while inviting user to folder',

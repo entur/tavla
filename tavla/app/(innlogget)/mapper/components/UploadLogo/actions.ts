@@ -26,7 +26,11 @@ export async function remove(
     if (!folderid || !logo)
         return getFormFeedbackForError('auth/operation-not-allowed')
 
-    logToGcp('info', 'action:removeLogo invoked', { folderId: folderid })
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'removeLogo',
+        folderId: folderid,
+    })
     const file = getFilename(logo)
 
     if (!file) return getFormFeedbackForError()
@@ -45,10 +49,15 @@ export async function remove(
 
         revalidatePath('/')
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to remove logo from folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'removeLogo',
+            folderId: folderid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+            context: { fileName: file },
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while removing logo from folder',
