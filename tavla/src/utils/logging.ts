@@ -97,7 +97,7 @@ export async function logToGcp(
 
     if (process.env.NODE_ENV === 'development') {
         // biome-ignore lint/suspicious/noConsole: local dev output
-        console.log(level.toUpperCase() + ': ' + message, {
+        console.log(safeLevel.toUpperCase() + ': ' + message, {
             severity: safeLevel.toUpperCase(),
             timestamp: new Date().toISOString(),
             ...payload,
