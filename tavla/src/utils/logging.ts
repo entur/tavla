@@ -13,7 +13,12 @@ function getLog() {
     return _log
 }
 
-export type LogType = 'server-action' | 'http' | 'graphql' | 'tavla-visning'
+export type LogType =
+    | 'server-action'
+    | 'http'
+    | 'graphql'
+    | 'firestore'
+    | 'tavla-visning'
 
 export type LogFields = {
     type?: LogType

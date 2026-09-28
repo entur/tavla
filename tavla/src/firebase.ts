@@ -29,6 +29,7 @@ export async function getBoard(bid: BoardDB['id']) {
         const parsedBoard = BoardDBSchema.safeParse(boardData)
         if (!parsedBoard.success) {
             logToGcp('debug', 'board data validation failed', {
+                type: 'firestore',
                 bid,
                 errorMessage: parsedBoard.error.message,
             })
@@ -46,6 +47,7 @@ export async function getBoard(bid: BoardDB['id']) {
         return parsedBoard.data
     } catch (error) {
         logToGcp('error', 'fetching board from firebase failed', {
+            type: 'firestore',
             bid,
             errorName: error instanceof Error ? error.name : undefined,
             errorMessage:
@@ -81,6 +83,7 @@ export async function getFolder(folderid: FolderDB['id']) {
         const parsedFolder = FolderDBSchema.safeParse(folderData)
         if (!parsedFolder.success) {
             logToGcp('debug', 'folder data validation failed', {
+                type: 'firestore',
                 folderId: folderid,
                 errorMessage: parsedFolder.error.message,
             })
@@ -98,6 +101,7 @@ export async function getFolder(folderid: FolderDB['id']) {
         return parsedFolder.data
     } catch (error) {
         logToGcp('error', 'fetching folder from firebase failed', {
+            type: 'firestore',
             folderId: folderid,
             errorName: error instanceof Error ? error.name : undefined,
             errorMessage:
@@ -156,6 +160,7 @@ export async function getBoardByCustomUrl(customUrl: string) {
         const parsedBoard = BoardDBSchema.safeParse(boardData)
         if (!parsedBoard.success) {
             logToGcp('debug', 'board data validation failed', {
+                type: 'firestore',
                 bid: boardData.id,
                 errorMessage: parsedBoard.error.message,
             })
@@ -173,6 +178,7 @@ export async function getBoardByCustomUrl(customUrl: string) {
         return parsedBoard.data
     } catch (error) {
         logToGcp('error', 'fetching board by custom url from firebase failed', {
+            type: 'firestore',
             errorName: error instanceof Error ? error.name : undefined,
             errorMessage:
                 error instanceof Error ? error.message : String(error),
@@ -280,6 +286,7 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
                 return parsedFolder.data
             } else {
                 logToGcp('debug', 'folder data validation failed', {
+                    type: 'firestore',
                     bid,
                     folderId: doc.id,
                     errorMessage: parsedFolder.error.message,
@@ -300,6 +307,7 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
         return folders[0] ?? null
     } catch (error) {
         logToGcp('error', 'fetching folder for board from firebase failed', {
+            type: 'firestore',
             bid,
             errorName: error instanceof Error ? error.name : undefined,
             errorMessage:

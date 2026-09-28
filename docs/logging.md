@@ -97,6 +97,19 @@ Loggnivå settes automatisk i GraphQL-fetcheren basert på statuskode:
 - 4xx → `warning`
 - 5xx → `error`
 
+#### Firestore-tilgang – `type: 'firestore'`
+
+Brukes i `src/firebase.ts` for feil/valideringsfeil i selve Firestore-tilgangen, uavhengig av om kalleren er en server action, et API-endepunkt eller en Server Component. Feilen oppstår i data-laget, ikke hos kalleren, så den klassifiseres deretter i stedet for å gjette seg til kallerens type.
+
+```typescript
+logToGcp('error', 'fetching board from firebase failed', {
+    type: 'firestore',
+    bid,
+    errorName: error instanceof Error ? error.name : undefined,
+    errorMessage: error instanceof Error ? error.message : String(error),
+})
+```
+
 #### Feil fra tavla-visning – `type: 'tavla-visning'`
 
 Brukes kun via `/api/report-error`-endepunktet (se seksjon 3).
@@ -113,7 +126,7 @@ logToGcp('error', 'error reported from tavla-visning', {
 
 | Felt | Type | Beskrivelse |
 |------|------|-------------|
-| `type` | `LogType` | `'server-action'` \| `'http'` \| `'graphql'` \| `'tavla-visning'` |
+| `type` | `LogType` | `'server-action'` \| `'http'` \| `'graphql'` \| `'firestore'` \| `'tavla-visning'` |
 | `action` | `string` | Navn på server action |
 | `method` | `string` | HTTP-metode |
 | `endpoint` | `string` | GraphQL-endepunktnavn |
@@ -253,6 +266,9 @@ jsonPayload.type="graphql" AND jsonPayload.status>=500
 
 # Alt relatert til én spesifikk tavle
 jsonPayload.bid="<board-id>"
+
+# Firestore-feil
+jsonPayload.type="firestore" AND severity="ERROR"
 
 # Feil fra tavla-visning
 jsonPayload.type="tavla-visning"
