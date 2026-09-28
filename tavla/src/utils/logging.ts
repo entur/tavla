@@ -68,12 +68,12 @@ function sanitizeFields(fields?: LogFields): Record<string, unknown> {
     if (fields.status !== undefined) sanitized.status = fields.status
 
     if (fields.context) {
-        const context: Record<string, string | number | boolean> = {}
-        for (const [key, value] of Object.entries(fields.context)) {
-            context[sanitizeForLog(key)] =
-                typeof value === 'string' ? sanitizeForLog(value) : value
-        }
-        sanitized.context = context
+        sanitized.context = Object.fromEntries(
+            Object.entries(fields.context).map(([key, value]) => [
+                key,
+                typeof value === 'string' ? sanitizeForLog(value) : value,
+            ]),
+        )
     }
 
     return sanitized
