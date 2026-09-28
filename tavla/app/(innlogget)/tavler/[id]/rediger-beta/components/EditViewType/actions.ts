@@ -22,7 +22,11 @@ export async function saveViewType(
     value: ViewTypeValue,
 ): Promise<ViewTypeState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action:saveViewType invoked', { bid })
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'saveViewType',
+        bid,
+    })
 
     const parsed = viewTypeSchema.safeParse(value)
     if (!parsed.success)
@@ -36,11 +40,14 @@ export async function saveViewType(
             isCombinedTiles: parsed.data === 'combined',
         })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save view type: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'saveViewType',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, { extra: { boardID: bid } })
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }

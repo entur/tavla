@@ -23,7 +23,11 @@ export async function saveBoardTitle(
     formData: FormData,
 ): Promise<FormState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action:saveBoardTitle invoked', { bid })
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'saveBoardTitle',
+        bid,
+    })
 
     const parsed = boardTitleSchema.safeParse(
         formData.get('title')?.toString() ?? '',
@@ -37,11 +41,14 @@ export async function saveBoardTitle(
     try {
         await updateBoard(bid, { 'meta.title': parsed.data })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save board title: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'saveBoardTitle',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, { extra: { boardID: bid } })
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }
