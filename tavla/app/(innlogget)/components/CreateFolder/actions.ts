@@ -26,7 +26,10 @@ export async function createFolderAction(
     const user = await getUserFromSessionCookie()
 
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-    logToGcp('info', 'action:createFolder invoked')
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'createFolder',
+    })
 
     let folder: FirebaseFirestore.DocumentReference | undefined
 
@@ -34,10 +37,13 @@ export async function createFolderAction(
         folder = await createFolder(name.substring(0, 50), user.uid)
         if (!folder?.id) return getFormFeedbackForError()
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to create folder: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'createFolder',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while creating new folder in firestore',
