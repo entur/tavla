@@ -24,7 +24,11 @@ export async function saveCustomUrl(
     _prevState: FormState,
     formData: FormData,
 ): Promise<FormState> {
-    logToGcp('info', 'action:saveCustomUrl invoked', { bid })
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'saveCustomUrl',
+        bid,
+    })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -54,11 +58,14 @@ export async function saveCustomUrl(
             customUrl: trimmed || FieldValue.delete(),
         })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save custom URL for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'saveCustomUrl',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while saving custom board URL',

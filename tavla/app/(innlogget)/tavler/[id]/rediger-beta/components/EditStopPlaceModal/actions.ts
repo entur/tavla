@@ -31,7 +31,11 @@ export async function saveTile(
     bid: BoardDB['id'],
     tile: BoardTileDB,
 ): Promise<EditStopPlaceModalFormState> {
-    logToGcp('info', 'action:saveTile invoked', { bid })
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'saveTile',
+        bid,
+    })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -71,11 +75,14 @@ export async function saveTile(
         revalidatePath(`/tavler/${bid}/rediger-beta`)
         return { status: 'success' }
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save tile for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'saveTile',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while saving tile',

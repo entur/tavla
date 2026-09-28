@@ -23,7 +23,11 @@ export async function deleteTile(
     boardId: string,
     tile: BoardTileDB,
 ): Promise<DeleteTileState> {
-    logToGcp('info', 'action:deleteTile invoked', { bid: boardId })
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'deleteTile',
+        bid: boardId,
+    })
     const access = await userCanEditBoard(boardId)
     if (!access) return redirect('/')
 
@@ -64,11 +68,14 @@ export async function deleteTile(
         await updateBoard(boardId, updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger-beta`)
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to delete tile from board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid: boardId },
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'deleteTile',
+            bid: boardId,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while deleting tile from board',

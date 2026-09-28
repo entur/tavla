@@ -8,7 +8,11 @@ import { getBackendUrl } from 'utils/backendUrl'
 
 // Kopi av refreshBoard fra tavla/app/(innlogget)/tavler/[id]/rediger/actions.ts, men med revalidatePath som peker til /rediger-beta i stedet for /rediger.
 export async function refreshBoard(board: BoardDB) {
-    logToGcp('info', 'action:refreshBoard invoked', { bid: board.id })
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'refreshBoard',
+        bid: board.id,
+    })
     const access = await userCanEditBoard(board.id)
     if (!access) return redirect('/')
 
@@ -23,9 +27,12 @@ export async function refreshBoard(board: BoardDB) {
             },
         },
     )
-    logToGcp(
-        res.ok ? 'info' : 'warning',
-        `POST /refresh/${board.id}: status=${res.status}`,
-    )
+    logToGcp(res.ok ? 'info' : 'warning', 'refresh signal sent', {
+        type: 'http',
+        method: 'POST',
+        path: '/refresh/:bid',
+        status: res.status,
+        bid: board.id,
+    })
     return res.ok
 }
