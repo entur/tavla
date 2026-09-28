@@ -20,7 +20,9 @@ export async function duplicateBoard(
 ) {
     const user = await getUserFromSessionCookie()
     if (!user) return getFormFeedbackForError('auth/operation-not-allowed')
-    logToGcp('info', 'action:duplicateBoard invoked', {
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'duplicateBoard',
         folderId: folderid,
     })
 
@@ -46,10 +48,14 @@ export async function duplicateBoard(
         }
         redirect(`/tavler/${createdBoard.id}/rediger`)
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to duplicate board: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed', {
+            type: 'server-action',
+            action: 'duplicateBoard',
+            folderId: folderid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureMessage('Error while duplicating board object: ' + board)
         throw error
     }
