@@ -22,15 +22,14 @@ I lokalt utviklingsmiljø (`NODE_ENV=development`) skrives loggene til konsollen
 ```typescript
 import { logToGcp } from 'src/utils/logging'
 
-await logToGcp(level: LogLevel, message: string, extra: LogExtra?, type?: LogType)
+await logToGcp(level: LogLevel, message: string, fields?: LogFields)
 ```
 
-| Parameter | Type                 | Beskrivelse                                                                            |
-|-----------|----------------------|----------------------------------------------------------------------------------------|
-| `level` | `LogLevel`           | Alvorlighetsgrad                                                                       |
-| `message` | `string`             | Loggmeldingen – format bestemmer `type` automatisk (se under)                          |
-| `extra` | `LogExtra` (valgfri) | Ekstre felter og informasjon                                                           |
-| `type` | `LogType` (valgfri)  | Overstyrer automatisk typedeteksjon; bruk `'tavla-visning'` for feil fra visningsappen |
+| Parameter | Type                  | Beskrivelse                                                        |
+|-----------|-----------------------|---------------------------------------------------------------------|
+| `level` | `LogLevel`              | Alvorlighetsgrad                                                     |
+| `message` | `string`              | Fast, variabel-fri loggmelding – samme tekst hver gang samme hendelse inntreffer |
+| `fields` | `LogFields` (valgfri) | Alle strukturerte felter for hendelsen, inkludert `type`             |
 
 ### GCP loggnivåer
 
@@ -41,68 +40,52 @@ await logToGcp(level: LogLevel, message: string, extra: LogExtra?, type?: LogTyp
 | `warning` | Uventede men håndterbare tilstander (f.eks. 4xx-statuskoder, rate-limiting) |
 | `error` | Feil som krever oppmerksomhet (5xx-statuskoder, unntak, timeout) |
 
-### Automatisk typedeteksjon fra meldingsformat
+### Regelen: variabler i `fields`, aldri i `message`
 
-`logToGcp` analyserer meldingsteksten og setter `type`-feltet i loggen automatisk. Bruk disse konvensjonene konsekvent:
-
-#### Server Actions – `type: "server-action"`
-
-Meldinger som starter med `action:` registreres som server actions.
+`message` skal alltid være en fast streng – ingen interpolerte verdier (id-er, statuskoder, feiltekst, URL-er osv.). All variasjon hører hjemme i `fields`. Dette gjør at `jsonPayload.message` selv blir en lav-kardinalitets-verdi du kan gruppere/aggregere på (nyttig f.eks. i GCP Error Reporting), mens de faktiske verdiene blir filtrerbare egne felt i stedet for fritekst.
 
 ```typescript
-logToGcp('info', 'action:deleteBoard invoked', { bid: boardId })
-logToGcp('error', 'action:createFolder failed', { folderId })
+// Ikke slik – variabler i meldingsteksten:
+logToGcp('warning', `POST /api/upload: status=403 folderid=${folderid}`)
+
+// Slik – fast melding, variabler som felt:
+logToGcp('warning', 'upload rejected: unauthorized', {
+    type: 'http',
+    method: 'POST',
+    path: '/api/upload',
+    status: 403,
+    folderId: folderid,
+})
 ```
 
-Resulterende JSON-payload:
+`type` settes alltid eksplisitt av kalleren – det utledes ikke lenger fra meldingsteksten.
 
-```json
-{
-  "type": "server-action",
-  "action": "deleteBoard",
-  "message": "action:deleteBoard invoked",
-  "bid": "<board-id>"
-}
-```
-
-#### HTTP-endepunkter – `type: "http"`
-
-Meldinger som starter med en HTTP-metode (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`) etterfulgt av et mellomrom.
+#### Server actions – `type: 'server-action'`
 
 ```typescript
-logToGcp('warning', 'POST /api/upload: status=401 reason=invalid-token')
-logToGcp('info', 'POST /api/upload: status=200', { folderId })
+logToGcp('info', 'action invoked', { type: 'server-action', action: 'deleteBoard', bid: boardId })
+logToGcp('error', 'action failed', { type: 'server-action', action: 'createFolder', folderId })
 ```
 
-Resulterende JSON-payload:
-
-```json
-{
-  "type": "http",
-  "method": "POST",
-  "status": 401,
-  "message": "POST /api/upload: status=401 reason=invalid-token"
-}
-```
-
-#### GraphQL-kall – `type: "graphql"`
-
-Meldinger som starter med `GraphQL ` etterfulgt av endepunktnavnet.
+#### HTTP-endepunkter – `type: 'http'`
 
 ```typescript
-logToGcp('info', 'GraphQL journey-planner: status=200')
-logToGcp('error', 'GraphQL journey-planner: status=500')
+logToGcp('warning', 'upload rejected: invalid token', {
+    type: 'http',
+    method: 'POST',
+    path: '/api/upload',
+    status: 401,
+})
 ```
 
-Resulterende JSON-payload:
+#### GraphQL-kall – `type: 'graphql'`
 
-```json
-{
-  "type": "graphql",
-  "endpoint": "journey-planner",
-  "status": 200,
-  "message": "GraphQL journey-planner: status=200"
-}
+```typescript
+logToGcp('info', 'graphql request completed', {
+    type: 'graphql',
+    endpoint: 'journey-planner',
+    status: 200,
+})
 ```
 
 Loggnivå settes automatisk i GraphQL-fetcheren basert på statuskode:
@@ -110,26 +93,35 @@ Loggnivå settes automatisk i GraphQL-fetcheren basert på statuskode:
 - 4xx → `warning`
 - 5xx → `error`
 
-#### Feil fra tavla-visning – `type: "tavla-visning"`
+#### Feil fra tavla-visning – `type: 'tavla-visning'`
 
-Brukes kun via `/api/report-error`-endepunktet (se seksjon 3). Send eksplisitt `type`-parameter.
+Brukes kun via `/api/report-error`-endepunktet (se seksjon 3).
 
 ```typescript
-logToGcp('error', `[tavla-visning] ${errorCode} reported from ${boardId} with message: ${message}`, extra, 'tavla-visning')
+logToGcp('error', 'error reported from tavla-visning', {
+    type: 'tavla-visning',
+    bid: boardId,
+    errorCode,
+})
 ```
 
-### `LogExtra`-felter
-
-Ekstra strukturerte felter som sendes med loggen for enkel filtrering:
+### `LogFields`-felter
 
 | Felt | Type | Beskrivelse |
 |------|------|-------------|
+| `type` | `LogType` | `'server-action'` \| `'http'` \| `'graphql'` \| `'tavla-visning'` |
+| `action` | `string` | Navn på server action |
+| `method` | `string` | HTTP-metode |
+| `endpoint` | `string` | GraphQL-endepunktnavn |
+| `status` | `number` | HTTP-statuskode |
 | `bid` | `string` | Tavle-ID |
 | `folderId` | `string` | Mappe-ID |
-| `status` | `number` | HTTP-statuskode |
 | `path` | `string` | URL-sti |
 | `errorCode` | `string` | Applikasjonsspesifikk feilkode |
+| `errorName` | `string` | `error.name` – bruk alltid dette i stedet for å interpolere hele feilobjektet |
+| `errorMessage` | `string` | `error.message` |
 | `userAgent` | `string` | User-agent-streng fra forespørselen |
+| `context` | `Record<string, string \| number \| boolean>` | Ventil for felter som ikke passer i de faste feltene over – flat struktur, ingen nøstede objekter |
 
 ### Sikkerhet mot log injection
 
@@ -146,9 +138,9 @@ Alle verdier saniteres før logging: linjeskift (`\r`, `\n`, Unicode-linjeskille
 import { logToGcp } from 'src/utils/logging'
 
 export async function deleteBoard(bid: string) {
-    logToGcp('info', 'action:deleteBoard invoked', { bid })
+    logToGcp('info', 'action invoked', { type: 'server-action', action: 'deleteBoard', bid })
     // ...
-    logToGcp('error', 'action:deleteBoard failed', { bid })
+    logToGcp('error', 'action failed', { type: 'server-action', action: 'deleteBoard', bid })
 }
 ```
 
@@ -159,9 +151,21 @@ import { logToGcp } from 'src/utils/logging'
 
 export async function POST(req: NextRequest) {
     // ...
-    logToGcp('warning', 'POST /api/mitt-endepunkt: status=403', { bid: boardId })
+    logToGcp('warning', 'request rejected: forbidden', {
+        type: 'http',
+        method: 'POST',
+        path: '/api/mitt-endepunkt',
+        status: 403,
+        bid: boardId,
+    })
     // ...
-    logToGcp('info', 'POST /api/mitt-endepunkt: status=200', { bid: boardId })
+    logToGcp('info', 'request succeeded', {
+        type: 'http',
+        method: 'POST',
+        path: '/api/mitt-endepunkt',
+        status: 200,
+        bid: boardId,
+    })
 }
 ```
 
@@ -218,7 +222,7 @@ Rate-limitene lever i minnet på hvert pod og er ikke delte på tvers av instans
 Logger havner i GCP Cloud Logging under:
 - **Prosjekt**: `ent-tavla-prd` (prod) / `ent-tavla-dev` (dev)
 - **Lognavn**: `tavla_admin`
-- **Ressurstype**: `global`
+- **Ressurstype**: auto-detektert av `@google-cloud/logging` (`cloud_run_revision` i prod, med `service_name`/`revision_name`/`location` som egne felt)
 
 ### Filtrering i GCP Log Viewer
 
@@ -315,9 +319,9 @@ I lokalt utviklingsmiljø (`NODE_ENV=development`) skrives alle GCP-logger til k
 {
   "severity": "INFO",
   "timestamp": "2024-01-15T10:30:00.000Z",
+  "message": "action invoked",
   "type": "server-action",
-  "action": "getFirebaseClientConfig",
-  "message": "action:getFirebaseClientConfig invoked"
+  "action": "getFirebaseClientConfig"
 }
 ```
 
