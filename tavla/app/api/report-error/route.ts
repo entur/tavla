@@ -81,11 +81,13 @@ export async function POST(req: NextRequest) {
         )
     }
 
-    await logToGcp(
-        'error',
-        `[tavla-visning] ${errorCode} reported from ${boardId} with message: ${message}`,
-        { bid: boardId, errorCode: errorCode, userAgent: userAgent },
-    )
+    await logToGcp('error', 'error reported from tavla-visning', {
+        type: 'tavla-visning',
+        bid: boardId,
+        errorCode,
+        userAgent,
+        context: { message },
+    })
 
     return NextResponse.json({ ok: true }, { headers })
 }

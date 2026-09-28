@@ -11,7 +11,10 @@ import { validEmail } from 'src/utils/email'
 import { logToGcp } from 'src/utils/logging'
 
 async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
-    logToGcp('info', 'action:postForm invoked')
+    logToGcp('info', 'action invoked', {
+        type: 'server-action',
+        action: 'postForm',
+    })
     const email = data.get('email') as string
     const message = data.get('message') as string
     const disabledEmail = data.get('disabledEmail') as string
@@ -102,7 +105,10 @@ async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
     try {
         const url = process.env.SLACK_WEBHOOK_URL
         if (!url) throw Error('Could not find url')
-        logToGcp('info', 'Outgoing: POST Slack webhook (contact form)')
+        logToGcp('info', 'outgoing slack webhook request sent', {
+            type: 'server-action',
+            action: 'postForm',
+        })
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -112,17 +118,26 @@ async function postForm(_prevState: TFormFeedback | undefined, data: FormData) {
         })
         logToGcp(
             response.ok ? 'info' : 'error',
-            `Outgoing response: Slack webhook status=${response.status}`,
+            'outgoing slack webhook response received',
+            {
+                type: 'server-action',
+                action: 'postForm',
+                status: response.status,
+            },
         )
 
         if (!response.ok) {
             throw Error('Error in request')
         }
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to submit contact form: ${error instanceof Error ? error.message : String(error)} (form message: ${message})`,
-        )
+        logToGcp('error', 'failed to submit contact form', {
+            type: 'server-action',
+            action: 'postForm',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+            context: { formMessage: message },
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while submitting contact form',
