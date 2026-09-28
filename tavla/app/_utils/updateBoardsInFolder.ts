@@ -7,7 +7,7 @@ export async function updateBoardsInFolder(folderId: FolderDB['id']) {
     const folder = await getFolder(folderId)
     const boardIds = folder?.boards ?? []
 
-    await Promise.all(
+    await Promise.allSettled(
         boardIds.map(async (bid) => {
             try {
                 const res = await fetch(
@@ -22,13 +22,13 @@ export async function updateBoardsInFolder(folderId: FolderDB['id']) {
                 logToGcp(
                     res.ok ? 'info' : 'warning',
                     `POST /update/${bid}: status=${res.status}`,
-                    { bid, folderId: folderId },
+                    { bid, folderId },
                 )
             } catch (error) {
                 logToGcp(
                     'error',
                     `POST /update/${bid} failed: ${error instanceof Error ? error.message : String(error)}`,
-                    { bid, folderId: folderId },
+                    { bid, folderId },
                 )
             }
         }),
