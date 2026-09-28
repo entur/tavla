@@ -78,8 +78,8 @@ export async function getWalkingDistance(
             errorMessage:
                 error instanceof Error ? error.message : String(error),
             context: {
-                from: JSON.stringify(from),
-                to: JSON.stringify(to),
+                from: JSON.stringify(from) ?? 'unknown',
+                to: JSON.stringify(to) ?? 'unknown',
             },
         })
         Sentry.captureMessage(
@@ -116,8 +116,8 @@ export async function getDrivingDistance(
             errorMessage:
                 error instanceof Error ? error.message : String(error),
             context: {
-                from: JSON.stringify(from),
-                to: JSON.stringify(to),
+                from: JSON.stringify(from) ?? 'unknown',
+                to: JSON.stringify(to) ?? 'unknown',
             },
         })
         Sentry.captureMessage(
