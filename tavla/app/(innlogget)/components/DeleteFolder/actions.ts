@@ -19,12 +19,13 @@ export async function deleteFolderAction(
     const user = await getUserFromSessionCookie()
 
     if (!user) redirect('/')
+
+    const folderid = data.get('folderid') as FolderDB['id']
     logToGcp('info', 'action invoked', {
         type: 'server-action',
         action: 'deleteFolderAction',
+        folderId: folderid,
     })
-
-    const folderid = data.get('folderid') as FolderDB['id']
     if (!folderid) return getFormFeedbackForError('general')
 
     const folderName = data.get('oname') as string

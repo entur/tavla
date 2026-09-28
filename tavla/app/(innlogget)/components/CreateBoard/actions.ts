@@ -28,6 +28,7 @@ export async function createBoardAction(
     logToGcp('info', 'action invoked', {
         type: 'server-action',
         action: 'createBoard',
+        folderId: folderid,
     })
 
     let createdBoard: FirebaseFirestore.DocumentReference | undefined

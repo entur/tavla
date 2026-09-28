@@ -111,6 +111,10 @@ export async function moveBoardAction(data: FormData) {
             bid,
             errorName: e instanceof Error ? e.name : undefined,
             errorMessage: e instanceof Error ? e.message : String(e),
+            context: {
+                oldFolderId: oldFolder?.id ?? 'none',
+                newFolderId: newFolderID ?? 'none',
+            },
         })
         Sentry.captureException(e, {
             extra: {
