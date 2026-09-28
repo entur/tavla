@@ -122,10 +122,10 @@ logToGcp('error', 'error reported from tavla-visning', {
 | `folderId` | `string` | Mappe-ID |
 | `path` | `string` | URL-sti |
 | `errorCode` | `string` | Applikasjonsspesifikk feilkode |
-| `errorName` | `string` | `error.name` – bruk alltid dette i stedet for å interpolere hele feilobjektet |
+| `errorName` | `string` | `error.name` – bruk alltid dette i stedet for å sende hele feilobjektet |
 | `errorMessage` | `string` | `error.message` |
 | `userAgent` | `string` | User-agent-streng fra forespørselen |
-| `context` | `Record<string, string \| number \| boolean>` | Ventil for felter som ikke passer i de faste feltene over – flat struktur, ingen nøstede objekter |
+| `context` | `Record<string, string \| number \| boolean>` | Ekstra felt for felter som ikke passer i de faste feltene over |
 
 ### Sikkerhet mot log injection
 
