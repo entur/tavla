@@ -10,7 +10,7 @@ const ALLOWED_ORIGINS = [
     ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:5173'] : []),
 ]
 
-const ErrorType = z.enum([
+const ErrorCode = z.enum([
     'display_error',
     'unknown',
     'fetch_journey_planner',
@@ -22,7 +22,7 @@ const ReportSchema = z.object({
         .string()
         .regex(/^[A-Za-z0-9]{20}$/)
         .or(z.string().regex(/^NSR:(Quay|StopPlace):\d+$/i)),
-    errorType: ErrorType,
+    errorCode: ErrorCode,
     message: z.string(),
 })
 
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
         )
     }
 
-    const { boardId, errorType, message } = parsed.data
+    const { boardId, errorCode, message } = parsed.data
     const ip = clientIp(req)
 
     try {
@@ -81,12 +81,13 @@ export async function POST(req: NextRequest) {
         )
     }
 
-    await logToGcp('error', `[tavla-visning] ${errorType}`, {
+    await logToGcp('error', `[tavla-visning] ${errorCode}`, {
         type: 'tavla-visning',
         bid: boardId,
         errorMessage: message,
+        errorCode,
         userAgent,
-        context: { errorType, origin },
+        context: { origin },
     })
 
     return NextResponse.json({ ok: true }, { headers })
