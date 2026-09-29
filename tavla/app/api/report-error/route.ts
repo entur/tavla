@@ -24,6 +24,8 @@ const ReportSchema = z.object({
         .or(z.string().regex(/^NSR:(Quay|StopPlace):\d+$/i)),
     errorCode: ErrorCode,
     message: z.string(),
+    errorName: z.string().optional(),
+    online: z.boolean().optional(),
 })
 
 //Limits live in the memory of the pods. These are not hard limits, but work as per-instance LRU limiters.
@@ -68,7 +70,7 @@ export async function POST(req: NextRequest) {
         )
     }
 
-    const { boardId, errorCode, message } = parsed.data
+    const { boardId, errorCode, message, errorName, online } = parsed.data
     const ip = clientIp(req)
 
     try {
@@ -84,7 +86,13 @@ export async function POST(req: NextRequest) {
     await logToGcp(
         'error',
         `[tavla-visning] ${errorCode} reported from ${boardId} with message: ${message}`,
-        { bid: boardId, errorCode: errorCode, userAgent: userAgent },
+        {
+            bid: boardId,
+            errorCode: errorCode,
+            userAgent: userAgent,
+            errorName: errorName,
+            online: online,
+        },
     )
 
     return NextResponse.json({ ok: true }, { headers })
