@@ -130,6 +130,8 @@ Ekstra strukturerte felter som sendes med loggen for enkel filtrering:
 | `path` | `string` | URL-sti |
 | `errorCode` | `string` | Applikasjonsspesifikk feilkode |
 | `userAgent` | `string` | User-agent-streng fra forespørselen |
+| `errorName` | `string` | Feilnavn fra klienten (f.eks. `TypeError`, `AbortError`) – kun fra `/api/report-error` |
+| `online` | `boolean` | `navigator.onLine` på klienten da feilen oppstod – kun fra `/api/report-error` |
 
 ### Sikkerhet mot log injection
 
@@ -191,6 +193,8 @@ fetch('https://tavla.entur.no/api/report-error', {
         boardId: '<20-tegns alfanumerisk ID>',
         errorCode: 'display_error', // eller 'unknown', 'fetch_journey_planner', 'fetch_board'
         message: '<feilmelding>',
+        errorName: '<valgfritt, f.eks. TypeError eller AbortError>',
+        online: true, // valgfritt, navigator.onLine på klienten
     }),
 }).catch(() => {}) // fire-and-forget
 ```
