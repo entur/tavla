@@ -10,7 +10,7 @@ export function InBetaBanner({ bid }: { bid: string }) {
     return (
         <BannerAlertBox
             variant="information"
-            title="Du er nå i den nye redigeringssiden for tavla"
+            title="Dette er en ny versjon for å opprette og redigere en tavle"
             closable
             className="w-full"
             closeButtonLabel="lukk"
@@ -29,7 +29,7 @@ export function InBetaBanner({ bid }: { bid: string }) {
                     })
                 }
             >
-                Gå tilbake til nåværende redigeringsside
+                Gå tilbake til den gamle versjonen
             </Link>
         </BannerAlertBox>
     )

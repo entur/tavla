@@ -10,7 +10,7 @@ export function TryBetaBanner({ bid }: { bid: string }) {
     return (
         <BannerAlertBox
             variant="information"
-            title="Vil du teste ut den nye redigeringssiden for tavla?"
+            title="Har du lyst til å teste vår nye side for å opprette og redigere en tavle?"
             closable
             className="w-full"
             closeButtonLabel="lukk"
@@ -29,7 +29,7 @@ export function TryBetaBanner({ bid }: { bid: string }) {
                     })
                 }
             >
-                Gå til ny redigeringsside
+                Ja, ta meg til den nye siden
             </Link>
         </BannerAlertBox>
     )
