@@ -1,6 +1,7 @@
 'use server'
 
 import * as Sentry from '@sentry/nextjs'
+import { updateBoardsInFolder } from 'app/_utils/updateBoardsInFolder'
 import {
     getConfig,
     initializeAdminApp,
@@ -46,7 +47,7 @@ export async function remove(
             logoFile.delete(),
             updateFolder(folderid, { logo: FieldValue.delete() }),
         ])
-
+        await updateBoardsInFolder(folderid)
         revalidatePath('/')
     } catch (error) {
         logToGcp('error', 'action failed: removeLogo', {
