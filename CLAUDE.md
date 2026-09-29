@@ -87,6 +87,8 @@ Test the running server: `curl localhost:3001/active -H "Authorization: Bearer s
 3. Frontend long-polls `GET /subscribe/:bid` — returns first event or times out after ~55s, then re-subscribes
 4. `active_boards` counter in Redis tracks currently connected boards
 
+Changing a folder logo calls `POST /update/:bid` for every board in the folder (via `app/_utils/updateBoardsInFolder.ts`), which makes tavla-visning reload and fetch the new logo.
+
 **Frontend data sources:**
 - Entur GraphQL API (`https://api.entur.io/journey-planner/v3/graphql`) — transit departures, stops, routes
 - Firestore — board configs, user data, folders

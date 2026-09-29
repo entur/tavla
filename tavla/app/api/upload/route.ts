@@ -1,5 +1,6 @@
 'use server'
 
+import { updateBoardsInFolder } from 'app/_utils/updateBoardsInFolder'
 import {
     getConfig,
     initializeAdminApp,
@@ -126,6 +127,7 @@ export async function POST(request: NextRequest) {
     }
 
     await updateFolder(folderid, { logo: logoUrl })
+    await updateBoardsInFolder(folderid)
     revalidatePath(`/mapper/${folderid}`)
     logToGcp('info', `POST /api/upload: status=200 folderid=${folderid}`)
     return new Response(
