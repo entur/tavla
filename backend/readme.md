@@ -136,11 +136,11 @@ Avslutt `redis-cli` med `CTRL-C`.
 | HOST | Nei | 127.0.0.1 | Adresse server binder til |
 | PORT | Nei | 3001 | HTTP-port |
 | BACKEND_API_KEY | Ja | – | Bearer-token for beskyttede endepunkt |
-| REDIS_PASSWORD | Ja | – | Passord for både master og replica |
-| REDIS_MASTER_SERVICE_HOST | Ja | – | Host til master (127.0.0.1 lokalt) |
-| REDIS_MASTER_SERVICE_PORT | Ja | 6379 | Port til master |
-| REDIS_REPLICAS_SERVICE_HOST | Ja | – | Host til replica |
-| REDIS_REPLICAS_SERVICE_PORT | Ja | 6380 | Port til replica |
+| REDIS_PASSWORD | Ja | – | Passord for Redis |
+| REDIS_HOST | Ja | – | Redis-host (127.0.0.1 lokalt) |
+| REDIS_PORT | Ja | – | Redis-port (6379 lokalt) |
+
+> Siden migreringen til Redis Memorystore (#2162) bruker backenden ett enkelt Redis-endepunkt i stedet for separate master/replica-variabler. `start-redis.sh` setter fortsatt opp master+replica lokalt (port 6379/6380), men backenden kobler seg nå bare til porten i `REDIS_PORT` (6379).
 
 Eksempel (kan limes rett inn):
 ```sh
@@ -148,10 +148,8 @@ export HOST="127.0.0.1"
 export PORT="3001"
 export BACKEND_API_KEY="super_secret_key"
 export REDIS_PASSWORD="super_secret_redis_pw"
-export REDIS_MASTER_SERVICE_HOST="127.0.0.1"
-export REDIS_MASTER_SERVICE_PORT="6379"
-export REDIS_REPLICAS_SERVICE_HOST="127.0.0.1"
-export REDIS_REPLICAS_SERVICE_PORT="6380"
+export REDIS_HOST="127.0.0.1"
+export REDIS_PORT="6379"
 ```
 
 ---
