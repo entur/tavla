@@ -1,6 +1,6 @@
 'use client'
-import { StatusBadge } from '@entur/layout'
+import { Tag } from '@entur/layout'
 
 export function ArrivalsBadge() {
-    return <StatusBadge variant="neutral">Ankomsttavle</StatusBadge>
+    return <Tag variant="neutral">Ankomsttavle</Tag>
 }
