@@ -149,17 +149,16 @@ function EditStopPlaceForm({
 
     const errorMessage = generalError ?? linesError
 
+    const handleConfirm = () => {
+        const payload: SavePayload = {
+            tile: buildTile(),
+            selectedLinesCount: checkedLineIds.size,
+        }
+        startTransition(() => action(payload))
+    }
+
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault()
-                const payload: SavePayload = {
-                    tile: buildTile(),
-                    selectedLinesCount: checkedLineIds.size,
-                }
-                startTransition(() => action(payload))
-            }}
-        >
+        <div>
             <SetStopPlaceName
                 displayName={displayName}
                 onDisplayNameChange={setDisplayName}
@@ -193,7 +192,11 @@ function EditStopPlaceForm({
             />
 
             {errorMessage && (
-                <SmallAlertBox variant="error" className="mt-4 w-fit">
+                <SmallAlertBox
+                    variant="error"
+                    className="mt-4 w-fit"
+                    role="alert"
+                >
                     {errorMessage}
                 </SmallAlertBox>
             )}
@@ -210,15 +213,15 @@ function EditStopPlaceForm({
                 </Button>
                 <Button
                     className="w-full"
-                    type="submit"
                     variant="primary"
+                    onClick={handleConfirm}
                     loading={isPending}
                     disabled={isPending}
                 >
                     Bekreft valg
                 </Button>
             </div>
-        </form>
+        </div>
     )
 }
 
