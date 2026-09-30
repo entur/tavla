@@ -1,7 +1,6 @@
 'use client'
 import { SmallAlertBox } from '@entur/alert'
 import { Button } from '@entur/button'
-import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState, useState } from 'react'
 import type {
     BoardDB,
@@ -29,7 +28,6 @@ type Props = {
     board: BoardDB
     tile: BoardTileDB
     quays: QuayWithFrontText[]
-    changedFields: Set<string>
     onFieldChanged: (field: string) => void
     onSaved: () => void
     onCancel: () => void
@@ -39,13 +37,10 @@ function EditStopPlaceForm({
     board,
     tile,
     quays,
-    changedFields,
     onFieldChanged,
     onSaved,
     onCancel,
 }: Props) {
-    const { capture } = usePosthogTracking()
-
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
@@ -70,17 +65,6 @@ function EditStopPlaceForm({
         const result = await saveTile(board.id, newTile)
 
         if (result?.status === 'success') {
-            capture('stop_place_edit_saved', {
-                location: 'board_page',
-                name: changedFields.has('name'),
-                offset: changedFields.has('offset'),
-                offset_walking_dist: changedFields.has('offset_walking_dist'),
-                columns: changedFields.has('columns'),
-                lines: changedFields.has('lines'),
-                transport_mode_filter: changedFields.has(
-                    'transport_mode_filter',
-                ),
-            })
             onSaved()
         }
 

@@ -31,18 +31,31 @@ function EditStopPlaceModal({
         setHasUnsavedChanges(true)
     }
 
-    const close = () => {
+    const handleCloseModal = () => {
         setHasUnsavedChanges(false)
         setChangedFields(new Set())
         setIsOpen(false)
     }
 
-    const cancel = () => {
+    const discardChangesAndClose = () => {
         capture('stop_place_edit_cancelled', {
             location: 'edit_board_page',
             unsavedChanges: hasUnsavedChanges,
         })
-        close()
+        handleCloseModal()
+    }
+
+    const onSaved = () => {
+        capture('stop_place_edit_saved', {
+            location: 'board_page',
+            name: changedFields.has('name'),
+            offset: changedFields.has('offset'),
+            offset_walking_dist: changedFields.has('offset_walking_dist'),
+            columns: changedFields.has('columns'),
+            lines: changedFields.has('lines'),
+            transport_mode_filter: changedFields.has('transport_mode_filter'),
+        })
+        handleCloseModal()
     }
 
     const quaysWithFilteredLines =
@@ -51,7 +64,7 @@ function EditStopPlaceModal({
     return (
         <Modal
             open={isOpen}
-            onDismiss={cancel}
+            onDismiss={discardChangesAndClose}
             size="large"
             data-transport-palette={board.transportPalette}
         >
@@ -67,10 +80,9 @@ function EditStopPlaceModal({
                         board={board}
                         tile={tile}
                         quays={quaysWithFilteredLines}
-                        changedFields={changedFields}
                         onFieldChanged={onFieldChanged}
-                        onSaved={close}
-                        onCancel={cancel}
+                        onSaved={onSaved}
+                        onCancel={discardChangesAndClose}
                     />
                 )}
             </TileContext.Provider>
