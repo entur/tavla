@@ -1,5 +1,3 @@
-// BLIR SLETTET ETTER MIGRERING TIL report-log API'et
-
 import { type NextRequest, NextResponse } from 'next/server'
 import { logToGcp } from 'src/utils/logging'
 import rateLimit from 'src/utils/rateLimit'
@@ -12,7 +10,9 @@ const ALLOWED_ORIGINS = [
     ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:5173'] : []),
 ]
 
-const ErrorCode = z.enum([
+const ReportLevel = z.enum(['debug', 'info', 'warning', 'error'])
+
+const ReportCode = z.enum([
     'display_error',
     'unknown',
     'fetch_journey_planner',
@@ -24,12 +24,13 @@ const ReportSchema = z.object({
         .string()
         .regex(/^[A-Za-z0-9]{20}$/)
         .or(z.string().regex(/^NSR:(Quay|StopPlace):\d+$/i)),
-    errorCode: ErrorCode,
+    level: ReportLevel,
+    code: ReportCode,
     message: z.string(),
 })
 
-//Limits live in the memory of the pods. These are not hard limits, but work as per-instance LRU limiters.
-//Good to keep in mind as it can be abused to spam logs, but the risk is low.
+// Limits live in the memory of the pods. These are not hard limits, but work as per-instance LRU limiters.
+// Good to keep in mind as it can be abused to spam logs, but the risk is low.
 const ipLimiter = rateLimit({ maxUniqueTokens: 500, interval: 60000 })
 const boardLimiter = rateLimit({ maxUniqueTokens: 2000, interval: 60000 })
 
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
     const headers = corsHeaders(origin)
 
     const contentLength = Number(req.headers.get('Content-Length') ?? '0')
-    if (contentLength > 500) {
+    if (contentLength > 520) {
         return NextResponse.json(
             { error: 'invalid request: Content-Length' },
             { status: 400, headers },
@@ -70,13 +71,19 @@ export async function POST(req: NextRequest) {
         )
     }
 
-    const { boardId, errorCode, message } = parsed.data
+    const { boardId, level, code, message } = parsed.data
     const ip = clientIp(req)
 
     try {
         await ipLimiter.check(new Response(), 100, ip)
         await boardLimiter.check(new Response(), 5, boardId)
     } catch {
+        await logToGcp(
+            'warning',
+            `[tavla-visning] rate limited: ${code} (${level}) from ${boardId}`,
+            { bid: boardId, errorCode: code, userAgent: userAgent },
+            'tavla-visning',
+        )
         return NextResponse.json(
             { error: 'rate limited' },
             { status: 429, headers },
@@ -84,9 +91,10 @@ export async function POST(req: NextRequest) {
     }
 
     await logToGcp(
-        'error',
-        `[DEPRECATED][tavla-visning] ${errorCode} reported from ${boardId} with message: ${message}`,
-        { bid: boardId, errorCode: errorCode, userAgent: userAgent },
+        level,
+        `[tavla-visning] ${code} reported from ${boardId} with message: ${message}`,
+        { bid: boardId, errorCode: code, userAgent: userAgent },
+        'tavla-visning',
     )
 
     return NextResponse.json({ ok: true }, { headers })
