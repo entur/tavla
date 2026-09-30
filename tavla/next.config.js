@@ -1,5 +1,5 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
-const { withSentryConfig } = require('@sentry/nextjs')
+const { withSentryConfig } = require('@sentry/nextjs/config')
 
 const authEmulatorHost = process.env.FIREBASE_AUTH_EMULATOR_HOST ?? '127.0.0.1:9099'
 
@@ -217,5 +217,9 @@ module.exports = withSentryConfig(nextConfig, {
     // For all available options, see:
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
     hideSourceMaps: true,
-    disableLogger: true,
+    webpack: {
+        treeshake: {
+            removeDebugLogging: true,
+        },
+    },
 })
