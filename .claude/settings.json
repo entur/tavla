@@ -1,4 +1,15 @@
 {
+  "extraKnownMarketplaces": {
+    "team-tavla": {
+      "source": {
+        "source": "github",
+        "repo": "entur/team-tavla"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "tavla@team-tavla": true
+  },
   "permissions": {
     "deny": [
       "Bash(gh api *dependabot/alerts/*)",
