@@ -38,10 +38,8 @@ Dette repo består av tre tjenester: en backend i /backend, en frontend i /tavla
 | HOST | Backend | Nei | 0.0.0.0 | Adresse backend binder på |
 | PORT | Backend | Nei | 3001 | Port backend lytter på |
 | REDIS_PASSWORD | Backend/Redis | Ja | – | Passord for master + replica |
-| REDIS_MASTER_SERVICE_HOST | Backend | Ja | 127.0.0.1 | Host for Redis master |
-| REDIS_MASTER_SERVICE_PORT | Backend | Ja | 6379 | Port for Redis master |
-| REDIS_REPLICAS_SERVICE_HOST | Backend | Ja | 127.0.0.1 | Host for Redis replica |
-| REDIS_REPLICAS_SERVICE_PORT | Backend | Ja | 6380 | Port for Redis replica |
+| REDIS_HOST | Backend | Ja | - Redis-host (127.0.0.1 lokalt)
+| REDIS_PORT | Backend | Ja | - Redis-port (6379 lokalt)
 | NEXT_PUBLIC_ENV | Frontend | Nei | dev | Bygg-/miljøflagg i frontend |
 | SENTRY_* | Frontend/Backend | Nei | – | Valgfri observability |
 | FIREBASE_* | Frontend | Ja (auth) | – | Konfig via emulator / service keys |
