@@ -1,4 +1,4 @@
-use std::time::Duration;
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use axum::{
     body::Body,
@@ -39,6 +39,11 @@ use crate::types::Guard;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
+
+#[derive(Serialize, Deserialize)]
+pub struct HeartbeatAck {
+    pub time: u64,
+}
 
 #[derive(Clone)]
 pub struct Metrics {
@@ -505,7 +510,10 @@ async fn subscribe(
     Ok(res)
 }
 
-async fn heartbeat(State(state): State<AppState>, body: String) -> Result<StatusCode, AppError> {
+async fn heartbeat(
+    State(state): State<AppState>,
+    body: String,
+) -> Result<Json<HeartbeatAck>, AppError> {
     let payload: HeartbeatPayload = serde_json::from_str(&body)?;
 
     let key = format!("heartbeat:{}", payload.bid);
@@ -524,5 +532,7 @@ async fn heartbeat(State(state): State<AppState>, body: String) -> Result<Status
 
     let mut connection = state.master.clone();
     let _: () = connection.set_ex(key, value, HEARTBEAT_TTL_SECS).await?;
-    Ok(StatusCode::OK)
+
+    let now_ms = SystemTime::now().duration_since(UNIX_EPOCH)?.as_millis() as u64;
+    Ok(Json(HeartbeatAck { time: now_ms }))
 }
