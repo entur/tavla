@@ -1,6 +1,6 @@
 import type { BoardTileDB } from 'types/db-types/boards'
 import { describe, expect, it } from 'vitest'
-import type { QuayWithFrontText } from './types'
+import type { QuayWithFrontText } from '../utils/types'
 import {
     deriveLinesWithDirection,
     getInitialCheckedLineIds,
