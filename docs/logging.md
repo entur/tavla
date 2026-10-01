@@ -115,7 +115,7 @@ Loggnivå settes automatisk i GraphQL-fetcheren basert på statuskode:
 Brukes via `/api/report-log`- og `/api/report-error`-endepunktene (se seksjon 3). Send eksplisitt `type`-parameter. Via `/api/report-log` er `level` oppgitt av kalleren (kan være `debug`/`info`/`warning`/`error`); via det utfasede `/api/report-error` er nivået alltid `error`.
 
 ```typescript
-logToGcp(level, `[tavla-visning] ${code} (${level}) reported from ${boardId} with message: ${message}`, extra, 'tavla-visning')
+logToGcp(level, `[tavla-visning] ${code} reported from ${boardId} with message: ${message}`, extra, 'tavla-visning')
 ```
 
 ### `LogExtra`-felter
@@ -130,6 +130,8 @@ Ekstra strukturerte felter som sendes med loggen for enkel filtrering:
 | `path` | `string` | URL-sti |
 | `errorCode` | `string` | Applikasjonsspesifikk feilkode |
 | `userAgent` | `string` | User-agent-streng fra forespørselen |
+| `errorName` | `string` (valgfri) | Feilens navn/type (f.eks. `Error.name`), sendt inn via `/api/report-log` |
+| `online` | `boolean` (valgfri) | Om klienten var tilkoblet nett da hendelsen oppsto (`navigator.onLine`), sendt inn via `/api/report-log` |
 
 ### Sikkerhet mot log injection
 
@@ -192,10 +194,12 @@ fetch('https://tavla.entur.no/api/report-log', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-        boardId: '<20-tegns alfanumerisk ID>',
+        boardId: '<20-tegns alfanumerisk ID, eller NSR:Quay:... / NSR:StopPlace:...>',
         level: 'info', // 'debug' | 'info' | 'warning' | 'error'
         code: 'fetch_board', // eller 'display_error', 'unknown', 'fetch_journey_planner' – utvides etter behov
         message: '<melding>',
+        errorName: 'TypeError', // valgfri
+        online: true, // valgfri – navigator.onLine på klienten
     }),
 }).catch(() => {}) // fire-and-forget
 ```
@@ -206,7 +210,7 @@ Endepunktet er åpent, men beskyttet med flere lag:
 
 | Tiltak | Detalj |
 |--------|--------|
-| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$`, `level` og `code` er faste enums, `message` er en streng |
+| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$` eller `^NSR:(Quay\|StopPlace):\d+$` (case-insensitive), `level` og `code` er faste enums, `message` er en streng, `errorName` (valgfri streng) og `online` (valgfri boolean) |
 | **Content-Length** | Avviser forespørsler over 520 bytes |
 | **Rate-limiting per IP** | Maks 100 forespørsler/minutt per IP-adresse, gjelder alle nivåer |
 | **Rate-limiting per tavle** | Maks 5 forespørsler/minutt per `boardId`, gjelder alle nivåer |
@@ -231,7 +235,7 @@ fetch('https://tavla.entur.no/api/report-error', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-        boardId: '<20-tegns alfanumerisk ID>',
+        boardId: '<20-tegns alfanumerisk ID, eller NSR:Quay:... / NSR:StopPlace:...>',
         errorCode: 'display_error', // eller 'unknown', 'fetch_journey_planner', 'fetch_board'
         message: '<feilmelding>',
     }),
@@ -244,7 +248,7 @@ Endepunktet er åpent, men beskyttet med flere lag:
 
 | Tiltak | Detalj |
 |--------|--------|
-| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$`, `errorCode` er fast enum, `message` er en streng |
+| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$` eller `^NSR:(Quay\|StopPlace):\d+$` (case-insensitive), `errorCode` er fast enum, `message` er en streng |
 | **Content-Length** | Avviser forespørsler over 500 bytes |
 | **Rate-limiting per IP** | Maks 100 forespørsler/minutt per IP-adresse |
 | **Rate-limiting per tavle** | Maks 5 forespørsler/minutt per `boardId` |
