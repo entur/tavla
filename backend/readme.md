@@ -292,3 +292,5 @@ Respons fra `/subscribe/:bid`:
 | 500 på /alive | Redis utilgjengelig | Sjekk at begge instanser kjører og passord stemmer |
 | Ingen endring i UI | Feil tavle-ID brukt | Verifiser `:bid` i både subscribe og refresh-kall |
 
+
+<!-- midlertidig: trigger CI -->

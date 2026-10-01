@@ -106,3 +106,5 @@ rydding/refaktor-board-context
 | Ingen WebSocket-oppdatering   | Backend ikke oppe / CORS | Start backend, sjekk nettleserkonsoll       |
 | Data forsvinner               | Ikke brukt persist       | Bruk `yarn dev:persist`                     |
 | Typefeil etter schema-endring | Codegen ikke kjørt       | Kjør `yarn generate`                        |
+
+<!-- midlertidig: trigger CI -->
