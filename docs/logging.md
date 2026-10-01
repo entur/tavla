@@ -119,6 +119,7 @@ logToGcp('error', 'error reported from tavla-visning', {
     type: 'tavla-visning',
     bid: boardId,
     errorCode,
+    status
 })
 ```
 
@@ -212,6 +213,7 @@ fetch('https://tavla.entur.no/api/report-error', {
         boardId: '<20-tegns alfanumerisk ID>',
         errorCode: 'display_error', // eller 'unknown', 'fetch_journey_planner', 'fetch_board'
         message: '<feilmelding>',
+        status: 503, // valgfritt - HTTP-statuskoden fra det feilede kallet, mest aktuelt for fetch_journey_planner/fetch_board
     }),
 }).catch(() => {}) // fire-and-forget
 ```
@@ -222,7 +224,7 @@ Endepunktet er åpent, men beskyttet med flere lag:
 
 | Tiltak | Detalj |
 |--------|--------|
-| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$`, `errorCode` er fast enum, `message` er en streng |
+| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$`, `errorCode` er fast enum, `message` er en streng, `status` (valgfri) må være et heltall 100-599 |
 | **Content-Length** | Avviser forespørsler over 500 bytes |
 | **Rate-limiting per IP** | Maks 100 forespørsler/minutt per IP-adresse |
 | **Rate-limiting per tavle** | Maks 5 forespørsler/minutt per `boardId` |
