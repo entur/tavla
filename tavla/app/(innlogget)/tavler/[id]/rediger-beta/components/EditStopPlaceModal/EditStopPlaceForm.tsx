@@ -142,7 +142,7 @@ function EditStopPlaceForm({
     }
 
     return (
-        <div>
+        <div className="">
             <SetStopPlaceName
                 displayName={displayName}
                 onDisplayNameChange={setDisplayName}
@@ -185,7 +185,7 @@ function EditStopPlaceForm({
                 </SmallAlertBox>
             )}
 
-            <div className="mt-8 flex flex-row gap-4">
+            <div className="sticky bottom-0 bg-background flex flex-row gap-4 pb-12 pt-4 mt-8">
                 <Button
                     className="w-full"
                     type="button"
