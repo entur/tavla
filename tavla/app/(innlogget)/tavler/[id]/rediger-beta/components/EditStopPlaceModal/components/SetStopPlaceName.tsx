@@ -5,21 +5,24 @@ import {
     TRACKING_DEBOUNCE_TIME,
     usePosthogTracking,
 } from 'app/posthog/usePosthogTracking'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import { TileContext } from '../context'
 import { NAME_MAX_LENGTH } from '../validation'
 
 function SetStopPlaceName({
+    displayName,
+    onDisplayNameChange,
     trackingLocation,
     onFieldChanged,
 }: {
+    displayName: string
+    onDisplayNameChange: (displayName: string) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
     const { capture } = usePosthogTracking()
     const tile = useNonNullContext(TileContext)
-    const [displayName, setDisplayName] = useState(tile.displayName ?? '')
     const isAtMaxLength = displayName.length >= NAME_MAX_LENGTH
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
     const title = tile.name.split(',')[0]
@@ -32,15 +35,15 @@ function SetStopPlaceName({
             <ClientOnlyTextField
                 label={'Navn på stoppested'}
                 className="!w-full md:!w-1/2 lg:!w-1/2"
-                name="displayName"
                 value={displayName}
                 maxLength={NAME_MAX_LENGTH}
                 clearable={!!displayName}
                 onClear={() => {
-                    setDisplayName('')
+                    onDisplayNameChange('')
+                    onFieldChanged('name')
                 }}
                 onChange={(e) => {
-                    setDisplayName(e.target.value)
+                    onDisplayNameChange(e.target.value)
                     onFieldChanged('name')
 
                     if (debounceTimerRef.current) {
