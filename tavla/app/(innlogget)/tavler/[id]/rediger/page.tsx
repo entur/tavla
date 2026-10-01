@@ -5,6 +5,8 @@ import { formDataToTiles } from 'app/_components/TileSelector/utils'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
+import { FeatureFlags } from 'app/posthog/featureFlags'
+import { isFeatureEnabled } from 'app/posthog/nodePosthogClient'
 import type { Metadata } from 'next'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
@@ -19,6 +21,7 @@ import { Copy } from './components/Buttons/Copy'
 import { CustomUrl } from './components/CustomUrl/CustomUrl'
 import { Preview } from './components/Preview'
 import { Settings } from './components/Settings/Settings'
+import { TryBetaBanner } from './components/TryBetaBanner'
 
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>
@@ -74,9 +77,12 @@ export default async function EditPage(props: TProps) {
         board.customUrl ? board.customUrl : board.id,
     )
 
+    const flagEnabled = await isFeatureEnabled(FeatureFlags.EDIT_BOARD_BETA)
+
     return (
         <main id="main-content">
             <div className="container flex flex-col gap-6 pb-20 pt-16">
+                {flagEnabled && <TryBetaBanner bid={board.id} />}
                 {folder ? (
                     <BreadcrumbsNav
                         type="boardInFolder"
