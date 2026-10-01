@@ -137,42 +137,73 @@ export function countSelectableQuayLineKeys(
 /**
  * Adds a quay-line(-frontText) key to the set. If the line has no known directions,
  * the key is added without a frontText. If the line has known directions, a key
- * is added for each frontText.
+ * is added for each frontText, limited to `savedFrontTexts` when the user has
+ * previously narrowed the line to specific directions.
  */
 function addLineKeys(
     set: Set<string>,
     quayId: string,
     lineId: string,
     frontTexts: string[] | undefined,
+    savedFrontTexts?: string[],
 ): void {
     if (!frontTexts || frontTexts.length === 0) {
         set.add(generateQuayLineFrontTextKey(quayId, lineId))
         return
     }
-    for (const frontText of frontTexts) {
+    const selectedFrontTexts =
+        savedFrontTexts && savedFrontTexts.length > 0
+            ? frontTexts.filter((f) => savedFrontTexts.includes(f))
+            : []
+
+    const toAdd =
+        selectedFrontTexts.length > 0 ? selectedFrontTexts : frontTexts
+
+    for (const frontText of toAdd) {
         set.add(generateQuayLineFrontTextKey(quayId, lineId, frontText))
     }
 }
 
+/**
+ * Computes which quay-line(-frontText) keys are pre-checked when a saved tile
+ * is opened. `tile.quays`/`tile.whitelistedLines` decide which lines are
+ * selected, `tile.linesWithDirection` narrows those lines to the saved
+ * directions (empty or missing = all directions).
+ */
 export function getInitialCheckedLineIds(
     tile: BoardTileDB,
     quays: QuayWithFrontText[],
 ): Set<string> {
     const set = new Set<string>()
     const hasQuayFilter = tile.quays && tile.quays.length > 0
+    const savedDirections = new Map<string, string[]>(
+        (tile.linesWithDirection ?? []).map((l) => [l.lineId, l.frontTexts]),
+    )
 
     for (const quay of quays) {
         const savedQuay = tile.quays?.find((q) => q.id === quay.id)
         if (savedQuay) {
             if (savedQuay.whitelistedLines.length === 0) {
                 for (const l of quay.lines) {
-                    addLineKeys(set, quay.id, l.id, l.frontTexts)
+                    addLineKeys(
+                        set,
+                        quay.id,
+                        l.id,
+                        l.frontTexts,
+                        savedDirections.get(l.id),
+                    )
                 }
             } else {
                 for (const lineId of savedQuay.whitelistedLines) {
                     const line = quay.lines.find((l) => l.id === lineId)
                     if (!line) continue
-                    addLineKeys(set, quay.id, line.id, line.frontTexts)
+                    addLineKeys(
+                        set,
+                        quay.id,
+                        line.id,
+                        line.frontTexts,
+                        savedDirections.get(line.id),
+                    )
                 }
             }
         } else if (hasQuayFilter) {
@@ -180,12 +211,24 @@ export function getInitialCheckedLineIds(
         } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
             for (const l of quay.lines) {
                 if (tile.whitelistedLines?.includes(l.id)) {
-                    addLineKeys(set, quay.id, l.id, l.frontTexts)
+                    addLineKeys(
+                        set,
+                        quay.id,
+                        l.id,
+                        l.frontTexts,
+                        savedDirections.get(l.id),
+                    )
                 }
             }
         } else {
             for (const l of quay.lines) {
-                addLineKeys(set, quay.id, l.id, l.frontTexts)
+                addLineKeys(
+                    set,
+                    quay.id,
+                    l.id,
+                    l.frontTexts,
+                    savedDirections.get(l.id),
+                )
             }
         }
     }
