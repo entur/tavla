@@ -142,7 +142,7 @@ function EditStopPlaceForm({
     }
 
     return (
-        <div className="">
+        <>
             <SetStopPlaceName
                 displayName={displayName}
                 onDisplayNameChange={setDisplayName}
@@ -205,7 +205,7 @@ function EditStopPlaceForm({
                     Bekreft valg
                 </Button>
             </div>
-        </div>
+        </>
     )
 }
 
