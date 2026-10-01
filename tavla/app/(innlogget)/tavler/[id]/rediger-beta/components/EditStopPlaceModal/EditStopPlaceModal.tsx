@@ -66,6 +66,7 @@ function EditStopPlaceModal({
             open={isOpen}
             onDismiss={discardChangesAndClose}
             size="large"
+            className="!pb-0"
             data-transport-palette={board.transportPalette}
         >
             <TileContext.Provider value={tile}>
