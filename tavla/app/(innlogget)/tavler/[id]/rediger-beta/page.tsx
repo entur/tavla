@@ -33,9 +33,6 @@ export default async function EditBetaPage(props: TProps) {
     const user = await getUserFromSessionCookie()
     if (!user?.uid) return redirect('/')
 
-    const flagEnabled = await isFeatureEnabled(FeatureFlags.EDIT_BOARD_BETA)
-    if (!flagEnabled) return redirect(`/tavler/${bid}/rediger`)
-
     const [board, folder, access] = await Promise.all([
         getBoard(bid),
         getFolderForBoard(bid),

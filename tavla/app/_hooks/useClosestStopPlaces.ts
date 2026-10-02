@@ -23,8 +23,14 @@ function useClosestStopPlaces(
     >(null)
     const [mainStopPlaceItem, setMainStopPlaceItem] =
         useState<NormalizedDropdownItemType<StopPlace> | null>(null)
+    const [loadedCoordinatesKey, setLoadedCoordinatesKey] = useState<
+        string | null
+    >(null)
 
     const { lat, lon } = coordinates ?? { lat: 0, lon: 0 }
+    const coordinatesKey = `${lat},${lon}`
+    const hasCoordinates = !(lat === 0 && lon === 0)
+    const isLoading = hasCoordinates && loadedCoordinatesKey !== coordinatesKey
 
     useEffect(() => {
         if (lat === 0 && lon === 0) {
@@ -33,15 +39,17 @@ function useClosestStopPlaces(
         }
 
         let cancelled = false
-        fetchClosestStopPlaces(
-            { lat, lon },
-            numberOfStopPlaces,
-            areaRadiusInKm,
-        ).then((items) => {
-            if (!cancelled) {
-                setClosestStopPlaceItems(items)
-            }
-        })
+        fetchClosestStopPlaces({ lat, lon }, numberOfStopPlaces, areaRadiusInKm)
+            .then((items) => {
+                if (!cancelled) {
+                    setClosestStopPlaceItems(items)
+                }
+            })
+            .finally(() => {
+                if (!cancelled) {
+                    setLoadedCoordinatesKey(`${lat},${lon}`)
+                }
+            })
         return () => {
             cancelled = true
         }
@@ -89,6 +97,7 @@ function useClosestStopPlaces(
     return {
         closestStopPlaceItems,
         allClosestItems,
+        isLoading,
         selectedClosestStopPlaces,
         setSelectedClosestStopPlaces,
         setMainStopPlaceItem,
