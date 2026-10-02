@@ -115,6 +115,14 @@ function Create() {
                     </SubmitButton>
                 </ButtonGroup>
             </form>
+            <Paragraph className="text-center text-sm" margin="none">
+                Ved å opprette en bruker samtykker du til at vi behandler
+                personopplysninger som beskrevet i{' '}
+                <Link className="underline" href="/personvern">
+                    personvernerklæringen
+                </Link>
+                .
+            </Paragraph>
             <div className="mb-8 mt-4 w-full rounded-sm border-2"></div>
             <Google
                 userTrackingContext="create"
