@@ -88,7 +88,8 @@ function buildPayload(
     return { message, ...extra }
 }
 
-function sanitizeForLog(value: unknown): string {
+function sanitizeForLog(value: unknown): string | undefined {
+    if (value === undefined || value === null) return undefined
     return (
         String(value)
             .replace(/[\r\n\u2028\u2029]+/g, ' ')
@@ -105,7 +106,7 @@ export async function logToGcp(
     type?: LogType,
 ) {
     const safeLevel = sanitizeForLog(level) as LogLevel
-    const safeMessage = sanitizeForLog(message)
+    const safeMessage = sanitizeForLog(message) || 'unknown'
 
     const safeExtra: LogExtra | undefined = extra
         ? {
