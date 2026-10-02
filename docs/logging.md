@@ -212,8 +212,8 @@ Endepunktet er åpent, men beskyttet med flere lag:
 |--------|--------|
 | **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$` eller `^NSR:(Quay\|StopPlace):\d+$` (case-insensitive), `level` og `code` er faste enums, `message` er en streng, `errorName` (valgfri streng) og `online` (valgfri boolean) |
 | **Content-Length** | Avviser forespørsler over 520 bytes |
-| **Rate-limiting per IP** | Maks 100 forespørsler/minutt per IP-adresse, gjelder alle nivåer |
-| **Rate-limiting per tavle** | Maks 5 forespørsler/minutt per `boardId`, gjelder alle nivåer |
+| **Rate-limiting per IP** | Maks 150 forespørsler/minutt per IP-adresse, gjelder alle nivåer |
+| **Rate-limiting per tavle** | Maks 50 forespørsler/minutt per `boardId`, gjelder alle nivåer |
 | **CORS** | Kun `vis-tavla.entur.no` og `vis-tavla.dev.entur.no` (pluss localhost i dev) |
 
 Samme grense gjelder uansett nivå (`debug`/`info`/`warning`/`error`) – det finnes ingen egen, romsligere grense for høyfrekvente info/debug-hendelser. Når grensen nås logges det en `warning` til GCP (`jsonPayload.type="tavla-visning"`, meldingen inneholder `rate limited`), slik at faktisk trafikkmønster blir synlig og kan brukes til å justere grensene senere. Selve 429-svaret rammer alle nivåer likt. Rate-limitene lever i minnet på hvert pod og er ikke delte på tvers av instanser – de er per-instans LRU-begrensere.

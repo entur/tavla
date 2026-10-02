@@ -135,7 +135,7 @@ export async function logToGcp(
 
     const entry = log.entry(
         { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
-        buildPayload(safeMessage, extra, type),
+        buildPayload(safeMessage, safeExtra, type),
     )
     await log.write(entry).catch((error) => {
         // biome-ignore lint/suspicious/noConsole: Log errors on GCP logging in container output.

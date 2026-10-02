@@ -87,6 +87,7 @@ export async function POST(req: NextRequest) {
         'error',
         `[DEPRECATED][tavla-visning] ${errorCode} reported from ${boardId} with message: ${message}`,
         { bid: boardId, errorCode: errorCode, userAgent: userAgent },
+        'tavla-visning',
     )
 
     return NextResponse.json({ ok: true }, { headers })
