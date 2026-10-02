@@ -1,7 +1,7 @@
 'use client'
 import { ActionChip, FilterChip } from '@entur/chip'
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import { CloseIcon, FilterIcon } from '@entur/icons'
+import { FilterIcon } from '@entur/icons'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
