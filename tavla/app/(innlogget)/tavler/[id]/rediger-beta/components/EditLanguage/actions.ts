@@ -22,7 +22,11 @@ export async function saveLanguage(
     value: LanguageValue,
 ): Promise<LanguageState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action:saveLanguage invoked', { bid })
+    logToGcp('info', 'action invoked: saveLanguage', {
+        type: 'server-action',
+        action: 'saveLanguage',
+        bid,
+    })
 
     const parsed = languageSchema.safeParse(value)
     if (!parsed.success)
@@ -34,11 +38,14 @@ export async function saveLanguage(
     try {
         await updateBoard(bid, { language: parsed.data })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save language: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveLanguage', {
+            type: 'server-action',
+            action: 'saveLanguage',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, { extra: { boardID: bid } })
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }

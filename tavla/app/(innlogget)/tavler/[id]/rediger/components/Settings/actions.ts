@@ -54,7 +54,11 @@ export async function saveSettings(data: FormData) {
         ? (JSON.parse(locationRaw) as LocationDB)
         : undefined
 
-    logToGcp('info', 'action:saveSettings invoked', { bid })
+    logToGcp('info', 'action invoked: saveSettings', {
+        type: 'server-action',
+        action: 'saveSettings',
+        bid,
+    })
 
     const infoMessage = data.get('infoMessage') as string
 
@@ -113,11 +117,14 @@ export async function saveSettings(data: FormData) {
             redirect('/')
         }
 
-        logToGcp(
-            'error',
-            `Failed to save settings for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveSettings', {
+            type: 'server-action',
+            action: 'saveSettings',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: { message: 'Error while saving settings', boardID: bid },
         })

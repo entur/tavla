@@ -28,7 +28,12 @@ export async function POST(request: NextRequest) {
     const response = new Response()
     response.headers.set('Content-Type', 'application/json')
     if (!user?.uid) {
-        logToGcp('warning', 'POST /api/upload: status=401 reason=invalid-token')
+        logToGcp('warning', 'upload rejected: invalid token', {
+            type: 'http',
+            method: 'POST',
+            path: '/api/upload',
+            status: 401,
+        })
         return new Response(JSON.stringify({ error: 'Invalid token' }), {
             status: 401,
             headers: response.headers,
@@ -39,7 +44,12 @@ export async function POST(request: NextRequest) {
         await rateLimiter.check(response, 5, user.uid)
     } catch {
         response.headers.set('Content-Type', 'application/json')
-        logToGcp('warning', `POST /api/upload: status=429`)
+        logToGcp('warning', 'upload rejected: rate limited', {
+            type: 'http',
+            method: 'POST',
+            path: '/api/upload',
+            status: 429,
+        })
         return new Response(JSON.stringify({ error: 'Too Many Requests' }), {
             headers: response.headers,
             status: 429,
@@ -51,10 +61,12 @@ export async function POST(request: NextRequest) {
     const logo = data.get('logo') as File
 
     if (!logo || !folderid) {
-        logToGcp(
-            'warning',
-            `POST /api/upload: status=400 reason=missing-values`,
-        )
+        logToGcp('warning', 'upload rejected: missing values', {
+            type: 'http',
+            method: 'POST',
+            path: '/api/upload',
+            status: 400,
+        })
         return new Response(JSON.stringify({ error: 'Missing values' }), {
             headers: response.headers,
             status: 400,
@@ -62,7 +74,13 @@ export async function POST(request: NextRequest) {
     }
     const canEdit = await userCanEditFolder(folderid)
     if (!canEdit) {
-        logToGcp('warning', `POST /api/upload: status=403 folderid=${folderid}`)
+        logToGcp('warning', 'upload rejected: unauthorized', {
+            type: 'http',
+            method: 'POST',
+            path: '/api/upload',
+            status: 403,
+            folderId: folderid,
+        })
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
             headers: response.headers,
             status: 403,
@@ -70,7 +88,14 @@ export async function POST(request: NextRequest) {
     }
 
     if (logo.size > 10_000_000) {
-        logToGcp('warning', `POST /api/upload: status=413 size=${logo.size}`)
+        logToGcp('warning', 'upload rejected: file too large', {
+            type: 'http',
+            method: 'POST',
+            path: '/api/upload',
+            status: 413,
+            folderId: folderid,
+            context: { size: logo.size },
+        })
         return new Response(JSON.stringify({ error: 'File size too big' }), {
             headers: response.headers,
             status: 413,
@@ -86,7 +111,14 @@ export async function POST(request: NextRequest) {
         'image/webp',
     ]
     if (!allowedFileTypes.includes(logo.type)) {
-        logToGcp('warning', `POST /api/upload: status=415 type=${logo.type}`)
+        logToGcp('warning', 'upload rejected: unsupported file type', {
+            type: 'http',
+            method: 'POST',
+            path: '/api/upload',
+            status: 415,
+            folderId: folderid,
+            context: { contentType: logo.type },
+        })
         return new Response(
             JSON.stringify({ error: 'Unsupported file type' }),
             {
@@ -116,7 +148,13 @@ export async function POST(request: NextRequest) {
     const logoUrl = await getDownloadURL(file)
 
     if (!logoUrl) {
-        logToGcp('error', `POST /api/upload: status=500 reason=no-logo-url`)
+        logToGcp('error', 'upload failed: no logo url', {
+            type: 'http',
+            method: 'POST',
+            path: '/api/upload',
+            status: 500,
+            folderId: folderid,
+        })
         return new Response(
             JSON.stringify({ error: 'Failed to get logo url' }),
             {
@@ -129,7 +167,13 @@ export async function POST(request: NextRequest) {
     await updateFolder(folderid, { logo: logoUrl })
     await updateBoardsInFolder(folderid)
     revalidatePath(`/mapper/${folderid}`)
-    logToGcp('info', `POST /api/upload: status=200 folderid=${folderid}`)
+    logToGcp('info', 'upload succeeded', {
+        type: 'http',
+        method: 'POST',
+        path: '/api/upload',
+        status: 200,
+        folderId: folderid,
+    })
     return new Response(
         JSON.stringify({ message: 'Logo uploaded successfully' }),
         {

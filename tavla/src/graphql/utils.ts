@@ -29,7 +29,10 @@ async function fetchWithTimeout(
     } catch (error) {
         clearTimeout(timeoutScheduler)
         if (signal.aborted) {
-            logToGcp('error', `Departure fetch timed out: ${url} ${options}`)
+            logToGcp('error', 'departure fetch timed out', {
+                type: 'graphql',
+                context: { url: String(url) },
+            })
             Sentry.captureException(new Error('Departure fetch timed out'), {
                 extra: {
                     url: url,
@@ -38,7 +41,13 @@ async function fetchWithTimeout(
             })
             throw new Error(FetchErrorTypes.TIMEOUT, { cause: error })
         }
-        logToGcp('error', `Unknown error occured during fetch: ${error}`)
+        logToGcp('error', 'unknown error during fetch', {
+            type: 'graphql',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+            context: { url: String(url) },
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Unknown error occured during fetch',
@@ -74,14 +83,20 @@ export async function fetcher<Data, Variables>([
             : response.status >= 400
               ? 'warning'
               : 'info',
-        `GraphQL ${endpointName}: status=${response.status}`,
+        'graphql request completed',
+        { type: 'graphql', endpoint: endpointName, status: response.status },
     )
 
     const res = await response.json()
 
     if (res.errors && res.errors.length > 0) {
         const errorMessage = res.errors[0]?.message || 'Unknown GraphQL error'
-        logToGcp('warning', `GraphQL ${endpointName} error: ${errorMessage}`)
+        logToGcp('warning', 'graphql response contained errors', {
+            type: 'graphql',
+            endpoint: endpointName,
+            status: response.status,
+            errorMessage,
+        })
         Sentry.captureMessage(`GraphQL error: ${errorMessage}`, {
             level: 'warning',
             extra: {
@@ -95,10 +110,11 @@ export async function fetcher<Data, Variables>([
     }
 
     if (res.data === null || res.data === undefined) {
-        logToGcp(
-            'warning',
-            `GraphQL returned null/undefined data: query: ${query}, response: ${res}`,
-        )
+        logToGcp('warning', 'graphql returned null/undefined data', {
+            type: 'graphql',
+            endpoint: endpointName,
+            status: response.status,
+        })
         Sentry.captureMessage('GraphQL returned null/undefined data', {
             level: 'warning',
             extra: {

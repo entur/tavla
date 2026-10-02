@@ -23,7 +23,11 @@ export async function saveInfoMessage(
     value: string,
 ): Promise<InfoMessageState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action:saveInfoMessage invoked', { bid })
+    logToGcp('info', 'action invoked: saveInfoMessage', {
+        type: 'server-action',
+        action: 'saveInfoMessage',
+        bid,
+    })
 
     const parsed = infoMessageSchema.safeParse(value)
     if (!parsed.success)
@@ -42,11 +46,14 @@ export async function saveInfoMessage(
                     : FieldValue.delete(),
         })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save info message: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveInfoMessage', {
+            type: 'server-action',
+            action: 'saveInfoMessage',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, { extra: { boardID: bid } })
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }

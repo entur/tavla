@@ -34,16 +34,21 @@ export async function saveWalkingDistance(
     value?: LocationDB,
 ): Promise<FormState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action:saveWalkingDistance invoked', { bid })
+    logToGcp('info', 'action invoked: saveWalkingDistance', {
+        type: 'server-action',
+        action: 'saveWalkingDistance',
+        bid,
+    })
 
     const parsed = value ? locationSchema.safeParse(value) : undefined
 
     if (parsed && !parsed.success) {
-        logToGcp(
-            'error',
-            `Invalid location payload for saveWalkingDistance: ${parsed.error.message}`,
-            { bid },
-        )
+        logToGcp('error', 'invalid location payload', {
+            type: 'server-action',
+            action: 'saveWalkingDistance',
+            bid,
+            errorMessage: parsed.error.message,
+        })
         return { status: 'error', message: 'Ugyldig posisjon' }
     }
 
@@ -66,11 +71,14 @@ export async function saveWalkingDistance(
             })
         }
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save walking distance: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveWalkingDistance', {
+            type: 'server-action',
+            action: 'saveWalkingDistance',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, { extra: { boardID: bid } })
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }

@@ -13,19 +13,14 @@ function getLog() {
     return _log
 }
 
-type LogExtra = {
-    bid?: string
-    folderId?: string
-    status?: number
-    path?: string
-    errorCode?: string
-    userAgent?: string
-}
+export type LogType =
+    | 'server-action'
+    | 'http'
+    | 'graphql'
+    | 'firestore'
+    | 'tavla-visning'
 
-type LogType = 'server-action' | 'http' | 'graphql' | 'tavla-visning'
-
-type LogPayload = {
-    message: string
+export type LogFields = {
     type?: LogType
     action?: string
     method?: string
@@ -34,57 +29,26 @@ type LogPayload = {
     bid?: string
     folderId?: string
     path?: string
+    errorCode?: string
+    errorName?: string
+    errorMessage?: string
+    userAgent?: string
+    context?: Record<string, string | number | boolean>
 }
 
-function buildPayload(
-    message: string,
-    extra?: LogExtra,
-    type?: LogType,
-): LogPayload {
-    if (type) {
-        return {
-            message,
-            type: 'tavla-visning',
-            ...extra,
-        }
-    }
-
-    const actionMatch = message.match(/^action:(\w+)/)
-    if (actionMatch) {
-        return {
-            message,
-            type: 'server-action',
-            action: actionMatch[1],
-            ...extra,
-        }
-    }
-
-    const httpMatch = message.match(/^(GET|POST|PUT|DELETE|PATCH) /)
-    if (httpMatch) {
-        const status = message.match(/status=(\d+)/)?.[1]
-        return {
-            message,
-            type: 'http',
-            method: httpMatch[1],
-            ...(status ? { status: Number(status) } : {}),
-            ...extra,
-        }
-    }
-
-    const graphqlMatch = message.match(/^GraphQL ([\w-]+)/)
-    if (graphqlMatch) {
-        const status = message.match(/status=(\d+)/)?.[1]
-        return {
-            message,
-            type: 'graphql',
-            endpoint: graphqlMatch[1],
-            ...(status ? { status: Number(status) } : {}),
-            ...extra,
-        }
-    }
-
-    return { message, ...extra }
-}
+const STRING_FIELDS = [
+    'type',
+    'action',
+    'method',
+    'endpoint',
+    'bid',
+    'folderId',
+    'path',
+    'errorCode',
+    'errorName',
+    'errorMessage',
+    'userAgent',
+] as const satisfies readonly (keyof LogFields)[]
 
 function sanitizeForLog(value: unknown): string {
     return (
@@ -96,32 +60,47 @@ function sanitizeForLog(value: unknown): string {
     )
 }
 
+function sanitizeFields(fields?: LogFields): Record<string, unknown> {
+    if (!fields) return {}
+
+    const sanitized: Record<string, unknown> = {}
+
+    for (const key of STRING_FIELDS) {
+        const value = fields[key]
+        if (value !== undefined) sanitized[key] = sanitizeForLog(value)
+    }
+
+    if (fields.status !== undefined) sanitized.status = fields.status
+
+    if (fields.context) {
+        sanitized.context = Object.fromEntries(
+            Object.entries(fields.context).map(([key, value]) => [
+                key,
+                typeof value === 'string' ? sanitizeForLog(value) : value,
+            ]),
+        )
+    }
+
+    return sanitized
+}
+
 export async function logToGcp(
     level: LogLevel,
     message: string,
-    extra?: LogExtra,
-    type?: LogType,
+    fields?: LogFields,
 ) {
     const safeLevel = sanitizeForLog(level) as LogLevel
-    const safeMessage = sanitizeForLog(message)
-
-    const safeExtra: LogExtra | undefined = extra
-        ? {
-              bid: sanitizeForLog(extra?.bid),
-              folderId: sanitizeForLog(extra?.folderId),
-              status: extra?.status,
-              path: sanitizeForLog(extra?.path),
-              errorCode: sanitizeForLog(extra?.errorCode),
-              userAgent: sanitizeForLog(extra?.userAgent),
-          }
-        : undefined
+    const payload = {
+        message: sanitizeForLog(message),
+        ...sanitizeFields(fields),
+    }
 
     if (process.env.NODE_ENV === 'development') {
         // biome-ignore lint/suspicious/noConsole: local dev output
         console.log({
             severity: safeLevel.toUpperCase(),
             timestamp: new Date().toISOString(),
-            ...buildPayload(safeMessage, safeExtra),
+            ...payload,
         })
         return
     }
@@ -131,7 +110,7 @@ export async function logToGcp(
 
     const entry = log.entry(
         { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
-        buildPayload(safeMessage, extra, type),
+        payload,
     )
     await log.write(entry).catch((error) => {
         // biome-ignore lint/suspicious/noConsole: Log errors on GCP logging in container output.

@@ -15,7 +15,10 @@ export async function saveBoardToFirebaseForUser(
     if (!user) {
         throw new Error('Not authenticated')
     }
-    logToGcp('info', 'action:saveBoardToFirebaseForUser invoked')
+    logToGcp('info', 'action invoked: saveBoardToFirebaseForUser', {
+        type: 'server-action',
+        action: 'saveBoardToFirebaseForUser',
+    })
 
     const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
 
@@ -28,10 +31,13 @@ export async function saveBoardToFirebaseForUser(
 
         return doc.id
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save board from localStorage: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed: saveBoardToFirebaseForUser', {
+            type: 'server-action',
+            action: 'saveBoardToFirebaseForUser',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message:

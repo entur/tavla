@@ -63,10 +63,15 @@ export default function Google({
                     'Endre denne innstillingen i nettleseren din for å logge på med Google.',
                 ])
             } else {
-                logToGcp(
-                    'error',
-                    `Error while creating new user with Google sign in`,
-                )
+                logToGcp('error', 'action failed: googleSignIn', {
+                    type: 'server-action',
+                    action: 'googleSignIn',
+                    errorCode:
+                        error instanceof FirebaseError ? error.code : undefined,
+                    errorName: error instanceof Error ? error.name : undefined,
+                    errorMessage:
+                        error instanceof Error ? error.message : String(error),
+                })
                 Sentry.captureException(error, {
                     extra: {
                         message:

@@ -71,17 +71,27 @@ export async function GET(request: NextRequest) {
             (await getBoardByCustomUrl(boardId))
 
         if (!boardData) {
-            logToGcp('warning', `GET /api/board: boardId=${boardId} status=404`)
+            logToGcp('warning', 'board not found', {
+                type: 'http',
+                method: 'GET',
+                path: '/api/board',
+                status: 404,
+                bid: boardId,
+            })
             return createErrorResponse(request, 'Board not found', 404)
         }
 
         const folderLogo = await fetchFolderLogo(boardData.id)
 
         const origin = request.headers.get('origin') ?? 'unknown'
-        logToGcp(
-            'info',
-            `GET /api/board: boardId=${boardId} status=200 origin=${origin}`,
-        )
+        logToGcp('info', 'board fetched', {
+            type: 'http',
+            method: 'GET',
+            path: '/api/board',
+            status: 200,
+            bid: boardId,
+            context: { origin },
+        })
         return NextResponse.json(
             {
                 board: boardData,
@@ -90,10 +100,16 @@ export async function GET(request: NextRequest) {
             { headers: getCorsHeaders(request) },
         )
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to fetch board ${boardId}: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'failed to fetch board', {
+            type: 'http',
+            method: 'GET',
+            path: '/api/board',
+            status: 500,
+            bid: boardId,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while fetching board',
