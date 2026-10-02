@@ -33,7 +33,9 @@ const ReportSchema = z.object({
 
 // Limits live in the memory of the pods. These are not hard limits, but work as per-instance LRU limiters.
 // Good to keep in mind as it can be abused to spam logs, but the risk is low.
-const ipLimiter = rateLimit({ maxUniqueTokens: 500, interval: 60000 })
+// Boards report every 30s regardless of outcome (2 calls/min steady-state per board), so limits
+// must comfortably clear that baseline rather than just absorb occasional error bursts.
+const ipLimiter = rateLimit({ maxUniqueTokens: 2000, interval: 60000 })
 const boardLimiter = rateLimit({ maxUniqueTokens: 2000, interval: 60000 })
 
 function corsHeaders(origin: string): Record<string, string> {
@@ -77,8 +79,8 @@ export async function POST(req: NextRequest) {
     const ip = clientIp(req)
 
     try {
-        await ipLimiter.check(new Response(), 100, ip)
-        await boardLimiter.check(new Response(), 5, boardId)
+        await ipLimiter.check(new Response(), 150, ip)
+        await boardLimiter.check(new Response(), 50, boardId)
     } catch {
         await logToGcp(
             'warning',
