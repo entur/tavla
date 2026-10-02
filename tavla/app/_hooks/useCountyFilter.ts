@@ -5,9 +5,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 function useCountyFilter() {
     const [counties, setCounties] = useState<NormalizedDropdownItemType[]>([])
-    const [selectedCountyId, setSelectedCountyId] = useState<string | null>(
-        null,
-    )
+    const [selectedCountyIds, setSelectedCountyIds] = useState<string[]>([])
 
     useEffect(() => {
         fetchCounties().then((res) =>
@@ -15,18 +13,19 @@ function useCountyFilter() {
         )
     }, [])
 
-    const selectCounty = useCallback(
-        (id: string) => setSelectedCountyId(id),
-        [],
-    )
+    const toggleCounty = useCallback((id: string) => {
+        setSelectedCountyIds((ids) =>
+            ids.includes(id) ? ids.filter((i) => i !== id) : [...ids, id],
+        )
+    }, [])
 
-    const clearSelection = useCallback(() => setSelectedCountyId(null), [])
+    const clearAll = useCallback(() => setSelectedCountyIds([]), [])
 
     return {
         counties,
-        selectedCountyId,
-        selectCounty,
-        clearSelection,
+        selectedCountyIds,
+        toggleCounty,
+        clearAll,
     }
 }
 

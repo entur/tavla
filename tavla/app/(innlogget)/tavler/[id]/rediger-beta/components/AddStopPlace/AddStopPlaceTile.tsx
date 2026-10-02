@@ -25,11 +25,13 @@ const NUMBER_OF_CLOSEST_STOP_PLACES = 10
 const AREA_RADIUS_IN_KM = 20
 
 function AddStopPlaceTile({ board }: { board: BoardDB }) {
-    const { counties, selectedCountyId, selectCounty, clearSelection } =
+    const { counties, selectedCountyIds, toggleCounty, clearAll } =
         useCountyFilter()
 
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
-        useStopPlaceSearch(selectedCountyId ? [selectedCountyId] : undefined)
+        useStopPlaceSearch(
+            selectedCountyIds.length > 0 ? selectedCountyIds : undefined,
+        )
 
     const {
         closestStopPlaceItems,
@@ -55,7 +57,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
     ): Promise<AddStopPlaceFormState> {
         capture('stop_place_added', {
             location: 'edit_board_page',
-            county_count: selectedCountyId ? 1 : 0,
+            county_count: selectedCountyIds.length,
             typeOfPlace: selectedStopPlace?.value.type ?? 'other',
             selectedIndexes:
                 selectedClosestStopPlaces?.map((selected) =>
@@ -194,9 +196,9 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
         >
             <FylkeFilter
                 counties={counties}
-                selectedCountyId={selectedCountyId}
-                onSelectCounty={selectCounty}
-                onClearSelection={clearSelection}
+                selectedCountyIds={selectedCountyIds}
+                onToggleCounty={toggleCounty}
+                onClearAll={clearAll}
                 trackingLocation="edit_board_page"
             />
 
