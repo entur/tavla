@@ -61,7 +61,7 @@ function EditSection({
     title: string
 }) {
     return (
-        <section className="flex flex-col gap-8 rounded-xl my-8">
+        <section className="flex flex-col rounded-xl my-8">
             <Heading4 margin="none" as="h2">
                 {title}
             </Heading4>
