@@ -1,7 +1,7 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
 import { sortCountiesAlphabetically } from 'app/_components/TileSelector/utils'
 import { fetchCounties } from 'app/(innlogget)/utils/fetch'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function useCountyFilter() {
     const [counties, setCounties] = useState<NormalizedDropdownItemType[]>([])
@@ -13,13 +13,13 @@ function useCountyFilter() {
         )
     }, [])
 
-    const toggleCounty = useCallback((id: string) => {
+    const toggleCounty = (id: string) => {
         setSelectedCountyIds((ids) =>
             ids.includes(id) ? ids.filter((i) => i !== id) : [...ids, id],
         )
-    }, [])
+    }
 
-    const clearAll = useCallback(() => setSelectedCountyIds([]), [])
+    const clearAll = () => setSelectedCountyIds([])
 
     return {
         counties,
