@@ -191,10 +191,8 @@ export function PlatformAndLines({
                         return (
                             <Checkbox
                                 key={key}
-                                value={key}
                                 checked={selectedLineIds.has(key)}
                                 className="pl-3"
-                                name={`${tile.uuid}-lines`}
                                 data-transport-mode={line.transportMode}
                                 onChange={() => {
                                     capture('stop_place_edit_interaction', {
