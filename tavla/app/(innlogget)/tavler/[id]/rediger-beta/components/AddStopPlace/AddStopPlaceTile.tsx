@@ -25,8 +25,7 @@ const NUMBER_OF_CLOSEST_STOP_PLACES = 10
 const AREA_RADIUS_IN_KM = 20
 
 function AddStopPlaceTile({ board }: { board: BoardDB }) {
-    const { counties, selectedCountyIds, toggleCounty, clearAll } =
-        useCountyFilter()
+    const { counties, selectedCountyIds, toggleCounty } = useCountyFilter()
 
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
         useStopPlaceSearch(
