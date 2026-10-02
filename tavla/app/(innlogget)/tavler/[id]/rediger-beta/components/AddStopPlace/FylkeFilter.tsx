@@ -10,13 +10,11 @@ function FylkeFilter({
     counties,
     selectedCountyIds,
     onToggleCounty,
-    onClearAll,
     trackingLocation,
 }: {
     counties: NormalizedDropdownItemType[]
     selectedCountyIds: string[]
     onToggleCounty: (id: string) => void
-    onClearAll: () => void
     trackingLocation: EventProps<'stop_place_add_interaction'>['location']
 }) {
     const { capture } = usePosthogTracking()
@@ -40,15 +38,6 @@ function FylkeFilter({
         if (isSelectingNewCounty || isRemovingLastCounty) {
             setIsOpen(false)
         }
-    }
-
-    function clearAll() {
-        capture('stop_place_add_interaction', {
-            location: trackingLocation,
-            field: 'county',
-            action: 'cleared',
-        })
-        onClearAll()
     }
 
     const selectedCounties = counties.filter((county) =>

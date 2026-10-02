@@ -19,13 +19,10 @@ function useCountyFilter() {
         )
     }
 
-    const clearAll = () => setSelectedCountyIds([])
-
     return {
         counties,
         selectedCountyIds,
         toggleCounty,
-        clearAll,
     }
 }
 

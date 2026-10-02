@@ -198,7 +198,6 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                 counties={counties}
                 selectedCountyIds={selectedCountyIds}
                 onToggleCounty={toggleCounty}
-                onClearAll={clearAll}
                 trackingLocation="edit_board_page"
             />
 
