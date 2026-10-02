@@ -13,11 +13,15 @@ import { TileContext } from '../context'
 import { OFFSET_MAX_MINUTES } from '../validation'
 
 function SetOffsetDepartureTime({
+    offset,
+    onOffsetChange,
     address,
     isArrivals,
     trackingLocation,
     onFieldChanged,
 }: {
+    offset: number | string
+    onOffsetChange: (offset: number | string) => void
     address?: LocationDB
     isArrivals: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
@@ -32,7 +36,6 @@ function SetOffsetDepartureTime({
     const [offsetBasedOnWalkingDistance, setOffsetBasedOnWalkingDistance] =
         useState(walkingDistanceInMinutes === tile.offset)
 
-    const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     const isOverMax = Number(offset) > OFFSET_MAX_MINUTES
@@ -55,7 +58,6 @@ function SetOffsetDepartureTime({
                 </SubParagraph>
                 <ClientOnlyTextField
                     label="Antall minutter"
-                    name="offset"
                     id="offset"
                     type="number"
                     min={0}
@@ -63,11 +65,12 @@ function SetOffsetDepartureTime({
                     className="!w-full md:!w-1/2 lg:!w-1/4"
                     clearable={!offsetBasedOnWalkingDistance}
                     onClear={() => {
-                        setOffset('')
+                        onOffsetChange('')
+                        onFieldChanged('offset')
                     }}
                     value={offset}
                     onChange={(e) => {
-                        setOffset(e.target.valueAsNumber || '')
+                        onOffsetChange(e.target.valueAsNumber || '')
                         onFieldChanged('offset')
 
                         if (debounceTimerRef.current) {
@@ -96,8 +99,8 @@ function SetOffsetDepartureTime({
                         checked={offsetBasedOnWalkingDistance}
                         onChange={() => {
                             if (!offsetBasedOnWalkingDistance)
-                                setOffset(walkingDistanceInMinutes)
-                            else setOffset(tile.offset ?? '')
+                                onOffsetChange(walkingDistanceInMinutes)
+                            else onOffsetChange(tile.offset ?? '')
 
                             setOffsetBasedOnWalkingDistance(
                                 !offsetBasedOnWalkingDistance,

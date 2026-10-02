@@ -2,12 +2,9 @@ import { FilterChip } from '@entur/chip'
 import { Heading4, SubParagraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { isArray } from 'lodash'
 import { useState } from 'react'
-import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import { TileColumns } from 'src/types/db-types/boards'
+import { type TileColumnDB, TileColumns } from 'src/types/db-types/boards'
 import { typedEntries } from 'src/utils/typeguards'
-import { TileContext } from '../context'
 import { ColumnModal } from './ColumnModal'
 
 const COLUMN_TRACKING_VALUE: Record<
@@ -25,19 +22,40 @@ const COLUMN_TRACKING_VALUE: Record<
 }
 
 export function SetColumns({
+    columns,
+    onColumnsChange,
     isCombined,
     isArrivals,
     trackingLocation,
     onFieldChanged,
 }: {
+    columns: TileColumnDB[]
+    onColumnsChange: (columns: TileColumnDB[]) => void
     isCombined: boolean
     isArrivals: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
     const { capture } = usePosthogTracking()
-    const tile = useNonNullContext(TileContext)
     const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
+
+    function onChange(
+        e: React.ChangeEvent<HTMLInputElement>,
+        key: keyof typeof TileColumns,
+    ) {
+        onColumnsChange(
+            e.target.checked
+                ? [...columns, key]
+                : columns.filter((column) => column !== key),
+        )
+        onFieldChanged('columns')
+        capture('stop_place_edit_interaction', {
+            location: trackingLocation,
+            field: 'columns',
+            column_value: COLUMN_TRACKING_VALUE[key],
+            action: e.target.checked ? 'toggled_on' : 'toggled_off',
+        })
+    }
 
     return (
         <>
@@ -65,26 +83,11 @@ export function SetColumns({
                         )
                         .map(([key, value]) => (
                             <FilterChip
-                                name="columns"
                                 key={key}
                                 value={key}
                                 disabled={isCombined}
-                                defaultChecked={
-                                    isArray(tile.columns) &&
-                                    tile.columns.includes(key)
-                                }
-                                onChange={(e) => {
-                                    onFieldChanged('columns')
-                                    capture('stop_place_edit_interaction', {
-                                        location: trackingLocation,
-                                        field: 'columns',
-                                        column_value:
-                                            COLUMN_TRACKING_VALUE[key],
-                                        action: e.target.checked
-                                            ? 'toggled_on'
-                                            : 'toggled_off',
-                                    })
-                                }}
+                                checked={columns.includes(key)}
+                                onChange={(e) => onChange(e, key)}
                             >
                                 {value}
                             </FilterChip>

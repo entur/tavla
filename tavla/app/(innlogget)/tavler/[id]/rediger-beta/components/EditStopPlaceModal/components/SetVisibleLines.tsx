@@ -1,18 +1,11 @@
 import { Heading4, Paragraph } from '@entur/typography'
-import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useState } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { QuayWithFrontText } from '../../utils/types'
 import { TileContext } from '../context'
-import {
-    deriveLinesWithDirection,
-    generateQuayLineFrontTextKey,
-    getInitialCheckedLineIds,
-    transportModeNames,
-} from '../utils'
+import { generateQuayLineFrontTextKey, transportModeNames } from '../utils'
 import { PlatformAndLines } from './PlatformAndLines'
 import { TransportModeChip } from './TransportModeChip'
 
@@ -165,10 +158,14 @@ function sortAndDistributeColumnItems(quays: QuayWithFrontText[]): {
 
 export function SetVisibleLines({
     quays,
+    checkedLineIds,
+    onCheckedLineIdsChange,
     trackingLocation,
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
+    checkedLineIds: Set<string>
+    onCheckedLineIdsChange: (checkedLineIds: Set<string>) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
@@ -177,17 +174,6 @@ export function SetVisibleLines({
 
     const { modes, quayModesMap, columns } = sortAndDistributeColumnItems(quays)
 
-    const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() =>
-        getInitialCheckedLineIds(tile, quays),
-    )
-
-    const totalQuayLinePairs = quays.reduce((sum, q) => sum + q.lines.length, 0)
-
-    const linesWithDirection = deriveLinesWithDirection(
-        quays,
-        Array.from(checkedLineIds),
-    )
-
     const handleToggleLine = (lineId: string) => {
         const newSet = new Set(checkedLineIds)
         if (newSet.has(lineId)) {
@@ -195,7 +181,7 @@ export function SetVisibleLines({
         } else {
             newSet.add(lineId)
         }
-        setCheckedLineIds(newSet)
+        onCheckedLineIdsChange(newSet)
         onFieldChanged('lines')
     }
 
@@ -206,7 +192,7 @@ export function SetVisibleLines({
         } else {
             for (const id of lineIds) newSet.delete(id)
         }
-        setCheckedLineIds(newSet)
+        onCheckedLineIdsChange(newSet)
         onFieldChanged('lines')
     }
 
@@ -249,7 +235,7 @@ export function SetVisibleLines({
         } else {
             for (const key of keysOnAllQuays) newSet.add(key)
         }
-        setCheckedLineIds(newSet)
+        onCheckedLineIdsChange(newSet)
     }
 
     const isModeSelected = (mode: TTransportMode) =>
@@ -377,11 +363,6 @@ export function SetVisibleLines({
                     )
                 })}
             </div>
-            <HiddenInput id="count" value={totalQuayLinePairs.toString()} />
-            <HiddenInput
-                id="linesWithDirection"
-                value={JSON.stringify(linesWithDirection)}
-            />
         </>
     )
 }

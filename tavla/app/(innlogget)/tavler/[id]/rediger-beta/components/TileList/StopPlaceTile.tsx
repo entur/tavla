@@ -4,7 +4,10 @@ import { FeedbackText } from '@entur/form'
 import { EditIcon } from '@entur/icons'
 import { LeadParagraph } from '@entur/typography'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
-import { getTransportModesFromLines } from 'app/_components/TransportIcon/utils'
+import {
+    getTransportModesFromLines,
+    sortByTransportMode,
+} from 'app/_components/TransportIcon/utils'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
@@ -23,20 +26,15 @@ export function StopPlaceTile({
     const [deleteError, setDeleteError] = useState<string | undefined>()
     const { capture } = usePosthogTracking()
 
-    const quays = useLines(tile, true) ?? []
+    const quays = useLines(tile, !!board.isArrivals)
 
     const transportModes = getTransportModesFromLines(
-        quays.flatMap(({ lines }) => lines),
-    )
+        (quays ?? []).flatMap(({ lines }) => lines),
+    ).sort(sortByTransportMode)
 
     function handleSetIsEditOpen(open: boolean) {
         if (open) {
             capture('stop_place_edit_started', { location: 'edit_board_page' })
-        } else {
-            capture('stop_place_edit_cancelled', {
-                location: 'edit_board_page',
-                unsavedChanges: false,
-            })
         }
         setIsEditOpen(open)
     }
@@ -83,6 +81,7 @@ export function StopPlaceTile({
                     setIsOpen={handleSetIsEditOpen}
                     tile={tile}
                     board={board}
+                    quays={quays}
                 />
             </div>
             {deleteError && (
