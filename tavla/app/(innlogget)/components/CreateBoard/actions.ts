@@ -71,5 +71,5 @@ export async function createBoardAction(
         return handleError(error)
     }
 
-    redirect(`/tavler/${createdBoard.id}/rediger`)
+    redirect(`/tavler/${createdBoard.id}/rediger-beta`)
 }

@@ -50,7 +50,8 @@ const STRING_FIELDS = [
     'userAgent',
 ] as const satisfies readonly (keyof LogFields)[]
 
-function sanitizeForLog(value: unknown): string {
+function sanitizeForLog(value: unknown): string | undefined {
+    if (value === undefined || value === null) return undefined
     return (
         String(value)
             .replace(/[\r\n\u2028\u2029]+/g, ' ')

@@ -46,7 +46,7 @@ export async function duplicateBoard(
         } else {
             await addBoardIdToUser(user.uid, createdBoard.id)
         }
-        redirect(`/tavler/${createdBoard.id}/rediger`)
+        redirect(`/tavler/${createdBoard.id}/rediger-beta`)
     } catch (error) {
         logToGcp('error', 'action failed: duplicateBoard', {
             type: 'server-action',
