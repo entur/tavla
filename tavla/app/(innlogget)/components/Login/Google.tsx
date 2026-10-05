@@ -64,7 +64,8 @@ export default function Google({
                 ])
             } else {
                 logToGcp('error', 'action failed: googleSignIn', {
-                    type: 'server-action',
+                    type: 'http',
+                    method: 'POST',
                     action: 'googleSignIn',
                     errorCode:
                         error instanceof FirebaseError ? error.code : undefined,

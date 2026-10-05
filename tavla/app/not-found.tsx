@@ -15,6 +15,7 @@ export default function NotFound() {
     useEffect(() => {
         logToGcp('warning', 'page not found', {
             type: 'http',
+            method: 'GET',
             status: 404,
             path: path ?? undefined,
         })

@@ -21,6 +21,7 @@ export default function ErrorPage({
         Sentry.captureException(error)
         logToGcp('error', 'internal server error', {
             type: 'http',
+            method: 'GET',
             status: 500,
             path: path ?? undefined,
             errorName: error.name,

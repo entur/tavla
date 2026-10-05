@@ -92,7 +92,7 @@ export async function logToGcp(
 ) {
     const safeLevel = sanitizeForLog(level) as LogLevel
     const payload = {
-        message: sanitizeForLog(message),
+        message: sanitizeForLog(message) || 'unknown',
         ...sanitizeFields(fields),
     }
 

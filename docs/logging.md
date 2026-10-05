@@ -108,12 +108,24 @@ logToGcp('error', 'fetching board from firebase failed', {
     errorName: error instanceof Error ? error.name : undefined,
     errorMessage: error instanceof Error ? error.message : String(error),
 })
+```
+
 #### Hendelser fra tavla-visning – `type: "tavla-visning"`
 
 Brukes via `/api/report-log`- og `/api/report-error`-endepunktene (se seksjon 3). Send eksplisitt `type`-parameter. Via `/api/report-log` er `level` oppgitt av kalleren (kan være `debug`/`info`/`warning`/`error`); via det utfasede `/api/report-error` er nivået alltid `error`.
 
 ```typescript
-logToGcp(level, `[tavla-visning] ${code} reported from ${boardId} with message: ${message}`, extra, 'tavla-visning')
+logToGcp(level, `[tavla-visning] ${code}`, {
+    type: 'tavla-visning',
+    method: 'POST',
+    path: '/api/report-log',
+    bid: boardId,
+    errorCode: code,
+    errorName,
+    errorMessage: message,
+    userAgent,
+    context: online !== undefined ? { online } : undefined,
+})
 ```
 
 #### Feil fra tavla-visning – `type: 'tavla-visning'`
@@ -121,11 +133,14 @@ logToGcp(level, `[tavla-visning] ${code} reported from ${boardId} with message: 
 Brukes kun via `/api/report-error`-endepunktet (se seksjon 3).
 
 ```typescript
-logToGcp('error', 'error reported from tavla-visning', {
+logToGcp('error', `[DEPRECATED][tavla-visning] ${errorCode}`, {
     type: 'tavla-visning',
     bid: boardId,
+    errorMessage: message,
     errorCode,
-    status
+    status,
+    userAgent,
+    context: { origin },
 })
 ```
 
@@ -145,9 +160,7 @@ logToGcp('error', 'error reported from tavla-visning', {
 | `errorName` | `string` | `error.name` – bruk alltid dette i stedet for å sende hele feilobjektet |
 | `errorMessage` | `string` | `error.message` |
 | `userAgent` | `string` | User-agent-streng fra forespørselen |
-| `context` | `Record<string, string \| number \| boolean>` | Ekstra felt for felter som ikke passer i de faste feltene over |
-| `errorName` | `string` (valgfri) | Feilens navn/type (f.eks. `Error.name`), sendt inn via `/api/report-log` |
-| `online` | `boolean` (valgfri) | Om klienten var tilkoblet nett da hendelsen oppsto (`navigator.onLine`), sendt inn via `/api/report-log` |
+| `context` | `Record<string, string \| number \| boolean>` | Ekstra felt for felter som ikke passer i de faste feltene over, f.eks. `online` (`navigator.onLine` sendt inn via `/api/report-log`) |
 
 ### Sikkerhet mot log injection
 
