@@ -59,7 +59,7 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
         type: 'board',
         id: board.id,
         name: board.meta.title ?? DEFAULT_BOARD_NAME,
-        link: `/tavler/${board.id}/rediger`,
+        link: `/tavler/${board.id}/rediger-beta`,
         lastModified: board.meta.dateModified,
         lastActiveTimestamp: board.meta.lastActiveTimestamp,
         board: board,
