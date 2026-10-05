@@ -9,6 +9,7 @@ export default function rateLimit(options: TOptions) {
     const cache = new LRUCache({
         max: options.maxUniqueTokens || 500,
         ttl: options.interval || 60 * 1000,
+        noUpdateTTL: true, // Sliding window: the TTL does not reset on cache updates
     })
 
     return {
