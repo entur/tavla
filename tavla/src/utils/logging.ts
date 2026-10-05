@@ -86,8 +86,7 @@ function buildPayload(
     return { message, ...extra }
 }
 
-function sanitizeForLog(value: unknown): string | undefined {
-    if (value === undefined || value === null) return undefined
+function sanitizeForLog(value: unknown): string {
     return (
         String(value)
             .replace(/[\r\n\u2028\u2029]+/g, ' ')
@@ -104,7 +103,7 @@ export async function logToGcp(
     type?: LogType,
 ) {
     const safeLevel = sanitizeForLog(level) as LogLevel
-    const safeMessage = sanitizeForLog(message) || 'unknown'
+    const safeMessage = sanitizeForLog(message)
 
     const safeExtra: LogExtra | undefined = extra
         ? {
@@ -132,7 +131,7 @@ export async function logToGcp(
 
     const entry = log.entry(
         { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
-        buildPayload(safeMessage, safeExtra, type),
+        buildPayload(safeMessage, extra, type),
     )
     await log.write(entry).catch((error) => {
         // biome-ignore lint/suspicious/noConsole: Log errors on GCP logging in container output.
