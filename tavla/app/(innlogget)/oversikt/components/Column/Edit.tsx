@@ -18,7 +18,7 @@ function EditBoard({ board }: { board?: BoardDB }) {
             <IconButton
                 as={Link}
                 aria-label={ariaLabel}
-                href={`/tavler/${board?.id}/rediger`}
+                href={`/tavler/${board?.id}/rediger-beta`}
             >
                 <EditIcon aria-label="Rediger-ikon" />
             </IconButton>
