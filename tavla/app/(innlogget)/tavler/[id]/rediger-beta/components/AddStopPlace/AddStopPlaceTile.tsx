@@ -59,6 +59,9 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                     ),
                 ) ?? [],
         })
+        setTimeout(() => {
+            capture('survey_settings_beta')
+        }, 5000)
         if (!selectedStopPlace) {
             return {
                 status: 'error',
