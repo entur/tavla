@@ -20,6 +20,8 @@ type LogExtra = {
     path?: string
     errorCode?: string
     userAgent?: string
+    errorName?: string
+    online?: boolean
 }
 
 type LogType = 'server-action' | 'http' | 'graphql' | 'tavla-visning'
@@ -86,7 +88,8 @@ function buildPayload(
     return { message, ...extra }
 }
 
-function sanitizeForLog(value: unknown): string {
+function sanitizeForLog(value: unknown): string | undefined {
+    if (value === undefined || value === null) return undefined
     return (
         String(value)
             .replace(/[\r\n\u2028\u2029]+/g, ' ')
@@ -103,7 +106,7 @@ export async function logToGcp(
     type?: LogType,
 ) {
     const safeLevel = sanitizeForLog(level) as LogLevel
-    const safeMessage = sanitizeForLog(message)
+    const safeMessage = sanitizeForLog(message) || 'unknown'
 
     const safeExtra: LogExtra | undefined = extra
         ? {
@@ -113,6 +116,8 @@ export async function logToGcp(
               path: sanitizeForLog(extra?.path),
               errorCode: sanitizeForLog(extra?.errorCode),
               userAgent: sanitizeForLog(extra?.userAgent),
+              errorName: sanitizeForLog(extra?.errorName),
+              online: extra?.online,
           }
         : undefined
 
@@ -131,7 +136,7 @@ export async function logToGcp(
 
     const entry = log.entry(
         { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
-        buildPayload(safeMessage, extra, type),
+        buildPayload(safeMessage, safeExtra, type),
     )
     await log.write(entry).catch((error) => {
         // biome-ignore lint/suspicious/noConsole: Log errors on GCP logging in container output.
