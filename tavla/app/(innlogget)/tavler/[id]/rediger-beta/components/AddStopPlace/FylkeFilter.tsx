@@ -73,7 +73,7 @@ function FylkeFilter({
                         name="county"
                         value={county.value}
                         checked
-                        onChange={() => onToggleCounty(county.value)}
+                        onChange={() => toggleCounty(county.value)}
                     >
                         {county.label}
                     </FilterChip>
