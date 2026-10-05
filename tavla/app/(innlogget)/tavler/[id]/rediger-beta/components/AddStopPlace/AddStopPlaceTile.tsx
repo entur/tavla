@@ -10,6 +10,7 @@ import { FormError } from 'app/_components/Form/FormError'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import { useClosestStopPlaces } from 'app/_hooks/useClosestStopPlaces'
+import { useCountyFilter } from 'app/_hooks/useCountyFilter'
 import useCurrentPosition from 'app/_hooks/useCurrentPosition'
 import { useStopPlaceSearch } from 'app/_hooks/useStopPlaceSearch'
 import type { StopPlace } from 'app/(innlogget)/utils/fetch'
@@ -18,13 +19,18 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState, useState } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
 import { type AddStopPlaceFormState, addStopPlaceTiles } from './actions'
+import { FylkeFilter } from './FylkeFilter'
 
 const NUMBER_OF_CLOSEST_STOP_PLACES = 10
 const AREA_RADIUS_IN_KM = 20
 
 function AddStopPlaceTile({ board }: { board: BoardDB }) {
+    const { counties, selectedCountyIds, toggleCounty } = useCountyFilter()
+
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
-        useStopPlaceSearch()
+        useStopPlaceSearch(
+            selectedCountyIds.length > 0 ? selectedCountyIds : undefined,
+        )
 
     const {
         closestStopPlaceItems,
@@ -50,6 +56,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
     ): Promise<AddStopPlaceFormState> {
         capture('stop_place_added', {
             location: 'edit_board_page',
+            county_count: selectedCountyIds.length,
             typeOfPlace: selectedStopPlace?.value.type ?? 'other',
             selectedIndexes:
                 selectedClosestStopPlaces?.map((selected) =>
@@ -189,6 +196,13 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
             className="mr-6 flex w-full flex-col gap-4 lg:flex-col"
             action={formAction}
         >
+            <FylkeFilter
+                counties={counties}
+                selectedCountyIds={selectedCountyIds}
+                onToggleCounty={toggleCounty}
+                trackingLocation="edit_board_page"
+            />
+
             <div className="w-full">
                 <Paragraph margin="none">
                     Skriv inn adresse, stoppesed eller sted
