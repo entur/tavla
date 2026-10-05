@@ -20,8 +20,8 @@ test('creating a board writes to Firestore and lands on the edit page', async ({
         .last()
         .click()
 
-    await page.waitForURL(/\/tavler\/[^/]+\/rediger/)
-    await expect(
-        page.getByRole('textbox', { name: 'Navn på tavlen' }),
-    ).toHaveValue(boardName)
+    await page.waitForURL(/\/tavler\/[^/]+\/rediger-beta/)
+    await expect(page.getByRole('heading', { name: boardName })).toHaveText(
+        boardName,
+    )
 })
