@@ -28,7 +28,7 @@ export async function getBoard(bid: BoardDB['id']) {
         }
         const parsedBoard = BoardDBSchema.safeParse(boardData)
         if (!parsedBoard.success) {
-            logToGcp('debug', 'board data validation failed', {
+            logToGcp('warning', 'board data validation failed', {
                 type: 'firestore',
                 bid,
                 errorMessage: parsedBoard.error.message,
@@ -82,7 +82,7 @@ export async function getFolder(folderid: FolderDB['id']) {
         }
         const parsedFolder = FolderDBSchema.safeParse(folderData)
         if (!parsedFolder.success) {
-            logToGcp('debug', 'folder data validation failed', {
+            logToGcp('warning', 'folder data validation failed', {
                 type: 'firestore',
                 folderId: folderid,
                 errorMessage: parsedFolder.error.message,
@@ -159,7 +159,7 @@ export async function getBoardByCustomUrl(customUrl: string) {
         }
         const parsedBoard = BoardDBSchema.safeParse(boardData)
         if (!parsedBoard.success) {
-            logToGcp('debug', 'board data validation failed', {
+            logToGcp('warning', 'board data validation failed', {
                 type: 'firestore',
                 bid: boardData.id,
                 errorMessage: parsedBoard.error.message,
@@ -285,7 +285,7 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
             if (parsedFolder.success) {
                 return parsedFolder.data
             } else {
-                logToGcp('debug', 'folder data validation failed', {
+                logToGcp('warning', 'folder data validation failed', {
                     type: 'firestore',
                     bid,
                     folderId: doc.id,
