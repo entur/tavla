@@ -36,7 +36,11 @@ export type AddStopPlaceFormState =
     | null
 
 async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
-    logToGcp('info', 'action:addTiles invoked', { bid })
+    logToGcp('info', 'action invoked: addTiles', {
+        type: 'server-action',
+        action: 'addTiles',
+        bid,
+    })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -58,11 +62,14 @@ async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
 
         await updateBoard(bid, updateData)
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save tile to board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: addTiles', {
+            type: 'server-action',
+            action: 'addTiles',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureMessage(
             'Failed to save tile to board in firestore. BoardID: ' + bid,
         )
@@ -79,7 +86,10 @@ export async function getTileWithWalkingDistance(
         delete tile.drivingDistance
         return tile
     }
-    logToGcp('info', 'action:getWalkingDistanceTile invoked')
+    logToGcp('info', 'action invoked: getWalkingDistanceTile', {
+        type: 'server-action',
+        action: 'getWalkingDistanceTile',
+    })
     const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate
 
@@ -114,10 +124,13 @@ export async function getTileWithWalkingDistance(
 
         return newTile
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to add walking distance to tile: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed: getWalkingDistanceTile', {
+            type: 'server-action',
+            action: 'getWalkingDistanceTile',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureMessage('Failed to add walking distance to tile')
         throw error
     }
@@ -129,15 +142,20 @@ export async function addStopPlaceTiles(
     isArrivals: boolean | undefined,
     location: LocationDB | undefined,
 ): Promise<AddStopPlaceFormState> {
-    logToGcp('info', 'action:addStopPlaceTiles invoked')
+    logToGcp('info', 'action invoked: addStopPlaceTiles', {
+        type: 'server-action',
+        action: 'addStopPlaceTiles',
+    })
     const parsedStopPlaces = parseClosestStopPlaces(data)
 
     if (!parsedStopPlaces.success) {
-        logToGcp(
-            'error',
-            `Failed to parse closest stop places: ${parsedStopPlaces.error.issues[0]?.message ?? 'Ugyldig data'}`,
-            { bid },
-        )
+        logToGcp('error', 'failed to parse closest stop places', {
+            type: 'server-action',
+            action: 'addStopPlaceTiles',
+            bid,
+            errorMessage:
+                parsedStopPlaces.error.issues[0]?.message ?? 'Ugyldig data',
+        })
         return {
             status: 'error',
             message:

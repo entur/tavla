@@ -29,18 +29,24 @@ export async function deleteBoardAction(
     data: FormData,
 ) {
     const bid = data.get('bid') as BoardDB['id']
-    logToGcp('info', 'action:deleteBoardAction invoked', { bid })
+    logToGcp('info', 'action invoked: deleteBoardAction', {
+        type: 'server-action',
+        action: 'deleteBoardAction',
+        bid,
+    })
     const folder = await getFolderForBoard(bid)
 
     try {
         await deleteBoard(bid)
         revalidatePath('/')
     } catch (e) {
-        logToGcp(
-            'error',
-            `Failed to delete board: ${e instanceof Error ? e.message : String(e)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: deleteBoardAction', {
+            type: 'server-action',
+            action: 'deleteBoardAction',
+            bid,
+            errorName: e instanceof Error ? e.name : undefined,
+            errorMessage: e instanceof Error ? e.message : String(e),
+        })
         return handleError(e)
     }
     if (folder) redirect(`/mapper/${folder?.id}`)
@@ -68,7 +74,11 @@ export async function countAllBoards(folders: FolderDB[], boards: BoardDB[]) {
 
 export async function moveBoardAction(data: FormData) {
     const bid = data.get('bid') as BoardDB['id']
-    logToGcp('info', 'action:moveBoardAction invoked', { bid })
+    logToGcp('info', 'action invoked: moveBoardAction', {
+        type: 'server-action',
+        action: 'moveBoardAction',
+        bid,
+    })
 
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
@@ -95,11 +105,17 @@ export async function moveBoardAction(data: FormData) {
 
         revalidatePath('/')
     } catch (e) {
-        logToGcp(
-            'error',
-            `Failed to move board: ${e instanceof Error ? e.message : String(e)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: moveBoardAction', {
+            type: 'server-action',
+            action: 'moveBoardAction',
+            bid,
+            errorName: e instanceof Error ? e.name : undefined,
+            errorMessage: e instanceof Error ? e.message : String(e),
+            context: {
+                oldFolderId: oldFolder?.id ?? 'none',
+                newFolderId: newFolderID ?? 'none',
+            },
+        })
         Sentry.captureException(e, {
             extra: {
                 message: 'Error while moving board to new folder',

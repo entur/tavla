@@ -15,7 +15,10 @@ import { logToGcp } from 'src/utils/logging'
 initializeAdminApp()
 
 export async function logout() {
-    logToGcp('info', 'action:logout invoked')
+    logToGcp('info', 'action invoked: logout', {
+        type: 'server-action',
+        action: 'logout',
+    })
     revokeUserTokenOnLogout()
     ;(await cookies()).delete('session')
     revalidatePath('/')
@@ -23,7 +26,10 @@ export async function logout() {
 }
 
 export async function login(token: string) {
-    logToGcp('info', 'action:login invoked')
+    logToGcp('info', 'action invoked: login', {
+        type: 'server-action',
+        action: 'login',
+    })
     const expiresIn = 60 * 60 * 24 * 10 // Ten days in seconds
     const sessionCookie = await getAuth().createSessionCookie(token, {
         expiresIn: expiresIn * 1000, // Firebase expects the number in milliseconds
@@ -44,14 +50,20 @@ export async function login(token: string) {
 }
 
 export async function create(uid: UserDB['uid']) {
-    logToGcp('info', 'action:createUser invoked')
+    logToGcp('info', 'action invoked: createUser', {
+        type: 'server-action',
+        action: 'createUser',
+    })
     try {
         await createUser(uid)
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to create user: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed: createUser', {
+            type: 'server-action',
+            action: 'createUser',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while creating new user',

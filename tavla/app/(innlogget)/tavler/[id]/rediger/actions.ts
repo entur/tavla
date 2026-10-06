@@ -26,7 +26,11 @@ import { validateCustomUrl } from './components/CustomUrl/utils'
 initializeAdminApp()
 
 export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
-    logToGcp('info', 'action:addTiles invoked', { bid })
+    logToGcp('info', 'action invoked: addTiles', {
+        type: 'server-action',
+        action: 'addTiles',
+        bid,
+    })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -48,11 +52,14 @@ export async function addTiles(bid: BoardDB['id'], tiles: BoardTileDB[]) {
 
         await updateBoard(bid, updateData)
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save tile to board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: addTiles', {
+            type: 'server-action',
+            action: 'addTiles',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureMessage(
             'Failed to save tile to board in firestore. BoardID: ' + bid,
         )
@@ -69,7 +76,10 @@ export async function getTileWithWalkingDistance(
         delete tile.drivingDistance
         return tile
     }
-    logToGcp('info', 'action:getWalkingDistanceTile invoked')
+    logToGcp('info', 'action invoked: getWalkingDistanceTile', {
+        type: 'server-action',
+        action: 'getWalkingDistanceTile',
+    })
     const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate
 
@@ -104,7 +114,11 @@ export async function saveUpdatedTileOrder(
     bid: BoardDB['id'],
     tiles: BoardTileDB[],
 ) {
-    logToGcp('info', 'action:saveUpdatedTileOrder invoked', { bid })
+    logToGcp('info', 'action invoked: saveUpdatedTileOrder', {
+        type: 'server-action',
+        action: 'saveUpdatedTileOrder',
+        bid,
+    })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -112,11 +126,14 @@ export async function saveUpdatedTileOrder(
         await updateBoard(bid, { tiles })
         revalidatePath(`/tavler/${bid}/rediger`)
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save tile order for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveUpdatedTileOrder', {
+            type: 'server-action',
+            action: 'saveUpdatedTileOrder',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message:
@@ -133,7 +150,11 @@ export async function saveCustomUrl(
     bid: BoardDB['id'],
     customUrl: string,
 ): Promise<{ error?: string }> {
-    logToGcp('info', 'action:saveCustomUrl invoked', { bid })
+    logToGcp('info', 'action invoked: saveCustomUrl', {
+        type: 'server-action',
+        action: 'saveCustomUrl',
+        bid,
+    })
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
 
@@ -157,11 +178,14 @@ export async function saveCustomUrl(
         revalidatePath(`/tavler/${bid}/rediger`)
         return {}
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save custom URL for board: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveCustomUrl', {
+            type: 'server-action',
+            action: 'saveCustomUrl',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while saving custom board URL',

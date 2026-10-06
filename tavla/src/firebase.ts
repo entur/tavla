@@ -28,11 +28,11 @@ export async function getBoard(bid: BoardDB['id']) {
         }
         const parsedBoard = BoardDBSchema.safeParse(boardData)
         if (!parsedBoard.success) {
-            logToGcp(
-                'debug',
-                `Board data validation failed: ${parsedBoard.error}`,
-                { bid },
-            )
+            logToGcp('warning', 'board data validation failed', {
+                type: 'firestore',
+                bid,
+                errorMessage: parsedBoard.error.message,
+            })
             Sentry.captureMessage(
                 'Board data validation failed for board ' + bid,
                 {
@@ -46,8 +46,12 @@ export async function getBoard(bid: BoardDB['id']) {
         }
         return parsedBoard.data
     } catch (error) {
-        logToGcp('error', `Fetching board from Firebase failed: ${error}`, {
+        logToGcp('error', 'fetching board from firebase failed', {
+            type: 'firestore',
             bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
         })
         Sentry.captureException(error, {
             level: 'error',
@@ -78,11 +82,11 @@ export async function getFolder(folderid: FolderDB['id']) {
         }
         const parsedFolder = FolderDBSchema.safeParse(folderData)
         if (!parsedFolder.success) {
-            logToGcp(
-                'debug',
-                `Folder data validation failed (${parsedFolder.error})`,
-                { folderId: folderid },
-            )
+            logToGcp('warning', 'folder data validation failed', {
+                type: 'firestore',
+                folderId: folderid,
+                errorMessage: parsedFolder.error.message,
+            })
             Sentry.captureMessage(
                 'Folder data validation failed for OID ' + folderid,
                 {
@@ -96,8 +100,12 @@ export async function getFolder(folderid: FolderDB['id']) {
         }
         return parsedFolder.data
     } catch (error) {
-        logToGcp('error', `Failed to fetch folder from Firebase: ${error}`, {
+        logToGcp('error', 'fetching folder from firebase failed', {
+            type: 'firestore',
             folderId: folderid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
         })
         Sentry.captureException(error, {
             level: 'error',
@@ -151,11 +159,11 @@ export async function getBoardByCustomUrl(customUrl: string) {
         }
         const parsedBoard = BoardDBSchema.safeParse(boardData)
         if (!parsedBoard.success) {
-            logToGcp(
-                'debug',
-                `Board data validation failed (${parsedBoard.error})`,
-                { bid: boardData.id },
-            )
+            logToGcp('warning', 'board data validation failed', {
+                type: 'firestore',
+                bid: boardData.id,
+                errorMessage: parsedBoard.error.message,
+            })
             Sentry.captureMessage(
                 'Board data validation failed for board ' + boardData.id,
                 {
@@ -169,10 +177,13 @@ export async function getBoardByCustomUrl(customUrl: string) {
         }
         return parsedBoard.data
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to fetch board with custom url from Firebase: ${error}`,
-        )
+        logToGcp('error', 'fetching board by custom url from firebase failed', {
+            type: 'firestore',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+            context: { customUrl },
+        })
         Sentry.captureException(error, {
             level: 'error',
             extra: {
@@ -274,11 +285,12 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
             if (parsedFolder.success) {
                 return parsedFolder.data
             } else {
-                logToGcp(
-                    'debug',
-                    `Folder data validation failed: ${parsedFolder.error}`,
-                    { bid },
-                )
+                logToGcp('warning', 'folder data validation failed', {
+                    type: 'firestore',
+                    bid,
+                    folderId: doc.id,
+                    errorMessage: parsedFolder.error.message,
+                })
                 Sentry.captureMessage(
                     'Folder data validation failed for board ' + bid,
                     {
@@ -294,10 +306,13 @@ export async function getFolderForBoard(bid: BoardDB['id']) {
         })
         return folders[0] ?? null
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to fetch folder for board from Firebase: ${error}`,
-        )
+        logToGcp('error', 'fetching folder for board from firebase failed', {
+            type: 'firestore',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, {
             level: 'error',
             extra: {

@@ -19,17 +19,25 @@ export async function updateBoardsInFolder(folderId: FolderDB['id']) {
                         },
                     },
                 )
-                logToGcp(
-                    res.ok ? 'info' : 'warning',
-                    `POST /update/${bid}: status=${res.status}`,
-                    { bid, folderId },
-                )
+                logToGcp(res.ok ? 'info' : 'warning', 'update signal sent', {
+                    type: 'http',
+                    method: 'POST',
+                    path: '/update/:bid',
+                    status: res.status,
+                    bid,
+                    folderId,
+                })
             } catch (error) {
-                logToGcp(
-                    'error',
-                    `POST /update/${bid} failed: ${error instanceof Error ? error.message : String(error)}`,
-                    { bid, folderId },
-                )
+                logToGcp('error', 'update signal failed', {
+                    type: 'http',
+                    method: 'POST',
+                    path: '/update/:bid',
+                    bid,
+                    folderId,
+                    errorName: error instanceof Error ? error.name : undefined,
+                    errorMessage:
+                        error instanceof Error ? error.message : String(error),
+                })
             }
         }),
     )

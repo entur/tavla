@@ -18,7 +18,10 @@ initializeAdminApp()
 const db = getFirestore()
 
 export async function getFirebaseClientConfig() {
-    logToGcp('info', 'action:getFirebaseClientConfig invoked')
+    logToGcp('info', 'action invoked: getFirebaseClientConfig', {
+        type: 'server-action',
+        action: 'getFirebaseClientConfig',
+    })
     const env = process.env.GOOGLE_PROJECT_ID
     if (env === 'ent-tavla-prd') return FIREBASE_PRD_CONFIG
     return FIREBASE_DEV_CONFIG
@@ -29,7 +32,10 @@ function userInFolder(uid?: UserDB['uid'], folder?: FolderDB) {
 }
 
 export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
-    logToGcp('info', 'action:getFolderIfUserHasAccess invoked')
+    logToGcp('info', 'action invoked: getFolderIfUserHasAccess', {
+        type: 'server-action',
+        action: 'getFolderIfUserHasAccess',
+    })
     if (!folderid) return undefined
 
     const folder = await getFolder(folderid)
@@ -46,7 +52,10 @@ export async function getFolderIfUserHasAccess(folderid?: FolderDB['id']) {
 }
 
 export async function getFoldersForUser(): Promise<Folder[]> {
-    logToGcp('info', 'action:getFoldersForUser invoked')
+    logToGcp('info', 'action invoked: getFoldersForUser', {
+        type: 'server-action',
+        action: 'getFoldersForUser',
+    })
     const user = await getUserFromSessionCookie()
     if (!user) return redirect('/')
 
@@ -120,10 +129,13 @@ export async function getFoldersForUser(): Promise<Folder[]> {
             }
         })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to fetch folders: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed: getFoldersForUser', {
+            type: 'server-action',
+            action: 'getFoldersForUser',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureMessage(
             `Failed to fetch folders: ${error instanceof Error ? error.message : String(error)}`,
         )
@@ -132,7 +144,11 @@ export async function getFoldersForUser(): Promise<Folder[]> {
 }
 
 export async function getBoardsForFolder(folderid: FolderDB['id']) {
-    logToGcp('info', 'action:getBoardsForFolder invoked')
+    logToGcp('info', 'action invoked: getBoardsForFolder', {
+        type: 'server-action',
+        action: 'getBoardsForFolder',
+        folderId: folderid,
+    })
     const folder = await getFolderIfUserHasAccess(folderid)
     if (!folder) return redirect('/')
 
@@ -175,10 +191,14 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
             }),
         )
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to fetch boards for folder ${folderid}: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed: getBoardsForFolder', {
+            type: 'server-action',
+            action: 'getBoardsForFolder',
+            folderId: folderid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureMessage(
             'Error while fetching boards for folder with folderID ' + folderid,
         )
@@ -187,7 +207,10 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
 }
 
 export async function getBoards(ids?: BoardDB['id'][]) {
-    logToGcp('info', 'action:getBoards invoked')
+    logToGcp('info', 'action invoked: getBoards', {
+        type: 'server-action',
+        action: 'getBoards',
+    })
     if (!ids) return []
 
     const batches = chunk(ids, 20)
@@ -206,11 +229,12 @@ export async function getBoards(ids?: BoardDB['id'][]) {
                 const parsedBoard = BoardDBSchema.safeParse(boardData)
 
                 if (!parsedBoard.success) {
-                    logToGcp(
-                        'warning',
-                        `Board data validation failed: ${parsedBoard.error.message}`,
-                        { bid: doc.id },
-                    )
+                    logToGcp('warning', 'board data validation failed', {
+                        type: 'server-action',
+                        action: 'getBoards',
+                        bid: doc.id,
+                        errorMessage: parsedBoard.error.message,
+                    })
 
                     Sentry.captureMessage(
                         'Board data validation failed in getBoards',
@@ -229,10 +253,14 @@ export async function getBoards(ids?: BoardDB['id'][]) {
             }),
         )
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to fetch boards [${ids}]: ${error instanceof Error ? error.message : String(error)}`,
-        )
+        logToGcp('error', 'action failed: getBoards', {
+            type: 'server-action',
+            action: 'getBoards',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+            context: { ids: (ids ?? []).join(',') },
+        })
         Sentry.captureMessage('Error while fetching list of boards: ' + ids)
         throw error
     }
@@ -242,16 +270,20 @@ export async function getPrivateBoardsForUser(folders: FolderDB[]) {
     const userWithBoards = await getUserWithBoardIds()
     if (!userWithBoards?.uid) return []
 
-    logToGcp('info', 'action:getPrivateBoardsForUser invoked')
+    logToGcp('info', 'action invoked: getPrivateBoardsForUser', {
+        type: 'server-action',
+        action: 'getPrivateBoardsForUser',
+    })
 
     const rawOwner = userWithBoards.owner ?? []
 
     if (!Array.isArray(rawOwner)) {
-        logToGcp(
-            'warning',
-            'Invalid owner field type in getPrivateBoardsForUser',
-            { folderId: folders[0]?.id },
-        )
+        logToGcp('warning', 'invalid owner field type', {
+            type: 'server-action',
+            action: 'getPrivateBoardsForUser',
+            folderId: folders[0]?.id,
+            context: { ownerType: typeof rawOwner },
+        })
         Sentry.captureMessage(
             'Invalid owner field type in getPrivateBoardsForUser',
             {
