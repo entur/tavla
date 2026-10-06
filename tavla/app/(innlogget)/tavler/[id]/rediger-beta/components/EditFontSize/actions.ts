@@ -22,7 +22,11 @@ export async function saveFontSize(
     value: FontSizeValue,
 ): Promise<FontSizeState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action:saveFontSize invoked', { bid })
+    logToGcp('info', 'action invoked: saveFontSize', {
+        type: 'server-action',
+        action: 'saveFontSize',
+        bid,
+    })
 
     const parsed = fontSizeSchema.safeParse(value)
     if (!parsed.success)
@@ -35,11 +39,14 @@ export async function saveFontSize(
     try {
         await updateBoard(bid, { 'meta.fontSize': parsed.data })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save fontSize: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveFontSize', {
+            type: 'server-action',
+            action: 'saveFontSize',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, { extra: { boardID: bid } })
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }

@@ -19,9 +19,13 @@ export default function GlobalErrorPage({
 
     useEffect(() => {
         Sentry.captureException(error)
-        logToGcp('error', `GET Internal Server Error: ${error.message}`, {
+        logToGcp('error', 'internal server error', {
+            type: 'http',
+            method: 'GET',
             status: 500,
-            path,
+            path: path ?? undefined,
+            errorName: error.name,
+            errorMessage: error.message,
         })
     }, [error, path])
 

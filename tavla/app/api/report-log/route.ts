@@ -82,30 +82,32 @@ export async function POST(req: NextRequest) {
         await ipLimiter.check(new Response(), 150, ip)
         await boardLimiter.check(new Response(), 50, boardId)
     } catch {
-        await logToGcp(
-            'warning',
-            `[tavla-visning] rate limited: ${code} (${level}) from ${boardId}`,
-            { bid: boardId, errorCode: code, userAgent: userAgent },
-            'tavla-visning',
-        )
+        await logToGcp('warning', 'report rejected: rate limited', {
+            type: 'tavla-visning',
+            method: 'POST',
+            path: '/api/report-log',
+            status: 429,
+            bid: boardId,
+            errorCode: code,
+            userAgent,
+        })
         return NextResponse.json(
             { error: 'rate limited' },
             { status: 429, headers },
         )
     }
 
-    await logToGcp(
-        level,
-        `[tavla-visning] ${code} reported from ${boardId} with message: ${message}`,
-        {
-            bid: boardId,
-            errorCode: code,
-            userAgent,
-            errorName,
-            online,
-        },
-        'tavla-visning',
-    )
+    await logToGcp(level, `[tavla-visning] ${code}`, {
+        type: 'tavla-visning',
+        method: 'POST',
+        path: '/api/report-log',
+        bid: boardId,
+        errorCode: code,
+        errorName,
+        errorMessage: message,
+        userAgent,
+        online,
+    })
 
     return NextResponse.json({ ok: true }, { headers })
 }

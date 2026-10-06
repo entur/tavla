@@ -22,7 +22,11 @@ export async function saveTheme(
     value: ThemeValue,
 ): Promise<ThemeState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action:saveTheme invoked', { bid })
+    logToGcp('info', 'action invoked: saveTheme', {
+        type: 'server-action',
+        action: 'saveTheme',
+        bid,
+    })
 
     const parsed = themeSchema.safeParse(value)
     if (!parsed.success)
@@ -34,11 +38,14 @@ export async function saveTheme(
     try {
         await updateBoard(bid, { theme: parsed.data })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save theme: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveTheme', {
+            type: 'server-action',
+            action: 'saveTheme',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, { extra: { boardID: bid } })
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }

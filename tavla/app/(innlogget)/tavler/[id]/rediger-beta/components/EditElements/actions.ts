@@ -22,7 +22,11 @@ export async function saveElements(
     value: ElementsValue,
 ): Promise<ElementsState> {
     if (!(await userCanEditBoard(bid))) redirect('/')
-    logToGcp('info', 'action:saveElements invoked', { bid })
+    logToGcp('info', 'action invoked: saveElements', {
+        type: 'server-action',
+        action: 'saveElements',
+        bid,
+    })
 
     const parsed = elementsSchema.safeParse(value)
     if (!parsed.success)
@@ -38,11 +42,14 @@ export async function saveElements(
             hideLogo: parsed.data.hideLogo,
         })
     } catch (error) {
-        logToGcp(
-            'error',
-            `Failed to save elements: ${error instanceof Error ? error.message : String(error)}`,
-            { bid },
-        )
+        logToGcp('error', 'action failed: saveElements', {
+            type: 'server-action',
+            action: 'saveElements',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
         Sentry.captureException(error, { extra: { boardID: bid } })
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }

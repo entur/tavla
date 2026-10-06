@@ -13,9 +13,11 @@ export default function NotFound() {
     const path = usePathname()
 
     useEffect(() => {
-        logToGcp('warning', `GET Page Not Found`, {
+        logToGcp('warning', 'page not found', {
+            type: 'http',
+            method: 'GET',
             status: 404,
-            path: path,
+            path: path ?? undefined,
         })
     }, [path])
 
