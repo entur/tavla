@@ -35,7 +35,7 @@ export function LocalStorageBoardBanner() {
                 location: 'admin',
                 type: 'from_local_storage',
             })
-            router.push(`/tavler/${boardId}/rediger`)
+            router.push(`/tavler/${boardId}/rediger-beta`)
         } catch {
             setLoading(false)
         }
