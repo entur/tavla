@@ -33,6 +33,7 @@ export type LogFields = {
     errorName?: string
     errorMessage?: string
     userAgent?: string
+    online?: boolean
     context?: Record<string, string | number | boolean>
 }
 
@@ -72,6 +73,7 @@ function sanitizeFields(fields?: LogFields): Record<string, unknown> {
     }
 
     if (fields.status !== undefined) sanitized.status = fields.status
+    if (fields.online !== undefined) sanitized.online = fields.online
 
     if (fields.context) {
         sanitized.context = Object.fromEntries(

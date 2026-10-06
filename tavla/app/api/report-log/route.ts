@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
         errorName,
         errorMessage: message,
         userAgent,
-        context: online !== undefined ? { online } : undefined,
+        online,
     })
 
     return NextResponse.json({ ok: true }, { headers })

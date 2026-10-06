@@ -124,7 +124,7 @@ logToGcp(level, `[tavla-visning] ${code}`, {
     errorName,
     errorMessage: message,
     userAgent,
-    context: online !== undefined ? { online } : undefined,
+    online,
 })
 ```
 
@@ -160,7 +160,8 @@ logToGcp('error', `[DEPRECATED][tavla-visning] ${errorCode}`, {
 | `errorName` | `string` | `error.name` – bruk alltid dette i stedet for å sende hele feilobjektet |
 | `errorMessage` | `string` | `error.message` |
 | `userAgent` | `string` | User-agent-streng fra forespørselen |
-| `context` | `Record<string, string \| number \| boolean>` | Ekstra felt for felter som ikke passer i de faste feltene over, f.eks. `online` (`navigator.onLine` sendt inn via `/api/report-log`) |
+| `online` | `boolean` | `navigator.onLine` på klienten, sendt inn via `/api/report-log` |
+| `context` | `Record<string, string \| number \| boolean>` | Ekstra felt for felter som ikke passer i de faste feltene over |
 
 ### Sikkerhet mot log injection
 
