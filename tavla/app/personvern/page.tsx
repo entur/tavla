@@ -9,7 +9,7 @@ import { ExpandableInfo } from './components/ExpandableInfo'
 export const metadata: Metadata = {
     title: 'Personvern | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
     description:
-        'Les om hvordan Entur Tavla håndterer personopplysninger, informasjonskapsler og analyseverktøy for å beskytte ditt personvern.',
+        'Les om hvordan Entur Tavla håndterer personopplysninger, informasjonskapsler, analyseverktøy og driftslogging for å beskytte ditt personvern.',
 }
 
 function Personvern() {
@@ -52,10 +52,11 @@ function Personvern() {
                             alt="Illustrasjon av et pinnsvin som sitter på bakken med et blad"
                             aria-hidden
                         />
-                        <Heading2>Analyseverktøy</Heading2>
+                        <Heading2>Analyse og drift</Heading2>
                         <Paragraph>
-                            Vi lagrer anonyme data om din bruk av våre tjenester
-                            for å forbedre disse.
+                            Vi lagrer pseudonyme data om din bruk og tekniske
+                            driftslogger for å forbedre og drifte tjenestene
+                            våre.
                         </Paragraph>
                     </div>
                 </div>
