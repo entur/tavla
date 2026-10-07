@@ -34,6 +34,7 @@ function useClosestStopPlacesBeta(
     useEffect(() => {
         if (lat === 0 && lon === 0) {
             setClosestStopPlaceItems([])
+            setLoadedCoordinatesKey(null)
             return
         }
 
