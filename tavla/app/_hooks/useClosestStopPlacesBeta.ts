@@ -39,10 +39,16 @@ function useClosestStopPlacesBeta(
         }
 
         let cancelled = false
+        setClosestStopPlaceItems([])
         fetchClosestStopPlaces({ lat, lon }, numberOfStopPlaces, areaRadiusInKm)
             .then((items) => {
                 if (!cancelled) {
                     setClosestStopPlaceItems(items)
+                }
+            })
+            .catch(() => {
+                if (!cancelled) {
+                    setClosestStopPlaceItems([])
                 }
             })
             .finally(() => {

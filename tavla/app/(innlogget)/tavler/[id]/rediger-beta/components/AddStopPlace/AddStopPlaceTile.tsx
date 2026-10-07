@@ -130,7 +130,16 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
     function handlePlaceChange(
         selectedItem: NormalizedDropdownItemType<StopPlace> | null,
     ) {
+        const typeOfPlace = selectedItem?.value.type
+        capture('stop_place_add_interaction', {
+            location: 'edit_board_page',
+            field: 'stop_place',
+            action: selectedItem?.value ? 'selected' : 'cleared',
+            typeOfPlace: typeOfPlace ?? 'other',
+        })
+
         if (selectedItem?.value.id === 'current_position') {
+            setSelectedClosestStopPlaces(null)
             fetchPosition().then((pos) => {
                 if (pos) {
                     const coords = {
@@ -148,14 +157,6 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
             return
         }
 
-        const typeOfPlace = selectedItem?.value.type
-
-        capture('stop_place_add_interaction', {
-            location: 'edit_board_page',
-            field: 'stop_place',
-            action: selectedItem?.value ? 'selected' : 'cleared',
-            typeOfPlace: typeOfPlace ?? 'other',
-        })
         setSelectedStopPlace(selectedItem)
 
         if (selectedItem && typeOfPlace === 'stop_place') {
@@ -269,6 +270,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                     <Fieldset
                         className="flex flex-col gap-2"
                         aria-describedby={
+                            !selectedClosestStopPlaces?.length &&
                             closestStopPlacesError
                                 ? closestStopPlacesErrorId
                                 : undefined
