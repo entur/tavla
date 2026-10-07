@@ -10,8 +10,68 @@ updates:
           time: "08:00"
           timezone: "Europe/Amsterdam"
       commit-message:
-          prefix: "chore(deps):"
+          prefix: "📦 "
       groups:
+          entur-linje-patch-minor:
+              patterns:
+                  - "@entur/*"
+              update-types:
+                  - "patch"
+                  - "minor"
+          entur-linje-major:
+              patterns:
+                  - "@entur/*"
+              update-types:
+                  - "major"
+          graphql-patch-minor:
+              patterns:
+                  - "graphql"
+                  - "@graphql-codegen/*"
+              update-types:
+                  - "patch"
+                  - "minor"
+          graphql-major:
+              patterns:
+                  - "graphql"
+                  - "@graphql-codegen/*"
+              update-types:
+                  - "major"
+          firebase-patch-minor:
+              patterns:
+                  - "firebase"
+                  - "firebase-admin"
+                  - "firebase-functions"
+                  - "firebase-tools"
+              update-types:
+                  - "patch"
+                  - "minor"
+          firebase-major:
+              patterns:
+                  - "firebase"
+                  - "firebase-admin"
+                  - "firebase-functions"
+                  - "firebase-tools"
+              update-types:
+                  - "major"
+          react-next-patch-minor:
+              patterns:
+                  - "react"
+                  - "react-dom"
+                  - "@types/react"
+                  - "@types/react-dom"
+                  - "next"
+              update-types:
+                  - "patch"
+                  - "minor"
+          react-next-major:
+              patterns:
+                  - "react"
+                  - "react-dom"
+                  - "@types/react"
+                  - "@types/react-dom"
+                  - "next"
+              update-types:
+                  - "major"
           patch-minor-dependencies:
               update-types:
                   - "patch"
