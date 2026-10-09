@@ -9,7 +9,7 @@ import ConsentHandler, {
     EnturToastProvider,
     PHProvider,
 } from 'app/_components/ConsentHandler'
-import { ContactForm } from 'app/_components/ContactForm'
+import { ContactFormExpandable } from 'app/_components/ContactFormExpandable'
 import { FocusManager } from 'app/_components/FocusManager'
 import { Footer } from 'app/_components/Footer'
 import { Navbar } from 'app/_components/Navbar'
@@ -69,7 +69,7 @@ async function RootLayout({ children }: { children: ReactNode }) {
                             <PostHogPageView />
                         </Suspense>
                         {children}
-                        <ContactForm />
+                        <ContactFormExpandable />
                         <Footer loggedIn={loggedIn} />
                     </EnturToastProvider>
                 </body>
