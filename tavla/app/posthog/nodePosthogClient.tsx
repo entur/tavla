@@ -14,6 +14,8 @@ function nodePosthogClient() {
 }
 
 export async function isFeatureEnabled(flag: string): Promise<boolean> {
+    if (process.env.NODE_ENV === 'development') return true
+
     const posthogClient = nodePosthogClient()
 
     const cookieStore = await cookies()
