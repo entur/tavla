@@ -15,7 +15,7 @@ import { WalkingDistanceForm } from './WalkingDistance/WalkingDistance'
 export function EditBoardSidebar({ board }: { board: BoardDB }) {
     return (
         <div className="flex flex-col gap-8 text-sm">
-            <EditSection title="Hva vil du vise på Tavla?">
+            <EditSection title="Legg til stoppesteder">
                 <AddStopPlaceTile board={board} />
                 <TileList board={board} />
             </EditSection>
