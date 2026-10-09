@@ -25,7 +25,7 @@ function PreviewSection({
                     </SegmentedControl.Item>
                 </SegmentedControl>
             </div>
-            <section className="flex flex-col justify-center p-8 bg-secondary rounded h-[70vh]">
+            <section className="flex flex-col justify-center p-4 bg-secondary rounded h-[70vh]">
                 <Preview boardLink={boardLink} viewMode={viewMode} />
             </section>
         </div>
