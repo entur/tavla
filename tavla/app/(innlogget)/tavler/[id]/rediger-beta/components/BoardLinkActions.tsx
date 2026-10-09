@@ -11,7 +11,7 @@ export function BoardLinkActions({ board }: { board: BoardDB }) {
     const boardLink = getBoardLinkClient(board.customUrl ?? board.id)
 
     return (
-        <div className="sticky bottom-0 z-10 w-screen ml-[calc(50%-50vw)] bg-secondary py-4">
+        <div className="sticky bottom-0 z-10 w-screen ml-[calc(50%-50vw)] bg-background py-4 shadow-[0_-1px_6px_-1px_rgba(0,0,0,0.1)]">
             <div className="container flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex min-w-0 items-end sm:items-center gap-2">
                     <div className="flex min-w-0 flex-1 justify-start w-full gap-2 sm:items-center flex-col sm:flex-row">
