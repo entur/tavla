@@ -294,21 +294,30 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                             </Paragraph>
                         ) : (
                             allClosestItems.map((item) => (
-                                <Checkbox
+                                <div
                                     key={item.value.id}
-                                    value={item.value.id}
-                                    checked={selectedClosestIds.has(
-                                        item.value.id,
-                                    )}
-                                    onChange={(e) =>
-                                        toggleClosestStopPlace(
-                                            item,
-                                            e.target.checked,
-                                        )
-                                    }
+                                    className="flex w-fullitems-center justify-between gap-2"
                                 >
-                                    {item.label}
-                                </Checkbox>
+                                    <Checkbox
+                                        value={item.value.id}
+                                        checked={selectedClosestIds.has(
+                                            item.value.id,
+                                        )}
+                                        onChange={(e) =>
+                                            toggleClosestStopPlace(
+                                                item,
+                                                e.target.checked,
+                                            )
+                                        }
+                                    >
+                                        {item.label}
+                                    </Checkbox>
+                                    <span className="flex gap-1">
+                                        {item.icons?.map((Icon) => (
+                                            <Icon key={Icon.displayName} />
+                                        ))}
+                                    </span>
+                                </div>
                             ))
                         )}
                         {!selectedClosestStopPlaces?.length && (
