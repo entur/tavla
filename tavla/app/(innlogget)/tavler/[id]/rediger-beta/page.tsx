@@ -43,21 +43,24 @@ export default async function EditBetaPage(props: TProps) {
     const boardPreviewLink = getBoardLinkServer(board.id, true)
 
     return (
-        <main
-            id="main-content"
-            className="container flex flex-col gap-8 pb-20 pt-4"
-        >
+        <main id="main-content" className="container flex flex-col gap-8 pt-4">
             <InBetaBanner bid={bid} />
-            {folder ? (
-                <BreadcrumbsNav
-                    type="boardInFolder"
-                    folder={folder}
-                    board={board}
-                />
-            ) : (
-                <BreadcrumbsNav type="board" board={board} />
-            )}
-            <EditBoardBeta board={board} boardLink={boardPreviewLink} />
+
+            <EditBoardBeta
+                board={board}
+                boardLink={boardPreviewLink}
+                breadcrumbs={
+                    folder ? (
+                        <BreadcrumbsNav
+                            type="boardInFolder"
+                            folder={folder}
+                            board={board}
+                        />
+                    ) : (
+                        <BreadcrumbsNav type="board" board={board} />
+                    )
+                }
+            />
         </main>
     )
 }
