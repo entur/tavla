@@ -89,10 +89,15 @@ export async function deleteTile(
     return { status: 'success' }
 }
 
+export type SaveTileOrderState =
+    | { status: 'success' }
+    | { status: 'error'; message: string }
+    | null
+
 export async function saveUpdatedTileOrder(
     boardId: string,
     tiles: BoardTileDB[],
-) {
+): Promise<SaveTileOrderState> {
     logToGcp('info', 'action invoked: saveUpdatedTileOrder', {
         type: 'server-action',
         action: 'saveUpdatedTileOrder',
@@ -121,6 +126,8 @@ export async function saveUpdatedTileOrder(
                 tilesObjects: tiles,
             },
         })
-        throw error
+        return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }
+
+    return { status: 'success' }
 }

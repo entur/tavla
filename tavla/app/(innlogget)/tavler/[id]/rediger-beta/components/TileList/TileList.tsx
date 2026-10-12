@@ -15,14 +15,16 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
+import { FeedbackText } from '@entur/form'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { saveUpdatedTileOrder } from './actions'
 import { DNDAbleStopPlaceTile } from './DNDAbleStopPlaceTile'
 
 export function TileList({ board }: { board: BoardDB }) {
     const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)
+    const [error, setError] = useState<string | undefined>(undefined)
     const { capture } = usePosthogTracking()
 
     useEffect(() => {
@@ -38,7 +40,7 @@ export function TileList({ board }: { board: BoardDB }) {
         }),
     )
 
-    const handleDragEnd = (event: DragEndEvent) => {
+    const handleDragEnd = async (event: DragEndEvent) => {
         const { active, over } = event
         if (!over || active.id === over.id) return
 
@@ -48,8 +50,15 @@ export function TileList({ board }: { board: BoardDB }) {
 
         const newArray = arrayMove(tileArray, oldIndex, newIndex)
         setTileArray(newArray)
+
+        const result = await saveUpdatedTileOrder(board.id, newArray)
+        if (result?.status === 'error') {
+            setError(result.message)
+            return
+        }
+
+        setError(undefined)
         capture('stop_place_moved', { location: 'edit_board_page' })
-        saveUpdatedTileOrder(board.id, newArray)
     }
 
     return (
@@ -70,6 +79,9 @@ export function TileList({ board }: { board: BoardDB }) {
                             tile={tile}
                         />
                     ))}
+                    {error && (
+                        <FeedbackText variant="negative">{error}</FeedbackText>
+                    )}
                 </div>
             </SortableContext>
         </DndContext>
