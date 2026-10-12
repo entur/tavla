@@ -35,6 +35,9 @@
         ]
     },
     "dependencies": {
+        "@dnd-kit/core": "6.3.1",
+        "@dnd-kit/sortable": "10.0.0",
+        "@dnd-kit/utilities": "3.2.2",
         "@entur/alert": "0.21.3",
         "@entur/button": "5.1.1",
         "@entur/chip": "0.12.0",
