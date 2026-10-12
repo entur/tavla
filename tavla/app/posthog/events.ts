@@ -276,7 +276,9 @@ export type EventMap = {
     }
 
     stop_place_moved: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
     >
 
     stop_place_add_interaction: WithLocation<
