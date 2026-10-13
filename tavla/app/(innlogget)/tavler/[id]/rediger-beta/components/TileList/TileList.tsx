@@ -17,7 +17,7 @@ import {
 } from '@dnd-kit/sortable'
 import { FeedbackText } from '@entur/form'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { saveUpdatedTileOrder } from './actions'
 import { DNDAbleStopPlaceTile } from './DNDAbleStopPlaceTile'
