@@ -35,7 +35,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
     const {
         closestStopPlaceItems,
         allClosestItems,
-        isLoading: isLoadingClosestStopPlaces,
+        isLoading,
         selectedClosestStopPlaces,
         setSelectedClosestStopPlaces,
     } = useClosestStopPlacesBeta(
@@ -284,7 +284,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                         <SubParagraph margin="none">
                             Velg hvilke stoppesteder du vil vise på tavla.
                         </SubParagraph>
-                        {isLoadingClosestStopPlaces ? (
+                        {isLoading ? (
                             <Paragraph margin="none">
                                 Henter stoppesteder i nærheten…
                             </Paragraph>
