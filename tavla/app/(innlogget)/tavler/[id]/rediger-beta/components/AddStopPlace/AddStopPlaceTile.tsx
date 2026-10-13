@@ -321,12 +321,10 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                             ))
                         )}
                         {!selectedClosestStopPlaces?.length && (
-                            <div id={closestStopPlacesErrorId}>
-                                <FormError
-                                    feedback={closestStopPlacesError}
-                                    variant="error"
-                                />
-                            </div>
+                            <FormError
+                                feedback={closestStopPlacesError}
+                                variant="error"
+                            />
                         )}
                     </Fieldset>
                 )}
