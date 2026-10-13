@@ -48,11 +48,13 @@ export function TileList({ board }: { board: BoardDB }) {
         const newIndex = tileArray.findIndex((t) => t.uuid === over.id)
         if (oldIndex === -1 || newIndex === -1) return
 
+        const previousArray = tileArray
         const newArray = arrayMove(tileArray, oldIndex, newIndex)
         setTileArray(newArray)
 
         const result = await saveUpdatedTileOrder(board.id, newArray)
         if (result?.status === 'error') {
+            setTileArray(previousArray)
             setError(result.message)
             return
         }
