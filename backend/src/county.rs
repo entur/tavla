@@ -1,10 +1,20 @@
 use redis::{aio::MultiplexedConnection, AsyncCommands};
 use serde::Deserialize;
+use std::sync::LazyLock;
+use std::time::Duration;
 
 const COUNTY_CACHE_TTL_SECS: u64 = 60 * 60 * 24 * 30; // 30 dager
 const COUNTY_LOCK_TTL_SECS: u64 = 5; // sekunder - dekker tiden ett geocoder-kall tar
+const GEOCODER_TIMEOUT_SECS: u64 = 2;
 const GEOCODER_URL: &str = "https://api.entur.io/geocoder/v3/place";
 const CLIENT_NAME: &str = "entur-tavla-backend";
+
+static CLIENT: LazyLock<reqwest::Client> = LazyLock::new(|| {
+    reqwest::Client::builder()
+        .timeout(Duration::from_secs(GEOCODER_TIMEOUT_SECS))
+        .build()
+        .expect("failed to build geocoder http client")
+});
 
 #[derive(Deserialize)]
 struct GeocoderResponse {
@@ -64,7 +74,7 @@ pub async fn resolve_county(redis: &mut MultiplexedConnection, nsr_id: &str) -> 
 async fn fetch_county_from_geocoder(nsr_id: &str) -> Option<String> {
     let url = format!("{GEOCODER_URL}?ids={nsr_id}");
 
-    let response = reqwest::Client::new()
+    let response = CLIENT
         .get(&url)
         .header("ET-Client-Name", CLIENT_NAME)
         .send()
