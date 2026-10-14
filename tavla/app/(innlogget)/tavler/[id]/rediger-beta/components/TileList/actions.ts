@@ -88,3 +88,46 @@ export async function deleteTile(
 
     return { status: 'success' }
 }
+
+export type SaveTileOrderState =
+    | { status: 'success' }
+    | { status: 'error'; message: string }
+    | null
+
+export async function saveUpdatedTileOrder(
+    boardId: string,
+    tiles: BoardTileDB[],
+): Promise<SaveTileOrderState> {
+    logToGcp('info', 'action invoked: saveUpdatedTileOrder', {
+        type: 'server-action',
+        action: 'saveUpdatedTileOrder',
+        bid: boardId,
+    })
+    const access = await userCanEditBoard(boardId)
+    if (!access) return redirect('/')
+
+    try {
+        await updateBoard(boardId, { tiles })
+        revalidatePath(`/tavler/${boardId}/rediger-beta`)
+    } catch (error) {
+        logToGcp('error', 'action failed: saveUpdatedTileOrder', {
+            type: 'server-action',
+            action: 'saveUpdatedTileOrder',
+            bid: boardId,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
+        Sentry.captureException(error, {
+            extra: {
+                message:
+                    'Error while saving updated tile ordering to firestore',
+                boardID: boardId,
+                tilesObjects: tiles,
+            },
+        })
+        return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
+    }
+
+    return { status: 'success' }
+}

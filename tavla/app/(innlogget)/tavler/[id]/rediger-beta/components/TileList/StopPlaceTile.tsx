@@ -1,4 +1,8 @@
 'use client'
+import type {
+    DraggableAttributes,
+    DraggableSyntheticListeners,
+} from '@dnd-kit/core'
 import { SecondaryButton } from '@entur/button'
 import { FeedbackText } from '@entur/form'
 import { EditIcon } from '@entur/icons'
@@ -14,13 +18,18 @@ import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { EditStopPlaceModal } from '../EditStopPlaceModal/EditStopPlaceModal'
 import { useLines } from '../utils/useLines'
 import { DeleteTileButton } from './DeleteTileButton'
+import { DragHandle } from './DragHandle'
 
 export function StopPlaceTile({
     board,
     tile,
+    dragHandleAttributes,
+    dragHandleListeners,
 }: {
     board: BoardDB
     tile: BoardTileDB
+    dragHandleAttributes: DraggableAttributes
+    dragHandleListeners: DraggableSyntheticListeners
 }) {
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [deleteError, setDeleteError] = useState<string | undefined>()
@@ -43,6 +52,10 @@ export function StopPlaceTile({
         <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between rounded bg-tintLight p-6">
                 <div className="flex items-center gap-4">
+                    <DragHandle
+                        attributes={dragHandleAttributes}
+                        listeners={dragHandleListeners}
+                    />
                     <LeadParagraph
                         margin="none"
                         className=" text-base md:text-lg"
