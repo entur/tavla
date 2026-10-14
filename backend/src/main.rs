@@ -23,9 +23,12 @@ use redis::{AsyncCommands, ConnectionLike};
 use tokio_stream::StreamExt;
 use tokio_util::{sync::CancellationToken, task::TaskTracker};
 
+mod county;
+
 mod types;
 
 mod utils;
+use county::resolve_county;
 use tower_http::cors::CorsLayer;
 use types::{AppError, AppState, BoardAction, Message};
 use utils::{
@@ -516,6 +519,16 @@ async fn heartbeat(
 ) -> Result<Json<HeartbeatAck>, AppError> {
     let payload: HeartbeatPayload = serde_json::from_str(&body)?;
 
+    let mut connection = state.master.clone();
+
+    let county = match payload.county {
+        Some(c) => Some(c),
+        None if payload.is_direct_link == Some(true) => {
+            resolve_county(&mut connection, &payload.bid).await
+        }
+        None => None,
+    };
+
     let key = format!("heartbeat:{}", payload.bid);
     let value = serde_json::to_string(
         &(ActiveInfo {
@@ -526,11 +539,10 @@ async fn heartbeat(
             screen_height: payload.screen_height,
             app: payload.app,
             is_direct_link: payload.is_direct_link,
-            county: payload.county,
+            county,
         }),
     )?;
 
-    let mut connection = state.master.clone();
     let _: () = connection.set_ex(key, value, HEARTBEAT_TTL_SECS).await?;
 
     let now_ms = SystemTime::now().duration_since(UNIX_EPOCH)?.as_millis() as u64;

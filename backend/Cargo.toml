@@ -13,6 +13,7 @@ futures = "0.3.31"
 futures-util = "0.3.30"
 prometheus = "0.13"
 redis = {version = "0.26.1", features = ["tokio-comp", "aio", "json"]}
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
 serde = {version = "1.0.199", features = ["derive"]}
 serde_json = "1.0.116"
 tokio = { version = "1.36.0", features = ["macros", "rt","rt-multi-thread", "signal"] }
