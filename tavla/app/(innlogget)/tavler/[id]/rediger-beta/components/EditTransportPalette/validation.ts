@@ -4,6 +4,7 @@ export const transportPaletteSchema = z.enum([
     'default',
     'blue-bus',
     'green-bus',
+    'brakar',
     'atb',
     'fram',
     'reis',
