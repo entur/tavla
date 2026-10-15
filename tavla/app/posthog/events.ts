@@ -348,6 +348,10 @@ export type EventMap = {
             | 'en'
     }
 
+    view_mode_changed: WithLocation<typeof LOCATIONS.EditBoardPage> & {
+        value: 'Liggende' | 'Stående'
+    }
+
     /* FAQ */
     faq_link_clicked: WithLocation<
         typeof LOCATIONS.Footer | typeof LOCATIONS.NavBar
