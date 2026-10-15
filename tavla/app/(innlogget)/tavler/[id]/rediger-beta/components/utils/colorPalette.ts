@@ -3,6 +3,7 @@ import type { BoardDB, TransportPalette } from 'src/types/db-types/boards'
 
 const baseTransportPalettes: { label: string; value: TransportPalette }[] = [
     { label: 'Nasjonal', value: 'default' },
+    { label: 'Lokal', value: 'brakar' },
     { label: 'Lokal', value: 'atb' },
     { label: 'Lokal', value: 'fram' },
     { label: 'Lokal', value: 'reis' },
@@ -11,6 +12,7 @@ const baseTransportPalettes: { label: string; value: TransportPalette }[] = [
 ]
 
 export const COUNTY_THEME_MAP = {
+    Buskerud: 'brakar' as const,
     Trøndelag: 'atb' as const,
     'Møre og Romsdal': 'fram' as const,
     Nordland: 'reis' as const,
@@ -104,6 +106,18 @@ export const PALETTE_COLOR_DESCRIPTIONS: Record<
     },
     'green-bus': {
         bus: 'grønn',
+    },
+    brakar: {
+        bus: 'mørk rød',
+        tram: 'mørk rød',
+        cableway: 'mørk rød',
+        funicular: 'mørk rød',
+        taxi: 'vinrød',
+        coach: 'grå',
+        air: 'grå',
+        rail: 'mørk blå',
+        metro: 'mørk blå',
+        water: 'lilla',
     },
     atb: {
         bus: 'grønn',

@@ -337,6 +337,7 @@ export type EventMap = {
             | 'default'
             | 'blue-bus'
             | 'green-bus'
+            | 'brakar'
             | 'atb'
             | 'fram'
             | 'reis'
