@@ -4,11 +4,13 @@ import { EditBoardTitle } from './EditTitle/EditTitle'
 
 export function BoardTitle({ board }: { board: BoardDB }) {
     return (
-        <div className="flex flex-wrap items-center gap-4 w-full justify-start">
-            <Heading1 as="h1" margin="none">
+        <div className="flex items-center gap-4 w-full justify-start">
+            <Heading1 as="h1" margin="none" className="min-w-0 break-words">
                 {board.meta.title}
             </Heading1>
-            <EditBoardTitle board={board} />
+            <div className="shrink-0">
+                <EditBoardTitle board={board} />
+            </div>
         </div>
     )
 }
