@@ -11,6 +11,21 @@ import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
+export async function createDraftBoard(): Promise<string> {
+    logToGcp('info', 'action invoked: createDraftBoard', {
+        type: 'server-action',
+        action: 'createDraftBoard',
+    })
+    const doc = await createBoard({
+        meta: { title: 'Min tavle' },
+        tiles: [],
+        isCombinedTiles: false,
+        isAnonymousBoard: true,
+        isDraft: true,
+    })
+    return doc.id
+}
+
 export async function publishBoard(board: BoardDB): Promise<string> {
     logToGcp('info', 'action invoked: publishBoard', {
         type: 'server-action',
