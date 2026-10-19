@@ -33,7 +33,7 @@ export function EditBoardBeta({
                 </aside>
             </div>
 
-            {board.isAnonymousBoard ? (
+            {board.isDraft ? (
                 <PublishDraftBoard board={board} />
             ) : (
                 <BoardLinkActions board={board} />
