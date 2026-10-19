@@ -12,9 +12,13 @@ export const updateLastActiveOnSchedule = scheduledFunction(
         const activeBoards = await getActiveBoardsFromRedis()
         const boardsCollection = getFirestore().collection('boards')
 
+        const notDirectLinkBoards = activeBoards.clients.filter(
+            (client) => !client.isDirectLink,
+        )
+
         let successCount = 0
 
-        const updatePromises = activeBoards.clients.map(async (client) => {
+        const updatePromises = notDirectLinkBoards.map(async (client) => {
             try {
                 await boardsCollection.doc(client.bid).update({
                     'meta.lastActiveTimestamp': Date.now(),
