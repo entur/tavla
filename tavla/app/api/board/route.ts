@@ -66,11 +66,15 @@ export async function GET(request: NextRequest) {
     const boardId = boardIdParam satisfies BoardDB['id']
 
     try {
-        const boardData =
-            (boardId.length === 20 ? await fetchBoardById(boardId) : null) ??
-            (await getBoardByCustomUrl(boardId))
+        const boardById =
+            boardId.length === 20 ? await fetchBoardById(boardId) : null
+        const boardData = boardById ?? (await getBoardByCustomUrl(boardId))
+        const foundViaCustomUrl = !boardById
 
-        if (!boardData || boardData.isDraft) {
+        // Et draft-board skal fortsatt kunne forhåndsvises med sin rå ID (samme
+        // tillit som gir anonym redigeringstilgang, se userCanEditBoard), men
+        // skal ikke "gå live" på sin delbare custom-URL før det er publisert.
+        if (!boardData || (foundViaCustomUrl && boardData.isDraft)) {
             logToGcp('warning', 'board not found', {
                 type: 'http',
                 method: 'GET',
