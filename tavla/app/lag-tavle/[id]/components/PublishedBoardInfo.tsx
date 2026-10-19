@@ -16,7 +16,7 @@ export function PublishedBoardInfo({ boardLink }: { boardLink: string }) {
     return (
         <div className="flex flex-col items-center gap-4 pt-16 text-center">
             <Heading2 as="h1" margin="none">
-                Tavla er klar!
+                Tavla er publisert!
             </Heading2>
             <Paragraph margin="none" className="max-w-prose">
                 Kopier lenken og del den med andre, eller vis den på en skjerm.
