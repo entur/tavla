@@ -16,7 +16,6 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
 
         if (result?.status === 'success') {
             capture('draft_board_published', { location: 'edit_board_page' })
-            setOpen(false)
         }
 
         return result
@@ -33,7 +32,14 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                     Fornøyd med tavla? Fullfør for å få en lenke du kan dele
                     eller vise på en skjerm.
                 </Paragraph>
-                <PrimaryButton onClick={() => setOpen(true)}>
+                <PrimaryButton
+                    onClick={() => {
+                        capture('draft_board_publish_started', {
+                            location: 'edit_board_page',
+                        })
+                        setOpen(true)
+                    }}
+                >
                     Få lenke til tavla
                 </PrimaryButton>
             </div>
