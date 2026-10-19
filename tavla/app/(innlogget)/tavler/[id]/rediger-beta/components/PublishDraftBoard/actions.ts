@@ -42,9 +42,8 @@ export async function publishDraftBoard(
         return { status: 'error', message: 'Noe gikk galt. Prøv igjen.' }
     }
 
-    // Revaliderer bevisst ikke /lag-tavle/[id]: brukeren skal bli værende på
-    // redigeringssiden med lenken synlig i modalen, ikke bli kastet over på
-    // "kan ikke redigeres her"-siden idet isDraft blir false.
     revalidatePath(`/tavler/${bid}/rediger-beta`)
+    revalidatePath(`/lag-tavle/${bid}`)
+
     return { status: 'success' }
 }
