@@ -84,7 +84,7 @@ export async function userCanEditBoard(bid?: BoardDB['id']) {
     if (!bid) return false
 
     const board = await getBoard(bid)
-    if (board?.isDraft) return true
+    if (board?.isAnonymousBoard && board?.isDraft) return true
 
     const user = await getUserWithBoardIds()
     const userEditorAccess = user?.owner?.includes(bid)
