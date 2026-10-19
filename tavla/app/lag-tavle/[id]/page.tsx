@@ -36,11 +36,6 @@ export default async function LagTavleEditorPage(props: TProps) {
 
     if (!board) return notFound()
 
-    // Boardet finnes men kan ikke redigeres her — enten fordi det allerede
-    // er publisert (vanligste tilfellet, rett etter at brukeren selv
-    // publiserte), eller fordi det aldri var et anonymt board i utgangspunktet.
-    // Viser samme "ferdig/klar"-side i begge tilfeller, siden det er en
-    // avsluttet, ikke feilaktig, tilstand for et anonymt board.
     if (!access) {
         const boardLink = getBoardLinkServer(board.customUrl ?? board.id)
         return (
