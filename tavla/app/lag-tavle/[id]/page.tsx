@@ -1,0 +1,66 @@
+import { Heading3, Paragraph } from '@entur/typography'
+import { EditBoardBeta } from 'app/(innlogget)/tavler/[id]/rediger-beta/components/EditBoardBeta'
+import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { getBoard } from 'src/firebase'
+import type { BoardDB } from 'src/types/db-types/boards'
+import { getBoardLinkServer } from 'utils/boardLink'
+
+export type TProps = {
+    params: Promise<{ id: BoardDB['id'] }>
+}
+
+export async function generateMetadata(props: TProps): Promise<Metadata> {
+    const { id } = await props.params
+    const board = await getBoard(id)
+    if (!board) {
+        return notFound()
+    }
+    return {
+        title: `${board.meta?.title ?? DEFAULT_BOARD_NAME} | Lag en tavle med Entur Tavla`,
+        description:
+            'Bygg din egen tavle uten å logge inn. Legg til stoppesteder, tilpass utseendet og del lenken.',
+    }
+}
+
+export default async function LagTavleEditorPage(props: TProps) {
+    const { id: bid } = await props.params
+
+    const [board, access] = await Promise.all([
+        getBoard(bid),
+        userCanEditBoard(bid),
+    ])
+
+    if (!board) return notFound()
+
+    if (!access) {
+        const boardLink = getBoardLinkServer(board.customUrl ?? board.id)
+        return (
+            <main
+                id="main-content"
+                className="container flex flex-col items-center gap-4 pt-16 text-center"
+            >
+                <Heading3>Denne tavla kan ikke redigeres her</Heading3>
+                <Paragraph>
+                    Tavla er allerede publisert og støtter foreløpig ikke
+                    redigering uten innlogging, men kan fortsatt vises på{' '}
+                    <a href={boardLink}>{boardLink}</a>.
+                </Paragraph>
+            </main>
+        )
+    }
+
+    const boardPreviewLink = getBoardLinkServer(board.id, true)
+
+    return (
+        <main id="main-content" className="container flex flex-col gap-8 pt-4">
+            <EditBoardBeta
+                board={board}
+                boardLink={boardPreviewLink}
+                breadcrumbs={null}
+            />
+        </main>
+    )
+}
