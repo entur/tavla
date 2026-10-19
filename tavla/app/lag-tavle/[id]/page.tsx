@@ -1,11 +1,13 @@
-import { Heading1, Heading3, LeadParagraph, Paragraph } from '@entur/typography'
+import { Heading1, LeadParagraph } from '@entur/typography'
 import { EditBoardBeta } from 'app/(innlogget)/tavler/[id]/rediger-beta/components/EditBoardBeta'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'utils/boardLink'
+import { PublishedBoardInfo } from './components/PublishedBoardInfo'
 
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>
@@ -27,29 +29,23 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
 export default async function LagTavleEditorPage(props: TProps) {
     const { id: bid } = await props.params
 
-    const board = await getBoard(bid)
+    const [board, access] = await Promise.all([
+        getBoard(bid),
+        userCanEditBoard(bid),
+    ])
 
     if (!board) return notFound()
 
-    // Et board som finnes her men ikke er anonymt hører ikke hjemme på denne
-    // ruten (f.eks. en innlogget brukers board). Et anonymt board skal
-    // derimot alltid vise redigeringsskallet her, uansett isDraft —
-    // PublishDraftBoard (inni EditBoardBeta) viser selv riktig tilstand
-    // (fullfør-knapp vs. ferdig lenke) basert på isDraft, og videre
-    // feltredigering er uansett sperret av userCanEditBoard når isDraft
-    // er false.
-    if (!board.isAnonymousBoard) {
+    // Boardet finnes men kan ikke redigeres her — enten fordi det allerede
+    // er publisert (vanligste tilfellet, rett etter at brukeren selv
+    // publiserte), eller fordi det aldri var et anonymt board i utgangspunktet.
+    // Viser samme "ferdig/klar"-side i begge tilfeller, siden det er en
+    // avsluttet, ikke feilaktig, tilstand for et anonymt board.
+    if (!access) {
         const boardLink = getBoardLinkServer(board.customUrl ?? board.id)
         return (
-            <main
-                id="main-content"
-                className="container flex flex-col items-center gap-4 pt-16 text-center"
-            >
-                <Heading3>Denne tavla kan ikke redigeres her</Heading3>
-                <Paragraph>
-                    Tavla støtter foreløpig ikke redigering uten innlogging, men
-                    kan fortsatt vises på <a href={boardLink}>{boardLink}</a>.
-                </Paragraph>
+            <main id="main-content" className="container">
+                <PublishedBoardInfo boardLink={boardLink} />
             </main>
         )
     }
