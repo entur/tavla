@@ -59,6 +59,7 @@ export async function saveTile(
         if (!existingTile) {
             await updateBoard(bid, { tiles: FieldValue.arrayUnion(tile) })
             revalidatePath(`/tavler/${bid}/rediger-beta`)
+            revalidatePath(`/lag-tavle/${bid}`)
             return { status: 'success' }
         }
         const indexExistingTile = board?.tiles.indexOf(existingTile)
@@ -73,6 +74,7 @@ export async function saveTile(
         }
 
         revalidatePath(`/tavler/${bid}/rediger-beta`)
+        revalidatePath(`/lag-tavle/${bid}`)
         return { status: 'success' }
     } catch (error) {
         logToGcp('error', 'action failed: saveTile', {
