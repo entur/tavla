@@ -2,6 +2,7 @@
 import { PrimaryButton, SecondaryButton } from '@entur/button'
 import { Modal } from '@entur/modal'
 import { Paragraph } from '@entur/typography'
+import { CreateUserButton } from 'app/_components/CreateUserButton'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
@@ -75,6 +76,18 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                             Bekreft
                         </PrimaryButton>
                     </div>
+                    <div className="w-full border-t border-strokeNeutral" />
+                    <Paragraph margin="none">
+                        Vil du heller kunne redigere tavla videre? Opprett en
+                        bruker, så blir denne tavla din.
+                    </Paragraph>
+                    <CreateUserButton
+                        variant="secondary"
+                        width="fluid"
+                        claimBoard={board.id}
+                    >
+                        Opprett bruker og ta eierskap
+                    </CreateUserButton>
                 </div>
             </Modal>
         </div>

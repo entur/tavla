@@ -8,7 +8,13 @@ import { getAuth } from 'firebase-admin/auth'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createUser } from 'src/firebase'
+import {
+    addBoardIdToUser,
+    createUser,
+    getBoard,
+    updateBoard,
+} from 'src/firebase'
+import type { BoardDB } from 'src/types/db-types/boards'
 import type { UserDB } from 'src/types/db-types/users'
 import { logToGcp } from 'src/utils/logging'
 
@@ -49,7 +55,7 @@ export async function login(token: string) {
     redirect('/oversikt')
 }
 
-export async function create(uid: UserDB['uid']) {
+export async function create(uid: UserDB['uid'], claimBoard?: BoardDB['id']) {
     logToGcp('info', 'action invoked: createUser', {
         type: 'server-action',
         action: 'createUser',
@@ -70,5 +76,35 @@ export async function create(uid: UserDB['uid']) {
             },
         })
         throw error
+    }
+
+    if (!claimBoard) return
+
+    try {
+        const board = await getBoard(claimBoard)
+        // Kun anonyme boards kan klames — forhindrer at claimBoard brukes til
+        // å gi en ny bruker redigeringstilgang til et board de ikke eier.
+        if (!board?.isAnonymousBoard) return
+
+        await addBoardIdToUser(uid, claimBoard)
+        await updateBoard(claimBoard, {
+            isAnonymousBoard: false,
+            isDraft: false,
+        })
+    } catch (error) {
+        logToGcp('error', 'action failed: claim board for new user', {
+            type: 'server-action',
+            action: 'createUser',
+            bid: claimBoard,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while claiming board for new user',
+                boardID: claimBoard,
+            },
+        })
     }
 }

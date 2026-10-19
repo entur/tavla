@@ -14,6 +14,7 @@ import {
     signInWithPopup,
 } from 'firebase/auth'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
 import { logToGcp } from 'utils/logging'
@@ -31,6 +32,7 @@ export default function Google({
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(['', ''])
     const { capture } = usePosthogTracking()
+    const claimBoard = useSearchParams().get('claimBoard') ?? undefined
 
     const googleAction = async () => {
         setIsLoading(true)
@@ -42,7 +44,7 @@ export default function Google({
             const credential = await signInWithPopup(auth, provider)
             const userIdToken = await credential.user.getIdToken()
             if (getAdditionalUserInfo(credential)?.isNewUser) {
-                await create(credential.user.uid)
+                await create(credential.user.uid, claimBoard)
             }
             await login(userIdToken)
             setIsLoading(false)
