@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
             (boardId.length === 20 ? await fetchBoardById(boardId) : null) ??
             (await getBoardByCustomUrl(boardId))
 
-        if (!boardData || boardData.isDraft) {
+        if (!boardData) {
             logToGcp('warning', 'board not found', {
                 type: 'http',
                 method: 'GET',
