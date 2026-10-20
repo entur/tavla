@@ -40,10 +40,7 @@ export default async function LagTavleEditorPage(props: TProps) {
         const boardLink = getBoardLinkServer(board.customUrl ?? board.id)
         return (
             <main id="main-content" className="container">
-                <PublishedBoardInfo
-                    boardLink={boardLink}
-                    claimBoard={board.isAnonymousBoard ? board.id : undefined}
-                />
+                <PublishedBoardInfo boardLink={boardLink} />
             </main>
         )
     }

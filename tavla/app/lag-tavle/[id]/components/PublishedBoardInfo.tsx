@@ -3,16 +3,9 @@ import { CopyableText } from '@entur/alert'
 import { PrimaryButton } from '@entur/button'
 import { CopyIcon, ExternalIcon } from '@entur/icons'
 import { Heading2, Paragraph } from '@entur/typography'
-import { CreateUserButton } from 'app/_components/CreateUserButton'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 
-export function PublishedBoardInfo({
-    boardLink,
-    claimBoard,
-}: {
-    boardLink: string
-    claimBoard?: string
-}) {
+export function PublishedBoardInfo({ boardLink }: { boardLink: string }) {
     const { capture } = usePosthogTracking()
 
     function copyLink() {
@@ -27,7 +20,8 @@ export function PublishedBoardInfo({
             </Heading2>
             <Paragraph margin="none" className="max-w-prose">
                 Kopier lenken og del den med andre, eller vis den på en skjerm.
-                Du kan ikke lenger redigere denne tavla her uten å logge inn.
+                Siden du ikke er logget inn, kan du ikke lenger redigere denne
+                tavla.
             </Paragraph>
             <CopyableText
                 className="max-w-prose"
@@ -54,20 +48,6 @@ export function PublishedBoardInfo({
                     <ExternalIcon />
                 </PrimaryButton>
             </div>
-            {claimBoard && (
-                <div className="mt-8 flex flex-col items-center gap-2">
-                    <Paragraph margin="none">
-                        Angrer du? Opprett en bruker for å ta eierskap og
-                        fortsette å redigere denne tavla.
-                    </Paragraph>
-                    <CreateUserButton
-                        variant="secondary"
-                        claimBoard={claimBoard}
-                    >
-                        Opprett bruker og ta eierskap
-                    </CreateUserButton>
-                </div>
-            )}
         </div>
     )
 }

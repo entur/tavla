@@ -34,9 +34,6 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                     eller vise på en skjerm.
                 </Paragraph>
                 <div className="flex flex-row gap-2">
-                    <CreateUserButton variant="secondary" claimBoard={board.id}>
-                        Opprett bruker
-                    </CreateUserButton>
                     <PrimaryButton
                         onClick={() => {
                             capture('draft_board_publish_started', {
