@@ -82,7 +82,7 @@ export async function create(uid: UserDB['uid']) {
 export async function claimBoardForUser(
     uid: UserDB['uid'],
     bid: BoardDB['id'],
-) {
+): Promise<{ claimed: boolean }> {
     logToGcp('info', 'action invoked: claimBoardForUser', {
         type: 'server-action',
         action: 'claimBoardForUser',
@@ -90,10 +90,11 @@ export async function claimBoardForUser(
     })
     try {
         const board = await getBoard(bid)
-        if (!board?.isAnonymousBoard) return
+        if (!board?.isAnonymousBoard) return { claimed: false }
 
         await addBoardIdToUser(uid, bid)
         await updateBoard(bid, { isAnonymousBoard: false, isDraft: false })
+        return { claimed: true }
     } catch (error) {
         logToGcp('error', 'action failed: claimBoardForUser', {
             type: 'server-action',
@@ -109,5 +110,6 @@ export async function claimBoardForUser(
                 boardID: bid,
             },
         })
+        return { claimed: false }
     }
 }
