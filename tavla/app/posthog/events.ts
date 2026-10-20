@@ -194,7 +194,6 @@ export type EventMap = {
     draft_board_publish_started: WithLocation<typeof LOCATIONS.EditBoardPage>
     draft_board_published: WithLocation<typeof LOCATIONS.EditBoardPage>
     draft_board_publish_cancelled: WithLocation<typeof LOCATIONS.EditBoardPage>
-    draft_board_created: WithLocation<typeof LOCATIONS.EditBoardPage>
     draft_board_claimed: WithLocation<typeof LOCATIONS.UserModal>
 
     custom_url_modal_closed: WithLocation<
