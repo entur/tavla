@@ -4,6 +4,7 @@ import { SearchableDropdown } from '@entur/dropdown'
 import { Label, Paragraph } from '@entur/typography'
 import ClientOnly from 'app/_components/NoSSR/ClientOnly'
 import { usePointSearch } from 'app/_hooks/usePointSearch'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState } from 'react'
 import type { LocationDB } from 'src/types/db-types/boards'
@@ -12,9 +13,11 @@ import { type FormState, saveWalkingDistance } from './action'
 export function WalkingDistanceForm({
     bid,
     location,
+    trackingLocation,
 }: {
     bid: string
     location?: LocationDB
+    trackingLocation: EventProps<'board_settings_changed'>['location']
 }) {
     const { capture } = usePosthogTracking()
 
@@ -29,7 +32,7 @@ export function WalkingDistanceForm({
 
         if (result?.status === 'success') {
             capture('board_settings_changed', {
-                location: 'edit_board_page',
+                location: trackingLocation,
                 setting: 'board_location',
                 value: 'changed',
             })

@@ -3,6 +3,7 @@
 import { FilterChip } from '@entur/chip'
 import { FeedbackText } from '@entur/form'
 import { Paragraph } from '@entur/typography'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState } from 'react'
 import { type ElementsState, saveElements } from './actions'
@@ -12,10 +13,12 @@ function EditElements({
     bid,
     hideClock,
     hideLogo,
+    trackingLocation,
 }: {
     bid: string
     hideClock: boolean
     hideLogo: boolean
+    trackingLocation: EventProps<'board_settings_changed'>['location']
 }) {
     const { capture } = usePosthogTracking()
 
@@ -27,7 +30,7 @@ function EditElements({
 
         if (result?.status === 'success') {
             capture('board_settings_changed', {
-                location: 'edit_board_page',
+                location: trackingLocation,
                 setting: 'element_select',
                 value: payload.element,
             })

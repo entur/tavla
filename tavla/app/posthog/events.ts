@@ -12,6 +12,7 @@ export const LOCATIONS = {
     BoardPage: 'board_page',
     AdminTable: 'admin_table',
     EditBoardPage: 'edit_board_page',
+    EditBoardWithoutUser: 'edit_board_without_user',
 } as const
 
 type Location = (typeof LOCATIONS)[keyof typeof LOCATIONS]
@@ -187,9 +188,13 @@ export type EventMap = {
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
     >
 
-    draft_board_publish_started: WithLocation<typeof LOCATIONS.EditBoardPage>
-    draft_board_published: WithLocation<typeof LOCATIONS.EditBoardPage>
-    draft_board_publish_cancelled: WithLocation<typeof LOCATIONS.EditBoardPage>
+    draft_board_publish_started: WithLocation<
+        typeof LOCATIONS.EditBoardWithoutUser
+    >
+    draft_board_published: WithLocation<typeof LOCATIONS.EditBoardWithoutUser>
+    draft_board_publish_cancelled: WithLocation<
+        typeof LOCATIONS.EditBoardWithoutUser
+    >
     draft_board_claimed: WithLocation<typeof LOCATIONS.UserModal>
 
     custom_url_modal_closed: WithLocation<
@@ -205,9 +210,15 @@ export type EventMap = {
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
     >
 
-    board_name_edit_started: WithLocation<typeof LOCATIONS.EditBoardPage>
-    board_name_saved: WithLocation<typeof LOCATIONS.EditBoardPage>
-    board_name_edit_cancelled: WithLocation<typeof LOCATIONS.EditBoardPage> & {
+    board_name_edit_started: WithLocation<
+        typeof LOCATIONS.EditBoardPage | typeof LOCATIONS.EditBoardWithoutUser
+    >
+    board_name_saved: WithLocation<
+        typeof LOCATIONS.EditBoardPage | typeof LOCATIONS.EditBoardWithoutUser
+    >
+    board_name_edit_cancelled: WithLocation<
+        typeof LOCATIONS.EditBoardPage | typeof LOCATIONS.EditBoardWithoutUser
+    > & {
         method: 'dismissed' | 'cancel_button'
     }
 
@@ -215,18 +226,21 @@ export type EventMap = {
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.BoardWithoutUser
         | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
     >
 
     stop_place_edit_started: WithLocation<
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.BoardWithoutUser
         | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
     >
 
     stop_place_edit_cancelled: WithLocation<
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.BoardWithoutUser
         | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
     > & {
         unsavedChanges: boolean
     }
@@ -266,7 +280,10 @@ export type EventMap = {
     }
 
     stop_place_edit_saved: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
     > & {
         name: boolean
         offset: boolean
@@ -280,12 +297,14 @@ export type EventMap = {
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.BoardWithoutUser
         | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
     >
 
     stop_place_add_interaction: WithLocation<
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.BoardWithoutUser
         | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
     > &
         (
             | {
@@ -309,6 +328,7 @@ export type EventMap = {
         | typeof LOCATIONS.BoardPage
         | typeof LOCATIONS.BoardWithoutUser
         | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
     > & {
         county_count?: number
         typeOfPlace: TypeOfPlace
@@ -316,7 +336,9 @@ export type EventMap = {
     }
 
     board_settings_changed: {
-        location?: typeof LOCATIONS.EditBoardPage
+        location?:
+            | typeof LOCATIONS.EditBoardPage
+            | typeof LOCATIONS.EditBoardWithoutUser
         setting:
             | 'view_type'
             | 'theme'
@@ -349,7 +371,9 @@ export type EventMap = {
             | 'en'
     }
 
-    view_mode_changed: WithLocation<typeof LOCATIONS.EditBoardPage> & {
+    view_mode_changed: WithLocation<
+        typeof LOCATIONS.EditBoardPage | typeof LOCATIONS.EditBoardWithoutUser
+    > & {
         value: 'Liggende' | 'Stående'
     }
 

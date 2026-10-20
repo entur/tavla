@@ -16,13 +16,20 @@ import {
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { FeedbackText } from '@entur/form'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useEffect, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { saveUpdatedTileOrder } from './actions'
 import { DNDAbleStopPlaceTile } from './DNDAbleStopPlaceTile'
 
-export function TileList({ board }: { board: BoardDB }) {
+export function TileList({
+    board,
+    trackingLocation,
+}: {
+    board: BoardDB
+    trackingLocation: EventProps<'stop_place_moved'>['location']
+}) {
     const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)
     const [error, setError] = useState<string | undefined>(undefined)
     const { capture } = usePosthogTracking()
@@ -60,7 +67,7 @@ export function TileList({ board }: { board: BoardDB }) {
         }
 
         setError(undefined)
-        capture('stop_place_moved', { location: 'edit_board_page' })
+        capture('stop_place_moved', { location: trackingLocation })
     }
 
     return (
@@ -79,6 +86,7 @@ export function TileList({ board }: { board: BoardDB }) {
                             key={tile.uuid}
                             board={board}
                             tile={tile}
+                            trackingLocation={trackingLocation}
                         />
                     ))}
                     {error && (

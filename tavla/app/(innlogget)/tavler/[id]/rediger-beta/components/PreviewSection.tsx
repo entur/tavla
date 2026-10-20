@@ -1,5 +1,6 @@
 'use client'
 import { SegmentedControl } from '@entur/form'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import { Preview } from './Preview'
@@ -7,9 +8,11 @@ import { Preview } from './Preview'
 function PreviewSection({
     boardLink,
     breadcrumbs,
+    trackingLocation,
 }: {
     boardLink: string
     breadcrumbs: React.ReactNode
+    trackingLocation: EventProps<'view_mode_changed'>['location']
 }) {
     const [viewMode, setViewMode] = useState<'Liggende' | 'Stående'>('Liggende')
     const { capture } = usePosthogTracking()
@@ -25,7 +28,7 @@ function PreviewSection({
                     onChange={(value) => {
                         const mode = value as 'Liggende' | 'Stående'
                         capture('view_mode_changed', {
-                            location: 'edit_board_page',
+                            location: trackingLocation,
                             value: mode,
                         })
                         setViewMode(mode)
