@@ -17,6 +17,8 @@ const ReportCode = z.enum([
     'unknown',
     'fetch_journey_planner',
     'fetch_board',
+    'showing_cached_data',
+    'error_screen_cache_expired',
 ])
 
 const ReportSchema = z.object({
