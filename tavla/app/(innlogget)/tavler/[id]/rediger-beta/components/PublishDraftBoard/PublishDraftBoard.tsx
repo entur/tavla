@@ -81,7 +81,6 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                                 onClick={() => startTransition(() => action())}
                             >
                                 Få lenke til tavla
-                                <ForwardIcon />
                             </PrimaryButton>
                         </Box>
                         <Box>
@@ -105,7 +104,6 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                                 claimBoard={board.id}
                             >
                                 Opprett bruker
-                                <UserIcon />
                             </CreateUserButton>
                         </Box>
                     </div>
