@@ -1,11 +1,12 @@
 'use client'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
-export function TrackDraftBoardCreated({ isNew }: { isNew: boolean }) {
+export function TrackDraftBoardCreated() {
     const { capture } = usePosthogTracking()
     const pathname = usePathname()
+    const isNew = useSearchParams().get('new') === 'true'
 
     useEffect(() => {
         if (!isNew) return
