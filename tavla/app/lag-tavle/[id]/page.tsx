@@ -8,9 +8,11 @@ import { getBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'utils/boardLink'
 import { PublishedBoardInfo } from './components/PublishedBoardInfo'
+import { TrackDraftBoardCreated } from './components/TrackDraftBoardCreated'
 
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>
+    searchParams: Promise<{ new?: string }>
 }
 
 export async function generateMetadata(props: TProps): Promise<Metadata> {
@@ -28,6 +30,7 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
 
 export default async function LagTavleEditorPage(props: TProps) {
     const { id: bid } = await props.params
+    const { new: isNew } = await props.searchParams
 
     const [board, access] = await Promise.all([
         getBoard(bid),
@@ -49,6 +52,7 @@ export default async function LagTavleEditorPage(props: TProps) {
 
     return (
         <main id="main-content" className="container flex flex-col gap-8 pt-4">
+            <TrackDraftBoardCreated isNew={isNew === 'true'} />
             <div className="mb-16">
                 <Heading1 as="h1">Lag en tavle</Heading1>
                 <LeadParagraph className="max-w-prose">
