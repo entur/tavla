@@ -53,10 +53,10 @@
         "@entur/tokens": "4.2.0",
         "@entur/tooltip": "6.0.7",
         "@entur/typography": "3.0.7",
-        "@google-cloud/logging": "12.1.0",
-        "@sentry/nextjs": "11.4.0",
+        "@google-cloud/logging": "12.3.0",
+        "@sentry/nextjs": "11.7.0",
         "@types/jsdom": "30.0.0",
-        "dompurify": "3.4.16",
+        "dompurify": "3.4.17",
         "firebase": "12.19.0",
         "firebase-admin": "14.5.0",
         "firebase-functions": "7.4.0",
@@ -65,23 +65,23 @@
         "lodash": "4.18.1",
         "nanoid": "6.0.2",
         "next": "16.4.0",
-        "posthog-js": "1.438.2",
-        "posthog-node": "5.55.0",
+        "posthog-js": "1.438.9",
+        "posthog-node": "5.56.0",
         "react": "19.3.0",
         "react-dom": "19.3.0",
         "swr": "2.5.1",
-        "zod": "4.6.5"
+        "zod": "4.6.7"
     },
     "devDependencies": {
         "@biomejs/biome": "2.5.15",
-        "@graphql-codegen/cli": "7.4.4",
+        "@graphql-codegen/cli": "7.4.6",
         "@graphql-codegen/import-types-preset": "4.0.1",
-        "@graphql-codegen/typed-document-node": "7.1.1",
-        "@graphql-codegen/typescript": "6.1.1",
+        "@graphql-codegen/typed-document-node": "7.2.0",
+        "@graphql-codegen/typescript": "6.1.2",
         "@graphql-codegen/typescript-operations": "6.1.10",
-        "@playwright/test": "1.63.0",
-        "@types/lodash": "4.17.25",
-        "@types/node": "26.6.4",
+        "@playwright/test": "1.64.0",
+        "@types/lodash": "4.17.26",
+        "@types/node": "26.6.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
         "@types/semver": "7.8.0",
@@ -89,11 +89,11 @@
         "firebase-tools": "15.32.1",
         "husky": "9.1.7",
         "lint-staged": "17.6.0",
-        "postcss": "8.5.29",
+        "postcss": "8.5.30",
         "tailwindcss": "3.4.19",
         "typescript": "6.0.3",
-        "vite": "8.3.3",
-        "vitest": "5.0.3"
+        "vite": "8.3.4",
+        "vitest": "5.0.4"
     },
     "packageManager": "yarn@4.10.3",
     "engines": {
@@ -102,6 +102,6 @@
     "resolutions": {
         "basic-ftp": "6.2.1",
         "minimatch": "9.0.7",
-        "dompurify": "3.4.16"
+        "dompurify": "3.4.17"
     }
 }
