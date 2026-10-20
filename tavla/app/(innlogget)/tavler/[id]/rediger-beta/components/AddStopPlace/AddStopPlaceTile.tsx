@@ -15,6 +15,7 @@ import useCurrentPosition from 'app/_hooks/useCurrentPosition'
 import { useStopPlaceSearch } from 'app/_hooks/useStopPlaceSearch'
 import type { StopPlace } from 'app/(innlogget)/utils/fetch'
 import { coordinatesToStopPlaceDropdownItem } from 'app/(innlogget)/utils/position'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState, useState } from 'react'
 import type { BoardDB } from 'types/db-types/boards'
@@ -24,7 +25,13 @@ import { FylkeFilter } from './FylkeFilter'
 const NUMBER_OF_CLOSEST_STOP_PLACES = 5
 const AREA_RADIUS_IN_KM = 20
 
-function AddStopPlaceTile({ board }: { board: BoardDB }) {
+function AddStopPlaceTile({
+    board,
+    trackingLocation,
+}: {
+    board: BoardDB
+    trackingLocation: EventProps<'stop_place_added'>['location']
+}) {
     const { counties, selectedCountyIds, toggleCounty } = useCountyFilter()
 
     const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
@@ -57,7 +64,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
         formData: FormData,
     ): Promise<AddStopPlaceFormState> {
         capture('stop_place_added', {
-            location: 'edit_board_page',
+            location: trackingLocation,
             county_count: selectedCountyIds.length,
             typeOfPlace: selectedStopPlace?.value.type ?? 'other',
             selectedIndexes:
@@ -132,7 +139,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
     ) {
         const typeOfPlace = selectedItem?.value.type
         capture('stop_place_add_interaction', {
-            location: 'edit_board_page',
+            location: trackingLocation,
             field: 'stop_place',
             action: selectedItem?.value ? 'selected' : 'cleared',
             typeOfPlace: typeOfPlace ?? 'other',
@@ -180,7 +187,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
         const addedStopPlace =
             selectedItems.length > (selectedClosestStopPlaces?.length ?? 0)
         capture('stop_place_add_interaction', {
-            location: 'edit_board_page',
+            location: trackingLocation,
             field: 'closest_stop_places',
             action: addedStopPlace ? 'added' : 'removed',
             typeOfPlace: selectedStopPlace?.value.type ?? 'other',
@@ -232,7 +239,7 @@ function AddStopPlaceTile({ board }: { board: BoardDB }) {
                 counties={counties}
                 selectedCountyIds={selectedCountyIds}
                 onToggleCounty={toggleCounty}
-                trackingLocation="edit_board_page"
+                trackingLocation={trackingLocation}
             />
 
             <div className="w-full">

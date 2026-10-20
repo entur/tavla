@@ -1,6 +1,7 @@
 'use client'
 
 import { FeedbackText } from '@entur/form'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState } from 'react'
 import { ChoiceChipPicker } from '../ChoiceChipPicker'
@@ -10,9 +11,11 @@ import type { FontSizeValue } from './validation'
 function EditFontSize({
     bid,
     fontSize,
+    trackingLocation,
 }: {
     bid: string
     fontSize: FontSizeValue
+    trackingLocation: EventProps<'board_settings_changed'>['location']
 }) {
     const { capture } = usePosthogTracking()
 
@@ -21,7 +24,7 @@ function EditFontSize({
 
         if (result?.status === 'success') {
             capture('board_settings_changed', {
-                location: 'edit_board_page',
+                location: trackingLocation,
                 setting: 'font',
                 value: value,
             })
