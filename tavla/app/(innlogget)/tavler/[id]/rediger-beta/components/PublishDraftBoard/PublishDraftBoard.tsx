@@ -1,10 +1,11 @@
 'use client'
 import { PrimaryButton } from '@entur/button'
-import { ForwardIcon, RightArrowIcon, UserIcon } from '@entur/icons'
+import { BaseCard, Tag } from '@entur/layout'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { CreateUserButton } from 'app/_components/CreateUserButton'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { ForwardIcon, UserIcon } from 'node_modules/@entur/icons/dist'
 import { startTransition, useActionState, useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { type PublishState, publishDraftBoard } from './actions'
@@ -52,7 +53,7 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                 closeLabel="Lukk"
                 title="Ferdig med tavla?"
             >
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-8">
                     <Paragraph margin="none">
                         Velg hvordan du vil gå videre
                     </Paragraph>
@@ -62,12 +63,11 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                         </Paragraph>
                     )}
                     <div className="flex flex-col gap-4 sm:flex-row">
-                        <Box>
+                        <BaseCard className="flex flex-1 flex-col justify-between gap-4 px-8 pb-8 pt-8">
                             <div className="flex flex-col">
-                                <Badge
-                                    text="For deg som kun skal lage én tavle"
-                                    color="peach"
-                                />
+                                <Tag variant="peach">
+                                    For deg som kun skal lage én tavle
+                                </Tag>
                                 <Heading3 as="h3">Få lenke til tavla</Heading3>
                                 <Paragraph>
                                     Du får en lenke til tavla med én gang. Du
@@ -81,14 +81,14 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                                 onClick={() => startTransition(() => action())}
                             >
                                 Få lenke til tavla
+                                <ForwardIcon />
                             </PrimaryButton>
-                        </Box>
-                        <Box>
+                        </BaseCard>
+                        <BaseCard className="flex flex-1 flex-col justify-between gap-4 px-8 pb-8 pt-8">
                             <div className="flex flex-col">
-                                <Badge
-                                    text="Flere valg og mer fleksibelt"
-                                    color="sky"
-                                />
+                                <Tag variant="blue">
+                                    Flere valg og mer fleksibelt
+                                </Tag>
                                 <Heading3 as="h3">
                                     Opprett bruker og lagre tavla
                                 </Heading3>
@@ -104,34 +104,12 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                                 claimBoard={board.id}
                             >
                                 Opprett bruker
+                                <UserIcon />
                             </CreateUserButton>
-                        </Box>
+                        </BaseCard>
                     </div>
                 </div>
             </Modal>
         </div>
-    )
-}
-
-function Box({ children }: { children: React.ReactNode }) {
-    return (
-        <div className="flex flex-1 flex-col justify-between gap-3 rounded-[20px] border border-strokeNeutral bg-tintLight px-6 pb-8 pt-6">
-            {children}
-        </div>
-    )
-}
-
-const badgeColorClass = {
-    peach: 'bg-peach20',
-    sky: 'bg-sky10',
-} as const
-
-function Badge({ text, color }: { text: string; color: 'peach' | 'sky' }) {
-    return (
-        <span
-            className={`w-fit rounded-[4px] border border-strokeContrast ${badgeColorClass[color]} px-1 py-0.5 text-xs`}
-        >
-            {text}
-        </span>
     )
 }
