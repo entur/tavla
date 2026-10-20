@@ -33,16 +33,21 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                     Fornøyd med tavla? Fullfør for å få en lenke du kan dele
                     eller vise på en skjerm.
                 </Paragraph>
-                <PrimaryButton
-                    onClick={() => {
-                        capture('draft_board_publish_started', {
-                            location: 'edit_board_page',
-                        })
-                        setOpen(true)
-                    }}
-                >
-                    Få lenke til tavla
-                </PrimaryButton>
+                <div className="flex flex-row gap-2">
+                    <CreateUserButton variant="secondary" claimBoard={board.id}>
+                        Opprett bruker
+                    </CreateUserButton>
+                    <PrimaryButton
+                        onClick={() => {
+                            capture('draft_board_publish_started', {
+                                location: 'edit_board_page',
+                            })
+                            setOpen(true)
+                        }}
+                    >
+                        Få lenke til tavla
+                    </PrimaryButton>
+                </div>
             </div>
             <Modal
                 open={open}
@@ -76,10 +81,10 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                             Bekreft
                         </PrimaryButton>
                     </div>
-                    <div className="w-full border-t border-strokeNeutral" />
+                    <div className="w-full border-t border-strokeNeutral my-4" />
                     <Paragraph margin="none">
-                        Vil du heller kunne redigere tavla videre? Opprett en
-                        bruker, så blir denne tavla din.
+                        Vil du heller kunne redigere denne Tavla videre? Opprett
+                        en bruker, så blir denne tavla din.
                     </Paragraph>
                     <CreateUserButton
                         variant="secondary"
