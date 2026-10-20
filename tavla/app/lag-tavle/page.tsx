@@ -13,7 +13,7 @@ async function LagTavlePage() {
     if (loggedIn) redirect('/oversikt')
 
     const bid = await createDraftBoard()
-    redirect(`/lag-tavle/${bid}?new=true`)
+    redirect(`/lag-tavle/${bid}`)
 }
 
 export default LagTavlePage
