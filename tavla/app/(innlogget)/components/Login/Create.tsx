@@ -23,7 +23,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
-import { create } from './actions'
+import { claimBoardForUser, create } from './actions'
 import Google from './Google'
 
 function Create() {
@@ -48,7 +48,10 @@ function Create() {
                 email,
                 password,
             )
-            await create(credential.user.uid, claimBoard)
+            await create(credential.user.uid)
+            if (claimBoard) {
+                await claimBoardForUser(credential.user.uid, claimBoard)
+            }
             await sendEmailVerification(credential.user)
             return getFormFeedbackForError('auth/create', email)
         } catch (e) {
