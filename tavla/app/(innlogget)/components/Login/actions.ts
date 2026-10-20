@@ -90,8 +90,6 @@ export async function claimBoardForUser(
     })
     try {
         const board = await getBoard(bid)
-        // Kun anonyme boards kan klames — forhindrer at dette brukes til å gi
-        // en ny bruker redigeringstilgang til et board de ikke eier.
         if (!board?.isAnonymousBoard) return
 
         await addBoardIdToUser(uid, bid)
