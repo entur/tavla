@@ -33,18 +33,16 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                     Fornøyd med tavla? Fullfør for å få en lenke du kan dele
                     eller vise på en skjerm.
                 </Paragraph>
-                <div className="flex flex-row gap-2">
-                    <PrimaryButton
-                        onClick={() => {
-                            capture('draft_board_publish_started', {
-                                location: 'edit_board_page',
-                            })
-                            setOpen(true)
-                        }}
-                    >
-                        Få lenke til tavla
-                    </PrimaryButton>
-                </div>
+                <PrimaryButton
+                    onClick={() => {
+                        capture('draft_board_publish_started', {
+                            location: 'edit_board_page',
+                        })
+                        setOpen(true)
+                    }}
+                >
+                    Få lenke til tavla
+                </PrimaryButton>
             </div>
             <Modal
                 open={open}
