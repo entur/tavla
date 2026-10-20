@@ -3,6 +3,7 @@ import { BoardLinkActions } from './BoardLinkActions'
 import { BoardTitle } from './BoardTitle'
 import { EditBoardSidebar } from './EditBoardSidebar'
 import { PreviewSection } from './PreviewSection'
+import { PublishDraftBoard } from './PublishDraftBoard/PublishDraftBoard'
 
 export function EditBoardBeta({
     board,
@@ -32,7 +33,11 @@ export function EditBoardBeta({
                 </aside>
             </div>
 
-            <BoardLinkActions board={board} />
+            {board.isDraft ? (
+                <PublishDraftBoard board={board} />
+            ) : (
+                <BoardLinkActions board={board} />
+            )}
         </div>
     )
 }
