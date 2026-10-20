@@ -49,7 +49,12 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
             <Modal
                 open={open}
                 size="medium"
-                onDismiss={() => setOpen(false)}
+                onDismiss={() => {
+                    capture('draft_board_publish_cancelled', {
+                        location: 'edit_board_page',
+                    })
+                    setOpen(false)
+                }}
                 closeLabel="Lukk"
                 title="Ferdig med tavla?"
             >
