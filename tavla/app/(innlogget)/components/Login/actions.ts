@@ -55,7 +55,7 @@ export async function login(token: string) {
     redirect('/oversikt')
 }
 
-export async function create(uid: UserDB['uid'], claimBoard?: BoardDB['id']) {
+export async function create(uid: UserDB['uid']) {
     logToGcp('info', 'action invoked: createUser', {
         type: 'server-action',
         action: 'createUser',
@@ -77,25 +77,30 @@ export async function create(uid: UserDB['uid'], claimBoard?: BoardDB['id']) {
         })
         throw error
     }
+}
 
-    if (!claimBoard) return
-
+export async function claimBoardForUser(
+    uid: UserDB['uid'],
+    bid: BoardDB['id'],
+) {
+    logToGcp('info', 'action invoked: claimBoardForUser', {
+        type: 'server-action',
+        action: 'claimBoardForUser',
+        bid,
+    })
     try {
-        const board = await getBoard(claimBoard)
-        // Kun anonyme boards kan klames — forhindrer at claimBoard brukes til
-        // å gi en ny bruker redigeringstilgang til et board de ikke eier.
+        const board = await getBoard(bid)
+        // Kun anonyme boards kan klames — forhindrer at dette brukes til å gi
+        // en ny bruker redigeringstilgang til et board de ikke eier.
         if (!board?.isAnonymousBoard) return
 
-        await addBoardIdToUser(uid, claimBoard)
-        await updateBoard(claimBoard, {
-            isAnonymousBoard: false,
-            isDraft: false,
-        })
+        await addBoardIdToUser(uid, bid)
+        await updateBoard(bid, { isAnonymousBoard: false, isDraft: false })
     } catch (error) {
-        logToGcp('error', 'action failed: claim board for new user', {
+        logToGcp('error', 'action failed: claimBoardForUser', {
             type: 'server-action',
-            action: 'createUser',
-            bid: claimBoard,
+            action: 'claimBoardForUser',
+            bid,
             errorName: error instanceof Error ? error.name : undefined,
             errorMessage:
                 error instanceof Error ? error.message : String(error),
@@ -103,7 +108,7 @@ export async function create(uid: UserDB['uid'], claimBoard?: BoardDB['id']) {
         Sentry.captureException(error, {
             extra: {
                 message: 'Error while claiming board for new user',
-                boardID: claimBoard,
+                boardID: bid,
             },
         })
     }

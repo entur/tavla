@@ -18,7 +18,7 @@ import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
 import { logToGcp } from 'utils/logging'
-import { create, login } from './actions'
+import { claimBoardForUser, create, login } from './actions'
 
 type Props = {
     userTrackingContext: EventProps<'user_login_method_selected'>['context']
@@ -44,7 +44,10 @@ export default function Google({
             const credential = await signInWithPopup(auth, provider)
             const userIdToken = await credential.user.getIdToken()
             if (getAdditionalUserInfo(credential)?.isNewUser) {
-                await create(credential.user.uid, claimBoard)
+                await create(credential.user.uid)
+                if (claimBoard) {
+                    await claimBoardForUser(credential.user.uid, claimBoard)
+                }
             }
             await login(userIdToken)
             setIsLoading(false)
