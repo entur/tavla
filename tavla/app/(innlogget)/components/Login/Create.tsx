@@ -5,6 +5,7 @@ import { Heading3, Paragraph } from '@entur/typography'
 import { FormError } from 'app/_components/Form/FormError'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
+import { useSearchParamsSetter } from 'app/(innlogget)/hooks/useSearchParamsSetter'
 import {
     getFormFeedbackForError,
     getFormFeedbackForField,
@@ -25,11 +26,13 @@ import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
 import { claimBoardForUser, create } from './actions'
 import Google from './Google'
+import type { TLoginPage } from './types'
 
 function Create() {
     const { capture } = usePosthogTracking()
     const [email, setEmail] = useState('')
     const claimBoard = useSearchParams().get('claimBoard') ?? undefined
+    const getPathWithParams = useSearchParamsSetter<TLoginPage>('login')
     const submit = async (
         _previousState: TFormFeedback | undefined,
         data: FormData,
@@ -129,7 +132,7 @@ function Create() {
                 Har du allerede en bruker?{' '}
                 <Link
                     className="underline"
-                    href="?login=email"
+                    href={getPathWithParams('email')}
                     onClick={() =>
                         capture('user_login_started', {
                             location: 'user_modal',

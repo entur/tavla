@@ -1,5 +1,6 @@
 'use client'
 import { PrimaryButton } from '@entur/button'
+import { ForwardIcon, RightArrowIcon, UserIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Heading3, Paragraph } from '@entur/typography'
 import { CreateUserButton } from 'app/_components/CreateUserButton'
@@ -55,7 +56,6 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                     <Paragraph margin="none">
                         Velg hvordan du vil gå videre
                     </Paragraph>
-                    <div className="w-full border-t border-strokeNeutral" />
                     {error && (
                         <Paragraph margin="none" className="text-negative">
                             {error}
@@ -72,8 +72,7 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                                 <Paragraph>
                                     Du får en lenke til tavla med én gang. Du
                                     kan ikke redigere denne tavla videre her
-                                    etter dette, med mindre du oppretter en
-                                    bruker.
+                                    etter dette.
                                 </Paragraph>
                             </div>
                             <PrimaryButton
@@ -82,6 +81,7 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                                 onClick={() => startTransition(() => action())}
                             >
                                 Få lenke til tavla
+                                <ForwardIcon />
                             </PrimaryButton>
                         </Box>
                         <Box>
@@ -105,6 +105,7 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                                 claimBoard={board.id}
                             >
                                 Opprett bruker
+                                <UserIcon />
                             </CreateUserButton>
                         </Box>
                     </div>

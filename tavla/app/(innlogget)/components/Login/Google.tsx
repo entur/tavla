@@ -45,9 +45,9 @@ export default function Google({
             const userIdToken = await credential.user.getIdToken()
             if (getAdditionalUserInfo(credential)?.isNewUser) {
                 await create(credential.user.uid)
-                if (claimBoard) {
-                    await claimBoardForUser(credential.user.uid, claimBoard)
-                }
+            }
+            if (claimBoard) {
+                await claimBoardForUser(credential.user.uid, claimBoard)
             }
             await login(userIdToken)
             setIsLoading(false)
