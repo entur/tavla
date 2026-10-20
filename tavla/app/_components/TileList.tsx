@@ -1,19 +1,12 @@
 'use client'
 
-import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { saveUpdatedTileOrder } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import { debounce } from 'lodash'
 import { useEffect, useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { TileCard } from './TileCard/TileCard'
 
-export function TileList({
-    board,
-    setTilesLocalStorageBoard,
-}: {
-    board: BoardDB
-    setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
-}) {
+export function TileList({ board }: { board: BoardDB }) {
     const [tileArray, setTileArray] = useState<BoardTileDB[]>(board.tiles)
 
     useEffect(() => {
@@ -37,11 +30,7 @@ export function TileList({
         newArray[index] = oldElement
 
         setTileArray(newArray)
-        if (board.id === LOCAL_STORAGE_BOARD_ID && setTilesLocalStorageBoard) {
-            setTilesLocalStorageBoard(newArray)
-        } else {
-            saveUpdatedTileOrder(board.id ?? '', newArray)
-        }
+        saveUpdatedTileOrder(board.id ?? '', newArray)
     }
     const debouncedSave = debounce(moveItem, 150)
     return (
@@ -53,7 +42,6 @@ export function TileList({
                     tile={tile}
                     moveItem={debouncedSave}
                     index={index}
-                    setTilesLocalStorageBoard={setTilesLocalStorageBoard}
                 />
             ))}
         </div>
