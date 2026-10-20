@@ -15,9 +15,6 @@ export function EditBoardBeta({
     boardLink: string
     breadcrumbs: React.ReactNode
 }) {
-    // Denne komponenten og barna dens gjenbrukes uendret for anonym
-    // redigering på lag-tavle. isDraft er bare sann der, så den avgjør hvilken
-    // location PostHog-eventene skal merkes med.
     const trackingLocation = board.isDraft
         ? LOCATIONS.EditBoardWithoutUser
         : LOCATIONS.EditBoardPage
