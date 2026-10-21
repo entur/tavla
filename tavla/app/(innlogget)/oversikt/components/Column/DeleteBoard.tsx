@@ -85,14 +85,6 @@ function DeleteBoard({
                     <HiddenInput id="bid" value={board.id} />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <ButtonGroup className="flex flex-row">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            aria-label="Ja, slett"
-                            className="w-1/2"
-                        >
-                            Ja, slett
-                        </SubmitButton>
                         <Button
                             type="button"
                             variant="secondary"
@@ -103,6 +95,14 @@ function DeleteBoard({
                         >
                             Avbryt
                         </Button>
+                        <SubmitButton
+                            variant="negative"
+                            width="fluid"
+                            aria-label="Ja, slett"
+                            className="w-1/2"
+                        >
+                            Ja, slett
+                        </SubmitButton>
                     </ButtonGroup>
                 </form>
             </Modal>

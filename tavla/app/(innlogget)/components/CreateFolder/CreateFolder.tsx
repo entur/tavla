@@ -74,18 +74,6 @@ function CreateFolder() {
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <ButtonGroup className="mt-8 flex flex-row gap-4">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            aria-label="Opprett mappe"
-                            className="!mr-0"
-                            onClick={() => {
-                                capture('folder_created')
-                            }}
-                        >
-                            Opprett
-                        </SubmitButton>
-
                         <Button
                             type="button"
                             width="fluid"
@@ -101,6 +89,18 @@ function CreateFolder() {
                         >
                             Avbryt
                         </Button>
+
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            aria-label="Opprett mappe"
+                            className="!mr-0"
+                            onClick={() => {
+                                capture('folder_created')
+                            }}
+                        >
+                            Opprett
+                        </SubmitButton>
                     </ButtonGroup>
                 </form>
             </Modal>

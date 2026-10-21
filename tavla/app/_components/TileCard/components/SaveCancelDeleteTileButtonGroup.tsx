@@ -93,20 +93,6 @@ function SaveCancelDeleteTileButtonGroup({
                     <Paragraph>Du har endringer som ikke er lagret.</Paragraph>
 
                     <ButtonGroup className="flex flex-row">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            form={tile.uuid}
-                            aria-label="Lagre endringer"
-                            onClick={() => {
-                                capture('stop_place_edit_saved', {
-                                    location: trackingLocation,
-                                    ...fieldsChanged,
-                                })
-                            }}
-                        >
-                            Lagre
-                        </SubmitButton>
                         <Button
                             type="button"
                             variant="secondary"
@@ -121,6 +107,20 @@ function SaveCancelDeleteTileButtonGroup({
                         >
                             Forkast
                         </Button>
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            form={tile.uuid}
+                            aria-label="Lagre endringer"
+                            onClick={() => {
+                                capture('stop_place_edit_saved', {
+                                    location: trackingLocation,
+                                    ...fieldsChanged,
+                                })
+                            }}
+                        >
+                            Lagre
+                        </SubmitButton>
                     </ButtonGroup>
                 </div>
             </Modal>
