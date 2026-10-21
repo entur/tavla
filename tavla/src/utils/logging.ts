@@ -34,6 +34,7 @@ export type LogFields = {
     errorMessage?: string
     userAgent?: string
     online?: boolean
+    timestamp?: number
     context?: Record<string, string | number | boolean>
 }
 
@@ -98,11 +99,15 @@ export async function logToGcp(
         ...sanitizeFields(fields),
     }
 
+    const timestamp = fields?.timestamp
+        ? new Date(fields.timestamp)
+        : new Date()
+
     if (process.env.NODE_ENV === 'development') {
         // biome-ignore lint/suspicious/noConsole: local dev output
         console.log({
             severity: safeLevel.toUpperCase(),
-            timestamp: new Date().toISOString(),
+            timestamp: timestamp.toISOString(),
             ...payload,
         })
         return
@@ -112,7 +117,11 @@ export async function logToGcp(
     if (!log) return
 
     const entry = log.entry(
-        { resource: { type: 'global' }, severity: safeLevel.toUpperCase() },
+        {
+            resource: { type: 'global' },
+            severity: safeLevel.toUpperCase(),
+            timestamp,
+        },
         payload,
     )
     await log.write(entry).catch((error) => {
