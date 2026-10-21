@@ -79,7 +79,7 @@ function DeleteAccount() {
                         der du er eneste medlem, vil bli slettet.
                     </Paragraph>
 
-                    <form action={deleteAccountAction}>
+                    <form action={deleteAccountAction} className="w-full">
                         <SubParagraph className="text-left font-medium">
                             Bekreft ved å skrive inn din e-postadresse
                         </SubParagraph>
@@ -97,17 +97,6 @@ function DeleteAccount() {
                         />
 
                         <ButtonGroup className="mt-8 flex flex-row">
-                            <SubmitButton
-                                variant="primary"
-                                aria-label="Ja, slett"
-                                className="w-1/2"
-                                width="fluid"
-                                onClick={() => {
-                                    posthog.capture('DELETE_USER_BUTTON_MODAL')
-                                }}
-                            >
-                                Ja, slett
-                            </SubmitButton>
                             <Button
                                 type="button"
                                 variant="secondary"
@@ -121,8 +110,19 @@ function DeleteAccount() {
                                 width="fluid"
                                 className="w-1/2"
                             >
-                                Avbryt
+                                Nei, Avbryt
                             </Button>
+                            <SubmitButton
+                                variant="negative"
+                                aria-label="Ja, slett"
+                                className="w-1/2"
+                                width="fluid"
+                                onClick={() => {
+                                    posthog.capture('DELETE_USER_BUTTON_MODAL')
+                                }}
+                            >
+                                Ja, slett
+                            </SubmitButton>
                         </ButtonGroup>
                     </form>
                 </div>

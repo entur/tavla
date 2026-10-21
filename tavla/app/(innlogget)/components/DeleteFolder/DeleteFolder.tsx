@@ -110,20 +110,6 @@ function DeleteFolder({
                     />
                     <FormError {...getFormFeedbackForField('general', state)} />
                     <ButtonGroup className="mt-8 flex flex-row">
-                        <SubmitButton
-                            variant="primary"
-                            aria-label="Ja, slett"
-                            className="w-1/2"
-                            width="fluid"
-                            onClick={() => {
-                                capture('folder_deleted', {
-                                    location: 'folder',
-                                    folder_id: folder.id,
-                                })
-                            }}
-                        >
-                            Ja, slett
-                        </SubmitButton>
                         <Button
                             type="button"
                             variant="secondary"
@@ -142,6 +128,20 @@ function DeleteFolder({
                         >
                             Avbryt
                         </Button>
+                        <SubmitButton
+                            variant="negative"
+                            aria-label="Ja, slett"
+                            className="w-1/2"
+                            width="fluid"
+                            onClick={() => {
+                                capture('folder_deleted', {
+                                    location: 'folder',
+                                    folder_id: folder.id,
+                                })
+                            }}
+                        >
+                            Ja, slett
+                        </SubmitButton>
                     </ButtonGroup>
                 </form>
             </Modal>
