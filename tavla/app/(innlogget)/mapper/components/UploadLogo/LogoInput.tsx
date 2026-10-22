@@ -110,6 +110,14 @@ function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
             </div>
             {file && (
                 <div className="mt-4 flex flex-row justify-between gap-4">
+                    <Button
+                        className="w-full justify-center"
+                        onClick={clearLogo}
+                        aria-label="Avbryt opplastning"
+                        variant="secondary"
+                    >
+                        Avbryt
+                    </Button>
                     <SubmitButton
                         variant="primary"
                         aria-label="Last opp logo"
@@ -123,14 +131,6 @@ function LogoInput({ folderid }: { folderid?: FolderDB['id'] }) {
                     >
                         Last opp logo
                     </SubmitButton>
-                    <Button
-                        className="w-full justify-center"
-                        onClick={clearLogo}
-                        aria-label="Avbryt opplastning"
-                        variant="secondary"
-                    >
-                        Avbryt
-                    </Button>
                 </div>
             )}
         </form>

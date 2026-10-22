@@ -118,6 +118,16 @@ function NameAndFolderSelector({
                 <FormError {...getFormFeedbackForField('general', state)} />
             </div>
             <ButtonGroup className="mt-8 flex w-full flex-row gap-4">
+                <Button
+                    type="button"
+                    width="fluid"
+                    variant="secondary"
+                    aria-label="Avbryt opprett tavle"
+                    onClick={onClose}
+                    className="!mr-0"
+                >
+                    Avbryt
+                </Button>
                 <SubmitButton
                     variant="primary"
                     width="fluid"
@@ -134,16 +144,6 @@ function NameAndFolderSelector({
                 >
                     Opprett tavle
                 </SubmitButton>
-                <Button
-                    type="button"
-                    width="fluid"
-                    variant="secondary"
-                    aria-label="Avbryt opprett tavle"
-                    onClick={onClose}
-                    className="!mr-0"
-                >
-                    Avbryt
-                </Button>
             </ButtonGroup>
         </form>
     )
