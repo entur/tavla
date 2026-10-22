@@ -90,7 +90,8 @@ export async function claimBoardForUser(
     })
     try {
         const board = await getBoard(bid)
-        if (!board?.isAnonymousBoard) return { claimed: false }
+        if (!board?.isAnonymousBoard && !board?.isDraft)
+            return { claimed: false }
 
         await addBoardIdToUser(uid, bid)
         await updateBoard(bid, { isAnonymousBoard: false, isDraft: false })
