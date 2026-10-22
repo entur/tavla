@@ -1,4 +1,4 @@
-import { Heading3, Paragraph } from '@entur/typography'
+import { Heading1, Heading3, LeadParagraph, Paragraph } from '@entur/typography'
 import { EditBoardBeta } from 'app/(innlogget)/tavler/[id]/rediger-beta/components/EditBoardBeta'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
@@ -56,6 +56,16 @@ export default async function LagTavleEditorPage(props: TProps) {
 
     return (
         <main id="main-content" className="container flex flex-col gap-8 pt-4">
+            <div className="mb-16">
+                <Heading1 as="h1">Lag en tavle</Heading1>
+                <LeadParagraph className="max-w-prose">
+                    Søk opp din adresse eller ditt nærmeste stoppested og lag en
+                    tavle med avganger i nærheten. Tilpass utseende og innhold
+                    etter ditt behov. Når du er fornøyd med tavla kan du klikke
+                    på "Få lenke til tavla" og få en lenke du kan dele med
+                    andre, eller vise på en skjerm.
+                </LeadParagraph>
+            </div>
             <EditBoardBeta
                 board={board}
                 boardLink={boardPreviewLink}
