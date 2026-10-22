@@ -67,6 +67,7 @@ export async function deleteTile(
 
         await updateBoard(boardId, updatePayload)
         revalidatePath(`/tavler/${boardId}/rediger-beta`)
+        revalidatePath(`/lag-tavle/${boardId}`)
     } catch (error) {
         logToGcp('error', 'action failed: deleteTile', {
             type: 'server-action',
@@ -109,6 +110,7 @@ export async function saveUpdatedTileOrder(
     try {
         await updateBoard(boardId, { tiles })
         revalidatePath(`/tavler/${boardId}/rediger-beta`)
+        revalidatePath(`/lag-tavle/${boardId}`)
     } catch (error) {
         logToGcp('error', 'action failed: saveUpdatedTileOrder', {
             type: 'server-action',

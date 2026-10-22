@@ -76,5 +76,6 @@ export async function saveCustomUrl(
     }
 
     revalidatePath(`/tavler/${bid}/rediger-beta`)
+    revalidatePath(`/lag-tavle/${bid}`)
     return { status: 'success' }
 }

@@ -51,6 +51,7 @@ export async function saveTheme(
     }
 
     revalidatePath(`/tavler/${bid}/rediger-beta`)
+    revalidatePath(`/lag-tavle/${bid}`)
 
     return { status: 'success' }
 }
