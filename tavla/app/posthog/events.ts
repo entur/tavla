@@ -191,6 +191,9 @@ export type EventMap = {
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
     >
 
+    draft_board_publish_started: WithLocation<typeof LOCATIONS.EditBoardPage>
+    draft_board_published: WithLocation<typeof LOCATIONS.EditBoardPage>
+
     custom_url_modal_closed: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
     >
