@@ -18,7 +18,9 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
         const result = await publishDraftBoard(board.id)
 
         if (result?.status === 'success') {
-            capture('draft_board_published', { location: 'edit_board_page' })
+            capture('draft_board_published', {
+                location: 'edit_board_without_user',
+            })
         }
 
         return result
@@ -38,7 +40,7 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                 <PrimaryButton
                     onClick={() => {
                         capture('draft_board_publish_started', {
-                            location: 'edit_board_page',
+                            location: 'edit_board_without_user',
                         })
                         setOpen(true)
                     }}
@@ -51,7 +53,7 @@ export function PublishDraftBoard({ board }: { board: BoardDB }) {
                 size="medium"
                 onDismiss={() => {
                     capture('draft_board_publish_cancelled', {
-                        location: 'edit_board_page',
+                        location: 'edit_board_without_user',
                     })
                     setOpen(false)
                 }}

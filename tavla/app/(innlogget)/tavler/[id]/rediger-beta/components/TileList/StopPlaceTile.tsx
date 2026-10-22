@@ -12,6 +12,7 @@ import {
     getTransportModesFromLines,
     sortByTransportMode,
 } from 'app/_components/TransportIcon/utils'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
@@ -25,11 +26,13 @@ export function StopPlaceTile({
     tile,
     dragHandleAttributes,
     dragHandleListeners,
+    trackingLocation,
 }: {
     board: BoardDB
     tile: BoardTileDB
     dragHandleAttributes: DraggableAttributes
     dragHandleListeners: DraggableSyntheticListeners
+    trackingLocation: EventProps<'stop_place_edit_started'>['location']
 }) {
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [deleteError, setDeleteError] = useState<string | undefined>()
@@ -43,7 +46,7 @@ export function StopPlaceTile({
 
     function handleSetIsEditOpen(open: boolean) {
         if (open) {
-            capture('stop_place_edit_started', { location: 'edit_board_page' })
+            capture('stop_place_edit_started', { location: trackingLocation })
         }
         setIsEditOpen(open)
     }
@@ -87,6 +90,7 @@ export function StopPlaceTile({
                         boardId={board.id}
                         tile={tile}
                         onError={setDeleteError}
+                        trackingLocation={trackingLocation}
                     />
                 </div>
                 <EditStopPlaceModal
@@ -95,6 +99,7 @@ export function StopPlaceTile({
                     tile={tile}
                     board={board}
                     quays={quays}
+                    trackingLocation={trackingLocation}
                 />
             </div>
             {deleteError && (

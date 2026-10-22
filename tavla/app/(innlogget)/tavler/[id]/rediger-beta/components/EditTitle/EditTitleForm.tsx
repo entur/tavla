@@ -2,6 +2,7 @@
 import { ButtonGroup, SecondaryButton } from '@entur/button'
 import { TextField } from '@entur/form'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState } from 'react'
 import { type FormState, saveBoardTitle } from './actions'
@@ -12,11 +13,13 @@ export function EditTitleForm({
     currentTitle,
     onSuccess,
     onCancel,
+    trackingLocation,
 }: {
     bid: string
     currentTitle: string
     onSuccess: () => void
     onCancel: () => void
+    trackingLocation: EventProps<'board_name_saved'>['location']
 }) {
     const { capture } = usePosthogTracking()
 
@@ -24,7 +27,7 @@ export function EditTitleForm({
         const result = await saveBoardTitle(bid, _prevState, formData)
 
         if (result?.status === 'success') {
-            capture('board_name_saved', { location: 'edit_board_page' })
+            capture('board_name_saved', { location: trackingLocation })
             onSuccess()
         }
 

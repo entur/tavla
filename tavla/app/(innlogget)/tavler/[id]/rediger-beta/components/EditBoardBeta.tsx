@@ -1,3 +1,4 @@
+import { LOCATIONS } from 'app/posthog/events'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { BoardLinkActions } from './BoardLinkActions'
 import { BoardTitle } from './BoardTitle'
@@ -14,6 +15,10 @@ export function EditBoardBeta({
     boardLink: string
     breadcrumbs: React.ReactNode
 }) {
+    const trackingLocation = board.isDraft
+        ? LOCATIONS.EditBoardWithoutUser
+        : LOCATIONS.EditBoardPage
+
     return (
         <div
             data-transport-palette={board.transportPalette}
@@ -24,12 +29,19 @@ export function EditBoardBeta({
                     <PreviewSection
                         boardLink={boardLink}
                         breadcrumbs={breadcrumbs}
+                        trackingLocation={trackingLocation}
                     />
                 </section>
 
                 <aside className="w-full shrink-0 lg:w-[536px]">
-                    <BoardTitle board={board} />
-                    <EditBoardSidebar board={board} />
+                    <BoardTitle
+                        board={board}
+                        trackingLocation={trackingLocation}
+                    />
+                    <EditBoardSidebar
+                        board={board}
+                        trackingLocation={trackingLocation}
+                    />
                 </aside>
             </div>
 
