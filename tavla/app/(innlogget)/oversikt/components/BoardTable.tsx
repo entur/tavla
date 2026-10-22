@@ -96,12 +96,11 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                                 id="last-active-description"
                                 className="sr-only"
                             >
-                                Viser når tavlen sist var i bruk. Dette gjelder
-                                kun aktivitet etter 15. januar 2026.
+                                Viser når tavlen sist var i bruk.
                             </span>
                             Sist aktiv
                             <Tooltip
-                                content="Viser når tavlen sist var i bruk. Dette gjelder kun aktivitet etter 15. januar 2026."
+                                content="Viser når tavlen sist var i bruk."
                                 placement="top"
                             >
                                 <ValidationInfoFilledIcon
