@@ -85,10 +85,6 @@ export type EventMap = {
         | (WithLocation<typeof LOCATIONS.UserModal> & {
               context: TLoginPage
           })
-    board_share_started: undefined
-    board_share_selected: undefined
-    board_share_cancelled: undefined
-
     /* Oversikt */
     board_create_started: WithLocation<
         typeof LOCATIONS.Admin | typeof LOCATIONS.Folder
