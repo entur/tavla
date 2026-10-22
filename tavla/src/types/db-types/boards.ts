@@ -129,6 +129,7 @@ export const BoardDBSchema = z.object({
     hideClock: z.boolean().optional(),
     customUrl: z.string().optional(),
     isAnonymousBoard: z.boolean().optional(),
+    isDraft: z.boolean().optional(),
     isArrivals: z.boolean().optional(),
     language: boardLanguageSchema.optional(),
 })
