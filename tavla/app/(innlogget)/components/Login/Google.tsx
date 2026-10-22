@@ -47,7 +47,13 @@ export default function Google({
                 await create(credential.user.uid)
             }
             if (claimBoard) {
-                await claimBoardForUser(credential.user.uid, claimBoard)
+                const result = await claimBoardForUser(
+                    credential.user.uid,
+                    claimBoard,
+                )
+                if (result.claimed) {
+                    capture('draft_board_claimed', { location: 'user_modal' })
+                }
             }
             await login(userIdToken)
             setIsLoading(false)
