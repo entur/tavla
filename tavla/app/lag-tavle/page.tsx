@@ -1,7 +1,7 @@
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { CreateBoardLocally } from './components/CreateBoardLocally'
+import { createDraftBoard } from './actions'
 
 export const metadata: Metadata = {
     title: 'Lag en tavle | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
@@ -12,14 +12,8 @@ async function LagTavlePage() {
     const loggedIn = (await getUserFromSessionCookie()) !== null
     if (loggedIn) redirect('/oversikt')
 
-    return (
-        <main
-            id="main-content"
-            className="container flex flex-col gap-6 pb-20 pt-8"
-        >
-            <CreateBoardLocally />
-        </main>
-    )
+    const bid = await createDraftBoard()
+    redirect(`/lag-tavle/${bid}`)
 }
 
 export default LagTavlePage

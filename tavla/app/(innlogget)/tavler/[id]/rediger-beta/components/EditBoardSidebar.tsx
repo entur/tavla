@@ -1,5 +1,6 @@
 'use client'
 import { Heading4 } from '@entur/typography'
+import type { LOCATIONS } from 'app/posthog/events'
 import type { BoardDB } from 'types/db-types/boards'
 import { AddStopPlaceTile } from './AddStopPlace/AddStopPlaceTile'
 import { EditElements } from './EditElements/EditElements'
@@ -12,41 +13,68 @@ import { EditViewType } from './EditViewType/EditViewType'
 import { TileList } from './TileList/TileList'
 import { WalkingDistanceForm } from './WalkingDistance/WalkingDistance'
 
-export function EditBoardSidebar({ board }: { board: BoardDB }) {
+export function EditBoardSidebar({
+    board,
+    trackingLocation,
+}: {
+    board: BoardDB
+    trackingLocation:
+        | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
+}) {
     return (
         <div className="flex flex-col gap-8 text-sm">
             <EditSection title="Legg til stoppesteder">
-                <AddStopPlaceTile board={board} />
-                <TileList board={board} />
+                <AddStopPlaceTile
+                    board={board}
+                    trackingLocation={trackingLocation}
+                />
+                <TileList board={board} trackingLocation={trackingLocation} />
             </EditSection>
 
             <EditSection title="Hvordan vil du at Tavla skal se ut?">
                 <EditViewType
                     bid={board.id}
                     hasCombinedTiles={board.isCombinedTiles}
+                    trackingLocation={trackingLocation}
                 />
-                <EditTheme bid={board.id} theme={board.theme ?? 'dark'} />
+                <EditTheme
+                    bid={board.id}
+                    theme={board.theme ?? 'dark'}
+                    trackingLocation={trackingLocation}
+                />
                 <EditFontSize
                     bid={board.id}
                     fontSize={board.meta.fontSize ?? 'medium'}
+                    trackingLocation={trackingLocation}
                 />
-                <EditTransportPalette board={board} />
+                <EditTransportPalette
+                    board={board}
+                    trackingLocation={trackingLocation}
+                />
             </EditSection>
 
             <EditSection title="Hva vil du vise på tavla?">
-                <EditInfoMessage bid={board.id} infoMessage={board.footer} />
+                <EditInfoMessage
+                    bid={board.id}
+                    infoMessage={board.footer}
+                    trackingLocation={trackingLocation}
+                />
                 <WalkingDistanceForm
                     bid={board.id}
                     location={board.meta.location}
+                    trackingLocation={trackingLocation}
                 />
                 <EditElements
                     bid={board.id}
                     hideClock={board.hideClock ?? false}
                     hideLogo={board.hideLogo ?? false}
+                    trackingLocation={trackingLocation}
                 />
                 <EditLanguage
                     bid={board.id}
                     language={board.language ?? 'nb'}
+                    trackingLocation={trackingLocation}
                 />
             </EditSection>
         </div>

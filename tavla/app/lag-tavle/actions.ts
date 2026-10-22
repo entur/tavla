@@ -1,32 +1,21 @@
 'use server'
-import { getTileWithWalkingDistance } from 'app/(innlogget)/tavler/[id]/rediger/actions'
 import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { createBoard } from 'src/firebase'
-import type {
-    BoardDB,
-    BoardTileDB,
-    LocationDB,
-} from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 
 initializeAdminApp()
 
-export async function publishBoard(board: BoardDB): Promise<string> {
-    logToGcp('info', 'action invoked: publishBoard', {
+export async function createDraftBoard(): Promise<string> {
+    logToGcp('info', 'action invoked: createDraftBoard', {
         type: 'server-action',
-        action: 'publishBoard',
+        action: 'createDraftBoard',
     })
-    const { id: _id, ...boardData } = board // We don't want to use the localStorage board ID in firebase, so we remove it before saving. Firebase will generate a new ID for us.
-
-    const doc = await createBoard({ ...boardData, isAnonymousBoard: true })
+    const doc = await createBoard({
+        meta: { title: 'Min tavle' },
+        tiles: [],
+        isCombinedTiles: false,
+        isAnonymousBoard: true,
+        isDraft: true,
+    })
     return doc.id
-}
-
-export async function getTilesWithWalkingDistance(
-    tiles: BoardTileDB[],
-    location: LocationDB | undefined,
-): Promise<BoardTileDB[]> {
-    return Promise.all(
-        tiles.map((tile) => getTileWithWalkingDistance(tile, location)),
-    )
 }

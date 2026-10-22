@@ -1,6 +1,7 @@
 'use client'
 import { TextField } from '@entur/form'
 import { Label, Paragraph } from '@entur/typography'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState, useState } from 'react'
 import type { BoardFooter } from 'src/types/db-types/boards'
@@ -14,9 +15,11 @@ function hasUnsavedChanges(currentValue: string, savedValue: string) {
 function EditInfoMessage({
     bid,
     infoMessage,
+    trackingLocation,
 }: {
     bid: string
     infoMessage?: BoardFooter
+    trackingLocation: EventProps<'board_settings_changed'>['location']
 }) {
     const { capture } = usePosthogTracking()
 
@@ -31,7 +34,7 @@ function EditInfoMessage({
             setValue(trimmed)
             setSavedValue(trimmed)
             capture('board_settings_changed', {
-                location: 'edit_board_page',
+                location: trackingLocation,
                 setting: 'info_message',
                 value: 'changed',
             })

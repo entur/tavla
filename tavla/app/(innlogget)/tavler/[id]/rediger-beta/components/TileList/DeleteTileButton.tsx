@@ -3,6 +3,7 @@ import { useToast } from '@entur/alert'
 import { SecondarySquareButton } from '@entur/button'
 import { DeleteIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { startTransition, useActionState } from 'react'
 import type { BoardTileDB } from 'src/types/db-types/boards'
@@ -12,10 +13,12 @@ function DeleteTileButton({
     boardId,
     tile,
     onError,
+    trackingLocation,
 }: {
     boardId: string
     tile: BoardTileDB
     onError: (message: string) => void
+    trackingLocation: EventProps<'stop_place_deleted'>['location']
 }) {
     const { addToast } = useToast()
     const { capture } = usePosthogTracking()
@@ -26,7 +29,7 @@ function DeleteTileButton({
         const result = await deleteTile(boardId, tile)
 
         if (result?.status === 'success') {
-            capture('stop_place_deleted', { location: 'edit_board_page' })
+            capture('stop_place_deleted', { location: trackingLocation })
             addToast(`${tile.name} fjernet!`)
         } else if (result?.status === 'error') {
             onError(`Feil ved sletting av ${tile.name}, vennligst prøv igjen`)

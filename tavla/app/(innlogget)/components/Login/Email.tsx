@@ -20,15 +20,17 @@ import {
 } from 'firebase/auth'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useActionState, useState } from 'react'
 import { getClientApp } from 'src/utils/firebase'
-import { login } from './actions'
+import { claimBoardForUser, login } from './actions'
 import Google from './Google'
 import type { TLoginPage } from './types'
 
 function Email() {
     const { capture } = usePosthogTracking()
     const [email, setEmail] = useState('')
+    const claimBoard = useSearchParams().get('claimBoard') ?? undefined
     const submit = async (
         _previousState: TFormFeedback | undefined,
         data: FormData,
@@ -45,6 +47,15 @@ function Email() {
                 email,
                 password,
             )
+            if (claimBoard) {
+                const result = await claimBoardForUser(
+                    credential.user.uid,
+                    claimBoard,
+                )
+                if (result.claimed) {
+                    capture('draft_board_claimed', { location: 'user_modal' })
+                }
+            }
             const uid = await credential.user.getIdToken()
             const error = await login(uid)
             if (error && auth.currentUser) {

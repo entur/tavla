@@ -53,6 +53,7 @@ export async function saveViewType(
     }
 
     revalidatePath(`/tavler/${bid}/rediger-beta`)
+    revalidatePath(`/lag-tavle/${bid}`)
 
     return { status: 'success' }
 }

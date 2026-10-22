@@ -1,6 +1,7 @@
 'use client'
 import { Modal } from '@entur/modal'
 import { Heading3 } from '@entur/typography'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
@@ -14,12 +15,14 @@ function EditStopPlaceModal({
     board,
     tile,
     quays,
+    trackingLocation,
 }: {
     isOpen: boolean
     setIsOpen: (isOpen: boolean) => void
     board: BoardDB
     tile: BoardTileDB
     quays: QuayWithFrontText[] | null
+    trackingLocation: EventProps<'stop_place_edit_cancelled'>['location']
 }) {
     const { capture } = usePosthogTracking()
 
@@ -39,7 +42,7 @@ function EditStopPlaceModal({
 
     const discardChangesAndClose = () => {
         capture('stop_place_edit_cancelled', {
-            location: 'edit_board_page',
+            location: trackingLocation,
             unsavedChanges: hasUnsavedChanges,
         })
         handleCloseModal()
@@ -47,7 +50,7 @@ function EditStopPlaceModal({
 
     const onSaved = () => {
         capture('stop_place_edit_saved', {
-            location: 'board_page',
+            location: trackingLocation,
             name: changedFields.has('name'),
             offset: changedFields.has('offset'),
             offset_walking_dist: changedFields.has('offset_walking_dist'),
