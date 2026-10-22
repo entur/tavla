@@ -8,7 +8,13 @@ import { getAuth } from 'firebase-admin/auth'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createUser } from 'src/firebase'
+import {
+    addBoardIdToUser,
+    createUser,
+    getBoard,
+    updateBoard,
+} from 'src/firebase'
+import type { BoardDB } from 'src/types/db-types/boards'
 import type { UserDB } from 'src/types/db-types/users'
 import { logToGcp } from 'src/utils/logging'
 
@@ -70,5 +76,38 @@ export async function create(uid: UserDB['uid']) {
             },
         })
         throw error
+    }
+}
+
+export async function claimBoardForUser(
+    uid: UserDB['uid'],
+    bid: BoardDB['id'],
+) {
+    logToGcp('info', 'action invoked: claimBoardForUser', {
+        type: 'server-action',
+        action: 'claimBoardForUser',
+        bid,
+    })
+    try {
+        const board = await getBoard(bid)
+        if (!board?.isAnonymousBoard) return
+
+        await addBoardIdToUser(uid, bid)
+        await updateBoard(bid, { isAnonymousBoard: false, isDraft: false })
+    } catch (error) {
+        logToGcp('error', 'action failed: claimBoardForUser', {
+            type: 'server-action',
+            action: 'claimBoardForUser',
+            bid,
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Error while claiming board for new user',
+                boardID: bid,
+            },
+        })
     }
 }

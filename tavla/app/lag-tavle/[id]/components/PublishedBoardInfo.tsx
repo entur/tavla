@@ -20,7 +20,8 @@ export function PublishedBoardInfo({ boardLink }: { boardLink: string }) {
             </Heading2>
             <Paragraph margin="none" className="max-w-prose">
                 Kopier lenken og del den med andre, eller vis den på en skjerm.
-                Du kan ikke lenger redigere denne tavla her uten å logge inn.
+                Siden du ikke er logget inn, kan du ikke lenger redigere denne
+                tavla.
             </Paragraph>
             <CopyableText
                 className="max-w-prose"
