@@ -161,7 +161,7 @@ logToGcp('error', `[DEPRECATED][tavla-visning] ${errorCode}`, {
 | `errorMessage` | `string` | `error.message` |
 | `userAgent` | `string` | User-agent-streng fra forespørselen |
 | `online` | `boolean` | `navigator.onLine` på klienten, sendt inn via `/api/report-log` |
-| `timestamp` | `number` | Opprinnelig klient-tidspunkt (ms) for når hendelsen faktisk skjedde, sendt inn via `/api/report-log` ved batchede logger. Brukes som loggoppføringens `timestamp` i GCP i stedet for mottakstidspunktet |
+| `timestamp` | `number` | Opprinnelig klient-tidspunkt (ms) for når hendelsen faktisk skjedde, sendt inn via `/api/report-log` for logger. Brukes som loggoppføringens `timestamp` i GCP i stedet for mottakstidspunktet |
 | `context` | `Record<string, string \| number \| boolean>` | Ekstra felt for felter som ikke passer i de faste feltene over |
 
 ### Sikkerhet mot log injection
