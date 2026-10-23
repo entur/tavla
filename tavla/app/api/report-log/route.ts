@@ -31,7 +31,16 @@ const ReportSchema = z.object({
     message: z.string(),
     errorName: z.string().optional(),
     online: z.boolean().optional(),
-    timestamp: z.number().int().positive().optional(), // optional originalt tidspunkt for når loggen faktisk skjedde, brukt for batchede logger
+    // optional originalt tidspunkt for når loggen faktisk skjedde, brukt for batchede logger
+    timestamp: z
+        .number()
+        .int()
+        .positive()
+        .optional()
+        .refine(
+            (ts) => ts === undefined || Number.isFinite(new Date(ts).getTime()),
+            { message: 'timestamp is not a valid date' },
+        ),
 })
 
 // Limits live in the memory of the pods. These are not hard limits, but work as per-instance LRU limiters.

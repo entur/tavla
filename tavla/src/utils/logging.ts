@@ -88,6 +88,14 @@ function sanitizeFields(fields?: LogFields): Record<string, unknown> {
     return sanitized
 }
 
+function getSafeTimestamp(value?: number): Date {
+    const now = Date.now()
+    const timestamp = value ?? now
+    const safeTimestamp = Math.min(timestamp, now)
+
+    return new Date(safeTimestamp)
+}
+
 export async function logToGcp(
     level: LogLevel,
     message: string,
@@ -99,9 +107,7 @@ export async function logToGcp(
         ...sanitizeFields(fields),
     }
 
-    const timestamp = fields?.timestamp
-        ? new Date(fields.timestamp)
-        : new Date()
+    const timestamp = getSafeTimestamp(fields?.timestamp)
 
     if (process.env.NODE_ENV === 'development') {
         // biome-ignore lint/suspicious/noConsole: local dev output
