@@ -1,6 +1,7 @@
 'use client'
 import { FeedbackText, Radio, RadioGroup } from '@entur/form'
 import { Paragraph } from '@entur/typography'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import {
     startTransition,
@@ -18,7 +19,13 @@ import { saveTransportPalette, type TransportPaletteState } from './actions'
 import { TransportPalettePreview } from './TransportPalettePreview'
 import type { TransportPaletteValue } from './validation'
 
-function EditTransportPalette({ board }: { board: BoardDB }) {
+function EditTransportPalette({
+    board,
+    trackingLocation,
+}: {
+    board: BoardDB
+    trackingLocation: EventProps<'board_settings_changed'>['location']
+}) {
     const { capture } = usePosthogTracking()
 
     const allowedPalettes = useAllowedPalettes(board)
@@ -39,7 +46,7 @@ function EditTransportPalette({ board }: { board: BoardDB }) {
 
         if (result?.status === 'success') {
             capture('board_settings_changed', {
-                location: 'edit_board_page',
+                location: trackingLocation,
                 setting: 'transport_palette',
                 value: value,
             })

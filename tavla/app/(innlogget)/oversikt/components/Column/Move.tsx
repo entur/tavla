@@ -94,13 +94,6 @@ function Move({ board }: { board: BoardDB }) {
                     <FormError {...getFormFeedbackForField('general', error)} />
 
                     <ButtonGroup className="mt-8 flex w-full flex-row gap-4">
-                        <SubmitButton
-                            variant="primary"
-                            width="fluid"
-                            className="!mr-0"
-                        >
-                            Flytt tavlen
-                        </SubmitButton>
                         <Button
                             type="button"
                             width="fluid"
@@ -111,6 +104,13 @@ function Move({ board }: { board: BoardDB }) {
                         >
                             Avbryt
                         </Button>
+                        <SubmitButton
+                            variant="primary"
+                            width="fluid"
+                            className="!mr-0"
+                        >
+                            Flytt tavlen
+                        </SubmitButton>
                     </ButtonGroup>
                 </form>
             </Modal>

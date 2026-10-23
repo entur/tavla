@@ -4,6 +4,7 @@ import { applicationDefault, getApps, initializeApp } from 'firebase-admin'
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
 import {
+    getBoard,
     getFolderForBoard,
     removeBoardIdFromFolder,
     removeBoardIdFromUser,
@@ -81,6 +82,9 @@ export async function getUserWithBoardIds(): Promise<UserDB | null> {
 
 export async function userCanEditBoard(bid?: BoardDB['id']) {
     if (!bid) return false
+
+    const board = await getBoard(bid)
+    if (board?.isAnonymousBoard && board?.isDraft) return true
 
     const user = await getUserWithBoardIds()
     const userEditorAccess = user?.owner?.includes(bid)

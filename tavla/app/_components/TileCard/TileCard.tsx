@@ -7,7 +7,6 @@ import {
     getTransportModesFromLines,
     sortByTransportMode,
 } from 'app/_components/TransportIcon/utils'
-import { LOCAL_STORAGE_BOARD_ID } from 'app/_hooks/useSaveBoardInLocalStorage'
 import { isOnlyWhiteSpace } from 'app/(innlogget)/tavler/[id]/utils'
 import {
     getFormFeedbackForError,
@@ -34,13 +33,11 @@ export function TileCard({
     tile,
     index,
     moveItem,
-    setTilesLocalStorageBoard,
 }: {
     board: BoardDB
     tile: BoardTileDB
     index: number
     moveItem: (index: number, direction: string) => void
-    setTilesLocalStorageBoard?: (tiles: BoardDB['tiles']) => void
 }) {
     const { capture } = usePosthogTracking()
 
@@ -51,10 +48,7 @@ export function TileCard({
     const [confirmOpen, setConfirmOpen] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
 
-    const isLocalStorageBoard = board.id === LOCAL_STORAGE_BOARD_ID
-    const trackingLocation = isLocalStorageBoard
-        ? 'board_without_user'
-        : 'board_page'
+    const trackingLocation = 'board_page'
 
     const onFieldChanged = (field: string) => {
         setChangedFields((prev) => new Set(prev).add(field))
@@ -133,11 +127,7 @@ export function TileCard({
         }
 
         try {
-            if (isLocalStorageBoard) {
-                saveTileToLocalStorageBoard(newTile)
-            } else {
-                await saveTile(board.id, newTile)
-            }
+            await saveTile(board.id, newTile)
             reset()
         } catch {
             return getFormFeedbackForError('board/tiles-save-failed')
@@ -182,29 +172,6 @@ export function TileCard({
     const transportModes =
         getTransportModesFromLines(uniqLines).sort(sortByTransportMode)
 
-    const saveTileToLocalStorageBoard = (newTile: BoardTileDB) => {
-        if (!isLocalStorageBoard) return null
-        const oldTileIndex = board.tiles.findIndex(
-            (tile) => tile.uuid === newTile.uuid,
-        )
-        if (oldTileIndex === -1) return null
-
-        const updatedTiles = board.tiles.map((existingTile) =>
-            existingTile.uuid === newTile.uuid ? newTile : existingTile,
-        )
-
-        if (setTilesLocalStorageBoard) setTilesLocalStorageBoard(updatedTiles)
-    }
-
-    const deleteTileLocalStorageBoard = () => {
-        if (!isLocalStorageBoard) return null
-
-        const remainingTiles = board.tiles.filter((t) => t.uuid !== tile.uuid)
-        if (setTilesLocalStorageBoard) setTilesLocalStorageBoard(remainingTiles)
-
-        addToast(`${tile.name} fjernet!`)
-    }
-
     const handleSetIsTileOpen = (open: boolean) => {
         setIsOpen(open)
     }
@@ -214,13 +181,9 @@ export function TileCard({
             location: trackingLocation,
         })
 
-        if (isLocalStorageBoard) {
-            deleteTileLocalStorageBoard()
-        } else {
-            deleteTile(board.id, tile).then(() => {
-                addToast(`${tile.name} fjernet!`)
-            })
-        }
+        deleteTile(board.id, tile).then(() => {
+            addToast(`${tile.name} fjernet!`)
+        })
     }
 
     const handleMoveItem = (index: number, direction: string) => {

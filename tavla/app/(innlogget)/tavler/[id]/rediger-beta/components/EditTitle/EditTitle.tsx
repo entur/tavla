@@ -2,18 +2,25 @@
 import { IconButton } from '@entur/button'
 import { EditIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
+import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { EditTitleForm } from './EditTitleForm'
 
-export function EditBoardTitle({ board }: { board: BoardDB }) {
+export function EditBoardTitle({
+    board,
+    trackingLocation,
+}: {
+    board: BoardDB
+    trackingLocation: EventProps<'board_name_edit_started'>['location']
+}) {
     const { capture } = usePosthogTracking()
     const [open, setOpen] = useState(false)
 
     const closeModal = (method: 'dismissed' | 'cancel_button') => {
         capture('board_name_edit_cancelled', {
-            location: 'edit_board_page',
+            location: trackingLocation,
             method,
         })
         setOpen(false)
@@ -26,7 +33,7 @@ export function EditBoardTitle({ board }: { board: BoardDB }) {
                 className="gap-2"
                 onClick={() => {
                     capture('board_name_edit_started', {
-                        location: 'edit_board_page',
+                        location: trackingLocation,
                     })
                     setOpen(true)
                 }}
@@ -46,6 +53,7 @@ export function EditBoardTitle({ board }: { board: BoardDB }) {
                     currentTitle={board.meta.title ?? ''}
                     onSuccess={() => setOpen(false)}
                     onCancel={() => closeModal('cancel_button')}
+                    trackingLocation={trackingLocation}
                 />
             </Modal>
         </>
