@@ -161,6 +161,7 @@ logToGcp('error', `[DEPRECATED][tavla-visning] ${errorCode}`, {
 | `errorMessage` | `string` | `error.message` |
 | `userAgent` | `string` | User-agent-streng fra forespørselen |
 | `online` | `boolean` | `navigator.onLine` på klienten, sendt inn via `/api/report-log` |
+| `timestamp` | `number` | Opprinnelig klient-tidspunkt (ms) for når hendelsen faktisk skjedde, sendt inn via `/api/report-log` for logger. Brukes som loggoppføringens `timestamp` i GCP i stedet for mottakstidspunktet |
 | `context` | `Record<string, string \| number \| boolean>` | Ekstra felt for felter som ikke passer i de faste feltene over |
 
 ### Sikkerhet mot log injection
@@ -242,6 +243,7 @@ fetch('https://tavla.entur.no/api/report-log', {
         message: '<melding>',
         errorName: 'TypeError', // valgfri
         online: true, // valgfri – navigator.onLine på klienten
+        timestamp: Date.now(), // valgfri – originalt tidspunkt, brukt ved batchede logger
     }),
 }).catch(() => {}) // fire-and-forget
 ```
@@ -252,7 +254,7 @@ Endepunktet er åpent, men beskyttet med flere lag:
 
 | Tiltak | Detalj |
 |--------|--------|
-| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$` eller `^NSR:(Quay\|StopPlace):\d+$` (case-insensitive), `level` og `code` er faste enums, `message` er en streng, `errorName` (valgfri streng) og `online` (valgfri boolean) |
+| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$` eller `^NSR:(Quay\|StopPlace):\d+$` (case-insensitive), `level` og `code` er faste enums, `message` er en streng, `errorName` (valgfri streng), `online` (valgfri boolean) og `timestamp` (valgfritt positivt heltall) |
 | **Content-Length** | Avviser forespørsler over 520 bytes |
 | **Rate-limiting per IP** | Maks 150 forespørsler/minutt per IP-adresse, gjelder alle nivåer |
 | **Rate-limiting per tavle** | Maks 50 forespørsler/minutt per `boardId`, gjelder alle nivåer |

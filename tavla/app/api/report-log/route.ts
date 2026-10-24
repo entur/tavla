@@ -31,6 +31,16 @@ const ReportSchema = z.object({
     message: z.string(),
     errorName: z.string().optional(),
     online: z.boolean().optional(),
+    // optional originalt tidspunkt for når loggen faktisk skjedde, brukt for batchede logger
+    timestamp: z
+        .number()
+        .int()
+        .positive()
+        .optional()
+        .refine(
+            (ts) => ts === undefined || Number.isFinite(new Date(ts).getTime()),
+            { message: 'timestamp is not a valid date' },
+        ),
 })
 
 // Limits live in the memory of the pods. These are not hard limits, but work as per-instance LRU limiters.
@@ -77,7 +87,8 @@ export async function POST(req: NextRequest) {
         )
     }
 
-    const { boardId, level, code, message, errorName, online } = parsed.data
+    const { boardId, level, code, message, errorName, online, timestamp } =
+        parsed.data
     const ip = clientIp(req)
 
     try {
@@ -109,6 +120,7 @@ export async function POST(req: NextRequest) {
         errorMessage: message,
         userAgent,
         online,
+        timestamp,
     })
 
     return NextResponse.json({ ok: true }, { headers })
