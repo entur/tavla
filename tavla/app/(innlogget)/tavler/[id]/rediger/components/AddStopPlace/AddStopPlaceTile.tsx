@@ -9,7 +9,7 @@ import { Paragraph, SubParagraph } from '@entur/typography'
 import { FormError } from 'app/_components/Form/FormError'
 import { HiddenInput } from 'app/_components/Form/HiddenInput'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
-import { useClosestStopPlacesBeta } from 'app/_hooks/useClosestStopPlacesBeta'
+import { useClosestStopPlaces } from 'app/_hooks/useClosestStopPlaces'
 import { useCountyFilter } from 'app/_hooks/useCountyFilter'
 import useCurrentPosition from 'app/_hooks/useCurrentPosition'
 import { useStopPlaceSearch } from 'app/_hooks/useStopPlaceSearch'
@@ -45,7 +45,7 @@ function AddStopPlaceTile({
         isLoading,
         selectedClosestStopPlaces,
         setSelectedClosestStopPlaces,
-    } = useClosestStopPlacesBeta(
+    } = useClosestStopPlaces(
         selectedStopPlace?.value.type === 'stop_place'
             ? undefined
             : selectedStopPlace?.value.coordinates,

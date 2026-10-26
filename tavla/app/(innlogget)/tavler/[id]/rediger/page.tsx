@@ -7,7 +7,7 @@ import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { getBoardLinkServer } from 'utils/boardLink'
-import { EditBoardBeta } from './components/EditBoardBeta'
+import { EditBoard } from './components/EditBoard'
 
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>
@@ -25,7 +25,7 @@ export async function generateMetadata(props: TProps): Promise<Metadata> {
     }
 }
 
-export default async function EditBetaPage(props: TProps) {
+export default async function EditPage(props: TProps) {
     const { id: bid } = await props.params
     const user = await getUserFromSessionCookie()
     if (!user?.uid) return redirect('/')
@@ -43,7 +43,7 @@ export default async function EditBetaPage(props: TProps) {
 
     return (
         <main id="main-content" className="container flex flex-col gap-8 pt-4">
-            <EditBoardBeta
+            <EditBoard
                 board={board}
                 boardLink={boardPreviewLink}
                 breadcrumbs={

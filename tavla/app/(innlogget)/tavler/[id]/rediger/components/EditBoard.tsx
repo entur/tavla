@@ -6,7 +6,7 @@ import { EditBoardSidebar } from './EditBoardSidebar'
 import { PreviewSection } from './PreviewSection'
 import { PublishDraftBoard } from './PublishDraftBoard/PublishDraftBoard'
 
-export function EditBoardBeta({
+export function EditBoard({
     board,
     boardLink,
     breadcrumbs,
