@@ -6,7 +6,6 @@ import type { BoardDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 import { getBackendUrl } from 'utils/backendUrl'
 
-// Kopi av refreshBoard fra tavla/app/(innlogget)/tavler/[id]/rediger/actions.ts, men med revalidatePath som peker til /rediger i stedet for /rediger.
 export async function refreshBoard(board: BoardDB) {
     logToGcp('info', 'action invoked: refreshBoard', {
         type: 'server-action',
