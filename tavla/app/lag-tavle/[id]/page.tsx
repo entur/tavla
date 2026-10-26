@@ -1,5 +1,5 @@
 import { Heading1, LeadParagraph } from '@entur/typography'
-import { EditBoardBeta } from 'app/(innlogget)/tavler/[id]/rediger-beta/components/EditBoardBeta'
+import { EditBoard } from 'app/(innlogget)/tavler/[id]/rediger/components/EditBoard'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import type { Metadata } from 'next'
@@ -59,7 +59,7 @@ export default async function LagTavleEditorPage(props: TProps) {
                     andre, eller vise på en skjerm.
                 </LeadParagraph>
             </div>
-            <EditBoardBeta
+            <EditBoard
                 board={board}
                 boardLink={boardPreviewLink}
                 breadcrumbs={null}

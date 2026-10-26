@@ -21,47 +21,45 @@ function useClosestStopPlaces(
     const [selectedClosestStopPlaces, setSelectedClosestStopPlaces] = useState<
         NormalizedDropdownItemType<StopPlace>[] | null
     >(null)
-    const [mainStopPlaceItem, setMainStopPlaceItem] =
-        useState<NormalizedDropdownItemType<StopPlace> | null>(null)
+
+    const [loadedCoordinatesKey, setLoadedCoordinatesKey] = useState<
+        string | null
+    >(null)
 
     const { lat, lon } = coordinates ?? { lat: 0, lon: 0 }
+    const coordinatesKey = `${lat},${lon}`
+    const hasCoordinates = !(lat === 0 && lon === 0)
+    const isLoading = hasCoordinates && loadedCoordinatesKey !== coordinatesKey
 
     useEffect(() => {
         if (lat === 0 && lon === 0) {
             setClosestStopPlaceItems([])
+            setLoadedCoordinatesKey(null)
             return
         }
 
         let cancelled = false
-        fetchClosestStopPlaces(
-            { lat, lon },
-            numberOfStopPlaces,
-            areaRadiusInKm,
-        ).then((items) => {
-            if (!cancelled) {
-                setClosestStopPlaceItems(items)
-            }
-        })
+        setClosestStopPlaceItems([])
+        fetchClosestStopPlaces({ lat, lon }, numberOfStopPlaces, areaRadiusInKm)
+            .then((items) => {
+                if (!cancelled) {
+                    setClosestStopPlaceItems(items)
+                }
+            })
+            .catch(() => {
+                if (!cancelled) {
+                    setClosestStopPlaceItems([])
+                }
+            })
+            .finally(() => {
+                if (!cancelled) {
+                    setLoadedCoordinatesKey(`${lat},${lon}`)
+                }
+            })
         return () => {
             cancelled = true
         }
     }, [lat, lon, numberOfStopPlaces, areaRadiusInKm])
-
-    useEffect(() => {
-        if (!mainStopPlaceItem) return
-        const matchingItem = closestStopPlaceItems.find(
-            (item) => item.value.id === mainStopPlaceItem.value.id,
-        )
-        if (matchingItem) {
-            setMainStopPlaceItem(matchingItem)
-            setSelectedClosestStopPlaces((prev) => {
-                if (!prev) return [matchingItem]
-                return prev.map((p) =>
-                    p.value.id === matchingItem.value.id ? matchingItem : p,
-                )
-            })
-        }
-    }, [closestStopPlaceItems, mainStopPlaceItem])
 
     const allClosestItems = useMemo(() => {
         const itemsWithDistance = closestStopPlaceItems.map((item) => {
@@ -73,25 +71,15 @@ function useClosestStopPlaces(
             }
         })
 
-        if (!mainStopPlaceItem) return itemsWithDistance
-
-        const index = itemsWithDistance.findIndex(
-            (item) => item.value.id === mainStopPlaceItem.value.id,
-        )
-        if (index !== -1) {
-            const result = [...itemsWithDistance]
-            result[index] = mainStopPlaceItem
-            return result
-        }
-        return [mainStopPlaceItem, ...itemsWithDistance]
-    }, [mainStopPlaceItem, closestStopPlaceItems, coordinates])
+        return itemsWithDistance
+    }, [closestStopPlaceItems, coordinates])
 
     return {
         closestStopPlaceItems,
         allClosestItems,
+        isLoading,
         selectedClosestStopPlaces,
         setSelectedClosestStopPlaces,
-        setMainStopPlaceItem,
     }
 }
 

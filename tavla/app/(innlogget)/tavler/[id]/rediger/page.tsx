@@ -1,39 +1,26 @@
-import { Heading1, Heading2, Paragraph, SubParagraph } from '@entur/typography'
-import { TileList } from 'app/_components/TileList'
-import { TileSelector } from 'app/_components/TileSelector/TileSelector'
-import { formDataToTiles } from 'app/_components/TileSelector/utils'
-import { Copy } from 'app/(innlogget)/oversikt/components/Column/Copy'
+import { BreadcrumbsNav } from 'app/(innlogget)/tavler/[id]/BreadcrumbsNav'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import type { Metadata } from 'next'
-import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { getBoard, getFolderForBoard } from 'src/firebase'
 import type { BoardDB } from 'src/types/db-types/boards'
-import { getBoardLinkClient, getBoardLinkServer } from 'src/utils/boardLink'
-import { ArrivalsBadge } from '../../../components/ArrivalsBadge'
-import { BreadcrumbsNav } from '../BreadcrumbsNav'
-import { addTiles, getTileWithWalkingDistance } from './actions'
-import { ActionsMenu } from './components/ActionsMenu'
-import { CustomUrl } from './components/CustomUrl/CustomUrl'
-import { Preview } from './components/Preview'
-import { Settings } from './components/Settings/Settings'
-import { TryBetaBanner } from './components/TryBetaBanner'
+import { getBoardLinkServer } from 'utils/boardLink'
+import { EditBoard } from './components/EditBoard'
 
 export type TProps = {
     params: Promise<{ id: BoardDB['id'] }>
 }
 
 export async function generateMetadata(props: TProps): Promise<Metadata> {
-    const params = await props.params
-    const { id } = params
+    const { id } = await props.params
     const board = await getBoard(id)
     if (!board) {
         return notFound()
     }
     return {
-        title: `${board.meta?.title ?? DEFAULT_BOARD_NAME} | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport`,
+        title: `Rediger ${board.meta?.title ?? DEFAULT_BOARD_NAME} | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport`,
         description: `Rediger tavla ${board.meta?.title ?? DEFAULT_BOARD_NAME}. Legg til og fjern stoppesteder, tilpass utseendet og mer.`,
     }
 }
@@ -52,98 +39,25 @@ export default async function EditPage(props: TProps) {
     if (!board) return notFound()
     if (!access) return redirect('/')
 
-    const { meta } = board
-
-    async function addTilesAction(data: FormData) {
-        'use server'
-
-        const tiles = formDataToTiles(data, board?.isArrivals)
-        if (tiles.length === 0) return
-
-        const tilesWithDistance = await Promise.all(
-            tiles
-                .filter((tile) => tile.stopPlaceId)
-                .map((tile) => getTileWithWalkingDistance(tile, meta.location)),
-        )
-        await addTiles(bid, tilesWithDistance)
-
-        revalidatePath(`/tavler/${bid}/rediger`)
-    }
-
     const boardPreviewLink = getBoardLinkServer(board.id, true)
-    const boardLink = getBoardLinkClient(
-        board.customUrl ? board.customUrl : board.id,
-    )
 
     return (
-        <main id="main-content">
-            <div className="container flex flex-col gap-6 pb-20 pt-16">
-                <TryBetaBanner bid={board.id} />
-                {folder ? (
-                    <BreadcrumbsNav
-                        type="boardInFolder"
-                        folder={folder}
-                        board={board}
-                    />
-                ) : (
-                    <BreadcrumbsNav type="board" board={board} />
-                )}
-
-                <div className="flex flex-col gap-2">
-                    {board.isArrivals && <ArrivalsBadge />}
-                    <div className="flex flex-col justify-between md:flex-row">
-                        <Heading1 margin="top">
-                            {board.isArrivals
-                                ? 'Ankomsttavle: '
-                                : 'Avgangstavle: '}{' '}
-                            {board.meta?.title}
-                        </Heading1>
-                        <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                            <ActionsMenu board={board} />
-                        </div>
-                    </div>
-                </div>
-                <div className="md:w-fit">
-                    <Paragraph margin="none">Lenke til denne tavla:</Paragraph>
-                    <div className="flex items-center gap-2">
-                        <Paragraph
-                            margin="none"
-                            className="border rounded px-2 py-1 font-mono bg-tintLight break-all"
-                        >
-                            {boardLink}
-                        </Paragraph>
-                        <CustomUrl bid={board.id} customUrl={board.customUrl} />
-                        <Copy
-                            bid={board.customUrl ? board.customUrl : board.id}
-                            type="icon"
-                            trackingLocation="board_page"
+        <main id="main-content" className="container flex flex-col gap-8 pt-4">
+            <EditBoard
+                board={board}
+                boardLink={boardPreviewLink}
+                breadcrumbs={
+                    folder ? (
+                        <BreadcrumbsNav
+                            type="boardInFolder"
+                            folder={folder}
+                            board={board}
                         />
-                    </div>
-                </div>
-                <div
-                    data-transport-palette={board.transportPalette}
-                    className="flex flex-col gap-4 rounded-md bg-tintLight px-6 py-8"
-                >
-                    <div>
-                        <Heading2>Stoppesteder</Heading2>
-                        <SubParagraph className="mt-0">
-                            Felter markert med * er påkrevd.
-                        </SubParagraph>
-                    </div>
-                    <TileSelector
-                        action={addTilesAction}
-                        trackingLocation="board_page"
-                    />
-                    <TileList board={board} />
-                    <section
-                        data-theme={board.theme ?? 'dark'}
-                        aria-label="Forhåndsvisning av Tavla"
-                    >
-                        <Preview boardLink={boardPreviewLink} />
-                    </section>
-                </div>
-                <Settings board={board} />
-            </div>
+                    ) : (
+                        <BreadcrumbsNav type="board" board={board} />
+                    )
+                }
+            />
         </main>
     )
 }
