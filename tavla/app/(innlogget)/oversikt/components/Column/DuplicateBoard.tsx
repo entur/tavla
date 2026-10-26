@@ -1,7 +1,7 @@
 'use client'
 import { useToast } from '@entur/alert'
 import { IconButton } from '@entur/button'
-import { AddCardIcon } from '@entur/icons'
+import { AdditionalIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { duplicateBoardAction } from '../../utils/actions'
@@ -25,7 +25,7 @@ function DuplicateBoard({ board }: { board: BoardDB }) {
             id="tooltip-duplicate-board"
         >
             <IconButton aria-label={ariaLabel} onClick={handleClick}>
-                <AddCardIcon aria-label="Dupliser-ikon" />
+                <AdditionalIcon aria-label="Dupliser-ikon" />
             </IconButton>
         </Tooltip>
     )
