@@ -1,4 +1,4 @@
-FROM node:22.23.4-alpine AS base
+FROM alpine:3.22  AS base
 WORKDIR /app
 
 RUN apk add --no-cache g++ make py3-pip libc6-compat yarn
