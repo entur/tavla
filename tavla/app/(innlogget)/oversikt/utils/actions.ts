@@ -13,6 +13,7 @@ import { redirect } from 'next/navigation'
 import {
     addBoardIdToFolder,
     addBoardIdToUser,
+    createBoard,
     getFolderForBoard,
     removeBoardIdFromFolder,
     removeBoardIdFromUser,
@@ -126,4 +127,58 @@ export async function moveBoardAction(data: FormData) {
         })
         return handleError(e)
     }
+}
+
+export async function duplicateBoardAction(board: BoardDB) {
+    logToGcp('info', 'action invoked: duplicateBoardAction', {
+        type: 'server-action',
+        action: 'duplicateBoardAction',
+        bid: board.id,
+    })
+
+    const user = await getUserFromSessionCookie()
+    if (!user) return redirect('/')
+
+    const folder = await getFolderForBoard(board.id)
+    if (folder) {
+        const canEdit = await userCanEditFolder(folder.id)
+        if (!canEdit) return redirect('/')
+    }
+
+    const { id: _id, ...duplicationPayload } = board
+
+    let createdBoardId: string
+    try {
+        const createdBoard = await createBoard({
+            ...duplicationPayload,
+            meta: {
+                ...duplicationPayload.meta,
+                title: `${duplicationPayload.meta.title} - duplikat`,
+                fontSize: duplicationPayload.meta?.fontSize ?? 'medium',
+            },
+        })
+        createdBoardId = createdBoard.id
+
+        if (folder) await addBoardIdToFolder(folder.id, createdBoardId)
+        else await addBoardIdToUser(user.uid, createdBoardId)
+
+        revalidatePath('/')
+    } catch (e) {
+        logToGcp('error', 'action failed: duplicateBoardAction', {
+            type: 'server-action',
+            action: 'duplicateBoardAction',
+            bid: board.id,
+            errorName: e instanceof Error ? e.name : undefined,
+            errorMessage: e instanceof Error ? e.message : String(e),
+        })
+        Sentry.captureException(e, {
+            extra: {
+                message: 'Error while duplicating board',
+                boardID: board.id,
+            },
+        })
+        throw e
+    }
+
+    redirect(`/tavler/${createdBoardId}/rediger-beta`)
 }

@@ -184,6 +184,8 @@ export type EventMap = {
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.AdminTable
     >
 
+    board_duplicated: WithLocation<typeof LOCATIONS.AdminTable>
+
     board_published: WithLocation<
         typeof LOCATIONS.BoardPage | typeof LOCATIONS.EditBoardPage
     >
