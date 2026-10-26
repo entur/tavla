@@ -99,7 +99,7 @@ export default async function EditPage(props: TProps) {
                             {board.meta?.title}
                         </Heading1>
                         <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                            <ActionsMenu board={board} folderid={folder?.id} />
+                            <ActionsMenu board={board} />
                         </div>
                     </div>
                 </div>

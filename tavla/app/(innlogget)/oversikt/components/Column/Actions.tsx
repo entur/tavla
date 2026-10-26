@@ -2,6 +2,7 @@ import { DeleteFolder } from 'app/(innlogget)/components/DeleteFolder/DeleteFold
 import type { TableItem } from 'app/(innlogget)/oversikt/components/BoardTable'
 import { Copy } from './Copy'
 import { DeleteBoard } from './DeleteBoard'
+import { DuplicateBoard } from './DuplicateBoard'
 import { EditBoard, EditFolder } from './Edit'
 import { Move } from './Move'
 import { Open } from './Open'
@@ -23,6 +24,7 @@ function TableActions({ data }: { data: TableItem }) {
                         trackingLocation="admin_table"
                     />
                     <Move board={data.board} />
+                    <DuplicateBoard board={data.board} />
                     <DeleteBoard
                         board={data.board}
                         trackingLocation="admin_table"
