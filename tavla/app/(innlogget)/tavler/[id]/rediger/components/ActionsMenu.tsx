@@ -1,9 +1,9 @@
 'use client'
 import { OverflowMenu } from '@entur/menu'
 import { DeleteBoard } from 'app/(innlogget)/oversikt/components/Column/DeleteBoard'
+import { Open } from 'app/(innlogget)/oversikt/components/Column/Open'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
-import { Open } from './Buttons/Open'
 import { DuplicateBoard } from './DuplicateBoard/DuplicateBoard'
 import { RefreshButton } from './RefreshButton/RefreshButton'
 
