@@ -24,7 +24,10 @@ function TableActions({ data }: { data: TableItem }) {
                         trackingLocation="admin_table"
                     />
                     <Move board={data.board} />
-                    <DuplicateBoard board={data.board} />
+                    <DuplicateBoard
+                        board={data.board}
+                        trackingLocation="admin_table"
+                    />
                     <DeleteBoard
                         board={data.board}
                         trackingLocation="admin_table"
