@@ -180,5 +180,5 @@ export async function duplicateBoardAction(board: BoardDB) {
         throw e
     }
 
-    redirect(`/tavler/${createdBoardId}/rediger-beta`)
+    redirect(`/tavler/${createdBoardId}/rediger`)
 }

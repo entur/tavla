@@ -1,5 +1,5 @@
 import { Heading1, LeadParagraph } from '@entur/typography'
-import { EditBoardBeta } from 'app/(innlogget)/tavler/[id]/rediger-beta/components/EditBoardBeta'
+import { EditBoardBeta } from 'app/(innlogget)/tavler/[id]/rediger/components/EditBoardBeta'
 import { DEFAULT_BOARD_NAME } from 'app/(innlogget)/utils/constants'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import type { Metadata } from 'next'
