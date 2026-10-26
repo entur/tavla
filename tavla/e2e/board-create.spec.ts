@@ -20,7 +20,7 @@ test('creating a board writes to Firestore and lands on the edit page', async ({
         .last()
         .click()
 
-    await page.waitForURL(/\/tavler\/[^/]+\/rediger-beta/)
+    await page.waitForURL(/\/tavler\/[^/]+\/rediger/)
     await expect(page.getByRole('heading', { name: boardName })).toHaveText(
         boardName,
     )
