@@ -46,4 +46,4 @@ common:
     configmap:
         enabled: true
         data:
-            USERCENTRICS_DATA_SETTINGS_ID: '4OOPZiVslbVZnE'
+            USERCENTRICS_DATA_SETTINGS_ID: "4OOPZiVslbVZnE"

@@ -36,18 +36,17 @@ yarn dev:persist  # anbefalt – lagrer emulator state (.db)
 ```
 
 Tilgang:
-
 - App: http://localhost:3000
 - Firebase Emulator UI: http://127.0.0.1:4000/
 
-Dette repoet er admin-/konfigurasjonsappen. Selve tavle-visningen (det som rendres på skjermene) ligger i et eget repo. For å forhåndsvise tavler lokalt må du derfor også kjøre `tavla-visning`: https://github.com/entur/tavla-visning. 
+Dette repoet er admin-/konfigurasjonsappen. Selve tavle-visningen (det som rendres på skjermene) ligger i et eget repo. For å forhåndsvise tavler lokalt må du derfor også kjøre `tavla-visning`: https://github.com/entur/tavla-visning.
 
-Når du skal opprette en bruker lokalt får du ikke en epost om å verifisere e-post, men en lenke du må klikke på i terminalen der appen kjører. 
+Når du skal opprette en bruker lokalt får du ikke en epost om å verifisere e-post, men en lenke du må klikke på i terminalen der appen kjører.
 
 ### Miljøvariabler (lokalt minimum)
 
 - Lag `.env.local`og kopier innnholdet fra teamets passord-manager.[(https://entur.1password.eu/)](https://entur.1password.eu/)
-    - Finn Team-Tavla
+  - Finn Team-Tavla
     - Kopier over innholdet fra `.env.local`
 - Sentry- og PostHog-variabler er valgfrie og trengs ikke for lokal kjøring.
 
@@ -74,19 +73,19 @@ Det er ikke nødvendig å kjøre opp backend lokalt for å kjøre frontend lokal
 Vi bruker et avgrenset sett gitmoji i starten av commit-meldinger for å gjøre historikken mer skumbar. Start commitmelding med imperativ form ("legg til", "oppdater", "fjern").
 
 Emojis / kategorier:
-| Emoji | Kategori | Når brukes |
-|-------|----------|-----------|
-| ✨ | Feature | Ny funksjonalitet / større tillegg |
-| 🐛 | Bug | Fikser en konkret feil |
-| 📝 | Dokumentasjon | Endrer / legger til dokumentasjon |
-| 💄 | Styling | Visuelle endringer (CSS, layout, ikke funksjonell endring) |
-| 🧹 | Rydding | Refaktor, fjerner død kode, strukturelle forbedringer |
-| 🚸 | Bedre UX | Forbedrer brukeropplevelse / tilgjengelighet |
-| 📦 | Pakker | Legger til / oppdaterer avhengigheter |
-| 👷 | CI/CD & bygg | Pipelines, byggskript, tooling-infrastruktur |
-| 🔒 | Sikkerhet | Sikkerhets- eller personvernrelaterte endringer |
-| 📈 | Målinger | Telemetri, logging, målepunkter |
-| 🤖 | KI | Skills, instruksjoner og annet som forbedrer bruk av agenter |
+| Emoji | Kategori      | Når brukes                                                   |
+| ----- | ------------- | ------------------------------------------------------------ |
+| ✨    | Feature       | Ny funksjonalitet / større tillegg                           |
+| 🐛    | Bug           | Fikser en konkret feil                                       |
+| 📝    | Dokumentasjon | Endrer / legger til dokumentasjon                            |
+| 💄    | Styling       | Visuelle endringer (CSS, layout, ikke funksjonell endring)   |
+| 🧹    | Rydding       | Refaktor, fjerner død kode, strukturelle forbedringer        |
+| 🚸    | Bedre UX      | Forbedrer brukeropplevelse / tilgjengelighet                 |
+| 📦    | Pakker        | Legger til / oppdaterer avhengigheter                        |
+| 👷    | CI/CD & bygg  | Pipelines, byggskript, tooling-infrastruktur                 |
+| 🔒    | Sikkerhet     | Sikkerhets- eller personvernrelaterte endringer              |
+| 📈    | Målinger      | Telemetri, logging, målepunkter                              |
+| 🤖    | KI            | Skills, instruksjoner og annet som forbedrer bruk av agenter |
 
 
 Branches kan valgfritt bruke en kort kategori + beskrivelse, f.eks:
