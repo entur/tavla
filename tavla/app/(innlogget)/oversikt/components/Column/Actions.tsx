@@ -1,10 +1,10 @@
-import { Copy } from 'app/_components/Buttons/Copy'
-import { Open } from 'app/_components/Buttons/Open'
 import { DeleteFolder } from 'app/(innlogget)/components/DeleteFolder/DeleteFolder'
 import type { TableItem } from 'app/(innlogget)/oversikt/components/BoardTable'
+import { Copy } from './Copy'
 import { DeleteBoard } from './DeleteBoard'
 import { EditBoard, EditFolder } from './Edit'
 import { Move } from './Move'
+import { Open } from './Open'
 
 function TableActions({ data }: { data: TableItem }) {
     switch (data.type) {
