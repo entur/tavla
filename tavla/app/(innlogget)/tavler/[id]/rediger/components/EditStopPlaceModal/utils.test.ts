@@ -1,9 +1,9 @@
 import type { BoardTileDB } from 'types/db-types/boards'
 import { describe, expect, it } from 'vitest'
 import type { QuayWithFrontText } from '../utils/types'
-import { deriveLinesWithDirection, getInitialCheckedLineIds } from './utils'
+import { getInitialCheckedLineIds } from './utils'
 
-/* Minimal fixture — deriveLinesWithDirection bruker kun quay.id og lines[].id/frontTexts, så vi caster forbi resten av TQuay-feltene.*/
+/* Minimal fixture — getInitialCheckedLineIds bruker kun quay.id og lines[].id, så vi caster forbi resten av TQuay-feltene.*/
 function quay(
     id: string,
     lines: Array<{ id: string; frontTexts: string[] }>,
@@ -11,80 +11,14 @@ function quay(
     return { id, lines } as unknown as QuayWithFrontText
 }
 
-/* deriveLinesWithDirection(quays, selectedKeys):
- fra avhukede `${quayId}||${lineId}`-nøkler til `{ lineId, frontTexts }[]`.
- En retning (frontText) er quay-spesifikk — samme linje kan gå ulik vei fra ulike quays. Tom `frontTexts` betyr "alle retninger";
- er alle kjente retninger for en linje valgt, kollapses det til [] (så nye retninger blir med senere).
- */
-describe('deriveLinesWithDirection', () => {
-    it('tar bare med retningene fra de valgte quayene — samme linje kan gå ulik vei per quay, og en uvalgt quays retning skal ikke lekke inn', () => {
-        const quays = [
-            quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }]),
-            quay('Q2', [{ id: 'L1', frontTexts: ['Sør'] }]),
-        ]
-        expect(deriveLinesWithDirection(quays, ['Q1||L1||Nord'])).toEqual([
-            { lineId: 'L1', frontTexts: ['Nord'] },
-        ])
-    })
-
-    it('kollapser frontTexts til [] ("alle retninger") når alle kjente retninger for linja er valgt, slik at nye framtidige retninger blir med automatisk', () => {
-        const quays = [
-            quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }]),
-            quay('Q2', [{ id: 'L1', frontTexts: ['Sør'] }]),
-        ]
-        expect(
-            deriveLinesWithDirection(quays, ['Q1||L1||Nord', 'Q2||L1||Sør']),
-        ).toEqual([{ lineId: 'L1', frontTexts: [] }])
-    })
-
-    it('gir frontTexts: [] ("alle retninger", fail-open) for en valgt linje som mangler frontText-data, i stedet for å droppe linja', () => {
-        const quays = [quay('Q1', [{ id: 'L2', frontTexts: [] }])]
-        expect(deriveLinesWithDirection(quays, ['Q1||L2'])).toEqual([
-            { lineId: 'L2', frontTexts: [] },
-        ])
-    })
-
-    it('returnerer [] når ingen quay-linje-par er valgt (intet linjefilter)', () => {
-        const quays = [quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }])]
-        expect(deriveLinesWithDirection(quays, [])).toEqual([])
-    })
-
-    it('tar bare med linjer som faktisk er valgt, ikke øvrige linjer på samme quay', () => {
-        const quays = [
-            quay('Q1', [
-                { id: 'L1', frontTexts: ['Nord'] },
-                { id: 'L2', frontTexts: ['Vest'] },
-            ]),
-        ]
-        const result = deriveLinesWithDirection(quays, ['Q1||L1||Nord'])
-        expect(result).toHaveLength(1)
-        expect(result[0]?.lineId).toBe('L1')
-    })
-
-    it('sorterer frontTexts alfabetisk for deterministisk output, uavhengig av rekkefølgen de dukket opp i på quayene', () => {
-        const quays = [
-            quay('Q1', [{ id: 'L1', frontTexts: ['Storo', 'Bergkrystallen'] }]),
-            quay('Q2', [{ id: 'L1', frontTexts: ['Sinsen'] }]),
-        ]
-        expect(
-            deriveLinesWithDirection(quays, [
-                'Q1||L1||Storo',
-                'Q1||L1||Bergkrystallen',
-            ]),
-        ).toEqual([{ lineId: 'L1', frontTexts: ['Bergkrystallen', 'Storo'] }])
-    })
-})
-
 /* Minimal fixture — getInitialCheckedLineIds bruker kun tile.quays (id + whitelistedLines) og tile.whitelistedLines, så vi caster forbi resten av BoardTileDB-feltene.*/
 function adminTile(
     quays: Array<{ id: string; whitelistedLines: string[] }>,
     whitelistedLines?: string[],
-    linesWithDirection?: Array<{ lineId: string; frontTexts: string[] }>,
 ): BoardTileDB {
     return {
         quays,
         whitelistedLines,
-        linesWithDirection,
     } as unknown as BoardTileDB
 }
 
@@ -161,64 +95,5 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
         expect(getInitialCheckedLineIds(tile, quays)).toEqual(
             new Set(['Q1||L1', 'Q1||L2']),
         )
-    })
-
-    describe('linesWithDirection', () => {
-        const quays = [quay('Q1', [{ id: 'L1', frontTexts: ['Nord', 'Sør'] }])]
-        const quayFilter = [{ id: 'Q1', whitelistedLines: ['L1'] }]
-
-        it('kun lagrede retninger hukes av', () => {
-            const tile = adminTile(quayFilter, undefined, [
-                { lineId: 'L1', frontTexts: ['Nord'] },
-            ])
-            expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-                new Set(['Q1||L1||Nord']),
-            )
-        })
-
-        it('tom frontTexts betyr alle retninger', () => {
-            const tile = adminTile(quayFilter, undefined, [
-                { lineId: 'L1', frontTexts: [] },
-            ])
-            expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-                new Set(['Q1||L1||Nord', 'Q1||L1||Sør']),
-            )
-        })
-
-        it('linje uten oppføring i linesWithDirection gir alle retninger', () => {
-            const tile = adminTile(quayFilter)
-            expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-                new Set(['Q1||L1||Nord', 'Q1||L1||Sør']),
-            )
-        })
-
-        it('samme linje på flere quays begrenses til lagret retning på begge', () => {
-            const twoQuays = [
-                quay('Q1', [{ id: 'L1', frontTexts: ['Nord'] }]),
-                quay('Q2', [{ id: 'L1', frontTexts: ['Nord', 'Sør'] }]),
-            ]
-            const tile = adminTile([], undefined, [
-                { lineId: 'L1', frontTexts: ['Nord'] },
-            ])
-            expect(getInitialCheckedLineIds(tile, twoQuays)).toEqual(
-                new Set(['Q1||L1||Nord', 'Q2||L1||Nord']),
-            )
-        })
-
-        it('lagret retning som ikke lenger finnes gir alle retninger', () => {
-            const tile = adminTile(quayFilter, undefined, [
-                { lineId: 'L1', frontTexts: ['Øst'] },
-            ])
-            expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-                new Set(['Q1||L1||Nord', 'Q1||L1||Sør']),
-            )
-        })
-
-        it('rundtur: åpne og lagre uten endring bevarer linesWithDirection', () => {
-            const saved = [{ lineId: 'L1', frontTexts: ['Nord'] }]
-            const tile = adminTile(quayFilter, undefined, saved)
-            const checked = getInitialCheckedLineIds(tile, quays)
-            expect(deriveLinesWithDirection(quays, [...checked])).toEqual(saved)
-        })
     })
 })

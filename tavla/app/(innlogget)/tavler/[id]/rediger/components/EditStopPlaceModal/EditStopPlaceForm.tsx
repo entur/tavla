@@ -15,7 +15,7 @@ import { SetStopPlaceName } from './components/SetStopPlaceName'
 import { SetVisibleLines } from './components/SetVisibleLines'
 import {
     countSelectableQuayLineKeys,
-    deriveLinesWithDirection,
+    generateQuayLineKey,
     getInitialCheckedLineIds,
 } from './utils'
 
@@ -84,19 +84,13 @@ function EditStopPlaceForm({
                       id: q.id,
                       whitelistedLines: q.lines
                           .filter((l) =>
-                              selectedQuayLineKeys.some(
-                                  (key) =>
-                                      key === `${q.id}||${l.id}` ||
-                                      key.startsWith(`${q.id}||${l.id}||`),
+                              selectedQuayLineKeys.includes(
+                                  generateQuayLineKey(q.id, l.id),
                               ),
                           )
                           .map((l) => l.id),
                   }))
                   .filter((q) => q.whitelistedLines.length > 0)
-
-        const linesWithDirection = allSelected
-            ? []
-            : deriveLinesWithDirection(quays, selectedQuayLineKeys)
 
         const hasWalkingDistance =
             board.meta.location && tile.walkingDistance?.distance !== undefined
@@ -105,9 +99,7 @@ function EditStopPlaceForm({
 
         return {
             ...tile,
-            columns: board.isCombinedTiles ? tile.columns : columns,
             quays: newQuays,
-            linesWithDirection,
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
@@ -118,6 +110,7 @@ function EditStopPlaceForm({
                     distance: tile.drivingDistance?.distance,
                 },
             }),
+            columns: board.isCombinedTiles ? tile.columns : columns,
             offset: board.isArrivals ? undefined : Number(offset) || undefined,
             displayName: displayName.substring(0, 50) || undefined,
         }

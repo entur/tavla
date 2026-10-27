@@ -13,7 +13,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from '../../utils/types'
-import { generateQuayLineFrontTextKey } from '../utils'
+import { generateQuayLineKey } from '../utils'
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
@@ -65,11 +65,7 @@ export function PlatformAndLines({
 
     const allKeysInGroup = lines
         .filter(filterLineFragment)
-        .flatMap((l) =>
-            l.frontTexts.map((frontText) =>
-                generateQuayLineFrontTextKey(quayId, l.id, frontText),
-            ),
-        )
+        .map((l) => generateQuayLineKey(quayId, l.id))
 
     const selectedKeysInGroup = allKeysInGroup.filter((key) =>
         selectedLineIds.has(key),
@@ -163,15 +159,7 @@ export function PlatformAndLines({
                             action: checked ? 'select_all' : 'cleared',
                         })
                         onToggleGroup(
-                            lines.flatMap((l) =>
-                                l.frontTexts.map((frontText) =>
-                                    generateQuayLineFrontTextKey(
-                                        quayId,
-                                        l.id,
-                                        frontText,
-                                    ),
-                                ),
-                            ),
+                            lines.map((l) => generateQuayLineKey(quayId, l.id)),
                             checked,
                         )
                     }}
@@ -180,38 +168,32 @@ export function PlatformAndLines({
             {[...lines]
                 .sort(compareLineFragment)
                 .filter(filterLineFragment)
-                .flatMap((line) =>
-                    line.frontTexts.map((frontText) => {
-                        const key = generateQuayLineFrontTextKey(
-                            quayId,
-                            line.id,
-                            frontText,
-                        )
+                .map((line) => {
+                    const key = generateQuayLineKey(quayId, line.id)
 
-                        return (
-                            <Checkbox
-                                key={key}
-                                checked={selectedLineIds.has(key)}
-                                className="pl-3"
-                                data-transport-mode={line.transportMode}
-                                onChange={() => {
-                                    capture('stop_place_edit_interaction', {
-                                        location: trackingLocation,
-                                        field: 'lines',
-                                        column_value: 'none',
-                                        action: 'changed',
-                                    })
-                                    onToggleLine(key)
-                                }}
-                            >
-                                <div className="flex flex-row items-center gap-2">
-                                    <PublicCode line={line} />
-                                    {frontText}
-                                </div>
-                            </Checkbox>
-                        )
-                    }),
-                )}
+                    return (
+                        <Checkbox
+                            key={key}
+                            checked={selectedLineIds.has(key)}
+                            className="pl-3"
+                            data-transport-mode={line.transportMode}
+                            onChange={() => {
+                                capture('stop_place_edit_interaction', {
+                                    location: trackingLocation,
+                                    field: 'lines',
+                                    column_value: 'none',
+                                    action: 'changed',
+                                })
+                                onToggleLine(key)
+                            }}
+                        >
+                            <div className="flex flex-row items-center gap-2">
+                                <PublicCode line={line} />
+                                {line.frontTexts.join(' / ')}
+                            </div>
+                        </Checkbox>
+                    )
+                })}
         </div>
     )
 }
