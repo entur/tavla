@@ -14,6 +14,7 @@ import {
     boardTileSchema,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
+import { stripLegacyLineSelectionFields } from './utils'
 import { displayNameSchema, offsetSchema } from './validation'
 
 initializeAdminApp()
@@ -37,9 +38,7 @@ export async function saveTile(
         bid,
     })
 
-    // Drar ut linesWithDirection slik at det ikke lagres i Firestore
-    // Kan skrives om etter at linesWithDirection er helt migrert bort
-    const { linesWithDirection, ...tile } = inputTile
+    const tile = stripLegacyLineSelectionFields(inputTile)
 
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
