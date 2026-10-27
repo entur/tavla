@@ -99,6 +99,7 @@ function EditStopPlaceForm({
 
         return {
             ...tile,
+            columns: board.isCombinedTiles ? tile.columns : columns,
             quays: newQuays,
             ...(hasWalkingDistance && {
                 walkingDistance: {
@@ -110,7 +111,6 @@ function EditStopPlaceForm({
                     distance: tile.drivingDistance?.distance,
                 },
             }),
-            columns: board.isCombinedTiles ? tile.columns : columns,
             offset: board.isArrivals ? undefined : Number(offset) || undefined,
             displayName: displayName.substring(0, 50) || undefined,
         }
