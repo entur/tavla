@@ -97,7 +97,7 @@
     },
     "packageManager": "yarn@4.10.3",
     "engines": {
-        "node": "22.13.0"
+        "node": "22.23.4"
     },
     "resolutions": {
         "basic-ftp": "6.2.1",
