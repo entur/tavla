@@ -67,13 +67,15 @@ export const boardTileSchema = z.object({
     name: z.string(),
     stopPlaceId: z.string(),
     quays: z.array(quaySchema),
-    linesWithDirection: z.array(lineWithDirectionSchema).optional(),
     walkingDistance: boardWalkingDistanceSchema.optional(),
     drivingDistance: boardDrivingDistanceSchema.optional(),
     offset: z.number().optional(),
     displayName: z.string().optional(),
     columns: z.array(tileColumnSchema).optional(),
     county: z.string().optional(),
+
+    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
+    linesWithDirection: z.array(lineWithDirectionSchema).optional(),
 
     /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     placeId: z.string().optional(),

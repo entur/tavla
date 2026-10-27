@@ -5,7 +5,7 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { QuayWithFrontText } from '../../utils/types'
 import { TileContext } from '../context'
-import { generateQuayLineFrontTextKey, transportModeNames } from '../utils'
+import { generateQuayLineKey, transportModeNames } from '../utils'
 import { PlatformAndLines } from './PlatformAndLines'
 import { TransportModeChip } from './TransportModeChip'
 
@@ -201,25 +201,15 @@ export function SetVisibleLines({
         const keysOnAllQuays: string[] = []
         for (const quay of quays) {
             const quayIsActive = quay.lines.some((l) =>
-                l.frontTexts.some((frontText) =>
-                    checkedLineIds.has(
-                        generateQuayLineFrontTextKey(quay.id, l.id, frontText),
-                    ),
-                ),
+                checkedLineIds.has(generateQuayLineKey(quay.id, l.id)),
             )
 
             for (const line of quay.lines) {
                 if (line.transportMode === mode) {
-                    for (const frontText of line.frontTexts) {
-                        const key = generateQuayLineFrontTextKey(
-                            quay.id,
-                            line.id,
-                            frontText,
-                        )
-                        keysOnAllQuays.push(key)
-                        if (quayIsActive) {
-                            keysOnActiveQuays.push(key)
-                        }
+                    const key = generateQuayLineKey(quay.id, line.id)
+                    keysOnAllQuays.push(key)
+                    if (quayIsActive) {
+                        keysOnActiveQuays.push(key)
                     }
                 }
             }
@@ -242,11 +232,7 @@ export function SetVisibleLines({
         quays.some((q) =>
             q.lines.some((l) => {
                 if (l.transportMode !== mode) return false
-                return l.frontTexts.some((frontText) =>
-                    checkedLineIds.has(
-                        generateQuayLineFrontTextKey(q.id, l.id, frontText),
-                    ),
-                )
+                return checkedLineIds.has(generateQuayLineKey(q.id, l.id))
             }),
         )
 
