@@ -14,7 +14,6 @@ import {
     boardTileSchema,
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-import { stripLegacyLineSelectionFields } from './utils'
 import { displayNameSchema, offsetSchema } from './validation'
 
 initializeAdminApp()
@@ -38,7 +37,10 @@ export async function saveTile(
         bid,
     })
 
-    const tile = stripLegacyLineSelectionFields(inputTile)
+    // Tar ut de deprekerte feltene linesWithDirection og whitelistedLines slik at de ikke lagres i Firestore
+    // Kan fjernes etter at disse er migrert bort
+    const { linesWithDirection, whitelistedLines, ...rest } = inputTile
+    const tile = rest
 
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')

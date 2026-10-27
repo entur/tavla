@@ -43,17 +43,6 @@ export function generateQuayLineKey(quayId: string, lineId: string): string {
     return `${quayId}||${lineId}`
 }
 
-/**
- * Fjerner deprekerte linje-/retningsvalg-felter (linesWithDirection,
- * whitelistedLines) fra en tile. quays er nå eneste kilde for hvilke linjer
- * som er valgt — uten dette vil tavla-visning falle tilbake til et gammelt
- * whitelistedLines-filter når quays er tom (f.eks. "alle linjer valgt").
- */
-export function stripLegacyLineSelectionFields(tile: BoardTileDB): BoardTileDB {
-    const { linesWithDirection, whitelistedLines, ...rest } = tile
-    return rest
-}
-
 export function countSelectableQuayLineKeys(
     quays: QuayWithFrontText[],
 ): number {

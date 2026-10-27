@@ -1,10 +1,7 @@
 import type { BoardTileDB } from 'types/db-types/boards'
 import { describe, expect, it } from 'vitest'
 import type { QuayWithFrontText } from '../utils/types'
-import {
-    getInitialCheckedLineIds,
-    stripLegacyLineSelectionFields,
-} from './utils'
+import { getInitialCheckedLineIds } from './utils'
 
 /* Minimal fixture — getInitialCheckedLineIds bruker kun quay.id og lines[].id, så vi caster forbi resten av TQuay-feltene.*/
 function quay(
@@ -98,34 +95,5 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
         expect(getInitialCheckedLineIds(tile, quays)).toEqual(
             new Set(['Q1||L1', 'Q1||L2']),
         )
-    })
-})
-
-/* stripLegacyLineSelectionFields(tile): fjerner linesWithDirection og det
- deprekerte whitelistedLines fra en tile før lagring. quays er nå eneste
- kilde for linjevalg — uten dette vil tavla-visning falle tilbake til et
- gammelt whitelistedLines-filter når quays er tom (se "alle linjer valgt"
- under). */
-describe('stripLegacyLineSelectionFields', () => {
-    it('fjerner et deprekert whitelistedLines-felt selv når alle linjer er valgt (quays: [])', () => {
-        const legacyTile = adminTile([], ['L1']) as BoardTileDB
-        const tileAfterSelectingAll = {
-            ...legacyTile,
-            quays: [],
-        }
-        const result = stripLegacyLineSelectionFields(tileAfterSelectingAll)
-        expect(result).not.toHaveProperty('whitelistedLines')
-        expect(result).not.toHaveProperty('linesWithDirection')
-        expect(result.quays).toEqual([])
-    })
-
-    it('fjerner linesWithDirection uavhengig av om det er satt', () => {
-        const tile = {
-            ...adminTile([{ id: 'Q1', whitelistedLines: ['L1'] }]),
-            linesWithDirection: [{ lineId: 'L1', frontTexts: ['Nord'] }],
-        } as BoardTileDB
-        const result = stripLegacyLineSelectionFields(tile)
-        expect(result).not.toHaveProperty('linesWithDirection')
-        expect(result.quays).toEqual([{ id: 'Q1', whitelistedLines: ['L1'] }])
     })
 })
