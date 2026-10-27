@@ -101,7 +101,6 @@
     },
     "resolutions": {
         "basic-ftp": "6.2.1",
-        "minimatch": "9.0.7",
         "dompurify": "3.4.17"
     }
 }
