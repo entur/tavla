@@ -78,6 +78,7 @@ export function stopPlaceTypeToTransportMode(
 
 const getTravelTagsFromTransportMode = (transportModes: TTransportMode[]) => {
     return transportModes.map((tm, index) => {
+        // biome-ignore lint/correctness/noComponentHookFactories: @entur/dropdown sin icons-prop krever komponenter; lages når søkeresultater bygges, ikke under render
         const UniqueSmallTravelTag = () =>
             createElement(TransportIcon, {
                 transportMode: tm,
@@ -125,6 +126,7 @@ export const travelTagsFromModes = (
     }>,
 ) => {
     return modes.map((mode, index) => {
+        // biome-ignore lint/correctness/noComponentHookFactories: @entur/dropdown sin icons-prop krever komponenter; lages når søkeresultater bygges, ikke under render
         const UniqueSmallTravelTag = () =>
             createElement(TransportIcon, {
                 transportMode: mode.transportMode,
