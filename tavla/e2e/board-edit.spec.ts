@@ -7,18 +7,18 @@ test('editing a board title persists after reload', async ({ page }) => {
 
     await page.goto(`/tavler/${boardId}/rediger`)
 
-    const titleInput = page.getByRole('textbox', { name: 'Navn på tavlen' })
+    await page.getByRole('button', { name: 'Endre navn på tavla' }).click()
+
+    const titleInput = page.getByRole('textbox', { name: 'Navn på tavla' })
     await titleInput.fill(newTitle)
 
-    const saveResponse = page.waitForResponse(
-        async (res) =>
-            res.request().method() === 'POST' &&
-            res.status() === 200 &&
-            (res.request().postData() ?? '').includes(newTitle),
-    )
-    await page.keyboard.press('Tab')
-    await saveResponse
+    await page.getByRole('button', { name: 'Bekreft valg' }).click()
+    await expect(
+        page.getByRole('heading', { level: 1, name: newTitle }),
+    ).toBeVisible()
 
     await page.reload()
-    await expect(titleInput).toHaveValue(newTitle)
+    await expect(
+        page.getByRole('heading', { level: 1, name: newTitle }),
+    ).toBeVisible()
 })

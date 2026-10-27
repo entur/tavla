@@ -1,10 +1,11 @@
 import { DeleteFolder } from 'app/(innlogget)/components/DeleteFolder/DeleteFolder'
 import type { TableItem } from 'app/(innlogget)/oversikt/components/BoardTable'
-import { Copy } from 'app/(innlogget)/tavler/[id]/rediger/components/Buttons/Copy'
-import { Open } from 'app/(innlogget)/tavler/[id]/rediger/components/Buttons/Open'
+import { Copy } from './Copy'
 import { DeleteBoard } from './DeleteBoard'
+import { DuplicateBoard } from './DuplicateBoard'
 import { EditBoard, EditFolder } from './Edit'
 import { Move } from './Move'
+import { Open } from './Open'
 
 function TableActions({ data }: { data: TableItem }) {
     switch (data.type) {
@@ -23,6 +24,10 @@ function TableActions({ data }: { data: TableItem }) {
                         trackingLocation="admin_table"
                     />
                     <Move board={data.board} />
+                    <DuplicateBoard
+                        board={data.board}
+                        trackingLocation="admin_table"
+                    />
                     <DeleteBoard
                         board={data.board}
                         trackingLocation="admin_table"

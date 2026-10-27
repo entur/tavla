@@ -10,7 +10,7 @@ function ContactFormExpandable() {
     const pathname = usePathname()
     const [isOpen, setIsOpen] = useState(false)
 
-    if (pathname.includes('/rediger-beta') || pathname.includes('/lag-tavle/'))
+    if (pathname.includes('/rediger') || pathname.includes('/lag-tavle/'))
         return null
 
     return (

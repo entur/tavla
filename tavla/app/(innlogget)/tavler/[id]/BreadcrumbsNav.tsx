@@ -28,10 +28,7 @@ function BoardBreadcrumbs({ board }: { board: BoardDB }) {
             <BreadcrumbItem as={Link} href="/oversikt">
                 Mine tavler
             </BreadcrumbItem>
-            <BreadcrumbItem
-                as={Link}
-                href={`/tavler/${board?.id}/rediger-beta`}
-            >
+            <BreadcrumbItem as={Link} href={`/tavler/${board?.id}/rediger`}>
                 {board?.meta.title ?? DEFAULT_BOARD_NAME}
             </BreadcrumbItem>
         </BreadcrumbNavigation>
@@ -53,10 +50,7 @@ function BoardInFolderBreadcrumbs({
             <BreadcrumbItem as={Link} href={`/mapper/${folder?.id}`}>
                 {folder?.name ?? DEFAULT_FOLDER_NAME}
             </BreadcrumbItem>
-            <BreadcrumbItem
-                as={Link}
-                href={`/tavler/${board?.id}/rediger-beta`}
-            >
+            <BreadcrumbItem as={Link} href={`/tavler/${board?.id}/rediger`}>
                 {board?.meta.title ?? DEFAULT_BOARD_NAME}
             </BreadcrumbItem>
         </BreadcrumbNavigation>
