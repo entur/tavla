@@ -1,16 +1,16 @@
 steps:
-    - name: 'gcr.io/cloud-builders/docker'
+    - name: "gcr.io/cloud-builders/docker"
       args:
           [
-              'build',
-              '--build-arg',
-              'ENV=${_ENV}',
-              '--build-arg',
-              'POSTHOG_KEY=${_POSTHOG_KEY}',
-              '--build-arg',
-              'POSTHOG_HOST=${_POSTHOG_HOST}',
-              '-t',
-              'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA',
-              '.',
+              "build",
+              "--build-arg",
+              "ENV=${_ENV}",
+              "--build-arg",
+              "POSTHOG_KEY=${_POSTHOG_KEY}",
+              "--build-arg",
+              "POSTHOG_HOST=${_POSTHOG_HOST}",
+              "-t",
+              "eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA",
+              ".",
           ]
-images: ['eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
+images: ["eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA"]
