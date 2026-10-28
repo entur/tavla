@@ -57,6 +57,22 @@ const quaySchema = z.object({
     whitelistedLines: z.array(z.string()),
 })
 
+const stopPlaceFilterSchema = z.object({
+    type: z.literal('stopPlaceFilter'),
+    whitelistedModes: z.array(transportModeSchema),
+    whitelistedLines: z.array(z.string()),
+})
+
+const quaysFilterSchema = z.object({
+    type: z.literal('quaysFilter'),
+    quays: z.array(quaySchema),
+})
+
+const tileFilterSchema = z.discriminatedUnion('type', [
+    stopPlaceFilterSchema,
+    quaysFilterSchema,
+])
+
 const lineWithDirectionSchema = z.object({
     lineId: z.string(),
     frontTexts: z.array(z.string()),
@@ -73,6 +89,7 @@ export const boardTileSchema = z.object({
     displayName: z.string().optional(),
     columns: z.array(tileColumnSchema).optional(),
     county: z.string().optional(),
+    filter: tileFilterSchema.optional(),
 
     /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     linesWithDirection: z.array(lineWithDirectionSchema).optional(),
@@ -167,3 +184,9 @@ export const TileColumns: Record<TileColumnDB, string> = {
 export type BoardTileDB = z.infer<typeof boardTileSchema>
 
 export type LineWithDirectionDB = z.infer<typeof lineWithDirectionSchema>
+
+export type StopPlaceFilterDB = z.infer<typeof stopPlaceFilterSchema>
+
+export type QuaysFilterDB = z.infer<typeof quaysFilterSchema>
+
+export type TileFilterDB = z.infer<typeof tileFilterSchema>
