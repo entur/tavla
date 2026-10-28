@@ -10,9 +10,9 @@ import type {
 import type { QuayWithFrontText } from '../utils/types'
 import { type EditStopPlaceModalFormState, saveTile } from './actions'
 import { SetColumns } from './components/SetColumns'
+import { SetFilter } from './components/SetFilter'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
-import { SetVisibleLines } from './components/SetVisibleLines'
 import {
     countSelectableQuayLineKeys,
     generateQuayLineKey,
@@ -160,7 +160,7 @@ function EditStopPlaceForm({
                 onFieldChanged={onFieldChanged}
             />
 
-            <SetVisibleLines
+            <SetFilter
                 quays={quays}
                 checkedLineIds={checkedLineIds}
                 onCheckedLineIdsChange={setCheckedLineIds}
