@@ -30,9 +30,8 @@ function PublicCode({ line }: { line: LineWithFrontText }) {
 
 /**
  * Samme kort-UI som PlatformAndLines, men for én transportmiddel-gruppe på
- * tvers av alle plattformer. En linje kan dekkes av flere plattformer, derfor
- * kan getLineKeys returnere flere nøkler per linje — både linje- og
- * gruppe-checkboksen er tri-state over disse.
+ * tvers av alle plattformer. Valgt-status er ren linje-ID — ingen
+ * plattformtilknytning, så ingen tri-state eller flernøkkel-logikk trengs.
  */
 export function TransportModeLines({
     tile,
@@ -41,7 +40,6 @@ export function TransportModeLines({
     lines,
     trackingLocation,
     selectedLineIds,
-    getLineKeys,
     onToggleLine,
     onToggleGroup,
 }: {
@@ -51,9 +49,8 @@ export function TransportModeLines({
     lines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     selectedLineIds: Set<string>
-    getLineKeys: (line: LineWithFrontText) => string[]
-    onToggleLine: (compositeKeys: string[], checked: boolean) => void
-    onToggleGroup: (compositeKeys: string[], checked: boolean) => void
+    onToggleLine: (lineId: string, checked: boolean) => void
+    onToggleGroup: (lineIds: string[], checked: boolean) => void
 }) {
     const { capture } = usePosthogTracking()
     const [isExpanded, setIsExpanded] = useState(false)
@@ -63,16 +60,16 @@ export function TransportModeLines({
         return !line.frontTexts || line.frontTexts.length > 0
     }
 
-    const allKeysInGroup = lines.filter(filterLineFragment).flatMap(getLineKeys)
+    const allLineIdsInGroup = lines.filter(filterLineFragment).map((l) => l.id)
 
-    const selectedKeysInGroup = allKeysInGroup.filter((key) =>
-        selectedLineIds.has(key),
+    const selectedIdsInGroup = allLineIdsInGroup.filter((id) =>
+        selectedLineIds.has(id),
     )
 
     const isAllSelected =
-        allKeysInGroup.length > 0 &&
-        selectedKeysInGroup.length === allKeysInGroup.length
-    const isNoneSelected = selectedKeysInGroup.length === 0
+        allLineIdsInGroup.length > 0 &&
+        selectedIdsInGroup.length === allLineIdsInGroup.length
+    const isNoneSelected = selectedIdsInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
 
     const compareLineFragment = (
@@ -121,7 +118,7 @@ export function TransportModeLines({
                             column_value: 'none',
                             action: checked ? 'select_all' : 'cleared',
                         })
-                        onToggleGroup(allKeysInGroup, checked)
+                        onToggleGroup(allLineIdsInGroup, checked)
                     }}
                 />
             </div>
@@ -139,41 +136,28 @@ export function TransportModeLines({
                 {[...lines]
                     .sort(compareLineFragment)
                     .filter(filterLineFragment)
-                    .map((line) => {
-                        const keys = getLineKeys(line)
-                        const selectedKeys = keys.filter((key) =>
-                            selectedLineIds.has(key),
-                        )
-                        const lineChecked =
-                            selectedKeys.length === 0
-                                ? false
-                                : selectedKeys.length === keys.length
-                                  ? true
-                                  : 'indeterminate'
-
-                        return (
-                            <Checkbox
-                                key={line.id}
-                                checked={lineChecked}
-                                className="pl-1"
-                                data-transport-mode={line.transportMode}
-                                onChange={(e) => {
-                                    capture('stop_place_edit_interaction', {
-                                        location: trackingLocation,
-                                        field: 'lines',
-                                        column_value: 'none',
-                                        action: 'changed',
-                                    })
-                                    onToggleLine(keys, e.target.checked)
-                                }}
-                            >
-                                <div className="flex flex-row items-center gap-2">
-                                    <PublicCode line={line} />
-                                    {line.frontTexts.join(' / ')}
-                                </div>
-                            </Checkbox>
-                        )
-                    })}
+                    .map((line) => (
+                        <Checkbox
+                            key={line.id}
+                            checked={selectedLineIds.has(line.id)}
+                            className="pl-1"
+                            data-transport-mode={line.transportMode}
+                            onChange={(e) => {
+                                capture('stop_place_edit_interaction', {
+                                    location: trackingLocation,
+                                    field: 'lines',
+                                    column_value: 'none',
+                                    action: 'changed',
+                                })
+                                onToggleLine(line.id, e.target.checked)
+                            }}
+                        >
+                            <div className="flex flex-row items-center gap-2">
+                                <PublicCode line={line} />
+                                {line.frontTexts.join(' / ')}
+                            </div>
+                        </Checkbox>
+                    ))}
             </BaseExpand>
         </div>
     )

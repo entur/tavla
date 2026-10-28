@@ -2,28 +2,21 @@ import { Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { useMemo } from 'react'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
+import type { StopPlaceFilterDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText, QuayWithFrontText } from '../../utils/types'
 import { TileContext } from '../context'
-import {
-    applyKeyToggle,
-    generateQuayLineKey,
-    transportModeNames,
-} from '../utils'
+import { transportModeNames } from '../utils'
 import { TransportModeLines } from './TransportModeLines'
 
 type ModeGroup = {
     mode: TTransportMode
     label: string
     lines: LineWithFrontText[]
-    keysByLineId: Map<string, string[]>
 }
 
 function buildModeGroups(quays: QuayWithFrontText[]): ModeGroup[] {
-    const byMode = new Map<
-        TTransportMode,
-        Map<string, { line: LineWithFrontText; keys: string[] }>
-    >()
+    const byMode = new Map<TTransportMode, Map<string, LineWithFrontText>>()
 
     for (const quay of quays) {
         for (const line of quay.lines) {
@@ -31,27 +24,19 @@ function buildModeGroups(quays: QuayWithFrontText[]): ModeGroup[] {
 
             const mode =
                 (line.transportMode as TTransportMode | null) ?? 'unknown'
-            const key = generateQuayLineKey(quay.id, line.id)
-
             if (!byMode.has(mode)) byMode.set(mode, new Map())
             const lineMap = byMode.get(mode)
             if (!lineMap) continue
 
             const existing = lineMap.get(line.id)
-            if (existing) {
-                existing.keys.push(key)
-                existing.line = {
-                    ...existing.line,
-                    frontTexts: Array.from(
-                        new Set([
-                            ...existing.line.frontTexts,
-                            ...line.frontTexts,
-                        ]),
-                    ),
-                }
-            } else {
-                lineMap.set(line.id, { line, keys: [key] })
-            }
+            lineMap.set(line.id, {
+                ...line,
+                frontTexts: existing
+                    ? Array.from(
+                          new Set([...existing.frontTexts, ...line.frontTexts]),
+                      )
+                    : line.frontTexts,
+            })
         }
     }
 
@@ -59,32 +44,97 @@ function buildModeGroups(quays: QuayWithFrontText[]): ModeGroup[] {
         .map(([mode, lineMap]) => ({
             mode,
             label: transportModeNames(mode) || 'Ukjent',
-            lines: Array.from(lineMap.values()).map((v) => v.line),
-            keysByLineId: new Map(
-                Array.from(lineMap.entries()).map(([id, v]) => [id, v.keys]),
-            ),
+            lines: Array.from(lineMap.values()),
         }))
         .sort((a, b) => a.label.localeCompare(b.label, 'nb-NO'))
 }
 
+function emptyFilter(): StopPlaceFilterDB {
+    return {
+        type: 'stopPlaceFilter',
+        whitelistedModes: [],
+        whitelistedLines: [],
+    }
+}
+
+/** Tom whitelist (ingen moduser, ingen linjer) betyr "ingen begrensning" = alt vises. */
+function deriveSelectedLineIds(
+    filter: StopPlaceFilterDB,
+    modeGroups: ModeGroup[],
+): Set<string> {
+    const isUnrestricted =
+        filter.whitelistedModes.length === 0 &&
+        filter.whitelistedLines.length === 0
+
+    if (isUnrestricted) {
+        return new Set(modeGroups.flatMap((g) => g.lines.map((l) => l.id)))
+    }
+
+    const selected = new Set(filter.whitelistedLines)
+    for (const group of modeGroups) {
+        if (filter.whitelistedModes.includes(group.mode)) {
+            for (const line of group.lines) selected.add(line.id)
+        }
+    }
+    return selected
+}
+
+/** Kollapser tilbake til den tomme whitelisten hvis alt er valgt, i stedet for å lagre en lang redundant liste. */
+function buildFilterFromSelection(
+    selectedLineIds: Set<string>,
+    modeGroups: ModeGroup[],
+): StopPlaceFilterDB {
+    const allLineIds = modeGroups.flatMap((g) => g.lines.map((l) => l.id))
+    const allSelected = allLineIds.every((id) => selectedLineIds.has(id))
+
+    if (allSelected) return emptyFilter()
+
+    const whitelistedModes: TTransportMode[] = []
+    const whitelistedLines: string[] = []
+
+    for (const group of modeGroups) {
+        const groupFullySelected = group.lines.every((line) =>
+            selectedLineIds.has(line.id),
+        )
+        if (groupFullySelected) {
+            whitelistedModes.push(group.mode)
+            continue
+        }
+        for (const line of group.lines) {
+            if (selectedLineIds.has(line.id)) whitelistedLines.push(line.id)
+        }
+    }
+
+    return { type: 'stopPlaceFilter', whitelistedModes, whitelistedLines }
+}
+
 export function StopPlaceFilterView({
     quays,
-    checkedLineIds,
-    onCheckedLineIdsChange,
+    filter,
+    onFilterChange,
     trackingLocation,
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
-    checkedLineIds: Set<string>
-    onCheckedLineIdsChange: (checkedLineIds: Set<string>) => void
+    filter: StopPlaceFilterDB | undefined
+    onFilterChange: (filter: StopPlaceFilterDB) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
     const tile = useNonNullContext(TileContext)
     const modeGroups = useMemo(() => buildModeGroups(quays), [quays])
+    const selectedLineIds = useMemo(
+        () => deriveSelectedLineIds(filter ?? emptyFilter(), modeGroups),
+        [filter, modeGroups],
+    )
 
-    const handleToggle = (keys: string[], checked: boolean) => {
-        onCheckedLineIdsChange(applyKeyToggle(checkedLineIds, keys, checked))
+    const handleToggle = (lineIds: string[], checked: boolean) => {
+        const next = new Set(selectedLineIds)
+        for (const id of lineIds) {
+            if (checked) next.add(id)
+            else next.delete(id)
+        }
+        onFilterChange(buildFilterFromSelection(next, modeGroups))
         onFieldChanged('lines')
     }
 
@@ -101,11 +151,10 @@ export function StopPlaceFilterView({
                     title={group.label}
                     lines={group.lines}
                     trackingLocation={trackingLocation}
-                    selectedLineIds={checkedLineIds}
-                    getLineKeys={(line) =>
-                        group.keysByLineId.get(line.id) ?? []
+                    selectedLineIds={selectedLineIds}
+                    onToggleLine={(lineId, checked) =>
+                        handleToggle([lineId], checked)
                     }
-                    onToggleLine={handleToggle}
                     onToggleGroup={handleToggle}
                 />
             ))}

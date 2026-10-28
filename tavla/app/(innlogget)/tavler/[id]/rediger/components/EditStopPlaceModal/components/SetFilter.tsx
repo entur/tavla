@@ -1,6 +1,7 @@
 import { Heading5, Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { useState } from 'react'
+import type { StopPlaceFilterDB } from 'src/types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
 import { QuaysFilterView } from './QuaysFilterView'
 import { SetFilterMode } from './SetFilterMode'
@@ -22,6 +23,9 @@ export function SetFilter({
     onFieldChanged: (field: string) => void
 }) {
     const [filterMode, setFilterMode] = useState<FilterMode>('stopPlaceFilter')
+    const [stopPlaceFilter, setStopPlaceFilter] = useState<
+        StopPlaceFilterDB | undefined
+    >(undefined)
 
     if (quays.length === 0)
         return (
@@ -54,8 +58,8 @@ export function SetFilter({
             {filterMode === 'stopPlaceFilter' && (
                 <StopPlaceFilterView
                     quays={quays}
-                    checkedLineIds={checkedLineIds}
-                    onCheckedLineIdsChange={onCheckedLineIdsChange}
+                    filter={stopPlaceFilter}
+                    onFilterChange={setStopPlaceFilter}
                     trackingLocation={trackingLocation}
                     onFieldChanged={onFieldChanged}
                 />
