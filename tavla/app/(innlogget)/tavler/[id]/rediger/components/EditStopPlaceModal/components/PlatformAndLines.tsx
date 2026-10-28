@@ -176,7 +176,7 @@ export function PlatformAndLines({
                 aria-controls={linesId}
                 onClick={() => setIsExpanded((prev) => !prev)}
             >
-                Vis linjer
+                {isExpanded ? 'Skjul linjer' : 'Vis linjer'}
                 <ExpandArrow open={isExpanded} />
             </button>
             <BaseExpand open={isExpanded} id={linesId}>
@@ -190,7 +190,7 @@ export function PlatformAndLines({
                             <Checkbox
                                 key={key}
                                 checked={selectedLineIds.has(key)}
-                                className="pl-3"
+                                className="pl-1"
                                 data-transport-mode={line.transportMode}
                                 onChange={() => {
                                     capture('stop_place_edit_interaction', {
