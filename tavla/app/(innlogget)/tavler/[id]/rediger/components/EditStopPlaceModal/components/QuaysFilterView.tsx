@@ -77,7 +77,9 @@ export function QuaysFilterView({
 
     return (
         <div className="flex flex-col gap-2">
-            <Paragraph>Velg hvilke plattformer du vil se.</Paragraph>
+            <Paragraph margin="none">
+                Velg hvilke plattformer du vil se
+            </Paragraph>
             {sortedQuays.map((quay) => (
                 <PlatformAndLines
                     key={quay.id}
