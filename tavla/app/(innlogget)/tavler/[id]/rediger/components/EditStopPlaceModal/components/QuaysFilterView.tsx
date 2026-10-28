@@ -4,7 +4,6 @@ import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { QuayWithFrontText } from '../../utils/types'
 import { TileContext } from '../context'
-import { applyKeyToggle, generateQuayLineKey } from '../utils'
 import { PlatformAndLines } from './PlatformAndLines'
 
 function getPrimaryTransportMode(
@@ -48,8 +47,25 @@ export function QuaysFilterView({
 }) {
     const tile = useNonNullContext(TileContext)
 
-    const handleToggle = (keys: string[], checked: boolean) => {
-        onCheckedLineIdsChange(applyKeyToggle(checkedLineIds, keys, checked))
+    const handleToggleLine = (key: string) => {
+        const newSet = new Set(checkedLineIds)
+        if (newSet.has(key)) {
+            newSet.delete(key)
+        } else {
+            newSet.add(key)
+        }
+        onCheckedLineIdsChange(newSet)
+        onFieldChanged('lines')
+    }
+
+    const handleGroupToggle = (keys: string[], checked: boolean) => {
+        const newSet = new Set(checkedLineIds)
+        if (checked) {
+            for (const key of keys) newSet.add(key)
+        } else {
+            for (const key of keys) newSet.delete(key)
+        }
+        onCheckedLineIdsChange(newSet)
         onFieldChanged('lines')
     }
 
@@ -68,6 +84,7 @@ export function QuaysFilterView({
                 <PlatformAndLines
                     key={quay.id}
                     tile={tile}
+                    quayId={quay.id}
                     groupKey={quay.publicCode || quay.id}
                     title={getQuayTitle(quay)}
                     description={quay.description}
@@ -78,11 +95,8 @@ export function QuaysFilterView({
                     trackingLocation={trackingLocation}
                     fallbackTransportModes={[]}
                     selectedLineIds={checkedLineIds}
-                    getLineKeys={(line) => [
-                        generateQuayLineKey(quay.id, line.id),
-                    ]}
-                    onToggleLine={handleToggle}
-                    onToggleGroup={handleToggle}
+                    onToggleLine={handleToggleLine}
+                    onToggleGroup={handleGroupToggle}
                 />
             ))}
         </div>

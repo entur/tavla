@@ -10,7 +10,7 @@ import {
     generateQuayLineKey,
     transportModeNames,
 } from '../utils'
-import { PlatformAndLines } from './PlatformAndLines'
+import { TransportModeLines } from './TransportModeLines'
 
 type ModeGroup = {
     mode: TTransportMode
@@ -91,18 +91,16 @@ export function StopPlaceFilterView({
     return (
         <div className="flex flex-col gap-2">
             <Paragraph margin="none">
-                Velg hvilke transportmidler og linjer du vil se
+                Velg hvilke transportmidler du vil se
             </Paragraph>
             {modeGroups.map((group) => (
-                <PlatformAndLines
+                <TransportModeLines
                     key={group.mode}
                     tile={tile}
                     groupKey={group.mode}
                     title={group.label}
-                    description={null}
                     lines={group.lines}
                     trackingLocation={trackingLocation}
-                    fallbackTransportModes={[group.mode]}
                     selectedLineIds={checkedLineIds}
                     getLineKeys={(line) =>
                         group.keysByLineId.get(line.id) ?? []
