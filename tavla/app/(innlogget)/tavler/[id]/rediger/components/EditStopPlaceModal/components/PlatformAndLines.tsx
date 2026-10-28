@@ -1,4 +1,5 @@
 'use client'
+import { BaseExpand, ExpandArrow } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
@@ -10,6 +11,7 @@ import {
 } from 'app/_components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { useState } from 'react'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from '../../utils/types'
@@ -58,6 +60,8 @@ export function PlatformAndLines({
     onToggleGroup: (compositeKeys: string[], checked: boolean) => void
 }) {
     const { capture } = usePosthogTracking()
+    const [isExpanded, setIsExpanded] = useState(false)
+    const linesId = `lines-${tile.uuid}-${groupKey}`
 
     const filterLineFragment = (line: LineWithFrontText) => {
         return !line.frontTexts || line.frontTexts.length > 0
@@ -125,7 +129,7 @@ export function PlatformAndLines({
                             />
                         ))}
                     </div>
-                    <div className="flex flex-row flex-wrap items-center gap-x-2 font-semibold">
+                    <div className="flex flex-row flex-wrap items-center gap-x-2">
                         {title}
                         {quayCodeTooltip && (
                             <Tooltip
@@ -165,35 +169,47 @@ export function PlatformAndLines({
                     }}
                 />
             </div>
-            {[...lines]
-                .sort(compareLineFragment)
-                .filter(filterLineFragment)
-                .map((line) => {
-                    const key = generateQuayLineKey(quayId, line.id)
+            <button
+                type="button"
+                className="mt-2 flex flex-row items-center gap-1 text-sm text-[#626493]"
+                aria-expanded={isExpanded}
+                aria-controls={linesId}
+                onClick={() => setIsExpanded((prev) => !prev)}
+            >
+                Vis linjer
+                <ExpandArrow open={isExpanded} />
+            </button>
+            <BaseExpand open={isExpanded} id={linesId}>
+                {[...lines]
+                    .sort(compareLineFragment)
+                    .filter(filterLineFragment)
+                    .map((line) => {
+                        const key = generateQuayLineKey(quayId, line.id)
 
-                    return (
-                        <Checkbox
-                            key={key}
-                            checked={selectedLineIds.has(key)}
-                            className="pl-3"
-                            data-transport-mode={line.transportMode}
-                            onChange={() => {
-                                capture('stop_place_edit_interaction', {
-                                    location: trackingLocation,
-                                    field: 'lines',
-                                    column_value: 'none',
-                                    action: 'changed',
-                                })
-                                onToggleLine(key)
-                            }}
-                        >
-                            <div className="flex flex-row items-center gap-2">
-                                <PublicCode line={line} />
-                                {line.frontTexts.join(' / ')}
-                            </div>
-                        </Checkbox>
-                    )
-                })}
+                        return (
+                            <Checkbox
+                                key={key}
+                                checked={selectedLineIds.has(key)}
+                                className="pl-3"
+                                data-transport-mode={line.transportMode}
+                                onChange={() => {
+                                    capture('stop_place_edit_interaction', {
+                                        location: trackingLocation,
+                                        field: 'lines',
+                                        column_value: 'none',
+                                        action: 'changed',
+                                    })
+                                    onToggleLine(key)
+                                }}
+                            >
+                                <div className="flex flex-row items-center gap-2">
+                                    <PublicCode line={line} />
+                                    {line.frontTexts.join(' / ')}
+                                </div>
+                            </Checkbox>
+                        )
+                    })}
+            </BaseExpand>
         </div>
     )
 }
