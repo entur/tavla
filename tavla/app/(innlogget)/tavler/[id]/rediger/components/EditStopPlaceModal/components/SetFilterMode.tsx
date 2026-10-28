@@ -31,7 +31,12 @@ export function SetFilterMode({
     const { capture } = usePosthogTracking()
 
     const handleChange = (mode: (typeof filterModes)[number]['value']) => {
-        // TODO - Posthog tracking for filter mode change
+        capture('stop_place_edit_interaction', {
+            location: trackingLocation,
+            field: 'filter_mode',
+            action: 'changed',
+            column_value: 'none',
+        })
         onFieldChanged(mode)
     }
 
