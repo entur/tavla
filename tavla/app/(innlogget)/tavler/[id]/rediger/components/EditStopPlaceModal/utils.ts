@@ -43,6 +43,22 @@ export function generateQuayLineKey(quayId: string, lineId: string): string {
     return `${quayId}||${lineId}`
 }
 
+export function applyKeyToggle(
+    current: Set<string>,
+    keys: string[],
+    checked: boolean,
+): Set<string> {
+    const next = new Set(current)
+    for (const key of keys) {
+        if (checked) {
+            next.add(key)
+        } else {
+            next.delete(key)
+        }
+    }
+    return next
+}
+
 export function countSelectableQuayLineKeys(
     quays: QuayWithFrontText[],
 ): number {

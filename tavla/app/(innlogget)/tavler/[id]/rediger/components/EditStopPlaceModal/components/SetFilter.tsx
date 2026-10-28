@@ -4,6 +4,7 @@ import { useState } from 'react'
 import type { QuayWithFrontText } from '../../utils/types'
 import { QuaysFilterView } from './QuaysFilterView'
 import { SetFilterMode } from './SetFilterMode'
+import { StopPlaceFilterView } from './StopPlaceFilterView'
 
 export type FilterMode = 'stopPlaceFilter' | 'quaysFilter'
 
@@ -50,7 +51,15 @@ export function SetFilter({
                     onFieldChanged={onFieldChanged}
                 />
             )}
-            {filterMode === 'stopPlaceFilter' && <div>Stop Place</div>}
+            {filterMode === 'stopPlaceFilter' && (
+                <StopPlaceFilterView
+                    quays={quays}
+                    checkedLineIds={checkedLineIds}
+                    onCheckedLineIdsChange={onCheckedLineIdsChange}
+                    trackingLocation={trackingLocation}
+                    onFieldChanged={onFieldChanged}
+                />
+            )}
         </div>
     )
 }

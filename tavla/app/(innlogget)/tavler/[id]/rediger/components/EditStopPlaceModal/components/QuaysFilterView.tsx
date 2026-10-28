@@ -1,9 +1,10 @@
+import { Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
-import { Paragraph } from 'node_modules/@entur/typography'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { QuayWithFrontText } from '../../utils/types'
 import { TileContext } from '../context'
+import { applyKeyToggle, generateQuayLineKey } from '../utils'
 import { PlatformAndLines } from './PlatformAndLines'
 
 function getPrimaryTransportMode(
@@ -47,25 +48,8 @@ export function QuaysFilterView({
 }) {
     const tile = useNonNullContext(TileContext)
 
-    const handleToggleLine = (key: string) => {
-        const newSet = new Set(checkedLineIds)
-        if (newSet.has(key)) {
-            newSet.delete(key)
-        } else {
-            newSet.add(key)
-        }
-        onCheckedLineIdsChange(newSet)
-        onFieldChanged('lines')
-    }
-
-    const handleGroupToggle = (keys: string[], checked: boolean) => {
-        const newSet = new Set(checkedLineIds)
-        if (checked) {
-            for (const key of keys) newSet.add(key)
-        } else {
-            for (const key of keys) newSet.delete(key)
-        }
-        onCheckedLineIdsChange(newSet)
+    const handleToggle = (keys: string[], checked: boolean) => {
+        onCheckedLineIdsChange(applyKeyToggle(checkedLineIds, keys, checked))
         onFieldChanged('lines')
     }
 
@@ -84,7 +68,6 @@ export function QuaysFilterView({
                 <PlatformAndLines
                     key={quay.id}
                     tile={tile}
-                    quayId={quay.id}
                     groupKey={quay.publicCode || quay.id}
                     title={getQuayTitle(quay)}
                     description={quay.description}
@@ -95,8 +78,11 @@ export function QuaysFilterView({
                     trackingLocation={trackingLocation}
                     fallbackTransportModes={[]}
                     selectedLineIds={checkedLineIds}
-                    onToggleLine={handleToggleLine}
-                    onToggleGroup={handleGroupToggle}
+                    getLineKeys={(line) => [
+                        generateQuayLineKey(quay.id, line.id),
+                    ]}
+                    onToggleLine={handleToggle}
+                    onToggleGroup={handleToggle}
                 />
             ))}
         </div>
