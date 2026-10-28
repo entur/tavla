@@ -135,10 +135,18 @@ function EditStopPlaceForm({
     }
 
     return (
-        <>
+        <div className="flex flex-col gap-8">
             <SetStopPlaceName
                 displayName={displayName}
                 onDisplayNameChange={setDisplayName}
+                trackingLocation="board_page"
+                onFieldChanged={onFieldChanged}
+            />
+
+            <SetFilter
+                quays={quays}
+                checkedLineIds={checkedLineIds}
+                onCheckedLineIdsChange={setCheckedLineIds}
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
             />
@@ -156,14 +164,6 @@ function EditStopPlaceForm({
                 onColumnsChange={setColumns}
                 isCombined={board.isCombinedTiles}
                 isArrivals={board.isArrivals ?? false}
-                trackingLocation="board_page"
-                onFieldChanged={onFieldChanged}
-            />
-
-            <SetFilter
-                quays={quays}
-                checkedLineIds={checkedLineIds}
-                onCheckedLineIdsChange={setCheckedLineIds}
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
             />
@@ -198,7 +198,7 @@ function EditStopPlaceForm({
                     Bekreft valg
                 </Button>
             </div>
-        </>
+        </div>
     )
 }
 

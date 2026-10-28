@@ -31,7 +31,7 @@ export function SetFilter({
     const tile = useNonNullContext(TileContext)
 
     return (
-        <>
+        <div className="flex flex-col gap-4">
             <Heading5 as="h2">
                 Hvilke plattformer og linjer vil du vise på Tavla?
             </Heading5>
@@ -42,6 +42,6 @@ export function SetFilter({
             />
             {filterMode === 'quaysFilter' && <div>Platform</div>}
             {filterMode === 'stopPlaceFilter' && <div>Stop Place</div>}
-        </>
+        </div>
     )
 }
