@@ -13,7 +13,7 @@ import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { LineWithFrontText } from '../../utils/types'
-import { generateQuayLineKey, sortLineFragment } from '../utils'
+import { sortLineFragment } from '../utils'
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
@@ -30,49 +30,48 @@ function PublicCode({ line }: { line: LineWithFrontText }) {
     )
 }
 
-function isLineSelected(
-    lineId: string,
-    selectedLineIds: string[],
-    isGroupSelected: boolean,
-): boolean {
-    if (isGroupSelected && selectedLineIds.length === 0) return true
-
-    return selectedLineIds.includes(lineId)
-}
-
 export function PlatformAndLines({
     quayId,
     title,
     description,
     tooltip,
-    lines,
+    availableLines,
     trackingLocation,
-    selectedLineIds,
+    whitelistedLines,
     onToggleLine,
     onToggleGroup,
-    isGroupSelected,
 }: {
     quayId: string
     title: string
-    lines: LineWithFrontText[]
+    availableLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    selectedLineIds: string[]
+    whitelistedLines: string[]
     onToggleLine: (quayId: string, lineId: string, checked: boolean) => void
     onToggleGroup: (quayId: string, checked: boolean) => void
-    isGroupSelected: boolean
     description?: string
     tooltip?: string
 }) {
     const { capture } = usePosthogTracking()
     const [isExpanded, setIsExpanded] = useState(false)
-    const linesId = `TODO`
+    const linesId = `lines-${quayId}`
 
     const filterLineFragment = (line: LineWithFrontText) => {
         return !line.frontTexts || line.frontTexts.length > 0
     }
 
+    const allLineIdsInGroup = availableLines
+        .filter(filterLineFragment)
+        .map((l) => l.id)
+    const selectedIdsInGroup = allLineIdsInGroup.filter((id) =>
+        whitelistedLines.includes(id),
+    )
+
+    const isAllSelected = selectedIdsInGroup.length === allLineIdsInGroup.length
+    const isNoneSelected = selectedIdsInGroup.length === 0
+    const isIndeterminate = !isAllSelected && !isNoneSelected
+
     const transportModesFromLines =
-        getTransportModesFromLines(lines).sort(sortByTransportMode)
+        getTransportModesFromLines(availableLines).sort(sortByTransportMode)
 
     const handleToggleGroup = (checked: boolean) => {
         capture('stop_place_edit_interaction', {
@@ -93,8 +92,6 @@ export function PlatformAndLines({
         })
         onToggleLine(quayId, lineId, checked)
     }
-
-    const isIntermediate = selectedLineIds.length > 0
 
     return (
         <div className="rounded-lg border-2 p-4">
@@ -138,7 +135,7 @@ export function PlatformAndLines({
                 </div>
                 <Checkbox
                     id={`select-all-${quayId}`}
-                    checked={isIntermediate ? 'indeterminate' : isGroupSelected}
+                    checked={isIndeterminate ? 'indeterminate' : isAllSelected}
                     onChange={(e) => handleToggleGroup(e.target.checked)}
                 />
             </div>
@@ -153,29 +150,25 @@ export function PlatformAndLines({
                 <ExpandArrow open={isExpanded} />
             </button>
             <BaseExpand open={isExpanded} id={linesId}>
-                {[...lines]
+                {[...availableLines]
                     .sort(sortLineFragment)
                     .filter(filterLineFragment)
-                    .map((line) => {
-                        const key = generateQuayLineKey(quayId, line.id)
-
-                        return (
-                            <Checkbox
-                                key={key}
-                                checked={selectedLineIds.includes(line.id)}
-                                className="pl-1"
-                                data-transport-mode={line.transportMode}
-                                onChange={(e) =>
-                                    handleToggleLine(line.id, e.target.checked)
-                                }
-                            >
-                                <div className="flex flex-row items-center gap-2">
-                                    <PublicCode line={line} />
-                                    {line.frontTexts.join(' / ')}
-                                </div>
-                            </Checkbox>
-                        )
-                    })}
+                    .map((line) => (
+                        <Checkbox
+                            key={line.id}
+                            checked={whitelistedLines.includes(line.id)}
+                            className="ml-1"
+                            data-transport-mode={line.transportMode}
+                            onChange={(e) =>
+                                handleToggleLine(line.id, e.target.checked)
+                            }
+                        >
+                            <div className="flex flex-row items-center gap-2">
+                                <PublicCode line={line} />
+                                {line.frontTexts.join(' / ')}
+                            </div>
+                        </Checkbox>
+                    ))}
             </BaseExpand>
         </div>
     )
