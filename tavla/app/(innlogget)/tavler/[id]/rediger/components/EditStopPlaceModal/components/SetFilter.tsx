@@ -1,6 +1,7 @@
 import { Heading5, Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { useState } from 'react'
+import type { QuaysFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
 import { QuaysFilterView } from './QuaysFilterView'
 import { SetFilterMode } from './SetFilterMode'
@@ -9,18 +10,18 @@ export type FilterMode = 'stopPlaceFilter' | 'quaysFilter'
 
 export function SetFilter({
     quays,
-    checkedLineIds,
-    onCheckedLineIdsChange,
     trackingLocation,
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
-    checkedLineIds: Set<string>
-    onCheckedLineIdsChange: (checkedLineIds: Set<string>) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
     const [filterMode, setFilterMode] = useState<FilterMode>('stopPlaceFilter')
+    const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>({
+        type: 'quaysFilter',
+        quays: [],
+    })
 
     if (quays.length === 0)
         return (
@@ -44,8 +45,8 @@ export function SetFilter({
             {filterMode === 'quaysFilter' && (
                 <QuaysFilterView
                     quays={quays}
-                    checkedLineIds={checkedLineIds}
-                    onCheckedLineIdsChange={onCheckedLineIdsChange}
+                    quaysFilter={quaysFilter}
+                    setQuaysFilter={setQuaysFilter}
                     trackingLocation={trackingLocation}
                     onFieldChanged={onFieldChanged}
                 />

@@ -145,8 +145,6 @@ function EditStopPlaceForm({
 
             <SetFilter
                 quays={quays}
-                checkedLineIds={checkedLineIds}
-                onCheckedLineIdsChange={setCheckedLineIds}
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
             />
