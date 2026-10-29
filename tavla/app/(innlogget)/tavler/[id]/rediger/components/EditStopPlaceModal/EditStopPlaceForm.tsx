@@ -5,6 +5,7 @@ import { startTransition, useActionState, useState } from 'react'
 import type {
     BoardDB,
     BoardTileDB,
+    QuaysFilterDB,
     TileColumnDB,
 } from 'src/types/db-types/boards'
 import type { QuayWithFrontText } from '../utils/types'
@@ -13,15 +14,10 @@ import { SetColumns } from './components/SetColumns'
 import { SetFilter } from './components/SetFilter'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
-import {
-    countSelectableQuayLineKeys,
-    generateQuayLineKey,
-    getInitialCheckedLineIds,
-} from './utils'
+import { compressQuaysFilter, expandQuaysFilter } from './utils'
 
 type SavePayload = {
     tile: BoardTileDB
-    selectedLinesCount: number
 }
 
 type Props = {
@@ -42,23 +38,40 @@ function EditStopPlaceForm({
     onCancel,
 }: Props) {
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
+
+    const [filterType, setFilterType] = useState<
+        'stopPlaceFilter' | 'quaysFilter'
+    >(tile.filter?.type ?? 'stopPlaceFilter')
+
+    const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>(() =>
+        expandQuaysFilter(
+            tile.filter?.type === 'quaysFilter'
+                ? tile.filter
+                : { type: 'quaysFilter', quays: [] },
+            quays,
+        ),
+    )
+    // TODO - add stopPlaceFilter state and initialization
+
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
-    const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() =>
-        getInitialCheckedLineIds(tile, quays),
-    )
-
-    const totalSelectableKeys = countSelectableQuayLineKeys(quays)
 
     const handleSave = async (
         _prevState: EditStopPlaceModalFormState,
-        { tile: newTile, selectedLinesCount: selectedCount }: SavePayload,
+        { tile: newTile }: SavePayload,
     ): Promise<EditStopPlaceModalFormState> => {
-        if (selectedCount === 0 && totalSelectableKeys > 0) {
-            return {
-                status: 'error',
-                message: 'Du må velge en eller flere linjer for å lagre',
-                field: 'lines',
+        if (filterType === 'quaysFilter') {
+            if (
+                quaysFilter.quays.length === 0 ||
+                quaysFilter.quays.every(
+                    (quay) => quay.whitelistedLines.length === 0,
+                )
+            ) {
+                return {
+                    status: 'error',
+                    message: 'Du må velge en eller flere linjer for å lagre',
+                    field: 'lines',
+                }
             }
         }
 
@@ -74,24 +87,6 @@ function EditStopPlaceForm({
     const [state, action, isPending] = useActionState(handleSave, null)
 
     function buildTile(): BoardTileDB {
-        const selectedQuayLineKeys = Array.from(checkedLineIds)
-        const allSelected = selectedQuayLineKeys.length === totalSelectableKeys
-
-        const newQuays = allSelected
-            ? []
-            : quays
-                  .map((q) => ({
-                      id: q.id,
-                      whitelistedLines: q.lines
-                          .filter((l) =>
-                              selectedQuayLineKeys.includes(
-                                  generateQuayLineKey(q.id, l.id),
-                              ),
-                          )
-                          .map((l) => l.id),
-                  }))
-                  .filter((q) => q.whitelistedLines.length > 0)
-
         const hasWalkingDistance =
             board.meta.location && tile.walkingDistance?.distance !== undefined
         const hasDrivingDistance =
@@ -100,7 +95,14 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            quays: newQuays,
+            filter:
+                filterType === 'quaysFilter'
+                    ? compressQuaysFilter(quaysFilter, quays)
+                    : {
+                          type: 'stopPlaceFilter',
+                          whitelistedModes: [],
+                          whitelistedLines: [],
+                      },
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
@@ -129,7 +131,6 @@ function EditStopPlaceForm({
     const handleConfirm = () => {
         const payload: SavePayload = {
             tile: buildTile(),
-            selectedLinesCount: checkedLineIds.size,
         }
         startTransition(() => action(payload))
     }
@@ -145,8 +146,10 @@ function EditStopPlaceForm({
 
             <SetFilter
                 quays={quays}
-                checkedLineIds={checkedLineIds}
-                onCheckedLineIdsChange={setCheckedLineIds}
+                filterMode={filterType}
+                setFilterMode={setFilterType}
+                quaysFilter={quaysFilter}
+                setQuaysFilter={setQuaysFilter}
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
             />

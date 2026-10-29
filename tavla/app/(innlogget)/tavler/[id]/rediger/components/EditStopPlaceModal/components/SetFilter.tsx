@@ -1,34 +1,36 @@
-import { Heading5 } from '@entur/typography'
+import { Heading5, Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
-import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useState } from 'react'
-
-import { useNonNullContext } from 'src/hooks/useNonNullContext'
-import type { TTransportMode } from 'src/types/graphql-schema'
+import type { QuaysFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
-import { TileContext } from '../context'
-import { generateQuayLineKey, transportModeNames } from '../utils'
-import { PlatformAndLines } from './PlatformAndLines'
+import { QuaysFilterView } from './QuaysFilterView'
 import { SetFilterMode } from './SetFilterMode'
 
 export type FilterMode = 'stopPlaceFilter' | 'quaysFilter'
 
 export function SetFilter({
     quays,
-    checkedLineIds,
-    onCheckedLineIdsChange,
+    filterMode,
+    setFilterMode,
+    quaysFilter,
+    setQuaysFilter,
     trackingLocation,
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
-    checkedLineIds: Set<string>
-    onCheckedLineIdsChange: (checkedLineIds: Set<string>) => void
+    filterMode: FilterMode
+    setFilterMode: (mode: FilterMode) => void
+    quaysFilter: QuaysFilterDB
+    setQuaysFilter: (filter: QuaysFilterDB) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const [filterMode, setFilterMode] = useState<FilterMode>('stopPlaceFilter')
-    const { capture } = usePosthogTracking()
-    const tile = useNonNullContext(TileContext)
+    if (quays.length === 0)
+        return (
+            <Paragraph className="italic">
+                Det er ingen avganger fra dette stoppestedet de neste syv
+                dagene.
+            </Paragraph>
+        )
 
     return (
         <div className="flex flex-col gap-4">
@@ -40,7 +42,16 @@ export function SetFilter({
                 selectedFilterMode={filterMode}
                 onFieldChanged={(mode) => setFilterMode(mode)}
             />
-            {filterMode === 'quaysFilter' && <div>Platform</div>}
+
+            {filterMode === 'quaysFilter' && (
+                <QuaysFilterView
+                    quays={quays}
+                    quaysFilter={quaysFilter}
+                    setQuaysFilter={setQuaysFilter}
+                    trackingLocation={trackingLocation}
+                    onFieldChanged={onFieldChanged}
+                />
+            )}
             {filterMode === 'stopPlaceFilter' && <div>Stop Place</div>}
         </div>
     )
