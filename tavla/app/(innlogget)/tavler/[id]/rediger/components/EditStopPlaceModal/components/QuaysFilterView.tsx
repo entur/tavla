@@ -1,10 +1,8 @@
+import { Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
-import { Paragraph } from 'node_modules/@entur/typography'
-import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { QuaysFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
-import { TileContext } from '../context'
 import { PlatformAndLines } from './PlatformAndLines'
 
 function getPrimaryTransportMode(
@@ -51,73 +49,45 @@ export function QuaysFilterView({
         lineId: string,
         checked: boolean,
     ) => {
-        const existingQuay = quaysFilter.quays.find((q) => q.id === quayId)
+        const existingWhitelistedLines =
+            quaysFilter.quays.find((q) => q.id === quayId)?.whitelistedLines ??
+            []
+        const newWhitelistedLines = checked
+            ? [...existingWhitelistedLines, lineId]
+            : existingWhitelistedLines.filter((id) => id !== lineId)
 
-        if (checked) {
-            if (existingQuay) {
-                setQuaysFilter({
-                    ...quaysFilter,
-                    quays: quaysFilter.quays.map((q) =>
-                        q.id === quayId
-                            ? {
-                                  ...q,
-                                  whitelistedLines: [
-                                      ...q.whitelistedLines.filter(
-                                          (id) => id !== lineId,
-                                      ),
-                                      lineId,
-                                  ],
-                              }
-                            : q,
-                    ),
-                })
-            } else {
-                setQuaysFilter({
-                    ...quaysFilter,
-                    quays: [
-                        ...quaysFilter.quays,
-                        { id: quayId, whitelistedLines: [lineId] },
-                    ],
-                })
-            }
-        } else {
-            setQuaysFilter({
-                ...quaysFilter,
-                quays: quaysFilter.quays
-                    .map((q) =>
-                        q.id === quayId
-                            ? {
-                                  ...q,
-                                  whitelistedLines: q.whitelistedLines.filter(
-                                      (id) => id !== lineId,
-                                  ),
-                              }
-                            : q,
-                    )
-                    .filter(
-                        (q) => q.id !== quayId || q.whitelistedLines.length > 0,
-                    ),
-            })
-        }
+        setQuaysFilter({
+            ...quaysFilter,
+            quays: quaysFilter.quays.map((existingQuayFilter) =>
+                existingQuayFilter.id === quayId
+                    ? {
+                          ...existingQuayFilter,
+                          whitelistedLines: newWhitelistedLines,
+                      }
+                    : existingQuayFilter,
+            ),
+        })
 
         onFieldChanged('lines')
     }
 
     const handleGroupToggle = (quayId: string, checked: boolean) => {
-        if (checked) {
-            setQuaysFilter({
-                ...quaysFilter,
-                quays: [
-                    ...quaysFilter.quays.filter((q) => q.id !== quayId),
-                    { id: quayId, whitelistedLines: [] },
-                ],
-            })
-        } else {
-            setQuaysFilter({
-                ...quaysFilter,
-                quays: quaysFilter.quays.filter((q) => q.id !== quayId),
-            })
-        }
+        const quay = quays.find((q) => q.id === quayId)
+        if (!quay) return
+
+        const newWhitelistedLines = checked ? quay.lines.map((l) => l.id) : []
+
+        setQuaysFilter({
+            ...quaysFilter,
+            quays: quaysFilter.quays.map((existingQuayFilter) =>
+                existingQuayFilter.id === quayId
+                    ? {
+                          ...existingQuayFilter,
+                          whitelistedLines: newWhitelistedLines,
+                      }
+                    : existingQuayFilter,
+            ),
+        })
 
         onFieldChanged('lines')
     }
@@ -144,15 +114,12 @@ export function QuaysFilterView({
                             ? undefined
                             : `Plattformkode: ${quay.id}`
                     }
-                    lines={quay.lines}
-                    trackingLocation={trackingLocation}
-                    selectedLineIds={
+                    availableLines={quay.lines}
+                    whitelistedLines={
                         quaysFilter.quays.find((q) => q.id === quay.id)
                             ?.whitelistedLines ?? []
                     }
-                    isGroupSelected={quaysFilter.quays.some(
-                        (q) => q.id === quay.id,
-                    )}
+                    trackingLocation={trackingLocation}
                     onToggleLine={handleToggleLine}
                     onToggleGroup={handleGroupToggle}
                 />
