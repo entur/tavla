@@ -1,6 +1,6 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { BoardTileDB } from 'types/db-types/boards'
-import type { QuayWithFrontText } from '../utils/types'
+import type { LineWithFrontText, QuayWithFrontText } from '../utils/types'
 
 export function transportModeNames(
     transportMode: TTransportMode | null | undefined,
@@ -90,4 +90,23 @@ export function getInitialCheckedLineIds(
     }
 
     return set
+}
+
+export function sortLineFragment(
+    a: LineWithFrontText,
+    b: LineWithFrontText,
+): number {
+    const modeA = a.transportMode || ''
+    const modeB = b.transportMode || ''
+
+    if (modeA !== modeB) {
+        return modeA.localeCompare(modeB)
+    }
+
+    const codeA = a.publicCode || ''
+    const codeB = b.publicCode || ''
+
+    return codeA.localeCompare(codeB, undefined, {
+        numeric: true,
+    })
 }
