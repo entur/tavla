@@ -12,10 +12,8 @@ import {
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
-import type { BoardTileDB } from 'src/types/db-types/boards'
-import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from '../../utils/types'
-import { generateQuayLineKey } from '../utils'
+import { generateQuayLineKey, sortLineFragment } from '../utils'
 
 function PublicCode({ line }: { line: LineWithFrontText }) {
     if (!line.publicCode) return null
@@ -32,91 +30,78 @@ function PublicCode({ line }: { line: LineWithFrontText }) {
     )
 }
 
+function isLineSelected(
+    lineId: string,
+    selectedLineIds: string[],
+    isGroupSelected: boolean,
+): boolean {
+    if (isGroupSelected && selectedLineIds.length === 0) return true
+
+    return selectedLineIds.includes(lineId)
+}
+
 export function PlatformAndLines({
-    tile,
     quayId,
-    groupKey,
     title,
     description,
-    quayCodeTooltip,
+    tooltip,
     lines,
     trackingLocation,
-    fallbackTransportModes: fallbackModes,
     selectedLineIds,
     onToggleLine,
     onToggleGroup,
+    isGroupSelected,
 }: {
-    tile: BoardTileDB
     quayId: string
-    groupKey: string
     title: string
-    description: string | null
-    quayCodeTooltip?: string | null
     lines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    fallbackTransportModes: TTransportMode[]
-    selectedLineIds: Set<string>
-    onToggleLine: (compositeKey: string) => void
-    onToggleGroup: (compositeKeys: string[], checked: boolean) => void
+    selectedLineIds: string[]
+    onToggleLine: (quayId: string, lineId: string, checked: boolean) => void
+    onToggleGroup: (quayId: string, checked: boolean) => void
+    isGroupSelected: boolean
+    description?: string
+    tooltip?: string
 }) {
     const { capture } = usePosthogTracking()
     const [isExpanded, setIsExpanded] = useState(false)
-    const linesId = `lines-${tile.uuid}-${groupKey}`
+    const linesId = `TODO`
 
     const filterLineFragment = (line: LineWithFrontText) => {
         return !line.frontTexts || line.frontTexts.length > 0
     }
 
-    const allKeysInGroup = lines
-        .filter(filterLineFragment)
-        .map((l) => generateQuayLineKey(quayId, l.id))
+    const transportModesFromLines =
+        getTransportModesFromLines(lines).sort(sortByTransportMode)
 
-    const selectedKeysInGroup = allKeysInGroup.filter((key) =>
-        selectedLineIds.has(key),
-    )
-
-    const isAllSelected =
-        allKeysInGroup.length > 0 &&
-        selectedKeysInGroup.length === allKeysInGroup.length
-    const isNoneSelected = selectedKeysInGroup.length === 0
-    const isIndeterminate = !isAllSelected && !isNoneSelected
-
-    const compareLineFragment = (
-        a: LineWithFrontText,
-        b: LineWithFrontText,
-    ) => {
-        const modeA = a.transportMode || ''
-        const modeB = b.transportMode || ''
-
-        if (modeA !== modeB) {
-            return modeA.localeCompare(modeB)
-        }
-
-        const codeA = a.publicCode || ''
-        const codeB = b.publicCode || ''
-
-        return codeA.localeCompare(codeB, undefined, {
-            numeric: true,
+    const handleToggleGroup = (checked: boolean) => {
+        capture('stop_place_edit_interaction', {
+            location: trackingLocation,
+            field: 'lines',
+            column_value: 'none',
+            action: checked ? 'select_all' : 'cleared',
         })
+        onToggleGroup(quayId, checked)
     }
 
-    const transportModesFromLines = getTransportModesFromLines(lines)
+    const handleToggleLine = (lineId: string, checked: boolean) => {
+        capture('stop_place_edit_interaction', {
+            location: trackingLocation,
+            field: 'lines',
+            column_value: 'none',
+            action: 'changed',
+        })
+        onToggleLine(quayId, lineId, checked)
+    }
 
-    const iconPairs = (
-        transportModesFromLines.length > 0
-            ? transportModesFromLines
-            : (fallbackModes?.map((m) => ({
-                  transportMode: m,
-                  transportSubmode: undefined,
-              })) ?? [])
-    ).sort(sortByTransportMode)
+    const isIntermediate = selectedLineIds.length > 0
 
     return (
         <div className="rounded-lg border-2 p-4">
             <div className="flex flex-row justify-between">
-                <div className="flex flex-row items-center justify-start gap-2 pr-3 ">
+                <div className="flex flex-row items-center justify-start gap-2">
                     <div className="flex flex-row gap-1 self-center">
-                        {iconPairs.map((transportMode) => (
+                        {transportModesFromLines.map((transportMode) => (
                             <TransportIcon
                                 key={`${transportMode.transportMode}|${transportMode.transportSubmode ?? ''}`}
                                 transportMode={transportMode.transportMode}
@@ -131,10 +116,10 @@ export function PlatformAndLines({
                     </div>
                     <div className="flex flex-row flex-wrap items-center gap-x-2">
                         {title}
-                        {quayCodeTooltip && (
+                        {tooltip && (
                             <Tooltip
                                 className="font-normal"
-                                content={quayCodeTooltip}
+                                content={tooltip}
                                 placement="top"
                                 id={`tooltip-quay-code-${quayId}`}
                             >
@@ -152,21 +137,9 @@ export function PlatformAndLines({
                     </div>
                 </div>
                 <Checkbox
-                    id={`select-all-${tile.uuid}-${groupKey}`}
-                    checked={isIndeterminate ? 'indeterminate' : isAllSelected}
-                    onChange={(e) => {
-                        const checked = e.target.checked
-                        capture('stop_place_edit_interaction', {
-                            location: trackingLocation,
-                            field: 'lines',
-                            column_value: 'none',
-                            action: checked ? 'select_all' : 'cleared',
-                        })
-                        onToggleGroup(
-                            lines.map((l) => generateQuayLineKey(quayId, l.id)),
-                            checked,
-                        )
-                    }}
+                    id={`select-all-${quayId}`}
+                    checked={isIntermediate ? 'indeterminate' : isGroupSelected}
+                    onChange={(e) => handleToggleGroup(e.target.checked)}
                 />
             </div>
             <button
@@ -181,7 +154,7 @@ export function PlatformAndLines({
             </button>
             <BaseExpand open={isExpanded} id={linesId}>
                 {[...lines]
-                    .sort(compareLineFragment)
+                    .sort(sortLineFragment)
                     .filter(filterLineFragment)
                     .map((line) => {
                         const key = generateQuayLineKey(quayId, line.id)
@@ -189,18 +162,12 @@ export function PlatformAndLines({
                         return (
                             <Checkbox
                                 key={key}
-                                checked={selectedLineIds.has(key)}
+                                checked={selectedLineIds.includes(line.id)}
                                 className="pl-1"
                                 data-transport-mode={line.transportMode}
-                                onChange={() => {
-                                    capture('stop_place_edit_interaction', {
-                                        location: trackingLocation,
-                                        field: 'lines',
-                                        column_value: 'none',
-                                        action: 'changed',
-                                    })
-                                    onToggleLine(key)
-                                }}
+                                onChange={(e) =>
+                                    handleToggleLine(line.id, e.target.checked)
+                                }
                             >
                                 <div className="flex flex-row items-center gap-2">
                                     <PublicCode line={line} />

@@ -2,6 +2,7 @@ import type { EventProps } from 'app/posthog/events'
 import { Paragraph } from 'node_modules/@entur/typography'
 import { useNonNullContext } from 'src/hooks/useNonNullContext'
 import type { TTransportMode } from 'src/types/graphql-schema'
+import type { QuaysFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
 import { TileContext } from '../context'
 import { PlatformAndLines } from './PlatformAndLines'
@@ -34,38 +35,90 @@ function getQuayTitle(quay: QuayWithFrontText): string {
 
 export function QuaysFilterView({
     quays,
-    checkedLineIds,
-    onCheckedLineIdsChange,
+    quaysFilter,
+    setQuaysFilter,
     trackingLocation,
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
-    checkedLineIds: Set<string>
-    onCheckedLineIdsChange: (checkedLineIds: Set<string>) => void
+    quaysFilter: QuaysFilterDB
+    setQuaysFilter: (quaysFilter: QuaysFilterDB) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const tile = useNonNullContext(TileContext)
+    const handleToggleLine = (
+        quayId: string,
+        lineId: string,
+        checked: boolean,
+    ) => {
+        const existingQuay = quaysFilter.quays.find((q) => q.id === quayId)
 
-    const handleToggleLine = (key: string) => {
-        const newSet = new Set(checkedLineIds)
-        if (newSet.has(key)) {
-            newSet.delete(key)
+        if (checked) {
+            if (existingQuay) {
+                setQuaysFilter({
+                    ...quaysFilter,
+                    quays: quaysFilter.quays.map((q) =>
+                        q.id === quayId
+                            ? {
+                                  ...q,
+                                  whitelistedLines: [
+                                      ...q.whitelistedLines.filter(
+                                          (id) => id !== lineId,
+                                      ),
+                                      lineId,
+                                  ],
+                              }
+                            : q,
+                    ),
+                })
+            } else {
+                setQuaysFilter({
+                    ...quaysFilter,
+                    quays: [
+                        ...quaysFilter.quays,
+                        { id: quayId, whitelistedLines: [lineId] },
+                    ],
+                })
+            }
         } else {
-            newSet.add(key)
+            setQuaysFilter({
+                ...quaysFilter,
+                quays: quaysFilter.quays
+                    .map((q) =>
+                        q.id === quayId
+                            ? {
+                                  ...q,
+                                  whitelistedLines: q.whitelistedLines.filter(
+                                      (id) => id !== lineId,
+                                  ),
+                              }
+                            : q,
+                    )
+                    .filter(
+                        (q) => q.id !== quayId || q.whitelistedLines.length > 0,
+                    ),
+            })
         }
-        onCheckedLineIdsChange(newSet)
+
         onFieldChanged('lines')
     }
 
-    const handleGroupToggle = (keys: string[], checked: boolean) => {
-        const newSet = new Set(checkedLineIds)
+    const handleGroupToggle = (quayId: string, checked: boolean) => {
         if (checked) {
-            for (const key of keys) newSet.add(key)
+            setQuaysFilter({
+                ...quaysFilter,
+                quays: [
+                    ...quaysFilter.quays.filter((q) => q.id !== quayId),
+                    { id: quayId, whitelistedLines: [] },
+                ],
+            })
         } else {
-            for (const key of keys) newSet.delete(key)
+            setQuaysFilter({
+                ...quaysFilter,
+                quays: quaysFilter.quays.filter((q) => q.id !== quayId),
+            })
         }
-        onCheckedLineIdsChange(newSet)
+
         onFieldChanged('lines')
     }
 
@@ -83,18 +136,23 @@ export function QuaysFilterView({
             {sortedQuays.map((quay) => (
                 <PlatformAndLines
                     key={quay.id}
-                    tile={tile}
                     quayId={quay.id}
-                    groupKey={quay.publicCode || quay.id}
                     title={getQuayTitle(quay)}
-                    description={quay.description}
-                    quayCodeTooltip={
-                        quay.publicCode ? null : `Plattformkode: ${quay.id}`
+                    description={quay.description ?? undefined}
+                    tooltip={
+                        quay.publicCode
+                            ? undefined
+                            : `Plattformkode: ${quay.id}`
                     }
                     lines={quay.lines}
                     trackingLocation={trackingLocation}
-                    fallbackTransportModes={[]}
-                    selectedLineIds={checkedLineIds}
+                    selectedLineIds={
+                        quaysFilter.quays.find((q) => q.id === quay.id)
+                            ?.whitelistedLines ?? []
+                    }
+                    isGroupSelected={quaysFilter.quays.some(
+                        (q) => q.id === quay.id,
+                    )}
                     onToggleLine={handleToggleLine}
                     onToggleGroup={handleGroupToggle}
                 />
