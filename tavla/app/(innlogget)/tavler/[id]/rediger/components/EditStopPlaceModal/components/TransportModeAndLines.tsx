@@ -28,12 +28,18 @@ function PublicCode({ line }: { line: LineWithFrontText }) {
     )
 }
 
-/**
- * Samme kort-UI som PlatformAndLines, men for én transportmiddel-gruppe på
- * tvers av alle plattformer. Valgt-status er ren linje-ID — ingen
- * plattformtilknytning, så ingen tri-state eller flernøkkel-logikk trengs.
- */
-export function TransportModeLines({
+function sortByPublicCode(a: LineWithFrontText, b: LineWithFrontText) {
+    const codeA = a.publicCode || ''
+    const codeB = b.publicCode || ''
+
+    return codeA.localeCompare(codeB, undefined, { numeric: true })
+}
+
+function filterLineFragment(line: LineWithFrontText) {
+    return !line.frontTexts || line.frontTexts.length > 0
+}
+
+export function TransportModeAndLines({
     tile,
     groupKey,
     title,
@@ -56,10 +62,6 @@ export function TransportModeLines({
     const [isExpanded, setIsExpanded] = useState(false)
     const linesId = `lines-${tile.uuid}-${groupKey}`
 
-    const filterLineFragment = (line: LineWithFrontText) => {
-        return !line.frontTexts || line.frontTexts.length > 0
-    }
-
     const allLineIdsInGroup = lines.filter(filterLineFragment).map((l) => l.id)
 
     const selectedIdsInGroup = allLineIdsInGroup.filter((id) =>
@@ -72,18 +74,28 @@ export function TransportModeLines({
     const isNoneSelected = selectedIdsInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
 
-    const compareLineFragment = (
-        a: LineWithFrontText,
-        b: LineWithFrontText,
-    ) => {
-        const codeA = a.publicCode || ''
-        const codeB = b.publicCode || ''
-
-        return codeA.localeCompare(codeB, undefined, { numeric: true })
-    }
-
     const iconPairs =
         getTransportModesFromLines(lines).sort(sortByTransportMode)
+
+    const handleToggleGroup = (checked: boolean) => {
+        capture('stop_place_edit_interaction', {
+            location: trackingLocation,
+            field: 'lines',
+            column_value: 'none',
+            action: checked ? 'select_all' : 'cleared',
+        })
+        onToggleGroup(allLineIdsInGroup, checked)
+    }
+
+    const handleToggleLine = (lineId: string, checked: boolean) => {
+        capture('stop_place_edit_interaction', {
+            location: trackingLocation,
+            field: 'lines',
+            column_value: 'none',
+            action: checked ? 'toggled_on' : 'toggled_off',
+        })
+        onToggleLine(lineId, checked)
+    }
 
     return (
         <div className="rounded-lg border-2 p-4">
@@ -111,14 +123,7 @@ export function TransportModeLines({
                     id={`select-all-${tile.uuid}-${groupKey}`}
                     checked={isIndeterminate ? 'indeterminate' : isAllSelected}
                     onChange={(e) => {
-                        const checked = e.target.checked
-                        capture('stop_place_edit_interaction', {
-                            location: trackingLocation,
-                            field: 'lines',
-                            column_value: 'none',
-                            action: checked ? 'select_all' : 'cleared',
-                        })
-                        onToggleGroup(allLineIdsInGroup, checked)
+                        handleToggleGroup(e.target.checked)
                     }}
                 />
             </div>
@@ -134,7 +139,7 @@ export function TransportModeLines({
             </button>
             <BaseExpand open={isExpanded} id={linesId}>
                 {[...lines]
-                    .sort(compareLineFragment)
+                    .sort(sortByPublicCode)
                     .filter(filterLineFragment)
                     .map((line) => (
                         <Checkbox
@@ -142,15 +147,9 @@ export function TransportModeLines({
                             checked={selectedLineIds.has(line.id)}
                             className="pl-1"
                             data-transport-mode={line.transportMode}
-                            onChange={(e) => {
-                                capture('stop_place_edit_interaction', {
-                                    location: trackingLocation,
-                                    field: 'lines',
-                                    column_value: 'none',
-                                    action: 'changed',
-                                })
-                                onToggleLine(line.id, e.target.checked)
-                            }}
+                            onChange={(e) =>
+                                handleToggleLine(line.id, e.target.checked)
+                            }
                         >
                             <div className="flex flex-row items-center gap-2">
                                 <PublicCode line={line} />

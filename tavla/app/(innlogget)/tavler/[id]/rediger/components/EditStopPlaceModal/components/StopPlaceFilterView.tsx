@@ -7,7 +7,7 @@ import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText, QuayWithFrontText } from '../../utils/types'
 import { TileContext } from '../context'
 import { transportModeNames } from '../utils'
-import { TransportModeLines } from './TransportModeLines'
+import { TransportModeAndLines } from './TransportModeAndLines'
 
 type ModeGroup = {
     mode: TTransportMode
@@ -123,20 +123,6 @@ export function StopPlaceFilterView({
 }) {
     const tile = useNonNullContext(TileContext)
     const modeGroups = useMemo(() => buildModeGroups(quays), [quays])
-    const selectedLineIds = useMemo(
-        () => deriveSelectedLineIds(filter ?? emptyFilter(), modeGroups),
-        [filter, modeGroups],
-    )
-
-    const handleToggle = (lineIds: string[], checked: boolean) => {
-        const next = new Set(selectedLineIds)
-        for (const id of lineIds) {
-            if (checked) next.add(id)
-            else next.delete(id)
-        }
-        onFilterChange(buildFilterFromSelection(next, modeGroups))
-        onFieldChanged('lines')
-    }
 
     return (
         <div className="flex flex-col gap-2">
@@ -144,18 +130,20 @@ export function StopPlaceFilterView({
                 Velg hvilke transportmidler du vil se
             </Paragraph>
             {modeGroups.map((group) => (
-                <TransportModeLines
+                <TransportModeAndLines
                     key={group.mode}
                     tile={tile}
                     groupKey={group.mode}
                     title={group.label}
                     lines={group.lines}
+                    selectedLineIds={new Set(filter?.whitelistedLines ?? [])}
                     trackingLocation={trackingLocation}
-                    selectedLineIds={selectedLineIds}
                     onToggleLine={(lineId, checked) =>
-                        handleToggle([lineId], checked)
+                        console.log(lineId, checked)
                     }
-                    onToggleGroup={handleToggle}
+                    onToggleGroup={(linesIds, checked) =>
+                        console.log(linesIds, checked)
+                    }
                 />
             ))}
         </div>
