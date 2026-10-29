@@ -1,5 +1,5 @@
 import { Checkbox } from '@entur/form'
-import { Heading4, SubParagraph } from '@entur/typography'
+import { Heading5, SubParagraph } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import type { EventProps } from 'app/posthog/events'
 import {
@@ -49,8 +49,8 @@ function SetOffsetDepartureTime({
     if (isArrivals) return null
 
     return (
-        <>
-            <Heading4>Forskyv avgangstid</Heading4>
+        <div className="flex flex-col gap-4">
+            <Heading5 as="h2">Forskyv avgangstid</Heading5>
             <div className="flex flex-col gap-2">
                 <SubParagraph>
                     Vis kun avganger som går om mer enn et valgt antall
@@ -121,7 +121,7 @@ function SetOffsetDepartureTime({
                     </Checkbox>
                 )}
             </div>
-        </>
+        </div>
     )
 }
 

@@ -1,4 +1,4 @@
-import { Heading4 } from '@entur/typography'
+import { Heading5 } from '@entur/typography'
 import ClientOnlyTextField from 'app/_components/NoSSR/TextField'
 import type { EventProps } from 'app/posthog/events'
 import {
@@ -29,9 +29,9 @@ function SetStopPlaceName({
 
     return (
         <div className="flex flex-col gap-2">
-            <Heading4 margin="bottom" as="h2">
+            <Heading5 margin="bottom" as="h2">
                 Vil du kalle stoppestedet for noe annet enn "{title}"?
-            </Heading4>
+            </Heading5>
             <ClientOnlyTextField
                 label={'Navn på stoppested'}
                 className="!w-full md:!w-1/2 lg:!w-1/2"

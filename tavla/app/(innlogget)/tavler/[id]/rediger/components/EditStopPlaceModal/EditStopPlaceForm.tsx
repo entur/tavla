@@ -10,9 +10,9 @@ import type {
 import type { QuayWithFrontText } from '../utils/types'
 import { type EditStopPlaceModalFormState, saveTile } from './actions'
 import { SetColumns } from './components/SetColumns'
+import { SetFilter } from './components/SetFilter'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
-import { SetVisibleLines } from './components/SetVisibleLines'
 import {
     countSelectableQuayLineKeys,
     generateQuayLineKey,
@@ -135,10 +135,18 @@ function EditStopPlaceForm({
     }
 
     return (
-        <>
+        <div className="flex flex-col gap-8">
             <SetStopPlaceName
                 displayName={displayName}
                 onDisplayNameChange={setDisplayName}
+                trackingLocation="board_page"
+                onFieldChanged={onFieldChanged}
+            />
+
+            <SetFilter
+                quays={quays}
+                checkedLineIds={checkedLineIds}
+                onCheckedLineIdsChange={setCheckedLineIds}
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
             />
@@ -156,14 +164,6 @@ function EditStopPlaceForm({
                 onColumnsChange={setColumns}
                 isCombined={board.isCombinedTiles}
                 isArrivals={board.isArrivals ?? false}
-                trackingLocation="board_page"
-                onFieldChanged={onFieldChanged}
-            />
-
-            <SetVisibleLines
-                quays={quays}
-                checkedLineIds={checkedLineIds}
-                onCheckedLineIdsChange={setCheckedLineIds}
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
             />
@@ -198,7 +198,7 @@ function EditStopPlaceForm({
                     Bekreft valg
                 </Button>
             </div>
-        </>
+        </div>
     )
 }
 

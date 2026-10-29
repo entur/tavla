@@ -1,5 +1,5 @@
 import { FilterChip } from '@entur/chip'
-import { Heading4, SubParagraph } from '@entur/typography'
+import { Heading5, SubParagraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
@@ -58,10 +58,10 @@ export function SetColumns({
     }
 
     return (
-        <>
-            <Heading4 as="h2">
+        <div className="flex flex-col gap-4">
+            <Heading5 as="h2">
                 Hvilke kolonner vil du at skal vises på tavla?
-            </Heading4>
+            </Heading5>
             {isCombined && (
                 <SubParagraph className="mb-2 !text-error">
                     Har du samlet stoppestedene i én liste vil du ikke ha
@@ -74,7 +74,7 @@ export function SetColumns({
                 setIsOpen={setIsColumnModalOpen}
             />
             {!isCombined && (
-                <div className="mb-8 mt-2 flex flex-row flex-wrap gap-4">
+                <div className="flex flex-row flex-wrap gap-1">
                     {typedEntries(TileColumns)
                         .filter(([key]) =>
                             isArrivals
@@ -94,6 +94,6 @@ export function SetColumns({
                         ))}
                 </div>
             )}
-        </>
+        </div>
     )
 }
