@@ -92,7 +92,6 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            quays: [],
             filter:
                 filterType === 'quaysFilter'
                     ? compressQuaysFilter(quaysFilter, quays)
