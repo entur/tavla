@@ -1,5 +1,5 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
-import type { BoardTileDB } from 'types/db-types/boards'
+import type { BoardTileDB, QuaysFilterDB } from 'types/db-types/boards'
 import type { LineWithFrontText, QuayWithFrontText } from '../utils/types'
 
 export function transportModeNames(
@@ -109,4 +109,41 @@ export function sortLineFragment(
     return codeA.localeCompare(codeB, undefined, {
         numeric: true,
     })
+}
+
+export function expandedQuaysFilterToCompact(
+    quaysFilter: QuaysFilterDB,
+    quays: QuayWithFrontText[],
+): QuaysFilterDB {
+    const compactedQuays: QuaysFilterDB['quays'] = []
+
+    for (const quay of quaysFilter.quays) {
+        const selectedCount = quay.whitelistedLines.length
+        if (selectedCount === 0) {
+            continue
+        }
+
+        const possibleLinesCount =
+            quays.find((q) => q.id === quay.id)?.lines.length ?? 0
+
+        if (selectedCount === possibleLinesCount) {
+            // Alt valgt på denne plattformen -> endre til tom list
+            compactedQuays.push({ id: quay.id, whitelistedLines: [] })
+            continue
+        }
+
+        // Delvis valgt -> behold den eksplisitte lista som den er
+        compactedQuays.push(quay)
+    }
+
+    const everyQuayIsFullySelected =
+        compactedQuays.length === quays.length &&
+        compactedQuays.every((quay) => quay.whitelistedLines.length === 0)
+
+    if (everyQuayIsFullySelected) {
+        // Ingen valgt på noen plattformer -> bruk tom liste
+        return { type: 'quaysFilter', quays: [] }
+    }
+
+    return { type: 'quaysFilter', quays: compactedQuays }
 }

@@ -1,6 +1,5 @@
 import { Heading5, Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
-import { useState } from 'react'
 import type { QuaysFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
 import { QuaysFilterView } from './QuaysFilterView'
@@ -10,19 +9,21 @@ export type FilterMode = 'stopPlaceFilter' | 'quaysFilter'
 
 export function SetFilter({
     quays,
+    filterMode,
+    setFilterMode,
+    quaysFilter,
+    setQuaysFilter,
     trackingLocation,
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
+    filterMode: FilterMode
+    setFilterMode: (mode: FilterMode) => void
+    quaysFilter: QuaysFilterDB
+    setQuaysFilter: (filter: QuaysFilterDB) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const [filterMode, setFilterMode] = useState<FilterMode>('stopPlaceFilter')
-    const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>({
-        type: 'quaysFilter',
-        quays: [],
-    })
-
     if (quays.length === 0)
         return (
             <Paragraph className="italic">
