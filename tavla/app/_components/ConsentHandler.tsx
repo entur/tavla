@@ -44,6 +44,20 @@ const basePostHogOptions: Partial<PostHogConfig> = {
     capture_pageview: false,
     autocapture: false,
     opt_out_capturing_by_default: true,
+    property_denylist: ['$raw_user_agent'],
+    sanitize_properties: (properties) => {
+        const sanitized = { ...properties }
+        delete sanitized.$raw_user_agent
+        if (sanitized.$set) {
+            sanitized.$set = { ...sanitized.$set }
+            delete sanitized.$set.$raw_user_agent
+        }
+        if (sanitized.$set_once) {
+            sanitized.$set_once = { ...sanitized.$set_once }
+            delete sanitized.$set_once.$raw_user_agent
+        }
+        return sanitized
+    },
     before_send: (event) => {
         if (typeof window === 'undefined') return event
         const hostname = window.location.hostname
