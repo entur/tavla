@@ -71,6 +71,26 @@ def stream_documents_in_batches(collection_ref, batch_size=500):
         print(f"📦 Processed batch up to document: {last_doc.id}")
         time.sleep(1) 
 
+@firestore.transactional
+def remove_lines_with_direction_transactional(transaction, board_ref, log_file):
+    snapshot = board_ref.get(transaction=transaction)
+    if not snapshot.exists:
+        return False
+
+    data = snapshot.to_dict()
+    if not data:
+        return False
+
+    original_data = copy.deepcopy(data)
+    new_data = remove_lines_with_direction_from_tiles(data, log_file)
+
+    if new_data == original_data:
+        return False
+
+    transaction.update(board_ref, {"tiles": new_data.get("tiles", [])})
+
+    return True
+
 
 def update_documents(db: firestore.Client):
     collection_ref = db.collection(collection_name)
@@ -86,23 +106,16 @@ def update_documents(db: firestore.Client):
             log_file.write(f"\n-----> 🏁 Checking document: {doc_id}\n")
 
             try:
-                data = doc_snap.to_dict()
-                if not data:
-                    log_file.write("⚠️ Empty or missing data, skipping.\n")
-                    continue
+                board_ref = db.collection(collection_name).document(doc_id)
+                transaction = db.transaction()
+                was_updated = remove_lines_with_direction_transactional(transaction, board_ref, log_file)
 
-                original_data = copy.deepcopy(data)
-                new_data = remove_lines_with_direction_from_tiles(data, log_file)
-
-                if new_data != original_data:
-                    db.collection(collection_name).document(doc_id).set(new_data, merge=True)
+                if was_updated:
                     success_count += 1
                     log_file.write(f"✅ Updated document {doc_id}\n")
-                    log_file.write(f"📝 Old tiles: {original_data.get('tiles')}\n")
-                    log_file.write(f"🆕 New tiles: {new_data.get('tiles')}\n")
                 else:
                     log_file.write(f"ℹ️ No change needed for {doc_id}\n")
-
+                    
             except Exception as e:
                 fail_count += 1
                 log_file.write(f"❌ Error updating {doc_id}: {str(e)}\n")
