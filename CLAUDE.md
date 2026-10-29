@@ -54,7 +54,7 @@ yarn test:e2e:ui          # interactive UI mode
 yarn test:e2e:install     # one-time browser install
 ```
 
-Playwright's `webServer` wraps `next dev` in `firebase emulators:exec`, so the emulator suite is started/stopped automatically. Specs live in `tavla/e2e/`. Global setup at `tavla/e2e/global-setup.ts` resets emulator state and seeds a test user + starter board on every run.  No frontend unit test framework is configured.
+Playwright's `webServer` wraps `next dev` in `firebase emulators:exec`, so the emulator suite is started/stopped automatically. Specs live in `tavla/e2e/`. Global setup at `tavla/e2e/global-setup.ts` resets emulator state and seeds a test user + starter board on every run.
 
 `playwright.config.ts` picks fresh OS-assigned free ports for the Auth/Firestore/Storage/UI emulators and the Next dev server on every run (via `e2e/pick-ports.mjs`, cached per-run in `e2e/.ports.json`) and writes them into a generated `firebase.e2e.json`. This is deliberate: it keeps `yarn test:e2e` fully isolated from a concurrently running `yarn dev:persist` (which always uses the fixed ports below), so a local test run can never reset or overwrite `dev:persist`'s persisted `.db` state. `next.config.js`'s `distDir` is also overridden (`NEXT_DIST_DIR=.next-e2e`) so the e2e Next process doesn't collide with `dev:persist`'s dev-server lock.
 
@@ -84,7 +84,7 @@ Test the running server: `curl localhost:3001/active -H "Authorization: Bearer s
 
 1. Frontend calls backend REST endpoints (e.g. `POST /refresh/:bid`)
 2. Backend publishes to Redis channels (`update` global, or `<board-id>` specific)
-3. Frontend long-polls `GET /subscribe/:bid` — returns first event or times out after ~55s, then re-subscribes
+3. Frontend long-polls `GET /subscribe/:bid` — returns first event or times out after 90s, then re-subscribes
 4. `active_boards` counter in Redis tracks currently connected boards
 5. `POST /heartbeat` — sent every 60s by tavla-visning for presence/analytics tracking; the response also returns the backend's current time (`{ time: <ms since epoch> }`), which tavla-visning uses to keep its displayed clock correct even when the display hardware's own system clock is wrong
 
