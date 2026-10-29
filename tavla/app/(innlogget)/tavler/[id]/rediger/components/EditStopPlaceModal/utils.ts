@@ -111,13 +111,42 @@ export function sortLineFragment(
     })
 }
 
-export function expandedQuaysFilterToCompact(
-    quaysFilter: QuaysFilterDB,
+export function expandQuaysFilter(
+    filter: QuaysFilterDB,
+    quays: QuayWithFrontText[],
+): QuaysFilterDB {
+    return {
+        type: 'quaysFilter',
+        quays: quays.map((quay) => {
+            const allLineIds = quay.lines.map((line) => line.id)
+            const quayFilter = filter.quays.find((q) => q.id === quay.id)
+
+            if (quayFilter) {
+                return {
+                    id: quay.id,
+                    whitelistedLines:
+                        quayFilter.whitelistedLines.length === 0
+                            ? allLineIds
+                            : quayFilter.whitelistedLines,
+                }
+            }
+
+            const quayHasOtherEntries = filter.quays.length > 0
+            return {
+                id: quay.id,
+                whitelistedLines: quayHasOtherEntries ? [] : allLineIds,
+            }
+        }),
+    }
+}
+
+export function compressQuaysFilter(
+    filter: QuaysFilterDB,
     quays: QuayWithFrontText[],
 ): QuaysFilterDB {
     const compactedQuays: QuaysFilterDB['quays'] = []
 
-    for (const quay of quaysFilter.quays) {
+    for (const quay of filter.quays) {
         const selectedCount = quay.whitelistedLines.length
         if (selectedCount === 0) {
             continue

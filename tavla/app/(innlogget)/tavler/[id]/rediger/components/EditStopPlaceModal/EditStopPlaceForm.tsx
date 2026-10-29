@@ -14,7 +14,7 @@ import { SetColumns } from './components/SetColumns'
 import { SetFilter } from './components/SetFilter'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
-import { expandedQuaysFilterToCompact } from './utils'
+import { compressQuaysFilter, expandQuaysFilter } from './utils'
 
 type SavePayload = {
     tile: BoardTileDB
@@ -41,14 +41,16 @@ function EditStopPlaceForm({
 
     const [filterType, setFilterType] = useState<
         'stopPlaceFilter' | 'quaysFilter'
-    >('stopPlaceFilter')
-    const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>(() => ({
-        type: 'quaysFilter',
-        quays: quays.map((quay) => ({
-            id: quay.id,
-            whitelistedLines: quay.lines.map((line) => line.id),
-        })),
-    }))
+    >(tile.filter?.type ?? 'stopPlaceFilter')
+
+    const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>(() =>
+        expandQuaysFilter(
+            tile.filter?.type === 'quaysFilter'
+                ? tile.filter
+                : { type: 'quaysFilter', quays: [] },
+            quays,
+        ),
+    )
     // TODO - add stopPlaceFilter state and initialization
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
@@ -93,10 +95,10 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            quays: expandedQuaysFilterToCompact(quaysFilter, quays).quays, // TODO - ta bort for å sikre at alle nye bare skrives til filteret
+            quays: compressQuaysFilter(quaysFilter, quays).quays, // TODO - ta bort for å sikre at alle nye bare skrives til filteret
             filter:
                 filterType === 'quaysFilter'
-                    ? expandedQuaysFilterToCompact(quaysFilter, quays)
+                    ? compressQuaysFilter(quaysFilter, quays)
                     : {
                           type: 'stopPlaceFilter',
                           whitelistedModes: [],
