@@ -95,7 +95,6 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            quays: compressQuaysFilter(quaysFilter, quays).quays, // TODO - ta bort for å sikre at alle nye bare skrives til filteret
             filter:
                 filterType === 'quaysFilter'
                     ? compressQuaysFilter(quaysFilter, quays)
