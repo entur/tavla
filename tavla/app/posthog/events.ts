@@ -260,6 +260,7 @@ export type EventMap = {
             | 'offset_walking_dist'
             | 'columns'
             | 'lines'
+            | 'stop_place_filter'
             | 'transport_mode_filter'
             | 'filter_mode'
         action:

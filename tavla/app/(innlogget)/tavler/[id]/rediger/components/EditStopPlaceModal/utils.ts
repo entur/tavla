@@ -1,3 +1,4 @@
+import { sortByTransportMode } from 'app/_components/TransportIcon/utils'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type {
     BoardTileDB,
@@ -213,4 +214,147 @@ export function compressQuaysFilter(
     }
 
     return { type: 'quaysFilter', quays: compactedQuays }
+}
+
+export type TransportModeGroup = {
+    mode: TTransportMode
+    lines: LineWithFrontText[]
+}
+
+/**
+ * Grupperer linjer på tvers av alle plattformer etter transportmiddel.
+ * En linje som betjener flere plattformer vises kun i én gruppe, med
+ * frontTexts slått sammen fra alle plattformene den betjener.
+ */
+export function groupLinesByTransportMode(
+    quays: QuayWithFrontText[],
+): TransportModeGroup[] {
+    const linesById = new Map<string, LineWithFrontText>()
+
+    for (const quay of quays) {
+        for (const line of quay.lines) {
+            const existing = linesById.get(line.id)
+            if (!existing) {
+                linesById.set(line.id, line)
+                continue
+            }
+
+            linesById.set(line.id, {
+                ...existing,
+                frontTexts: Array.from(
+                    new Set([...existing.frontTexts, ...line.frontTexts]),
+                ),
+            })
+        }
+    }
+
+    const groupsByMode = new Map<TTransportMode, LineWithFrontText[]>()
+    for (const line of linesById.values()) {
+        const mode = line.transportMode ?? 'unknown'
+        const group = groupsByMode.get(mode) ?? []
+        group.push(line)
+        groupsByMode.set(mode, group)
+    }
+
+    return Array.from(groupsByMode.entries())
+        .map(([mode, lines]) => ({ mode, lines }))
+        .sort((a, b) =>
+            sortByTransportMode(
+                { transportMode: a.mode },
+                { transportMode: b.mode },
+            ),
+        )
+}
+
+export function expandStopPlaceFilter(
+    filter: StopPlaceFilterDB,
+    groups: TransportModeGroup[],
+): StopPlaceFilterDB {
+    const hasFiltrations =
+        filter.whitelistedModes.length > 0 || filter.whitelistedLines.length > 0
+
+    if (!hasFiltrations) {
+        return {
+            type: 'stopPlaceFilter',
+            whitelistedModes: [],
+            whitelistedLines: groups.flatMap((group) =>
+                group.lines.map((line) => line.id),
+            ),
+        }
+    }
+
+    const selectedLineIds = new Set(filter.whitelistedLines)
+    for (const mode of filter.whitelistedModes) {
+        const group = groups.find((g) => g.mode === mode)
+        if (!group) continue
+        for (const line of group.lines) selectedLineIds.add(line.id)
+    }
+
+    return {
+        type: 'stopPlaceFilter',
+        whitelistedModes: [],
+        whitelistedLines: Array.from(selectedLineIds),
+    }
+}
+
+export function getInitialStopPlaceFilter(
+    tile: BoardTileDB,
+    quays: QuayWithFrontText[],
+): StopPlaceFilterDB {
+    const initialFilter: StopPlaceFilterDB =
+        tile.filter?.type === 'stopPlaceFilter'
+            ? tile.filter
+            : {
+                  type: 'stopPlaceFilter',
+                  whitelistedModes: [],
+                  whitelistedLines: [],
+              }
+
+    return expandStopPlaceFilter(
+        initialFilter,
+        groupLinesByTransportMode(quays),
+    )
+}
+
+export function compressStopPlaceFilter(
+    filter: StopPlaceFilterDB,
+    quays: QuayWithFrontText[],
+): StopPlaceFilterDB {
+    const groups = groupLinesByTransportMode(quays)
+    const selectedLineIds = new Set(filter.whitelistedLines)
+    const allLineIds = groups.flatMap((group) =>
+        group.lines.map((line) => line.id),
+    )
+
+    const everythingSelected =
+        allLineIds.length > 0 &&
+        allLineIds.every((id) => selectedLineIds.has(id))
+
+    if (everythingSelected) {
+        // Alt valgt på stoppestedet -> bruk tomme lister
+        return {
+            type: 'stopPlaceFilter',
+            whitelistedModes: [],
+            whitelistedLines: [],
+        }
+    }
+
+    const whitelistedModes: TTransportMode[] = []
+    const whitelistedLines: string[] = []
+
+    for (const group of groups) {
+        const groupLineIds = group.lines.map((line) => line.id)
+        const selectedInGroup = groupLineIds.filter((id) =>
+            selectedLineIds.has(id),
+        )
+        if (selectedInGroup.length === 0) continue
+
+        if (selectedInGroup.length === groupLineIds.length) {
+            whitelistedModes.push(group.mode)
+        } else {
+            whitelistedLines.push(...selectedInGroup)
+        }
+    }
+
+    return { type: 'stopPlaceFilter', whitelistedModes, whitelistedLines }
 }
