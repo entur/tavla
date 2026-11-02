@@ -22,11 +22,11 @@ const filterModes: { value: FilterMode; title: string; description: string }[] =
 export function SetFilterMode({
     selectedFilterMode,
     trackingLocation,
-    onFieldChanged,
+    handleFilterModeChange,
 }: {
     selectedFilterMode: (typeof filterModes)[number]['value']
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
-    onFieldChanged: (field: FilterMode) => void
+    handleFilterModeChange: (field: FilterMode) => void
 }) {
     const { capture } = usePosthogTracking()
 
@@ -37,7 +37,7 @@ export function SetFilterMode({
             action: 'changed',
             column_value: 'none',
         })
-        onFieldChanged(mode)
+        handleFilterModeChange(mode)
     }
 
     return (
