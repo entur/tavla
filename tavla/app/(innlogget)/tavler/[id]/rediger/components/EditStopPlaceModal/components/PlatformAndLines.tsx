@@ -5,7 +5,6 @@ import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import {
-    getColorMode,
     getTransportModesFromLines,
     sortByTransportMode,
 } from 'app/_components/TransportIcon/utils'
@@ -14,21 +13,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { LineWithFrontText } from '../../utils/types'
 import { sortLineFragment } from '../utils'
-
-function PublicCode({ line }: { line: LineWithFrontText }) {
-    if (!line.publicCode) return null
-
-    const color = getColorMode(
-        line.transportMode ?? 'unknown',
-        line.transportSubmode ?? 'unknown',
-    )
-
-    return (
-        <div className={`publicCode bg-${color} text-white`}>
-            {line.publicCode}
-        </div>
-    )
-}
+import { PublicCode } from './PublicCode'
 
 export function PlatformAndLines({
     quayId,
