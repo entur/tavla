@@ -92,11 +92,13 @@ function EditStopPlaceForm({
             filter:
                 filterType === 'quaysFilter'
                     ? compressQuaysFilter(quaysFilter, quays)
-                    : {
-                          type: 'stopPlaceFilter',
-                          whitelistedModes: [],
-                          whitelistedLines: [],
-                      },
+                    : tile.filter?.type === 'stopPlaceFilter'
+                      ? tile.filter
+                      : {
+                            type: 'stopPlaceFilter',
+                            whitelistedModes: [],
+                            whitelistedLines: [],
+                        },
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
