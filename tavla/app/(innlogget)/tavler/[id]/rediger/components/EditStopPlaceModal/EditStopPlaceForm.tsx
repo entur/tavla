@@ -62,7 +62,7 @@ function EditStopPlaceForm({
         if (
             field === 'quays_filter' ||
             field === 'stop_place_filter' ||
-            field === 'filter_type_change'
+            field === 'filter_mode'
         ) {
             setFilterTouched(true)
         }
