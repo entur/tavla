@@ -9,16 +9,16 @@ export type FilterMode = 'stopPlaceFilter' | 'quaysFilter'
 
 export function SetFilter({
     quays,
-    filterMode,
-    setFilterMode,
+    filterType,
+    setFilterType,
     quaysFilter,
     setQuaysFilter,
     trackingLocation,
     onFieldChanged,
 }: {
     quays: QuayWithFrontText[]
-    filterMode: FilterMode
-    setFilterMode: (mode: FilterMode) => void
+    filterType: FilterMode
+    setFilterType: (mode: FilterMode) => void
     quaysFilter: QuaysFilterDB
     setQuaysFilter: (filter: QuaysFilterDB) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
@@ -39,11 +39,11 @@ export function SetFilter({
             </Heading5>
             <SetFilterMode
                 trackingLocation={trackingLocation}
-                selectedFilterMode={filterMode}
-                onFieldChanged={(mode) => setFilterMode(mode)}
+                selectedFilterMode={filterType}
+                onFieldChanged={setFilterType}
             />
 
-            {filterMode === 'quaysFilter' && (
+            {filterType === 'quaysFilter' && (
                 <QuaysFilterView
                     quays={quays}
                     quaysFilter={quaysFilter}
@@ -52,7 +52,7 @@ export function SetFilter({
                     onFieldChanged={onFieldChanged}
                 />
             )}
-            {filterMode === 'stopPlaceFilter' && <div>Stop Place</div>}
+            {filterType === 'stopPlaceFilter' && <div>Stop Place</div>}
         </div>
     )
 }
