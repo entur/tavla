@@ -3,57 +3,40 @@ import { BaseExpand, ExpandArrow } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 import { ValidationInfoFilledIcon } from '@entur/icons'
 import { Tooltip } from '@entur/tooltip'
-import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
-import {
-    getColorMode,
-    getTransportModesFromLines,
-    sortByTransportMode,
-} from 'app/_components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 import type { LineWithFrontText } from '../../utils/types'
 import { sortLineFragment } from '../utils'
-
-function PublicCode({ line }: { line: LineWithFrontText }) {
-    if (!line.publicCode) return null
-
-    const color = getColorMode(
-        line.transportMode ?? 'unknown',
-        line.transportSubmode ?? 'unknown',
-    )
-
-    return (
-        <div className={`publicCode bg-${color} text-white`}>
-            {line.publicCode}
-        </div>
-    )
-}
+import { PublicCode } from './PublicCode'
 
 export function PlatformAndLines({
-    quayId,
+    groupId,
     title,
     description,
     tooltip,
+    icons,
     availableLines,
     trackingLocation,
     whitelistedLines,
     onToggleLine,
     onToggleGroup,
 }: {
-    quayId: string
+    groupId: string
     title: string
+    icons: ReactNode
     availableLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     whitelistedLines: string[]
-    onToggleLine: (quayId: string, lineId: string, checked: boolean) => void
-    onToggleGroup: (quayId: string, checked: boolean) => void
+    onToggleLine: (groupId: string, lineId: string, checked: boolean) => void
+    onToggleGroup: (groupId: string, checked: boolean) => void
     description?: string
     tooltip?: string
 }) {
     const { capture } = usePosthogTracking()
     const [isExpanded, setIsExpanded] = useState(false)
-    const linesId = `lines-${quayId}`
+    const linesId = `lines-${groupId}`
 
     const filterLineFragment = (line: LineWithFrontText) => {
         return !line.frontTexts || line.frontTexts.length > 0
@@ -70,9 +53,6 @@ export function PlatformAndLines({
     const isNoneSelected = selectedIdsInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
 
-    const transportModesFromLines =
-        getTransportModesFromLines(availableLines).sort(sortByTransportMode)
-
     const handleToggleGroup = (checked: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
@@ -80,7 +60,7 @@ export function PlatformAndLines({
             column_value: 'none',
             action: checked ? 'select_all' : 'cleared',
         })
-        onToggleGroup(quayId, checked)
+        onToggleGroup(groupId, checked)
     }
 
     const handleToggleLine = (lineId: string, checked: boolean) => {
@@ -90,7 +70,7 @@ export function PlatformAndLines({
             column_value: 'none',
             action: 'changed',
         })
-        onToggleLine(quayId, lineId, checked)
+        onToggleLine(groupId, lineId, checked)
     }
 
     return (
@@ -98,18 +78,7 @@ export function PlatformAndLines({
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center justify-start gap-2">
                     <div className="flex flex-row gap-1 self-center">
-                        {transportModesFromLines.map((transportMode) => (
-                            <TransportIcon
-                                key={`${transportMode.transportMode}|${transportMode.transportSubmode ?? ''}`}
-                                transportMode={transportMode.transportMode}
-                                transportSubmode={
-                                    transportMode.transportSubmode
-                                }
-                                background
-                                whiteIcon
-                                includeTooltip
-                            />
-                        ))}
+                        {icons}
                     </div>
                     <div className="flex flex-row flex-wrap items-center gap-x-2">
                         {title}
@@ -118,11 +87,11 @@ export function PlatformAndLines({
                                 className="font-normal"
                                 content={tooltip}
                                 placement="top"
-                                id={`tooltip-quay-code-${quayId}`}
+                                id={`tooltip-group-${groupId}`}
                             >
                                 <ValidationInfoFilledIcon
                                     size={20}
-                                    aria-labelledby={`tooltip-quay-code-${quayId}`}
+                                    aria-labelledby={`tooltip-group-${groupId}`}
                                 />
                             </Tooltip>
                         )}
@@ -134,7 +103,7 @@ export function PlatformAndLines({
                     </div>
                 </div>
                 <Checkbox
-                    id={`select-all-${quayId}`}
+                    id={`select-all-${groupId}`}
                     checked={isIndeterminate ? 'indeterminate' : isAllSelected}
                     onChange={(e) => handleToggleGroup(e.target.checked)}
                 />
