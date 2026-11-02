@@ -57,7 +57,7 @@ function EditStopPlaceModal({
             columns: changedFields.has('columns'),
             quays_filter: changedFields.has('quays_filter'),
             stop_place_filter: changedFields.has('stop_place_filter'),
-            filter_type_change: changedFields.has('filter_type_change'),
+            filter_mode: changedFields.has('filter_mode'),
         })
         handleCloseModal()
     }
