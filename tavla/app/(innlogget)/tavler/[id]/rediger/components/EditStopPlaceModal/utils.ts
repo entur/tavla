@@ -1,9 +1,5 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
-import type {
-    BoardTileDB,
-    QuaysFilterDB,
-    StopPlaceFilterDB,
-} from 'types/db-types/boards'
+import type { BoardTileDB, QuaysFilterDB } from 'types/db-types/boards'
 import type { LineWithFrontText, QuayWithFrontText } from '../utils/types'
 
 export function transportModeNames(
