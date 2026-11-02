@@ -13,7 +13,11 @@ import { SetColumns } from './components/SetColumns'
 import { SetFilter } from './components/SetFilter'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
-import { compressQuaysFilter, getInitialQuaysFilter } from './utils'
+import {
+    compressQuaysFilter,
+    getInitialFilterType,
+    getInitialQuaysFilter,
+} from './utils'
 
 type SavePayload = {
     tile: BoardTileDB
@@ -40,7 +44,7 @@ function EditStopPlaceForm({
 
     const [filterType, setFilterType] = useState<
         'stopPlaceFilter' | 'quaysFilter'
-    >(tile.filter?.type ?? 'stopPlaceFilter')
+    >(getInitialFilterType(tile))
 
     const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>(() =>
         getInitialQuaysFilter(tile, quays),

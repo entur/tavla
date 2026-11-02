@@ -111,6 +111,15 @@ export function sortLineFragment(
     })
 }
 
+export function getInitialFilterType(
+    tile: BoardTileDB,
+): 'stopPlaceFilter' | 'quaysFilter' {
+    if (tile.filter?.type) return tile.filter.type
+    if (tile.quays && tile.quays.length > 0) return 'quaysFilter'
+
+    return 'stopPlaceFilter'
+}
+
 export function quaysToQuaysFilter(
     quays: { id: string; whitelistedLines: string[] }[],
 ): QuaysFilterDB {
