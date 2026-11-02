@@ -139,6 +139,7 @@ export function QuaysFilterView({
                             ?.whitelistedLines ?? []
                     }
                     trackingLocation={trackingLocation}
+                    trackingField="quays_filter"
                     onToggleLine={handleToggleLine}
                     onToggleGroup={handleGroupToggle}
                 />
