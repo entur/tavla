@@ -87,6 +87,7 @@ export function TransportModeLines({
                 </div>
                 <Checkbox
                     id={`select-all-${mode}`}
+                    aria-label={`Velg alle linjer for ${transportModeNames(mode) ?? mode}`}
                     checked={isIndeterminate ? 'indeterminate' : isAllSelected}
                     onChange={(e) => handleToggleGroup(e.target.checked)}
                 />
