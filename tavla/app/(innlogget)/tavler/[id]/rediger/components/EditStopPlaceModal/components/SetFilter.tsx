@@ -32,6 +32,11 @@ export function SetFilter({
             </Paragraph>
         )
 
+    const handleModeChange = (mode: FilterMode) => {
+        setFilterType(mode)
+        onFieldChanged('transport_mode_filter')
+    }
+
     return (
         <div className="flex flex-col gap-4">
             <Heading5 as="h2">
@@ -40,7 +45,7 @@ export function SetFilter({
             <SetFilterMode
                 trackingLocation={trackingLocation}
                 selectedFilterMode={filterType}
-                onFieldChanged={setFilterType}
+                handleFilterModeChange={handleModeChange}
             />
 
             {filterType === 'quaysFilter' && (
