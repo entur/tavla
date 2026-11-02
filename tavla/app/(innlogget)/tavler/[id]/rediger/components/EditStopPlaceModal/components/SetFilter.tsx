@@ -1,9 +1,10 @@
 import { Heading5, Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
-import type { QuaysFilterDB } from 'types/db-types/boards'
+import type { QuaysFilterDB, StopPlaceFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
 import { QuaysFilterView } from './QuaysFilterView'
 import { SetFilterMode } from './SetFilterMode'
+import { StopPlaceFilterView } from './StopPlaceFilterView'
 
 export type FilterMode = 'stopPlaceFilter' | 'quaysFilter'
 
@@ -13,6 +14,8 @@ export function SetFilter({
     setFilterType,
     quaysFilter,
     setQuaysFilter,
+    stopPlaceFilter,
+    setStopPlaceFilter,
     trackingLocation,
     onFieldChanged,
 }: {
@@ -21,6 +24,8 @@ export function SetFilter({
     setFilterType: (mode: FilterMode) => void
     quaysFilter: QuaysFilterDB
     setQuaysFilter: (filter: QuaysFilterDB) => void
+    stopPlaceFilter: StopPlaceFilterDB
+    setStopPlaceFilter: (filter: StopPlaceFilterDB) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
@@ -57,7 +62,15 @@ export function SetFilter({
                     onFieldChanged={onFieldChanged}
                 />
             )}
-            {filterType === 'stopPlaceFilter' && <div>Stop Place Filter</div>}
+            {filterType === 'stopPlaceFilter' && (
+                <StopPlaceFilterView
+                    quays={quays}
+                    filter={stopPlaceFilter}
+                    setFilter={setStopPlaceFilter}
+                    trackingLocation={trackingLocation}
+                    onFieldChanged={onFieldChanged}
+                />
+            )}
         </div>
     )
 }
