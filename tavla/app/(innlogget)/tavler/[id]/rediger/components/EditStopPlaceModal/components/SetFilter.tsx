@@ -57,7 +57,7 @@ export function SetFilter({
                     onFieldChanged={onFieldChanged}
                 />
             )}
-            {filterType === 'stopPlaceFilter' && <div>Stop Place</div>}
+            {filterType === 'stopPlaceFilter' && <div>Stop Place Filter</div>}
         </div>
     )
 }
