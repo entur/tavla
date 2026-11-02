@@ -73,7 +73,7 @@ export function QuaysFilterView({
             ),
         })
 
-        onFieldChanged('lines')
+        onFieldChanged('quays_filter')
     }
 
     const handleGroupToggle = (quayId: string, checked: boolean) => {
@@ -94,7 +94,7 @@ export function QuaysFilterView({
             ),
         })
 
-        onFieldChanged('lines')
+        onFieldChanged('quays_filter')
     }
 
     const sortedQuays = [...quays].sort((a, b) =>

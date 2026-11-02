@@ -22,7 +22,7 @@ export function StopPlaceFilterView({
 
     const patchWhitelistedLines = (newWhitelistedLines: string[]) => {
         setFilter({ ...filter, whitelistedLines: newWhitelistedLines })
-        onFieldChanged('lines')
+        onFieldChanged('stop_place_filter')
     }
 
     const handleToggleLine = (lineId: string, checked: boolean) => {
