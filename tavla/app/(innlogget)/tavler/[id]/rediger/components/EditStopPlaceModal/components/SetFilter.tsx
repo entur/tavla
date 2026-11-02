@@ -39,7 +39,7 @@ export function SetFilter({
 
     const handleModeChange = (mode: FilterMode) => {
         setFilterType(mode)
-        onFieldChanged('transport_mode_filter')
+        onFieldChanged('filter_type_change')
     }
 
     return (
