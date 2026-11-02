@@ -56,19 +56,6 @@ function EditStopPlaceForm({
         () => getInitialStopPlaceFilter(tile, quays),
     )
 
-    const [filterTouched, setFilterTouched] = useState(false)
-
-    const handleFieldChanged = (field: string) => {
-        if (
-            field === 'quays_filter' ||
-            field === 'stop_place_filter' ||
-            field === 'filter_mode'
-        ) {
-            setFilterTouched(true)
-        }
-        onFieldChanged(field)
-    }
-
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
 
@@ -109,10 +96,12 @@ function EditStopPlaceForm({
         const hasDrivingDistance =
             board.meta.location && tile.drivingDistance?.distance !== undefined
 
+        const canEditFilter = quays.length > 0
+
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            ...(filterTouched && {
+            ...(canEditFilter && {
                 quays: [],
                 filter:
                     filterType === 'quaysFilter'
@@ -157,7 +146,7 @@ function EditStopPlaceForm({
                 displayName={displayName}
                 onDisplayNameChange={setDisplayName}
                 trackingLocation="board_page"
-                onFieldChanged={handleFieldChanged}
+                onFieldChanged={onFieldChanged}
             />
 
             <SetFilter
@@ -169,7 +158,7 @@ function EditStopPlaceForm({
                 stopPlaceFilter={stopPlaceFilter}
                 setStopPlaceFilter={setStopPlaceFilter}
                 trackingLocation="board_page"
-                onFieldChanged={handleFieldChanged}
+                onFieldChanged={onFieldChanged}
             />
 
             <SetOffsetDepartureTime
@@ -178,7 +167,7 @@ function EditStopPlaceForm({
                 address={board.meta.location}
                 isArrivals={board.isArrivals ?? false}
                 trackingLocation="board_page"
-                onFieldChanged={handleFieldChanged}
+                onFieldChanged={onFieldChanged}
             />
             <SetColumns
                 columns={columns}
@@ -186,7 +175,7 @@ function EditStopPlaceForm({
                 isCombined={board.isCombinedTiles}
                 isArrivals={board.isArrivals ?? false}
                 trackingLocation="board_page"
-                onFieldChanged={handleFieldChanged}
+                onFieldChanged={onFieldChanged}
             />
 
             {errorMessage && (
