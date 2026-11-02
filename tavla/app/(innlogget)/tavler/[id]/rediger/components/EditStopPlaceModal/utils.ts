@@ -1,5 +1,9 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
-import type { BoardTileDB, QuaysFilterDB } from 'types/db-types/boards'
+import type {
+    BoardTileDB,
+    QuaysFilterDB,
+    StopPlaceFilterDB,
+} from 'types/db-types/boards'
 import type { LineWithFrontText, QuayWithFrontText } from '../utils/types'
 
 export function transportModeNames(
@@ -111,6 +115,18 @@ export function sortLineFragment(
     })
 }
 
+export function quaysToQuaysFilter(
+    quays: { id: string; whitelistedLines: string[] }[],
+): QuaysFilterDB {
+    return {
+        type: 'quaysFilter',
+        quays: quays.map((quay) => ({
+            id: quay.id,
+            whitelistedLines: [...quay.whitelistedLines],
+        })),
+    }
+}
+
 export function expandQuaysFilter(
     filter: QuaysFilterDB,
     quays: QuayWithFrontText[],
@@ -138,6 +154,18 @@ export function expandQuaysFilter(
             }
         }),
     }
+}
+
+export function getInitialQuaysFilter(
+    tile: BoardTileDB,
+    quays: QuayWithFrontText[],
+): QuaysFilterDB {
+    const initialFilter =
+        tile.filter?.type === 'quaysFilter'
+            ? tile.filter
+            : quaysToQuaysFilter(tile.quays)
+
+    return expandQuaysFilter(initialFilter, quays)
 }
 
 export function compressQuaysFilter(
