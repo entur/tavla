@@ -79,6 +79,7 @@ export function StopPlaceFilterView({
                     availableLines={lines}
                     whitelistedLines={filter.whitelistedLines}
                     trackingLocation={trackingLocation}
+                    trackingField="stop_place_filter"
                     onToggleLine={handleToggleLine}
                     onToggleGroup={handleToggleGroup}
                 />
