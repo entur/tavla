@@ -76,7 +76,7 @@ export function PlatformAndLines({
     const handleToggleGroup = (checked: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
-            field: 'lines',
+            field: 'quays_filter',
             column_value: 'none',
             action: checked ? 'select_all' : 'cleared',
         })
@@ -86,7 +86,7 @@ export function PlatformAndLines({
     const handleToggleLine = (lineId: string, checked: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
-            field: 'lines',
+            field: 'quays_filter',
             column_value: 'none',
             action: 'changed',
         })

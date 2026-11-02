@@ -55,8 +55,9 @@ function EditStopPlaceModal({
             offset: changedFields.has('offset'),
             offset_walking_dist: changedFields.has('offset_walking_dist'),
             columns: changedFields.has('columns'),
-            lines: changedFields.has('lines'),
-            transport_mode_filter: changedFields.has('transport_mode_filter'),
+            quays_filter: changedFields.has('quays_filter'),
+            stop_place_filter: changedFields.has('stop_place_filter'),
+            filter_type_change: changedFields.has('filter_type_change'),
         })
         handleCloseModal()
     }
