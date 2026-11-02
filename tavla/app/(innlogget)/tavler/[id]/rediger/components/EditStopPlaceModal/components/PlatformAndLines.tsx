@@ -9,7 +9,21 @@ import type { ReactNode } from 'react'
 import { useState } from 'react'
 import type { LineWithFrontText } from '../../utils/types'
 import { sortLineFragment } from '../utils'
-import { PublicCode } from './PublicCode'
+
+function PublicCode({ line }: { line: LineWithFrontText }) {
+    if (!line.publicCode) return null
+
+    const color = getColorMode(
+        line.transportMode ?? 'unknown',
+        line.transportSubmode ?? 'unknown',
+    )
+
+    return (
+        <div className={`publicCode bg-${color} text-white`}>
+            {line.publicCode}
+        </div>
+    )
+}
 
 export function PlatformAndLines({
     groupId,
