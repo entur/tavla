@@ -9,21 +9,7 @@ import type { ReactNode } from 'react'
 import { useState } from 'react'
 import type { LineWithFrontText } from '../../utils/types'
 import { sortLineFragment } from '../utils'
-
-function PublicCode({ line }: { line: LineWithFrontText }) {
-    if (!line.publicCode) return null
-
-    const color = getColorMode(
-        line.transportMode ?? 'unknown',
-        line.transportSubmode ?? 'unknown',
-    )
-
-    return (
-        <div className={`publicCode bg-${color} text-white`}>
-            {line.publicCode}
-        </div>
-    )
-}
+import { PublicCode } from './PublicCode'
 
 export function PlatformAndLines({
     groupId,
@@ -33,6 +19,7 @@ export function PlatformAndLines({
     icons,
     availableLines,
     trackingLocation,
+    trackingField,
     whitelistedLines,
     onToggleLine,
     onToggleGroup,
@@ -42,6 +29,7 @@ export function PlatformAndLines({
     icons: ReactNode
     availableLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    trackingField: EventProps<'stop_place_edit_interaction'>['field']
     whitelistedLines: string[]
     onToggleLine: (groupId: string, lineId: string, checked: boolean) => void
     onToggleGroup: (groupId: string, checked: boolean) => void
@@ -70,7 +58,7 @@ export function PlatformAndLines({
     const handleToggleGroup = (checked: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
-            field: 'quays_filter',
+            field: trackingField,
             column_value: 'none',
             action: checked ? 'select_all' : 'cleared',
         })
@@ -80,7 +68,7 @@ export function PlatformAndLines({
     const handleToggleLine = (lineId: string, checked: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
-            field: 'quays_filter',
+            field: trackingField,
             column_value: 'none',
             action: 'changed',
         })
