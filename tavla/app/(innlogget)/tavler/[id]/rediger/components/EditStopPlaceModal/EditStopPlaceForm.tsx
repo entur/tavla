@@ -1,4 +1,3 @@
-'use client'
 import { SmallAlertBox } from '@entur/alert'
 import { Button } from '@entur/button'
 import { startTransition, useActionState, useState } from 'react'
@@ -14,7 +13,7 @@ import { SetColumns } from './components/SetColumns'
 import { SetFilter } from './components/SetFilter'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
-import { compressQuaysFilter, expandQuaysFilter } from './utils'
+import { compressQuaysFilter, getInitialQuaysFilter } from './utils'
 
 type SavePayload = {
     tile: BoardTileDB
@@ -44,14 +43,8 @@ function EditStopPlaceForm({
     >(tile.filter?.type ?? 'stopPlaceFilter')
 
     const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>(() =>
-        expandQuaysFilter(
-            tile.filter?.type === 'quaysFilter'
-                ? tile.filter
-                : { type: 'quaysFilter', quays: [] },
-            quays,
-        ),
+        getInitialQuaysFilter(tile, quays),
     )
-    // TODO - add stopPlaceFilter state and initialization
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
@@ -95,6 +88,7 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
+            quays: [],
             filter:
                 filterType === 'quaysFilter'
                     ? compressQuaysFilter(quaysFilter, quays)
@@ -146,8 +140,8 @@ function EditStopPlaceForm({
 
             <SetFilter
                 quays={quays}
-                filterMode={filterType}
-                setFilterMode={setFilterType}
+                filterType={filterType}
+                setFilterType={setFilterType}
                 quaysFilter={quaysFilter}
                 setQuaysFilter={setQuaysFilter}
                 trackingLocation="board_page"
