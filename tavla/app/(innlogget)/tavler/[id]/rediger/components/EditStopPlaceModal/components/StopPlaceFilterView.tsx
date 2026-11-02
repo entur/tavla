@@ -1,5 +1,6 @@
 import { Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
+import { useMemo } from 'react'
 import type { StopPlaceFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
 import { groupLinesByTransportMode } from '../utils'
@@ -18,7 +19,10 @@ export function StopPlaceFilterView({
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
 }) {
-    const groupedByMode = groupLinesByTransportMode(quays)
+    const groupedByMode = useMemo(
+        () => groupLinesByTransportMode(quays),
+        [quays],
+    )
 
     const patchWhitelistedLines = (newWhitelistedLines: string[]) => {
         setFilter({ ...filter, whitelistedLines: newWhitelistedLines })
