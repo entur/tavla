@@ -22,10 +22,12 @@ import init
 
 collection_name = "boards"
 
-def remove_lines_with_direction_from_tiles(data: dict, log_file) -> dict:
+def remove_lines_with_direction_from_tiles(data: dict) -> tuple[dict, list]:
+    log_lines: list = []
+
     if not data:
-        log_file.write(f"❌ No data..\n")
-        return data
+        log_lines.append(f"❌ No data..")
+        return data, log_lines
 
     changed = False
 
@@ -42,14 +44,14 @@ def remove_lines_with_direction_from_tiles(data: dict, log_file) -> dict:
                 old_value = tile["linesWithDirection"]
                 del tile["linesWithDirection"]
                 changed = True
-                log_file.write(f"🧹 Removed 'linesWithDirection' from tile, old value: {old_value}\n")
+                log_lines.append(f"🧹 Removed 'linesWithDirection' from tile, old value: {old_value}")
 
             updated_tiles.append(tile)
 
         if changed:
             data["tiles"] = updated_tiles
 
-    return data
+    return data, log_lines
 
 
 def stream_documents_in_batches(collection_ref, batch_size=500):
@@ -72,24 +74,24 @@ def stream_documents_in_batches(collection_ref, batch_size=500):
         time.sleep(1) 
 
 @firestore.transactional
-def remove_lines_with_direction_transactional(transaction, board_ref, log_file):
+def remove_lines_with_direction_transactional(transaction, board_ref):
     snapshot = board_ref.get(transaction=transaction)
     if not snapshot.exists:
-        return False
+        return {"status": "missing", "log_lines": []}
 
     data = snapshot.to_dict()
     if not data:
-        return False
+        return {"status": "unchanged", "log_lines": []}
 
     original_data = copy.deepcopy(data)
-    new_data = remove_lines_with_direction_from_tiles(data, log_file)
+    new_data, log_lines = remove_lines_with_direction_from_tiles(data)
 
     if new_data == original_data:
-        return False
+        return {"status": "unchanged", "log_lines": log_lines}
 
     transaction.update(board_ref, {"tiles": new_data.get("tiles", [])})
 
-    return True
+    return {"status": "ok", "log_lines": log_lines}
 
 
 def update_documents(db: firestore.Client):
@@ -108,11 +110,17 @@ def update_documents(db: firestore.Client):
             try:
                 board_ref = db.collection(collection_name).document(doc_id)
                 transaction = db.transaction()
-                was_updated = remove_lines_with_direction_transactional(transaction, board_ref, log_file)
+                result = remove_lines_with_direction_transactional(transaction, board_ref)
+                status = result["status"]
 
-                if was_updated:
+                for line in result["log_lines"]:
+                    log_file.write(f"   board {doc_id} · {line}\n")
+
+                if status == "ok":
                     success_count += 1
                     log_file.write(f"✅ Updated document {doc_id}\n")
+                elif status == "missing":
+                    log_file.write(f"❌ Document doesn't exist: {doc_id}\n")
                 else:
                     log_file.write(f"ℹ️ No change needed for {doc_id}\n")
                     
