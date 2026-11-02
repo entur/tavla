@@ -176,11 +176,12 @@ export function compressQuaysFilter(
             continue
         }
 
-        const possibleLinesCount =
-            quays.find((q) => q.id === quay.id)?.lines.length ?? 0
+        const possibleLineIds =
+            quays.find((q) => q.id === quay.id)?.lines.map((line) => line.id) ??
+            []
 
-        if (selectedCount === possibleLinesCount) {
-            // Alt valgt på denne plattformen -> endre til tom list
+        if (possibleLineIds.every((id) => quay.whitelistedLines.includes(id))) {
+            // Alt valgt på denne plattformen -> endre til tom liste
             compactedQuays.push({ id: quay.id, whitelistedLines: [] })
             continue
         }
