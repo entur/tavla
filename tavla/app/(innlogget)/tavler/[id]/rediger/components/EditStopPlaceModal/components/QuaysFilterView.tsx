@@ -1,4 +1,9 @@
 import { Paragraph } from '@entur/typography'
+import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
+import {
+    getTransportModesFromLines,
+    sortByTransportMode,
+} from 'app/_components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { QuaysFilterDB } from 'types/db-types/boards'
@@ -106,7 +111,7 @@ export function QuaysFilterView({
             {sortedQuays.map((quay) => (
                 <PlatformAndLines
                     key={quay.id}
-                    quayId={quay.id}
+                    groupId={quay.id}
                     title={getQuayTitle(quay)}
                     description={quay.description ?? undefined}
                     tooltip={
@@ -114,6 +119,20 @@ export function QuaysFilterView({
                             ? undefined
                             : `Plattformkode: ${quay.id}`
                     }
+                    icons={getTransportModesFromLines(quay.lines)
+                        .sort(sortByTransportMode)
+                        .map((transportMode) => (
+                            <TransportIcon
+                                key={`${transportMode.transportMode}|${transportMode.transportSubmode ?? ''}`}
+                                transportMode={transportMode.transportMode}
+                                transportSubmode={
+                                    transportMode.transportSubmode
+                                }
+                                background
+                                whiteIcon
+                                includeTooltip
+                            />
+                        ))}
                     availableLines={quay.lines}
                     whitelistedLines={
                         quaysFilter.quays.find((q) => q.id === quay.id)
