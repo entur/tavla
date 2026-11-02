@@ -1,10 +1,11 @@
 import { Paragraph } from '@entur/typography'
+import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
 import type { EventProps } from 'app/posthog/events'
 import { useMemo } from 'react'
 import type { StopPlaceFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
-import { groupLinesByTransportMode } from '../utils'
-import { TransportModeLines } from './TransportModeLines'
+import { groupLinesByTransportMode, transportModeNames } from '../utils'
+import { PlatformAndLines } from './PlatformAndLines'
 
 export function StopPlaceFilterView({
     quays,
@@ -29,7 +30,11 @@ export function StopPlaceFilterView({
         onFieldChanged('stop_place_filter')
     }
 
-    const handleToggleLine = (lineId: string, checked: boolean) => {
+    const handleToggleLine = (
+        _mode: string,
+        lineId: string,
+        checked: boolean,
+    ) => {
         patchWhitelistedLines(
             checked
                 ? [...filter.whitelistedLines, lineId]
@@ -37,7 +42,11 @@ export function StopPlaceFilterView({
         )
     }
 
-    const handleToggleGroup = (groupLineIds: string[], checked: boolean) => {
+    const handleToggleGroup = (mode: string, checked: boolean) => {
+        const group = groupedByMode.find((g) => g.mode === mode)
+        if (!group) return
+
+        const groupLineIds = group.lines.map((line) => line.id)
         patchWhitelistedLines(
             checked
                 ? Array.from(
@@ -55,19 +64,23 @@ export function StopPlaceFilterView({
                 Velg hvilke transportmidler du vil vise
             </Paragraph>
             {groupedByMode.map(({ mode, lines }) => (
-                <TransportModeLines
+                <PlatformAndLines
                     key={mode}
-                    mode={mode}
+                    groupId={mode}
+                    title={transportModeNames(mode) ?? mode}
+                    icons={
+                        <TransportIcon
+                            transportMode={mode}
+                            background
+                            whiteIcon
+                            includeTooltip
+                        />
+                    }
                     availableLines={lines}
                     whitelistedLines={filter.whitelistedLines}
                     trackingLocation={trackingLocation}
                     onToggleLine={handleToggleLine}
-                    onToggleGroup={(checked) =>
-                        handleToggleGroup(
-                            lines.map((line) => line.id),
-                            checked,
-                        )
-                    }
+                    onToggleGroup={handleToggleGroup}
                 />
             ))}
         </div>
