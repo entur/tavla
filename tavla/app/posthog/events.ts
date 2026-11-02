@@ -294,7 +294,7 @@ export type EventMap = {
         columns: boolean
         quays_filter: boolean
         stop_place_filter: boolean
-        filter_type_change: boolean
+        filter_mode: boolean
     }
 
     stop_place_moved: WithLocation<
