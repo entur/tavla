@@ -57,7 +57,7 @@ function EditStopPlaceForm({
         _prevState: EditStopPlaceModalFormState,
         { tile: newTile }: SavePayload,
     ): Promise<EditStopPlaceModalFormState> => {
-        if (filterType === 'quaysFilter') {
+        if (filterType === 'quaysFilter' && quays.length > 0) {
             if (
                 quaysFilter.quays.length === 0 ||
                 quaysFilter.quays.every(
