@@ -2,28 +2,13 @@
 import { BaseExpand, ExpandArrow } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 import TransportIcon from 'app/_components/TransportIcon/TransportIcon'
-import { getColorMode } from 'app/_components/TransportIcon/utils'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { LineWithFrontText } from '../../utils/types'
 import { sortLineFragment, transportModeNames } from '../utils'
-
-function PublicCode({ line }: { line: LineWithFrontText }) {
-    if (!line.publicCode) return null
-
-    const color = getColorMode(
-        line.transportMode ?? 'unknown',
-        line.transportSubmode ?? 'unknown',
-    )
-
-    return (
-        <div className={`publicCode bg-${color} text-white`}>
-            {line.publicCode}
-        </div>
-    )
-}
+import { PublicCode } from './PublicCode'
 
 export function TransportModeLines({
     mode,
