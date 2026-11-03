@@ -17,6 +17,7 @@ Spørringer, terskler og andre detaljer står i selve alarmreglene i Grafana. De
 | Høy feilrate mot journey-planner | En stor andel av kallene til journey-planner feiler | Samme, `info` og `error`, uten skjermer som er offline |
 | Feil ved henting av tavler | `/api/board` gir serverfeil | `type: 'http'`, `path: '/api/board'`, `error` |
 | Feil i server actions | Flere server actions feiler i løpet av en time | `type: 'server-action'`, `error` |
+| Visningsfeil i tavla-visning | Flere tavler krasjer i ErrorBoundary i løpet av en time | `type: 'tavla-visning'`, `errorCode: 'display_error'`, `error` |
 
 Lav trafikk kan også bety at `/api/report-log` i tavla-admin er nede, ikke at journey-planner er det. Da kommer det ingen logger, selv om skjermene fungerer.
 
