@@ -7,6 +7,8 @@ Tavla bruker to separate loggingsystemer som dekker ulike behov:
 
 I tillegg eksponerer Rust-backenden Prometheus-metrikker som kan hentes inn i Grafana.
 
+Alarmene som bygger på disse loggene er beskrevet i [monitorering.md](monitorering.md).
+
 ---
 
 ## 1. Strukturert logging til GCP (`logToGcp`)
@@ -110,6 +112,8 @@ logToGcp('error', 'fetching board from firebase failed', {
 })
 ```
 
+Funksjonene i `src/firebase.ts` kaster feilen videre etter at de har logget den, og kalleren logger den på nytt som `server-action` eller `http`. Én Firestore-feil gir altså to `error`-oppføringer. Tell bare én av typene når du teller feil.
+
 #### Hendelser fra tavla-visning – `type: "tavla-visning"`
 
 Brukes via `/api/report-log`- og `/api/report-error`-endepunktene (se seksjon 3). Send eksplisitt `type`-parameter. Via `/api/report-log` er `level` oppgitt av kalleren (kan være `debug`/`info`/`warning`/`error`); via det utfasede `/api/report-error` er nivået alltid `error`.
@@ -125,24 +129,11 @@ logToGcp(level, `[tavla-visning] ${code}`, {
     errorMessage: message,
     userAgent,
     online,
+    timestamp,
 })
 ```
 
-#### Feil fra tavla-visning – `type: 'tavla-visning'`
-
-Brukes kun via `/api/report-error`-endepunktet (se seksjon 3).
-
-```typescript
-logToGcp('error', `[DEPRECATED][tavla-visning] ${errorCode}`, {
-    type: 'tavla-visning',
-    bid: boardId,
-    errorMessage: message,
-    errorCode,
-    status,
-    userAgent,
-    context: { origin },
-})
-```
+Hvilke koder tavla-visning sender, og hvor ofte, står i [seksjon 3](#hva-tavla-visning-sender-og-hvor-ofte).
 
 ### `LogFields`-felter
 
@@ -220,6 +211,24 @@ Se `tavla/app/api/upload/route.ts` for et godt eksempel: hvert mulige utfall (40
 
 Siden tavla-visning er en separat applikasjon uten tilgang til Firebase Auth eller GCP-credentials, rapporterer den feil og hendelser via åpne HTTP-endepunkter.
 
+### Hva tavla-visning sender, og hvor ofte
+
+Koden ligger i `src/Shared/utils/report.ts` i tavla-visning. Kodene havner i `errorCode`-feltet i loggen.
+
+| Kode | Nivå | Når den sendes |
+|------|------|----------------|
+| `fetch_journey_planner` | `info` / `error` | Etter hvert kall til journey-planner. Spørringene poller hvert 30. sekund, så volumet avhenger av antall tiles, ikke bare antall tavler. Dette er det klart største volumet. |
+| `fetch_board` | `info` / `error` | Én gang per sidelasting, når tavla hentes fra `/api/board`. Alt som ikke er `res.ok` rapporteres som feil, også 404. |
+| `showing_cached_data` | `warning` | Når en tile ikke får hentet nye data, men viser mellomlagrede avganger som ikke er utløpt. |
+| `error_screen_cache_expired` | `error` | Når en tile ikke får hentet nye data, og alle mellomlagrede avganger er utløpt, så tilen viser feilskjerm. |
+| `display_error` | `error` | Når en ErrorBoundary fanger en renderingsfeil. |
+
+Dette er nyttig å vite når man teller eller lager alarmer på disse loggene:
+
+- **`online` sendes bare ved feil.** `reportError` tar med `navigator.onLine`, `reportSuccess` gjør det ikke. Vil du fjerne feil fra skjermer som er offline, bruk `COALESCE(BOOL(json_payload.online), TRUE)` i BigQuery. Ellers forsvinner alle suksessradene. En offline skjerm gir rundt 120 `fetch_journey_planner`-feil i timen.
+- **Logger fra en offline skjerm kommer forsinket.** Hvis sendingen feiler, legges loggen i kø og sendes senere, med `timestamp` satt til det opprinnelige tidspunktet. Loggoppføringen havner da bakover i tid, så de siste minuttene er ikke komplette.
+- **`fetch_board` fra klienten har mer støy enn serverloggen.** For feil ved henting av tavler gir `type: 'http'` med `path: '/api/board'` et renere bilde. Den skiller 404 (`warning`) fra serverfeil (`error`).
+
 ### 3.1 `/api/report-log` (nåværende)
 
 Generalisert endepunkt som støtter alle logg-nivåer, ikke bare feil.
@@ -239,7 +248,7 @@ fetch('https://tavla.entur.no/api/report-log', {
     body: JSON.stringify({
         boardId: '<20-tegns alfanumerisk ID, eller NSR:Quay:... / NSR:StopPlace:...>',
         level: 'info', // 'debug' | 'info' | 'warning' | 'error'
-        code: 'fetch_board', // eller 'display_error', 'unknown', 'fetch_journey_planner' – utvides etter behov
+        code: 'fetch_board', // eller 'fetch_journey_planner', 'display_error', 'showing_cached_data', 'error_screen_cache_expired', 'unknown' – utvides etter behov
         message: '<melding>',
         errorName: 'TypeError', // valgfri
         online: true, // valgfri – navigator.onLine på klienten
@@ -285,6 +294,22 @@ fetch('https://tavla.entur.no/api/report-error', {
         status: 503, // valgfritt - HTTP-statuskoden fra det feilede kallet, mest aktuelt for fetch_journey_planner/fetch_board
     }),
 }).catch(() => {}) // fire-and-forget
+```
+
+#### Slik logges det i tavla-admin
+
+Alltid på nivå `error`:
+
+```typescript
+logToGcp('error', `[DEPRECATED][tavla-visning] ${errorCode}`, {
+    type: 'tavla-visning',
+    bid: boardId,
+    errorMessage: message,
+    errorCode,
+    status,
+    userAgent,
+    context: { origin },
+})
 ```
 
 #### Sikkerhetstiltak
@@ -347,6 +372,26 @@ jsonPayload.type="tavla-visning" AND severity="ERROR"
 # Kombinasjoner
 jsonPayload.type="server-action" AND severity="ERROR"
 ```
+
+### Spørre mot loggene i BigQuery
+
+Loggene fra prod er også tilgjengelige i BigQuery, som `ent-tavla-prd.tavla_prd_logs._Default`. Det er dette alarmene i Grafana bygger på. Feltene fra `LogFields` ligger i `json_payload` og leses ut med `STRING(...)`, `INT64(...)` eller `BOOL(...)`:
+
+```sql
+SELECT
+  TIMESTAMP_TRUNC(timestamp, HOUR) AS time,
+  STRING(json_payload.action) AS action,
+  COUNT(*) AS feil
+FROM `ent-tavla-prd.tavla_prd_logs._Default`
+WHERE log_id = 'tavla_admin'
+  AND severity = 'ERROR'
+  AND STRING(json_payload.type) = 'server-action'
+  AND timestamp > TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY)
+GROUP BY time, action
+ORDER BY time
+```
+
+Filtrer alltid på `timestamp`, slik at spørringen ikke skanner mer enn nødvendig.
 
 ### Konfigurering (miljøvariabler)
 
