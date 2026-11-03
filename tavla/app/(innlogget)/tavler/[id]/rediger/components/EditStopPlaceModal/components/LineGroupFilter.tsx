@@ -11,7 +11,7 @@ import type { LineWithFrontText } from '../../utils/types'
 import { sortLineFragment } from '../utils'
 import { PublicCode } from './PublicCode'
 
-export function PlatformAndLines({
+export function LineGroupFilter({
     groupId,
     title,
     description,
