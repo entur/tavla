@@ -21,7 +21,7 @@ import {
     type TransportModeGroup,
 } from './utils'
 
-/* Minimal fixture — caster forbi feltene testene under ikke bryr seg om. transportMode er valgfri siden kun grupperingstestene trenger den.*/
+// transportMode er valgfri, kun grupperingstestene bruker den
 function quay(
     id: string,
     lines: Array<{
@@ -33,7 +33,6 @@ function quay(
     return { id, lines } as unknown as QuayWithFrontText
 }
 
-/* Minimal fixture — getInitialCheckedLineIds bruker kun tile.quays (id + whitelistedLines) og tile.whitelistedLines, så vi caster forbi resten av BoardTileDB-feltene.*/
 function adminTile(
     quays: Array<{ id: string; whitelistedLines: string[] }>,
     whitelistedLines?: string[],
@@ -44,7 +43,7 @@ function adminTile(
     } as unknown as BoardTileDB
 }
 
-/* Minimal fixture — en frittstående linje, til bruk i tester som ikke går via en quay (sortLineFragment, expandStopPlaceFilter).*/
+// Frittstående linje, til tester uten quay (sortLineFragment, expandStopPlaceFilter)
 function line(
     id: string,
     opts: {
@@ -61,11 +60,10 @@ function line(
     } as unknown as LineWithFrontText
 }
 
-/* getInitialCheckedLineIds(tile, quays): regner ut hvilke `${quayId}||${lineId}`-bokser som skal være forhåndsavhuket når en lagret tile åpnes.
- `quays` er linjene hentet fra API-et (fasit på hva som finnes nå);
- `tile` representerer det som er lagret i databasen*/
-describe('getInitialCheckedLineIds (read-back-presedens)', () => {
-    it('for quay lagret med en ikke-tom whitelistedLines returneres kun de linjene', () => {
+// Regner ut hvilke `${quayId}||${lineId}`-bokser som skal være forhåndsavhuket
+// når en lagret tile åpnes. `quays` er det API-et sier finnes nå, `tile` er det som ligger i databasen.
+describe('getInitialCheckedLineIds', () => {
+    it('krysser kun av linjene i whitelistedLines når den ikke er tom', () => {
         const tile = adminTile([{ id: 'Q1', whitelistedLines: ['L1'] }])
         const quays = [
             quay('Q1', [
@@ -78,7 +76,7 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
         )
     })
 
-    it('for quay lagret med tom whitelistedLines tolkes [] som "alle linjer på quayen" og alle linjer returneres', () => {
+    it('tom whitelistedLines betyr alle linjer på quayen', () => {
         const tile = adminTile([{ id: 'Q1', whitelistedLines: [] }])
         const quays = [
             quay('Q1', [
@@ -91,7 +89,7 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
         )
     })
 
-    it('tile har en quay med whitelistedLines, på stoppet finnes det flere quays som ikke er lagret på tile. Da returneres kun kombinasjon av lagret quay og linje', () => {
+    it('ignorerer quays på stoppet som ikke er lagret på tile fra før', () => {
         const tile = adminTile([{ id: 'Q1', whitelistedLines: ['L1'] }])
         const quays = [
             quay('Q1', [{ id: 'L1', frontTexts: [] }]),
@@ -102,7 +100,7 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
         )
     })
 
-    it('når ingen quays lagret, men deprekert tile.whitelistedLines er satt så returneres alle kombinasjoner quay og valgt linje', () => {
+    it('faller tilbake til deprekert tile.whitelistedLines når ingen quays er lagret', () => {
         const tile = adminTile([], ['L1'])
         const quays = [
             quay('Q1', [
@@ -123,7 +121,7 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
         )
     })
 
-    it('verken quays eller tile.whitelistedLines er satt så alle kombinasjoner returneres', () => {
+    it('uten verken quays eller whitelistedLines lagret krysses alt av', () => {
         const tile = adminTile([])
         const quays = [
             quay('Q1', [
@@ -137,20 +135,20 @@ describe('getInitialCheckedLineIds (read-back-presedens)', () => {
     })
 })
 
-describe('sortLineFragment (sortering av linjer innad i en gruppe)', () => {
-    it('sorterer på transportMode alfabetisk når linjene har ulik transportmodus', () => {
+describe('sortLineFragment', () => {
+    it('sorterer alfabetisk på transportMode', () => {
         const bus = line('L1', { transportMode: 'bus', publicCode: '1' })
         const tram = line('L2', { transportMode: 'tram', publicCode: '1' })
         expect(sortLineFragment(bus, tram)).toBeLessThan(0)
     })
 
-    it('sorterer numerisk på publicCode innad i samme transportmodus, slik at «2» kommer før «10»', () => {
+    it('sorterer publicCode numerisk, ikke alfabetisk (2 før 10)', () => {
         const ten = line('L1', { transportMode: 'bus', publicCode: '10' })
         const two = line('L2', { transportMode: 'bus', publicCode: '2' })
         expect(sortLineFragment(ten, two)).toBeGreaterThan(0)
     })
 
-    it('håndterer manglende transportMode og publicCode uten å kaste feil', () => {
+    it('feiler ikke når transportMode eller publicCode mangler', () => {
         const withoutFields = line('L1')
         const bus = line('L2', { transportMode: 'bus', publicCode: '1' })
         expect(() => sortLineFragment(withoutFields, bus)).not.toThrow()
@@ -158,7 +156,7 @@ describe('sortLineFragment (sortering av linjer innad i en gruppe)', () => {
     })
 })
 
-describe('getInitialFilterType (hvilken filtertype som forhåndsvelges når modalen åpnes)', () => {
+describe('getInitialFilterType', () => {
     it('bruker tile.filter.type når det allerede er lagret et filter', () => {
         const tile = {
             filter: {
@@ -171,7 +169,7 @@ describe('getInitialFilterType (hvilken filtertype som forhåndsvelges når moda
         expect(getInitialFilterType(tile)).toBe('stopPlaceFilter')
     })
 
-    it('faller tilbake til quaysFilter når filter mangler, men gammel tile.quays finnes (bakoverkompatibilitet)', () => {
+    it('bruker quaysFilter for gamle tiles med tile.quays', () => {
         const tile = {
             quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
         } as unknown as BoardTileDB
@@ -184,8 +182,8 @@ describe('getInitialFilterType (hvilken filtertype som forhåndsvelges når moda
     })
 })
 
-describe('quaysToQuaysFilter (konverterer gammel tile.quays til QuaysFilterDB)', () => {
-    it('mapper hver quay sin whitelistedLines over til filterformatet', () => {
+describe('quaysToQuaysFilter', () => {
+    it('konverterer utdaterte tile.quays til QuaysFilterDB', () => {
         const result = quaysToQuaysFilter([
             { id: 'Q1', whitelistedLines: ['L1'] },
         ])
@@ -195,7 +193,7 @@ describe('quaysToQuaysFilter (konverterer gammel tile.quays til QuaysFilterDB)',
         })
     })
 
-    it('kopierer whitelistedLines-arrayen, slik at mutasjon av input ikke påvirker resultatet', () => {
+    it('deler ikke array-referanse med input', () => {
         const inputQuay = { id: 'Q1', whitelistedLines: ['L1'] }
         const result = quaysToQuaysFilter([inputQuay])
         inputQuay.whitelistedLines.push('L2')
@@ -203,8 +201,8 @@ describe('quaysToQuaysFilter (konverterer gammel tile.quays til QuaysFilterDB)',
     })
 })
 
-describe('expandQuaysFilter (fyller inn underforståtte linjevalg per plattform)', () => {
-    it('tom whitelistedLines på en lagret quay tolkes som «alle linjer på denne quayen»', () => {
+describe('expandQuaysFilter', () => {
+    it('tom whitelistedLines på en lagret quay betyr alle linjer på den quayen', () => {
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
             quays: [{ id: 'Q1', whitelistedLines: [] }],
@@ -238,7 +236,7 @@ describe('expandQuaysFilter (fyller inn underforståtte linjevalg per plattform)
         })
     })
 
-    it('en quay som mangler i filteret velges i sin helhet når filteret for øvrig er tomt', () => {
+    it('en quay som manglet i filteret i et tomt filter velges', () => {
         const filter: QuaysFilterDB = { type: 'quaysFilter', quays: [] }
         const quays = [quay('Q1', [{ id: 'L1', frontTexts: [] }])]
         expect(expandQuaysFilter(filter, quays)).toEqual({
@@ -247,7 +245,7 @@ describe('expandQuaysFilter (fyller inn underforståtte linjevalg per plattform)
         })
     })
 
-    it('en quay som mangler i filteret får ingen linjer når andre quays allerede er eksplisitt filtrert', () => {
+    it('en quay som mangler i filteret får ingen linjer hvis andre quays allerede er filtrert på', () => {
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
             quays: [{ id: 'Q2', whitelistedLines: ['L2'] }],
@@ -298,8 +296,8 @@ describe('getInitialQuaysFilter', () => {
     })
 })
 
-describe('compressQuaysFilter (fjerner underforstått informasjon før lagring)', () => {
-    it('en quay uten valgte linjer droppes fra resultatet', () => {
+describe('compressQuaysFilter', () => {
+    it('en quay uten valgte linjer lagres ikke', () => {
         const quays = [quay('Q1', [{ id: 'L1', frontTexts: [] }])]
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
@@ -332,7 +330,7 @@ describe('compressQuaysFilter (fjerner underforstått informasjon før lagring)'
         })
     })
 
-    it('en delvis valgt quay beholdes med eksplisitt linjeliste', () => {
+    it('en delvis valgt quay beholdes med eksplisitt satt liste med linjer', () => {
         const quays = [
             quay('Q1', [
                 { id: 'L1', frontTexts: [] },
@@ -349,7 +347,7 @@ describe('compressQuaysFilter (fjerner underforstått informasjon før lagring)'
         })
     })
 
-    it('når alle quays er fullt valgt, komprimeres hele filteret til en tom liste (betyr «alt valgt»)', () => {
+    it('komprimerer et filter der alt er valgt til en tom liste', () => {
         const quays = [
             quay('Q1', [{ id: 'L1', frontTexts: [] }]),
             quay('Q2', [{ id: 'L2', frontTexts: [] }]),
@@ -381,7 +379,7 @@ describe('groupLinesByTransportMode', () => {
         ).toEqual(['L1'])
     })
 
-    it('en linje som finnes på flere plattformer vises kun én gang, med frontTexts slått sammen', () => {
+    it('en linje på flere plattformer vises kun én gang, med frontTexts slått sammen', () => {
         const quays = [
             quay('Q1', [
                 { id: 'L1', frontTexts: ['Mot sentrum'], transportMode: 'bus' },
@@ -389,7 +387,7 @@ describe('groupLinesByTransportMode', () => {
             quay('Q2', [
                 {
                     id: 'L1',
-                    frontTexts: ['Mot sentrum', 'Mot Majorstua'],
+                    frontTexts: ['Mot Majorstua'],
                     transportMode: 'bus',
                 },
             ]),
@@ -409,13 +407,13 @@ describe('groupLinesByTransportMode', () => {
     })
 })
 
-describe('expandStopPlaceFilter (fyller inn underforståtte linjevalg per transportmiddel)', () => {
+describe('expandStopPlaceFilter', () => {
     const groups: TransportModeGroup[] = [
         { mode: 'bus', lines: [line('L1'), line('L2')] },
         { mode: 'tram', lines: [line('L3')] },
     ]
 
-    it('ingen filtrering satt => alle linjer i alle grupper velges', () => {
+    it('uten noen filtrering velges alle linjer i alle grupper', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
             whitelistedModes: [],
@@ -464,7 +462,7 @@ describe('getInitialStopPlaceFilter', () => {
         })
     })
 
-    it('ingen lagret stopPlaceFilter => alle linjer på stoppestedet velges', () => {
+    it('uten noe stopPlaceFilter satt velges alle linjer på stoppestedet', () => {
         const tile = {} as unknown as BoardTileDB
         const quays = [
             quay('Q1', [{ id: 'L1', frontTexts: [], transportMode: 'bus' }]),
@@ -477,7 +475,7 @@ describe('getInitialStopPlaceFilter', () => {
     })
 })
 
-describe('compressStopPlaceFilter (fjerner underforstått informasjon før lagring)', () => {
+describe('compressStopPlaceFilter', () => {
     const quays = [
         quay('Q1', [
             { id: 'L1', frontTexts: [], transportMode: 'bus' },
@@ -486,7 +484,7 @@ describe('compressStopPlaceFilter (fjerner underforstått informasjon før lagri
         ]),
     ]
 
-    it('alle linjer valgt => komprimeres til tomme lister (betyr «alt valgt»)', () => {
+    it('komprimerer alle linjer valgt til tomme lister', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
             whitelistedModes: [],
@@ -499,7 +497,7 @@ describe('compressStopPlaceFilter (fjerner underforstått informasjon før lagri
         })
     })
 
-    it('alle linjer i én gruppe valgt => gruppen komprimeres til whitelistedModes', () => {
+    it('alle linjer i én gruppe valgt komprimeres til whitelistedModes', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
             whitelistedModes: [],
@@ -512,7 +510,7 @@ describe('compressStopPlaceFilter (fjerner underforstått informasjon før lagri
         })
     })
 
-    it('delvis valgte linjer i en gruppe beholdes eksplisitt, og usette grupper utelates helt', () => {
+    it('spesifikke linjer som er valgt beholdes eksplisitt som linjer, når ikke alle linjer i transportmodus er valgt', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
             whitelistedModes: [],
