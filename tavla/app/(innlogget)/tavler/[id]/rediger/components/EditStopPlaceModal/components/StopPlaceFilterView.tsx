@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import type { StopPlaceFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
 import { groupLinesByTransportMode, transportModeNames } from '../utils'
-import { PlatformAndLines } from './PlatformAndLines'
+import { LineGroupFilter } from './LineGroupFilter'
 
 export function StopPlaceFilterView({
     quays,
@@ -64,7 +64,7 @@ export function StopPlaceFilterView({
                 Velg hvilke transportmidler du vil vise
             </Paragraph>
             {groupedByMode.map(({ mode, lines }) => (
-                <PlatformAndLines
+                <LineGroupFilter
                     key={mode}
                     groupId={mode}
                     title={transportModeNames(mode) ?? mode}
