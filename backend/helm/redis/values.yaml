@@ -1,8 +1,0 @@
-master:
-    resources:
-        cpu: 0.5
-        memory: 512
-replica:
-    resources:
-        cpu: 0.5
-        memory: 512

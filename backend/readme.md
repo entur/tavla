@@ -204,6 +204,8 @@ Kanaler i Redis:
 
 Timeout-mønsteret gjør at klienten må fornye abonnement med jevne intervaller (unngår hengende forbindelser).
 
+I dev og prd kjører Redis som Google Memorystore, satt opp med Team Plattforms Terraform-modul i [`entur/tavla-deployment-config`](https://github.com/entur/tavla-deployment-config). Modulen legger `REDIS_HOST`, `REDIS_PORT` og `REDIS_PASSWORD` i Secret Manager, og backenden henter dem via `common.secrets.redis` i `helm/backend/values.yaml`.
+
 ## Endepunkter (oversikt)
 
 | Metode | Path | Auth | Beskrivelse |
