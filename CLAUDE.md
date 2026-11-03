@@ -88,6 +88,8 @@ Test the running server: `curl localhost:3001/active -H "Authorization: Bearer s
 4. `active_boards` counter in Redis tracks currently connected boards
 5. `POST /heartbeat` — sent every 60s by tavla-visning for presence/analytics tracking; the response also returns the backend's current time (`{ time: <ms since epoch> }`), which tavla-visning uses to keep its displayed clock correct even when the display hardware's own system clock is wrong
 
+In dev/prd, Redis is Google Memorystore, provisioned with Team Plattform's Terraform module in [`entur/tavla-deployment-config`](https://github.com/entur/tavla-deployment-config); `REDIS_HOST`/`REDIS_PORT`/`REDIS_PASSWORD` come from Secret Manager. Locally, `backend/start-redis.sh` runs a plain Redis.
+
 Changing a folder logo calls `POST /update/:bid` for every board in the folder (via `app/_utils/updateBoardsInFolder.ts`), which makes tavla-visning reload and fetch the new logo.
 
 **Frontend data sources:**
