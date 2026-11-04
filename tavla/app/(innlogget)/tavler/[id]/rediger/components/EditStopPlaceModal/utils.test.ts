@@ -11,7 +11,6 @@ import {
     compressStopPlaceFilter,
     expandQuaysFilter,
     expandStopPlaceFilter,
-    getInitialCheckedLineIds,
     getInitialFilterType,
     getInitialQuaysFilter,
     getInitialStopPlaceFilter,
@@ -33,16 +32,6 @@ function quay(
     return { id, lines } as unknown as QuayWithFrontText
 }
 
-function adminTile(
-    quays: Array<{ id: string; whitelistedLines: string[] }>,
-    whitelistedLines?: string[],
-): BoardTileDB {
-    return {
-        quays,
-        whitelistedLines,
-    } as unknown as BoardTileDB
-}
-
 // Frittstående linje, til tester uten quay (sortLineFragment, expandStopPlaceFilter)
 function line(
     id: string,
@@ -59,81 +48,6 @@ function line(
         frontTexts: opts.frontTexts ?? [],
     } as unknown as LineWithFrontText
 }
-
-// Regner ut hvilke `${quayId}||${lineId}`-bokser som skal være forhåndsavhuket
-// når en lagret tile åpnes. `quays` er det API-et sier finnes nå, `tile` er det som ligger i databasen.
-describe('getInitialCheckedLineIds', () => {
-    it('krysser kun av linjene i whitelistedLines når den ikke er tom', () => {
-        const tile = adminTile([{ id: 'Q1', whitelistedLines: ['L1'] }])
-        const quays = [
-            quay('Q1', [
-                { id: 'L1', frontTexts: [] },
-                { id: 'L2', frontTexts: [] },
-            ]),
-        ]
-        expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-            new Set(['Q1||L1']),
-        )
-    })
-
-    it('tom whitelistedLines betyr alle linjer på quayen', () => {
-        const tile = adminTile([{ id: 'Q1', whitelistedLines: [] }])
-        const quays = [
-            quay('Q1', [
-                { id: 'L1', frontTexts: [] },
-                { id: 'L2', frontTexts: [] },
-            ]),
-        ]
-        expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-            new Set(['Q1||L1', 'Q1||L2']),
-        )
-    })
-
-    it('ignorerer quays på stoppet som ikke er lagret på tile fra før', () => {
-        const tile = adminTile([{ id: 'Q1', whitelistedLines: ['L1'] }])
-        const quays = [
-            quay('Q1', [{ id: 'L1', frontTexts: [] }]),
-            quay('Q2', [{ id: 'L3', frontTexts: [] }]),
-        ]
-        expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-            new Set(['Q1||L1']),
-        )
-    })
-
-    it('faller tilbake til deprekert tile.whitelistedLines når ingen quays er lagret', () => {
-        const tile = adminTile([], ['L1'])
-        const quays = [
-            quay('Q1', [
-                { id: 'L1', frontTexts: [] },
-                { id: 'L2', frontTexts: [] },
-            ]),
-            quay('Q2', [
-                { id: 'L1', frontTexts: [] },
-                { id: 'L3', frontTexts: [] },
-            ]),
-            quay('Q3', [
-                { id: 'L2', frontTexts: [] },
-                { id: 'L3', frontTexts: [] },
-            ]),
-        ]
-        expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-            new Set(['Q1||L1', 'Q2||L1']),
-        )
-    })
-
-    it('uten verken quays eller whitelistedLines lagret krysses alt av', () => {
-        const tile = adminTile([])
-        const quays = [
-            quay('Q1', [
-                { id: 'L1', frontTexts: [] },
-                { id: 'L2', frontTexts: [] },
-            ]),
-        ]
-        expect(getInitialCheckedLineIds(tile, quays)).toEqual(
-            new Set(['Q1||L1', 'Q1||L2']),
-        )
-    })
-})
 
 describe('sortLineFragment', () => {
     it('sorterer alfabetisk på transportMode', () => {
