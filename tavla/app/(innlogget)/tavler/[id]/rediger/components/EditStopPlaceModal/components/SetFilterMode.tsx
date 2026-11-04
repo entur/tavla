@@ -9,13 +9,13 @@ const filterModes: { value: FilterMode; title: string; description: string }[] =
             value: 'stopPlaceFilter',
             title: 'Hele stoppestedet',
             description:
-                'Passer fint hvis du skal vise alle linjer fra et helt stoppested',
+                'Passer fint hvis du skal vise alle, eller utvalgte, linjer fra et helt stoppested',
         },
         {
             value: 'quaysFilter',
             title: 'Én eller flere plattformer',
             description:
-                'Passer fint hvis du skal vise alle linjer fra en plattform, eller en linjer i en retning',
+                'Passer fint hvis du skal vise alle, eller utvalgte, linjer fra én eller flere plattformer.',
         },
     ] as const
 
