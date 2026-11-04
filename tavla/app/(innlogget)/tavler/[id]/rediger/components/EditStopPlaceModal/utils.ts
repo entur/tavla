@@ -44,59 +44,6 @@ export function transportModeNames(
     }
 }
 
-export function generateQuayLineKey(quayId: string, lineId: string): string {
-    return `${quayId}||${lineId}`
-}
-
-export function countSelectableQuayLineKeys(
-    quays: QuayWithFrontText[],
-): number {
-    return quays.reduce((sum, quay) => sum + quay.lines.length, 0)
-}
-
-/**
- * Computes which quay-line keys are pre-checked when a saved tile is opened.
- * `tile.quays`/`tile.whitelistedLines` decide which lines are selected.
- */
-export function getInitialCheckedLineIds(
-    tile: BoardTileDB,
-    quays: QuayWithFrontText[],
-): Set<string> {
-    const set = new Set<string>()
-    const hasQuayFilter = tile.quays && tile.quays.length > 0
-
-    for (const quay of quays) {
-        const savedQuay = tile.quays?.find((q) => q.id === quay.id)
-        if (savedQuay) {
-            if (savedQuay.whitelistedLines.length === 0) {
-                for (const l of quay.lines) {
-                    set.add(generateQuayLineKey(quay.id, l.id))
-                }
-            } else {
-                for (const lineId of savedQuay.whitelistedLines) {
-                    const line = quay.lines.find((l) => l.id === lineId)
-                    if (!line) continue
-                    set.add(generateQuayLineKey(quay.id, line.id))
-                }
-            }
-        } else if (hasQuayFilter) {
-            // Per-quay filter exists but this quay has no entry: nothing selected
-        } else if (tile.whitelistedLines && tile.whitelistedLines.length > 0) {
-            for (const l of quay.lines) {
-                if (tile.whitelistedLines?.includes(l.id)) {
-                    set.add(generateQuayLineKey(quay.id, l.id))
-                }
-            }
-        } else {
-            for (const l of quay.lines) {
-                set.add(generateQuayLineKey(quay.id, l.id))
-            }
-        }
-    }
-
-    return set
-}
-
 export function sortLineFragment(
     a: LineWithFrontText,
     b: LineWithFrontText,
