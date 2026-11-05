@@ -57,15 +57,20 @@ const quaySchema = z.object({
     whitelistedLines: z.array(z.string()),
 })
 
+const filterQuaySchema = z.object({
+    id: z.string(),
+    selectedLines: z.array(z.string()),
+})
+
 const stopPlaceFilterSchema = z.object({
     type: z.literal('stopPlaceFilter'),
-    whitelistedModes: z.array(transportModeSchema),
-    whitelistedLines: z.array(z.string()),
+    selectedTransportModes: z.array(transportModeSchema),
+    selectedLines: z.array(z.string()),
 })
 
 const quaysFilterSchema = z.object({
     type: z.literal('quaysFilter'),
-    quays: z.array(quaySchema),
+    quays: z.array(filterQuaySchema),
 })
 
 const tileFilterSchema = z.discriminatedUnion('type', [

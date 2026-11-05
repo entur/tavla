@@ -25,8 +25,8 @@ export function StopPlaceFilterView({
         [quays],
     )
 
-    const patchWhitelistedLines = (newWhitelistedLines: string[]) => {
-        setFilter({ ...filter, whitelistedLines: newWhitelistedLines })
+    const patchSelectedLines = (newSelectedLines: string[]) => {
+        setFilter({ ...filter, selectedLines: newSelectedLines })
         onFieldChanged('stop_place_filter')
     }
 
@@ -35,10 +35,10 @@ export function StopPlaceFilterView({
         lineId: string,
         checked: boolean,
     ) => {
-        patchWhitelistedLines(
+        patchSelectedLines(
             checked
-                ? [...filter.whitelistedLines, lineId]
-                : filter.whitelistedLines.filter((id) => id !== lineId),
+                ? [...filter.selectedLines, lineId]
+                : filter.selectedLines.filter((id) => id !== lineId),
         )
     }
 
@@ -47,12 +47,12 @@ export function StopPlaceFilterView({
         if (!group) return
 
         const groupLineIds = group.lines.map((line) => line.id)
-        patchWhitelistedLines(
+        patchSelectedLines(
             checked
                 ? Array.from(
-                      new Set([...filter.whitelistedLines, ...groupLineIds]),
+                      new Set([...filter.selectedLines, ...groupLineIds]),
                   )
-                : filter.whitelistedLines.filter(
+                : filter.selectedLines.filter(
                       (id) => !groupLineIds.includes(id),
                   ),
         )
@@ -77,7 +77,7 @@ export function StopPlaceFilterView({
                         />
                     }
                     availableLines={lines}
-                    whitelistedLines={filter.whitelistedLines}
+                    selectedLines={filter.selectedLines}
                     trackingLocation={trackingLocation}
                     trackingField="stop_place_filter"
                     onToggleLine={handleToggleLine}
