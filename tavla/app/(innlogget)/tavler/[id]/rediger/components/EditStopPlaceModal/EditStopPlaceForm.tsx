@@ -56,8 +56,21 @@ function EditStopPlaceForm({
         () => getInitialStopPlaceFilter(tile, quays),
     )
 
+    const [filterIsEdited, setFilterIsEdited] = useState(false)
+
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
+
+    const handleFieldChangeWithListener = (field: string) => {
+        if (
+            field === 'filter_mode' ||
+            field === 'quays_filter' ||
+            field === 'stop_place_filter'
+        ) {
+            setFilterIsEdited(true)
+        }
+        onFieldChanged(field)
+    }
 
     const handleSave = async (
         _prevState: EditStopPlaceModalFormState,
@@ -96,12 +109,10 @@ function EditStopPlaceForm({
         const hasDrivingDistance =
             board.meta.location && tile.drivingDistance?.distance !== undefined
 
-        const canEditFilter = quays.length > 0
-
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            ...(canEditFilter && {
+            ...(filterIsEdited && {
                 quays: [],
                 filter:
                     filterType === 'quaysFilter'
@@ -158,7 +169,7 @@ function EditStopPlaceForm({
                 stopPlaceFilter={stopPlaceFilter}
                 setStopPlaceFilter={setStopPlaceFilter}
                 trackingLocation="board_page"
-                onFieldChanged={onFieldChanged}
+                onFieldChanged={handleFieldChangeWithListener}
             />
 
             <SetOffsetDepartureTime
