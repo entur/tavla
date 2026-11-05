@@ -11,6 +11,7 @@ import {
 } from '@entur/table'
 import { Tooltip } from '@entur/tooltip'
 import { ArrivalsBadge } from 'app/(innlogget)/components/ArrivalsBadge'
+import { NewBadge } from 'app/(innlogget)/components/NewBadge'
 import { TableActions } from 'app/(innlogget)/oversikt/components/Column/Actions'
 import {
     DEFAULT_BOARD_NAME,
@@ -44,6 +45,14 @@ type FolderTableItem = BaseTableItem & {
 }
 
 export type TableItem = BoardTableItem | FolderTableItem
+
+const createdLast24Hours = (data: BoardTableItem) => {
+    const timestamp = data.board.meta.created
+    if (!timestamp) return false
+    const now = Date.now()
+    const twentyFourHours = 24 * 60 * 60 * 1000
+    return now - timestamp <= twentyFourHours
+}
 
 function BoardTable({ folders = [], boards }: BoardTableProps) {
     const foldersMapped: TableItem[] = folders.map((folder) => ({
@@ -140,6 +149,8 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                                 </Link>
                                 {data.type === 'board' &&
                                     data.board.isArrivals && <ArrivalsBadge />}
+                                {data.type === 'board' &&
+                                    createdLast24Hours(data) && <NewBadge />}
                             </DataCell>
                             <DataCell>
                                 {lastActiveToStatus(
