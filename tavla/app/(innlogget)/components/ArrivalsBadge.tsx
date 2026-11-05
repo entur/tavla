@@ -1,4 +1,3 @@
-'use client'
 import { Tag } from '@entur/layout'
 
 export function ArrivalsBadge() {
