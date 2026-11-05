@@ -80,9 +80,9 @@ function EditStopPlaceForm({
             quays.length > 0 &&
             (filterType === 'quaysFilter'
                 ? quaysFilter.quays.every(
-                      (quay) => quay.whitelistedLines.length === 0,
+                      (quay) => quay.selectedLines.length === 0,
                   )
-                : stopPlaceFilter.whitelistedLines.length === 0)
+                : stopPlaceFilter.selectedLines.length === 0)
 
         if (hasNoLinesSelected) {
             return {

@@ -79,7 +79,7 @@ export function quaysToQuaysFilter(
         type: 'quaysFilter',
         quays: quays.map((quay) => ({
             id: quay.id,
-            whitelistedLines: [...quay.whitelistedLines],
+            selectedLines: [...quay.whitelistedLines],
         })),
     }
 }
@@ -97,17 +97,17 @@ export function expandQuaysFilter(
             if (quayFilter) {
                 return {
                     id: quay.id,
-                    whitelistedLines:
-                        quayFilter.whitelistedLines.length === 0
+                    selectedLines:
+                        quayFilter.selectedLines.length === 0
                             ? allLineIds
-                            : quayFilter.whitelistedLines,
+                            : quayFilter.selectedLines,
                 }
             }
 
             const quayHasOtherEntries = filter.quays.length > 0
             return {
                 id: quay.id,
-                whitelistedLines: quayHasOtherEntries ? [] : allLineIds,
+                selectedLines: quayHasOtherEntries ? [] : allLineIds,
             }
         }),
     }
@@ -132,7 +132,7 @@ export function compressQuaysFilter(
     const compactedQuays: QuaysFilterDB['quays'] = []
 
     for (const quay of filter.quays) {
-        const selectedCount = quay.whitelistedLines.length
+        const selectedCount = quay.selectedLines.length
         if (selectedCount === 0) {
             continue
         }
@@ -141,9 +141,9 @@ export function compressQuaysFilter(
             quays.find((q) => q.id === quay.id)?.lines.map((line) => line.id) ??
             []
 
-        if (possibleLineIds.every((id) => quay.whitelistedLines.includes(id))) {
+        if (possibleLineIds.every((id) => quay.selectedLines.includes(id))) {
             // Alt valgt på denne plattformen -> endre til tom liste
-            compactedQuays.push({ id: quay.id, whitelistedLines: [] })
+            compactedQuays.push({ id: quay.id, selectedLines: [] })
             continue
         }
 
@@ -153,7 +153,7 @@ export function compressQuaysFilter(
 
     const everyQuayIsFullySelected =
         compactedQuays.length === quays.length &&
-        compactedQuays.every((quay) => quay.whitelistedLines.length === 0)
+        compactedQuays.every((quay) => quay.selectedLines.length === 0)
 
     if (everyQuayIsFullySelected) {
         // Ingen valgt på noen plattformer -> bruk tom liste
@@ -218,20 +218,21 @@ export function expandStopPlaceFilter(
     groups: TransportModeGroup[],
 ): StopPlaceFilterDB {
     const hasFiltrations =
-        filter.whitelistedModes.length > 0 || filter.whitelistedLines.length > 0
+        filter.selectedTransportModes.length > 0 ||
+        filter.selectedLines.length > 0
 
     if (!hasFiltrations) {
         return {
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: groups.flatMap((group) =>
+            selectedTransportModes: [],
+            selectedLines: groups.flatMap((group) =>
                 group.lines.map((line) => line.id),
             ),
         }
     }
 
-    const selectedLineIds = new Set(filter.whitelistedLines)
-    for (const mode of filter.whitelistedModes) {
+    const selectedLineIds = new Set(filter.selectedLines)
+    for (const mode of filter.selectedTransportModes) {
         const group = groups.find((g) => g.mode === mode)
         if (!group) continue
         for (const line of group.lines) selectedLineIds.add(line.id)
@@ -239,8 +240,8 @@ export function expandStopPlaceFilter(
 
     return {
         type: 'stopPlaceFilter',
-        whitelistedModes: [],
-        whitelistedLines: Array.from(selectedLineIds),
+        selectedTransportModes: [],
+        selectedLines: Array.from(selectedLineIds),
     }
 }
 
@@ -253,8 +254,8 @@ export function getInitialStopPlaceFilter(
             ? tile.filter
             : {
                   type: 'stopPlaceFilter',
-                  whitelistedModes: [],
-                  whitelistedLines: [],
+                  selectedTransportModes: [],
+                  selectedLines: [],
               }
 
     return expandStopPlaceFilter(
@@ -268,7 +269,7 @@ export function compressStopPlaceFilter(
     quays: QuayWithFrontText[],
 ): StopPlaceFilterDB {
     const groups = groupLinesByTransportMode(quays)
-    const selectedLineIds = new Set(filter.whitelistedLines)
+    const selectedLineIds = new Set(filter.selectedLines)
     const allLineIds = groups.flatMap((group) =>
         group.lines.map((line) => line.id),
     )
@@ -281,13 +282,13 @@ export function compressStopPlaceFilter(
         // Alt valgt på stoppestedet -> bruk tomme lister
         return {
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: [],
+            selectedTransportModes: [],
+            selectedLines: [],
         }
     }
 
-    const whitelistedModes: TTransportMode[] = []
-    const whitelistedLines: string[] = []
+    const selectedTransportModes: TTransportMode[] = []
+    const selectedLines: string[] = []
 
     for (const group of groups) {
         const groupLineIds = group.lines.map((line) => line.id)
@@ -297,11 +298,11 @@ export function compressStopPlaceFilter(
         if (selectedInGroup.length === 0) continue
 
         if (selectedInGroup.length === groupLineIds.length) {
-            whitelistedModes.push(group.mode)
+            selectedTransportModes.push(group.mode)
         } else {
-            whitelistedLines.push(...selectedInGroup)
+            selectedLines.push(...selectedInGroup)
         }
     }
 
-    return { type: 'stopPlaceFilter', whitelistedModes, whitelistedLines }
+    return { type: 'stopPlaceFilter', selectedTransportModes, selectedLines }
 }
