@@ -4,6 +4,7 @@ import { PrimaryButton } from '@entur/button'
 import { CopyIcon, ExternalIcon } from '@entur/icons'
 import { Heading2, Paragraph } from '@entur/typography'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { PublishedBoardSurvey } from './PublishedBoardSurvey'
 
 export function PublishedBoardInfo({ boardLink }: { boardLink: string }) {
     const { capture } = usePosthogTracking()
@@ -48,6 +49,7 @@ export function PublishedBoardInfo({ boardLink }: { boardLink: string }) {
                     <ExternalIcon />
                 </PrimaryButton>
             </div>
+            <PublishedBoardSurvey />
         </div>
     )
 }
