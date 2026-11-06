@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 
 export type SurveyState = 'UNANSWERED' | 'ANSWERED'
 
-const USE_MOCK_SURVEY = true // sett til false for å teste mot ekte PostHog
+const USE_MOCK_SURVEY = false // sett til false for å teste mot ekte PostHog
 
 const MOCK_SURVEY: Survey = {
     id: 'mock-survey-id',
