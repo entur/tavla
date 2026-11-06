@@ -1,6 +1,10 @@
 import type { TTransportMode } from 'src/types/graphql-schema'
-import type { BoardTileDB } from 'types/db-types/boards'
-import type { QuayWithFrontText } from '../utils/types'
+import type {
+    BoardTileDB,
+    QuaysFilterDB,
+    StopPlaceFilterDB,
+} from 'types/db-types/boards'
+import type { LineWithFrontText, QuayWithFrontText } from '../utils/types'
 
 export function transportModeNames(
     transportMode: TTransportMode | null | undefined,
@@ -90,4 +94,123 @@ export function getInitialCheckedLineIds(
     }
 
     return set
+}
+
+export function sortLineFragment(
+    a: LineWithFrontText,
+    b: LineWithFrontText,
+): number {
+    const modeA = a.transportMode || ''
+    const modeB = b.transportMode || ''
+
+    if (modeA !== modeB) {
+        return modeA.localeCompare(modeB)
+    }
+
+    const codeA = a.publicCode || ''
+    const codeB = b.publicCode || ''
+
+    return codeA.localeCompare(codeB, undefined, {
+        numeric: true,
+    })
+}
+
+export function getInitialFilterType(
+    tile: BoardTileDB,
+): 'stopPlaceFilter' | 'quaysFilter' {
+    if (tile.filter?.type) return tile.filter.type
+    if (tile.quays && tile.quays.length > 0) return 'quaysFilter'
+
+    return 'stopPlaceFilter'
+}
+
+export function quaysToQuaysFilter(
+    quays: { id: string; whitelistedLines: string[] }[],
+): QuaysFilterDB {
+    return {
+        type: 'quaysFilter',
+        quays: quays.map((quay) => ({
+            id: quay.id,
+            whitelistedLines: [...quay.whitelistedLines],
+        })),
+    }
+}
+
+export function expandQuaysFilter(
+    filter: QuaysFilterDB,
+    quays: QuayWithFrontText[],
+): QuaysFilterDB {
+    return {
+        type: 'quaysFilter',
+        quays: quays.map((quay) => {
+            const allLineIds = quay.lines.map((line) => line.id)
+            const quayFilter = filter.quays.find((q) => q.id === quay.id)
+
+            if (quayFilter) {
+                return {
+                    id: quay.id,
+                    whitelistedLines:
+                        quayFilter.whitelistedLines.length === 0
+                            ? allLineIds
+                            : quayFilter.whitelistedLines,
+                }
+            }
+
+            const quayHasOtherEntries = filter.quays.length > 0
+            return {
+                id: quay.id,
+                whitelistedLines: quayHasOtherEntries ? [] : allLineIds,
+            }
+        }),
+    }
+}
+
+export function getInitialQuaysFilter(
+    tile: BoardTileDB,
+    quays: QuayWithFrontText[],
+): QuaysFilterDB {
+    const initialFilter =
+        tile.filter?.type === 'quaysFilter'
+            ? tile.filter
+            : quaysToQuaysFilter(tile.quays)
+
+    return expandQuaysFilter(initialFilter, quays)
+}
+
+export function compressQuaysFilter(
+    filter: QuaysFilterDB,
+    quays: QuayWithFrontText[],
+): QuaysFilterDB {
+    const compactedQuays: QuaysFilterDB['quays'] = []
+
+    for (const quay of filter.quays) {
+        const selectedCount = quay.whitelistedLines.length
+        if (selectedCount === 0) {
+            continue
+        }
+
+        const possibleLineIds =
+            quays.find((q) => q.id === quay.id)?.lines.map((line) => line.id) ??
+            []
+
+        if (possibleLineIds.every((id) => quay.whitelistedLines.includes(id))) {
+            // Alt valgt på denne plattformen -> endre til tom liste
+            compactedQuays.push({ id: quay.id, whitelistedLines: [] })
+            continue
+        }
+
+        // Delvis valgt -> behold den eksplisitte lista som den er
+        compactedQuays.push(quay)
+    }
+
+    const everyQuayIsFullySelected =
+        compactedQuays.length === quays.length &&
+        compactedQuays.every((quay) => quay.whitelistedLines.length === 0)
+
+    if (everyQuayIsFullySelected) {
+        // Ingen valgt på noen plattformer -> bruk tom liste
+        return { type: 'quaysFilter', quays: [] }
+    }
+
+    return { type: 'quaysFilter', quays: compactedQuays }
 }
