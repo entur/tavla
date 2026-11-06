@@ -296,17 +296,19 @@ export function expandStopPlaceFilter(
         }
     }
 
-    const selectedLineIds = new Set(filter.whitelistedLines)
-    for (const mode of filter.whitelistedModes) {
-        const group = groups.find((g) => g.mode === mode)
-        if (!group) continue
-        for (const line of group.lines) selectedLineIds.add(line.id)
-    }
+    const lineIdsFromSelectedModes = groups
+        .filter((group) => filter.whitelistedModes.includes(group.mode))
+        .flatMap((group) => group.lines.map((line) => line.id))
+
+    const allSelectedLineIds = [
+        ...filter.whitelistedLines,
+        ...lineIdsFromSelectedModes,
+    ]
 
     return {
         type: 'stopPlaceFilter',
         whitelistedModes: [],
-        whitelistedLines: Array.from(selectedLineIds),
+        whitelistedLines: allSelectedLineIds,
     }
 }
 
