@@ -244,17 +244,19 @@ export function expandStopPlaceFilter(
         }
     }
 
-    const selectedLineIds = new Set(filter.selectedLines)
-    for (const mode of filter.selectedTransportModes) {
-        const group = groups.find((g) => g.mode === mode)
-        if (!group) continue
-        for (const line of group.lines) selectedLineIds.add(line.id)
-    }
+    const lineIdsFromSelectedModes = groups
+        .filter((group) => filter.selectedTransportModes.includes(group.mode))
+        .flatMap((group) => group.lines.map((line) => line.id))
+
+    const allSelectedLineIds = [
+        ...filter.selectedLines,
+        ...lineIdsFromSelectedModes,
+    ]
 
     return {
         type: 'stopPlaceFilter',
         selectedTransportModes: [],
-        selectedLines: Array.from(selectedLineIds),
+        selectedLines: allSelectedLineIds,
     }
 }
 
