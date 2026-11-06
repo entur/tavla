@@ -1,5 +1,0 @@
-import { Tag } from '@entur/layout'
-
-export function ArrivalsBadge() {
-    return <Tag variant="neutral">Ankomsttavle</Tag>
-}

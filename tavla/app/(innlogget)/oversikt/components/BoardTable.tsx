@@ -10,8 +10,6 @@ import {
     useSortableData,
 } from '@entur/table'
 import { Tooltip } from '@entur/tooltip'
-import { ArrivalsBadge } from 'app/(innlogget)/components/ArrivalsBadge'
-import { NewBadge } from 'app/(innlogget)/components/NewBadge'
 import { TableActions } from 'app/(innlogget)/oversikt/components/Column/Actions'
 import {
     DEFAULT_BOARD_NAME,
@@ -20,6 +18,7 @@ import {
 import { formatTimestamp, lastActiveToStatus } from 'app/(innlogget)/utils/time'
 import type { Folder } from 'app/(innlogget)/utils/types'
 import Link from 'next/link'
+import { Tag } from 'node_modules/@entur/layout'
 import type { BoardDB } from 'src/types/db-types/boards'
 
 type BoardTableProps = {
@@ -46,12 +45,16 @@ type FolderTableItem = BaseTableItem & {
 
 export type TableItem = BoardTableItem | FolderTableItem
 
+const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000
+
 const createdLast24Hours = (data: BoardTableItem) => {
     const timestamp = data.board.meta.created
     if (!timestamp) return false
+
     const now = Date.now()
-    const twentyFourHours = 24 * 60 * 60 * 1000
-    return now - timestamp <= twentyFourHours
+    const twentyFourHoursAgo = now - TWENTY_FOUR_HOURS
+
+    return timestamp >= twentyFourHoursAgo
 }
 
 function BoardTable({ folders = [], boards }: BoardTableProps) {
@@ -148,9 +151,15 @@ function BoardTable({ folders = [], boards }: BoardTableProps) {
                                     {data.name}
                                 </Link>
                                 {data.type === 'board' &&
-                                    data.board.isArrivals && <ArrivalsBadge />}
+                                    data.board.isArrivals && (
+                                        <Tag variant="neutral">
+                                            Ankomsttavle
+                                        </Tag>
+                                    )}
                                 {data.type === 'board' &&
-                                    createdLast24Hours(data) && <NewBadge />}
+                                    createdLast24Hours(data) && (
+                                        <Tag variant="information">Ny</Tag>
+                                    )}
                             </DataCell>
                             <DataCell>
                                 {lastActiveToStatus(
