@@ -8,7 +8,7 @@ import type { EventProps } from 'app/posthog/events'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { QuaysFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
-import { PlatformAndLines } from './PlatformAndLines'
+import { LineGroupFilter } from './LineGroupFilter'
 
 function getPrimaryTransportMode(
     quay: QuayWithFrontText,
@@ -109,7 +109,7 @@ export function QuaysFilterView({
                 Velg hvilke plattformer du vil se
             </Paragraph>
             {sortedQuays.map((quay) => (
-                <PlatformAndLines
+                <LineGroupFilter
                     key={quay.id}
                     groupId={quay.id}
                     title={getQuayTitle(quay)}
