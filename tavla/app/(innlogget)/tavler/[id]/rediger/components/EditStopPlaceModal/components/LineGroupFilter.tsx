@@ -37,7 +37,6 @@ export function LineGroupFilter({
     tooltip?: string
 }) {
     const { capture } = usePosthogTracking()
-    const [isExpanded, setIsExpanded] = useState(false)
     const linesId = `lines-${groupId}`
 
     const filterLineFragment = (line: LineWithFrontText) => {
@@ -54,6 +53,8 @@ export function LineGroupFilter({
     const isAllSelected = selectedIdsInGroup.length === allLineIdsInGroup.length
     const isNoneSelected = selectedIdsInGroup.length === 0
     const isIndeterminate = !isAllSelected && !isNoneSelected
+
+    const [isExpanded, setIsExpanded] = useState(isIndeterminate)
 
     const handleToggleGroup = (checked: boolean) => {
         capture('stop_place_edit_interaction', {
