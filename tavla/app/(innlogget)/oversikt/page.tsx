@@ -11,7 +11,6 @@ import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard/CreateBoard'
 import { CreateFolder } from '../components/CreateFolder/CreateFolder'
 import { FoldersAndBoardsContent } from './components/FoldersAndBoardsContent'
-import { LocalStorageBoardBanner } from './components/LocalStorageBoardBanner'
 
 initializeAdminApp()
 
@@ -43,7 +42,6 @@ async function FoldersAndBoardsPage() {
                     <CreateFolder />
                 </div>
             </div>
-            <LocalStorageBoardBanner />
 
             <div className="gap-4">
                 <FoldersAndBoardsContent
