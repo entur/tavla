@@ -172,45 +172,58 @@ export type TransportModeGroup = {
  * Grupperer linjer på tvers av alle plattformer etter transportmiddel.
  * En linje som betjener flere plattformer vises kun i én gruppe, med
  * frontTexts slått sammen fra alle plattformene den betjener.
+ *
+ * @param quays Liste over plattformer med linjer
+ * @returns Grupperte linjer etter transportmiddel
  */
 export function groupLinesByTransportMode(
     quays: QuayWithFrontText[],
 ): TransportModeGroup[] {
-    const linesById = new Map<string, LineWithFrontText>()
+    const allLinesAndFrontTexts = quays.flatMap((quay) => quay.lines)
+    const consolidatedLinesById = combineUniqueLines(allLinesAndFrontTexts)
 
-    for (const quay of quays) {
-        for (const line of quay.lines) {
-            const existing = linesById.get(line.id)
-            if (!existing) {
-                linesById.set(line.id, line)
-                continue
-            }
+    const modeOf = (line: LineWithFrontText) => line.transportMode ?? 'unknown'
+    const modes = Array.from(new Set(consolidatedLinesById.map(modeOf)))
 
-            linesById.set(line.id, {
-                ...existing,
-                frontTexts: Array.from(
-                    new Set([...existing.frontTexts, ...line.frontTexts]),
-                ),
-            })
-        }
-    }
-
-    const groupsByMode = new Map<TTransportMode, LineWithFrontText[]>()
-    for (const line of linesById.values()) {
-        const mode = line.transportMode ?? 'unknown'
-        const group = groupsByMode.get(mode) ?? []
-        group.push(line)
-        groupsByMode.set(mode, group)
-    }
-
-    return Array.from(groupsByMode.entries())
-        .map(([mode, lines]) => ({ mode, lines }))
+    const grouped = modes
+        .map((mode) => ({
+            mode,
+            lines: consolidatedLinesById.filter(
+                (line) => modeOf(line) === mode,
+            ),
+        }))
         .sort((a, b) =>
             sortByTransportMode(
                 { transportMode: a.mode },
                 { transportMode: b.mode },
             ),
         )
+
+    return grouped
+}
+
+/**
+ * Slår sammen linjer med samme id til én linje. Den første forekomsten
+ * beholdes, og får frontTexts fra alle forekomstene uten duplikater.
+ *
+ * @param lines Linjer som kan inneholde samme linje flere ganger
+ * @returns En liste med unike linjer, én per id, med frontTexts slått sammen uten duplikater.
+ */
+function combineUniqueLines(lines: LineWithFrontText[]): LineWithFrontText[] {
+    const firstOccurrences = lines.filter(
+        (line, index) => lines.findIndex((l) => l.id === line.id) === index,
+    )
+
+    return firstOccurrences.map((line) => ({
+        ...line,
+        frontTexts: Array.from(
+            new Set(
+                lines
+                    .filter((l) => l.id === line.id)
+                    .flatMap((l) => l.frontTexts),
+            ),
+        ),
+    }))
 }
 
 export function expandStopPlaceFilter(
