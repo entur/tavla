@@ -1,3 +1,4 @@
+import { sortByTransportMode } from 'app/_components/TransportIcon/utils'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type {
     BoardTileDB,
@@ -213,4 +214,162 @@ export function compressQuaysFilter(
     }
 
     return { type: 'quaysFilter', quays: compactedQuays }
+}
+
+export type TransportModeGroup = {
+    mode: TTransportMode
+    lines: LineWithFrontText[]
+}
+
+/**
+ * Grupperer linjer på tvers av alle plattformer etter transportmiddel.
+ * En linje som betjener flere plattformer vises kun i én gruppe, med
+ * frontTexts slått sammen fra alle plattformene den betjener.
+ *
+ * @param quays Liste over plattformer med linjer
+ * @returns Grupperte linjer etter transportmiddel
+ */
+export function groupLinesByTransportMode(
+    quays: QuayWithFrontText[],
+): TransportModeGroup[] {
+    const allLinesAndFrontTexts = quays.flatMap((quay) => quay.lines)
+    const consolidatedLinesById = combineUniqueLines(allLinesAndFrontTexts)
+
+    const modeOf = (line: LineWithFrontText) => line.transportMode ?? 'unknown'
+    const modes = Array.from(new Set(consolidatedLinesById.map(modeOf)))
+
+    const grouped = modes
+        .map((mode) => ({
+            mode,
+            lines: consolidatedLinesById.filter(
+                (line) => modeOf(line) === mode,
+            ),
+        }))
+        .sort((a, b) =>
+            sortByTransportMode(
+                { transportMode: a.mode },
+                { transportMode: b.mode },
+            ),
+        )
+
+    return grouped
+}
+
+/**
+ * Slår sammen linjer med samme id til én linje. Den første forekomsten
+ * beholdes, og får frontTexts fra alle forekomstene uten duplikater.
+ *
+ * @param lines Linjer som kan inneholde samme linje flere ganger
+ * @returns En liste med unike linjer, én per id, med frontTexts slått sammen uten duplikater.
+ */
+function combineUniqueLines(lines: LineWithFrontText[]): LineWithFrontText[] {
+    const firstOccurrences = lines.filter(
+        (line, index) => lines.findIndex((l) => l.id === line.id) === index,
+    )
+
+    return firstOccurrences.map((line) => ({
+        ...line,
+        frontTexts: Array.from(
+            new Set(
+                lines
+                    .filter((l) => l.id === line.id)
+                    .flatMap((l) => l.frontTexts),
+            ),
+        ),
+    }))
+}
+
+export function expandStopPlaceFilter(
+    filter: StopPlaceFilterDB,
+    groups: TransportModeGroup[],
+): StopPlaceFilterDB {
+    const hasFiltrations =
+        filter.whitelistedModes.length > 0 || filter.whitelistedLines.length > 0
+
+    if (!hasFiltrations) {
+        return {
+            type: 'stopPlaceFilter',
+            whitelistedModes: [],
+            whitelistedLines: groups.flatMap((group) =>
+                group.lines.map((line) => line.id),
+            ),
+        }
+    }
+
+    const lineIdsFromSelectedModes = groups
+        .filter((group) => filter.whitelistedModes.includes(group.mode))
+        .flatMap((group) => group.lines.map((line) => line.id))
+
+    const allSelectedLineIds = [
+        ...filter.whitelistedLines,
+        ...lineIdsFromSelectedModes,
+    ]
+
+    return {
+        type: 'stopPlaceFilter',
+        whitelistedModes: [],
+        whitelistedLines: allSelectedLineIds,
+    }
+}
+
+export function getInitialStopPlaceFilter(
+    tile: BoardTileDB,
+    quays: QuayWithFrontText[],
+): StopPlaceFilterDB {
+    const initialFilter: StopPlaceFilterDB =
+        tile.filter?.type === 'stopPlaceFilter'
+            ? tile.filter
+            : {
+                  type: 'stopPlaceFilter',
+                  whitelistedModes: [],
+                  whitelistedLines: [],
+              }
+
+    return expandStopPlaceFilter(
+        initialFilter,
+        groupLinesByTransportMode(quays),
+    )
+}
+
+export function compressStopPlaceFilter(
+    filter: StopPlaceFilterDB,
+    quays: QuayWithFrontText[],
+): StopPlaceFilterDB {
+    const groups = groupLinesByTransportMode(quays)
+    const selectedLineIds = new Set(filter.whitelistedLines)
+    const allLineIds = groups.flatMap((group) =>
+        group.lines.map((line) => line.id),
+    )
+
+    const everythingSelected =
+        allLineIds.length > 0 &&
+        allLineIds.every((id) => selectedLineIds.has(id))
+
+    if (everythingSelected) {
+        // Alt valgt på stoppestedet -> bruk tomme lister
+        return {
+            type: 'stopPlaceFilter',
+            whitelistedModes: [],
+            whitelistedLines: [],
+        }
+    }
+
+    const whitelistedModes: TTransportMode[] = []
+    const whitelistedLines: string[] = []
+
+    for (const group of groups) {
+        const groupLineIds = group.lines.map((line) => line.id)
+        const selectedInGroup = groupLineIds.filter((id) =>
+            selectedLineIds.has(id),
+        )
+        if (selectedInGroup.length === 0) continue
+
+        if (selectedInGroup.length === groupLineIds.length) {
+            whitelistedModes.push(group.mode)
+        } else {
+            whitelistedLines.push(...selectedInGroup)
+        }
+    }
+
+    return { type: 'stopPlaceFilter', whitelistedModes, whitelistedLines }
 }

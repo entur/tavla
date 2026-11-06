@@ -5,6 +5,7 @@ import type {
     BoardDB,
     BoardTileDB,
     QuaysFilterDB,
+    StopPlaceFilterDB,
     TileColumnDB,
 } from 'src/types/db-types/boards'
 import type { QuayWithFrontText } from '../utils/types'
@@ -15,8 +16,10 @@ import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
 import {
     compressQuaysFilter,
+    compressStopPlaceFilter,
     getInitialFilterType,
     getInitialQuaysFilter,
+    getInitialStopPlaceFilter,
 } from './utils'
 
 type SavePayload = {
@@ -49,26 +52,43 @@ function EditStopPlaceForm({
     const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>(() =>
         getInitialQuaysFilter(tile, quays),
     )
+    const [stopPlaceFilter, setStopPlaceFilter] = useState<StopPlaceFilterDB>(
+        () => getInitialStopPlaceFilter(tile, quays),
+    )
+
+    const [filterIsEdited, setFilterIsEdited] = useState(false)
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
+
+    const handleFieldChangeWithListener = (field: string) => {
+        if (
+            field === 'filter_mode' ||
+            field === 'quays_filter' ||
+            field === 'stop_place_filter'
+        ) {
+            setFilterIsEdited(true)
+        }
+        onFieldChanged(field)
+    }
 
     const handleSave = async (
         _prevState: EditStopPlaceModalFormState,
         { tile: newTile }: SavePayload,
     ): Promise<EditStopPlaceModalFormState> => {
-        if (filterType === 'quaysFilter' && quays.length > 0) {
-            if (
-                quaysFilter.quays.length === 0 ||
-                quaysFilter.quays.every(
-                    (quay) => quay.whitelistedLines.length === 0,
-                )
-            ) {
-                return {
-                    status: 'error',
-                    message: 'Du må velge en eller flere linjer for å lagre',
-                    field: 'lines',
-                }
+        const hasNoLinesSelected =
+            quays.length > 0 &&
+            (filterType === 'quaysFilter'
+                ? quaysFilter.quays.every(
+                      (quay) => quay.whitelistedLines.length === 0,
+                  )
+                : stopPlaceFilter.whitelistedLines.length === 0)
+
+        if (hasNoLinesSelected) {
+            return {
+                status: 'error',
+                message: 'Du må velge en eller flere linjer for å lagre',
+                field: 'lines',
             }
         }
 
@@ -92,16 +112,13 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            filter:
-                filterType === 'quaysFilter'
-                    ? compressQuaysFilter(quaysFilter, quays)
-                    : tile.filter?.type === 'stopPlaceFilter'
-                      ? tile.filter
-                      : {
-                            type: 'stopPlaceFilter',
-                            whitelistedModes: [],
-                            whitelistedLines: [],
-                        },
+            ...(filterIsEdited && {
+                quays: [],
+                filter:
+                    filterType === 'quaysFilter'
+                        ? compressQuaysFilter(quaysFilter, quays)
+                        : compressStopPlaceFilter(stopPlaceFilter, quays),
+            }),
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
@@ -149,8 +166,10 @@ function EditStopPlaceForm({
                 setFilterType={setFilterType}
                 quaysFilter={quaysFilter}
                 setQuaysFilter={setQuaysFilter}
+                stopPlaceFilter={stopPlaceFilter}
+                setStopPlaceFilter={setStopPlaceFilter}
                 trackingLocation="board_page"
-                onFieldChanged={onFieldChanged}
+                onFieldChanged={handleFieldChangeWithListener}
             />
 
             <SetOffsetDepartureTime
