@@ -14,36 +14,6 @@ import { useEffect, useState } from 'react'
 
 export type SurveyState = 'UNANSWERED' | 'ANSWERED'
 
-const USE_MOCK_SURVEY = false // sett til false for å teste mot ekte PostHog
-
-const MOCK_SURVEY: Survey = {
-    id: 'mock-survey-id',
-    questions: [
-        {
-            type: SurveyQuestionType.Rating,
-            question: 'Hvordan var det å sette opp en tavle?',
-            scale: 5,
-            display: 'number',
-            lowerBoundLabel: 'Veldig vanskelig',
-            upperBoundLabel: 'Veldig lett',
-            branching: {
-                type: 'response_based',
-                responseValues: { negative: 1, positive: 2 },
-            },
-        },
-        {
-            type: SurveyQuestionType.Open,
-            question: 'Hva kunne vært bedre?',
-            optional: true,
-        },
-        {
-            type: SurveyQuestionType.Open,
-            question: 'Hva fungerte bra?',
-            optional: true,
-        },
-    ],
-} as Survey
-
 const getRatingBucket = (value: number) => {
     if (value <= 2) return 'negative'
     if (value === 3) return 'neutral'
@@ -52,15 +22,12 @@ const getRatingBucket = (value: number) => {
 
 export function PublishedBoardSurvey() {
     const postHogClient = usePostHog()
-    const [survey, setSurvey] = useState<Survey | null>(
-        USE_MOCK_SURVEY ? MOCK_SURVEY : null,
-    )
+    const [survey, setSurvey] = useState<Survey | null>(null)
     const [surveyState, setSurveyState] = useState<SurveyState>('UNANSWERED')
     const [rating, setRating] = useState<number | null>(null)
     const [answer, setAnswer] = useState('')
 
     useEffect(() => {
-        if (USE_MOCK_SURVEY) return
         if (!postHogClient?.has_opted_in_capturing()) return
         postHogClient.getActiveMatchingSurveys((surveys: Survey[]) => {
             const firstSurvey = surveys.find((s) => s.type === 'api')
@@ -69,10 +36,7 @@ export function PublishedBoardSurvey() {
         })
     }, [postHogClient])
 
-    if (!survey) return null
-    if (!USE_MOCK_SURVEY && !postHogClient?.has_opted_in_capturing()) {
-        return null
-    }
+    if (!survey || !postHogClient?.has_opted_in_capturing()) return null
 
     const ratingQuestion = survey.questions[0]
     if (!ratingQuestion) return null
@@ -107,7 +71,7 @@ export function PublishedBoardSurvey() {
                 ? { $survey_completed: true }
                 : {}),
         })
-        if (value === 3) {
+        if (getFollowUpQuestion(value) === null) {
             setSurveyState('ANSWERED')
         }
     }
