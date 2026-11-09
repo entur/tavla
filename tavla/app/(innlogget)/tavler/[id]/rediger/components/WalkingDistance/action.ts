@@ -1,6 +1,11 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import {
+    getDrivingDistance,
+    getStopPlaceCoordinates,
+    getWalkingDistance,
+} from 'app/_utils/distance'
+import {
     initializeAdminApp,
     userCanEditBoard,
 } from 'app/(innlogget)/utils/firebase'
@@ -10,11 +15,6 @@ import { redirect } from 'next/navigation'
 import { getBoard, updateBoard } from 'src/firebase'
 import type { BoardTileDB, LocationDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-import {
-    getDrivingDistance,
-    getStopPlaceCoordinates,
-    getWalkingDistance,
-} from '../AddStopPlace/utils'
 import { locationSchema } from './validation'
 
 initializeAdminApp()

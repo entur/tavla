@@ -1,8 +1,4 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import {
-    getTypeOfPlace,
-    type TypeOfPlace,
-} from 'app/_components/TileSelector/utils'
 import { uniq, uniqBy } from 'lodash'
 import {
     CLIENT_NAME,
@@ -20,7 +16,12 @@ import type { TStopPlacesHaveDeparturesQuery } from 'types/operations'
 import { getRelevantSubmode } from 'utils/transport'
 import { hasField, isNotNullOrUndefined } from 'utils/typeguards'
 import { getIcons, travelTagsFromModes } from '../tavler/[id]/utils'
-import { isStopPlace, type TGeoProperties } from './geocoder'
+import {
+    getTypeOfPlace,
+    isStopPlace,
+    type TGeoProperties,
+    type TypeOfPlace,
+} from './geocoder'
 
 export type GeoCoordinate = {
     lat: number
@@ -68,6 +69,12 @@ export async function fetchCounties(): Promise<NormalizedDropdownItemType[]> {
                 label: county.fylkesnavn,
             }))
         })
+}
+
+export function sortCountiesAlphabetically(
+    counties: NormalizedDropdownItemType[],
+): NormalizedDropdownItemType[] {
+    return counties.sort((a, b) => a.label.localeCompare(b.label, 'nb'))
 }
 
 type StopPlaceTransportModes = Array<{

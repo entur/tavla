@@ -1,8 +1,5 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import {
-    formatDistance,
-    haversineDistance,
-} from 'app/_components/TileSelector/utils'
+import { formatDistance, haversineDistance } from 'app/_utils/distance'
 import {
     fetchClosestStopPlaces,
     type GeoCoordinate,

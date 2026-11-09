@@ -38,3 +38,23 @@ export type TStopPlaceType =
 export function isStopPlace(layer?: TGeoLayer): boolean {
     return layer === 'stopPlace'
 }
+
+export type TypeOfPlace =
+    | 'stop_place'
+    | 'address'
+    | 'other'
+    | 'current_position'
+
+export function getTypeOfPlace(properties: TGeoProperties): TypeOfPlace {
+    switch (properties.layer) {
+        case 'stopPlace':
+            return 'stop_place'
+        case 'address':
+        case 'street':
+            return 'address'
+        case 'poi':
+            return 'other'
+        default:
+            return 'other'
+    }
+}

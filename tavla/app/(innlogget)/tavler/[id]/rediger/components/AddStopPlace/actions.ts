@@ -1,6 +1,11 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import {
+    getDrivingDistance,
+    getStopPlaceCoordinates,
+    getWalkingDistance,
+} from 'app/_utils/distance'
+import {
     initializeAdminApp,
     userCanEditBoard,
 } from 'app/(innlogget)/utils/firebase'
@@ -16,12 +21,7 @@ import type {
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 import { omitUndefinedValues } from 'src/utils/typeguards'
-import {
-    closestStopPlacesToTiles,
-    getDrivingDistance,
-    getStopPlaceCoordinates,
-    getWalkingDistance,
-} from './utils'
+import { closestStopPlacesToTiles } from './utils'
 import { parseClosestStopPlaces } from './validation'
 
 initializeAdminApp()

@@ -1,6 +1,8 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import { sortCountiesAlphabetically } from 'app/_components/TileSelector/utils'
-import { fetchCounties } from 'app/(innlogget)/utils/fetch'
+import {
+    fetchCounties,
+    sortCountiesAlphabetically,
+} from 'app/(innlogget)/utils/fetch'
 import { useEffect, useState } from 'react'
 
 function useCountyFilter() {
