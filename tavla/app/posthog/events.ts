@@ -259,6 +259,7 @@ export type EventMap = {
             | 'offset'
             | 'offset_walking_dist'
             | 'columns'
+            | 'view_mode'
             | 'quays_filter'
             | 'stop_place_filter'
             | 'filter_mode'
@@ -292,6 +293,7 @@ export type EventMap = {
         offset: boolean
         offset_walking_dist: boolean
         columns: boolean
+        view_mode: boolean
         quays_filter: boolean
         stop_place_filter: boolean
         filter_mode: boolean
