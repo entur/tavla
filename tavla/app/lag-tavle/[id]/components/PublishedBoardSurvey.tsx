@@ -1,7 +1,7 @@
 'use client'
 
-import { PrimaryButton } from '@entur/button'
-import { TextArea } from '@entur/form'
+import { IconButton, PrimaryButton } from '@entur/button'
+import { Fieldset, TextArea } from '@entur/form'
 import { StarredIcon, UnstarredIcon } from '@entur/icons'
 import { Paragraph } from '@entur/typography'
 import {
@@ -15,7 +15,8 @@ import { useEffect, useState } from 'react'
 export type SurveyState = 'UNANSWERED' | 'ANSWERED'
 
 const getRatingBucket = (value: number) => {
-    if (value <= 3) return 'negative'
+    if (value <= 2) return 'negative'
+    if (value === 3) return 'neutral'
     return 'positive'
 }
 
@@ -93,31 +94,32 @@ export function PublishedBoardSurvey() {
     return (
         <div className="mt-8 pb-16">
             {surveyState === 'ANSWERED' ? (
-                <p>Takk for tilbakemeldingen!</p>
+                <Paragraph>Takk for tilbakemeldingen!</Paragraph>
             ) : (
                 <>
-                    <Paragraph margin="none">
-                        {ratingQuestion.question}
-                    </Paragraph>
-                    <div className="flex gap-1 justify-center mt-2">
-                        {Array.from(
-                            { length: ratingQuestion.scale },
-                            (_, i) => i + 1,
-                        ).map((value) => (
-                            <button
-                                key={value}
-                                type="button"
-                                aria-label={`${value} av ${ratingQuestion.scale}`}
-                                onClick={() => submitRating(value)}
-                            >
-                                {rating !== null && value <= rating ? (
-                                    <StarredIcon size={28} />
-                                ) : (
-                                    <UnstarredIcon size={28} />
-                                )}
-                            </button>
-                        ))}
-                    </div>
+                    <Fieldset
+                        label={ratingQuestion.question}
+                        className="flex flex-col items-center"
+                    >
+                        <div className="flex justify-center mt-2">
+                            {Array.from(
+                                { length: ratingQuestion.scale },
+                                (_, i) => i + 1,
+                            ).map((value) => (
+                                <IconButton
+                                    key={value}
+                                    aria-label={`${value} av ${ratingQuestion.scale}`}
+                                    onClick={() => submitRating(value)}
+                                >
+                                    {rating !== null && value <= rating ? (
+                                        <StarredIcon size={26} />
+                                    ) : (
+                                        <UnstarredIcon size={26} />
+                                    )}
+                                </IconButton>
+                            ))}
+                        </div>
+                    </Fieldset>
                     {followUpQuestion && (
                         <div className="mt-8">
                             <Paragraph margin="none">
