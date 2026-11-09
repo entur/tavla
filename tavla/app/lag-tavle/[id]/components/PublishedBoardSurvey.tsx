@@ -12,6 +12,8 @@ import {
 import { usePostHog } from 'posthog-js/react'
 import { useEffect, useState } from 'react'
 
+const SURVEY_NAME = 'Survey anonym tavle'
+
 export type SurveyState = 'UNANSWERED' | 'ANSWERED'
 
 const getRatingBucket = (value: number) => {
@@ -30,7 +32,7 @@ export function PublishedBoardSurvey() {
     useEffect(() => {
         if (!postHogClient?.has_opted_in_capturing()) return
         postHogClient.getActiveMatchingSurveys((surveys: Survey[]) => {
-            const firstSurvey = surveys.find((s) => s.type === 'api')
+            const firstSurvey = surveys.find((s) => s.name === SURVEY_NAME)
 
             if (firstSurvey) setSurvey(firstSurvey)
         })
@@ -79,9 +81,6 @@ export function PublishedBoardSurvey() {
                 ? { $survey_completed: true }
                 : {}),
         })
-        if (getFollowUpQuestion(value) === null) {
-            setSurveyState('ANSWERED')
-        }
     }
 
     const submitFollowUp = (question: SurveyQuestion, text: string) => {
@@ -95,7 +94,7 @@ export function PublishedBoardSurvey() {
     }
 
     return (
-        <div className="mt-8 pb-16">
+        <div className="mt-8 mb-16 rounded bg-tintLight p-6">
             {surveyState === 'ANSWERED' ? (
                 <Paragraph>Takk for tilbakemeldingen!</Paragraph>
             ) : (
@@ -115,9 +114,9 @@ export function PublishedBoardSurvey() {
                                     onClick={() => submitRating(value)}
                                 >
                                     {rating !== null && value <= rating ? (
-                                        <StarredIcon size={26} />
+                                        <StarredIcon size={32} />
                                     ) : (
-                                        <UnstarredIcon size={26} />
+                                        <UnstarredIcon size={32} />
                                     )}
                                 </IconButton>
                             ))}
@@ -125,26 +124,25 @@ export function PublishedBoardSurvey() {
                     </Fieldset>
                     {followUpQuestion && (
                         <div className="mt-8">
-                            <Paragraph margin="none">
-                                {followUpQuestion.question}
-                            </Paragraph>
-                            <TextArea
-                                label="Din tilbakemelding"
-                                disableLabelAnimation
-                                value={answer}
-                                className="p-2 w-full mt-2"
-                                onChange={(e) => setAnswer(e.target.value)}
-                            />
-                            <PrimaryButton
-                                onClick={() =>
-                                    submitFollowUp(
-                                        followUpQuestion,
-                                        answer.trim(),
-                                    )
-                                }
-                            >
-                                Send inn
-                            </PrimaryButton>
+                            <Fieldset label={followUpQuestion.question}>
+                                <TextArea
+                                    label="Din tilbakemelding"
+                                    disableLabelAnimation
+                                    value={answer}
+                                    className="p-2 w-full mt-2"
+                                    onChange={(e) => setAnswer(e.target.value)}
+                                />
+                                <PrimaryButton
+                                    onClick={() =>
+                                        submitFollowUp(
+                                            followUpQuestion,
+                                            answer.trim(),
+                                        )
+                                    }
+                                >
+                                    Send inn
+                                </PrimaryButton>
+                            </Fieldset>
                         </div>
                     )}
                 </>
