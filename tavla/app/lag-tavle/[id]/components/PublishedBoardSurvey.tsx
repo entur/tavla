@@ -35,6 +35,11 @@ export function PublishedBoardSurvey() {
         })
     }, [postHogClient])
 
+    useEffect(() => {
+        if (!survey) return
+        postHogClient?.capture('survey shown', { $survey_id: survey.id })
+    }, [postHogClient, survey])
+
     if (!survey || !postHogClient?.has_opted_in_capturing()) return null
 
     const ratingQuestion = survey.questions[0]
