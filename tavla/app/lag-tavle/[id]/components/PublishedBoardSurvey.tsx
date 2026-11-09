@@ -94,7 +94,7 @@ export function PublishedBoardSurvey() {
     }
 
     return (
-        <div className="mt-8 mb-16 rounded bg-tintLight p-6">
+        <div className="mt-8 mb-16 rounded bg-tintLight p-6" aria-live="polite">
             {surveyState === 'ANSWERED' ? (
                 <Paragraph>Takk for tilbakemeldingen!</Paragraph>
             ) : (
