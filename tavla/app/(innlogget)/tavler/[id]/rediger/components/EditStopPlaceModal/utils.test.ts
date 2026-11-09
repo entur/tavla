@@ -75,8 +75,8 @@ describe('getInitialFilterType', () => {
         const tile = {
             filter: {
                 type: 'stopPlaceFilter',
-                whitelistedModes: [],
-                whitelistedLines: [],
+                selectedTransportModes: [],
+                selectedLines: [],
             },
             quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
         } as unknown as BoardTileDB
@@ -103,7 +103,7 @@ describe('quaysToQuaysFilter', () => {
         ])
         expect(result).toEqual({
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
         })
     })
 
@@ -111,15 +111,15 @@ describe('quaysToQuaysFilter', () => {
         const inputQuay = { id: 'Q1', whitelistedLines: ['L1'] }
         const result = quaysToQuaysFilter([inputQuay])
         inputQuay.whitelistedLines.push('L2')
-        expect(result.quays[0]?.whitelistedLines).toEqual(['L1'])
+        expect(result.quays[0]?.selectedLines).toEqual(['L1'])
     })
 })
 
 describe('expandQuaysFilter', () => {
-    it('tom whitelistedLines på en lagret quay betyr alle linjer på den quayen', () => {
+    it('tom selectedLines på en lagret quay betyr alle linjer på den quayen', () => {
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: [] }],
+            quays: [{ id: 'Q1', selectedLines: [] }],
         }
         const quays = [
             quay('Q1', [
@@ -129,14 +129,14 @@ describe('expandQuaysFilter', () => {
         ]
         expect(expandQuaysFilter(filter, quays)).toEqual({
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1', 'L2'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1', 'L2'] }],
         })
     })
 
     it('beholder eksplisitt valgte linjer uendret', () => {
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
         }
         const quays = [
             quay('Q1', [
@@ -146,7 +146,7 @@ describe('expandQuaysFilter', () => {
         ]
         expect(expandQuaysFilter(filter, quays)).toEqual({
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
         })
     })
 
@@ -155,14 +155,14 @@ describe('expandQuaysFilter', () => {
         const quays = [quay('Q1', [{ id: 'L1', frontTexts: [] }])]
         expect(expandQuaysFilter(filter, quays)).toEqual({
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
         })
     })
 
     it('en quay som mangler i filteret får ingen linjer hvis andre quays allerede er filtrert på', () => {
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
-            quays: [{ id: 'Q2', whitelistedLines: ['L2'] }],
+            quays: [{ id: 'Q2', selectedLines: ['L2'] }],
         }
         const quays = [
             quay('Q1', [{ id: 'L1', frontTexts: [] }]),
@@ -171,8 +171,8 @@ describe('expandQuaysFilter', () => {
         expect(expandQuaysFilter(filter, quays)).toEqual({
             type: 'quaysFilter',
             quays: [
-                { id: 'Q1', whitelistedLines: [] },
-                { id: 'Q2', whitelistedLines: ['L2'] },
+                { id: 'Q1', selectedLines: [] },
+                { id: 'Q2', selectedLines: ['L2'] },
             ],
         })
     })
@@ -183,7 +183,7 @@ describe('getInitialQuaysFilter', () => {
         const tile = {
             filter: {
                 type: 'quaysFilter',
-                quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+                quays: [{ id: 'Q1', selectedLines: ['L1'] }],
             },
         } as unknown as BoardTileDB
         const quays = [
@@ -194,7 +194,7 @@ describe('getInitialQuaysFilter', () => {
         ]
         expect(getInitialQuaysFilter(tile, quays)).toEqual({
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
         })
     })
 
@@ -205,7 +205,7 @@ describe('getInitialQuaysFilter', () => {
         const quays = [quay('Q1', [{ id: 'L1', frontTexts: [] }])]
         expect(getInitialQuaysFilter(tile, quays)).toEqual({
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
         })
     })
 })
@@ -215,7 +215,7 @@ describe('compressQuaysFilter', () => {
         const quays = [quay('Q1', [{ id: 'L1', frontTexts: [] }])]
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: [] }],
+            quays: [{ id: 'Q1', selectedLines: [] }],
         }
         expect(compressQuaysFilter(filter, quays)).toEqual({
             type: 'quaysFilter',
@@ -223,7 +223,7 @@ describe('compressQuaysFilter', () => {
         })
     })
 
-    it('en quay med alle linjer valgt komprimeres til tom whitelistedLines-liste', () => {
+    it('en quay med alle linjer valgt komprimeres til tom selectedLines-liste', () => {
         const quays = [
             quay('Q1', [
                 { id: 'L1', frontTexts: [] },
@@ -234,13 +234,13 @@ describe('compressQuaysFilter', () => {
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
             quays: [
-                { id: 'Q1', whitelistedLines: ['L1', 'L2'] },
-                { id: 'Q2', whitelistedLines: [] },
+                { id: 'Q1', selectedLines: ['L1', 'L2'] },
+                { id: 'Q2', selectedLines: [] },
             ],
         }
         expect(compressQuaysFilter(filter, quays)).toEqual({
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: [] }],
+            quays: [{ id: 'Q1', selectedLines: [] }],
         })
     })
 
@@ -253,11 +253,11 @@ describe('compressQuaysFilter', () => {
         ]
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
         }
         expect(compressQuaysFilter(filter, quays)).toEqual({
             type: 'quaysFilter',
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
+            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
         })
     })
 
@@ -269,8 +269,8 @@ describe('compressQuaysFilter', () => {
         const filter: QuaysFilterDB = {
             type: 'quaysFilter',
             quays: [
-                { id: 'Q1', whitelistedLines: ['L1'] },
-                { id: 'Q2', whitelistedLines: ['L2'] },
+                { id: 'Q1', selectedLines: ['L1'] },
+                { id: 'Q2', selectedLines: ['L2'] },
             ],
         }
         expect(compressQuaysFilter(filter, quays)).toEqual({
@@ -330,25 +330,25 @@ describe('expandStopPlaceFilter', () => {
     it('uten noen filtrering velges alle linjer i alle grupper', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: [],
+            selectedTransportModes: [],
+            selectedLines: [],
         }
         expect(expandStopPlaceFilter(filter, groups)).toEqual({
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: ['L1', 'L2', 'L3'],
+            selectedTransportModes: [],
+            selectedLines: ['L1', 'L2', 'L3'],
         })
     })
 
-    it('whitelistedModes utvides til enkeltlinjer og slås sammen med eksplisitt valgte linjer', () => {
+    it('selectedTransportModes utvides til enkeltlinjer og slås sammen med eksplisitt valgte linjer', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
-            whitelistedModes: ['bus'],
-            whitelistedLines: ['L3'],
+            selectedTransportModes: ['bus'],
+            selectedLines: ['L3'],
         }
         const result = expandStopPlaceFilter(filter, groups)
-        expect(result.whitelistedModes).toEqual([])
-        expect(new Set(result.whitelistedLines)).toEqual(
+        expect(result.selectedTransportModes).toEqual([])
+        expect(new Set(result.selectedLines)).toEqual(
             new Set(['L1', 'L2', 'L3']),
         )
     })
@@ -359,8 +359,8 @@ describe('getInitialStopPlaceFilter', () => {
         const tile = {
             filter: {
                 type: 'stopPlaceFilter',
-                whitelistedModes: ['bus'],
-                whitelistedLines: [],
+                selectedTransportModes: ['bus'],
+                selectedLines: [],
             },
         } as unknown as BoardTileDB
         const quays = [
@@ -371,8 +371,8 @@ describe('getInitialStopPlaceFilter', () => {
         ]
         expect(getInitialStopPlaceFilter(tile, quays)).toEqual({
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: ['L1'],
+            selectedTransportModes: [],
+            selectedLines: ['L1'],
         })
     })
 
@@ -383,8 +383,8 @@ describe('getInitialStopPlaceFilter', () => {
         ]
         expect(getInitialStopPlaceFilter(tile, quays)).toEqual({
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: ['L1'],
+            selectedTransportModes: [],
+            selectedLines: ['L1'],
         })
     })
 })
@@ -401,39 +401,39 @@ describe('compressStopPlaceFilter', () => {
     it('komprimerer alle linjer valgt til tomme lister', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: ['L1', 'L2', 'L3'],
+            selectedTransportModes: [],
+            selectedLines: ['L1', 'L2', 'L3'],
         }
         expect(compressStopPlaceFilter(filter, quays)).toEqual({
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: [],
+            selectedTransportModes: [],
+            selectedLines: [],
         })
     })
 
-    it('alle linjer i én gruppe valgt komprimeres til whitelistedModes', () => {
+    it('alle linjer i én gruppe valgt komprimeres til selectedTransportModes', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: ['L1', 'L2'],
+            selectedTransportModes: [],
+            selectedLines: ['L1', 'L2'],
         }
         expect(compressStopPlaceFilter(filter, quays)).toEqual({
             type: 'stopPlaceFilter',
-            whitelistedModes: ['bus'],
-            whitelistedLines: [],
+            selectedTransportModes: ['bus'],
+            selectedLines: [],
         })
     })
 
     it('spesifikke linjer som er valgt beholdes eksplisitt som linjer, når ikke alle linjer i transportmodus er valgt', () => {
         const filter: StopPlaceFilterDB = {
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: ['L1'],
+            selectedTransportModes: [],
+            selectedLines: ['L1'],
         }
         expect(compressStopPlaceFilter(filter, quays)).toEqual({
             type: 'stopPlaceFilter',
-            whitelistedModes: [],
-            whitelistedLines: ['L1'],
+            selectedTransportModes: [],
+            selectedLines: ['L1'],
         })
     })
 })

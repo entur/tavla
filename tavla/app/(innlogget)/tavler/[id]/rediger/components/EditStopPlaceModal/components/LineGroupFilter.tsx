@@ -20,7 +20,7 @@ export function LineGroupFilter({
     availableLines,
     trackingLocation,
     trackingField,
-    whitelistedLines,
+    selectedLines,
     onToggleLine,
     onToggleGroup,
 }: {
@@ -30,7 +30,7 @@ export function LineGroupFilter({
     availableLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     trackingField: EventProps<'stop_place_edit_interaction'>['field']
-    whitelistedLines: string[]
+    selectedLines: string[]
     onToggleLine: (groupId: string, lineId: string, checked: boolean) => void
     onToggleGroup: (groupId: string, checked: boolean) => void
     description?: string
@@ -48,7 +48,7 @@ export function LineGroupFilter({
         .filter(filterLineFragment)
         .map((l) => l.id)
     const selectedIdsInGroup = allLineIdsInGroup.filter((id) =>
-        whitelistedLines.includes(id),
+        selectedLines.includes(id),
     )
 
     const isAllSelected = selectedIdsInGroup.length === allLineIdsInGroup.length
@@ -127,7 +127,7 @@ export function LineGroupFilter({
                     .map((line) => (
                         <Checkbox
                             key={line.id}
-                            checked={whitelistedLines.includes(line.id)}
+                            checked={selectedLines.includes(line.id)}
                             className="ml-1"
                             data-transport-mode={line.transportMode}
                             onChange={(e) =>

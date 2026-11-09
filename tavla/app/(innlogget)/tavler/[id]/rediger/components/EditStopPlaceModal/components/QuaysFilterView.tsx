@@ -54,12 +54,11 @@ export function QuaysFilterView({
         lineId: string,
         checked: boolean,
     ) => {
-        const existingWhitelistedLines =
-            quaysFilter.quays.find((q) => q.id === quayId)?.whitelistedLines ??
-            []
-        const newWhitelistedLines = checked
-            ? [...existingWhitelistedLines, lineId]
-            : existingWhitelistedLines.filter((id) => id !== lineId)
+        const existingSelectedLines =
+            quaysFilter.quays.find((q) => q.id === quayId)?.selectedLines ?? []
+        const newSelectedLines = checked
+            ? [...existingSelectedLines, lineId]
+            : existingSelectedLines.filter((id) => id !== lineId)
 
         setQuaysFilter({
             ...quaysFilter,
@@ -67,7 +66,7 @@ export function QuaysFilterView({
                 existingQuayFilter.id === quayId
                     ? {
                           ...existingQuayFilter,
-                          whitelistedLines: newWhitelistedLines,
+                          selectedLines: newSelectedLines,
                       }
                     : existingQuayFilter,
             ),
@@ -80,7 +79,7 @@ export function QuaysFilterView({
         const quay = quays.find((q) => q.id === quayId)
         if (!quay) return
 
-        const newWhitelistedLines = checked ? quay.lines.map((l) => l.id) : []
+        const newSelectedLines = checked ? quay.lines.map((l) => l.id) : []
 
         setQuaysFilter({
             ...quaysFilter,
@@ -88,7 +87,7 @@ export function QuaysFilterView({
                 existingQuayFilter.id === quayId
                     ? {
                           ...existingQuayFilter,
-                          whitelistedLines: newWhitelistedLines,
+                          selectedLines: newSelectedLines,
                       }
                     : existingQuayFilter,
             ),
@@ -134,9 +133,9 @@ export function QuaysFilterView({
                             />
                         ))}
                     availableLines={quay.lines}
-                    whitelistedLines={
+                    selectedLines={
                         quaysFilter.quays.find((q) => q.id === quay.id)
-                            ?.whitelistedLines ?? []
+                            ?.selectedLines ?? []
                     }
                     trackingLocation={trackingLocation}
                     trackingField="quays_filter"
