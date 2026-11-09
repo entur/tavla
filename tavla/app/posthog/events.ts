@@ -261,6 +261,7 @@ export type EventMap = {
             | 'columns'
             | 'lines'
             | 'transport_mode_filter'
+            | 'filter_mode'
         action:
             | 'changed'
             | 'toggled_on'
