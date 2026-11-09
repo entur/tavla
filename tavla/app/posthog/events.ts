@@ -259,8 +259,9 @@ export type EventMap = {
             | 'offset'
             | 'offset_walking_dist'
             | 'columns'
-            | 'lines'
-            | 'transport_mode_filter'
+            | 'quays_filter'
+            | 'stop_place_filter'
+            | 'filter_mode'
         action:
             | 'changed'
             | 'toggled_on'
@@ -291,8 +292,9 @@ export type EventMap = {
         offset: boolean
         offset_walking_dist: boolean
         columns: boolean
-        lines: boolean
-        transport_mode_filter: boolean
+        quays_filter: boolean
+        stop_place_filter: boolean
+        filter_mode: boolean
     }
 
     stop_place_moved: WithLocation<

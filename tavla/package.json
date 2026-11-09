@@ -101,6 +101,7 @@
     },
     "resolutions": {
         "basic-ftp": "6.2.1",
-        "dompurify": "3.4.17"
+        "dompurify": "3.4.17",
+        "@graphql-tools/utils": "12.0.4"
     }
 }

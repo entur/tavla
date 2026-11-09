@@ -89,9 +89,9 @@ export const LinesFragment = new TypedDocumentString(`
 export const DriveDistanceQuery = new TypedDocumentString(`
     query driveDistance($from: InputCoordinates!, $to: InputCoordinates!) {
   trip(
-    from: {coordinates: $from}
-    to: {coordinates: $to}
-    modes: {directMode: car, transportModes: []}
+    from: { coordinates: $from }
+    to: { coordinates: $to }
+    modes: { directMode: car, transportModes: [] }
   ) {
     tripPatterns {
       duration
@@ -120,7 +120,7 @@ export const GetQuayQuery = new TypedDocumentString(`
     estimatedCalls(
       numberOfDepartures: $numberOfDepartures
       whiteListedModes: $whitelistedTransportModes
-      whiteListed: {lines: $whitelistedLines}
+      whiteListed: { lines: $whitelistedLines }
       includeCancelledTrips: true
       startTime: $startTime
     ) {
@@ -272,7 +272,7 @@ export const StopPlaceQuery = new TypedDocumentString(`
     estimatedCalls(
       numberOfDepartures: $numberOfDepartures
       whiteListedModes: $whitelistedTransportModes
-      whiteListed: {lines: $whitelistedLines}
+      whiteListed: { lines: $whitelistedLines }
       includeCancelledTrips: true
       startTime: $startTime
     ) {
@@ -383,9 +383,9 @@ export const StopPlacesHaveDeparturesQuery = new TypedDocumentString(`
 export const WalkDistanceQuery = new TypedDocumentString(`
     query walkDistance($from: InputCoordinates!, $to: InputCoordinates!) {
   trip(
-    from: {coordinates: $from}
-    to: {coordinates: $to}
-    modes: {directMode: foot, transportModes: []}
+    from: { coordinates: $from }
+    to: { coordinates: $to }
+    modes: { directMode: foot, transportModes: [] }
   ) {
     tripPatterns {
       duration

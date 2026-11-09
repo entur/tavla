@@ -1,27 +1,29 @@
-'use client'
 import { SmallAlertBox } from '@entur/alert'
 import { Button } from '@entur/button'
 import { startTransition, useActionState, useState } from 'react'
 import type {
     BoardDB,
     BoardTileDB,
+    QuaysFilterDB,
+    StopPlaceFilterDB,
     TileColumnDB,
 } from 'src/types/db-types/boards'
 import type { QuayWithFrontText } from '../utils/types'
 import { type EditStopPlaceModalFormState, saveTile } from './actions'
 import { SetColumns } from './components/SetColumns'
+import { SetFilter } from './components/SetFilter'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
-import { SetVisibleLines } from './components/SetVisibleLines'
 import {
-    countSelectableQuayLineKeys,
-    generateQuayLineKey,
-    getInitialCheckedLineIds,
+    compressQuaysFilter,
+    compressStopPlaceFilter,
+    getInitialFilterType,
+    getInitialQuaysFilter,
+    getInitialStopPlaceFilter,
 } from './utils'
 
 type SavePayload = {
     tile: BoardTileDB
-    selectedLinesCount: number
 }
 
 type Props = {
@@ -42,19 +44,47 @@ function EditStopPlaceForm({
     onCancel,
 }: Props) {
     const [displayName, setDisplayName] = useState(tile.displayName ?? '')
-    const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
-    const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
-    const [checkedLineIds, setCheckedLineIds] = useState<Set<string>>(() =>
-        getInitialCheckedLineIds(tile, quays),
+
+    const [filterType, setFilterType] = useState<
+        'stopPlaceFilter' | 'quaysFilter'
+    >(getInitialFilterType(tile))
+
+    const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>(() =>
+        getInitialQuaysFilter(tile, quays),
+    )
+    const [stopPlaceFilter, setStopPlaceFilter] = useState<StopPlaceFilterDB>(
+        () => getInitialStopPlaceFilter(tile, quays),
     )
 
-    const totalSelectableKeys = countSelectableQuayLineKeys(quays)
+    const [filterIsEdited, setFilterIsEdited] = useState(false)
+
+    const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
+    const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
+
+    const handleFieldChangeWithListener = (field: string) => {
+        if (
+            field === 'filter_mode' ||
+            field === 'quays_filter' ||
+            field === 'stop_place_filter'
+        ) {
+            setFilterIsEdited(true)
+        }
+        onFieldChanged(field)
+    }
 
     const handleSave = async (
         _prevState: EditStopPlaceModalFormState,
-        { tile: newTile, selectedLinesCount: selectedCount }: SavePayload,
+        { tile: newTile }: SavePayload,
     ): Promise<EditStopPlaceModalFormState> => {
-        if (selectedCount === 0 && totalSelectableKeys > 0) {
+        const hasNoLinesSelected =
+            quays.length > 0 &&
+            (filterType === 'quaysFilter'
+                ? quaysFilter.quays.every(
+                      (quay) => quay.selectedLines.length === 0,
+                  )
+                : stopPlaceFilter.selectedLines.length === 0)
+
+        if (hasNoLinesSelected) {
             return {
                 status: 'error',
                 message: 'Du må velge en eller flere linjer for å lagre',
@@ -74,24 +104,6 @@ function EditStopPlaceForm({
     const [state, action, isPending] = useActionState(handleSave, null)
 
     function buildTile(): BoardTileDB {
-        const selectedQuayLineKeys = Array.from(checkedLineIds)
-        const allSelected = selectedQuayLineKeys.length === totalSelectableKeys
-
-        const newQuays = allSelected
-            ? []
-            : quays
-                  .map((q) => ({
-                      id: q.id,
-                      whitelistedLines: q.lines
-                          .filter((l) =>
-                              selectedQuayLineKeys.includes(
-                                  generateQuayLineKey(q.id, l.id),
-                              ),
-                          )
-                          .map((l) => l.id),
-                  }))
-                  .filter((q) => q.whitelistedLines.length > 0)
-
         const hasWalkingDistance =
             board.meta.location && tile.walkingDistance?.distance !== undefined
         const hasDrivingDistance =
@@ -100,7 +112,13 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            quays: newQuays,
+            ...(filterIsEdited && {
+                quays: [],
+                filter:
+                    filterType === 'quaysFilter'
+                        ? compressQuaysFilter(quaysFilter, quays)
+                        : compressStopPlaceFilter(stopPlaceFilter, quays),
+            }),
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
@@ -129,18 +147,29 @@ function EditStopPlaceForm({
     const handleConfirm = () => {
         const payload: SavePayload = {
             tile: buildTile(),
-            selectedLinesCount: checkedLineIds.size,
         }
         startTransition(() => action(payload))
     }
 
     return (
-        <>
+        <div className="flex flex-col gap-8">
             <SetStopPlaceName
                 displayName={displayName}
                 onDisplayNameChange={setDisplayName}
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
+            />
+
+            <SetFilter
+                quays={quays}
+                filterType={filterType}
+                setFilterType={setFilterType}
+                quaysFilter={quaysFilter}
+                setQuaysFilter={setQuaysFilter}
+                stopPlaceFilter={stopPlaceFilter}
+                setStopPlaceFilter={setStopPlaceFilter}
+                trackingLocation="board_page"
+                onFieldChanged={handleFieldChangeWithListener}
             />
 
             <SetOffsetDepartureTime
@@ -156,14 +185,6 @@ function EditStopPlaceForm({
                 onColumnsChange={setColumns}
                 isCombined={board.isCombinedTiles}
                 isArrivals={board.isArrivals ?? false}
-                trackingLocation="board_page"
-                onFieldChanged={onFieldChanged}
-            />
-
-            <SetVisibleLines
-                quays={quays}
-                checkedLineIds={checkedLineIds}
-                onCheckedLineIdsChange={setCheckedLineIds}
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
             />
@@ -198,7 +219,7 @@ function EditStopPlaceForm({
                     Bekreft valg
                 </Button>
             </div>
-        </>
+        </div>
     )
 }
 
