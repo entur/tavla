@@ -89,6 +89,7 @@ function EditStopPlaceModal({
                         onFieldChanged={onFieldChanged}
                         onSaved={onSaved}
                         onCancel={discardChangesAndClose}
+                        trackingLocation={trackingLocation}
                     />
                 )}
             </TileContext.Provider>
