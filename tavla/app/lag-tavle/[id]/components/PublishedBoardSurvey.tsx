@@ -38,6 +38,9 @@ export function PublishedBoardSurvey() {
 
     useEffect(() => {
         if (!survey) return
+        const firstQuestion = survey.questions[0]
+        if (!firstQuestion || firstQuestion.type !== SurveyQuestionType.Rating)
+            return
         postHogClient?.capture('survey shown', { $survey_id: survey.id })
     }, [postHogClient, survey])
 
