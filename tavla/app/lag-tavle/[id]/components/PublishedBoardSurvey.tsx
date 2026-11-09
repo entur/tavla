@@ -15,8 +15,7 @@ import { useEffect, useState } from 'react'
 export type SurveyState = 'UNANSWERED' | 'ANSWERED'
 
 const getRatingBucket = (value: number) => {
-    if (value <= 2) return 'negative'
-    if (value === 3) return 'neutral'
+    if (value <= 3) return 'negative'
     return 'positive'
 }
 
