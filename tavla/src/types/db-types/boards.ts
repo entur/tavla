@@ -83,6 +83,8 @@ const lineWithDirectionSchema = z.object({
     frontTexts: z.array(z.string()),
 })
 
+const tileViewModeSchema = z.enum(['default', 'expandNextDeparture'])
+
 export const boardTileSchema = z.object({
     uuid: z.string(),
     name: z.string(),
@@ -95,6 +97,7 @@ export const boardTileSchema = z.object({
     columns: z.array(tileColumnSchema).optional(),
     county: z.string().optional(),
     filter: tileFilterSchema.optional(),
+    viewMode: tileViewModeSchema.optional(),
 
     /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     linesWithDirection: z.array(lineWithDirectionSchema).optional(),
@@ -195,3 +198,5 @@ export type StopPlaceFilterDB = z.infer<typeof stopPlaceFilterSchema>
 export type QuaysFilterDB = z.infer<typeof quaysFilterSchema>
 
 export type TileFilterDB = z.infer<typeof tileFilterSchema>
+
+export type TileViewMode = z.infer<typeof tileViewModeSchema>
