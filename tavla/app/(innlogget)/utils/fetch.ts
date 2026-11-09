@@ -45,7 +45,7 @@ function toGeoCoordinate(coordinates: [number, number]): GeoCoordinate {
     return { lon: coordinates[0], lat: coordinates[1] }
 }
 
-export type Place = {
+export type StopPlace = {
     id: string
     county?: string
     type: TypeOfPlace
@@ -122,10 +122,10 @@ async function fetchStopPlaceIdsWithDepartures(
     return map
 }
 
-export async function fetchPlaces(
+export async function fetchStopPlaces(
     text: string,
     countyIds?: string[],
-): Promise<NormalizedDropdownItemType<Place>[]> {
+): Promise<NormalizedDropdownItemType<StopPlace>[]> {
     if (!text) return []
 
     const searchParams = new URLSearchParams({
@@ -196,7 +196,7 @@ export async function fetchClosestStopPlaces(
     coordinates: GeoCoordinate,
     numberOfStopPlaces: number,
     areaRadiusInKm: number = 1,
-): Promise<NormalizedDropdownItemType<Place>[]> {
+): Promise<NormalizedDropdownItemType<StopPlace>[]> {
     const requestSize = numberOfStopPlaces * 2
 
     const data: TGeoResponse = await fetch(
