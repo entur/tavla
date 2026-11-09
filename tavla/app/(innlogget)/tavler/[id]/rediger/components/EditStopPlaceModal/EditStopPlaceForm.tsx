@@ -1,5 +1,6 @@
 import { SmallAlertBox } from '@entur/alert'
 import { Button } from '@entur/button'
+import type { EventProps } from 'app/posthog/events'
 import { startTransition, useActionState, useState } from 'react'
 import type {
     BoardDB,
@@ -32,6 +33,7 @@ type Props = {
     board: BoardDB
     tile: BoardTileDB
     quays: QuayWithFrontText[]
+    trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
     onSaved: () => void
     onCancel: () => void
@@ -41,6 +43,7 @@ function EditStopPlaceForm({
     board,
     tile,
     quays,
+    trackingLocation,
     onFieldChanged,
     onSaved,
     onCancel,
@@ -117,7 +120,7 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
-            viewMode,
+            viewMode: board.isCombinedTiles ? tile.viewMode : viewMode,
             ...(filterIsEdited && {
                 quays: [],
                 filter:
@@ -162,7 +165,7 @@ function EditStopPlaceForm({
             <SetStopPlaceName
                 displayName={displayName}
                 onDisplayNameChange={setDisplayName}
-                trackingLocation="board_page"
+                trackingLocation={trackingLocation}
                 onFieldChanged={onFieldChanged}
             />
 
@@ -174,7 +177,7 @@ function EditStopPlaceForm({
                 setQuaysFilter={setQuaysFilter}
                 stopPlaceFilter={stopPlaceFilter}
                 setStopPlaceFilter={setStopPlaceFilter}
-                trackingLocation="board_page"
+                trackingLocation={trackingLocation}
                 onFieldChanged={handleFieldChangeWithListener}
             />
 
@@ -183,13 +186,14 @@ function EditStopPlaceForm({
                 onOffsetChange={setOffset}
                 address={board.meta.location}
                 isArrivals={board.isArrivals ?? false}
-                trackingLocation="board_page"
+                trackingLocation={trackingLocation}
                 onFieldChanged={onFieldChanged}
             />
             <SetViewMode
                 selectedViewMode={viewMode}
+                isCombined={board.isCombinedTiles}
                 handleViewModeChange={setViewMode}
-                trackingLocation="board_page"
+                trackingLocation={trackingLocation}
                 onFieldChanged={onFieldChanged}
             />
 
@@ -198,7 +202,7 @@ function EditStopPlaceForm({
                 onColumnsChange={setColumns}
                 isCombined={board.isCombinedTiles}
                 isArrivals={board.isArrivals ?? false}
-                trackingLocation="board_page"
+                trackingLocation={trackingLocation}
                 onFieldChanged={onFieldChanged}
             />
 

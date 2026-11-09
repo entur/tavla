@@ -252,7 +252,10 @@ export type EventMap = {
     >
 
     stop_place_edit_interaction: WithLocation<
-        typeof LOCATIONS.BoardPage | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.BoardPage
+        | typeof LOCATIONS.BoardWithoutUser
+        | typeof LOCATIONS.EditBoardPage
+        | typeof LOCATIONS.EditBoardWithoutUser
     > & {
         field:
             | 'name'

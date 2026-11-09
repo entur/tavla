@@ -32,6 +32,7 @@ const viewModes: {
 
 export function SetViewMode({
     selectedViewMode,
+    isCombined,
     trackingLocation,
     handleViewModeChange,
     onFieldChanged,
@@ -39,6 +40,7 @@ export function SetViewMode({
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     handleViewModeChange: (field: TileViewMode) => void
     selectedViewMode: TileViewMode
+    isCombined: boolean
     onFieldChanged: (field: string) => void
 }) {
     const { capture } = usePosthogTracking()
@@ -57,31 +59,43 @@ export function SetViewMode({
     return (
         <div className="flex flex-col gap-4">
             <Heading5 as="h2">Hvordan vil du vise avgangene?</Heading5>
-            <RadioGroup
-                value={selectedViewMode || 'default'}
-                onChange={(e) => handleChange(e.target.value as TileViewMode)}
-                name={'viewMode'}
-            >
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    {viewModes.map((mode) => (
-                        <RadioPanel
-                            key={mode.value}
-                            value={mode.value}
-                            className="w-full"
-                            title={mode.title}
-                        >
-                            <div className="flex items-start justify-between gap-4 mt-4">
-                                <SubParagraph>{mode.description}</SubParagraph>
-                                <Image
-                                    src={mode.image}
-                                    alt={mode.title}
-                                    className="h-20 w-auto"
-                                />
-                            </div>
-                        </RadioPanel>
-                    ))}
-                </div>
-            </RadioGroup>
+            {isCombined && (
+                <SubParagraph className="text-error">
+                    Har du samlet stoppestedene i én liste vil du ikke ha
+                    mulighet til å velge visningsmodus.
+                </SubParagraph>
+            )}
+            {!isCombined && (
+                <RadioGroup
+                    value={selectedViewMode}
+                    onChange={(e) =>
+                        handleChange(e.target.value as TileViewMode)
+                    }
+                    name={'viewMode'}
+                >
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        {viewModes.map((mode) => (
+                            <RadioPanel
+                                key={mode.value}
+                                value={mode.value}
+                                className="w-full"
+                                title={mode.title}
+                            >
+                                <div className="flex items-start justify-between gap-4 mt-4">
+                                    <SubParagraph>
+                                        {mode.description}
+                                    </SubParagraph>
+                                    <Image
+                                        src={mode.image}
+                                        alt={mode.title}
+                                        className="h-20 w-auto"
+                                    />
+                                </div>
+                            </RadioPanel>
+                        ))}
+                    </div>
+                </RadioGroup>
+            )}
         </div>
     )
 }
