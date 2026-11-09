@@ -62,8 +62,8 @@ function EditStopPlaceForm({
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
-    const [viewMode, setViewMode] = useState<TileViewMode | undefined>(
-        tile.viewMode,
+    const [viewMode, setViewMode] = useState<TileViewMode>(
+        tile.viewMode || 'default',
     )
 
     const handleFieldChangeWithListener = (field: string) => {

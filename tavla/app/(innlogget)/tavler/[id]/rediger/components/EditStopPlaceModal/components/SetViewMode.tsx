@@ -38,7 +38,7 @@ export function SetViewMode({
 }: {
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     handleViewModeChange: (field: TileViewMode) => void
-    selectedViewMode?: TileViewMode
+    selectedViewMode: TileViewMode
     onFieldChanged: (field: string) => void
 }) {
     const { capture } = usePosthogTracking()
