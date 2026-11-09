@@ -116,7 +116,7 @@ Funksjonene i `src/firebase.ts` kaster feilen videre etter at de har logget den,
 
 #### Hendelser fra tavla-visning – `type: "tavla-visning"`
 
-Brukes via `/api/report-log`- og `/api/report-error`-endepunktene (se seksjon 3). Send eksplisitt `type`-parameter. Via `/api/report-log` er `level` oppgitt av kalleren (kan være `debug`/`info`/`warning`/`error`); via det utfasede `/api/report-error` er nivået alltid `error`.
+Brukes via `/api/report-log`-endepunktet (se seksjon 3). Send eksplisitt `type`-parameter. Via `/api/report-log` er `level` oppgitt av kalleren (kan være `debug`/`info`/`warning`/`error`).
 
 ```typescript
 logToGcp(level, `[tavla-visning] ${code}`, {
@@ -271,61 +271,6 @@ Endepunktet er åpent, men beskyttet med flere lag:
 
 Samme grense gjelder uansett nivå (`debug`/`info`/`warning`/`error`) – det finnes ingen egen, romsligere grense for høyfrekvente info/debug-hendelser. Når grensen nås logges det en `warning` til GCP (`jsonPayload.type="tavla-visning"`, meldingen inneholder `rate limited`), slik at faktisk trafikkmønster blir synlig og kan brukes til å justere grensene senere. Selve 429-svaret rammer alle nivåer likt. Rate-limitene lever i minnet på hvert pod og er ikke delte på tvers av instanser – de er per-instans LRU-begrensere.
 
-### 3.2 `/api/report-error` (utfases)
-
-> Dette endepunktet er under utfasing til fordel for `/api/report-log` og fjernes i en egen oppgave når tavla-visning er migrert. Ikke bygg ny funksjonalitet mot dette endepunktet.
-
-#### Endepunkt
-
-```
-POST https://tavla.entur.no/api/report-error
-```
-
-#### Bruk fra tavla-visning
-
-```typescript
-fetch('https://tavla.entur.no/api/report-error', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-        boardId: '<20-tegns alfanumerisk ID, eller NSR:Quay:... / NSR:StopPlace:...>',
-        errorCode: 'display_error', // eller 'unknown', 'fetch_journey_planner', 'fetch_board'
-        message: '<feilmelding>',
-        status: 503, // valgfritt - HTTP-statuskoden fra det feilede kallet, mest aktuelt for fetch_journey_planner/fetch_board
-    }),
-}).catch(() => {}) // fire-and-forget
-```
-
-#### Slik logges det i tavla-admin
-
-Alltid på nivå `error`:
-
-```typescript
-logToGcp('error', `[DEPRECATED][tavla-visning] ${errorCode}`, {
-    type: 'tavla-visning',
-    bid: boardId,
-    errorMessage: message,
-    errorCode,
-    status,
-    userAgent,
-    context: { origin },
-})
-```
-
-#### Sikkerhetstiltak
-
-Endepunktet er åpent, men beskyttet med flere lag:
-
-| Tiltak | Detalj |
-|--------|--------|
-| **Zod-validering** | `boardId` må matche `^[A-Za-z0-9]{20}$` eller `^NSR:(Quay\|StopPlace):\d+$` (case-insensitive), `errorCode` er fast enum, `message` er en streng |
-| **Content-Length** | Avviser forespørsler over 500 bytes |
-| **Rate-limiting per IP** | Maks 100 forespørsler/minutt per IP-adresse |
-| **Rate-limiting per tavle** | Maks 5 forespørsler/minutt per `boardId` |
-| **CORS** | Kun `vis-tavla.entur.no` og `vis-tavla.dev.entur.no` (pluss localhost i dev) |
-
-Rate-limitene lever i minnet på hvert pod og er ikke delte på tvers av instanser – de er per-instans LRU-begrensere.
-
 ---
 
 ## 4. GCP Cloud Logging
@@ -363,7 +308,7 @@ jsonPayload.type="graphql" AND jsonPayload.status>=500
 # Alt relatert til én spesifikk tavle
 jsonPayload.bid="<board-id>"
 
-# Alt fra tavla-visning (feil og hendelser, alle nivåer – dekker både report-log og report-error)
+# Alt fra tavla-visning (feil og hendelser, alle nivåer)
 jsonPayload.type="tavla-visning"
 
 # Kun feil fra tavla-visning
@@ -478,7 +423,6 @@ Sentry er deaktivert i development.
 | GraphQL-kall 4xx | GCP (`type: graphql`) | `warning` |
 | GraphQL-kall 5xx | GCP + Sentry | `error` |
 | GraphQL timeout | GCP + Sentry | `error` |
-| Hendelser fra tavla-visning (via `/api/report-log`) | GCP (`type: tavla-visning`) | oppgitt av kalleren (`debug`/`info`/`warning`/`error`) |
-| Feil fra tavla-visning (via utfasede `/api/report-error`) | GCP (`type: tavla-visning`) | `error` |
+| Logger fra tavla-visning (via `/api/report-log`) | GCP (`type: tavla-visning`) | oppgitt av kalleren (`debug`/`info`/`warning`/`error`) |
 | Klientside unntak (med samtykke) | Sentry | – |
 | Aktive tavle-sesjoner | Prometheus/Grafana | – |
