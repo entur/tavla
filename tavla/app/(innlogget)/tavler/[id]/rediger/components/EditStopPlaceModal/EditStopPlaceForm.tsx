@@ -7,6 +7,7 @@ import type {
     QuaysFilterDB,
     StopPlaceFilterDB,
     TileColumnDB,
+    TileViewMode,
 } from 'src/types/db-types/boards'
 import type { QuayWithFrontText } from '../utils/types'
 import { type EditStopPlaceModalFormState, saveTile } from './actions'
@@ -14,6 +15,7 @@ import { SetColumns } from './components/SetColumns'
 import { SetFilter } from './components/SetFilter'
 import { SetOffsetDepartureTime } from './components/SetOffsetDepartureTime'
 import { SetStopPlaceName } from './components/SetStopPlaceName'
+import { SetViewMode } from './components/SetViewMode'
 import {
     compressQuaysFilter,
     compressStopPlaceFilter,
@@ -60,6 +62,9 @@ function EditStopPlaceForm({
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
     const [columns, setColumns] = useState<TileColumnDB[]>(tile.columns ?? [])
+    const [viewMode, setViewMode] = useState<TileViewMode | undefined>(
+        tile.viewMode,
+    )
 
     const handleFieldChangeWithListener = (field: string) => {
         if (
@@ -112,6 +117,7 @@ function EditStopPlaceForm({
         return {
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
+            viewMode,
             ...(filterIsEdited && {
                 quays: [],
                 filter:
@@ -180,6 +186,13 @@ function EditStopPlaceForm({
                 trackingLocation="board_page"
                 onFieldChanged={onFieldChanged}
             />
+            <SetViewMode
+                selectedViewMode={viewMode}
+                handleViewModeChange={setViewMode}
+                trackingLocation="board_page"
+                onFieldChanged={onFieldChanged}
+            />
+
             <SetColumns
                 columns={columns}
                 onColumnsChange={setColumns}

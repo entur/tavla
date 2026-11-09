@@ -55,6 +55,7 @@ function EditStopPlaceModal({
             offset: changedFields.has('offset'),
             offset_walking_dist: changedFields.has('offset_walking_dist'),
             columns: changedFields.has('columns'),
+            view_mode: changedFields.has('view_mode'),
             quays_filter: changedFields.has('quays_filter'),
             stop_place_filter: changedFields.has('stop_place_filter'),
             filter_mode: changedFields.has('filter_mode'),
