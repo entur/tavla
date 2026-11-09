@@ -19,6 +19,7 @@ export function PlatformAndLines({
     icons,
     availableLines,
     trackingLocation,
+    trackingField,
     whitelistedLines,
     onToggleLine,
     onToggleGroup,
@@ -28,6 +29,7 @@ export function PlatformAndLines({
     icons: ReactNode
     availableLines: LineWithFrontText[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
+    trackingField: EventProps<'stop_place_edit_interaction'>['field']
     whitelistedLines: string[]
     onToggleLine: (groupId: string, lineId: string, checked: boolean) => void
     onToggleGroup: (groupId: string, checked: boolean) => void
@@ -56,7 +58,7 @@ export function PlatformAndLines({
     const handleToggleGroup = (checked: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
-            field: 'lines',
+            field: trackingField,
             column_value: 'none',
             action: checked ? 'select_all' : 'cleared',
         })
@@ -66,7 +68,7 @@ export function PlatformAndLines({
     const handleToggleLine = (lineId: string, checked: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
-            field: 'lines',
+            field: trackingField,
             column_value: 'none',
             action: 'changed',
         })
