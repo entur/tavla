@@ -61,7 +61,7 @@ export function SetViewMode({
             <Heading5 as="h2">Hvordan vil du vise avgangene? </Heading5>
             {isCombined && (
                 <SubParagraph className="text-error">
-                    Har du samlet stoppestedene i én liste vil du ikke ha
+                    Du har samlet stoppestedene i én liste og har derfor ikke
                     mulighet til å velge visningsmodus.
                 </SubParagraph>
             )}

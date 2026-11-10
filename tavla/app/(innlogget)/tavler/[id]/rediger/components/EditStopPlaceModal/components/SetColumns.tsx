@@ -64,7 +64,7 @@ export function SetColumns({
             </Heading5>
             {isCombined && (
                 <SubParagraph className="mb-2 !text-error">
-                    Har du samlet stoppestedene i én liste vil du ikke ha
+                    Du har samlet stoppestedene i én liste og har derfor ikke
                     mulighet til å velge kolonner.
                 </SubParagraph>
             )}
