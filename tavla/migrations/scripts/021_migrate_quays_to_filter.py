@@ -169,9 +169,11 @@ def update_documents(db: firestore.Client):
                 log_file.write(f"❌ Error updating {doc_id}: {str(e)}\n")
 
             if i % 15 == 0 and i != 0:
-                log_file.write(f"\n💤 Sleeping after {i} documents...\n\n")
                 log_file.flush()
-                time.sleep(2)
+
+            if i % 100 == 0 and i != 0:
+                log_file.write(f"\n💤 Sleeping after {i} documents...\n\n")
+                time.sleep(1)
 
         log_file.write(
             f"\n🎉 Finished: {success_count} updated, {fail_count} failed, {total_count} total 🎉\n"
