@@ -36,6 +36,7 @@ yarn dev:persist  # anbefalt – lagrer emulator state (.db)
 ```
 
 Tilgang:
+
 - App: http://localhost:3000
 - Firebase Emulator UI: http://127.0.0.1:4000/
 
@@ -73,6 +74,7 @@ Det er ikke nødvendig å kjøre opp backend lokalt for å kjøre frontend lokal
 Vi bruker et avgrenset sett gitmoji i starten av commit-meldinger for å gjøre historikken mer skumbar. Start commitmelding med imperativ form ("legg til", "oppdater", "fjern").
 
 Emojis / kategorier:
+
 | Emoji | Kategori      | Når brukes                                                   |
 | ----- | ------------- | ------------------------------------------------------------ |
 | ✨    | Feature       | Ny funksjonalitet / større tillegg                           |
@@ -87,7 +89,6 @@ Emojis / kategorier:
 | 📈    | Målinger      | Telemetri, logging, målepunkter                              |
 | 🤖    | KI            | Skills, instruksjoner og annet som forbedrer bruk av agenter |
 
-
 Branches kan valgfritt bruke en kort kategori + beskrivelse, f.eks:
 
 ```
@@ -95,7 +96,6 @@ feature/filtrering-av-linjer
 bugfix/feil-i-refresh-endpoint
 rydding/refaktor-board-context
 ```
-
 
 ### Feilsøking
 
