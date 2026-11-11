@@ -122,7 +122,6 @@ function EditStopPlaceForm({
             columns: board.isCombinedTiles ? tile.columns : columns,
             viewMode: board.isCombinedTiles ? tile.viewMode : viewMode,
             ...(filterIsEdited && {
-                quays: [],
                 filter:
                     filterType === 'quaysFilter'
                         ? compressQuaysFilter(quaysFilter, quays)

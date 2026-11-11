@@ -15,7 +15,6 @@ import {
     getInitialQuaysFilter,
     getInitialStopPlaceFilter,
     groupLinesByTransportMode,
-    quaysToQuaysFilter,
     sortLineFragment,
     type TransportModeGroup,
 } from './utils'
@@ -78,40 +77,13 @@ describe('getInitialFilterType', () => {
                 selectedTransportModes: [],
                 selectedLines: [],
             },
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
         } as unknown as BoardTileDB
         expect(getInitialFilterType(tile)).toBe('stopPlaceFilter')
     })
 
-    it('bruker quaysFilter for gamle tiles med tile.quays', () => {
-        const tile = {
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
-        } as unknown as BoardTileDB
-        expect(getInitialFilterType(tile)).toBe('quaysFilter')
-    })
-
-    it('faller tilbake til stopPlaceFilter når verken filter eller tile.quays finnes', () => {
+    it('faller tilbake til stopPlaceFilter når filter mangler', () => {
         const tile = {} as unknown as BoardTileDB
         expect(getInitialFilterType(tile)).toBe('stopPlaceFilter')
-    })
-})
-
-describe('quaysToQuaysFilter', () => {
-    it('konverterer utdaterte tile.quays til QuaysFilterDB', () => {
-        const result = quaysToQuaysFilter([
-            { id: 'Q1', whitelistedLines: ['L1'] },
-        ])
-        expect(result).toEqual({
-            type: 'quaysFilter',
-            quays: [{ id: 'Q1', selectedLines: ['L1'] }],
-        })
-    })
-
-    it('deler ikke array-referanse med input', () => {
-        const inputQuay = { id: 'Q1', whitelistedLines: ['L1'] }
-        const result = quaysToQuaysFilter([inputQuay])
-        inputQuay.whitelistedLines.push('L2')
-        expect(result.quays[0]?.selectedLines).toEqual(['L1'])
     })
 })
 
@@ -198,10 +170,8 @@ describe('getInitialQuaysFilter', () => {
         })
     })
 
-    it('bygger filteret fra gammel tile.quays når tile.filter mangler', () => {
-        const tile = {
-            quays: [{ id: 'Q1', whitelistedLines: ['L1'] }],
-        } as unknown as BoardTileDB
+    it('faller tilbake til tomt filter når tile.filter mangler', () => {
+        const tile = {} as unknown as BoardTileDB
         const quays = [quay('Q1', [{ id: 'L1', frontTexts: [] }])]
         expect(getInitialQuaysFilter(tile, quays)).toEqual({
             type: 'quaysFilter',

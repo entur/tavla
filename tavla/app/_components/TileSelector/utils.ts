@@ -53,7 +53,6 @@ export function formDataToTiles(
         : DEFAULT_DEPARTURE_COLUMNS
     return closestStopPlaces.map((sp) => ({
         stopPlaceId: sp.id,
-        quays: [],
         name: sp.name,
         uuid: nanoid(),
         columns,

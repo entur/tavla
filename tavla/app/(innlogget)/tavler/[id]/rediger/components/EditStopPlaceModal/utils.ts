@@ -66,22 +66,7 @@ export function sortLineFragment(
 export function getInitialFilterType(
     tile: BoardTileDB,
 ): 'stopPlaceFilter' | 'quaysFilter' {
-    if (tile.filter?.type) return tile.filter.type
-    if (tile.quays && tile.quays.length > 0) return 'quaysFilter'
-
-    return 'stopPlaceFilter'
-}
-
-export function quaysToQuaysFilter(
-    quays: { id: string; whitelistedLines: string[] }[],
-): QuaysFilterDB {
-    return {
-        type: 'quaysFilter',
-        quays: quays.map((quay) => ({
-            id: quay.id,
-            selectedLines: [...quay.whitelistedLines],
-        })),
-    }
+    return tile.filter?.type ?? 'stopPlaceFilter'
 }
 
 export function expandQuaysFilter(
@@ -117,10 +102,10 @@ export function getInitialQuaysFilter(
     tile: BoardTileDB,
     quays: QuayWithFrontText[],
 ): QuaysFilterDB {
-    const initialFilter =
+    const initialFilter: QuaysFilterDB =
         tile.filter?.type === 'quaysFilter'
             ? tile.filter
-            : quaysToQuaysFilter(tile.quays ?? [])
+            : { type: 'quaysFilter', quays: [] }
 
     return expandQuaysFilter(initialFilter, quays)
 }
