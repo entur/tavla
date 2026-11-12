@@ -7,6 +7,7 @@ Denne mappen inneholder oppsettet for firebase functions for tavla. Den består 
 ## Deploye funksjoner
 
 Foreløpig har vi bare oppsett for å deploye funksjoner fra terminal.
+
 1. Kjør `firebase login` for å logge inn i firebase
 
 2. For å deploye til enten dev eller prod, kjør `firebase use dev` eller `firebase use prd`. Dette er viktig for å ta i bruk riktig .env-fil.

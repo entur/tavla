@@ -120,7 +120,7 @@ export function getInitialQuaysFilter(
     const initialFilter =
         tile.filter?.type === 'quaysFilter'
             ? tile.filter
-            : quaysToQuaysFilter(tile.quays)
+            : quaysToQuaysFilter(tile.quays ?? [])
 
     return expandQuaysFilter(initialFilter, quays)
 }
