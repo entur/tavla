@@ -12,9 +12,9 @@ import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import { useClosestStopPlaces } from 'app/_hooks/useClosestStopPlaces'
 import { useCountyFilter } from 'app/_hooks/useCountyFilter'
 import useCurrentPosition from 'app/_hooks/useCurrentPosition'
-import { useStopPlaceSearch } from 'app/_hooks/useStopPlaceSearch'
-import type { StopPlace } from 'app/(innlogget)/utils/fetch'
-import { coordinatesToStopPlaceDropdownItem } from 'app/(innlogget)/utils/position'
+import { usePlaceSearch } from 'app/_hooks/usePlaceSearch'
+import type { Place } from 'app/(innlogget)/utils/fetch'
+import { coordinatesToPlaceDropdownItem } from 'app/(innlogget)/utils/position'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useActionState, useState } from 'react'
@@ -34,10 +34,9 @@ function AddStopPlaceTile({
 }) {
     const { counties, selectedCountyIds, toggleCounty } = useCountyFilter()
 
-    const { stopPlaceItems, selectedStopPlace, setSelectedStopPlace } =
-        useStopPlaceSearch(
-            selectedCountyIds.length > 0 ? selectedCountyIds : undefined,
-        )
+    const { placeItems, selectedPlace, setSelectedPlace } = usePlaceSearch(
+        selectedCountyIds.length > 0 ? selectedCountyIds : undefined,
+    )
 
     const {
         closestStopPlaceItems,
@@ -46,9 +45,9 @@ function AddStopPlaceTile({
         selectedClosestStopPlaces,
         setSelectedClosestStopPlaces,
     } = useClosestStopPlaces(
-        selectedStopPlace?.value.type === 'stop_place'
+        selectedPlace?.value.type === 'stop_place'
             ? undefined
-            : selectedStopPlace?.value.coordinates,
+            : selectedPlace?.value.coordinates,
         NUMBER_OF_CLOSEST_STOP_PLACES,
         AREA_RADIUS_IN_KM,
     )
@@ -66,9 +65,9 @@ function AddStopPlaceTile({
         capture('stop_place_added', {
             location: trackingLocation,
             county_count: selectedCountyIds.length,
-            typeOfPlace: selectedStopPlace?.value.type ?? 'other',
+            typeOfPlace: selectedPlace?.value.type ?? 'other',
             selectedIndexes:
-                selectedStopPlace?.value.type === 'stop_place'
+                selectedPlace?.value.type === 'stop_place'
                     ? []
                     : (selectedClosestStopPlaces?.map((selected) =>
                           closestStopPlaceItems.findIndex(
@@ -83,7 +82,7 @@ function AddStopPlaceTile({
 
         const hasStopPlaces =
             (formData.get('closest_stop_places') ?? '[]') !== '[]'
-        if (!hasStopPlaces && !selectedStopPlace) {
+        if (!hasStopPlaces && !selectedPlace) {
             return {
                 status: 'error',
                 message: 'Du må velge adresse, stoppested eller sted',
@@ -99,7 +98,7 @@ function AddStopPlaceTile({
         )
 
         if (result?.status === 'success') {
-            setSelectedStopPlace(null)
+            setSelectedPlace(null)
             setSelectedClosestStopPlaces(null)
         }
 
@@ -111,7 +110,7 @@ function AddStopPlaceTile({
         null,
     )
 
-    const stopPlaceError =
+    const placeError =
         (state?.status === 'error' && state.field === 'stop_place'
             ? state.message
             : undefined) ?? positionError
@@ -124,18 +123,18 @@ function AddStopPlaceTile({
     const genericError =
         state?.status === 'error' && !state.field ? state.message : undefined
 
-    async function searchStopPlaces(search: string) {
-        const stopPlaces = await stopPlaceItems(
-            search || selectedStopPlace?.label.split(',')[0] || '',
+    async function searchPlaces(search: string) {
+        const places = await placeItems(
+            search || selectedPlace?.label.split(',')[0] || '',
         )
         return [
-            search === '' ? coordinatesToStopPlaceDropdownItem() : null,
-            ...stopPlaces,
-        ].filter(Boolean) as NormalizedDropdownItemType<StopPlace>[]
+            search === '' ? coordinatesToPlaceDropdownItem() : null,
+            ...places,
+        ].filter(Boolean) as NormalizedDropdownItemType<Place>[]
     }
 
     function handlePlaceChange(
-        selectedItem: NormalizedDropdownItemType<StopPlace> | null,
+        selectedItem: NormalizedDropdownItemType<Place> | null,
     ) {
         const typeOfPlace = selectedItem?.value.type
         capture('stop_place_add_interaction', {
@@ -153,18 +152,16 @@ function AddStopPlaceTile({
                         lat: pos.coords.latitude,
                         lon: pos.coords.longitude,
                     }
-                    setSelectedStopPlace(
-                        coordinatesToStopPlaceDropdownItem(coords),
-                    )
+                    setSelectedPlace(coordinatesToPlaceDropdownItem(coords))
                 } else {
-                    setSelectedStopPlace(null)
+                    setSelectedPlace(null)
                     setPositionError('Kunne ikke hente posisjonen din')
                 }
             })
             return
         }
 
-        setSelectedStopPlace(selectedItem)
+        setSelectedPlace(selectedItem)
 
         if (selectedItem && typeOfPlace === 'stop_place') {
             setSelectedClosestStopPlaces([
@@ -182,7 +179,7 @@ function AddStopPlaceTile({
     }
 
     function handleClosestStopPlacesChange(
-        selectedItems: NormalizedDropdownItemType<StopPlace>[],
+        selectedItems: NormalizedDropdownItemType<Place>[],
     ) {
         const addedStopPlace =
             selectedItems.length > (selectedClosestStopPlaces?.length ?? 0)
@@ -190,7 +187,7 @@ function AddStopPlaceTile({
             location: trackingLocation,
             field: 'closest_stop_places',
             action: addedStopPlace ? 'added' : 'removed',
-            typeOfPlace: selectedStopPlace?.value.type ?? 'other',
+            typeOfPlace: selectedPlace?.value.type ?? 'other',
             selectedIndexes: selectedItems.map((selectedItem) =>
                 closestStopPlaceItems.findIndex(
                     (closestItem) =>
@@ -202,7 +199,7 @@ function AddStopPlaceTile({
     }
 
     function toggleClosestStopPlace(
-        item: NormalizedDropdownItemType<StopPlace>,
+        item: NormalizedDropdownItemType<Place>,
         checked: boolean,
     ) {
         const current = selectedClosestStopPlaces ?? []
@@ -220,13 +217,13 @@ function AddStopPlaceTile({
     )
 
     const selectedPlaceName =
-        selectedStopPlace?.value.id === 'current_position'
+        selectedPlace?.value.id === 'current_position'
             ? 'posisjonen din'
-            : selectedStopPlace?.label.split(',')[0]
+            : selectedPlace?.label.split(',')[0]
 
     const showClosestStopPlaces =
-        selectedStopPlace?.value.type !== 'stop_place' &&
-        Boolean(selectedStopPlace?.value.coordinates)
+        selectedPlace?.value.type !== 'stop_place' &&
+        Boolean(selectedPlace?.value.coordinates)
 
     const closestStopPlacesErrorId = 'closest-stop-places-error'
 
@@ -248,11 +245,11 @@ function AddStopPlaceTile({
                 </Paragraph>
                 <SearchableDropdown
                     noMatchesText="Ingen stoppesteder funnet"
-                    items={searchStopPlaces}
+                    items={searchPlaces}
                     label="Stoppested eller adresse*"
                     clearable
                     prepend={<SearchIcon aria-hidden />}
-                    selectedItem={selectedStopPlace}
+                    selectedItem={selectedPlace}
                     onChange={handlePlaceChange}
                     // Enter skal bare velge stoppested, ikke sende inn skjemaet
                     onKeyDown={(e) => {
@@ -261,14 +258,10 @@ function AddStopPlaceTile({
                     debounceTimeout={200}
                     aria-required
                     variant={
-                        !selectedStopPlace && stopPlaceError
-                            ? 'negative'
-                            : undefined
+                        !selectedPlace && placeError ? 'negative' : undefined
                     }
                     feedback={
-                        !selectedStopPlace && stopPlaceError
-                            ? stopPlaceError
-                            : undefined
+                        !selectedPlace && placeError ? placeError : undefined
                     }
                 />
             </div>

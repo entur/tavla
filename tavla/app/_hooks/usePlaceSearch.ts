@@ -1,11 +1,11 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import { fetchStopPlaces, type StopPlace } from 'app/(innlogget)/utils/fetch'
+import { fetchPlaces, type Place } from 'app/(innlogget)/utils/fetch'
 import { usePostHog } from 'posthog-js/react'
 import { useCallback, useRef, useState } from 'react'
 
-function useStopPlaceSearch(countyIds?: string[]) {
-    const [selectedStopPlace, setSelectedStopPlace] =
-        useState<NormalizedDropdownItemType<StopPlace> | null>(null)
+function usePlaceSearch(countyIds?: string[]) {
+    const [selectedPlace, setSelectedPlace] =
+        useState<NormalizedDropdownItemType<Place> | null>(null)
 
     const posthog = usePostHog()
 
@@ -14,28 +14,26 @@ function useStopPlaceSearch(countyIds?: string[]) {
     const items = useCallback(
         async (search: string) => {
             if (search !== '') count.current += 1
-            return await fetchStopPlaces(search, countyIds)
+            return await fetchPlaces(search, countyIds)
         },
         [countyIds],
     )
-    const chooseStopPlace = (
-        stopPlace: NormalizedDropdownItemType<StopPlace> | null,
-    ) => {
-        if (stopPlace) {
+    const choosePlace = (place: NormalizedDropdownItemType<Place> | null) => {
+        if (place) {
             posthog.capture('EDIT_STOP_PLACE_SEARCH', {
                 counties: countyIds && countyIds.length > 0,
                 count: count.current,
             })
         }
-        setSelectedStopPlace(stopPlace)
+        setSelectedPlace(place)
         count.current = 0
     }
 
     return {
-        stopPlaceItems: items,
-        selectedStopPlace,
-        setSelectedStopPlace: chooseStopPlace,
+        placeItems: items,
+        selectedPlace,
+        setSelectedPlace: choosePlace,
     }
 }
 
-export { useStopPlaceSearch }
+export { usePlaceSearch }
