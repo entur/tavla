@@ -19,11 +19,16 @@ export function usePosthogTracking() {
 
     const capture = useCallback(
         <E extends TrackingEvent>(event: E, ...args: CaptureArgs<E>) => {
+            const properties = args[0] ?? undefined
+
+            if (process.env.NODE_ENV === 'development') {
+                // biome-ignore lint/suspicious/noConsole: Intentional logging for local development
+                console.log('PostHog tracking:', event, properties)
+            }
+
             if (!posthog) {
                 return
             }
-
-            const properties = args[0] ?? undefined
 
             if (posthog.has_opted_in_capturing()) {
                 posthog.capture(event, properties)
