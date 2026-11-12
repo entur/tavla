@@ -63,12 +63,6 @@ export function sortLineFragment(
     })
 }
 
-export function getInitialFilterType(
-    tile: BoardTileDB,
-): 'stopPlaceFilter' | 'quaysFilter' {
-    return tile.filter?.type ?? 'stopPlaceFilter'
-}
-
 export function expandQuaysFilter(
     filter: QuaysFilterDB,
     quays: QuayWithFrontText[],
