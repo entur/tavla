@@ -6,7 +6,7 @@ import {
 import {
     fetchClosestStopPlaces,
     type GeoCoordinate,
-    type StopPlace,
+    type Place,
 } from 'app/(innlogget)/utils/fetch'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -16,10 +16,10 @@ function useClosestStopPlaces(
     areaRadiusInKm: number,
 ) {
     const [closestStopPlaceItems, setClosestStopPlaceItems] = useState<
-        NormalizedDropdownItemType<StopPlace>[]
+        NormalizedDropdownItemType<Place>[]
     >([])
     const [selectedClosestStopPlaces, setSelectedClosestStopPlaces] = useState<
-        NormalizedDropdownItemType<StopPlace>[] | null
+        NormalizedDropdownItemType<Place>[] | null
     >(null)
 
     const [loadedCoordinatesKey, setLoadedCoordinatesKey] = useState<
