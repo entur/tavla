@@ -89,7 +89,6 @@ export const boardTileSchema = z.object({
     uuid: z.string(),
     name: z.string(),
     stopPlaceId: z.string(),
-    quays: z.array(quaySchema).optional(),
     walkingDistance: boardWalkingDistanceSchema.optional(),
     drivingDistance: boardDrivingDistanceSchema.optional(),
     offset: z.number().optional(),
@@ -98,6 +97,9 @@ export const boardTileSchema = z.object({
     county: z.string().optional(),
     filter: tileFilterSchema.optional(),
     viewMode: tileViewModeSchema.optional(),
+
+    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
+    quays: z.array(quaySchema).optional(),
 
     /** @deprecated Only kept for backward-compat with unmigrated DB docs */
     linesWithDirection: z.array(lineWithDirectionSchema).optional(),

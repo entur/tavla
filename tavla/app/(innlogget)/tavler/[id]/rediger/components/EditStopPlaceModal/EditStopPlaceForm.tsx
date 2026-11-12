@@ -20,7 +20,6 @@ import { SetViewMode } from './components/SetViewMode'
 import {
     compressQuaysFilter,
     compressStopPlaceFilter,
-    getInitialFilterType,
     getInitialQuaysFilter,
     getInitialStopPlaceFilter,
 } from './utils'
@@ -52,7 +51,7 @@ function EditStopPlaceForm({
 
     const [filterType, setFilterType] = useState<
         'stopPlaceFilter' | 'quaysFilter'
-    >(getInitialFilterType(tile))
+    >(tile.filter?.type ?? 'stopPlaceFilter')
 
     const [quaysFilter, setQuaysFilter] = useState<QuaysFilterDB>(() =>
         getInitialQuaysFilter(tile, quays),
@@ -122,7 +121,6 @@ function EditStopPlaceForm({
             columns: board.isCombinedTiles ? tile.columns : columns,
             viewMode: board.isCombinedTiles ? tile.viewMode : viewMode,
             ...(filterIsEdited && {
-                quays: [],
                 filter:
                     filterType === 'quaysFilter'
                         ? compressQuaysFilter(quaysFilter, quays)
