@@ -1,5 +1,8 @@
 import { sortByTransportMode } from 'app/_components/TransportIcon/utils'
-import type { TTransportMode } from 'src/types/graphql-schema'
+import type {
+    TTransportMode,
+    TTransportSubmode,
+} from 'src/types/graphql-schema'
 import type {
     BoardTileDB,
     QuaysFilterDB,
@@ -39,6 +42,135 @@ export function transportModeNames(
             return 'Taxi'
         case 'unknown':
             return 'Ukjent'
+        default:
+            return null
+    }
+}
+
+/**
+ * Norsk visningsnavn for en transport-undermodus. Returnerer null for
+ * undermoduser vi ikke har en god norsk oversettelse for ennå.
+ */
+export function transportSubmodeNames(
+    submode: TTransportSubmode | null | undefined,
+): string | null {
+    switch (submode) {
+        // Buss
+        case 'localBus':
+            return 'Lokal buss'
+        case 'nightBus':
+            return 'Nattbuss'
+        case 'regionalBus':
+            return 'Regionbuss'
+        case 'expressBus':
+            return 'Ekspressbuss'
+        case 'airportLinkBus':
+            return 'Flybuss'
+        case 'railReplacementBus':
+            return 'Buss for tog'
+        case 'schoolBus':
+            return 'Skolebuss'
+        case 'shuttleBus':
+            return 'Shuttlebuss'
+        case 'sightseeingBus':
+            return 'Turistbuss'
+        case 'demandAndResponseBus':
+            return 'Bestillingsbuss'
+        case 'specialNeedsBus':
+        case 'mobilityBus':
+        case 'mobilityBusForRegisteredDisabled':
+            return 'Tilrettelagt transport'
+        case 'dedicatedLaneBus':
+            return 'Superbuss'
+        case 'highFrequencyBus':
+            return 'Høyfrekvent buss'
+        // Langdistansebuss/ekspressbuss (coach)
+        case 'commuterCoach':
+            return 'Ekspressbuss'
+        case 'internationalCoach':
+            return 'Internasjonal langdistansebuss'
+        case 'nationalCoach':
+            return 'Langdistansebuss'
+        case 'regionalCoach':
+            return 'Regional langdistansebuss'
+        case 'touristCoach':
+        case 'sightseeingCoach':
+            return 'Turistbuss'
+        case 'specialCoach':
+            return 'Spesialbuss'
+        case 'shuttleCoach':
+            return 'Flybuss'
+        // Tog
+        case 'local':
+        case 'suburbanRailway':
+            return 'Lokaltog'
+        case 'longDistance':
+            return 'Fjerntog'
+        case 'regionalRail':
+            return 'Regiontog'
+        case 'interregionalRail':
+            return 'InterCity-tog'
+        case 'highSpeedRail':
+            return 'Hurtigtog'
+        case 'nightRail':
+            return 'Nattog'
+        case 'railShuttle':
+            return 'Flytog'
+        // Trikk
+        case 'localTram':
+            return 'Lokal trikk'
+        case 'cityTram':
+            return 'Bytrikk'
+        case 'regionalTram':
+            return 'Regiontrikk'
+        case 'sightseeingTram':
+            return 'Turisttrikk'
+        case 'shuttleTram':
+            return 'Shuttletrikk'
+        case 'trainTram':
+            return 'Tog-trikk'
+        // Båt
+        case 'internationalPassengerFerry':
+            return 'Internasjonal ferge'
+        case 'nationalPassengerFerry':
+            return 'Nasjonal ferge'
+        case 'regionalPassengerFerry':
+            return 'Regional ferge'
+        case 'localPassengerFerry':
+            return 'Lokal ferge'
+        case 'localCarFerry':
+        case 'nationalCarFerry':
+        case 'internationalCarFerry':
+        case 'regionalCarFerry':
+            return 'Bilferge'
+        case 'highSpeedPassengerService':
+            return 'Hurtigbåt'
+        case 'postBoat':
+            return 'Postbåt'
+        case 'schoolBoat':
+            return 'Skolebåt'
+        case 'riverBus':
+            return 'Elvebuss'
+        // T-bane
+        case 'metro':
+        case 'tube':
+        case 'urbanRailway':
+            return 'T-bane'
+        // Taubane/kabelbane
+        case 'funicular':
+        case 'allFunicularServices':
+        case 'undefinedFunicular':
+            return 'Taubane'
+        case 'cableCar':
+        case 'streetCableCar':
+            return 'Kabelbane'
+        case 'telecabin':
+        case 'telecabinLink':
+            return 'Gondol'
+        case 'chairLift':
+            return 'Stolheis'
+        case 'dragLift':
+            return 'Skitrekk'
         default:
             return null
     }
@@ -142,15 +274,63 @@ export function compressQuaysFilter(
     return { type: 'quaysFilter', quays: compactedQuays }
 }
 
-export type TransportModeGroup = {
-    mode: TTransportMode
+export type SubmodeGroup = {
+    groupId: string
+    submode: TTransportSubmode | null
     lines: LineWithFrontText[]
 }
 
+export type TransportModeGroup = {
+    mode: TTransportMode
+    lines: LineWithFrontText[]
+    /**
+     * Linjene i denne gruppa delt opp etter undermodus. Kun fylt ut når
+     * gruppa faktisk inneholder 2 eller flere ulike undermoduser - ellers
+     * gir en ekstra nøstingsnivå ingen verdi, og UI skal vise gruppa flatt.
+     */
+    submodeGroups: SubmodeGroup[]
+}
+
+function submodeGroupId(
+    mode: TTransportMode,
+    submode: TTransportSubmode | null,
+): string {
+    return `${mode}__${submode ?? 'ukjent'}`
+}
+
+function groupLinesBySubmode(
+    mode: TTransportMode,
+    lines: LineWithFrontText[],
+): SubmodeGroup[] {
+    const submodes = Array.from(
+        new Set(lines.map((line) => line.transportSubmode ?? null)),
+    )
+
+    if (submodes.length < 2) {
+        return []
+    }
+
+    return submodes
+        .map((submode) => ({
+            groupId: submodeGroupId(mode, submode),
+            submode,
+            lines: lines.filter(
+                (line) => (line.transportSubmode ?? null) === submode,
+            ),
+        }))
+        .sort((a, b) =>
+            (transportSubmodeNames(a.submode) ?? '￿').localeCompare(
+                transportSubmodeNames(b.submode) ?? '￿',
+            ),
+        )
+}
+
 /**
- * Grupperer linjer på tvers av alle plattformer etter transportmiddel.
- * En linje som betjener flere plattformer vises kun i én gruppe, med
- * frontTexts slått sammen fra alle plattformene den betjener.
+ * Grupperer linjer på tvers av alle plattformer etter transportmiddel, og
+ * videre etter undermodus innad i hver transportmiddel-gruppe (f.eks. lokal-
+ * og nattbuss under "Buss"). En linje som betjener flere plattformer vises
+ * kun i én gruppe, med frontTexts slått sammen fra alle plattformene den
+ * betjener.
  *
  * @param quays Liste over plattformer med linjer
  * @returns Grupperte linjer etter transportmiddel
@@ -165,12 +345,17 @@ export function groupLinesByTransportMode(
     const modes = Array.from(new Set(consolidatedLinesById.map(modeOf)))
 
     const grouped = modes
-        .map((mode) => ({
-            mode,
-            lines: consolidatedLinesById.filter(
+        .map((mode) => {
+            const lines = consolidatedLinesById.filter(
                 (line) => modeOf(line) === mode,
-            ),
-        }))
+            )
+
+            return {
+                mode,
+                lines,
+                submodeGroups: groupLinesBySubmode(mode, lines),
+            }
+        })
         .sort((a, b) =>
             sortByTransportMode(
                 { transportMode: a.mode },
@@ -179,6 +364,31 @@ export function groupLinesByTransportMode(
         )
 
     return grouped
+}
+
+/**
+ * Finner linje-id-ene til en gruppe, enten den er en transportmiddel-gruppe
+ * (groupId = mode, f.eks. "bus") eller en nøstet undermodus-gruppe
+ * (groupId = `${mode}__${submode}`, se submodeGroupId).
+ */
+export function getGroupLineIds(
+    groupId: string,
+    groups: TransportModeGroup[],
+): string[] {
+    for (const group of groups) {
+        if (group.mode === groupId) {
+            return group.lines.map((line) => line.id)
+        }
+
+        const submodeGroup = group.submodeGroups.find(
+            (sub) => sub.groupId === groupId,
+        )
+        if (submodeGroup) {
+            return submodeGroup.lines.map((line) => line.id)
+        }
+    }
+
+    return []
 }
 
 /**

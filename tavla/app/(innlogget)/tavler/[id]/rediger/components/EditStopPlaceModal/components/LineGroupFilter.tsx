@@ -11,6 +11,13 @@ import type { LineWithFrontText } from '../../utils/types'
 import { sortLineFragment } from '../utils'
 import { PublicCode } from './PublicCode'
 
+type ChildGroup = {
+    groupId: string
+    title: string
+    icons: ReactNode
+    availableLines: LineWithFrontText[]
+}
+
 export function LineGroupFilter({
     groupId,
     title,
@@ -18,6 +25,7 @@ export function LineGroupFilter({
     tooltip,
     icons,
     availableLines,
+    childGroups,
     trackingLocation,
     trackingField,
     selectedLines,
@@ -28,6 +36,15 @@ export function LineGroupFilter({
     title: string
     icons: ReactNode
     availableLines: LineWithFrontText[]
+    /**
+     * Når denne gruppa skal vises nøstet (f.eks. undermoduser under en
+     * transportmiddel-gruppe), gis en liste med barnegrupper her - de
+     * rendres rekursivt som egne LineGroupFilter i stedet for en flat
+     * linjeliste. `availableLines` skal da fortsatt være unionen av alle
+     * barnegruppenes linjer, slik at "velg alle"-tilstanden for denne
+     * gruppa beregnes riktig.
+     */
+    childGroups?: ChildGroup[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     trackingField: EventProps<'stop_place_edit_interaction'>['field']
     selectedLines: string[]
@@ -122,25 +139,44 @@ export function LineGroupFilter({
                 <ExpandArrow open={isExpanded} />
             </button>
             <BaseExpand open={isExpanded} id={linesId}>
-                {[...availableLines]
-                    .sort(sortLineFragment)
-                    .filter(filterLineFragment)
-                    .map((line) => (
-                        <Checkbox
-                            key={line.id}
-                            checked={selectedLines.includes(line.id)}
-                            className="ml-1"
-                            data-transport-mode={line.transportMode}
-                            onChange={(e) =>
-                                handleToggleLine(line.id, e.target.checked)
-                            }
-                        >
-                            <div className="flex flex-row items-center gap-2">
-                                <PublicCode line={line} />
-                                {line.frontTexts.join(' / ')}
-                            </div>
-                        </Checkbox>
-                    ))}
+                {childGroups && childGroups.length > 0
+                    ? childGroups.map((child) => (
+                          <div key={child.groupId} className="mt-2">
+                              <LineGroupFilter
+                                  groupId={child.groupId}
+                                  title={child.title}
+                                  icons={child.icons}
+                                  availableLines={child.availableLines}
+                                  trackingLocation={trackingLocation}
+                                  trackingField={trackingField}
+                                  selectedLines={selectedLines}
+                                  onToggleLine={onToggleLine}
+                                  onToggleGroup={onToggleGroup}
+                              />
+                          </div>
+                      ))
+                    : [...availableLines]
+                          .sort(sortLineFragment)
+                          .filter(filterLineFragment)
+                          .map((line) => (
+                              <Checkbox
+                                  key={line.id}
+                                  checked={selectedLines.includes(line.id)}
+                                  className="ml-1"
+                                  data-transport-mode={line.transportMode}
+                                  onChange={(e) =>
+                                      handleToggleLine(
+                                          line.id,
+                                          e.target.checked,
+                                      )
+                                  }
+                              >
+                                  <div className="flex flex-row items-center gap-2">
+                                      <PublicCode line={line} />
+                                      {line.frontTexts.join(' / ')}
+                                  </div>
+                              </Checkbox>
+                          ))}
             </BaseExpand>
         </div>
     )

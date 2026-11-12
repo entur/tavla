@@ -4,7 +4,12 @@ import type { EventProps } from 'app/posthog/events'
 import { useMemo } from 'react'
 import type { StopPlaceFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
-import { groupLinesByTransportMode, transportModeNames } from '../utils'
+import {
+    getGroupLineIds,
+    groupLinesByTransportMode,
+    transportModeNames,
+    transportSubmodeNames,
+} from '../utils'
 import { LineGroupFilter } from './LineGroupFilter'
 
 export function StopPlaceFilterView({
@@ -42,11 +47,8 @@ export function StopPlaceFilterView({
         )
     }
 
-    const handleToggleGroup = (mode: string, checked: boolean) => {
-        const group = groupedByMode.find((g) => g.mode === mode)
-        if (!group) return
-
-        const groupLineIds = group.lines.map((line) => line.id)
+    const handleToggleGroup = (groupId: string, checked: boolean) => {
+        const groupLineIds = getGroupLineIds(groupId, groupedByMode)
         patchSelectedLines(
             checked
                 ? Array.from(
@@ -63,7 +65,7 @@ export function StopPlaceFilterView({
             <Paragraph margin="none">
                 Velg hvilke transportmidler du vil vise
             </Paragraph>
-            {groupedByMode.map(({ mode, lines }) => (
+            {groupedByMode.map(({ mode, lines, submodeGroups }) => (
                 <LineGroupFilter
                     key={mode}
                     groupId={mode}
@@ -77,6 +79,24 @@ export function StopPlaceFilterView({
                         />
                     }
                     availableLines={lines}
+                    childGroups={submodeGroups.map((submodeGroup) => ({
+                        groupId: submodeGroup.groupId,
+                        title:
+                            transportSubmodeNames(submodeGroup.submode) ??
+                            'Annet',
+                        icons: (
+                            <TransportIcon
+                                transportMode={mode}
+                                transportSubmode={
+                                    submodeGroup.submode ?? undefined
+                                }
+                                background
+                                whiteIcon
+                                includeTooltip
+                            />
+                        ),
+                        availableLines: submodeGroup.lines,
+                    }))}
                     selectedLines={filter.selectedLines}
                     trackingLocation={trackingLocation}
                     trackingField="stop_place_filter"
