@@ -11,7 +11,6 @@ import {
     compressStopPlaceFilter,
     expandQuaysFilter,
     expandStopPlaceFilter,
-    getInitialFilterType,
     getInitialQuaysFilter,
     getInitialStopPlaceFilter,
     groupLinesByTransportMode,
@@ -66,24 +65,6 @@ describe('sortLineFragment', () => {
         const bus = line('L2', { transportMode: 'bus', publicCode: '1' })
         expect(() => sortLineFragment(withoutFields, bus)).not.toThrow()
         expect(sortLineFragment(withoutFields, bus)).toBeLessThan(0)
-    })
-})
-
-describe('getInitialFilterType', () => {
-    it('bruker tile.filter.type når det allerede er lagret et filter', () => {
-        const tile = {
-            filter: {
-                type: 'stopPlaceFilter',
-                selectedTransportModes: [],
-                selectedLines: [],
-            },
-        } as unknown as BoardTileDB
-        expect(getInitialFilterType(tile)).toBe('stopPlaceFilter')
-    })
-
-    it('faller tilbake til stopPlaceFilter når filter mangler', () => {
-        const tile = {} as unknown as BoardTileDB
-        expect(getInitialFilterType(tile)).toBe('stopPlaceFilter')
     })
 })
 
