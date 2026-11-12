@@ -38,11 +38,15 @@ export function LineGroupFilter({
     availableLines: LineWithFrontText[]
     /**
      * Når denne gruppa skal vises nøstet (f.eks. undermoduser under en
-     * transportmiddel-gruppe), gis en liste med barnegrupper her - de
-     * rendres rekursivt som egne LineGroupFilter i stedet for en flat
-     * linjeliste. `availableLines` skal da fortsatt være unionen av alle
-     * barnegruppenes linjer, slik at "velg alle"-tilstanden for denne
-     * gruppa beregnes riktig.
+     * transportmiddel-gruppe), gis en liste med barnegrupper her. De vises
+     * som indenterte underseksjoner - med egen velg alle-avkrysning, men
+     * uten egen vis/skjul-linjer-kontroll - inni denne gruppas egen
+     * vis/skjul-seksjon. Vi unngår med vilje en nøstet accordion (en
+     * ekspanderbar seksjon inni en annen), det er ikke et etablert WAI-ARIA-
+     * mønster og gir dårligere tastatur-/skjermleser-opplevelse.
+     * `availableLines` skal da fortsatt være unionen av alle barnegruppenes
+     * linjer, slik at "velg alle"-tilstanden for denne gruppa beregnes
+     * riktig.
      */
     childGroups?: ChildGroup[]
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
@@ -73,25 +77,60 @@ export function LineGroupFilter({
 
     const [isExpanded, setIsExpanded] = useState(isIndeterminate)
 
-    const handleToggleGroup = (checked: boolean) => {
+    const handleToggleGroupById = (targetGroupId: string, checked: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
             field: trackingField,
             column_value: 'none',
             action: checked ? 'select_all' : 'cleared',
         })
-        onToggleGroup(groupId, checked)
+        onToggleGroup(targetGroupId, checked)
     }
 
-    const handleToggleLine = (lineId: string, checked: boolean) => {
+    const handleToggleLineById = (
+        targetGroupId: string,
+        lineId: string,
+        checked: boolean,
+    ) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
             field: trackingField,
             column_value: 'none',
             action: 'changed',
         })
-        onToggleLine(groupId, lineId, checked)
+        onToggleLine(targetGroupId, lineId, checked)
     }
+
+    const getSelectionState = (lines: LineWithFrontText[]) => {
+        const lineIds = lines.filter(filterLineFragment).map((l) => l.id)
+        const selectedIds = lineIds.filter((id) => selectedLines.includes(id))
+
+        if (selectedIds.length === lineIds.length) return true
+        if (selectedIds.length === 0) return false
+        return 'indeterminate'
+    }
+
+    const renderLineCheckboxes = (
+        lines: LineWithFrontText[],
+        onLineToggle: (lineId: string, checked: boolean) => void,
+    ) =>
+        [...lines]
+            .sort(sortLineFragment)
+            .filter(filterLineFragment)
+            .map((line) => (
+                <Checkbox
+                    key={line.id}
+                    checked={selectedLines.includes(line.id)}
+                    className="ml-1"
+                    data-transport-mode={line.transportMode}
+                    onChange={(e) => onLineToggle(line.id, e.target.checked)}
+                >
+                    <div className="flex flex-row items-center gap-2">
+                        <PublicCode line={line} />
+                        {line.frontTexts.join(' / ')}
+                    </div>
+                </Checkbox>
+            ))
 
     return (
         <div className="rounded-lg border-2 p-4">
@@ -125,7 +164,9 @@ export function LineGroupFilter({
                 <Checkbox
                     id={`select-all-${groupId}`}
                     checked={isIndeterminate ? 'indeterminate' : isAllSelected}
-                    onChange={(e) => handleToggleGroup(e.target.checked)}
+                    onChange={(e) =>
+                        handleToggleGroupById(groupId, e.target.checked)
+                    }
                 />
             </div>
             <button
@@ -140,43 +181,49 @@ export function LineGroupFilter({
             </button>
             <BaseExpand open={isExpanded} id={linesId}>
                 {childGroups && childGroups.length > 0
-                    ? childGroups.map((child) => (
-                          <div key={child.groupId} className="mt-2">
-                              <LineGroupFilter
-                                  groupId={child.groupId}
-                                  title={child.title}
-                                  icons={child.icons}
-                                  availableLines={child.availableLines}
-                                  trackingLocation={trackingLocation}
-                                  trackingField={trackingField}
-                                  selectedLines={selectedLines}
-                                  onToggleLine={onToggleLine}
-                                  onToggleGroup={onToggleGroup}
-                              />
-                          </div>
-                      ))
-                    : [...availableLines]
-                          .sort(sortLineFragment)
-                          .filter(filterLineFragment)
-                          .map((line) => (
-                              <Checkbox
-                                  key={line.id}
-                                  checked={selectedLines.includes(line.id)}
-                                  className="ml-1"
-                                  data-transport-mode={line.transportMode}
-                                  onChange={(e) =>
-                                      handleToggleLine(
-                                          line.id,
-                                          e.target.checked,
-                                      )
-                                  }
+                    ? childGroups.map((child) => {
+                          const childSelectionState = getSelectionState(
+                              child.availableLines,
+                          )
+
+                          return (
+                              <div
+                                  key={child.groupId}
+                                  className="mt-3 flex flex-col gap-1 border-l-2 pl-3"
                               >
-                                  <div className="flex flex-row items-center gap-2">
-                                      <PublicCode line={line} />
-                                      {line.frontTexts.join(' / ')}
+                                  <div className="flex flex-row items-center justify-between">
+                                      <div className="flex flex-row items-center gap-2">
+                                          {child.icons}
+                                          <span className="text-sm font-medium">
+                                              {child.title}
+                                          </span>
+                                      </div>
+                                      <Checkbox
+                                          id={`select-all-${child.groupId}`}
+                                          checked={childSelectionState}
+                                          onChange={(e) =>
+                                              handleToggleGroupById(
+                                                  child.groupId,
+                                                  e.target.checked,
+                                              )
+                                          }
+                                      />
                                   </div>
-                              </Checkbox>
-                          ))}
+                                  {renderLineCheckboxes(
+                                      child.availableLines,
+                                      (lineId, checked) =>
+                                          handleToggleLineById(
+                                              child.groupId,
+                                              lineId,
+                                              checked,
+                                          ),
+                                  )}
+                              </div>
+                          )
+                      })
+                    : renderLineCheckboxes(availableLines, (lineId, checked) =>
+                          handleToggleLineById(groupId, lineId, checked),
+                      )}
             </BaseExpand>
         </div>
     )
