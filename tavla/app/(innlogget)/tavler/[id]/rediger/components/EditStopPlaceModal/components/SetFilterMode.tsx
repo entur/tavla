@@ -1,6 +1,7 @@
 import { RadioGroup, RadioPanel } from '@entur/form'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
+import { SubParagraph } from 'node_modules/@entur/typography'
 import type { FilterMode } from './SetFilter'
 
 const filterModes: { value: FilterMode; title: string; description: string }[] =
@@ -46,14 +47,15 @@ export function SetFilterMode({
             onChange={(e) => handleChange(e.target.value as FilterMode)}
             name={'filterMode'}
         >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {filterModes.map((mode) => (
                     <RadioPanel
                         key={mode.value}
                         value={mode.value}
                         title={mode.title}
+                        className="w-full"
                     >
-                        <p className="text-sm">{mode.description}</p>
+                        <SubParagraph>{mode.description}</SubParagraph>
                     </RadioPanel>
                 ))}
             </div>
