@@ -274,8 +274,8 @@ describe('groupLinesByTransportMode', () => {
 
 describe('expandStopPlaceFilter', () => {
     const groups: TransportModeGroup[] = [
-        { mode: 'bus', lines: [line('L1'), line('L2')] },
-        { mode: 'tram', lines: [line('L3')] },
+        { mode: 'bus', lines: [line('L1'), line('L2')], submodeGroups: [] },
+        { mode: 'tram', lines: [line('L3')], submodeGroups: [] },
     ]
 
     it('uten noen filtrering velges alle linjer i alle grupper', () => {
