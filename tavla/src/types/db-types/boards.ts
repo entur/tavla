@@ -89,7 +89,7 @@ export const boardTileSchema = z.object({
     uuid: z.string(),
     name: z.string(),
     stopPlaceId: z.string(),
-    quays: z.array(quaySchema),
+    quays: z.array(quaySchema).optional(),
     walkingDistance: boardWalkingDistanceSchema.optional(),
     drivingDistance: boardDrivingDistanceSchema.optional(),
     offset: z.number().optional(),
