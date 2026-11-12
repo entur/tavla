@@ -151,7 +151,7 @@ describe('getInitialQuaysFilter', () => {
         })
     })
 
-    it('faller tilbake til tomt filter når tile.filter mangler', () => {
+    it('faller tilbake til at alle linjer er valgt når tile.filter mangler', () => {
         const tile = {} as unknown as BoardTileDB
         const quays = [quay('Q1', [{ id: 'L1', frontTexts: [] }])]
         expect(getInitialQuaysFilter(tile, quays)).toEqual({
