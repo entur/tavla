@@ -37,9 +37,14 @@ export async function saveTile(
         bid,
     })
 
-    // Tar ut de deprekerte feltene linesWithDirection og whitelistedLines slik at de ikke lagres i Firestore
+    // Tar ut de deprekerte feltene linesWithDirection, whitelistedLines og whitelistedTransportModes slik at de ikke lagres i Firestore
     // Kan fjernes etter at disse er migrert bort
-    const { linesWithDirection, whitelistedLines, ...rest } = inputTile
+    const {
+        linesWithDirection,
+        whitelistedLines,
+        whitelistedTransportModes,
+        ...rest
+    } = inputTile
     const tile = rest
 
     const access = await userCanEditBoard(bid)
