@@ -44,6 +44,22 @@ export function transportModeNames(
     }
 }
 
+/**
+ * Tilstanden en "velg alle"-checkbox skal vise, gitt hvor mange av de
+ * tilgjengelige elementene som er valgt.
+ *
+ * @selectedCount Antall valgte elementer
+ * @totalCount Totalt antall tilgjengelige elementer
+ */
+export function getSelectionState(
+    selectedCount: number,
+    totalCount: number,
+): boolean | 'indeterminate' {
+    if (selectedCount === totalCount) return true
+    if (selectedCount === 0) return false
+    return 'indeterminate'
+}
+
 export function sortLineFragment(
     a: LineWithFrontText,
     b: LineWithFrontText,
