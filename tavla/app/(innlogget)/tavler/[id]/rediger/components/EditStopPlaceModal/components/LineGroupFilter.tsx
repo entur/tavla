@@ -82,7 +82,7 @@ export function LineGroupFilter({
     return (
         <div className="rounded-lg border-2 p-4">
             <div className="flex flex-row justify-between">
-                <div className="flex flex-row items-center justify-start gap-0">
+                <div className="flex flex-row items-center justify-start">
                     <Checkbox
                         id={`select-all-${groupId}`}
                         checked={selectionState}
