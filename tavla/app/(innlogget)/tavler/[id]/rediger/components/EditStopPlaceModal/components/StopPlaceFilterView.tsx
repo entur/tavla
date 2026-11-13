@@ -4,8 +4,13 @@ import type { EventProps } from 'app/posthog/events'
 import { useMemo } from 'react'
 import type { StopPlaceFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
-import { groupLinesByTransportMode, transportModeNames } from '../utils'
+import {
+    getSelectionState,
+    groupLinesByTransportMode,
+    transportModeNames,
+} from '../utils'
 import { LineGroupFilter } from './LineGroupFilter'
+import { SelectAllCheckbox } from './SelectAllCheckbox'
 
 export function StopPlaceFilterView({
     quays,
@@ -58,11 +63,40 @@ export function StopPlaceFilterView({
         )
     }
 
+    const handleSelectAllToggle = (checked: boolean) => {
+        setFilter({
+            ...filter,
+            selectedLines: checked
+                ? quays.flatMap((quay) => quay.lines.map((line) => line.id))
+                : [],
+        })
+        onFieldChanged('stop_place_filter')
+    }
+
+    const allLineIds = groupedByMode.flatMap((group) =>
+        group.lines.map((line) => line.id),
+    )
+    const selectedLinesCount = allLineIds.filter((id) =>
+        filter.selectedLines.includes(id),
+    ).length
+    const totalLinesCount = allLineIds.length
+
     return (
         <div className="flex flex-col gap-2">
             <Paragraph margin="none">
                 Velg hvilke transportmidler du vil vise
             </Paragraph>
+            {groupedByMode.length > 1 && (
+                <SelectAllCheckbox
+                    checked={getSelectionState(
+                        selectedLinesCount,
+                        totalLinesCount,
+                    )}
+                    onChange={handleSelectAllToggle}
+                    trackingLocation={trackingLocation}
+                    trackingField="stop_place_filter"
+                />
+            )}
             {groupedByMode.map(({ mode, lines }) => (
                 <LineGroupFilter
                     key={mode}

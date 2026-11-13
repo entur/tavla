@@ -274,6 +274,8 @@ export type EventMap = {
             | 'cleared'
             | 'opened'
             | 'closed'
+            | 'select_all_groups'
+            | 'cleared_groups'
         column_value:
             | 'eta'
             | 'arrival'

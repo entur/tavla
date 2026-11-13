@@ -8,7 +8,9 @@ import type { EventProps } from 'app/posthog/events'
 import type { TTransportMode } from 'src/types/graphql-schema'
 import type { QuaysFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
+import { getSelectionState } from '../utils'
 import { LineGroupFilter } from './LineGroupFilter'
+import { SelectAllCheckbox } from './SelectAllCheckbox'
 
 function getPrimaryTransportMode(
     quay: QuayWithFrontText,
@@ -96,6 +98,28 @@ export function QuaysFilterView({
         onFieldChanged('quays_filter')
     }
 
+    const handleSelectAllToggle = (checked: boolean) => {
+        setQuaysFilter({
+            ...quaysFilter,
+            quays: quaysFilter.quays.map((existingQuayFilter) => ({
+                ...existingQuayFilter,
+                selectedLines: checked
+                    ? (quays
+                          .find((q) => q.id === existingQuayFilter.id)
+                          ?.lines.map((l) => l.id) ?? [])
+                    : [],
+            })),
+        })
+
+        onFieldChanged('quays_filter')
+    }
+
+    const selectedLinesCount = quaysFilter.quays.reduce(
+        (sum, q) => sum + q.selectedLines.length,
+        0,
+    )
+    const totalLinesCount = quays.reduce((sum, q) => sum + q.lines.length, 0)
+
     const sortedQuays = [...quays].sort((a, b) =>
         (a.publicCode || '').localeCompare(b.publicCode || '', 'nb-NO', {
             numeric: true,
@@ -107,6 +131,17 @@ export function QuaysFilterView({
             <Paragraph margin="none">
                 Velg hvilke plattformer du vil se
             </Paragraph>
+            {sortedQuays.length > 1 && (
+                <SelectAllCheckbox
+                    checked={getSelectionState(
+                        selectedLinesCount,
+                        totalLinesCount,
+                    )}
+                    onChange={handleSelectAllToggle}
+                    trackingLocation={trackingLocation}
+                    trackingField="quays_filter"
+                />
+            )}
             {sortedQuays.map((quay) => (
                 <LineGroupFilter
                     key={quay.id}
