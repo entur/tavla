@@ -73,11 +73,6 @@ const tileFilterSchema = z.discriminatedUnion('type', [
     quaysFilterSchema,
 ])
 
-const lineWithDirectionSchema = z.object({
-    lineId: z.string(),
-    frontTexts: z.array(z.string()),
-})
-
 const tileViewModeSchema = z.enum(['default', 'expandNextDeparture'])
 
 export const boardTileSchema = z.object({
@@ -169,8 +164,6 @@ export const TileColumns: Record<TileColumnDB, string> = {
 } as const
 
 export type BoardTileDB = z.infer<typeof boardTileSchema>
-
-export type LineWithDirectionDB = z.infer<typeof lineWithDirectionSchema>
 
 export type StopPlaceFilterDB = z.infer<typeof stopPlaceFilterSchema>
 
