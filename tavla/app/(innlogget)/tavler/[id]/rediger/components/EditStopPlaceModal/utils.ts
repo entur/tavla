@@ -50,6 +50,7 @@ export function transportModeNames(
  *
  * @selectedCount Antall valgte elementer
  * @totalCount Totalt antall tilgjengelige elementer
+ * @returns Tilstanden som checkboxen skal vise: true, false eller 'indeterminate'
  */
 export function getSelectionState(
     selectedCount: number,
