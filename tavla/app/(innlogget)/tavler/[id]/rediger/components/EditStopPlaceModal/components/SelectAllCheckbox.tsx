@@ -10,20 +10,20 @@ export function SelectAllCheckbox({
     trackingField,
 }: {
     checked: boolean | 'indeterminate'
-    onChange: (checked: boolean) => void
+    onChange: (selectAll: boolean) => void
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     trackingField: EventProps<'stop_place_edit_interaction'>['field']
 }) {
     const { capture } = usePosthogTracking()
 
-    const handleChange = (next: boolean) => {
+    const handleChange = (selectAll: boolean) => {
         capture('stop_place_edit_interaction', {
             location: trackingLocation,
             field: trackingField,
             column_value: 'none',
-            action: next ? 'select_all_groups' : 'cleared_groups',
+            action: selectAll ? 'select_all_groups' : 'cleared_groups',
         })
-        onChange(next)
+        onChange(selectAll)
     }
 
     return (

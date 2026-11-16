@@ -98,12 +98,12 @@ export function QuaysFilterView({
         onFieldChanged('quays_filter')
     }
 
-    const handleSelectAllToggle = (checked: boolean) => {
+    const handleSelectAllToggle = (selectAll: boolean) => {
         setQuaysFilter({
             ...quaysFilter,
             quays: quaysFilter.quays.map((existingQuayFilter) => ({
                 ...existingQuayFilter,
-                selectedLines: checked
+                selectedLines: selectAll
                     ? (quays
                           .find((q) => q.id === existingQuayFilter.id)
                           ?.lines.map((l) => l.id) ?? [])

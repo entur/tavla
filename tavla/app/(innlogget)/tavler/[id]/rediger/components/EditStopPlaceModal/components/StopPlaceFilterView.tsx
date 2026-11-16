@@ -63,10 +63,10 @@ export function StopPlaceFilterView({
         )
     }
 
-    const handleSelectAllToggle = (checked: boolean) => {
+    const handleSelectAllToggle = (selectAll: boolean) => {
         setFilter({
             ...filter,
-            selectedLines: checked
+            selectedLines: selectAll
                 ? quays.flatMap((quay) => quay.lines.map((line) => line.id))
                 : [],
         })
