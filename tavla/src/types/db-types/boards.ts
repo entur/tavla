@@ -97,24 +97,6 @@ export const boardTileSchema = z.object({
     county: z.string().optional(),
     filter: tileFilterSchema.optional(),
     viewMode: tileViewModeSchema.optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    quays: z.array(quaySchema).optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    linesWithDirection: z.array(lineWithDirectionSchema).optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    placeId: z.string().optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    type: z.enum(['stop_place', 'quay']).optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    whitelistedLines: z.array(z.string()).optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    whitelistedTransportModes: z.array(transportModeSchema).optional(),
 })
 
 const boardFontSizeSchema = z.enum(['small', 'medium', 'large'])
