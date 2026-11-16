@@ -8,7 +8,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import type { LineWithFrontText } from '../../utils/types'
-import { sortLineFragment } from '../utils'
+import { getSelectionState, sortLineFragment } from '../utils'
 import { PublicCode } from './PublicCode'
 
 export function LineGroupFilter({
@@ -50,11 +50,14 @@ export function LineGroupFilter({
         selectedLines.includes(id),
     )
 
-    const isAllSelected = selectedIdsInGroup.length === allLineIdsInGroup.length
-    const isNoneSelected = selectedIdsInGroup.length === 0
-    const isIndeterminate = !isAllSelected && !isNoneSelected
+    const selectionState = getSelectionState(
+        selectedIdsInGroup.length,
+        allLineIdsInGroup.length,
+    )
 
-    const [isExpanded, setIsExpanded] = useState(isIndeterminate)
+    const [isExpanded, setIsExpanded] = useState(
+        selectionState === 'indeterminate',
+    )
 
     const handleToggleGroup = (checked: boolean) => {
         capture('stop_place_edit_interaction', {
@@ -79,11 +82,17 @@ export function LineGroupFilter({
     return (
         <div className="rounded-lg border-2 p-4">
             <div className="flex flex-row justify-between">
-                <div className="flex flex-row items-center justify-start gap-2">
+                <div className="flex flex-row items-center justify-start">
+                    <Checkbox
+                        id={`select-all-${groupId}`}
+                        checked={selectionState}
+                        onChange={(e) => handleToggleGroup(e.target.checked)}
+                        className="ml-1"
+                    />
                     <div className="flex flex-row gap-1 self-center">
                         {icons}
                     </div>
-                    <div className="flex flex-row flex-wrap items-center gap-x-2">
+                    <div className="flex flex-row flex-wrap items-center gap-x-2 ml-2">
                         {title}
                         {tooltip && (
                             <Tooltip
@@ -105,11 +114,6 @@ export function LineGroupFilter({
                         )}
                     </div>
                 </div>
-                <Checkbox
-                    id={`select-all-${groupId}`}
-                    checked={isIndeterminate ? 'indeterminate' : isAllSelected}
-                    onChange={(e) => handleToggleGroup(e.target.checked)}
-                />
             </div>
             <button
                 type="button"
