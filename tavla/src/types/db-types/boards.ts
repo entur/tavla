@@ -52,11 +52,6 @@ const tileColumnValues = [
 
 const tileColumnSchema = z.enum(tileColumnValues)
 
-const quaySchema = z.object({
-    id: z.string(),
-    whitelistedLines: z.array(z.string()),
-})
-
 const filterQuaySchema = z.object({
     id: z.string(),
     selectedLines: z.array(z.string()),
