@@ -60,6 +60,7 @@ function EditStopPlaceForm({
         () => getInitialStopPlaceFilter(tile, quays),
     )
 
+    // biome-ignore lint/correctness/noUnusedVariables: Denne variabelen er midlertidig kommentert ut og bør tar inn igjen når de lagrede verdiene av quays er i orden.
     const [filterIsEdited, setFilterIsEdited] = useState(false)
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
@@ -120,12 +121,11 @@ function EditStopPlaceForm({
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
             viewMode: board.isCombinedTiles ? tile.viewMode : viewMode,
-            ...(filterIsEdited && {
-                filter:
-                    filterType === 'quaysFilter'
-                        ? compressQuaysFilter(quaysFilter, quays)
-                        : compressStopPlaceFilter(stopPlaceFilter, quays),
-            }),
+            // ...(filterIsEdited && { ---- Kan legges til igjen når man ønsker at ikke endringer i filter skal lagres med mindre det faktisk er redigert
+            filter:
+                filterType === 'quaysFilter'
+                    ? compressQuaysFilter(quaysFilter, quays)
+                    : compressStopPlaceFilter(stopPlaceFilter, quays),
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
