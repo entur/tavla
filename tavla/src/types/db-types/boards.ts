@@ -51,11 +51,6 @@ const tileColumnValues = [
 
 const tileColumnSchema = z.enum(tileColumnValues)
 
-const quaySchema = z.object({
-    id: z.string(),
-    whitelistedLines: z.array(z.string()),
-})
-
 const filterQuaySchema = z.object({
     id: z.string(),
     selectedLines: z.array(z.string()),
@@ -77,11 +72,6 @@ const tileFilterSchema = z.discriminatedUnion('type', [
     quaysFilterSchema,
 ])
 
-const lineWithDirectionSchema = z.object({
-    lineId: z.string(),
-    frontTexts: z.array(z.string()),
-})
-
 const tileViewModeSchema = z.enum(['default', 'expandNextDeparture'])
 
 export const boardTileSchema = z.object({
@@ -96,24 +86,6 @@ export const boardTileSchema = z.object({
     county: z.string().optional(),
     filter: tileFilterSchema.optional(),
     viewMode: tileViewModeSchema.optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    quays: z.array(quaySchema).optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    linesWithDirection: z.array(lineWithDirectionSchema).optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    placeId: z.string().optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    type: z.enum(['stop_place', 'quay']).optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    whitelistedLines: z.array(z.string()).optional(),
-
-    /** @deprecated Only kept for backward-compat with unmigrated DB docs */
-    whitelistedTransportModes: z.array(transportModeSchema).optional(),
 })
 
 const boardFontSizeSchema = z.enum(['small', 'medium', 'large'])
@@ -191,8 +163,6 @@ export const TileColumns: Record<TileColumnDB, string> = {
 } as const
 
 export type BoardTileDB = z.infer<typeof boardTileSchema>
-
-export type LineWithDirectionDB = z.infer<typeof lineWithDirectionSchema>
 
 export type StopPlaceFilterDB = z.infer<typeof stopPlaceFilterSchema>
 

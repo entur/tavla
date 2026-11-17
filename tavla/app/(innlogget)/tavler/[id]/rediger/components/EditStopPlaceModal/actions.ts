@@ -29,26 +29,13 @@ export type EditStopPlaceModalFormState =
 
 export async function saveTile(
     bid: BoardDB['id'],
-    inputTile: BoardTileDB,
+    tile: BoardTileDB,
 ): Promise<EditStopPlaceModalFormState> {
     logToGcp('info', 'action invoked: saveTile', {
         type: 'server-action',
         action: 'saveTile',
         bid,
     })
-
-    // Tar ut alle de deprekerte feltene slik at de ikke lagres videre i Firestore dersom de fortsatt skulle finnes
-    // Kan fjernes etter at disse er migrert bort
-    const {
-        quays,
-        linesWithDirection,
-        placeId,
-        type,
-        whitelistedLines,
-        whitelistedTransportModes,
-        ...rest
-    } = inputTile
-    const tile = rest
 
     const access = await userCanEditBoard(bid)
     if (!access) return redirect('/')
