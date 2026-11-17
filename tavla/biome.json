@@ -13,6 +13,7 @@
             "!test-results",
             "!src/types/graphql/*",
             "!src/types/graphql-schema.ts",
+            "!src/types/operations.ts",
             "!src/graphql/index.ts",
             "!migrations/*",
             "!python-venv",
