@@ -32,7 +32,6 @@ const locationSchema = z.object({
 
 const boardWalkingDistanceSchema = z.object({
     distance: z.number().optional(),
-    visible: z.boolean().optional(),
 })
 
 const boardDrivingDistanceSchema = z.object({
