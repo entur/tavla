@@ -5,7 +5,8 @@ import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
-import type { QuayWithFrontText } from '../utils/types'
+import type { TQuay } from 'src/types/graphql-schema'
+import { useQuaysWithFrontTexts } from '../utils/useQuaysWithFrontTexts'
 import { TileContext } from './context'
 import { EditStopPlaceForm } from './EditStopPlaceForm'
 
@@ -21,10 +22,16 @@ function EditStopPlaceModal({
     setIsOpen: (isOpen: boolean) => void
     board: BoardDB
     tile: BoardTileDB
-    quays: QuayWithFrontText[] | null
+    quays: TQuay[] | null
     trackingLocation: EventProps<'stop_place_edit_cancelled'>['location']
 }) {
     const { capture } = usePosthogTracking()
+
+    const quaysWithFrontTexts = useQuaysWithFrontTexts(
+        quays,
+        !!board.isArrivals,
+        isOpen,
+    )
 
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [changedFields, setChangedFields] = useState<Set<string>>(new Set())
@@ -64,7 +71,7 @@ function EditStopPlaceModal({
     }
 
     const quaysWithFilteredLines =
-        quays?.filter((q) => q.lines.length > 0) ?? []
+        quaysWithFrontTexts?.filter((q) => q.lines.length > 0) ?? []
 
     return (
         <Modal

@@ -1,4 +1,4 @@
-import type { LineWithFrontText } from 'app/_components/TileCard/types'
+import type { LineFragment } from 'app/_components/TileCard/types'
 import { transportModeNames } from 'app/_components/TileCard/utils'
 import { uniqBy } from 'lodash'
 import type { TTransportMode, TTransportSubmode } from 'types/graphql-schema'
@@ -83,7 +83,7 @@ export function sortByTransportMode<
     return submodeA < submodeB ? -1 : submodeA > submodeB ? 1 : 0
 }
 
-export const getTransportModesFromLines = (lines: LineWithFrontText[]) =>
+export const getTransportModesFromLines = (lines: LineFragment[]) =>
     uniqBy(
         lines
             .filter((line) => line.transportMode)

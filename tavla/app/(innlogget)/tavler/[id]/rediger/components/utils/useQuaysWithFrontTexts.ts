@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'src/assets/env'
-import { QuayEstimatedCallsQuery, StopPlaceEditQuery } from 'src/graphql'
-import type { BoardTileDB } from 'src/types/db-types/boards'
+import { QuayEstimatedCallsQuery } from 'src/graphql'
 import type { TQuay } from 'src/types/graphql-schema'
 import type { LineWithFrontText, QuayWithFrontText } from './types'
 
@@ -63,54 +62,43 @@ function addFrontTextToQuay(
         .filter((line) => line !== null)
 }
 
-function useLines(
-    tile: BoardTileDB,
+function useQuaysWithFrontTexts(
+    quays: TQuay[] | null,
     isArrival: boolean,
+    enabled: boolean,
 ): QuayWithFrontText[] | null {
-    const [quays, setQuays] = useState<QuayWithFrontText[] | null>(null)
+    const [quaysWithFrontTexts, setQuaysWithFrontTexts] = useState<
+        QuayWithFrontText[] | null
+    >(null)
 
     useEffect(() => {
+        if (!enabled || !quays) return
+
         async function fetchData() {
-            await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'ET-Client-Name': CLIENT_NAME,
-                },
-                body: JSON.stringify({
-                    query: StopPlaceEditQuery,
-                    variables: { placeId: tile.stopPlaceId },
+            if (!quays) return
+            const result = await Promise.all(
+                quays.map(async (quay) => {
+                    const frontTexts = await getFrontTextsForQuay(
+                        quay.id,
+                        isArrival,
+                    )
+
+                    const lines = addFrontTextToQuay(quay, frontTexts)
+
+                    return {
+                        ...quay,
+                        lines,
+                    }
                 }),
-                method: 'POST',
-            }).then(async (res) => {
-                const json = await res.json()
-                const quays: TQuay[] = json.data?.stopPlace?.quays ?? []
+            )
 
-                const quaysWithFrontTexts = await Promise.all(
-                    quays.map(async (quay) => {
-                        const frontTexts = await getFrontTextsForQuay(
-                            quay.id,
-                            isArrival,
-                        )
-
-                        const lines = addFrontTextToQuay(quay, frontTexts)
-
-                        return {
-                            ...quay,
-                            lines,
-                        }
-                    }),
-                )
-
-                setQuays(quaysWithFrontTexts)
-            })
+            setQuaysWithFrontTexts(result)
         }
 
-        fetchData().catch(() => setQuays([]))
+        fetchData().catch(() => setQuaysWithFrontTexts([]))
+    }, [quays, isArrival, enabled])
 
-        return
-    }, [tile.stopPlaceId, isArrival])
-
-    return quays
+    return quaysWithFrontTexts
 }
 
-export { useLines }
+export { useQuaysWithFrontTexts }

@@ -17,7 +17,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { EditStopPlaceModal } from '../EditStopPlaceModal/EditStopPlaceModal'
-import { useLines } from '../utils/useLines'
+import { useStopPlaceLines } from '../utils/useStopPlaceLines'
 import { DeleteTileButton } from './DeleteTileButton'
 import { DragHandle } from './DragHandle'
 
@@ -38,7 +38,7 @@ export function StopPlaceTile({
     const [deleteError, setDeleteError] = useState<string | undefined>()
     const { capture } = usePosthogTracking()
 
-    const quays = useLines(tile, !!board.isArrivals)
+    const quays = useStopPlaceLines(tile.stopPlaceId)
 
     const transportModes = getTransportModesFromLines(
         (quays ?? []).flatMap(({ lines }) => lines),
@@ -78,7 +78,7 @@ export function StopPlaceTile({
                         ))}
                     </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 ml-2">
                     <SecondaryButton
                         size="small"
                         onClick={() => handleSetIsEditOpen(true)}
