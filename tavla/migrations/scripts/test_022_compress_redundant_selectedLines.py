@@ -28,20 +28,15 @@ _spec.loader.exec_module(migration)
 
 selected_lines_is_all = migration.selected_lines_is_all
 compress_quays_filter = migration.compress_quays_filter
-compress_stop_place_filter = migration.compress_stop_place_filter
 compress_tile = migration.compress_tile
 transform_tiles = migration.transform_tiles
 tile_is_eligible = migration.tile_is_eligible
 quays_filter_quay_entries = migration.quays_filter_quay_entries
-stop_place_filter_is_eligible = migration.stop_place_filter_is_eligible
 
 
 def empty_cache():
     return {
         "quay_lines_all": {},
-        "quay_lines_30d": {},
-        "stopplace_lines_all": {},
-        "stopplace_lines_30d": {},
     }
 
 
@@ -54,6 +49,7 @@ def quays_filter_tile(uuid="t1", quays=None):
 
 
 def stop_place_filter_tile(uuid="t1", stop_place_id="NSR:StopPlace:1", selected_lines=None):
+    """Kun brukt til å bevise at stopPlaceFilter-tiles aldri røres (ingen bug der)."""
     return {
         "uuid": uuid,
         "stopPlaceId": stop_place_id,
@@ -70,11 +66,6 @@ class SelectedLinesIsAll(unittest.TestCase):
         cache = empty_cache()
         cache["quay_lines_all"]["Q1"] = {"L1", "L2"}
         self.assertTrue(selected_lines_is_all(["L1", "L2"], "Q1", cache))
-
-    def test_matches_quay_lines_30d(self):
-        cache = empty_cache()
-        cache["quay_lines_30d"]["Q1"] = {"L1"}
-        self.assertTrue(selected_lines_is_all(["L1"], "Q1", cache))
 
     def test_no_match_partial_selection(self):
         cache = empty_cache()
@@ -97,11 +88,6 @@ class SelectedLinesIsAll(unittest.TestCase):
         cache["quay_lines_all"]["Q1"] = set()
         self.assertFalse(selected_lines_is_all([], "Q1", cache))
 
-    def test_stopplace_lookup(self):
-        cache = empty_cache()
-        cache["stopplace_lines_all"]["NSR:StopPlace:1"] = {"L1", "L2"}
-        self.assertTrue(selected_lines_is_all(["L1", "L2"], "NSR:StopPlace:1", cache))
-
 
 class CompressQuaysFilter(unittest.TestCase):
     def test_compresses_matching_quay(self):
@@ -110,8 +96,33 @@ class CompressQuaysFilter(unittest.TestCase):
         filt = {"type": "quaysFilter", "quays": [{"id": "Q1", "selectedLines": ["L1", "L2"]}]}
         new_filter, changed, logs = compress_quays_filter(filt, cache)
         self.assertTrue(changed)
-        self.assertEqual(new_filter["quays"], [])  # eneste quay ble tom -> hele arrayet komprimeres
+        self.assertEqual(new_filter["quays"], [{"id": "Q1", "selectedLines": []}])
         self.assertTrue(logs)
+
+    def test_never_collapses_whole_quays_array(self):
+        """Regresjonstest: selv når ALLE quayer i filteret komprimeres til tomme,
+        skal quays-arrayet aldri bli [] — kun frontend sin egen compressQuaysFilter
+        (som sjekker mot stoppestedets fulle quay-liste) eier den avgjørelsen.
+        Et board som bevisst kun lister Q1 (ekskluderer Q2/Q3 med vilje) ville
+        ellers fått expandQuaysFilter til å tolke [] som "ingen filter" og vist
+        ALLE quayer på stoppestedet — en utvidelse, ikke en innskrenkning."""
+        cache = empty_cache()
+        cache["quay_lines_all"]["Q1"] = {"L1"}
+        cache["quay_lines_all"]["Q2"] = {"L2"}
+        filt = {
+            "type": "quaysFilter",
+            "quays": [
+                {"id": "Q1", "selectedLines": ["L1"]},
+                {"id": "Q2", "selectedLines": ["L2"]},
+            ],
+        }
+        new_filter, changed, logs = compress_quays_filter(filt, cache)
+        self.assertTrue(changed)
+        self.assertEqual(
+            new_filter["quays"],
+            [{"id": "Q1", "selectedLines": []}, {"id": "Q2", "selectedLines": []}],
+        )
+        self.assertNotEqual(new_filter["quays"], [])
 
     def test_leaves_partial_filter_untouched(self):
         cache = empty_cache()
@@ -139,8 +150,8 @@ class CompressQuaysFilter(unittest.TestCase):
         self.assertEqual(new_filter["quays"][0], {"id": "Q1", "selectedLines": []})
         self.assertEqual(new_filter["quays"][1], {"id": "Q2", "selectedLines": ["L3"]})
 
-    def test_unverified_quay_blocks_whole_array_collapse(self):
-        """Én quay matcher og komprimeres, men en annen er ukjent i GTFS -> ikke kollaps av hele arrayet."""
+    def test_unverified_quay_left_untouched(self):
+        """Én quay matcher og komprimeres, en annen er ukjent i GTFS og forblir urørt."""
         cache = empty_cache()
         cache["quay_lines_all"]["Q1"] = {"L1"}
         filt = {
@@ -163,31 +174,6 @@ class CompressQuaysFilter(unittest.TestCase):
         self.assertEqual(new_filter, filt)
 
 
-class CompressStopPlaceFilter(unittest.TestCase):
-    def test_compresses_selected_lines_only(self):
-        cache = empty_cache()
-        cache["stopplace_lines_30d"]["SP1"] = {"L1", "L2"}
-        filt = {"type": "stopPlaceFilter", "selectedTransportModes": ["bus"], "selectedLines": ["L1", "L2"]}
-        new_filter, changed, logs = compress_stop_place_filter(filt, "SP1", cache)
-        self.assertTrue(changed)
-        self.assertEqual(new_filter["selectedLines"], [])
-        self.assertEqual(new_filter["selectedTransportModes"], ["bus"], "selectedTransportModes skal aldri røres")
-
-    def test_leaves_partial_filter_untouched(self):
-        cache = empty_cache()
-        cache["stopplace_lines_all"]["SP1"] = {"L1", "L2", "L3"}
-        filt = {"type": "stopPlaceFilter", "selectedTransportModes": [], "selectedLines": ["L1"]}
-        new_filter, changed, logs = compress_stop_place_filter(filt, "SP1", cache)
-        self.assertFalse(changed)
-        self.assertEqual(new_filter, filt)
-
-    def test_empty_selected_lines_no_change(self):
-        cache = empty_cache()
-        filt = {"type": "stopPlaceFilter", "selectedTransportModes": [], "selectedLines": []}
-        new_filter, changed, logs = compress_stop_place_filter(filt, "SP1", cache)
-        self.assertFalse(changed)
-
-
 class CompressTile(unittest.TestCase):
     def test_dispatches_quays_filter(self):
         cache = empty_cache()
@@ -195,15 +181,18 @@ class CompressTile(unittest.TestCase):
         tile = quays_filter_tile(quays=[{"id": "Q1", "selectedLines": ["L1"]}])
         new_tile, changed, logs = compress_tile(tile, cache)
         self.assertTrue(changed)
-        self.assertEqual(new_tile["filter"]["quays"], [])
+        self.assertEqual(new_tile["filter"]["quays"], [{"id": "Q1", "selectedLines": []}])
 
-    def test_dispatches_stop_place_filter(self):
+    def test_stop_place_filter_never_touched(self):
+        """Ingen bug-vei inn i stopPlaceFilter (se modulens docstring) -> compress_tile er et rent no-op,
+        selv når selectedLines ville matchet GTFS-fasiten for en quaysFilter-quay med samme id."""
         cache = empty_cache()
-        cache["stopplace_lines_all"]["NSR:StopPlace:1"] = {"L1"}
+        cache["quay_lines_all"]["NSR:StopPlace:1"] = {"L1"}
         tile = stop_place_filter_tile(selected_lines=["L1"])
         new_tile, changed, logs = compress_tile(tile, cache)
-        self.assertTrue(changed)
-        self.assertEqual(new_tile["filter"]["selectedLines"], [])
+        self.assertFalse(changed)
+        self.assertEqual(new_tile, tile)
+        self.assertEqual(logs, [])
 
     def test_no_filter_no_change(self):
         cache = empty_cache()
@@ -224,15 +213,10 @@ class Eligibility(unittest.TestCase):
         self.assertEqual(len(quays_filter_quay_entries(tile)), 1)
         self.assertTrue(tile_is_eligible(tile))
 
-    def test_stop_place_filter_requires_non_empty_selected_lines(self):
-        tile = stop_place_filter_tile(selected_lines=[])
-        self.assertFalse(stop_place_filter_is_eligible(tile))
-        self.assertFalse(tile_is_eligible(tile))
-
-    def test_stop_place_filter_eligible_with_selected_lines(self):
+    def test_stop_place_filter_never_eligible(self):
+        """Avgrensning: stopPlaceFilter er aldri kandidat, uansett selectedLines (ingen bug der)."""
         tile = stop_place_filter_tile(selected_lines=["L1"])
-        self.assertTrue(stop_place_filter_is_eligible(tile))
-        self.assertTrue(tile_is_eligible(tile))
+        self.assertFalse(tile_is_eligible(tile))
 
 
 class TransformTiles(unittest.TestCase):
@@ -243,18 +227,17 @@ class TransformTiles(unittest.TestCase):
         transform_tiles(tiles, cache)
         self.assertEqual(tiles[0]["filter"]["quays"][0]["selectedLines"], ["L1"])
 
-    def test_counts_across_multiple_tiles(self):
+    def test_counts_across_multiple_tiles_and_skips_stop_place_filter(self):
         cache = empty_cache()
         cache["quay_lines_all"]["Q1"] = {"L1"}
-        cache["stopplace_lines_all"]["SP2"] = {"L2"}
         tiles = [
             quays_filter_tile("t1", quays=[{"id": "Q1", "selectedLines": ["L1"]}]),
-            stop_place_filter_tile("t2", stop_place_id="SP2", selected_lines=["L2"]),
+            stop_place_filter_tile("t2", selected_lines=["L1"]),
         ]
         new_tiles, tiles_changed, log_lines = transform_tiles(tiles, cache)
-        self.assertEqual(tiles_changed, 2)
-        self.assertEqual(new_tiles[0]["filter"]["quays"], [])
-        self.assertEqual(new_tiles[1]["filter"]["selectedLines"], [])
+        self.assertEqual(tiles_changed, 1)
+        self.assertEqual(new_tiles[0]["filter"]["quays"], [{"id": "Q1", "selectedLines": []}])
+        self.assertEqual(new_tiles[1], tiles[1])  # stopPlaceFilter-tile urørt
 
     def test_idempotent(self):
         """Andre kjøring skal ikke endre noe — komprimerte tiles er ikke lenger kvalifiserte."""

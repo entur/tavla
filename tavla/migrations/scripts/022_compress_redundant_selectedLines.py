@@ -1,55 +1,43 @@
 """
-Purpose: Komprimer tile.filter.selectedLines til [] der den uheldet representerer
-«alle linjer» — reparerer en bug som levde videre fra det gamle tile.quays-feltet.
+Purpose: Komprimer tile.filter.quaysFilter.quays[].selectedLines til [] der
+den feilaktig representerer «alle linjer» — reparerer en bug arvet fra det
+gamle tile.quays-feltet.
 
 Description:
-    tile.quays (fjernet, se migrering 021) hadde en kjent bug: når en bruker valgte
-    *alle* linjer på en plattform, skulle det komprimeres til et tomt array
-    ([] = «ingen filter, vis alt»), men en string/number-sammenligningsfeil i
-    TileCard/utils.ts gjorde at kompresjonen aldri slo inn (fikset i commit
-    1a00e084). Resultatet ble lagret som et fullt, eksplisitt linje-array i stedet
-    for []. Migrering 021 kopierte denne uferdige dataen rett inn i det nå aktive
-    filter-feltet (quaysFilter.quays[].selectedLines / stopPlaceFilter.selectedLines)
-    uten å vite om arrayet opprinnelig betydde «alt».
-
-    En egen analyse (BigQuery mot ent-tavla-prd + sammenligning mot Entur sitt
-    JourneyPlanner-API) fant at ca. 42 % av tiles med ikke-tom selectedLines i dag
-    faktisk er slike bug-tilfeller — resten er bevisste, delvise filtre. Se
-    rapporten: https://claude.ai/artifact/BQcXUnucHpgWxvxfb2qnCE
-
-    «Alle linjer» for en quay avgjøres mot to uavhengige fasiter, begge hentet fra
-    en lokal GTFS-dump (Entur sin nasjonale "rb_norway-aggregated-gtfs") i stedet
-    for live API-kall — validert til 94 % (alle linjer) / 89 % (30-dagers avganger)
-    eksakt match mot live-API på et tilfeldig utvalg på 100 quays, og langt raskere
-    (hele sammenligningen tar <100 ms mot DuckDB, versus ett nettverkskall per quay):
-
-      A) quay.lines-ekvivalent: alle linjer som noensinne har en stop_times-rad på
-         quayen (stop_times → trips → routes), uavhengig av om de kjører nå.
-      B) 30-dagers-avganger-ekvivalent: linjer med minst én tur hvis service er
-         gyldig i [i dag, i dag+30] (calendar + calendar_dates), og der man faktisk
-         kan gå PÅ her (pickup_type != 1 — ekskluderer avstigning-only-stopp, som
-         ellers fikk GTFS til å systematisk overtelle mot live-API sin
-         arrivalDeparture: departures-semantikk).
-
-    selectedLines komprimeres til [] KUN når den — som mengde, ikke bare antall —
-    er identisk med A ELLER B. Alt annet røres ikke: dette er en STRENGT
-    INNSKRENKENDE migrering i én retning (komprimerer aldri til noe annet enn [],
-    utvider aldri et filter, legger aldri til linjer). selectedTransportModes
-    (stopPlaceFilter) røres aldri, uansett — kun selectedLines.
-
-    En quay/stoppested uten treff i GTFS-dumpen (eksisterer ikke i stops.txt, f.eks.
-    nedlagt eller nylig omstrukturert) kan ikke verifiseres, og tiles som bruker den
-    hoppes derfor over — samme prinsipp som 019 sin "hopp over fremfor å gjette".
-
-    API-kall (her: GTFS-oppslag) gjøres i en prefetch-fase UTENFOR transaksjonene,
-    som i 019 — transaksjonscallbacken er fri for side-effekter.
+1. tile.quays (fjernet i migrering 021) hadde en bug: å velge *alle* linjer på
+   en plattform skulle komprimeres til [] («ingen filter, vis alt»), men en
+   string/number-sammenligningsfeil i TileCard/utils.ts (fikset i commit
+   1a00e084) gjorde at kompresjonen aldri slo inn. Det fulle, eksplisitte
+   linje-arrayet ble lagret i stedet. Migrering 021 kopierte denne uferdige
+   dataen rett inn i quaysFilter.quays[].selectedLines.
+2. Kun quaysFilter er berørt. stopPlaceFilter.selectedLines kan ikke ha arvet
+   bugen: migrering 021 satte den alltid til et hardkodet tomt array for
+   tiles uten et gammelt quays-array, og dagens StopPlaceFilterView-UI
+   komprimerer korrekt ved lagring. Denne migreringen rører derfor aldri
+   stopPlaceFilter.
+3. «Alle linjer» for en quay avgjøres mot én fasit: alle linjer som
+   noensinne har hatt en stop_times-rad på quayen, hentet fra en lokal
+   GTFS-dump (Entur sin "rb_norway-aggregated-gtfs"), validert til 94 %
+   eksakt match mot live-API-ets quay.lines på et utvalg på 100 quays. Dette
+   dekker ikke linjer valgt ut fra et snevrere, avgangsbasert syn på "alle" —
+   se https://claude.ai/artifact/BQcXUnucHpgWxvxfb2qnCE for analysen bak
+   42 %-anslaget denne migreringen bygger på.
+4. selectedLines komprimeres til [] kun når den er identisk (som mengde) med
+   denne fasiten. Alt annet røres ikke: migreringen er strengt innskrenkende —
+   den komprimerer aldri til noe annet enn [], legger aldri til linjer, og
+   kollapser aldri selve quays-arrayet (se compress_quays_filter for hvorfor).
+5. En quay uten stop_times-rader i GTFS-dumpen kan ikke verifiseres, og
+   tiles som bruker den hoppes derfor over fremfor å gjette (samme prinsipp
+   som 019).
+6. GTFS-oppslag gjøres i en prefetch-fase utenfor Firestore-transaksjonene
+   (også som i 019), slik at transaksjonscallbacken er fri for side-effekter.
 
 Forutsetning:
     En lokal DuckDB-fil bygget fra Entur sin nasjonale GTFS-eksport
-    ("rb_norway-aggregated-gtfs"), med tabellene stops, routes, trips, stop_times,
-    calendar, calendar_dates importert (se --gtfs-db under). Denne følger IKKE med
-    repoet — den må lastes ned og bygges separat, og er et øyeblikksbilde som bør
-    fornyes før en skarp kjøring i prod.
+    ("rb_norway-aggregated-gtfs"), med tabellene stop_times, trips og routes
+    importert (se --gtfs-db under). Følger ikke med repoet — må lastes ned og
+    bygges separat, og er et øyeblikksbilde som bør fornyes før en skarp
+    kjøring i prod.
 
 Usage:
     # Tørrkjøring (default — skriver ingenting, kun rapport):
@@ -68,7 +56,6 @@ Author: Magnus
 import copy
 import sys
 import time
-from datetime import datetime, timezone
 
 import duckdb
 import init
@@ -76,12 +63,6 @@ from google.cloud import firestore
 
 COLLECTION = "boards"
 LOG_FILENAME = "migration_022_log.txt"
-WINDOW_DAYS = 30
-
-# Skille mellom "ikke slått opp ennå" og "slått opp, fantes ikke i GTFS" —
-# sistnevnte betyr quayen/stoppestedet ikke finnes i GTFS-dumpen, og tiles som
-# bruker den hoppes over fordi vi ikke kan verifisere "alle linjer" for den.
-NOT_FOUND = object()
 
 
 # ---------------------------------------------------------------------------
@@ -99,14 +80,8 @@ def quays_filter_quay_entries(tile: dict):
     ]
 
 
-def stop_place_filter_is_eligible(tile: dict) -> bool:
-    """stopPlaceFilter-tile med ikke-tom selectedLines på toppnivå."""
-    filt = tile.get("filter") or {}
-    return filt.get("type") == "stopPlaceFilter" and bool(filt.get("selectedLines"))
-
-
 def tile_is_eligible(tile: dict) -> bool:
-    return bool(quays_filter_quay_entries(tile)) or stop_place_filter_is_eligible(tile)
+    return bool(quays_filter_quay_entries(tile))
 
 
 def scan_and_collect(db: firestore.Client, limit: int | None) -> tuple:
@@ -116,10 +91,8 @@ def scan_and_collect(db: firestore.Client, limit: int | None) -> tuple:
         "eligible_boards": 0,
         "eligible_tiles": 0,
         "eligible_quay_rows": 0,
-        "eligible_stopplace_rows": 0,
     }
     needed_quay_ids = set()
-    needed_stop_place_ids = set()
 
     for doc_snap in stream_documents_in_batches(db.collection(COLLECTION), batch_size=500, limit=limit):
         stats["total_boards"] += 1
@@ -137,133 +110,43 @@ def scan_and_collect(db: firestore.Client, limit: int | None) -> tuple:
                 for quay in quay_entries:
                     needed_quay_ids.add(quay["id"])
 
-            if stop_place_filter_is_eligible(tile):
-                board_has_work = True
-                stats["eligible_tiles"] += 1
-                stats["eligible_stopplace_rows"] += 1
-                stop_place_id = tile.get("stopPlaceId")
-                if stop_place_id:
-                    needed_stop_place_ids.add(stop_place_id)
-
         if board_has_work:
             stats["eligible_boards"] += 1
 
-    return stats, needed_quay_ids, needed_stop_place_ids
+    return stats, needed_quay_ids
 
 
-def print_scan_summary(stats: dict, needed_quay_ids: set, needed_stop_place_ids: set):
+def print_scan_summary(stats: dict, needed_quay_ids: set):
     print("\n📊 Status før migrering:")
     print(f"   Boards skannet              : {stats['total_boards']}")
     print(f"   Boards med kandidater       : {stats['eligible_boards']}")
     print(f"   Tiles totalt                : {stats['total_tiles']}")
     print(f"   Tiles med kandidater        : {stats['eligible_tiles']}")
     print(f"   — quaysFilter-quayrader     : {stats['eligible_quay_rows']}")
-    print(f"   — stopPlaceFilter-tiles     : {stats['eligible_stopplace_rows']}")
     print(f"   Unike quays å slå opp       : {len(needed_quay_ids)}")
-    print(f"   Unike stoppesteder å slå opp: {len(needed_stop_place_ids)}")
 
 
 # ---------------------------------------------------------------------------
-# Fase B: prefetch linjesett per quay/stoppested fra lokal GTFS — UTENFOR transaksjon
+# Fase B: prefetch linjesett per quay fra lokal GTFS — UTENFOR transaksjon
 # ---------------------------------------------------------------------------
-def build_gtfs_cache(gtfs_db_path: str, needed_quay_ids: set, needed_stop_place_ids: set) -> dict:
+def build_gtfs_cache(gtfs_db_path: str, needed_quay_ids: set) -> dict:
     """
-    Returnerer:
-      {
-        "quay_lines_all": {quay_id: set(route_id)},   # A — alle linjer noensinne
-        "quay_lines_30d": {quay_id: set(route_id)},   # B — linjer med avgang neste 30 dager
-        "stopplace_lines_all": {stop_place_id: set(route_id)},
-        "stopplace_lines_30d": {stop_place_id: set(route_id)},
-      }
-    En quay/stoppested uten data i GTFS er rett og slett fraværende fra dict-ene —
-    behandles som «ukjent, hopp over» av transform-funksjonene.
+    Returnerer {"quay_lines_all": {quay_id: set(route_id)}} — alle linjer som
+    noensinne har stoppet ved hver quay. En quay uten data i GTFS er
+    fraværende fra dict-en, behandlet som «ukjent, hopp over».
     """
     con = duckdb.connect(gtfs_db_path, read_only=True)
 
-    # Finn quayene som hører til de etterspurte stoppestedene, og slå dem sammen
-    # med quayene vi allerede trenger direkte — én samlet GTFS-spørring holder.
-    stop_place_to_quays: dict = {}
-    if needed_stop_place_ids:
-        placeholders = ",".join("?" for _ in needed_stop_place_ids)
-        rows = con.execute(
-            f"""
-            SELECT parent_station, stop_id
-            FROM stops
-            WHERE parent_station IN ({placeholders})
-              AND stop_id LIKE 'NSR:Quay:%'
-            """,
-            list(needed_stop_place_ids),
-        ).fetchall()
-        for parent_station, quay_id in rows:
-            stop_place_to_quays.setdefault(parent_station, set()).add(quay_id)
-
-    all_quay_ids = set(needed_quay_ids)
-    for quays in stop_place_to_quays.values():
-        all_quay_ids |= quays
-
     quay_lines_all: dict = {}
-    quay_lines_30d: dict = {}
 
-    if all_quay_ids:
-        placeholders = ",".join("?" for _ in all_quay_ids)
-        params = list(all_quay_ids)
-
-        con.execute(f"CREATE OR REPLACE TEMP TABLE needed_quays AS SELECT * FROM (VALUES {','.join('(?)' for _ in all_quay_ids)}) AS t(quay_id)", params)
+    if needed_quay_ids:
+        params = list(needed_quay_ids)
 
         con.execute(
-            f"""
-            CREATE OR REPLACE TEMP TABLE window_dates AS
-            SELECT
-              d::DATE AS date_val,
-              CAST(strftime(d::DATE, '%Y%m%d') AS BIGINT) AS yyyymmdd,
-              CASE EXTRACT(isodow FROM d::DATE)
-                WHEN 1 THEN 'monday' WHEN 2 THEN 'tuesday' WHEN 3 THEN 'wednesday'
-                WHEN 4 THEN 'thursday' WHEN 5 THEN 'friday' WHEN 6 THEN 'saturday' WHEN 7 THEN 'sunday'
-              END AS weekday_col
-            FROM generate_series(CURRENT_DATE, CURRENT_DATE + INTERVAL {WINDOW_DAYS} DAY, INTERVAL 1 DAY) AS t(d)
-            """
+            f"CREATE OR REPLACE TEMP TABLE needed_quays AS SELECT * FROM "
+            f"(VALUES {','.join('(?)' for _ in needed_quay_ids)}) AS t(quay_id)",
+            params,
         )
-
-        con.execute(
-            """
-            CREATE OR REPLACE TEMP TABLE calendar_long AS
-            SELECT service_id, 'monday' AS weekday, monday AS active, start_date, end_date FROM calendar
-            UNION ALL SELECT service_id, 'tuesday', tuesday, start_date, end_date FROM calendar
-            UNION ALL SELECT service_id, 'wednesday', wednesday, start_date, end_date FROM calendar
-            UNION ALL SELECT service_id, 'thursday', thursday, start_date, end_date FROM calendar
-            UNION ALL SELECT service_id, 'friday', friday, start_date, end_date FROM calendar
-            UNION ALL SELECT service_id, 'saturday', saturday, start_date, end_date FROM calendar
-            UNION ALL SELECT service_id, 'sunday', sunday, start_date, end_date FROM calendar
-            """
-        )
-
-        con.execute(
-            """
-            CREATE OR REPLACE TEMP TABLE calendar_pattern_valid AS
-            SELECT cl.service_id, wd.yyyymmdd
-            FROM calendar_long cl
-            JOIN window_dates wd ON wd.weekday_col = cl.weekday
-            WHERE cl.active = 1
-              AND wd.yyyymmdd BETWEEN cl.start_date AND cl.end_date
-            """
-        )
-
-        con.execute(
-            """
-            CREATE OR REPLACE TEMP TABLE service_window_valid AS
-            SELECT service_id, yyyymmdd FROM calendar_pattern_valid
-            EXCEPT
-            SELECT cd.service_id, cd.date
-            FROM calendar_dates cd JOIN window_dates wd ON wd.yyyymmdd = cd.date
-            WHERE cd.exception_type = 2
-            UNION
-            SELECT cd.service_id, cd.date
-            FROM calendar_dates cd JOIN window_dates wd ON wd.yyyymmdd = cd.date
-            WHERE cd.exception_type = 1
-            """
-        )
-
-        con.execute("CREATE OR REPLACE TEMP TABLE valid_services AS SELECT DISTINCT service_id FROM service_window_valid")
 
         a_rows = con.execute(
             """
@@ -277,77 +160,40 @@ def build_gtfs_cache(gtfs_db_path: str, needed_quay_ids: set, needed_stop_place_
         for quay_id, route_id in a_rows:
             quay_lines_all.setdefault(quay_id, set()).add(route_id)
 
-        b_rows = con.execute(
-            """
-            SELECT DISTINCT nq.quay_id, r.route_id
-            FROM needed_quays nq
-            JOIN stop_times st ON st.stop_id = nq.quay_id
-            JOIN trips t ON st.trip_id = t.trip_id
-            JOIN routes r ON t.route_id = r.route_id
-            WHERE t.service_id IN (SELECT service_id FROM valid_services)
-              AND (st.pickup_type IS NULL OR st.pickup_type != 1)
-            """
-        ).fetchall()
-        for quay_id, route_id in b_rows:
-            quay_lines_30d.setdefault(quay_id, set()).add(route_id)
-
     con.close()
 
-    stopplace_lines_all: dict = {}
-    stopplace_lines_30d: dict = {}
-    for stop_place_id, quay_ids in stop_place_to_quays.items():
-        union_all = set()
-        union_30d = set()
-        for quay_id in quay_ids:
-            union_all |= quay_lines_all.get(quay_id, set())
-            union_30d |= quay_lines_30d.get(quay_id, set())
-        if union_all:
-            stopplace_lines_all[stop_place_id] = union_all
-        if union_30d:
-            stopplace_lines_30d[stop_place_id] = union_30d
-
-    return {
-        "quay_lines_all": quay_lines_all,
-        "quay_lines_30d": quay_lines_30d,
-        "stopplace_lines_all": stopplace_lines_all,
-        "stopplace_lines_30d": stopplace_lines_30d,
-    }
+    return {"quay_lines_all": quay_lines_all}
 
 
 # ---------------------------------------------------------------------------
 # Fase C: transform (ren, uten I/O) + transaksjonell skriv
 # ---------------------------------------------------------------------------
-def selected_lines_is_all(selected_lines: list, key: str, cache: dict) -> bool:
-    """
-    True kun når selected_lines — som MENGDE, ikke bare antall — er identisk med
-    minst én av de to GTFS-fasitene for denne quayen/stoppestedet. Ukjent nøkkel
-    (ikke funnet i GTFS) gir alltid False — vi komprimerer aldri på en gjetning.
-    """
+def selected_lines_is_all(selected_lines: list, quay_id: str, cache: dict) -> bool:
+    """True kun når selected_lines er identisk med GTFS-fasiten for quayen.
+    Ukjent quay (ikke funnet i GTFS) gir alltid False."""
     if not selected_lines:
         return False
-    selected = set(selected_lines)
-    all_lines = cache["quay_lines_all"].get(key) or cache["stopplace_lines_all"].get(key)
-    if all_lines is not None and selected == all_lines:
-        return True
-    dep_30d = cache["quay_lines_30d"].get(key) or cache["stopplace_lines_30d"].get(key)
-    if dep_30d is not None and selected == dep_30d:
-        return True
-    return False
+    all_lines = cache["quay_lines_all"].get(quay_id)
+    if all_lines is None:
+        return False
+    return set(selected_lines) == all_lines
 
 
 def compress_quays_filter(filt: dict, cache: dict) -> tuple[dict, bool, list]:
     """
-    Komprimerer selectedLines til [] per quay der den matcher en av GTFS-fasitene,
-    og komprimerer i tillegg hele quays-arrayet til [] dersom ALLE quayer i filteret
-    endte opp tomme (speiler compressQuaysFilter i EditStopPlaceModal/utils.ts —
-    med ett unntak: en quay vi ikke kunne verifisere mot GTFS telles IKKE som tom,
-    så det samlede quays-arrayet komprimeres kun når vi positivt har bekreftet alt).
+    Komprimerer selectedLines til [] per quay som matcher GTFS-fasiten, uten
+    å røre quays-arrayets struktur eller lengde. Frontend sin
+    expandQuaysFilter (EditStopPlaceModal/utils.ts) tolker en tom quays-array
+    som «ingen filter konfigurert» og viser da alle quayer på stoppestedet,
+    ikke bare de som sto i filteret — å kollapse arrayet her kunne dermed
+    utvidet et bevisst smalt filter i stedet for å innskrenke det. Den
+    avgjørelsen eies av frontend sin egen compressQuaysFilter, som sjekker
+    mot stoppestedets fulle quay-liste.
     """
     quays = filt.get("quays") or []
     new_quays = []
     changed = False
     log_lines = []
-    all_verified_empty = True
 
     for quay in quays:
         quay_id = quay.get("id")
@@ -358,49 +204,21 @@ def compress_quays_filter(filt: dict, cache: dict) -> tuple[dict, bool, list]:
             log_lines.append(f"🧹 quay {quay_id}: komprimerte {len(selected)} linjer til []")
         else:
             new_quays.append(quay)
-            if selected:
-                all_verified_empty = False
 
     if not changed:
         return filt, False, []
 
-    if all_verified_empty:
-        new_filter = {"type": "quaysFilter", "quays": []}
-        log_lines.append("🧹 alle quayer verifisert tomme — komprimerte hele quays-arrayet til []")
-    else:
-        new_filter = {"type": "quaysFilter", "quays": new_quays}
-
+    new_filter = {"type": "quaysFilter", "quays": new_quays}
     return new_filter, True, log_lines
 
 
-def compress_stop_place_filter(filt: dict, stop_place_id: str, cache: dict) -> tuple[dict, bool, list]:
-    """
-    Komprimerer kun selectedLines — selectedTransportModes røres aldri, i
-    motsetning til compressStopPlaceFilter i appen, som også nullstiller den.
-    Denne migreringen skal utelukkende reparere selectedLines-bugen.
-    """
-    selected = filt.get("selectedLines") or []
-    if not selected or not stop_place_id:
-        return filt, False, []
-
-    if selected_lines_is_all(selected, stop_place_id, cache):
-        new_filter = {**filt, "selectedLines": []}
-        return new_filter, True, [f"🧹 stopPlace {stop_place_id}: komprimerte {len(selected)} linjer til []"]
-
-    return filt, False, []
-
-
 def compress_tile(tile: dict, cache: dict) -> tuple[dict, bool, list]:
+    """Rører kun quaysFilter-tiles — stopPlaceFilter har ingen bug å reparere (se docstring)."""
     filt = tile.get("filter") or {}
-    filter_type = filt.get("type")
-
-    if filter_type == "quaysFilter":
-        new_filter, changed, logs = compress_quays_filter(filt, cache)
-    elif filter_type == "stopPlaceFilter":
-        new_filter, changed, logs = compress_stop_place_filter(filt, tile.get("stopPlaceId"), cache)
-    else:
+    if filt.get("type") != "quaysFilter":
         return tile, False, []
 
+    new_filter, changed, logs = compress_quays_filter(filt, cache)
     if not changed:
         return tile, False, []
 
@@ -449,9 +267,6 @@ def compress_selected_lines_transactional(transaction, board_ref, cache: dict, w
     if tiles_changed == 0:
         return {"status": "unchanged", "log_lines": log_lines}
 
-    # Tørrkjøring (default) gjør alt arbeidet over, men lar være å skrive —
-    # 020/021 har ingen slik bryter, men denne migreringen har en ekstern
-    # GTFS-fasit som bør valideres før den faktisk skriver til Firestore.
     if write:
         transaction.update(board_ref, {"tiles": new_tiles})
 
@@ -588,20 +403,19 @@ def run():
     print(f"Tilkoblet prosjekt: {db.project} ({env})")
     print(f"Modus: {'SKRIVING' if write else 'TØRRKJØRING — ingenting skrives'}")
     print(f"GTFS-database: {gtfs_db}")
-    print(f"30-dagersvindu fra: {datetime.now(timezone.utc).date()}")
     if limit:
         print(f"Begrenset til {limit} boards")
 
     print("\n🔍 Scanner databasen...")
-    stats, needed_quay_ids, needed_stop_place_ids = scan_and_collect(db, limit)
-    print_scan_summary(stats, needed_quay_ids, needed_stop_place_ids)
+    stats, needed_quay_ids = scan_and_collect(db, limit)
+    print_scan_summary(stats, needed_quay_ids)
 
     if stats["eligible_tiles"] == 0:
         print("\nIngenting å komprimere.")
         return
 
-    print(f"\n🗃️  Slår opp {len(needed_quay_ids)} quays og {len(needed_stop_place_ids)} stoppesteder i GTFS...")
-    cache = build_gtfs_cache(gtfs_db, needed_quay_ids, needed_stop_place_ids)
+    print(f"\n🗃️  Slår opp {len(needed_quay_ids)} quays i GTFS...")
+    cache = build_gtfs_cache(gtfs_db, needed_quay_ids)
     not_found_quays = needed_quay_ids - set(cache["quay_lines_all"].keys())
     if not_found_quays:
         print(f"⚠️  {len(not_found_quays)} quays fantes ikke i GTFS — tiles som bruker dem hoppes over.")
