@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'src/assets/env'
 import { QuayEstimatedCallsQuery } from 'src/graphql'
-import type { TQuay } from 'src/types/graphql-schema'
+import { fetchQuery } from 'src/graphql/utils'
 import type { LineWithFrontText, QuayWithFrontText } from './types'
+import type { TQuay } from './useStopPlaceLines'
 
 async function getFrontTextsForQuay(
     quayId: string,
@@ -11,23 +11,11 @@ async function getFrontTextsForQuay(
     const linesToFrontTexts = new Map<string, string[]>()
 
     try {
-        const res = await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
-            headers: {
-                'Content-Type': 'application/json',
-                'ET-Client-Name': CLIENT_NAME,
-            },
-            body: JSON.stringify({
-                query: QuayEstimatedCallsQuery,
-                variables: {
-                    quayId: quayId,
-                    arrivalDeparture: isArrival ? 'arrivals' : 'departures',
-                },
-            }),
-            method: 'POST',
+        const response = await fetchQuery(QuayEstimatedCallsQuery, {
+            quayId,
+            arrivalDeparture: isArrival ? 'arrivals' : 'departures',
         })
-
-        const json = await res.json()
-        const estimatedCalls = json.data?.quay?.estimatedCalls ?? []
+        const estimatedCalls = response.quay?.estimatedCalls ?? []
 
         for (const departure of estimatedCalls) {
             const lineId = departure.serviceJourney?.line?.id

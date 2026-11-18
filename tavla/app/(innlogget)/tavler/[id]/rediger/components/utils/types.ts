@@ -1,5 +1,5 @@
-import type { TQuay } from 'src/types/graphql-schema'
 import type { TLinesFragment } from 'types/operations'
+import type { TQuay } from './useStopPlaceLines'
 
 type LineFragment = TLinesFragment['lines'][number]
 

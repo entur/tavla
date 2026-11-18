@@ -1,26 +1,25 @@
 import { useEffect, useState } from 'react'
-import { CLIENT_NAME, GRAPHQL_ENDPOINTS } from 'src/assets/env'
 import { StopPlaceEditQuery } from 'src/graphql'
-import type { TQuay } from 'src/types/graphql-schema'
+import { fetchQuery } from 'src/graphql/utils'
+import type { TStopPlaceEditQuery } from 'src/types/operations'
+
+type TStopPlaceEditResult = NonNullable<TStopPlaceEditQuery['stopPlace']>
+type TStopPlaceEditQuays = NonNullable<TStopPlaceEditResult['quays']>
+export type TQuay = NonNullable<TStopPlaceEditQuays[number]>
 
 function useStopPlaceLines(stopPlaceId: string): TQuay[] | null {
     const [quays, setQuays] = useState<TQuay[] | null>(null)
 
     useEffect(() => {
         async function fetchData() {
-            const res = await fetch(GRAPHQL_ENDPOINTS['journey-planner'], {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'ET-Client-Name': CLIENT_NAME,
-                },
-                body: JSON.stringify({
-                    query: StopPlaceEditQuery,
-                    variables: { placeId: stopPlaceId },
-                }),
-                method: 'POST',
+            const response = await fetchQuery(StopPlaceEditQuery, {
+                placeId: stopPlaceId,
             })
-            const json = await res.json()
-            setQuays(json.data?.stopPlace?.quays ?? [])
+            setQuays(
+                (response.stopPlace?.quays ?? []).filter(
+                    (quay): quay is TQuay => quay !== null,
+                ),
+            )
         }
 
         fetchData().catch(() => setQuays([]))
