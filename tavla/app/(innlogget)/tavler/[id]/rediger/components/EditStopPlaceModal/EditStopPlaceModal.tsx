@@ -86,7 +86,7 @@ function EditStopPlaceModal({
                     Rediger {tile.displayName ?? tile.name}
                 </Heading3>
 
-                {!quays ? (
+                {!quaysWithFrontTexts ? (
                     <div>Laster...</div>
                 ) : (
                     <EditStopPlaceForm
