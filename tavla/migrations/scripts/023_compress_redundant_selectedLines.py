@@ -41,13 +41,13 @@ Forutsetning:
 
 Usage:
     # Tørrkjøring (default — skriver ingenting, kun rapport):
-    ./migration run scripts/022_compress_redundant_selectedLines.py local --gtfs-db /path/to/rb_norway.duckdb
+    ./migration run scripts/023_compress_redundant_selectedLines.py local --gtfs-db /path/to/rb_norway.duckdb
 
     # Faktisk skriving:
-    ./migration run scripts/022_compress_redundant_selectedLines.py local --gtfs-db /path/to/rb_norway.duckdb --write
+    ./migration run scripts/023_compress_redundant_selectedLines.py local --gtfs-db /path/to/rb_norway.duckdb --write
 
     # Begrens til de N første boardene (rask test):
-    ./migration run scripts/022_compress_redundant_selectedLines.py local --gtfs-db /path/to/rb_norway.duckdb --limit 50
+    ./migration run scripts/023_compress_redundant_selectedLines.py local --gtfs-db /path/to/rb_norway.duckdb --limit 50
 
 Date: 2026-11-16
 Author: Magnus
@@ -61,8 +61,8 @@ import duckdb
 import init
 from google.cloud import firestore
 
-COLLECTION = "boards"
-LOG_FILENAME = "migration_022_log.txt"
+collection_name = "boards"
+LOG_FILENAME = "migration_023_log.txt"
 
 
 # ---------------------------------------------------------------------------
@@ -94,7 +94,7 @@ def scan_and_collect(db: firestore.Client, limit: int | None) -> tuple:
     }
     needed_quay_ids = set()
 
-    for doc_snap in stream_documents_in_batches(db.collection(COLLECTION), batch_size=500, limit=limit):
+    for doc_snap in stream_documents_in_batches(db.collection(collection_name), batch_size=500, limit=limit):
         stats["total_boards"] += 1
         data = doc_snap.to_dict() or {}
         tiles = data.get("tiles") or []
@@ -298,7 +298,7 @@ def stream_documents_in_batches(collection_ref, batch_size=500, limit=None):
 
 
 def update_documents(db: firestore.Client, cache: dict, write: bool, limit: int | None) -> dict:
-    collection_ref = db.collection(COLLECTION)
+    collection_ref = db.collection(collection_name)
 
     success_count = 0
     fail_count = 0
@@ -315,7 +315,7 @@ def update_documents(db: firestore.Client, cache: dict, write: bool, limit: int 
             log_file.write(f"\n-----> 🏁 Checking document: {doc_id}\n")
 
             try:
-                board_ref = db.collection(COLLECTION).document(doc_id)
+                board_ref = db.collection(collection_name).document(doc_id)
                 transaction = db.transaction()
                 result = compress_selected_lines_transactional(transaction, board_ref, cache, write)
                 status = result["status"]
@@ -332,13 +332,15 @@ def update_documents(db: firestore.Client, cache: dict, write: bool, limit: int 
                 else:
                     log_file.write(f"ℹ️ No change needed for {doc_id}\n")
 
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 fail_count += 1
                 log_file.write(f"❌ Error updating {doc_id}: {str(e)}\n")
 
             if i % 15 == 0 and i != 0:
-                log_file.write(f"\n💤 Sleeping after {i} documents...\n\n")
                 log_file.flush()
+
+            if i % 100 == 0 and i != 0:
+                log_file.write(f"\n💤 Sleeping after {i} documents...\n\n")
                 time.sleep(2)
 
         log_file.write(

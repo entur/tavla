@@ -1,5 +1,5 @@
 """
-Enhetstester for de rene transform-funksjonene i migrering 022.
+Enhetstester for de rene transform-funksjonene i migrering 023.
 
 Tester kvalifisering og komprimering uten nettverk/DuckDB/Firestore — `cache`
 injiseres direkte, akkurat som i test_019. Sikkerhetsnett før en prod-migrering
@@ -7,7 +7,7 @@ som muterer boards.
 
 Kjør:
 cd tavla/migrations
-./migration run scripts/test_022_compress_redundant_selectedLines.py
+./migration run scripts/test_023_compress_redundant_selectedLines.py
 """
 
 import importlib.util
@@ -20,8 +20,8 @@ if SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, SCRIPTS_DIR)
 
 _spec = importlib.util.spec_from_file_location(
-    "migration_022",
-    os.path.join(SCRIPTS_DIR, "022_compress_redundant_selectedLines.py"),
+    "migration_023",
+    os.path.join(SCRIPTS_DIR, "023_compress_redundant_selectedLines.py"),
 )
 migration = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(migration)
