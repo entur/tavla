@@ -60,6 +60,8 @@ def remove_deprecated_fields_from_tiles(data: dict) -> tuple[dict, list]:
 
         if changed:
             data["tiles"] = updated_tiles
+    else:
+        log_lines.append(f"⚠️ No 'tiles' field (or not a list) on this document")
 
     return data, log_lines
 
@@ -91,7 +93,7 @@ def remove_deprecated_fields_transactional(transaction, board_ref):
 
     data = snapshot.to_dict()
     if not data:
-        return {"status": "unchanged", "log_lines": []}
+        return {"status": "unchanged", "log_lines": ["⚠️ Document exists but has no data"]}
 
     original_data = copy.deepcopy(data)
     new_data, log_lines = remove_deprecated_fields_from_tiles(data)
