@@ -9,13 +9,18 @@ Description:
 4. All other fields remain unchanged. The script logs every operation to a file.
 
 Usage:
-    ./migration run scripts/022_remove_deprecated_tile_fields.py
+    # Dry run (default — writes nothing, report only):
+    ./migration run scripts/022_remove_deprecated_tile_fields.py dev
+
+    # Actually write:
+    ./migration run scripts/022_remove_deprecated_tile_fields.py dev --write
 
 Date: 2026-11-17
 Author: Agnes
 """
 
 from google.cloud import firestore
+import sys
 import time
 import copy
 import init
@@ -86,7 +91,7 @@ def stream_documents_in_batches(collection_ref, batch_size=500):
         time.sleep(1)
 
 @firestore.transactional
-def remove_deprecated_fields_transactional(transaction, board_ref):
+def remove_deprecated_fields_transactional(transaction, board_ref, write: bool):
     snapshot = board_ref.get(transaction=transaction)
     if not snapshot.exists:
         return {"status": "missing", "log_lines": []}
@@ -101,19 +106,23 @@ def remove_deprecated_fields_transactional(transaction, board_ref):
     if new_data == original_data:
         return {"status": "unchanged", "log_lines": log_lines}
 
-    transaction.update(board_ref, {"tiles": new_data.get("tiles", [])})
+    if write:
+        transaction.update(board_ref, {"tiles": new_data.get("tiles", [])})
 
     return {"status": "ok", "log_lines": log_lines}
 
 
-def update_documents(db: firestore.Client):
+def update_documents(db: firestore.Client, write: bool):
     collection_ref = db.collection(collection_name)
 
     success_count = 0
     fail_count = 0
     total_count = 0
 
+    mode = "WRITE" if write else "DRY RUN — nothing is written"
+
     with open("remove_deprecated_tile_fields_log.txt", "a", encoding="utf-8") as log_file:
+        log_file.write(f"\n===== {mode} =====\n")
         for i, doc_snap in enumerate(stream_documents_in_batches(collection_ref, batch_size=500)):
             total_count += 1
             doc_id = doc_snap.id
@@ -122,7 +131,7 @@ def update_documents(db: firestore.Client):
             try:
                 board_ref = db.collection(collection_name).document(doc_id)
                 transaction = db.transaction()
-                result = remove_deprecated_fields_transactional(transaction, board_ref)
+                result = remove_deprecated_fields_transactional(transaction, board_ref, write)
                 status = result["status"]
 
                 for line in result["log_lines"]:
@@ -130,7 +139,8 @@ def update_documents(db: firestore.Client):
 
                 if status == "ok":
                     success_count += 1
-                    log_file.write(f"✅ Updated document {doc_id}\n")
+                    verb = "Updated" if write else "Would update"
+                    log_file.write(f"✅ {verb} document {doc_id}\n")
                 elif status == "missing":
                     log_file.write(f"❌ Document doesn't exist: {doc_id}\n")
                 else:
@@ -152,10 +162,37 @@ def update_documents(db: firestore.Client):
         )
 
 
+def parse_args() -> tuple:
+    env = "local"
+    write = False
+
+    args = sys.argv[1:]
+    i = 0
+    while i < len(args):
+        arg = args[i]
+        if arg in ("local", "dev", "prod"):
+            env = arg
+        elif arg == "--write":
+            write = True
+        else:
+            print(f"Unknown argument: {arg}")
+            sys.exit(1)
+        i += 1
+
+    return env, write
+
+
 def run():
-    db = init.dev()
-    print(f"Connected to project: {db.project}, host: {getattr(db, '_emulator_host', None)}")
-    update_documents(db)
+    env, write = parse_args()
+
+    db = {"local": init.local, "dev": init.dev, "prod": init.prod}[env]()
+    print(f"Connected to project: {db.project} ({env})")
+    print(f"Mode: {'WRITE' if write else 'DRY RUN — nothing is written'}")
+
+    update_documents(db, write)
+
+    if not write:
+        print("\nRun again with --write to actually write the changes.")
 
 
 if __name__ == "__main__":
