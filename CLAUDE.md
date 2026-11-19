@@ -120,7 +120,7 @@ Codegen writes three files, split deliberately so types flow in one direction (b
 - `src/types/operations.ts` — operation/fragment result + variable types (`T*Query`, `T*Fragment`), imports base types from `graphql-schema`.
 - `src/graphql/index.ts` — typed document strings, imports operation types from `operations`.
 
-The split is required because `@graphql-codegen/typescript-operations` v6 re-emits every enum/input it references; co-locating it with the `typescript` plugin produced duplicate-identifier types. Import operation types from `types/operations`, base types from `types/graphql-schema`. All three are generated — commit them together after `yarn generate`.
+The split is required because `@graphql-codegen/typescript-operations` v6 re-emits every enum/input it references; co-locating it with the `typescript` plugin produced duplicate-identifier types. Import operation types from `types/operations`, base types from `types/graphql-schema`. All three are generated — commit them together after `yarn generate`. They are excluded from Biome (`tavla/biome.json`) and written unformatted; don't hand-edit or lint-fix them.
 
 **Naming convention — `T` prefix:** only codegen-generated types (everything in `graphql-schema.ts`/`operations.ts`, e.g. `TQuay`, `TLine`, `TStopPlaceEditQuery`) carry a `T` prefix. A type you derive or narrow by hand from one of those (e.g. unwrapping GraphQL nullability with `NonNullable<...>`) should NOT carry the prefix, so the `T` stays a reliable signal for "this came from codegen, don't hand-edit it."
 
