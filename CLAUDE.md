@@ -120,7 +120,7 @@ Codegen writes three files, split deliberately so types flow in one direction (b
 - `src/types/operations.ts` — operation/fragment result + variable types (`T*Query`, `T*Fragment`), imports base types from `graphql-schema`.
 - `src/graphql/index.ts` — typed document strings, imports operation types from `operations`.
 
-The split is required because `@graphql-codegen/typescript-operations` v6 re-emits every enum/input it references; co-locating it with the `typescript` plugin produced duplicate-identifier types. Import operation types from `types/operations`, base types from `types/graphql-schema`. All three are generated — commit them together after `yarn generate`.
+The split is required because `@graphql-codegen/typescript-operations` v6 re-emits every enum/input it references; co-locating it with the `typescript` plugin produced duplicate-identifier types. Import operation types from `types/operations`, base types from `types/graphql-schema`. All three are generated — commit them together after `yarn generate`. They are excluded from Biome (`tavla/biome.json`) and written unformatted; don't hand-edit or lint-fix them.
 
 When adding, removing, or modifying any `.graphql` file under `tavla/src/graphql/` (queries or fragments), regenerate `docs/EXPLORER_LINKS.md` by re-running the same Python script logic used to create it: merge each query with its fragments recursively, URL-encode as `query`+`operationName`+`variables` parameters, and write the updated file. Use the same realistic NSR example IDs (`NSR:StopPlace:59872` Oslo S, `NSR:StopPlace:6013` Bergen stasjon, `NSR:Quay:107371` Oslo S pl. 1).
 

@@ -4,9 +4,6 @@ const config: CodegenConfig = {
     overwrite: true,
     schema: './graphql-tools/schema.json',
     documents: 'src/**/*.graphql',
-    hooks: {
-        afterAllFileWrite: ['biome format --write'],
-    },
     config: {
         typesPrefix: 'T',
         documentMode: 'string',
