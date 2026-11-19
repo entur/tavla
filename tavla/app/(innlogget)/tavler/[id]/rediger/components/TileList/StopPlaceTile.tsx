@@ -93,14 +93,17 @@ export function StopPlaceTile({
                         trackingLocation={trackingLocation}
                     />
                 </div>
-                <EditStopPlaceModal
-                    isOpen={isEditOpen}
-                    setIsOpen={handleSetIsEditOpen}
-                    tile={tile}
-                    board={board}
-                    quays={quays}
-                    trackingLocation={trackingLocation}
-                />
+                {/* Render the modal only when it is open to avoid unnecessary api-calls for fetching front texts */}
+                {isEditOpen && (
+                    <EditStopPlaceModal
+                        isOpen={isEditOpen}
+                        setIsOpen={handleSetIsEditOpen}
+                        tile={tile}
+                        board={board}
+                        quays={quays}
+                        trackingLocation={trackingLocation}
+                    />
+                )}
             </div>
             {deleteError && (
                 <FeedbackText variant="negative">{deleteError}</FeedbackText>

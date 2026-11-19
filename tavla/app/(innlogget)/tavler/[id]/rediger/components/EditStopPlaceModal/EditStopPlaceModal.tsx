@@ -30,7 +30,6 @@ function EditStopPlaceModal({
     const quaysWithFrontTexts = useQuaysWithFrontTexts(
         quays,
         !!board.isArrivals,
-        isOpen,
     )
 
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)

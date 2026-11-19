@@ -53,19 +53,18 @@ function addFrontTextToQuay(
 function useQuaysWithFrontTexts(
     quays: TQuayFragment[] | null,
     isArrival: boolean,
-    enabled: boolean,
 ): QuayWithFrontText[] | null {
     const [quaysWithFrontTexts, setQuaysWithFrontTexts] = useState<
         QuayWithFrontText[] | null
     >(null)
 
     useEffect(() => {
-        if (!enabled || !quays) return
+        if (!quays) return
+        const currentQuays = quays
 
         async function fetchData() {
-            if (!quays) return
             const result = await Promise.all(
-                quays.map(async (quay) => {
+                currentQuays.map(async (quay) => {
                     const frontTexts = await getFrontTextsForQuay(
                         quay.id,
                         isArrival,
@@ -84,7 +83,7 @@ function useQuaysWithFrontTexts(
         }
 
         fetchData().catch(() => setQuaysWithFrontTexts([]))
-    }, [quays, isArrival, enabled])
+    }, [quays, isArrival])
 
     return quaysWithFrontTexts
 }
