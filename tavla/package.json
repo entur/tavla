@@ -73,11 +73,11 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.6.7",
-        "@graphql-codegen/cli": "7.4.6",
-        "@graphql-codegen/import-types-preset": "4.0.1",
-        "@graphql-codegen/typed-document-node": "7.2.0",
-        "@graphql-codegen/typescript": "6.1.2",
-        "@graphql-codegen/typescript-operations": "6.2.0",
+        "@graphql-codegen/cli": "8.0.0",
+        "@graphql-codegen/import-types-preset": "5.0.0",
+        "@graphql-codegen/typed-document-node": "8.0.0",
+        "@graphql-codegen/typescript": "7.0.1",
+        "@graphql-codegen/typescript-operations": "7.0.1",
         "@playwright/test": "1.65.0",
         "@types/jsdom": "30.0.0",
         "@types/lodash": "4.17.27",
@@ -101,7 +101,6 @@
     },
     "resolutions": {
         "basic-ftp": "6.2.1",
-        "dompurify": "3.4.17",
-        "@graphql-tools/utils": "12.0.4"
+        "dompurify": "3.4.17"
     }
 }
