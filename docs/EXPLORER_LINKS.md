@@ -54,7 +54,7 @@ Alle spørringene Tavla bruker mot [Journey Planner v3](https://api.entur.io/jou
 
 **Beskrivelse:** Henter stoppestedets perronger med linjer for bruk i redigeringspanelet.
 
-**Fragmenter:** `lines`
+**Fragmenter:** `quay`, `lines`
 
 **Eksempelvariabler:**
 ```json
@@ -63,7 +63,7 @@ Alle spørringene Tavla bruker mot [Journey Planner v3](https://api.entur.io/jou
 }
 ```
 
-**[Åpne i GraphQL Explorer](https://api.entur.io/graphql-explorer/journey-planner-v3?query=query%20stopPlaceEdit%28%24placeId%3A%20String%21%29%20%7B%0A%20%20%20%20stopPlace%28id%3A%20%24placeId%29%20%7B%0A%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%20%20quays%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20id%0A%20%20%20%20%20%20%20%20%20%20%20%20publicCode%0A%20%20%20%20%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%20%20%20%20%20%20description%0A%20%20%20%20%20%20%20%20%20%20%20%20stopPlace%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20transportMode%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20...lines%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%7D%0A%0Afragment%20lines%20on%20Quay%20%7B%0A%20%20%20%20lines%20%7B%0A%20%20%20%20%20%20%20%20id%0A%20%20%20%20%20%20%20%20publicCode%0A%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%20%20transportMode%0A%20%20%20%20%20%20%20%20transportSubmode%0A%20%20%20%20%7D%0A%7D&operationName=stopPlaceEdit&variables=%7B%22placeId%22%3A%22NSR%3AStopPlace%3A59872%22%7D)**
+**[Åpne i GraphQL Explorer](https://api.entur.io/graphql-explorer/journey-planner-v3?query=query%20stopPlaceEdit%28%24placeId%3A%20String%21%29%20%7B%0A%20%20%20%20stopPlace%28id%3A%20%24placeId%29%20%7B%0A%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%20%20quays%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20...quay%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%7D%0A%0Afragment%20quay%20on%20Quay%20%7B%0A%20%20%20%20id%0A%20%20%20%20publicCode%0A%20%20%20%20name%0A%20%20%20%20description%0A%20%20%20%20stopPlace%20%7B%0A%20%20%20%20%20%20%20%20transportMode%0A%20%20%20%20%7D%0A%20%20%20%20...lines%0A%7D%0A%0Afragment%20lines%20on%20Quay%20%7B%0A%20%20%20%20lines%20%7B%0A%20%20%20%20%20%20%20%20id%0A%20%20%20%20%20%20%20%20publicCode%0A%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%20%20transportMode%0A%20%20%20%20%20%20%20%20transportSubmode%0A%20%20%20%20%7D%0A%7D&operationName=stopPlaceEdit&variables=%7B%22placeId%22%3A%22NSR%3AStopPlace%3A59872%22%7D)**
 
 ---
 
