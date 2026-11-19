@@ -354,10 +354,17 @@ export const StopPlaceCoordinatesQuery = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<Types.TStopPlaceCoordinatesQuery, Types.TStopPlaceCoordinatesQueryVariables>;
-export const StopPlaceEditQuery = new TypedDocumentString(`
-    query stopPlaceEdit($placeId: String!) {
-  stopPlace(id: $placeId) {
+export const StopPlaceNameQuery = new TypedDocumentString(`
+    query StopPlaceName($id: String!) {
+  stopPlace(id: $id) {
     name
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<Types.TStopPlaceNameQuery, Types.TStopPlaceNameQueryVariables>;
+export const StopPlaceQuaysQuery = new TypedDocumentString(`
+    query stopPlaceQuays($placeId: String!) {
+  stopPlace(id: $placeId) {
     quays {
       ...quay
     }
@@ -381,15 +388,7 @@ fragment quay on Quay {
     transportMode
   }
   ...lines
-}`) as unknown as TypedDocumentString<Types.TStopPlaceEditQuery, Types.TStopPlaceEditQueryVariables>;
-export const StopPlaceNameQuery = new TypedDocumentString(`
-    query StopPlaceName($id: String!) {
-  stopPlace(id: $id) {
-    name
-    id
-  }
-}
-    `) as unknown as TypedDocumentString<Types.TStopPlaceNameQuery, Types.TStopPlaceNameQueryVariables>;
+}`) as unknown as TypedDocumentString<Types.TStopPlaceQuaysQuery, Types.TStopPlaceQuaysQueryVariables>;
 export const StopPlacesHaveDeparturesQuery = new TypedDocumentString(`
     query StopPlacesHaveDepartures($ids: [String]) {
   stopPlaces(ids: $ids) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { StopPlaceEditQuery } from 'src/graphql'
+import { StopPlaceQuaysQuery } from 'src/graphql'
 import { fetchQuery } from 'src/graphql/utils'
 import type { TQuayFragment } from 'src/types/operations'
 
@@ -8,7 +8,7 @@ function useStopPlaceQuays(stopPlaceId: string): TQuayFragment[] | null {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetchQuery(StopPlaceEditQuery, {
+            const response = await fetchQuery(StopPlaceQuaysQuery, {
                 placeId: stopPlaceId,
             })
             setQuays(

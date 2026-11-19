@@ -481,13 +481,20 @@ export type TStopPlaceCoordinatesQuery = {
     } | null
 }
 
-export type TStopPlaceEditQueryVariables = Exact<{
+export type TStopPlaceNameQueryVariables = Exact<{
+    id: string
+}>
+
+export type TStopPlaceNameQuery = {
+    stopPlace: { name: string; id: string } | null
+}
+
+export type TStopPlaceQuaysQueryVariables = Exact<{
     placeId: string
 }>
 
-export type TStopPlaceEditQuery = {
+export type TStopPlaceQuaysQuery = {
     stopPlace: {
-        name: string
         quays: Array<{
             id: string
             publicCode: string | null
@@ -505,14 +512,6 @@ export type TStopPlaceEditQuery = {
             }>
         } | null> | null
     } | null
-}
-
-export type TStopPlaceNameQueryVariables = Exact<{
-    id: string
-}>
-
-export type TStopPlaceNameQuery = {
-    stopPlace: { name: string; id: string } | null
 }
 
 export type TStopPlacesHaveDeparturesQueryVariables = Exact<{

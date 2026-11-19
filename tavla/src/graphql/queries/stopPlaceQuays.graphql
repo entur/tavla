@@ -1,6 +1,5 @@
-query stopPlaceEdit($placeId: String!) {
+query stopPlaceQuays($placeId: String!) {
     stopPlace(id: $placeId) {
-        name
         quays {
             ...quay
         }
