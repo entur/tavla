@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react'
 import { StopPlaceEditQuery } from 'src/graphql'
 import { fetchQuery } from 'src/graphql/utils'
-import type { TStopPlaceEditQuery } from 'src/types/operations'
+import type { TQuayFragment } from 'src/types/operations'
 
-type TStopPlaceEditResult = NonNullable<TStopPlaceEditQuery['stopPlace']>
-type TStopPlaceEditQuays = NonNullable<TStopPlaceEditResult['quays']>
-export type TQuay = NonNullable<TStopPlaceEditQuays[number]>
-
-function useStopPlaceLines(stopPlaceId: string): TQuay[] | null {
-    const [quays, setQuays] = useState<TQuay[] | null>(null)
+function useStopPlaceQuays(stopPlaceId: string): TQuayFragment[] | null {
+    const [quays, setQuays] = useState<TQuayFragment[] | null>(null)
 
     useEffect(() => {
         async function fetchData() {
@@ -17,7 +13,7 @@ function useStopPlaceLines(stopPlaceId: string): TQuay[] | null {
             })
             setQuays(
                 (response.stopPlace?.quays ?? []).filter(
-                    (quay): quay is TQuay => quay !== null,
+                    (quay): quay is TQuayFragment => quay !== null,
                 ),
             )
         }
@@ -28,4 +24,4 @@ function useStopPlaceLines(stopPlaceId: string): TQuay[] | null {
     return quays
 }
 
-export { useStopPlaceLines }
+export { useStopPlaceQuays }

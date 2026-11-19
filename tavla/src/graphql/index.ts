@@ -86,6 +86,26 @@ export const LinesFragment = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"lines"}) as unknown as TypedDocumentString<Types.TLinesFragment, unknown>;
+export const QuayFragment = new TypedDocumentString(`
+    fragment quay on Quay {
+  id
+  publicCode
+  name
+  description
+  stopPlace {
+    transportMode
+  }
+  ...lines
+}
+    fragment lines on Quay {
+  lines {
+    id
+    publicCode
+    name
+    transportMode
+    transportSubmode
+  }
+}`, {"fragmentName":"quay"}) as unknown as TypedDocumentString<Types.TQuayFragment, unknown>;
 export const DriveDistanceQuery = new TypedDocumentString(`
     query driveDistance($from: InputCoordinates!, $to: InputCoordinates!) {
   trip(
@@ -339,14 +359,7 @@ export const StopPlaceEditQuery = new TypedDocumentString(`
   stopPlace(id: $placeId) {
     name
     quays {
-      id
-      publicCode
-      name
-      description
-      stopPlace {
-        transportMode
-      }
-      ...lines
+      ...quay
     }
   }
 }
@@ -358,6 +371,16 @@ export const StopPlaceEditQuery = new TypedDocumentString(`
     transportMode
     transportSubmode
   }
+}
+fragment quay on Quay {
+  id
+  publicCode
+  name
+  description
+  stopPlace {
+    transportMode
+  }
+  ...lines
 }`) as unknown as TypedDocumentString<Types.TStopPlaceEditQuery, Types.TStopPlaceEditQueryVariables>;
 export const StopPlaceNameQuery = new TypedDocumentString(`
     query StopPlaceName($id: String!) {

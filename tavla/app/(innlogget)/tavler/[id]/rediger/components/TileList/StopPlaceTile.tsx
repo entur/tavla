@@ -17,7 +17,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { EditStopPlaceModal } from '../EditStopPlaceModal/EditStopPlaceModal'
-import { useStopPlaceLines } from '../utils/useStopPlaceLines'
+import { useStopPlaceQuays } from '../utils/useStopPlaceQuays'
 import { DeleteTileButton } from './DeleteTileButton'
 import { DragHandle } from './DragHandle'
 
@@ -38,7 +38,7 @@ export function StopPlaceTile({
     const [deleteError, setDeleteError] = useState<string | undefined>()
     const { capture } = usePosthogTracking()
 
-    const quays = useStopPlaceLines(tile.stopPlaceId)
+    const quays = useStopPlaceQuays(tile.stopPlaceId)
 
     const transportModes = getTransportModesFromLines(
         (quays ?? []).flatMap(({ lines }) => lines),

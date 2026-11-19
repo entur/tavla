@@ -1,5 +1,4 @@
-import type { TLinesFragment } from 'types/operations'
-import type { TQuay } from './useStopPlaceLines'
+import type { TLinesFragment, TQuayFragment } from 'types/operations'
 
 type LineFragment = TLinesFragment['lines'][number]
 
@@ -7,6 +6,6 @@ export type LineWithFrontText = LineFragment & {
     frontTexts: string[]
 }
 
-export type QuayWithFrontText = Omit<TQuay, 'lines'> & {
+export type QuayWithFrontText = Omit<TQuayFragment, 'lines'> & {
     lines: LineWithFrontText[]
 }

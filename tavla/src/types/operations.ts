@@ -217,6 +217,23 @@ export type TLinesFragment = {
     }>
 }
 
+export type TQuayFragment = {
+    id: string
+    publicCode: string | null
+    name: string
+    description: string | null
+    stopPlace: {
+        transportMode: Array<Types.TTransportMode | null> | null
+    } | null
+    lines: Array<{
+        id: string
+        publicCode: string | null
+        name: string | null
+        transportMode: Types.TTransportMode | null
+        transportSubmode: Types.TTransportSubmode | null
+    }>
+}
+
 export type TSituationFragment = {
     id: string
     description: Array<{ value: string; language: string | null }>

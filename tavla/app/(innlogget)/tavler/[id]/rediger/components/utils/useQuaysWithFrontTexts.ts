@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { QuayEstimatedCallsQuery } from 'src/graphql'
 import { fetchQuery } from 'src/graphql/utils'
+import type { TQuayFragment } from 'types/operations'
 import type { LineWithFrontText, QuayWithFrontText } from './types'
-import type { TQuay } from './useStopPlaceLines'
 
 async function getFrontTextsForQuay(
     quayId: string,
@@ -38,7 +38,7 @@ async function getFrontTextsForQuay(
 }
 
 function addFrontTextToQuay(
-    quay: TQuay,
+    quay: TQuayFragment,
     frontTexts: Map<string, string[]>,
 ): LineWithFrontText[] {
     return quay.lines
@@ -51,7 +51,7 @@ function addFrontTextToQuay(
 }
 
 function useQuaysWithFrontTexts(
-    quays: TQuay[] | null,
+    quays: TQuayFragment[] | null,
     isArrival: boolean,
     enabled: boolean,
 ): QuayWithFrontText[] | null {
