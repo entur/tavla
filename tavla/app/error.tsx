@@ -6,7 +6,10 @@ import * as Sentry from '@sentry/nextjs'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import {
+    unstable_isUnrecognizedActionError,
+    usePathname,
+} from 'next/navigation'
 import { useEffect } from 'react'
 import { logToGcp } from 'src/utils/logging'
 
@@ -16,18 +19,32 @@ export default function ErrorPage({
     error: Error & { digest?: string }
 }) {
     const path = usePathname()
+    const isStaleAction = unstable_isUnrecognizedActionError(error)
 
     useEffect(() => {
+        const { name: errorName, message: errorMessage } = error
+
+        if (isStaleAction) {
+            logToGcp('warning', 'stale server action detected, reloading', {
+                type: 'http',
+                path: path ?? undefined,
+            }).catch(() => {})
+            window.location.reload()
+            return
+        }
+
         Sentry.captureException(error)
         logToGcp('error', 'internal server error', {
             type: 'http',
             method: 'GET',
             status: 500,
             path: path ?? undefined,
-            errorName: error.name,
-            errorMessage: error.message,
-        })
-    }, [error, path])
+            errorName,
+            errorMessage,
+        }).catch(() => {})
+    }, [error, path, isStaleAction])
+
+    if (isStaleAction) return null
 
     return (
         <main className="container flex flex-col items-center pb-10">
