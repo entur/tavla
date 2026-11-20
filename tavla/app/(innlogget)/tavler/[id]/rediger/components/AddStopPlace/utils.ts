@@ -1,5 +1,4 @@
 import type { NormalizedDropdownItemType } from '@entur/dropdown'
-import * as Sentry from '@sentry/nextjs'
 import type { GeoCoordinate } from 'app/(innlogget)/utils/fetch'
 import type { TGeoProperties } from 'app/(innlogget)/utils/geocoder'
 import { nanoid } from 'nanoid'
@@ -15,7 +14,6 @@ import type {
     Coordinate,
     TileColumnDB,
 } from 'types/db-types/boards'
-import { logToGcp } from 'utils/logging'
 import type { z } from 'zod'
 import type { closestStopPlacesSchema } from './validation'
 
@@ -58,37 +56,17 @@ export async function getWalkingDistance(
     to?: Coordinate,
 ): Promise<number | undefined> {
     if (!from || !to) return undefined
-    try {
-        const response = await fetchQuery(WalkDistanceQuery, {
-            from: {
-                longitude: from.lng,
-                latitude: from.lat,
-            },
-            to: {
-                longitude: to.lng,
-                latitude: to.lat,
-            },
-        })
-        return response.trip.tripPatterns[0]?.duration ?? undefined
-    } catch (error) {
-        logToGcp('error', 'failed to get walking distance', {
-            type: 'graphql',
-            errorName: error instanceof Error ? error.name : undefined,
-            errorMessage:
-                error instanceof Error ? error.message : String(error),
-            context: {
-                from: JSON.stringify(from) ?? 'unknown',
-                to: JSON.stringify(to) ?? 'unknown',
-            },
-        })
-        Sentry.captureMessage(
-            'getWalkingDistance failed with from-coordinates ' +
-                from +
-                ' and to-coordinates' +
-                to,
-        )
-        throw error
-    }
+    const response = await fetchQuery(WalkDistanceQuery, {
+        from: {
+            longitude: from.lng,
+            latitude: from.lat,
+        },
+        to: {
+            longitude: to.lng,
+            latitude: to.lat,
+        },
+    })
+    return response.trip.tripPatterns[0]?.duration ?? undefined
 }
 
 export async function getDrivingDistance(
@@ -96,84 +74,38 @@ export async function getDrivingDistance(
     to?: Coordinate,
 ): Promise<number | undefined> {
     if (!from || !to) return undefined
-    try {
-        const response = await fetchQuery(DriveDistanceQuery, {
-            from: {
-                longitude: from.lng,
-                latitude: from.lat,
-            },
-            to: {
-                longitude: to.lng,
-                latitude: to.lat,
-            },
-        })
-        return response.trip.tripPatterns[0]?.duration ?? undefined
-    } catch (error) {
-        logToGcp('error', 'failed to get driving distance', {
-            type: 'graphql',
-            errorName: error instanceof Error ? error.name : undefined,
-            errorMessage:
-                error instanceof Error ? error.message : String(error),
-            context: {
-                from: JSON.stringify(from) ?? 'unknown',
-                to: JSON.stringify(to) ?? 'unknown',
-            },
-        })
-        Sentry.captureMessage(
-            'getDrivingDistance failed with from-coordinates ' +
-                from +
-                ' and to-coordinates' +
-                to,
-        )
-        throw error
-    }
+    const response = await fetchQuery(DriveDistanceQuery, {
+        from: {
+            longitude: from.lng,
+            latitude: from.lat,
+        },
+        to: {
+            longitude: to.lng,
+            latitude: to.lat,
+        },
+    })
+    return response.trip.tripPatterns[0]?.duration ?? undefined
 }
 
 export async function getStopPlaceCoordinates(
     stopPlaceId?: string,
 ): Promise<Coordinate> {
-    try {
-        const response = await fetchQuery(StopPlaceCoordinatesQuery, {
-            id: stopPlaceId ?? '',
-        })
-        return {
-            lat: response.stopPlace?.latitude ?? 0,
-            lng: response.stopPlace?.longitude ?? 0,
-        }
-    } catch (error) {
-        logToGcp('error', 'failed to get stop place coordinates', {
-            type: 'graphql',
-            errorName: error instanceof Error ? error.name : undefined,
-            errorMessage:
-                error instanceof Error ? error.message : String(error),
-            context: { stopPlaceId: stopPlaceId ?? 'unknown' },
-        })
-        Sentry.captureMessage(
-            'getStopPlaceCoordinates failed for stopPlaceId ' + stopPlaceId,
-        )
-        throw error
+    const response = await fetchQuery(StopPlaceCoordinatesQuery, {
+        id: stopPlaceId ?? '',
+    })
+    return {
+        lat: response.stopPlace?.latitude ?? 0,
+        lng: response.stopPlace?.longitude ?? 0,
     }
 }
 
 export async function getQuayCoordinates(quayId?: string): Promise<Coordinate> {
-    try {
-        const response = await fetchQuery(QuayCoordinatesQuery, {
-            id: quayId ?? '',
-        })
-        return {
-            lat: response.quay?.latitude ?? 0,
-            lng: response.quay?.longitude ?? 0,
-        }
-    } catch (error) {
-        logToGcp('error', 'failed to get quay coordinates', {
-            type: 'graphql',
-            errorName: error instanceof Error ? error.name : undefined,
-            errorMessage:
-                error instanceof Error ? error.message : String(error),
-            context: { quayId: quayId ?? 'unknown' },
-        })
-        Sentry.captureMessage('getQuayCoordinates failed for quayId' + quayId)
-        throw error
+    const response = await fetchQuery(QuayCoordinatesQuery, {
+        id: quayId ?? '',
+    })
+    return {
+        lat: response.quay?.latitude ?? 0,
+        lng: response.quay?.longitude ?? 0,
     }
 }
 
