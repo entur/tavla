@@ -49,31 +49,47 @@ async function getTileWithWalkingDistance(
     const fromCoordinates = await getStopPlaceCoordinates(tile.stopPlaceId)
     const toCoordinates = location.coordinate
 
-    const [walkingResult, drivingResult] = await Promise.allSettled([
-        getWalkingDistance(fromCoordinates, toCoordinates),
-        getDrivingDistance(fromCoordinates, toCoordinates),
-    ])
+    try {
+        const [walkingResult, drivingResult] = await Promise.allSettled([
+            getWalkingDistance(fromCoordinates, toCoordinates),
+            getDrivingDistance(fromCoordinates, toCoordinates),
+        ])
 
-    const walkingDistance =
-        walkingResult.status === 'fulfilled' ? walkingResult.value : undefined
-    const drivingDistance =
-        drivingResult.status === 'fulfilled' ? drivingResult.value : undefined
+        const walkingDistance =
+            walkingResult.status === 'fulfilled'
+                ? walkingResult.value
+                : undefined
+        const drivingDistance =
+            drivingResult.status === 'fulfilled'
+                ? drivingResult.value
+                : undefined
 
-    const newTile = { ...tile }
+        const newTile = { ...tile }
 
-    if (walkingDistance !== undefined) {
-        newTile.walkingDistance = { distance: walkingDistance }
-    } else {
-        delete newTile.walkingDistance
+        if (walkingDistance !== undefined) {
+            newTile.walkingDistance = { distance: walkingDistance }
+        } else {
+            delete newTile.walkingDistance
+        }
+
+        if (drivingDistance !== undefined) {
+            newTile.drivingDistance = { distance: drivingDistance }
+        } else {
+            delete newTile.drivingDistance
+        }
+
+        return newTile
+    } catch (error) {
+        logToGcp('error', 'action failed: getWalkingDistanceTile', {
+            type: 'server-action',
+            action: 'getWalkingDistanceTile',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+        })
+        Sentry.captureMessage('Failed to add walking distance to tile')
+        throw error
     }
-
-    if (drivingDistance !== undefined) {
-        newTile.drivingDistance = { distance: drivingDistance }
-    } else {
-        delete newTile.drivingDistance
-    }
-
-    return newTile
 }
 
 export async function saveWalkingDistance(
