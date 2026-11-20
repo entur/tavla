@@ -26,14 +26,6 @@ export default function ErrorPage({
             const { name: errorName, message: errorMessage } = error
 
             if (isStaleAction) {
-                await logToGcp(
-                    'warning',
-                    'stale server action detected, reloading',
-                    {
-                        type: 'http',
-                        path: path ?? undefined,
-                    },
-                ).catch(() => {})
                 window.location.reload()
                 return
             }
