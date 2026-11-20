@@ -22,29 +22,35 @@ export default function GlobalErrorPage({
     const isStaleAction = unstable_isUnrecognizedActionError(error)
 
     useEffect(() => {
-        const { name: errorName, message: errorMessage } = error
+        async function handleError() {
+            const { name: errorName, message: errorMessage } = error
 
-        if (isStaleAction) {
-            logToGcp('warning', 'stale server action detected, reloading', {
+            if (isStaleAction) {
+                await logToGcp(
+                    'warning',
+                    'stale server action detected, reloading',
+                    {
+                        type: 'http',
+                        path: path ?? undefined,
+                    },
+                ).catch(() => {})
+                window.location.reload()
+                return
+            }
+
+            Sentry.captureException(error)
+            await logToGcp('error', 'internal server error', {
                 type: 'http',
+                method: 'GET',
+                status: 500,
                 path: path ?? undefined,
+                errorName,
+                errorMessage,
             }).catch(() => {})
-            window.location.reload()
-            return
         }
 
-        Sentry.captureException(error)
-        logToGcp('error', 'internal server error', {
-            type: 'http',
-            method: 'GET',
-            status: 500,
-            path: path ?? undefined,
-            errorName,
-            errorMessage,
-        }).catch(() => {})
+        handleError()
     }, [error, path, isStaleAction])
-
-    if (isStaleAction) return null
 
     return (
         <html lang="no">
