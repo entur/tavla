@@ -1,4 +1,4 @@
-'use server'
+import 'server-only'
 import * as Sentry from '@sentry/nextjs'
 import { applicationDefault, getApps, initializeApp } from 'firebase-admin'
 import { getAuth } from 'firebase-admin/auth'
