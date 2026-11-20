@@ -31,7 +31,8 @@ async function getFrontTextsForQuay(
             }
         }
     } catch {
-        // return nothing
+        // Logging is handled by fetchQuery
+        return new Map()
     }
 
     return linesToFrontTexts
