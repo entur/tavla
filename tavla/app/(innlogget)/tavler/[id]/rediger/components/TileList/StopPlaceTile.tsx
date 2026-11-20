@@ -17,7 +17,7 @@ import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
 import type { BoardDB, BoardTileDB } from 'src/types/db-types/boards'
 import { EditStopPlaceModal } from '../EditStopPlaceModal/EditStopPlaceModal'
-import { useLines } from '../utils/useLines'
+import { useStopPlaceQuays } from '../utils/useStopPlaceQuays'
 import { DeleteTileButton } from './DeleteTileButton'
 import { DragHandle } from './DragHandle'
 
@@ -38,7 +38,7 @@ export function StopPlaceTile({
     const [deleteError, setDeleteError] = useState<string | undefined>()
     const { capture } = usePosthogTracking()
 
-    const quays = useLines(tile, !!board.isArrivals)
+    const quays = useStopPlaceQuays(tile.stopPlaceId)
 
     const transportModes = getTransportModesFromLines(
         (quays ?? []).flatMap(({ lines }) => lines),
@@ -78,7 +78,7 @@ export function StopPlaceTile({
                         ))}
                     </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 ml-2">
                     <SecondaryButton
                         size="small"
                         onClick={() => handleSetIsEditOpen(true)}
@@ -93,14 +93,17 @@ export function StopPlaceTile({
                         trackingLocation={trackingLocation}
                     />
                 </div>
-                <EditStopPlaceModal
-                    isOpen={isEditOpen}
-                    setIsOpen={handleSetIsEditOpen}
-                    tile={tile}
-                    board={board}
-                    quays={quays}
-                    trackingLocation={trackingLocation}
-                />
+                {/* Render the modal only when it is open to avoid unnecessary api-calls for fetching front texts */}
+                {isEditOpen && (
+                    <EditStopPlaceModal
+                        isOpen={isEditOpen}
+                        setIsOpen={handleSetIsEditOpen}
+                        tile={tile}
+                        board={board}
+                        quays={quays}
+                        trackingLocation={trackingLocation}
+                    />
+                )}
             </div>
             {deleteError && (
                 <FeedbackText variant="negative">{deleteError}</FeedbackText>
