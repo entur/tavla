@@ -4047,10 +4047,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@posthog/core@npm:^1.69.0":
+  version: 1.69.0
+  resolution: "@posthog/core@npm:1.69.0"
+  dependencies:
+    "@posthog/types": "npm:^1.425.1"
+  checksum: 10/0abcc4e1246aa099cba38bf8129e0a108121033f46aaff7b90b2d65499cfe00f7f32ea9774d0d83e9d3b22300930c2fb04b60ec0318ece2a82b1eb6161af16b0
+  languageName: node
+  linkType: hard
+
 "@posthog/types@npm:^1.423.0, @posthog/types@npm:^1.424.1":
   version: 1.424.1
   resolution: "@posthog/types@npm:1.424.1"
   checksum: 10/a49e6367b5d7116b650af46436b35b79f4875f6a9607b69958bbb7a805b4783b063a396f3ceee6e6f00ffa8a9f31b6eb85d08f62f97b24a9afd4ee887a0f438a
+  languageName: node
+  linkType: hard
+
+"@posthog/types@npm:^1.425.1":
+  version: 1.425.1
+  resolution: "@posthog/types@npm:1.425.1"
+  checksum: 10/86c3b7f52b2dd38fe493d7a10aa165b3c88d4f33c0fd9ad233e2ba14c9ecc536dbcfb6393841ef7be47849782e2743ba1343de575ee892b47adcb1e81e214d9e
   languageName: node
   linkType: hard
 
@@ -10893,11 +10909,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:5.70.0":
-  version: 5.70.0
-  resolution: "posthog-node@npm:5.70.0"
+"posthog-node@npm:6.0.2":
+  version: 6.0.2
+  resolution: "posthog-node@npm:6.0.2"
   dependencies:
-    "@posthog/core": "npm:^1.67.1"
+    "@posthog/core": "npm:^1.69.0"
   peerDependencies:
     "@opentelemetry/api": ^1.2.0
     "@react-email/render": ^2.1.0
@@ -10909,7 +10925,7 @@ __metadata:
       optional: true
     rxjs:
       optional: true
-  checksum: 10/f9f7700b1dbf464ca131a176d9c50185d048db4bfb8bf1ae0d14f58cc717da14fa19feb37a6940a99462fc89de4730a4c5feb66fa0fb503c6742c68f856b7b92
+  checksum: 10/1d078d779029c2010f966147c1dd4588e0440e5da800235317599819225b52b7bb6dc228f0d2be71d7c98138f88f702b8747eb812afb43ede153eb20fda3ab5b
   languageName: node
   linkType: hard
 
@@ -12586,7 +12602,7 @@ __metadata:
     next: "npm:16.4.6"
     postcss: "npm:8.5.32"
     posthog-js: "npm:1.447.15"
-    posthog-node: "npm:5.70.0"
+    posthog-node: "npm:6.0.2"
     react: "npm:19.3.1"
     react-dom: "npm:19.3.1"
     swr: "npm:2.5.1"
