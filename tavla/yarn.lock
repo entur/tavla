@@ -772,9 +772,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@entur/menu@npm:7.5.0":
-  version: 7.5.0
-  resolution: "@entur/menu@npm:7.5.0"
+"@entur/menu@npm:7.5.1":
+  version: 7.5.1
+  resolution: "@entur/menu@npm:7.5.1"
   dependencies:
     "@entur/a11y": "npm:^0.4.2"
     "@entur/button": "npm:^5.2.2"
@@ -789,7 +789,7 @@ __metadata:
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10/afac8c8a097cee54b0f136a8f6d89c60b797ff75515e56a49351f9ed0e3382bb1389daeec94069726de44e5fcca9c5d21d31e2f59411e4b8c5b9d79df113cdce
+  checksum: 10/3f6e45f0aa6d0b0488200c462990b563c107417df4518a90f7367f45fc4fe72c36007afd3976224ae7423b6b296e2c0d634beb35c1296a389cc53f802e2521a4
   languageName: node
   linkType: hard
 
@@ -12694,7 +12694,7 @@ __metadata:
     "@entur/icons": "npm:10.1.1"
     "@entur/layout": "npm:5.1.1"
     "@entur/loader": "npm:0.9.1"
-    "@entur/menu": "npm:7.5.0"
+    "@entur/menu": "npm:7.5.1"
     "@entur/modal": "npm:2.1.1"
     "@entur/table": "npm:5.2.1"
     "@entur/tokens": "npm:4.3.1"
