@@ -11,10 +11,14 @@ async function getFrontTextsForQuay(
     const linesToFrontTexts = new Map<string, string[]>()
 
     try {
-        const response = await fetchQuery(QuayEstimatedCallsQuery, {
-            quayId,
-            arrivalDeparture: isArrival ? 'arrivals' : 'departures',
-        })
+        const response = await fetchQuery(
+            QuayEstimatedCallsQuery,
+            {
+                quayId,
+                arrivalDeparture: isArrival ? 'arrivals' : 'departures',
+            },
+            { timeout: 30_000 },
+        )
         const estimatedCalls = response.quay?.estimatedCalls ?? []
 
         for (const departure of estimatedCalls) {
