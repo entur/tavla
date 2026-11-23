@@ -32,6 +32,7 @@ type Props = {
     board: BoardDB
     tile: BoardTileDB
     quays: QuayWithFrontText[]
+    linesUnavailable: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
     onSaved: () => void
@@ -42,6 +43,7 @@ function EditStopPlaceForm({
     board,
     tile,
     quays,
+    linesUnavailable,
     trackingLocation,
     onFieldChanged,
     onSaved,
@@ -121,11 +123,12 @@ function EditStopPlaceForm({
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
             viewMode: board.isCombinedTiles ? tile.viewMode : viewMode,
-            // ...(filterIsEdited && { ---- Kan legges til igjen når man ønsker at ikke endringer i filter skal lagres med mindre det faktisk er redigert
-            filter:
-                filterType === 'quaysFilter'
-                    ? compressQuaysFilter(quaysFilter, quays)
-                    : compressStopPlaceFilter(stopPlaceFilter, quays),
+            ...(!linesUnavailable && {
+                filter:
+                    filterType === 'quaysFilter'
+                        ? compressQuaysFilter(quaysFilter, quays)
+                        : compressStopPlaceFilter(stopPlaceFilter, quays),
+            }),
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
@@ -167,17 +170,24 @@ function EditStopPlaceForm({
                 onFieldChanged={onFieldChanged}
             />
 
-            <SetFilter
-                quays={quays}
-                filterType={filterType}
-                setFilterType={setFilterType}
-                quaysFilter={quaysFilter}
-                setQuaysFilter={setQuaysFilter}
-                stopPlaceFilter={stopPlaceFilter}
-                setStopPlaceFilter={setStopPlaceFilter}
-                trackingLocation={trackingLocation}
-                onFieldChanged={handleFieldChangeWithListener}
-            />
+            {linesUnavailable ? (
+                <SmallAlertBox variant="warning" className="w-fit">
+                    Vi klarte ikke å hente linjene for {tile.displayName}{' '}
+                    akkurat nå. Last inn siden på nytt for å prøve igjen.
+                </SmallAlertBox>
+            ) : (
+                <SetFilter
+                    quays={quays}
+                    filterType={filterType}
+                    setFilterType={setFilterType}
+                    quaysFilter={quaysFilter}
+                    setQuaysFilter={setQuaysFilter}
+                    stopPlaceFilter={stopPlaceFilter}
+                    setStopPlaceFilter={setStopPlaceFilter}
+                    trackingLocation={trackingLocation}
+                    onFieldChanged={handleFieldChangeWithListener}
+                />
+            )}
 
             <SetOffsetDepartureTime
                 offset={offset}

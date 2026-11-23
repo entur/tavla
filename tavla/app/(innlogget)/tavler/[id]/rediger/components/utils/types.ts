@@ -1,12 +1,10 @@
-import type { TQuay } from 'src/types/graphql-schema'
-import type { TLinesFragment } from 'types/operations'
-
-type LineFragment = TLinesFragment['lines'][number]
+import type { LineFragment } from 'app/_components/TileCard/types'
+import type { TQuayFragment } from 'types/operations'
 
 export type LineWithFrontText = LineFragment & {
     frontTexts: string[]
 }
 
-export type QuayWithFrontText = Omit<TQuay, 'lines'> & {
+export type QuayWithFrontText = Omit<TQuayFragment, 'lines'> & {
     lines: LineWithFrontText[]
 }
