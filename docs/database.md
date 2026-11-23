@@ -213,7 +213,7 @@ For å teste en migrering med ekte produksjonsdata lokalt kan du laste ned en pr
 
 > **Merk:** Rollback overskriver eksisterende dokumenter med data fra backupen, men sletter **ikke** dokumenter som ble opprettet etter at backupen ble tatt — det er altså ikke en fullstendig tilbakestilling.
 
-> 🚨 **Viktig ved bruk av `--from prod`:** Du har da produksjonsdata liggende lokalt på maskinen din. Start emulatoren med `yarn dev` (ikke `yarn dev:persist`) mens du tester — da unngår du at proddata spres til andre mapper.
+> 🚨 **Viktig ved bruk av `--from prod`:** Du har da produksjonsdata liggende lokalt på maskinen din. Start emulatoren med `yarn dev:readonly` (ikke `yarn dev:persist`) mens du tester. Den laster inn `.db`, men skriver aldri tilbake — da unngår du at proddata spres til andre mapper. (`yarn dev` laster ikke inn `.db` i det hele tatt, så der vil du ikke se proddataene.)
 >
 > Husk å slette `.db`-mappen når du er ferdig med testingen:
 > ```bash

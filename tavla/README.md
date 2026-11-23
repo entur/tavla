@@ -33,6 +33,7 @@ node -v
 ```
 yarn dev          # uten persistering av lokal database
 yarn dev:persist  # anbefalt – lagrer emulator state (.db)
+yarn dev:readonly # laster inn .db, men skriver aldri tilbake (f.eks. ved testing med proddata)
 ```
 
 Tilgang:
