@@ -62,6 +62,7 @@ function EditStopPlaceForm({
         () => getInitialStopPlaceFilter(tile, quays),
     )
 
+    // biome-ignore lint/correctness/noUnusedVariables: Denne variabelen er midlertidig kommentert ut og bør tar inn igjen når de lagrede verdiene av quays er i orden.
     const [filterIsEdited, setFilterIsEdited] = useState(false)
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
@@ -122,7 +123,7 @@ function EditStopPlaceForm({
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
             viewMode: board.isCombinedTiles ? tile.viewMode : viewMode,
-            ...(filterIsEdited && {
+            ...(!linesUnavailable && {
                 filter:
                     filterType === 'quaysFilter'
                         ? compressQuaysFilter(quaysFilter, quays)
@@ -171,8 +172,8 @@ function EditStopPlaceForm({
 
             {linesUnavailable ? (
                 <SmallAlertBox variant="warning" className="w-fit">
-                    Vi klarte ikke å hente linjene for dette stoppestedet, så du
-                    kan ikke endre hvilke linjer som vises akkurat nå.
+                    Vi klarte ikke å hente linjene for {tile.displayName}{' '}
+                    akkurat nå. Last inn siden på nytt for å prøve igjen.
                 </SmallAlertBox>
             ) : (
                 <SetFilter
