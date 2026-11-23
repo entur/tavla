@@ -13,7 +13,7 @@ import {
     getFolderForBoard,
     removeBoardIdFromFolder,
     removeBoardIdFromUser,
-} from 'src/firebase'
+} from 'src/firestore'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'

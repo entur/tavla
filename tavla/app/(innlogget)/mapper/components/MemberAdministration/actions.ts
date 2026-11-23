@@ -13,7 +13,7 @@ import { handleError } from 'app/(innlogget)/utils/handleError'
 import { getAuth } from 'firebase-admin/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { addOwnerToFolder } from 'src/firebase'
+import { addOwnerToFolder } from 'src/firestore'
 import { logToGcp } from 'src/utils/logging'
 
 export async function removeUserAction(

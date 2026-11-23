@@ -1,5 +1,5 @@
 'use server'
-import { createBoard } from 'src/firebase'
+import { createBoard } from 'src/firestore'
 import { logToGcp } from 'src/utils/logging'
 
 export async function createDraftBoard(): Promise<string> {

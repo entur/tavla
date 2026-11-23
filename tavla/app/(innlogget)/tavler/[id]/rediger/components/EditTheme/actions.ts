@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/nextjs'
 import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { updateBoard } from 'src/firebase'
+import { updateBoard } from 'src/firestore'
 import { logToGcp } from 'utils/logging'
 import { type ThemeValue, themeSchema } from './validation'
 

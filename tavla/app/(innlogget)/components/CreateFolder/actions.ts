@@ -8,7 +8,7 @@ import {
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { redirect } from 'next/navigation'
-import { createFolder } from 'src/firebase'
+import { createFolder } from 'src/firestore'
 import { logToGcp } from 'src/utils/logging'
 
 export async function createFolderAction(

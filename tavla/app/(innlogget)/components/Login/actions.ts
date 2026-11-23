@@ -10,7 +10,7 @@ import {
     createUser,
     getBoard,
     updateBoard,
-} from 'src/firebase'
+} from 'src/firestore'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { UserDB } from 'src/types/db-types/users'
 import { logToGcp } from 'src/utils/logging'

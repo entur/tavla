@@ -8,7 +8,7 @@ import {
     removeBoardIdFromFolder,
     removeBoardIdFromUser,
     removeOwnerFromFolder,
-} from 'src/firebase'
+} from 'src/firestore'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { type UserDB, UserDBSchema } from 'src/types/db-types/users'
