@@ -32,6 +32,7 @@ type Props = {
     board: BoardDB
     tile: BoardTileDB
     quays: QuayWithFrontText[]
+    linesUnavailable: boolean
     trackingLocation: EventProps<'stop_place_edit_interaction'>['location']
     onFieldChanged: (field: string) => void
     onSaved: () => void
@@ -42,6 +43,7 @@ function EditStopPlaceForm({
     board,
     tile,
     quays,
+    linesUnavailable,
     trackingLocation,
     onFieldChanged,
     onSaved,
@@ -60,7 +62,6 @@ function EditStopPlaceForm({
         () => getInitialStopPlaceFilter(tile, quays),
     )
 
-    // biome-ignore lint/correctness/noUnusedVariables: Denne variabelen er midlertidig kommentert ut og bør tar inn igjen når de lagrede verdiene av quays er i orden.
     const [filterIsEdited, setFilterIsEdited] = useState(false)
 
     const [offset, setOffset] = useState<number | string>(tile.offset ?? '')
@@ -121,11 +122,12 @@ function EditStopPlaceForm({
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
             viewMode: board.isCombinedTiles ? tile.viewMode : viewMode,
-            // ...(filterIsEdited && { ---- Kan legges til igjen når man ønsker at ikke endringer i filter skal lagres med mindre det faktisk er redigert
-            filter:
-                filterType === 'quaysFilter'
-                    ? compressQuaysFilter(quaysFilter, quays)
-                    : compressStopPlaceFilter(stopPlaceFilter, quays),
+            ...(filterIsEdited && {
+                filter:
+                    filterType === 'quaysFilter'
+                        ? compressQuaysFilter(quaysFilter, quays)
+                        : compressStopPlaceFilter(stopPlaceFilter, quays),
+            }),
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
@@ -167,17 +169,24 @@ function EditStopPlaceForm({
                 onFieldChanged={onFieldChanged}
             />
 
-            <SetFilter
-                quays={quays}
-                filterType={filterType}
-                setFilterType={setFilterType}
-                quaysFilter={quaysFilter}
-                setQuaysFilter={setQuaysFilter}
-                stopPlaceFilter={stopPlaceFilter}
-                setStopPlaceFilter={setStopPlaceFilter}
-                trackingLocation={trackingLocation}
-                onFieldChanged={handleFieldChangeWithListener}
-            />
+            {linesUnavailable ? (
+                <SmallAlertBox variant="warning" className="w-fit">
+                    Vi klarte ikke å hente linjene for dette stoppestedet, så du
+                    kan ikke endre hvilke linjer som vises akkurat nå.
+                </SmallAlertBox>
+            ) : (
+                <SetFilter
+                    quays={quays}
+                    filterType={filterType}
+                    setFilterType={setFilterType}
+                    quaysFilter={quaysFilter}
+                    setQuaysFilter={setQuaysFilter}
+                    stopPlaceFilter={stopPlaceFilter}
+                    setStopPlaceFilter={setStopPlaceFilter}
+                    trackingLocation={trackingLocation}
+                    onFieldChanged={handleFieldChangeWithListener}
+                />
+            )}
 
             <SetOffsetDepartureTime
                 offset={offset}

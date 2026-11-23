@@ -10,33 +10,28 @@ async function getFrontTextsForQuay(
 ): Promise<Map<string, string[]>> {
     const linesToFrontTexts = new Map<string, string[]>()
 
-    try {
-        const response = await fetchQuery(
-            QuayEstimatedCallsQuery,
-            {
-                quayId,
-                arrivalDeparture: isArrival ? 'arrivals' : 'departures',
-            },
-            { timeout: 30_000 },
-        )
-        const estimatedCalls = response.quay?.estimatedCalls ?? []
+    const response = await fetchQuery(
+        QuayEstimatedCallsQuery,
+        {
+            quayId,
+            arrivalDeparture: isArrival ? 'arrivals' : 'departures',
+        },
+        { timeout: 30_000 },
+    )
+    const estimatedCalls = response.quay?.estimatedCalls ?? []
 
-        for (const departure of estimatedCalls) {
-            const lineId = departure.serviceJourney?.line?.id
-            const frontText = departure.destinationDisplay?.frontText
+    for (const departure of estimatedCalls) {
+        const lineId = departure.serviceJourney?.line?.id
+        const frontText = departure.destinationDisplay?.frontText
 
-            if (!lineId || !frontText) continue
+        if (!lineId || !frontText) continue
 
-            const line = linesToFrontTexts.get(lineId) ?? []
+        const line = linesToFrontTexts.get(lineId) ?? []
 
-            if (!line.includes(frontText)) {
-                line.push(frontText)
-                linesToFrontTexts.set(lineId, line)
-            }
+        if (!line.includes(frontText)) {
+            line.push(frontText)
+            linesToFrontTexts.set(lineId, line)
         }
-    } catch {
-        // Logging is handled by fetchQuery
-        return new Map()
     }
 
     return linesToFrontTexts
@@ -59,10 +54,11 @@ function useQuaysWithFrontTexts(
     quays: TQuayFragment[] | null,
     isArrival: boolean,
     enabled = true,
-): QuayWithFrontText[] | null {
+) {
     const [quaysWithFrontTexts, setQuaysWithFrontTexts] = useState<
         QuayWithFrontText[] | null
     >(null)
+    const [hasError, setHasError] = useState(false)
 
     useEffect(() => {
         if (!quays || !enabled) return
@@ -85,13 +81,17 @@ function useQuaysWithFrontTexts(
                 }),
             )
 
+            setHasError(false)
             setQuaysWithFrontTexts(result)
         }
 
-        fetchData().catch(() => setQuaysWithFrontTexts([]))
+        fetchData().catch(() => {
+            setHasError(true)
+            setQuaysWithFrontTexts([])
+        })
     }, [quays, isArrival, enabled])
 
-    return quaysWithFrontTexts
+    return { quaysWithFrontTexts, hasError }
 }
 
 export { useQuaysWithFrontTexts }

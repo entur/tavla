@@ -30,7 +30,7 @@ function EditStopPlaceModal({
     const [hasOpened, setHasOpened] = useState(false)
     if (isOpen && !hasOpened) setHasOpened(true)
 
-    const quaysWithFrontTexts = useQuaysWithFrontTexts(
+    const { quaysWithFrontTexts, hasError } = useQuaysWithFrontTexts(
         quays,
         !!board.isArrivals,
         hasOpened,
@@ -96,6 +96,7 @@ function EditStopPlaceModal({
                         board={board}
                         tile={tile}
                         quays={quaysWithFilteredLines}
+                        linesUnavailable={hasError}
                         onFieldChanged={onFieldChanged}
                         onSaved={onSaved}
                         onCancel={discardChangesAndClose}
