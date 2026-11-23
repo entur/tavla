@@ -90,7 +90,7 @@ function EditStopPlaceModal({
                 </Heading3>
 
                 {!quaysWithFrontTexts ? (
-                    <div>Laster...</div>
+                    <div className="h-screen my-8">Laster...</div>
                 ) : (
                     <EditStopPlaceForm
                         board={board}
