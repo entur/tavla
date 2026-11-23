@@ -56,7 +56,7 @@
         "@google-cloud/logging": "12.3.1",
         "@sentry/nextjs": "11.12.0",
         "dompurify": "3.4.17",
-        "firebase": "13.3.0",
+        "firebase": "13.4.0",
         "firebase-admin": "14.5.1",
         "firebase-functions": "7.4.0",
         "graphql": "17.1.0",
