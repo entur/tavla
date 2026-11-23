@@ -1,9 +1,6 @@
 'use server'
-import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { createBoard } from 'src/firebase'
 import { logToGcp } from 'src/utils/logging'
-
-initializeAdminApp()
 
 export async function createDraftBoard(): Promise<string> {
     logToGcp('info', 'action invoked: createDraftBoard', {

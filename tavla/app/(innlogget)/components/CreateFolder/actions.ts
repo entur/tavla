@@ -1,7 +1,6 @@
 'use server'
 
 import * as Sentry from '@sentry/nextjs'
-import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import {
     getFormFeedbackForError,
     type TFormFeedback,
@@ -11,8 +10,6 @@ import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { redirect } from 'next/navigation'
 import { createFolder } from 'src/firebase'
 import { logToGcp } from 'src/utils/logging'
-
-initializeAdminApp()
 
 export async function createFolderAction(
     _prevState: TFormFeedback | undefined,

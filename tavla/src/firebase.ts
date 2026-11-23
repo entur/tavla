@@ -7,7 +7,7 @@ import { logToGcp } from 'utils/logging'
 
 initializeAdminApp()
 
-async function initializeAdminApp() {
+export async function initializeAdminApp() {
     if (getApps().length <= 0) {
         initializeApp({
             credential: applicationDefault(),

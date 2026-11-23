@@ -1,6 +1,5 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import {
     getFormFeedbackForError,
     type TFormFeedback,
@@ -11,8 +10,6 @@ import { redirect } from 'next/navigation'
 import { addBoardIdToFolder, addBoardIdToUser, createBoard } from 'src/firebase'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
-
-initializeAdminApp()
 
 export async function createBoardAction(
     _prevState: TFormFeedback | undefined,

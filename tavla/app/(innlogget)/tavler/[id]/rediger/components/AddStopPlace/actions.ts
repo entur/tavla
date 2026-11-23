@@ -1,9 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import {
-    initializeAdminApp,
-    userCanEditBoard,
-} from 'app/(innlogget)/utils/firebase'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -23,8 +20,6 @@ import {
     getWalkingDistance,
 } from './utils'
 import { parseClosestStopPlaces } from './validation'
-
-initializeAdminApp()
 
 export type AddStopPlaceFormState =
     | { status: 'success' }

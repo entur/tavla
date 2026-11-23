@@ -1,16 +1,11 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import {
-    initializeAdminApp,
-    userCanEditBoard,
-} from 'app/(innlogget)/utils/firebase'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { updateBoard } from 'src/firebase'
 import { logToGcp } from 'utils/logging'
 import { type ViewTypeValue, viewTypeSchema } from './validation'
-
-initializeAdminApp()
 
 export type ViewTypeState =
     | { status: 'success' }

@@ -1,11 +1,7 @@
 'use server'
 
 import { updateBoardsInFolder } from 'app/_utils/updateBoardsInFolder'
-import {
-    getConfig,
-    initializeAdminApp,
-    userCanEditFolder,
-} from 'app/(innlogget)/utils/firebase'
+import { getConfig, userCanEditFolder } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import { getDownloadURL, getStorage } from 'firebase-admin/storage'
 import { nanoid } from 'nanoid'
@@ -16,8 +12,6 @@ import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 import rateLimit from 'src/utils/rateLimit'
 import { sanitizeSvg } from './sanitizeSvg'
-
-initializeAdminApp()
 
 const rateLimiter = rateLimit({
     maxUniqueTokens: 100,

@@ -1,6 +1,5 @@
 import 'server-only'
 import * as Sentry from '@sentry/nextjs'
-import { applicationDefault, getApps, initializeApp } from 'firebase-admin'
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
 import {
@@ -16,17 +15,6 @@ import { type UserDB, UserDBSchema } from 'src/types/db-types/users'
 import { logToGcp } from 'src/utils/logging'
 import { getBoardsForFolder, getFolderIfUserHasAccess } from '../actions'
 import { getUserFromSessionCookie } from './server'
-
-initializeAdminApp()
-
-export async function initializeAdminApp() {
-    if (getApps().length <= 0) {
-        initializeApp({
-            credential: applicationDefault(),
-            projectId: process.env.GOOGLE_PROJECT_ID,
-        })
-    }
-}
 
 export async function getConfig() {
     const doc = await getFirestore().collection('config').doc('env').get()

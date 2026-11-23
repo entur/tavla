@@ -2,11 +2,7 @@
 
 import * as Sentry from '@sentry/nextjs'
 import { updateBoardsInFolder } from 'app/_utils/updateBoardsInFolder'
-import {
-    getConfig,
-    initializeAdminApp,
-    userCanEditFolder,
-} from 'app/(innlogget)/utils/firebase'
+import { getConfig, userCanEditFolder } from 'app/(innlogget)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { FieldValue } from 'firebase-admin/firestore'
@@ -17,8 +13,6 @@ import { updateFolder } from 'src/firebase'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 import { getFilename } from './utils'
-
-initializeAdminApp()
 
 export async function remove(
     folderid?: FolderDB['id'],

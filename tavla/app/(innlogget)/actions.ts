@@ -10,10 +10,8 @@ import { type FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
 import type { UserDB } from 'src/types/db-types/users'
 import { logToGcp } from 'src/utils/logging'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
-import { getUserWithBoardIds, initializeAdminApp } from './utils/firebase'
+import { getUserWithBoardIds } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
-
-initializeAdminApp()
 
 const db = getFirestore()
 

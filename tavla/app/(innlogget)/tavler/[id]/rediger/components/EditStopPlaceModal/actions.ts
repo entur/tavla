@@ -1,9 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import {
-    initializeAdminApp,
-    userCanEditBoard,
-} from 'app/(innlogget)/utils/firebase'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -15,8 +12,6 @@ import {
 } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 import { displayNameSchema, offsetSchema } from './validation'
-
-initializeAdminApp()
 
 export type EditStopPlaceModalFormState =
     | { status: 'success' }

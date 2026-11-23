@@ -1,9 +1,6 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import {
-    initializeAdminApp,
-    revokeUserTokenOnLogout,
-} from 'app/(innlogget)/utils/firebase'
+import { revokeUserTokenOnLogout } from 'app/(innlogget)/utils/firebase'
 import { getAuth } from 'firebase-admin/auth'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
@@ -17,8 +14,6 @@ import {
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { UserDB } from 'src/types/db-types/users'
 import { logToGcp } from 'src/utils/logging'
-
-initializeAdminApp()
 
 export async function logout() {
     logToGcp('info', 'action invoked: logout', {
