@@ -27,9 +27,13 @@ function EditStopPlaceModal({
 }) {
     const { capture } = usePosthogTracking()
 
+    const [hasOpened, setHasOpened] = useState(false)
+    if (isOpen && !hasOpened) setHasOpened(true)
+
     const quaysWithFrontTexts = useQuaysWithFrontTexts(
         quays,
         !!board.isArrivals,
+        hasOpened,
     )
 
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
