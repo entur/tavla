@@ -8,59 +8,142 @@ import { logToGcp } from 'src/utils/logging'
 import { addMinutesToDate, formatDateToISO } from 'src/utils/time'
 import type { TypedDocumentString } from './index'
 
-async function fetcher<Data, Variables>([
+export enum FetchErrorTypes {
+    TIMEOUT = 'Request timed out',
+}
+
+async function fetchWithTimeout(
+    url: RequestInfo | URL,
+    options: RequestInit | undefined,
+    timeout = 15000,
+) {
+    const controller = new AbortController()
+    const signal = controller.signal
+
+    const timeoutScheduler = setTimeout(() => controller.abort(), timeout)
+
+    try {
+        const response = await fetch(url, { ...options, signal })
+        clearTimeout(timeoutScheduler)
+        return response
+    } catch (error) {
+        clearTimeout(timeoutScheduler)
+        if (signal.aborted) {
+            logToGcp('error', 'departure fetch timed out', {
+                type: 'graphql',
+                context: { url: String(url) },
+            })
+            Sentry.captureException(new Error('Departure fetch timed out'), {
+                extra: {
+                    url: url,
+                    fetchOptions: options,
+                },
+            })
+            throw new Error(FetchErrorTypes.TIMEOUT, { cause: error })
+        }
+        logToGcp('error', 'unknown error during fetch', {
+            type: 'graphql',
+            errorName: error instanceof Error ? error.name : undefined,
+            errorMessage:
+                error instanceof Error ? error.message : String(error),
+            context: { url: String(url) },
+        })
+        Sentry.captureException(error, {
+            extra: {
+                message: 'Unknown error occured during fetch',
+                url: url,
+                fetchOptions: options,
+            },
+        })
+        throw error
+    }
+}
+
+export async function fetcher<Data, Variables>([
     query,
     variables,
     endpointName,
     offset,
-]: [TypedDocumentString<Data, Variables>, Variables, TEndpointNames, number]) {
+    timeout,
+]: [
+    TypedDocumentString<Data, Variables>,
+    Variables,
+    TEndpointNames,
+    number,
+    number?,
+]) {
     const startTime = formatDateToISO(addMinutesToDate(new Date(), offset))
     const mergedVariables = { ...variables, startTime }
 
-    let responseStatus: number | undefined
-    try {
-        const response = await fetch(GRAPHQL_ENDPOINTS[endpointName], {
+    const response = await fetchWithTimeout(
+        GRAPHQL_ENDPOINTS[endpointName],
+        {
             headers: {
                 'Content-Type': 'application/json',
                 'ET-Client-Name': CLIENT_NAME,
             },
             body: JSON.stringify({ query, variables: mergedVariables }),
             method: 'POST',
-        })
-        responseStatus = response.status
+        },
+        timeout,
+    )
 
-        const res = await response.json()
-        if (res.errors?.length > 0) {
-            throw new Error(`GraphQL error: ${res.errors[0]?.message}`)
-        }
-        if (!response.ok) {
-            throw new Error(`HTTP ${responseStatus}`)
-        }
-        if (res.data === null || res.data === undefined) {
-            throw new Error('GraphQL returned no data')
-        }
+    logToGcp(
+        response.status >= 500
+            ? 'error'
+            : response.status >= 400
+              ? 'warning'
+              : 'info',
+        'graphql request completed',
+        { type: 'graphql', endpoint: endpointName, status: response.status },
+    )
 
-        return res.data as Data
-    } catch (error) {
-        logToGcp('error', 'graphql request failed', {
+    const res = await response.json()
+
+    if (res.errors && res.errors.length > 0) {
+        const errorMessage = res.errors[0]?.message || 'Unknown GraphQL error'
+        logToGcp('warning', 'graphql response contained errors', {
             type: 'graphql',
             endpoint: endpointName,
-            status: responseStatus,
-            errorName: error instanceof Error ? error.name : undefined,
-            errorMessage:
-                error instanceof Error ? error.message : String(error),
+            status: response.status,
+            errorMessage,
         })
-        Sentry.captureException(error, {
-            tags: { endpoint: endpointName },
-            extra: { variables: mergedVariables },
+        Sentry.captureMessage(`GraphQL error: ${errorMessage}`, {
+            level: 'warning',
+            extra: {
+                errors: res.errors,
+                query: query,
+                variables: mergedVariables,
+                endpoint: endpointName,
+            },
         })
-        throw error
+        throw new Error(`GraphQL error: ${errorMessage}`)
     }
+
+    if (res.data === null || res.data === undefined) {
+        logToGcp('warning', 'graphql returned null/undefined data', {
+            type: 'graphql',
+            endpoint: endpointName,
+            status: response.status,
+        })
+        Sentry.captureMessage('GraphQL returned null/undefined data', {
+            level: 'warning',
+            extra: {
+                response: res,
+                query: query,
+                variables: mergedVariables,
+                endpoint: endpointName,
+            },
+        })
+    }
+
+    return res.data as Data
 }
 
 type TFetchQueryOptions = {
     endpoint: TEndpointNames
     offset?: number
+    timeout?: number
 }
 
 export async function fetchQuery<Data, Variables>(
@@ -77,5 +160,6 @@ export async function fetchQuery<Data, Variables>(
         variables,
         mergedOptions.endpoint,
         mergedOptions.offset ?? 0,
+        mergedOptions.timeout,
     ])
 }
