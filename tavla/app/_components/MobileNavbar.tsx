@@ -102,6 +102,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                 <div className="pointer-events-none sticky bottom-[10%] flex justify-end pb-4 pr-5">
                     <IconButton
                         onClick={() => setIsOpen(false)}
+                        aria-label="Lukk meny"
                         className="pointer-events-auto !rounded-full !bg-contrast !p-3"
                     >
                         <LeftArrowIcon color="background" />

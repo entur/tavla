@@ -14,7 +14,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
         <nav className="container flex flex-row items-center justify-between gap-3 py-8">
             <Logo
                 href="/"
-                alt="Gå tilbake til forsiden"
+                aria-label="Entur Tavla, gå til forsiden"
                 className="flex md:hidden"
                 size="small"
                 onClick={() =>
@@ -24,7 +24,7 @@ function Navbar({ loggedIn }: { loggedIn: boolean }) {
             <Logo
                 productName="Tavla"
                 href="/"
-                alt="Gå tilbake til forsiden"
+                aria-label="Entur Tavla, gå til forsiden"
                 className="hidden md:flex"
                 onClick={() =>
                     capture('go_to_home_page', { location: 'nav_bar' })
