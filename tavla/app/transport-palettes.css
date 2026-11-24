@@ -10,7 +10,7 @@
     --rail-color: var(--standard-train);
     --taxi-color: var(--standard-taxi);
     --tram-color: var(--standard-tram);
-    --unknown-color: var(--standard-walk);
+    --unknown-color: var(--grey-70);
     --water-color: var(--standard-ferry);
 }
 
@@ -48,7 +48,7 @@
     --mobility-color: var(--standard-mobility);
     --taxi-color: var(--standard-taxi);
     --tram-color: var(--standard-tram);
-    --unknown-color: var(--standard-walk);
+    --unknown-color: var(--grey-70);
     --water-color: var(--standard-ferry);
 }
 
@@ -91,7 +91,7 @@
     --rail-color: var(--standard-train);
     --taxi-color: var(--standard-taxi);
     --tram-color: var(--standard-tram);
-    --unknown-color: var(--standard-walk);
+    --unknown-color: var(--grey-70);
     --water-color: var(--standard-ferry);
 }
 
@@ -140,7 +140,7 @@
     --tram-color-transparent: rgba(96, 128, 0, 0.15);
     --metro-color-transparent: rgba(148, 56, 148, 0.15);
     --taxi-color-transparent: rgba(76, 26, 76, 0.15);
-    --unknown-color: var(--standard-walk);
+    --unknown-color: var(--grey-70);
 }
 
 [data-theme="dark"][data-transport-palette="atb"] {
@@ -193,7 +193,7 @@
     --tram-color-transparent: rgba(103, 103, 103, 0.15);
     --metro-color-transparent: rgba(103, 103, 103, 0.15);
     --taxi-color-transparent: rgba(149, 107, 119, 0.15);
-    --unknown-color: var(--standard-walk);
+    --unknown-color: var(--grey-70);
 }
 
 [data-theme="dark"][data-transport-palette="fram"] {
@@ -236,7 +236,7 @@
     --rail-color-transparent: rgba(189, 54, 133, 0.15);
     --water-color-transparent: rgba(65, 128, 131, 0.15);
     --air-color-transparent: rgba(55, 66, 74, 0.15);
-    --unknown-color: var(--standard-walk);
+    --unknown-color: var(--grey-70);
 }
 
 [data-theme="dark"][data-transport-palette="svipper"] {
@@ -280,7 +280,7 @@
     --tram-color-transparent: rgba(0, 77, 97, 0.15);
     --metro-color-transparent: rgba(138, 97, 194, 0.15);
     --taxi-color-transparent: rgba(112, 112, 112, 0.15);
-    --unknown-color: var(--standard-walk);
+    --unknown-color: var(--grey-70);
 }
 [data-theme="dark"][data-transport-palette="reis"] {
     --bus-color: #38a4bf;
@@ -333,7 +333,7 @@
     --tram-color-transparent: rgba(139, 39, 69, 0.15);
     --metro-color-transparent: rgba(0, 54, 127, 0.15);
     --taxi-color-transparent: rgba(70, 20, 35, 0.15);
-    --unknown-color: var(--standard-walk);
+    --unknown-color: var(--grey-70);
 }
 [data-theme="dark"][data-transport-palette="brakar"] {
     --bus-color: #fcdf3d;

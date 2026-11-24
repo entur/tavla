@@ -77,7 +77,7 @@
         --rail-color: var(--standard-train);
         --taxi-color: var(--standard-taxi);
         --tram-color: var(--standard-tram);
-        --unknown-color: var(--standard-walk);
+        --unknown-color: var(--gray-100);
         --water-color: var(--standard-ferry);
 
         --air-color-transparent: var(--rgba-air-color-transparent);
