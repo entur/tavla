@@ -24,6 +24,11 @@ export default function NotFound() {
     return (
         <main className="container flex flex-col items-center pb-10">
             <Heading3 as="h1">Denne siden finnes ikke!</Heading3>
+        <main
+            id="main-content"
+            className="container flex flex-col items-center pb-10"
+        >
+            <Heading3>Denne siden finnes ikke!</Heading3>
             <Image
                 src={BeaverIllustration}
                 className="w-1/2 lg:w-1/4"
