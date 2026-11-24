@@ -80,7 +80,12 @@ export function LineGroupFilter({
     }
 
     return (
-        <div className="rounded-lg border-2 p-4">
+        // biome-ignore lint/a11y/useSemanticElements: <fieldset> krever at <legend> er første barn, som ville tvunget checkboxen under tittelen og endret layoutet. role="group" + aria-labelledby er en likeverdig WCAG 1.3.1-teknikk (ARIA17) som ikke krever det.
+        <div
+            className="rounded-lg border-2 p-4"
+            role="group"
+            aria-labelledby={`group-title-${groupId}`}
+        >
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center justify-start">
                     <Checkbox
@@ -88,11 +93,15 @@ export function LineGroupFilter({
                         checked={selectionState}
                         onChange={(e) => handleToggleGroup(e.target.checked)}
                         className="ml-1"
+                        aria-label="Velg alle linjer"
                     />
                     <div className="flex flex-row gap-1 self-center">
                         {icons}
                     </div>
-                    <div className="flex flex-row flex-wrap items-center gap-x-2 ml-2">
+                    <div
+                        className="flex flex-row flex-wrap items-center gap-x-2 ml-2"
+                        id={`group-title-${groupId}`}
+                    >
                         {title}
                         {tooltip && (
                             <Tooltip

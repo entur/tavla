@@ -1,5 +1,4 @@
 import { DownArrowIcon, UpArrowIcon } from '@entur/icons'
-import { Heading5 } from '@entur/typography'
 import type { Dispatch, SetStateAction } from 'react'
 
 function Expandable({
@@ -26,13 +25,9 @@ function Expandable({
                 }
             >
                 {' '}
-                <Heading5
-                    margin="none"
-                    className="!text-lg sm:text-base"
-                    as="h1"
-                >
+                <span className="font-semibold !text-lg sm:text-base">
                     {title}
-                </Heading5>
+                </span>
                 {isOpen ? <DownArrowIcon /> : <UpArrowIcon />}
             </button>
             {isOpen && (
