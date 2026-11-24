@@ -26,6 +26,7 @@ const CarouselIndicators = ({
                     type="button"
                     // biome-ignore lint/suspicious/noArrayIndexKey: Carousel indicators have no stable ID
                     key={`indicator-${index}`}
+                    // Inaktive prikker er ringer, ikke fylte sirkler: kanten har kontrast 3:1 (WCAG 1.4.11), og fylt/ring skiller aktiv og inaktiv uten å bare bruke farge (WCAG 1.4.1)
                     className={`bottom-5 h-6 w-6 rounded-full md:h-5 md:w-5 ${
                         index === activeIndex
                             ? 'bg-blue'
