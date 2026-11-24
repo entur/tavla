@@ -1,4 +1,5 @@
 'use client'
+import { IconButton } from '@entur/button'
 import { BaseExpand, ExpandArrow } from '@entur/expand'
 import { Checkbox } from '@entur/form'
 import { ValidationInfoFilledIcon } from '@entur/icons'
@@ -99,12 +100,14 @@ export function LineGroupFilter({
                                 className="font-normal"
                                 content={tooltip}
                                 placement="top"
-                                id={`tooltip-group-${groupId}`}
                             >
-                                <ValidationInfoFilledIcon
-                                    size={20}
-                                    aria-labelledby={`tooltip-group-${groupId}`}
-                                />
+                                <IconButton
+                                    type="button"
+                                    size="small"
+                                    aria-label={tooltip}
+                                >
+                                    <ValidationInfoFilledIcon size={20} />
+                                </IconButton>
                             </Tooltip>
                         )}
                         {description && (
