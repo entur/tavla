@@ -27,7 +27,7 @@ _spec.loader.exec_module(migration)
 POSSIBLE = {"Q1": {"L1", "L2"}}
 
 
-def no_lookup(quay_id):
+def no_lookup(quay_id, is_arrivals):
     raise AssertionError(f"Journey Planner skal ikke kalles for {quay_id}")
 
 
@@ -35,7 +35,7 @@ def migrate_board(data, possible_lines, lookup_lines=no_lookup):
     return migration.migrate_board(data, possible_lines, lookup_lines)
 
 
-def board(selected_lines, quay_id="Q1", filter_type="quaysFilter"):
+def board(selected_lines, quay_id="Q1", filter_type="quaysFilter", is_arrivals=None):
     if filter_type == "quaysFilter":
         tile_filter = {
             "type": "quaysFilter",
@@ -47,7 +47,10 @@ def board(selected_lines, quay_id="Q1", filter_type="quaysFilter"):
             "selectedTransportModes": [],
             "selectedLines": list(selected_lines),
         }
-    return {"tiles": [{"uuid": "t1", "filter": tile_filter}]}
+    data = {"tiles": [{"uuid": "t1", "filter": tile_filter}]}
+    if is_arrivals is not None:
+        data["isArrivals"] = is_arrivals
+    return data
 
 
 def selected_after(data):
@@ -66,14 +69,14 @@ class MigrateBoard(unittest.TestCase):
 
     def test_partial_selection_unchanged(self):
         data = board(["L1"])
-        new_data, _, counts = migrate_board(data, POSSIBLE, lambda _: {"L1", "L2"})
+        new_data, _, counts = migrate_board(data, POSSIBLE, lambda *_: {"L1", "L2"})
         self.assertEqual(new_data, data)
         self.assertEqual(counts[migration.PARTIAL], 1)
 
     def test_partial_in_gtfs_collapses_when_journey_planner_has_fewer_lines(self):
         """Sesonglinje L2 finnes i GTFS, men har ingen avganger de neste 30 dagene."""
         new_data, log_lines, counts = migrate_board(
-            board(["L1"]), POSSIBLE, lambda _: {"L1"}
+            board(["L1"]), POSSIBLE, lambda *_: {"L1"}
         )
         self.assertEqual(selected_after(new_data), [])
         self.assertEqual(counts[migration.COLLAPSED], 1)
@@ -87,20 +90,20 @@ class MigrateBoard(unittest.TestCase):
 
     def test_unknown_quay_unchanged_and_flagged(self):
         data = board(["L1"], quay_id="Q404")
-        new_data, _, counts = migrate_board(data, POSSIBLE, lambda _: set())
+        new_data, _, counts = migrate_board(data, POSSIBLE, lambda *_: set())
         self.assertEqual(new_data, data)
         self.assertEqual(counts[migration.UNKNOWN_QUAY], 1)
 
     def test_unknown_quay_in_gtfs_collapses_when_journey_planner_matches(self):
         new_data, _, counts = migrate_board(
-            board(["L9"], quay_id="Q404"), POSSIBLE, lambda _: {"L9"}
+            board(["L9"], quay_id="Q404"), POSSIBLE, lambda *_: {"L9"}
         )
         self.assertEqual(selected_after(new_data), [])
         self.assertEqual(counts[migration.COLLAPSED], 1)
 
     def test_journey_planner_failure_unchanged_and_flagged(self):
         data = board(["L1"])
-        new_data, _, counts = migrate_board(data, POSSIBLE, lambda _: None)
+        new_data, _, counts = migrate_board(data, POSSIBLE, lambda *_: None)
         self.assertEqual(new_data, data)
         self.assertEqual(counts[migration.JP_FAILED], 1)
 
@@ -131,20 +134,40 @@ class MigrateBoard(unittest.TestCase):
         migrate_board(data, POSSIBLE)
         self.assertEqual(selected_after(data), ["L1", "L2"])
 
+    def test_departure_board_looks_up_departures(self):
+        calls = []
+        migrate_board(board(["L1"]), POSSIBLE, lambda q, a: calls.append((q, a)) or {"L1"})
+        self.assertEqual(calls, [("Q1", False)])
+
+    def test_arrival_board_looks_up_arrivals(self):
+        calls = []
+        migrate_board(
+            board(["L1"], is_arrivals=True), POSSIBLE, lambda q, a: calls.append((q, a)) or {"L1"}
+        )
+        self.assertEqual(calls, [("Q1", True)])
+
+    def test_quay_without_id_ignored(self):
+        data = {"tiles": [{"uuid": "t1", "filter": {"type": "quaysFilter", "quays": [{"selectedLines": ["L1"]}]}}]}
+        new_data, _, counts = migrate_board(data, POSSIBLE)
+        self.assertEqual(new_data, data)
+        self.assertEqual(sum(counts.values()), 0)
+
 
 class CachedLookup(unittest.TestCase):
     def test_looks_up_each_quay_once(self):
         calls = []
-        original = migration.fetch_departure_lines
-        migration.fetch_departure_lines = lambda quay_id: calls.append(quay_id) or None
+        original = migration.fetch_quay_lines
+        migration.fetch_quay_lines = lambda q, a: calls.append((q, a)) or None
         try:
             lookup = migration.cached_lookup({})
-            lookup("Q1")
-            lookup("Q1")
-            lookup("Q2")
+            lookup("Q1", False)
+            lookup("Q1", False)
+            lookup("Q2", False)
+            lookup("Q1", True)
+            lookup("Q1", True)
         finally:
-            migration.fetch_departure_lines = original
-        self.assertEqual(calls, ["Q1", "Q2"])
+            migration.fetch_quay_lines = original
+        self.assertEqual(calls, [("Q1", False), ("Q2", False), ("Q1", True)])
 
 
 if __name__ == "__main__":
