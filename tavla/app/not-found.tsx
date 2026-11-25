@@ -22,7 +22,10 @@ export default function NotFound() {
     }, [path])
 
     return (
-        <main className="container flex flex-col items-center pb-10">
+        <main
+            id="main-content"
+            className="container flex flex-col items-center pb-10"
+        >
             <Heading3>Denne siden finnes ikke!</Heading3>
             <Image
                 src={BeaverIllustration}
