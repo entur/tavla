@@ -6,9 +6,9 @@ import { getConfig, userCanEditFolder } from 'app/(innlogget)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { FieldValue } from 'firebase-admin/firestore'
-import { getStorage } from 'firebase-admin/storage'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { adminStorage } from 'src/firebaseAdmin'
 import { updateFolder } from 'src/firestore'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
@@ -34,7 +34,7 @@ export async function remove(
     if (!access) return redirect('/')
 
     try {
-        const bucket = getStorage().bucket((await getConfig()).bucket)
+        const bucket = adminStorage().bucket((await getConfig()).bucket)
         const logoFile = bucket.file('logo/' + file)
 
         await Promise.all([

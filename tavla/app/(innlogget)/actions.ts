@@ -1,9 +1,10 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import type { Folder } from 'app/(innlogget)/utils/types'
-import { FieldPath, getFirestore } from 'firebase-admin/firestore'
+import { FieldPath } from 'firebase-admin/firestore'
 import { chunk, isEmpty } from 'lodash'
 import { redirect } from 'next/navigation'
+import { adminDb } from 'src/firebaseAdmin'
 import { getFolder } from 'src/firestore'
 import { type BoardDB, BoardDBSchema } from 'src/types/db-types/boards'
 import { type FolderDB, FolderDBSchema } from 'src/types/db-types/folders'
@@ -12,8 +13,6 @@ import { logToGcp } from 'src/utils/logging'
 import { FIREBASE_DEV_CONFIG, FIREBASE_PRD_CONFIG } from './utils/constants'
 import { getUserWithBoardIds } from './utils/firebase'
 import { getUserFromSessionCookie } from './utils/server'
-
-const db = getFirestore()
 
 export async function getFirebaseClientConfig() {
     logToGcp('info', 'action invoked: getFirebaseClientConfig', {
@@ -58,7 +57,7 @@ export async function getFoldersForUser(): Promise<Folder[]> {
     if (!user) return redirect('/')
 
     try {
-        const owner = db
+        const owner = adminDb()
             .collection('folders')
             .where('owners', 'array-contains', user.uid)
             .get()
@@ -157,7 +156,7 @@ export async function getBoardsForFolder(folderid: FolderDB['id']) {
 
     try {
         const boardQueries = batchedBoardIDs.map((batch) =>
-            db
+            adminDb()
                 .collection('boards')
                 .where(FieldPath.documentId(), 'in', batch)
                 .get(),
@@ -214,7 +213,7 @@ export async function getBoards(ids?: BoardDB['id'][]) {
     const batches = chunk(ids, 20)
     try {
         const queries = batches.map((batch) =>
-            db
+            adminDb()
                 .collection('boards')
                 .where(FieldPath.documentId(), 'in', batch)
                 .get(),

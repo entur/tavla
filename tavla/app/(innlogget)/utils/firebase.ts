@@ -1,7 +1,6 @@
 import 'server-only'
 import * as Sentry from '@sentry/nextjs'
-import { getAuth } from 'firebase-admin/auth'
-import { getFirestore } from 'firebase-admin/firestore'
+import { adminAuth, adminDb } from 'src/firebaseAdmin'
 import {
     getBoard,
     getFolderForBoard,
@@ -17,14 +16,14 @@ import { getBoardsForFolder, getFolderIfUserHasAccess } from '../actions'
 import { getUserFromSessionCookie } from './server'
 
 export async function getConfig() {
-    const doc = await getFirestore().collection('config').doc('env').get()
+    const doc = await adminDb().collection('config').doc('env').get()
     return doc.data() as { bucket: string }
 }
 
 export async function verifySession(session?: string) {
     if (!session) return null
     try {
-        return await getAuth().verifySessionCookie(session, true)
+        return await adminAuth().verifySessionCookie(session, true)
     } catch {
         return null
     }
@@ -36,7 +35,7 @@ export async function revokeUserTokenOnLogout() {
         return null
     }
     try {
-        await getAuth().revokeRefreshTokens(user.uid)
+        await adminAuth().revokeRefreshTokens(user.uid)
     } catch {
         return null
     }
@@ -45,7 +44,7 @@ export async function revokeUserTokenOnLogout() {
 export async function getUserWithBoardIds(): Promise<UserDB | null> {
     const user = await getUserFromSessionCookie()
     if (!user) return null
-    const userDoc = await getFirestore().collection('users').doc(user.uid).get()
+    const userDoc = await adminDb().collection('users').doc(user.uid).get()
     const userData = {
         uid: userDoc.id,
         ...userDoc.data(),
@@ -93,7 +92,7 @@ export async function deleteBoard(bid: BoardDB['id']) {
     const folder = await getFolderForBoard(bid)
 
     try {
-        await getFirestore().collection('boards').doc(bid).delete()
+        await adminDb().collection('boards').doc(bid).delete()
 
         if (folder?.id) {
             await removeBoardIdFromFolder(folder.id, bid)
@@ -118,7 +117,7 @@ export async function deleteFolder(folderid: FolderDB['id']) {
     const access = await userCanEditFolder(folderid)
     if (!access) throw 'auth/operation-not-allowed'
     await deleteFolderBoards(folderid)
-    await getFirestore().collection('folders').doc(folderid).delete()
+    await adminDb().collection('folders').doc(folderid).delete()
 }
 
 export async function userCanEditFolder(folderid: FolderDB['id']) {
@@ -147,7 +146,7 @@ export async function deleteFolderBoard(
     const access = await userCanEditFolder(folderid)
     if (!access) throw 'auth/operation-not-allowed'
     try {
-        return getFirestore().collection('boards').doc(bid).delete()
+        return adminDb().collection('boards').doc(bid).delete()
     } catch (error) {
         logToGcp('error', 'deleting board in folder failed', {
             type: 'server-action',
@@ -190,7 +189,7 @@ export async function deleteUserFromFirebaseAuth() {
         return
     }
     try {
-        await getAuth().deleteUser(user.uid)
+        await adminAuth().deleteUser(user.uid)
     } catch (error) {
         logToGcp('error', 'deleting user from firebase auth failed', {
             type: 'server-action',
@@ -210,7 +209,7 @@ export async function deleteUserFromFirestore() {
         return
     }
     try {
-        await getFirestore().collection('users').doc(user.uid).delete()
+        await adminDb().collection('users').doc(user.uid).delete()
     } catch (error) {
         logToGcp('error', 'deleting user from firestore failed', {
             type: 'server-action',
