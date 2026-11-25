@@ -100,7 +100,6 @@ function DeleteAccount() {
                             <Button
                                 type="button"
                                 variant="secondary"
-                                aria-label="Avbryt sletting"
                                 onClick={() => {
                                     capture('delete_user_cancelled', {
                                         method: 'cancel_button',

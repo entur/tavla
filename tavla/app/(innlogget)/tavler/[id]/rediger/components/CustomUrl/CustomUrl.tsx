@@ -29,6 +29,7 @@ function CustomUrl({
     const [open, setOpen] = useState(false)
     const [feedback, setFeedback] = useState<string | undefined>(undefined)
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
+    const inputId = `custom-url-${bid}`
 
     const handleChange = (newValue: string) => {
         if (debounceTimerRef.current) {
@@ -100,8 +101,13 @@ function CustomUrl({
                             <Paragraph className="break-all">
                                 {baseUrl}/{bid}
                             </Paragraph>
-                            <Paragraph margin="none">
-                                <b>Egen lenke til denne tavla:</b>
+                            <Paragraph
+                                as="label"
+                                htmlFor={inputId}
+                                margin="none"
+                                className="font-bold"
+                            >
+                                Egen lenke til denne tavla:
                             </Paragraph>
                             <div className="rounded-lg p-1 flex flex-row items-center">
                                 <Paragraph
@@ -111,10 +117,10 @@ function CustomUrl({
                                     {baseUrl}/
                                 </Paragraph>
                                 <input
+                                    id={inputId}
                                     name="customUrl"
                                     className={`outline-none min-w-0 border rounded px-2 py-1 pl-0.5 focus:ring-2 focus:ring-primary ${feedback ? 'border-red-500' : 'border-strokeSubdued'}`}
                                     defaultValue={customUrl}
-                                    aria-label="Egendefinert lenke"
                                     onChange={(f) =>
                                         handleChange(f.target.value)
                                     }
