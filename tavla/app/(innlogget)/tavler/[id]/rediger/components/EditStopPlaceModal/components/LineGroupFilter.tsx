@@ -81,7 +81,10 @@ export function LineGroupFilter({
     }
 
     return (
-        <div className="rounded-lg border-2 p-4">
+        <fieldset
+            className="rounded-lg border-2 p-4"
+            aria-labelledby={`group-title-${groupId}`}
+        >
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center justify-start">
                     <Checkbox
@@ -89,11 +92,15 @@ export function LineGroupFilter({
                         checked={selectionState}
                         onChange={(e) => handleToggleGroup(e.target.checked)}
                         className="ml-1"
+                        aria-label={`Velg alle linjer ${trackingField === 'quays_filter' ? 'for' : 'med'} ${title}`}
                     />
                     <div className="flex flex-row gap-1 self-center">
                         {icons}
                     </div>
-                    <div className="flex flex-row flex-wrap items-center gap-x-2 ml-2">
+                    <div
+                        className="flex flex-row flex-wrap items-center gap-x-2 ml-2"
+                        id={`group-title-${groupId}`}
+                    >
                         {title}
                         {tooltip && (
                             <Tooltip
@@ -149,6 +156,6 @@ export function LineGroupFilter({
                         </Checkbox>
                     ))}
             </BaseExpand>
-        </div>
+        </fieldset>
     )
 }

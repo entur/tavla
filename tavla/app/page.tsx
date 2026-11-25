@@ -57,8 +57,10 @@ async function Landing() {
             <div className="bg-secondary">
                 <div className="container flex flex-col justify-center gap-10 py-12 lg:flex-row">
                     <div className="flex flex-col lg:w-3/4 xl:w-1/2">
-                        <Heading1>Lag en helt gratis avgangstavle for</Heading1>
-                        <WordCarousel />
+                        <Heading1>
+                            Lag en helt gratis avgangstavle for <WordCarousel />
+                        </Heading1>
+
                         <LeadParagraph margin="bottom">
                             Tavla er en <b>gratis</b> tjeneste som gjør det
                             enkelt å sette opp avgangstavler for offentlig

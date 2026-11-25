@@ -1,4 +1,4 @@
-import { Heading5, Paragraph } from '@entur/typography'
+import { Paragraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import type { QuaysFilterDB, StopPlaceFilterDB } from 'types/db-types/boards'
 import type { QuayWithFrontText } from '../../utils/types'
@@ -44,9 +44,6 @@ export function SetFilter({
 
     return (
         <div className="flex flex-col gap-4">
-            <Heading5 as="h2">
-                Hvilke plattformer og linjer vil du vise på Tavla?
-            </Heading5>
             <SetFilterMode
                 trackingLocation={trackingLocation}
                 selectedFilterMode={filterType}

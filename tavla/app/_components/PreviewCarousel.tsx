@@ -16,10 +16,9 @@ const CarouselIndicators = ({
     onClick: (index: number) => void
 }) => {
     return (
-        <div
-            className="mt-4 flex flex-row justify-center space-x-5 md:space-x-3"
+        <fieldset
+            className="m-0 border-0 p-0 mt-4 flex flex-row justify-center space-x-5 md:space-x-3"
             aria-label="Knapper for å bytte mellom avgangstavler"
-            role="radiogroup"
         >
             {previewBoards.map((_, index) => (
                 <button
@@ -39,7 +38,7 @@ const CarouselIndicators = ({
                     onClick={() => onClick(index)}
                 />
             ))}
-        </div>
+        </fieldset>
     )
 }
 
