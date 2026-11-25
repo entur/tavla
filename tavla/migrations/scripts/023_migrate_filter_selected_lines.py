@@ -8,7 +8,8 @@ komprimerte tomme lista (= alle linjer). Slike tavler får ikke med seg nye linj
 som legges til på plattformen senere.
 
 Mulige linjer: samme definisjon som appen (useQuaysWithFrontTexts.ts), dvs. linjer
-i quay.lines med minst én avgang (med frontText) de neste 30 dagene. Kollaps-regelen
+i quay.lines med minst én avgang (med frontText) de neste 30 dagene, eller ankomst
+for ankomsttavler (isArrivals). Kollaps-regelen
 speiler compressQuaysFilter i
 app/(innlogget)/tavler/[id]/rediger/components/EditStopPlaceModal/utils.ts:
 er alle mulige linjer valgt, settes selectedLines til []. Ekstra, utgåtte linje-ider
@@ -27,7 +28,9 @@ Stegvis prosess:
    b. Gir GTFS "partial" eller "ukjent plattform", slås plattformen opp i Journey
       Planner (samme parametere som QuayEstimatedCalls), og status settes på nytt
       ut fra de linjene. Resultatet caches, så hver plattform slås opp maks én gang
-      per kjøring.
+      per kjøring. Som i appen hentes ankomster for ankomsttavler (isArrivals) og
+      avganger ellers. Ankomster og avganger kan gi ulike linjer (f.eks. linjer som
+      ender på plattformen), så cachen skiller på dette.
    Kun tiles skrives, og bare med --write.
 
 Utfall per plattform (etter steg 3a/3b):
@@ -80,8 +83,8 @@ JOURNEY_PLANNER_URL = "https://api.entur.io/journey-planner/v3/graphql"
 JOURNEY_PLANNER_CLIENT_NAME = "entur-tavla-migration"
 
 # Samme parametere som QuayEstimatedCalls i src/graphql/queries/quayEstimatedCalls.graphql
-QUAY_DEPARTURE_LINES_QUERY = """
-query QuayDepartureLines($quayId: String!) {
+QUAY_LINES_QUERY = """
+query QuayLines($quayId: String!, $arrivalDeparture: ArrivalDeparture!) {
     quay(id: $quayId) {
         lines {
             id
@@ -91,7 +94,7 @@ query QuayDepartureLines($quayId: String!) {
             numberOfDeparturesPerLineAndDestinationDisplay: 1
             timeRange: 2592000
             includeCancelledTrips: true
-            arrivalDeparture: departures
+            arrivalDeparture: $arrivalDeparture
         ) {
             destinationDisplay {
                 frontText
@@ -115,15 +118,16 @@ JP_FAILED = "relevant_journey_planner_failed"
 QUAY_STATUSES = [COLLAPSED, UNKNOWN_QUAY, NO_OVERLAP, PARTIAL, JP_FAILED]
 
 # Returnerer mulige linjer for en plattform, eller None hvis oppslaget feilet
-LinesLookup = Callable[[str], set[str] | None]
+# (quay_id, is_arrivals)
+LinesLookup = Callable[[str, bool], set[str] | None]
 
 
 def candidate_quays(tile: dict) -> list[dict]:
-    """Plattformer i et quaysFilter med minst én valgt linje."""
+    """Plattformer (med id) i et quaysFilter med minst én valgt linje."""
     tile_filter = tile.get("filter")
     if not isinstance(tile_filter, dict) or tile_filter.get("type") != "quaysFilter":
         return []
-    return [q for q in tile_filter.get("quays", []) if q.get("selectedLines")]
+    return [q for q in tile_filter.get("quays", []) if q.get("id") and q.get("selectedLines")]
 
 
 def classify_quay(selected_lines: list[str], possible_lines: set[str]) -> str:
@@ -145,6 +149,7 @@ def migrate_board(
     lookup_lines brukes kun for plattformer som er partial eller ukjente i GTFS.
     """
     new_data = copy.deepcopy(data)
+    is_arrivals = bool(data.get("isArrivals"))
     log_lines = []
     counts = {status: 0 for status in QUAY_STATUSES}
 
@@ -160,7 +165,7 @@ def migrate_board(
 
             if status in (PARTIAL, UNKNOWN_QUAY):
                 # 3B - Dersom status er partial eller ukjent, prøv å hente linjer fra journey planner
-                jp_lines = lookup_lines(quay_id)
+                jp_lines = lookup_lines(quay_id, is_arrivals)
                 source = "journey-planner"
                 if jp_lines is None:
                     status = JP_FAILED
@@ -180,8 +185,9 @@ def migrate_board(
     return new_data, log_lines, counts
 
 
-def fetch_departure_lines(quay_id: str, retries: int = 3) -> set[str] | None:
-    """Linjer i quay.lines med minst én avgang de neste 30 dagene, som i appen.
+def fetch_quay_lines(quay_id: str, is_arrivals: bool, retries: int = 3) -> set[str] | None:
+    """Linjer i quay.lines med minst én avgang (eller ankomst hvis is_arrivals) de
+    neste 30 dagene, som i appen.
 
     Returnerer None hvis oppslaget feiler etter alle forsøk.
     """
@@ -189,7 +195,13 @@ def fetch_departure_lines(quay_id: str, retries: int = 3) -> set[str] | None:
         try:
             response = requests.post(
                 JOURNEY_PLANNER_URL,
-                json={"query": QUAY_DEPARTURE_LINES_QUERY, "variables": {"quayId": quay_id}},
+                json={
+                    "query": QUAY_LINES_QUERY,
+                    "variables": {
+                        "quayId": quay_id,
+                        "arrivalDeparture": "arrivals" if is_arrivals else "departures",
+                    },
+                },
                 headers={"ET-Client-Name": JOURNEY_PLANNER_CLIENT_NAME},
                 timeout=30,
             )
@@ -202,13 +214,13 @@ def fetch_departure_lines(quay_id: str, retries: int = 3) -> set[str] | None:
             if quay is None:
                 return set()
 
-            departure_lines = {
+            call_lines = {
                 call["serviceJourney"]["line"]["id"]
                 for call in quay.get("estimatedCalls") or []
                 if (call.get("destinationDisplay") or {}).get("frontText")
                 and ((call.get("serviceJourney") or {}).get("line") or {}).get("id")
             }
-            return {line["id"] for line in quay.get("lines") or []} & departure_lines
+            return {line["id"] for line in quay.get("lines") or []} & call_lines
         except Exception as e:
             print(f"⚠️ Journey Planner feilet for {quay_id} (forsøk {attempt}/{retries}): {e}")
             time.sleep(2 * attempt)
@@ -216,13 +228,14 @@ def fetch_departure_lines(quay_id: str, retries: int = 3) -> set[str] | None:
     return None
 
 
-def cached_lookup(cache: dict[str, set[str] | None]) -> LinesLookup:
-    """Slår opp hver plattform maks én gang per kjøring."""
+def cached_lookup(cache: dict[tuple[str, bool], set[str] | None]) -> LinesLookup:
+    """Slår opp hver plattform maks én gang per kjøring (per ankomst/avgang)."""
 
-    def lookup(quay_id: str) -> set[str] | None:
-        if quay_id not in cache:
-            cache[quay_id] = fetch_departure_lines(quay_id)
-        return cache[quay_id]
+    def lookup(quay_id: str, is_arrivals: bool) -> set[str] | None:
+        key = (quay_id, is_arrivals)
+        if key not in cache:
+            cache[key] = fetch_quay_lines(quay_id, is_arrivals)
+        return cache[key]
 
     return lookup
 
@@ -255,7 +268,7 @@ def collect_candidate_quay_ids(collection_ref) -> tuple[set[str], set[str]]:
         data = doc_snap.to_dict() or {}
         for tile in data.get("tiles", []) or []:
             for quay in candidate_quays(tile):
-                quay_ids.add(quay.get("id"))
+                quay_ids.add(quay["id"])
                 board_ids.add(doc_snap.id)
     return quay_ids, board_ids
 
@@ -312,7 +325,7 @@ def update_documents(db: firestore.Client, gtfs_db: str, write: bool, limit: int
     fail_count = 0
     quay_totals = {status: 0 for status in QUAY_STATUSES}
     relevant_board_ids = {status: set() for status in [UNKNOWN_QUAY, NO_OVERLAP, JP_FAILED]}
-    jp_cache: dict[str, set[str] | None] = {}
+    jp_cache: dict[tuple[str, bool], set[str] | None] = {}
     lookup_lines = cached_lookup(jp_cache)
 
     mode = "WRITE" if write else "DRY RUN — nothing is written"
@@ -393,7 +406,7 @@ def update_documents(db: firestore.Client, gtfs_db: str, write: bool, limit: int
             f"   Plattformer: "
             + ", ".join(f"{status}={count}" for status, count in quay_totals.items())
             + "\n"
-            f"   Journey Planner: {len(jp_cache)} unike plattformer slått opp, "
+            f"   Journey Planner: {len(jp_cache)} oppslag (plattform × ankomst/avgang), "
             f"{sum(1 for lines in jp_cache.values() if lines is None)} feilet\n"
         )
         log_file.write(summary)
