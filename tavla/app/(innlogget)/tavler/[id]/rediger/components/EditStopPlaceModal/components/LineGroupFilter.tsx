@@ -81,10 +81,8 @@ export function LineGroupFilter({
     }
 
     return (
-        // biome-ignore lint/a11y/useSemanticElements: <fieldset> krever at <legend> er første barn, som ville tvunget checkboxen under tittelen og endret layoutet. role="group" + aria-labelledby er en likeverdig WCAG 1.3.1-teknikk (ARIA17) som ikke krever det.
-        <div
+        <fieldset
             className="rounded-lg border-2 p-4"
-            role="group"
             aria-labelledby={`group-title-${groupId}`}
         >
             <div className="flex flex-row justify-between">
@@ -94,7 +92,7 @@ export function LineGroupFilter({
                         checked={selectionState}
                         onChange={(e) => handleToggleGroup(e.target.checked)}
                         className="ml-1"
-                        aria-label="Velg alle linjer"
+                        aria-label={`Velg alle linjer for ${title}`}
                     />
                     <div className="flex flex-row gap-1 self-center">
                         {icons}
@@ -158,6 +156,6 @@ export function LineGroupFilter({
                         </Checkbox>
                     ))}
             </BaseExpand>
-        </div>
+        </fieldset>
     )
 }
