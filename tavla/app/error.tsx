@@ -44,6 +44,11 @@ export default function ErrorPage({
         handleError()
     }, [error, path, isStaleAction])
 
+    useEffect(() => {
+        document.title =
+            'Noe gikk galt | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport'
+    }, [])
+
     return (
         <main
             id="main-content"

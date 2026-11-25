@@ -2,8 +2,14 @@ import { Button } from '@entur/button'
 import { Paragraph } from '@entur/typography'
 import { FirebaseError } from 'firebase/app'
 import { applyActionCode, getAuth } from 'firebase/auth'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getClientApp } from 'src/utils/firebase'
+
+export const metadata: Metadata = {
+    title: 'Verifiser e-post | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
+    description: 'Verifiser e-postadressen til brukeren din i Entur Tavla.',
+}
 
 async function Verify(props: { params: Promise<{ oob: string }> }) {
     const params = await props.params
