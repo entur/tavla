@@ -391,6 +391,18 @@ def update_documents(db: firestore.Client, gtfs_db: str, write: bool, limit: int
             if i % 15 == 0 and i != 0:
                 log_file.flush()
 
+            done = i + 1
+            if done % 100 == 0 or done == len(boards_to_migrate):
+                progress = (
+                    f"⏳ {done}/{len(boards_to_migrate)} tavler · "
+                    f"{success_count} {'oppdatert' if write else 'blir oppdatert'}, "
+                    f"{unchanged_count} uendret, {fail_count} feilet · "
+                    f"{quay_totals[COLLAPSED]} quay-valg satt til [] · "
+                    f"{len(jp_cache)} JP-oppslag"
+                )
+                print(progress, flush=True)
+                log_file.write(f"\n{progress}\n")
+
             if i % 100 == 0 and i != 0:
                 log_file.write(f"\n💤 Sleeping after {i} documents...\n\n")
                 time.sleep(1)
