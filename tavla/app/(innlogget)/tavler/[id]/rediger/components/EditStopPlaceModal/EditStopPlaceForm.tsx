@@ -122,13 +122,12 @@ function EditStopPlaceForm({
             ...tile,
             columns: board.isCombinedTiles ? tile.columns : columns,
             viewMode: board.isCombinedTiles ? tile.viewMode : viewMode,
-            ...(filterIsEdited &&
-                !linesUnavailable && {
-                    filter:
-                        filterType === 'quaysFilter'
-                            ? compressQuaysFilter(quaysFilter, quays)
-                            : compressStopPlaceFilter(stopPlaceFilter, quays),
-                }),
+            ...(filterIsEdited && {
+                filter:
+                    filterType === 'quaysFilter'
+                        ? compressQuaysFilter(quaysFilter, quays)
+                        : compressStopPlaceFilter(stopPlaceFilter, quays),
+            }),
             ...(hasWalkingDistance && {
                 walkingDistance: {
                     distance: tile.walkingDistance?.distance,
