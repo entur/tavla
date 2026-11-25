@@ -36,6 +36,7 @@ This repo is the **admin/configuration app** where boards are created and edited
 yarn install --frozen-lockfile   # Install dependencies
 yarn dev:persist                 # Start dev server + Firebase emulators (recommended, persists .db)
 yarn dev                         # Start dev without state persistence
+yarn dev:readonly                # Start dev loading .db, but never write back (e.g. after restoring prod data)
 yarn fix                         # Fix lint + format (Biome)
 yarn lint                        # Check only
 yarn typecheck                   # TypeScript check

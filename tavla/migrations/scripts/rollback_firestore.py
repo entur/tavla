@@ -84,7 +84,7 @@ def rollback_firestore(env: str, version: str = None, source_env: str = None):
             _restore_local(export_path)
             if source == "prod":
                 print("\n🚨 PÅMINNELSE: Du har nå produksjonsdata på maskinen din.")
-                print("   Start emulatoren med 'yarn dev' (ikke 'yarn dev:persist') under testingen,")
+                print("   Start emulatoren med 'yarn dev:readonly' (ikke 'yarn dev:persist') under testingen,")
                 print("   så unngår du at proddata spres til andre mapper.")
                 print()
                 print("   Husk å slette .db-mappen når du er ferdig:")
