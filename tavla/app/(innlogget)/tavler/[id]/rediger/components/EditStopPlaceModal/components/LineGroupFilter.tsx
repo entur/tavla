@@ -92,7 +92,7 @@ export function LineGroupFilter({
                         checked={selectionState}
                         onChange={(e) => handleToggleGroup(e.target.checked)}
                         className="ml-1"
-                        aria-label={`Velg alle linjer for ${title}`}
+                        aria-label={`Velg alle linjer ${trackingField === 'quays_filter' ? 'for' : 'med'} ${title}`}
                     />
                     <div className="flex flex-row gap-1 self-center">
                         {icons}
