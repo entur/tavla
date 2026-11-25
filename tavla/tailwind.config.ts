@@ -121,6 +121,7 @@ module.exports = {
                 chip: 'var(--components-chip-standard-border)',
                 strokeNeutral: 'var(--stroke-neutral)',
                 strokeContrast: 'var(--stroke-contrast)',
+                strokeSubdued: 'var(--stroke-subdued)',
             },
             fontSize: {
                 'em-xs': '0.625em',

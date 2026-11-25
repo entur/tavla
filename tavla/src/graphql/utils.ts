@@ -64,18 +64,29 @@ export async function fetcher<Data, Variables>([
     variables,
     endpointName,
     offset,
-]: [TypedDocumentString<Data, Variables>, Variables, TEndpointNames, number]) {
+    timeout,
+]: [
+    TypedDocumentString<Data, Variables>,
+    Variables,
+    TEndpointNames,
+    number,
+    number?,
+]) {
     const startTime = formatDateToISO(addMinutesToDate(new Date(), offset))
     const mergedVariables = { ...variables, startTime }
 
-    const response = await fetchWithTimeout(GRAPHQL_ENDPOINTS[endpointName], {
-        headers: {
-            'Content-Type': 'application/json',
-            'ET-Client-Name': CLIENT_NAME,
+    const response = await fetchWithTimeout(
+        GRAPHQL_ENDPOINTS[endpointName],
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'ET-Client-Name': CLIENT_NAME,
+            },
+            body: JSON.stringify({ query, variables: mergedVariables }),
+            method: 'POST',
         },
-        body: JSON.stringify({ query, variables: mergedVariables }),
-        method: 'POST',
-    })
+        timeout,
+    )
 
     logToGcp(
         response.status >= 500
@@ -132,6 +143,7 @@ export async function fetcher<Data, Variables>([
 type TFetchQueryOptions = {
     endpoint: TEndpointNames
     offset?: number
+    timeout?: number
 }
 
 export async function fetchQuery<Data, Variables>(
@@ -148,5 +160,6 @@ export async function fetchQuery<Data, Variables>(
         variables,
         mergedOptions.endpoint,
         mergedOptions.offset ?? 0,
+        mergedOptions.timeout,
     ])
 }

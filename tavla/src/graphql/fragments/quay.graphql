@@ -1,0 +1,10 @@
+fragment quay on Quay {
+    id
+    publicCode
+    name
+    description
+    stopPlace {
+        transportMode
+    }
+    ...lines
+}

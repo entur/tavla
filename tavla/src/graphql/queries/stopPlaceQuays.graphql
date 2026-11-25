@@ -1,0 +1,7 @@
+query stopPlaceQuays($placeId: String!) {
+    stopPlace(id: $placeId) {
+        quays {
+            ...quay
+        }
+    }
+}

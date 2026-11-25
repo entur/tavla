@@ -12,7 +12,11 @@ function Footer({ loggedIn }: { loggedIn: boolean }) {
     return (
         <footer className="eds-contrast">
             <div className="container pb-20 pt-16">
-                <Logo productName="Tavla" size="small" alt="Entur Tavla logo" />
+                <Logo
+                    productName="Tavla"
+                    size="small"
+                    aria-label="Entur Tavla logo"
+                />
                 <div className="flex flex-col justify-between sm:flex-row">
                     <div className="not-italic">
                         <Heading3 as="h2">Entur AS</Heading3>

@@ -173,6 +173,8 @@ export type TDepartureFragment = { aimedDepartureTime: DateTime, expectedDepartu
 
 export type TLinesFragment = { lines: Array<{ id: string, publicCode: string | null, name: string | null, transportMode: Types.TTransportMode | null, transportSubmode: Types.TTransportSubmode | null }> };
 
+export type TQuayFragment = { id: string, publicCode: string | null, name: string, description: string | null, stopPlace: { transportMode: Array<Types.TTransportMode | null> | null } | null, lines: Array<{ id: string, publicCode: string | null, name: string | null, transportMode: Types.TTransportMode | null, transportSubmode: Types.TTransportSubmode | null }> };
+
 export type TSituationFragment = { id: string, description: Array<{ value: string, language: string | null }>, summary: Array<{ value: string, language: string | null }> };
 
 export type TDriveDistanceQueryVariables = Exact<{
@@ -248,19 +250,19 @@ export type TStopPlaceCoordinatesQueryVariables = Exact<{
 
 export type TStopPlaceCoordinatesQuery = { stopPlace: { id: string, longitude: number | null, latitude: number | null } | null };
 
-export type TStopPlaceEditQueryVariables = Exact<{
-  placeId: string;
-}>;
-
-
-export type TStopPlaceEditQuery = { stopPlace: { name: string, quays: Array<{ id: string, publicCode: string | null, name: string, description: string | null, stopPlace: { transportMode: Array<Types.TTransportMode | null> | null } | null, lines: Array<{ id: string, publicCode: string | null, name: string | null, transportMode: Types.TTransportMode | null, transportSubmode: Types.TTransportSubmode | null }> } | null> | null } | null };
-
 export type TStopPlaceNameQueryVariables = Exact<{
   id: string;
 }>;
 
 
 export type TStopPlaceNameQuery = { stopPlace: { name: string, id: string } | null };
+
+export type TStopPlaceQuaysQueryVariables = Exact<{
+  placeId: string;
+}>;
+
+
+export type TStopPlaceQuaysQuery = { stopPlace: { quays: Array<{ id: string, publicCode: string | null, name: string, description: string | null, stopPlace: { transportMode: Array<Types.TTransportMode | null> | null } | null, lines: Array<{ id: string, publicCode: string | null, name: string | null, transportMode: Types.TTransportMode | null, transportSubmode: Types.TTransportSubmode | null }> } | null> | null } | null };
 
 export type TStopPlacesHaveDeparturesQueryVariables = Exact<{
   ids?: Array<string | null | undefined> | string | null | undefined;
