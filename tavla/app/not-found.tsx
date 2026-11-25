@@ -5,7 +5,6 @@ import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { after } from 'next/server'
 import { logToGcp } from 'utils/logging'
 
 export const metadata: Metadata = {
@@ -15,14 +14,12 @@ export const metadata: Metadata = {
 export default async function NotFound() {
     const path = (await headers()).get('x-pathname') ?? undefined
 
-    after(() =>
-        logToGcp('warning', 'page not found', {
-            type: 'http',
-            method: 'GET',
-            status: 404,
-            path,
-        }),
-    )
+    await logToGcp('warning', 'page not found', {
+        type: 'http',
+        method: 'GET',
+        status: 404,
+        path,
+    })
 
     return (
         <main
