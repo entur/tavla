@@ -5,24 +5,44 @@ linjer for plattformen er valgt.
 Bakgrunn: en bug gjorde at enkelte tiles med filter.type == 'quaysFilter' lagret
 "alle linjer valgt" som en eksplisitt liste med linje-ider i stedet for den
 komprimerte tomme lista (= alle linjer). Slike tavler får ikke med seg nye linjer
-som legges til på plattformen senere. Regelen speiler compressQuaysFilter i
-app/(innlogget)/tavler/[id]/rediger/components/EditStopPlaceModal/utils.ts.
+som legges til på plattformen senere.
 
-Per plattform med ikke-tom selectedLines:
-- alle mulige linjer er valgt                  -> settes til []
-- plattformen finnes ikke i GTFS               -> uendret, logges som relevant
-- ingen av de valgte linjene finnes i GTFS     -> uendret, logges som relevant
-- delvis valgt                                 -> uendret
-- Journey Planner-oppslag feilet               -> uendret, logges som relevant
+Mulige linjer: samme definisjon som appen (useQuaysWithFrontTexts.ts), dvs. linjer
+i quay.lines med minst én avgang (med frontText) de neste 30 dagene. Kollaps-regelen
+speiler compressQuaysFilter i
+app/(innlogget)/tavler/[id]/rediger/components/EditStopPlaceModal/utils.ts:
+er alle mulige linjer valgt, settes selectedLines til []. Ekstra, utgåtte linje-ider
+i utvalget er greit. Til forskjell fra appen kollapses aldri en plattform uten mulige
+linjer.
 
-Mulige linjer per plattform hentes i to trinn:
-- GTFS (hele perioden) er en øvre grense. Er alle GTFS-linjene valgt, er også alle
-  linjene med avganger de neste 30 dagene valgt, og plattformen kan kollapses uten
-  videre oppslag.
-- Gir GTFS "partial" eller "ukjent plattform", slås plattformen opp i Journey
-  Planner med samme regel som appen (useQuaysWithFrontTexts.ts): linjer i
-  quay.lines med minst én avgang (med frontText) de neste 30 dagene. Resultatet
-  caches per plattform, så hver plattform slås opp maks én gang per kjøring.
+Stegvis prosess:
+1. Hent kandidater fra Firestore (kun lesing): gå gjennom alle tavler og samle
+   plattformer i quaysFilter med ikke-tom selectedLines, og tavlene de står på.
+2. Slå opp linjene til alle kandidat-plattformene i GTFS med én DuckDB-spørring.
+   Plattformer som mangler i GTFS logges.
+3. Migrer hver kandidat-tavle i en egen transaksjon. Per plattform:
+   a. Sjekk mot GTFS (hele perioden). GTFS er en øvre grense for linjene med
+      avganger de neste 30 dagene, så er alle GTFS-linjene valgt, kollapses
+      plattformen uten API-kall.
+   b. Gir GTFS "partial" eller "ukjent plattform", slås plattformen opp i Journey
+      Planner (samme parametere som QuayEstimatedCalls), og status settes på nytt
+      ut fra de linjene. Resultatet caches, så hver plattform slås opp maks én gang
+      per kjøring.
+   Kun tiles skrives, og bare med --write.
+
+Utfall per plattform (etter steg 3a/3b):
+- collapsed                           alle mulige linjer valgt   -> settes til []
+- partial                             delvis valgt               -> uendret
+- relevant_no_overlap                 ingen valgte linjer mulige -> uendret, logges
+- relevant_unknown_quay               ingen mulige linjer        -> uendret, logges
+- relevant_journey_planner_failed     oppslaget feilet           -> uendret, logges
+Tavler med relevant_*-plattformer listes til slutt i loggen for oppfølging.
+
+Logg: migrate_filter_selected_lines_log.txt i katalogen scriptet kjøres fra
+(legges til, overskrives ikke).
+
+Resultatet avhenger av datoen (30-dagersvinduet i Journey Planner) og av hvor fersk
+GTFS-filen er. Kjør tørrkjøring og --write på prod samme dag, med nylig nedlastet GTFS.
 
 GTFS-dataene legges i en lokal DuckDB:
 1. Last ned rb_norway-aggregated-gtfs.zip fra
@@ -39,7 +59,10 @@ Kjør:
 cd tavla/migrations
 ./migration run scripts/023_migrate_filter_selected_lines.py <local|dev|prod> --gtfs-db path/to/gtfs.duckdb [--limit N] [--write]
 
---limit N begrenser steg 3 til de N første kandidat-tavlene (sortert på id), for korte testkjøringer.
+Uten --write er det en tørrkjøring: ingenting skrives til Firestore, men steg 3b
+gjør fortsatt kall mot Journey Planner.
+--limit N begrenser steg 3 til de N første kandidat-tavlene (sortert på id), for
+korte testkjøringer.
 """
 
 from google.cloud import firestore
@@ -131,10 +154,12 @@ def migrate_board(
             quay_id = quay.get("id")
             selected = quay["selectedLines"]
             possible = possible_lines.get(quay_id, set())
+            # 3A - Sjekker opp status basert på valgte og mulige linjer fra GTFS
             status = classify_quay(selected, possible)
             source = "gtfs"
 
             if status in (PARTIAL, UNKNOWN_QUAY):
+                # 3B - Dersom status er partial eller ukjent, prøv å hente linjer fra journey planner
                 jp_lines = lookup_lines(quay_id)
                 source = "journey-planner"
                 if jp_lines is None:
@@ -295,7 +320,7 @@ def update_documents(db: firestore.Client, gtfs_db: str, write: bool, limit: int
     with open("migrate_filter_selected_lines_log.txt", "a", encoding="utf-8") as log_file:
         log_file.write(f"\n===== {mode} =====\n")
 
-        # 1
+        # 1 - Hent kandidat-plattformer og tavler fra Firestore
         print("🔎 Steg 1: finner kandidat-plattformer")
         quay_ids, board_ids = collect_candidate_quay_ids(collection_ref)
         log_file.write(
@@ -303,7 +328,7 @@ def update_documents(db: firestore.Client, gtfs_db: str, write: bool, limit: int
             f"har quaysFilter med valgte linjer\n"
         )
 
-        # 2
+        # 2 - Slå opp mulige linjer i GTFS
         print("🗺️ Steg 2: slår opp mulige linjer i GTFS")
         possible_lines = load_possible_lines(gtfs_db, quay_ids)
         missing = sorted(quay_ids - possible_lines.keys())
@@ -314,7 +339,7 @@ def update_documents(db: firestore.Client, gtfs_db: str, write: bool, limit: int
         for quay_id in missing:
             log_file.write(f"   ⚠️ Ikke i GTFS: {quay_id}\n")
 
-        # 3
+        # 3 - Migrer tavler basert på mulige linjer og evt Journey Planner lookup
         boards_to_migrate = sorted(board_ids)[:limit]
         print(f"✏️ Steg 3: migrerer {len(boards_to_migrate)} av {len(board_ids)} kandidat-tavler")
         log_file.write(f"📋 Steg 3: migrerer {len(boards_to_migrate)} av {len(board_ids)} kandidat-tavler\n")
