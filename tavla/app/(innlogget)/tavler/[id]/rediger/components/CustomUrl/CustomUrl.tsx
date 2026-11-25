@@ -112,7 +112,7 @@ function CustomUrl({
                                 </Paragraph>
                                 <input
                                     name="customUrl"
-                                    className={`outline-none min-w-0 border rounded px-2 py-1 pl-0.5 focus:ring-2 focus:ring-primary ${feedback ? 'border-red-500' : 'border-gray-300'}`}
+                                    className={`outline-none min-w-0 border rounded px-2 py-1 pl-0.5 focus:ring-2 focus:ring-primary ${feedback ? 'border-red-500' : 'border-strokeSubdued'}`}
                                     defaultValue={customUrl}
                                     aria-label="Egendefinert lenke"
                                     onChange={(f) =>

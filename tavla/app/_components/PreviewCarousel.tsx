@@ -26,7 +26,9 @@ const CarouselIndicators = ({
                     // biome-ignore lint/suspicious/noArrayIndexKey: Carousel indicators have no stable ID
                     key={`indicator-${index}`}
                     className={`bottom-5 h-6 w-6 rounded-full md:h-5 md:w-5 ${
-                        index === activeIndex ? 'bg-blue' : 'bg-tertiary'
+                        index === activeIndex
+                            ? 'bg-blue'
+                            : 'border-2 border-strokeSubdued'
                     }`}
                     aria-label={
                         index === activeIndex
