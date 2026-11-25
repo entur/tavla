@@ -29,8 +29,10 @@ export async function isFeatureEnabled(flag: string): Promise<boolean> {
         const distinctId = phData.distinct_id
         if (!distinctId) return false
 
-        const enabled = await posthogClient.isFeatureEnabled(flag, distinctId)
-        return enabled ?? false
+        const flags = await posthogClient.evaluateFlags(distinctId, {
+            flagKeys: [flag],
+        })
+        return flags.isEnabled(flag)
     } catch {
         return false
     }
