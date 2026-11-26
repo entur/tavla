@@ -1,11 +1,7 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import { getBoardsForFolder } from 'app/(innlogget)/actions'
-import {
-    deleteBoard,
-    initializeAdminApp,
-    userCanEditFolder,
-} from 'app/(innlogget)/utils/firebase'
+import { deleteBoard, userCanEditFolder } from 'app/(innlogget)/utils/firebase'
 import type { TFormFeedback } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { revalidatePath } from 'next/cache'
@@ -17,13 +13,11 @@ import {
     getFolderForBoard,
     removeBoardIdFromFolder,
     removeBoardIdFromUser,
-} from 'src/firebase'
+} from 'src/firestore'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 import { getUserFromSessionCookie } from '../../utils/server'
-
-initializeAdminApp()
 
 export async function deleteBoardAction(
     _prevState: TFormFeedback | undefined,

@@ -11,7 +11,7 @@ import {
 } from 'app/(innlogget)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { getAuth } from 'firebase-admin/auth'
+import { adminAuth } from 'src/firebaseAdmin'
 import { logToGcp } from 'src/utils/logging'
 import { logout } from '../Login/actions'
 
@@ -25,7 +25,7 @@ export async function deleteAccount(data: FormData) {
         action: 'deleteAccount',
     })
 
-    const userObject = await getAuth().getUser(user.uid)
+    const userObject = await adminAuth().getUser(user.uid)
     const confirmEmail = data.get('confirmEmail') as string
     if (userObject.email !== confirmEmail) {
         return getFormFeedbackForError('delete/email-mismatch')

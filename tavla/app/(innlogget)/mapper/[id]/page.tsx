@@ -8,10 +8,11 @@ import { BoardTable } from 'app/(innlogget)/oversikt/components/BoardTable'
 import EmptyOverview from 'app/(innlogget)/oversikt/components/EmptyOverview'
 import { BreadcrumbsNav } from 'app/(innlogget)/tavler/[id]/BreadcrumbsNav'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { getAuth, type UserIdentifier } from 'firebase-admin/auth'
+import type { UserIdentifier } from 'firebase-admin/auth'
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-import { getFolder } from 'src/firebase'
+import { adminAuth } from 'src/firebaseAdmin'
+import { getFolder } from 'src/firestore'
 import type { FolderDB } from 'src/types/db-types/folders'
 import type { UserDB } from 'src/types/db-types/users'
 import { MemberAdministration } from '../components/MemberAdministration/MemberAdministration'
@@ -44,7 +45,7 @@ async function getAuthenticatedUsers(
     uids: UserDB['uid'][],
 ): Promise<AuthenticatedUser[]> {
     const userIdentifiers: UserIdentifier[] = uids.map((uid) => ({ uid }))
-    const userRecords = await getAuth().getUsers(userIdentifiers)
+    const userRecords = await adminAuth().getUsers(userIdentifiers)
 
     const members: AuthenticatedUser[] = userRecords.users.map((user) => ({
         uid: user.uid,

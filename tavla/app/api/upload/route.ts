@@ -1,23 +1,18 @@
 'use server'
 
 import { updateBoardsInFolder } from 'app/_utils/updateBoardsInFolder'
-import {
-    getConfig,
-    initializeAdminApp,
-    userCanEditFolder,
-} from 'app/(innlogget)/utils/firebase'
+import { getConfig, userCanEditFolder } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { getDownloadURL, getStorage } from 'firebase-admin/storage'
+import { getDownloadURL } from 'firebase-admin/storage'
 import { nanoid } from 'nanoid'
 import { revalidatePath } from 'next/cache'
 import type { NextRequest } from 'next/server'
-import { updateFolder } from 'src/firebase'
+import { adminStorage } from 'src/firebaseAdmin'
+import { updateFolder } from 'src/firestore'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 import rateLimit from 'src/utils/rateLimit'
 import { sanitizeSvg } from './sanitizeSvg'
-
-initializeAdminApp()
 
 const rateLimiter = rateLimit({
     maxUniqueTokens: 100,
@@ -136,7 +131,7 @@ export async function POST(request: NextRequest) {
     } else {
         processedFile = Buffer.from(await logo.arrayBuffer())
     }
-    const bucket = getStorage().bucket((await getConfig()).bucket)
+    const bucket = adminStorage().bucket((await getConfig()).bucket)
 
     const file = bucket.file(`logo/${folderid}-${nanoid()}`)
     await file.save(processedFile, {
