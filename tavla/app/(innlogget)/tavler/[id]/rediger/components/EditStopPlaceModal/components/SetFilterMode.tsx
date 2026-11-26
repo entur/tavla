@@ -46,8 +46,9 @@ export function SetFilterMode({
             value={selectedFilterMode}
             onChange={(e) => handleChange(e.target.value as FilterMode)}
             name={'filterMode'}
+            label="Hvilke plattformer og linjer vil du vise på Tavla?"
         >
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-2">
                 {filterModes.map((mode) => (
                     <RadioPanel
                         key={mode.value}

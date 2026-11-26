@@ -10,7 +10,9 @@ const EmptyOverview: React.FC<EmptyOverviewProps> = ({ text }) => {
     return (
         <div className="mb-20 flex h-full flex-col items-center justify-center">
             <Image src={leafs} alt="" className="mx-auto h-1/4 w-1/4" />
-            <Heading4 className="text-center">{text}</Heading4>
+            <Heading4 as="h2" className="text-center">
+                {text}
+            </Heading4>
         </div>
     )
 }

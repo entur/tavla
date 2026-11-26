@@ -58,12 +58,14 @@ export function SetViewMode({
 
     return (
         <div className="flex flex-col gap-4">
-            <Heading5 as="h2">Hvordan vil du vise avgangene? </Heading5>
             {isCombined && (
-                <SubParagraph className="text-error">
-                    Du har samlet stoppestedene i én liste og har derfor ikke
-                    mulighet til å velge visningsmodus.
-                </SubParagraph>
+                <>
+                    <Heading5 as="h2">Hvordan vil du vise avgangene? </Heading5>
+                    <SubParagraph className="text-error">
+                        Du har samlet stoppestedene i én liste og har derfor
+                        ikke mulighet til å velge visningsmodus.
+                    </SubParagraph>
+                </>
             )}
             {!isCombined && (
                 <RadioGroup
@@ -72,8 +74,9 @@ export function SetViewMode({
                         handleChange(e.target.value as TileViewMode)
                     }
                     name={'viewMode'}
+                    label="Hvordan vil du vise avgangene?"
                 >
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
                         {viewModes.map((mode) => (
                             <RadioPanel
                                 key={mode.value}

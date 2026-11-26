@@ -22,8 +22,9 @@ function WordCarousel() {
 
     return (
         <Heading1
+            as="span"
             margin="none"
-            className={`transform !font-normal italic transition-all duration-1000 ease-in-out ${
+            className={`block mt-4 transform !font-normal italic transition-all duration-1000 ease-in-out ${
                 fade ? '-translate-y-4 opacity-100' : '-translate-y-6 opacity-0'
             }`}
         >
