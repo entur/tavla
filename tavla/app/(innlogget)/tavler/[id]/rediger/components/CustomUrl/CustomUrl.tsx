@@ -5,7 +5,7 @@ import { ButtonGroup, IconButton, SecondaryButton } from '@entur/button'
 import { EditIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import {
     TRACKING_DEBOUNCE_TIME,

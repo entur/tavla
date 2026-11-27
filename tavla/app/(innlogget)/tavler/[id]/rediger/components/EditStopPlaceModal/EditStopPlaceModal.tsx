@@ -1,6 +1,5 @@
 'use client'
 import { Modal } from '@entur/modal'
-import { Heading3 } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
