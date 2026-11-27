@@ -67,11 +67,9 @@ async function saveAuthState(baseURL: string) {
 
     await page.route('**/web.cmp.usercentrics.eu/**', (route) => route.abort())
     await page.goto(`${baseURL}/?login=email`)
+    await page.getByRole('textbox', { name: 'E-post' }).fill(TEST_USER.email)
     await page
-        .getByRole('textbox', { name: 'E-post', exact: true })
-        .fill(TEST_USER.email)
-    await page
-        .getByRole('textbox', { name: 'Passord', exact: true })
+        .getByRole('textbox', { name: 'Passord' })
         .fill(TEST_USER.password)
     await page.getByRole('button', { name: 'Logg inn', exact: true }).click()
     await page.waitForURL(/\/oversikt/, { timeout: 30_000 })
