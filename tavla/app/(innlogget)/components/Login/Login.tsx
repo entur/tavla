@@ -13,13 +13,6 @@ import { Email } from './Email'
 import { Reset } from './Reset'
 import type { TLoginPage } from './types'
 
-const DIALOG_LABELS: Record<TLoginPage, string> = {
-    entry: 'Velg hvordan du vil fortsette',
-    email: 'Logg inn med e-post',
-    create: 'Opprett ny bruker',
-    reset: 'Glemt passord',
-}
-
 function Login({ loggedIn }: { loggedIn: boolean }) {
     const router = useRouter()
     const pathname = usePathname()
@@ -64,11 +57,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 size="small"
                 closeLabel="Avbryt"
                 className="w-11/12 lg:w-full"
-                aria-label={
-                    pageParam && Object.hasOwn(DIALOG_LABELS, pageParam)
-                        ? DIALOG_LABELS[pageParam as TLoginPage]
-                        : DIALOG_LABELS.email
-                }
+                aria-label={pageLabel(pageParam as TLoginPage)}
                 onDismiss={() => {
                     router.push(pathname ?? '/')
                     capture('user_modal_closed', {
@@ -94,6 +83,19 @@ function Page({ page }: { page: TLoginPage }) {
             return <Entry />
         default:
             return <Email />
+    }
+}
+
+function pageLabel(page: TLoginPage) {
+    switch (page) {
+        case 'create':
+            return 'Opprett ny bruker'
+        case 'reset':
+            return 'Glemt passord'
+        case 'entry':
+            return 'Velg hvordan du vil fortsette'
+        default:
+            return 'Logg inn med e-post'
     }
 }
 
