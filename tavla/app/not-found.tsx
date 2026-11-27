@@ -1,25 +1,25 @@
-'use client'
-
 import { Button } from '@entur/button'
 import { Heading3 } from '@entur/typography'
 import BeaverIllustration from 'assets/illustrations/Beaver.png'
+import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useEffect } from 'react'
 import { logToGcp } from 'utils/logging'
 
-export default function NotFound() {
-    const path = usePathname()
+export const metadata: Metadata = {
+    title: 'Siden finnes ikke | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport',
+}
 
-    useEffect(() => {
-        logToGcp('warning', 'page not found', {
-            type: 'http',
-            method: 'GET',
-            status: 404,
-            path: path ?? undefined,
-        })
-    }, [path])
+export default async function NotFound() {
+    const path = (await headers()).get('x-pathname') ?? undefined
+
+    await logToGcp('warning', 'page not found', {
+        type: 'http',
+        method: 'GET',
+        status: 404,
+        path,
+    })
 
     return (
         <main
