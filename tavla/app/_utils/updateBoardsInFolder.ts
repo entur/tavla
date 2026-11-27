@@ -1,4 +1,4 @@
-import { getFolder } from 'src/firebase'
+import { getFolder } from 'src/firestore'
 import type { FolderDB } from 'types/db-types/folders'
 import { getBackendUrl } from 'utils/backendUrl'
 import { logToGcp } from 'utils/logging'

@@ -2,23 +2,17 @@
 
 import * as Sentry from '@sentry/nextjs'
 import { updateBoardsInFolder } from 'app/_utils/updateBoardsInFolder'
-import {
-    getConfig,
-    initializeAdminApp,
-    userCanEditFolder,
-} from 'app/(innlogget)/utils/firebase'
+import { getConfig, userCanEditFolder } from 'app/(innlogget)/utils/firebase'
 import { getFormFeedbackForError } from 'app/(innlogget)/utils/forms'
 import { handleError } from 'app/(innlogget)/utils/handleError'
 import { FieldValue } from 'firebase-admin/firestore'
-import { getStorage } from 'firebase-admin/storage'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { updateFolder } from 'src/firebase'
+import { adminStorage } from 'src/firebaseAdmin'
+import { updateFolder } from 'src/firestore'
 import type { FolderDB } from 'src/types/db-types/folders'
 import { logToGcp } from 'src/utils/logging'
 import { getFilename } from './utils'
-
-initializeAdminApp()
 
 export async function remove(
     folderid?: FolderDB['id'],
@@ -40,7 +34,7 @@ export async function remove(
     if (!access) return redirect('/')
 
     try {
-        const bucket = getStorage().bucket((await getConfig()).bucket)
+        const bucket = adminStorage().bucket((await getConfig()).bucket)
         const logoFile = bucket.file('logo/' + file)
 
         await Promise.all([

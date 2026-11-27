@@ -1,24 +1,19 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import {
-    initializeAdminApp,
-    revokeUserTokenOnLogout,
-} from 'app/(innlogget)/utils/firebase'
-import { getAuth } from 'firebase-admin/auth'
+import { revokeUserTokenOnLogout } from 'app/(innlogget)/utils/firebase'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { adminAuth } from 'src/firebaseAdmin'
 import {
     addBoardIdToUser,
     createUser,
     getBoard,
     updateBoard,
-} from 'src/firebase'
+} from 'src/firestore'
 import type { BoardDB } from 'src/types/db-types/boards'
 import type { UserDB } from 'src/types/db-types/users'
 import { logToGcp } from 'src/utils/logging'
-
-initializeAdminApp()
 
 export async function logout() {
     logToGcp('info', 'action invoked: logout', {
@@ -37,11 +32,11 @@ export async function login(token: string) {
         action: 'login',
     })
     const expiresIn = 60 * 60 * 24 * 10 // Ten days in seconds
-    const sessionCookie = await getAuth().createSessionCookie(token, {
+    const sessionCookie = await adminAuth().createSessionCookie(token, {
         expiresIn: expiresIn * 1000, // Firebase expects the number in milliseconds
     })
 
-    const user = await getAuth().verifySessionCookie(sessionCookie, true)
+    const user = await adminAuth().verifySessionCookie(sessionCookie, true)
     if (!user.email_verified) return 'auth/unverified'
     ;(await cookies()).set({
         name: 'session',

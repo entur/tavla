@@ -101,7 +101,7 @@ Loggnivå settes automatisk i GraphQL-fetcheren basert på statuskode:
 
 #### Firestore-tilgang – `type: 'firestore'`
 
-Brukes i `src/firebase.ts` for feil/valideringsfeil i selve Firestore-tilgangen, uavhengig av om kalleren er en server action, et API-endepunkt eller en Server Component. Feilen oppstår i data-laget, ikke hos kalleren, så den klassifiseres deretter i stedet for å gjette seg til kallerens type.
+Brukes i `src/firestore.ts` for feil/valideringsfeil i selve Firestore-tilgangen, uavhengig av om kalleren er en server action, et API-endepunkt eller en Server Component. Feilen oppstår i data-laget, ikke hos kalleren, så den klassifiseres deretter i stedet for å gjette seg til kallerens type.
 
 ```typescript
 logToGcp('error', 'fetching board from firebase failed', {
@@ -112,7 +112,7 @@ logToGcp('error', 'fetching board from firebase failed', {
 })
 ```
 
-Funksjonene i `src/firebase.ts` kaster feilen videre etter at de har logget den, og kalleren logger den på nytt som `server-action` eller `http`. Én Firestore-feil gir altså to `error`-oppføringer. Tell bare én av typene når du teller feil.
+Funksjonene i `src/firestore.ts` kaster feilen videre etter at de har logget den, og kalleren logger den på nytt som `server-action` eller `http`. Én Firestore-feil gir altså to `error`-oppføringer. Tell bare én av typene når du teller feil.
 
 #### Hendelser fra tavla-visning – `type: "tavla-visning"`
 

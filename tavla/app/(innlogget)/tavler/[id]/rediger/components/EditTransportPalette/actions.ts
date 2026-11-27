@@ -1,19 +1,14 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import {
-    initializeAdminApp,
-    userCanEditBoard,
-} from 'app/(innlogget)/utils/firebase'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { updateBoard } from 'src/firebase'
+import { updateBoard } from 'src/firestore'
 import { logToGcp } from 'utils/logging'
 import {
     type TransportPaletteValue,
     transportPaletteSchema,
 } from './validation'
-
-initializeAdminApp()
 
 export type TransportPaletteState =
     | { status: 'success' }

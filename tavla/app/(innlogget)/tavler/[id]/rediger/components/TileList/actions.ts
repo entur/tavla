@@ -1,18 +1,13 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
 import { COUNTY_THEME_MAP } from 'app/_utils/colorPalettes'
-import {
-    initializeAdminApp,
-    userCanEditBoard,
-} from 'app/(innlogget)/utils/firebase'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { getBoard, updateBoard } from 'src/firebase'
+import { getBoard, updateBoard } from 'src/firestore'
 import type { BoardTileDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-
-initializeAdminApp()
 
 export type DeleteTileState =
     | { status: 'success' }

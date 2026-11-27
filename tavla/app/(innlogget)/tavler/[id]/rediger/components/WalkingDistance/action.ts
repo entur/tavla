@@ -1,13 +1,10 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import {
-    initializeAdminApp,
-    userCanEditBoard,
-} from 'app/(innlogget)/utils/firebase'
+import { userCanEditBoard } from 'app/(innlogget)/utils/firebase'
 import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { getBoard, updateBoard } from 'src/firebase'
+import { getBoard, updateBoard } from 'src/firestore'
 import type { BoardTileDB, LocationDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
 import {
@@ -16,8 +13,6 @@ import {
     getWalkingDistance,
 } from '../AddStopPlace/utils'
 import { locationSchema } from './validation'
-
-initializeAdminApp()
 
 export type FormState =
     | { status: 'success' }

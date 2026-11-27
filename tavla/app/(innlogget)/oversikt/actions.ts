@@ -1,12 +1,9 @@
 'use server'
 import * as Sentry from '@sentry/nextjs'
-import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
-import { addBoardIdToUser, createBoard } from 'src/firebase'
+import { addBoardIdToUser, createBoard } from 'src/firestore'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-
-initializeAdminApp()
 
 export async function saveBoardToFirebaseForUser(
     board: BoardDB,

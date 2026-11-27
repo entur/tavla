@@ -1,8 +1,6 @@
 'use server'
 import { cookies } from 'next/headers'
-import { initializeAdminApp, verifySession } from './firebase'
-
-initializeAdminApp()
+import { verifySession } from './firebase'
 
 export async function getUserFromSessionCookie() {
     const session = (await cookies()).get('session')

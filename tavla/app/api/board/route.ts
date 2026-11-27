@@ -1,11 +1,8 @@
 import * as Sentry from '@sentry/nextjs'
-import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { type NextRequest, NextResponse } from 'next/server'
-import { getBoard, getBoardByCustomUrl, getFolderForBoard } from 'src/firebase'
+import { getBoard, getBoardByCustomUrl, getFolderForBoard } from 'src/firestore'
 import type { BoardDB } from 'src/types/db-types/boards'
 import { logToGcp } from 'src/utils/logging'
-
-initializeAdminApp()
 
 const allowedOrigins = [
     'https://vis-tavla.dev.entur.no',

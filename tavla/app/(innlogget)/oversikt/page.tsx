@@ -4,15 +4,12 @@ import {
     getFoldersForUser,
     getPrivateBoardsForUser,
 } from 'app/(innlogget)/actions'
-import { initializeAdminApp } from 'app/(innlogget)/utils/firebase'
 import { getUserFromSessionCookie } from 'app/(innlogget)/utils/server'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { CreateBoard } from '../components/CreateBoard/CreateBoard'
 import { CreateFolder } from '../components/CreateFolder/CreateFolder'
 import { FoldersAndBoardsContent } from './components/FoldersAndBoardsContent'
-
-initializeAdminApp()
 
 export const metadata: Metadata = {
     title: `Mapper og tavler | Entur Tavla - Sanntidsskjerm og avgangstavle for offentlig transport`,
