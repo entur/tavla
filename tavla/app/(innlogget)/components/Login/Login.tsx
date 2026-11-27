@@ -65,8 +65,9 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 closeLabel="Avbryt"
                 className="w-11/12 lg:w-full"
                 aria-label={
-                    DIALOG_LABELS[pageParam as TLoginPage] ??
-                    DIALOG_LABELS.email
+                    pageParam && Object.hasOwn(DIALOG_LABELS, pageParam)
+                        ? DIALOG_LABELS[pageParam as TLoginPage]
+                        : DIALOG_LABELS.email
                 }
                 onDismiss={() => {
                     router.push(pathname ?? '/')

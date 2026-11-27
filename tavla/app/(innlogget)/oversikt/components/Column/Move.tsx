@@ -67,7 +67,11 @@ function Move({ board }: { board: BoardDB }) {
                 }}
                 style={{ overflow: 'visible' }}
                 closeLabel="Avbryt flytting"
-                title={`Flytt tavlen "${board.meta.title}"`}
+                title={
+                    board?.meta?.title
+                        ? `Flytt tavlen "${board.meta.title}"`
+                        : 'Flytt tavlen'
+                }
                 className="flex flex-col items-center"
             >
                 <Paragraph className="mb-5 text-center">
