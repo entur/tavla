@@ -41,6 +41,7 @@ function CreateFolder() {
                     setIsOpen(false)
                 }}
                 closeLabel="Avbryt oppretting"
+                aria-label="Opprett mappe"
             >
                 <Image
                     src={birds}

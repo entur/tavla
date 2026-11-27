@@ -43,6 +43,7 @@ function CreateBoard({ folders, folder, trackingLocation }: CreateBoardProps) {
                     setIsOpen(false)
                 }}
                 closeLabel="Avbryt opprettelse av tavle"
+                aria-label="Opprett tavle"
                 style={{ overflow: 'visible' }}
             >
                 <NameAndFolderSelector

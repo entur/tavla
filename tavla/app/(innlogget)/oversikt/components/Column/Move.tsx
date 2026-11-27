@@ -66,12 +66,10 @@ function Move({ board }: { board: BoardDB }) {
                     setIsOpen(false)
                 }}
                 style={{ overflow: 'visible' }}
-                closeLabel="Avbryt sletting"
+                closeLabel="Avbryt flytting"
+                title={`Flytt tavlen "${board.meta.title}"`}
                 className="flex flex-col items-center"
             >
-                <Heading3 margin="bottom" as="h1">
-                    Flytt tavlen &quot;{board.meta.title}&quot;
-                </Heading3>
                 <Paragraph className="mb-5 text-center">
                     Velg hvilken mappe du vil flytte tavlen til. Vær oppmerksom
                     på at når du flytter en tavle vil tilgangene endres basert

@@ -82,6 +82,7 @@ function DeleteFolder({
                     setNameError(undefined)
                 }}
                 closeLabel="Avbryt sletting"
+                aria-label="Slett mappe"
                 className="flex flex-col text-center"
             >
                 <Image src={ducks} alt="" className="mx-auto h-1/2 w-1/2" />

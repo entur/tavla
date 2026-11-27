@@ -63,6 +63,7 @@ function DeleteBoard({
                     setIsOpen(false)
                 }}
                 closeLabel="Avbryt sletting"
+                aria-label="Slett tavle"
                 className="flex flex-col items-center justify-start text-center"
             >
                 <Image src={sheep} alt="" className="h-1/2 w-1/2" />

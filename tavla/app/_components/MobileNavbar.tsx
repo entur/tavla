@@ -32,6 +32,7 @@ function MobileNavbar({ loggedIn }: { loggedIn: boolean }) {
                 onDismiss={() => setIsOpen(false)}
                 size="small"
                 closeLabel="Lukk meny"
+                aria-label="Meny"
                 className="!fixed !left-0 !top-0 !h-full !max-h-full !w-9/12 !overflow-y-auto !rounded-none !p-0"
             >
                 <SideNavigation className="!bg-primary !pb-24 !pt-10">
