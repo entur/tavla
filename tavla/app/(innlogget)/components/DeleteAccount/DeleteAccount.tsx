@@ -61,6 +61,7 @@ function DeleteAccount() {
                     close()
                 }}
                 closeLabel="Avbryt sletting"
+                aria-label="Slett bruker"
                 className="flex flex-col text-center"
             >
                 <div className="flex flex-col items-center">

@@ -5,7 +5,7 @@ import { ButtonGroup, IconButton, SecondaryButton } from '@entur/button'
 import { EditIcon, ValidationInfoFilledIcon } from '@entur/icons'
 import { Modal } from '@entur/modal'
 import { Tooltip } from '@entur/tooltip'
-import { Heading3, Paragraph } from '@entur/typography'
+import { Paragraph } from '@entur/typography'
 import { SubmitButton } from 'app/_components/Form/SubmitButton'
 import {
     TRACKING_DEBOUNCE_TIME,
@@ -84,12 +84,14 @@ function CustomUrl({
                 </IconButton>
             </Tooltip>
             {open && (
-                <Modal open={open} size="small" onDismiss={closeModal}>
+                <Modal
+                    open={open}
+                    size="small"
+                    onDismiss={closeModal}
+                    title="Legg til egen lenke"
+                >
                     <form action={formAction}>
                         <div className="flex flex-col w-full mb-4">
-                            <Heading3 margin="bottom">
-                                Legg til egen lenke
-                            </Heading3>
                             <Paragraph>
                                 Du kan selv velge en lenke til denne tavla. Den
                                 originale lenken vil fortsette å fungere selv om

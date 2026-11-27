@@ -57,6 +57,7 @@ function Login({ loggedIn }: { loggedIn: boolean }) {
                 size="small"
                 closeLabel="Avbryt"
                 className="w-11/12 lg:w-full"
+                aria-label={pageLabel(pageParam as TLoginPage)}
                 onDismiss={() => {
                     router.push(pathname ?? '/')
                     capture('user_modal_closed', {
@@ -82,6 +83,19 @@ function Page({ page }: { page: TLoginPage }) {
             return <Entry />
         default:
             return <Email />
+    }
+}
+
+function pageLabel(page: TLoginPage) {
+    switch (page) {
+        case 'create':
+            return 'Opprett ny bruker'
+        case 'reset':
+            return 'Glemt passord'
+        case 'entry':
+            return 'Velg hvordan du vil fortsette'
+        default:
+            return 'Logg inn med e-post'
     }
 }
 

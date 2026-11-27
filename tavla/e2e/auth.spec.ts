@@ -9,8 +9,10 @@ test('log in with email and password lands on /oversikt with a session cookie', 
 }) => {
     await page.goto('/?login=email')
 
-    await page.getByLabel('E-post').fill(TEST_USER.email)
-    await page.getByLabel('Passord', { exact: true }).fill(TEST_USER.password)
+    await page.getByRole('textbox', { name: 'E-post' }).fill(TEST_USER.email)
+    await page
+        .getByRole('textbox', { name: 'Passord' })
+        .fill(TEST_USER.password)
     await page.getByRole('button', { name: 'Logg inn', exact: true }).click()
 
     await page.waitForURL(/\/oversikt/)

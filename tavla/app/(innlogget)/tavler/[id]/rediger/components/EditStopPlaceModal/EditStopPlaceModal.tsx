@@ -1,6 +1,5 @@
 'use client'
 import { Modal } from '@entur/modal'
-import { Heading3 } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
 import { useState } from 'react'
@@ -83,12 +82,9 @@ function EditStopPlaceModal({
             size="large"
             className="!pb-0"
             data-transport-palette={board.transportPalette}
+            title={`Rediger ${tile.displayName ?? tile.name}`}
         >
             <TileContext.Provider value={tile}>
-                <Heading3 as="h1">
-                    Rediger {tile.displayName ?? tile.name}
-                </Heading3>
-
                 {!quaysWithFrontTexts ? (
                     <div className="h-screen my-8">Laster...</div>
                 ) : (
