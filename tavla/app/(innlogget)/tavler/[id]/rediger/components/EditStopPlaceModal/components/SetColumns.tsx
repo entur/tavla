@@ -2,10 +2,8 @@ import { FilterChip } from '@entur/chip'
 import { Heading5, SubParagraph } from '@entur/typography'
 import type { EventProps } from 'app/posthog/events'
 import { usePosthogTracking } from 'app/posthog/usePosthogTracking'
-import { useState } from 'react'
 import { type TileColumnDB, TileColumns } from 'src/types/db-types/boards'
 import { typedEntries } from 'src/utils/typeguards'
-import { ColumnModal } from './ColumnModal'
 
 const COLUMN_TRACKING_VALUE: Record<
     keyof typeof TileColumns,
@@ -37,7 +35,6 @@ export function SetColumns({
     onFieldChanged: (field: string) => void
 }) {
     const { capture } = usePosthogTracking()
-    const [isColumnModalOpen, setIsColumnModalOpen] = useState(false)
 
     function onChange(
         e: React.ChangeEvent<HTMLInputElement>,
@@ -68,11 +65,6 @@ export function SetColumns({
                     mulighet til å velge kolonner.
                 </SubParagraph>
             )}
-
-            <ColumnModal
-                isOpen={isColumnModalOpen}
-                setIsOpen={setIsColumnModalOpen}
-            />
             {!isCombined && (
                 <div className="flex flex-row flex-wrap gap-1">
                     {typedEntries(TileColumns)
